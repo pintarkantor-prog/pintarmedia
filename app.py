@@ -160,7 +160,7 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: COMPACT PREMIUM & STABLE)
+# 4. CUSTOM CSS (VERSION: COMPACT SLEEK - ANTI-PENYOK)
 # ==============================================================================
 st.markdown("""
 <style>
@@ -176,40 +176,39 @@ st.markdown("""
         background-color: #161922 !important;
     }
 
-    /* 3. FORM COMPACT (Mengecilkan Tinggi Kotak) */
-    /* Menargetkan Input Teks, Angka, dan Dropdown */
+    /* 3. COMPACT INPUT (NAMA, ANGKA, DROPDOWN) */
+    /* Kita mainkan di padding, bukan di height, supaya tidak penyok */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important;
-        height: 38px !important; /* Standar Streamlit 45px+, kita press ke 38px */
-        padding: 0px 12px !important;
-        font-size: 14px !important;
+        padding-top: 4px !important;   /* Pangkas ruang atas */
+        padding-bottom: 4px !important;/* Pangkas ruang bawah */
+        min-height: 38px !important;   /* Menjaga batas minimum agar tidak terlalu tipis */
     }
 
-    /* Khusus untuk Text Area (Adegan & Ciri Fisik) */
+    /* 4. TEXT AREA / ADEGAN (HITAM STEALTH) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important;
-        padding: 10px !important;
-        font-size: 14px !important;
-        line-height: 1.4 !important;
-        min-height: 80px !important; /* Supaya tidak terlalu menjuntai ke bawah */
+        padding: 8px 12px !important;
+        line-height: 1.5 !important;
     }
 
-    /* 4. MERAPETKAN JARAK (REDUCING VERTICAL SPACING) */
+    /* 5. MERAPETKAN JARAK VERTIKAL */
+    /* Mengurangi spasi antar elemen agar form tidak terlihat "panjang" */
     [data-testid="stVerticalBlock"] {
-        gap: 0.5rem !important; /* Jarak antar elemen ditarik jadi lebih mepet */
+        gap: 0.6rem !important;
     }
 
-    /* 5. LABEL STYLE (TEKS DI ATAS KOTAK) */
-    .stMarkdown p, label {
-        font-size: 13px !important;
-        margin-bottom: -5px !important; /* Teks label lebih dekat ke kotak inputnya */
-        color: rgba(255, 255, 255, 0.8) !important;
+    /* Mengurangi jarak antara label judul dengan kotaknya */
+    [data-testid="stWidgetLabel"] p {
+        font-size: 14px !important;
+        margin-bottom: -15px !important; 
+        padding-bottom: 0px !important;
     }
 
     /* 6. EXPANDER (CONTAINER ADEGAN) */
@@ -219,29 +218,21 @@ st.markdown("""
         border-radius: 10px !important;
     }
     
-    /* Menghilangkan padding berlebih di dalam expander */
-    [data-testid="stExpander"] [data-testid="stVerticalBlock"] {
-        padding: 0.5rem 1rem !important;
+    [data-testid="stExpander"] summary {
+        padding: 8px 12px !important; /* Header expander lebih ramping */
     }
 
-    /* 7. TOMBOL UTAMA (MODERN GRADIENT) */
+    /* 7. TOMBOL UTAMA */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
-        color: white !important;
-        border: none !important;
         border-radius: 8px !important;
-        height: 40px !important;
         font-weight: 600 !important;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        height: 42px !important;
     }
 
-    /* 8. HAPUS PAKSA EFEK HIJAU/MERAH SAAT KLIK (STABLE) */
-    /* Kita biarkan default sistem agar tidak terjadi double border yang bikin form keliatan "tebal" */
-
-    /* 9. MOBILE RESPONSIVE */
+    /* 8. MOBILE OPTIMIZATION */
     @media (max-width: 768px) {
-        .block-container { padding: 0.5rem !important; }
+        [data-testid="stVerticalBlock"] { gap: 0.4rem !important; }
         .stTextArea textarea, .stTextInput input { font-size: 16px !important; }
     }
 </style>
@@ -898,6 +889,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
