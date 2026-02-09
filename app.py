@@ -274,7 +274,7 @@ st.markdown("""
 
         /* Tampilkan pesan peringatan di layar HP/Tab */
         body::before {
-            content: "⚠️ AKSES DITOLAK: Silahkan Gunakan PC / Laptop.";
+            content: "⚠️ AKSES DITOLAK \A Gunakan PC / Laptop!";
             display: flex;
             justify-content: center;
             align-items: center;
@@ -948,6 +948,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
