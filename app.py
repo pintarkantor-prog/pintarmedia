@@ -160,22 +160,22 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI FINAL: FIX EXPANDER, SIDEBAR & MOBILE RESPONSIVE)
+# 4. CUSTOM CSS (VERSI ULTIMATE: HIGH CONTRAST & ELEGANT RESPONSIVE)
 # ==============================================================================
 st.markdown("""
 <style>
     /* 1. GLOBAL STYLE & ANTI-WHITE MODE */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         font-family: 'Inter', sans-serif;
     }
 
-    /* 2. SCROLLBAR MINIMALIS */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0e1117; }
-    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+    /* 2. SIDEBAR (DIBUAT LEBIH TERANG AGAR TIDAK MATI) */
+    [data-testid="stSidebar"] {
+        background-color: #161922 !important; /* Dari #1a1c24 dinaikkan ke #161922 */
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
 
     /* 3. HEADER AREA (FIXED DI PC, RELATIVE DI HP) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
@@ -211,84 +211,84 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 1px;
     }
-    div.stButton > button[kind="primary"]:hover {
-        background: #11998e !important;
-        box-shadow: 0 8px 20px rgba(29, 151, 108, 0.4) !important;
-    }
 
-    /* 5. FIX LINGKARAN MERAH: EXPANDER (NAMA KARAKTER / DETAIL ADEGAN) */
+    /* 5. FIX LINGKARAN MERAH: EXPANDER (SANGAT PENTING) */
     [data-testid="stExpander"] {
-        background-color: #161922 !important;
-        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        background-color: #1c202a !important; /* Warna abu-abu yang lebih terang */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 12px !important;
         margin-bottom: 15px !important;
     }
-    /* Bagian Header Expander yang dilingkari merah */
     [data-testid="stExpander"] summary {
-        background-color: #161922 !important;
+        background-color: #1c202a !important;
         color: #ffffff !important;
-        padding: 10px 15px !important;
+        padding: 12px 15px !important;
         border-radius: 12px !important;
     }
     [data-testid="stExpander"] summary p {
         color: #ffffff !important;
         font-weight: bold !important;
-        font-size: 1.1em !important;
     }
     [data-testid="stExpander"] summary svg {
-        fill: #ffffff !important; /* Ikon panah jadi putih */
+        fill: #ffffff !important;
     }
 
-    /* 6. FIX LINGKARAN MERAH: SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
+    /* 6. FIX TEXT BOX (Agar Terlihat Abu-abu Seperti di PC) */
+    .stTextArea textarea, .stTextInput input {
+        background-color: #1c202a !important; /* Warna abu-abu gelap (High Contrast) */
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Garis tepi lebih tegas */
+        border-radius: 10px !important;
+        font-size: 16px !important;
+        padding: 12px !important;
+    }
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border-color: #1d976c !important;
+        background-color: #242936 !important; /* Sedikit lebih terang saat diketik */
+    }
+
+    /* 7. SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
     [data-testid="stSidebar"] .stButton button {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255,255,255,0.2) !important;
         border-radius: 8px !important;
         width: 100% !important;
-        transition: all 0.2s ease;
+        font-weight: 600 !important;
     }
     [data-testid="stSidebar"] .stButton button:hover {
         border-color: #1d976c !important;
         color: #1d976c !important;
     }
 
-    /* 7. STAFF HEADER & LABELS */
+    /* 8. STAFF HEADER & LABELS */
     .staff-header-premium {
-        background: linear-gradient(145deg, rgba(29, 151, 108, 0.1), rgba(14, 17, 23, 0.1)) !important;
+        background: linear-gradient(145deg, rgba(29, 151, 108, 0.15), rgba(14, 17, 23, 0.2)) !important;
         border: 1px solid rgba(29, 151, 108, 0.4) !important;
         border-radius: 15px !important;
         padding: 20px !important;
         margin-bottom: 30px !important;
-        display: flex !important;
-        flex-wrap: wrap !important;
-        gap: 15px !important;
     }
-    h1, h2, h3, p, label, .stWidgetLabel p {
+    label, .stWidgetLabel p {
         color: #ffffff !important;
         font-weight: 600 !important;
+        font-size: 14px !important;
     }
 
-    /* 8. INPUT AREA (TEXTAREA & TEXT INPUT) */
-    .stTextArea textarea, .stTextInput input {
-        background-color: #161922 !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 12px !important;
-        font-size: 16px !important;
-    }
-
-    /* 9. MOBILE FIX (COLUMNS STACKING) */
+    /* 9. MOBILE FIX */
     @media (max-width: 768px) {
         .block-container { 
-            padding-top: 1rem !important;
-            padding-left: 0.8rem !important;
-            padding-right: 0.8rem !important;
+            padding-left: 0.7rem !important;
+            padding-right: 0.7rem !important;
         }
         [data-testid="column"] {
             width: 100% !important;
             flex: 1 1 100% !important;
-            margin-bottom: 15px !important;
+            margin-bottom: 10px !important;
+        }
+        /* Memaksa text box tetap abu-abu di HP */
+        .stTextArea textarea, .stTextInput input {
+            background-color: #1c202a !important;
         }
     }
 </style>
@@ -946,6 +946,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
