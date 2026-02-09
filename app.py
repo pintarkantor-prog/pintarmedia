@@ -160,113 +160,116 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
         
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: GEMINI CINEMATIC ULTRA - SUPREME ELEGANCE)
+# 4. CUSTOM CSS (VERSION: GEMINI OBSIDIAN FLOW - THE ULTIMATE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. GLOBAL AESTHETICS */
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+    /* 1. THE FOUNDATION - OBSIDIAN NIGHT */
+    @import url('https://fonts.googleapis.com/css2?family=SF+Pro+Display:wght@400;600&family=Plus+Jakarta+Sans:wght@700&display=swap');
 
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #050505 !important; /* Hitam pekat sinematik */
-        color: #f0f0f0 !important;
-        font-family: 'Plus Jakarta Sans', sans-serif;
+        background-color: #08090a !important; /* Hitam Obsidian */
+        color: #f8f9fa !important;
+        font-family: 'SF Pro Display', sans-serif;
     }
 
-    /* 2. HEADER & CONTAINER (FLUID RESPONSIVE) */
+    /* 2. RENDER OPTIMIZATION */
     .block-container {
-        padding-top: 2rem !important;
-        max-width: 900px !important; /* Membuat form lebih ramping di tengah */
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+        max-width: 850px !important;
     }
 
-    /* 3. INPUT AREA (GLASS-MODERN LOOK) */
-    /* Melengkung 20px seperti tren desain web AI saat ini */
+    /* 3. NEOMORPHIC INPUTS (SQUIRCLE CORNERS) */
+    /* Menggunakan radius 24px untuk siluet yang sangat organik */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: rgba(255, 255, 255, 0.03) !important;
+        background-color: #111214 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 20px !important; /* Melengkung sempurna di sisi tepi */
-        padding: 12px 20px !important;
-        font-size: 14px !important;
-        transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1) !important;
-        backdrop-filter: blur(10px); /* Efek kaca */
+        border: 1px solid #1c1e21 !important;
+        border-radius: 24px !important; 
+        padding: 14px 24px !important;
+        font-size: 15px !important;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.3) !important;
     }
 
-    /* Efek Hover & Fokus yang Halus */
+    /* Efek Saat Hover: Glow Halus */
     .stTextInput input:hover, .stTextArea textarea:hover {
-        background-color: rgba(255, 255, 255, 0.06) !important;
-        border-color: rgba(29, 151, 108, 0.4) !important;
+        border-color: rgba(29, 151, 108, 0.3) !important;
+        background-color: #141619 !important;
     }
 
+    /* Efek Fokus: Liquid Green Border */
     .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
         border-color: #1d976c !important;
-        background-color: rgba(29, 151, 108, 0.05) !important;
-        box-shadow: 0 0 20px rgba(29, 151, 108, 0.15) !important;
+        background-color: #08090a !important;
+        box-shadow: 0 0 0 4px rgba(29, 151, 108, 0.1) !important;
         outline: none !important;
     }
 
-    /* 4. LABEL (MINIMALIST & NEON ACCENT) */
+    /* 4. FLOATING LABELS (HIJAU EMERALD) */
     [data-testid="stWidgetLabel"] p {
-        font-size: 10px !important;
-        font-weight: 800 !important;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 11px !important;
+        font-weight: 700 !important;
         color: #1d976c !important;
         text-transform: uppercase !important;
-        letter-spacing: 2px !important;
-        margin-bottom: -10px !important;
-        margin-left: 15px !important; /* Geser agar sejajar dengan lengkungan kotak */
+        letter-spacing: 2.5px !important;
+        margin-bottom: -14px !important;
+        margin-left: 20px !important;
+        opacity: 0.85;
     }
 
-    /* 5. TOMBOL GENERATE (THE LIQUID BUTTON) */
+    /* 5. THE ULTIMATE BUTTON (HAPTIC GRADIENT) */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
+        background: linear-gradient(145deg, #1d976c, #0d7351) !important;
         color: white !important;
         border: none !important;
-        border-radius: 20px !important;
-        height: 54px !important;
+        border-radius: 24px !important;
+        height: 58px !important;
         width: 100%;
-        font-weight: 800 !important;
-        font-size: 16px !important;
-        letter-spacing: 1px !important;
-        transition: all 0.3s ease !important;
-        box-shadow: 0 10px 25px rgba(29, 151, 108, 0.3) !important;
-        margin-top: 20px;
+        font-weight: 700 !important;
+        font-size: 17px !important;
+        letter-spacing: 0.5px !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        box-shadow: 0 12px 30px rgba(29, 151, 108, 0.25) !important;
     }
 
-    /* Efek Klik yang Sangat Berasa (Haptic Feedback) */
+    /* Efek Klik Super Natural */
     div.stButton > button[kind="primary"]:active {
-        transform: scale(0.96) !important;
-        box-shadow: 0 4px 10px rgba(29, 151, 108, 0.2) !important;
+        transform: scale(0.95) !important;
+        box-shadow: 0 5px 15px rgba(29, 151, 108, 0.2) !important;
     }
 
     div.stButton > button[kind="primary"]:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 15px 30px rgba(29, 151, 108, 0.4) !important;
+        transform: translateY(-3px) scale(1.01) !important;
+        box-shadow: 0 20px 40px rgba(29, 151, 108, 0.35) !important;
+        filter: brightness(1.1);
     }
 
-    /* 6. SIDEBAR PREMIUM */
+    /* 6. SIDEBAR LUXURY */
     [data-testid="stSidebar"] {
-        background-color: #080808 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-        width: 300px !important;
+        background-color: #050607 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+        width: 280px !important;
     }
 
-    /* 7. RESPONSIVE OPTIMIZATION (MOBILE READY) */
+    /* 7. PERFECT MOBILE EXPERIENCE */
     @media (max-width: 768px) {
         .block-container {
-            padding: 1.5rem 1rem !important;
+            padding: 2rem 1rem !important;
         }
-        
-        .stTextInput input, .stTextArea textarea {
-            font-size: 16px !important; /* Menghindari auto-zoom di HP */
-            border-radius: 16px !important; /* Sedikit lebih kecil di HP agar proporsional */
+        .stTextInput input, .stTextArea textarea, div[data-baseweb="select"] {
+            border-radius: 20px !important;
+            height: 50px !important;
+            font-size: 16px !important; /* Anti-zoom iPhone */
         }
-        
         div.stButton > button[kind="primary"] {
-            height: 56px !important;
+            height: 60px !important;
         }
     }
 
-    /* CLEANUP BASEWEB INTERNAL */
+    /* CLEANUP */
     div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
@@ -926,6 +929,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
