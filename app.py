@@ -675,6 +675,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                 visual_input = st.text_area(
                     f"Cerita Visual {i_s}", 
                     key=f"vis_input_{i_s}", 
+                    value=st.session_state.get(f"vis_input_{i_s}", ""),
                     height=265, 
                     placeholder="Ceritakan detail adegannya di sini..."
                 )
@@ -969,6 +970,7 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
 
