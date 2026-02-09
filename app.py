@@ -42,11 +42,11 @@ st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", i
 # ==============================================================================
 USER_PASSWORDS = {
     "admin": "QWERTY21ab",
-    "icha": "udin99",
-    "nissa": "tung22",
-    "inggi": "udin33",
-    "lisa": "tung66",
-    "ezaalma": "aprihgino"
+    "ichaX": "udin99",
+    "nissaX": "tung22",
+    "inggiX": "udin33",
+    "lisaX": "tung66",
+    "coba": "coba"
 }
 
 # --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY (SOLUSI REFRESH) ---
@@ -956,4 +956,5 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON TOTAL! Cek Hub.")
                         st.rerun()
                         st.rerun() # Paksa refresh agar UI langsung update
+
 
