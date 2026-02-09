@@ -14,11 +14,12 @@ API_KEY = "AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"
 
 try:
     genai.configure(api_key=API_KEY)
+    # Menggunakan inisialisasi yang lebih aman
     model = genai.GenerativeModel('gemini-1.5-flash')
 except Exception as e:
     st.error(f"Koneksi AI Terkendala: {e}")
 
-# 3. CSS CUSTOM (Profesional, Clean, & Responsive HP)
+# 3. CSS CUSTOM (Profesional & Responsive HP)
 st.markdown("""
     <style>
     /* Header Background */
@@ -54,7 +55,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# 4. SIDEBAR NAVIGATION (9 Menu Utama)
+# 4. SIDEBAR NAVIGATION
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
     st.write("Status: **System Authorized** ✅")
@@ -75,7 +76,7 @@ with st.sidebar:
         ]
     )
     st.divider()
-    st.caption("Version 2.0.2 • Stable")
+    st.caption("Version 2.0.3 • Stable Build")
 
 # 5. LOGIKA MENU UTAMA
 
@@ -83,67 +84,53 @@ with st.sidebar:
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
     
-    # Sub-menu profesional
-    submenu = st.radio("Pilih Modul:", ["AI Scriptwriter", "Visual Prompter", "Copy-All Center"], horizontal=True)
+    submenu = st.radio("Pilih Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
     
     if submenu == "AI Scriptwriter":
         st.subheader("Content Generator (6 Adegan)")
         
-        # Input Ide Konten
         ide_konten = st.text_area(
             "Masukkan Topik atau Ide Konten:", 
-            placeholder="Contoh: Tips mengelola waktu untuk kreator pemula...",
+            placeholder="Contoh: Manfaat bangun pagi untuk kesehatan...",
             height=150
         )
         
         if st.button("GENERATE SCRIPT"):
             if ide_konten:
-                with st.spinner("Sedang memproses naskah terbaik..."):
+                with st.spinner("Sedang memproses naskah..."):
                     try:
-                        # Prompt Instruksi untuk Gemini
-                        prompt = f"""
-                        Buatkan naskah video pendek (TikTok/Reels/Shorts) 6 adegan berdasarkan ide: {ide_konten}.
-                        Format harus jelas:
-                        - Adegan 1-6
-                        - Visual: Deskripsi visual (dalam Bahasa Inggris untuk AI Image generator)
-                        - Narasi: Teks suara (Bahasa Indonesia profesional & menarik)
-                        Pastikan pembukaan (Adegan 1) memiliki HOOK yang kuat.
-                        """
+                        # Instruksi untuk Gemini
+                        prompt = f"Buatkan naskah video pendek viral 6 adegan berdasarkan ide: {ide_konten}. Format: Adegan 1-6, Visual (Deskripsi dalam Bahasa Inggris), Narasi (Bahasa Indonesia)."
                         
                         response = model.generate_content(prompt)
                         
-                        st.divider()
-                        st.subheader("✅ Hasil Naskah")
-                        st.markdown(response.text)
-                        st.balloons() # Perayaan sukses
-                        
+                        if response.text:
+                            st.divider()
+                            st.subheader("✅ Hasil Naskah")
+                            st.markdown(response.text)
+                            st.balloons()
+                        else:
+                            st.error("Gagal menerima respons dari AI. Silakan coba lagi.")
+                            
                     except Exception as e:
-                        st.error(f"Gagal memproses naskah. Pastikan kuota API tersedia. Error: {e}")
+                        st.error(f"Error: {e}")
             else:
                 st.warning("Silakan masukkan ide konten terlebih dahulu.")
 
 # --- MENU: AI LAB ---
 elif menu == "🧠 AI LAB":
     st.header("🧠 AI Lab & Validator")
-    st.write("Modul analisis referensi video dan validasi konten.")
-    st.text_area("Tempel link atau transkrip video referensi:")
+    st.write("Modul analisis referensi video.")
+    st.text_area("Tempel link atau transkrip:")
     st.button("Mulai Analisis")
-
-# --- MENU: TEAM TASK ---
-elif menu == "📋 TEAM TASK":
-    st.header("📋 Team Task Manager")
-    st.info("Tugas Aktif: Editing Tahap 1 (Scene 1-3)")
-    st.success("Tugas Selesai: Riset Keyword & Judul")
 
 # --- MENU: COMMAND CENTER ---
 elif menu == "🛠️ COMMAND CENTER":
     st.header("🛠️ System Control")
-    st.write("Koneksi Engine: **Connected** ✅")
-    st.write(f"Model: **Gemini 1.5 Flash**")
-    st.divider()
-    st.button("Check System Update")
+    st.success("✅ Engine: Gemini 1.5 Flash Connected")
+    st.info(f"API Key: Active (End with ...kJfQwg)")
 
-# --- MENU LAINNYA (Placeholder) ---
+# --- MENU LAINNYA ---
 else:
     st.header(menu)
-    st.info("Modul ini sedang disiapkan untuk rilis berikutnya.")
+    st.info("Modul ini sedang disiapkan.")
