@@ -597,6 +597,7 @@ with st.expander("👥 Nama Karakter Utama & Penampilan Fisik! (WAJIB ISI)", exp
                     name = st.text_input("Nama", key=f"c_name_{idx}_input", placeholder=f"Nama Karakter Utama {idx}", label_visibility="collapsed")
                     desc = st.text_area("Penampilan Fisik", key=f"c_desc_{idx}_input", height=120, placeholder=f"Ciri fisik Karakter Utama {idx}...", label_visibility="collapsed")
                     all_chars_list.append({"name": name, "desc": desc})
+        st.write("-") 
 
 # --- LIST ADEGAN ---
 adegan_storage = []
@@ -917,6 +918,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
