@@ -158,35 +158,6 @@ def record_to_sheets(user, data_packet, total_scenes):
     except Exception as e:
         # Menampilkan error agar kamu tahu kalau koneksinya bermasalah
         st.error(f"Gagal mencatat ke Cloud: {e}")
-        
-# ==============================================================================
-# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
-# ==============================================================================
-st.markdown("""
-    <style>
-    /* A. CUSTOM SCROLLBAR */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0e1117; }
-    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
-
-    /* 1. FIXED HEADER */
-    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: fixed;
-        top: 0;
-        left: 310px;
-        right: 0;
-        z-index: 99999;
-        background-color: #0e1117;
-        padding: 10px 2rem;
-        border-bottom: 2px solid #31333f;
-    }
-
-    @media (max-width: 768px) {
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            left: 0;
-        }
-    }
 
 # ==============================================================================
 # 4. CUSTOM CSS (VERSI REVISI: 100% AMAN PC & RAPI HP)
@@ -978,4 +949,5 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
