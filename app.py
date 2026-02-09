@@ -160,125 +160,116 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: GEMINI STEALTH PREMIUM - FULL RESPONSIVE)
+# 4. CUSTOM CSS (VERSION: SLATE ULTRA - ELEGANT & INTERACTIVE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. RESET & BACKGROUND (TOTAL STEALTH) */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+    /* 1. GLOBAL SMOOTHNESS */
+    html, body, [data-testid="stAppViewContainer"] {
         background-color: #0e1117 !important;
-        color: #ffffff !important;
-        font-family: 'Inter', sans-serif;
+        color: #e3e3e3 !important;
+        font-family: 'Inter', -apple-system, sans-serif;
     }
 
-    /* 2. HEADER RESPONSIVE (TIDAK PATEN/TIDAK FIXED) */
-    /* Header akan ikut ter-scroll ke atas, sangat aman untuk HP */
+    /* 2. HEADER RESPONSIVE (FLOATING LOOK) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: relative !important; /* Tidak mengunci posisi */
+        position: relative !important;
         width: 100% !important;
-        padding: 15px 0px !important;
-        margin-bottom: 20px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
-        background-color: transparent !important;
+        padding: 20px 0px !important;
+        margin-bottom: 30px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        text-align: center;
     }
 
-    /* 3. SIDEBAR RAMPING & ELEGAN */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #11141b !important;
-        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
-    }
-
-    /* 4. INPUT AREA (STEALTH & COMPACT) */
-    /* Menghilangkan background kolom agar menyatu dengan gelapnya aplikasi */
+    /* 3. INPUT AREA (STEALTH GOSSAMER) */
+    /* Kotak input benar-benar menyatu tapi punya border halus */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
-        height: 38px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 12px !important; /* Sudut lebih melengkung agar elegan */
+        height: 40px !important;
         font-size: 14px !important;
-        transition: border 0.2s ease !important;
+        padding: 0 16px !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
     }
 
-    /* Khusus untuk Textarea agar tingginya pas */
-    .stTextArea textarea {
-        height: auto !important;
-        min-height: 100px !important;
-        padding: 12px !important;
-    }
-
-    /* 5. LABEL MINIMALIS (HIJAU NEON) */
-    [data-testid="stWidgetLabel"] p {
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        color: #1d976c !important; /* Hijau Branding */
-        text-transform: uppercase !important;
-        letter-spacing: 1px !important;
-        margin-bottom: -15px !important; /* Merapatkan label ke kolom */
-    }
-
-    /* 6. EFEK FOKUS (CLEAN NO GLOW) */
+    /* Efek Fokus: Border Hijau Neon Tipis */
     .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #1d976c !important; /* Border menyala hijau saat diklik */
-        box-shadow: none !important;
+        border-color: #1d976c !important;
+        background-color: #11141b !important; /* Berubah gelap sedikit saat aktif */
+        box-shadow: 0 0 0 1px #1d976c !important;
         outline: none !important;
     }
 
-    /* Mematikan shadow default Streamlit yang sering bikin tumpang tindih */
+    /* 4. LABEL MINIMALIS (NEON GREEN ACCENT) */
+    [data-testid="stWidgetLabel"] p {
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        color: #1d976c !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1.5px !important;
+        margin-bottom: -12px !important;
+        opacity: 0.9;
+    }
+
+    /* 5. TOMBOL GENERATE (HAPTIC EFFECT) */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 12px !important;
+        height: 48px !important;
+        width: 100%;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        transition: all 0.1s ease !important; /* Respon sangat cepat */
+        box-shadow: 0 4px 15px rgba(29, 151, 108, 0.2) !important;
+    }
+
+    /* EFEK SAAT KLIK (ACTIVE STATE) */
+    div.stButton > button[kind="primary"]:active {
+        transform: scale(0.97) !important; /* Tombol mengecil sedikit */
+        box-shadow: 0 2px 8px rgba(29, 151, 108, 0.1) !important;
+        opacity: 0.9 !important;
+    }
+
+    div.stButton > button[kind="primary"]:hover {
+        filter: brightness(1.1) !important;
+        box-shadow: 0 6px 20px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* 6. BOX STAF (GLASSMORPHISM) */
+    .staff-header-premium {
+        background: rgba(255, 255, 255, 0.03) !important;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+    }
+    .staff-header-premium b { color: #1d976c !important; font-size: 14px; }
+    .staff-header-premium i { color: #888 !important; font-size: 13px; font-style: normal; }
+
+    /* 7. RESPONSIVE OPTIMIZATION */
+    @media (max-width: 768px) {
+        .block-container { padding: 1rem !important; }
+        .stTextInput input, .stTextArea textarea {
+            font-size: 16px !important; /* Mencegah auto-zoom */
+            height: 45px !important;
+        }
+        .staff-header-premium { flex-direction: column; text-align: center; }
+    }
+
+    /* 8. CLEANUP BASEWEB */
     div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
         background-color: transparent !important;
     }
-
-    /* 7. BOX STAF PREMIUM (MINIMALIS) */
-    .staff-header-premium {
-        background: rgba(29, 151, 108, 0.05) !important;
-        border: 1px solid rgba(29, 151, 108, 0.3) !important;
-        border-radius: 10px !important;
-        padding: 12px 18px !important;
-        margin-bottom: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-    }
-    .staff-header-premium b { color: #1d976c !important; font-size: 14px; }
-    .staff-header-premium i { color: #a1a1a1 !important; font-size: 13px; font-style: normal; }
-
-    /* 8. TOMBOL GENERATE (GRADIENT ELEGAN) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        height: 45px !important;
-        width: 100%;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 15px rgba(29, 151, 108, 0.2) !important;
-    }
-
-    /* 9. OPTIMASI MOBILE (RESPONSIVE) */
-    @media (max-width: 768px) {
-        .block-container {
-            padding: 1rem 0.8rem !important;
-        }
-        /* Memastikan font cukup besar di HP agar tidak auto-zoom */
-        .stTextInput input, .stTextArea textarea, div[data-baseweb="select"] {
-            font-size: 16px !important;
-            height: 42px !important;
-        }
-        [data-testid="stSidebar"] { width: 85% !important; }
-        .staff-header-premium { flex-direction: column; text-align: center; }
-    }
-
-    /* 10. CUSTOM SCROLLBAR */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #0e1117; }
-    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -933,6 +924,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
