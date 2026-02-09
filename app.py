@@ -577,24 +577,7 @@ vid_quality_base = f"60fps, ultra-clear motion, {vid_quality_stack} {no_text_str
 # ==============================================================================
 
 if menu_select == "🚀 PRODUCTION HUB":
-    # --------------------------------------------------------------------------
-    # SEMUA KODE DI BAWAH INI ADALAH BAGIAN PRODUCTION HUB
-    # (SUDAH DIRAPIKAN INDENTASINYA AGAR MASUK KE DALAM BLOK IF)
-    # --------------------------------------------------------------------------
     
-    # --- HEADER STAF (Pindahan dari Bagian 5) ---
-    nama_display = st.session_state.active_user.capitalize()
-    st.markdown(f"""
-        <div class="staff-header-premium">
-            <span style="font-size:20px;">👤</span>
-            <div>
-                <b>Staf Aktif: {nama_display}</b> 
-                <span style="color:rgba(255,255,255,0.1); margin: 0 10px;">|</span>
-                <span style="color:#aaa; font-style:italic;">Konten yang mantap lahir dari detail adegan yang tepat 🚀🚀</span>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
     if "restore_counter" not in st.session_state:
         st.session_state.restore_counter = 0
 
@@ -879,6 +862,7 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
+
 
 
 
