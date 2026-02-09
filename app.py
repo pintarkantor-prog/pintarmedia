@@ -906,25 +906,32 @@ elif menu_select == "🧠 AI LAB":
                         FORMAT: [ACTION] untuk visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}.
                         """
                         response = model.generate_content(prompt_dialog)
+                        # --- KUNCI DI SINI: Simpan dulu baru tampil ---
                         st.session_state['ready_script'] = response.text
-                        st.markdown("---")
-                        st.markdown(response.text)
+                        st.rerun() # Kita paksa refresh sekali agar tombol di bawah muncul
                     except Exception as e:
                         st.error("Limit API tercapai. Tunggu 1 menit.")
             
-            # --- TOMBOL OTOMATIS KE PRODUCTION HUB ---
+            # TAMPILKAN HASIL JIKA SUDAH ADA DI MEMORI
             if 'ready_script' in st.session_state:
                 st.markdown("---")
-                # Tombol A: Cuma kirim naskah (buat dibaca)
-                if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
-                    st.session_state['naskah_produksi'] = st.session_state['ready_script']
-                    st.success("Terkirim ke Gudang! ✅")
+                st.markdown(st.session_state['ready_script']) # Tampilkan naskahnya
                 
-                # Tombol B: SUNTIK LANGSUNG (Biar Generate Prompt Ada Isinya)
-                if st.button("💉 SUNTIK KE ADEGAN 1 (BIAR BISA GENERATE)", use_container_width=True, type="primary"):
-                    st.session_state['vis_input_1'] = st.session_state['ready_script']
-                    st.session_state['c_name_1_input'] = "UDIN" # Otomatis isi nama biar gak error
-                    st.success("Naskah disuntik ke Adegan 1! Sekarang balik ke Production Hub & klik Generate All.")
+                st.markdown("#### ⚡ Opsi Pengiriman:")
+                col_kirim1, col_kirim2 = st.columns(2)
+                
+                with col_kirim1:
+                    if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
+                        st.session_state['naskah_produksi'] = st.session_state['ready_script']
+                        st.success("Terkirim ke Gudang! ✅")
+                
+                with col_kirim2:
+                    if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
+                        st.session_state['vis_input_1'] = st.session_state['ready_script']
+                        st.session_state['c_name_1_input'] = "UDIN"
+                        st.success("Berhasil Disuntik! 💉")
+        else:
+            st.warning("Pilih ide dulu di Tab 1!")
 
     # --------------------------------------------------------------------------
     # TAB 3: STORYBOARD
@@ -952,6 +959,7 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
 
