@@ -283,32 +283,37 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-    /* 8. INPUT AREA - SPESIFIKASI WARNA BERBEDA */
+    /* 8. INPUT AREA - ANTI MERAH & FIX WARNA ADEGAN */
     
-    /* A. BAGIAN NAMA KARAKTER (Tetap Abu-abu Solid) */
+    /* A. NAMA KARAKTER (Tetap Abu-abu) */
     .stTextInput input {
-        background-color: #262730 !important; 
+        background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 10px !important;
     }
 
-    /* B. BAGIAN ADEGAN / CIRI FISIK (Dibuat Hitam Sama dengan Background) */
-    /* Ini menargetkan kolom yang lebih besar seperti yang kamu tandai ijo */
+    /* B. ADEGAN / CIRI FISIK (Warna Hitam Background) */
     .stTextArea textarea {
-        background-color: #0e1117 !important; /* Warna hitam background utama */
+        background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid #31333f !important; /* Garis tepi tipis agar tidak gaib */
+        border: 1px solid #31333f !important;
         border-radius: 12px !important;
-        font-size: 16px !important;
     }
 
-    /* Efek saat kolom adegan di-klik */
-    .stTextArea textarea:focus {
-        background-color: #0e1117 !important;
-        border-color: #1d976c !important; /* Berubah hijau saat aktif */
+    /* C. MENGHILANGKAN GARIS MERAH PAS DI-KLIK (FOKUS) */
+    /* Kita tembak semua elemen input agar tidak ada pendaran merah/pink */
+    .stTextArea textarea:focus, .stTextInput input:focus, [data-baseweb="textarea"] :focus, [data-baseweb="input"] :focus {
+        background-color: transparent !important; /* Menjaga warna dasar tetap */
+        border-color: #1d976c !important;     /* Garis tepi jadi hijau */
+        box-shadow: none !important;          /* INI KUNCINYA: Menghapus pendaran merah */
+        outline: none !important;             /* Menghapus garis luar sistem */
+    }
+
+    /* Memaksa container luar agar tidak ikut-ikutan merah */
+    [data-baseweb="textarea"], [data-baseweb="input"] {
+        border-color: transparent !important;
         box-shadow: none !important;
-        outline: none !important;
     }
 
     /* 9. MOBILE FIX */
@@ -982,6 +987,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
