@@ -775,28 +775,89 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (RUANG EKSPERIMEN)
+# 11. HALAMAN AI LAB (BRAINSTORM & ATM ENGINE)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
-    # Tambahkan baris ini di sini biar dia kenal namanya
     nama_display = st.session_state.active_user.capitalize() 
     
-    st.title("🧠 AI LAB")
+    st.title("🧠 AI LAB: BRAINSTORM & ATM ENGINE")
     st.markdown("---")
-    st.write(f"Selamat datang di Laboratorium, **{nama_display}**.")
-    
-    col_lab1, col_lab2 = st.columns([2, 1])
-    with col_lab1:
-        st.subheader("🧪 Prompt Sandbox")
-        test_idea = st.text_area("Coretan Ide Visual:", placeholder="Misal: Udin bertarung melawan robot di tengah sawah...")
-        if st.button("UJI RACIKAN LAB ⚡", use_container_width=True):
-            hasil_lab = f"{test_idea}, {img_quality_base}"
-            st.code(hasil_lab, language="text")
-    with col_lab2:
-        st.subheader("⚙️ Lab Settings")
-        st.info(f"Karakter 1: {st.session_state.get('c_name_1_input', 'Kosong')}")
-        st.checkbox("Ultra Detail Mode", value=True)
+    st.write(f"Selamat datang di Laboratorium, **{nama_display}**. Gunakan ruangan ini untuk membedah tren dan menciptakan skrip otomatis.")
 
+    # --- TABS UNTUK 3 LANGKAH ATM ---
+    tab_spy, tab_cloner, tab_storyboard = st.tabs([
+        "🛰️ 1. TREND SPY (AMATI)", 
+        "🔄 2. ATM CLONER (MODIFIKASI)", 
+        "📝 3. AUTO-STORYBOARD (PRODUKSI)"
+    ])
+
+    # --------------------------------------------------------------------------
+    # TAB 1: AMATI (TREND SPY)
+    # --------------------------------------------------------------------------
+    with tab_spy:
+        st.subheader("🛰️ Amati Konten Viral")
+        st.write("Masukkan ide atau skrip kompetitor untuk dibedah rahasia viralnya.")
+        
+        raw_script = st.text_area("Tempel Skrip / Narasi Konten Viral:", 
+                                  height=250, 
+                                  placeholder="Copas teks dari video TikTok/Reels orang lain di sini...",
+                                  key="lab_spy_input")
+        
+        if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
+            if raw_script:
+                with st.spinner("Gemini sedang membedah struktur konten..."):
+                    # Simulasi Analisis Gemini 1.5
+                    st.success("Analisis Selesai!")
+                    st.info("**Analisis Alur:**\n\n- **Hook:** Sangat kuat di detik pertama.\n- **Conflict:** Masalah muncul di pertengahan.\n- **Pacing:** Cepat dan to-the-point.")
+                    st.session_state['temp_script_spy'] = raw_script
+            else:
+                st.warning("Masukkan skrip asal dulu!")
+
+    # --------------------------------------------------------------------------
+    # TAB 2: MODIFIKASI (ATM CLONER)
+    # --------------------------------------------------------------------------
+    with tab_cloner:
+        st.subheader("🔄 Modifikasi Nyawa PINTAR MEDIA")
+        st.write("Ubah skrip kompetitor tadi menjadi cerita milik Udin & Tung.")
+        
+        col_m1, col_m2 = st.columns(2)
+        with col_m1:
+            chars = st.multiselect("Suntikkan Tokoh Kita:", ["UDIN", "TUNG"], default=["UDIN"])
+        with col_m2:
+            mood = st.selectbox("Ganti Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
+
+        if st.button("SUNTIK NYAWA KARAKTER 🧪", use_container_width=True):
+            if 'temp_script_spy' in st.session_state:
+                with st.spinner("Mengonversi alur kompetitor menjadi versi lokal..."):
+                    # Simulasi Modifikasi Gemini 1.5
+                    st.success("Modifikasi Berhasil!")
+                    st.session_state['ready_script'] = f"Versi Modifikasi {mood} dengan tokoh {', '.join(chars)}"
+                    st.markdown("### Preview Skrip Baru:")
+                    st.write(f"Cerita kini berlatar di DNA Lokasi PINTAR MEDIA dengan dialog khas {chars[0]}.")
+            else:
+                st.error("Belum ada data dari Tab 'AMATI'. Selesaikan langkah 1 dulu.")
+
+    # --------------------------------------------------------------------------
+    # TAB 3: PRODUKSI (AUTO-STORYBOARD)
+    # --------------------------------------------------------------------------
+    with tab_storyboard:
+        st.subheader("📝 Produksi 50 Adegan Otomatis")
+        st.write("Gemini akan mengetik detail visual, shot, dan lighting untuk 50 adegan sekaligus.")
+        
+        if st.button("GENERATE 50 ADEGAN SEKARANG 🚀", type="primary", use_container_width=True):
+            if 'ready_script' in st.session_state:
+                with st.spinner("Gemini 1.5 Pro sedang menyusun 50 adegan teknis..."):
+                    st.balloons()
+                    st.success("50 Adegan Berhasil Dibuat!")
+                    st.markdown("### Draft Storyboard Teknis:")
+                    # Output ini yang nantinya dicopy karyawan ke Production Hub
+                    st.code("Adegan 1: UDIN di teras rumah kayu, Shot: Close-up, Angle: Normal, Light: Sore...", language="text")
+            else:
+                st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
+# ==============================================================================
+# 12. FOOTER / ELSE
+# ==============================================================================
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
