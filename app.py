@@ -160,20 +160,25 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI REVISI: TEKS PUTIH TERANG & ANTI-TENGGELAM)
+# 4. CUSTOM CSS (VERSI ANTI-WHITE MODE & HP FIX)
 # ==============================================================================
 st.markdown("""
-    <style>
-    /* A. CUSTOM SCROLLBAR */
+<style>
+    /* 1. PAKSA BACKGROUND GELAP TOTAL (ANTI PUTIH) */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
+        background-color: #0e1117 !important;
+        color: #ffffff !important;
+    }
+
+    /* 2. SCROLLBAR */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0e1117; }
     ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-    /* 1. FIXED HEADER (PC ONLY, RELATIVE ON MOBILE) */
+    /* 3. HEADER AREA (RESPONSIVE) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
         position: relative;
-        background-color: #0e1117;
+        background-color: #0e1117 !important;
         padding: 10px 0px;
         border-bottom: 2px solid #31333f;
         margin-bottom: 20px;
@@ -182,91 +187,44 @@ st.markdown("""
     @media (min-width: 769px) {
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
             position: fixed;
-            top: 0;
-            left: 310px;
-            right: 0;
+            top: 0; left: 310px; right: 0;
             z-index: 99999;
             padding: 10px 2rem;
         }
         .block-container { padding-top: 5rem !important; }
     }
 
-    /* 2. STYLE SIDEBAR */
-    [data-testid="stSidebar"] {
-        background-color: #1a1c24 !important;
-        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
+    /* 4. FIX TULISAN GA KELIHATAN (LABEL PUTIH TERANG) */
+    h1, h2, h3, p, label, .stWidgetLabel p, [data-testid="stMarkdownContainer"] p {
+        color: #ffffff !important;
+        opacity: 1 !important;
     }
 
-    /* 3. TOMBOL GENERATE */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
-        font-weight: bold !important;
-        font-size: 16px !important;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
-    }
-
-    /* 4. STAFF HEADER */
+    /* 5. STAFF HEADER & TOMBOL */
     .staff-header-premium {
         background: rgba(29, 151, 108, 0.2) !important;
         border: 2px solid #1d976c !important;
         border-radius: 10px !important;
         padding: 15px 20px !important;
-        margin-bottom: 25px !important;
         display: flex !important;
         flex-wrap: wrap !important;
-        align-items: center !important;
-        gap: 12px !important;
-    }
-    .staff-header-premium b {
-        color: #1d976c !important; 
-        font-size: 1.15em !important;
-        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important;
     }
 
-    /* 5. EFEK FOKUS */
-    .stTextArea textarea:focus, .stTextInput input:focus {
-        border: 1px solid #31333f !important;
-        background-color: #0e1117 !important;
-        outline: none !important;
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important;
+        border-radius: 8px !important;
+        width: 100%;
     }
 
-    /* 6. FIX TULISAN GA KELIHATAN (TEKS LABEL & INPUT) */
-    h1, h2, h3, .stMarkdown h3, label, .stWidgetLabel p { 
-        color: #ffffff !important; 
-        opacity: 1 !important;
-    }
-
-    .stTextArea textarea, .stTextInput input {
-        font-size: 16px !important;
-        border-radius: 10px !important;
-        background-color: #0e1117 !important;
-        border: 1px solid #31333f !important;
-        color: #ffffff !important;
-    }
-
-    /* 7. OPTIMASI KOTAK ADEGAN */
-    .stExpander {
-        border: 1px solid rgba(29, 151, 108, 0.3) !important;
-        border-radius: 12px !important;
+    /* 6. INPUT AREA (PASTIKAN BOX GELAP TEKS PUTIH) */
+    .stTextArea textarea, .stTextInput input, [data-testid="stExpander"] {
         background-color: #161922 !important;
-        margin-bottom: 15px !important;
-    }
-    .small-label {
-        color: #1d976c !important;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        font-size: 10px !important;
-        font-weight: 800 !important;
-        display: block !important;
-        margin-bottom: 5px !important;
+        color: #ffffff !important;
+        border: 1px solid #31333f !important;
     }
 
-    /* 8. KHUSUS TAMPILAN HP */
+    /* 7. MOBILE FIX (COLUMNS STACK) */
     @media (max-width: 768px) {
         .block-container { padding-top: 1rem !important; }
         [data-testid="column"] {
@@ -274,11 +232,9 @@ st.markdown("""
             flex: 1 1 100% !important;
             margin-bottom: 15px !important;
         }
-        /* Memastikan label di HP tetap putih solid */
-        label, .stWidgetLabel p { font-size: 14px !important; }
     }
-    </style>
-    """, unsafe_allow_html=True)
+</style>
+""", unsafe_allow_html=True)
 # ==============================================================================
 # 5. HEADER STAF (ELEGANT VERSION)
 # ==============================================================================
@@ -946,6 +902,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
