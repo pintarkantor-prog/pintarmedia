@@ -792,26 +792,33 @@ elif menu_select == "🧠 AI LAB":
     ])
 
     # --------------------------------------------------------------------------
-    # TAB 1: AMATI (TREND SPY)
+    # TAB 1: AMATI (TREND SPY) - VERSI UJI FUNGSI
     # --------------------------------------------------------------------------
     with tab_spy:
         st.subheader("🛰️ Amati Konten Viral")
-        st.write("Masukkan ide atau skrip kompetitor untuk dibedah rahasia viralnya.")
+        st.write("Masukkan narasi video viral untuk dibedah rahasia viralnya.")
         
         raw_script = st.text_area("Tempel Skrip / Narasi Konten Viral:", 
-                                  height=250, 
-                                  placeholder="Copas teks dari video TikTok/Reels orang lain di sini...",
+                                  height=200, 
+                                  placeholder="Contoh: Orang sukses yang dulunya dihina saudaranya sendiri...",
                                   key="lab_spy_input")
         
         if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
                 with st.spinner("Gemini sedang membedah struktur konten..."):
-                    # Simulasi Analisis Gemini 1.5
+                    # Simulasi Analisis yang lebih detail untuk karyawan
                     st.success("Analisis Selesai!")
-                    st.info("**Analisis Alur:**\n\n- **Hook:** Sangat kuat di detik pertama.\n- **Conflict:** Masalah muncul di pertengahan.\n- **Pacing:** Cepat dan to-the-point.")
+                    
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        st.info("**🎯 Pancingan (Hook):**\nVideo ini menggunakan teknik 'Revenge' (Balas Dendam). Sangat kuat untuk memancing emosi penonton di 3 detik pertama.")
+                    with c2:
+                        st.warning("**📈 Struktur Viral:**\nAlur: Dihina (Opening) -> Kerja Keras (Middle) -> Pembuktian (Ending). Cocok untuk engagement tinggi.")
+                    
+                    # Menyimpan data agar bisa lanjut ke Tab 2
                     st.session_state['temp_script_spy'] = raw_script
             else:
-                st.warning("Masukkan skrip asal dulu!")
+                st.warning("Silakan tempel teks narasinya dulu!")
 
     # --------------------------------------------------------------------------
     # TAB 2: MODIFIKASI (ATM CLONER)
@@ -861,6 +868,7 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
+
 
 
 
