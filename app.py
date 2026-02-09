@@ -178,12 +178,12 @@ st.markdown("""
     }
     /* MEMAKSA ISI SIDEBAR MENTOK KE ATAS */
     [data-testid="stSidebarUserContent"] {
-        padding-top: 10px !important; /* Kurangi angka ini kalau mau lebih mentok lagi */
+        padding-top: 5px !important; /* Kurangi angka ini kalau mau lebih mentok lagi */
     }
 
     /* Menghilangkan spasi kosong di atas elemen pertama sidebar */
     [data-testid="stSidebarNav"] + div {
-        margin-top: -100px !important;
+        margin-top: -50px !important;
     }
     
     /* Jika kamu menggunakan st.sidebar.markdown untuk logo */
@@ -961,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
