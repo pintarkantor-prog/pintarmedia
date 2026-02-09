@@ -160,92 +160,94 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (GEMINI MINIMALIST - ANTI TUMPANG TINDIH)
+# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. DASAR APLIKASI (Vibe Gemini) */
+    /* 1. RESET DASAR (HIGH CONTRAST) */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #0e1117 !important;
-        color: #e3e3e3 !important;
-        font-family: 'Google Sans', 'Inter', sans-serif;
+        color: #ffffff !important;
     }
 
-    /* 2. SIDEBAR PADAT & RAPI */
+    /* 2. SIDEBAR RAMPING & TEGAS */
     [data-testid="stSidebar"] {
-        width: 250px !important;
-        background-color: #1e1f20 !important;
+        width: 260px !important;
+        background-color: #161922 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
     
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        gap: 0.4rem !important; /* Merapatkan sidebar sesuai coretanmu */
+        gap: 0.3rem !important; /* Sangat rapat */
     }
 
-    /* 3. INPUT AREA - RESET TOTAL (SOLUSI TUMPANG TINDIH) */
+    /* 3. INPUT AREA - BOLD BORDER & INSTANT */
     /* Nama, Angka, Dropdown */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #1e1f20 !important;
+        background-color: #262730 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        height: 36px !important; /* Ukuran pas, tidak penyok */
-        line-height: 1.2 !important;
+        border: 1px solid #3c4043 !important; /* Border lebih terlihat */
+        border-radius: 6px !important;
+        height: 36px !important;
         padding: 0px 12px !important;
-        transition: border 0.2s ease !important;
+        transition: none !important; /* INSTANT: Tanpa animasi */
     }
 
-    /* 4. AREA ADEGAN & DIALOG (Sesuai Coretan Hitammu) */
+    /* Adegan (Hitam Stealth) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
-        padding: 12px !important;
-        min-height: 80px !important;
+        border: 1px solid #3c4043 !important;
+        border-radius: 8px !important;
+        transition: none !important;
     }
 
-    /* 5. MEMBUNUH TUMPANG TINDIH (THE FIX) */
-    /* Kita matikan bayangan luar (box-shadow) yang bikin double border */
-    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"], [role="combobox"] {
+    /* 4. BOLD FOCUS (THE FIX: ANTI-GLOW) */
+    /* Saat diklik: Border tebal dan tegas, tanpa bayangan (glow) berlebih */
+    .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus,
+    div[data-baseweb="select"]:focus-within {
+        border: 2px solid #1d976c !important; /* Hijau Bold saat aktif */
+        box-shadow: none !important;          /* Hapus pendaran yang bikin tumpang tindih */
+        outline: none !important;
+    }
+
+    /* Mematikan lapisan bayangan Streamlit yang bikin double/tumpang tindih */
+    [data-baseweb="input"], [data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
         background-color: transparent !important;
     }
 
-    /* Saat diklik: Hanya border yang berubah, tidak ada pendaran merah/hijau double */
-    *:focus, .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #8ab4f8 !important; /* Biru soft Gemini */
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* 6. MERAPETKAN JARAK VERTIKAL (LEAN UI) */
+    /* 5. MERAPETKAN JARAK (REDUCING GAP) */
     [data-testid="stVerticalBlock"] {
-        gap: 0.8rem !important; /* Lebih lega sedikit agar elegan */
+        gap: 0.6rem !important;
     }
 
     /* Menarik label judul agar lebih dekat dengan kotak */
     [data-testid="stWidgetLabel"] p {
         font-size: 13px !important;
         margin-bottom: -12px !important;
+        font-weight: 600 !important;
         color: #c4c7c5 !important;
     }
 
-    /* 7. TOMBOL UTAMA (GAYA PILL) */
+    /* 6. TOMBOL GENERATE (SOLID GRADIENT) */
     div.stButton > button[kind="primary"] {
-        background: #1d976c !important;
-        border-radius: 20px !important;
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        border-radius: 6px !important;
         border: none !important;
-        height: 38px !important;
-        font-weight: 600 !important;
-        padding: 0 24px !important;
+        height: 40px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
-    /* 8. MOBILE RESPONSIVE (SMOOTH) */
+    /* 7. MOBILE FIX (RESPONSIVE & SHARP) */
     @media (max-width: 768px) {
+        .block-container { padding: 0.8rem !important; }
         .stTextInput input, div[data-baseweb="select"] {
-            height: 42px !important; /* Lebih nyaman untuk jari di HP */
-            font-size: 16px !important;
+            height: 42px !important;
+            font-size: 16px !important; /* Anti-zoom iPhone */
         }
         .stTextArea textarea { background-color: #0e1117 !important; }
     }
@@ -903,6 +905,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
