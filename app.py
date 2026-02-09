@@ -160,71 +160,163 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: TOTAL STEALTH & CLEAN FOCUS)
+# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
 # ==============================================================================
 st.markdown("""
-<style>
-    /* 1. WARNA TEMA GLOBAL */
-    :root {
-        --primary-color: #1d976c !important; /* Hijau untuk tombol/progres */
-        --bg-black: #0e1117 !important;
+    <style>
+    /* A. CUSTOM SCROLLBAR */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0e1117; }
+    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 1. FIXED HEADER */
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+        position: fixed;
+        top: 0;
+        left: 310px;
+        right: 0;
+        z-index: 99999;
+        background-color: #0e1117;
+        padding: 10px 2rem;
+        border-bottom: 2px solid #31333f;
     }
 
-    /* 2. DASAR APLIKASI */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-color: var(--bg-black) !important;
+    @media (max-width: 768px) {
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            left: 0;
+        }
     }
 
-    /* 3. INPUT AREA (HITAM SAMA DENGAN BACKGROUND) */
-    .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: var(--bg-black) !important;
+    /* 2. STYLE SIDEBAR */
+    [data-testid="stSidebar"] {
+        background-color: #1a1c24 !important;
+        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
     }
 
-    /* 4. MEMBERSIHKAN EFEK KLIK (HAPUS TOTAL HIJAU) */
-    /* Menghilangkan pendaran hijau dan mengembalikan ke garis merah default yang tipis */
-    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #ff4b4b !important; /* Merah default Streamlit agar sinkron */
+    /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        /* Transition dihapus agar kembali instan */
+    }
+
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* 4. MODIFIKASI BOX STAF AKTIF (HIJAU TEGAS & FLAT - TANPA EFEK SAMPING) */
+    .staff-header-premium {
+        background: rgba(29, 151, 108, 0.2) !important; /* Warna hijau background lebih nyata */
+        border: 2px solid #1d976c !important; /* Garis bingkai rata di semua sisi */
+        border-radius: 10px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        /* Menghilangkan efek shadow dan border-left tebal agar terlihat flat/rata */
+        box-shadow: none !important; 
+    }
+    
+    .staff-header-premium b {
+        color: #ffffff !important; /* Nama Staf dibuat putih agar kontras dan jelas */
+        font-size: 1.1em !important;
+    }
+
+    .staff-header-premium span {
+        color: #1d976c !important; /* Icon orangnya yang diberi warna hijau */
+    }
+
+    .staff-header-premium i {
+        color: #e0e0e0 !important;
+        font-style: normal !important; /* Menghilangkan miring jika ingin lebih tegas */
+    }
+    
+    .staff-header-premium b {
+        color: #1d976c !important; /* Nama Admin jadi hijau terang */
+        font-size: 1.15em !important;
+        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important; /* Efek glow halus pada teks */
+    }
+
+    .staff-header-premium i {
+        color: #e0e0e0 !important; /* Quote jadi lebih putih agar mudah dibaca */
+    }
+    
+    .staff-header-premium b {
+        color: #1d976c;
+        font-size: 1.1em;
+    }
+
+    /* 5. EFEK FOKUS (DIKEMBALIKAN KE STANDAR) */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border: 1px solid #31333f !important; /* Kembali ke warna border asli */
+        background-color: #0e1117 !important; /* Tetap gelap */
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* Mematikan lapisan bayangan (shadow) BaseWeb yang sering menyimpan warna hijau */
-    div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
-        box-shadow: none !important;
-        border: none !important;
-        background-color: transparent !important;
+    /* 6. STYLE LAINNYA */
+    h1, h2, h3, .stMarkdown h3 {
+        color: #ffffff !important;
+        background: none !important;
+        -webkit-text-fill-color: initial !important;
     }
-
-    /* 5. SIDEBAR RAMPING */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #11141b !important;
-    }
-
-    /* 6. TOMBOL UTAMA (MODERN GRADIENT) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
+    button[title="Copy to clipboard"] {
+        background-color: #28a745 !important;
         color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1rem !important;
-        font-weight: 700 !important;
-        width: 100%;
+        border-radius: 6px !important;
+        transform: scale(1.1);
+    }
+    .stTextArea textarea {
+        font-size: 16px !important;
+        border-radius: 10px !important;
+        background-color: #0e1117 !important;
+        border: 1px solid #31333f !important;
+    }
+    .small-label {
+        font-size: 12px; font-weight: bold; color: #a1a1a1; margin-bottom: 2px;
+    }
+    /* 7. OPTIMASI KOTAK ADEGAN */
+    .stExpander {
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important;
+        background-color: #161922 !important;
+        margin-bottom: 15px !important;
     }
 
-    /* 7. RESPONSIVE MOBILE FIX */
-    @media (max-width: 768px) {
-        .block-container { padding: 1rem !important; }
-        .stTextArea textarea, .stTextInput input {
-            font-size: 16px !important;
-            background-color: var(--bg-black) !important;
-        }
+    /* Label dropdown agar lebih tegas dan sinematik */
+    .small-label {
+        color: #1d976c !important; /* Hijau branding kamu */
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 10px !important;
+        font-weight: 800 !important;
     }
-</style>
-""", unsafe_allow_html=True)
+
+    /* Membuat garis pemisah adegan lebih halus */
+    hr {
+        margin: 2em 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    }
+
+    /* Menjaga teks area visual tetap rapi */
+    .stTextArea textarea {
+        border: 1px solid rgba(255,255,255,0.1) !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -877,6 +969,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
