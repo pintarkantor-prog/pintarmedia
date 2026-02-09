@@ -160,28 +160,34 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI REVISI: TOMBOL ASLI + ANTI-WHITE BACKGROUND)
+# 4. CUSTOM CSS (VERSI PREMIUM: ELEGAN, TAJAM & RESPONSIVE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. PAKSA BACKGROUND GELAP (ANTI PUTIH DI HP) */
+    /* 1. GLOBAL STYLE & ANTI-WHITE */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
+        font-family: 'Inter', sans-serif;
     }
 
-    /* 2. SCROLLBAR */
-    ::-webkit-scrollbar { width: 8px; }
+    /* 2. SCROLLBAR MINIMALIS */
+    ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: #0e1117; }
-    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { 
+        background: #31333f; 
+        border-radius: 10px; 
+    }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-    /* 3. HEADER AREA (RESPONSIVE) */
+    /* 3. HEADER AREA (SMOOTH RESPONSIVE) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
         position: relative;
-        background-color: #0e1117 !important;
-        padding: 10px 0px;
-        border-bottom: 2px solid #31333f;
-        margin-bottom: 20px;
+        background-color: rgba(14, 17, 23, 0.95);
+        padding: 15px 0px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px); /* Efek kaca elegan */
     }
 
     @media (min-width: 769px) {
@@ -189,59 +195,87 @@ st.markdown("""
             position: fixed;
             top: 0; left: 310px; right: 0;
             z-index: 99999;
-            padding: 10px 2rem;
+            padding: 15px 2rem;
         }
-        .block-container { padding-top: 5rem !important; }
+        .block-container { padding-top: 6rem !important; }
     }
 
-    /* --- INI TOMBOL GENERATE ASLI KAMU (100% SAMA) --- */
-    /* 4. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
+    /* 4. TOMBOL GENERATE ASLI (DENGAN EFEK ELEGAN) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
-        font-weight: bold !important;
+        border-radius: 10px !important;
+        padding: 0.7rem 1.5rem !important;
+        font-weight: 700 !important;
         font-size: 16px !important;
         width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        box-shadow: 0 4px 15px rgba(29, 151, 108, 0.3) !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
 
     div.stButton > button[kind="primary"]:hover {
         background: #11998e !important;
-        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+        box-shadow: 0 8px 20px rgba(29, 151, 108, 0.4) !important;
+        transform: translateY(-1px); /* Efek angkat sedikit */
     }
 
-    /* 5. STAFF HEADER & LABEL */
+    /* 5. STAFF HEADER & LABELS */
     .staff-header-premium {
-        background: rgba(29, 151, 108, 0.2) !important;
-        border: 2px solid #1d976c !important;
-        border-radius: 10px !important;
-        padding: 15px 20px !important;
+        background: linear-gradient(145deg, rgba(29, 151, 108, 0.1), rgba(14, 17, 23, 0.1)) !important;
+        border: 1px solid rgba(29, 151, 108, 0.4) !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        margin-bottom: 30px !important;
         display: flex !important;
         flex-wrap: wrap !important;
+        align-items: center !important;
+        gap: 15px !important;
     }
 
     h1, h2, h3, p, label, .stWidgetLabel p {
         color: #ffffff !important;
-        opacity: 1 !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px;
     }
 
-    /* 6. INPUT AREA */
-    .stTextArea textarea, .stTextInput input, [data-testid="stExpander"] {
+    /* 6. INPUT AREA (MODERN GLASS LOOK) */
+    .stTextArea textarea, .stTextInput input {
         background-color: #161922 !important;
         color: #ffffff !important;
-        border: 1px solid #31333f !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+        transition: all 0.3s ease;
     }
 
-    /* 7. MOBILE FIX (COLUMNS STACK) */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border-color: #1d976c !important;
+        box-shadow: 0 0 0 2px rgba(29, 151, 108, 0.2) !important;
+    }
+
+    [data-testid="stExpander"] {
+        background-color: #161922 !important;
+        border: 1px solid rgba(255,255,255,0.05) !important;
+        border-radius: 15px !important;
+        overflow: hidden;
+    }
+
+    /* 7. MOBILE FIX (CLEAN STACK) */
     @media (max-width: 768px) {
-        .block-container { padding-top: 1rem !important; }
+        .block-container { 
+            padding-top: 1.5rem !important;
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
         [data-testid="column"] {
             width: 100% !important;
             flex: 1 1 100% !important;
-            margin-bottom: 15px !important;
+            margin-bottom: 20px !important;
+        }
+        .staff-header-premium {
+            padding: 15px !important;
         }
     }
 </style>
@@ -913,6 +947,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
