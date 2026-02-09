@@ -178,7 +178,7 @@ st.markdown("""
     }
     /* MEMAKSA ISI SIDEBAR MENTOK KE ATAS */
     [data-testid="stSidebarUserContent"] {
-        padding-top: 5px !important; /* Kurangi angka ini kalau mau lebih mentok lagi */
+        padding-top: 1px !important; /* Kurangi angka ini kalau mau lebih mentok lagi */
     }
 
     /* Menghilangkan spasi kosong di atas elemen pertama sidebar */
@@ -961,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
