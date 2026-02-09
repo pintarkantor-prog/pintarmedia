@@ -306,6 +306,22 @@ st.markdown("""
     """, unsafe_allow_html=True)
 
 # ==============================================================================
+# 5. HEADER STAF (ELEGANT VERSION)
+# ==============================================================================
+nama_display = st.session_state.active_user.capitalize()
+
+st.markdown(f"""
+    <div class="staff-header-premium">
+        <span style="font-size:20px;">👤</span>
+        <div>
+            <b>Staf Aktif: {nama_display}</b> 
+            <span style="color:rgba(255,255,255,0.1); margin: 0 10px;">|</span>
+            <span style="color:#aaa; font-style:italic;">Konten yang mantap lahir dari detail adegan yang tepat 🚀🚀</span>
+        </div>
+    </div>
+""", unsafe_allow_html=True)
+
+# ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
 
@@ -957,6 +973,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
