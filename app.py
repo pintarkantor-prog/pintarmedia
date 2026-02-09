@@ -890,48 +890,59 @@ elif menu_select == "🧠 AI LAB":
                     except Exception as e:
                         st.error("Waduh, AI lagi capek (Limit). Coba lagi nanti.")
 
-    # --------------------------------------------------------------------------
-    # TAB 2: NASKAH DIALOG (VERSI PASTI MUNCUL)
+# --------------------------------------------------------------------------
+    # TAB 2: NASKAH DIALOG (VERSI TOMBOL PERMANEN)
     # --------------------------------------------------------------------------
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog Nyelekit")
         
-        if 'temp_script_spy' in st.session_state:
-            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG")
-            
-            if st.button("GENERATE NASKAH SKAKMAT 🧪", use_container_width=True):
-                with st.spinner("Menyusun dialog & aksi visual..."):
+        # Input Nama Tokoh
+        nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG")
+        
+        # Tombol Generate Utama
+        if st.button("GENERATE NASKAH SKAKMAT 🧪", use_container_width=True, type="secondary"):
+            if 'temp_script_spy' in st.session_state:
+                with st.spinner("Menyusun dialog..."):
                     try:
-                        prompt_dialog = f"Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
+                        prompt_dialog = f"Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}. FORMAT: [ACTION] visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}."
                         response = model.generate_content(prompt_dialog)
-                        
-                        # --- KUNCI: Simpan hasil ke session state ---
                         st.session_state['ready_script'] = response.text
-                        # --- PAKSA REFRESH: Biar tombol di bawah langsung nongol ---
-                        st.rerun() 
+                        st.rerun()
                     except Exception as e:
-                        st.error("Limit API tercapai. Tunggu sebentar.")
+                        st.error("Gagal generate. Coba lagi.")
+            else:
+                st.error("Pilih ide dulu di Tab 1!")
 
-            # --- BAGIAN TOMBOL KIRIM (Diletakkan di luar blok button generate) ---
-            if 'ready_script' in st.session_state:
-                st.markdown("---")
-                st.markdown(st.session_state['ready_script']) # Naskah tampil di sini
-                
-                st.info("💡 Pilih cara kirim ke Production Hub:")
-                col_k1, col_k2 = st.columns(2)
-                
-                with col_k1:
-                    if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
-                        st.session_state['naskah_produksi'] = st.session_state['ready_script']
-                        st.success("Terkirim ke Gudang! ✅")
-                
-                with col_k2:
-                    if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
-                        st.session_state['vis_input_1'] = st.session_state['ready_script']
-                        st.session_state['c_name_1_input'] = "UDIN"
-                        st.success("Berhasil Disuntik ke Adegan 1! 💉")
+        st.markdown("---")
+
+        # TAMPILKAN HASIL (Kalo ada)
+        if 'ready_script' in st.session_state:
+            st.markdown(st.session_state['ready_script'])
         else:
-            st.warning("Pilih ide dulu di Tab 1!")
+            st.caption("Naskah belum dibuat. Klik tombol Generate di atas.")
+
+        st.markdown("---")
+        st.write("### 📤 Opsi Pengiriman")
+        
+        # TOMBOL INI SEKARANG DI LUAR IF, JADI PASTI MUNCUL
+        col_k1, col_k2 = st.columns(2)
+        
+        with col_k1:
+            if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
+                if 'ready_script' in st.session_state:
+                    st.session_state['naskah_produksi'] = st.session_state['ready_script']
+                    st.toast("Terkirim ke Production Hub! ✅")
+                else:
+                    st.warning("Buat naskahnya dulu!")
+
+        with col_k2:
+            if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
+                if 'ready_script' in st.session_state:
+                    st.session_state['vis_input_1'] = st.session_state['ready_script']
+                    st.session_state['c_name_1_input'] = "UDIN"
+                    st.success("Berhasil Disuntik ke Adegan 1! 💉")
+                else:
+                    st.warning("Belum ada naskah untuk disuntik!")
     # --------------------------------------------------------------------------
     # TAB 3: STORYBOARD
     # --------------------------------------------------------------------------
@@ -958,6 +969,7 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
 
