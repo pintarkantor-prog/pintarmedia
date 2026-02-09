@@ -283,19 +283,30 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-    /* 8. INPUT AREA (WARNA SAMA DENGAN BACKGROUND UTAMA) */
-    .stTextArea textarea, .stTextInput input {
-        background-color: #0e1117 !important; /* Warna dasar aplikasi kamu */
-        color: #ffffff !important;           /* Teks putih */
-        border: 1px solid #31333f !important; /* Garis tepi abu-abu agar tetap terlihat batasnya */
+    /* 8. INPUT AREA - SPESIFIKASI WARNA BERBEDA */
+    
+    /* A. BAGIAN NAMA KARAKTER (Tetap Abu-abu Solid) */
+    .stTextInput input {
+        background-color: #262730 !important; 
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+    }
+
+    /* B. BAGIAN ADEGAN / CIRI FISIK (Dibuat Hitam Sama dengan Background) */
+    /* Ini menargetkan kolom yang lebih besar seperti yang kamu tandai ijo */
+    .stTextArea textarea {
+        background-color: #0e1117 !important; /* Warna hitam background utama */
+        color: #ffffff !important;
+        border: 1px solid #31333f !important; /* Garis tepi tipis agar tidak gaib */
         border-radius: 12px !important;
         font-size: 16px !important;
     }
 
-    /* Saat diklik, warna tetap sama tapi garis tepi menyala hijau */
-    .stTextArea textarea:focus, .stTextInput input:focus {
+    /* Efek saat kolom adegan di-klik */
+    .stTextArea textarea:focus {
         background-color: #0e1117 !important;
-        border-color: #1d976c !important;
+        border-color: #1d976c !important; /* Berubah hijau saat aktif */
         box-shadow: none !important;
         outline: none !important;
     }
@@ -971,6 +982,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
