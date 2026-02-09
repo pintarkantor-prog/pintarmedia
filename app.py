@@ -182,47 +182,42 @@ st.markdown("""
         width: 100%;
     }
 
-/* 2. STYLE SIDEBAR BUTTONS (GOOGLE AI PRO STYLE) */
+    /* 2. STYLE SEMUA TOMBOL SIDEBAR (MATCHING BLACK INPUT BOX) */
     [data-testid="stSidebar"] button {
-        /* Warna Abu-abu Pekat Solid (Sesuai contoh Google AI Pro) */
-        background-color: #303134 !important; 
-        background-image: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 100%) !important;
+        /* Warna Hitam Pekat sama dengan background input dropdown */
+        background-color: #0e1117 !important; 
+        background-image: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%) !important;
         
-        color: #e8eaed !important; /* Warna teks abu-abu sangat muda */
+        color: #e8eaed !important;
         
-        /* Bentuk Melengkung Sempurna */
+        /* Bentuk Melengkung Google AI Pro */
         border-radius: 12px !important; 
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid #31333f !important; /* Garis pinggir halus agar tetap terlihat */
         
-        padding: 0.8rem 1rem !important;
+        padding: 0.6rem 1rem !important;
         font-weight: 500 !important;
-        text-transform: none !important; /* Tidak harus huruf besar semua agar lebih modern */
-        letter-spacing: 0.3px !important;
-        
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.2) !important;
+        transition: all 0.2s ease !important;
+        box-shadow: none !important; /* Menghilangkan shadow agar flat & clean */
         width: 100% !important;
     }
 
-    /* Efek Hover (Saat Disorot) */
+    /* Khusus untuk tombol kecil (+ , - , ?) agar ukurannya pas */
+    [data-testid="stSidebar"] .stNumberInput button,
+    [data-testid="stSidebar"] .stSelectbox button {
+        width: auto !important;
+    }
+
+    /* Efek Hover (Saat Disorot - Sedikit Lebih Terang agar ada feedback) */
     [data-testid="stSidebar"] button:hover {
-        background-color: #3c4043 !important; /* Sedikit lebih terang */
-        border-color: rgba(255, 255, 255, 0.1) !important;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.3) !important;
-        transform: translateY(-1px) !important;
+        background-color: #1a1c23 !important;
+        border-color: #4c5055 !important;
     }
 
-    /* Efek Active (Saat Diklik - Memberikan kesan membal) */
+    /* Efek Active (Saat Diklik - Hijau Glossy yang kamu suka sebelumnya) */
     [data-testid="stSidebar"] button:active {
-        background-color: #4c5055 !important;
+        background: linear-gradient(180deg, #1d976c 0%, #11998e 100%) !important;
         transform: scale(0.96) !important;
-        box-shadow: inset 0 2px 4px rgba(0,0,0,0.3) !important;
-    }
-
-    /* Penyesuaian khusus tombol KELUAR SISTEM agar tetap ada aksen merah tipis di teks */
-    /* (Opsional, jika kamu ingin teksnya tetap ada warna peringatan) */
-    [data-testid="stSidebar"] button:last-child {
-        border-bottom: 1px solid rgba(255, 75, 75, 0.1) !important;
+        border-color: transparent !important;
     }
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
     div.stButton > button[kind="primary"] {
@@ -951,6 +946,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
