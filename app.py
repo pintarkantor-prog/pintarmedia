@@ -122,35 +122,37 @@ if 'active_user' in st.session_state and 'login_time' in st.session_state:
             del st.session_state[key]
         st.rerun()
 # ==============================================================================
-# 1 & 2. INISIALISASI MEMORI & SINKRONISASI (CLEAN VERSION)
+# 1 & 2. INISIALISASI MEMORI & SINKRONISASI (VERSI FINAL SINKRON)
 # ==============================================================================
-# Mengambil user aktif dari session login
-active_user = st.session_state.active_user 
+if 'active_user' in st.session_state:
+    # Kunci rahasia untuk merestart tampilan UI agar dropdown berubah otomatis
+    if 'ui_reset_key' not in st.session_state: 
+        st.session_state.ui_reset_key = 0
 
-# 1. Siapkan Lemari Hasil Generate
-if 'last_generated_results' not in st.session_state:
-    st.session_state.last_generated_results = []
+    if 'last_generated_results' not in st.session_state:
+        st.session_state.last_generated_results = []
 
-# 2. Inisialisasi Identitas Tokoh (Default Kosong)
-if 'c_name_1_input' not in st.session_state: st.session_state.c_name_1_input = ""
-if 'c_desc_1_input' not in st.session_state: st.session_state.c_desc_1_input = ""
-if 'c_name_2_input' not in st.session_state: st.session_state.c_name_2_input = ""
-if 'c_desc_2_input' not in st.session_state: st.session_state.c_desc_2_input = ""
+    # Inisialisasi Identitas Tokoh
+    for char_key in ['c_name_1_input', 'c_desc_1_input', 'c_name_2_input', 'c_desc_2_input']:
+        if char_key not in st.session_state: st.session_state[char_key] = ""
 
-# 3. Inisialisasi Adegan v1 - v50 (SINKRON DENGAN BAGIAN 6)
-# Kita pastikan nilai default-nya ada di dalam pilihan menu kamu
-for i in range(1, 51):
-    for key, default in [
-        (f"vis_input_{i}", ""),
-        (f"light_input_{i}", "Siang"),       # Sesuai options_lighting
-        (f"camera_input_{i}", "Diam (Tanpa Gerak)"), # Sesuai indonesia_camera
-        (f"shot_input_{i}", "Setengah Badan"),       # Sesuai indonesia_shot
-        (f"angle_input_{i}", "Normal"),      # Sesuai indonesia_angle
-        (f"loc_sel_{i}", "--- KETIK MANUAL ---"),  # Sesuai options_lokasi
-        (f"loc_custom_{i}", "")  # <--- WAJIB TAMBAH INI! Agar input manual punya wadah
-    ]:
-        if key not in st.session_state: 
-            st.session_state[key] = default
+    # Inisialisasi 50 Adegan (DITAMBAH LEMARI SUNTIK AI)
+    for i in range(1, 51):
+        for key, default in [
+            (f"vis_input_{i}", ""),
+            (f"light_input_{i}", "Siang"),
+            (f"camera_input_{i}", "Diam (Tanpa Gerak)"),
+            (f"shot_input_{i}", "Setengah Badan"),
+            (f"angle_input_{i}", "Normal"),
+            (f"loc_sel_{i}", "--- KETIK MANUAL ---"),
+            (f"loc_custom_{i}", ""),
+            # Lemari penampung khusus hasil suntikan AI
+            (f"env_input_{i}", "Siang"),       
+            (f"size_input_{i}", "Setengah Badan"), 
+            (f"cam_move_{i}", "Diam (Tanpa Gerak)") 
+        ]:
+            if key not in st.session_state: 
+                st.session_state[key] = default
     
 # ==============================================================================
 # 3. LOGIKA LOGGING GOOGLE SHEETS (SERVICE ACCOUNT MODE - FULL DATA)
@@ -663,89 +665,75 @@ if menu_select == "🚀 PRODUCTION HUB":
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("") 
 
-    # --- LIST ADEGAN (VERSI STATE-MASTER: SINKRON 100% & ANTI KUNING) ---
+# --- LIST ADEGAN (VERSI AUTO-SYNC: ANTI KUNING & SUNTIK KERAS) ---
     adegan_storage = []
+    # Ambil kunci reset dari memori
+    reset_val = st.session_state.ui_reset_key
+    
     for i_s in range(1, int(num_scenes) + 1):
-        l_box_title = f"🟢 ADEGAN {i_s}" if i_s == 1 else f"🎬 ADEGAN {i_s}"
+        l_box_title = f"🎬 ADEGAN {i_s}"
         with st.expander(l_box_title, expanded=(i_s == 1)):
             col_v, col_ctrl = st.columns([6, 4])
             
             with col_v:
-                # Mengambil data visual dari suntikan AI LAB
-                isi_naskah_skrg = st.session_state.get(f"vis_input_{i_s}", "")
+                # Mengambil data visual dari memori suntikan
+                val_visual = st.session_state.get(f"vis_input_{i_s}", "")
                 visual_input = st.text_area(
                     f"Cerita Visual {i_s}", 
-                    key=f"area_visual_{i_s}", 
-                    value=isi_naskah_skrg,
-                    height=265, 
-                    placeholder="Ceritakan detail adegannya di sini..."
+                    key=f"area_v_{i_s}_{reset_val}", 
+                    value=val_visual,
+                    height=265
                 )
-                # Sinkronisasi balik agar tombol Generate Prompt tetap akurat
                 st.session_state[f"vis_input_{i_s}"] = visual_input
             
             with col_ctrl:
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
-                    # Ambil data suasana yang sudah disuntik (Siang/Malam)
-                    val_env = st.session_state.get(f'env_input_{i_s}', "Siang")
-                    try: idx_env = options_lighting.index(val_env)
-                    except: idx_env = 0
-                    
-                    # Widget dengan key dinamis agar selalu refresh saat disuntik
-                    light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"ui_light_{i_s}", label_visibility="collapsed")
+                    # SINKRONISASI DROPDOWN SUASANA
+                    s_env = st.session_state.get(f'env_input_{i_s}', "Siang")
+                    idx_env = options_lighting.index(s_env) if s_env in options_lighting else 0
+                    light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"l_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'light_input_{i_s}'] = light_val
                 
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
-                    # Ambil data ukuran gambar yang sudah disuntik (Full Body/Close Up)
-                    val_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
-                    try: idx_shot = indonesia_shot.index(val_size)
-                    except: idx_shot = 2
-                    
-                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_shot, key=f"ui_shot_{i_s}", label_visibility="collapsed")
+                    # SINKRONISASI DROPDOWN UKURAN GAMBAR
+                    s_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
+                    idx_size = indonesia_shot.index(s_size) if s_size in indonesia_shot else 2
+                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_size, key=f"s_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'shot_input_{i_s}'] = shot_val
                 
                 r2 = st.columns(2)
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ Arah Kamera</p>', unsafe_allow_html=True)
-                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"ui_angle_{i_s}", label_visibility="collapsed")
+                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"a_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'angle_input_{i_s}'] = angle_val
-                
                 with r2[1]:
                     st.markdown('<p class="small-label">🎬 Gerakan Kamera</p>', unsafe_allow_html=True)
-                    val_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
-                    try: idx_cam = indonesia_camera.index(val_cam)
-                    except: idx_cam = 0
-                    
-                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"ui_cam_{i_s}", label_visibility="collapsed")
+                    s_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
+                    idx_cam = indonesia_camera.index(s_cam) if s_cam in indonesia_camera else 0
+                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"c_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'camera_input_{i_s}'] = cam_val
                 
                 r3 = st.columns(1)
                 with r3[0]:
                     st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
-                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"ui_loc_sel_{i_s}", label_visibility="collapsed")
-                    
-                    if loc_choice == "--- KETIK MANUAL ---":
-                        location_val = st.text_input("Spesifik Lokasi:", key=f"ui_loc_custom_{i_s}", placeholder="Contoh: di trotoar jalan...")
-                    else:
-                        location_val = loc_choice
+                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_ui_{i_s}_{reset_val}", label_visibility="collapsed")
+                    location_val = st.text_input("Custom:", key=f"cust_ui_{i_s}_{reset_val}") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
 
+            # Dialog Logic
             diag_cols = st.columns(len(all_chars_list))
             scene_dialogs_list = []
-            for i_char, char_data in enumerate(all_chars_list):
-                with diag_cols[i_char]:
-                    char_label = char_data['name'] if char_data['name'] else f"Karakter {i_char+1}"
-                    # Sinkronisasi dialog agar tidak kosong setelah disuntik
-                    d_val = st.session_state.get(f"diag_{i_s}_{i_char}", "")
-                    d_in = st.text_input(f"Dialog {char_label}", value=d_val, key=f"ui_diag_{i_s}_{i_char}")
-                    st.session_state[f"diag_{i_s}_{i_char}"] = d_in
-                    scene_dialogs_list.append({"name": char_label, "text": d_in})
+            for i_c, c_d in enumerate(all_chars_list):
+                with diag_cols[i_c]:
+                    c_label = c_d['name'] if c_d['name'] else f"Char {i_c+1}"
+                    d_val = st.session_state.get(f"diag_{i_s}_{i_c}", "")
+                    d_in = st.text_input(f"Dialog {c_label}", value=d_val, key=f"d_ui_{i_s}_{i_c}_{reset_val}")
+                    st.session_state[f"diag_{i_s}_{i_c}"] = d_in
+                    scene_dialogs_list.append({"name": c_label, "text": d_in})
             
-            adegan_storage.append({
-                "num": i_s, "visual": visual_input, "light": light_val, "location": location_val,
-                "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list
-            })
+            adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
             
     # ==============================================================================
     # 10. GENERATOR PROMPT & MEGA-DRAFT
@@ -923,52 +911,39 @@ elif menu_select == "🧠 AI LAB":
                     if st.button("📥 KIRIM KE GUDANG", use_container_width=True, type="primary"):
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
                         st.toast("Terkirim! ✅")
-                with ck2:
+                with col_k2:
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
                         
-                        # Loop 10 adegan untuk reset dan isi otomatis
+                        # NYALAKAN MESIN RESET OTOMATIS
+                        st.session_state['ui_reset_key'] += 1
+                        
                         for i in range(1, 11):
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-                            
                             if match:
-                                isi_adegan = match.group(1).strip()
-                                st.session_state[f'vis_input_{i}'] = isi_adegan
+                                isi = match.group(1).strip()
+                                st.session_state[f'vis_input_{i}'] = isi
+                                t_low = isi.lower()
                                 
-                                # --- OTOMATISASI DROPDOWN ---
-                                text_lower = isi_adegan.lower()
+                                # DETEKSI SUASANA
+                                if "malam" in t_low: st.session_state[f'env_input_{i}'] = "Malam"
+                                elif "sore" in t_low: st.session_state[f'env_input_{i}'] = "Sore"
+                                else: st.session_state[f'env_input_{i}'] = "Siang"
                                 
-                                # 1. Deteksi Suasana (Environment)
-                                if "malam" in text_lower or "gelap" in text_lower:
-                                    st.session_state[f'env_input_{i}'] = "Malam"
-                                elif "sore" in text_lower or "senja" in text_lower:
-                                    st.session_state[f'env_input_{i}'] = "Sore"
-                                else:
-                                    st.session_state[f'env_input_{i}'] = "Siang" # Default
-                                
-                                # 2. Deteksi Ukuran Gambar (Shot Size)
-                                if "close up" in text_lower or "muka" in text_lower:
-                                    st.session_state[f'size_input_{i}'] = "Muka Jelas (Close Up)"
-                                elif "seluruh badan" in text_lower or "full body" in text_lower:
+                                # DETEKSI SHOT SIZE (INI YANG KAMU MAU!)
+                                if "full body" in t_low or "seluruh badan" in t_low:
                                     st.session_state[f'size_input_{i}'] = "Seluruh Badan (Full Body)"
+                                elif "close up" in t_low or "muka" in t_low:
+                                    st.session_state[f'size_input_{i}'] = "Muka Jelas (Close Up)"
                                 else:
-                                    st.session_state[f'size_input_{i}'] = "Setengah Badan" # Default
-                                
-                                # 3. Deteksi Kamera
-                                if "zoom" in text_lower:
-                                    st.session_state[f'cam_move_{i}'] = "Zoom In (Mendekat)"
-                                elif "geser" in text_lower or "pan" in text_lower:
-                                    st.session_state[f'cam_move_{i}'] = "Pan (Geser Kiri/Kanan)"
-                                else:
-                                    st.session_state[f'cam_move_{i}'] = "Diam (Tanpa Gerak)"
-
-                        st.session_state['c_name_1_input'] = "UDIN"
-                        st.session_state['c_name_2_input'] = "TUNG"
-                        st.success("🔥 SINKRON TOTAL! Cek Production Hub, visual sudah terisi otomatis.")
+                                    st.session_state[f'size_input_{i}'] = "Setengah Badan"
+                        
+                        st.success("🔥 SINKRON TOTAL! Cek Production Hub sekarang.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
