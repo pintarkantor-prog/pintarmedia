@@ -8,7 +8,9 @@ import time
 import json
 import re
 
+# 1. KONFIGURASI HALAMAN
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
+
 # ==============================================================================
 # 0. SISTEM LOGIN TUNGGAL
 # ==============================================================================
@@ -21,31 +23,24 @@ USER_PASSWORDS = {
     "ezaalma": "aprihgino"
 }
 
-# --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY (SOLUSI REFRESH) ---
+# --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY ---
 if 'active_user' not in st.session_state:
     q_user = st.query_params.get("u")
     if q_user and q_user.lower() in USER_PASSWORDS:
-        # LOGIKA PENYELAMAT: Jika user ada di URL, langsung pulihkan sesi
-        # Ini yang membuat REFRESH tidak logout
         st.session_state.active_user = q_user.lower()
         if 'login_time' not in st.session_state:
             st.session_state.login_time = time.time()
         st.rerun() 
 else:
-    # Jaga agar URL tetap sinkron saat sedang bekerja
     if st.query_params.get("u") != st.session_state.active_user:
         st.query_params["u"] = st.session_state.active_user
 
-# --- 2. LAYAR LOGIN (Hanya muncul jika recovery di atas gagal) ---
+# --- 2. LAYAR LOGIN ---
 if 'active_user' not in st.session_state:
     placeholder = st.empty()
     with placeholder.container():
         st.write("")
-        st.write("")
-        
-        # Penjepit tetap 1.8 agar ramping di layout Wide
         _, col_login, _ = st.columns([1.8, 1.0, 1.8]) 
-        
         with col_login:
             try:
                 st.image("PINTAR.png", use_container_width=True) 
@@ -53,61 +48,40 @@ if 'active_user' not in st.session_state:
                 st.markdown("<h1 style='text-align: center;'>📸 PINTAR MEDIA</h1>", unsafe_allow_html=True)
             
             with st.form("login_form", clear_on_submit=False):
-                # Prefill tetap ada buat user baru yang pertama kali masuk lewat link
                 default_user = st.query_params.get("u", "")                
                 user_input = st.text_input("Username", value=default_user, placeholder="Username...")
                 pass_input = st.text_input("Password", type="password", placeholder="Password...")
-                
-                st.write("")
                 submit_button = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
             
             if submit_button:
                 user_clean = user_input.lower().strip()
                 if user_clean in USER_PASSWORDS and pass_input == USER_PASSWORDS[user_clean]:
-                    # 1. Simpan ke session
                     st.session_state.active_user = user_clean
                     st.session_state.login_time = time.time()
-                    # 2. BERSIHKAN URL (Buang password & sampah lainnya)
-                    st.query_params.clear() 
-                    # 3. SET ULANG URL (Hanya nama user)
                     st.query_params["u"] = user_clean
-                    
-                    placeholder.empty() 
-                    with placeholder.container():
-                        st.write("")
-                        st.markdown("<h3 style='text-align: center; color: #28a745;'>✅ AKSES DITERIMA!</h3>", unsafe_allow_html=True)
-                        st.markdown(f"<h1 style='text-align: center;'>Selamat bekerja, {user_clean.capitalize()}!</h1>", unsafe_allow_html=True)
-                        time.sleep(1.0)
                     st.rerun()
                 else:
                     st.error("❌ Username atau Password salah.")
-            
-            st.caption("<p style='text-align: center;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
     st.stop()
 
-# --- 3. PROTEKSI SESI (AUTO-LOGOUT 10 JAM) ---
+# --- 3. AUTO-LOGOUT 10 JAM ---
 if 'active_user' in st.session_state and 'login_time' in st.session_state:
-    selisih_detik = time.time() - st.session_state.login_time
-    if selisih_detik > (10 * 60 * 60): # 10 Jam
+    if (time.time() - st.session_state.login_time) > (10 * 60 * 60):
         st.query_params.clear()
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
+        st.session_state.clear()
         st.rerun()
+
 # ==============================================================================
-# 1. INISIALISASI MEMORI & SINKRONISASI (CLEAN VERSION)
+# 1. INISIALISASI MEMORI & SINKRONISASI (LENGKAP)
 # ==============================================================================
-# Mengambil user aktif dari session login
 active_user = st.session_state.active_user 
 
-# 1.1 Siapkan Lemari Hasil Generate
 if 'last_generated_results' not in st.session_state:
     st.session_state.last_generated_results = []
 
-# 1.2 Simpan Pilihan Genre (Agar tidak reset saat pindah menu)
 if 'genre_pilihan_saved' not in st.session_state:
     st.session_state.genre_pilihan_saved = "Realistik (Nyata)"
 
-# 1.3 Inisialisasi Identitas Tokoh (Default Kosong)
 if 'num_total_char' not in st.session_state:
     st.session_state.num_total_char = 2
 
@@ -116,7 +90,7 @@ if 'c_desc_1_input' not in st.session_state: st.session_state.c_desc_1_input = "
 if 'c_name_2_input' not in st.session_state: st.session_state.c_name_2_input = ""
 if 'c_desc_2_input' not in st.session_state: st.session_state.c_desc_2_input = ""
 
-# 1.4 Inisialisasi Adegan v1 - v50 (SINKRON DENGAN PRODUKSI)
+# Inisialisasi Adegan v1 - v50
 for i in range(1, 51):
     for key, default in [
         (f"vis_input_{i}", ""),
@@ -126,281 +100,112 @@ for i in range(1, 51):
         (f"angle_input_{i}", "Normal"),
         (f"loc_sel_{i}", "--- KETIK MANUAL ---"),
         (f"loc_custom_{i}", ""),
-        (f"mark_done_{i}", False) # Status centang selesai per adegan
+        (f"mark_done_{i}", False)
     ]:
         if key not in st.session_state: 
             st.session_state[key] = default
-    
+
 # ==============================================================================
-# 2. LOGIKA LOGGING GOOGLE SHEETS (MODE HEMAT - HANYA SAVE/LOAD)
+# 2. LOGIKA GOOGLE SHEETS (Hanya Fungsi)
 # ==============================================================================
 def record_to_sheets(user, data_packet, total_scenes):
-    """Mencatat aktivitas. HANYA dipanggil saat tombol SAVE diklik."""
     try:
         conn = st.connection("gsheets", type=GSheetsConnection)
-        
-        # Baca data lama untuk digabungkan
-        existing_data = conn.read(worksheet="Sheet1", ttl="1s") # TTL rendah agar data terbaru terbaca
-        
+        existing_data = conn.read(worksheet="Sheet1", ttl="1s")
         tz = pytz.timezone('Asia/Jakarta')
         current_time = datetime.now(tz).strftime("%Y-%m-%d %H:%M:%S")
-        
-        # Buat baris baru untuk Draft/Koper
-        new_row = pd.DataFrame([{
-            "Waktu": current_time,
-            "User": f"DRAFT_{user}", # Tandai sebagai draft agar mudah di-LOAD
-            "Total Adegan": total_scenes,
-            "Visual Utama": data_packet 
-        }])
-        
+        new_row = pd.DataFrame([{"Waktu": current_time, "User": f"DRAFT_{user}", "Total Adegan": total_scenes, "Visual Utama": data_packet}])
         updated_df = pd.concat([existing_data, new_row], ignore_index=True)
-        
-        # Batasi history agar tetap ringan
-        if len(updated_df) > 300:
-            updated_df = updated_df.tail(300)
-        
+        if len(updated_df) > 300: updated_df = updated_df.tail(300)
         conn.update(worksheet="Sheet1", data=updated_df)
-        st.toast(f"✅ Project Berhasil Disimpan ke Cloud!", icon="💾")
-        
-    except Exception as e:
-        st.error(f"Gagal mencatat ke Cloud: {e}")
+        st.toast("✅ Tersimpan ke Cloud!", icon="💾")
+    except Exception as e: st.error(f"Gagal Cloud: {e}")
 
-def load_from_sheets(user):
-    """Mengambil data terakhir milik user dari Google Sheets."""
-    try:
-        conn = st.connection("gsheets", type=GSheetsConnection)
-        df = conn.read(worksheet="Sheet1", ttl="1s")
-        
-        # Filter mencari baris terakhir dengan User: DRAFT_namauser
-        user_drafts = df[df['User'] == f"DRAFT_{user}"]
-        
-        if not user_drafts.empty:
-            return user_drafts.iloc[-1]['Visual Utama'] # Ambil baris paling baru
-        return None
-    except Exception as e:
-        st.error(f"Gagal mengambil data: {e}")
-        return None
-        
 # ==============================================================================
-# 3. CUSTOM CSS (VERSION: PREMIUM RESPONSIVE & MULTI-MENU)
+# 3. CUSTOM CSS (FIXED & RESPONSIVE)
 # ==============================================================================
 st.markdown("""
     <style>
-    /* A. CUSTOM SCROLLBAR */
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0e1117; }
-    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
-
-    /* 1. LAYOUT UTAMA & RESPONSIVE CONTAINER */
-    .block-container {
-        padding-top: 5rem !important;
-        max-width: 95% !important;
-        padding-bottom: 2rem !important;
-    }
-
-    /* 2. FIXED HEADER (NAVIGASI ATAS) */
-    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: fixed;
-        top: 0;
-        left: 310px; /* Lebar Sidebar PC */
-        right: 0;
-        z-index: 99999;
-        background-color: #0e1117;
-        padding: 10px 2rem;
-        border-bottom: 2px solid #31333f;
-        transition: all 0.3s ease;
-    }
-
-    /* RESPONSIVE HEADER UNTUK HP */
-    @media (max-width: 768px) {
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            left: 0 !important;
-            padding: 10px 1rem !important;
-        }
-        .block-container {
-            padding-top: 6rem !important; /* Ruang lebih di HP */
-            max-width: 100% !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-        }
-    }
-
-    /* 3. STYLE SIDEBAR & NAVIGASI MENU */
-    [data-testid="stSidebar"] {
-        background-color: #1a1c24 !important;
-        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
-    }
+    header {visibility: hidden;}
+    .block-container { padding-top: 2rem !important; }
     
-    /* Efek Menu Sidebar agar lebih modern */
-    [data-testid="stSidebarNav"] ul {
-        padding-top: 20px;
-    }
-    [data-testid="stSidebarNav"] li {
-        margin: 5px 12px !important;
-        border-radius: 8px !important;
-        transition: all 0.2s ease !important;
-    }
-    [data-testid="stSidebarNav"] li:hover {
-        background-color: rgba(29, 151, 108, 0.1) !important;
-    }
-    /* Menu yang sedang Aktif */
-    [data-testid="stSidebarNav"] li[aria-selected="true"] {
-        background: linear-gradient(to right, rgba(29, 151, 108, 0.2), transparent) !important;
-        border-left: 4px solid #1d976c !important;
-    }
-
-    /* 4. TOMBOL GENERATE (RESPONS INSTAN) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
-        font-weight: bold !important;
-        width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
-    }
-
-    /* 5. BOX STAF AKTIF (HIJAU TEGAS) */
     .staff-header-premium {
-        background: rgba(29, 151, 108, 0.15) !important;
+        background: rgba(29, 151, 108, 0.1) !important;
         border: 1px solid #1d976c !important;
         border-radius: 12px !important;
         padding: 15px !important;
-        margin-bottom: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
+        margin-bottom: 25px !important;
     }
-    .staff-header-premium b {
-        color: #1d976c !important;
-        font-size: 1.1em !important;
-    }
-
-    /* 6. OPTIMASI KOTAK ADEGAN (EXPANDER) */
-    .stExpander {
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
-        background-color: #161922 !important;
-        margin-bottom: 10px !important;
-    }
-    .stExpander:hover {
-        border: 1px solid rgba(29, 151, 108, 0.4) !important;
-    }
-
-    /* 7. LABEL KECIL (STYLING KHUSUS) */
     .small-label {
         color: #1d976c !important;
         text-transform: uppercase;
-        font-size: 10px !important;
+        font-size: 11px !important;
         font-weight: 800 !important;
-        letter-spacing: 0.5px;
+        margin-bottom: 5px !important;
     }
-
-    /* 8. INPUT AREA RESPONSIVE */
-    .stTextArea textarea {
-        font-size: 16px !important;
-        border-radius: 8px !important;
-        background-color: #0e1117 !important;
-    }
+    [data-testid="stSidebar"] { background-color: #1a1c24 !important; }
     </style>
     """, unsafe_allow_html=True)
-# ==============================================================================
-# 4. SISTEM NAVIGASI & TAMPILAN MENU (PRODUCTION HUB)
-# ==============================================================================
 
-# --- A. SIDEBAR NAVIGASI LENGKAP ---
+# ==============================================================================
+# 4. NAVIGASI & PRODUCTION HUB
+# ==============================================================================
 with st.sidebar:
     st.markdown("<h2 style='text-align: center; color: #1d976c;'>🎬 PINTAR V2</h2>", unsafe_allow_html=True)
     st.write("---")
-    
-    menu = st.radio(
-        "NAVIGASI UTAMA",
-        [
-            "🚀 PRODUCTION HUB",
-            "🧠 AI LAB",
-            "🎞️ SCHEDULE",
-            "📋 TEAM TASK",
-            "📈 TREND ANALYZER",
-            "💡 IDEAS BANK",
-            "👥 DATABASE LOCKER",
-            "📊 MONITORING",
-            "🛠️ COMMAND CENTER"
-        ],
-        index=0
-    )
-    
+    menu = st.radio("NAVIGASI UTAMA", [
+        "🚀 PRODUCTION HUB", "🧠 AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK",
+        "📈 TREND ANALYZER", "💡 IDEAS BANK", "👥 DATABASE LOCKER", 
+        "📊 MONITORING", "🛠️ COMMAND CENTER"
+    ])
     st.write("---")
     if st.button("🚪 KELUAR SISTEM", use_container_width=True):
         st.query_params.clear()
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
+        st.session_state.clear()
         st.rerun()
 
-# --- B. LOGIKA TAMPILAN PER MENU ---
-
 if menu == "🚀 PRODUCTION HUB":
-    # 1. Tampilkan Header Staf
+    # Header Staf
     nama_display = st.session_state.active_user.capitalize()
     st.markdown(f"""
         <div class="staff-header-premium">
-            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; align-items: center; gap: 12px;">
                 <span style="font-size:24px;">👤</span>
-                <div style="min-width: 200px; flex: 1;">
-                    <b style="display: block; font-size: 1.15em;">Unit Produksi: {nama_display}</b>
-                    <span style="color:#aaa; font-style:italic; font-size: 0.9em; line-height: 1.2;">
-                        Konten yang mantap lahir dari detail adegan yang tepat 🚀🚀
-                    </span>
+                <div>
+                    <b style="color:#1d976c;">Unit Produksi: {nama_display}</b><br>
+                    <span style="color:#aaa; font-style:italic; font-size: 0.85em;">Konten yang mantap lahir dari detail adegan yang tepat 🚀</span>
                 </div>
             </div>
         </div>
     """, unsafe_allow_html=True)
 
-    # 2. Judul Section Utama
     st.markdown("### 📝 Detail Adegan Storyboard")
     
-    # 3. Kotak Input Karakter (Expander)
     with st.expander("👥 IDENTITAS TOKOH UTAMA", expanded=True):
         st.markdown("<p class='small-label'>Setting Jumlah Karakter</p>", unsafe_allow_html=True)
-        st.session_state.num_total_char = st.number_input(
-            "Total Karakter", 1, 5, value=st.session_state.num_total_char, label_visibility="collapsed"
-        )
+        st.session_state.num_total_char = st.number_input("T", 1, 5, value=st.session_state.num_total_char, label_visibility="collapsed")
         
         col_c1, col_c2 = st.columns(2)
         with col_c1:
             st.markdown("<p class='small-label'>Nama & Fisik Tokoh 1</p>", unsafe_allow_html=True)
-            st.session_state.c_name_1_input = st.text_input("N1", value=st.session_state.c_name_1_input, placeholder="Nama Tokoh 1...", label_visibility="collapsed")
-            st.session_state.c_desc_1_input = st.text_area("D1", value=st.session_state.c_desc_1_input, placeholder="Deskripsi fisik lengkap...", height=100, label_visibility="collapsed")
-        
+            st.session_state.c_name_1_input = st.text_input("N1", value=st.session_state.c_name_1_input, placeholder="Nama...", label_visibility="collapsed")
+            st.session_state.c_desc_1_input = st.text_area("D1", value=st.session_state.c_desc_1_input, placeholder="Fisik...", height=100, label_visibility="collapsed")
         with col_c2:
             st.markdown("<p class='small-label'>Nama & Fisik Tokoh 2</p>", unsafe_allow_html=True)
-            st.session_state.c_name_2_input = st.text_input("N2", value=st.session_state.c_name_2_input, placeholder="Nama Tokoh 2...", label_visibility="collapsed")
-            st.session_state.c_desc_2_input = st.text_area("D2", value=st.session_state.c_desc_2_input, placeholder="Deskripsi fisik lengkap...", height=100, label_visibility="collapsed")
+            st.session_state.c_name_2_input = st.text_input("N2", value=st.session_state.c_name_2_input, placeholder="Nama...", label_visibility="collapsed")
+            st.session_state.c_desc_2_input = st.text_area("D2", value=st.session_state.c_desc_2_input, placeholder="Fisik...", height=100, label_visibility="collapsed")
 
-    # 4. Pilih Genre Visual
-    st.write("")
     st.markdown("<p class='small-label'>Pilih Gaya Visual Film (Genre)</p>", unsafe_allow_html=True)
-    st.session_state.genre_pilihan_saved = st.selectbox(
-        "Genre", 
-        ["Realistik (Nyata)", "Animasi 3D", "Comic/Anime", "Cyberpunk", "Vintage 90s"],
-        index=0, label_visibility="collapsed"
-    )
+    st.session_state.genre_pilihan_saved = st.selectbox("G", ["Realistik (Nyata)", "Animasi 3D", "Comic/Anime", "Cyberpunk"], label_visibility="collapsed")
     
     st.write("---")
-    st.info("Pondasi Karakter & Genre sudah siap. Kita lanjut ke looping adegan 1-50 di bawah ini.")
+    st.info("Pondasi siap. Selanjutnya kita pasang adegan 1-50.")
 
 elif menu == "📊 MONITORING":
     st.title("Monitoring Produksi")
-    st.write("Halaman pemantauan log aktivitas tim.")
-
-elif menu == "🧠 AI LAB":
-    st.title("AI Laboratory")
-    st.write("Ruang eksperimen prompt dan model AI.")
-
 else:
-    st.title(f"{menu}")
-    st.write("Halaman ini sedang dalam proses pengembangan.")
+    st.title(menu)
+    st.write("Sedang tahap migrasi.")
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -1053,5 +858,6 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
