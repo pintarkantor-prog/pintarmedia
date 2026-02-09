@@ -905,7 +905,7 @@ elif menu_select == "🧠 AI LAB":
                         st.session_state['ready_script'] = response.text
                         st.rerun()
                     except:
-                        st.error("Limit API tercapai.")
+                        st.error("Waduh, ada masalah: {e}")
 
             if 'ready_script' in st.session_state:
                 st.markdown("---")
@@ -972,6 +972,7 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON! 10 Adegan berhasil dipencar ke Production Hub.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
