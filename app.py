@@ -182,26 +182,34 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 2. STYLE SIDEBAR (DARK NAVY OBSIDIAN) */
-    [data-testid="stSidebar"] {
-        background-color: #11151c !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-    }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
-        color: #ffffff !important;
-    }
-    [data-testid="stSidebar"] .stNumberInput input, 
-    [data-testid="stSidebar"] div[data-baseweb="select"] {
-        background-color: #090b0f !important;
-        border: 1px solid #262730 !important;
-        border-radius: 8px !important;
-        color: white !important;
-    }
+    /* 2. STYLE SIDEBAR BUTTONS (GLOSSY & INTERACTIVE) */
     [data-testid="stSidebar"] button {
-        background-color: #262730 !important;
+        /* Efek Gradasi Dasar agar terlihat 3D/Glossy */
+        background: linear-gradient(180deg, #2d303d 0%, #1b1c22 100%) !important;
         color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
         border-radius: 8px !important;
+        text-transform: uppercase;
+        font-weight: 700 !important;
+        transition: all 0.2s ease-in-out !important; /* Transisi halus */
+        box-shadow: 0 2px 4px rgba(0,0,0,0.3) !important;
+    }
+
+    /* Efek saat Kursor Mouse di Atas Tombol (Hover) */
+    [data-testid="stSidebar"] button:hover {
+        background: linear-gradient(180deg, #3a3d4a 0%, #262730 100%) !important;
+        border-color: rgba(29, 151, 108, 0.5) !important; /* Glow ijo tipis di pinggir */
+        transform: translateY(-1px) !important; /* Tombol naik sedikit */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
+    }
+
+    /* Efek GLOSSY saat Tombol Diklik (Active) */
+    [data-testid="stSidebar"] button:active {
+        /* Warna berubah jadi hijau glossy saat ditekan */
+        background: linear-gradient(180deg, #1d976c 0%, #11998e 100%) !important;
+        transform: scale(0.96) !important; /* Efek membal ke dalam */
+        box-shadow: inset 0 3px 5px rgba(0,0,0,0.4) !important; /* Efek cekung ke dalam */
+        border-color: transparent !important;
     }
 
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
@@ -931,6 +939,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
