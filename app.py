@@ -171,10 +171,27 @@ st.markdown("""
         font-family: 'Inter', sans-serif;
     }
 
-    /* 2. SIDEBAR (DIBUAT LEBIH TERANG AGAR TIDAK MATI) */
+    /* 2. MENGATUR LEBAR SIDEBAR (DIKECILKAN) */
     [data-testid="stSidebar"] {
-        background-color: #161922 !important; /* Dari #1a1c24 dinaikkan ke #161922 */
+        width: 260px !important; /* Standar Streamlit 336px, kita kecilkan ke 260px */
+        background-color: #161922 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* WAJIB: Sesuaikan margin konten utama agar tidak tumpang tindih dengan sidebar baru */
+    @media (min-width: 769px) {
+        [data-testid="stMainViewContainer"] {
+            margin-left: -76px !important; /* Selisih dari pengecilan lebar (336 - 260 = 76) */
+        }
+        /* Sesuaikan juga Header Hitam kamu agar tidak bergeser */
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            left: 260px !important; /* Harus sama dengan lebar sidebar di atas */
+        }
+    }
+
+    /* MEMAKSA ISI SIDEBAR MENTOK KE ATAS (TAMBAHAN REVISI) */
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 5px !important; /* Sangat mepet ke atas */
     }
 
     /* 3. HEADER AREA (FIXED DI PC, RELATIVE DI HP) */
@@ -946,6 +963,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
