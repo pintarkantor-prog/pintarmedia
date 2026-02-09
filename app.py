@@ -160,24 +160,15 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI FINAL: ANTI-MERAH, SIDEBAR RAMPING & HIGH CONTRAST)
+# 4. CUSTOM CSS (VERSI DEFAULT FOCUS - STABIL & RAPI)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. GLOBAL STYLE & VARIABLES RESET */
-    :root {
-        --primary-color: #1d976c !important;
-    }
-
+    /* 1. GLOBAL STYLE */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         font-family: 'Inter', sans-serif;
-        /* Matikan variabel merah bawaan Streamlit secara global */
-        --baseweb-input-border-focus: #1d976c !important;
-        --baseweb-accent: #1d976c !important;
-        --baseweb-negative: transparent !important;
-        --baseweb-border-error: transparent !important;
     }
 
     /* 2. SIDEBAR (RAMPING & MENTOK ATAS) */
@@ -198,9 +189,10 @@ st.markdown("""
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
             left: 260px !important;
         }
+        .block-container { padding-top: 6rem !important; }
     }
 
-    /* 3. HEADER AREA (HITAM TRANSPARAN) */
+    /* 3. HEADER AREA */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
         position: relative;
         background-color: rgba(14, 17, 23, 0.95);
@@ -208,10 +200,6 @@ st.markdown("""
         border-bottom: 1px solid rgba(255,255,255,0.1);
         margin-bottom: 30px;
         backdrop-filter: blur(10px);
-    }
-
-    @media (min-width: 769px) {
-        .block-container { padding-top: 6rem !important; }
     }
 
     /* 4. TOMBOL GENERATE UTAMA */
@@ -242,9 +230,9 @@ st.markdown("""
     [data-testid="stExpander"] summary p { font-weight: bold !important; }
     [data-testid="stExpander"] summary svg { fill: #ffffff !important; }
 
-    /* 6 & 8. INPUT AREA - ANTI MERAH & WARNA SPESIFIK */
+    /* 6 & 8. INPUT AREA - WARNA TETAP TAPI FOCUS DEFAULT */
     
-    /* A. NAMA, ANGKA, DROPDOWN (Abu-abu Solid) */
+    /* Nama, Angka, Dropdown (Abu-abu Solid) */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
         background-color: #262730 !important;
         color: #ffffff !important;
@@ -252,7 +240,7 @@ st.markdown("""
         border-radius: 10px !important;
     }
 
-    /* B. CIRI FISIK / ADEGAN (Hitam Background) */
+    /* Adegan / Ciri Fisik (Hitam Background) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
@@ -260,25 +248,8 @@ st.markdown("""
         border-radius: 12px !important;
     }
 
-    /* C. MATIKAN MERAH SAAT FOKUS (Tembak Universal) */
-    input:focus, textarea:focus, div[data-baseweb="select"]:focus-within, div[data-baseweb="input"]:focus-within {
-        border-color: #1d976c !important; 
-        box-shadow: none !important;      
-        outline: none !important;
-    }
-
-    /* D. HAPUS LAPISAN LUAR BASEWEB (Penyebab Tabrakan Warna) */
-    div[data-baseweb="input"], div[data-baseweb="textarea"], div[data-baseweb="select"], div[role="combobox"] {
-        border-color: transparent !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* E. ANTI-VALIDASI MERAH (Mencegah Merah di Kolom Kosong) */
-    :invalid, .stTextArea textarea:invalid, .stTextInput input:invalid {
-        box-shadow: none !important;
-        border-color: rgba(255, 255, 255, 0.1) !important;
-    }
+    /* KUNCI: Kita HAPUS semua aturan :focus hijau. 
+       Biarkan Streamlit menggunakan warna default-nya saat diklik. */
 
     /* 7. SIDEBAR BUTTONS */
     [data-testid="stSidebar"] .stButton button {
@@ -287,9 +258,6 @@ st.markdown("""
         border: 1px solid rgba(255,255,255,0.2) !important;
         border-radius: 8px !important;
         width: 100% !important;
-    }
-    [data-testid="stSidebar"] .stButton button:hover {
-        border-color: #1d976c !important;
     }
 
     /* 9. MOBILE RESPONSIVE FIX */
@@ -303,9 +271,6 @@ st.markdown("""
             flex: 1 1 100% !important;
             margin-bottom: 10px !important;
         }
-        /* Konsistensi warna di Mobile */
-        .stTextArea textarea { background-color: #0e1117 !important; }
-        .stTextInput input { background-color: #1c202a !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -961,6 +926,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
