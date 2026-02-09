@@ -160,41 +160,47 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI ULTIMATE: HIGH CONTRAST & ELEGANT RESPONSIVE)
+# 4. CUSTOM CSS (VERSI FINAL: ANTI-MERAH, SIDEBAR RAMPING & HIGH CONTRAST)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. GLOBAL STYLE & ANTI-WHITE MODE */
+    /* 1. GLOBAL STYLE & VARIABLES RESET */
+    :root {
+        --primary-color: #1d976c !important;
+    }
+
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         font-family: 'Inter', sans-serif;
+        /* Matikan variabel merah bawaan Streamlit secara global */
+        --baseweb-input-border-focus: #1d976c !important;
+        --baseweb-accent: #1d976c !important;
+        --baseweb-negative: transparent !important;
+        --baseweb-border-error: transparent !important;
     }
 
-    /* 2. MENGATUR LEBAR SIDEBAR (DIKECILKAN) */
+    /* 2. SIDEBAR (RAMPING & MENTOK ATAS) */
     [data-testid="stSidebar"] {
-        width: 260px !important; /* Standar Streamlit 336px, kita kecilkan ke 260px */
+        width: 260px !important;
         background-color: #161922 !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
 
-    /* WAJIB: Sesuaikan margin konten utama agar tidak tumpang tindih dengan sidebar baru */
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 5px !important;
+    }
+
     @media (min-width: 769px) {
         [data-testid="stMainViewContainer"] {
-            margin-left: -76px !important; /* Selisih dari pengecilan lebar (336 - 260 = 76) */
+            margin-left: -76px !important;
         }
-        /* Sesuaikan juga Header Hitam kamu agar tidak bergeser */
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            left: 260px !important; /* Harus sama dengan lebar sidebar di atas */
+            left: 260px !important;
         }
     }
 
-    /* MEMAKSA ISI SIDEBAR MENTOK KE ATAS (TAMBAHAN REVISI) */
-    [data-testid="stSidebarUserContent"] {
-        padding-top: 5px !important; /* Sangat mepet ke atas */
-    }
-
-    /* 3. HEADER AREA (FIXED DI PC, RELATIVE DI HP) */
+    /* 3. HEADER AREA (HITAM TRANSPARAN) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
         position: relative;
         background-color: rgba(14, 17, 23, 0.95);
@@ -205,16 +211,10 @@ st.markdown("""
     }
 
     @media (min-width: 769px) {
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            position: fixed;
-            top: 0; left: 310px; right: 0;
-            z-index: 99999;
-            padding: 15px 2rem;
-        }
         .block-container { padding-top: 6rem !important; }
     }
 
-    /* 4. TOMBOL GENERATE UTAMA (ASLI & INSTAN) */
+    /* 4. TOMBOL GENERATE UTAMA */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
@@ -222,16 +222,14 @@ st.markdown("""
         border-radius: 10px !important;
         padding: 0.7rem 1.5rem !important;
         font-weight: 700 !important;
-        font-size: 16px !important;
         width: 100%;
         box-shadow: 0 4px 15px rgba(29, 151, 108, 0.3) !important;
         text-transform: uppercase;
-        letter-spacing: 1px;
     }
 
-    /* 5. FIX LINGKARAN MERAH: EXPANDER (SANGAT PENTING) */
+    /* 5. EXPANDER FIX */
     [data-testid="stExpander"] {
-        background-color: #1c202a !important; /* Warna abu-abu yang lebih terang */
+        background-color: #1c202a !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 12px !important;
         margin-bottom: 15px !important;
@@ -239,60 +237,22 @@ st.markdown("""
     [data-testid="stExpander"] summary {
         background-color: #1c202a !important;
         color: #ffffff !important;
-        padding: 12px 15px !important;
         border-radius: 12px !important;
     }
-    [data-testid="stExpander"] summary p {
-        color: #ffffff !important;
-        font-weight: bold !important;
-    }
-    [data-testid="stExpander"] summary svg {
-        fill: #ffffff !important;
-    }
+    [data-testid="stExpander"] summary p { font-weight: bold !important; }
+    [data-testid="stExpander"] summary svg { fill: #ffffff !important; }
 
-    /* 6. INPUT AREA (TEXTAREA & TEXT INPUT) - DISAMAKAN WARNANYA */
-    .stTextArea textarea, .stTextInput input {
-        background-color: #262730 !important; /* Warna abu-abu solid agar sama dengan kotak Nama */
-        color: #ffffff !important;           /* Teks putih agar tajam */
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        font-size: 16px !important;
-        padding: 12px !important;
-        transition: none !important;         /* Tanpa transisi agar instan seperti permintaanmu */
-    }
-
-    /* Memastikan saat diklik warna tidak berubah jadi hitam */
-    .stTextArea textarea:focus, .stTextInput input:focus {
-        background-color: #262730 !important; 
-        border-color: #1d976c !important;     /* Hanya bingkai yang berubah hijau saat aktif */
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* 7. SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
-    [data-testid="stSidebar"] .stButton button {
-        background-color: #262730 !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(255,255,255,0.2) !important;
-        border-radius: 8px !important;
-        width: 100% !important;
-        font-weight: 600 !important;
-    }
-    [data-testid="stSidebar"] .stButton button:hover {
-        border-color: #1d976c !important;
-        color: #1d976c !important;
-    }
-
-    /* 8. INPUT AREA - SAPU BERSIH WARNA MERAH */
+    /* 6 & 8. INPUT AREA - ANTI MERAH & WARNA SPESIFIK */
     
-    /* A. DASAR WARNA SEMUA INPUT */
-    .stTextInput input, .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
+    /* A. NAMA, ANGKA, DROPDOWN (Abu-abu Solid) */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 10px !important;
     }
 
+    /* B. CIRI FISIK / ADEGAN (Hitam Background) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
@@ -300,50 +260,39 @@ st.markdown("""
         border-radius: 12px !important;
     }
 
-    /* B. MATIKAN SEMUA EFEK MERAH/PINK SAAT FOKUS (DI-KLIK) */
-    /* Kode ini menembak secara global agar tidak ada celah bagi warna merah */
-    input:focus, textarea:focus, div[data-baseweb="select"] :focus, div[data-baseweb="input"] :focus {
-        border-color: #1d976c !important; /* Paksa Hijau */
-        box-shadow: none !important;      /* Hapus Pendaran Merah */
+    /* C. MATIKAN MERAH SAAT FOKUS (Tembak Universal) */
+    input:focus, textarea:focus, div[data-baseweb="select"]:focus-within, div[data-baseweb="input"]:focus-within {
+        border-color: #1d976c !important; 
+        box-shadow: none !important;      
         outline: none !important;
     }
 
-    /* C. KHUSUS DROPDOWN (SELECTBOX) AGAR TIDAK MERAH */
-    div[data-baseweb="select"] {
-        border-color: rgba(255, 255, 255, 0.1) !important;
-    }
-    
-    /* Saat Dropdown Terbuka/Aktif */
-    div[data-baseweb="select"]:focus-within {
-        border-color: #1d976c !important;
-        box-shadow: none !important;
-    }
-
-    /* D. HAPUS LAPISAN LUAR BASEWEB YANG SERING JADI MERAH */
-    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"], [data-baseweb="base-input"] {
+    /* D. HAPUS LAPISAN LUAR BASEWEB (Penyebab Tabrakan Warna) */
+    div[data-baseweb="input"], div[data-baseweb="textarea"], div[data-baseweb="select"], div[role="combobox"] {
         border-color: transparent !important;
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* E. PAKSA WARNA BOX-SHADOW JADI TRANSPARAN (GLOBAL FIX) */
-    /* Ini untuk mematikan pendaran merah di elemen manapun yang tersisa */
-    * {
-        --baseweb-input-border-focus: #1d976c !important;
-        --primary: #1d976c !important;
+    /* E. ANTI-VALIDASI MERAH (Mencegah Merah di Kolom Kosong) */
+    :invalid, .stTextArea textarea:invalid, .stTextInput input:invalid {
+        box-shadow: none !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
     }
 
-    /* F. HAPUS MERAH VALIDASI (REQUIRED/EROR) */
-    :invalid {
-        box-shadow: none !important;
+    /* 7. SIDEBAR BUTTONS */
+    [data-testid="stSidebar"] .stButton button {
+        background-color: #262730 !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+        border-radius: 8px !important;
+        width: 100% !important;
     }
-    
-    .stTextArea textarea:invalid, .stTextInput input:invalid, .stNumberInput input:invalid {
-        border-color: #31333f !important;
-        box-shadow: none !important;
+    [data-testid="stSidebar"] .stButton button:hover {
+        border-color: #1d976c !important;
     }
 
-    /* 9. MOBILE FIX */
+    /* 9. MOBILE RESPONSIVE FIX */
     @media (max-width: 768px) {
         .block-container { 
             padding-left: 0.7rem !important;
@@ -354,14 +303,12 @@ st.markdown("""
             flex: 1 1 100% !important;
             margin-bottom: 10px !important;
         }
-        /* Memaksa text box tetap abu-abu di HP */
-        .stTextArea textarea, .stTextInput input {
-            background-color: #1c202a !important;
-        }
+        /* Konsistensi warna di Mobile */
+        .stTextArea textarea { background-color: #0e1117 !important; }
+        .stTextInput input { background-color: #1c202a !important; }
     }
 </style>
 """, unsafe_allow_html=True)
-
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -1014,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
