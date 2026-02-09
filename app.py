@@ -182,66 +182,13 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 2. STYLE SIDEBAR (ELITE OBSIDIAN VERSION) */
+    /* 2. STYLE SIDEBAR */
     [data-testid="stSidebar"] {
-        background-color: #16191e !important; 
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background-color: #1a1c24 !important;
+        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
     }
-
-    /* Teks Menu Abu-abu Muda yang Clean */
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
-        color: #d1d1d1 !important;
-        font-weight: 500 !important;
-        letter-spacing: 0.5px;
-    }
-
-    /* KOTAK INPUT ANGKA (ULTRA-CLEAN SEAMLESS) */
-    [data-testid="stSidebar"] .stNumberInput div[data-baseweb="input"] {
-        background-color: #0e1117 !important;
-        border: 1px solid #2d313d !important;
-        border-radius: 10px !important;
-    }
-
-    /* Menghilangkan batasan - dan + secara total */
-    [data-testid="stSidebar"] .stNumberInput button {
-        background-color: transparent !important;
-        border: none !important;
-        box-shadow: none !important;
-        color: #808080 !important; /* Warna simbol dibuat abu-abu kalem */
-        transition: color 0.2s ease;
-    }
-
-    [data-testid="stSidebar"] .stNumberInput button:hover {
-        color: #ffffff !important; /* Nyala putih saat disorot */
-    }
-
-    /* TOMBOL UTAMA (SAVE, LOAD, KELUAR) - PRESTIGE DARK STYLE */
-    [data-testid="stSidebar"] button[kind="secondary"], 
-    [data-testid="stSidebar"] button {
-        background: #0e1117 !important; /* Hitam pekat box */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
         color: #ffffff !important;
-        border-radius: 12px !important; 
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        padding: 0.7rem !important;
-        font-weight: 600 !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: inset 0 1px 1px rgba(255,255,255,0.05) !important; /* Efek glossy tipis di bibir atas */
-    }
-
-    /* Efek Hover (Glow Obsidian) */
-    [data-testid="stSidebar"] button:hover {
-        background-color: #1a1c23 !important;
-        border-color: #1d976c !important; /* Garis berubah hijau tipis saat disorot */
-        box-shadow: 0 0 10px rgba(29, 151, 108, 0.15) !important; /* Pendaran hijau halus */
-        transform: translateY(-1px);
-    }
-
-    /* Efek Klik Active (Membal & Solid) */
-    [data-testid="stSidebar"] button:active {
-        background: #1d976c !important;
-        color: white !important;
-        transform: scale(0.95) !important;
-        box-shadow: none !important;
     }
 
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
@@ -971,6 +918,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
