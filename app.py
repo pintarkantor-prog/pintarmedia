@@ -31,7 +31,7 @@ GAYA BAHASA:
 
 # Inisialisasi Model (Pake Flash biar tahan banting)
 model = genai.GenerativeModel(
-    model_name='models/gemini-1.5-flash-8b',
+    model_name='gemini-1.5-flash-8b',
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -831,145 +831,91 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (SISTEM SINKRONISASI 10 ADEGAN - VERSI FINAL)
+# 11. HALAMAN AI LAB (VERSI 8B - SPEED RACER)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
-    
-    st.title("🧠 AI LAB: GUDANG IDE GACOR")
+    st.title("🧠 AI LAB: GUDANG IDE GACOR (8B MODE)")
     st.markdown("---")
-    st.write(f"Halo **{nama_display}**! Pilih ide maut atau buat baru, lalu kirim hasilnya ke Production Hub!")
 
-    # --- TABS ---
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
-        "📦 1. GUDANG IDE (STOK GACOR)", 
-        "🔄 2. SUNTIK NASKAH DIALOG", 
-        "📝 3. STORYBOARD VISUAL"
+        "📦 1. GUDANG IDE", "🔄 2. SUNTIK NASKAH DIALOG", "📝 3. STORYBOARD VISUAL"
     ])
 
-    # --------------------------------------------------------------------------
-    # TAB 1: GUDANG IDE
-    # --------------------------------------------------------------------------
     with tab_spy:
-        mode_ide = st.radio("Metode Cari Ide:", ["📦 Pakai Ide Stok (Hemat Kuota)", "💡 Buat Ide Baru (AI Generator)"], horizontal=True)
-        st.markdown("---")
-
-        if mode_ide == "📦 Pakai Ide Stok (Hemat Kuota)":
+        mode_ide = st.radio("Metode Cari Ide:", ["📦 Pakai Ide Stok", "💡 Buat Ide Baru"], horizontal=True)
+        if mode_ide == "📦 Pakai Ide Stok":
             gudang_ide = {
                 "--- Pilih Menu Ide ---": "",
-                "Karma Konten Palsu (Uang Ditarik)": "Tung kasih sejuta ke pengemis (Udin) demi konten, abis kamera mati ditarik lagi. Udin ternyata pake kacamata kamera tersembunyi & lagi live bongkar konten palsu.",
-                "Antri Bansos Pake Mobil": "Tung pake mobil mewah antre bansos & maki-maki petugas (Udin). Udin cek data: Tung palsuin data kemiskinan. Polisi dateng, mobil disita di tempat.",
-                "Bos Nyamar jadi OB Kantor": "Tung karyawan baru sombong bentak Udin yang lagi ngepel gara-gara bajunya kesenggol. Pas jam meeting, Udin duduk di kursi CEO. Tung langsung kicep.",
-                "Hutang Gaya Elit (Pamer HP)": "Tung pamer HP lipat baru di tongkrongan sambil ngatain Udin miskin. Udin telpon leasing depan umum: Ternyata HP Tung barang tarikan yang nunggak 5 bulan.",
-                "Sombong di Showroom Mobil": "Tung pamer di showroom, ngeremehin sales (Udin) yang penampilannya biasa. Ternyata Udin itu pemilik showroom yang lagi cek stok."
+                "Karma Konten Palsu": "Tung tarik uang sejuta dari pengemis demi konten, ternyata pengemisnya intel polisi.",
+                "Antri Bansos Mobil Mewah": "Tung pamer mobil mewah pas antre bansos, ternyata mobil sewaan yang lagi dicari leasing.",
+                "Bos Nyamar OB": "Tung bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi mendadak.",
+                "Hutang Gaya Elit": "Tung pamer iPhone baru tapi nunggak bayar hutang ke Udin, HP-nya langsung disita Udin depan umum."
             }
-            pilihan = st.selectbox("Daftar Premis Gacor:", list(gudang_ide.keys()))
+            pilihan = st.selectbox("Daftar Premis:", list(gudang_ide.keys()))
             if pilihan != "--- Pilih Menu Ide ---":
                 st.info(f"**Alur:** {gudang_ide[pilihan]}")
                 if st.button("KUNCI IDE INI ⚡", use_container_width=True, type="primary"):
                     st.session_state['temp_script_spy'] = gudang_ide[pilihan]
-                    st.balloons()
-                    st.success("Ide Berhasil Dikunci! Sekarang lanjut ke Tab 2.")
-
-        else: # AUTO GENERATOR
-            col1, col2 = st.columns(2)
-            with col1:
-                vibe = st.selectbox("Vibe Cerita:", ["Sombong Kena Karma", "Pamer Harta Palsu", "Meremehkan Orang Sakti"])
-                lokasi = st.selectbox("Setting Tempat:", ["Parkiran", "Restoran Mewah", "Pasar", "Kantor", "Sekolah"])
-            with col2:
-                nyelekit = st.select_slider("Level Pedas:", options=["Sinis", "Pedas", "Bikin Darah Tinggi"])
-            
+                    st.success("Ide Berhasil Dikunci!")
+        else:
             if st.button("RAKIT IDE SKAKMAT 🚀", use_container_width=True, type="primary"):
-                with st.spinner("Merancang plot..."):
+                with st.spinner("AI 8B sedang bekerja..."):
                     try:
-                        prompt_auto = f"Buat 1 premis cerita Shorts Gacor. Vibe: {vibe}, Lokasi: {lokasi}, Level: {nyelekit}. ALUR WAJIB: Karakter A (Jahat) menghina Karakter B (Sabar), lalu Karakter B membalas dengan SKAKMAT."
-                        response = model.generate_content(prompt_auto)
-                        st.session_state['temp_script_spy'] = response.text
-                        st.markdown(response.text)
-                    except:
-                        st.error("Limit API. Coba lagi sebentar lagi.")
+                        # Pake config biar cepet
+                        res = model.generate_content("Buat 1 premis Shorts: Antagonis sombong kena skakmat Protagonis sabar.")
+                        st.session_state['temp_script_spy'] = res.text
+                        st.markdown(res.text)
+                    except Exception as e: st.error(f"Limit/Error: {e}")
 
-    # --------------------------------------------------------------------------
-    # TAB 2: NASKAH DIALOG
-    # --------------------------------------------------------------------------
     with tab_cloner:
-        st.subheader("🔄 Langkah 2: Suntik Dialog Nyelekit")
+        st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
-            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="tokoh_ai_lab")
-            
+            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_8b")
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
-                with st.spinner("Menyusun dialog..."):
+                with st.spinner("Menyusun naskah kilat..."):
                     try:
-                        prompt_dialog = f"Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}. FORMAT: [ACTION] visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}."
-                        response = model.generate_content(prompt_dialog)
+                        prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
+                        response = model.generate_content(prompt)
                         st.session_state['ready_script'] = response.text
                         st.rerun()
-                    except:
-                        st.error("Waduh, ada masalah!")
-
+                    except Exception as e: st.error(f"Error: {e}")
             if 'ready_script' in st.session_state:
-                st.markdown("---")
                 st.markdown(st.session_state['ready_script'])
         else:
-            st.warning("Pilih ide dulu di Tab 1!")
+            st.warning("Pilih ide di Tab 1!")
 
-    # --------------------------------------------------------------------------
-    # TAB 3: STORYBOARD (OTOMATIS SPLIT 10 ADEGAN)
-    # --------------------------------------------------------------------------
     with tab_storyboard:
-        st.subheader("📝 Langkah 3: Storyboard & Splitter (10 Adegan)")
+        st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
-            if st.button("PECAH MENJADI 10 ADEGAN VISUAL 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Merancang 10 visual adegan..."):
+            if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
+                with st.spinner("Memecah adegan..."):
                     try:
-                        # INSTRUKSI HARUS 10 ADEGAN DENGAN LABEL [ADEGAN X]
-                        prompt_st = f"""Pecah naskah ini menjadi TEPAT 10 adegan visual pendek. 
-                        WAJIB gunakan format label di awal adegan: 
-                        [ADEGAN 1] ... isi ... 
-                        [ADEGAN 2] ... isi ... 
-                        sampai [ADEGAN 10]. 
-                        Naskah: {st.session_state['ready_script']}"""
-                        
-                        response = model.generate_content(prompt_st)
+                        prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Naskah: {st.session_state['ready_script']}"
+                        response = model.generate_content(prompt)
                         st.session_state['ready_storyboard'] = response.text
                         st.rerun()
-                    except:
-                        st.error("Gagal buat storyboard.")
+                    except Exception as e: st.error(f"Error: {e}")
             
             if 'ready_storyboard' in st.session_state:
                 st.markdown(st.session_state['ready_storyboard'])
-                
                 st.markdown("---")
-                st.write("### 📤 EKSEKUSI DISTRIBUSI")
-                col_k1, col_k2 = st.columns(2)
-                
-                with col_k1:
-                    if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True, type="primary"):
+                ck1, ck2 = st.columns(2)
+                with ck1:
+                    if st.button("📥 KIRIM KE GUDANG", use_container_width=True, type="primary"):
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
-                        st.toast("Terkirim ke Gudang! ✅")
-                
-                with col_k2:
+                        st.toast("Terkirim! ✅")
+                with ck2:
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
-                        full_text = st.session_state['ready_storyboard']
-                        
-                        # RESET SEMUA KOTAK DULU BIAR BERSIH
-                        for clear_idx in range(1, 11):
-                            st.session_state[f'vis_input_{clear_idx}'] = ""
-                        
-                        # LOGIKA SPLITTER: Membagi naskah ke vis_input_1 sampai vis_input_10
+                        text = st.session_state['ready_storyboard']
                         for i in range(1, 11):
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|$)"
-                            match = re.search(pattern, full_text, re.DOTALL | re.IGNORECASE)
-                            
+                            match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                             if match:
-                                content = match.group(1).strip()
-                                st.session_state[f'vis_input_{i}'] = content
-                        
-                        # Isi data default biar gak kosong
+                                st.session_state[f'vis_input_{i}'] = match.group(1).strip()
                         st.session_state['c_name_1_input'] = "UDIN"
-                        st.session_state['c_name_2_input'] = "TUNG"
-                        st.success("🔥 SINKRON! 10 Adegan berhasil dipencar ke Production Hub.")
+                        st.success("🔥 SINKRON 10 ADEGAN!")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
 
