@@ -160,101 +160,94 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: GEMINI INSPIRED - MINIMALIST & ELEGANT)
+# 4. CUSTOM CSS (GEMINI MINIMALIST - ANTI TUMPANG TINDIH)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. PALET WARNA GEMINI (DEEP CHARCOAL & SOFT WHITE) */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
-        background-color: #0e1117 !important; /* Warna dasar Gemini */
-        color: #e3e3e3 !important;           /* Teks putih gading khas Google */
+    /* 1. DASAR APLIKASI (Vibe Gemini) */
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: #0e1117 !important;
+        color: #e3e3e3 !important;
         font-family: 'Google Sans', 'Inter', sans-serif;
     }
 
-    /* 2. SIDEBAR MINIMALIS */
+    /* 2. SIDEBAR PADAT & RAPI */
     [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #1e1f20 !important; /* Sidebar lebih terang sedikit dari bg */
-        border-right: none !important;
+        width: 250px !important;
+        background-color: #1e1f20 !important;
+    }
+    
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0.4rem !important; /* Merapatkan sidebar sesuai coretanmu */
     }
 
-    /* 3. INPUT AREA (GAYA FLOATING GEMINI) */
+    /* 3. INPUT AREA - RESET TOTAL (SOLUSI TUMPANG TINDIH) */
     /* Nama, Angka, Dropdown */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #1e1f20 !important; /* Warna input melayang */
+        background-color: #1e1f20 !important;
         color: #ffffff !important;
-        border: 1px solid transparent !important; /* Tanpa border kaku */
-        border-radius: 12px !important;           /* Sudut lebih membulat */
-        height: 44px !important;
-        padding: 0px 16px !important;
-        transition: all 0.2s ease !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        height: 36px !important; /* Ukuran pas, tidak penyok */
+        line-height: 1.2 !important;
+        padding: 0px 12px !important;
+        transition: border 0.2s ease !important;
     }
 
-    /* Input Adegan (Warna Hitam Menyatu Latar) */
+    /* 4. AREA ADEGAN & DIALOG (Sesuai Coretan Hitammu) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid #3c4043 !important; /* Border tipis khas Google */
-        border-radius: 16px !important;
-        padding: 16px !important;
-        line-height: 1.6 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+        min-height: 80px !important;
     }
 
-    /* Efek Fokus Khas Gemini (Hanya Border Tipis Blue-ish) */
-    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #8ab4f8 !important; /* Biru pastel Google */
+    /* 5. MEMBUNUH TUMPANG TINDIH (THE FIX) */
+    /* Kita matikan bayangan luar (box-shadow) yang bikin double border */
+    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"], [role="combobox"] {
+        box-shadow: none !important;
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+    /* Saat diklik: Hanya border yang berubah, tidak ada pendaran merah/hijau double */
+    *:focus, .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
+        border-color: #8ab4f8 !important; /* Biru soft Gemini */
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* 4. MERAPETKAN JARAK (TAPI TETAP LEGA) */
+    /* 6. MERAPETKAN JARAK VERTIKAL (LEAN UI) */
     [data-testid="stVerticalBlock"] {
-        gap: 1.2rem !important; /* Spasi antar elemen lebih lega agar elegan */
+        gap: 0.8rem !important; /* Lebih lega sedikit agar elegan */
     }
 
-    /* Label Judul (Mungil & Elegan) */
-    label p {
-        font-size: 14px !important;
-        color: #c4c7c5 !important; /* Abu-abu lembut */
-        margin-bottom: -10px !important;
-        font-weight: 500 !important;
+    /* Menarik label judul agar lebih dekat dengan kotak */
+    [data-testid="stWidgetLabel"] p {
+        font-size: 13px !important;
+        margin-bottom: -12px !important;
+        color: #c4c7c5 !important;
     }
 
-    /* 5. TOMBOL UTAMA (GAYA GOOGLE PILL) */
+    /* 7. TOMBOL UTAMA (GAYA PILL) */
     div.stButton > button[kind="primary"] {
-        background: #1d976c !important; /* Hijau branding kamu tetap dipertahankan */
-        color: white !important;
-        border-radius: 24px !important; /* Bentuk kapsul khas Google */
+        background: #1d976c !important;
+        border-radius: 20px !important;
         border: none !important;
-        padding: 10px 24px !important;
+        height: 38px !important;
         font-weight: 600 !important;
-        transition: transform 0.1s ease !important;
-    }
-    
-    div.stButton > button[kind="primary"]:active {
-        transform: scale(0.98) !important;
+        padding: 0 24px !important;
     }
 
-    /* 6. RESPONSIVE MOBILE (SMOOTH SYNC) */
+    /* 8. MOBILE RESPONSIVE (SMOOTH) */
     @media (max-width: 768px) {
-        .block-container {
-            padding: 1.5rem 1rem !important;
-        }
-        
         .stTextInput input, div[data-baseweb="select"] {
-            height: 48px !important; /* Lebih besar di HP agar nyaman ditekan */
+            height: 42px !important; /* Lebih nyaman untuk jari di HP */
             font-size: 16px !important;
         }
-
-        [data-testid="stSidebar"] {
-            width: 85% !important;
-        }
-    }
-
-    /* Hapus Shadow Merah Streamlit Secara Total */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
-        box-shadow: none !important;
-        border: none !important;
+        .stTextArea textarea { background-color: #0e1117 !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -910,6 +903,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
