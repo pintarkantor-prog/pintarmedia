@@ -191,14 +191,23 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
+    /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
         border: none !important;
         border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important;
         font-weight: bold !important;
+        font-size: 16px !important;
         width: 100%;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        /* Transition dihapus agar kembali instan */
+    }
+
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
     }
 
     /* 4. MODIFIKASI BOX STAF AKTIF */
@@ -948,6 +957,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
