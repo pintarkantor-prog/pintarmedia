@@ -160,99 +160,164 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
+# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE - MOBILE OPTIMIZED)
 # ==============================================================================
 st.markdown("""
-<style>
-    /* 1. RESET DASAR (HIGH CONTRAST) */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0e1117 !important;
+    <style>
+    /* A. CUSTOM SCROLLBAR */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0e1117; }
+    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 1. FIXED HEADER (PC) */
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+        position: fixed;
+        top: 0;
+        left: 310px;
+        right: 0;
+        z-index: 99999;
+        background-color: #0e1117;
+        padding: 10px 2rem;
+        border-bottom: 2px solid #31333f;
+    }
+
+    /* 2. STYLE SIDEBAR */
+    [data-testid="stSidebar"] {
+        background-color: #1a1c24 !important;
+        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
         color: #ffffff !important;
     }
 
-    /* 2. SIDEBAR RAMPING & TEGAS */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #161922 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* 3. TOMBOL GENERATE */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+    }
+
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* 4. MODIFIKASI BOX STAF AKTIF */
+    .staff-header-premium {
+        background: rgba(29, 151, 108, 0.2) !important;
+        border: 2px solid #1d976c !important;
+        border-radius: 10px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        box-shadow: none !important; 
     }
     
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        gap: 0.3rem !important; /* Sangat rapat */
+    .staff-header-premium b {
+        color: #1d976c !important;
+        font-size: 1.15em !important;
+        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important;
     }
 
-    /* 3. INPUT AREA - BOLD BORDER & INSTANT */
-    /* Nama, Angka, Dropdown */
-    .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #262730 !important;
-        color: #ffffff !important;
-        border: 1px solid #3c4043 !important; /* Border lebih terlihat */
-        border-radius: 6px !important;
-        height: 36px !important;
-        padding: 0px 12px !important;
-        transition: none !important; /* INSTANT: Tanpa animasi */
-    }
+    .staff-header-premium span { color: #1d976c !important; }
+    .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
 
-    /* Adegan (Hitam Stealth) */
-    .stTextArea textarea {
+    /* 5. EFEK FOKUS */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border: 1px solid #31333f !important;
         background-color: #0e1117 !important;
-        color: #ffffff !important;
-        border: 1px solid #3c4043 !important;
-        border-radius: 8px !important;
-        transition: none !important;
-    }
-
-    /* 4. BOLD FOCUS (THE FIX: ANTI-GLOW) */
-    /* Saat diklik: Border tebal dan tegas, tanpa bayangan (glow) berlebih */
-    .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus,
-    div[data-baseweb="select"]:focus-within {
-        border: 2px solid #1d976c !important; /* Hijau Bold saat aktif */
-        box-shadow: none !important;          /* Hapus pendaran yang bikin tumpang tindih */
+        box-shadow: none !important;
         outline: none !important;
     }
 
-    /* Mematikan lapisan bayangan Streamlit yang bikin double/tumpang tindih */
-    [data-baseweb="input"], [data-baseweb="textarea"], [role="combobox"] {
-        box-shadow: none !important;
-        border: none !important;
-        background-color: transparent !important;
+    /* 6. STYLE LAINNYA */
+    h1, h2, h3, .stMarkdown h3 {
+        color: #ffffff !important;
+        background: none !important;
+        -webkit-text-fill-color: initial !important;
     }
-
-    /* 5. MERAPETKAN JARAK (REDUCING GAP) */
-    [data-testid="stVerticalBlock"] {
-        gap: 0.6rem !important;
-    }
-
-    /* Menarik label judul agar lebih dekat dengan kotak */
-    [data-testid="stWidgetLabel"] p {
-        font-size: 13px !important;
-        margin-bottom: -12px !important;
-        font-weight: 600 !important;
-        color: #c4c7c5 !important;
-    }
-
-    /* 6. TOMBOL GENERATE (SOLID GRADIENT) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
+    
+    button[title="Copy to clipboard"] {
+        background-color: #28a745 !important;
+        color: white !important;
         border-radius: 6px !important;
-        border: none !important;
-        height: 40px !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        transform: scale(1.1);
     }
 
-    /* 7. MOBILE FIX (RESPONSIVE & SHARP) */
-    @media (max-width: 768px) {
-        .block-container { padding: 0.8rem !important; }
-        .stTextInput input, div[data-baseweb="select"] {
-            height: 42px !important;
-            font-size: 16px !important; /* Anti-zoom iPhone */
-        }
-        .stTextArea textarea { background-color: #0e1117 !important; }
+    .stTextArea textarea {
+        font-size: 16px !important;
+        border-radius: 10px !important;
+        background-color: #0e1117 !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
     }
-</style>
-""", unsafe_allow_html=True)
+
+    /* 7. OPTIMASI KOTAK ADEGAN */
+    .stExpander {
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important;
+        background-color: #161922 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .small-label {
+        color: #1d976c !important;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+    }
+
+    hr {
+        margin: 2em 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    }
+
+    /* ============================================================ */
+    /* 8. KHUSUS RESPONSIVE HP (FIXED AREA)                        */
+    /* ============================================================ */
+    @media (max-width: 768px) {
+        /* A. Header tidak fixed di HP agar tidak menutupi form */
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            position: relative !important;
+            left: 0 !important;
+            padding: 10px 1rem !important;
+            margin-bottom: 20px !important;
+            border-bottom: 1px solid #31333f !important;
+        }
+
+        /* B. Hilangkan padding atas yang berlebih di HP */
+        .block-container {
+            padding-top: 1rem !important;
+        }
+
+        /* C. Kotak Staf Premium agar tidak terlalu lebar */
+        .staff-header-premium {
+            padding: 10px 15px !important;
+            flex-direction: column !important; /* Susun ke bawah di HP */
+            text-align: center !important;
+        }
+
+        /* D. Memastikan input tidak zoom-in otomatis di iPhone */
+        .stTextArea textarea, .stTextInput input {
+            font-size: 16px !important;
+        }
+
+        /* E. Sidebar agar tetap proporsional */
+        [data-testid="stSidebar"] {
+            width: 80% !important;
+        }
+    }
+    </style>
+    """, unsafe_allow_html=True)
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -905,6 +970,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
