@@ -9,8 +9,24 @@ import google.generativeai as genai
 # Konfigurasi API
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
 
-# Gunakan penamaan lengkap model agar API tidak bingung mencari versinya
-model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
+# FUNGSI PENCARI MODEL OTOMATIS (Anti-Error 404)
+def get_available_model():
+    try:
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                # Prioritas 1: Flash 1.5
+                if 'gemini-1.5-flash' in m.name:
+                    return genai.GenerativeModel(m.name)
+        # Jika tidak ada Flash, ambil model pertama yang bisa generate content
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                return genai.GenerativeModel(m.name)
+    except:
+        # Pilihan terakhir jika list_models pun gagal
+        return genai.GenerativeModel('gemini-pro')
+
+# Inisialisasi model secara otomatis
+model = get_available_model()
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -891,5 +907,6 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
 
