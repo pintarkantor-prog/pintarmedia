@@ -778,6 +778,9 @@ if menu_select == "🚀 PRODUCTION HUB":
 # 11. HALAMAN AI LAB (RUANG EKSPERIMEN)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
+    # Tambahkan baris ini di sini biar dia kenal namanya
+    nama_display = st.session_state.active_user.capitalize() 
+    
     st.title("🧠 AI LAB")
     st.markdown("---")
     st.write(f"Selamat datang di Laboratorium, **{nama_display}**.")
@@ -797,5 +800,6 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
+
 
 
