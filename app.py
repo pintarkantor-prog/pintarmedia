@@ -160,70 +160,111 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: CLEAN & SYNC)
+# 4. CUSTOM CSS (VERSION: BEYOND ELEGANT)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* --- 1. DASAR APLIKASI --- */
+    /* --- 1. RESET GLOBAL & VARIABLE --- */
+    :root {
+        --primary: #1d976c;
+        --bg-main: #0e1117;
+        --bg-sidebar: #161922;
+        --bg-input: #262730;
+        --border-color: rgba(255, 255, 255, 0.1);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Reset Streamlit's Internal Red/Focus */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0e1117 !important;
+        background-color: var(--bg-main) !important;
         color: #ffffff !important;
+        --baseweb-input-border-focus: var(--primary) !important;
+        --baseweb-negative: transparent !important;
     }
 
-    /* --- 2. SIDEBAR RAMPING --- */
+    /* --- 2. SIDEBAR PREMIUM LOOK --- */
     [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #161922 !important;
+        width: 280px !important;
+        background-color: var(--bg-sidebar) !important;
+        border-right: 1px solid var(--border-color) !important;
     }
-    [data-testid="stSidebarUserContent"] { padding-top: 10px !important; }
+    
+    /* Logo Position */
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 0px !important;
+        margin-top: -20px !important;
+    }
 
-    /* --- 3. INPUT NAMA & ANGKA (ABU-ABU) --- */
-    /* Menyelaraskan tampilan di PC dan HP */
+    /* --- 3. INPUT FIELD (NAMA & ANGKA) --- */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #262730 !important;
-        color: white !important;
-        border: 1px solid #31333f !important;
-        border-radius: 8px !important;
+        background-color: var(--bg-input) !important;
+        color: #ffffff !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        padding: 10px 14px !important;
+        transition: var(--transition) !important;
     }
 
-    /* --- 4. INPUT ADEGAN & CIRI FISIK (HITAM NYATU BACKGROUND) --- */
+    /* --- 4. TEXT AREA (ADEGAN - STEALTH MODE) --- */
     .stTextArea textarea {
-        background-color: #0e1117 !important;
-        color: white !important;
-        border: 1px solid #31333f !important;
-        border-radius: 8px !important;
+        background-color: var(--bg-main) !important;
+        color: #ffffff !important;
+        border: 1px solid var(--border-color) !important;
+        border-radius: 12px !important;
+        padding: 12px !important;
+        line-height: 1.6 !important;
+        transition: var(--transition) !important;
     }
 
-    /* --- 5. SOLUSI TABRAKAN WARNA (FOCUS) --- */
-    /* Kita hilangkan pendaran (glow) agar tidak double merah/hijau */
-    .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus {
-        border-color: #1d976c !important; /* Hanya garis tepi jadi hijau */
-        box-shadow: none !important;      /* Hapus pendaran merah/pink */
+    /* --- 5. SMART FOCUS (ANTI-DOUBLE & ANTI-RED) --- */
+    /* Menghilangkan semua pendaran merah dan menggantinya dengan border emerald halus */
+    .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus, 
+    div[data-baseweb="select"]:focus-within {
+        border-color: var(--primary) !important;
+        box-shadow: 0 0 0 3px rgba(29, 151, 108, 0.15) !important;
+        background-color: var(--bg-input) !important;
         outline: none !important;
     }
 
-    /* Matikan shadow bawaan Streamlit yang bikin double */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
+    /* Khusus untuk Adegan agar saat fokus backgroundnya tidak berubah jadi abu-abu */
+    .stTextArea textarea:focus {
+        background-color: var(--bg-main) !important;
+    }
+
+    /* Kill the BaseWeb container shadow */
+    div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
+        background-color: transparent !important;
     }
 
-    /* --- 6. HEADER & BUTTON --- */
-    [data-testid="stHeader"] { background: transparent !important; }
-    
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
+    /* --- 6. BUTTON (MODERN GRADIENT) --- */
+    div.stButton > button {
+        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
         color: white !important;
-        border-radius: 8px !important;
         border: none !important;
-        width: 100%;
+        border-radius: 12px !important;
+        padding: 12px 24px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        transition: var(--transition) !important;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
 
-    /* --- 7. MOBILE FIX (SYNC WARNA) --- */
+    div.stButton > button:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* --- 7. RESPONSIVE SYNC --- */
     @media (max-width: 768px) {
-        /* Memaksa HP mengikuti skema warna yang sama dengan PC */
-        .stTextInput input { background-color: #262730 !important; }
-        .stTextArea textarea { background-color: #0e1117 !important; }
+        .block-container {
+            padding: 1rem 1rem !important;
+        }
+        /* Memaksa elemen di HP tidak kehilangan padding */
+        .stTextArea textarea, .stTextInput input {
+            font-size: 16px !important; /* Mencegah auto-zoom di iPhone */
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -879,6 +920,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
