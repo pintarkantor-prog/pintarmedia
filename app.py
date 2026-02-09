@@ -241,7 +241,10 @@ st.markdown("""
         background-color: #262730 !important;
         color: white !important;
     }
-
+    .small-label {
+        font-size: 12px; font-weight: bold; color: #a1a1a1; margin-bottom: 2px;
+    }
+    
     .stTextArea textarea, .stTextInput input {
         font-size: 16px !important;
         border-radius: 8px !important; 
@@ -928,6 +931,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
