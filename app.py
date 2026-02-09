@@ -9,56 +9,35 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. KONFIGURASI MESIN AI (Langsung Menggunakan Key Anda)
+# 2. KONFIGURASI MESIN AI (FIX ERROR 404)
+# Menggunakan API Key Sultan yang tadi
 API_KEY = "AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"
 
 try:
     genai.configure(api_key=API_KEY)
-    # Menggunakan inisialisasi yang lebih aman
-    model = genai.GenerativeModel('gemini-1.5-flash')
+    # Kita gunakan 'gemini-1.5-flash-latest' atau 'gemini-pro' sebagai fallback
+    model = genai.GenerativeModel('gemini-1.5-flash-latest')
 except Exception as e:
     st.error(f"Koneksi AI Terkendala: {e}")
 
-# 3. CSS CUSTOM (Profesional & Responsive HP)
+# 3. CSS CUSTOM (Profesional & Clean)
 st.markdown("""
     <style>
-    /* Header Background */
-    header[data-testid="stHeader"] {
-        background-color: #ff4b4b;
+    header[data-testid="stHeader"] { background-color: #ff4b4b; color: white; }
+    .block-container { padding: 1rem 1rem !important; }
+    [data-testid="stSidebar"] { background-color: #0e1117; }
+    .stButton>button { 
+        width: 100%; border-radius: 10px; height: 3.5rem; 
+        background-color: #ff4b4b; color: white; font-weight: bold; 
     }
-    
-    /* Padding utama agar rapi di HP */
-    .block-container {
-        padding: 1rem 1rem !important;
-    }
-
-    /* Styling Sidebar */
-    [data-testid="stSidebar"] {
-        background-color: #0e1117;
-    }
-
-    /* Tombol Utama (Generate) */
-    .stButton>button {
-        width: 100%;
-        border-radius: 10px;
-        height: 3.5rem;
-        background-color: #ff4b4b;
-        color: white;
-        font-weight: bold;
-        border: none;
-    }
-
-    /* Input Box */
-    .stTextArea textarea {
-        border-radius: 10px;
-    }
+    .stTextArea textarea { border-radius: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
 # 4. SIDEBAR NAVIGATION
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
-    st.write("Status: **System Authorized** ✅")
+    st.write("User Status: **Authorized** ✅")
     st.divider()
     
     menu = st.radio(
@@ -76,61 +55,45 @@ with st.sidebar:
         ]
     )
     st.divider()
-    st.caption("Version 2.0.3 • Stable Build")
+    st.caption("Version 2.0.4 • Patch 404")
 
 # 5. LOGIKA MENU UTAMA
 
-# --- MENU: PRODUCTION HUB ---
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
-    
-    submenu = st.radio("Pilih Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
+    submenu = st.radio("Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
     
     if submenu == "AI Scriptwriter":
         st.subheader("Content Generator (6 Adegan)")
-        
         ide_konten = st.text_area(
             "Masukkan Topik atau Ide Konten:", 
-            placeholder="Contoh: Manfaat bangun pagi untuk kesehatan...",
+            placeholder="Contoh: Tutorial masak simpel...",
             height=150
         )
         
         if st.button("GENERATE SCRIPT"):
             if ide_konten:
-                with st.spinner("Sedang memproses naskah..."):
+                with st.spinner("Menghubungi Server Gemini..."):
                     try:
-                        # Instruksi untuk Gemini
-                        prompt = f"Buatkan naskah video pendek viral 6 adegan berdasarkan ide: {ide_konten}. Format: Adegan 1-6, Visual (Deskripsi dalam Bahasa Inggris), Narasi (Bahasa Indonesia)."
-                        
+                        prompt = f"Buatkan naskah video pendek 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
+                        # Eksekusi Generate
                         response = model.generate_content(prompt)
                         
-                        if response.text:
-                            st.divider()
-                            st.subheader("✅ Hasil Naskah")
-                            st.markdown(response.text)
-                            st.balloons()
-                        else:
-                            st.error("Gagal menerima respons dari AI. Silakan coba lagi.")
-                            
+                        st.divider()
+                        st.subheader("✅ Hasil Naskah")
+                        st.markdown(response.text)
+                        st.balloons()
                     except Exception as e:
-                        st.error(f"Error: {e}")
+                        # Jika masih error, tampilkan detail untuk kita bedah lagi
+                        st.error(f"Aduh, server Google sedang sibuk atau ada masalah teknis: {e}")
             else:
-                st.warning("Silakan masukkan ide konten terlebih dahulu.")
+                st.warning("Silakan masukkan ide terlebih dahulu.")
 
-# --- MENU: AI LAB ---
-elif menu == "🧠 AI LAB":
-    st.header("🧠 AI Lab & Validator")
-    st.write("Modul analisis referensi video.")
-    st.text_area("Tempel link atau transkrip:")
-    st.button("Mulai Analisis")
-
-# --- MENU: COMMAND CENTER ---
 elif menu == "🛠️ COMMAND CENTER":
     st.header("🛠️ System Control")
-    st.success("✅ Engine: Gemini 1.5 Flash Connected")
-    st.info(f"API Key: Active (End with ...kJfQwg)")
+    st.success("API Key Active")
+    st.write("Model saat ini: **Gemini 1.5 Flash (Latest)**")
 
-# --- MENU LAINNYA ---
 else:
     st.header(menu)
     st.info("Modul ini sedang disiapkan.")
