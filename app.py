@@ -250,18 +250,21 @@ st.markdown("""
         fill: #ffffff !important;
     }
 
-    /* 6. FIX TEXT BOX (Agar Terlihat Abu-abu Seperti di PC) */
+    /* 6. INPUT AREA (TEXTAREA & TEXT INPUT) - REVISI KONTRAS */
     .stTextArea textarea, .stTextInput input {
-        background-color: #1c202a !important; /* Warna abu-abu gelap (High Contrast) */
-        color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Garis tepi lebih tegas */
+        background-color: #262730 !important; /* Warna isian dibuat lebih terang dari background utama */
+        color: #ffffff !important;           /* Teks tetap putih terang */
+        border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Bingkai tipis agar terlihat batasnya */
         border-radius: 10px !important;
         font-size: 16px !important;
-        padding: 12px !important;
+        transition: all 0.3s ease;
     }
+
+    /* Efek saat kolom di-klik (fokus) */
     .stTextArea textarea:focus, .stTextInput input:focus {
-        border-color: #1d976c !important;
-        background-color: #242936 !important; /* Sedikit lebih terang saat diketik */
+        background-color: #2d313e !important; /* Sedikit lebih terang lagi saat mengetik */
+        border-color: #1d976c !important;     /* Bingkai berubah jadi hijau branding kamu */
+        box-shadow: 0 0 0 2px rgba(29, 151, 108, 0.2) !important;
     }
 
     /* 7. SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
@@ -963,6 +966,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
