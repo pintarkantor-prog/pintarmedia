@@ -160,67 +160,94 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: TOTAL STEALTH & CLEAN FOCUS)
+# 4. CUSTOM CSS (VERSION: PRECISION COMPACT - HIGH DENSITY)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. WARNA TEMA GLOBAL */
-    :root {
-        --primary-color: #1d976c !important; /* Hijau untuk tombol/progres */
-        --bg-black: #0e1117 !important;
-    }
-
-    /* 2. DASAR APLIKASI */
+    /* 1. RESET DASAR */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: var(--bg-black) !important;
+        background-color: #0e1117 !important;
     }
 
-    /* 3. INPUT AREA (HITAM SAMA DENGAN BACKGROUND) */
+    /* 2. SIDEBAR RAMPING */
+    [data-testid="stSidebar"] {
+        width: 250px !important;
+        background-color: #11141b !important;
+    }
+
+    /* 3. KONTROL JARAK ANTAR KOLOM (THE FIX) */
+    /* Menghilangkan gap besar bawaan Streamlit antar baris */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.3rem !important;
+    }
+
+    /* 4. LABEL PRESISI (Nempel ke Kotak) */
+    /* Menghilangkan margin bawah pada label dan padding atas pada widget */
+    [data-testid="stWidgetLabel"] {
+        margin-bottom: -18px !important; /* Menarik kotak ke atas agar nempel label */
+        z-index: 1;
+        position: relative;
+    }
+    
+    [data-testid="stWidgetLabel"] p {
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        color: rgba(255, 255, 255, 0.6) !important;
+        margin-left: 5px !important;
+    }
+
+    /* 5. INPUT STEALTH (SAMA DENGAN BACKGROUND) */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: var(--bg-black) !important;
+        background-color: #0e1117 !important; /* SAMA DENGAN BG */
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 6px !important;
+        height: 32px !important; /* Sangat ramping */
+        padding: 0px 10px !important;
+        font-size: 13px !important;
+        transition: none !important;
     }
 
-    /* 4. MEMBERSIHKAN EFEK KLIK (HAPUS TOTAL HIJAU) */
-    /* Menghilangkan pendaran hijau dan mengembalikan ke garis merah default yang tipis */
+    /* Khusus Textarea Adegan */
+    .stTextArea textarea {
+        height: auto !important;
+        min-height: 60px !important;
+        padding: 8px 10px !important;
+    }
+
+    /* 6. HAPUS TOTAL EFEK KLIK (CLEAN & FLAT) */
+    /* Saat diklik, hanya border berubah warna merah tipis, tanpa pendaran */
     .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #ff4b4b !important; /* Merah default Streamlit agar sinkron */
+        border-color: #ff4b4b !important; 
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* Mematikan lapisan bayangan (shadow) BaseWeb yang sering menyimpan warna hijau */
+    /* Matikan shadow internal Streamlit */
     div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
         background-color: transparent !important;
     }
 
-    /* 5. SIDEBAR RAMPING */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #11141b !important;
-    }
-
-    /* 6. TOMBOL UTAMA (MODERN GRADIENT) */
+    /* 7. TOMBOL GENERATE RAPI */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1rem !important;
+        border-radius: 6px !important;
+        height: 36px !important;
+        font-size: 14px !important;
         font-weight: 700 !important;
-        width: 100%;
+        border: none !important;
+        margin-top: 10px !important;
     }
 
-    /* 7. RESPONSIVE MOBILE FIX */
+    /* 8. MOBILE OPTIMIZATION */
     @media (max-width: 768px) {
-        .block-container { padding: 1rem !important; }
-        .stTextArea textarea, .stTextInput input {
+        .block-container { padding: 0.5rem !important; }
+        [data-testid="stWidgetLabel"] { margin-bottom: -15px !important; }
+        .stTextInput input, div[data-baseweb="select"] {
+            height: 38px !important;
             font-size: 16px !important;
-            background-color: var(--bg-black) !important;
         }
     }
 </style>
@@ -877,6 +904,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
