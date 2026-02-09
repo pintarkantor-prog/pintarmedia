@@ -3,3 +3,4 @@ pandas
 st-gsheets-connection
 pytz
 google-generativeai>=0.7.2
+youtube-transcript-api
