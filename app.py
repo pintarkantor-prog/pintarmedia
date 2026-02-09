@@ -190,29 +190,35 @@ st.markdown("""
             padding: 10px 0px;
         }
     }
-    /* 2. STYLE SIDEBAR (MODERN DEEP GLASS) */
+/* 2. STYLE SIDEBAR (DARK NAVY OBSIDIAN) */
     [data-testid="stSidebar"] {
-        background-color: #080a0e !important; /* Hitam yang lebih pekat & mewah */
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important; /* Garis pemisah sangat halus */
-        width: 280px !important;
+        background-color: #11151c !important; /* Warna biru navy gelap sesuai gambar */
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
 
-    /* Mengatur Teks di Sidebar agar lebih Profesional */
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {
-        color: rgba(255, 255, 255, 0.7) !important; /* Putih agak redup agar tidak silau */
-        font-size: 13px !important;
+    /* Mengatur warna teks di sidebar agar putih bersih */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
+        color: #ffffff !important;
         font-weight: 500 !important;
-        letter-spacing: 0.5px;
     }
 
-    /* Memberi aksen hijau hanya pada ikon atau elemen aktif */
-    [data-testid="stSidebar"] span {
-        color: #1d976c !important; 
+    /* Mengatur kotak input di dalam sidebar (Number Input & Selectbox) */
+    [data-testid="stSidebar"] .stNumberInput input, 
+    [data-testid="stSidebar"] div[data-baseweb="select"] {
+        background-color: #090b0f !important; /* Lebih gelap dari sidebar agar kontras */
+        border: 1px solid #262730 !important;
+        border-radius: 8px !important;
+        color: white !important;
     }
 
-    /* Merampingkan jarak antar elemen di sidebar */
-    [data-testid="stSidebarNav"] {
-        padding-top: 2rem !important;
+    /* Tombol SAVE, LOAD, dan KELUAR SISTEM di sidebar */
+    [data-testid="stSidebar"] button {
+        background-color: #262730 !important;
+        color: white !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        text-transform: uppercase;
+        font-weight: 700 !important;
     }
     
     /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
@@ -269,11 +275,11 @@ st.markdown("""
         margin-left: 5px;
     }
 
-    /* 5. EFEK FOKUS (DIKEMBALIKAN KE STANDAR) */
+    /* 5. EFEK FOKUS (VERSION: SOFT EMERALD FOCUS) */
     .stTextArea textarea:focus, .stTextInput input:focus {
-        border: 1px solid #31333f !important; /* Kembali ke warna border asli */
-        background-color: #0e1117 !important; /* Tetap gelap */
-        box-shadow: none !important;
+        border: 1px solid #1d976c !important; /* Berubah jadi hijau tipis saat diklik */
+        background-color: #0e1117 !important; 
+        box-shadow: 0 0 5px rgba(29, 151, 108, 0.2) !important; /* Pendaran hijau yang sangat halus */
         outline: none !important;
     }
 
@@ -979,6 +985,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
