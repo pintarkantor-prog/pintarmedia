@@ -184,7 +184,16 @@ st.markdown("""
 
     @media (max-width: 768px) {
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            left: 0;
+            position: relative !important; /* Header ikut bergeser saat di-scroll, tidak menutupi input */
+            left: 0 !important;
+            width: 100% !important;
+            padding: 10px 1rem !important; /* Padding lebih ramping untuk layar HP */
+            margin-bottom: 20px !important; /* Memberi jarak agar tidak nempel dengan konten di bawahnya */
+        }
+        
+        /* Tambahan agar konten utama tidak tenggelam ke bawah header yang sudah tidak fixed */
+        .block-container {
+            padding-top: 1rem !important;
         }
     }
 
@@ -969,6 +978,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
