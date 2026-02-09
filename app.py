@@ -794,48 +794,51 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (BRAINSTORM & ATM ENGINE) - SPY IDE CERITA
+# 11. HALAMAN AI LAB (BRAINSTORM & ATM ENGINE) - FULL OPTIMIZED
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
     
     st.title("🧠 AI LAB: BRAINSTORM & ATM ENGINE")
     st.markdown("---")
-    st.write(f"Selamat datang di Laboratorium, **{nama_display}**. Fokuslah pada **Pola Viral** untuk menciptakan ide cerita yang kuat.")
+    st.write(f"Selamat datang di Laboratorium Kreatif, **{nama_display}**. Mari ciptakan ide konten yang meledak!")
 
     # --- TABS UNTUK 3 LANGKAH ATM ---
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
-        "🛰️ 1. TREND SPY (AMATI POLA)", 
-        "🔄 2. ATM CLONER (MODIFIKASI IDE)", 
+        "🛰️ 1. TREND SPY & IDEA GENERATOR", 
+        "🔄 2. ATM CLONER (MODIFIKASI)", 
         "📝 3. AUTO-STORYBOARD (PRODUKSI)"
     ])
+
     # --------------------------------------------------------------------------
     # TAB 1: AMATI & BRAINSTORM (IDEA ENGINE)
     # --------------------------------------------------------------------------
     with tab_spy:
-        st.subheader("🛰️ Idea Engine: Amati atau Ciptakan Ide")
+        st.subheader("🛰️ Langkah 1: Amati Pola atau Ciptakan Ide")
         
-        # Pilihan Mode agar karyawan tidak bingung
-        mode_lab = st.radio("Pilih Metode Kerja:", ["🔍 Bedah Video Viral", "💡 Brainstorm Ide Baru"], horizontal=True)
+        mode_lab = st.radio("Pilih Metode Kerja:", ["🔍 Bedah Video Viral (ATM)", "💡 Brainstorm Ide Baru (Generator)"], horizontal=True)
         st.markdown("---")
 
-        if mode_lab == "🔍 Bedah Video Viral":
-            st.info("Gunakan ini jika kamu punya video referensi untuk di-ATM.")
+        if mode_lab == "🔍 Bedah Video Viral (ATM)":
+            st.info("💡 **TIPS:** Jangan hanya link. Masukkan ringkasan cerita video agar AI bisa membedah pola viralnya dengan akurat.")
             raw_script = st.text_area("Masukkan Ringkasan Cerita Video Viral:", 
                                       height=150, 
                                       placeholder="Contoh: Udin disiram susu oleh geng jeruk hitam di sekolah, lalu membalas dengan menyemprot cat oranye...",
                                       key="lab_spy_input")
             
-            if st.button("BEDAH POLA VIRAL ⚡", use_container_width=True):
+            if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
                 if raw_script:
-                    with st.spinner("Gemini sedang membedah DNA konten..."):
+                    with st.spinner("Membedah struktur DNA konten..."):
                         try:
                             prompt_spy = f"""
-                            Analisis konten ini: "{raw_script}"
-                            Bedah secara strategis:
-                            1. Logika Viral: Apa emosi utamanya? (Balas dendam/Iba/Lucu).
-                            2. The Hook: Kenapa penonton tidak scroll?
-                            3. The Twist: Kejutan apa yang ada di akhir?
+                            Sebagai Pakar Konten PINTAR MEDIA, analisis cerita ini: "{raw_script}"
+                            
+                            TUGAS ANALISIS:
+                            1. **Logika Viral**: Apa emosi utamanya? (Balas dendam/Iba/Lucu).
+                            2. **The Hook**: Kenapa penonton tidak scroll di 3 detik pertama?
+                            3. **Struktur**: Jelaskan alur Masalah -> Konflik -> Kejutan (Twist).
+                            
+                            CATATAN: Tetap pada lokasi asli (Sekolah/Sawah/Pasar). JANGAN bahas suami-istri.
                             """
                             response = model.generate_content(prompt_spy)
                             st.success("Analisis Pola Selesai!")
@@ -844,82 +847,89 @@ elif menu_select == "🧠 AI LAB":
                         except Exception as e:
                             st.error(f"Gagal membedah: {e}")
                 else:
-                    st.warning("Isi ringkasan ceritanya dulu!")
+                    st.warning("Silakan isi ringkasan cerita terlebih dahulu!")
 
         else: # MODE BRAINSTORM IDE BARU
-            st.info("Gunakan ini jika kamu buntu ide. AI akan memberikan premis cerita yang kuat.")
+            st.markdown("### 💡 Matrix Pencipta Ide")
+            st.caption("Gunakan alat ini jika kamu buntu ide. AI akan meracik premis cerita yang paling 'relate'.")
+            
             col_b1, col_b2 = st.columns(2)
             with col_b1:
-                tema_ide = st.selectbox("Pilih Tema Masalah:", ["Hutang Piutang", "Ejekan Tetangga", "Persaingan Kerja", "Keberuntungan Mendadak", "Keluarga/Warisan"])
+                tema = st.selectbox("Tema Masalah:", ["Hutang Piutang", "Ejekan Tetangga", "Persaingan Kerja", "Sakit Hati/Dibully", "Keberuntungan/Nasib"])
+                emosi = st.select_slider("Target Emosi:", options=["Lucu Ngakak", "Geregetan", "Haru/Sedih", "Puas (Revenge)"])
             with col_b2:
-                target_emosi = st.select_slider("Target Perasaan Penonton:", options=["Ngakak", "Geregetan", "Sedih/Haru", "Puas (Revenge)"])
+                lokasi = st.selectbox("Setting Tempat:", ["Sekolah", "Sawah", "Pasar", "Teras Rumah", "Pos Ronda"])
+                tokoh_utama = st.multiselect("Tokoh Utama:", ["UDIN", "TUNG", "PAK RT", "MBOK DARMI"], default=["UDIN"])
 
-            if st.button("CIPTAKAN 3 IDE CERITA 💡", use_container_width=True):
-                with st.spinner("Meracik ide viral untukmu..."):
+            if st.button("CIPTAKAN 3 PREMIS VIRAL 🚀", use_container_width=True):
+                with st.spinner("Meracik bumbu ide cerita..."):
                     try:
                         prompt_gen = f"""
-                        Buatlah 3 premis cerita pendek (Shorts) yang sangat relate dengan orang Indonesia.
-                        Tema: {tema_ide}. Target Emosi: {target_emosi}.
-                        Format setiap ide:
-                        - Judul: (Yang bikin penasaran)
-                        - Hook: (Kejadian pembuka)
-                        - Konflik: (Masalah utama)
-                        - Twist: (Kejutan akhir yang tak terduga)
-                        Jangan gunakan suami-istri. Gunakan kearifan lokal.
+                        Buatlah 3 premis cerita video pendek (Shorts) yang sangat kuat dan unik.
+                        Tema: {tema}. Lokasi: {lokasi}. Tokoh: {', '.join(tokoh_utama)}. Emosi: {emosi}.
+                        
+                        Setiap ide harus mengandung:
+                        1. **HOOK**: Kejadian pembuka yang sangat memancing emosi/penasaran.
+                        2. **KONFLIK**: Masalah yang semakin runyam.
+                        3. **TWIST**: Kejutan tak terduga di akhir cerita.
+                        
+                        Gunakan kearifan lokal Indonesia. JANGAN bahas suami-istri/rumah tangga.
                         """
                         response = model.generate_content(prompt_gen)
-                        st.success("3 Ide Segar Siap Dipakai!")
+                        st.markdown("---")
+                        st.success("3 Ide Premis Berhasil Diciptakan!")
                         st.markdown(response.text)
-                        # Simpan hasil untuk bisa diproses di Tab 2
+                        # Simpan hasil brainstorm sebagai 'bahan baku' untuk Tab 2
                         st.session_state['temp_script_spy'] = response.text
                     except Exception as e:
-                        st.error(f"Gagal buat ide: {e}")
+                        st.error(f"Gagal generate ide: {e}")
+
     # --------------------------------------------------------------------------
-    # TAB 2: MODIFIKASI (ATM CLONER) - FOKUS PENGEMBANGAN IDE
+    # TAB 2: MODIFIKASI (ATM CLONER)
     # --------------------------------------------------------------------------
     with tab_cloner:
-        st.subheader("🔄 Modifikasi Nyawa PINTAR MEDIA")
-        st.write("Gunakan pola viral tadi untuk menciptakan ide cerita baru.")
+        st.subheader("🔄 Langkah 2: Suntik Nyawa PINTAR MEDIA")
+        st.write("Ubah ide/pola tadi menjadi naskah lengkap dengan dialog khas.")
         
         col_m1, col_m2 = st.columns(2)
         with col_m1:
-            chars = st.multiselect("Gunakan Karakter:", ["UDIN", "TUNG", "PAK RT", "MBOK DARMI"], default=["UDIN"])
+            chars = st.multiselect("Karakter yang Bertugas:", ["UDIN", "TUNG", "PAK RT", "IBU UDIN"], default=["UDIN", "TUNG"])
         with col_m2:
-            mood = st.selectbox("Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
+            mood_vibe = st.selectbox("Sesuaikan Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
 
         if st.button("SUNTIK NYAWA KARAKTER 🧪", use_container_width=True):
             if 'temp_script_spy' in st.session_state:
-                with st.spinner(f"Mengonversi ide menjadi versi {mood}..."):
+                with st.spinner(f"Menyusun naskah versi {mood_vibe}..."):
                     try:
                         prompt_atm = f"""
-                        Gunakan pola viral dari naskah ini: "{st.session_state['temp_script_spy']}"
+                        Gunakan ide/pola ini sebagai dasar: "{st.session_state['temp_script_spy']}"
                         
-                        TUGAS MODIFIKASI IDE:
-                        1. Buat cerita baru dengan tokoh {', '.join(chars)} dan vibe {mood}.
-                        2. Pertahankan LOKASI asli (Sekolah/Sawah/Pasar).
-                        3. Pastikan ada dialog lucu khas kearifan lokal.
-                        4. Akhiri dengan pesan moral atau twist yang mengejutkan.
+                        TUGAS MODIFIKASI:
+                        1. Buat naskah dialog lengkap untuk tokoh: {', '.join(chars)}.
+                        2. Vibe cerita: {mood_vibe}.
+                        3. Pertahankan setting lokasi yang sudah ditentukan sebelumnya.
+                        4. Dialog harus menggunakan gaya bahasa pedesaan/lokal yang natural dan lucu.
                         
-                        Tuliskan naskah lengkap yang siap diproduksi.
+                        Tuliskan naskah yang emosional dan punya 'daya ledak' di akhir.
                         """
                         response = model.generate_content(prompt_atm)
-                        
                         st.session_state['ready_script'] = response.text
-                        st.success("Ide Cerita Berhasil Dimodifikasi!")
-                        st.markdown("### 📝 Preview Naskah Baru:")
+                        st.success("Modifikasi Berhasil!")
+                        st.markdown("### 📝 Preview Naskah Siap Syuting:")
                         st.write(response.text)
                     except Exception as e:
                         st.error(f"Gagal modifikasi: {e}")
             else:
-                st.error("Lakukan langkah 1 (AMATI) dulu.")
+                st.error("Data dari Tab 1 belum ada. Selesaikan langkah 'AMATI/BRAINSTORM' dulu.")
 
     # --------------------------------------------------------------------------
     # TAB 3: PRODUKSI (AUTO-STORYBOARD)
     # --------------------------------------------------------------------------
     with tab_storyboard:
-        st.subheader("📝 Produksi Storyboard Shorts")
+        st.subheader("📝 Langkah 3: Produksi Storyboard")
+        st.write("Pecah naskah menjadi panduan visual adegan demi adegan.")
         
-        jumlah_adegan = st.slider("Jumlah Adegan (Ideal 10-15):", 5, 20, 12)
+        jumlah_adegan = st.slider("Jumlah Adegan:", 5, 20, 12)
         
         if st.button("GENERATE STORYBOARD SHORTS 🚀", type="primary", use_container_width=True):
             if 'ready_script' in st.session_state:
@@ -927,15 +937,19 @@ elif menu_select == "🧠 AI LAB":
                     try:
                         prompt_shorts = f"""
                         Berdasarkan naskah ini: "{st.session_state['ready_script']}"
-                        Buatlah storyboard {jumlah_adegan} adegan untuk Shorts.
-                        Format: Adegan [Nomor]: [Visual], Shot: [Type], Light: [Waktu]
+                        Buatlah storyboard {jumlah_adegan} adegan untuk video Shorts.
+                        Setiap adegan harus memberikan instruksi visual yang jelas.
+                        
+                        Format WAJIB per baris:
+                        Adegan [Nomor]: [Detail Visual], Shot: [Type], Light: [Waktu]
                         """
                         response = model.generate_content(prompt_shorts)
-                        
                         st.balloons()
+                        st.success("Storyboard Berhasil Dibuat!")
                         st.code(response.text, language="text")
                     except Exception as e:
-                        st.error(f"Gagal storyboard: {e}")
+                        st.error(f"Gagal membuat storyboard: {e}")
             else:
-                st.error("Naskah belum ada. Selesaikan langkah 2 dulu.")
+                st.error("Naskah modifikasi belum siap. Selesaikan langkah 2 (ATM Cloner) dulu.")
+
 
