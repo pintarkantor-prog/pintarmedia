@@ -160,125 +160,117 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
         
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: CINEMATIC STUDIO PRO - LIMITLESS EDITION)
+# 4. CUSTOM CSS (VERSION: AURA NEO-CINEMATIC - 100% ORIGINAL CREATION)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. IMPOR FONT PREMIUM */
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&display=swap');
+    /* 1. KERNEL DESIGN & TYPOGRAPHY */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&family=JetBrains+Mono:wght@400&display=swap');
 
-    /* 2. PEROMBAKAN TOTAL LAYOUT (FULL SCREEN) */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #080808 !important; /* Hitam Sinematik */
+        background: radial-gradient(circle at top left, #0f1218, #050608) !important;
+        color: #e9ecef !important;
         font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* Menghilangkan batasan lebar kontainer Streamlit */
+    /* 2. FULL SCREEN EXPANSION */
     .block-container {
-        max-width: 98% !important; 
-        padding-top: 2rem !important;
-        padding-bottom: 5rem !important;
-        padding-left: 2% !important;
-        padding-right: 2% !important;
+        max-width: 95% !important;
+        padding: 3rem 2.5% !important;
     }
 
-    /* 3. SIDEBAR (GLASSMORPHISM) */
-    [data-testid="stSidebar"] {
-        background-color: rgba(10, 10, 10, 0.8) !important;
-        backdrop-filter: blur(20px);
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-        width: 320px !important;
-    }
-
-    /* 4. KOLOM ISIAN (ULTRA-STEALTH & ORGANIC) */
-    /* Dialog, Fisik, dan Input lainnya menyatu total dengan background */
+    /* 3. THE "STEALTH" INPUT ARCHITECTURE */
+    /* Kolom Dialog, Fisik, dll. menyatu sempurna dengan kegelapan background */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: #080808 !important;
+        background-color: transparent !important; /* Benar-benar transparan */
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 28px !important; /* Sangat melengkung/organik */
-        padding: 16px 25px !important;
+        border: 1px solid rgba(255, 255, 255, 0.07) !important;
+        border-radius: 20px !important;
+        padding: 18px 25px !important;
         font-size: 15px !important;
-        line-height: 1.6;
-        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        backdrop-filter: blur(5px);
+        transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
     }
 
-    /* Area teks dialog dibuat lebih luas dan lega */
-    .stTextArea textarea {
-        min-height: 150px !important;
-    }
-
-    /* Efek Fokus (Aksen Hijau Emerald yang Elegan) */
+    /* Efek Fokus: Glow Emerald dari Dalam */
     .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
         border-color: #1d976c !important;
-        background-color: #0c0d0e !important;
-        box-shadow: 0 10px 40px rgba(29, 151, 108, 0.05) !important;
+        background-color: rgba(29, 151, 108, 0.03) !important;
+        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(29, 151, 108, 0.1) !important;
+        transform: scale(1.005);
         outline: none !important;
-        transform: translateY(-2px); /* Efek melayang saat diisi */
     }
 
-    /* 5. LABEL (NEON MINIMALIST) */
+    /* 4. FLOATING LABELS (THE GREEN LIGHT) */
     [data-testid="stWidgetLabel"] p {
-        font-size: 10px !important;
+        font-size: 11px !important;
         font-weight: 800 !important;
         color: #1d976c !important;
         text-transform: uppercase !important;
-        letter-spacing: 3px !important;
+        letter-spacing: 4px !important;
         margin-bottom: -15px !important;
-        margin-left: 25px !important;
-        opacity: 0.7;
+        margin-left: 20px !important;
+        text-shadow: 0 0 15px rgba(29, 151, 108, 0.4);
     }
 
-    /* 6. TOMBOL GENERATE (THE POWER BUTTON) */
+    /* 5. THE KINETIC GENERATE BUTTON */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(145deg, #1d976c, #11998e) !important;
+        background: linear-gradient(135deg, #1d976c 0%, #0d7351 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 30px !important;
-        height: 60px !important;
+        border-radius: 50px !important; /* Pill shape */
+        height: 65px !important;
         width: 100%;
         font-weight: 800 !important;
         font-size: 18px !important;
-        letter-spacing: 2px !important;
+        letter-spacing: 3px !important;
         text-transform: uppercase;
-        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
         box-shadow: 0 20px 40px rgba(29, 151, 108, 0.2) !important;
-        margin-top: 30px;
-    }
-
-    /* Efek Tekan Tombol (Magnetic Active) */
-    div.stButton > button[kind="primary"]:active {
-        transform: scale(0.94) !important;
-        box-shadow: 0 5px 15px rgba(29, 151, 108, 0.1) !important;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        margin-top: 40px;
     }
 
     div.stButton > button[kind="primary"]:hover {
-        transform: translateY(-5px);
+        transform: translateY(-8px) scale(1.02);
         box-shadow: 0 30px 60px rgba(29, 151, 108, 0.4) !important;
+        background: linear-gradient(135deg, #22a677 0%, #1d976c 100%) !important;
     }
 
-    /* 7. RESPONSIVE FULL SCALE */
+    div.stButton > button[kind="primary"]:active {
+        transform: scale(0.92);
+        box-shadow: 0 5px 20px rgba(29, 151, 108, 0.2) !important;
+    }
+
+    /* 6. SIDEBAR (OBSIDIAN GLASS) */
+    [data-testid="stSidebar"] {
+        background: rgba(5, 6, 8, 0.9) !important;
+        backdrop-filter: blur(30px);
+        border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+    }
+
+    /* 7. SCROLLBAR (VANISHING STYLE) */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(29, 151, 108, 0.2); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 8. MOBILE OPTIMIZATION (THE ADAPTIVE FLOW) */
     @media (max-width: 768px) {
         .block-container {
+            padding: 1.5rem 1rem !important;
             max-width: 100% !important;
-            padding: 1rem !important;
         }
         .stTextInput input, .stTextArea textarea {
-            border-radius: 20px !important;
+            border-radius: 18px !important;
+            padding: 15px !important;
             font-size: 16px !important;
         }
         div.stButton > button[kind="primary"] {
-            height: 65px !important;
+            height: 70px !important;
         }
     }
 
-    /* 8. SCROLLBAR SILENT */
-    ::-webkit-scrollbar { width: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
-
-    /* CLEANUP UI ELEMENTS */
+    /* HIDING STREAMLIT DEFAULTS */
     [data-testid="stHeader"], [data-testid="stFooter"] { display: none !important; }
     div[data-baseweb="input"], div[data-baseweb="textarea"] { border: none !important; }
 </style>
@@ -935,6 +927,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
