@@ -182,28 +182,56 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 2. STYLE SEMUA TOMBOL SIDEBAR (MATCHING BLACK INPUT BOX) */
+    /* 2. STYLE SIDEBAR (CLEAN & SEAMLESS LOOK) */
+    [data-testid="stSidebar"] {
+        background-color: #16191e !important; 
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Teks Menu Abu-abu Muda */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
+        color: #d1d1d1 !important;
+        font-weight: 500 !important;
+    }
+
+    /* KOTAK INPUT ANGKA (- DAN + TANPA GARIS) */
+    [data-testid="stSidebar"] .stNumberInput div[data-baseweb="input"] {
+        background-color: #0e1117 !important;
+        border: 1px solid #31333f !important;
+        border-radius: 8px !important;
+    }
+
+    [data-testid="stSidebar"] .stNumberInput button {
+        background-color: transparent !important; /* Hilangkan kotak abu-abu */
+        border: none !important; /* Hilangkan garis pembatas */
+        box-shadow: none !important;
+        color: #ffffff !important;
+    }
+
+    /* TOMBOL UTAMA (SAVE, LOAD, KELUAR) - HITAM PEKAT GOOGLE STYLE */
     [data-testid="stSidebar"] button {
-        /* Warna Hitam Pekat sama dengan background input dropdown */
         background-color: #0e1117 !important; 
         background-image: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%) !important;
-        
         color: #e8eaed !important;
-        
-        /* Bentuk Melengkung Google AI Pro */
         border-radius: 12px !important; 
-        border: 1px solid #31333f !important; /* Garis pinggir halus agar tetap terlihat */
-        
+        border: 1px solid #31333f !important; 
         padding: 0.6rem 1rem !important;
         font-weight: 500 !important;
         transition: all 0.2s ease !important;
-        box-shadow: none !important; /* Menghilangkan shadow agar flat & clean */
         width: 100% !important;
     }
-        /* Efek Hover (Saat Disorot - Sedikit Lebih Terang agar ada feedback) */
+
+    /* Efek Hover Tombol Utama */
     [data-testid="stSidebar"] button:hover {
         background-color: #1a1c23 !important;
         border-color: #4c5055 !important;
+    }
+
+    /* Efek Klik Active Tombol Utama (Hijau Glossy) */
+    [data-testid="stSidebar"] button:active {
+        background: linear-gradient(180deg, #1d976c 0%, #11998e 100%) !important;
+        transform: scale(0.96) !important;
+        border-color: transparent !important;
     }
 
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
@@ -933,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
