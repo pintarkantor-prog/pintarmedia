@@ -250,21 +250,23 @@ st.markdown("""
         fill: #ffffff !important;
     }
 
-    /* 6. INPUT AREA (TEXTAREA & TEXT INPUT) - REVISI KONTRAS */
+    /* 6. INPUT AREA (TEXTAREA & TEXT INPUT) - DISAMAKAN WARNANYA */
     .stTextArea textarea, .stTextInput input {
-        background-color: #262730 !important; /* Warna isian dibuat lebih terang dari background utama */
-        color: #ffffff !important;           /* Teks tetap putih terang */
-        border: 1px solid rgba(255, 255, 255, 0.2) !important; /* Bingkai tipis agar terlihat batasnya */
+        background-color: #262730 !important; /* Warna abu-abu solid agar sama dengan kotak Nama */
+        color: #ffffff !important;           /* Teks putih agar tajam */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 10px !important;
         font-size: 16px !important;
-        transition: all 0.3s ease;
+        padding: 12px !important;
+        transition: none !important;         /* Tanpa transisi agar instan seperti permintaanmu */
     }
 
-    /* Efek saat kolom di-klik (fokus) */
+    /* Memastikan saat diklik warna tidak berubah jadi hitam */
     .stTextArea textarea:focus, .stTextInput input:focus {
-        background-color: #2d313e !important; /* Sedikit lebih terang lagi saat mengetik */
-        border-color: #1d976c !important;     /* Bingkai berubah jadi hijau branding kamu */
-        box-shadow: 0 0 0 2px rgba(29, 151, 108, 0.2) !important;
+        background-color: #262730 !important; 
+        border-color: #1d976c !important;     /* Hanya bingkai yang berubah hijau saat aktif */
+        box-shadow: none !important;
+        outline: none !important;
     }
 
     /* 7. SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
@@ -966,6 +968,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
