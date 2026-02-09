@@ -160,85 +160,135 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (FIX KHUSUS LINGKARAN MERAH: EXPANDER & SIDEBAR BUTTONS)
+# 4. CUSTOM CSS (VERSI FINAL: FIX EXPANDER, SIDEBAR & MOBILE RESPONSIVE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. GLOBAL DARK FIX */
-    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+    /* 1. GLOBAL STYLE & ANTI-WHITE MODE */
+    html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
         background-color: #0e1117 !important;
-    }
-
-    /* 2. FIX EXPANDER PUTIH (Gambar 1 yang dilingkari) */
-    /* Paksa background header expander jadi gelap dan teks putih */
-    [data-testid="stExpander"] summary {
-        background-color: #161922 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
-        border-radius: 10px !important;
-    }
-    
-    /* Paksa teks di dalam header expander agar kelihatan */
-    [data-testid="stExpander"] summary p {
-        color: #ffffff !important;
+        font-family: 'Inter', sans-serif;
     }
 
-    /* Paksa ikon panah expander jadi putih */
-    [data-testid="stExpander"] summary svg {
-        fill: #ffffff !important;
+    /* 2. SCROLLBAR MINIMALIS */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0e1117; }
+    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 3. HEADER AREA (FIXED DI PC, RELATIVE DI HP) */
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+        position: relative;
+        background-color: rgba(14, 17, 23, 0.95);
+        padding: 15px 0px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        margin-bottom: 30px;
+        backdrop-filter: blur(10px);
     }
 
-    /* 3. FIX TOMBOL SIDEBAR PUTIH (Gambar 2 yang dilingkari) */
-    /* Menargetkan tombol di dalam sidebar agar tidak putih polos */
-    [data-testid="stSidebar"] .stButton button {
-        background-color: #262730 !important; /* Warna gelap sidebar */
-        color: #ffffff !important;           /* Teks putih */
-        border: 1px solid rgba(255,255,255,0.2) !important;
-        border-radius: 8px !important;
-        transition: all 0.2s ease !important;
+    @media (min-width: 769px) {
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            position: fixed;
+            top: 0; left: 310px; right: 0;
+            z-index: 99999;
+            padding: 15px 2rem;
+        }
+        .block-container { padding-top: 6rem !important; }
     }
 
-    /* Efek saat tombol di sidebar ditekan */
-    [data-testid="stSidebar"] .stButton button:active, 
-    [data-testid="stSidebar"] .stButton button:focus {
-        border-color: #1d976c !important;
-        color: #1d976c !important;
-    }
-
-    /* Khusus tombol KELUAR SISTEM agar tetap kontras */
-    [data-testid="stSidebar"] .stButton button:contains("KELUAR") {
-        border-color: #ff4b4b !important;
-    }
-
-    /* 4. TOMBOL GENERATE UTAMA (TETAP SEPERTI ASLI) */
+    /* 4. TOMBOL GENERATE UTAMA (ASLI & INSTAN) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
         border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
-        font-weight: bold !important;
+        border-radius: 10px !important;
+        padding: 0.7rem 1.5rem !important;
+        font-weight: 700 !important;
+        font-size: 16px !important;
         width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        box-shadow: 0 4px 15px rgba(29, 151, 108, 0.3) !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 8px 20px rgba(29, 151, 108, 0.4) !important;
     }
 
-    /* 5. INPUT & LABEL FIX */
-    label, .stWidgetLabel p {
-        color: #ffffff !important;
+    /* 5. FIX LINGKARAN MERAH: EXPANDER (NAMA KARAKTER / DETAIL ADEGAN) */
+    [data-testid="stExpander"] {
+        background-color: #161922 !important;
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important;
+        margin-bottom: 15px !important;
     }
-    
-    .stTextArea textarea {
-        background-color: #0e1117 !important;
+    /* Bagian Header Expander yang dilingkari merah */
+    [data-testid="stExpander"] summary {
+        background-color: #161922 !important;
         color: #ffffff !important;
-        border: 1px solid #31333f !important;
+        padding: 10px 15px !important;
+        border-radius: 12px !important;
+    }
+    [data-testid="stExpander"] summary p {
+        color: #ffffff !important;
+        font-weight: bold !important;
+        font-size: 1.1em !important;
+    }
+    [data-testid="stExpander"] summary svg {
+        fill: #ffffff !important; /* Ikon panah jadi putih */
     }
 
-    /* 6. MOBILE RESPONSIVE */
+    /* 6. FIX LINGKARAN MERAH: SIDEBAR BUTTONS (SAVE, LOAD, KELUAR) */
+    [data-testid="stSidebar"] .stButton button {
+        background-color: #262730 !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255,255,255,0.2) !important;
+        border-radius: 8px !important;
+        width: 100% !important;
+        transition: all 0.2s ease;
+    }
+    [data-testid="stSidebar"] .stButton button:hover {
+        border-color: #1d976c !important;
+        color: #1d976c !important;
+    }
+
+    /* 7. STAFF HEADER & LABELS */
+    .staff-header-premium {
+        background: linear-gradient(145deg, rgba(29, 151, 108, 0.1), rgba(14, 17, 23, 0.1)) !important;
+        border: 1px solid rgba(29, 151, 108, 0.4) !important;
+        border-radius: 15px !important;
+        padding: 20px !important;
+        margin-bottom: 30px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 15px !important;
+    }
+    h1, h2, h3, p, label, .stWidgetLabel p {
+        color: #ffffff !important;
+        font-weight: 600 !important;
+    }
+
+    /* 8. INPUT AREA (TEXTAREA & TEXT INPUT) */
+    .stTextArea textarea, .stTextInput input {
+        background-color: #161922 !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        border-radius: 12px !important;
+        font-size: 16px !important;
+    }
+
+    /* 9. MOBILE FIX (COLUMNS STACKING) */
     @media (max-width: 768px) {
+        .block-container { 
+            padding-top: 1rem !important;
+            padding-left: 0.8rem !important;
+            padding-right: 0.8rem !important;
+        }
         [data-testid="column"] {
             width: 100% !important;
             flex: 1 1 100% !important;
-            margin-bottom: 10px !important;
+            margin-bottom: 15px !important;
         }
     }
 </style>
@@ -896,6 +946,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
