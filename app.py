@@ -7,19 +7,26 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (VERSI FIX ERROR 404)
+# KONFIGURASI OTAK AI (VERSI ANTI-404 / AUTO-DETEKSI)
 # ==============================================================================
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
 
-SOP_PINTAR_MEDIA = """
-Kamu adalah Pakar Konten PINTAR MEDIA. 
-Fokus pada konteks naskah asli (Sekolah/Sawah/Pasar). 
-Jangan ngelantur ke hubungan suami-istri jika tidak relevan.
-"""
+# 1. Cari model yang tersedia secara otomatis
+available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
 
-# GUNAKAN NAMA INI (Tanpa awalan models/ atau v1beta)
+# 2. Pilih yang terbaik (Utamakan Flash, kalau tidak ada pakai apa saja yang tersedia)
+selected_model_name = 'models/gemini-1.5-flash' # Default
+if available_models:
+    # Cari yang ada kata 'flash' di list
+    flash_models = [m for m in available_models if 'flash' in m.lower()]
+    selected_model_name = flash_models[0] if flash_models else available_models[0]
+
+# 3. SOP Pintar Media
+SOP_PINTAR_MEDIA = "Kamu adalah Pakar Konten PINTAR MEDIA. Fokus pada konteks naskah asli (Sekolah/Sawah/Pasar). Jangan ngelantur ke suami-istri."
+
+# 4. Inisialisasi Model dengan nama hasil deteksi otomatis
 model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash', # Cobalah hapus 'models/' jika sebelumnya pakai
+    model_name=selected_model_name,
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -902,6 +909,7 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
 
 
