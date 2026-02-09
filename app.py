@@ -607,7 +607,7 @@ vid_quality_base = f"60fps, ultra-clear motion, {vid_quality_stack} {no_text_str
 if "restore_counter" not in st.session_state:
     st.session_state.restore_counter = 0
 
-st.subheader("📝 Storyboard")
+st.subheader("📝 Detail Storyboard")
 
 # --- IDENTITAS TOKOH (VERSI ELEGANT GRID) ---
 with st.expander("👥 Nama Karakter Utama & Penampilan Fisik! (WAJIB ISI)", expanded=True):
@@ -946,6 +946,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
