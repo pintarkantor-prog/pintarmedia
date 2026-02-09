@@ -665,9 +665,8 @@ if menu_select == "🚀 PRODUCTION HUB":
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("") 
 
-# --- LIST ADEGAN (VERSI AUTO-SYNC: ANTI KUNING & SUNTIK KERAS) ---
+    # --- LIST ADEGAN (VERSI SINKRON TOTAL - ANTI KUNING) ---
     adegan_storage = []
-    # Ambil kunci reset dari memori
     reset_val = st.session_state.ui_reset_key
     
     for i_s in range(1, int(num_scenes) + 1):
@@ -692,17 +691,19 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
                     # SINKRONISASI DROPDOWN SUASANA
                     s_env = st.session_state.get(f'env_input_{i_s}', "Siang")
-                    idx_env = options_lighting.index(s_env) if s_env in options_lighting else 0
+                    idx_env = options_lighting.index(s_env) if s_env in options_lighting else 1
                     light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"l_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'light_input_{i_s}'] = light_val
+                    st.session_state[f'env_input_{i_s}'] = light_val
                 
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
-                    # SINKRONISASI DROPDOWN UKURAN GAMBAR
+                    # SINKRONISASI DROPDOWN UKURAN GAMBAR (SHOT SIZE)
                     s_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
                     idx_size = indonesia_shot.index(s_size) if s_size in indonesia_shot else 2
                     shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_size, key=f"s_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'shot_input_{i_s}'] = shot_val
+                    st.session_state[f'size_input_{i_s}'] = shot_val
                 
                 r2 = st.columns(2)
                 with r2[0]:
@@ -715,11 +716,13 @@ if menu_select == "🚀 PRODUCTION HUB":
                     idx_cam = indonesia_camera.index(s_cam) if s_cam in indonesia_camera else 0
                     cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"c_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f'camera_input_{i_s}'] = cam_val
+                    st.session_state[f'cam_move_{i_s}'] = cam_val
                 
                 r3 = st.columns(1)
                 with r3[0]:
                     st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
                     loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_ui_{i_s}_{reset_val}", label_visibility="collapsed")
+                    st.session_state[f"loc_sel_{i_s}"] = loc_choice
                     location_val = st.text_input("Custom:", key=f"cust_ui_{i_s}_{reset_val}") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
 
             # Dialog Logic
@@ -936,16 +939,17 @@ elif menu_select == "🧠 AI LAB":
                                 elif "sore" in t_low: st.session_state[f'env_input_{i}'] = "Sore"
                                 else: st.session_state[f'env_input_{i}'] = "Siang"
                                 
-                                # Deteksi Shot Size (Full Body, dll)
+                                # Deteksi Shot Size (Pastikan Nama Label Sama Persis dengan indonesia_shot)
                                 if "full body" in t_low or "seluruh badan" in t_low:
-                                    st.session_state[f'size_input_{i}'] = "Seluruh Badan (Full Body)"
-                                elif "close up" in t_low or "muka" in t_low:
-                                    st.session_state[f'size_input_{i}'] = "Muka Jelas (Close Up)"
+                                    st.session_state[f'size_input_{i}'] = "Seluruh Badan"
+                                elif "close up" in t_low or "muka" in t_low or "wajah" in t_low:
+                                    st.session_state[f'size_input_{i}'] = "Dekat Wajah"
+                                elif "extreme" in t_low:
+                                    st.session_state[f'size_input_{i}'] = "Sangat Dekat"
                                 else:
                                     st.session_state[f'size_input_{i}'] = "Setengah Badan"
                         
                         st.session_state['c_name_1_input'] = "UDIN"
                         st.session_state['c_name_2_input'] = "TUNG"
-                        st.success("🔥 SINKRON TOTAL!")
-        else:
-            st.error("Bikin naskah dulu di Tab 2!")
+                        st.success("🔥 SINKRON TOTAL! Cek Production Hub.")
+                        st.rerun() # Paksa refresh agar UI langsung update
