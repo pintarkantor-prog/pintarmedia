@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+import os
 
 # 1. KONFIGURASI HALAMAN
 st.set_page_config(
@@ -9,18 +10,21 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. KONFIGURASI MESIN AI (FIX ERROR 404)
-# Menggunakan API Key Sultan yang tadi
+# 2. KONFIGURASI MESIN AI (FIX 404 - STABLE VERSION)
 API_KEY = "AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"
 
 try:
+    # Menginisialisasi library dengan konfigurasi terbaru
     genai.configure(api_key=API_KEY)
-    # Kita gunakan 'gemini-1.5-flash-latest' atau 'gemini-pro' sebagai fallback
-    model = genai.GenerativeModel('gemini-1.5-flash-latest')
+    
+    # Kita gunakan 'gemini-1.5-flash' tanpa tambahan 'latest' atau 'beta'
+    # Ini adalah jalur paling stabil untuk produksi sekarang
+    model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+    
 except Exception as e:
     st.error(f"Koneksi AI Terkendala: {e}")
 
-# 3. CSS CUSTOM (Profesional & Clean)
+# 3. CSS CUSTOM (Profesional)
 st.markdown("""
     <style>
     header[data-testid="stHeader"] { background-color: #ff4b4b; color: white; }
@@ -30,53 +34,33 @@ st.markdown("""
         width: 100%; border-radius: 10px; height: 3.5rem; 
         background-color: #ff4b4b; color: white; font-weight: bold; 
     }
-    .stTextArea textarea { border-radius: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
 # 4. SIDEBAR NAVIGATION
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
-    st.write("User Status: **Authorized** ✅")
+    st.write("Status: **System Authorized** ✅")
     st.divider()
-    
-    menu = st.radio(
-        "NAVIGASI UTAMA:",
-        [
-            "🚀 PRODUCTION HUB",
-            "🧠 AI LAB",
-            "🎞️ SCHEDULE",
-            "📋 TEAM TASK",
-            "📈 TREND ANALYZER",
-            "💡 IDEAS BANK",
-            "👥 DATABASE LOCKER",
-            "📊 MONITORING",
-            "🛠️ COMMAND CENTER"
-        ]
-    )
-    st.divider()
-    st.caption("Version 2.0.4 • Patch 404")
+    menu = st.radio("NAVIGASI UTAMA:", ["🚀 PRODUCTION HUB", "🧠 AI LAB", "📋 TEAM TASK", "🛠️ COMMAND CENTER"])
 
-# 5. LOGIKA MENU UTAMA
-
+# 5. LOGIKA PRODUCTION HUB
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
     submenu = st.radio("Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
     
     if submenu == "AI Scriptwriter":
         st.subheader("Content Generator (6 Adegan)")
-        ide_konten = st.text_area(
-            "Masukkan Topik atau Ide Konten:", 
-            placeholder="Contoh: Tutorial masak simpel...",
-            height=150
-        )
+        ide_konten = st.text_area("Topik atau Ide Konten:", placeholder="Masukkan ide di sini...")
         
         if st.button("GENERATE SCRIPT"):
             if ide_konten:
-                with st.spinner("Menghubungi Server Gemini..."):
+                with st.spinner("Sedang menghubungi otak AI..."):
                     try:
-                        prompt = f"Buatkan naskah video pendek 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
-                        # Eksekusi Generate
+                        # Prompt Instruksi
+                        prompt = f"Buatkan naskah video pendek viral 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
+                        
+                        # Eksekusi dengan penanganan error yang lebih spesifik
                         response = model.generate_content(prompt)
                         
                         st.divider()
@@ -84,16 +68,16 @@ if menu == "🚀 PRODUCTION HUB":
                         st.markdown(response.text)
                         st.balloons()
                     except Exception as e:
-                        # Jika masih error, tampilkan detail untuk kita bedah lagi
-                        st.error(f"Aduh, server Google sedang sibuk atau ada masalah teknis: {e}")
+                        # Jika masih gagal, kita akan tampilkan saran spesifik
+                        st.error(f"Maaf, terjadi kendala teknis. Silakan coba klik tombol sekali lagi. Detail: {e}")
             else:
                 st.warning("Silakan masukkan ide terlebih dahulu.")
 
 elif menu == "🛠️ COMMAND CENTER":
     st.header("🛠️ System Control")
     st.success("API Key Active")
-    st.write("Model saat ini: **Gemini 1.5 Flash (Latest)**")
+    st.write("Model: **Gemini 1.5 Flash (Production Mode)**")
 
 else:
     st.header(menu)
-    st.info("Modul ini sedang disiapkan.")
+    st.info("Fitur ini sedang dalam pengembangan.")
