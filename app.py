@@ -663,7 +663,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("") 
 
-    # --- LIST ADEGAN (VERSI SMART SYNC) ---
+# --- LIST ADEGAN (VERSI FULL SMART SYNC) ---
     adegan_storage = []
     for i_s in range(1, int(num_scenes) + 1):
         l_box_title = f"🟢 ADEGAN {i_s}" if i_s == 1 else f"🎬 ADEGAN {i_s}"
@@ -671,6 +671,7 @@ if menu_select == "🚀 PRODUCTION HUB":
             col_v, col_ctrl = st.columns([6, 4])
             
             with col_v:
+                # Menampilkan teks adegan yang dikirim dari AI LAB
                 visual_input = st.text_area(
                     f"Cerita Visual {i_s}", 
                     key=f"vis_input_{i_s}", 
@@ -683,14 +684,16 @@ if menu_select == "🚀 PRODUCTION HUB":
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
-                    # --- LOGIKA OTOMATIS SUASANA ---
+                    # --- LOGIKA SINKRON SUASANA ---
+                    # Mencari tahu apakah AI mengirim "Malam", "Sore", atau "Siang"
                     saved_env = st.session_state.get(f'env_input_{i_s}', "Siang")
                     idx_env = options_lighting.index(saved_env) if saved_env in options_lighting else 0
                     light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"light_input_{i_s}", label_visibility="collapsed")
                 
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
-                    # --- LOGIKA OTOMATIS SHOT SIZE ---
+                    # --- LOGIKA SINKRON UKURAN GAMBAR ---
+                    # Mencari tahu apakah AI mengirim "Close Up", "Full Body", dll.
                     saved_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
                     idx_shot = indonesia_shot.index(saved_size) if saved_size in indonesia_shot else 2
                     shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
@@ -702,7 +705,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                 
                 with r2[1]:
                     st.markdown('<p class="small-label">🎬 Gerakan Kamera (khusus video)</p>', unsafe_allow_html=True)
-                    # --- LOGIKA OTOMATIS GERAKAN KAMERA ---
+                    # --- LOGIKA SINKRON GERAKAN KAMERA ---
                     saved_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
                     idx_cam = indonesia_camera.index(saved_cam) if saved_cam in indonesia_camera else 0
                     cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"camera_input_{i_s}", label_visibility="collapsed")
@@ -739,7 +742,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                 "angle": angle_val, 
                 "dialogs": scene_dialogs_list
             })
-
+            
     # ==============================================================================
     # 10. GENERATOR PROMPT & MEGA-DRAFT
     # ==============================================================================
@@ -962,4 +965,5 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON TOTAL! Cek Production Hub, visual sudah terisi otomatis.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
