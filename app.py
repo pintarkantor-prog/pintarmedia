@@ -905,3 +905,4 @@ elif menu_select == "🧠 AI LAB":
             else:
                 st.error("Bikin skrip dulu di Tab 2!")
 
+
