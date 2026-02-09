@@ -176,6 +176,21 @@ st.markdown("""
         background-color: #161922 !important; /* Dari #1a1c24 dinaikkan ke #161922 */
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
+    /* MEMAKSA ISI SIDEBAR MENTOK KE ATAS */
+    [data-testid="stSidebarUserContent"] {
+        padding-top: 20px !important; /* Kurangi angka ini kalau mau lebih mentok lagi */
+    }
+
+    /* Menghilangkan spasi kosong di atas elemen pertama sidebar */
+    [data-testid="stSidebarNav"] + div {
+        margin-top: -50px !important;
+    }
+    
+    /* Jika kamu menggunakan st.sidebar.markdown untuk logo */
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0px !important;
+        padding-top: 0px !important;
+    }
 
     /* 3. HEADER AREA (FIXED DI PC, RELATIVE DI HP) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
@@ -946,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
