@@ -822,21 +822,29 @@ elif menu_select == "🧠 AI LAB":
                                   placeholder="Contoh: Orang pamer kekayaan tapi ternyata dompetnya kosong...",
                                   key="lab_spy_input")
         
-        if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
+    if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
                 with st.spinner("Gemini sedang membedah DNA konten..."):
                     try:
-                        prompt_spy = f"Analisis skrip ini secara mendalam namun singkat: {raw_script}. Bedah apa Hook-nya dan bagaimana Struktur ceritanya agar viral."
+                        # PROMPT LEBIH TEGAS: Larang dia menyalin ulang naskah!
+                        prompt_spy = f"""
+                        Analisis konten ini: "{raw_script}"
+                        
+                        TUGAS KAMU:
+                        1. Jangan tulis ulang naskah aslinya secara verbatim.
+                        2. Langsung jelaskan HOOK-nya (apa yang bikin orang nonton sampai habis?).
+                        3. Jelaskan STRUKTUR CERITA (kenapa alur ini bisa viral?).
+                        4. Berikan saran modifikasi agar cerita ini lebih relevan untuk PINTAR MEDIA.
+                        
+                        Ingat: Jangan ngelantur ke suami-istri. Tetap pada konteks sekolah/lokasi asli.
+                        """
                         response = model.generate_content(prompt_spy)
                         
-                        st.success("Analisis Selesai!")
+                        st.success("Analisis Strategi Selesai!")
                         st.markdown(response.text)
-                        # Simpan ke memori agar bisa dipakai Tab 2
                         st.session_state['temp_script_spy'] = raw_script
                     except Exception as e:
-                        st.error(f"Gagal membedah konten: {e}")
-            else:
-                st.warning("Silakan tempel teks narasinya dulu!")
+                        st.error(f"Gagal membedah: {e}")
 
     # --------------------------------------------------------------------------
     # TAB 2: MODIFIKASI (ATM CLONER)
@@ -909,6 +917,7 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
 
 
