@@ -6,10 +6,10 @@ import pytz
 import time
 import google.generativeai as genai
 
-# Konfigurasi API Gemini
+# Pastikan API Key benar
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
 
-# GANTI BAGIAN INI: Gunakan 'gemini-1.5-flash' agar lebih stabil dan cepat
+# Gunakan FLASH untuk stabilitas di Streamlit Cloud
 model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
@@ -807,21 +807,15 @@ elif menu_select == "🧠 AI LAB":
         if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
                 with st.spinner("Gemini sedang membedah DNA konten..."):
-                    # PANGGIL AI UNTUK ANALISIS
-                    prompt_spy = f"""
-                    Analisis skrip video viral berikut: "{raw_script}"
-                    Jelaskan dalam 2 bagian pendek:
-                    1. Hook: Apa pancingan di 3 detik pertama?
-                    2. Struktur: Bagaimana pola alur ceritanya?
-                    Gunakan bahasa yang santai dan profesional.
-                    """
-                    response = model.generate_content(prompt_spy)
-                    
-                    st.success("Analisis Selesai!")
-                    st.markdown(response.text)
-                    
-                    # Simpan naskah asli ke memori
-                    st.session_state['temp_script_spy'] = raw_script
+                    try:
+                        prompt_spy = f"Analisis skrip ini: {raw_script}. Bedah Hook dan Strukturnya."
+                        response = model.generate_content(prompt_spy)
+                        
+                        st.success("Analisis Selesai!")
+                        st.markdown(response.text)
+                        st.session_state['temp_script_spy'] = raw_script
+                    except Exception as e:
+                        st.error(f"Waduh, koneksi ke Otak AI terputus. Coba klik lagi ya! Error: {e}")
             else:
                 st.warning("Silakan tempel teks narasinya dulu!")
 
@@ -897,4 +891,5 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
+
 
