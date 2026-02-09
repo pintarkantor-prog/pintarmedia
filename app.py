@@ -283,7 +283,7 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA (CLEAN & MINIMALIST) */
+/* 6. STYLE LAINNYA (CLEAN & NO OVERLAP) */
     h1, h2, h3, .stMarkdown h3 {
         color: #ffffff !important;
         background: none !important;
@@ -297,16 +297,19 @@ st.markdown("""
         border-radius: 6px !important;
     }
 
-    /* Kotak Isian (Dialog/Fisik) - Tanpa Efek Fokus Tambahan */
+    /* Kotak Isian (Dialog & Fisik) - Hapus Semua Efek Warna Paksaan */
     .stTextArea textarea, .stTextInput input {
         font-size: 16px !important;
         border-radius: 8px !important; 
         background-color: #0e1117 !important; 
-        border: 1px solid #31333f !important; 
         color: #ffffff !important;
+        /* Menghapus border agar tidak tumpang tindih dengan focus default */
+        border: 1px solid #31333f !important; 
+        box-shadow: none !important;
+        transition: none !important;
     }
 
-    /* Label Instruksi Kecil - Abu-abu Standar */
+    /* Label Instruksi Kecil - Tanpa Warna Hijau */
     .small-label {
         font-size: 12px !important;
         font-weight: bold !important;
@@ -319,8 +322,15 @@ st.markdown("""
     .stExpander {
         border: 1px solid #31333f !important;
         border-radius: 8px !important;
-        background-color: #11151c !important; /* Setema dengan Sidebar Navy */
+        background-color: #11151c !important; 
         margin-bottom: 10px !important;
+    }
+
+    /* Garis Pemisah Tipis */
+    hr {
+        margin: 1.5em 0 !important;
+        border: 0;
+        border-top: 1px solid rgba(255,255,255,0.05) !important;
     }
 
     /* Garis Pemisah Halus */
@@ -1003,6 +1013,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
