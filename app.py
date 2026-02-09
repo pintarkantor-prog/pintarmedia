@@ -160,94 +160,104 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (PINTAR MEDIA EDITION: SUPER COMPACT & FLAT)
+# 4. CUSTOM CSS (PINTAR MEDIA: TIGHT & SLEEK EDITION)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. RESET DASAR & VARIABEL */
+    /* 1. RESET GLOBAL */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
     }
 
-    /* 2. SIDEBAR SUPER PADAT (Sesuai Coretan Merah Sidebar) */
-    [data-testid="stSidebar"] {
-        width: 250px !important;
-        background-color: #161922 !important;
-    }
+    /* 2. SIDEBAR PADAT (Sesuai Coretan Merah Sidebar) */
+    [data-testid="stSidebar"] { width: 250px !important; }
     
-    /* Merapatkan semua elemen di sidebar agar tidak boros tempat */
+    /* Merapatkan jarak antar elemen di sidebar */
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        gap: 0.3rem !important;
-        padding-top: 0px !important;
+        gap: 0.2rem !important;
     }
 
-    /* Tombol Sidebar (Save, Load, Keluar) dibuat lebih pendek */
+    /* Tombol Sidebar dibuat ramping */
     [data-testid="stSidebar"] .stButton button {
-        padding: 2px 10px !important;
         min-height: 32px !important;
+        padding: 2px 10px !important;
         font-size: 13px !important;
         background-color: #262730 !important;
         border: 1px solid rgba(255,255,255,0.1) !important;
     }
 
-    /* 3. KOLOM INPUT RAMPING (Sesuai Coretan Merah Kolom) */
-    /* Nama, Angka, Dropdown dibuat tipis dan compact */
+    /* 3. KOLOM INPUT RAMPING (Anti-Penyok & Anti-Tumpang Tindih) */
+    /* Untuk Nama, Angka, dan Dropdown */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
         background-color: #262730 !important;
+        color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 6px !important;
-        height: 34px !important; /* Sangat ramping */
+        height: 32px !important; /* Tinggi ramping sesuai coretanmu */
+        line-height: 32px !important; /* Menjaga teks tetap di tengah secara vertikal */
         padding: 0px 10px !important;
         font-size: 14px !important;
     }
 
-    /* 4. AREA ADEGAN & CIRI FISIK (Warna Hitam Menyatu) */
+    /* Menghapus tumpang tindih pada icon dropdown */
+    div[data-baseweb="select"] > div:last-child {
+        height: 32px !important;
+    }
+
+    /* 4. AREA ADEGAN (Hitam Stealth & Rapi) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
+        color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 6px !important;
-        padding: 8px !important;
+        padding: 8px 12px !important;
         font-size: 14px !important;
-        min-height: 70px !important;
+        min-height: 60px !important; /* Lebih pendek agar tidak boros tempat */
     }
 
-    /* 5. ELIMINASI EFEK KLIK (Sesuai Permintaan: Pakai Default) */
-    /* Menghapus semua paksaan warna hijau agar tidak double/aneh */
-    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #ff4b4b !important; /* Merah default Streamlit yang tipis */
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* 6. MERAPETKAN JARAK ANTAR FORM */
+    /* 5. MERAPETKAN JARAK FORM (Gap Control) */
     [data-testid="stVerticalBlock"] {
-        gap: 0.5rem !important;
+        gap: 0.4rem !important; /* Jarak antar kolom ditarik mepet */
     }
 
-    /* Menghilangkan label yang terlalu tinggi */
-    label p {
+    /* Menarik label judul agar lebih dekat dengan kotaknya */
+    [data-testid="stWidgetLabel"] p {
         font-size: 13px !important;
-        margin-bottom: -10px !important;
+        margin-bottom: -12px !important;
+        color: rgba(255, 255, 255, 0.8) !important;
     }
 
-    /* 7. TOMBOL GENERATE (TETAP KEREN TAPI RAPI) */
+    /* 6. EXPANDER RAMPING */
+    [data-testid="stExpander"] {
+        background-color: #1c202a !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 8px !important;
+    }
+    [data-testid="stExpander"] summary {
+        padding: 5px 12px !important;
+    }
+
+    /* 7. TOMBOL GENERATE (TETAP TEGAS) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
-        height: 38px !important;
+        height: 36px !important;
         border-radius: 6px !important;
         font-weight: 600 !important;
         border: none !important;
     }
 
-    /* 8. MOBILE RESPONSIVE FIX */
+    /* 8. ELIMINASI EFEK FOKUS (BACK TO DEFAULT) */
+    /* Tanpa paksaan warna agar tidak double border */
+    *:focus { outline: none !important; }
+
+    /* 9. MOBILE FIX */
     @media (max-width: 768px) {
-        .stTextInput input, div[data-baseweb="select"] { height: 36px !important; }
+        .stTextInput input, div[data-baseweb="select"] { height: 34px !important; }
         .stTextArea textarea { background-color: #0e1117 !important; }
     }
 </style>
 """, unsafe_allow_html=True)
-
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -900,6 +910,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
