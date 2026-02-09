@@ -283,18 +283,29 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-    /* 8. STAFF HEADER & LABELS */
-    .staff-header-premium {
-        background: linear-gradient(145deg, rgba(29, 151, 108, 0.15), rgba(14, 17, 23, 0.2)) !important;
-        border: 1px solid rgba(29, 151, 108, 0.4) !important;
-        border-radius: 15px !important;
-        padding: 20px !important;
-        margin-bottom: 30px !important;
+    /* 8. INPUT AREA (KHUSUS PERBAIKAN WARNA CIRI FISIK) */
+    .stTextArea textarea {
+        background-color: #262730 !important; /* Warna abu-abu solid sesuai permintaanmu */
+        color: #ffffff !important;           /* Teks putih terang */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        font-size: 16px !important;
     }
-    label, .stWidgetLabel p {
+
+    /* Memastikan warna tetap konsisten saat diklik */
+    .stTextArea textarea:focus {
+        background-color: #262730 !important;
+        border-color: #1d976c !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Untuk Text Input (Nama Karakter) agar warnanya juga selaras */
+    .stTextInput input {
+        background-color: #262730 !important;
         color: #ffffff !important;
-        font-weight: 600 !important;
-        font-size: 14px !important;
+        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
     /* 9. MOBILE FIX */
@@ -968,6 +979,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
