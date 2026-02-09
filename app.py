@@ -6,27 +6,26 @@ import pytz
 import time
 import google.generativeai as genai
 
-# Konfigurasi API
+# ==============================================================================
+# KONFIGURASI OTAK AI (Letakkan di bagian atas, di bawah import)
+# ==============================================================================
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
 
-# FUNGSI PENCARI MODEL OTOMATIS (Anti-Error 404)
-def get_available_model():
-    try:
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                # Prioritas 1: Flash 1.5
-                if 'gemini-1.5-flash' in m.name:
-                    return genai.GenerativeModel(m.name)
-        # Jika tidak ada Flash, ambil model pertama yang bisa generate content
-        for m in genai.list_models():
-            if 'generateContent' in m.supported_generation_methods:
-                return genai.GenerativeModel(m.name)
-    except:
-        # Pilihan terakhir jika list_models pun gagal
-        return genai.GenerativeModel('gemini-pro')
+SOP_PINTAR_MEDIA = """
+Kamu adalah Pakar Konten PINTAR MEDIA yang cerdas dan adaptif. 
+Tugasmu: Menganalisis naskah/link video dan memberikan ide modifikasi yang kreatif.
 
-# Inisialisasi model secara otomatis
-model = get_available_model()
+PERATURAN UTAMA:
+1. SETIA PADA KONTEKS: Jika naskah asli berlatar di SEKOLAH, tetaplah di SEKOLAH. Jangan tiba-tiba pindah ke urusan rumah tangga (suami-istri) kecuali naskahnya memang tentang itu.
+2. ADAPTIF TOKOH: Gunakan tokoh yang diminta oleh user (misalnya UDIN, TUNG, atau karakter baru lainnya).
+3. KEARIFAN LOKAL: Selalu utamakan nuansa lokal Indonesia yang natural, lucu, atau menyentuh sesuai vibe yang dipilih.
+4. ANALISIS TAJAM: Saat membedah (Spy), fokuslah pada struktur emosi penonton (kenapa video ini bisa viral).
+"""
+
+model = genai.GenerativeModel(
+    model_name='models/gemini-1.5-flash',
+    system_instruction=SOP_PINTAR_MEDIA
+)
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -907,6 +906,7 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
 
 
