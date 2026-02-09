@@ -160,54 +160,48 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: TOTAL STEALTH - BLACK ON BLACK)
+# 4. CUSTOM CSS (VERSION: TOTAL STEALTH & CLEAN FOCUS)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. WARNA TEMA GLOBAL (HIJAU PINTAR MEDIA) */
+    /* 1. WARNA TEMA GLOBAL */
     :root {
-        --primary-color: #1d976c !important;
+        --primary-color: #1d976c !important; /* Hijau untuk tombol/progres */
         --bg-black: #0e1117 !important;
     }
 
     /* 2. DASAR APLIKASI */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: var(--bg-black) !important;
-        color: #ffffff !important;
     }
 
-    /* 3. SIDEBAR RAMPING */
+    /* 3. INPUT AREA (HITAM SAMA DENGAN BACKGROUND) */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
+        background-color: var(--bg-black) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+    }
+
+    /* 4. MEMBERSIHKAN EFEK KLIK (HAPUS TOTAL HIJAU) */
+    /* Menghilangkan pendaran hijau dan mengembalikan ke garis merah default yang tipis */
+    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
+        border-color: #ff4b4b !important; /* Merah default Streamlit agar sinkron */
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* Mematikan lapisan bayangan (shadow) BaseWeb yang sering menyimpan warna hijau */
+    div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
+        box-shadow: none !important;
+        border: none !important;
+        background-color: transparent !important;
+    }
+
+    /* 5. SIDEBAR RAMPING */
     [data-testid="stSidebar"] {
         width: 260px !important;
         background-color: #11141b !important;
-    }
-
-    /* 4. INPUT AREA (STEALTH MODE - SAMA DENGAN BACKGROUND) */
-    /* Berlaku untuk Nama, Angka, Dropdown, dan Textarea */
-    .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: var(--bg-black) !important; /* HITAM SAMA DENGAN BG */
-        color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Border tipis agar tetap terlihat batasnya */
-        border-radius: 8px !important;
-        transition: border 0.2s ease !important;
-    }
-
-    /* Efek Fokus: Saat diklik, border menyala hijau (Standar Streamlit Hijau) */
-    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #1d976c !important;
-        box-shadow: none !important;
-    }
-
-    /* 5. MERAPETKAN JARAK (COMPACT UI) */
-    [data-testid="stVerticalBlock"] {
-        gap: 0.7rem !important;
-    }
-    
-    /* Menarik label agar mepet ke kotak */
-    [data-testid="stWidgetLabel"] p {
-        font-size: 13px !important;
-        margin-bottom: -10px !important;
-        color: rgba(255, 255, 255, 0.7) !important;
     }
 
     /* 6. TOMBOL UTAMA (MODERN GRADIENT) */
@@ -219,25 +213,16 @@ st.markdown("""
         padding: 0.6rem 1rem !important;
         font-weight: 700 !important;
         width: 100%;
-        text-transform: uppercase;
     }
 
-    /* 7. RESPONSIVE MOBILE */
+    /* 7. RESPONSIVE MOBILE FIX */
     @media (max-width: 768px) {
         .block-container { padding: 1rem !important; }
-        
-        /* Font 16px di HP agar tidak auto-zoom */
-        .stTextArea textarea, .stTextInput input, .stNumberInput input {
+        .stTextArea textarea, .stTextInput input {
             font-size: 16px !important;
             background-color: var(--bg-black) !important;
         }
     }
-
-    /* Hapus bayangan merah bawaan yang mengganggu */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
-        box-shadow: none !important;
-    }
-
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -892,6 +877,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
