@@ -160,96 +160,101 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: LEGACY SOUL & MODERN RESPONSIVE)
+# 4. CUSTOM CSS (VERSION: GEMINI INSPIRED - MINIMALIST & ELEGANT)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. DASAR & ANTI-WHITE MODE */
+    /* 1. PALET WARNA GEMINI (DEEP CHARCOAL & SOFT WHITE) */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
-        background-color: #0e1117 !important;
-        color: #ffffff !important;
-        font-family: 'Inter', sans-serif;
+        background-color: #0e1117 !important; /* Warna dasar Gemini */
+        color: #e3e3e3 !important;           /* Teks putih gading khas Google */
+        font-family: 'Google Sans', 'Inter', sans-serif;
     }
 
-    /* 2. SIDEBAR RAMPING & RESPONSIF */
+    /* 2. SIDEBAR MINIMALIS */
     [data-testid="stSidebar"] {
         width: 260px !important;
-        background-color: #161922 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        background-color: #1e1f20 !important; /* Sidebar lebih terang sedikit dari bg */
+        border-right: none !important;
     }
 
-    /* 3. INPUT AREA (Gaya Lama yang Kamu Suka - Tapi Diperhalus) */
-    /* Nama & Angka (Abu-abu) */
+    /* 3. INPUT AREA (GAYA FLOATING GEMINI) */
+    /* Nama, Angka, Dropdown */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #262730 !important;
+        background-color: #1e1f20 !important; /* Warna input melayang */
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        height: 36px !important; /* Tinggi yang pas, tidak terlalu gede */
-        font-size: 14px !important;
+        border: 1px solid transparent !important; /* Tanpa border kaku */
+        border-radius: 12px !important;           /* Sudut lebih membulat */
+        height: 44px !important;
+        padding: 0px 16px !important;
+        transition: all 0.2s ease !important;
     }
 
-    /* ADEGAN & CIRI FISIK (Hitam Menyatu Background) */
+    /* Input Adegan (Warna Hitam Menyatu Latar) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        font-size: 14px !important;
+        border: 1px solid #3c4043 !important; /* Border tipis khas Google */
+        border-radius: 16px !important;
+        padding: 16px !important;
+        line-height: 1.6 !important;
     }
 
-    /* 4. MERAPETKAN JARAK (TIGHT UI) */
+    /* Efek Fokus Khas Gemini (Hanya Border Tipis Blue-ish) */
+    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
+        border-color: #8ab4f8 !important; /* Biru pastel Google */
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* 4. MERAPETKAN JARAK (TAPI TETAP LEGA) */
     [data-testid="stVerticalBlock"] {
-        gap: 0.5rem !important;
+        gap: 1.2rem !important; /* Spasi antar elemen lebih lega agar elegan */
     }
 
-    /* 5. FIX TAMPILAN HP (RESPONSIVE ENGINE) */
+    /* Label Judul (Mungil & Elegan) */
+    label p {
+        font-size: 14px !important;
+        color: #c4c7c5 !important; /* Abu-abu lembut */
+        margin-bottom: -10px !important;
+        font-weight: 500 !important;
+    }
+
+    /* 5. TOMBOL UTAMA (GAYA GOOGLE PILL) */
+    div.stButton > button[kind="primary"] {
+        background: #1d976c !important; /* Hijau branding kamu tetap dipertahankan */
+        color: white !important;
+        border-radius: 24px !important; /* Bentuk kapsul khas Google */
+        border: none !important;
+        padding: 10px 24px !important;
+        font-weight: 600 !important;
+        transition: transform 0.1s ease !important;
+    }
+    
+    div.stButton > button[kind="primary"]:active {
+        transform: scale(0.98) !important;
+    }
+
+    /* 6. RESPONSIVE MOBILE (SMOOTH SYNC) */
     @media (max-width: 768px) {
-        /* Sidebar di HP agar tidak terlalu lebar */
-        [data-testid="stSidebar"] {
-            width: 80% !important;
-        }
-
-        /* Menyesuaikan Tinggi Kotak di HP agar jari lebih nyaman mengetik */
-        .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-            height: 40px !important; 
-            font-size: 16px !important; /* Mencegah iPhone auto-zoom saat klik */
-        }
-
-        /* Meratakan kolom yang tadinya berjajar di PC menjadi tumpuk di HP */
-        [data-testid="column"] {
-            width: 100% !important;
-            flex: 1 1 100% !important;
+        .block-container {
+            padding: 1.5rem 1rem !important;
         }
         
-        /* Spasi konten di HP agar tidak mepet pinggir layar */
-        .block-container {
-            padding: 1rem 0.8rem !important;
+        .stTextInput input, div[data-baseweb="select"] {
+            height: 48px !important; /* Lebih besar di HP agar nyaman ditekan */
+            font-size: 16px !important;
         }
 
-        /* HEADER di HP dibuat simpel */
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            position: relative !important;
-            left: 0 !important;
-            padding: 10px !important;
-            margin-bottom: 15px !important;
+        [data-testid="stSidebar"] {
+            width: 85% !important;
         }
     }
 
-    /* 6. TOMBOL GENERATE (TETAP PREMIUM) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
-        border-radius: 8px !important;
-        border: none !important;
-        font-weight: 600 !important;
-        height: 40px !important;
-        width: 100%;
-    }
-
-    /* 7. HAPUS PAKSA EFEK DOUBLE BORDER SAAT FOKUS */
-    *:focus {
-        outline: none !important;
+    /* Hapus Shadow Merah Streamlit Secara Total */
+    div[data-baseweb="input"], div[data-baseweb="textarea"] {
         box-shadow: none !important;
+        border: none !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -905,6 +910,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
