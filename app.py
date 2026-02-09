@@ -7,13 +7,13 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (MODE SINGLE KEY SECRETS - SINKRON 10 ADEGAN)
+# KONFIGURASI OTAK AI (STABIL & SINKRON 10 ADEGAN)
 # ==============================================================================
-# Memanggil kunci dari Streamlit Secrets agar tidak gampang limit
+# Memanggil kunci dari Streamlit Secrets
 if "gemini_key" in st.secrets:
     api_kunci_final = st.secrets["gemini_key"]
 else:
-    # Fallback jika di secrets belum diisi (Pakai kunci baru kamu)
+    # Fallback ke kunci baru kamu
     api_kunci_final = "AIzaSyCKz5AwE-rBunj5H18Y1oUO7tmahI5fYc8"
 
 genai.configure(api_key=api_kunci_final)
@@ -25,13 +25,13 @@ GAYA BAHASA:
 - Sangat lokal, bahasa tongkrongan, ceplas-ceplos, dan nyelekit.
 - Karakter Antagonis (TUNG) harus sangat menyebalkan dan merendahkan di awal.
 - Karakter Protagonis (UDIN) harus memberikan balasan 'SKAKMAT' yang memuaskan penonton.
-- Gunakan instruksi [ACTION] untuk gerakan visual (seperti: lempar uang, kaget melongo, ludah, atau pamer kacamata).
+- Gunakan instruksi [ACTION] untuk gerakan visual.
 - JANGAN SOPAN. Fokus pada konflik sosial (Hutang, Sombong, Meremehkan).
 """
 
-# Inisialisasi Model (Pake Flash biar tahan banting)
+# Inisialisasi Model (Pake Flash Standar - Pasti Ada)
 model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash-8b',
+    model_name='gemini-1.5-flash',
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -918,6 +918,7 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON 10 ADEGAN!")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
