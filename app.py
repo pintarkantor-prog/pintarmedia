@@ -160,7 +160,7 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
         
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
+# 4. CUSTOM CSS (VERSION: CLEAN OBSIDIAN - NO GREEN BORDER)
 # ==============================================================================
 st.markdown("""
     <style>
@@ -168,197 +168,112 @@ st.markdown("""
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0e1117; }
     ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
-    
-/* 1. RESPONSIVE HEADER (UNLOCKED & SCROLLABLE) */
+    ::-webkit-scrollbar-thumb:hover { background: #31333f; }
+
+    /* 1. RESPONSIVE HEADER (UNLOCKED & SCROLLABLE) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: relative; /* Diubah dari fixed ke relative agar bisa discroll */
-        top: 0;
-        left: 0;
-        right: 0;
+        position: relative;
+        top: 0; left: 0; right: 0;
         z-index: 99;
-        background-color: transparent; /* Menyatu dengan background utama */
+        background-color: transparent;
         padding: 10px 0px;
         border-bottom: 2px solid #31333f;
-        margin-bottom: 20px; /* Memberi jarak dengan konten di bawahnya */
+        margin-bottom: 20px;
         width: 100%;
     }
 
-    /* Penyesuaian khusus Mobile agar tetap konsisten */
-    @media (max-width: 768px) {
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            padding: 10px 0px;
-        }
-    }
-/* 2. STYLE SIDEBAR (DARK NAVY OBSIDIAN) */
+    /* 2. STYLE SIDEBAR (DARK NAVY OBSIDIAN) */
     [data-testid="stSidebar"] {
-        background-color: #11151c !important; /* Warna biru navy gelap sesuai gambar */
+        background-color: #11151c !important;
         border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
-
-    /* Mengatur warna teks di sidebar agar putih bersih */
     [data-testid="stSidebar"] p, [data-testid="stSidebar"] label, [data-testid="stSidebar"] span {
         color: #ffffff !important;
-        font-weight: 500 !important;
     }
-
-    /* Mengatur kotak input di dalam sidebar (Number Input & Selectbox) */
     [data-testid="stSidebar"] .stNumberInput input, 
     [data-testid="stSidebar"] div[data-baseweb="select"] {
-        background-color: #090b0f !important; /* Lebih gelap dari sidebar agar kontras */
+        background-color: #090b0f !important;
         border: 1px solid #262730 !important;
         border-radius: 8px !important;
         color: white !important;
     }
-
-    /* Tombol SAVE, LOAD, dan KELUAR SISTEM di sidebar */
     [data-testid="stSidebar"] button {
         background-color: #262730 !important;
         color: white !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important;
-        text-transform: uppercase;
-        font-weight: 700 !important;
     }
-    
-    /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
+
+    /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
         border: none !important;
         border-radius: 8px !important;
-        padding: 0.6rem 1.2rem !important;
         font-weight: bold !important;
-        font-size: 16px !important;
         width: 100%;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
-        /* Transition dihapus agar kembali instan */
     }
 
-    div.stButton > button[kind="primary"]:hover {
-        background: #11998e !important;
-        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
-    }
-
-    /* 4. MODIFIKASI BOX STAF AKTIF (VERSION: CLEAN PREMIUM) */
+    /* 4. MODIFIKASI BOX STAF AKTIF */
     .staff-header-premium {
-        background: rgba(29, 151, 108, 0.1) !important; /* Hijau transparan tipis agar elegan */
-        border: 1px solid #1d976c !important; /* Garis lebih tipis (1px) agar terlihat pro */
-        border-radius: 12px !important; /* Sudut lebih melengkung halus */
+        background: rgba(29, 151, 108, 0.1) !important;
+        border: 1px solid #1d976c !important;
+        border-radius: 12px !important;
         padding: 12px 20px !important;
-        margin-bottom: 25px !important;
         display: flex !important;
         align-items: center !important;
         gap: 15px !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Shadow halus agar dimensi kotak terasa */
     }
+    .staff-header-premium b { color: #1d976c !important; }
+    .staff-header-premium i { color: #a1a1a1 !important; font-style: normal !important; }
 
-    /* Target Nama Admin */
-    .staff-header-premium b {
-        color: #1d976c !important; /* Hijau terang branding kamu */
-        font-size: 1.1em !important;
-        font-weight: 700 !important;
-        text-shadow: 0 0 8px rgba(29, 151, 108, 0.2) !important; /* Glow tipis profesional */
-    }
-
-    /* Target Icon */
-    .staff-header-premium span {
-        font-size: 1.4em !important;
-        filter: drop-shadow(0 0 5px rgba(29, 151, 108, 0.5));
-    }
-
-    /* Target Keterangan/Quote */
-    .staff-header-premium i {
-        color: #a1a1a1 !important; /* Abu-abu terang agar Nama lebih menonjol */
-        font-style: normal !important;
-        font-size: 0.95em !important;
-        margin-left: 5px;
-    }
-
-    /* 5. EFEK FOKUS (VERSION: SOFT EMERALD FOCUS) */
+    /* 5. EFEK FOKUS (KEMBALI KE DEFAULT) */
+    /* Menghapus semua border-color hijau agar kembali ke default sistem */
     .stTextArea textarea:focus, .stTextInput input:focus {
-        border: 1px solid #1d976c !important; /* Berubah jadi hijau tipis saat diklik */
-        background-color: #0e1117 !important; 
-        box-shadow: 0 0 5px rgba(29, 151, 108, 0.2) !important; /* Pendaran hijau yang sangat halus */
+        box-shadow: none !important;
         outline: none !important;
     }
 
-/* 6. STYLE LAINNYA (CLEAN & NO OVERLAP) */
-    h1, h2, h3, .stMarkdown h3 {
-        color: #ffffff !important;
-        background: none !important;
-        font-weight: 700 !important;
-    }
+    /* 6. STYLE LAINNYA (CLEAN & NO OVERLAP) */
+    h1, h2, h3 { color: #ffffff !important; }
 
-    /* Tombol Copy (Abu-abu Gelap Netral) */
     button[title="Copy to clipboard"] {
         background-color: #262730 !important;
         color: white !important;
-        border-radius: 6px !important;
     }
 
-    /* Kotak Isian (Dialog & Fisik) - Hapus Semua Efek Warna Paksaan */
     .stTextArea textarea, .stTextInput input {
         font-size: 16px !important;
         border-radius: 8px !important; 
         background-color: #0e1117 !important; 
         color: #ffffff !important;
-        /* Menghapus border agar tidak tumpang tindih dengan focus default */
         border: 1px solid #31333f !important; 
-        box-shadow: none !important;
-        transition: none !important;
     }
 
-    /* Label Instruksi Kecil - Tanpa Warna Hijau */
     .small-label {
         font-size: 12px !important;
         font-weight: bold !important;
         color: #a1a1a1 !important;
-        margin-bottom: 2px;
         display: block;
+        margin-bottom: 5px;
     }
 
-    /* 7. OPTIMASI KOTAK ADEGAN (EXPANDER) */
+    /* 7. OPTIMASI KOTAK ADEGAN */
     .stExpander {
         border: 1px solid #31333f !important;
         border-radius: 8px !important;
-        background-color: #11151c !important; 
+        background-color: #11151c !important;
         margin-bottom: 10px !important;
     }
 
-    /* Garis Pemisah Tipis */
     hr {
         margin: 1.5em 0 !important;
         border: 0;
         border-top: 1px solid rgba(255,255,255,0.05) !important;
     }
 
-    /* Garis Pemisah Halus */
-    hr {
-        margin: 1.5em 0 !important;
-        border: 0;
-        border-top: 1px solid rgba(255,255,255,0.05) !important;
-    }
-
-    /* Label dropdown agar lebih tegas dan sinematik */
-    .small-label {
-        color: #1d976c !important; /* Hijau branding kamu */
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        font-size: 10px !important;
-        font-weight: 800 !important;
-    }
-
-    /* Membuat garis pemisah adegan lebih halus */
-    hr {
-        margin: 2em 0 !important;
-        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-    }
-
-    /* Menjaga teks area visual tetap rapi */
-    .stTextArea textarea {
-        border: 1px solid rgba(255,255,255,0.1) !important;
-    }
+    /* MENGHAPUS SEMUA PERINTAH DUPLIKAT DI BAWAH */
+    div[data-baseweb="input"], div[data-baseweb="textarea"] { border: none !important; }
     </style>
     """, unsafe_allow_html=True)
 # ==============================================================================
@@ -1013,6 +928,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
