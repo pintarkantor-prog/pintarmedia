@@ -160,76 +160,68 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: ULTRA-ELEGANT & STABLE)
+# 4. CUSTOM CSS (VERSION: COMPACT PREMIUM & STABLE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. DASAR APLIKASI & RESET VARIABEL */
+    /* 1. DASAR APLIKASI */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Mengembalikan variabel internal ke default agar tidak tabrakan */
-    :root {
-        --primary-color: #ff4b4b; /* Default Streamlit Red */
-    }
-
-    /* 2. SIDEBAR (RAMPING & MODERN) */
+    /* 2. SIDEBAR RAMPING */
     [data-testid="stSidebar"] {
-        width: 280px !important;
+        width: 260px !important;
         background-color: #161922 !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
 
-    [data-testid="stSidebarUserContent"] {
-        padding-top: 5px !important;
-        margin-top: -15px !important;
-    }
-
-    /* Penyesuaian Konten Utama terhadap Sidebar */
-    @media (min-width: 769px) {
-        [data-testid="stMainViewContainer"] {
-            margin-left: -56px !important;
-        }
-    }
-
-    /* 3. INPUT NAMA, ANGKA, & DROPDOWN (ABU-ABU ELEGAN) */
+    /* 3. FORM COMPACT (Mengecilkan Tinggi Kotak) */
+    /* Menargetkan Input Teks, Angka, dan Dropdown */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        padding: 10px 12px !important;
-        font-size: 15px !important;
+        border-radius: 8px !important;
+        height: 38px !important; /* Standar Streamlit 45px+, kita press ke 38px */
+        padding: 0px 12px !important;
+        font-size: 14px !important;
     }
 
-    /* 4. TEXT AREA / ADEGAN (HITAM STEALTH) */
+    /* Khusus untuk Text Area (Adegan & Ciri Fisik) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        padding: 12px !important;
-        line-height: 1.6 !important;
+        border-radius: 8px !important;
+        padding: 10px !important;
+        font-size: 14px !important;
+        line-height: 1.4 !important;
+        min-height: 80px !important; /* Supaya tidak terlalu menjuntai ke bawah */
     }
 
-    /* 5. FOCUS BEHAVIOR (KEMBALI KE DEFAULT MERAH) */
-    /* Kita hapus paksaan hijau. Sekarang hanya akan muncul efek default Streamlit */
-    /* Ini menjamin tidak ada lagi tabrakan warna atau double border */
-    
+    /* 4. MERAPETKAN JARAK (REDUCING VERTICAL SPACING) */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.5rem !important; /* Jarak antar elemen ditarik jadi lebih mepet */
+    }
+
+    /* 5. LABEL STYLE (TEKS DI ATAS KOTAK) */
+    .stMarkdown p, label {
+        font-size: 13px !important;
+        margin-bottom: -5px !important; /* Teks label lebih dekat ke kotak inputnya */
+        color: rgba(255, 255, 255, 0.8) !important;
+    }
+
     /* 6. EXPANDER (CONTAINER ADEGAN) */
     [data-testid="stExpander"] {
         background-color: #1c202a !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 12px !important;
-        margin-bottom: 20px !important;
-        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 10px !important;
     }
-
-    [data-testid="stExpander"] summary {
-        padding: 12px 16px !important;
+    
+    /* Menghilangkan padding berlebih di dalam expander */
+    [data-testid="stExpander"] [data-testid="stVerticalBlock"] {
+        padding: 0.5rem 1rem !important;
     }
 
     /* 7. TOMBOL UTAMA (MODERN GRADIENT) */
@@ -237,28 +229,20 @@ st.markdown("""
         background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 10px !important;
-        padding: 0.6rem 1rem !important;
+        border-radius: 8px !important;
+        height: 40px !important;
         font-weight: 600 !important;
         width: 100%;
-        transition: all 0.2s ease !important;
         box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
 
-    div.stButton > button[kind="primary"]:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
-    }
+    /* 8. HAPUS PAKSA EFEK HIJAU/MERAH SAAT KLIK (STABLE) */
+    /* Kita biarkan default sistem agar tidak terjadi double border yang bikin form keliatan "tebal" */
 
-    /* 8. MOBILE OPTIMIZATION */
+    /* 9. MOBILE RESPONSIVE */
     @media (max-width: 768px) {
-        .block-container {
-            padding: 1rem !important;
-        }
-        /* Memastikan teks tidak terlalu kecil di mobile */
-        .stTextArea textarea, .stTextInput input {
-            font-size: 16px !important;
-        }
+        .block-container { padding: 0.5rem !important; }
+        .stTextArea textarea, .stTextInput input { font-size: 16px !important; }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -914,6 +898,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
