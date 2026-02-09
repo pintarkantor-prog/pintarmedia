@@ -7,8 +7,10 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (STABIL & SINKRON 10 ADEGAN)
+# KONFIGURASI OTAK AI (VERSI UNIVERSAL - ANTI 404)
 # ==============================================================================
+import google.generativeai as genai
+
 # Memanggil kunci dari Streamlit Secrets
 if "gemini_key" in st.secrets:
     api_kunci_final = st.secrets["gemini_key"]
@@ -18,23 +20,23 @@ else:
 
 genai.configure(api_key=api_kunci_final)
 
-# SOP PINTAR MEDIA (INSTRUKSI WAJIB SKAKMAT)
+# SOP PINTAR MEDIA
 SOP_PINTAR_MEDIA = """
 Kamu adalah Scriptwriter Senior PINTAR MEDIA, spesialis video Shorts 'Karma Visual'.
-GAYA BAHASA: 
-- Sangat lokal, bahasa tongkrongan, ceplas-ceplos, dan nyelekit.
-- Karakter Antagonis (TUNG) harus sangat menyebalkan dan merendahkan di awal.
-- Karakter Protagonis (UDIN) harus memberikan balasan 'SKAKMAT' yang memuaskan penonton.
-- Gunakan instruksi [ACTION] untuk gerakan visual.
-- JANGAN SOPAN. Fokus pada konflik sosial (Hutang, Sombong, Meremehkan).
+GAYA BAHASA: Sangat lokal, bahasa tongkrongan, ceplas-ceplos, dan nyelekit.
+ALUR: Antagonis (TUNG) sombong, Protagonis (UDIN) kasih balasan SKAKMAT.
 """
 
-# Inisialisasi Model (Pake Flash Standar - Pasti Ada)
-model = genai.GenerativeModel(
-    model_name='gemini-1.5-flash',
-    system_instruction=SOP_PINTAR_MEDIA
-)
-
+# --- TRIK ANTI 404 ---
+# Kita coba panggil nama model yang paling simpel
+try:
+    model = genai.GenerativeModel(
+        model_name='gemini-pro', # Kita coba pake nama 'gemini-pro' atau 'gemini-1.5-flash-latest'
+        system_instruction=SOP_PINTAR_MEDIA
+    )
+except:
+    # Jika masih gagal, pake model standar tanpa embel-embel
+    model = genai.GenerativeModel('gemini-pro')
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
 # 0. SISTEM LOGIN TUNGGAL (FULL STABLE: 10-HOUR SESSION + NEW USER)
@@ -918,6 +920,7 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON 10 ADEGAN!")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
