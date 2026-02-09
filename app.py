@@ -4,6 +4,11 @@ import pandas as pd
 from datetime import datetime
 import pytz
 import time
+import google.generativeai as genai
+
+# Konfigurasi Gemini dengan API Key milikmu
+genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
+model = genai.GenerativeModel('gemini-1.5-pro')
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -769,7 +774,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (BRAINSTORM & ATM ENGINE)
+# 11. HALAMAN AI LAB (BRAINSTORM & ATM ENGINE) - FULL AI MODE
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -786,7 +791,7 @@ elif menu_select == "🧠 AI LAB":
     ])
 
     # --------------------------------------------------------------------------
-    # TAB 1: AMATI (TREND SPY) - VERSI UJI FUNGSI
+    # TAB 1: AMATI (TREND SPY)
     # --------------------------------------------------------------------------
     with tab_spy:
         st.subheader("🛰️ Amati Konten Viral")
@@ -799,17 +804,21 @@ elif menu_select == "🧠 AI LAB":
         
         if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
-                with st.spinner("Gemini sedang membedah struktur konten..."):
-                    # Simulasi Analisis yang lebih detail untuk karyawan
+                with st.spinner("Gemini sedang membedah DNA konten..."):
+                    # PANGGIL AI UNTUK ANALISIS
+                    prompt_spy = f"""
+                    Analisis skrip video viral berikut: "{raw_script}"
+                    Jelaskan dalam 2 bagian pendek:
+                    1. Hook: Apa pancingan di 3 detik pertama?
+                    2. Struktur: Bagaimana pola alur ceritanya?
+                    Gunakan bahasa yang santai dan profesional.
+                    """
+                    response = model.generate_content(prompt_spy)
+                    
                     st.success("Analisis Selesai!")
+                    st.markdown(response.text)
                     
-                    c1, c2 = st.columns(2)
-                    with c1:
-                        st.info("**🎯 Pancingan (Hook):**\nVideo ini menggunakan teknik 'Revenge' (Balas Dendam). Sangat kuat untuk memancing emosi penonton di 3 detik pertama.")
-                    with c2:
-                        st.warning("**📈 Struktur Viral:**\nAlur: Dihina (Opening) -> Kerja Keras (Middle) -> Pembuktian (Ending). Cocok untuk engagement tinggi.")
-                    
-                    # Menyimpan data agar bisa lanjut ke Tab 2
+                    # Simpan naskah asli ke memori
                     st.session_state['temp_script_spy'] = raw_script
             else:
                 st.warning("Silakan tempel teks narasinya dulu!")
@@ -829,30 +838,54 @@ elif menu_select == "🧠 AI LAB":
 
         if st.button("SUNTIK NYAWA KARAKTER 🧪", use_container_width=True):
             if 'temp_script_spy' in st.session_state:
-                with st.spinner("Mengonversi alur kompetitor menjadi versi lokal..."):
-                    # Simulasi Modifikasi Gemini 1.5
+                with st.spinner(f"Mengonversi alur menjadi versi {mood}..."):
+                    # PANGGIL AI UNTUK MODIFIKASI (ATM)
+                    prompt_atm = f"""
+                    Gunakan teknik ATM (Amati Tiru Modifikasi) pada naskah ini: "{st.session_state['temp_script_spy']}"
+                    Ubah tokohnya menjadi: {', '.join(chars)}.
+                    Vibe cerita harus: {mood}.
+                    Setting lokasi: Kearifan lokal Indonesia (seperti sawah, pasar, teras rumah).
+                    Buat naskah cerita pendek yang sangat kuat dan menarik.
+                    """
+                    response = model.generate_content(prompt_atm)
+                    
                     st.success("Modifikasi Berhasil!")
-                    st.session_state['ready_script'] = f"Versi Modifikasi {mood} dengan tokoh {', '.join(chars)}"
-                    st.markdown("### Preview Skrip Baru:")
-                    st.write(f"Cerita kini berlatar di DNA Lokasi PINTAR MEDIA dengan dialog khas {chars[0]}.")
+                    # Simpan hasil modifikasi untuk Tab 3
+                    st.session_state['ready_script'] = response.text
+                    
+                    st.markdown("### 📝 Preview Naskah Baru:")
+                    st.write(response.text)
             else:
                 st.error("Belum ada data dari Tab 'AMATI'. Selesaikan langkah 1 dulu.")
 
     # --------------------------------------------------------------------------
-    # TAB 3: PRODUKSI (AUTO-STORYBOARD)
+    # TAB 3: PRODUKSI (AUTO-STORYBOARD SHORTS)
     # --------------------------------------------------------------------------
     with tab_storyboard:
-        st.subheader("📝 Produksi 50 Adegan Otomatis")
-        st.write("Gemini akan mengetik detail visual, shot, dan lighting untuk 50 adegan sekaligus.")
+        st.subheader("📝 Produksi Storyboard Shorts (Durasinya Pas!)")
+        st.write("Gemini akan memecah cerita menjadi 10-15 adegan cepat khas video viral.")
         
-        if st.button("GENERATE 50 ADEGAN SEKARANG 🚀", type="primary", use_container_width=True):
+        # Kita tambahkan pilihan jumlah adegan agar fleksibel
+        jumlah_adegan = st.slider("Mau berapa adegan?", min_value=5, max_value=20, value=12)
+        
+        if st.button("GENERATE STORYBOARD SHORTS 🚀", type="primary", use_container_width=True):
             if 'ready_script' in st.session_state:
-                with st.spinner("Gemini 1.5 Pro sedang menyusun 50 adegan teknis..."):
+                with st.spinner(f"Gemini sedang merancang {jumlah_adegan} adegan cepat..."):
+                    # PROMPT YANG DIOPTIMALKAN UNTUK SHORTS
+                    prompt_shorts = f"""
+                    Berdasarkan naskah ini: "{st.session_state['ready_script']}"
+                    Buatlah storyboard untuk video SHORTS/REELS sebanyak {jumlah_adegan} adegan.
+                    Pastikan perpindahan antar adegan terasa cepat (pacing cepat).
+                    
+                    Format per adegan HARUS:
+                    Adegan [Nomor]: [Visual Detail Aksi], Shot: [Close Up/Medium/Wide], Light: [Pagi/Siang/Sore/Malam]
+                    """
+                    response = model.generate_content(prompt_shorts)
+                    
                     st.balloons()
-                    st.success("50 Adegan Berhasil Dibuat!")
-                    st.markdown("### Draft Storyboard Teknis:")
-                    # Output ini yang nantinya dicopy karyawan ke Production Hub
-                    st.code("Adegan 1: UDIN di teras rumah kayu, Shot: Close-up, Angle: Normal, Light: Sore...", language="text")
+                    st.success(f"{jumlah_adegan} Adegan Shorts Berhasil Dibuat!")
+                    st.markdown("### 📋 Draft Storyboard Teknis (Siap Copy):")
+                    st.code(response.text, language="text")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
 
@@ -862,9 +895,3 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
-
-
-
-
-
-
