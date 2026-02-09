@@ -295,8 +295,7 @@ st.markdown("""
     }
     </style>
     """, unsafe_allow_html=True)
-    </style>
-    """, unsafe_allow_html=True)
+
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -949,6 +948,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
