@@ -158,7 +158,7 @@ def record_to_sheets(user, data_packet, total_scenes):
     except Exception as e:
         # Menampilkan error agar kamu tahu kalau koneksinya bermasalah
         st.error(f"Gagal mencatat ke Cloud: {e}")
-
+        
 # ==============================================================================
 # 4. CUSTOM CSS (VERSION: SLATE ULTRA - ELEGANT & INTERACTIVE)
 # ==============================================================================
@@ -924,6 +924,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
