@@ -283,55 +283,64 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-/* 8. INPUT AREA - ANTI MERAH TOTAL */
+    /* 8. INPUT AREA - SAPU BERSIH WARNA MERAH */
     
-    /* A. WARNA DASAR KOLOM */
-    .stTextInput input, .stNumberInput input {
+    /* A. DASAR WARNA SEMUA INPUT */
+    .stTextInput input, .stNumberInput input, .stSelectbox div[data-baseweb="select"] {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
     }
 
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         border: 1px solid #31333f !important;
+        border-radius: 12px !important;
     }
 
-    /* B. HAPUS MERAH SAAT DI-KLIK (FOKUS) */
-    /* Menargetkan semua elemen input, textarea, dan container baseweb */
-    .stTextArea textarea:focus, 
-    .stTextInput input:focus, 
-    .stNumberInput input:focus,
-    [data-baseweb="input"] :focus,
-    [data-baseweb="textarea"] :focus {
+    /* B. MATIKAN SEMUA EFEK MERAH/PINK SAAT FOKUS (DI-KLIK) */
+    /* Kode ini menembak secara global agar tidak ada celah bagi warna merah */
+    input:focus, textarea:focus, div[data-baseweb="select"] :focus, div[data-baseweb="input"] :focus {
         border-color: #1d976c !important; /* Paksa Hijau */
-        box-shadow: none !important;      /* Hapus pendaran merah/pink */
+        box-shadow: none !important;      /* Hapus Pendaran Merah */
         outline: none !important;
     }
 
-    /* C. HAPUS MERAH BAWAAN BASEWEB (LAPISAN LUAR) */
-    /* Ini yang seringkali muncul merah di sekeliling kotak */
-    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="base-input"] {
+    /* C. KHUSUS DROPDOWN (SELECTBOX) AGAR TIDAK MERAH */
+    div[data-baseweb="select"] {
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Saat Dropdown Terbuka/Aktif */
+    div[data-baseweb="select"]:focus-within {
+        border-color: #1d976c !important;
+        box-shadow: none !important;
+    }
+
+    /* D. HAPUS LAPISAN LUAR BASEWEB YANG SERING JADI MERAH */
+    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="select"], [data-baseweb="base-input"] {
         border-color: transparent !important;
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* D. HAPUS WARNA MERAH VALIDASI (EROR/REQUIRED) */
-    /* Mematikan warna merah saat kolom belum diisi */
-    .stTextArea textarea:invalid, 
-    .stTextInput input:invalid,
-    .stNumberInput input:invalid {
-        box-shadow: none !important;
-        border-color: #31333f !important;
+    /* E. PAKSA WARNA BOX-SHADOW JADI TRANSPARAN (GLOBAL FIX) */
+    /* Ini untuk mematikan pendaran merah di elemen manapun yang tersisa */
+    * {
+        --baseweb-input-border-focus: #1d976c !important;
+        --primary: #1d976c !important;
     }
 
-    /* Memastikan angka (Number Input) juga tidak merah */
-    [data-testid="stNumberInput"] div[data-baseweb="input"] {
-        background-color: #262730 !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
+    /* F. HAPUS MERAH VALIDASI (REQUIRED/EROR) */
+    :invalid {
+        box-shadow: none !important;
+    }
+    
+    .stTextArea textarea:invalid, .stTextInput input:invalid, .stNumberInput input:invalid {
+        border-color: #31333f !important;
+        box-shadow: none !important;
     }
 
     /* 9. MOBILE FIX */
@@ -1005,6 +1014,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
