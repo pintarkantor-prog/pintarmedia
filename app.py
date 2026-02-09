@@ -832,11 +832,11 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI GROQ - ANTI LIMIT & 10 ADEGAN)
+# 11. HALAMAN AI LAB (VERSI GROQ - FULL AUTOPILOT SINKRON)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
-    st.title("🧠 AI LAB: GUDANG IDE GACOR (GROQ POWERED)")
+    st.title("🧠 AI LAB: GUDANG IDE")
     st.markdown("---")
 
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
@@ -848,7 +848,7 @@ elif menu_select == "🧠 AI LAB":
         if mode_ide == "📦 Pakai Ide Stok":
             gudang_ide = {
                 "--- Pilih Menu Ide ---": "",
-                "Karma Konten Palsu": "Tung tarik uang sejuta dari pengemis demi konten, ternyata pengemisnya intel polisi.",
+                "Karma Konten Palsu": "Tung tarik uang sejuta dari pengemis demi konten, ternyata intel polisi.",
                 "Antri Bansos Mobil Mewah": "Tung pamer mobil mewah pas antre bansos, ternyata mobil sewaan leasing.",
                 "Bos Nyamar OB": "Tung bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi.",
                 "Hutang Gaya Elit": "Tung pamer iPhone baru tapi nunggak hutang ke Udin, HP langsung disita Udin."
@@ -873,7 +873,7 @@ elif menu_select == "🧠 AI LAB":
         if 'temp_script_spy' in st.session_state:
             nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_groq")
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
-                with st.spinner("Menyusun naskah via Groq..."):
+                with st.spinner("Masih menyusun naskah..."):
                     try:
                         prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
                         hasil_dialog = panggil_ai_groq(prompt)
@@ -891,7 +891,7 @@ elif menu_select == "🧠 AI LAB":
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
                 with st.spinner("Memecah adegan super cepat..."):
                     try:
-                        prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Naskah: {st.session_state['ready_script']}"
+                        prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Sertakan keterangan suasana (siang/malam) dan shot size (close up/full body) di tiap adegan. Naskah: {st.session_state['ready_script']}"
                         hasil_st = panggil_ai_groq(prompt)
                         st.session_state['ready_storyboard'] = hasil_st
                         st.rerun()
@@ -909,15 +909,45 @@ elif menu_select == "🧠 AI LAB":
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
-                        # Reset dulu
-                        for clear_idx in range(1, 11): st.session_state[f'vis_input_{clear_idx}'] = ""
-                        # Split 10 adegan
+                        
+                        # Loop 10 adegan untuk reset dan isi otomatis
                         for i in range(1, 11):
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+                            
                             if match:
-                                st.session_state[f'vis_input_{i}'] = match.group(1).strip()
+                                isi_adegan = match.group(1).strip()
+                                st.session_state[f'vis_input_{i}'] = isi_adegan
+                                
+                                # --- OTOMATISASI DROPDOWN ---
+                                text_lower = isi_adegan.lower()
+                                
+                                # 1. Deteksi Suasana (Environment)
+                                if "malam" in text_lower or "gelap" in text_lower:
+                                    st.session_state[f'env_input_{i}'] = "Malam"
+                                elif "sore" in text_lower or "senja" in text_lower:
+                                    st.session_state[f'env_input_{i}'] = "Sore"
+                                else:
+                                    st.session_state[f'env_input_{i}'] = "Siang" # Default
+                                
+                                # 2. Deteksi Ukuran Gambar (Shot Size)
+                                if "close up" in text_lower or "muka" in text_lower:
+                                    st.session_state[f'size_input_{i}'] = "Muka Jelas (Close Up)"
+                                elif "seluruh badan" in text_lower or "full body" in text_lower:
+                                    st.session_state[f'size_input_{i}'] = "Seluruh Badan (Full Body)"
+                                else:
+                                    st.session_state[f'size_input_{i}'] = "Setengah Badan" # Default
+                                
+                                # 3. Deteksi Kamera
+                                if "zoom" in text_lower:
+                                    st.session_state[f'cam_move_{i}'] = "Zoom In (Mendekat)"
+                                elif "geser" in text_lower or "pan" in text_lower:
+                                    st.session_state[f'cam_move_{i}'] = "Pan (Geser Kiri/Kanan)"
+                                else:
+                                    st.session_state[f'cam_move_{i}'] = "Diam (Tanpa Gerak)"
+
                         st.session_state['c_name_1_input'] = "UDIN"
-                        st.success("🔥 SINKRON 10 ADEGAN VIA GROQ!")
+                        st.session_state['c_name_2_input'] = "TUNG"
+                        st.success("🔥 SINKRON TOTAL! Cek Production Hub, visual sudah terisi otomatis.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
