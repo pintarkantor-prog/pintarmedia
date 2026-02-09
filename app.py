@@ -283,43 +283,49 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA (REVISED: OBSIDIAN ELITE THEME) */
+    /* 6. STYLE LAINNYA (REVISED: OBSIDIAN RED ACCENT) */
     h1, h2, h3, .stMarkdown h3 {
         color: #ffffff !important;
         background: none !important;
         font-weight: 700 !important;
-        letter-spacing: -0.5px; /* Membuat judul terlihat lebih padat/profesional */
+        letter-spacing: -0.5px;
     }
 
-    /* Tombol Copy (Dibuat Hijau Branding agar Senada) */
+    /* Tombol Copy (Dibuat Netral agar tidak kontras dengan Merah/Hijau) */
     button[title="Copy to clipboard"] {
-        background-color: #1d976c !important;
+        background-color: #262730 !important;
         color: white !important;
         border-radius: 8px !important;
-        border: none !important;
-        transition: transform 0.2s ease;
+        border: 1px solid rgba(255,255,255,0.1) !important;
     }
     
     button[title="Copy to clipboard"]:hover {
-        transform: scale(1.1); /* Efek membesar tipis saat hover */
-        background-color: #15805d !important;
+        background-color: #31333f !important;
+        transform: scale(1.05);
     }
 
-    /* Kotak Isian (Dialog/Fisik) - Blending Sempurna */
+    /* Kotak Isian (Dialog/Fisik) - Stealth Mode */
     .stTextArea textarea {
         font-size: 16px !important;
-        border-radius: 12px !important; /* Melengkung senada dengan box staf */
-        background-color: #0e1117 !important; /* Warna dasar aplikasi */
-        border: 1px solid rgba(255, 255, 255, 0.1) !important; /* Garis halus tipis */
+        border-radius: 12px !important; 
+        background-color: #0e1117 !important; 
+        border: 1px solid rgba(255, 255, 255, 0.1) !important; 
         color: #ffffff !important;
         padding: 15px !important;
+    }
+
+    /* Efek Fokus Default Merah (Sesuai Permintaan) */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border-color: #ff4b4b !important; /* Merah Default Streamlit */
+        box-shadow: 0 0 0 1px #ff4b4b !important;
+        outline: none !important;
     }
 
     /* Label Instruksi Kecil (Small Label) */
     .small-label {
         font-size: 11px !important;
         font-weight: 800 !important;
-        color: #1d976c !important; /* Menggunakan hijau branding */
+        color: #a1a1a1 !important; /* Dibuat Abu-abu Netral agar Merah lebih stand out */
         text-transform: uppercase;
         letter-spacing: 1.5px;
         margin-bottom: 6px;
@@ -1006,6 +1012,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
