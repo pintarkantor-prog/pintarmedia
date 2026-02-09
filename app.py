@@ -188,7 +188,40 @@ st.markdown("""
         }
     }
 
-    /* 2. STYLE SIDEBAR */
+# ==============================================================================
+# 4. CUSTOM CSS (VERSI REVISI: 100% AMAN PC & RAPI HP)
+# ==============================================================================
+st.markdown("""
+    <style>
+    /* A. CUSTOM SCROLLBAR (TETAP) */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0e1117; }
+    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 1. FIXED HEADER (DIBUAT CERDAS: FIXED DI PC, RELATIVE DI HP) */
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+        position: relative; /* Default untuk HP */
+        background-color: #0e1117;
+        padding: 10px 0px;
+        border-bottom: 2px solid #31333f;
+        margin-bottom: 20px;
+    }
+
+    /* --- KHUSUS TAMPILAN PC (CSS ASLIMU DI SINI) --- */
+    @media (min-width: 769px) {
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            position: fixed;
+            top: 0;
+            left: 310px;
+            right: 0;
+            z-index: 99999;
+            padding: 10px 2rem;
+        }
+        .block-container { padding-top: 5rem !important; }
+    }
+
+    /* 2. STYLE SIDEBAR (TETAP ASLI) */
     [data-testid="stSidebar"] {
         background-color: #1a1c24 !important;
         border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
@@ -197,7 +230,7 @@ st.markdown("""
         color: #ffffff !important;
     }
 
-    /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
+    /* 3. TOMBOL GENERATE (TETAP ASLI) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
@@ -208,112 +241,72 @@ st.markdown("""
         font-size: 16px !important;
         width: 100%;
         box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
-        /* Transition dihapus agar kembali instan */
     }
-
     div.stButton > button[kind="primary"]:hover {
         background: #11998e !important;
         box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
     }
 
-    /* 4. MODIFIKASI BOX STAF AKTIF (HIJAU TEGAS & FLAT - TANPA EFEK SAMPING) */
+    /* 4. MODIFIKASI BOX STAF AKTIF (TETAP ASLI + FLEX-WRAP UNTUK HP) */
     .staff-header-premium {
-        background: rgba(29, 151, 108, 0.2) !important; /* Warna hijau background lebih nyata */
-        border: 2px solid #1d976c !important; /* Garis bingkai rata di semua sisi */
+        background: rgba(29, 151, 108, 0.2) !important;
+        border: 2px solid #1d976c !important;
         border-radius: 10px !important;
         padding: 15px 20px !important;
         margin-bottom: 25px !important;
         display: flex !important;
+        flex-wrap: wrap !important; /* Tambahan agar rapi di HP */
         align-items: center !important;
         gap: 12px !important;
-        /* Menghilangkan efek shadow dan border-left tebal agar terlihat flat/rata */
         box-shadow: none !important; 
     }
-    
     .staff-header-premium b {
-        color: #ffffff !important; /* Nama Staf dibuat putih agar kontras dan jelas */
-        font-size: 1.1em !important;
-    }
-
-    .staff-header-premium span {
-        color: #1d976c !important; /* Icon orangnya yang diberi warna hijau */
-    }
-
-    .staff-header-premium i {
-        color: #e0e0e0 !important;
-        font-style: normal !important; /* Menghilangkan miring jika ingin lebih tegas */
-    }
-    
-    .staff-header-premium b {
-        color: #1d976c !important; /* Nama Admin jadi hijau terang */
+        color: #1d976c !important; 
         font-size: 1.15em !important;
-        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important; /* Efek glow halus pada teks */
+        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important;
     }
+    .staff-header-premium span { color: #1d976c !important; }
+    .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
 
-    .staff-header-premium i {
-        color: #e0e0e0 !important; /* Quote jadi lebih putih agar mudah dibaca */
-    }
-    
-    .staff-header-premium b {
-        color: #1d976c;
-        font-size: 1.1em;
-    }
-
-    /* 5. EFEK FOKUS (DIKEMBALIKAN KE STANDAR) */
+    /* 5. EFEK FOKUS (TETAP ASLI) */
     .stTextArea textarea:focus, .stTextInput input:focus {
-        border: 1px solid #31333f !important; /* Kembali ke warna border asli */
-        background-color: #0e1117 !important; /* Tetap gelap */
+        border: 1px solid #31333f !important;
+        background-color: #0e1117 !important;
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA */
-    h1, h2, h3, .stMarkdown h3 {
-        color: #ffffff !important;
-        background: none !important;
-        -webkit-text-fill-color: initial !important;
-    }
-    button[title="Copy to clipboard"] {
-        background-color: #28a745 !important;
-        color: white !important;
-        border-radius: 6px !important;
-        transform: scale(1.1);
-    }
+    /* 6. STYLE LAINNYA (TETAP ASLI) */
+    h1, h2, h3, .stMarkdown h3 { color: #ffffff !important; }
     .stTextArea textarea {
         font-size: 16px !important;
         border-radius: 10px !important;
         background-color: #0e1117 !important;
         border: 1px solid #31333f !important;
     }
-    .small-label {
-        font-size: 12px; font-weight: bold; color: #a1a1a1; margin-bottom: 2px;
-    }
-    /* 7. OPTIMASI KOTAK ADEGAN */
+    
+    /* 7. OPTIMASI KOTAK ADEGAN (TETAP ASLI) */
     .stExpander {
         border: 1px solid rgba(29, 151, 108, 0.3) !important;
         border-radius: 12px !important;
         background-color: #161922 !important;
         margin-bottom: 15px !important;
     }
-
-    /* Label dropdown agar lebih tegas dan sinematik */
     .small-label {
-        color: #1d976c !important; /* Hijau branding kamu */
+        color: #1d976c !important;
         letter-spacing: 1px;
         text-transform: uppercase;
         font-size: 10px !important;
         font-weight: 800 !important;
     }
 
-    /* Membuat garis pemisah adegan lebih halus */
-    hr {
-        margin: 2em 0 !important;
-        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-    }
-
-    /* Menjaga teks area visual tetap rapi */
-    .stTextArea textarea {
-        border: 1px solid rgba(255,255,255,0.1) !important;
+    /* --- KHUSUS TAMPILAN HP (AGAR TIDAK ACAK-ACAKAN) --- */
+    @media (max-width: 768px) {
+        .block-container { padding-top: 1rem !important; }
+        [data-testid="column"] {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+        }
     }
     </style>
     """, unsafe_allow_html=True)
@@ -985,3 +978,4 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
