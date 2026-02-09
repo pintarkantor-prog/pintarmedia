@@ -801,21 +801,22 @@ elif menu_select == "🧠 AI LAB":
         
         raw_script = st.text_area("Tempel Skrip / Narasi Konten Viral:", 
                                   height=200, 
-                                  placeholder="Contoh: Orang sukses yang dulunya dihina saudaranya sendiri...",
+                                  placeholder="Contoh: Orang pamer kekayaan tapi ternyata dompetnya kosong...",
                                   key="lab_spy_input")
         
         if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
                 with st.spinner("Gemini sedang membedah DNA konten..."):
                     try:
-                        prompt_spy = f"Analisis skrip ini: {raw_script}. Bedah Hook dan Strukturnya."
+                        prompt_spy = f"Analisis skrip ini secara mendalam namun singkat: {raw_script}. Bedah apa Hook-nya dan bagaimana Struktur ceritanya agar viral."
                         response = model.generate_content(prompt_spy)
                         
                         st.success("Analisis Selesai!")
                         st.markdown(response.text)
+                        # Simpan ke memori agar bisa dipakai Tab 2
                         st.session_state['temp_script_spy'] = raw_script
                     except Exception as e:
-                        st.error(f"Waduh, koneksi ke Otak AI terputus. Coba klik lagi ya! Error: {e}")
+                        st.error(f"Gagal membedah konten: {e}")
             else:
                 st.warning("Silakan tempel teks narasinya dulu!")
 
@@ -833,24 +834,27 @@ elif menu_select == "🧠 AI LAB":
             mood = st.selectbox("Ganti Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
 
         if st.button("SUNTIK NYAWA KARAKTER 🧪", use_container_width=True):
-            if 'temp_script_spy' in st.session_state:
+            # Cek apakah data dari Tab 1 sudah ada
+            if 'temp_script_spy' in st.session_state and st.session_state['temp_script_spy']:
                 with st.spinner(f"Mengonversi alur menjadi versi {mood}..."):
-                    # PANGGIL AI UNTUK MODIFIKASI (ATM)
-                    prompt_atm = f"""
-                    Gunakan teknik ATM (Amati Tiru Modifikasi) pada naskah ini: "{st.session_state['temp_script_spy']}"
-                    Ubah tokohnya menjadi: {', '.join(chars)}.
-                    Vibe cerita harus: {mood}.
-                    Setting lokasi: Kearifan lokal Indonesia (seperti sawah, pasar, teras rumah).
-                    Buat naskah cerita pendek yang sangat kuat dan menarik.
-                    """
-                    response = model.generate_content(prompt_atm)
-                    
-                    st.success("Modifikasi Berhasil!")
-                    # Simpan hasil modifikasi untuk Tab 3
-                    st.session_state['ready_script'] = response.text
-                    
-                    st.markdown("### 📝 Preview Naskah Baru:")
-                    st.write(response.text)
+                    try:
+                        prompt_atm = f"""
+                        Gunakan teknik ATM (Amati Tiru Modifikasi) pada naskah ini: "{st.session_state['temp_script_spy']}"
+                        Ubah tokohnya menjadi: {', '.join(chars)}.
+                        Vibe cerita harus: {mood}.
+                        Setting lokasi: Kearifan lokal Indonesia (seperti sawah, pasar, atau teras rumah kayu).
+                        Tulis naskah pendek yang sangat kuat, dialog khas orang desa, dan emosional.
+                        """
+                        response = model.generate_content(prompt_atm)
+                        
+                        st.success("Modifikasi Berhasil!")
+                        # Simpan hasil modifikasi untuk Tab 3
+                        st.session_state['ready_script'] = response.text
+                        
+                        st.markdown("### 📝 Preview Naskah Baru:")
+                        st.write(response.text)
+                    except Exception as e:
+                        st.error(f"Gagal memodifikasi karakter: {e}")
             else:
                 st.error("Belum ada data dari Tab 'AMATI'. Selesaikan langkah 1 dulu.")
 
@@ -858,38 +862,32 @@ elif menu_select == "🧠 AI LAB":
     # TAB 3: PRODUKSI (AUTO-STORYBOARD SHORTS)
     # --------------------------------------------------------------------------
     with tab_storyboard:
-        st.subheader("📝 Produksi Storyboard Shorts (Durasinya Pas!)")
-        st.write("Gemini akan memecah cerita menjadi 10-15 adegan cepat khas video viral.")
+        st.subheader("📝 Produksi Storyboard Shorts")
+        st.write("Gemini akan memecah cerita menjadi adegan cepat khas video viral.")
         
-        # Kita tambahkan pilihan jumlah adegan agar fleksibel
         jumlah_adegan = st.slider("Mau berapa adegan?", min_value=5, max_value=20, value=12)
         
         if st.button("GENERATE STORYBOARD SHORTS 🚀", type="primary", use_container_width=True):
-            if 'ready_script' in st.session_state:
+            # Cek apakah data dari Tab 2 sudah ada
+            if 'ready_script' in st.session_state and st.session_state['ready_script']:
                 with st.spinner(f"Gemini sedang merancang {jumlah_adegan} adegan cepat..."):
-                    # PROMPT YANG DIOPTIMALKAN UNTUK SHORTS
-                    prompt_shorts = f"""
-                    Berdasarkan naskah ini: "{st.session_state['ready_script']}"
-                    Buatlah storyboard untuk video SHORTS/REELS sebanyak {jumlah_adegan} adegan.
-                    Pastikan perpindahan antar adegan terasa cepat (pacing cepat).
-                    
-                    Format per adegan HARUS:
-                    Adegan [Nomor]: [Visual Detail Aksi], Shot: [Close Up/Medium/Wide], Light: [Pagi/Siang/Sore/Malam]
-                    """
-                    response = model.generate_content(prompt_shorts)
-                    
-                    st.balloons()
-                    st.success(f"{jumlah_adegan} Adegan Shorts Berhasil Dibuat!")
-                    st.markdown("### 📋 Draft Storyboard Teknis (Siap Copy):")
-                    st.code(response.text, language="text")
+                    try:
+                        prompt_shorts = f"""
+                        Berdasarkan naskah ini: "{st.session_state['ready_script']}"
+                        Buatlah storyboard untuk video SHORTS/REELS sebanyak {jumlah_adegan} adegan.
+                        Perpindahan antar adegan harus cepat dan dramatis.
+                        
+                        Format WAJIB per baris:
+                        Adegan [Nomor]: [Detail Visual], Shot: [Shot Type], Light: [Waktu]
+                        """
+                        response = model.generate_content(prompt_shorts)
+                        
+                        st.balloons()
+                        st.success(f"{jumlah_adegan} Adegan Shorts Berhasil Dibuat!")
+                        st.markdown("### 📋 Draft Storyboard Teknis (Siap Copy):")
+                        st.code(response.text, language="text")
+                        st.caption("Gunakan teks di atas sebagai panduan di Production Hub.")
+                    except Exception as e:
+                        st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
-
-# ==============================================================================
-# 12. FOOTER / ELSE
-# ==============================================================================
-else:
-    st.title(menu_select)
-    st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
-
-
