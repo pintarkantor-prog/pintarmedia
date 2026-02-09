@@ -8,8 +8,9 @@ import google.generativeai as genai
 
 # Konfigurasi API
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
-# GANTI KE INI: Model paling stabil untuk API v1beta
-model = genai.GenerativeModel('gemini-pro')
+
+# Gunakan penamaan lengkap model agar API tidak bingung mencari versinya
+model = genai.GenerativeModel('models/gemini-1.5-flash-latest')
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -890,4 +891,5 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
