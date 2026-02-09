@@ -9,7 +9,7 @@ import google.generativeai as genai
 # ==============================================================================
 # KONFIGURASI OTAK AI (VERSI GACOR & ANTI-LIMIT)
 # ==============================================================================
-genai.configure(api_key="AIzaSyA1OljBGmXboEmCNSMp9S6DmLf_gWy4YF0")
+genai.configure(api_key="AIzaSyCKz5AwE-rBunj5H18Y1oUO7tmahI5fYc8")
 
 # 1. Cari model yang tersedia secara otomatis
 available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
@@ -972,4 +972,5 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON! Silakan cek 10 kotak di PRODUCTION HUB.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
