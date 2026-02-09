@@ -182,33 +182,33 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 2. STYLE SIDEBAR BUTTONS (DARK GLOSSY & INTERACTIVE) */
+    /* 2. STYLE SIDEBAR BUTTONS (DEEP DARK GLOSSY) */
     [data-testid="stSidebar"] button {
-        /* Warna Dasar Kembali Gelap (Sesuai Sidebar) tapi ada gradasi glossy halus */
-        background: linear-gradient(180deg, #1b1c22 0%, #0e1117 100%) !important;
+        /* Warna Dasar Dibuat Jauh Lebih Gelap (Hitam Obsidian) */
+        background: linear-gradient(180deg, #0f1116 0%, #050505 100%) !important;
         color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* Border sangat tipis */
+        border: 1px solid rgba(255, 255, 255, 0.05) !important; /* Border makin tipis agar stealth */
         border-radius: 8px !important;
         text-transform: uppercase;
         font-weight: 700 !important;
         transition: all 0.2s ease-in-out !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.5) !important;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.6) !important;
     }
 
-    /* Efek Hover yang kamu suka (dipertahankan) */
+    /* Efek Hover (Pertahankan yang kamu suka, tapi warna disesuaikan lebih gelap) */
     [data-testid="stSidebar"] button:hover {
-        /* Sedikit lebih terang saat disorot agar terasa glossy */
-        background: linear-gradient(180deg, #262730 0%, #1b1c22 100%) !important;
-        border-color: rgba(29, 151, 108, 0.4) !important; /* Glow ijo tipis */
-        transform: translateY(-1px) !important; /* Efek naik dikit */
-        box-shadow: 0 4px 12px rgba(0,0,0,0.6) !important;
+        /* Saat disorot, baru muncul warna abu-abu gelapnya */
+        background: linear-gradient(180deg, #1b1c22 0%, #0f1116 100%) !important;
+        border-color: rgba(29, 151, 108, 0.3) !important; 
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.8) !important;
     }
 
-    /* Efek Klik (Active) yang kamu suka (dipertahankan) */
+    /* Efek Klik Active (Tetap Hijau Glossy Favoritmu) */
     [data-testid="stSidebar"] button:active {
         background: linear-gradient(180deg, #1d976c 0%, #11998e 100%) !important;
-        transform: scale(0.96) !important; /* Efek membal */
-        box-shadow: inset 0 3px 5px rgba(0,0,0,0.4) !important;
+        transform: scale(0.96) !important;
+        box-shadow: inset 0 3px 8px rgba(0,0,0,0.6) !important;
         border-color: transparent !important;
     }
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
@@ -938,6 +938,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
