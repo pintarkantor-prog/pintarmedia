@@ -608,10 +608,45 @@ vid_quality_base = f"60fps, ultra-clear motion, {vid_quality_stack} {no_text_str
 # 9. PINTU MENU UTAMA (LOGIKA NAVIGASI HALAMAN)
 # ==============================================================================
 
+# ==============================================================================
+# 9. HALAMAN PRODUCTION HUB (PENERIMA OTOMATIS + INPUT MANUAL)
+# ==============================================================================
 if menu_select == "🚀 PRODUCTION HUB":
     
     if "restore_counter" not in st.session_state:
         st.session_state.restore_counter = 0
+
+    st.title("🚀 PRODUCTION HUB")
+    st.markdown("---")
+
+    # --- A. FITUR PENERIMA OTOMATIS DARI AI LAB ---
+    # Ini adalah bagian baru yang menangkap kiriman dari AI LAB
+    if 'naskah_produksi' in st.session_state:
+        st.success("📩 ADA NASKAH BARU MASUK DARI AI LAB!")
+        with st.expander("📝 LIHAT & EDIT NASKAH SKAKMAT", expanded=True):
+            # Area teks agar naskah dari AI bisa diedit/diperhalus sebelum syuting
+            naskah_final = st.text_area(
+                "Naskah Siap Eksekusi:", 
+                value=st.session_state['naskah_produksi'], 
+                height=400,
+                key="final_editor_hub"
+            )
+            
+            col_save, col_reset = st.columns(2)
+            with col_save:
+                # Tombol download buat pegangan kru di lapangan
+                st.download_button(
+                    label="📥 DOWNLOAD NASKAH (.txt)",
+                    data=naskah_final,
+                    file_name=f"naskah_siap_syuting_{active_user}.txt",
+                    mime="text/plain",
+                    use_container_width=True
+                )
+            with col_reset:
+                if st.button("🗑️ HAPUS NASKAH INI", use_container_width=True):
+                    del st.session_state['naskah_produksi']
+                    st.rerun()
+        st.markdown("---")
 
     st.subheader("📝 Detail Storyboard")
 
@@ -801,14 +836,14 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (RUANGAN IDE GOKIL - VERSI SKAKMAT)
+# 11. HALAMAN AI LAB (RUANGAN IDE GOKIL - VERSI OTOMATIS KE PRODUCTION)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
     
     st.title("🧠 AI LAB: GUDANG IDE GACOR")
     st.markdown("---")
-    st.write(f"Halo **{nama_display}**! Pilih ide maut di bawah atau buat baru, lalu eksekusi jadi naskah skakmat!")
+    st.write(f"Halo **{nama_display}**! Pilih ide maut atau buat baru, lalu kirim hasilnya ke Production Hub!")
 
     # --- TABS ---
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
@@ -818,7 +853,7 @@ elif menu_select == "🧠 AI LAB":
     ])
 
     # --------------------------------------------------------------------------
-    # TAB 1: GUDANG IDE (ANTI-LIMIT / ANTI-PUSING)
+    # TAB 1: GUDANG IDE
     # --------------------------------------------------------------------------
     with tab_spy:
         mode_ide = st.radio("Metode Cari Ide:", ["📦 Pakai Ide Stok (Hemat Kuota)", "💡 Buat Ide Baru (AI Generator)"], horizontal=True)
@@ -831,7 +866,7 @@ elif menu_select == "🧠 AI LAB":
                 "Antri Bansos Pake Mobil": "Tung pake mobil mewah antre bansos & maki-maki petugas (Udin). Udin cek data: Tung palsuin data kemiskinan. Polisi dateng, mobil disita di tempat.",
                 "Bos Nyamar jadi OB Kantor": "Tung karyawan baru sombong bentak Udin yang lagi ngepel gara-gara bajunya kesenggol. Pas jam meeting, Udin duduk di kursi CEO. Tung langsung kicep.",
                 "Hutang Gaya Elit (Pamer HP)": "Tung pamer HP lipat baru di tongkrongan sambil ngatain Udin miskin. Udin telpon leasing depan umum: Ternyata HP Tung barang tarikan yang nunggak 5 bulan.",
-                "Sombong di Showroom Mobil": "Tung pamer di showroom, ngeremehin sales (Udin) yang penampilannya biasa. Ternyata Udin itu pemilik showroom yang lagi cek stok. Tung diusir gak boleh beli."
+                "Sombong di Showroom Mobil": "Tung pamer di showroom, ngeremehin sales (Udin) yang penampilannya biasa. Ternyata Udin itu pemilik showroom yang lagi cek stok."
             }
             pilihan = st.selectbox("Daftar Premis Gacor:", list(gudang_ide.keys()))
             if pilihan != "--- Pilih Menu Ide ---":
@@ -841,7 +876,7 @@ elif menu_select == "🧠 AI LAB":
                     st.balloons()
                     st.success("Ide Berhasil Dikunci! Sekarang lanjut ke Tab 2.")
 
-        else: # AUTO GENERATOR (ALUR DIKUNCI SKAKMAT)
+        else: # AUTO GENERATOR
             col1, col2 = st.columns(2)
             with col1:
                 vibe = st.selectbox("Vibe Cerita:", ["Sombong Kena Karma", "Pamer Harta Palsu", "Meremehkan Orang Sakti"])
@@ -857,10 +892,10 @@ elif menu_select == "🧠 AI LAB":
                         st.session_state['temp_script_spy'] = response.text
                         st.markdown(response.text)
                     except Exception as e:
-                        st.error("Waduh, AI lagi capek (Limit). Coba lagi 30 detik ya!")
+                        st.error("Waduh, AI lagi capek (Limit). Coba lagi nanti.")
 
     # --------------------------------------------------------------------------
-    # TAB 2: SUNTIK NASKAH DIALOG (HASIL SEPERTI CONTOH USER)
+    # TAB 2: NASKAH DIALOG
     # --------------------------------------------------------------------------
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog Nyelekit")
@@ -872,20 +907,21 @@ elif menu_select == "🧠 AI LAB":
                     try:
                         prompt_dialog = f"""
                         Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}
-                        
-                        WAJIB IKUTI FORMAT INI:
-                        1. Gunakan [ACTION] untuk instruksi visual (contoh: [Tung lempar receh ke muka Udin]).
-                        2. Dialog TUNG: Harus sangat sombong dan jahat di awal.
-                        3. Dialog UDIN: Harus memberikan kalimat SKAKMAT di akhir.
-                        4. Karakter: {nama_tokoh}.
-                        5. Gaya bahasa: Indonesia tongkrongan yang natural dan pedas.
+                        FORMAT: [ACTION] untuk visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}.
                         """
                         response = model.generate_content(prompt_dialog)
                         st.session_state['ready_script'] = response.text
                         st.markdown("---")
                         st.markdown(response.text)
                     except Exception as e:
-                        st.error("Limit tercapai! Tunggu 1 menit ya.")
+                        st.error("Limit API tercapai. Tunggu 1 menit.")
+            
+            # --- TOMBOL OTOMATIS KE PRODUCTION HUB ---
+            if 'ready_script' in st.session_state:
+                st.markdown("---")
+                if st.button("📥 KIRIM NASKAH KE PRODUCTION HUB", use_container_width=True, type="primary"):
+                    st.session_state['naskah_produksi'] = st.session_state['ready_script']
+                    st.success("✅ Naskah terkirim! Silakan cek menu PRODUCTION HUB.")
         else:
             st.warning("Pilih ide dulu di Tab 1!")
 
@@ -900,9 +936,20 @@ elif menu_select == "🧠 AI LAB":
                     try:
                         prompt_st = f"Buat tabel storyboard 8 adegan visual dari naskah ini: {st.session_state['ready_script']}"
                         response = model.generate_content(prompt_st)
+                        st.session_state['ready_storyboard'] = response.text
                         st.markdown(response.text)
                     except Exception as e:
-                        st.error("Gagal buat storyboard. Coba klik lagi.")
+                        st.error("Gagal buat storyboard.")
+            
+            # --- TOMBOL OTOMATIS KE PRODUCTION HUB ---
+            if 'ready_storyboard' in st.session_state:
+                st.markdown("---")
+                if st.button("📥 KIRIM STORYBOARD KE PRODUCTION HUB", use_container_width=True, type="primary"):
+                    # Gabungkan naskah dan storyboard untuk dikirim
+                    data_full = f"NASAKAH:\n{st.session_state['ready_script']}\n\nSTORYBOARD:\n{st.session_state['ready_storyboard']}"
+                    st.session_state['naskah_produksi'] = data_full
+                    st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
