@@ -170,33 +170,51 @@ st.markdown("""
     ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
     
-    /* 1. FIXED HEADER */
+/* 1. RESPONSIVE HEADER (UNLOCKED & SCROLLABLE) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: fixed;
+        position: relative; /* Diubah dari fixed ke relative agar bisa discroll */
         top: 0;
-        left: 310px;
+        left: 0;
         right: 0;
-        z-index: 99999;
-        background-color: #0e1117;
-        padding: 10px 2rem;
+        z-index: 99;
+        background-color: transparent; /* Menyatu dengan background utama */
+        padding: 10px 0px;
         border-bottom: 2px solid #31333f;
+        margin-bottom: 20px; /* Memberi jarak dengan konten di bawahnya */
+        width: 100%;
     }
 
+    /* Penyesuaian khusus Mobile agar tetap konsisten */
     @media (max-width: 768px) {
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            left: 0;
+            padding: 10px 0px;
         }
     }
-
-    /* 2. STYLE SIDEBAR */
+    /* 2. STYLE SIDEBAR (MODERN DEEP GLASS) */
     [data-testid="stSidebar"] {
-        background-color: #1a1c24 !important;
-        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
-    }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
-        color: #ffffff !important;
+        background-color: #080a0e !important; /* Hitam yang lebih pekat & mewah */
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important; /* Garis pemisah sangat halus */
+        width: 280px !important;
     }
 
+    /* Mengatur Teks di Sidebar agar lebih Profesional */
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] label {
+        color: rgba(255, 255, 255, 0.7) !important; /* Putih agak redup agar tidak silau */
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.5px;
+    }
+
+    /* Memberi aksen hijau hanya pada ikon atau elemen aktif */
+    [data-testid="stSidebar"] span {
+        color: #1d976c !important; 
+    }
+
+    /* Merampingkan jarak antar elemen di sidebar */
+    [data-testid="stSidebarNav"] {
+        padding-top: 2rem !important;
+    }
+    
     /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
@@ -969,6 +987,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
