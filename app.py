@@ -7,36 +7,35 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (VERSI UNIVERSAL - ANTI 404)
+# KONFIGURASI OTAK AI (GROQ MODE - ANTI 404 & SUPER SPEED)
 # ==============================================================================
-import google.generativeai as genai
+from groq import Groq
 
-# Memanggil kunci dari Streamlit Secrets
-if "gemini_key" in st.secrets:
-    api_kunci_final = st.secrets["gemini_key"]
+# Ambil kunci dari Secrets (Pastikan di Streamlit Cloud sudah isi groq_key)
+if "groq_key" in st.secrets:
+    client = Groq(api_key=st.secrets["groq_key"])
 else:
-    # Fallback ke kunci baru kamu
-    api_kunci_final = "AIzaSyCKz5AwE-rBunj5H18Y1oUO7tmahI5fYc8"
+    # Fallback jika belum ada (Ganti dengan kunci dari console.groq.com)
+    client = Groq(api_key="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")
 
-genai.configure(api_key=api_kunci_final)
-
-# SOP PINTAR MEDIA
 SOP_PINTAR_MEDIA = """
-Kamu adalah Scriptwriter Senior PINTAR MEDIA, spesialis video Shorts 'Karma Visual'.
-GAYA BAHASA: Sangat lokal, bahasa tongkrongan, ceplas-ceplos, dan nyelekit.
+Kamu adalah Scriptwriter Senior PINTAR MEDIA.
+GAYA BAHASA: Lokal, tongkrongan, ceplas-ceplos, nyelekit.
 ALUR: Antagonis (TUNG) sombong, Protagonis (UDIN) kasih balasan SKAKMAT.
 """
 
-# --- TRIK ANTI 404 ---
-# Kita coba panggil nama model yang paling simpel
-try:
-    model = genai.GenerativeModel(
-        model_name='gemini-pro', # Kita coba pake nama 'gemini-pro' atau 'gemini-1.5-flash-latest'
-        system_instruction=SOP_PINTAR_MEDIA
+# Fungsi Helper Panggil Groq
+def panggil_ai_groq(prompt_user):
+    chat_completion = client.chat.completions.create(
+        messages=[
+            {"role": "system", "content": SOP_PINTAR_MEDIA},
+            {"role": "user", "content": prompt_user},
+        ],
+        model="llama-3.3-70b-versatile", # Model paling pinter di Groq
+        temperature=0.7,
     )
-except:
-    # Jika masih gagal, pake model standar tanpa embel-embel
-    model = genai.GenerativeModel('gemini-pro')
+    return chat_completion.choices[0].message.content
+    
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
 # 0. SISTEM LOGIN TUNGGAL (FULL STABLE: 10-HOUR SESSION + NEW USER)
@@ -833,11 +832,11 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI 8B - SPEED RACER)
+# 11. HALAMAN AI LAB (VERSI GROQ - ANTI LIMIT & 10 ADEGAN)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
-    st.title("🧠 AI LAB: GUDANG IDE GACOR (8B MODE)")
+    st.title("🧠 AI LAB: GUDANG IDE GACOR (GROQ POWERED)")
     st.markdown("---")
 
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
@@ -850,9 +849,9 @@ elif menu_select == "🧠 AI LAB":
             gudang_ide = {
                 "--- Pilih Menu Ide ---": "",
                 "Karma Konten Palsu": "Tung tarik uang sejuta dari pengemis demi konten, ternyata pengemisnya intel polisi.",
-                "Antri Bansos Mobil Mewah": "Tung pamer mobil mewah pas antre bansos, ternyata mobil sewaan yang lagi dicari leasing.",
-                "Bos Nyamar OB": "Tung bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi mendadak.",
-                "Hutang Gaya Elit": "Tung pamer iPhone baru tapi nunggak bayar hutang ke Udin, HP-nya langsung disita Udin depan umum."
+                "Antri Bansos Mobil Mewah": "Tung pamer mobil mewah pas antre bansos, ternyata mobil sewaan leasing.",
+                "Bos Nyamar OB": "Tung bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi.",
+                "Hutang Gaya Elit": "Tung pamer iPhone baru tapi nunggak hutang ke Udin, HP langsung disita Udin."
             }
             pilihan = st.selectbox("Daftar Premis:", list(gudang_ide.keys()))
             if pilihan != "--- Pilih Menu Ide ---":
@@ -862,26 +861,25 @@ elif menu_select == "🧠 AI LAB":
                     st.success("Ide Berhasil Dikunci!")
         else:
             if st.button("RAKIT IDE SKAKMAT 🚀", use_container_width=True, type="primary"):
-                with st.spinner("AI 8B sedang bekerja..."):
+                with st.spinner("Groq sedang merancang plot kilat..."):
                     try:
-                        # Pake config biar cepet
-                        res = model.generate_content("Buat 1 premis Shorts: Antagonis sombong kena skakmat Protagonis sabar.")
-                        st.session_state['temp_script_spy'] = res.text
-                        st.markdown(res.text)
-                    except Exception as e: st.error(f"Limit/Error: {e}")
+                        hasil = panggil_ai_groq("Buat 1 premis Shorts: Antagonis sombong kena skakmat Protagonis sabar.")
+                        st.session_state['temp_script_spy'] = hasil
+                        st.markdown(hasil)
+                    except Exception as e: st.error(f"Eror Groq: {e}")
 
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
-            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_8b")
+            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_groq")
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
-                with st.spinner("Menyusun naskah kilat..."):
+                with st.spinner("Menyusun naskah via Groq..."):
                     try:
                         prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
-                        response = model.generate_content(prompt)
-                        st.session_state['ready_script'] = response.text
+                        hasil_dialog = panggil_ai_groq(prompt)
+                        st.session_state['ready_script'] = hasil_dialog
                         st.rerun()
-                    except Exception as e: st.error(f"Error: {e}")
+                    except Exception as e: st.error(f"Eror Groq: {e}")
             if 'ready_script' in st.session_state:
                 st.markdown(st.session_state['ready_script'])
         else:
@@ -891,13 +889,13 @@ elif menu_select == "🧠 AI LAB":
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Memecah adegan..."):
+                with st.spinner("Memecah adegan super cepat..."):
                     try:
                         prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Naskah: {st.session_state['ready_script']}"
-                        response = model.generate_content(prompt)
-                        st.session_state['ready_storyboard'] = response.text
+                        hasil_st = panggil_ai_groq(prompt)
+                        st.session_state['ready_storyboard'] = hasil_st
                         st.rerun()
-                    except Exception as e: st.error(f"Error: {e}")
+                    except Exception as e: st.error(f"Eror Groq: {e}")
             
             if 'ready_storyboard' in st.session_state:
                 st.markdown(st.session_state['ready_storyboard'])
@@ -911,20 +909,15 @@ elif menu_select == "🧠 AI LAB":
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
+                        # Reset dulu
+                        for clear_idx in range(1, 11): st.session_state[f'vis_input_{clear_idx}'] = ""
+                        # Split 10 adegan
                         for i in range(1, 11):
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                             if match:
                                 st.session_state[f'vis_input_{i}'] = match.group(1).strip()
                         st.session_state['c_name_1_input'] = "UDIN"
-                        st.success("🔥 SINKRON 10 ADEGAN!")
+                        st.success("🔥 SINKRON 10 ADEGAN VIA GROQ!")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
-
-
-
-
-
-
-
-
