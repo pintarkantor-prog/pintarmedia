@@ -809,48 +809,71 @@ elif menu_select == "🧠 AI LAB":
         "🔄 2. ATM CLONER (MODIFIKASI IDE)", 
         "📝 3. AUTO-STORYBOARD (PRODUKSI)"
     ])
-
     # --------------------------------------------------------------------------
-    # TAB 1: AMATI (TREND SPY) - FOKUS BEDAH IDE
+    # TAB 1: AMATI & BRAINSTORM (IDEA ENGINE)
     # --------------------------------------------------------------------------
     with tab_spy:
-        st.subheader("🛰️ Amati Konten & Bedah Pola Viral")
-        st.info("""
-        💡 **Cara Amati yang Efektif:**
-        Jangan hanya tempel link. Masukkan ringkasan ceritanya. AI akan membedah **Pola Emosi** (kenapa orang betah menonton) agar idemu tidak hambar.
-        """)
+        st.subheader("🛰️ Idea Engine: Amati atau Ciptakan Ide")
         
-        raw_script = st.text_area("Masukkan Ringkasan Cerita atau Transkrip Video:", 
-                                  height=150, 
-                                  placeholder="Contoh: Udin disiram susu oleh geng jeruk hitam di sekolah, lalu membalas dengan menyemprot cat oranye...",
-                                  key="lab_spy_input")
-        
-        if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
-            if raw_script:
-                with st.spinner("Gemini sedang membedah DNA konten..."):
-                    try:
-                        # PROMPT FOKUS PADA LOGIKA IDE CERITA
-                        prompt_spy = f"""
-                        Analisis konten ini: "{raw_script}"
-                        
-                        BEDAH SECARA STRATEGIS:
-                        1. **Logika Viral**: Apa emosi utama yang dijual? (Contoh: Balas dendam, keadilan, atau rasa kasihan).
-                        2. **The Hook**: Apa kejadian di awal yang mengunci perhatian?
-                        3. **The Twist**: Apa kejutan yang membuat orang ingin berkomentar?
-                        4. **Struktur Cerita**: Jelaskan alur (Masalah -> Konflik -> Solusi/Twist).
-                        
-                        Ingat: Tetap pada konteks lokasi asli (Sekolah/Sawah/dsb). JANGAN ngelantur ke suami-istri.
-                        """
-                        response = model.generate_content(prompt_spy)
-                        
-                        st.success("Analisis Pola Selesai!")
-                        st.markdown(response.text)
-                        st.session_state['temp_script_spy'] = raw_script
-                    except Exception as e:
-                        st.error(f"Gagal membedah: {e}")
-            else:
-                st.warning("Masukkan narasi cerita dulu agar AI bisa membedah idenya!")
+        # Pilihan Mode agar karyawan tidak bingung
+        mode_lab = st.radio("Pilih Metode Kerja:", ["🔍 Bedah Video Viral", "💡 Brainstorm Ide Baru"], horizontal=True)
+        st.markdown("---")
 
+        if mode_lab == "🔍 Bedah Video Viral":
+            st.info("Gunakan ini jika kamu punya video referensi untuk di-ATM.")
+            raw_script = st.text_area("Masukkan Ringkasan Cerita Video Viral:", 
+                                      height=150, 
+                                      placeholder="Contoh: Udin disiram susu oleh geng jeruk hitam di sekolah, lalu membalas dengan menyemprot cat oranye...",
+                                      key="lab_spy_input")
+            
+            if st.button("BEDAH POLA VIRAL ⚡", use_container_width=True):
+                if raw_script:
+                    with st.spinner("Gemini sedang membedah DNA konten..."):
+                        try:
+                            prompt_spy = f"""
+                            Analisis konten ini: "{raw_script}"
+                            Bedah secara strategis:
+                            1. Logika Viral: Apa emosi utamanya? (Balas dendam/Iba/Lucu).
+                            2. The Hook: Kenapa penonton tidak scroll?
+                            3. The Twist: Kejutan apa yang ada di akhir?
+                            """
+                            response = model.generate_content(prompt_spy)
+                            st.success("Analisis Pola Selesai!")
+                            st.markdown(response.text)
+                            st.session_state['temp_script_spy'] = raw_script
+                        except Exception as e:
+                            st.error(f"Gagal membedah: {e}")
+                else:
+                    st.warning("Isi ringkasan ceritanya dulu!")
+
+        else: # MODE BRAINSTORM IDE BARU
+            st.info("Gunakan ini jika kamu buntu ide. AI akan memberikan premis cerita yang kuat.")
+            col_b1, col_b2 = st.columns(2)
+            with col_b1:
+                tema_ide = st.selectbox("Pilih Tema Masalah:", ["Hutang Piutang", "Ejekan Tetangga", "Persaingan Kerja", "Keberuntungan Mendadak", "Keluarga/Warisan"])
+            with col_b2:
+                target_emosi = st.select_slider("Target Perasaan Penonton:", options=["Ngakak", "Geregetan", "Sedih/Haru", "Puas (Revenge)"])
+
+            if st.button("CIPTAKAN 3 IDE CERITA 💡", use_container_width=True):
+                with st.spinner("Meracik ide viral untukmu..."):
+                    try:
+                        prompt_gen = f"""
+                        Buatlah 3 premis cerita pendek (Shorts) yang sangat relate dengan orang Indonesia.
+                        Tema: {tema_ide}. Target Emosi: {target_emosi}.
+                        Format setiap ide:
+                        - Judul: (Yang bikin penasaran)
+                        - Hook: (Kejadian pembuka)
+                        - Konflik: (Masalah utama)
+                        - Twist: (Kejutan akhir yang tak terduga)
+                        Jangan gunakan suami-istri. Gunakan kearifan lokal.
+                        """
+                        response = model.generate_content(prompt_gen)
+                        st.success("3 Ide Segar Siap Dipakai!")
+                        st.markdown(response.text)
+                        # Simpan hasil untuk bisa diproses di Tab 2
+                        st.session_state['temp_script_spy'] = response.text
+                    except Exception as e:
+                        st.error(f"Gagal buat ide: {e}")
     # --------------------------------------------------------------------------
     # TAB 2: MODIFIKASI (ATM CLONER) - FOKUS PENGEMBANGAN IDE
     # --------------------------------------------------------------------------
@@ -915,3 +938,4 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal storyboard: {e}")
             else:
                 st.error("Naskah belum ada. Selesaikan langkah 2 dulu.")
+
