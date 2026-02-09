@@ -160,103 +160,127 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
         
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: GRAPHITE ELITE - PROFESSIONAL CLASS)
+# 4. CUSTOM CSS (VERSION: CINEMATIC STUDIO PRO - LIMITLESS EDITION)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. ARCHITECTURE & FONTS */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+    /* 1. IMPOR FONT PREMIUM */
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;800&display=swap');
 
+    /* 2. PEROMBAKAN TOTAL LAYOUT (FULL SCREEN) */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0e1117 !important;
-        color: #e3e3e3 !important;
-        font-family: 'Inter', sans-serif;
+        background-color: #080808 !important; /* Hitam Sinematik */
+        font-family: 'Plus Jakarta Sans', sans-serif;
     }
 
-    /* 2. LAYOUT OPTIMIZATION */
+    /* Menghilangkan batasan lebar kontainer Streamlit */
     .block-container {
+        max-width: 98% !important; 
         padding-top: 2rem !important;
-        max-width: 850px !important;
+        padding-bottom: 5rem !important;
+        padding-left: 2% !important;
+        padding-right: 2% !important;
     }
 
-    /* 3. STEALTH COLUMNS (DIALOG & FISIK) */
-    /* Menyamakan kolom isian dengan background agar terlihat sangat elegan */
-    .stTextArea textarea, .stTextInput input {
-        background-color: #0e1117 !important; /* Warna sama dengan background */
+    /* 3. SIDEBAR (GLASSMORPHISM) */
+    [data-testid="stSidebar"] {
+        background-color: rgba(10, 10, 10, 0.8) !important;
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        width: 320px !important;
+    }
+
+    /* 4. KOLOM ISIAN (ULTRA-STEALTH & ORGANIC) */
+    /* Dialog, Fisik, dan Input lainnya menyatu total dengan background */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
+        background-color: #080808 !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 12px !important;
-        padding: 12px 16px !important;
-        font-size: 14px !important;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 28px !important; /* Sangat melengkung/organik */
+        padding: 16px 25px !important;
+        font-size: 15px !important;
+        line-height: 1.6;
+        transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
     }
 
-    /* 4. PROFESSIONAL FOCUS STATE */
-    .stTextArea textarea:focus, .stTextInput input:focus, div[data-baseweb="select"]:focus-within {
+    /* Area teks dialog dibuat lebih luas dan lega */
+    .stTextArea textarea {
+        min-height: 150px !important;
+    }
+
+    /* Efek Fokus (Aksen Hijau Emerald yang Elegan) */
+    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
         border-color: #1d976c !important;
-        background-color: rgba(29, 151, 108, 0.02) !important; /* Glow tipis saat klik */
-        box-shadow: 0 0 0 1px #1d976c !important;
+        background-color: #0c0d0e !important;
+        box-shadow: 0 10px 40px rgba(29, 151, 108, 0.05) !important;
         outline: none !important;
+        transform: translateY(-2px); /* Efek melayang saat diisi */
     }
 
-    /* 5. MINIMALIST LABELS (EMERALD ACCENT) */
+    /* 5. LABEL (NEON MINIMALIST) */
     [data-testid="stWidgetLabel"] p {
-        font-size: 11px !important;
-        font-weight: 700 !important;
+        font-size: 10px !important;
+        font-weight: 800 !important;
         color: #1d976c !important;
         text-transform: uppercase !important;
-        letter-spacing: 1.2px !important;
-        margin-bottom: -10px !important;
-        opacity: 0.8;
+        letter-spacing: 3px !important;
+        margin-bottom: -15px !important;
+        margin-left: 25px !important;
+        opacity: 0.7;
     }
 
-    /* 6. PREMIUM BUTTON (TACTILE RESPONSE) */
+    /* 6. TOMBOL GENERATE (THE POWER BUTTON) */
     div.stButton > button[kind="primary"] {
-        background: #1d976c !important;
+        background: linear-gradient(145deg, #1d976c, #11998e) !important;
         color: white !important;
         border: none !important;
-        border-radius: 12px !important;
-        height: 48px !important;
+        border-radius: 30px !important;
+        height: 60px !important;
         width: 100%;
-        font-weight: 600 !important;
-        font-size: 15px !important;
-        transition: all 0.2s ease !important;
-        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.15) !important;
+        font-weight: 800 !important;
+        font-size: 18px !important;
+        letter-spacing: 2px !important;
+        text-transform: uppercase;
+        transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+        box-shadow: 0 20px 40px rgba(29, 151, 108, 0.2) !important;
+        margin-top: 30px;
     }
 
-    /* Efek Klik Tombol */
+    /* Efek Tekan Tombol (Magnetic Active) */
     div.stButton > button[kind="primary"]:active {
-        transform: scale(0.98) !important;
-        background: #15805d !important;
+        transform: scale(0.94) !important;
+        box-shadow: 0 5px 15px rgba(29, 151, 108, 0.1) !important;
     }
 
     div.stButton > button[kind="primary"]:hover {
-        background: #22a677 !important;
-        box-shadow: 0 6px 16px rgba(29, 151, 108, 0.25) !important;
+        transform: translateY(-5px);
+        box-shadow: 0 30px 60px rgba(29, 151, 108, 0.4) !important;
     }
 
-    /* 7. SIDEBAR RAMPING */
-    [data-testid="stSidebar"] {
-        background-color: #11141b !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
-    }
-
-    /* 8. RESPONSIVE MOBILE */
+    /* 7. RESPONSIVE FULL SCALE */
     @media (max-width: 768px) {
-        .block-container { padding: 1rem !important; }
-        .stTextArea textarea, .stTextInput input {
-            font-size: 16px !important; /* Nyaman di mata & jari HP */
-            border-radius: 10px !important;
+        .block-container {
+            max-width: 100% !important;
+            padding: 1rem !important;
         }
-        [data-testid="stWidgetLabel"] p { margin-bottom: -5px !important; }
+        .stTextInput input, .stTextArea textarea {
+            border-radius: 20px !important;
+            font-size: 16px !important;
+        }
+        div.stButton > button[kind="primary"] {
+            height: 65px !important;
+        }
     }
 
-    /* CLEANUP BASEWEB */
-    div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
-        box-shadow: none !important;
-        border: none !important;
-        background-color: transparent !important;
-    }
+    /* 8. SCROLLBAR SILENT */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* CLEANUP UI ELEMENTS */
+    [data-testid="stHeader"], [data-testid="stFooter"] { display: none !important; }
+    div[data-baseweb="input"], div[data-baseweb="textarea"] { border: none !important; }
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -911,6 +935,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
