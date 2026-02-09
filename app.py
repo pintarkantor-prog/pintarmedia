@@ -163,7 +163,7 @@ def record_to_sheets(user, data_packet, total_scenes):
         conn = st.connection("gsheets", type=GSheetsConnection)
         
         # 2. Baca data lama (Kasih TTL agar tidak kena Error 429)
-        existing_data = conn.read(worksheet="Sheet1", ttl="5m")
+        existing_data = conn.read(worksheet="Sheet1", ttl="30m")
         
         # 3. Setting Waktu Jakarta (WIB)
         tz = pytz.timezone('Asia/Jakarta')
@@ -970,6 +970,7 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
 
