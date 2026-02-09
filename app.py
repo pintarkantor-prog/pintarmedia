@@ -160,110 +160,104 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: BEYOND ELEGANT)
+# 4. CUSTOM CSS (VERSION: ULTRA-ELEGANT & STABLE)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* --- 1. RESET GLOBAL & VARIABLE --- */
-    :root {
-        --primary: #1d976c;
-        --bg-main: #0e1117;
-        --bg-sidebar: #161922;
-        --bg-input: #262730;
-        --border-color: rgba(255, 255, 255, 0.1);
-        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* Reset Streamlit's Internal Red/Focus */
+    /* 1. DASAR APLIKASI & RESET VARIABEL */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: var(--bg-main) !important;
+        background-color: #0e1117 !important;
         color: #ffffff !important;
-        --baseweb-input-border-focus: var(--primary) !important;
-        --baseweb-negative: transparent !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* --- 2. SIDEBAR PREMIUM LOOK --- */
+    /* Mengembalikan variabel internal ke default agar tidak tabrakan */
+    :root {
+        --primary-color: #ff4b4b; /* Default Streamlit Red */
+    }
+
+    /* 2. SIDEBAR (RAMPING & MODERN) */
     [data-testid="stSidebar"] {
         width: 280px !important;
-        background-color: var(--bg-sidebar) !important;
-        border-right: 1px solid var(--border-color) !important;
+        background-color: #161922 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
     }
-    
-    /* Logo Position */
+
     [data-testid="stSidebarUserContent"] {
-        padding-top: 0px !important;
-        margin-top: -20px !important;
+        padding-top: 5px !important;
+        margin-top: -15px !important;
     }
 
-    /* --- 3. INPUT FIELD (NAMA & ANGKA) --- */
+    /* Penyesuaian Konten Utama terhadap Sidebar */
+    @media (min-width: 769px) {
+        [data-testid="stMainViewContainer"] {
+            margin-left: -56px !important;
+        }
+    }
+
+    /* 3. INPUT NAMA, ANGKA, & DROPDOWN (ABU-ABU ELEGAN) */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: var(--bg-input) !important;
+        background-color: #262730 !important;
         color: #ffffff !important;
-        border: 1px solid var(--border-color) !important;
-        border-radius: 12px !important;
-        padding: 10px 14px !important;
-        transition: var(--transition) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+        padding: 10px 12px !important;
+        font-size: 15px !important;
     }
 
-    /* --- 4. TEXT AREA (ADEGAN - STEALTH MODE) --- */
+    /* 4. TEXT AREA / ADEGAN (HITAM STEALTH) */
     .stTextArea textarea {
-        background-color: var(--bg-main) !important;
+        background-color: #0e1117 !important;
         color: #ffffff !important;
-        border: 1px solid var(--border-color) !important;
-        border-radius: 12px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
         padding: 12px !important;
         line-height: 1.6 !important;
-        transition: var(--transition) !important;
     }
 
-    /* --- 5. SMART FOCUS (ANTI-DOUBLE & ANTI-RED) --- */
-    /* Menghilangkan semua pendaran merah dan menggantinya dengan border emerald halus */
-    .stTextInput input:focus, .stTextArea textarea:focus, .stNumberInput input:focus, 
-    div[data-baseweb="select"]:focus-within {
-        border-color: var(--primary) !important;
-        box-shadow: 0 0 0 3px rgba(29, 151, 108, 0.15) !important;
-        background-color: var(--bg-input) !important;
-        outline: none !important;
+    /* 5. FOCUS BEHAVIOR (KEMBALI KE DEFAULT MERAH) */
+    /* Kita hapus paksaan hijau. Sekarang hanya akan muncul efek default Streamlit */
+    /* Ini menjamin tidak ada lagi tabrakan warna atau double border */
+    
+    /* 6. EXPANDER (CONTAINER ADEGAN) */
+    [data-testid="stExpander"] {
+        background-color: #1c202a !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 12px !important;
+        margin-bottom: 20px !important;
+        overflow: hidden;
     }
 
-    /* Khusus untuk Adegan agar saat fokus backgroundnya tidak berubah jadi abu-abu */
-    .stTextArea textarea:focus {
-        background-color: var(--bg-main) !important;
+    [data-testid="stExpander"] summary {
+        padding: 12px 16px !important;
     }
 
-    /* Kill the BaseWeb container shadow */
-    div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
-        box-shadow: none !important;
-        border: none !important;
-        background-color: transparent !important;
-    }
-
-    /* --- 6. BUTTON (MODERN GRADIENT) --- */
-    div.stButton > button {
+    /* 7. TOMBOL UTAMA (MODERN GRADIENT) */
+    div.stButton > button[kind="primary"] {
         background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
         color: white !important;
         border: none !important;
-        border-radius: 12px !important;
-        padding: 12px 24px !important;
+        border-radius: 10px !important;
+        padding: 0.6rem 1rem !important;
         font-weight: 600 !important;
-        letter-spacing: 0.5px !important;
-        transition: var(--transition) !important;
+        width: 100%;
+        transition: all 0.2s ease !important;
         box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
 
-    div.stButton > button:hover {
-        transform: translateY(-2px) !important;
+    div.stButton > button[kind="primary"]:hover {
+        transform: translateY(-1px);
         box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
     }
 
-    /* --- 7. RESPONSIVE SYNC --- */
+    /* 8. MOBILE OPTIMIZATION */
     @media (max-width: 768px) {
         .block-container {
-            padding: 1rem 1rem !important;
+            padding: 1rem !important;
         }
-        /* Memaksa elemen di HP tidak kehilangan padding */
+        /* Memastikan teks tidak terlalu kecil di mobile */
         .stTextArea textarea, .stTextInput input {
-            font-size: 16px !important; /* Mencegah auto-zoom di iPhone */
+            font-size: 16px !important;
         }
     }
 </style>
@@ -920,6 +914,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
