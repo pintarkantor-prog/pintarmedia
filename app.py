@@ -6,9 +6,11 @@ import pytz
 import time
 import google.generativeai as genai
 
-# Konfigurasi Gemini dengan API Key milikmu
+# Konfigurasi API Gemini
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
-model = genai.GenerativeModel('gemini-1.5-pro')
+
+# GANTI BAGIAN INI: Gunakan 'gemini-1.5-flash' agar lebih stabil dan cepat
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -895,3 +897,4 @@ elif menu_select == "🧠 AI LAB":
 else:
     st.title(menu_select)
     st.info(f"Halaman {menu_select} sedang dalam tahap pembangunan.")
+
