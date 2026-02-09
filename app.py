@@ -110,3 +110,4 @@ else:
     # Untuk menu lainnya yang belum diisi detailnya
     st.header(menu)
     st.info("Fitur ini sedang dalam perjalanan menuju 'Rumah Baru' Sultan.")
+    
