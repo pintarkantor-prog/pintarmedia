@@ -201,12 +201,6 @@ st.markdown("""
         width: 100% !important;
     }
 
-    /* Khusus untuk tombol kecil (+ , - , ?) agar ukurannya pas */
-    [data-testid="stSidebar"] .stNumberInput button,
-    [data-testid="stSidebar"] .stSelectbox button {
-        width: auto !important;
-    }
-
     /* Efek Hover (Saat Disorot - Sedikit Lebih Terang agar ada feedback) */
     [data-testid="stSidebar"] button:hover {
         background-color: #1a1c23 !important;
@@ -940,6 +934,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
