@@ -401,7 +401,7 @@ def global_sync_v920():
             if key.startswith("shot_input_"): st.session_state[key] = st1
             if key.startswith("angle_input_"): st.session_state[key] = ag1
 # ==============================================================================
-# 7. SIDEBAR: KONFIGURASI UTAMA (CLEAN UI + LOGO)
+# 7. SIDEBAR: NAVIGATION & CONFIGURATION
 # ==============================================================================
 with st.sidebar:
     # --- 1. LOGO SIDEBAR ---
@@ -409,185 +409,129 @@ with st.sidebar:
         st.image("PINTAR.png", use_container_width=True)
     except:
         st.title("📸 PINTAR MEDIA")
-    
+
     st.write("") 
+
+    # --- 2. MENU NAVIGASI UTAMA ---
+    st.markdown("#### 🖥️ MAIN COMMAND")
+    menu_select = st.radio(
+        "Pilih Ruangan:",
+        ["🚀 PRODUCTION HUB", "🧠 AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK", 
+         "📈 TREND ANALYZER", "💡 IDEAS BANK", "👥 DATABASE LOCKER", 
+         "📊 MONITORING", "🛠️ COMMAND CENTER"],
+        label_visibility="collapsed"
+    )
     
-    # --- 2. LOGIKA ADMIN ---
-    if st.session_state.active_user == "admin":
-        if st.checkbox("🚀 Buka Dashboard Utama", value=False):
-            st.info("Log aktivitas tercatat di Cloud.")
-            
-            try:
-                conn = st.connection("gsheets", type=GSheetsConnection)
-                df_monitor = conn.read(worksheet="Sheet1", ttl="0")
-                
-                if not df_monitor.empty:
-                    st.markdown("#### 🏆 Top Staf (MVP)")
-                    mvp_count = df_monitor['User'].value_counts().reset_index()
-                    mvp_count.columns = ['Staf', 'Total Input']
-                    st.dataframe(mvp_count, use_container_width=True, hide_index=True)
-                    
-                    # --- TABEL AKTIVITAS DENGAN ICON (DIKEMBALIKAN) ---
-                    st.markdown("#### 📅 Log Aktivitas Terbaru")
-                    
-                    # Kita beri nama kolom yang ada icon-nya agar keren
-                    df_display = df_monitor.tail(10).copy()
-                    df_display.columns = ["🕒 Waktu", "👤 User", "🎬 Total", "📝 Visual Utama"]
-                    
-                    st.dataframe(
-                        df_display, 
-                        use_container_width=True, 
-                        hide_index=True
-                    )
-                else:
-                    st.warning("Belum ada data aktivitas tercatat.")
-            
-            except Exception as e:
-                st.error(f"Gagal memuat data Cloud: {e}")
-                
+    st.divider()
+
+    # --- 3. LOGIKA KONTROL (KHUSUS PRODUCTION HUB) ---
+    if menu_select == "🚀 PRODUCTION HUB":
+        # SEMUA DI BAWAH INI SEKARANG MASUK KE DALAM IF (MENJOROK KE KANAN)
+
+        # --- LOGIKA ADMIN ---
+        if st.session_state.active_user == "admin":
+            if st.checkbox("🚀 Buka Dashboard Utama", value=False):
+                st.info("Log aktivitas tercatat di Cloud.")
+                try:
+                    conn = st.connection("gsheets", type=GSheetsConnection)
+                    df_monitor = conn.read(worksheet="Sheet1", ttl="0")
+                    if not df_monitor.empty:
+                        st.markdown("#### 🏆 Top Staf (MVP)")
+                        mvp_count = df_monitor['User'].value_counts().reset_index()
+                        mvp_count.columns = ['Staf', 'Total Input']
+                        st.dataframe(mvp_count, use_container_width=True, hide_index=True)
+                        
+                        st.markdown("#### 📅 Log Aktivitas Terbaru")
+                        df_display = df_monitor.tail(10).copy()
+                        df_display.columns = ["🕒 Waktu", "👤 User", "🎬 Total", "📝 Visual Utama"]
+                        st.dataframe(df_display, use_container_width=True, hide_index=True)
+                    else:
+                        st.warning("Belum ada data aktivitas tercatat.")
+                except Exception as e:
+                    st.error(f"Gagal memuat data Cloud: {e}")
+            st.divider()
+
+        # --- KONFIGURASI UMUM ---
+        num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
+        
+        st.write("") 
+        st.markdown("#### 🎨 GENRE VISUAL")
+        list_genre = [
+            "Realistik (Nyata)", "Pixar 3D", "Marvel Superhero", "Transformers (Mecha)",
+            "KingKong (VFX Monster)", "Asphalt (Balap/Glossy)", "Ghibli (Estetik/Indah)",
+            "Dragon Ball", "Doraemon 3D", "Naruto (Ninja)", "Tayo (Anak-anak)", "Sakura School (Anime)"
+        ]
+        
+        genre_saved = st.session_state.get("genre_pilihan_saved", "Realistik (Nyata)")
+        try: 
+            idx_default = list_genre.index(genre_saved)
+        except: 
+            idx_default = 0
+
+        genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default)
+        st.write("")
+        
+        # --- STATUS PRODUKSI ---
+        if st.session_state.last_generated_results:
+            st.markdown("### 🗺️ STATUS PRODUKSI")
+            total_p = len(st.session_state.last_generated_results)
+            done_p = sum(1 for res in st.session_state.last_generated_results if st.session_state.get(f"mark_done_{res['id']}", False))
+            st.progress(done_p / total_p)
+            if done_p == total_p and total_p > 0:
+                st.balloons()
+                st.success("🎉 Semua Adegan Selesai!")
+        
         st.divider()
 
-    # --- 3. KONFIGURASI UMUM ---
-    num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
-    
-    # --- MENU GENRE VISUAL (MULTIVERSE MODE) ---
-    st.write("") 
-    st.markdown("#### 🎨 GENRE VISUAL")
+        # --- TOMBOL SAVE & LOAD ---
+        btn_col1, btn_col2 = st.columns(2)
+        with btn_col1:
+            if st.button("💾 SAVE", use_container_width=True):
+                import json
+                try:
+                    char_data = {str(idx): {"name": st.session_state.get(f"c_name_{idx}_input", ""), "desc": st.session_state.get(f"c_desc_{idx}_input", "")} for idx in range(1, 11)}
+                    scene_data = {str(i): {"vis": st.session_state.get(f"vis_input_{i}", ""), "light": st.session_state.get(f"light_input_{i}", "Siang"), "shot": st.session_state.get(f"shot_input_{i}", "Setengah Badan"), "angle": st.session_state.get(f"angle_input_{i}", "Normal"), "loc": st.session_state.get(f"loc_sel_{i}", "jalan kampung")} for i in range(1, 51)}
+                    dialog_data = {k: v for k, v in st.session_state.items() if k.startswith("diag_") and v}
+                    master_packet = {"num_char": st.session_state.get("num_total_char", 2), "genre": genre_pilihan, "chars": char_data, "scenes": scene_data, "dialogs": dialog_data}
+                    record_to_sheets(f"DRAFT_{st.session_state.active_user}", json.dumps(master_packet), len([s for s in scene_data.values() if s['vis']]))
+                    st.toast("Project Tersimpan! ✅")
+                except Exception as e:
+                    st.error(f"Gagal simpan: {e}")
 
-    # 1. Kita buat list-nya dalam variabel agar rapi
-    list_genre = [
-        "Realistik (Nyata)", 
-        "Pixar 3D", 
-        "Marvel Superhero", 
-        "Transformers (Mecha)",
-        "KingKong (VFX Monster)", 
-        "Asphalt (Balap/Glossy)", 
-        "Ghibli (Estetik/Indah)", 
-        "Dragon Ball", 
-        "Doraemon 3D", 
-        "Naruto (Ninja)", 
-        "Tayo (Anak-anak)", 
-        "Sakura School (Anime)"
-    ]
+        with btn_col2:
+            if st.button("🔄 LOAD", use_container_width=True):
+                import json
+                try:
+                    conn = st.connection("gsheets", type=GSheetsConnection)
+                    df_log = conn.read(worksheet="Sheet1", ttl="1s")
+                    my_data = df_log[df_log['User'] == f"DRAFT_{st.session_state.active_user}"]
+                    if not my_data.empty:
+                        data = json.loads(str(my_data.iloc[-1]['Visual Utama']))
+                        st.session_state["num_total_char"] = data.get("num_char", 2)
+                        st.session_state["genre_pilihan_saved"] = data.get("genre", "Realistik (Nyata)")
+                        for i_str, val in data.get("chars", {}).items():
+                            st.session_state[f"c_name_{i_str}_input"] = val.get("name", "")
+                            st.session_state[f"c_desc_{i_str}_input"] = val.get("desc", "")
+                        for i_str, val in data.get("scenes", {}).items():
+                            if isinstance(val, dict):
+                                st.session_state[f"vis_input_{i_str}"] = val.get("vis", "")
+                                st.session_state[f"light_input_{i_str}"] = val.get("light", "Siang")
+                                st.session_state[f"shot_input_{i_str}"] = val.get("shot", "Setengah Badan")
+                                st.session_state[f"angle_input_{i_str}"] = val.get("angle", "Normal")
+                                st.session_state[f"loc_sel_{i_str}"] = val.get("loc", "jalan kampung")
+                        for k, v in data.get("dialogs", {}).items(): 
+                            st.session_state[k] = v
+                        st.toast("Data Dipulihkan! 🔄")
+                        st.rerun()
+                    else:
+                        st.error("Draft kosong.")
+                except Exception as e:
+                    st.error(f"Gagal: {e}")
 
-    # 2. Cek apakah ada data genre dari hasil tombol LOAD
-    # Jika tidak ada, dia akan pakai default "Realistik (Nyata)"
-    genre_saved = st.session_state.get("genre_pilihan_saved", "Realistik (Nyata)")
-
-    # 3. Cari posisi index-nya (nomor urutnya)
-    try:
-        idx_default = list_genre.index(genre_saved)
-    except:
-        idx_default = 0
-
-    # 4. Tampilkan menu dropdown dengan index yang sudah disesuaikan otomatis
-    genre_pilihan = st.selectbox(
-        "Pilih Gaya Film:",
-        options=list_genre,
-        index=idx_default,
-        help="Pilih genre visual. Jika pilih Realistik, hasil akan seperti foto asli."
-    )
-    st.write("")
-    # ----------------------------------------------
-    
-    # --- 4. STATUS PRODUKSI ---
-    if st.session_state.last_generated_results:
-        st.markdown("### 🗺️ STATUS PRODUKSI")
-        total_p = len(st.session_state.last_generated_results)
-        done_p = 0
-        
-        for res in st.session_state.last_generated_results:
-            done_key = f"mark_done_{res['id']}"
-            if st.checkbox(f"Adegan {res['id']}", key=done_key):
-                done_p += 1
-        
-        st.progress(done_p / total_p)
-        
-        if done_p == total_p and total_p > 0:
-            st.balloons() 
-            st.success("🎉 Semua Adegan Selesai!")
-    
+    # --- 4. TOMBOL LOGOUT (Selalu muncul di semua menu) ---
     st.divider()
-
-# --- C. TOMBOL SAVE & LOAD (SIMETRIS) ---
-    btn_col1, btn_col2 = st.columns(2)
-    
-    with btn_col1:
-        # Tombol Simpan
-        save_trigger = st.button("💾 SAVE", use_container_width=True)
-        if save_trigger:
-            import json
-            try:
-                char_data = {str(idx): {"name": st.session_state.get(f"c_name_{idx}_input", ""), "desc": st.session_state.get(f"c_desc_{idx}_input", "")} for idx in range(1, 11)}
-                scene_data = {str(i): {"vis": st.session_state.get(f"vis_input_{i}", ""), "light": st.session_state.get(f"light_input_{i}", "Siang"), "shot": st.session_state.get(f"shot_input_{i}", "Setengah Badan"), "angle": st.session_state.get(f"angle_input_{i}", "Normal"), "loc": st.session_state.get(f"loc_sel_{i}", "jalan kampung")} for i in range(1, 51)}
-                dialog_data = {k: v for k, v in st.session_state.items() if k.startswith("diag_") and v}
-                
-                # --- TAMBAHKAN 'genre' KE DALAM PAKET ---
-                master_packet = {
-                    "num_char": st.session_state.get("num_total_char", 2), 
-                    "genre": genre_pilihan,  # <--- Menyimpan pilihan dropdown genre kamu
-                    "chars": char_data, 
-                    "scenes": scene_data, 
-                    "dialogs": dialog_data
-                }
-                
-                record_to_sheets(f"DRAFT_{st.session_state.active_user}", json.dumps(master_packet), len([s for s in scene_data.values() if s['vis']]))
-                st.toast("Project Tersimpan! ✅")
-            except Exception as e:
-                st.error(f"Gagal simpan: {e}")
-
-    with btn_col2:
-        # Tombol Load
-        load_trigger = st.button("🔄 LOAD", use_container_width=True)
-        if load_trigger:
-            import json
-            try:
-                conn = st.connection("gsheets", type=GSheetsConnection)
-                df_log = conn.read(worksheet="Sheet1", ttl="1s")
-                my_data = df_log[df_log['User'] == f"DRAFT_{st.session_state.active_user}"]
-                
-                if not my_data.empty:
-                    data = json.loads(str(my_data.iloc[-1]['Visual Utama']))
-                    
-                    # --- RESTORE DATA KE SESSION STATE ---
-                    st.session_state["num_total_char"] = data.get("num_char", 2)
-                    
-                    # Masukkan genre yang di-load ke session state agar dibaca selectbox
-                    st.session_state["genre_pilihan_saved"] = data.get("genre", "Realistik (Nyata)")
-                    
-                    for i_str, val in data.get("chars", {}).items():
-                        st.session_state[f"c_name_{i_str}_input"] = val.get("name", "")
-                        st.session_state[f"c_desc_{i_str}_input"] = val.get("desc", "")
-                    
-                    for i_str, val in data.get("scenes", {}).items():
-                        if isinstance(val, dict):
-                            st.session_state[f"vis_input_{i_str}"] = val.get("vis", "")
-                            st.session_state[f"light_input_{i_str}"] = val.get("light", "Siang")
-                            st.session_state[f"shot_input_{i_str}"] = val.get("shot", "Setengah Badan")
-                            st.session_state[f"angle_input_{i_str}"] = val.get("angle", "Normal")
-                            st.session_state[f"loc_sel_{i_str}"] = val.get("loc", "jalan kampung")
-                    
-                    for k, v in data.get("dialogs", {}).items(): 
-                        st.session_state[k] = v
-                    
-                    st.toast("Data Dipulihkan! 🔄")
-                    st.rerun()
-                else:
-                    st.error("Draft kosong.")
-            except Exception as e:
-                st.error(f"Gagal: {e}")
-                
-    # --- NOTIFIKASI SUKSES ---
-    if "sidebar_success_msg" in st.session_state:
-        st.success(st.session_state["sidebar_success_msg"])
-        del st.session_state["sidebar_success_msg"]
-
-    st.divider()
-
-# --- TOMBOL LOGOUT (Power Off Icon) ---
     if st.button("KELUAR SISTEM ⚡", use_container_width=True):
         st.query_params.clear() 
-        # Menghapus seluruh memori sesi agar benar-benar bersih
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
@@ -973,3 +917,4 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
