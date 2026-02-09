@@ -160,98 +160,84 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: ENHANCED DEFAULT - PREMIUM DARK REVISION)
+# 4. CUSTOM CSS (VERSION: TOTAL STEALTH - BLACK ON BLACK)
 # ==============================================================================
 st.markdown("""
 <style>
     /* 1. WARNA TEMA GLOBAL (HIJAU PINTAR MEDIA) */
     :root {
         --primary-color: #1d976c !important;
+        --bg-black: #0e1117 !important;
     }
 
-    /* 2. SIDEBAR RAMPING & PADAT */
+    /* 2. DASAR APLIKASI */
+    html, body, [data-testid="stAppViewContainer"] {
+        background-color: var(--bg-black) !important;
+        color: #ffffff !important;
+    }
+
+    /* 3. SIDEBAR RAMPING */
     [data-testid="stSidebar"] {
         width: 260px !important;
         background-color: #11141b !important;
     }
-    /* Merapatkan elemen sidebar */
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        gap: 0.5rem !important;
-    }
 
-    /* 3. TOMBOL UTAMA (Sesuai Vibe Login - Bold & Sharp) */
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
-        color: white !important;
-        border: none !important;
-        width: 100%;
+    /* 4. INPUT AREA (STEALTH MODE - SAMA DENGAN BACKGROUND) */
+    /* Berlaku untuk Nama, Angka, Dropdown, dan Textarea */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
+        background-color: var(--bg-black) !important; /* HITAM SAMA DENGAN BG */
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important; /* Border tipis agar tetap terlihat batasnya */
         border-radius: 8px !important;
-        padding: 0.6rem 1rem !important;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
+        transition: border 0.2s ease !important;
     }
 
-    /* 4. INPUT AREA (PENYEMPURNAAN VISUAL) */
-    /* Membuat kotak Nama, Angka, Dropdown lebih gelap & elegan (Vibe Login) */
-    .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #1e1f20 !important; /* Warna charcoal box login */
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        height: 38px !important;
-        color: white !important;
-    }
-
-    /* Membuat kotak Adegan/Ciri Fisik hitam menyatu (Stealth Look) */
-    .stTextArea textarea {
-        background-color: #0e1117 !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        color: white !important;
+    /* Efek Fokus: Saat diklik, border menyala hijau (Standar Streamlit Hijau) */
+    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
+        border-color: #1d976c !important;
+        box-shadow: none !important;
     }
 
     /* 5. MERAPETKAN JARAK (COMPACT UI) */
     [data-testid="stVerticalBlock"] {
         gap: 0.7rem !important;
     }
-    /* Merapatkan label ke input */
+    
+    /* Menarik label agar mepet ke kotak */
     [data-testid="stWidgetLabel"] p {
         font-size: 13px !important;
         margin-bottom: -10px !important;
         color: rgba(255, 255, 255, 0.7) !important;
     }
 
-    /* 6. BOX STAF (STYLE MINIMALIS) */
-    .staff-header-premium {
-        background: rgba(29, 151, 108, 0.1) !important;
-        border: 1px solid #1d976c !important;
+    /* 6. TOMBOL UTAMA (MODERN GRADIENT) */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
+        color: white !important;
+        border: none !important;
         border-radius: 8px !important;
-        padding: 12px 15px !important;
-        margin-bottom: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        gap: 10px !important;
+        padding: 0.6rem 1rem !important;
+        font-weight: 700 !important;
+        width: 100%;
+        text-transform: uppercase;
     }
 
-    /* 7. RESPONSIVE MOBILE (OPTIMASI DEFAULT) */
+    /* 7. RESPONSIVE MOBILE */
     @media (max-width: 768px) {
         .block-container { padding: 1rem !important; }
         
-        div.stButton > button[kind="primary"] {
-            height: 48px !important; /* Tombol lebih besar di HP agar mantap ditekan */
-        }
-
+        /* Font 16px di HP agar tidak auto-zoom */
         .stTextArea textarea, .stTextInput input, .stNumberInput input {
             font-size: 16px !important;
+            background-color: var(--bg-black) !important;
         }
     }
 
-    /* Hapus bayangan merah yang suka tumpang tindih */
+    /* Hapus bayangan merah bawaan yang mengganggu */
     div[data-baseweb="input"], div[data-baseweb="textarea"] {
         box-shadow: none !important;
     }
 
-    a { text-decoration: none !important; }
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -906,6 +892,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
