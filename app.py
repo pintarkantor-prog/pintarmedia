@@ -838,11 +838,11 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI GROQ - FULL AUTOPILOT SINKRON)
+# 11. HALAMAN AI LAB (VERSI FINAL SINKRON - NO ERROR)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
-    st.title("🧠 AI LAB: GUDANG IDE")
+    st.title("🧠 AI LAB: GUDANG IDE GACOR")
     st.markdown("---")
 
     tab_spy, tab_cloner, tab_storyboard = st.tabs([
@@ -867,25 +867,25 @@ elif menu_select == "🧠 AI LAB":
                     st.success("Ide Berhasil Dikunci!")
         else:
             if st.button("RAKIT IDE SKAKMAT 🚀", use_container_width=True, type="primary"):
-                with st.spinner("Groq sedang merancang plot kilat..."):
+                with st.spinner("Groq sedang merancang plot..."):
                     try:
                         hasil = panggil_ai_groq("Buat 1 premis Shorts: Antagonis sombong kena skakmat Protagonis sabar.")
                         st.session_state['temp_script_spy'] = hasil
                         st.markdown(hasil)
-                    except Exception as e: st.error(f"Eror Groq: {e}")
+                    except Exception as e: st.error(f"Eror: {e}")
 
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
             nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_groq")
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
-                with st.spinner("Masih menyusun naskah..."):
+                with st.spinner("Menyusun naskah..."):
                     try:
                         prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
                         hasil_dialog = panggil_ai_groq(prompt)
                         st.session_state['ready_script'] = hasil_dialog
                         st.rerun()
-                    except Exception as e: st.error(f"Eror Groq: {e}")
+                    except Exception as e: st.error(f"Eror: {e}")
             if 'ready_script' in st.session_state:
                 st.markdown(st.session_state['ready_script'])
         else:
@@ -895,28 +895,32 @@ elif menu_select == "🧠 AI LAB":
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Memecah adegan super cepat..."):
+                with st.spinner("Memecah adegan..."):
                     try:
                         prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Sertakan keterangan suasana (siang/malam) dan shot size (close up/full body) di tiap adegan. Naskah: {st.session_state['ready_script']}"
                         hasil_st = panggil_ai_groq(prompt)
                         st.session_state['ready_storyboard'] = hasil_st
                         st.rerun()
-                    except Exception as e: st.error(f"Eror Groq: {e}")
+                    except Exception as e: st.error(f"Eror: {e}")
             
             if 'ready_storyboard' in st.session_state:
                 st.markdown(st.session_state['ready_storyboard'])
                 st.markdown("---")
-                ck1, ck2 = st.columns(2)
-                with ck1:
+                
+                # --- DEFINISI KOLOM DISINI AGAR TIDAK NAME ERROR ---
+                col_k1, col_k2 = st.columns(2)
+                
+                with col_k1:
                     if st.button("📥 KIRIM KE GUDANG", use_container_width=True, type="primary"):
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
                         st.toast("Terkirim! ✅")
+                
                 with col_k2:
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
                         
-                        # NYALAKAN MESIN RESET OTOMATIS
+                        # Picu Reset UI agar dropdown berubah otomatis
                         st.session_state['ui_reset_key'] += 1
                         
                         for i in range(1, 11):
@@ -927,12 +931,12 @@ elif menu_select == "🧠 AI LAB":
                                 st.session_state[f'vis_input_{i}'] = isi
                                 t_low = isi.lower()
                                 
-                                # DETEKSI SUASANA
+                                # Deteksi Suasana
                                 if "malam" in t_low: st.session_state[f'env_input_{i}'] = "Malam"
                                 elif "sore" in t_low: st.session_state[f'env_input_{i}'] = "Sore"
                                 else: st.session_state[f'env_input_{i}'] = "Siang"
                                 
-                                # DETEKSI SHOT SIZE (INI YANG KAMU MAU!)
+                                # Deteksi Shot Size (Full Body, dll)
                                 if "full body" in t_low or "seluruh badan" in t_low:
                                     st.session_state[f'size_input_{i}'] = "Seluruh Badan (Full Body)"
                                 elif "close up" in t_low or "muka" in t_low:
@@ -940,12 +944,8 @@ elif menu_select == "🧠 AI LAB":
                                 else:
                                     st.session_state[f'size_input_{i}'] = "Setengah Badan"
                         
-                        st.success("🔥 SINKRON TOTAL! Cek Production Hub sekarang.")
+                        st.session_state['c_name_1_input'] = "UDIN"
+                        st.session_state['c_name_2_input'] = "TUNG"
+                        st.success("🔥 SINKRON TOTAL!")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
-
-
-
-
-
-
