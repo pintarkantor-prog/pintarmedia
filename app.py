@@ -262,21 +262,28 @@ st.markdown("""
         overflow: hidden;
     }
 
-    /* 7. MOBILE FIX (CLEAN STACK) */
-    @media (max-width: 768px) {
-        .block-container { 
-            padding-top: 1.5rem !important;
-            padding-left: 1rem !important;
-            padding-right: 1rem !important;
-        }
-        [data-testid="column"] {
-            width: 100% !important;
-            flex: 1 1 100% !important;
-            margin-bottom: 20px !important;
-        }
-        .staff-header-premium {
-            padding: 15px !important;
-        }
+    /* FIX HEADER EXPANDER PUTIH DI HP */
+    [data-testid="stExpander"] {
+        background-color: #161922 !important; /* Background isi kotak */
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important;
+    }
+
+    /* KUNCI: Paksa Header Expander (yang kamu lingkari) jadi gelap */
+    [data-testid="stExpander"] summary {
+        background-color: #161922 !important; 
+        color: #ffffff !important; /* Warna teks jadi putih */
+        border-radius: 12px !important;
+    }
+
+    /* Paksa ikon panah dan teks di dalam header expander jadi putih */
+    [data-testid="stExpander"] summary svg {
+        fill: #ffffff !important;
+    }
+    
+    [data-testid="stExpander"] summary p {
+        color: #ffffff !important;
+        font-weight: bold !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -594,7 +601,7 @@ vid_quality_base = f"60fps, ultra-clear motion, {vid_quality_stack} {no_text_str
 if "restore_counter" not in st.session_state:
     st.session_state.restore_counter = 0
 
-st.subheader("📝 Detail Adegan Storyboard")
+st.subheader("📝 Storyboard")
 
 # --- IDENTITAS TOKOH (VERSI ELEGANT GRID) ---
 with st.expander("👥 Nama Karakter Utama & Penampilan Fisik! (WAJIB ISI)", expanded=True):
@@ -933,6 +940,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
