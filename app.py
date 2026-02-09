@@ -663,7 +663,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("") 
 
-    # --- LIST ADEGAN ---
+    # --- LIST ADEGAN (VERSI SMART SYNC) ---
     adegan_storage = []
     for i_s in range(1, int(num_scenes) + 1):
         l_box_title = f"🟢 ADEGAN {i_s}" if i_s == 1 else f"🎬 ADEGAN {i_s}"
@@ -683,18 +683,29 @@ if menu_select == "🚀 PRODUCTION HUB":
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
-                    light_val = st.selectbox(f"L{i_s}", options_lighting, key=f"light_input_{i_s}", label_visibility="collapsed")
+                    # --- LOGIKA OTOMATIS SUASANA ---
+                    saved_env = st.session_state.get(f'env_input_{i_s}', "Siang")
+                    idx_env = options_lighting.index(saved_env) if saved_env in options_lighting else 0
+                    light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"light_input_{i_s}", label_visibility="collapsed")
+                
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
-                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
+                    # --- LOGIKA OTOMATIS SHOT SIZE ---
+                    saved_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
+                    idx_shot = indonesia_shot.index(saved_size) if saved_size in indonesia_shot else 2
+                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
                 
                 r2 = st.columns(2)
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ Arah Kamera</p>', unsafe_allow_html=True)
                     angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_input_{i_s}", label_visibility="collapsed")
+                
                 with r2[1]:
                     st.markdown('<p class="small-label">🎬 Gerakan Kamera (khusus video)</p>', unsafe_allow_html=True)
-                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=0, key=f"camera_input_{i_s}", label_visibility="collapsed")
+                    # --- LOGIKA OTOMATIS GERAKAN KAMERA ---
+                    saved_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
+                    idx_cam = indonesia_camera.index(saved_cam) if saved_cam in indonesia_camera else 0
+                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"camera_input_{i_s}", label_visibility="collapsed")
                 
                 r3 = st.columns(1)
                 with r3[0]:
@@ -951,3 +962,4 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON TOTAL! Cek Production Hub, visual sudah terisi otomatis.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
