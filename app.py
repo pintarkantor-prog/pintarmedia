@@ -251,11 +251,11 @@ st.markdown("""
     }
 
     .small-label {
-        font-size: 12px !important;
-        font-weight: bold !important;
-        color: #a1a1a1 !important;
-        display: block;
-        margin-bottom: 5px;
+        color: #1d976c !important; /* <--- GANTI WARNA DI SINI */
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 10px !important;
+        font-weight: 800 !important;
     }
 
     /* 7. OPTIMASI KOTAK ADEGAN */
@@ -928,6 +928,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
