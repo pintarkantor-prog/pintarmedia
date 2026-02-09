@@ -307,12 +307,45 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 # ==============================================================================
-# 4. FUNGSI TAMPILAN HEADER (DASHBOARD ONLY)
+# 4. SISTEM NAVIGASI & HEADER (DASHBOARD ONLY)
 # ==============================================================================
-def show_staff_header():
+
+# --- A. SIDEBAR NAVIGASI LENGKAP ---
+with st.sidebar:
+    st.markdown("<h2 style='text-align: center; color: #1d976c;'>🎬 PINTAR V2</h2>", unsafe_allow_html=True)
+    st.write("---")
+    
+    # Daftar menu sesuai keinginanmu
+    menu = st.radio(
+        "NAVIGASI UTAMA",
+        [
+            "🚀 PRODUCTION HUB",
+            "🧠 AI LAB",
+            "🎞️ SCHEDULE",
+            "📋 TEAM TASK",
+            "📈 TREND ANALYZER",
+            "💡 IDEAS BANK",
+            "👥 DATABASE LOCKER",
+            "📊 MONITORING",
+            "🛠️ COMMAND CENTER"
+        ],
+        index=0
+    )
+    
+    st.write("---")
+    if st.button("🚪 KELUAR SISTEM", use_container_width=True):
+        st.query_params.clear()
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
+
+# --- B. LOGIKA TAMPILAN PER MENU ---
+
+# 1. MENU UTAMA: PRODUCTION HUB (Tempat kerja Storyboard)
+if menu == "🚀 PRODUCTION HUB":
     nama_display = st.session_state.active_user.capitalize()
     
-    # Menggunakan container div yang fleksibel agar tidak pecah di HP
+    # Header Staf muncul di sini
     st.markdown(f"""
         <div class="staff-header-premium">
             <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
@@ -326,6 +359,24 @@ def show_staff_header():
             </div>
         </div>
     """, unsafe_allow_html=True)
+    
+    st.title("Production Hub")
+    st.info("Di sini kita akan merakit input Karakter dan 50 Adegan Storyboard.")
+
+# 2. MENU MONITORING
+elif menu == "📊 MONITORING":
+    st.title("Monitoring Produksi")
+    st.write("Halaman pemantauan aktivitas tim dan log Google Sheets.")
+
+# 3. MENU AI LAB
+elif menu == "🧠 AI LAB":
+    st.title("AI Laboratory")
+    st.write("Tempat eksperimen model AI dan testing prompt.")
+
+# 4. MENU LAINNYA (Default)
+else:
+    st.title(f"{menu}")
+    st.write("Menu ini sedang dalam tahap pengembangan.")
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -978,3 +1029,4 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
