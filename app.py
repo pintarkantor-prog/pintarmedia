@@ -7,20 +7,18 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (VERSI GACOR & ANTI-LIMIT)
+# KONFIGURASI OTAK AI (MODE SINGLE KEY SECRETS - SINKRON 10 ADEGAN)
 # ==============================================================================
-genai.configure(api_key="AIzaSyCKz5AwE-rBunj5H18Y1oUO7tmahI5fYc8")
+# Memanggil kunci dari Streamlit Secrets agar tidak gampang limit
+if "gemini_key" in st.secrets:
+    api_kunci_final = st.secrets["gemini_key"]
+else:
+    # Fallback jika di secrets belum diisi (Pakai kunci baru kamu)
+    api_kunci_final = "AIzaSyCKz5AwE-rBunj5H18Y1oUO7tmahI5fYc8"
 
-# 1. Cari model yang tersedia secara otomatis
-available_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+genai.configure(api_key=api_kunci_final)
 
-# 2. Pilih model (Utamakan gemini-1.5-flash karena kuota lebih banyak & stabil)
-selected_model_name = 'models/gemini-1.5-flash'
-if available_models:
-    flash_models = [m for m in available_models if '1.5-flash' in m.lower()]
-    selected_model_name = flash_models[0] if flash_models else available_models[0]
-
-# 3. SOP PINTAR MEDIA (INSTRUKSI WAJIB SKAKMAT)
+# SOP PINTAR MEDIA (INSTRUKSI WAJIB SKAKMAT)
 SOP_PINTAR_MEDIA = """
 Kamu adalah Scriptwriter Senior PINTAR MEDIA, spesialis video Shorts 'Karma Visual'.
 GAYA BAHASA: 
@@ -31,9 +29,9 @@ GAYA BAHASA:
 - JANGAN SOPAN. Fokus pada konflik sosial (Hutang, Sombong, Meremehkan).
 """
 
-# 4. Inisialisasi Model
+# Inisialisasi Model (Pake Flash biar tahan banting)
 model = genai.GenerativeModel(
-    model_name=selected_model_name,
+    model_name='models/gemini-1.5-flash',
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -833,7 +831,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (SISTEM SINKRONISASI 10 ADEGAN)
+# 11. HALAMAN AI LAB (SISTEM SINKRONISASI 10 ADEGAN - VERSI FINAL)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -888,8 +886,8 @@ elif menu_select == "🧠 AI LAB":
                         response = model.generate_content(prompt_auto)
                         st.session_state['temp_script_spy'] = response.text
                         st.markdown(response.text)
-                    except Exception as e:
-                        st.error("Waduh, AI lagi capek (Limit). Coba lagi nanti.")
+                    except:
+                        st.error("Limit API. Coba lagi sebentar lagi.")
 
     # --------------------------------------------------------------------------
     # TAB 2: NASKAH DIALOG
@@ -946,16 +944,18 @@ elif menu_select == "🧠 AI LAB":
                 col_k1, col_k2 = st.columns(2)
                 
                 with col_k1:
-                    # Tombol Hijau
                     if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True, type="primary"):
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
                         st.toast("Terkirim ke Gudang! ✅")
                 
                 with col_k2:
-                    # Tombol Hijau + Logika Suntik 10 Kotak
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         full_text = st.session_state['ready_storyboard']
+                        
+                        # RESET SEMUA KOTAK DULU BIAR BERSIH
+                        for clear_idx in range(1, 11):
+                            st.session_state[f'vis_input_{clear_idx}'] = ""
                         
                         # LOGIKA SPLITTER: Membagi naskah ke vis_input_1 sampai vis_input_10
                         for i in range(1, 11):
@@ -969,8 +969,9 @@ elif menu_select == "🧠 AI LAB":
                         # Isi data default biar gak kosong
                         st.session_state['c_name_1_input'] = "UDIN"
                         st.session_state['c_name_2_input'] = "TUNG"
-                        st.success("🔥 SINKRON! Silakan cek 10 kotak di PRODUCTION HUB.")
+                        st.success("🔥 SINKRON! 10 Adegan berhasil dipencar ke Production Hub.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
