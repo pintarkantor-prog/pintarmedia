@@ -160,104 +160,75 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: PREMIUM LOGIN-INSPIRED & FULLY RESPONSIVE)
+# 4. CUSTOM CSS (VERSION: ENHANCED DEFAULT - STABLE & CLEAN)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. DASAR APLIKASI (DEEP DARK) */
-    html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0e1117 !important;
-        color: #ffffff !important;
-        font-family: 'Inter', sans-serif;
+    /* 1. GANTI WARNA TEMA GLOBAL (MERAH -> HIJAU) */
+    :root {
+        --primary-color: #1d976c !important;
     }
 
-    /* 2. SIDEBAR RAMPING */
+    /* 2. SIDEBAR RAMPING (DEFAULT LOOK) */
     [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #11141b !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        width: 280px !important;
     }
 
-    /* 3. INPUT AREA (MENGIKUTI GAYA LOGIN YANG KAMU SUKA) */
-    /* Nama, Angka, Dropdown */
-    .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
-        background-color: #1e1f20 !important; /* Warna charcoal khas login box */
-        color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        height: 42px !important;
-        padding: 0px 15px !important;
-        font-size: 14px !important;
-        transition: all 0.2s ease !important;
-    }
-
-    /* Input Adegan (Dibuat Sinkron dengan Tema Login) */
-    .stTextArea textarea {
-        background-color: #16181d !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        padding: 15px !important;
-        font-size: 14px !important;
-    }
-
-    /* 4. EFEK FOKUS (CLEAN & MINIMALIST) */
-    /* Saat diklik, muncul border hijau tegas tanpa bayangan double */
-    .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #1d976c !important;
-        box-shadow: none !important;
-        outline: none !important;
-    }
-
-    /* Hilangkan shadow bawaan Streamlit agar tidak tumpang tindih */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
-        box-shadow: none !important;
-        border: none !important;
-    }
-
-    /* 5. TOMBOL UTAMA (BOLD SEPERTI TOMBOL LOGIN) */
+    /* 3. TOMBOL UTAMA (DEFAULT STYLE TAPI HIJAU) */
     div.stButton > button[kind="primary"] {
-        background: #f85757 !important; /* Warna coral-red seperti di gambar login kamu */
+        background-color: #1d976c !important;
         color: white !important;
         border: none !important;
-        border-radius: 8px !important;
-        height: 45px !important;
         width: 100%;
-        font-weight: 700 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        box-shadow: 0 4px 15px rgba(248, 87, 87, 0.2) !important;
+        border-radius: 8px !important;
+        padding: 0.5rem 1rem !important;
+        font-weight: 500 !important;
     }
 
     div.stButton > button[kind="primary"]:hover {
-        background: #ff6b6b !important;
-        transform: translateY(-1px);
+        background-color: #11998e !important;
+        border: none !important;
     }
 
-    /* 6. LABEL & TEKS (CLEAN LOOK) */
-    label p {
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        margin-bottom: -5px !important;
+    /* 4. INPUT AREA (MENGGUNAKAN STANDAR STREAMLIT) */
+    /* Kita hanya pastikan border-radiusnya konsisten */
+    .stTextInput input, .stNumberInput input, .stTextArea textarea, div[data-baseweb="select"] {
+        border-radius: 8px !important;
     }
 
-    /* 7. RESPONSIVE MOBILE FIX */
+    /* 5. BOX STAF (STYLE MINIMALIS) */
+    .staff-header-premium {
+        background: rgba(29, 151, 108, 0.1) !important;
+        border: 1px solid #1d976c !important;
+        border-radius: 8px !important;
+        padding: 12px 15px !important;
+        margin-bottom: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+
+    /* 6. RESPONSIVE MOBILE (OPTIMASI DEFAULT) */
     @media (max-width: 768px) {
+        /* Di HP, kita beri ruang napas sedikit */
         .block-container {
-            padding: 1.5rem 1rem !important;
+            padding: 1rem !important;
         }
         
-        /* Memastikan input tidak zoom otomatis di HP */
-        .stTextInput input, .stTextArea textarea {
-            font-size: 16px !important;
+        /* Pastikan tombol generate mudah ditekan */
+        div.stButton > button[kind="primary"] {
             height: 45px !important;
         }
 
-        [data-testid="stSidebar"] {
-            width: 80% !important;
+        /* Mencegah zoom otomatis di iPhone */
+        .stTextArea textarea, .stTextInput input, .stNumberInput input {
+            font-size: 16px !important;
         }
     }
+
+    /* 7. HAPUS GARIS BAWAH LINK (TAMPILAN BERSIH) */
+    a { text-decoration: none !important; }
+
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -912,6 +883,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
