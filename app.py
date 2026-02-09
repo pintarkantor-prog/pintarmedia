@@ -810,133 +810,98 @@ elif menu_select == "🧠 AI LAB":
         "📝 3. STORYBOARD (SIAP SYUTING)"
     ])
 
+# ==============================================================================
+# 11. HALAMAN AI LAB (WARUNG TUNGTUNG & VISUAL KARMA MODE)
+# ==============================================================================
+elif menu_select == "🧠 AI LAB":
+    st.title("🧠 AI LAB: MESIN KARMA VISUAL")
+    st.markdown("---")
+    
+    # --- TABS ---
+    tab_spy, tab_cloner, tab_storyboard = st.tabs([
+        "🛰️ 1. ANALISIS KARMA", 
+        "🔄 2. GENERATOR SKRIP GREGET", 
+        "📝 3. STORYBOARD ACTION"
+    ])
+
     # --------------------------------------------------------------------------
-    # TAB 1: CARI IDE (IDEA ENGINE)
+    # TAB 1: ANALISIS POLA (AMATI)
     # --------------------------------------------------------------------------
     with tab_spy:
-        st.subheader("🛰️ Langkah 1: Cari Ide atau Bedah Tren")
+        st.subheader("🛰️ Bedah Rahasia Video Viral")
+        st.info("💡 Masukkan alur video yang kamu tonton (misal: Orang kaya buang makanan pengemis, taunya pengemis itu bosnya).")
         
-        mode_lab = st.radio("Mau gimana hari ini?", ["🔍 Bedah Video Viral Orang", "💡 Lagi Buntu (Bikinin Ide Dong!)"], horizontal=True)
-        st.markdown("---")
-
-        if mode_lab == "🔍 Bedah Video Viral Orang":
-            st.info("💡 **Tips:** Ceritain dikit isi videonya tentang apa biar AI makin akurat.")
-            raw_script = st.text_area("Ceritain video viral yang kamu temuin:", 
-                                      height=150, 
-                                      placeholder="Contoh: Ada orang sombong pamer HP baru, eh taunya HP-nya cuma mainan...",
-                                      key="lab_spy_input")
-            
-            if st.button("BEDAH RAHASIANYA ⚡", use_container_width=True):
-                if raw_script:
-                    with st.spinner("Lagi dibedah DNA kontennya..."):
-                        try:
-                            prompt_spy = f"""
-                            Analisis santai cerita ini: "{raw_script}"
-                            Bedah poin penting:
-                            1. Kenapa Viral? (Emosi utama).
-                            2. Hook: Apa yang bikin orang stop scrolling?
-                            3. Alurnya: Awal -> Konflik -> Twist.
-                            
-                            PENTING: JANGAN bahas suami-istri. Tetap di lokasi aslinya.
-                            """
-                            response = model.generate_content(prompt_spy)
-                            st.success("Beres! Nih hasil bedahnya:")
-                            st.markdown(response.text)
-                            st.session_state['temp_script_spy'] = raw_script
-                        except Exception as e:
-                            st.error(f"Gagal bedah: {e}")
-                else:
-                    st.warning("Ceritain dulu dong videonya!")
-
-        else: # MODE BRAINSTORM
-            st.markdown("### 💡 Mesin Ide Otomatis")
-            col_b1, col_b2 = st.columns(2)
-            with col_b1:
-                tema = st.selectbox("Pilih Masalah:", [
-                    "Hutang Belum Dibayar", "Ejekan/Bully Teman", "Pamer/Sombong Tapi Gak Punya", 
-                    "Persaingan Dagang/Kerja", "Sial Tapi Lucu", "Tetangga Julid", 
-                    "Pinjam Barang Gak Balik", "Gaya Elit Ekonomi Sulit"
-                ])
-                emosi = st.select_slider("Target Perasaan:", options=["Ketawa Ngakak", "Geregetan", "Iba", "Puas (Revenge)"])
-            with col_b2:
-                lokasi = st.selectbox("Setting Lokasi:", ["Sekolah", "Sawah/Kebun", "Pasar Malam", "Pos Ronda", "Teras Rumah", "Warung Kopi"])
-                jumlah_tokoh = st.number_input("Jumlah Tokoh (Max 3):", min_value=1, max_value=3, value=2)
-
-            if st.button("BIKININ 3 IDE GOKIL 🚀", use_container_width=True):
-                with st.spinner("Lagi ngeracik ide..."):
+        raw_script = st.text_area("Deskripsikan Alur Videonya:", 
+                                  height=100, 
+                                  placeholder="Tulis di sini...",
+                                  key="lab_spy_input")
+        
+        if st.button("BEDAH RAHASIA KARMA ⚡", use_container_width=True):
+            if raw_script:
+                with st.spinner("Membedah 'Greget' Factor..."):
                     try:
-                        prompt_gen = f"""
-                        Bikinin 3 ide cerita pendek (Shorts) dengan {jumlah_tokoh} tokoh.
-                        Tema: {tema}. Lokasi: {lokasi}. Target Emosi: {emosi}.
-                        Gunakan kearifan lokal, JANGAN bahas suami-istri.
+                        # PROMPT KHUSUS VISUAL KARMA
+                        prompt_spy = f"""
+                        Bedah video ini berdasarkan pola 'Visual Karma': "{raw_script}"
+                        
+                        1. **The Cruelty**: Bagian mana yang bikin penonton beneran marah/geram?
+                        2. **The Turn**: Di detik mana keadaan berbalik 180 derajat?
+                        3. **The Satisfaction**: Apa hal memalukan yang menimpa si jahat di akhir?
                         """
-                        response = model.generate_content(prompt_gen)
-                        st.markdown("---")
-                        st.success("Nih, 3 ide buat kamu:")
+                        response = model.generate_content(prompt_spy)
                         st.markdown(response.text)
-                        st.session_state['temp_script_spy'] = response.text
+                        st.session_state['temp_script_spy'] = raw_script
                     except Exception as e:
-                        st.error(f"Gagal bikin ide: {e}")
+                        st.error(f"Error: {e}")
 
     # --------------------------------------------------------------------------
-    # TAB 2: MODIFIKASI (CUSTOM TOKOH)
+    # TAB 2: SKRIP GREGET (MODIFIKASI)
     # --------------------------------------------------------------------------
     with tab_cloner:
-        st.subheader("🔄 Langkah 2: Ganti Gaya & Tentukan Nama Tokoh")
-        st.write("Di sini kamu bisa tulis sendiri nama tokoh-tokohnya!")
+        st.subheader("🔄 Generator Skrip Visual Karma")
         
-        col_m1, col_m2 = st.columns(2)
-        with col_m1:
-            # FITUR BARU: Input Nama Tokoh Bebas
-            nama_tokoh_input = st.text_input("Tulis Nama Tokoh (pisahkan dengan koma):", 
-                                            value="UDIN, TUNG",
-                                            placeholder="Contoh: Udin, Tung, Pak RT")
-        with col_m2:
-            mood_vibe = st.selectbox("Gaya Ceritanya:", ["Kocak Pol", "Tegang/Serius", "Sedih Banget", "Gaya Action"])
+        col1, col2 = st.columns(2)
+        with col1:
+            tokoh = st.text_input("Nama Tokoh (Contoh: Udin, Bos Sombong, Satpam):", value="Udin, Si Sombong")
+            level_greget = st.select_slider("Level Keterlaluan:", options=["Biasa", "Ngeselin", "Keterlaluan", "Bikin Darah Tinggi"])
+        with col2:
+            lokasi = st.selectbox("Lokasi:", ["Sekolah", "Restoran Mewah", "Parkiran", "Depan Rumah Bakar", "Kantor"])
 
-        if st.button("JADIIN NASKAH DIALOG 🧪", use_container_width=True):
+        if st.button("GENERATE SKRIP GREGET 🧪", use_container_width=True):
             if 'temp_script_spy' in st.session_state:
-                with st.spinner(f"Lagi nulis naskah buat {nama_tokoh_input}..."):
+                with st.spinner("Meracik skrip yang bikin emosi..."):
                     try:
-                        prompt_atm = f"""
-                        Ubah ide ini jadi naskah dialog: "{st.session_state['temp_script_spy']}"
+                        # PROMPT UNTUK HASIL YANG 'PEDAS'
+                        prompt_karma = f"""
+                        Buat skrip video pendek (Shorts) bergaya 'Warung Tungtung' atau 'Visual Karma'.
+                        Tokoh: {tokoh}. Lokasi: {lokasi}. Level Greget: {level_greget}.
                         
-                        Aturan Main:
-                        1. Gunakan nama tokoh ini: {nama_tokoh_input}.
-                        2. Gaya cerita: {mood_vibe}.
-                        3. Jangan ganti lokasi asli.
-                        4. Dialog harus natural, lokal, dan ending-nya nendang.
+                        INSTRUKSI WAJIB:
+                        1. AKSI AWAL: Si jahat harus melakukan hal yang sangat MERENDAHKAN si lemah (Misal: Injek makanan, buang barang, fitnah depan umum).
+                        2. REAKSI: Si lemah tetap tenang/sabar tapi matanya tajam.
+                        3. THE TWIST: Tiba-tiba identitas asli si lemah terbongkar atau si jahat kena sial yang sangat MEMALUKAN.
+                        4. DIALOG: Minim dialog, banyak aksi. Kalau ada dialog, buat yang "Pedas" dan "Skakmat".
+                        5. ENDING: Si jahat melongo, nangis, atau sujud minta maaf tapi sudah telat.
+                        
+                        JANGAN PAKAI GAYA BAHASA SOPAN. BUAT YANG NYELEKIT.
                         """
-                        response = model.generate_content(prompt_atm)
+                        response = model.generate_content(prompt_karma)
                         st.session_state['ready_script'] = response.text
-                        st.success("Naskah udah jadi!")
-                        st.markdown("### 📝 Preview Naskah:")
-                        st.write(response.text)
+                        st.success("Skrip Greget Siap!")
+                        st.markdown(response.text)
                     except Exception as e:
-                        st.error(f"Gagal: {e}")
-            else:
-                st.error("Langkah 1 diselesaikan dulu!")
+                        st.error(f"Error: {e}")
 
     # --------------------------------------------------------------------------
-    # TAB 3: STORYBOARD
+    # TAB 3: STORYBOARD ACTION
     # --------------------------------------------------------------------------
     with tab_storyboard:
-        st.subheader("📝 Langkah 3: Pecah Adegan")
-        jumlah_adegan = st.slider("Mau berapa adegan?", 5, 20, 10)
-        
-        if st.button("BIKIN STORYBOARD 🚀", type="primary", use_container_width=True):
+        st.subheader("📝 Storyboard Visual")
+        if st.button("GENERATE PANDUAN VISUAL 🚀", type="primary", use_container_width=True):
             if 'ready_script' in st.session_state:
-                with st.spinner("Lagi ngerancang adegan..."):
-                    try:
-                        prompt_shorts = f"""
-                        Dari naskah ini: "{st.session_state['ready_script']}"
-                        Bikinin storyboard {jumlah_adegan} adegan.
-                        Format: Adegan [No]: [Visual], Shot: [Type], Lampu: [Waktu]
-                        """
-                        response = model.generate_content(prompt_shorts)
-                        st.balloons()
-                        st.code(response.text, language="text")
-                    except Exception as e:
-                        st.error(f"Gagal: {e}")
+                prompt_st = f"Pecah skrip ini jadi 10 adegan visual cepat: {st.session_state['ready_script']}"
+                response = model.generate_content(prompt_st)
+                st.code(response.text)
             else:
-                st.error("Naskahnya mana? Bikin dulu di Langkah 2!")
+                st.error("Bikin skrip dulu di Tab 2!")
+
