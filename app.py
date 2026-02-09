@@ -663,7 +663,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("") 
 
-    # --- LIST ADEGAN (VERSI STABIL - NO YELLOW BOX) ---
+# --- LIST ADEGAN (VERSI FINAL: ANTI KUNING & SUNTIK PASTI JALAN) ---
     adegan_storage = []
     for i_s in range(1, int(num_scenes) + 1):
         l_box_title = f"🟢 ADEGAN {i_s}" if i_s == 1 else f"🎬 ADEGAN {i_s}"
@@ -671,52 +671,55 @@ if menu_select == "🚀 PRODUCTION HUB":
             col_v, col_ctrl = st.columns([6, 4])
             
             with col_v:
-                # Kita panggil datanya langsung dari session_state tanpa parameter value
+                # Kuncinya ada di 'value' yang mengambil dari session_state
+                # Tapi 'key' harus tetap ada agar bisa diketik manual
+                isi_naskah_skrg = st.session_state.get(f"vis_input_{i_s}", "")
                 visual_input = st.text_area(
                     f"Cerita Visual {i_s}", 
-                    key=f"vis_input_{i_s}", 
+                    key=f"text_area_{i_s}", # Gunakan key berbeda agar tidak bentrok
+                    value=isi_naskah_skrg,
                     height=265, 
                     placeholder="Ceritakan detail adegannya di sini..."
                 )
+                # Simpan balik ke vis_input agar sinkron dengan sistem generate
+                st.session_state[f"vis_input_{i_s}"] = visual_input
             
             with col_ctrl:
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
-                    # Ambil data dari suntikan AI LAB
                     saved_env = st.session_state.get(f'env_input_{i_s}', "Siang")
                     idx_env = options_lighting.index(saved_env) if saved_env in options_lighting else 0
-                    # Jangan gunakan parameter 'value' di sini, cukup 'index'
-                    light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"light_input_{i_s}", label_visibility="collapsed")
+                    light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"light_sel_{i_s}", label_visibility="collapsed")
+                    st.session_state[f'light_input_{i_s}'] = light_val
                 
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
                     saved_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
                     idx_shot = indonesia_shot.index(saved_size) if saved_size in indonesia_shot else 2
-                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
+                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_shot, key=f"shot_sel_{i_s}", label_visibility="collapsed")
+                    st.session_state[f'shot_input_{i_s}'] = shot_val
                 
                 r2 = st.columns(2)
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ Arah Kamera</p>', unsafe_allow_html=True)
-                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_input_{i_s}", label_visibility="collapsed")
+                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_sel_{i_s}", label_visibility="collapsed")
+                    st.session_state[f'angle_input_{i_s}'] = angle_val
                 
                 with r2[1]:
-                    st.markdown('<p class="small-label">🎬 Gerakan Kamera (khusus video)</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">🎬 Gerakan Kamera</p>', unsafe_allow_html=True)
                     saved_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
                     idx_cam = indonesia_camera.index(saved_cam) if saved_cam in indonesia_camera else 0
-                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"camera_input_{i_s}", label_visibility="collapsed")
+                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"cam_sel_{i_s}", label_visibility="collapsed")
+                    st.session_state[f'camera_input_{i_s}'] = cam_val
                 
                 r3 = st.columns(1)
                 with r3[0]:
                     st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
-                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_sel_{i_s}", label_visibility="collapsed")
+                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_sel_ui_{i_s}", label_visibility="collapsed")
                     
                     if loc_choice == "--- KETIK MANUAL ---":
-                        location_val = st.text_input(
-                            "Tulis lokasi spesifik latar cerita di sini:", 
-                            key=f"loc_custom_{i_s}", 
-                            placeholder="Contoh: di dalam gerbong kereta api tua..."
-                        )
+                        location_val = st.text_input("Spesifik Lokasi:", key=f"custom_loc_ui_{i_s}", placeholder="Contoh: di dalam gerbong...")
                     else:
                         location_val = loc_choice
 
@@ -725,18 +728,13 @@ if menu_select == "🚀 PRODUCTION HUB":
             for i_char, char_data in enumerate(all_chars_list):
                 with diag_cols[i_char]:
                     char_label = char_data['name'] if char_data['name'] else f"Karakter {i_char+1}"
-                    d_in = st.text_input(f"Dialog {char_label}", key=f"diag_{i_s}_{i_char}")
+                    d_in = st.text_input(f"Dialog {char_label}", key=f"diag_ui_{i_s}_{i_char}", value=st.session_state.get(f"diag_{i_s}_{i_char}", ""))
+                    st.session_state[f"diag_{i_s}_{i_char}"] = d_in
                     scene_dialogs_list.append({"name": char_label, "text": d_in})
             
             adegan_storage.append({
-                "num": i_s, 
-                "visual": visual_input, 
-                "light": light_val,
-                "location": location_val,
-                "cam": cam_val, 
-                "shot": shot_val,
-                "angle": angle_val, 
-                "dialogs": scene_dialogs_list
+                "num": i_s, "visual": visual_input, "light": light_val, "location": location_val,
+                "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list
             })
             
     # ==============================================================================
@@ -961,6 +959,7 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON TOTAL! Cek Production Hub, visual sudah terisi otomatis.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
