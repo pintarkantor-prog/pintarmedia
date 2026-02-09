@@ -31,7 +31,7 @@ GAYA BAHASA:
 
 # Inisialisasi Model (Pake Flash biar tahan banting)
 model = genai.GenerativeModel(
-    model_name='models/gemini-1.5-flash',
+    model_name='models/gemini-1.5-flash-8b',
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -972,6 +972,7 @@ elif menu_select == "🧠 AI LAB":
                         st.success("🔥 SINKRON! 10 Adegan berhasil dipencar ke Production Hub.")
         else:
             st.error("Bikin naskah dulu di Tab 2!")
+
 
 
 
