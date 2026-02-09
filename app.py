@@ -160,67 +160,92 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: TOTAL STEALTH & CLEAN FOCUS)
+# 4. CUSTOM CSS (VERSION: THE FINAL PRECISION - GREEN MINIMALIST)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. WARNA TEMA GLOBAL */
-    :root {
-        --primary-color: #1d976c !important; /* Hijau untuk tombol/progres */
-        --bg-black: #0e1117 !important;
-    }
-
-    /* 2. DASAR APLIKASI */
+    /* 1. RESET DASAR */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: var(--bg-black) !important;
+        background-color: #0e1117 !important;
     }
 
-    /* 3. INPUT AREA (HITAM SAMA DENGAN BACKGROUND) */
+    /* 2. SIDEBAR RAMPING */
+    [data-testid="stSidebar"] {
+        width: 250px !important;
+        background-color: #11141b !important;
+    }
+
+    /* 3. KONTROL JARAK ANTAR KOLOM (SANGAT RAPAT) */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.2rem !important;
+    }
+
+    /* 4. LABEL MINIMALIS HIJAU (Sesuai image_4f301b) */
+    [data-testid="stWidgetLabel"] {
+        margin-bottom: -18px !important; /* Tarik kotak nempel ke label */
+        z-index: 2;
+        position: relative;
+    }
+    
+    [data-testid="stWidgetLabel"] p {
+        font-size: 10px !important;      /* Ukuran sangat kecil */
+        font-weight: 800 !important;     /* Tebal */
+        color: #1d976c !important;       /* HIJAU BRANDING */
+        text-transform: uppercase !important; /* Huruf besar semua */
+        letter-spacing: 1px !important;  /* Jarak antar huruf */
+        margin-left: 2px !important;
+    }
+
+    /* 5. INPUT STEALTH (SAMA DENGAN BACKGROUND) */
     .stTextInput input, .stNumberInput input, div[data-baseweb="select"], .stTextArea textarea {
-        background-color: var(--bg-black) !important;
+        background-color: #0e1117 !important; 
         color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 6px !important;
+        height: 30px !important; /* Ukuran minimalis */
+        padding: 0px 10px !important;
+        font-size: 13px !important;
+        transition: none !important;
     }
 
-    /* 4. MEMBERSIHKAN EFEK KLIK (HAPUS TOTAL HIJAU) */
-    /* Menghilangkan pendaran hijau dan mengembalikan ke garis merah default yang tipis */
+    /* Menyesuaikan icon dropdown agar tidak tumpang tindih */
+    div[data-baseweb="select"] > div:last-child {
+        height: 30px !important;
+    }
+
+    /* 6. HAPUS TOTAL EFEK KLIK (CLEAN & FLAT) */
+    /* Saat fokus, border berubah jadi merah tipis sesuai default yang stabil */
     .stTextInput input:focus, .stTextArea textarea:focus, div[data-baseweb="select"]:focus-within {
-        border-color: #ff4b4b !important; /* Merah default Streamlit agar sinkron */
+        border-color: #ff4b4b !important; 
         box-shadow: none !important;
         outline: none !important;
     }
 
-    /* Mematikan lapisan bayangan (shadow) BaseWeb yang sering menyimpan warna hijau */
+    /* Matikan shadow internal */
     div[data-baseweb="input"], div[data-baseweb="textarea"], [role="combobox"] {
         box-shadow: none !important;
         border: none !important;
         background-color: transparent !important;
     }
 
-    /* 5. SIDEBAR RAMPING */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-        background-color: #11141b !important;
-    }
-
-    /* 6. TOMBOL UTAMA (MODERN GRADIENT) */
+    /* 7. TOMBOL GENERATE (SOLID GREEN) */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
-        color: white !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 0.6rem 1rem !important;
+        background: #1d976c !important;
+        border-radius: 6px !important;
+        height: 36px !important;
+        font-size: 14px !important;
         font-weight: 700 !important;
+        border: none !important;
         width: 100%;
     }
 
-    /* 7. RESPONSIVE MOBILE FIX */
+    /* 8. MOBILE OPTIMIZATION */
     @media (max-width: 768px) {
-        .block-container { padding: 1rem !important; }
-        .stTextArea textarea, .stTextInput input {
+        .block-container { padding: 0.5rem !important; }
+        [data-testid="stWidgetLabel"] { margin-bottom: -15px !important; }
+        .stTextInput input, div[data-baseweb="select"] {
+            height: 38px !important;
             font-size: 16px !important;
-            background-color: var(--bg-black) !important;
         }
     }
 </style>
@@ -877,6 +902,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
