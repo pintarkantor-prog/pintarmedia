@@ -183,7 +183,7 @@ st.markdown("""
 
     /* Menghilangkan spasi kosong di atas elemen pertama sidebar */
     [data-testid="stSidebarNav"] + div {
-        margin-top: -50px !important;
+        margin-top: -100px !important;
     }
     
     /* Jika kamu menggunakan st.sidebar.markdown untuk logo */
@@ -961,6 +961,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
