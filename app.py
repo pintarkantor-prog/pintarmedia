@@ -283,51 +283,51 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA (CLEAN & NEUTRAL DEFAULT) */
+    /* 6. STYLE LAINNYA (CLEAN & MINIMALIST) */
     h1, h2, h3, .stMarkdown h3 {
         color: #ffffff !important;
         background: none !important;
         font-weight: 700 !important;
     }
 
-    /* Tombol Copy (Dibuat Abu-abu Gelap Standar) */
+    /* Tombol Copy (Abu-abu Gelap Netral) */
     button[title="Copy to clipboard"] {
         background-color: #262730 !important;
         color: white !important;
-        border-radius: 8px !important;
-    }
-    
-    button[title="Copy to clipboard"]:hover {
-        background-color: #31333f !important;
+        border-radius: 6px !important;
     }
 
-    /* Kotak Isian (Dialog/Fisik) - Mengikuti Default System saat Fokus */
-    .stTextArea textarea {
+    /* Kotak Isian (Dialog/Fisik) - Tanpa Efek Fokus Tambahan */
+    .stTextArea textarea, .stTextInput input {
         font-size: 16px !important;
-        border-radius: 12px !important; 
+        border-radius: 8px !important; 
         background-color: #0e1117 !important; 
-        border: 1px solid rgba(255, 255, 255, 0.1) !important; 
+        border: 1px solid #31333f !important; 
         color: #ffffff !important;
-        padding: 15px !important;
     }
 
-    /* Label Instruksi Kecil (Small Label) - Abu-abu Netral */
+    /* Label Instruksi Kecil - Abu-abu Standar */
     .small-label {
-        font-size: 11px !important;
-        font-weight: 700 !important;
+        font-size: 12px !important;
+        font-weight: bold !important;
         color: #a1a1a1 !important;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 6px;
+        margin-bottom: 2px;
         display: block;
     }
 
     /* 7. OPTIMASI KOTAK ADEGAN (EXPANDER) */
     .stExpander {
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 12px !important;
+        border: 1px solid #31333f !important;
+        border-radius: 8px !important;
         background-color: #11151c !important; /* Setema dengan Sidebar Navy */
-        margin-bottom: 15px !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* Garis Pemisah Halus */
+    hr {
+        margin: 1.5em 0 !important;
+        border: 0;
+        border-top: 1px solid rgba(255,255,255,0.05) !important;
     }
 
     /* Label dropdown agar lebih tegas dan sinematik */
@@ -1003,6 +1003,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
