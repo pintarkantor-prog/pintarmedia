@@ -891,48 +891,57 @@ elif menu_select == "🧠 AI LAB":
                         st.error("Waduh, AI lagi capek (Limit). Coba lagi nanti.")
 
     # --------------------------------------------------------------------------
-    # TAB 2: NASKAH DIALOG
+    # TAB 2: NASKAH DIALOG (VERSI ANTI-GHOIB)
     # --------------------------------------------------------------------------
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog Nyelekit")
+        
+        # 1. Cek Ide dari Tab 1
         if 'temp_script_spy' in st.session_state:
             nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG")
             
+            # Tombol Generate
             if st.button("GENERATE NASKAH SKAKMAT 🧪", use_container_width=True):
                 with st.spinner("Menyusun dialog & aksi visual..."):
                     try:
-                        prompt_dialog = f"""
-                        Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}
-                        FORMAT: [ACTION] untuk visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}.
-                        """
+                        prompt_dialog = f"Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}. FORMAT: [ACTION] visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}."
                         response = model.generate_content(prompt_dialog)
-                        # --- KUNCI DI SINI: Simpan dulu baru tampil ---
+                        
+                        # PAKSA SIMPAN KE SESSION STATE
                         st.session_state['ready_script'] = response.text
-                        st.rerun() # Kita paksa refresh sekali agar tombol di bawah muncul
+                        st.rerun() # REFRESH PAKSA BIAR TOMBOL MUNCUL
                     except Exception as e:
-                        st.error("Limit API tercapai. Tunggu 1 menit.")
-            
-            # TAMPILKAN HASIL JIKA SUDAH ADA DI MEMORI
-            if 'ready_script' in st.session_state:
-                st.markdown("---")
-                st.markdown(st.session_state['ready_script']) # Tampilkan naskahnya
+                        st.error(f"Error: {e}")
+
+            st.markdown("---")
+
+            # 2. TAMPILKAN HASIL & TOMBOL (Hanya jika ready_script SUDAH ADA)
+            if 'ready_script' in st.session_state and st.session_state['ready_script']:
+                # Tampilkan Teks Naskah
+                st.markdown(st.session_state['ready_script'])
                 
-                st.markdown("#### ⚡ Opsi Pengiriman:")
-                col_kirim1, col_kirim2 = st.columns(2)
+                st.markdown("### ⚡ EKSEKUSI DATA")
+                c_k1, c_k2 = st.columns(2)
                 
-                with col_kirim1:
+                with c_k1:
                     if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
                         st.session_state['naskah_produksi'] = st.session_state['ready_script']
-                        st.success("Terkirim ke Gudang! ✅")
+                        st.toast("Berhasil dikirim ke Production Hub! ✅")
                 
-                with col_kirim2:
+                with c_k2:
                     if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
+                        # Update visual adegan 1 secara paksa
                         st.session_state['vis_input_1'] = st.session_state['ready_script']
+                        # Pastikan karakter 1 ada namanya biar gak error pas generate prompt
                         st.session_state['c_name_1_input'] = "UDIN"
-                        st.success("Berhasil Disuntik! 💉")
+                        st.success("Suntikan Berhasil! Cek menu Production Hub sekarang. 💉")
+                
+                # Tombol Reset jika ingin buat ulang
+                if st.button("🗑️ Hapus Naskah Ini (Buat Ulang)", use_container_width=True):
+                    del st.session_state['ready_script']
+                    st.rerun()
         else:
-            st.warning("Pilih ide dulu di Tab 1!")
-
+            st.warning("⚠️ Pilih ide dulu di Tab 1 (Gudang Ide)!")
     # --------------------------------------------------------------------------
     # TAB 3: STORYBOARD
     # --------------------------------------------------------------------------
@@ -959,6 +968,7 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
 
