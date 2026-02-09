@@ -833,7 +833,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (RUANGAN IDE GOKIL - VERSI OTOMATIS KE PRODUCTION)
+# 11. HALAMAN AI LAB (VERSI PERBAIKAN INDENTASI)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -891,61 +891,49 @@ elif menu_select == "🧠 AI LAB":
                     except Exception as e:
                         st.error("Waduh, AI lagi capek (Limit). Coba lagi nanti.")
 
-# --------------------------------------------------------------------------
-    # TAB 2: NASKAH DIALOG (VERSI TOMBOL PERMANEN)
+    # --------------------------------------------------------------------------
+    # TAB 2: NASKAH DIALOG (DIPERBAIKI)
     # --------------------------------------------------------------------------
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog Nyelekit")
         
-        # Input Nama Tokoh
-        nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG")
-        
-        # Tombol Generate Utama
-        if st.button("GENERATE NASKAH SKAKMAT 🧪", use_container_width=True, type="secondary"):
-            if 'temp_script_spy' in st.session_state:
+        # Cek apakah ide sudah ada dari Tab 1
+        if 'temp_script_spy' in st.session_state:
+            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="ai_lab_nama_tokoh")
+            
+            if st.button("GENERATE NASKAH SKAKMAT 🧪", use_container_width=True, type="secondary"):
                 with st.spinner("Menyusun dialog..."):
                     try:
                         prompt_dialog = f"Jadikan ide ini naskah dialog Shorts: {st.session_state['temp_script_spy']}. FORMAT: [ACTION] visual, dialog sombong vs skakmat. Tokoh: {nama_tokoh}."
                         response = model.generate_content(prompt_dialog)
                         st.session_state['ready_script'] = response.text
-                        st.rerun()
+                        st.rerun() # Paksa refresh agar teks muncul
                     except Exception as e:
-                        st.error("Gagal generate. Coba lagi.")
-            else:
-                st.error("Pilih ide dulu di Tab 1!")
+                        st.error("Gagal generate naskah.")
 
-        st.markdown("---")
-
-        # TAMPILKAN HASIL (Kalo ada)
-        if 'ready_script' in st.session_state:
-            st.markdown(st.session_state['ready_script'])
+            st.markdown("---")
+            
+            # Tampilkan naskah dan opsi kirim jika sudah digenerate
+            if 'ready_script' in st.session_state:
+                st.markdown(st.session_state['ready_script'])
+                st.markdown("---")
+                st.write("### 📤 Opsi Pengiriman")
+                
+                ck1, ck2 = st.columns(2)
+                with ck1:
+                    if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
+                        st.session_state['naskah_produksi'] = st.session_state['ready_script']
+                        st.toast("Terkirim ke Production Hub! ✅")
+                with ck2:
+                    if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
+                        st.session_state['vis_input_1'] = st.session_state['ready_script']
+                        st.session_state['c_name_1_input'] = "UDIN"
+                        st.success("Berhasil Disuntik ke Adegan 1! 💉")
         else:
-            st.caption("Naskah belum dibuat. Klik tombol Generate di atas.")
+            st.warning("⚠️ Pilih/Rakit ide dulu di Tab 1!")
 
-        st.markdown("---")
-        st.write("### 📤 Opsi Pengiriman")
-        
-        # TOMBOL INI SEKARANG DI LUAR IF, JADI PASTI MUNCUL
-        col_k1, col_k2 = st.columns(2)
-        
-        with col_k1:
-            if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
-                if 'ready_script' in st.session_state:
-                    st.session_state['naskah_produksi'] = st.session_state['ready_script']
-                    st.toast("Terkirim ke Production Hub! ✅")
-                else:
-                    st.warning("Buat naskahnya dulu!")
-
-        with col_k2:
-            if st.button("💉 SUNTIK KE ADEGAN 1", use_container_width=True, type="primary"):
-                if 'ready_script' in st.session_state:
-                    st.session_state['vis_input_1'] = st.session_state['ready_script']
-                    st.session_state['c_name_1_input'] = "UDIN"
-                    st.success("Berhasil Disuntik ke Adegan 1! 💉")
-                else:
-                    st.warning("Belum ada naskah untuk disuntik!")
     # --------------------------------------------------------------------------
-    # TAB 3: STORYBOARD
+    # TAB 3: STORYBOARD (DIPERBAIKI)
     # --------------------------------------------------------------------------
     with tab_storyboard:
         st.subheader("📝 Langkah 3: Storyboard Produksi")
@@ -956,18 +944,17 @@ elif menu_select == "🧠 AI LAB":
                         prompt_st = f"Buat tabel storyboard 8 adegan visual dari naskah ini: {st.session_state['ready_script']}"
                         response = model.generate_content(prompt_st)
                         st.session_state['ready_storyboard'] = response.text
-                        st.markdown(response.text)
+                        st.rerun()
                     except Exception as e:
                         st.error("Gagal buat storyboard.")
             
-            # --- TOMBOL OTOMATIS KE PRODUCTION HUB ---
             if 'ready_storyboard' in st.session_state:
+                st.markdown(st.session_state['ready_storyboard'])
                 st.markdown("---")
                 if st.button("📥 KIRIM STORYBOARD KE PRODUCTION HUB", use_container_width=True, type="primary"):
-                    # Gabungkan naskah dan storyboard untuk dikirim
-                    data_full = f"NASAKAH:\n{st.session_state['ready_script']}\n\nSTORYBOARD:\n{st.session_state['ready_storyboard']}"
+                    data_full = f"NASKAH:\n{st.session_state['ready_script']}\n\nSTORYBOARD:\n{st.session_state['ready_storyboard']}"
                     st.session_state['naskah_produksi'] = data_full
-                    st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
+                    st.success("✅ Terkirim!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
 
