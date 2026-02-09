@@ -283,28 +283,25 @@ st.markdown("""
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA (REVISED: OBSIDIAN RED ACCENT) */
+    /* 6. STYLE LAINNYA (CLEAN & NEUTRAL DEFAULT) */
     h1, h2, h3, .stMarkdown h3 {
         color: #ffffff !important;
         background: none !important;
         font-weight: 700 !important;
-        letter-spacing: -0.5px;
     }
 
-    /* Tombol Copy (Dibuat Netral agar tidak kontras dengan Merah/Hijau) */
+    /* Tombol Copy (Dibuat Abu-abu Gelap Standar) */
     button[title="Copy to clipboard"] {
         background-color: #262730 !important;
         color: white !important;
         border-radius: 8px !important;
-        border: 1px solid rgba(255,255,255,0.1) !important;
     }
     
     button[title="Copy to clipboard"]:hover {
         background-color: #31333f !important;
-        transform: scale(1.05);
     }
 
-    /* Kotak Isian (Dialog/Fisik) - Stealth Mode */
+    /* Kotak Isian (Dialog/Fisik) - Mengikuti Default System saat Fokus */
     .stTextArea textarea {
         font-size: 16px !important;
         border-radius: 12px !important; 
@@ -314,28 +311,22 @@ st.markdown("""
         padding: 15px !important;
     }
 
-    /* Efek Fokus Default Merah (Sesuai Permintaan) */
-    .stTextArea textarea:focus, .stTextInput input:focus {
-        border-color: #ff4b4b !important; /* Merah Default Streamlit */
-        box-shadow: 0 0 0 1px #ff4b4b !important;
-        outline: none !important;
-    }
-
-    /* Label Instruksi Kecil (Small Label) */
+    /* Label Instruksi Kecil (Small Label) - Abu-abu Netral */
     .small-label {
         font-size: 11px !important;
-        font-weight: 800 !important;
-        color: #a1a1a1 !important; /* Dibuat Abu-abu Netral agar Merah lebih stand out */
+        font-weight: 700 !important;
+        color: #a1a1a1 !important;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
+        letter-spacing: 1px;
         margin-bottom: 6px;
         display: block;
     }
-    /* 7. OPTIMASI KOTAK ADEGAN */
+
+    /* 7. OPTIMASI KOTAK ADEGAN (EXPANDER) */
     .stExpander {
-        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
         border-radius: 12px !important;
-        background-color: #161922 !important;
+        background-color: #11151c !important; /* Setema dengan Sidebar Navy */
         margin-bottom: 15px !important;
     }
 
@@ -1012,6 +1003,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
