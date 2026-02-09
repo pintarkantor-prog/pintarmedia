@@ -234,47 +234,39 @@ st.markdown("""
         box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
     }
 
-    /* 4. MODIFIKASI BOX STAF AKTIF (HIJAU TEGAS & FLAT - TANPA EFEK SAMPING) */
+    /* 4. MODIFIKASI BOX STAF AKTIF (VERSION: CLEAN PREMIUM) */
     .staff-header-premium {
-        background: rgba(29, 151, 108, 0.2) !important; /* Warna hijau background lebih nyata */
-        border: 2px solid #1d976c !important; /* Garis bingkai rata di semua sisi */
-        border-radius: 10px !important;
-        padding: 15px 20px !important;
+        background: rgba(29, 151, 108, 0.1) !important; /* Hijau transparan tipis agar elegan */
+        border: 1px solid #1d976c !important; /* Garis lebih tipis (1px) agar terlihat pro */
+        border-radius: 12px !important; /* Sudut lebih melengkung halus */
+        padding: 12px 20px !important;
         margin-bottom: 25px !important;
         display: flex !important;
         align-items: center !important;
-        gap: 12px !important;
-        /* Menghilangkan efek shadow dan border-left tebal agar terlihat flat/rata */
-        box-shadow: none !important; 
+        gap: 15px !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important; /* Shadow halus agar dimensi kotak terasa */
     }
-    
+
+    /* Target Nama Admin */
     .staff-header-premium b {
-        color: #ffffff !important; /* Nama Staf dibuat putih agar kontras dan jelas */
+        color: #1d976c !important; /* Hijau terang branding kamu */
         font-size: 1.1em !important;
+        font-weight: 700 !important;
+        text-shadow: 0 0 8px rgba(29, 151, 108, 0.2) !important; /* Glow tipis profesional */
     }
 
+    /* Target Icon */
     .staff-header-premium span {
-        color: #1d976c !important; /* Icon orangnya yang diberi warna hijau */
+        font-size: 1.4em !important;
+        filter: drop-shadow(0 0 5px rgba(29, 151, 108, 0.5));
     }
 
+    /* Target Keterangan/Quote */
     .staff-header-premium i {
-        color: #e0e0e0 !important;
-        font-style: normal !important; /* Menghilangkan miring jika ingin lebih tegas */
-    }
-    
-    .staff-header-premium b {
-        color: #1d976c !important; /* Nama Admin jadi hijau terang */
-        font-size: 1.15em !important;
-        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important; /* Efek glow halus pada teks */
-    }
-
-    .staff-header-premium i {
-        color: #e0e0e0 !important; /* Quote jadi lebih putih agar mudah dibaca */
-    }
-    
-    .staff-header-premium b {
-        color: #1d976c;
-        font-size: 1.1em;
+        color: #a1a1a1 !important; /* Abu-abu terang agar Nama lebih menonjol */
+        font-style: normal !important;
+        font-size: 0.95em !important;
+        margin-left: 5px;
     }
 
     /* 5. EFEK FOKUS (DIKEMBALIKAN KE STANDAR) */
@@ -987,6 +979,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
