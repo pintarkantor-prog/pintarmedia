@@ -9,18 +9,24 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. KONFIGURASI MESIN AI (CLEAN START)
+# 2. KONEKSI & DETEKSI MODEL OTOMATIS
 API_KEY = "AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"
 
-# Kita buat fungsi inisialisasi yang sangat simpel
-try:
-    genai.configure(api_key=API_KEY)
-    # Gunakan nama model langsung tanpa embel-embel models/
-    model = genai.GenerativeModel('gemini-1.5-flash')
-except Exception as e:
-    st.error(f"Koneksi Awal Gagal: {e}")
+@st.cache_resource
+def get_working_model():
+    try:
+        genai.configure(api_key=API_KEY)
+        # Mencari semua model yang mendukung generateContent di akun Sultan
+        for m in genai.list_models():
+            if 'generateContent' in m.supported_generation_methods:
+                # Kita pilih yang paling baru/stabil yang ketemu pertama kali
+                return genai.GenerativeModel(m.name)
+    except Exception as e:
+        return None
 
-# 3. CSS CUSTOM (Profesional & Mewah)
+model = get_working_model()
+
+# 3. CSS CUSTOM (Profesional & Anti-Penyok)
 st.markdown("""
     <style>
     header[data-testid="stHeader"] { background-color: #ff4b4b; color: white; }
@@ -30,14 +36,13 @@ st.markdown("""
         width: 100%; border-radius: 10px; height: 3.5rem; 
         background-color: #ff4b4b; color: white; font-weight: bold; border: none;
     }
-    .stTextArea textarea { border-radius: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# 4. SIDEBAR NAVIGATION (9 MENU UTUH)
+# 4. SIDEBAR NAVIGATION (9 MENU LENGKAP)
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
-    st.write("User Status: **Authorized** ✅")
+    st.write("Status: **Authorized** ✅")
     st.divider()
     menu = st.radio("NAVIGASI UTAMA:", [
         "🚀 PRODUCTION HUB", "🧠 AI LAB", "🎞️ SCHEDULE", 
@@ -45,49 +50,41 @@ with st.sidebar:
         "👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"
     ])
     st.divider()
-    st.caption("Version 2.0.7 • Final Patch")
+    st.caption("Version 2.0.8 • Auto-Detector")
 
-# 5. LOGIKA HALAMAN
+# 5. LOGIKA PRODUCTION HUB
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
     submenu = st.radio("Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
     
     if submenu == "AI Scriptwriter":
         st.subheader("Content Generator")
-        ide_konten = st.text_area("Topik Konten:", placeholder="Ketik ide konten Anda di sini...")
+        ide_konten = st.text_area("Topik Konten:", placeholder="Ketik ide konten di sini...")
         
         if st.button("GENERATE SCRIPT"):
-            if not ide_konten:
+            if not model:
+                st.error("Gagal mendeteksi model AI. Periksa API Key Anda di Google AI Studio.")
+            elif not ide_konten:
                 st.warning("Silakan masukkan ide terlebih dahulu.")
             else:
-                with st.spinner("Sedang memproses naskah..."):
+                with st.spinner("Sistem sedang mencari jalur AI yang tersedia..."):
                     try:
-                        # Prompt yang sangat jelas
-                        prompt = f"Buatkan naskah video pendek 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
-                        
-                        # Eksekusi standar tanpa RequestOptions yang bikin error
-                        response = model.generate_content(ide_konten)
-                        
+                        prompt = f"Buatkan naskah video pendek viral 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
+                        response = model.generate_content(prompt)
                         st.divider()
                         st.subheader("✅ Hasil Naskah")
                         st.markdown(response.text)
                         st.balloons()
                     except Exception as e:
-                        # Jika gemini-1.5-flash gagal, kita coba otomatis ke gemini-pro
-                        try:
-                            alt_model = genai.GenerativeModel('gemini-pro')
-                            response = alt_model.generate_content(ide_konten)
-                            st.divider()
-                            st.markdown(response.text)
-                            st.balloons()
-                        except Exception as e2:
-                            st.error(f"Gagal memproses naskah. Silakan periksa kembali API Key atau kuota Anda. Detail: {e2}")
+                        st.error(f"Upaya gagal. Google API merespons: {e}")
 
 elif menu == "🛠️ COMMAND CENTER":
     st.header("🛠️ System Control")
-    st.success("API Key Active")
-    st.info("System Engine: Connected")
+    if model:
+        st.success(f"Model Aktif: {model.model_name}")
+    else:
+        st.error("Mesin AI Offline")
 
 else:
     st.header(menu)
-    st.info("Modul ini sedang disinkronisasi.")
+    st.info("Fitur ini sedang dalam proses sinkronisasi.")
