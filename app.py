@@ -200,7 +200,11 @@ st.markdown("""
         box-shadow: none !important; /* Menghilangkan shadow agar flat & clean */
         width: 100% !important;
     }
-
+        /* Efek Hover (Saat Disorot - Sedikit Lebih Terang agar ada feedback) */
+    [data-testid="stSidebar"] button:hover {
+        background-color: #1a1c23 !important;
+        border-color: #4c5055 !important;
+    }
 
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
     div.stButton > button[kind="primary"] {
@@ -929,6 +933,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
