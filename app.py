@@ -283,37 +283,55 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-    /* 8. INPUT AREA - ANTI MERAH & FIX WARNA ADEGAN */
+/* 8. INPUT AREA - ANTI MERAH TOTAL */
     
-    /* A. NAMA KARAKTER (Tetap Abu-abu) */
-    .stTextInput input {
+    /* A. WARNA DASAR KOLOM */
+    .stTextInput input, .stNumberInput input {
         background-color: #262730 !important;
         color: #ffffff !important;
         border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
     }
 
-    /* B. ADEGAN / CIRI FISIK (Warna Hitam Background) */
     .stTextArea textarea {
         background-color: #0e1117 !important;
         color: #ffffff !important;
         border: 1px solid #31333f !important;
-        border-radius: 12px !important;
     }
 
-    /* C. MENGHILANGKAN GARIS MERAH PAS DI-KLIK (FOKUS) */
-    /* Kita tembak semua elemen input agar tidak ada pendaran merah/pink */
-    .stTextArea textarea:focus, .stTextInput input:focus, [data-baseweb="textarea"] :focus, [data-baseweb="input"] :focus {
-        background-color: transparent !important; /* Menjaga warna dasar tetap */
-        border-color: #1d976c !important;     /* Garis tepi jadi hijau */
-        box-shadow: none !important;          /* INI KUNCINYA: Menghapus pendaran merah */
-        outline: none !important;             /* Menghapus garis luar sistem */
+    /* B. HAPUS MERAH SAAT DI-KLIK (FOKUS) */
+    /* Menargetkan semua elemen input, textarea, dan container baseweb */
+    .stTextArea textarea:focus, 
+    .stTextInput input:focus, 
+    .stNumberInput input:focus,
+    [data-baseweb="input"] :focus,
+    [data-baseweb="textarea"] :focus {
+        border-color: #1d976c !important; /* Paksa Hijau */
+        box-shadow: none !important;      /* Hapus pendaran merah/pink */
+        outline: none !important;
     }
 
-    /* Memaksa container luar agar tidak ikut-ikutan merah */
-    [data-baseweb="textarea"], [data-baseweb="input"] {
+    /* C. HAPUS MERAH BAWAAN BASEWEB (LAPISAN LUAR) */
+    /* Ini yang seringkali muncul merah di sekeliling kotak */
+    [data-baseweb="input"], [data-baseweb="textarea"], [data-baseweb="base-input"] {
         border-color: transparent !important;
         box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* D. HAPUS WARNA MERAH VALIDASI (EROR/REQUIRED) */
+    /* Mematikan warna merah saat kolom belum diisi */
+    .stTextArea textarea:invalid, 
+    .stTextInput input:invalid,
+    .stNumberInput input:invalid {
+        box-shadow: none !important;
+        border-color: #31333f !important;
+    }
+
+    /* Memastikan angka (Number Input) juga tidak merah */
+    [data-testid="stNumberInput"] div[data-baseweb="input"] {
+        background-color: #262730 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
     }
 
     /* 9. MOBILE FIX */
@@ -987,6 +1005,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
