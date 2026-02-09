@@ -815,112 +815,100 @@ elif menu_select == "🧠 AI LAB":
     # --------------------------------------------------------------------------
     with tab_spy:
         st.subheader("🛰️ Amati Konten Viral")
-        st.write("Masukkan narasi video viral untuk dibedah rahasia viralnya.")
+        st.info("💡 TIPS: Jika hasil kurang akurat, tuliskan deskripsi singkat ceritanya (contoh: Udin dibully di sekolah) daripada hanya menempelkan link.")
         
-        raw_script = st.text_area("Tempel Skrip / Narasi Konten Viral:", 
-                                  height=200, 
-                                  placeholder="Contoh: Orang pamer kekayaan tapi ternyata dompetnya kosong...",
+        raw_script = st.text_area("Tempel Link YouTube Shorts atau Narasi Video:", 
+                                  height=150, 
+                                  placeholder="Contoh: https://www.youtube.com/shorts/xxxx atau deskripsi cerita...",
                                   key="lab_spy_input")
         
-    if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
+        # Tombol harus masuk di dalam indentasi 'with tab_spy'
+        if st.button("BEDAH RAHASIA VIRAL ⚡", use_container_width=True):
             if raw_script:
                 with st.spinner("Gemini sedang membedah DNA konten..."):
                     try:
-                        # PROMPT LEBIH TEGAS: Larang dia menyalin ulang naskah!
+                        # Prompt yang lebih tajam agar tidak ngelantur ke suami-istri
                         prompt_spy = f"""
                         Analisis konten ini: "{raw_script}"
                         
-                        TUGAS KAMU:
-                        1. Jangan tulis ulang naskah aslinya secara verbatim.
-                        2. Langsung jelaskan HOOK-nya (apa yang bikin orang nonton sampai habis?).
-                        3. Jelaskan STRUKTUR CERITA (kenapa alur ini bisa viral?).
-                        4. Berikan saran modifikasi agar cerita ini lebih relevan untuk PINTAR MEDIA.
+                        TUGAS ANALISIS:
+                        1. IDENTIFIKASI SETTING: Lokasi kejadian (Sekolah/Sawah/Pasar/Rumah).
+                        2. BEDAH HOOK: Apa aksi di 3 detik pertama yang bikin viral?
+                        3. STRUKTUR: Jelaskan alur ceritanya secara singkat (Awal -> Konflik -> Ending).
                         
-                        Ingat: Jangan ngelantur ke suami-istri. Tetap pada konteks sekolah/lokasi asli.
+                        PENTING: Jangan berasumsi tentang hubungan suami-istri jika tidak disebutkan. 
+                        Jika konteksnya sekolah, tetaplah di sekolah.
                         """
                         response = model.generate_content(prompt_spy)
                         
                         st.success("Analisis Strategi Selesai!")
                         st.markdown(response.text)
+                        # Simpan ke session state agar bisa dibawa ke Tab 2
                         st.session_state['temp_script_spy'] = raw_script
                     except Exception as e:
                         st.error(f"Gagal membedah: {e}")
+            else:
+                st.warning("Silakan isi link atau narasi dulu!")
 
     # --------------------------------------------------------------------------
     # TAB 2: MODIFIKASI (ATM CLONER)
     # --------------------------------------------------------------------------
     with tab_cloner:
         st.subheader("🔄 Modifikasi Nyawa PINTAR MEDIA")
-        st.write("Ubah skrip kompetitor tadi menjadi cerita milik Udin & Tung.")
+        st.write("Ubah skrip tadi menjadi versi karakter pilihanmu.")
         
         col_m1, col_m2 = st.columns(2)
         with col_m1:
-            chars = st.multiselect("Suntikkan Tokoh Kita:", ["UDIN", "TUNG"], default=["UDIN"])
+            chars = st.multiselect("Suntikkan Tokoh:", ["UDIN", "TUNG", "PAK RT", "IBU UDIN"], default=["UDIN"])
         with col_m2:
-            mood = st.selectbox("Ganti Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
+            mood = st.selectbox("Vibe Cerita:", ["Komedi Lucu", "Horor Mencekam", "Haru/Sedih", "Action Gahar"])
 
         if st.button("SUNTIK NYAWA KARAKTER 🧪", use_container_width=True):
-            # Cek apakah data dari Tab 1 sudah ada
-            if 'temp_script_spy' in st.session_state and st.session_state['temp_script_spy']:
-                with st.spinner(f"Mengonversi alur menjadi versi {mood}..."):
+            if 'temp_script_spy' in st.session_state:
+                with st.spinner(f"Mengonversi menjadi versi {mood}..."):
                     try:
                         prompt_atm = f"""
-                        Gunakan teknik ATM (Amati Tiru Modifikasi) pada naskah ini: "{st.session_state['temp_script_spy']}"
-                        Ubah tokohnya menjadi: {', '.join(chars)}.
-                        Vibe cerita harus: {mood}.
-                        Setting lokasi: Kearifan lokal Indonesia (seperti sawah, pasar, atau teras rumah kayu).
-                        Tulis naskah pendek yang sangat kuat, dialog khas orang desa, dan emosional.
+                        Amati naskah asli ini: "{st.session_state['temp_script_spy']}"
+                        Modifikasi menjadi cerita baru dengan:
+                        - Tokoh: {', '.join(chars)}
+                        - Vibe: {mood}
+                        - Lokasi: Pertahankan lokasi asli (misal: tetap di sekolah jika aslinya di sekolah)
+                        
+                        Tuliskan naskah dialog yang kuat dan punya pesan moral tersembunyi.
                         """
                         response = model.generate_content(prompt_atm)
                         
-                        st.success("Modifikasi Berhasil!")
-                        # Simpan hasil modifikasi untuk Tab 3
                         st.session_state['ready_script'] = response.text
-                        
+                        st.success("Modifikasi Berhasil!")
                         st.markdown("### 📝 Preview Naskah Baru:")
                         st.write(response.text)
                     except Exception as e:
-                        st.error(f"Gagal memodifikasi karakter: {e}")
+                        st.error(f"Gagal modifikasi: {e}")
             else:
-                st.error("Belum ada data dari Tab 'AMATI'. Selesaikan langkah 1 dulu.")
+                st.error("Data dari Tab 1 kosong. Selesaikan langkah 'AMATI' dulu.")
 
     # --------------------------------------------------------------------------
-    # TAB 3: PRODUKSI (AUTO-STORYBOARD SHORTS)
+    # TAB 3: PRODUKSI (AUTO-STORYBOARD)
     # --------------------------------------------------------------------------
     with tab_storyboard:
         st.subheader("📝 Produksi Storyboard Shorts")
-        st.write("Gemini akan memecah cerita menjadi adegan cepat khas video viral.")
         
-        jumlah_adegan = st.slider("Mau berapa adegan?", min_value=5, max_value=20, value=12)
+        jumlah_adegan = st.slider("Jumlah Adegan (Ideal 10-15):", 5, 20, 12)
         
         if st.button("GENERATE STORYBOARD SHORTS 🚀", type="primary", use_container_width=True):
-            # Cek apakah data dari Tab 2 sudah ada
-            if 'ready_script' in st.session_state and st.session_state['ready_script']:
-                with st.spinner(f"Gemini sedang merancang {jumlah_adegan} adegan cepat..."):
+            if 'ready_script' in st.session_state:
+                with st.spinner(f"Merancang {jumlah_adegan} adegan teknis..."):
                     try:
                         prompt_shorts = f"""
-                        Berdasarkan naskah ini: "{st.session_state['ready_script']}"
-                        Buatlah storyboard untuk video SHORTS/REELS sebanyak {jumlah_adegan} adegan.
-                        Perpindahan antar adegan harus cepat dan dramatis.
-                        
-                        Format WAJIB per baris:
-                        Adegan [Nomor]: [Detail Visual], Shot: [Shot Type], Light: [Waktu]
+                        Berdasarkan naskah: "{st.session_state['ready_script']}"
+                        Buatlah storyboard {jumlah_adegan} adegan untuk Shorts.
+                        Format: Adegan [Nomor]: [Visual], Shot: [Type], Light: [Waktu]
                         """
                         response = model.generate_content(prompt_shorts)
                         
                         st.balloons()
-                        st.success(f"{jumlah_adegan} Adegan Shorts Berhasil Dibuat!")
-                        st.markdown("### 📋 Draft Storyboard Teknis (Siap Copy):")
                         st.code(response.text, language="text")
-                        st.caption("Gunakan teks di atas sebagai panduan di Production Hub.")
                     except Exception as e:
-                        st.error(f"Gagal membuat storyboard: {e}")
+                        st.error(f"Gagal storyboard: {e}")
             else:
-                st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
-
-
-
-
-
-
-
+                st.error("Selesaikan langkah 2 (ATM Cloner) dulu.")
