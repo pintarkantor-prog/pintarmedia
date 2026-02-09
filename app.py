@@ -7,23 +7,19 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (Letakkan di bagian atas, di bawah import)
+# KONFIGURASI OTAK AI (VERSI FIX ERROR 404)
 # ==============================================================================
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
 
 SOP_PINTAR_MEDIA = """
-Kamu adalah Pakar Konten PINTAR MEDIA yang cerdas dan adaptif. 
-Tugasmu: Menganalisis naskah/link video dan memberikan ide modifikasi yang kreatif.
-
-PERATURAN UTAMA:
-1. SETIA PADA KONTEKS: Jika naskah asli berlatar di SEKOLAH, tetaplah di SEKOLAH. Jangan tiba-tiba pindah ke urusan rumah tangga (suami-istri) kecuali naskahnya memang tentang itu.
-2. ADAPTIF TOKOH: Gunakan tokoh yang diminta oleh user (misalnya UDIN, TUNG, atau karakter baru lainnya).
-3. KEARIFAN LOKAL: Selalu utamakan nuansa lokal Indonesia yang natural, lucu, atau menyentuh sesuai vibe yang dipilih.
-4. ANALISIS TAJAM: Saat membedah (Spy), fokuslah pada struktur emosi penonton (kenapa video ini bisa viral).
+Kamu adalah Pakar Konten PINTAR MEDIA. 
+Fokus pada konteks naskah asli (Sekolah/Sawah/Pasar). 
+Jangan ngelantur ke hubungan suami-istri jika tidak relevan.
 """
 
+# GUNAKAN NAMA INI (Tanpa awalan models/ atau v1beta)
 model = genai.GenerativeModel(
-    model_name='models/gemini-1.5-flash',
+    model_name='gemini-1.5-flash', # Cobalah hapus 'models/' jika sebelumnya pakai
     system_instruction=SOP_PINTAR_MEDIA
 )
 
@@ -906,6 +902,7 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
 
 
 
