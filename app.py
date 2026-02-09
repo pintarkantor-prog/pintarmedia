@@ -6,11 +6,10 @@ import pytz
 import time
 import google.generativeai as genai
 
-# Pastikan API Key benar
+# Konfigurasi API
 genai.configure(api_key="AIzaSyDIh-y0u1RJwTxQZfAgTLabAIKeJo1x6Fs")
-
-# Gunakan FLASH untuk stabilitas di Streamlit Cloud
-model = genai.GenerativeModel('gemini-1.5-flash')
+# GANTI KE INI: Model paling stabil untuk API v1beta
+model = genai.GenerativeModel('gemini-pro')
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -891,3 +890,4 @@ elif menu_select == "🧠 AI LAB":
                         st.error(f"Gagal membuat storyboard: {e}")
             else:
                 st.error("Skrip modifikasi belum siap. Selesaikan langkah 2 dulu.")
+
