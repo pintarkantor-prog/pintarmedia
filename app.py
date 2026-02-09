@@ -182,34 +182,47 @@ st.markdown("""
         width: 100%;
     }
 
-    /* 2. STYLE SIDEBAR BUTTONS (DEEP DARK GLOSSY) */
+/* 2. STYLE SIDEBAR (OBSIDIAN DARK CHARCOAL - MATCHED TO SS) */
+    [data-testid="stSidebar"] {
+        /* Warna ini adalah hasil ekstrak dari area panah hijau di gambar kamu */
+        background-color: #1a1c23 !important; 
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+
+    /* Mengatur tombol agar terlihat 'timbul' di atas background charcoal */
     [data-testid="stSidebar"] button {
-        /* Warna Dasar Dibuat Jauh Lebih Gelap (Hitam Obsidian) */
-        background: linear-gradient(180deg, #0f1116 0%, #050505 100%) !important;
+        /* Warna dasar tombol dibuat lebih gelap sedikit dari sidebar agar kontras */
+        background: linear-gradient(180deg, #242730 0%, #111318 100%) !important;
         color: white !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important; /* Border makin tipis agar stealth */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important;
         text-transform: uppercase;
         font-weight: 700 !important;
         transition: all 0.2s ease-in-out !important;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.6) !important;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.4) !important;
     }
 
-    /* Efek Hover (Pertahankan yang kamu suka, tapi warna disesuaikan lebih gelap) */
+    /* Efek Hover (Tetap Glossy & Mewah) */
     [data-testid="stSidebar"] button:hover {
-        /* Saat disorot, baru muncul warna abu-abu gelapnya */
-        background: linear-gradient(180deg, #1b1c22 0%, #0f1116 100%) !important;
-        border-color: rgba(29, 151, 108, 0.3) !important; 
+        background: linear-gradient(180deg, #2d313d 0%, #1a1c23 100%) !important;
+        border-color: rgba(29, 151, 108, 0.4) !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 15px rgba(0,0,0,0.8) !important;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.5) !important;
     }
 
-    /* Efek Klik Active (Tetap Hijau Glossy Favoritmu) */
+    /* Efek Klik Active (Hijau Glossy yang kamu suka) */
     [data-testid="stSidebar"] button:active {
         background: linear-gradient(180deg, #1d976c 0%, #11998e 100%) !important;
         transform: scale(0.96) !important;
         box-shadow: inset 0 3px 8px rgba(0,0,0,0.6) !important;
-        border-color: transparent !important;
+    }
+
+    /* Sinkronisasi warna input sidebar */
+    [data-testid="stSidebar"] .stNumberInput input, 
+    [data-testid="stSidebar"] div[data-baseweb="select"] {
+        background-color: #111318 !important;
+        border: 1px solid #2d313d !important;
+        color: white !important;
     }
     /* 3. TOMBOL GENERATE (KONSISTEN HIJAU TAPI TANPA TRANSISI LAMBAT) */
     div.stButton > button[kind="primary"] {
@@ -938,6 +951,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
