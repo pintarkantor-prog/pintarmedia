@@ -307,7 +307,7 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 # ==============================================================================
-# 4. SISTEM NAVIGASI & HEADER (DASHBOARD ONLY)
+# 4. SISTEM NAVIGASI & TAMPILAN MENU (PRODUCTION HUB)
 # ==============================================================================
 
 # --- A. SIDEBAR NAVIGASI LENGKAP ---
@@ -315,7 +315,6 @@ with st.sidebar:
     st.markdown("<h2 style='text-align: center; color: #1d976c;'>🎬 PINTAR V2</h2>", unsafe_allow_html=True)
     st.write("---")
     
-    # Daftar menu sesuai keinginanmu
     menu = st.radio(
         "NAVIGASI UTAMA",
         [
@@ -341,11 +340,9 @@ with st.sidebar:
 
 # --- B. LOGIKA TAMPILAN PER MENU ---
 
-# 1. MENU UTAMA: PRODUCTION HUB (Tempat kerja Storyboard)
 if menu == "🚀 PRODUCTION HUB":
+    # 1. Tampilkan Header Staf
     nama_display = st.session_state.active_user.capitalize()
-    
-    # Header Staf muncul di sini
     st.markdown(f"""
         <div class="staff-header-premium">
             <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
@@ -359,24 +356,51 @@ if menu == "🚀 PRODUCTION HUB":
             </div>
         </div>
     """, unsafe_allow_html=True)
-    
-    st.title("Production Hub")
-    st.info("Di sini kita akan merakit input Karakter dan 50 Adegan Storyboard.")
 
-# 2. MENU MONITORING
+    # 2. Judul Section Utama
+    st.markdown("### 📝 Detail Adegan Storyboard")
+    
+    # 3. Kotak Input Karakter (Expander)
+    with st.expander("👥 IDENTITAS TOKOH UTAMA", expanded=True):
+        st.markdown("<p class='small-label'>Setting Jumlah Karakter</p>", unsafe_allow_html=True)
+        st.session_state.num_total_char = st.number_input(
+            "Total Karakter", 1, 5, value=st.session_state.num_total_char, label_visibility="collapsed"
+        )
+        
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            st.markdown("<p class='small-label'>Nama & Fisik Tokoh 1</p>", unsafe_allow_html=True)
+            st.session_state.c_name_1_input = st.text_input("N1", value=st.session_state.c_name_1_input, placeholder="Nama Tokoh 1...", label_visibility="collapsed")
+            st.session_state.c_desc_1_input = st.text_area("D1", value=st.session_state.c_desc_1_input, placeholder="Deskripsi fisik lengkap...", height=100, label_visibility="collapsed")
+        
+        with col_c2:
+            st.markdown("<p class='small-label'>Nama & Fisik Tokoh 2</p>", unsafe_allow_html=True)
+            st.session_state.c_name_2_input = st.text_input("N2", value=st.session_state.c_name_2_input, placeholder="Nama Tokoh 2...", label_visibility="collapsed")
+            st.session_state.c_desc_2_input = st.text_area("D2", value=st.session_state.c_desc_2_input, placeholder="Deskripsi fisik lengkap...", height=100, label_visibility="collapsed")
+
+    # 4. Pilih Genre Visual
+    st.write("")
+    st.markdown("<p class='small-label'>Pilih Gaya Visual Film (Genre)</p>", unsafe_allow_html=True)
+    st.session_state.genre_pilihan_saved = st.selectbox(
+        "Genre", 
+        ["Realistik (Nyata)", "Animasi 3D", "Comic/Anime", "Cyberpunk", "Vintage 90s"],
+        index=0, label_visibility="collapsed"
+    )
+    
+    st.write("---")
+    st.info("Pondasi Karakter & Genre sudah siap. Kita lanjut ke looping adegan 1-50 di bawah ini.")
+
 elif menu == "📊 MONITORING":
     st.title("Monitoring Produksi")
-    st.write("Halaman pemantauan aktivitas tim dan log Google Sheets.")
+    st.write("Halaman pemantauan log aktivitas tim.")
 
-# 3. MENU AI LAB
 elif menu == "🧠 AI LAB":
     st.title("AI Laboratory")
-    st.write("Tempat eksperimen model AI dan testing prompt.")
+    st.write("Ruang eksperimen prompt dan model AI.")
 
-# 4. MENU LAINNYA (Default)
 else:
     st.title(f"{menu}")
-    st.write("Menu ini sedang dalam tahap pengembangan.")
+    st.write("Halaman ini sedang dalam proses pengembangan.")
 # ==============================================================================
 # 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
@@ -1029,4 +1053,5 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
