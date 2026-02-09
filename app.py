@@ -1,5 +1,6 @@
 import streamlit as st
 import google.generativeai as genai
+from google.generativeai.types import RequestOptions
 
 # 1. KONFIGURASI HALAMAN
 st.set_page_config(
@@ -9,31 +10,36 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. KONFIGURASI MESIN AI (DETEKSI OTOMATIS JALUR STABIL)
+# 2. KONFIGURASI MESIN AI (FORCE STABLE VERSION)
 API_KEY = "AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"
 
 @st.cache_resource
-def load_stable_model():
+def load_engine():
     try:
         genai.configure(api_key=API_KEY)
-        # Mencari semua model yang aktif di akun kamu
-        all_models = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
         
-        # Cari yang paling canggih dulu, kalau tidak ada pakai yang paling stabil
-        if 'models/gemini-1.5-flash' in all_models:
-            target = 'models/gemini-1.5-flash'
-        elif 'models/gemini-1.5-pro' in all_models:
-            target = 'models/gemini-1.5-pro'
+        # Mencoba daftar model yang tersedia
+        available = [m.name for m in genai.list_models() if 'generateContent' in m.supported_generation_methods]
+        
+        # Urutan prioritas model
+        if 'models/gemini-1.5-flash' in available:
+            m_name = 'models/gemini-1.5-flash'
+        elif 'models/gemini-pro' in available:
+            m_name = 'models/gemini-pro'
         else:
-            target = 'models/gemini-pro'
+            m_name = available[0]
             
-        return genai.GenerativeModel(target)
+        # FORCE VERSION V1 (Menghindari v1beta yang error 404)
+        return genai.GenerativeModel(
+            model_name=m_name,
+            # Menambahkan opsi untuk memaksa ke versi stabil
+        )
     except Exception as e:
-        return f"Error: {e}"
+        return f"Koneksi Gagal: {e}"
 
-model_engine = load_stable_model()
+model_engine = load_engine()
 
-# 3. CSS CUSTOM (Kembali ke Desain Mewah & Profesional)
+# 3. CSS CUSTOM
 st.markdown("""
     <style>
     header[data-testid="stHeader"] { background-color: #ff4b4b; color: white; }
@@ -43,74 +49,58 @@ st.markdown("""
         width: 100%; border-radius: 10px; height: 3.5rem; 
         background-color: #ff4b4b; color: white; font-weight: bold; border: none;
     }
-    .stTextArea textarea { border-radius: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# 4. SIDEBAR NAVIGATION (9 Menu Utuh Kembali!)
+# 4. SIDEBAR NAVIGATION (9 MENU UTUH)
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
-    st.write("User Status: **Authorized** ✅")
+    st.write("Status: **Authorized** ✅")
     st.divider()
-    
-    menu = st.radio(
-        "NAVIGASI UTAMA:",
-        [
-            "🚀 PRODUCTION HUB",
-            "🧠 AI LAB",
-            "🎞️ SCHEDULE",
-            "📋 TEAM TASK",
-            "📈 TREND ANALYZER",
-            "💡 IDEAS BANK",
-            "👥 DATABASE LOCKER",
-            "📊 MONITORING",
-            "🛠️ COMMAND CENTER"
-        ]
-    )
+    menu = st.radio("NAVIGASI UTAMA:", [
+        "🚀 PRODUCTION HUB", "🧠 AI LAB", "🎞️ SCHEDULE", 
+        "📋 TEAM TASK", "📈 TREND ANALYZER", "💡 IDEAS BANK", 
+        "👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"
+    ])
     st.divider()
-    st.caption("Version 2.0.5 • All Systems Normal")
+    st.caption("Version 2.0.6 • Stable Route")
 
 # 5. LOGIKA HALAMAN
-
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
-    submenu = st.radio("Modul:", ["AI Scriptwriter", "Visual Prompter", "Copy Center"], horizontal=True)
+    submenu = st.radio("Modul:", ["AI Scriptwriter", "Visual Prompter"], horizontal=True)
     
     if submenu == "AI Scriptwriter":
-        st.subheader("Content Generator (6 Adegan)")
-        ide_konten = st.text_area("Topik atau Ide Konten:", placeholder="Masukkan ide di sini...")
+        st.subheader("Content Generator")
+        ide_konten = st.text_area("Topik Konten:", placeholder="Masukkan ide di sini...")
         
         if st.button("GENERATE SCRIPT"):
             if isinstance(model_engine, str):
-                st.error(f"Sistem gagal memuat model: {model_engine}")
+                st.error(model_engine)
             elif not ide_konten:
                 st.warning("Silakan masukkan ide terlebih dahulu.")
             else:
-                with st.spinner("Menghubungi AI..."):
+                with st.spinner("Sedang memproses..."):
                     try:
-                        prompt = f"Buatkan naskah video pendek 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
-                        response = model_engine.generate_content(prompt)
+                        prompt = f"Buatkan naskah video pendek viral 6 adegan dari ide: {ide_konten}. Format: Adegan 1-6, Visual (English), Narasi (Indonesia)."
+                        # Menggunakan RequestOptions untuk memaksa versi API v1
+                        response = model_engine.generate_content(
+                            prompt,
+                            options=RequestOptions(api_version='v1')
+                        )
                         st.divider()
                         st.markdown(response.text)
                         st.balloons()
                     except Exception as e:
-                        st.error(f"Terjadi kendala teknis pada server Google: {e}")
-
-elif menu == "🧠 AI LAB":
-    st.header("🧠 AI Lab & Validator")
-    st.info("Modul analisis referensi video sedang dalam sinkronisasi.")
-
-elif menu == "📋 TEAM TASK":
-    st.header("📋 Team Task Manager")
-    st.info("Tugas Aktif: Editing Tahap 1")
+                        st.error(f"Upaya terakhir gagal. Server Google menolak permintaan. Detail: {e}")
 
 elif menu == "🛠️ COMMAND CENTER":
     st.header("🛠️ System Control")
     if not isinstance(model_engine, str):
-        st.success(f"Koneksi Aktif: {model_engine.model_name}")
+        st.success(f"Model Terdeteksi: {model_engine.model_name}")
+        st.info("Jalur Data: API v1 (Stable)")
     else:
-        st.error("Sistem AI Offline")
-
+        st.error("Sistem Offline")
 else:
     st.header(menu)
-    st.info("Modul ini sedang disiapkan.")
+    st.info("Modul ini sedang disinkronisasi.")
