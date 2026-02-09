@@ -160,43 +160,68 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSION: ENHANCED DEFAULT - STABLE & CLEAN)
+# 4. CUSTOM CSS (VERSION: ENHANCED DEFAULT - PREMIUM DARK REVISION)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. GANTI WARNA TEMA GLOBAL (MERAH -> HIJAU) */
+    /* 1. WARNA TEMA GLOBAL (HIJAU PINTAR MEDIA) */
     :root {
         --primary-color: #1d976c !important;
     }
 
-    /* 2. SIDEBAR RAMPING (DEFAULT LOOK) */
+    /* 2. SIDEBAR RAMPING & PADAT */
     [data-testid="stSidebar"] {
-        width: 280px !important;
+        width: 260px !important;
+        background-color: #11141b !important;
+    }
+    /* Merapatkan elemen sidebar */
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0.5rem !important;
     }
 
-    /* 3. TOMBOL UTAMA (DEFAULT STYLE TAPI HIJAU) */
+    /* 3. TOMBOL UTAMA (Sesuai Vibe Login - Bold & Sharp) */
     div.stButton > button[kind="primary"] {
-        background-color: #1d976c !important;
+        background: linear-gradient(135deg, #1d976c 0%, #11998e 100%) !important;
         color: white !important;
         border: none !important;
         width: 100%;
         border-radius: 8px !important;
-        padding: 0.5rem 1rem !important;
-        font-weight: 500 !important;
+        padding: 0.6rem 1rem !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
-    div.stButton > button[kind="primary"]:hover {
-        background-color: #11998e !important;
-        border: none !important;
-    }
-
-    /* 4. INPUT AREA (MENGGUNAKAN STANDAR STREAMLIT) */
-    /* Kita hanya pastikan border-radiusnya konsisten */
-    .stTextInput input, .stNumberInput input, .stTextArea textarea, div[data-baseweb="select"] {
+    /* 4. INPUT AREA (PENYEMPURNAAN VISUAL) */
+    /* Membuat kotak Nama, Angka, Dropdown lebih gelap & elegan (Vibe Login) */
+    .stTextInput input, .stNumberInput input, div[data-baseweb="select"] {
+        background-color: #1e1f20 !important; /* Warna charcoal box login */
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important;
+        height: 38px !important;
+        color: white !important;
     }
 
-    /* 5. BOX STAF (STYLE MINIMALIS) */
+    /* Membuat kotak Adegan/Ciri Fisik hitam menyatu (Stealth Look) */
+    .stTextArea textarea {
+        background-color: #0e1117 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+        color: white !important;
+    }
+
+    /* 5. MERAPETKAN JARAK (COMPACT UI) */
+    [data-testid="stVerticalBlock"] {
+        gap: 0.7rem !important;
+    }
+    /* Merapatkan label ke input */
+    [data-testid="stWidgetLabel"] p {
+        font-size: 13px !important;
+        margin-bottom: -10px !important;
+        color: rgba(255, 255, 255, 0.7) !important;
+    }
+
+    /* 6. BOX STAF (STYLE MINIMALIS) */
     .staff-header-premium {
         background: rgba(29, 151, 108, 0.1) !important;
         border: 1px solid #1d976c !important;
@@ -208,27 +233,25 @@ st.markdown("""
         gap: 10px !important;
     }
 
-    /* 6. RESPONSIVE MOBILE (OPTIMASI DEFAULT) */
+    /* 7. RESPONSIVE MOBILE (OPTIMASI DEFAULT) */
     @media (max-width: 768px) {
-        /* Di HP, kita beri ruang napas sedikit */
-        .block-container {
-            padding: 1rem !important;
-        }
+        .block-container { padding: 1rem !important; }
         
-        /* Pastikan tombol generate mudah ditekan */
         div.stButton > button[kind="primary"] {
-            height: 45px !important;
+            height: 48px !important; /* Tombol lebih besar di HP agar mantap ditekan */
         }
 
-        /* Mencegah zoom otomatis di iPhone */
         .stTextArea textarea, .stTextInput input, .stNumberInput input {
             font-size: 16px !important;
         }
     }
 
-    /* 7. HAPUS GARIS BAWAH LINK (TAMPILAN BERSIH) */
-    a { text-decoration: none !important; }
+    /* Hapus bayangan merah yang suka tumpang tindih */
+    div[data-baseweb="input"], div[data-baseweb="textarea"] {
+        box-shadow: none !important;
+    }
 
+    a { text-decoration: none !important; }
 </style>
 """, unsafe_allow_html=True)
 # ==============================================================================
@@ -883,6 +906,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
