@@ -160,26 +160,25 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI REVISI: 100% AMAN PC & RAPI HP)
+# 4. CUSTOM CSS (VERSI REVISI: TEKS PUTIH TERANG & ANTI-TENGGELAM)
 # ==============================================================================
 st.markdown("""
     <style>
-    /* A. CUSTOM SCROLLBAR (TETAP) */
+    /* A. CUSTOM SCROLLBAR */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0e1117; }
     ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-    /* 1. FIXED HEADER (DIBUAT CERDAS: FIXED DI PC, RELATIVE DI HP) */
+    /* 1. FIXED HEADER (PC ONLY, RELATIVE ON MOBILE) */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: relative; /* Default untuk HP */
+        position: relative;
         background-color: #0e1117;
         padding: 10px 0px;
         border-bottom: 2px solid #31333f;
         margin-bottom: 20px;
     }
 
-    /* --- KHUSUS TAMPILAN PC (CSS ASLIMU DI SINI) --- */
     @media (min-width: 769px) {
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
             position: fixed;
@@ -192,16 +191,13 @@ st.markdown("""
         .block-container { padding-top: 5rem !important; }
     }
 
-    /* 2. STYLE SIDEBAR (TETAP ASLI) */
+    /* 2. STYLE SIDEBAR */
     [data-testid="stSidebar"] {
         background-color: #1a1c24 !important;
         border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
     }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
-        color: #ffffff !important;
-    }
 
-    /* 3. TOMBOL GENERATE (TETAP ASLI) */
+    /* 3. TOMBOL GENERATE */
     div.stButton > button[kind="primary"] {
         background: linear-gradient(to right, #1d976c, #11998e) !important;
         color: white !important;
@@ -213,12 +209,8 @@ st.markdown("""
         width: 100%;
         box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
-    div.stButton > button[kind="primary"]:hover {
-        background: #11998e !important;
-        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
-    }
 
-    /* 4. MODIFIKASI BOX STAF AKTIF (TETAP ASLI + FLEX-WRAP UNTUK HP) */
+    /* 4. STAFF HEADER */
     .staff-header-premium {
         background: rgba(29, 151, 108, 0.2) !important;
         border: 2px solid #1d976c !important;
@@ -226,37 +218,38 @@ st.markdown("""
         padding: 15px 20px !important;
         margin-bottom: 25px !important;
         display: flex !important;
-        flex-wrap: wrap !important; /* Tambahan agar rapi di HP */
+        flex-wrap: wrap !important;
         align-items: center !important;
         gap: 12px !important;
-        box-shadow: none !important; 
     }
     .staff-header-premium b {
         color: #1d976c !important; 
         font-size: 1.15em !important;
         text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important;
     }
-    .staff-header-premium span { color: #1d976c !important; }
-    .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
 
-    /* 5. EFEK FOKUS (TETAP ASLI) */
+    /* 5. EFEK FOKUS */
     .stTextArea textarea:focus, .stTextInput input:focus {
         border: 1px solid #31333f !important;
         background-color: #0e1117 !important;
-        box-shadow: none !important;
         outline: none !important;
     }
 
-    /* 6. STYLE LAINNYA (TETAP ASLI) */
-    h1, h2, h3, .stMarkdown h3 { color: #ffffff !important; }
-    .stTextArea textarea {
+    /* 6. FIX TULISAN GA KELIHATAN (TEKS LABEL & INPUT) */
+    h1, h2, h3, .stMarkdown h3, label, .stWidgetLabel p { 
+        color: #ffffff !important; 
+        opacity: 1 !important;
+    }
+
+    .stTextArea textarea, .stTextInput input {
         font-size: 16px !important;
         border-radius: 10px !important;
         background-color: #0e1117 !important;
         border: 1px solid #31333f !important;
+        color: #ffffff !important;
     }
-    
-    /* 7. OPTIMASI KOTAK ADEGAN (TETAP ASLI) */
+
+    /* 7. OPTIMASI KOTAK ADEGAN */
     .stExpander {
         border: 1px solid rgba(29, 151, 108, 0.3) !important;
         border-radius: 12px !important;
@@ -269,19 +262,23 @@ st.markdown("""
         text-transform: uppercase;
         font-size: 10px !important;
         font-weight: 800 !important;
+        display: block !important;
+        margin-bottom: 5px !important;
     }
 
-    /* --- KHUSUS TAMPILAN HP (AGAR TIDAK ACAK-ACAKAN) --- */
+    /* 8. KHUSUS TAMPILAN HP */
     @media (max-width: 768px) {
         .block-container { padding-top: 1rem !important; }
         [data-testid="column"] {
             width: 100% !important;
             flex: 1 1 100% !important;
+            margin-bottom: 15px !important;
         }
+        /* Memastikan label di HP tetap putih solid */
+        label, .stWidgetLabel p { font-size: 14px !important; }
     }
     </style>
     """, unsafe_allow_html=True)
-
 # ==============================================================================
 # 5. HEADER STAF (ELEGANT VERSION)
 # ==============================================================================
@@ -949,5 +946,6 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
