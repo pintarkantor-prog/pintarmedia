@@ -1,6 +1,7 @@
 import streamlit as st
+import google.generativeai as genai
 
-# 1. KONFIGURASI HALAMAN (Standard Mewah)
+# 1. KONFIGURASI HALAMAN
 st.set_page_config(
     page_title="PINTAR MEDIA V2",
     page_icon="🛡️",
@@ -8,106 +9,90 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# 2. CSS SAKTI (Fixed Header, Responsive Padding, & Box Staf)
+# 2. KONEKSI MESIN GEMINI (Membaca dari Secrets)
+try:
+    genai.configure(api_key=st.secrets["AIzaSyAg9Qpq3HT1UffcvScDvd3C55GX-kJfQwg"])
+    model = genai.GenerativeModel('gemini-1.5-flash')
+except Exception as e:
+    st.error("⚠️ Koneksi API belum terdeteksi. Silakan periksa konfigurasi Secrets.")
+
+# 3. CSS CUSTOM (Profesional & Responsive)
 st.markdown("""
     <style>
-    /* Fixed Header agar judul tidak hilang saat scroll */
-    header[data-testid="stHeader"] {
-        background-color: rgba(255, 75, 75, 0.9);
-        color: white;
+    header[data-testid="stHeader"] { background-color: rgba(255, 75, 75, 0.9); color: white; }
+    .block-container { padding: 1rem 1rem !important; }
+    [data-testid="stSidebar"] { background-color: #0e1117; }
+    .stButton>button { 
+        width: 100%; 
+        border-radius: 10px; 
+        height: 3.5rem; 
+        background-color: #ff4b4b; 
+        color: white; 
+        font-weight: 600;
+        border: none;
     }
-    
-    /* Padding agar tidak nempel ke pinggir layar HP */
-    .block-container {
-        padding: 1rem 1rem !important;
-    }
-
-    /* Styling Sidebar */
-    [data-testid="stSidebar"] {
-        background-color: #0e1117;
-    }
-
-    /* Desain Box Staf / Task agar rapi di HP */
-    .st-emotion-cache-1r6slb0 {
-        border: 1px solid #ddd;
-        border-radius: 10px;
-        padding: 10px;
-        margin-bottom: 10px;
-        background-color: white;
-    }
-
-    /* Tombol Lebar untuk Jempol HP */
-    .stButton>button {
-        width: 100%;
-        border-radius: 12px;
-        height: 3.5rem;
-        background-color: #ff4b4b;
-        color: white;
-        font-weight: bold;
-    }
+    .stTextArea textarea { border-radius: 10px; }
     </style>
     """, unsafe_allow_html=True)
 
-# 3. SIDEBAR NAVIGATION (9 Menu Utama Sultan)
+# 4. SIDEBAR NAVIGATION
 with st.sidebar:
     st.title("🎬 PINTAR MEDIA")
-    st.write(f"User: **Sultan Prompt** 🛡️")
+    st.write("User Status: **Authorized** ✅")
     st.divider()
     
     menu = st.radio(
         "NAVIGASI UTAMA:",
-        [
-            "🚀 PRODUCTION HUB",
-            "🧠 AI LAB",
-            "🎞️ SCHEDULE",
-            "📋 TEAM TASK",
-            "📈 TREND ANALYZER",
-            "💡 IDEAS BANK",
-            "👥 DATABASE LOCKER",
-            "📊 MONITORING",
-            "🛠️ COMMAND CENTER"
-        ]
+        ["🚀 PRODUCTION HUB", "🧠 AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK", "📈 TREND ANALYZER", "💡 IDEAS BANK", "👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"]
     )
     st.divider()
-    st.info("Status: Mesin Siap 🟢")
+    st.caption("Version 2.0.1")
 
-# 4. LOGIKA HALAMAN (Apa yang muncul saat menu diklik)
+# 5. LOGIKA HALAMAN
 
+# --- MENU: PRODUCTION HUB ---
 if menu == "🚀 PRODUCTION HUB":
     st.header("🚀 Production Hub")
-    # Sub-menu menggunakan segmented control agar hemat ruang
-    submenu = st.radio("Pilih Task:", ["AI Scriptwriter", "Visual Prompter", "Copy-All"], horizontal=True)
+    submenu = st.radio("Task:", ["Scriptwriter", "Visual Prompter", "Copy Center"], horizontal=True)
     
-    if submenu == "AI Scriptwriter":
-        st.subheader("Mesin Pembuat 6 Adegan")
-        ide = st.text_area("Apa ide hari ini?", placeholder="Misal: Kisah sukses Sultan...")
-        if st.button("MULAI GENERATE"):
-            st.write("Sedang meracik naskah... (Langkah berikutnya kita sambung ke Gemini)")
+    if submenu == "Scriptwriter":
+        st.subheader("AI Content Generator")
+        ide = st.text_area("Topik atau Ide Konten:", placeholder="Contoh: Edukasi tentang manajemen keuangan untuk anak muda...")
+        
+        if st.button("GENERATE SCRIPT"):
+            if ide:
+                with st.spinner("Sedang memproses naskah..."):
+                    try:
+                        prompt = f"Buatkan naskah video pendek 6 adegan yang menarik dan potensial viral berdasarkan ide: {ide}. Sertakan visual deskripsi dan narasi untuk setiap adegan."
+                        response = model.generate_content(prompt)
+                        st.divider()
+                        st.subheader("Hasil Naskah:")
+                        st.write(response.text)
+                    except Exception as e:
+                        st.error(f"Gagal memproses permintaan: {e}")
+            else:
+                st.warning("Silakan masukkan ide konten terlebih dahulu.")
 
+# --- MENU: AI LAB ---
 elif menu == "🧠 AI LAB":
     st.header("🧠 AI Lab & Validator")
-    st.write("Tempat riset video viral dan simulasi netizen.")
-    st.text_area("Tempel Link/Transkrip:")
-    st.button("Analisis Sekarang")
+    st.write("Analisis referensi konten dan validasi naskah.")
+    st.text_area("Masukkan link atau teks referensi:")
+    st.button("Mulai Analisis")
 
+# --- MENU: TEAM TASK ---
 elif menu == "📋 TEAM TASK":
     st.header("📋 Team Task Manager")
-    # Contoh Box Staf yang rapi
-    with st.container():
-        st.markdown("### 👷 Status Tim")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.info("**Editor 1:** Editing Scene 1")
-        with col2:
-            st.success("**Admin:** Siap Upload")
+    st.info("Task Active: Content Editing - Scene 1-3")
+    st.success("Task Completed: Keyword Research")
 
+# --- MENU: COMMAND CENTER ---
 elif menu == "🛠️ COMMAND CENTER":
-    st.header("🛠️ Pusat Kendali")
-    st.text_input("Gemini API Key:", type="password")
-    st.button("Simpan Konfigurasi")
+    st.header("🛠️ System Settings")
+    st.write("Status API: **Connected**")
+    st.selectbox("Model Engine:", ["Gemini 1.5 Flash", "Gemini 1.5 Pro"])
 
+# --- MENU LAINNYA ---
 else:
-    # Untuk menu lainnya yang belum diisi detailnya
     st.header(menu)
-    st.info("Fitur ini sedang dalam perjalanan menuju 'Rumah Baru' Sultan.")
-    
+    st.info("Modul ini sedang dalam tahap pengembangan.")
