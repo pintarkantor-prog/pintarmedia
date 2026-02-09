@@ -283,29 +283,21 @@ st.markdown("""
         color: #1d976c !important;
     }
 
-    /* 8. INPUT AREA (KHUSUS PERBAIKAN WARNA CIRI FISIK) */
-    .stTextArea textarea {
-        background-color: #262730 !important; /* Warna abu-abu solid sesuai permintaanmu */
-        color: #ffffff !important;           /* Teks putih terang */
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* 8. INPUT AREA (WARNA SAMA DENGAN BACKGROUND UTAMA) */
+    .stTextArea textarea, .stTextInput input {
+        background-color: #0e1117 !important; /* Warna dasar aplikasi kamu */
+        color: #ffffff !important;           /* Teks putih */
+        border: 1px solid #31333f !important; /* Garis tepi abu-abu agar tetap terlihat batasnya */
         border-radius: 12px !important;
         font-size: 16px !important;
     }
 
-    /* Memastikan warna tetap konsisten saat diklik */
-    .stTextArea textarea:focus {
-        background-color: #262730 !important;
+    /* Saat diklik, warna tetap sama tapi garis tepi menyala hijau */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        background-color: #0e1117 !important;
         border-color: #1d976c !important;
         box-shadow: none !important;
         outline: none !important;
-    }
-
-    /* Untuk Text Input (Nama Karakter) agar warnanya juga selaras */
-    .stTextInput input {
-        background-color: #262730 !important;
-        color: #ffffff !important;
-        border-radius: 12px !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
     }
 
     /* 9. MOBILE FIX */
@@ -979,6 +971,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
