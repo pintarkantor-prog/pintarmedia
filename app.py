@@ -605,10 +605,6 @@ img_quality_base = f"{img_quality_stack} {no_text_strict}"
 vid_quality_base = f"60fps, ultra-clear motion, {vid_quality_stack} {no_text_strict} {negative_motion_strict}"
 
 # ==============================================================================
-# 9. PINTU MENU UTAMA (LOGIKA NAVIGASI HALAMAN)
-# ==============================================================================
-
-# ==============================================================================
 # 9. HALAMAN PRODUCTION HUB (PENERIMA OTOMATIS + INPUT MANUAL)
 # ==============================================================================
 if menu_select == "🚀 PRODUCTION HUB":
@@ -919,11 +915,16 @@ elif menu_select == "🧠 AI LAB":
             # --- TOMBOL OTOMATIS KE PRODUCTION HUB ---
             if 'ready_script' in st.session_state:
                 st.markdown("---")
-                if st.button("📥 KIRIM NASKAH KE PRODUCTION HUB", use_container_width=True, type="primary"):
+                # Tombol A: Cuma kirim naskah (buat dibaca)
+                if st.button("📥 KIRIM KE GUDANG PRODUKSI", use_container_width=True):
                     st.session_state['naskah_produksi'] = st.session_state['ready_script']
-                    st.success("✅ Naskah terkirim! Silakan cek menu PRODUCTION HUB.")
-        else:
-            st.warning("Pilih ide dulu di Tab 1!")
+                    st.success("Terkirim ke Gudang! ✅")
+                
+                # Tombol B: SUNTIK LANGSUNG (Biar Generate Prompt Ada Isinya)
+                if st.button("💉 SUNTIK KE ADEGAN 1 (BIAR BISA GENERATE)", use_container_width=True, type="primary"):
+                    st.session_state['vis_input_1'] = st.session_state['ready_script']
+                    st.session_state['c_name_1_input'] = "UDIN" # Otomatis isi nama biar gak error
+                    st.success("Naskah disuntik ke Adegan 1! Sekarang balik ke Production Hub & klik Generate All.")
 
     # --------------------------------------------------------------------------
     # TAB 3: STORYBOARD
@@ -951,5 +952,6 @@ elif menu_select == "🧠 AI LAB":
                     st.success("✅ Storyboard & Naskah terkirim ke Production Hub!")
         else:
             st.error("Bikin naskahnya dulu di Tab 2!")
+
 
 
