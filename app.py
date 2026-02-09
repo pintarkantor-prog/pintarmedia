@@ -160,11 +160,11 @@ def record_to_sheets(user, data_packet, total_scenes):
         st.error(f"Gagal mencatat ke Cloud: {e}")
 
 # ==============================================================================
-# 4. CUSTOM CSS (VERSI ANTI-WHITE MODE & HP FIX)
+# 4. CUSTOM CSS (VERSI REVISI: TOMBOL ASLI + ANTI-WHITE BACKGROUND)
 # ==============================================================================
 st.markdown("""
 <style>
-    /* 1. PAKSA BACKGROUND GELAP TOTAL (ANTI PUTIH) */
+    /* 1. PAKSA BACKGROUND GELAP (ANTI PUTIH DI HP) */
     html, body, [data-testid="stAppViewContainer"], [data-testid="stHeader"], [data-testid="stSidebar"] {
         background-color: #0e1117 !important;
         color: #ffffff !important;
@@ -194,13 +194,26 @@ st.markdown("""
         .block-container { padding-top: 5rem !important; }
     }
 
-    /* 4. FIX TULISAN GA KELIHATAN (LABEL PUTIH TERANG) */
-    h1, h2, h3, p, label, .stWidgetLabel p, [data-testid="stMarkdownContainer"] p {
-        color: #ffffff !important;
-        opacity: 1 !important;
+    /* --- INI TOMBOL GENERATE ASLI KAMU (100% SAMA) --- */
+    /* 4. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
 
-    /* 5. STAFF HEADER & TOMBOL */
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* 5. STAFF HEADER & LABEL */
     .staff-header-premium {
         background: rgba(29, 151, 108, 0.2) !important;
         border: 2px solid #1d976c !important;
@@ -210,14 +223,12 @@ st.markdown("""
         flex-wrap: wrap !important;
     }
 
-    div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important;
-        color: white !important;
-        border-radius: 8px !important;
-        width: 100%;
+    h1, h2, h3, p, label, .stWidgetLabel p {
+        color: #ffffff !important;
+        opacity: 1 !important;
     }
 
-    /* 6. INPUT AREA (PASTIKAN BOX GELAP TEKS PUTIH) */
+    /* 6. INPUT AREA */
     .stTextArea textarea, .stTextInput input, [data-testid="stExpander"] {
         background-color: #161922 !important;
         color: #ffffff !important;
@@ -902,6 +913,7 @@ if st.session_state.last_generated_results:
             with c2:
                 st.markdown("**🎥 PROMPT VIDEO**")
                 st.code(res['vid'], language="text")
+
 
 
 
