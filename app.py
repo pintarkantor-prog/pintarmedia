@@ -846,7 +846,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI LOKASI DETAIL & NAMA DINAMIS)
+# 11. HALAMAN AI LAB (VERSI FINAL - SINKRONISASI NAMA & LOKASI DETAIL)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -885,16 +885,20 @@ elif menu_select == "🧠 AI LAB":
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
-            nama_tokoh = st.text_input("Tulis Nama Tokoh (Pisahkan dengan koma):", value="UDIN, TUNG", key="lab_tokoh_groq")
+            # Gunakan session state agar nama tidak hilang saat tab berpindah
+            input_nama_awal = st.session_state.get('current_names', "UDIN, TUNG")
+            nama_tokoh = st.text_input("Tulis Nama Tokoh (Pisahkan dengan koma):", value=input_nama_awal)
+            
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
                 with st.spinner("Menyusun naskah..."):
                     try:
-                        prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
+                        prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Gunakan tokoh: {nama_tokoh}. Pastikan nama tokoh ini konsisten dalam dialog."
                         hasil_dialog = panggil_ai_groq(prompt)
                         st.session_state['ready_script'] = hasil_dialog
-                        st.session_state['current_names'] = nama_tokoh 
+                        st.session_state['current_names'] = nama_tokoh # Kunci nama pilihan kamu
                         st.rerun()
                     except Exception as e: st.error(f"Eror: {e}")
+            
             if 'ready_script' in st.session_state:
                 st.markdown(st.session_state['ready_script'])
         else:
@@ -903,12 +907,16 @@ elif menu_select == "🧠 AI LAB":
     with tab_storyboard:
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
+            # Mengambil nama tokoh yang sudah kamu input di Tab 2
+            nama_pilihan = st.session_state.get('current_names', "Tokoh Utama")
+            
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Memecah adegan dengan lokasi detail..."):
+                with st.spinner(f"Memecah adegan untuk {nama_pilihan}..."):
                     try:
-                        # --- PROMPT DIPERKUAT UNTUK LOKASI DETAIL ---
                         prompt = f"""
                         Pecah naskah ini jadi 10 adegan visual yang sinematik. 
+                        PENTING: Gunakan nama tokoh {nama_pilihan} secara konsisten dalam deskripsi cerita.
+                        
                         WAJIB gunakan format kaku di bawah ini untuk SETIAP adegan:
 
                         [ADEGAN X]
@@ -917,7 +925,7 @@ elif menu_select == "🧠 AI LAB":
                         Shot: (Pilih: Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas)
                         Angle: (Pilih: Normal/Sudut Rendah/Sudut Tinggi/Samping/Berhadapan/Intip Bahu/Belakang)
                         Gerak: (Pilih: Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk/Zoom Keluar/Memutar (Orbit))
-                        Lokasi: (Berikan deskripsi lokasi yang DETAIL. Misal: 'Teras rumah kampung yang berantakan dengan jemuran pakaian', 'Pinggir jalan raya yang ramai dengan background gedung tinggi', 'Warung kopi sederhana dengan cahaya temaram lampu kuning')
+                        Lokasi: (Deskripsi lokasi DETAIL. Misal: 'Warung kopi pinggir jalan yang berdebu')
                         ---
                         Naskah: {st.session_state['ready_script']}
                         """
@@ -946,30 +954,27 @@ elif menu_select == "🧠 AI LAB":
                         st.session_state['ui_reset_key'] += 1 
                         
                         for i in range(1, 11):
-                            # Mencari blok adegan dari [ADEGAN i] sampai adegan berikutnya atau tanda pemisah ---
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                             
                             if match:
                                 blok = match.group(1)
                                 
-                                # 1. SUNTIK CERITA VISUAL (Hanya teks ceritanya saja)
+                                # 1. SUNTIK CERITA (Bersih)
                                 c_match = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
                                 if c_match:
                                     st.session_state[f'vis_input_{i}'] = c_match.group(1).strip()
                                 
-                                # 2. SUNTIK SUASANA (Dropdown Suasana)
+                                # 2. SUNTIK SUASANA
                                 s_match = re.search(rf"Suasana:(.*?)(?=Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.I)
                                 if s_match:
                                     s_val = s_match.group(1).strip().capitalize()
-                                    # Pastikan masuk ke lemari yang dibaca UI
                                     st.session_state[f'env_input_{i}'] = s_val if s_val in options_lighting else "Siang"
 
-                                # 3. SUNTIK UKURAN GAMBAR (Shot Size)
+                                # 3. SUNTIK SHOT SIZE
                                 sh_match = re.search(rf"Shot:(.*?)(?=Angle:|Gerak:|Lokasi:|$)", blok, re.I)
                                 if sh_match:
                                     sh_val = sh_match.group(1).strip()
-                                    # Mapping sederhana agar sinkron dengan daftar indonesia_shot
                                     if "Seluruh Badan" in sh_val or "Full" in sh_val: final_sh = "Seluruh Badan"
                                     elif "Dekat Wajah" in sh_val or "Close" in sh_val: final_sh = "Dekat Wajah"
                                     elif "Sangat Dekat" in sh_val: final_sh = "Sangat Dekat"
@@ -977,34 +982,30 @@ elif menu_select == "🧠 AI LAB":
                                     else: final_sh = "Setengah Badan"
                                     st.session_state[f'size_input_{i}'] = final_sh
 
-                                # 4. SUNTIK ARAH KAMERA (Angle)
+                                # 4. SUNTIK ANGLE
                                 a_match = re.search(rf"Angle:(.*?)(?=Gerak:|Lokasi:|$)", blok, re.I)
                                 if a_match:
-                                    a_val = a_match.group(1).strip()
-                                    st.session_state[f'angle_input_{i}'] = a_val if a_val in indonesia_angle else "Normal"
+                                    st.session_state[f'angle_input_{i}'] = a_match.group(1).strip()
 
-                                # 5. SUNTIK GERAKAN KAMERA (Gerak)
+                                # 5. SUNTIK GERAK
                                 g_match = re.search(rf"Gerak:(.*?)(?=Lokasi:|$)", blok, re.I)
                                 if g_match:
-                                    g_val = g_match.group(1).strip()
-                                    st.session_state[f'cam_move_{i}'] = g_val if g_val in indonesia_camera else "Diam (Tanpa Gerak)"
+                                    st.session_state[f'cam_move_{i}'] = g_match.group(1).strip()
 
-                                # 6. SUNTIK LOKASI CUSTOM
+                                # 6. SUNTIK LOKASI DETAIL
                                 l_match = re.search(rf"Lokasi:(.*?)$", blok, re.I)
                                 if l_match:
                                     st.session_state[f'loc_sel_{i}'] = "--- KETIK MANUAL ---"
                                     st.session_state[f'loc_custom_{i}'] = l_match.group(1).strip()
 
-                        # --- DINAMISASI NAMA TOKOH (Agar kotak Dialog Muncul) ---
-                        # Kita ambil nama tokoh dari input Langkah 2
+                        # --- LOGIKA SINKRONISASI NAMA (Penyelamat) ---
                         if 'current_names' in st.session_state:
                             names = [n.strip().upper() for n in st.session_state['current_names'].split(',')]
                             if len(names) >= 1: st.session_state['c_name_1_input'] = names[0]
                             if len(names) >= 2: st.session_state['c_name_2_input'] = names[1]
 
-                        st.success("🔥 BOOM! Semua kolom & nama tokoh sudah sinkron otomatis.")
+                        st.success(f"🔥 Sinkronisasi Nama {nama_pilihan} Berhasil!")
                         time.sleep(0.5)
                         st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
-
