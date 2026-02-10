@@ -503,16 +503,23 @@ with st.sidebar:
         genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default)
         st.write("")
         
-        # --- STATUS PRODUKSI ---
+        # --- 4. STATUS PRODUKSI ---
         if st.session_state.last_generated_results:
             st.markdown("### 🗺️ STATUS PRODUKSI")
             total_p = len(st.session_state.last_generated_results)
-            done_p = sum(1 for res in st.session_state.last_generated_results if st.session_state.get(f"mark_done_{res['id']}", False))
-            st.progress(done_p / total_p)
-            if done_p == total_p and total_p > 0:
-                st.balloons()
-                st.success("🎉 Semua Adegan Selesai!")
+            done_p = 0
         
+            for res in st.session_state.last_generated_results:
+                done_key = f"mark_done_{res['id']}"
+                if st.checkbox(f"Adegan {res['id']}", key=done_key):
+                    done_p += 1
+        
+            st.progress(done_p / total_p)
+        
+            if done_p == total_p and total_p > 0:
+                st.balloons() 
+                st.success("🎉 Semua Adegan Selesai!")
+    
         st.divider()
 
         # --- TOMBOL SAVE & LOAD ---
@@ -1018,6 +1025,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
