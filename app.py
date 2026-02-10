@@ -1074,52 +1074,57 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
     st.markdown("Rakit instruksi visual profesional dalam satu layar.")
 
-    # --- MAIN INTERFACE (FULL LAYOUT) ---
+    # --- MAIN INTERFACE (DENGAN KOLOM LOKASI) ---
     with st.container(border=True):
-        # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
             st.write("📝 **1. KEJADIAN / ALUR CERITA**")
             isi_cerita = st.text_area(
                 "input_alur",
-                placeholder="Contoh: main character running inside a dark cave while lava flows behind him...",
-                height=210, 
+                placeholder="Contoh: main character running while lava flows behind him...",
+                height=250, # Tinggi disesuaikan dengan kolom kanan
                 label_visibility="collapsed"
             )
             st.write("") 
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
+            st.write("⚙️ **2. SETTING VISUAL**")
             
-            # Sub-kolom untuk dropdown agar berjejer simetris
+            # Baris 1: Style & Lokasi
             c1, c2 = st.columns(2)
-            
             with c1:
                 st.caption("🌍 Style / World")
                 vibe_v = st.selectbox("s1", [
                     "Cinematic Movie", "Ultra Realistic Minecraft", 
                     "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
                 ], label_visibility="collapsed")
-                
-                st.caption("🎥 Shot Type")
-                cam_v = st.selectbox("s4", [
-                    "Cinematic Tracking Shot", "Extreme Close-Up", 
-                    "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
-                ], label_visibility="collapsed")
-
             with c2:
+                st.caption("📍 Lokasi (Manual)")
+                lokasi_v = st.text_input("loc", placeholder="Misal: dark cave", label_visibility="collapsed")
+            
+            # Baris 2: Lighting & Motion
+            c3, c4 = st.columns(2)
+            with c3:
                 st.caption("💡 Lighting & FX")
                 mood_v = st.selectbox("s2", [
                     "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
                     "Golden Hour", "Moody Dark", "Bright Studio"
                 ], label_visibility="collapsed")
-                
+            with c4:
                 st.caption("🎬 Motion & Speed")
                 motion_v = st.selectbox("s3", [
                     "Slow Motion", "High Speed Action", 
                     "Time-lapse", "Static (Diam)", "Smooth Panning"
                 ], label_visibility="collapsed")
+            
+            # Baris 3: Shot Type (Full Width di bawahnya)
+            st.caption("🎥 Shot Type")
+            cam_v = st.selectbox("s4", [
+                "Cinematic Tracking Shot", "Extreme Close-Up", 
+                "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
+            ], label_visibility="collapsed")
 
     # --- LOGIKA RAKIT ---
     if rakit_btn:
@@ -1148,7 +1153,11 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Smooth Panning": "smooth cinematic panning shot,"
             }
             
-            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
+            # Menangani jika lokasi kosong
+            detail_lokasi = f"inside {lokasi_v}," if lokasi_v else ""
+            
+            # HASIL GABUNGAN (Menggabungkan Lokasi)
+            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {detail_lokasi} {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
     # --- OUTPUT AREA ---
     if 'hasil_rakit' in st.session_state:
@@ -1170,6 +1179,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
