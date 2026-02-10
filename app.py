@@ -489,20 +489,26 @@ with st.sidebar:
                 st.error(f"Gagal memuat data Cloud: {e}")
         st.divider()
 
-    # --- A. MENU NAVIGASI (Sekarang di bawah Dashboard) ---
-    
+    # --- A. MENU NAVIGASI ---
     st.markdown("#### 🖥️ MAIN COMMAND")
-    menu_umum = ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK", "📈 TREND ANALYZER"]
-    menu_rahasia = ["👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"]
     
+    # List menu umum untuk semua staf
+    menu_umum = [
+        "🚀 RUANG PRODUKSI", 
+        "🧠 PINTAR AI LAB", 
+        "📈 TREND ANALYZER", 
+        "📋 TUGAS KERJA"
+    ]
+    
+    # Tambahkan menu rahasia HANYA jika usernya 'admin'
     if st.session_state.active_user == "admin":
-        menu_final = menu_umum + menu_rahasia
+        menu_final = menu_umum + ["⚡ KENDALI TIM"]
     else:
         menu_final = menu_umum
         
+    # Tombol radio untuk memilih menu
     menu_select = st.radio("Pilih Ruangan:", menu_final, label_visibility="collapsed")
     st.divider()
-
     # --- KONTROL TAMBAHAN (Hanya muncul jika memilih Ruang Produksi) ---
     if menu_select == "🚀 RUANG PRODUKSI":
         # 3. KONFIGURASI UMUM (DARI KODE ASLI)
@@ -1254,6 +1260,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
