@@ -1189,31 +1189,14 @@ elif menu_select == "📋 TUGAS KERJA":
     import time
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
-    # 1. DATABASE TUGAS (Tulis tugas mereka di sini)
-    # Kamu bisa ganti isi list tugasnya kapan saja
-    if 'tugas_harian' not in st.session_state:
-        st.session_state.tugas_harian = {
-            "ICHA": [
-                {"tugas": "Edit Video Utama Minecraft", "done": False},
-                {"tugas": "Buat 3 Thumbnail Variasi", "done": False},
-                {"tugas": "Upload & Set Jadwal", "done": False}
-            ],
-            "NISSA": [
-                {"tugas": "Riset 10 Ide Shorts", "done": False},
-                {"tugas": "Produksi 5 Video AI", "done": False},
-                {"tugas": "Optimasi Tag & Judul", "done": False}
-            ],
-            "INGGI": [
-                {"tugas": "Cek SEO 3 Channel", "done": False},
-                {"tugas": "Balas Komentar Netizen", "done": False}
-            ],
-            "LISA": [
-                {"tugas": "Update Laporan Keuangan", "done": False},
-                {"tugas": "Monitoring Jam Tayang", "done": False}
-            ]
+    # 1. DATABASE STATUS (Hanya simpan siapa yang Gacor)
+    if 'status_gacor' not in st.session_state:
+        st.session_state.status_gacor = {
+            "ICHA": False, "NISSA": False, "INGGI": False, "LISA": False
         }
 
     st.title("📋 TUGAS KERJA")
+    st.write(f"Halo, **{user_aktif}**! Pantau performa tim hari ini.")
 
     # 2. ATURAN AKSES
     access_rules = {
@@ -1225,64 +1208,75 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # Data Profil (Foto)
+        # Data Profil
         data_profil = {
-            "ICHA": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
-            "NISSA": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
-            "INGGI": "https://via.placeholder.com/150",
-            "LISA": "https://via.placeholder.com/150"
+            "ICHA": {"p": "Editor Utama", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE"},
+            "NISSA": {"p": "Creative Editor", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE"},
+            "INGGI": {"p": "Uploader & SEO", "f": "https://via.placeholder.com/150"},
+            "LISA": {"p": "Admin & Sosmed", "f": "https://via.placeholder.com/150"}
         }
 
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
         
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
-                list_tugas = st.session_state.tugas_harian[nama_staf]
+                staf = data_profil.get(nama_staf)
+                # Cek apakah staf ini sedang ditandai Gacor oleh Dian
+                is_gacor = st.session_state.status_gacor.get(nama_staf, False)
                 
-                # Hitung Progres
-                total = len(list_tugas)
-                selesai = sum(1 for t in list_tugas if t['done'])
-                progres_persen = (selesai / total) if total > 0 else 0
-                
-                # Tentukan Warna & Status
-                is_gacor = progres_persen == 1.0
+                # Pengaturan Warna Dinamis
                 theme_color = "#FFD700" if is_gacor else "#1d976c"
                 status_txt = "🔥 GACOR PARAH" if is_gacor else "🎬 ON PROGRESS"
+                bg_opacity = "0.1" if is_gacor else "0.05"
 
-                # --- UI CARD MEWAH ---
+                # --- UI CARD MINIMALIS ---
                 st.markdown(f"""
-                    <div style="border: 2px solid {theme_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 15px;">
-                        <div style="display: flex; align-items: center;">
-                            <img src="{data_profil[nama_staf]}" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid {theme_color}; object-fit: cover;">
-                            <div style="margin-left: 15px;">
-                                <h3 style="margin: 0;">{nama_staf}</h3>
-                                <span style="background: {theme_color}; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">{status_txt}</span>
+                    <div style="
+                        border: 3px solid {theme_color}; 
+                        border-radius: 20px; 
+                        padding: 30px; 
+                        background-color: {theme_color}{'1a' if is_gacor else '0d'}; 
+                        box-shadow: {'0px 10px 20px rgba(255, 215, 0, 0.2)' if is_gacor else 'none'};
+                        margin-bottom: 20px;
+                        transition: 0.3s;
+                    ">
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display: flex; align-items: center;">
+                                <div style="position: relative;">
+                                    <img src="{staf['f']}" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid {theme_color}; object-fit: cover;">
+                                    {'<div style="position: absolute; bottom: 0; right: 0; font-size: 25px;">👑</div>' if is_gacor else ''}
+                                </div>
+                                <div style="margin-left: 25px;">
+                                    <h1 style="margin: 0; color: white; font-size: 2.5rem;">{nama_staf}</h1>
+                                    <p style="margin: 0; color: #808495; font-size: 1.1rem;">{staf['p']}</p>
+                                    <div style="margin-top: 10px;">
+                                        <span style="background: {theme_color}; color: {'black' if is_gacor else 'white'}; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold;">
+                                            {status_txt}
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 """, unsafe_allow_html=True)
 
-                # --- KOLOM CHECKLIST ---
-                st.write("**Daftar Tugas Hari Ini:**")
-                
-                for idx, item in enumerate(list_tugas):
-                    # Staf bisa centang, Dian bisa lihat
-                    checked = st.checkbox(item['tugas'], value=item['done'], key=f"chk_{nama_staf}_{idx}")
-                    
-                    # Simpan perubahan jika dicentang
-                    if checked != item['done']:
-                        st.session_state.tugas_harian[nama_staf][idx]['done'] = checked
-                        st.rerun()
-
-                st.progress(progres_persen)
-                st.caption(f"Progress: {selesai}/{total} Tugas Selesai")
-
+                # --- KONTROL KHUSUS DIAN ---
                 if user_aktif == "DIAN":
-                    st.divider()
-                    if st.button(f"Reset Tugas {nama_staf} 🔄", key=f"reset_{nama_staf}"):
-                        for t in st.session_state.tugas_harian[nama_staf]:
-                            t['done'] = False
-                        st.rerun()
+                    st.write("### 🛠️ Owner Action")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button(f"🚀 Set GACOR: {nama_staf}", key=f"set_{nama_staf}", use_container_width=True):
+                            st.session_state.status_gacor[nama_staf] = True
+                            st.rerun()
+                    with col2:
+                        if st.button(f"😴 Reset Status: {nama_staf}", key=f"res_{nama_staf}", use_container_width=True):
+                            st.session_state.status_gacor[nama_staf] = False
+                            st.rerun()
+                else:
+                    # Tampilan buat Staf jika mereka sedang Gacor
+                    if is_gacor:
+                        st.balloons()
+                        st.success(f"Selamat {nama_staf}! Kamu dapet gelar GACOR PARAH dari Bos Dian hari ini! 🏆")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1291,6 +1285,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
