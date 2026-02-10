@@ -1116,14 +1116,14 @@ elif menu_select == "⚡ QUICK PROMPT":
         c_copy, c_reset, _ = st.columns([1, 1, 3])
         
         with c_copy:
-            if st.button("📋 COPY", use_container_width=True, type="primary"):
-                # Trik JavaScript untuk copy ke clipboard
+            # Menggunakan type="secondary" (default) agar warnanya sama dengan Reset
+            if st.button("📋 COPY", use_container_width=True):
                 st.components.v1.html(f"""
                     <script>
                     navigator.clipboard.writeText({repr(st.session_state.q_result)});
                     </script>
                 """, height=0)
-                st.toast("Prompt disalin ke Clipboard!", icon="✅")
+                st.toast("Prompt disalin!", icon="✅")
         
         with c_reset:
             if st.button("🗑️ RESET", use_container_width=True):
@@ -1152,6 +1152,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
