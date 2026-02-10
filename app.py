@@ -1080,21 +1080,16 @@ elif menu_select == "⚡ QUICK PROMPT":
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
-            # Judul Gaya Awal (Hijau & Bold)
-            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>🛠️ 1. KEJADIAN / ALUR CERITA</p>", unsafe_allow_html=True)
+            st.write("📝 **1. KEJADIAN / ALUR CERITA**")
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running while lava flows behind him...",
-                height=265, 
+                height=265, # Disesuaikan agar sejajar dengan kolom kanan
                 label_visibility="collapsed"
             )
-            st.write("") 
-            # Tombol Rakit Panjang (use_container_width=True)
-            rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
-            # Judul Gaya Awal (Hijau & Bold)
-            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>⚙️ 2. SETTING VISUAL</p>", unsafe_allow_html=True)
+            st.write("⚙️ **2. SETTING VISUAL**")
             
             # Baris 1: Style & Lighting
             c1, c2 = st.columns(2)
@@ -1110,8 +1105,6 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
                     "Golden Hour", "Moody Dark", "Bright Studio"
                 ], label_visibility="collapsed")
-
-            st.write("")
             
             # Baris 2: Motion & Shot Type
             c3, c4 = st.columns(2)
@@ -1127,12 +1120,14 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Cinematic Tracking Shot", "Extreme Close-Up", 
                     "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
                 ], label_visibility="collapsed")
-
-            st.write("")
             
             # Baris 3: LOKASI DI PALING BAWAH
             st.markdown('<p class="small-label">📍 Lokasi (Manual)</p>', unsafe_allow_html=True)
             lokasi_v = st.text_input("loc_input", placeholder="Misal: dark cave, abandoned house...", label_visibility="collapsed")
+
+    # --- TOMBOL RAKIT MEMANJANG (Di dalam container tapi di bawah kedua kolom) ---
+        st.write("") 
+        rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
 
     # --- LOGIKA RAKIT ---
     if rakit_btn:
@@ -1185,5 +1180,6 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
