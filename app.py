@@ -1185,22 +1185,29 @@ elif menu_select == "⚡ QUICK PROMPT":
                 del st.session_state.hasil_rakit
                 st.rerun()
                 
+# --- TARUH INI DI PALING ATAS (DI LUAR ELIF) ---
+@st.cache_resource
+def get_global_notif():
+    return {} # Ini jadi memori bersama semua staf
+
+global_notif = get_global_notif()
+
+# --- BAGIAN MENU TUGAS KERJA ---
 elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
 
-    # --- 1. CEK NOTIFIKASI (Taruh paling atas biar langsung kelihatan) ---
-    notif_key = f"notif_senggol_{user_aktif}"
-    if notif_key in st.session_state and st.session_state[notif_key]:
+    # 1. CEK NOTIFIKASI DARI MEMORI BERSAMA
+    if user_aktif in global_notif and global_notif[user_aktif]:
         st.error(f"⚠️ **PESAN DARI OWNER:** Bos DIAN lagi mantau kamu nih! Fokus kerja ya! 🔥")
         if st.button("SIAP BOS! ✅", use_container_width=True):
-            st.session_state[notif_key] = False # Matikan notif
+            global_notif[user_aktif] = False
             st.rerun()
 
     st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
     
-    # 1. ATURAN AKSES
+    # 2. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1210,7 +1217,6 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # 2. DATA PROFIL TIM
         data_profil = {
             "ICHA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
             "NISSA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
@@ -1224,7 +1230,7 @@ elif menu_select == "📋 TUGAS KERJA":
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
                 
-                # --- TAMPILAN CARD (Sesuai Code Kamu) ---
+                # --- TAMPILAN CARD KAMU ---
                 st.markdown(f"""
                 <div style="border: 2px solid #1d976c; border-radius: 20px; padding: 35px; background-color: rgba(29, 151, 108, 0.05); margin-top: 15px;">
                     <div style="display: flex; align-items: center;">
@@ -1237,11 +1243,11 @@ elif menu_select == "📋 TUGAS KERJA":
                 </div>
                 """, unsafe_allow_html=True)
 
-                # --- TOMBOL KIRIM SENGGOL (Hanya muncul di akun DIAN) ---
+                # --- TOMBOL SENGGOL (Update ke Memori Bersama) ---
                 if user_aktif == "DIAN":
                     st.write("")
                     if st.button(f"Senggol {nama_staf} 🔔", key=f"senggol_btn_{nama_staf}"):
-                        st.session_state[f"notif_senggol_{nama_staf}"] = True
+                        global_notif[nama_staf] = True # Kirim ke memori server
                         st.toast(f"Berhasil menyenggol {nama_staf}! 😂")
 
 elif menu_select == "⚡ KENDALI TIM":
@@ -1251,5 +1257,6 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
