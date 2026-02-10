@@ -1054,64 +1054,59 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
-    st.markdown("<p style='color:#1d976c;'>Jadwal Produksi & Deadline Terintegrasi GSheets</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Kalender Produksi PINTAR MEDIA (Data: JADWAL LISA)</p>", unsafe_allow_html=True)
     st.divider()
 
-    # --- FUNGSI AMBIL DATA (Pastikan nama sheet sesuai dengan di GSheets kamu) ---
     try:
-        # Kita asumsikan tab di GSheets kamu namanya 'Schedule'
-        schedule_data = read_gsheet("Schedule") 
+        # 1. AMBIL DATA DARI TAB SPESIFIK
+        # Ganti 'JADWAL LISA' sesuai nama tab yang ingin ditampilkan
+        df_schedule = read_gsheet("JADWAL LISA") 
         
-        if not schedule_data.empty:
-            # 1. RINGKASAN STATUS (METRICS)
-            col_s1, col_s2, col_s3 = st.columns(3)
-            with col_s1:
-                total_prod = len(schedule_data)
-                st.metric("Total Produksi", f"{total_prod} Konten")
-            with col_s2:
-                # Menghitung yang statusnya 'In Progress' atau 'Pending'
-                ongoing = len(schedule_data[schedule_data['Status'].isin(['In Progress', 'Produksi'])])
-                st.metric("Sedang Berjalan", ongoing)
-            with col_s3:
-                completed = len(schedule_data[schedule_data['Status'] == 'Done'].shape[0])
-                st.metric("Selesai", completed)
-
+        if not df_schedule.empty:
+            # Mengatur Header agar sesuai dengan GSheets kamu
+            # Kolom: HP, NAMA CHANNEL, PAGI, SIANG 1, SIANG 2, SORE
+            
+            # 2. TAMPILAN METRICS RINGKAS
+            total_channel = len(df_schedule['NAMA CHANNEL'].dropna().unique())
+            st.metric("Total Channel Aktif", f"{total_channel} Channel")
+            
             st.write("")
+            st.markdown("##### 📅 Jadwal Posting Harian")
             
-            # 2. TAMPILAN TABEL JADWAL (ELEGAN)
-            st.markdown("##### 📅 Daftar Agenda Produksi")
+            # 3. TAMPILAN TABEL DENGAN STYLE ELEGAN
+            # Kita bersihkan data kosong (NaN) agar tampilan rapi
+            df_display = df_schedule.fillna("-")
             
-            # Styling Tabel agar baris yang 'Urgent' terlihat beda
-            def highlight_status(val):
-                color = '#1d976c' if val == 'Done' else '#ff4b4b' if val == 'Urgent' else '#31333f'
-                return f'background-color: {color}'
-
-            # Menampilkan dataframe dengan styling
             st.dataframe(
-                schedule_data, 
-                use_container_width=True, 
+                df_display,
+                use_container_width=True,
                 hide_index=True,
                 column_config={
-                    "Status": st.column_config.StatusColumn("Status"),
-                    "Deadline": st.column_config.DateColumn("Tanggal Target"),
-                    "Link": st.column_config.LinkColumn("Referensi")
+                    "HP": st.column_config.TextColumn("📱 Unit HP", width="small"),
+                    "NAMA CHANNEL": st.column_config.TextColumn("📺 Nama Channel", width="medium"),
+                    "PAGI": st.column_config.TextColumn("🌅 Pagi"),
+                    "SIANG 1": st.column_config.TextColumn("☀️ Siang 1"),
+                    "SIANG 2": st.column_config.TextColumn("🌤️ Siang 2"),
+                    "SORE": st.column_config.TextColumn("🌇 Sore"),
                 }
             )
+            
+            # 4. FITUR SEARCH (CARI JADWAL BERDASARKAN CHANNEL)
+            st.write("")
+            search_ch = st.text_input("🔍 Cari Jadwal Channel Spesifik:", placeholder="Ketik nama channel...")
+            if search_ch:
+                filtered_df = df_display[df_display['NAMA CHANNEL'].str.contains(search_ch, case=False)]
+                if not filtered_df.empty:
+                    st.table(filtered_df)
+                else:
+                    st.warning("Channel tidak ditemukan.")
 
-            # 3. TOMBOL UPDATE (KHUSUS ADMIN)
-            if st.session_state.active_user == "admin":
-                st.write("")
-                if st.button("➕ TAMBAH/EDIT JADWAL", use_container_width=True):
-                    st.info("Silakan update data langsung di Google Sheets Anda. Sistem akan sinkron otomatis saat halaman direfresh.")
-                    # Opsional: Tambahkan link ke GSheets kamu
-                    st.markdown(f"[Klik di sini untuk buka Google Sheets](https://docs.google.com/spreadsheets/d/{st.secrets['connections']['gsheets']['spreadsheet_id']})")
-        
         else:
-            st.warning("Belum ada jadwal yang terdaftar di Google Sheets.")
+            st.warning("Tab 'JADWAL LISA' kosong atau tidak terbaca.")
 
     except Exception as e:
-        st.error(f"Gagal sinkron dengan GSheets: {e}")
-        st.info("Pastikan Tab 'Schedule' sudah ada di Google Sheets Anda.")
+        st.error(f"Gagal memuat jadwal: {e}")
+        st.info("Pastikan tab 'JADWAL LISA' tersedia di Google Sheets Anda.")
 
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1141,6 +1136,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
