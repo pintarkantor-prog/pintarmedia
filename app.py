@@ -1175,83 +1175,57 @@ elif menu_select == "⚡ QUICK PROMPT":
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
-    st.info("🚀 **DASHBOARD PRODUKSI:** Pantau progres editing dan upload harian tim Pintar Media.")
+    st.info("🛠️ **SISTEM MONITORING:** Klik 'Update' buat ganti status atau kasih revisi ke tim.")
 
-    # --- STYLE KHUSUS TUGAS ---
-    st.markdown("""
-        <style>
-        .stMetric { background-color: #0e1117; padding: 15px; border-radius: 10px; border: 1px solid #2d3139; }
-        .editor-card { border-left: 5px solid #1d976c !important; }
-        .uploader-card { border-left: 5px solid #00a8ff !important; }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # --- RINGKASAN PROGRES ---
-    col_s1, col_s2, col_s3 = st.columns(3)
-    with col_s1:
-        st.metric("Video di-Edit", "4", delta="2 Selesai")
-    with col_s2:
-        st.metric("Siap Upload", "2", delta_color="normal")
-    with col_s3:
-        st.metric("Live di Channel", "8", delta="↑ 1")
+    # --- 1. FILTER DASHBOARD (Biar fleksibel mau liat siapa) ---
+    col_f1, col_f2 = st.columns([2, 1])
+    with col_f1:
+        filter_pic = st.multiselect("Filter Personel:", ["ICHA", "NISSA", "LISA", "INGGI"], default=["ICHA", "NISSA", "LISA", "INGGI"])
+    with col_f2:
+        st.metric("Total Antrean", "5 Tugas")
 
     st.write("")
+
+    # --- 2. DATA TUGAS (Ini bisa ditarik dari Database/Sheets nantinya) ---
+    # Kita buat list yang fleksibel
+    list_tugas = [
+        {"pic": "ICHA", "tugas": "Edit Video Minecraft Ep. 15", "alur": "Editing", "step": "🎨 Color Grading", "deadline": "Sore Ini"},
+        {"pic": "NISSA", "tugas": "Shorts Cinematic Lava", "alur": "Editing", "step": "✅ Render Selesai", "deadline": "Segera"},
+        {"pic": "LISA", "tugas": "Upload Video Utama", "alur": "Upload", "step": "🖼️ Bikin Thumbnail", "deadline": "Jam 18:00"},
+        {"pic": "INGGI", "tugas": "SEO & Judul Shorts", "alur": "Upload", "step": "📅 Scheduled", "deadline": "Besok"},
+    ]
+
+    # --- 3. GENERATE TAMPILAN SECARA DINAMIS ---
+    for t in list_tugas:
+        if t['pic'] in filter_pic:
+            # Warna Border beda antara Editor dan Uploader
+            border_color = "#1d976c" if t['alur'] == "Editing" else "#00a8ff"
+            
+            with st.container(border=True):
+                c1, c2, c3 = st.columns([1.5, 2, 1])
+                
+                with c1:
+                    st.markdown(f"<p style='color:{border_color}; font-weight:bold; margin-bottom:0px;'>👤 {t['pic']}</p>", unsafe_allow_html=True)
+                    st.caption(f"Divisi: {t['alur']}")
+                
+                with c2:
+                    st.write(f"**{t['tugas']}**")
+                    st.markdown(f"<small>📍 {t['step']}</small>", unsafe_allow_html=True)
+                
+                with c3:
+                    # Tombol fleksibel buat Owner/PIC
+                    if st.button("Update Progres", key=f"btn_{t['pic']}_{t['tugas']}"):
+                        st.toast(f"Membuka panel update untuk {t['pic']}...")
+
     st.divider()
 
-    # --- PEMBAGIAN TUGAS PER DIVISI ---
-    col_edit, col_upload = st.columns(2, gap="large")
-
-    with col_edit:
-        st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎬 TIM EDITOR (MEMBUAT VIDEO)</p>", unsafe_allow_html=True)
-        st.caption("Fokus: Potong raw material, grading, & rakit prompt AI.")
-        
-        # Tugas ICHA
-        with st.container(border=True):
-            st.markdown("**👤 ICHA**")
-            st.write("Video Minecraft Eps. 12")
-            c_st1, c_ac1 = st.columns([2,1])
-            c_st1.warning("⏳ On Progress")
-            if c_ac1.button("Beres", key="icha_1"):
-                st.toast("Mantap Icha!")
-
-        # Tugas NISSA
-        with st.container(border=True):
-            st.markdown("**👤 NISSA**")
-            st.write("Shorts Cinematic Lava")
-            c_st2, c_ac2 = st.columns([2,1])
-            c_st2.success("✅ Selesai")
-            if c_ac2.button("Update", key="nissa_1"):
-                st.rerun()
-
-    with col_upload:
-        st.markdown("<p style='color:#00a8ff; font-weight:bold; font-size:1.2rem;'>📤 TIM UPLOADER (MANAJEMEN CHANNEL)</p>", unsafe_allow_html=True)
-        st.caption("Fokus: Thumbnail, SEO, & Penjadwalan Channel.")
-
-        # Tugas LISA
-        with st.container(border=True):
-            st.markdown("**👤 LISA**")
-            st.write("Upload Channel Utama (Jadwal Sore)")
-            c_st3, c_ac3 = st.columns([2,1])
-            c_st3.info("📅 Scheduled")
-            if c_ac3.button("Cek Link", key="lisa_1"):
-                st.toast("Membuka Studio...")
-
-        # Tugas INGGI
-        with st.container(border=True):
-            st.markdown("**👤 INGGI**")
-            st.write("Optimasi Judul & Tag Shorts")
-            c_st4, c_ac4 = st.columns([2,1])
-            c_st4.error("🔴 Belum Upload")
-            if c_ac4.button("Gas!", key="inggi_1"):
-                st.toast("Semangat Inggi!")
-
-    st.write("")
-    # --- INPUT TUGAS TAMBAHAN ---
-    with st.expander("📌 Tambah Tugas Dadakan"):
-        tugas_baru = st.text_input("Detail Tugas")
-        pic_baru = st.selectbox("Untuk Siapa?", ["ICHA", "NISSA", "LISA", "INGGI"])
-        if st.button("Kirim ke Tim", use_container_width=True):
-            st.success(f"Tugas berhasil dikirim ke {pic_baru}!")
+    # --- 4. PANEL REVISI (Keren banget buat komunikasi) ---
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>✍️ KOLOM REVISI OWNER</p>", unsafe_allow_html=True)
+    with st.expander("Klik buat tulis revisi ke tim"):
+        revisi_ke = st.selectbox("Revisi buat siapa?", ["ICHA", "NISSA", "LISA", "INGGI"])
+        catatan = st.text_area("Apa yang perlu diperbaiki?", placeholder="Misal: Icha, musik di menit 02:00 kecilin dikit ya...")
+        if st.button("Kirim Revisi 🚀", use_container_width=True):
+            st.success(f"Notif revisi sudah terkirim ke {revisi_ke}!")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1260,6 +1234,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
