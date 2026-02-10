@@ -688,47 +688,52 @@ if menu_select == "🚀 PRODUCTION HUB":
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
-                    # Ambil data suntikan atau default
-                    current_env = st.session_state.get(f'env_input_{i_s}', "Siang")
-                    try: idx_env = options_lighting.index(current_env)
-                    except: idx_env = 1
-                    
+                    # Ambil data dari suntikan AI (env_input)
+                    s_env = st.session_state.get(f'env_input_{i_s}', "Siang")
+                    idx_env = options_lighting.index(s_env) if s_env in options_lighting else 1
                     light_val = st.selectbox(f"L{i_s}", options_lighting, index=idx_env, key=f"l_ui_{i_s}_{reset_val}", label_visibility="collapsed")
-                    # Update HANYA jika user mengubah secara manual di UI
-                    if light_val != current_env:
+                    # Update HANYA jika user mengubah manual di dropdown
+                    if light_val != s_env:
                         st.session_state[f'env_input_{i_s}'] = light_val
-
+                
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
-                    # Ambil data suntikan atau default
-                    current_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
-                    try: idx_size = indonesia_shot.index(current_size)
-                    except: idx_size = 2
-                    
+                    # Ambil data dari suntikan AI (size_input)
+                    s_size = st.session_state.get(f'size_input_{i_s}', "Setengah Badan")
+                    idx_size = indonesia_shot.index(s_size) if s_size in indonesia_shot else 2
                     shot_val = st.selectbox(f"S{i_s}", indonesia_shot, index=idx_size, key=f"s_ui_{i_s}_{reset_val}", label_visibility="collapsed")
-                    # Update HANYA jika user mengubah secara manual di UI
-                    if shot_val != current_size:
+                    if shot_val != s_size:
                         st.session_state[f'size_input_{i_s}'] = shot_val
                 
                 r2 = st.columns(2)
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ Arah Kamera</p>', unsafe_allow_html=True)
-                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"a_ui_{i_s}_{reset_val}", label_visibility="collapsed")
-                    st.session_state[f'angle_input_{i_s}'] = angle_val
+                    s_angle = st.session_state.get(f'angle_input_{i_s}', "Normal")
+                    idx_angle = indonesia_angle.index(s_angle) if s_angle in indonesia_angle else 0
+                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, index=idx_angle, key=f"a_ui_{i_s}_{reset_val}", label_visibility="collapsed")
+                    if angle_val != s_angle:
+                        st.session_state[f'angle_input_{i_s}'] = angle_val
+
                 with r2[1]:
                     st.markdown('<p class="small-label">🎬 Gerakan Kamera</p>', unsafe_allow_html=True)
                     s_cam = st.session_state.get(f'cam_move_{i_s}', "Diam (Tanpa Gerak)")
                     idx_cam = indonesia_camera.index(s_cam) if s_cam in indonesia_camera else 0
                     cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=idx_cam, key=f"c_ui_{i_s}_{reset_val}", label_visibility="collapsed")
-                    st.session_state[f'camera_input_{i_s}'] = cam_val
-                    st.session_state[f'cam_move_{i_s}'] = cam_val
+                    if cam_val != s_cam:
+                        st.session_state[f'cam_move_{i_s}'] = cam_val
                 
                 r3 = st.columns(1)
                 with r3[0]:
                     st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
-                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_ui_{i_s}_{reset_val}", label_visibility="collapsed")
+                    s_loc_sel = st.session_state.get(f"loc_sel_{i_s}", "--- KETIK MANUAL ---")
+                    idx_loc = options_lokasi.index(s_loc_sel) if s_loc_sel in options_lokasi else 0
+                    loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, index=idx_loc, key=f"loc_ui_{i_s}_{reset_val}", label_visibility="collapsed")
                     st.session_state[f"loc_sel_{i_s}"] = loc_choice
-                    location_val = st.text_input("Custom:", key=f"cust_ui_{i_s}_{reset_val}") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
+                    
+                    val_cust = st.session_state.get(f"loc_custom_{i_s}", "")
+                    location_val = st.text_input("Custom:", value=val_cust, key=f"cust_ui_{i_s}_{reset_val}") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
+                    if loc_choice == "--- KETIK MANUAL ---":
+                        st.session_state[f"loc_custom_{i_s}"] = location_val
 
             # Dialog Logic
             diag_cols = st.columns(len(all_chars_list))
@@ -949,63 +954,58 @@ elif menu_select == "🧠 AI LAB":
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
-                        
-                        # Trigger UI Refresh
                         st.session_state['ui_reset_key'] += 1 
                         
+                        # --- PROSES SUNTIK DATA ADEGAN ---
                         for i in range(1, 11):
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
-                            
                             if match:
                                 blok = match.group(1)
                                 
-                                # 1. SUNTIK CERITA (Bersih)
-                                c_match = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
-                                if c_match:
-                                    st.session_state[f'vis_input_{i}'] = c_match.group(1).strip()
+                                # 1. Cerita
+                                c_m = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
+                                if c_m: st.session_state[f'vis_input_{i}'] = c_m.group(1).strip()
                                 
-                                # 2. SUNTIK SUASANA
-                                s_match = re.search(rf"Suasana:(.*?)(?=Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.I)
-                                if s_match:
-                                    s_val = s_match.group(1).strip().capitalize()
-                                    st.session_state[f'env_input_{i}'] = s_val if s_val in options_lighting else "Siang"
+                                # 2. Suasana
+                                s_m = re.search(rf"Suasana:(.*?)(?=Shot:|$)", blok, re.I)
+                                if s_m: st.session_state[f'env_input_{i}'] = s_m.group(1).strip().capitalize()
 
-                                # 3. SUNTIK SHOT SIZE
-                                sh_match = re.search(rf"Shot:(.*?)(?=Angle:|Gerak:|Lokasi:|$)", blok, re.I)
-                                if sh_match:
-                                    sh_val = sh_match.group(1).strip()
-                                    if "Seluruh Badan" in sh_val or "Full" in sh_val: final_sh = "Seluruh Badan"
-                                    elif "Dekat Wajah" in sh_val or "Close" in sh_val: final_sh = "Dekat Wajah"
-                                    elif "Sangat Dekat" in sh_val: final_sh = "Sangat Dekat"
-                                    elif "Pemandangan" in sh_val or "Wide" in sh_val: final_sh = "Pemandangan Luas"
-                                    else: final_sh = "Setengah Badan"
-                                    st.session_state[f'size_input_{i}'] = final_sh
+                                # 3. Shot Size
+                                sh_m = re.search(rf"Shot:(.*?)(?=Angle:|$)", blok, re.I)
+                                if sh_m:
+                                    raw_sh = sh_m.group(1).strip()
+                                    if "Seluruh" in raw_sh: res_sh = "Seluruh Badan"
+                                    elif "Dekat Wajah" in raw_sh or "Close" in raw_sh: res_sh = "Dekat Wajah"
+                                    elif "Sangat Dekat" in raw_sh: res_sh = "Sangat Dekat"
+                                    elif "Pemandangan" in raw_sh: res_sh = "Pemandangan Luas"
+                                    else: res_sh = "Setengah Badan"
+                                    st.session_state[f'size_input_{i}'] = res_sh
 
-                                # 4. SUNTIK ANGLE
-                                a_match = re.search(rf"Angle:(.*?)(?=Gerak:|Lokasi:|$)", blok, re.I)
-                                if a_match:
-                                    st.session_state[f'angle_input_{i}'] = a_match.group(1).strip()
+                                # 4. Angle
+                                a_m = re.search(rf"Angle:(.*?)(?=Gerak:|$)", blok, re.I)
+                                if a_m: st.session_state[f'angle_input_{i}'] = a_m.group(1).strip().capitalize()
 
-                                # 5. SUNTIK GERAK
-                                g_match = re.search(rf"Gerak:(.*?)(?=Lokasi:|$)", blok, re.I)
-                                if g_match:
-                                    st.session_state[f'cam_move_{i}'] = g_match.group(1).strip()
+                                # 5. Gerak
+                                g_m = re.search(rf"Gerak:(.*?)(?=Lokasi:|$)", blok, re.I)
+                                if g_m: st.session_state[f'cam_move_{i}'] = g_m.group(1).strip()
 
-                                # 6. SUNTIK LOKASI DETAIL
-                                l_match = re.search(rf"Lokasi:(.*?)$", blok, re.I)
-                                if l_match:
+                                # 6. Lokasi
+                                l_m = re.search(rf"Lokasi:(.*?)$", blok, re.I)
+                                if l_m:
                                     st.session_state[f'loc_sel_{i}'] = "--- KETIK MANUAL ---"
-                                    st.session_state[f'loc_custom_{i}'] = l_match.group(1).strip()
+                                    st.session_state[f'loc_custom_{i}'] = l_m.group(1).strip()
 
-                        # --- LOGIKA SINKRONISASI NAMA (Penyelamat) ---
+                        # --- DINAMISASI NAMA TOKOH (SOLUSI NAMA MANUAL) ---
                         if 'current_names' in st.session_state:
                             names = [n.strip().upper() for n in st.session_state['current_names'].split(',')]
+                            # Update identitas tokoh utama agar kotak dialog muncul
                             if len(names) >= 1: st.session_state['c_name_1_input'] = names[0]
                             if len(names) >= 2: st.session_state['c_name_2_input'] = names[1]
 
-                        st.success(f"🔥 Sinkronisasi Nama {nama_pilihan} Berhasil!")
+                        st.success("🔥 SINKRONISASI BERHASIL!")
                         time.sleep(0.5)
                         st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
