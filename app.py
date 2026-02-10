@@ -980,8 +980,6 @@ if menu_select == "🚀 PRODUCTION HUB":
             # Baris ini sejajar dengan 'with st.spinner'
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
-            st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
-            st.rerun()
 
 # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
     if st.session_state.last_generated_results:
@@ -1172,6 +1170,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
