@@ -856,7 +856,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI FINAL - FIX TEKS BESAR & LOKASI ULTRA DETAIL)
+# 11. HALAMAN AI LAB (VERSI DETAIL LOKASI & TEKS RAPI)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -928,31 +928,31 @@ elif menu_select == "🧠 AI LAB":
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
                 with st.spinner("Memecah adegan..."):
                     try:
-                        # PROMPT FIX: Memaksa AI menulis detail tekstur & arsitektur bangunan
+                        # PROMPT DIUBAH: Fokus pada detail lokasi & kebersihan teks (Double Newline)
                         prompt = f"""
-                        Pecah naskah ini jadi 10 adegan visual yang SANGAT DETAIL. 
+                        Pecah naskah ini jadi 10 adegan visual. 
                         Hanya gunakan 2 tokoh utama: {nama_pilihan}.
 
                         ATURAN WAJIB:
-                        1. LOKASI: Harus deskripsi teknis arsitektur. Sebutkan tekstur lantai (ubin kusam/semen kasar), kondisi dinding (cat mengelupas/wallpaper bunga), jenis jendela, plafon, dan benda spesifik di sekitarnya.
-                        2. FORMAT: Gunakan simbol '●' di setiap awal label dan BARIS KOSONG (Double Enter) agar rapi.
+                        1. LOKASI harus SANGAT DETAIL: Sebutkan tekstur lantai (ubin retak/marmer), hiasan dinding (poster/cat mengelupas), jenis bangunan, dan benda di sekitarnya.
+                        2. FORMAT: Gunakan BARIS KOSONG (Double Enter) di setiap label agar teks tidak menumpuk.
 
                         WAJIB FORMAT INI:
                         [ADEGAN X]
 
-                        ● Cerita: (deskripsi visual sinematik)
+                        Cerita: (narasi visual)
 
-                        ● Suasana: (Pagi/Siang/Sore/Malam)
+                        Suasana: (Pagi/Siang/Sore/Malam)
 
-                        ● Shot: (Ukuran Gambar)
+                        Shot: (Setengah Badan/Dekat Wajah/Sangat Dekat/Seluruh Badan/Pemandangan Luas)
 
-                        ● Angle: (Sudut Kamera)
+                        Angle: (Normal/Sudut Rendah/Sudut Tinggi/Samping)
 
-                        ● Gerak: (Gerakan Kamera)
+                        Gerak: (Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk)
 
-                        ● Lokasi: (Detail tekstur bangunan, ubin lantai, hiasan dinding, dan suasana lingkungan secara spesifik)
+                        Lokasi: (Deskripsi tekstur, lantai, hiasan dinding, lingkungan secara SANGAT DETAIL)
 
-                        ● Dialog: (Nama: Teks)
+                        Dialog: (Nama: Teks)
 
                         ---
                         Naskah: {st.session_state['ready_script']}
@@ -977,25 +977,17 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                # Regex yang berhenti tepat sebelum simbol '●' atau label berikutnya
-                                p = rf"{label}:\s*(.*?)(?=\s*(?:●|Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
+                                # Regex diperkuat untuk berhenti sebelum label teknis berikutnya
+                                p = rf"{label}:\s*(.*?)(?=\s*(?:Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
                                 m = re.search(p, blok, re.S | re.I)
-                                if m:
-                                    # Membersihkan sisa-sisa simbol bullet jika ada
-                                    cleaned = m.group(1).strip()
-                                    return cleaned.replace('● ', '')
-                                return ""
+                                return m.group(1).strip() if m else ""
 
-                            # SUNTIK DATA
+                            # SUNTIK KE PRODUCTION HUB
                             st.session_state[f'vis_input_{i}'] = extract("Cerita")
-                            
-                            # Pastikan suasana bersih untuk dropdown
-                            raw_env = extract("Suasana").capitalize()
-                            st.session_state[f'env_input_{i}'] = raw_env if raw_env in options_lighting else "Siang"
-                            
+                            st.session_state[f'env_input_{i}'] = extract("Suasana").capitalize()
                             st.session_state[f'size_input_{i}'] = extract("Shot")
                             st.session_state[f'angle_input_{i}'] = extract("Angle")
-                            st.session_state[f'loc_custom_{i}'] = extract("Lokasi") # Lokasi Detail Masuk Sini
+                            st.session_state[f'loc_custom_{i}'] = extract("Lokasi")
                             
                             if 'current_names' in st.session_state:
                                 names = [n.strip() for n in st.session_state['current_names'].split(',')]
@@ -1009,9 +1001,10 @@ elif menu_select == "🧠 AI LAB":
                                         if d_m:
                                             st.session_state[f"diag_{i}_{idx_n}"] = d_m.group(1).strip()
 
-                    st.success("🔥 SINKRONISASI TOTAL BERHASIL!")
+                    st.success("🔥 LOKASI DETAIL & TEKS RAPI BERHASIL DISUNTIK!")
                     time.sleep(0.5)
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
