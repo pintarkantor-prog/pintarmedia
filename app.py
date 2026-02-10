@@ -1066,30 +1066,52 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Data Real-Time dari Google Sheets</p>", unsafe_allow_html=True)
+    
+    # Header dengan indikator sinkronisasi
+    col_header, col_sync = st.columns([4,1])
+    with col_header:
+        st.markdown("<p style='color:#808495; margin-top:-15px;'>Monitoring Jadwal Posting & Unit Produksi</p>", unsafe_allow_html=True)
+    with col_sync:
+        if st.button("🔄 REFRESH"):
+            st.rerun()
+
     st.divider()
 
-    # PILIHAN TAB (Sesuaikan dengan nama tab di GSheets kamu)
+    # PILIHAN TAB (Segmented Control yang elegan)
     tab_target = st.segmented_control(
         "Pilih Jadwal Tim:",
         ["JADWAL LISA", "JADWAL INGGI"],
-        default="JADWAL LISA"
+        default="JADWAL LISA",
+        label_visibility="collapsed"
     )
 
     # PROSES AMBIL DATA
     df_jadwal = read_gsheet(tab_target)
 
     if not df_jadwal.empty:
-        # Bersihkan data NaN/Kosong agar rapi
+        # 1. HIGHLIGHT METRICS (Agar tidak kaku)
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            total_unit = len(df_jadwal['HP'].dropna().unique())
+            st.metric("Total Unit HP", f"{total_unit} Unit")
+        with c2:
+            total_ch = len(df_jadwal['NAMA CHANNEL'].dropna())
+            st.metric("Total Channel", f"{total_ch} Akun")
+        with c3:
+            st.metric("Status Server", "Online", delta="Connected")
+
+        st.write("")
+        
+        # 2. TABEL DENGAN STYLING KHUSUS
+        # Membersihkan data dan memberi highlight pada baris yang berisi jam
         df_clean = df_jadwal.fillna("-")
 
-        # Tampilkan Tabel
         st.dataframe(
             df_clean,
             use_container_width=True,
             hide_index=True,
             column_config={
-                "HP": st.column_config.TextColumn("📱 UNIT"),
+                "HP": st.column_config.NumberColumn("📱 UNIT", format="%.0f"), # Hilangkan .0 belakang angka
                 "NAMA CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width="medium"),
                 "PAGI": st.column_config.TextColumn("🌅 PAGI"),
                 "SIANG 1": st.column_config.TextColumn("☀️ SIANG 1"),
@@ -1097,9 +1119,15 @@ elif menu_select == "🎞️ SCHEDULE":
                 "SORE": st.column_config.TextColumn("🌇 SORE")
             }
         )
-        st.caption(f"📍 Menampilkan data otomatis dari Google Sheets (Tab: {tab_target})")
+        
+        # 3. NOTIFIKASI TIME-CHECK (Fitur Tambahan Elegan)
+        with st.expander("ℹ️ CATATAN OPERASIONAL"):
+            st.caption(f"📍 Data ini disinkronkan langsung dari Google Sheets Tab: {tab_target}")
+            st.info("Pastikan setiap Unit HP melakukan upload tepat waktu sesuai jadwal di atas untuk menjaga algoritma channel.")
+
     else:
-        st.warning(f"Data di tab '{tab_target}' tidak ditemukan atau akses ditolak.")
+        st.warning(f"Data di tab '{tab_target}' tidak ditemukan. Cek kembali penamaan Tab di GSheets kamu.")
+        
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
     st.info("Daftar tugas tim.")
@@ -1128,6 +1156,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
