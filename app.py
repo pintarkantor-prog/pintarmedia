@@ -1091,7 +1091,6 @@ elif menu_select == "⚡ QUICK PROMPT":
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
-            st.write("⚙️ **2. SETTING VISUAL**")
             
             # Sub-kolom untuk dropdown agar berjejer simetris
             c1, c2 = st.columns(2)
@@ -1171,6 +1170,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
