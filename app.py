@@ -1013,7 +1013,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
     st.divider()
 
-    # --- PROMPT SYSTEM (KITA KUNCI DI SINI AGAR AI JADI SUTRADARA) ---
+    # --- PROMPT SYSTEM (INI TETAP DISIMPAN UNTUK LOGIKA OTOMATIS) ---
     sys_instruction = f"""
     Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
     Tugasmu memecah ide owner menjadi {jml_sc} adegan visual teknis.
@@ -1038,12 +1038,15 @@ elif menu_select == "🧠 PINTAR AI LAB":
     JANGAN improvisasi plot di luar tema owner!
     """
 
+    # --- 1. MODE MANUAL PROMPT (BERSIH TOTAL) ---
     if mode_lab == "📋 MANUAL PROMPT":
-        mega_prompt = f"{sys_instruction}\n\nIDE OWNER: \"{owner_core}\""
         if owner_core:
-            st.code(mega_prompt, language="text")
-            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
+            st.markdown("### 📜 Ide Utama Siap Salin:")
+            # Menampilkan hanya ide owner tanpa embel-embel teknis
+            st.code(f"IDE OWNER: {owner_core}", language="text")
+            st.caption("💡 Silakan salin teks di atas dan tempel di Gemini secara manual.")
 
+    # --- 2. MODE AI PINTAR (SISTEM TETAP SAMA) ---
     elif mode_lab == "⚡ AI PINTAR":
         if st.button("SULAP JADI ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
             if not owner_core:
@@ -1066,6 +1069,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 except Exception as e:
                     st.error(f"Gagal memproses AI: {e}")
 
+        # Tombol Kirim ke Produksi (Hanya muncul jika sudah ada hasil AI)
         if 'last_ai_result' in st.session_state:
             if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True, type="secondary"):
                 st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
@@ -1229,6 +1233,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
