@@ -22,7 +22,7 @@ st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", i
 # 0. SISTEM LOGIN TUNGGAL (FULL STABLE: 10-HOUR SESSION + NEW USER)
 # ==============================================================================
 USER_PASSWORDS = {
-    "admin": "QWERTY21ab",
+    "ADMIN": "QWERTY21ab",
     "icha": "udin99",
     "nissa": "tung22",
     "inggi": "udin33",
@@ -1312,6 +1312,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
