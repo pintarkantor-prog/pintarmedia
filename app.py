@@ -1103,7 +1103,6 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
                 ], label_visibility="collapsed")
                 
-                st.write("")
                 st.caption("🎥 Shot Type")
                 cam_v = st.selectbox("s4", [
                     "Cinematic Tracking Shot", "Extreme Close-Up", 
@@ -1117,7 +1116,6 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Golden Hour", "Moody Dark", "Bright Studio"
                 ], label_visibility="collapsed")
                 
-                st.write("")
                 st.caption("🎬 Motion & Speed")
                 motion_v = st.selectbox("s3", [
                     "Slow Motion", "High Speed Action", 
@@ -1173,6 +1171,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
