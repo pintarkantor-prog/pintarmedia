@@ -416,7 +416,38 @@ def global_sync_v920():
 # 7. SIDEBAR: KONFIGURASI UTAMA (MODIFIKASI NAVIGASI RUANGAN)
 # ==============================================================================
 with st.sidebar:
-    # --- A. MENU NAVIGASI ---
+    
+    # 1. LOGO SIDEBAR (DARI KODE ASLI)
+    try:
+        st.image("PINTAR.png", use_container_width=True)
+    except:
+        st.title("📸 PINTAR MEDIA")
+    st.write("") 
+
+    # 2. LOGIKA ADMIN (DARI KODE ASLI)
+    if st.session_state.active_user == "admin":
+        if st.checkbox("🚀 Buka Dashboard Utama", value=False):
+            st.info("Log aktivitas tercatat di Cloud.")
+            try:
+                conn = st.connection("gsheets", type=GSheetsConnection)
+                df_monitor = conn.read(worksheet="Sheet1", ttl="0")
+                if not df_monitor.empty:
+                    st.markdown("#### 🏆 Top Staf (MVP)")
+                    mvp_count = df_monitor['User'].value_counts().reset_index()
+                    mvp_count.columns = ['Staf', 'Total Input']
+                    st.dataframe(mvp_count, use_container_width=True, hide_index=True)
+                    st.markdown("#### 📅 Log Aktivitas Terbaru")
+                    df_display = df_monitor.tail(10).copy()
+                    df_display.columns = ["🕒 Waktu", "👤 User", "🎬 Total", "📝 Visual Utama"]
+                    st.dataframe(df_display, use_container_width=True, hide_index=True)
+                else:
+                    st.warning("Belum ada data aktivitas tercatat.")
+            except Exception as e:
+                st.error(f"Gagal memuat data Cloud: {e}")
+        st.divider()
+
+    # --- A. MENU NAVIGASI (Sekarang di bawah Dashboard) ---
+    
     st.markdown("#### 🖥️ MAIN COMMAND")
     menu_umum = ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK", "📈 TREND ANALYZER"]
     menu_rahasia = ["👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"]
@@ -429,38 +460,9 @@ with st.sidebar:
     menu_select = st.radio("Pilih Ruangan:", menu_final, label_visibility="collapsed")
     st.divider()
 
-    # --- B. ISI ASLI SIDEBAR (Hanya muncul jika memilih Ruang Produksi) ---
+    # --- KONTROL TAMBAHAN (Hanya muncul jika memilih Ruang Produksi) ---
     if menu_select == "🚀 RUANG PRODUKSI":
-        # --- 1. LOGO SIDEBAR (DARI KODE ASLI) ---
-        try:
-            st.image("PINTAR.png", use_container_width=True)
-        except:
-            st.title("📸 PINTAR MEDIA")
-        st.write("") 
-        
-        # --- 2. LOGIKA ADMIN (DARI KODE ASLI) ---
-        if st.session_state.active_user == "admin":
-            if st.checkbox("🚀 Buka Dashboard Utama", value=False):
-                st.info("Log aktivitas tercatat di Cloud.")
-                try:
-                    conn = st.connection("gsheets", type=GSheetsConnection)
-                    df_monitor = conn.read(worksheet="Sheet1", ttl="0")
-                    if not df_monitor.empty:
-                        st.markdown("#### 🏆 Top Staf (MVP)")
-                        mvp_count = df_monitor['User'].value_counts().reset_index()
-                        mvp_count.columns = ['Staf', 'Total Input']
-                        st.dataframe(mvp_count, use_container_width=True, hide_index=True)
-                        st.markdown("#### 📅 Log Aktivitas Terbaru")
-                        df_display = df_monitor.tail(10).copy()
-                        df_display.columns = ["🕒 Waktu", "👤 User", "🎬 Total", "📝 Visual Utama"]
-                        st.dataframe(df_display, use_container_width=True, hide_index=True)
-                    else:
-                        st.warning("Belum ada data aktivitas tercatat.")
-                except Exception as e:
-                    st.error(f"Gagal memuat data Cloud: {e}")
-            st.divider()
-
-        # --- 3. KONFIGURASI UMUM (DARI KODE ASLI) ---
+        # 3. KONFIGURASI UMUM (DARI KODE ASLI)
         num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
         st.write("") 
         st.markdown("#### 🎨 GENRE VISUAL")
@@ -471,7 +473,7 @@ with st.sidebar:
         genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default, help="Pilih genre visual. Jika pilih Realistik, hasil akan seperti foto asli.")
         st.write("")
         
-        # --- 4. STATUS PRODUKSI (DARI KODE ASLI) ---
+        # 4. STATUS PRODUKSI (DARI KODE ASLI)
         if st.session_state.last_generated_results:
             st.markdown("### 🗺️ STATUS PRODUKSI")
             total_p = len(st.session_state.last_generated_results)
@@ -486,7 +488,7 @@ with st.sidebar:
                 st.success("🎉 Semua Adegan Selesai!")
         st.divider()
 
-        # --- C. TOMBOL SAVE & LOAD (DARI KODE ASLI - UTUH) ---
+        # C. TOMBOL SAVE & LOAD (DARI KODE ASLI - UTUH)
         btn_col1, btn_col2 = st.columns(2)
         with btn_col1:
             save_trigger = st.button("💾 SAVE", use_container_width=True)
@@ -546,7 +548,7 @@ with st.sidebar:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
-
+        
 # ==============================================================================
 # MAIN PAGE ROUTING (Sistem Navigasi Ruangan)
 # ==============================================================================
@@ -934,3 +936,4 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
