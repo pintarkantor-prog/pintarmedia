@@ -934,95 +934,128 @@ if menu_select == "🚀 RUANG PRODUKSI":
 elif menu_select == "🧠 PINTAR AI LAB":
     from groq import Groq
 
+    # --- STYLE KHUSUS SUB-MENU ---
+    st.markdown("""
+        <style>
+        /* Mengatur tampilan pills/segmented control agar lebih premium */
+        div[data-testid="stBaseButton-v1"] {
+            border-radius: 20px !important;
+        }
+        .st-emotion-cache-12w0qpk { /* Target khusus untuk pills */
+            background-color: #161922 !important;
+            border: 1px solid rgba(29, 151, 108, 0.2) !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
     st.markdown("### 🧠 PINTAR AI LAB")
+    st.markdown("<p style='color:#1d976c; font-size:14px; margin-top:-15px;'>Laboratorium Ide & Arsitektur Cerita</p>", unsafe_allow_html=True)
     
-    # --- 1. BOX ATURAN UTAMA (PROTOKOL WAJIB DI ATAS) ---
-    with st.expander("⚠️ PROTOKOL KERJA KARYAWAN (WAJIB BACA)", expanded=True):
-        st.markdown("""
-        1. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
-        2. **Disiplin Prompt:** Gunakan sistem ini untuk merakit perintah. Dilarang mengetik manual di AI tanpa template ini.
-        3. **Verifikasi:** Periksa hasil AI sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
-        """)
-
-    st.divider()
-
-    # --- 2. SUB-MENU NAVIGASI (Hanya Manual & Otomatis) ---
-    sub_menu = st.segmented_control(
-        "Pilih Mode Operasional:",
-        ["📋 JALUR MANUAL (GEMINI WEB)", "⚡ JALUR OTOMATIS (DIRECT AI)"],
-        default="📋 JALUR MANUAL (GEMINI WEB)"
+    # --- TAMPILAN SUB-MENU MODERN ---
+    # Menggunakan st.pills agar tampilan lebih bersih dan modern
+    sub_menu = st.pills(
+        "Pilih Mode Kerja:",
+        ["📋 JALUR MANUAL", "⚡ JALUR OTOMATIS"],
+        selection_mode="single",
+        default="📋 JALUR MANUAL"
     )
     
     st.write("")
 
-    # --- 3. INPUT AREA (SUMBER DATA UTAMA) ---
-    owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
-                              height=150,
-                              placeholder="Tuliskan inti cerita di sini...")
-    
-    c1, c2, c3 = st.columns([2,2,2])
-    with c1:
-        jml_sc = st.number_input("Target Adegan", 4, 20, 6)
-    with c2:
-        mood_cerita = st.selectbox("Mood/Vibe:", ["Drama Emosional", "Komedi Situasi", "Thriller/Mencekam", "Action/High Energy", "Horor/Gothic"])
-    with c3:
-        target_audien = st.selectbox("Target Audiens:", ["Anak-anak", "Remaja/General", "Dewasa/Edukasi"])
+    # --- 1. BOX ATURAN UTAMA (PROTOKOL) ---
+    with st.expander("⚠️ PROTOKOL KERJA (WAJIB DIPATUHI)", expanded=True):
+        st.markdown(f"""
+        <div style="background-color: rgba(29, 151, 108, 0.1); padding: 15px; border-radius: 10px; border-left: 5px solid #1d976c;">
+            <p><b>Status Mode:</b> {sub_menu}</p>
+            <ol>
+                <li><b>Garis Besar Owner</b> adalah hukum utama. Dilarang mengubah inti cerita.</li>
+                <li>Gunakan AI hanya untuk memperkaya detail, bukan mengganti ide asal.</li>
+                <li>Hasil dari lab wajib diverifikasi kelogisannya sebelum masuk Ruang Produksi.</li>
+            </ol>
+        </div>
+        """, unsafe_allow_html=True)
 
     st.divider()
 
-    # --- LOGIKA SUB-MENU 1: MANUAL ---
-    if sub_menu == "📋 JALUR MANUAL (GEMINI WEB)":
-        st.markdown("#### 🏗️ Mesin Perakit Struktur Plot (Manual)")
-        st.caption("Salin prompt di bawah ini ke Gemini Web.")
+    # --- 2. INPUT STRATEGIS (DIISI SEKALI, BERLAKU UNTUK SEMUA MODE) ---
+    st.markdown("#### 📍 Dasar Rancangan Cerita")
+    owner_core = st.text_area("GARIS BESAR DARI OWNER:", 
+                              height=120,
+                              placeholder="Ketik inti pesan atau alur utama di sini...")
+    
+    col_lab1, col_lab2, col_lab3 = st.columns(3)
+    with col_lab1:
+        jml_sc = st.number_input("Target Adegan", 4, 20, 6)
+    with col_lab2:
+        mood_cerita = st.selectbox("Mood/Vibe:", ["Drama Emosional", "Komedi Situasi", "Thriller Mencekam", "Aksi Balap", "Horor"])
+    with col_lab3:
+        target_audien = st.selectbox("Target Audiens:", ["Remaja/General", "Anak-anak", "Dewasa/Edukasi"])
+
+    st.write("")
+
+    # --- LOGIKA KONDISIONAL BERDASARKAN SUB-MENU ---
+    if sub_menu == "📋 JALUR MANUAL":
+        st.markdown("---")
+        st.markdown("#### 🏗️ Manual Prompt Generator")
+        st.caption("Rakit instruksi kaku untuk dipaste ke Gemini Web.")
         
-        mega_prompt_ide = f"""
+        mega_prompt_manual = f"""
 ### ROLE: SENIOR SCRIPTWRITER PINTAR MEDIA ###
 TUGAS: Pecahkan Garis Besar Cerita di bawah menjadi {jml_sc} adegan visual storyboard.
-Mood: {mood_cerita} | Target: {target_audien}
 
 INTI CERITA DARI OWNER:
 "{owner_core}"
 
 INSTRUKSI KAKU:
-1. Fokus pada AKSI VISUAL yang tertangkap kamera.
-2. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
-3. Format Output: Adegan [X]: [Setting] - [Kejadian Utama].
+1. Mood: {mood_cerita} | Target: {target_audien}.
+2. Fokus pada AKSI VISUAL yang tertangkap kamera.
+3. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
+4. Format: Adegan [X]: [Setting] - [Kejadian Utama & Gerakan].
+
+Berikan hasil terbaik sesuai standar PINTAR MEDIA.
         """.strip()
 
         if owner_core:
-            st.code(mega_prompt_ide, language="text")
-            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">📋 COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
+            st.code(mega_prompt_manual, language="text")
+            st.markdown(f'''
+                <a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;">
+                    <div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:12px; border-radius:10px; text-align:center; font-weight:bold; box-shadow: 0 4px 15px rgba(29, 151, 108, 0.3);">
+                        📋 SALIN & BUKA GEMINI WEB
+                    </div>
+                </a>
+            ''', unsafe_allow_html=True)
         else:
-            st.info("💡 Masukkan Garis Besar untuk merakit prompt.")
+            st.info("💡 Isi Garis Besar di atas untuk merakit prompt manual.")
 
-    # --- LOGIKA SUB-MENU 2: OTOMATIS ---
-    elif sub_menu == "⚡ JALUR OTOMATIS (DIRECT AI)":
-        st.markdown("#### ⚡ Eksekusi Plot Otomatis (Groq)")
+    elif sub_menu == "⚡ JALUR OTOMATIS":
+        st.markdown("---")
+        st.markdown("#### ⚡ Groq AI Instant Plot")
+        st.caption("Alur adegan akan langsung dibuat oleh AI di bawah ini.")
         
-        # MENGAMBIL API KEY DARI SECRETS (AMAN DARI SECRET SCANNING)
+        # Menggunakan secrets agar aman dari deteksi GitHub
         try:
             api_key_secure = st.secrets["GROQ_API_KEY"]
         except:
             api_key_secure = None
-            st.error("API Key tidak ditemukan di Secrets!")
 
-        if st.button("GENERASI ALUR SEKARANG 🚀", use_container_width=True, type="primary"):
+        if st.button("EKSEKUSI ALUR OTOMATIS 🚀", use_container_width=True, type="primary"):
             if owner_core and api_key_secure:
                 try:
                     client = Groq(api_key=api_key_secure)
-                    with st.spinner("Menghubungkan ke Brain AI..."):
+                    with st.spinner("Merancang alur cerita..."):
                         sys_msg = f"Kamu adalah Scriptwriter PINTAR MEDIA. Pecahkan ide owner menjadi {jml_sc} adegan visual. Mood: {mood_cerita}. Audiens: {target_audien}. JANGAN improvisasi! Format: Adegan X: [Setting] - [Aksi Visual]."
                         completion = client.chat.completions.create(
                             model="llama-3.3-70b-versatile",
                             messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": owner_core}],
                             temperature=0.7
                         )
-                        st.success("✅ Alur Cerita Berhasil Dibuat:")
+                        st.markdown("---")
+                        st.success("✅ Rancangan Alur Berhasil Dibuat:")
                         st.markdown(completion.choices[0].message.content)
                 except Exception as e:
-                    st.error(f"Error AI: {e}")
+                    st.error(f"Gagal memanggil AI: {e}")
             else:
-                st.error("Garis Besar Kosong atau Konfigurasi API bermasalah!")
+                st.error("Garis Besar belum diisi atau API Key belum dikonfigurasi di Secrets!")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1056,6 +1089,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
