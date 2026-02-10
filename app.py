@@ -990,7 +990,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
     """, unsafe_allow_html=True)
 
     st.title("🧠 PINTAR AI LAB")
-    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba! Tetap gunakan kreatifmu ya!")
+    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
     
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
@@ -1044,7 +1044,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
             st.code(mega_prompt, language="text")
             st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
 
-    elif mode_lab == "⚡ OTOMATIS (GROQ)":
+    elif mode_lab == "⚡ OTOMATIS (AI PINTAR)":
         if st.button("SULAP JADI ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
             if not owner_core:
                 st.error("Garis Besar Cerita wajib diisi!")
@@ -1073,7 +1073,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
+    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
     st.markdown("Buat prompt singkat satu gambar/video.")
 
     # --- MAIN INTERFACE ---
@@ -1175,15 +1175,16 @@ elif menu_select == "⚡ QUICK PROMPT":
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
-    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
+    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
         st.title("⚡ KENDALI TIM")
-        st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
+        st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
