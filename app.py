@@ -997,16 +997,23 @@ elif menu_select == "🧠 PINTAR AI LAB":
     # --- PROMPT SYSTEM (KITA KUNCI DI SINI AGAR AI JADI SUTRADARA) ---
     sys_instruction = f"""
     Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
-    Tugasmu memecah ide owner menjadi {jml_sc} adegan visual yang SANGAT TEKNIS.
+    Tugasmu memecah ide owner menjadi {jml_sc} adegan visual teknis.
     
-    SETIAP ADEGAN WAJIB MEMILIKI FORMAT BERIKUT:
+    WAJIB MENGGUNAKAN FORMAT BERIKUT (DENGAN SPASI ANTAR POIN):
+    
     Adegan [X]:
-    - Alur: [Deskripsi kejadian]
-    - Lokasi Detail: [Gambarkan latar belakang secara super lengkap & spesifik]
-    - Suasana: [Pagi/Siang/Sore/Malam]
-    - Kamera: [Normal/Sudut Rendah/Sudut Tinggi/Samping/Berhadapan/Intip Bahu/Belakang]
-    - Ukuran: [Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas/Drone Shot]
-    - Gerak (Video): [Diam Tanpa Gerak/Ikuti Karakter/Zoom Masuk/Zoom Keluar/Memutar Orbit]
+    Suasana: [Isi]
+    Kamera: [Isi]
+    Ukuran: [Isi]
+    Gerak (Video): [Isi]
+
+    Alur Cerita: [Deskripsi kejadian/aksi karakter]
+
+    Lokasi Detail: [Gambarkan latar belakang secara super lengkap & spesifik]
+
+    Dialog: [Tuliskan dialog jika ada, jika tidak ada tulis "-"]
+    
+    --------------------------------------------------
     
     Mood Utama: {mood_cerita}. Audiens: {target_audien}.
     JANGAN improvisasi plot di luar tema owner!
@@ -1077,6 +1084,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
