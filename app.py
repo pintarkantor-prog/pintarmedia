@@ -1071,81 +1071,67 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
 
 elif menu_select == "⚡ QUICK PROMPT":
-    # --- CSS LUXURY COMPACT ---
+    st.markdown("<h2 style='color: #1d976c;'>⚡ QUICK PROMPT</h2>", unsafe_allow_html=True)
+    st.markdown("<p style='color: #808495; margin-top:-15px;'>Rakit instruksi visual kualitas tinggi dalam satu klik.</p>", unsafe_allow_html=True)
+
+    # --- 1. AREA INPUT ---
+    with st.container(border=True):
+        col_text, col_opt = st.columns([2, 1])
+        
+        with col_text:
+            isi_ide = st.text_area("CERITAKAN KEJADIANNYA", placeholder="Contoh: Pria tua sedang memancing di danau berkabut...", height=150)
+        
+        with col_opt:
+            vibe = st.selectbox("PILIH MOOD", ["🌅 Golden Hour", "🌑 Dark Noir", "💥 Action High", "🎞️ Vintage 70s", "🏠 Naturalist"])
+            shot = st.selectbox("PILIH SHOT", ["Close-Up (Wajah)", "Medium (Badan)", "Wide (Luas)"])
+            st.write("")
+            generate = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
+
+    # --- 2. LOGIKA RAKIT ---
+    if generate:
+        if not isi_ide:
+            st.error("Isi dulu ceritanya, Bos!")
+        else:
+            bumbu = {
+                "🌅 Golden Hour": "warm dramatic lighting, backlit, cinematic haze, 8k RAW photo, sharp details.",
+                "🌑 Dark Noir": "low-key contrast, moody teal shadows, foggy night, gritty cinematic grain.",
+                "💥 Action High": "dynamic energy, hard lighting, saturated colors, sharp edge enhancement, hyper-detailed.",
+                "🎞️ Vintage 70s": "Kodak film aesthetic, organic grain, nostalgic warm tones, authentic 70s textures.",
+                "🏠 Naturalist": "natural daylight, soft shadows, f/11 aperture, ultra-clear focus, realistic skin."
+            }
+            framing = {
+                "Close-Up (Wajah)": "extreme close-up shot, focus on facial expressions,",
+                "Medium (Badan)": "medium shot, waist-up framing, cinematic depth,",
+                "Wide (Luas)": "extreme wide landscape shot, expansive environment,"
+            }
+            st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
+
+    # --- 3. AREA HASIL (FULL WIDTH & CLEAN) ---
+    if 'q_result' in st.session_state:
+        st.write("")
+        st.markdown("#### ✅ HASIL RACIKAN")
+        # Menggunakan st.code karena sudah paling stabil untuk copy-paste
+        st.code(st.session_state.q_result, language="text")
+        
+        c_reset, _ = st.columns([1, 4])
+        if c_reset.button("🗑️ Reset / Hapus", use_container_width=True):
+            del st.session_state.q_result
+            st.rerun()
+
     st.markdown("""
         <style>
-        .main-card {
-            background: #1a1c23; border: 1px solid #2d3139; 
-            padding: 20px; border-radius: 15px; border-top: 5px solid #1d976c;
+        /* Mempertegas tampilan container */
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            border: 1px solid #1d976c !important;
+            border-radius: 15px !important;
         }
-        .field-title { color: #1d976c; font-size: 0.8rem; font-weight: 800; text-transform: uppercase; margin-bottom: 10px; }
-        .result-area {
-            background: #0e1117; border: 1px dashed #1d976c; 
-            padding: 15px; border-radius: 10px; margin-top: 20px;
+        /* Tombol primary emerald */
+        div.stButton > button[kind="primary"] {
+            background-color: #1d976c !important;
+            border: none !important;
         }
         </style>
     """, unsafe_allow_html=True)
-
-    st.markdown("### ⚡ QUICK PROMPT")
-    st.markdown("<p style='color:#808495; margin-top:-15px;'>Rakit satu adegan dalam sekejap.</p>", unsafe_allow_html=True)
-
-    # --- CONTAINER UTAMA ---
-    with st.container():
-        st.markdown('<div class="main-card">', unsafe_allow_html=True)
-        
-        c1, c2 = st.columns([3, 2])
-        with c1:
-            st.markdown('<p class="field-title">✍️ Cerita Visual</p>', unsafe_allow_html=True)
-            isi_ide = st.text_area("ide", placeholder="Tulis kejadian di sini...", height=150, label_visibility="collapsed")
-        with c2:
-            st.markdown('<p class="field-title">🎬 Vibe & Shot</p>', unsafe_allow_html=True)
-            vibe = st.selectbox("v", ["🌅 Golden Hour", "🌑 Dark Noir", "💥 Action High", "🎞️ Vintage 70s", "🏠 Naturalist"], label_visibility="collapsed")
-            shot = st.selectbox("s", ["Close-Up (Wajah)", "Medium (Badan)", "Wide (Luas)"], label_visibility="collapsed")
-            st.write("")
-            generate = st.button("🚀 RAKIT PROMPT", use_container_width=True, type="primary")
-
-        # --- LOGIKA RAKIT ---
-        if generate:
-            if not isi_ide:
-                st.warning("Isi ceritanya dulu!")
-            else:
-                bumbu = {
-                    "🌅 Golden Hour": "warm dramatic lighting, backlit, cinematic haze, 8k RAW photo, sharp details.",
-                    "🌑 Dark Noir": "low-key contrast, moody teal shadows, foggy night, gritty cinematic grain.",
-                    "💥 Action High": "dynamic energy, hard lighting, saturated colors, sharp edge enhancement, hyper-detailed.",
-                    "🎞️ Vintage 70s": "Kodak film aesthetic, organic grain, nostalgic warm tones, authentic 70s textures.",
-                    "🏠 Naturalist": "natural daylight, soft shadows, f/11 aperture, ultra-clear focus, realistic skin."
-                }
-                framing = {
-                    "Close-Up (Wajah)": "extreme close-up shot, focus on facial expressions,",
-                    "Medium (Badan)": "medium shot, waist-up framing, cinematic depth,",
-                    "Wide (Luas)": "extreme wide landscape shot, expansive environment,"
-                }
-                st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text."
-
-        # --- AREA HASIL (GABUNG DI BAWAH) ---
-        if 'q_result' in st.session_state:
-            st.markdown('<div class="result-area">', unsafe_allow_html=True)
-            st.markdown('<p class="field-title">✅ PROMPT SIAP PAKAI</p>', unsafe_allow_html=True)
-            
-            # Box Kode
-            st.code(st.session_state.q_result, language="text")
-            
-            # Tombol Copy & Reset
-            col_copy, col_reset = st.columns([1, 1])
-            with col_copy:
-                # Trik Tombol Copy Otomatis
-                import json
-                copy_code = f"navigator.clipboard.writeText({json.dumps(st.session_state.q_result)})"
-                st.button("📋 Salin Prompt", on_click=None, help="Klik untuk menyalin", use_container_width=True)
-                st.caption("Klik ikon di pojok kanan box kode untuk copy!")
-            with col_reset:
-                if st.button("🗑️ Reset", use_container_width=True):
-                    del st.session_state.q_result
-                    st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-
-        st.markdown('</div>', unsafe_allow_html=True)
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1156,6 +1142,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
