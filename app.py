@@ -1202,10 +1202,10 @@ elif menu_select == "📋 TUGAS KERJA":
     else:
         # 2. DATA PROFIL TIM (Murni Info)
         data_profil = {
-            "ICHA": {"p": "Editor Utama", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE"},
-            "NISSA": {"p": "Creative Editor", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE"},
-            "INGGI": {"p": "Uploader & SEO", "f": "https://via.placeholder.com/150"},
-            "LISA": {"p": "Admin & Sosmed", "f": "https://i.imgur.com/zAYESQm.png"}
+            "ICHA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
+            "NISSA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
+            "INGGI": {"p": "Uploader", "f": "https://i.imgur.com/zAYESQm.png"},
+            "LISA": {"p": "Uploader", "f": "https://i.imgur.com/zAYESQm.png"}
         }
 
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
@@ -1240,6 +1240,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
