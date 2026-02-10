@@ -933,83 +933,108 @@ if menu_select == "🚀 RUANG PRODUKSI":
 # --------------------------------------------------------------------------
 elif menu_select == "🧠 PINTAR AI LAB":
     st.markdown("### 🧠 PINTAR AI LAB")
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Sistem Perakit Ide & Prompt Storyboard (Anti-Limit)</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Kendali Konsep & Standarisasi Perintah AI</p>", unsafe_allow_html=True)
     st.divider()
 
-    # --- TABS INTERFACE ---
-    tab_ide, tab_char = st.tabs(["🏗️ RAKIT MEGA-PROMPT IDE", "🧬 DNA KARAKTER"])
+    # --- 1. BOX ATURAN UTAMA (OWNER COMMANDS) ---
+    with st.expander("⚠️ PROTOKOL KERJA KARYAWAN (WAJIB BACA)", expanded=True):
+        st.markdown("""
+        1. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
+        2. **Disiplin Prompt:** Gunakan sistem ini untuk merakit perintah. Dilarang mengetik manual di Gemini Web tanpa template ini.
+        3. **Verifikasi:** Periksa hasil dari Gemini Web sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
+        4. **Konsistensi:** Selalu gunakan DNA Karakter yang sama untuk tokoh yang sama.
+        """)
+
+    # --- 2. TABS INTERFACE ---
+    tab_ide, tab_char = st.tabs(["🏗️ ARCHITECT IDE (PLOT)", "🧬 DNA VAULT (FISIK)"])
 
     with tab_ide:
-        st.markdown("#### 🏗️ Arsitek Alur Cerita")
-        st.caption("Gunakan form ini untuk merakit instruksi kaku. Hasilnya wajib di-copy ke Gemini Web.")
+        st.markdown("#### 🏗️ Mesin Perakit Struktur Plot")
         
-        # 1. INPUT GARIS BESAR DARI OWNER
-        owner_core = st.text_area("Garis Besar / Tema Utama (Instruksi Owner):", 
-                                  placeholder="Contoh: Drama tentang dua bersaudara yang berebut warisan warung kopi tapi akhirnya sadar karena wasiat rahasia.",
-                                  help="Input tema utama dari Owner di sini agar karyawan tidak melenceng.")
+        # Area Input Strategis
+        owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
+                                  height=150,
+                                  placeholder="Tuliskan inti cerita di sini...")
         
-        col_f1, col_f2 = st.columns(2)
-        with col_f1:
-            jml_sc = st.slider("Target Jumlah Adegan:", 4, 12, 6)
-        with col_f2:
-            mood_cerita = st.selectbox("Mood/Tone Cerita:", ["Drama Serius & Haru", "Komedi Lucu & Segar", "Thriller Menegangkan", "Action/Aksi Balap", "Horor Mencekam"])
+        c1, c2, c3 = st.columns([2,2,2])
+        with c1:
+            jml_sc = st.number_input("Target Adegan", 4, 20, 6)
+        with c2:
+            mood_cerita = st.selectbox("Mood/Vibe:", ["Drama Emosional", "Komedi Situasi", "Thriller/Mencekam", "Action/High Energy", "Horor/Gothic"])
+        with c3:
+            target_audien = st.selectbox("Target Audiens:", ["Anak-anak", "Remaja/General", "Dewasa/Edukasi"])
 
-        # 2. RAKITAN MEGA PROMPT (DIKUNCI OLEH SISTEM)
+        # RAKITAN MEGA PROMPT (LOGIKA OWNER - SILAKAN RUBAH TEKS DI DALAM F-STRING INI)
         mega_prompt_ide = f"""
-AKTIFKAN MODE: PROFESIONAL SCRIPTWRITER & STORYBOARD ARTIST PINTAR MEDIA.
+### ROLE: SENIOR SCRIPTWRITER PINTAR MEDIA ###
+TUGAS: Pecahkan Garis Besar Cerita di bawah menjadi {jml_sc} adegan visual storyboard.
 
-TUGAS:
-Buatlah alur cerita yang terdiri dari tepat {jml_sc} adegan berdasarkan garis besar dari Owner di bawah ini.
-Gaya penceritaan harus {mood_cerita}.
-
-GARIS BESAR DARI OWNER (WAJIB DIIKUTI):
+INTI CERITA DARI OWNER:
 "{owner_core}"
 
-ATURAN KAKU UNTUKMU:
-1. Jangan melakukan improvisasi di luar tema dasar yang diberikan Owner.
-2. Setiap adegan harus fokus pada aksi visual yang jelas, bukan sekadar narasi batin.
-3. Gunakan bahasa Indonesia yang sinematik, visual, dan mudah dipahami.
-4. Jangan tambahkan dialog yang tidak perlu, fokus pada kejadian penting di frame.
-5. Format output harus rapi seperti ini:
-   Adegan [Nomor]: [Judul Adegan] - [Deskripsi kejadian lengkap di frame tersebut].
+INSTRUKSI KAKU (Wajib Dipatuhi):
+1. Mood Utama: {mood_cerita}.
+2. Target Penonton: {target_audien}.
+3. Fokus pada AKSI VISUAL yang tertangkap kamera, bukan perasaan batin.
+4. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
+5. Format Output Adegan (WAJIB):
+   - Adegan [X]: [Setting Tempat/Waktu] - [Kejadian Utama & Gerakan Karakter]
 
-Berikan hasil terbaik sesuai standar PINTAR MEDIA.
+Tuliskan alur cerita yang logis, tajam, dan siap diproduksi secara visual.
         """.strip()
 
-        st.write("---")
+        st.divider()
         if owner_core:
-            st.markdown("##### 📋 Langkah Kerja Karyawan:")
-            st.markdown("1. Klik tombol **Copy** pada kotak kode di bawah. \n2. Buka **[Gemini Web (Klik di Sini)](https://gemini.google.com/)** di tab baru. \n3. Paste dan kirim ke Gemini untuk mendapatkan ide adegan.")
+            st.markdown("##### 📥 MEGA-PROMPT SIAP SALIN")
+            st.caption("Klik tombol copy di kanan atas kotak hitam, lalu paste ke Gemini Web.")
             st.code(mega_prompt_ide, language="text")
+            
+            # Link Langsung ke Gemini
+            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">🚀 BUKA GEMINI WEB SEKARANG</div></a>', unsafe_allow_html=True)
         else:
-            st.warning("⚠️ Masukkan Garis Besar Cerita untuk merakit Mega-Prompt.")
+            st.info("💡 Masukkan Garis Besar Cerita di atas untuk merakit Plot.")
 
     with tab_char:
-        st.markdown("#### 🧬 Perakit DNA Karakter")
-        st.caption("Ubah deskripsi fisik simpel menjadi deskripsi teknis untuk AI.")
+        st.markdown("#### 🧬 Brankas DNA Karakter")
+        st.caption("Gunakan untuk mengunci ciri fisik agar tokoh tidak berubah wajah (Glitch).")
         
-        c_nama = st.text_input("Nama Karakter:", placeholder="Contoh: Siti / Pak Budi")
-        c_fisik = st.text_area("Detail Fisik (Bahasa Indonesia):", 
-                               placeholder="Contoh: Wanita umur 25, wajah oval manis, rambut kuncir kuda, pakai kacamata bulat, jaket denim.")
+        col_c1, col_c2 = st.columns([1,1])
+        with col_c1:
+            c_nama = st.text_input("Nama Tokoh:", placeholder="Siti")
+            c_gender = st.selectbox("Gender:", ["Pria", "Wanita", "Anak-anak"])
+        with col_c2:
+            c_ras = st.selectbox("Etnis/Ras:", ["Indonesia/Melayu", "Asia Timur", "Kaukasia", "Timur Tengah"])
+            c_usia = st.slider("Estimasi Usia:", 5, 80, 25)
         
-        # Rakitan prompt untuk DNA Karakter
+        c_fisik_extra = st.text_area("Ciri Khas Fisik & Pakaian:", 
+                                     placeholder="Contoh: Kacamata tebal, tahi lalat di dagu, pakai hijab motif bunga, jaket kulit hitam.")
+        
+        # RAKITAN PROMPT DNA (SANGAT TEKNIS)
         mega_prompt_char = f"""
-Ubah deskripsi fisik karakter manusia berikut menjadi deskripsi teknis (Physical Character DNA) dalam bahasa Inggris yang sangat mendalam untuk AI Image Generator.
+### ROLE: CHARACTER DESIGNER DNA ###
+TUGAS: Terjemahkan deskripsi fisik menjadi TECHNICAL CHARACTER DESCRIPTION (Bahasa Inggris).
 
-KARAKTER: {c_nama}
-DETAIL FISIK: {c_fisik}
+DATA TOKOH:
+- Name: {c_nama}
+- Gender: {c_gender}
+- Race: {c_ras}
+- Age: {c_usia} years old
+- Details: {c_fisik_extra}
 
-ATURAN OUTPUT:
-1. Berikan detail teknis tentang: struktur wajah, bentuk mata, tekstur kulit (skin pores), dan jenis pakaian secara mendetail.
-2. Masukkan kata kunci kualitas (photorealistic, 8k, sharp focus, highly detailed).
-3. Jangan sebutkan emosi, hanya fokus pada FISIK PERMANEN.
-4. Output HANYA berupa satu paragraf panjang dalam bahasa Inggris yang kuat.
+SPECIFICATION RULES:
+1. Output HANYA bahasa Inggris.
+2. Deskripsi harus sangat detail mencakup: skin texture, facial structure, eye shape, and clothing material.
+3. Tambahkan keyword: "consistent facial features, high fidelity, 8k, sharp photography".
+4. DILARANG menyebutkan emosi atau aksi. Hanya data fisik diam.
+
+RAKITKAN DNA FISIKNYA SEKARANG:
         """.strip()
 
-        if c_nama and c_fisik:
-            st.markdown("##### 🧬 Copy DNA ini ke Gemini Web:")
+        if c_nama and c_fisik_extra:
+            st.divider()
+            st.markdown("##### 🧬 DNA PROMPT (TECHNICAL)")
             st.code(mega_prompt_char, language="text")
-            st.info("Setelah Gemini memberikan hasil bahasa Inggris, simpan teks tersebut di Ruang Produksi.")
+            st.caption("Gunakan hasil terjemahan dari Gemini untuk mengisi kolom Karakter di Ruang Produksi.")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1043,6 +1068,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
