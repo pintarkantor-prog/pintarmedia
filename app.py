@@ -1189,9 +1189,8 @@ elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
-    st.write(f"Informasi Tim Pintar Media - Login: **{user_aktif}**")
-
-    # 1. ATURAN AKSES (Tetap dijaga biar privat)
+    
+    # 1. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1201,7 +1200,7 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # 2. DATA PROFIL TIM
+        # 2. DATA PROFIL TIM (Murni Info)
         data_profil = {
             "ICHA": {"p": "Editor Utama", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE"},
             "NISSA": {"p": "Creative Editor", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE"},
@@ -1215,32 +1214,24 @@ elif menu_select == "📋 TUGAS KERJA":
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
                 
-                # --- TAMPILAN CARD MURNI (STAT INFO) ---
+                # --- TAMPILAN CARD MURNI (HANYA INFO) ---
                 st.markdown(f"""
                 <div style="
                     border: 2px solid #1d976c; 
                     border-radius: 20px; 
-                    padding: 30px; 
+                    padding: 35px; 
                     background-color: rgba(29, 151, 108, 0.05); 
-                    margin-top: 10px;
+                    margin-top: 15px;
                 ">
                     <div style="display: flex; align-items: center;">
-                        <img src="{staf['f']}" style="width: 110px; height: 110px; border-radius: 50%; border: 4px solid #1d976c; object-fit: cover;">
-                        <div style="margin-left: 30px;">
-                            <h1 style="margin: 0; color: white; font-size: 2.8rem; line-height: 1.1;">{nama_staf}</h1>
-                            <p style="margin: 10px 0; color: #808495; font-size: 1.2rem; font-weight: normal;">{staf['p']}</p>
-                            <div style="margin-top: 15px;">
-                                <span style="background: #1d976c; color: white; padding: 7px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px;">
-                                    🎬 ON PROGRESS
-                                </span>
-                            </div>
+                        <img src="{staf['f']}" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #1d976c; object-fit: cover;">
+                        <div style="margin-left: 35px;">
+                            <h1 style="margin: 0; color: white; font-size: 3rem; line-height: 1;">{nama_staf}</h1>
+                            <p style="margin: 10px 0 0 0; color: #808495; font-size: 1.3rem;">{staf['p']}</p>
                         </div>
                     </div>
                 </div>
                 """, unsafe_allow_html=True)
-                
-                st.write("") 
-                st.caption(f"Status harian {nama_staf.capitalize()} akan diperbarui oleh Admin secara berkala.")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1249,6 +1240,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
