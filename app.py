@@ -1189,10 +1189,8 @@ elif menu_select == "📋 TUGAS KERJA":
     import pandas as pd
     import time
     
-    # --- 1. IDENTIFIKASI USER ---
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
-    # --- 2. DATABASE INTERNAL (Wajib ada di dalam menu agar terpanggil) ---
     if 'db_laporan_tugas' not in st.session_state:
         template = {"Link Drive": [""]*5, "Status": ["Kosong"]*5}
         st.session_state.db_laporan_tugas = {
@@ -1203,9 +1201,7 @@ elif menu_select == "📋 TUGAS KERJA":
         }
 
     st.title("📋 TUGAS KERJA")
-    st.write(f"Login sebagai: **{user_aktif}**")
 
-    # --- 3. ATURAN AKSES ---
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1213,14 +1209,34 @@ elif menu_select == "📋 TUGAS KERJA":
     tab_list = access_rules.get(user_aktif, [])
 
     if not tab_list:
-        st.warning("⚠️ Akun Anda tidak memiliki akses ke menu ini.")
+        st.warning("⚠️ Akses ditolak.")
     else:
-        # DATA MASTER PROFIL
+        # --- FIX: DATA MASTER PROFIL (Semua sudah ada 'catatan') ---
         data_profil = {
-            "ICHA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Edit 5 Video Minecraft"},
-            "NISSA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Shorts Cinematic AI"},
-            "INGGI": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Optimasi SEO & Tag"},
-            "LISA": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Scheduling Video Long"}
+            "ICHA": {
+                "posisi": "Editor", 
+                "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", 
+                "tugas": "Edit 5 Video Minecraft Survival",
+                "catatan": "Sound effect lebih dramatis."
+            },
+            "NISSA": {
+                "posisi": "Editor", 
+                "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", 
+                "tugas": "Shorts Cinematic AI 10 Video",
+                "catatan": "Color grading rapi."
+            },
+            "INGGI": {
+                "posisi": "Uploader", 
+                "foto": "https://via.placeholder.com/150", 
+                "tugas": "Optimasi SEO & Tag",
+                "catatan": "Cek skor SEO minimal 80%."
+            },
+            "LISA": {
+                "posisi": "Uploader", 
+                "foto": "https://via.placeholder.com/150", 
+                "tugas": "Scheduling Video Long Form",
+                "catatan": "Thumbnail jangan sampai ada typo."
+            }
         }
 
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
@@ -1230,14 +1246,13 @@ elif menu_select == "📋 TUGAS KERJA":
                 staf = data_profil.get(nama_staf)
                 df_staf = st.session_state.db_laporan_tugas[nama_staf].copy()
                 
-                # --- 4. LOGIKA PROGRESS ---
+                # --- LOGIKA PROGRESS ---
                 links_filled = df_staf[df_staf["Link Drive"].str.strip() != ""]
                 total_setor = len(links_filled)
                 done_count = (df_staf['Status'] == 'Selesai').sum()
                 revisi_count = (df_staf['Status'] == 'Wajib Revisi').sum()
                 progress = (done_count / total_setor) if total_setor > 0 else 0
                 
-                # Warna Badge
                 if progress == 1.0 and total_setor > 0:
                     status_label, theme_color = "🔥 GACOR PARAH", "#FFD700"
                 elif revisi_count > 0:
@@ -1245,7 +1260,6 @@ elif menu_select == "📋 TUGAS KERJA":
                 else:
                     status_label, theme_color = "🎬 ON PROGRESS", "#1d976c"
 
-                # --- 5. TAMPILAN CARD ---
                 st.markdown(f"""
                     <div style="border: 2px solid {theme_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 20px;">
                         <div style="display: flex; align-items: center;">
@@ -1271,7 +1285,6 @@ elif menu_select == "📋 TUGAS KERJA":
                 with col_in:
                     st.info(f"📌 **TUGAS:** {staf['tugas']}")
                     
-                    # DATA EDITOR
                     is_admin = (user_aktif == "DIAN")
                     edited_df = st.data_editor(
                         df_staf,
@@ -1285,7 +1298,6 @@ elif menu_select == "📋 TUGAS KERJA":
                         key=f"editor_{nama_staf}"
                     )
 
-                    # Otomatisasi Status Staff
                     if not is_admin:
                         for idx, row in edited_df.iterrows():
                             if str(row["Link Drive"]).strip() != "" and row["Status"] == "Kosong":
@@ -1299,14 +1311,14 @@ elif menu_select == "📋 TUGAS KERJA":
                         time.sleep(0.5)
                         st.rerun()
                     
+                    # Error tadi di sini, sekarang sudah aman karena semua staf punya kunci 'catatan'
                     st.warning(f"✍️ **CATATAN:** {staf['catatan']}")
 
                 st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- 6. ADMIN CONTROL ---
     if user_aktif == "DIAN":
         with st.expander("🛠️ OWNER CONTROL"):
-            if st.button("Reset Database Tugas (Hapus Semua Link)"):
+            if st.button("Reset Database Tugas"):
                 st.session_state.db_laporan_tugas = {k: pd.DataFrame({"Link Drive": [""]*5, "Status": ["Kosong"]*5}) for k in ["ICHA", "NISSA", "INGGI", "LISA"]}
                 st.rerun()
 
@@ -1317,6 +1329,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
