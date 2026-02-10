@@ -952,8 +952,13 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                m = re.search(rf"{label}:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|$)", blok, re.S | re.I)
-                                return m.group(1).strip() if m else ""
+                                # Regex ini akan berhenti tepat SEBELUM label teknis berikutnya muncul
+                                # Menggunakan '---' dan '$' agar adegan terakhir tetap bersih
+                                m = re.search(rf"{label}:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$)", blok, re.S | re.I)
+                                if m:
+                                    # .strip() akan membuang spasi dan baris baru yang tidak perlu
+                                    return m.group(1).strip()
+                                return ""
 
                             # 1. Suntik Cerita Visual
                             st.session_state[f'vis_input_{i}'] = extract("Cerita")
@@ -984,5 +989,6 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
