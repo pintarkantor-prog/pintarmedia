@@ -1201,67 +1201,107 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # --- 2. DATABASE SIMULASI (Pastikan ada 5 baris awal) ---
+        # --- 2. DATABASE SESSION (Pastikan Data Gak Ilang) ---
         if 'db_laporan' not in st.session_state:
             template = [{"Link Drive": "", "Status": "Kosong"}] * 5
             st.session_state.db_laporan = {k: pd.DataFrame(template) for k in ["ICHA", "NISSA", "INGGI", "LISA"]}
+
+        # --- 3. DATABASE PROFIL (Balikin Foto & Posisi) ---
+        data_master = {
+            "ICHA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Edit 5 Video Minecraft Survival", "catatan": "Sound effect lebih dramatis."},
+            "NISSA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Shorts Cinematic AI 10 Video", "catatan": "Color grading rapi."},
+            "INGGI": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Optimasi SEO Channel", "catatan": "Skor 80%+"},
+            "LISA": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Scheduling Video", "catatan": "Cek thumbnail typo."}
+        }
 
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
         
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
+                staf = data_master.get(nama_staf)
                 df_staf = st.session_state.db_laporan[nama_staf]
                 
-                with st.container(border=True):
-                    st.markdown(f"### 📋 Laporan Kerja {nama_staf}")
-                    
-                    # Logika Otomatis: Jika ada Link tapi status masih Kosong -> Proses Review
-                    def auto_status(df):
-                        for index, row in df.iterrows():
-                            if str(row["Link Drive"]).strip() != "" and row["Status"] == "Kosong":
-                                df.at[index, "Status"] = "Proses Review"
-                            elif str(row["Link Drive"]).strip() == "":
-                                df.at[index, "Status"] = "Kosong"
-                        return df
+                # --- LOGIKA HITUNGAN (Done/Revisi/Progres) ---
+                total_tugas = len(df_staf[df_staf["Link Drive"] != ""])
+                done_count = (df_staf['Status'] == 'Selesai').sum()
+                revisi_count = (df_staf['Status'] == 'Wajib Revisi').sum()
+                progress = (done_count / total_tugas) if total_tugas > 0 else 0
+                
+                # Badge Status Dinamis
+                if progress == 1.0 and total_tugas > 0:
+                    status_badge, b_color = "🔥 GACOR PARAH", "#FFD700"
+                elif revisi_count > 0:
+                    status_badge, b_color = "⚠️ ADA REVISI", "#FF4B4B"
+                else:
+                    status_badge, b_color = "🎬 ON PROGRESS", "#1d976c"
 
-                    # --- KONFIGURASI KOLOM ---
-                    # Jika Admin (DIAN), kolom Status bisa diedit. Jika Staff, Status di-lock (disabled).
-                    is_disabled_status = False if user_aktif == "DIAN" else True
+                # --- TAMPILAN CARD KEREN ---
+                st.markdown(f"""
+                    <div style="border: 2px solid {b_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 20px;">
+                        <div style="display: flex; align-items: center;">
+                            <img src="{staf['foto']}" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid {b_color}; object-fit: cover;">
+                            <div style="margin-left: 20px;">
+                                <h2 style="margin: 0;">{nama_staf}</h2>
+                                <span style="background: {b_color}; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold;">{status_badge}</span>
+                            </div>
+                        </div>
+                """, unsafe_allow_html=True)
+
+                col_metrics, col_table = st.columns([1, 2.5])
+                
+                with col_metrics:
+                    st.write("")
+                    st.write("**Progres Review:**")
+                    st.progress(progress)
+                    st.caption(f"{int(progress*100)}% Verified")
+                    st.divider()
+                    m1, m2 = st.columns(2)
+                    m1.metric("DONE", done_count)
+                    m2.metric("REVISI", revisi_count, delta_color="inverse")
+                    
+                    if user_aktif == "DIAN":
+                        st.button(f"SENGGOL {nama_staf} 🔔", key=f"ping_{nama_staf}", use_container_width=True)
+
+                with col_table:
+                    st.info(f"📌 **TUGAS:** {staf['tugas']}")
+                    
+                    # --- DATA EDITOR (SISTEM OTOMATIS & TERKUNCI) ---
+                    is_disabled = (user_aktif != "DIAN")
                     
                     edited_df = st.data_editor(
                         df_staf,
                         column_config={
-                            "Link Drive": st.column_config.LinkColumn(
-                                "Tempel Link Google Drive Disini", 
-                                placeholder="https://drive.google.com/...",
-                                width="large"
-                            ),
-                            "Status": st.column_config.SelectboxColumn(
-                                "Status Review (Admin Only)",
-                                options=["Kosong", "Proses Review", "Wajib Revisi", "Selesai"],
-                                disabled=is_disabled_status # KUNCI BUAT STAFF
-                            )
+                            "Link Drive": st.column_config.LinkColumn("Link Laporan", width="large", placeholder="Paste link drive..."),
+                            "Status": st.column_config.SelectboxColumn("Status Review", options=["Kosong", "Proses Review", "Wajib Revisi", "Selesai"], disabled=is_disabled)
                         },
-                        num_rows="dynamic", # STAFF BISA NAMBAH BARIS SENDIRI
+                        num_rows="dynamic",
                         hide_index=True,
                         use_container_width=True,
                         key=f"editor_{nama_staf}"
                     )
 
-                    # Update otomatis status jika link diisi (khusus staf)
+                    # Logika Otomatisasi Status (Khusus Staff)
                     if user_aktif != "DIAN":
-                        edited_df = auto_status(edited_df)
+                        for idx, row in edited_df.iterrows():
+                            if str(row["Link Drive"]).strip() != "" and row["Status"] == "Kosong":
+                                edited_df.at[idx, "Status"] = "Proses Review"
+                            elif str(row["Link Drive"]).strip() == "":
+                                edited_df.at[idx, "Status"] = "Kosong"
 
-                    # Tombol Simpan
-                    if st.button(f"Simpan Laporan {nama_staf} ✅", key=f"save_{nama_staf}"):
+                    if st.button(f"Simpan Laporan {nama_staf} ✅", key=f"btn_{nama_staf}", use_container_width=True):
                         st.session_state.db_laporan[nama_staf] = edited_df
-                        st.success("Laporan berhasil tersimpan!")
+                        st.success("Berhasil diupdate!")
                         st.rerun()
+                    
+                    st.warning(f"✍️ **CATATAN DIAN:** {staf['catatan']}")
 
-    # --- 3. PANEL OWNER (UPDATE TUGAS) ---
+                st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- 4. ADMIN CONTROL PANEL ---
     if user_aktif == "DIAN":
         with st.expander("🛠️ ADMIN CONTROL PANEL"):
-            st.write("Atur instruksi tugas utama tim di sini.")
+            st.selectbox("Pilih Staf", list(data_master.keys()))
+            st.button("Update Instruksi ✅")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1270,6 +1310,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
