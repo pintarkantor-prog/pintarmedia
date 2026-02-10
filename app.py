@@ -1106,21 +1106,27 @@ elif menu_select == "⚡ QUICK PROMPT":
             }
             st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
 
-    # --- 3. AREA HASIL (VERSI JUJUR & STABIL) ---
+# --- 3. AREA HASIL (ACTION DI KIRI) ---
     if 'q_result' in st.session_state:
         st.write("")
         st.markdown("#### ✅ HASIL RACIKAN")
         
-        # Tampilkan hasil di dalam box kode yang bisa langsung di-copy di pojok kanan
-        st.code(st.session_state.q_result, language="text")
-        st.caption("☝️ Klik ikon kotak di pojok kanan atas box hitam untuk menyalin")
+        # Kita buat dua kolom: Kiri untuk instruksi, Kanan untuk Box Kode
+        col_action, col_box = st.columns([1, 4])
         
-        # Cukup satu tombol RESET di bawahnya
-        c_reset, _ = st.columns([1, 4])
-        with c_reset:
+        with col_action:
+            st.write("") # Penyeimbang jarak
+            st.markdown("<p style='color: #1d976c; font-weight: bold; font-size: 0.8rem;'>📋 SALIN DI SINI</p>", unsafe_allow_html=True)
+            st.markdown("👉") # Panah penunjuk ke arah box kode
+            
             if st.button("🗑️ RESET", use_container_width=True):
                 del st.session_state.q_result
                 st.rerun()
+        
+        with col_box:
+            # Box ini sudah punya tombol copy otomatis di pojok kanan dalamnya
+            st.code(st.session_state.q_result, language="text")
+            st.caption("Klik ikon kotak di pojok kanan box hitam untuk menyalin ke clipboard.")
 
     st.markdown("""
         <style>
@@ -1144,6 +1150,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
