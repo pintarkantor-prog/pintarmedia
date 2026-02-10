@@ -1106,28 +1106,17 @@ elif menu_select == "⚡ QUICK PROMPT":
             }
             st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
 
-    # --- 3. AREA HASIL (SOLUSI PINTU BELAKANG) ---
+    # --- 3. AREA HASIL (VERSI JUJUR & STABIL) ---
     if 'q_result' in st.session_state:
         st.write("")
         st.markdown("#### ✅ HASIL RACIKAN")
+        
+        # Tampilkan hasil di dalam box kode yang bisa langsung di-copy di pojok kanan
         st.code(st.session_state.q_result, language="text")
+        st.caption("☝️ Klik ikon kotak di pojok kanan atas box hitam untuk menyalin")
         
-        # Kolom tombol: COPY > RESET
-        c_copy, c_reset, _ = st.columns([1, 1, 3])
-        
-        with c_copy:
-            if st.button("📋 COPY", use_container_width=True):
-                # Komponen HTML tersembunyi untuk eksekusi Copy
-                st.components.v1.html(f"""
-                    <textarea id="p_copy" style="opacity:0;position:absolute;">{st.session_state.q_result}</textarea>
-                    <script>
-                        var textArea = document.getElementById("p_copy");
-                        textArea.select();
-                        document.execCommand("copy");
-                    </script>
-                """, height=0)
-                st.toast("Prompt berhasil disalin!", icon="✅")
-        
+        # Cukup satu tombol RESET di bawahnya
+        c_reset, _ = st.columns([1, 4])
         with c_reset:
             if st.button("🗑️ RESET", use_container_width=True):
                 del st.session_state.q_result
@@ -1155,6 +1144,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
