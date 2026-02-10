@@ -1065,79 +1065,80 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
                 
 elif menu_select == "🎞️ SCHEDULE":
-    st.title("🎞️ SCHEDULE")
+    st.markdown("### 🎞️ SCHEDULE")
     
-    # Sub-Menu yang lebih rapat
-    tab_target = st.segmented_control(
-        "Pilih Jadwal:", ["JADWAL LISA", "JADWAL INGGI"], 
-        default="JADWAL LISA", label_visibility="collapsed"
-    )
+    # Navigasi & Refresh dalam satu baris untuk hemat ruang
+    c_nav, c_ref = st.columns([4, 1])
+    with c_nav:
+        tab_target = st.segmented_control(
+            "Jadwal:", ["JADWAL LISA", "JADWAL INGGI"], 
+            default="JADWAL LISA", label_visibility="collapsed"
+        )
+    with c_ref:
+        if st.button("🔄 Sync", use_container_width=True): st.rerun()
 
     df_jadwal = read_gsheet(tab_target)
 
     if not df_jadwal.empty:
         df_clean = df_jadwal.fillna("")
 
-        # Metrics dibuat mini agar tidak makan tempat
-        m1, m2, m3 = st.columns([1,1,1])
-        with m1: st.caption(f"📊 {len(df_clean['NAMA CHANNEL'].dropna())} Channels")
-        with m2: st.caption("🟢 System Live")
-        with m3: 
-            if st.container().button("🔄 Refresh", use_container_width=True): st.rerun()
-
-        # --- CSS COMPACT & SLEEK ---
+        # --- CSS ULTRA COMPACT ---
         st.markdown("""
             <style>
-            .premium-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 0.85rem; }
-            .premium-table th { 
+            .ultra-compact-table { 
+                width: 100%; 
+                border-collapse: collapse; 
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+                font-size: 0.75rem; /* Font lebih kecil */
+                line-height: 1;
+            }
+            .ultra-compact-table th { 
                 background-color: #1a1c23; 
                 color: #1d976c; 
                 text-align: center; 
-                padding: 8px; 
-                border-bottom: 2px solid #2d3139;
-                font-weight: 600;
-                font-size: 0.75rem;
+                padding: 4px; 
+                border: 1px solid #2d3139;
+                font-weight: bold;
+                font-size: 0.7rem;
             }
-            .premium-table td { 
-                padding: 6px 10px; 
+            .ultra-compact-table td { 
+                padding: 2px 5px; /* Padding sangat tipis */
                 text-align: center; 
-                border-bottom: 1px solid #2d3139;
-                color: #e0e0e0;
+                border: 1px solid #2d3139;
+                color: #cfcfcf;
             }
-            .premium-table tr:hover { background-color: #252932; }
+            .ultra-compact-table tr:hover { background-color: #252932; }
             
             .unit-box { 
-                background-color: #1d976c; 
-                color: white; 
-                font-weight: bold; 
-                border-radius: 4px; 
-                padding: 2px 8px;
-                font-size: 0.8rem;
+                color: #1d976c; 
+                font-weight: 800; 
+                font-size: 0.85rem;
             }
             .channel-name { 
                 text-align: left !important; 
-                font-weight: 500; 
                 color: #1d976c;
-                padding-left: 10px !important;
-                width: 25%;
+                font-weight: 600;
+                width: 30%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .time-slot { 
-                background-color: rgba(29, 151, 108, 0.15); 
-                color: #1d976c; 
+                background-color: rgba(29, 151, 108, 0.2); 
+                color: #ffffff; 
                 font-weight: bold; 
-                border-radius: 4px; 
-                padding: 2px 6px;
-                border: 1px solid rgba(29, 151, 108, 0.4);
+                border-radius: 2px; 
+                padding: 1px 4px;
+                font-size: 0.75rem;
                 display: inline-block;
-                min-width: 45px;
             }
-            .empty-slot { color: #333; font-size: 0.7rem; }
+            .empty-slot { color: #333; }
             </style>
         """, unsafe_allow_html=True)
 
         # --- RENDER TABEL ---
-        html_code = '<table class="premium-table"><thead><tr>'
-        for h in ["UNIT", "CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]:
+        html_code = '<table class="ultra-compact-table"><thead><tr>'
+        for h in ["ID", "CHANNEL", "PAGI", "S1", "S2", "SORE"]:
             html_code += f'<th>{h}</th>'
         html_code += '</tr></thead><tbody>'
 
@@ -1150,8 +1151,7 @@ elif menu_select == "🎞️ SCHEDULE":
                 for j in range(i + 1, len(rows)):
                     if rows[j]['HP'] == "": count += 1
                     else: break
-                # Unit box lebih kecil
-                html_code += f'<td rowspan="{count}"><span class="unit-box">{int(float(row["HP"]))}</span></td>'
+                html_code += f'<td rowspan="{count}" class="unit-box">{int(float(row["HP"]))}</td>'
             
             html_code += f'<td class="channel-name">{row["NAMA CHANNEL"]}</td>'
             
@@ -1160,7 +1160,7 @@ elif menu_select == "🎞️ SCHEDULE":
                 if val and val != "-":
                     html_code += f'<td><span class="time-slot">{val}</span></td>'
                 else:
-                    html_code += '<td><span class="empty-slot">-</span></td>'
+                    html_code += '<td><span class="empty-slot">·</span></td>'
             
             html_code += '</tr>'
 
@@ -1168,7 +1168,7 @@ elif menu_select == "🎞️ SCHEDULE":
         st.markdown(html_code, unsafe_allow_html=True)
 
     else:
-        st.warning("Data kosong.")
+        st.warning("Data tidak ditemukan.")
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1198,6 +1198,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
