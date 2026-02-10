@@ -1071,67 +1071,108 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
 
 elif menu_select == "⚡ QUICK PROMPT":
-    st.markdown("<h2 style='color: #1d976c;'>⚡ QUICK PROMPT</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #808495; margin-top:-15px;'>Rakit instruksi visual profesional dalam satu layar.</p>", unsafe_allow_html=True)
+    # --- CSS UNTUK TAMPILAN SESUAI GAMBAR ---
+    st.markdown("""
+        <style>
+        .quick-title { color: white; font-size: 2rem; font-weight: 700; margin-bottom: 0px; }
+        .quick-subtitle { color: #808495; font-size: 1rem; margin-top: -10px; margin-bottom: 25px; }
+        
+        /* Container Utama */
+        [data-testid="stVerticalBlockBorderWrapper"] {
+            border: 1px solid #2d3139 !important;
+            border-radius: 10px !important;
+            background-color: #0e1117 !important;
+        }
+        
+        /* Label Hijau Kecil */
+        .custom-label {
+            color: #1d976c; font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; margin-bottom: 10px;
+        }
+        
+        /* Tombol Rakit Hijau Lebar */
+        div.stButton > button[kind="primary"] {
+            background-color: #1d976c !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 8px !important;
+            padding: 0.6rem 2rem !important;
+            font-weight: 600 !important;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
+    # --- HEADER ---
+    st.markdown('<p class="quick-title">⚡ QUICK PROMPT</p>', unsafe_allow_html=True)
+    st.markdown('<p class="quick-subtitle">Rakit instruksi visual profesional dalam satu layar.</p>', unsafe_allow_html=True)
+
+    # --- MAIN INTERFACE (Sesuai Gambar Untitled.png) ---
     with st.container(border=True):
-        col_ide, col_style = st.columns([3, 2])
+        col_kiri, col_kanan = st.columns([1.5, 1], gap="large")
         
-        with col_ide:
-            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>1. KEJADIAN / ALUR CERITA</p>", unsafe_allow_html=True)
-            # Contoh input: "main character running inside a dark cave while lava flows behind him"
-            isi_cerita = st.text_area("ide", placeholder="Contoh: main character running inside a dark cave while lava flows behind him...", height=155, label_visibility="collapsed")
-        
-        with col_style:
-            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>2. SETTING VISUAL</p>", unsafe_allow_html=True)
-            # Menambahkan opsi Minecraft sesuai contohmu
-            vibe_v = st.selectbox("Style / World", [
+        with col_kiri:
+            st.markdown('<p class="custom-label">1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
+            isi_cerita = st.text_area(
+                "input_alur",
+                placeholder="Contoh: main character running inside a dark cave while lava flows behind him...",
+                height=180,
+                label_visibility="collapsed"
+            )
+            st.write("") # Spacer
+            rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
+            
+        with col_kanan:
+            st.markdown('<p class="custom-label">2. SETTING VISUAL</p>', unsafe_allow_html=True)
+            
+            st.caption("Style / World")
+            vibe_v = st.selectbox("s1", [
                 "Cinematic Movie", 
                 "Ultra Realistic Minecraft", 
                 "Hyper-Realistic RAW",
                 "CCTV / Found Footage", 
-                "Retro Vintage 90s"
-            ])
-            mood_v = st.selectbox("Lighting & FX", [
-                "Dramatic Shadows & Glowing Eyes", 
-                "Golden Hour", 
-                "Neon Night", 
-                "Lava Light Reflections",
-                "Bright Natural"
-            ])
-            cam_v = st.selectbox("Shot Type", [
-                "Cinematic Tracking Shot", 
-                "Extreme Close-Up", 
-                "Slow-Motion Moment", 
-                "Bird Eye View"
-            ])
+                "Commercial Clean"
+            ], label_visibility="collapsed")
             
             st.write("")
-            rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
+            st.caption("Lighting & FX")
+            mood_v = st.selectbox("s2", [
+                "Dramatic Shadows & Glowing Eyes", 
+                "Lava Light Reflections",
+                "Golden Hour", 
+                "Moody Dark", 
+                "Bright Studio"
+            ], label_visibility="collapsed")
+            
+            st.write("")
+            st.caption("Shot Type")
+            cam_v = st.selectbox("s3", [
+                "Cinematic Tracking Shot", 
+                "Extreme Close-Up", 
+                "Medium Shot", 
+                "Handheld Shaky Cam",
+                "Bird Eye View"
+            ], label_visibility="collapsed")
 
+    # --- LOGIKA RAKIT & HASIL (Sesuai Gambar image_121cf2.png) ---
     if rakit_btn:
         if not isi_cerita:
-            st.warning("Isi dulu kejadian ceritanya!")
+            st.warning("Isi dulu ceritanya, Dian!")
         else:
-            # KAMUS BUMBU DISESUAIKAN DENGAN CONTOH KAMU
             styles = {
-                "Cinematic Movie": "Cinematic video, high-end film aesthetic,",
+                "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
                 "Ultra Realistic Minecraft": "Ultra realistic Minecraft cinematic video,",
-                "Hyper-Realistic RAW": "Hyper-realistic RAW photo aesthetic,",
+                "Hyper-Realistic RAW": "Hyper-realistic RAW photo, f/1.8, high fidelity,",
                 "CCTV / Found Footage": "CCTV grainy security footage,",
-                "Retro Vintage 90s": "90s VHS vintage cinematic video,"
+                "Commercial Clean": "High-end commercial clean photography,"
             }
-            
             fx = {
                 "Dramatic Shadows & Glowing Eyes": "glowing white eyes, dramatic shadows, dust particles in the air,",
-                "Golden Hour": "warm sunset lighting, long shadows, dust particles,",
-                "Neon Night": "vibrant neon reflections, foggy night atmosphere,",
-                "Lava Light Reflections": "lava light reflections, intense heat distortion, glowing embers,",
-                "Bright Natural": "clear daylight, natural colors, sharp details,"
+                "Lava Light Reflections": "lava light reflections, intense heat distortion,",
+                "Golden Hour": "warm cinematic golden hour lighting,",
+                "Moody Dark": "dark moody atmosphere, low-key lighting,",
+                "Bright Studio": "bright studio lighting, vibrant colors,"
             }
-
-            # HASIL GABUNGAN (Mengikuti pola contoh yang kamu kasih)
-            # Format: Style + Cerita + FX + Camera + Kualitas
+            
             st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {cam_v}, 4K, same character description."
 
     if 'hasil_rakit' in st.session_state:
@@ -1139,10 +1180,10 @@ elif menu_select == "⚡ QUICK PROMPT":
         st.markdown("#### ✅ HASIL RACIKAN")
         st.code(st.session_state.hasil_rakit, language="text")
         
-        c1, c2, _ = st.columns([1, 1, 3])
-        with c1: st.caption("Copy via ikon di kanan")
-        with c2:
-            if st.button("🗑️ RESET"):
+        # Tombol Reset di bawah sesuai gambar
+        c_reset, _ = st.columns([1, 4])
+        with c_reset:
+            if st.button("🗑️ Reset / Hapus", use_container_width=True):
                 del st.session_state.hasil_rakit
                 st.rerun()
                 
@@ -1155,6 +1196,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
