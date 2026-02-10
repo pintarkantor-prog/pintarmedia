@@ -1188,119 +1188,117 @@ elif menu_select == "⚡ QUICK PROMPT":
 elif menu_select == "📋 TUGAS KERJA":
     import pandas as pd
     
-    # 1. IDENTIFIKASI USER (Sinkron dengan Login)
+    # 1. IDENTIFIKASI USER
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
-    st.write(f"Selamat bekerja, **{user_aktif}**! 👋")
+    
+    # --- FITUR SENGGOL LIVE (BANNER NOTIFIKASI) ---
+    # Jika tombol senggol ditekan, muncul pesan khusus di layar staf
+    if f"notif_{user_aktif}" in st.session_state:
+        st.error(f"⚠️ **PESAN DARI OWNER:** {st.session_state[f'notif_{user_aktif}']}")
+        if st.button("Saya Mengerti, Lanjut Kerja! ✅"):
+            del st.session_state[f"notif_{user_aktif}"]
+            st.rerun()
 
-    # 2. KONFIGURASI AKSES PRIVASI (Ezaalma Dihapus)
+    # 2. KONFIGURASI AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
-        "ICHA": ["ICHA"],
-        "NISSA": ["NISSA"],
-        "INGGI": ["INGGI"],
-        "LISA": ["LISA"]
+        "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
     }
-    
     tab_list = access_rules.get(user_aktif, [])
 
-    # 3. DATABASE TUGAS & LAPORAN (4 Tim Utama)
+    # 3. DATABASE MASTER (Simulasi)
     data_master = {
-        "ICHA": {
-            "posisi": "Editor & Uploader",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas": "Edit 5 Video Minecraft Survival & Upload sesuai jadwal.",
-            "catatan": "Sound effect di menit ke-3 tolong lebih dramatis.",
-            "laporan": []
-        },
-        "NISSA": {
-            "posisi": "Editor & Uploader",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas": "Shorts Cinematic AI 10 Video & Manajemen Channel.",
-            "catatan": "Color grading ikuti referensi kemarin ya Nis.",
-            "laporan": []
-        },
-        "INGGI": {
-            "posisi": "Uploader & SEO",
-            "foto": "https://via.placeholder.com/150", 
-            "tugas": "Optimasi SEO & Penjadwalan 3 Channel Utama.",
-            "catatan": "Target skor SEO 80% ke atas.",
-            "laporan": []
-        },
-        "LISA": {
-            "posisi": "Uploader & SEO",
-            "foto": "https://via.placeholder.com/150",
-            "tugas": "Management Channel & Balas Komentar.",
-            "catatan": "Cek thumbnail, pastikan tidak ada typo.",
-            "laporan": []
-        }
+        "ICHA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Edit 5 Video Minecraft Survival", "catatan": "Sound effect lebih dramatis.", "laporan": [{"Link Drive": "https://drive.google.com/test", "Status": "Done"}]},
+        "NISSA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Shorts Cinematic AI 10 Video", "catatan": "Color grading rapi.", "laporan": [{"Link Drive": "", "Status": "Revisi"}]},
+        "INGGI": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Optimasi SEO Channel", "catatan": "Skor 80%+", "laporan": []},
+        "LISA": {"posisi": "Uploader", "foto": "https://via.placeholder.com/150", "tugas": "Scheduling Video", "catatan": "Cek thumbnail typo.", "laporan": []}
     }
 
-    # 4. RENDERING TABS
+    # 4. RENDERING TABS DENGAN PROGRESS BAR
     if not tab_list:
-        st.warning("⚠️ Akun kamu tidak memiliki akses ke halaman ini.")
+        st.warning("⚠️ Akses ditolak.")
     else:
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
-        
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_master.get(nama_staf)
-                # Template tabel laporan
                 df_laporan = pd.DataFrame(staf['laporan']) if staf['laporan'] else pd.DataFrame(columns=["Link Drive", "Status"])
                 
-                # Metrics
-                count_done = (df_laporan['Status'] == 'Done').sum()
-                count_revisi = (df_laporan['Status'] == 'Revisi').sum()
+                # --- LOGIKA PROGRESS ---
+                total_tugas = len(df_laporan)
+                done_count = (df_laporan['Status'] == 'Done').sum()
+                revisi_count = (df_laporan['Status'] == 'Revisi').sum()
+                progress = (done_count / total_tugas) if total_tugas > 0 else 0
+                
+                # Badge Status
+                if progress == 1.0 and total_tugas > 0:
+                    status_badge = "🔥 GACOR PARAH"
+                    border_color = "#FFD700" # Emas
+                elif revisi_count > 0:
+                    status_badge = "⚠️ ADA REVISI"
+                    border_color = "#FF4B4B" # Merah
+                else:
+                    status_badge = "🎬 ON PROGRESS"
+                    border_color = "#1d976c" # Emerald
 
-                with st.container(border=True):
-                    col_id, col_main = st.columns([1, 3])
-                    
-                    with col_id:
-                        st.markdown(f"""
-                            <div style="text-align: center; padding: 10px;">
-                                <img src="{staf['foto']}" style="width: 100px; height: 100px; border-radius: 15px; object-fit: cover; border: 2px solid #1d976c;">
-                                <h4 style="margin-top: 10px; margin-bottom: 0px;">{nama_staf}</h4>
-                                <p style="color: #808495; font-size: 0.8rem;">{staf['posisi']}</p>
+                # --- CONTAINER CARD ---
+                st.markdown(f"""
+                    <div style="border: 2px solid {border_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05);">
+                        <div style="display: flex; align-items: center;">
+                            <img src="{staf['foto']}" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid {border_color}; object-fit: cover;">
+                            <div style="margin-left: 20px;">
+                                <h2 style="margin: 0;">{nama_staf}</h2>
+                                <span style="background: {border_color}; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold;">{status_badge}</span>
                             </div>
-                        """, unsafe_allow_html=True)
-                        st.divider()
-                        m1, m2 = st.columns(2)
-                        m1.metric("Done", count_done)
-                        m2.metric("Revisi", count_revisi)
-                        st.button(f"Senggol {nama_staf} 🔔", key=f"ping_{nama_staf}", use_container_width=True)
+                        </div>
+                """, unsafe_allow_html=True)
 
-                    with col_main:
-                        st.markdown('<p class="small-label" style="color:#1d976c;">📝 TUGAS UTAMA (DARI DIAN)</p>', unsafe_allow_html=True)
-                        st.info(staf['tugas'])
-                        
-                        st.markdown('<p class="small-label">🔗 LAPORAN HASIL (INPUT BY STAFF)</p>', unsafe_allow_html=True)
-                        st.data_editor(
-                            df_laporan,
-                            column_config={
-                                "Link Drive": st.column_config.LinkColumn("Link Google Drive", width="large"),
-                                "Status": st.column_config.SelectboxColumn("Status", options=["Proses", "Revisi", "Done"], required=True)
-                            },
-                            num_rows="dynamic",
-                            key=f"editor_{nama_staf}",
-                            use_container_width=True,
-                            hide_index=True
-                        )
-                        st.write("")
-                        st.markdown('<p class="small-label">✍️ CATATAN OWNER</p>', unsafe_allow_html=True)
-                        st.warning(staf['catatan'])
+                col_metrics, col_table = st.columns([1, 2.5])
+                
+                with col_metrics:
+                    st.write("")
+                    st.write("**Progres Kerja:**")
+                    st.progress(progress)
+                    st.caption(f"{int(progress*100)}% Selesai")
+                    
+                    st.divider()
+                    m1, m2 = st.columns(2)
+                    m1.metric("DONE", done_count)
+                    m2.metric("REVISI", revisi_count, delta_color="inverse")
+                    
+                    # Tombol Senggol hanya untuk Owner
+                    if user_aktif == "DIAN":
+                        if st.button(f"SENGGOL {nama_staf} 🔔", key=f"senggol_{nama_staf}", use_container_width=True):
+                            st.session_state[f"notif_{nama_staf}"] = f"Woy {nama_staf}! Bos Dian lagi mantau nih, cepetin kerjanya!"
+                            st.toast(f"Notif dikirim ke {nama_staf}!")
 
-    # 5. ADMIN CONTROL PANEL (Hanya untuk DIAN)
+                with col_table:
+                    st.info(f"📌 **TUGAS:** {staf['tugas']}")
+                    # Editor Tabel
+                    st.data_editor(
+                        df_laporan, 
+                        column_config={
+                            "Link Drive": st.column_config.LinkColumn("Link Laporan", width="large"), 
+                            "Status": st.column_config.SelectboxColumn("Status", options=["Proses", "Revisi", "Done"])
+                        }, 
+                        num_rows="dynamic", 
+                        key=f"ed_{nama_staf}", 
+                        use_container_width=True, 
+                        hide_index=True
+                    )
+                    st.warning(f"✍️ **CATATAN DIAN:** {staf['catatan']}")
+
+                st.markdown("</div>", unsafe_allow_html=True)
+
+    # 5. ADMIN CONTROL PANEL (Owner Only)
     if user_aktif == "DIAN":
         st.write("")
-        st.divider()
-        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)"):
-            st.markdown("<p style='color:#1d976c; font-weight:bold;'>Update Tugas & Catatan Tim:</p>", unsafe_allow_html=True)
+        with st.expander("🛠️ ADMIN CONTROL PANEL"):
             target = st.selectbox("Pilih Staf", list(data_master.keys()))
-            st.text_area(f"Update Tugas untuk {target}")
-            st.text_input(f"Update Catatan untuk {target}")
-            if st.button("Simpan & Update ✅", use_container_width=True, type="primary"):
-                st.success(f"Data {target} berhasil diperbarui!")
+            st.text_area("Update Tugas Utama")
+            st.button("Update Sistem ✅", use_container_width=True, type="primary")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1309,6 +1307,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
