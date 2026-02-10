@@ -994,7 +994,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
     
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
-        ["📋 MANUAL PROMPT", "⚡ OTOMATIS (PINTAR AI)"],
+        ["📋 MANUAL PROMPT", "⚡ AI PINTAR"],
         default="📋 MANUAL PROMPT",
         label_visibility="collapsed"
     )
@@ -1229,6 +1229,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
