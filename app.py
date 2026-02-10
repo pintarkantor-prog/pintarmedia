@@ -1172,22 +1172,64 @@ elif menu_select == "🎞️ SCHEDULE":
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Komando Produksi</p>", unsafe_allow_html=True)
-    st.divider()
+    st.markdown("<p style='color:#808495; margin-top:-15px;'>Pusat Kendali & Checklist Progres Tim</p>", unsafe_allow_html=True)
 
-    # Contoh Tampilan Manual (Bukan GSheets)
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("### 🎯 Tugas Hari Ini")
-        st.info("**Lisa:** Riset 5 lagu viral TikTok")
-        st.success("**Inggi:** Update jadwal Unit 4")
-        st.error("**Urgent:** Perbaiki typo judul di Video Unit 1")
+    # 1. KONEKSI KE GSHEETS
+    conn = st.connection("gsheets", type=GSheetsConnection)
+    df_task = conn.read(worksheet="TeamTask", ttl=0)
+
+    if not df_task.empty:
+        st.markdown("---")
         
-    with col2:
-        st.markdown("### 📢 Pengumuman")
-        st.warning("Rapat evaluasi jam 4 sore di Ruang Produksi.")
-        st.help("Jangan lupa backup naskah dari AI Lab ke Ruang Produksi!")
+        # --- CSS KHUSUS CHECKLIST (AMAN & TIDAK BOCOR) ---
+        st.markdown("""
+            <style>
+            .stCheckbox {
+                background-color: #1a1c23;
+                padding: 10px 15px;
+                border-radius: 8px;
+                border-left: 4px solid #1d976c;
+                margin-bottom: 5px;
+            }
+            .stCheckbox:hover { background-color: #252932; }
+            </style>
+        """, unsafe_allow_html=True)
+
+        # 2. LOOPING TUGAS SEBAGAI CHECKLIST
+        for index, row in df_task.iterrows():
+            # Jika status di GSheets adalah TRUE, maka checkbox otomatis tercentang
+            is_done = st.checkbox(
+                f"**{row['PIC']}**: {row['Tugas']} (Deadline: {row['Deadline']})", 
+                value=(row['Status'] == True),
+                key=f"task_{index}"
+            )
+            
+            # 3. LOGIKA UPDATE (Jika diklik)
+            if is_done != row['Status']:
+                df_task.at[index, 'Status'] = is_done
+                # Perintah update kembali ke Google Sheets
+                conn.update(worksheet="TeamTask", data=df_task)
+                st.toast(f"Progres {row['PIC']} diperbarui!", icon="✅")
+                st.rerun()
+
+    else:
+        st.info("Belum ada tugas hari ini. Tambahkan di Google Sheets!")
+
+    # 4. FITUR TAMBAH CEPAT (KHUSUS ADMIN)
+    if st.session_state.get('active_user') == "admin":
+        with st.expander("➕ Tambah Tugas Baru"):
+            with st.form("task_form"):
+                new_pic = st.text_input("Nama PIC")
+                new_task = st.text_area("Deskripsi Tugas")
+                new_dead = st.text_input("Deadline (Contoh: 14:00)")
+                if st.form_submit_button("Kirim ke Tim"):
+                    # Logika menambah baris baru ke dataframe dan upload
+                    new_data = pd.DataFrame([{"PIC": new_pic, "Tugas": new_task, "Deadline": new_dead, "Status": False}])
+                    updated_df = pd.concat([df_task, new_data], ignore_index=True)
+                    conn.update(worksheet="TeamTask", data=updated_df)
+                    st.success("Tugas berhasil ditambahkan!")
+                    st.rerun()
+        
 elif menu_select == "📈 TREND ANALYZER":
     st.title("📈 TREND ANALYZER")
     st.info("Analisis tren konten terkini.")
@@ -1212,6 +1254,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
