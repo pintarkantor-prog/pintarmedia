@@ -1074,8 +1074,9 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
     st.markdown("Rakit instruksi visual profesional dalam satu layar.")
 
-    # --- MAIN INTERFACE (DENGAN KOLOM LOKASI) ---
+    # --- MAIN INTERFACE ---
     with st.container(border=True):
+        # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
@@ -1083,7 +1084,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running while lava flows behind him...",
-                height=250, # Tinggi disesuaikan dengan kolom kanan
+                height=265, # Disesuaikan agar sejajar dengan kolom kanan
                 label_visibility="collapsed"
             )
             st.write("") 
@@ -1092,7 +1093,7 @@ elif menu_select == "⚡ QUICK PROMPT":
         with col_main_right:
             st.write("⚙️ **2. SETTING VISUAL**")
             
-            # Baris 1: Style & Lokasi
+            # Baris 1: Style & Lighting
             c1, c2 = st.columns(2)
             with c1:
                 st.caption("🌍 Style / World")
@@ -1101,30 +1102,34 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
                 ], label_visibility="collapsed")
             with c2:
-                st.caption("📍 Lokasi (Manual)")
-                lokasi_v = st.text_input("loc", placeholder="Misal: dark cave", label_visibility="collapsed")
-            
-            # Baris 2: Lighting & Motion
-            c3, c4 = st.columns(2)
-            with c3:
                 st.caption("💡 Lighting & FX")
                 mood_v = st.selectbox("s2", [
                     "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
                     "Golden Hour", "Moody Dark", "Bright Studio"
                 ], label_visibility="collapsed")
-            with c4:
+
+            st.write("")
+            
+            # Baris 2: Motion & Shot Type
+            c3, c4 = st.columns(2)
+            with c3:
                 st.caption("🎬 Motion & Speed")
                 motion_v = st.selectbox("s3", [
                     "Slow Motion", "High Speed Action", 
                     "Time-lapse", "Static (Diam)", "Smooth Panning"
                 ], label_visibility="collapsed")
+            with c4:
+                st.caption("🎥 Shot Type")
+                cam_v = st.selectbox("s4", [
+                    "Cinematic Tracking Shot", "Extreme Close-Up", 
+                    "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
+                ], label_visibility="collapsed")
+
+            st.write("")
             
-            # Baris 3: Shot Type (Full Width di bawahnya)
-            st.caption("🎥 Shot Type")
-            cam_v = st.selectbox("s4", [
-                "Cinematic Tracking Shot", "Extreme Close-Up", 
-                "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
-            ], label_visibility="collapsed")
+            # Baris 3: LOKASI DI PALING BAWAH (Sesuai Permintaan)
+            st.caption("📍 Lokasi (Manual)")
+            lokasi_v = st.text_input("loc", placeholder="Misal: dark cave, abandoned house, forest...", label_visibility="collapsed")
 
     # --- LOGIKA RAKIT ---
     if rakit_btn:
@@ -1153,10 +1158,10 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Smooth Panning": "smooth cinematic panning shot,"
             }
             
-            # Menangani jika lokasi kosong
-            detail_lokasi = f"inside {lokasi_v}," if lokasi_v else ""
+            # Gabungkan detail lokasi jika diisi
+            detail_lokasi = f"located in {lokasi_v}," if lokasi_v else ""
             
-            # HASIL GABUNGAN (Menggabungkan Lokasi)
+            # HASIL GABUNGAN FINAL
             st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {detail_lokasi} {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
     # --- OUTPUT AREA ---
@@ -1166,9 +1171,10 @@ elif menu_select == "⚡ QUICK PROMPT":
         st.code(st.session_state.hasil_rakit, language="text")
         
         c_reset, _ = st.columns([1, 4])
-        if c_reset[0].button("🗑️ Reset", use_container_width=True):
-            del st.session_state.hasil_rakit
-            st.rerun()
+        with c_reset:
+            if st.button("🗑️ Reset", use_container_width=True):
+                del st.session_state.hasil_rakit
+                st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1179,56 +1185,3 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
