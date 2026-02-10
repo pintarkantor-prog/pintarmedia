@@ -514,12 +514,12 @@ with st.sidebar:
         # 3. KONFIGURASI UMUM (DARI KODE ASLI)
         num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
         st.write("") 
-        st.markdown("#### 🎨 GENRE VISUAL")
+        st.markdown("#### 🎨 GAYA VISUAL")
         list_genre = ["Realistik (Nyata)", "Pixar 3D", "Marvel Superhero", "Transformers (Mecha)", "KingKong (VFX Monster)", "Asphalt (Balap/Glossy)", "Ghibli (Estetik/Indah)", "Dragon Ball", "Doraemon 3D", "Naruto (Ninja)", "Tayo (Anak-anak)", "Sakura School (Anime)"]
         genre_saved = st.session_state.get("genre_pilihan_saved", "Realistik (Nyata)")
         try: idx_default = list_genre.index(genre_saved)
         except: idx_default = 0
-        genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default, help="Pilih genre visual. Jika pilih Realistik, hasil akan seperti foto asli.")
+        genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default, help="Pilih gaya visual sesuai tema!")
         st.write("")
         
         # 4. STATUS PRODUKSI (DARI KODE ASLI)
@@ -1150,6 +1150,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
