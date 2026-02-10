@@ -1071,41 +1071,8 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
 
 elif menu_select == "⚡ QUICK PROMPT":
-    # --- CSS CUSTOM: ULTRA CLEAN DASHBOARD ---
-    st.markdown("""
-        <style>
-        .quick-title { color: white; font-size: 2rem; font-weight: 700; margin-bottom: 0px; }
-        .quick-subtitle { color: #808495; font-size: 1rem; margin-top: -10px; margin-bottom: 25px; }
-        
-        /* Container Styling */
-        [data-testid="stVerticalBlockBorderWrapper"] {
-            border: 1px solid #2d3139 !important;
-            border-radius: 12px !important;
-            background-color: #0e1117 !important;
-            padding: 25px !important;
-        }
-        
-        /* Label Styling mirip image_1caf62.png */
-        .field-label {
-            color: #1d976c; font-size: 0.75rem; font-weight: 800;
-            text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center;
-        }
-        
-        /* Tombol Rakit Emerald */
-        div.stButton > button[kind="primary"] {
-            background-color: #1d976c !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 8px !important;
-            font-weight: 700 !important;
-            height: 45px !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # --- HEADER ---
-    st.markdown('<p class="quick-title">⚡ QUICK PROMPT</p>', unsafe_allow_html=True)
-    st.markdown('<p class="quick-subtitle">Rakit instruksi visual profesional dalam satu layar.</p>', unsafe_allow_html=True)
+    st.title("⚡ QUICK PROMPT")
+    st.markdown("Rakit instruksi visual profesional dalam satu layar.")
 
     # --- MAIN INTERFACE (FULL LAYOUT) ---
     with st.container(border=True):
@@ -1113,20 +1080,20 @@ elif menu_select == "⚡ QUICK PROMPT":
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
-            st.markdown('<p class="field-label">📝 1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
+            st.write("📝 **1. KEJADIAN / ALUR CERITA**")
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running inside a dark cave while lava flows behind him...",
-                height=210, # Disesuaikan agar sejajar dengan 4 dropdown di kanan
+                height=210, 
                 label_visibility="collapsed"
             )
             st.write("") 
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
-            st.markdown('<p class="field-label">⚙️ 2. SETTING VISUAL</p>', unsafe_allow_html=True)
+            st.write("⚙️ **2. SETTING VISUAL**")
             
-            # Sub-kolom untuk dropdown agar berjejer (mirip image_1caf62.png)
+            # Sub-kolom untuk dropdown agar berjejer simetris
             c1, c2 = st.columns(2)
             
             with c1:
@@ -1157,10 +1124,10 @@ elif menu_select == "⚡ QUICK PROMPT":
                     "Time-lapse", "Static (Diam)", "Smooth Panning"
                 ], label_visibility="collapsed")
 
-    # --- LOGIKA RAKIT & HASIL ---
+    # --- LOGIKA RAKIT ---
     if rakit_btn:
         if not isi_cerita:
-            st.warning("Isi dulu ceritanya, Bos!")
+            st.warning("Isi dulu ceritanya, Dian!")
         else:
             styles = {
                 "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
@@ -1186,17 +1153,16 @@ elif menu_select == "⚡ QUICK PROMPT":
             
             st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
-    # --- OUTPUT AREA (image_121cf2.png) ---
+    # --- OUTPUT AREA ---
     if 'hasil_rakit' in st.session_state:
         st.write("")
-        st.markdown('<p class="field-label">✅ HASIL RACIKAN</p>', unsafe_allow_html=True)
+        st.write("✅ **HASIL RACIKAN**")
         st.code(st.session_state.hasil_rakit, language="text")
         
         c_reset, _ = st.columns([1, 4])
-        with c_reset:
-            if st.button("🗑️ Reset / Hapus", use_container_width=True):
-                del st.session_state.hasil_rakit
-                st.rerun()
+        if c_reset[0].button("🗑️ Reset", use_container_width=True):
+            del st.session_state.hasil_rakit
+            st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1207,6 +1173,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
