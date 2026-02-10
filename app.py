@@ -932,8 +932,84 @@ if menu_select == "🚀 RUANG PRODUKSI":
 # HALAMAN LAIN (KOSONGAN UNTUK PENGEMBANGAN)
 # --------------------------------------------------------------------------
 elif menu_select == "🧠 PINTAR AI LAB":
-    st.title("🧠 PINTAR AI LAB")
-    st.info("Laboratorium Ide cerdas sedang dipersiapkan.")
+    st.markdown("### 🧠 PINTAR AI LAB")
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Sistem Perakit Ide & Prompt Storyboard (Anti-Limit)</p>", unsafe_allow_html=True)
+    st.divider()
+
+    # --- TABS INTERFACE ---
+    tab_ide, tab_char = st.tabs(["🏗️ RAKIT MEGA-PROMPT IDE", "🧬 DNA KARAKTER"])
+
+    with tab_ide:
+        st.markdown("#### 🏗️ Arsitek Alur Cerita")
+        st.caption("Gunakan form ini untuk merakit instruksi kaku. Hasilnya wajib di-copy ke Gemini Web.")
+        
+        # 1. INPUT GARIS BESAR DARI OWNER
+        owner_core = st.text_area("Garis Besar / Tema Utama (Instruksi Owner):", 
+                                  placeholder="Contoh: Drama tentang dua bersaudara yang berebut warisan warung kopi tapi akhirnya sadar karena wasiat rahasia.",
+                                  help="Input tema utama dari Owner di sini agar karyawan tidak melenceng.")
+        
+        col_f1, col_f2 = st.columns(2)
+        with col_f1:
+            jml_sc = st.slider("Target Jumlah Adegan:", 4, 12, 6)
+        with col_f2:
+            mood_cerita = st.selectbox("Mood/Tone Cerita:", ["Drama Serius & Haru", "Komedi Lucu & Segar", "Thriller Menegangkan", "Action/Aksi Balap", "Horor Mencekam"])
+
+        # 2. RAKITAN MEGA PROMPT (DIKUNCI OLEH SISTEM)
+        mega_prompt_ide = f"""
+AKTIFKAN MODE: PROFESIONAL SCRIPTWRITER & STORYBOARD ARTIST PINTAR MEDIA.
+
+TUGAS:
+Buatlah alur cerita yang terdiri dari tepat {jml_sc} adegan berdasarkan garis besar dari Owner di bawah ini.
+Gaya penceritaan harus {mood_cerita}.
+
+GARIS BESAR DARI OWNER (WAJIB DIIKUTI):
+"{owner_core}"
+
+ATURAN KAKU UNTUKMU:
+1. Jangan melakukan improvisasi di luar tema dasar yang diberikan Owner.
+2. Setiap adegan harus fokus pada aksi visual yang jelas, bukan sekadar narasi batin.
+3. Gunakan bahasa Indonesia yang sinematik, visual, dan mudah dipahami.
+4. Jangan tambahkan dialog yang tidak perlu, fokus pada kejadian penting di frame.
+5. Format output harus rapi seperti ini:
+   Adegan [Nomor]: [Judul Adegan] - [Deskripsi kejadian lengkap di frame tersebut].
+
+Berikan hasil terbaik sesuai standar PINTAR MEDIA.
+        """.strip()
+
+        st.write("---")
+        if owner_core:
+            st.markdown("##### 📋 Langkah Kerja Karyawan:")
+            st.markdown("1. Klik tombol **Copy** pada kotak kode di bawah. \n2. Buka **[Gemini Web (Klik di Sini)](https://gemini.google.com/)** di tab baru. \n3. Paste dan kirim ke Gemini untuk mendapatkan ide adegan.")
+            st.code(mega_prompt_ide, language="text")
+        else:
+            st.warning("⚠️ Masukkan Garis Besar Cerita untuk merakit Mega-Prompt.")
+
+    with tab_char:
+        st.markdown("#### 🧬 Perakit DNA Karakter")
+        st.caption("Ubah deskripsi fisik simpel menjadi deskripsi teknis untuk AI.")
+        
+        c_nama = st.text_input("Nama Karakter:", placeholder="Contoh: Siti / Pak Budi")
+        c_fisik = st.text_area("Detail Fisik (Bahasa Indonesia):", 
+                               placeholder="Contoh: Wanita umur 25, wajah oval manis, rambut kuncir kuda, pakai kacamata bulat, jaket denim.")
+        
+        # Rakitan prompt untuk DNA Karakter
+        mega_prompt_char = f"""
+Ubah deskripsi fisik karakter manusia berikut menjadi deskripsi teknis (Physical Character DNA) dalam bahasa Inggris yang sangat mendalam untuk AI Image Generator.
+
+KARAKTER: {c_nama}
+DETAIL FISIK: {c_fisik}
+
+ATURAN OUTPUT:
+1. Berikan detail teknis tentang: struktur wajah, bentuk mata, tekstur kulit (skin pores), dan jenis pakaian secara mendetail.
+2. Masukkan kata kunci kualitas (photorealistic, 8k, sharp focus, highly detailed).
+3. Jangan sebutkan emosi, hanya fokus pada FISIK PERMANEN.
+4. Output HANYA berupa satu paragraf panjang dalam bahasa Inggris yang kuat.
+        """.strip()
+
+        if c_nama and c_fisik:
+            st.markdown("##### 🧬 Copy DNA ini ke Gemini Web:")
+            st.code(mega_prompt_char, language="text")
+            st.info("Setelah Gemini memberikan hasil bahasa Inggris, simpan teks tersebut di Ruang Produksi.")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -967,6 +1043,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
