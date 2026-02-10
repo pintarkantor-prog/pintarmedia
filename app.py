@@ -987,6 +987,7 @@ elif menu_select == "🧠 AI LAB":
                             st.session_state[f'env_input_{i}'] = extract("Suasana").capitalize()
                             st.session_state[f'size_input_{i}'] = extract("Shot")
                             st.session_state[f'angle_input_{i}'] = extract("Angle")
+                            st.session_state[f'cam_move_{i}'] = extract("Gerak") 
                             st.session_state[f'loc_custom_{i}'] = extract("Lokasi")
                             
                             if 'current_names' in st.session_state:
@@ -1006,5 +1007,6 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
