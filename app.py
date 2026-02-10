@@ -1189,7 +1189,7 @@ elif menu_select == "📋 TUGAS KERJA":
     import time
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
-    # 1. DATABASE STATUS (Hanya simpan siapa yang Gacor)
+    # 1. DATABASE STATUS
     if 'status_gacor' not in st.session_state:
         st.session_state.status_gacor = {
             "ICHA": False, "NISSA": False, "INGGI": False, "LISA": False
@@ -1221,62 +1221,56 @@ elif menu_select == "📋 TUGAS KERJA":
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
-                # Cek apakah staf ini sedang ditandai Gacor oleh Dian
                 is_gacor = st.session_state.status_gacor.get(nama_staf, False)
                 
-                # Pengaturan Warna Dinamis
+                # --- SETINGAN WARNA ---
                 theme_color = "#FFD700" if is_gacor else "#1d976c"
                 status_txt = "🔥 GACOR PARAH" if is_gacor else "🎬 ON PROGRESS"
-                bg_opacity = "0.1" if is_gacor else "0.05"
+                badge_bg = theme_color
+                text_color = "black" if is_gacor else "white"
 
-                # --- UI CARD MINIMALIS ---
-                st.markdown(f"""
-                    <div style="
-                        border: 3px solid {theme_color}; 
-                        border-radius: 20px; 
-                        padding: 30px; 
-                        background-color: {theme_color}{'1a' if is_gacor else '0d'}; 
-                        box-shadow: {'0px 10px 20px rgba(255, 215, 0, 0.2)' if is_gacor else 'none'};
-                        margin-bottom: 20px;
-                        transition: 0.3s;
-                    ">
-                        <div style="display: flex; align-items: center; justify-content: space-between;">
-                            <div style="display: flex; align-items: center;">
-                                <div style="position: relative;">
-                                    <img src="{staf['f']}" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid {theme_color}; object-fit: cover;">
-                                    {'<div style="position: absolute; bottom: 0; right: 0; font-size: 25px;">👑</div>' if is_gacor else ''}
-                                </div>
-                                <div style="margin-left: 25px;">
-                                    <h1 style="margin: 0; color: white; font-size: 2.5rem;">{nama_staf}</h1>
-                                    <p style="margin: 0; color: #808495; font-size: 1.1rem;">{staf['p']}</p>
-                                    <div style="margin-top: 10px;">
-                                        <span style="background: {theme_color}; color: {'black' if is_gacor else 'white'}; padding: 5px 15px; border-radius: 50px; font-size: 0.9rem; font-weight: bold;">
-                                            {status_txt}
-                                        </span>
-                                    </div>
-                                </div>
+                # --- UI CARD (FIXED NO LEAK) ---
+                card_html = f"""
+                <div style="
+                    border: 3px solid {theme_color}; 
+                    border-radius: 20px; 
+                    padding: 30px; 
+                    background-color: rgba({(255,215,0) if is_gacor else (29,151,108)}, 0.1); 
+                    margin-bottom: 20px;
+                ">
+                    <div style="display: flex; align-items: center;">
+                        <div style="position: relative;">
+                            <img src="{staf['f']}" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid {theme_color}; object-fit: cover;">
+                            {"<div style='position: absolute; bottom: 0; right: 0; font-size: 25px;'>👑</div>" if is_gacor else ""}
+                        </div>
+                        <div style="margin-left: 25px;">
+                            <h1 style="margin: 0; color: white; font-size: 2.5rem; line-height: 1;">{nama_staf}</h1>
+                            <p style="margin: 5px 0; color: #808495; font-size: 1.1rem;">{staf['p']}</p>
+                            <div style="margin-top: 10px;">
+                                <span style="background: {badge_bg}; color: {text_color}; padding: 6px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; display: inline-block;">
+                                    {status_txt}
+                                </span>
                             </div>
                         </div>
                     </div>
-                """, unsafe_allow_html=True)
+                </div>
+                """
+                st.markdown(card_html, unsafe_allow_html=True)
 
-                # --- KONTROL KHUSUS DIAN ---
+                # --- KONTROL DIAN ---
                 if user_aktif == "DIAN":
                     st.write("### 🛠️ Owner Action")
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        if st.button(f"🚀 Set GACOR: {nama_staf}", key=f"set_{nama_staf}", use_container_width=True):
-                            st.session_state.status_gacor[nama_staf] = True
-                            st.rerun()
-                    with col2:
-                        if st.button(f"😴 Reset Status: {nama_staf}", key=f"res_{nama_staf}", use_container_width=True):
-                            st.session_state.status_gacor[nama_staf] = False
-                            st.rerun()
-                else:
-                    # Tampilan buat Staf jika mereka sedang Gacor
-                    if is_gacor:
-                        st.balloons()
-                        st.success(f"Selamat {nama_staf}! Kamu dapet gelar GACOR PARAH dari Bos Dian hari ini! 🏆")
+                    c1, c2 = st.columns(2)
+                    if c1.button(f"🚀 Set GACOR: {nama_staf}", key=f"set_{nama_staf}"):
+                        st.session_state.status_gacor[nama_staf] = True
+                        st.rerun()
+                    if c2.button(f"😴 Reset: {nama_staf}", key=f"res_{nama_staf}"):
+                        st.session_state.status_gacor[nama_staf] = False
+                        st.rerun()
+                
+                if is_gacor and user_aktif != "DIAN":
+                    st.balloons()
+                    st.success(f"Gokil {nama_staf}! Kamu dapet gelar GACOR hari ini! 🏆")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1285,6 +1279,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
