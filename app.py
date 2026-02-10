@@ -1071,33 +1071,34 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
 
 elif menu_select == "⚡ QUICK PROMPT":
-    # --- CSS UNTUK TAMPILAN SESUAI GAMBAR ---
+    # --- CSS CUSTOM: ULTRA CLEAN DASHBOARD ---
     st.markdown("""
         <style>
         .quick-title { color: white; font-size: 2rem; font-weight: 700; margin-bottom: 0px; }
         .quick-subtitle { color: #808495; font-size: 1rem; margin-top: -10px; margin-bottom: 25px; }
         
-        /* Container Utama */
+        /* Container Styling */
         [data-testid="stVerticalBlockBorderWrapper"] {
             border: 1px solid #2d3139 !important;
-            border-radius: 10px !important;
+            border-radius: 12px !important;
             background-color: #0e1117 !important;
+            padding: 25px !important;
         }
         
-        /* Label Hijau Kecil */
-        .custom-label {
-            color: #1d976c; font-size: 0.75rem; font-weight: 700;
-            text-transform: uppercase; margin-bottom: 10px;
+        /* Label Styling mirip image_1caf62.png */
+        .field-label {
+            color: #1d976c; font-size: 0.75rem; font-weight: 800;
+            text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center;
         }
         
-        /* Tombol Rakit Hijau Lebar */
+        /* Tombol Rakit Emerald */
         div.stButton > button[kind="primary"] {
             background-color: #1d976c !important;
             color: white !important;
             border: none !important;
             border-radius: 8px !important;
-            padding: 0.6rem 2rem !important;
-            font-weight: 600 !important;
+            font-weight: 700 !important;
+            height: 45px !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -1106,57 +1107,60 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.markdown('<p class="quick-title">⚡ QUICK PROMPT</p>', unsafe_allow_html=True)
     st.markdown('<p class="quick-subtitle">Rakit instruksi visual profesional dalam satu layar.</p>', unsafe_allow_html=True)
 
-    # --- MAIN INTERFACE (Sesuai Gambar Untitled.png) ---
+    # --- MAIN INTERFACE (FULL LAYOUT) ---
     with st.container(border=True):
-        col_kiri, col_kanan = st.columns([1.5, 1], gap="large")
+        # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
+        col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
-        with col_kiri:
-            st.markdown('<p class="custom-label">1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
+        with col_main_left:
+            st.markdown('<p class="field-label">📝 1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running inside a dark cave while lava flows behind him...",
-                height=180,
+                height=210, # Disesuaikan agar sejajar dengan 4 dropdown di kanan
                 label_visibility="collapsed"
             )
-            st.write("") # Spacer
+            st.write("") 
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
-        with col_kanan:
-            st.markdown('<p class="custom-label">2. SETTING VISUAL</p>', unsafe_allow_html=True)
+        with col_main_right:
+            st.markdown('<p class="field-label">⚙️ 2. SETTING VISUAL</p>', unsafe_allow_html=True)
             
-            st.caption("Style / World")
-            vibe_v = st.selectbox("s1", [
-                "Cinematic Movie", 
-                "Ultra Realistic Minecraft", 
-                "Hyper-Realistic RAW",
-                "CCTV / Found Footage", 
-                "Commercial Clean"
-            ], label_visibility="collapsed")
+            # Sub-kolom untuk dropdown agar berjejer (mirip image_1caf62.png)
+            c1, c2 = st.columns(2)
             
-            st.write("")
-            st.caption("Lighting & FX")
-            mood_v = st.selectbox("s2", [
-                "Dramatic Shadows & Glowing Eyes", 
-                "Lava Light Reflections",
-                "Golden Hour", 
-                "Moody Dark", 
-                "Bright Studio"
-            ], label_visibility="collapsed")
-            
-            st.write("")
-            st.caption("Shot Type")
-            cam_v = st.selectbox("s3", [
-                "Cinematic Tracking Shot", 
-                "Extreme Close-Up", 
-                "Medium Shot", 
-                "Handheld Shaky Cam",
-                "Bird Eye View"
-            ], label_visibility="collapsed")
+            with c1:
+                st.caption("🌍 Style / World")
+                vibe_v = st.selectbox("s1", [
+                    "Cinematic Movie", "Ultra Realistic Minecraft", 
+                    "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
+                ], label_visibility="collapsed")
+                
+                st.write("")
+                st.caption("🎥 Shot Type")
+                cam_v = st.selectbox("s4", [
+                    "Cinematic Tracking Shot", "Extreme Close-Up", 
+                    "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
+                ], label_visibility="collapsed")
 
-    # --- LOGIKA RAKIT & HASIL (Sesuai Gambar image_121cf2.png) ---
+            with c2:
+                st.caption("💡 Lighting & FX")
+                mood_v = st.selectbox("s2", [
+                    "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
+                    "Golden Hour", "Moody Dark", "Bright Studio"
+                ], label_visibility="collapsed")
+                
+                st.write("")
+                st.caption("🎬 Motion & Speed")
+                motion_v = st.selectbox("s3", [
+                    "Slow Motion", "High Speed Action", 
+                    "Time-lapse", "Static (Diam)", "Smooth Panning"
+                ], label_visibility="collapsed")
+
+    # --- LOGIKA RAKIT & HASIL ---
     if rakit_btn:
         if not isi_cerita:
-            st.warning("Isi dulu ceritanya, Dian!")
+            st.warning("Isi dulu ceritanya, Bos!")
         else:
             styles = {
                 "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
@@ -1166,21 +1170,28 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Commercial Clean": "High-end commercial clean photography,"
             }
             fx = {
-                "Dramatic Shadows & Glowing Eyes": "glowing white eyes, dramatic shadows, dust particles in the air,",
+                "Dramatic Shadows & Glowing Eyes": "glowing white eyes, dramatic shadows, dust particles,",
                 "Lava Light Reflections": "lava light reflections, intense heat distortion,",
                 "Golden Hour": "warm cinematic golden hour lighting,",
                 "Moody Dark": "dark moody atmosphere, low-key lighting,",
                 "Bright Studio": "bright studio lighting, vibrant colors,"
             }
+            motions = {
+                "Slow Motion": "slow-motion moments, fluid movement,",
+                "High Speed Action": "fast-paced action, intense movement,",
+                "Time-lapse": "time-lapse effect, fast forward motion,",
+                "Static (Diam)": "static camera, no movement, stable shot,",
+                "Smooth Panning": "smooth cinematic panning shot,"
+            }
             
-            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {cam_v}, 4K, same character description."
+            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
+    # --- OUTPUT AREA (image_121cf2.png) ---
     if 'hasil_rakit' in st.session_state:
         st.write("")
-        st.markdown("#### ✅ HASIL RACIKAN")
+        st.markdown('<p class="field-label">✅ HASIL RACIKAN</p>', unsafe_allow_html=True)
         st.code(st.session_state.hasil_rakit, language="text")
         
-        # Tombol Reset di bawah sesuai gambar
         c_reset, _ = st.columns([1, 4])
         with c_reset:
             if st.button("🗑️ Reset / Hapus", use_container_width=True):
@@ -1196,6 +1207,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
