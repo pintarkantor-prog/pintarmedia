@@ -1006,14 +1006,3 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
-
-
-
-
-
-
-
-
-
-
-
