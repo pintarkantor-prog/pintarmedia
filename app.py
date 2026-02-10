@@ -15,7 +15,7 @@ USER_PASSWORDS = {
     "nissa": "tung22",
     "inggi": "udin33",
     "lisa": "tung66",
-    "lyta": "QWERTY21ab"
+    "tamu": "123"
 }
 
 # --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY (SOLUSI REFRESH) ---
@@ -1229,6 +1229,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
