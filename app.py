@@ -583,22 +583,35 @@ with st.sidebar:
 # ==============================================================================
 # MAIN PAGE ROUTING (Sistem Navigasi Ruangan)
 # ==============================================================================
-
 if menu_select == "🚀 RUANG PRODUKSI":
-    # --- POSISI DISINI (LOGIKA PENYERAP DRAF DARI AI LAB) ---
-    if st.session_state.get('auto_load_trigger'):
-        raw_text = st.session_state.get('draft_from_lab', "")
-        import re
-        # Kita pecah berdasarkan "Adegan 1:", "Adegan 2:", dst.
-        parts = re.split(r'Adegan \d+[:\- ]+', raw_text)
-        parts = [p.strip() for p in parts if p.strip()] 
-        
-        for idx, isi in enumerate(parts):
-            if idx < 50: 
-                st.session_state[f"vis_input_{idx+1}"] = isi
-        
-        del st.session_state['auto_load_trigger']
-        st.toast("⚡ Naskah dari AI LAB berhasil diserap otomatis!", icon="🔥")
+    # --- LOGIKA REVIEW NASKAH DARI AI LAB ---
+    if st.session_state.get('draft_from_lab'):
+        with st.expander("📄 REVIEW NASKAH DARI AI LAB (BACA SEBELUM PRODUKSI)", expanded=True):
+            st.info("Staf wajib membaca seluruh alur cerita ini agar paham konteks visualnya.")
+            
+            # Menampilkan naskah utuh dalam satu kotak besar
+            naskah_utuh = st.text_area("Naskah Lengkap:", value=st.session_state['draft_from_lab'], height=300)
+            
+            col_apply, col_cancel = st.columns(2)
+            with col_apply:
+                if st.button("✅ TERAPKAN KE SETIAP ADEGAN", use_container_width=True, type="primary"):
+                    import re
+                    # Proses pemecahan teks ke session state masing-masing adegan
+                    parts = re.split(r'Adegan \d+[:\- ]+', naskah_utuh)
+                    parts = [p.strip() for p in parts if p.strip()] 
+                    
+                    for idx, isi in enumerate(parts):
+                        if idx < 50: 
+                            st.session_state[f"vis_input_{idx+1}"] = isi
+                    
+                    st.success("Berhasil! Naskah telah disebar ke kolom adegan di bawah.")
+                    st.rerun() # Refresh agar teks muncul di kolom bawah
+            
+            with col_cancel:
+                if st.button("🗑️ HAPUS DRAFT", use_container_width=True):
+                    del st.session_state['draft_from_lab']
+                    st.rerun()
+                    
     # ==============================================================================
     # 8. PARAMETER KUALITAS (VERSION: APEX SHARPNESS & VIVID)
     # ==============================================================================
@@ -1064,6 +1077,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
