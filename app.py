@@ -1189,7 +1189,24 @@ elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
+
+    # --- TAMBAHAN: LOGIKA TERIMA SENGGOL ---
+    senggol_key = f"notif_senggol_{user_aktif}"
+    if senggol_key in st.session_state:
+        st.markdown(f"""
+            <div style="background-color: #ff4b4b; padding: 20px; border-radius: 15px; border-left: 10px solid white; margin-bottom: 25px;">
+                <h3 style="color: white; margin: 0;">⚠️ PERINGATAN OWNER</h3>
+                <p style="color: white; margin: 5px 0 15px 0; font-size: 1.1rem;">
+                    <b>Bos DIAN</b> sedang memantau progres kerja kamu sekarang. Tetap fokus! 🔥
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
+        if st.button(f"SAYA MENGERTI, LANJUT KERJA! ✅", use_container_width=True):
+            del st.session_state[senggol_key]
+            st.rerun()
+
     st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
+    
     # 1. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
@@ -1233,6 +1250,13 @@ elif menu_select == "📋 TUGAS KERJA":
                 </div>
                 """, unsafe_allow_html=True)
 
+                # --- TAMBAHAN: TOMBOL SENGGOL (KHUSUS DIAN) ---
+                if user_aktif == "DIAN":
+                    st.write("")
+                    if st.button(f"Senggol {nama_staf} 🔔", key=f"senggol_{nama_staf}", use_container_width=True):
+                        st.session_state[f"notif_senggol_{nama_staf}"] = True
+                        st.toast(f"Berhasil menyenggol {nama_staf}! 😂")
+
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
         st.title("⚡ KENDALI TIM")
@@ -1240,3 +1264,4 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
