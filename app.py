@@ -1175,57 +1175,79 @@ elif menu_select == "⚡ QUICK PROMPT":
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
-    st.info("🛠️ **SISTEM MONITORING:** Klik 'Update' buat ganti status atau kasih revisi ke tim.")
-
-    # --- 1. FILTER DASHBOARD (Biar fleksibel mau liat siapa) ---
-    col_f1, col_f2 = st.columns([2, 1])
-    with col_f1:
-        filter_pic = st.multiselect("Filter Personel:", ["ICHA", "NISSA", "LISA", "INGGI"], default=["ICHA", "NISSA", "LISA", "INGGI"])
-    with col_f2:
-        st.metric("Total Antrean", "5 Tugas")
+    
+    # --- 1. TARGET & PESAN KHUSUS (Owner Only View) ---
+    st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET HARI INI</p>", unsafe_allow_html=True)
+    with st.container(border=True):
+        col_t1, col_t2 = st.columns([2, 1])
+        with col_t1:
+            st.info("**Pesan Spesifik Owner:**\n\nFokus ke retensi penonton di 2 menit awal ya. Icha & Nissa tolong perhatikan sound effect. Lisa & Inggi SEO-nya maksimalin!")
+        with col_t2:
+            st.success("**Goal Hari Ini:**\n- 5 Video Long Form\n- 10 Shorts Gacor\n- All Channel Clean")
 
     st.write("")
 
-    # --- 2. DATA TUGAS (Ini bisa ditarik dari Database/Sheets nantinya) ---
-    # Kita buat list yang fleksibel
-    list_tugas = [
-        {"pic": "ICHA", "tugas": "Edit Video Minecraft Ep. 15", "alur": "Editing", "step": "🎨 Color Grading", "deadline": "Sore Ini"},
-        {"pic": "NISSA", "tugas": "Shorts Cinematic Lava", "alur": "Editing", "step": "✅ Render Selesai", "deadline": "Segera"},
-        {"pic": "LISA", "tugas": "Upload Video Utama", "alur": "Upload", "step": "🖼️ Bikin Thumbnail", "deadline": "Jam 18:00"},
-        {"pic": "INGGI", "tugas": "SEO & Judul Shorts", "alur": "Upload", "step": "📅 Scheduled", "deadline": "Besok"},
-    ]
-
-    # --- 3. GENERATE TAMPILAN SECARA DINAMIS ---
-    for t in list_tugas:
-        if t['pic'] in filter_pic:
-            # Warna Border beda antara Editor dan Uploader
-            border_color = "#1d976c" if t['alur'] == "Editing" else "#00a8ff"
-            
-            with st.container(border=True):
-                c1, c2, c3 = st.columns([1.5, 2, 1])
-                
-                with c1:
-                    st.markdown(f"<p style='color:{border_color}; font-weight:bold; margin-bottom:0px;'>👤 {t['pic']}</p>", unsafe_allow_html=True)
-                    st.caption(f"Divisi: {t['alur']}")
-                
-                with c2:
-                    st.write(f"**{t['tugas']}**")
-                    st.markdown(f"<small>📍 {t['step']}</small>", unsafe_allow_html=True)
-                
-                with c3:
-                    # Tombol fleksibel buat Owner/PIC
-                    if st.button("Update Progres", key=f"btn_{t['pic']}_{t['tugas']}"):
-                        st.toast(f"Membuka panel update untuk {t['pic']}...")
+    # --- 2. MANAGEMENT PANEL (Hanya Owner yang Atur) ---
+    with st.expander("⚙️ PANEL PENGATURAN JADWAL (Owner Only)"):
+        st.write("Atur siapa handle channel apa & jam berapa di sini:")
+        c_at1, c_at2, c_at3, c_at4 = st.columns(4)
+        new_pic = c_at1.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
+        new_ch = c_at2.text_input("Nama Channel", placeholder="Misal: Minecraft Indo")
+        new_jam = c_at3.text_input("Jadwal Upload", placeholder="Misal: 18:00 WIB")
+        if c_at4.button("Update Jadwal 🛠️", use_container_width=True):
+            st.toast("Jadwal Berhasil Diperbarui!")
 
     st.divider()
 
-    # --- 4. PANEL REVISI (Keren banget buat komunikasi) ---
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>✍️ KOLOM REVISI OWNER</p>", unsafe_allow_html=True)
-    with st.expander("Klik buat tulis revisi ke tim"):
-        revisi_ke = st.selectbox("Revisi buat siapa?", ["ICHA", "NISSA", "LISA", "INGGI"])
-        catatan = st.text_area("Apa yang perlu diperbaiki?", placeholder="Misal: Icha, musik di menit 02:00 kecilin dikit ya...")
-        if st.button("Kirim Revisi 🚀", use_container_width=True):
-            st.success(f"Notif revisi sudah terkirim ke {revisi_ke}!")
+    # --- 3. DASHBOARD PERSONAL (Tampilan Spesifik per Orang) ---
+    st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎬 MONITORING CHANNEL & PRODUKSI</p>", unsafe_allow_html=True)
+
+    # Kita buat fungsi Card per Orang agar rapi
+    def staff_card(name, channels):
+        with st.container(border=True):
+            c_name, c_work = st.columns([1, 3])
+            with c_name:
+                st.subheader(f"👤 {name}")
+                st.caption("Editor & Uploader")
+                st.write("")
+                if st.button(f"Senggol {name}", key=f"senggol_{name}"):
+                    st.toast(f"Notif dikirim ke {name}!")
+            
+            with c_work:
+                # Menampilkan daftar channel yang dihandle
+                for ch in channels:
+                    col_ch, col_st, col_time = st.columns([1.5, 1, 1])
+                    col_ch.markdown(f"**📺 {ch['name']}**")
+                    
+                    # Status dinamis
+                    status_options = ["⏳ Editing", "✂️ Grading", "📤 Uploading", "📅 Scheduled", "✅ LIVE"]
+                    col_st.selectbox("Status", status_options, key=f"st_{name}_{ch['name']}", label_visibility="collapsed")
+                    
+                    col_time.markdown(f"🕒 `{ch['time']}`")
+                    st.divider()
+
+    # Data Dummy (Nanti ini yang diatur lewat Panel Pengaturan di atas)
+    data_staf = [
+        {"name": "ICHA", "channels": [
+            {"name": "Minecraft Utama", "time": "17:00 WIB"},
+            {"name": "Shorts Daily", "time": "12:00 WIB"}
+        ]},
+        {"name": "NISSA", "channels": [
+            {"name": "CGI Horror", "time": "20:00 WIB"},
+            {"name": "Tutorial AI", "time": "15:00 WIB"}
+        ]},
+        {"name": "LISA", "channels": [
+            {"name": "Gaming News", "time": "19:00 WIB"}
+        ]},
+        {"name": "INGGI", "channels": [
+            {"name": "Review Gadget", "time": "21:00 WIB"}
+        ]}
+    ]
+
+    # Generate Cards
+    for person in data_staf:
+        staff_card(person['name'], person['channels'])
+        st.write("")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1234,6 +1256,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
