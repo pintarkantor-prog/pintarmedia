@@ -1186,22 +1186,36 @@ elif menu_select == "⚡ QUICK PROMPT":
                 st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
-    import pandas as pd
     import time
-    
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
-    if 'db_laporan_tugas' not in st.session_state:
-        template = {"Link Drive": [""]*5, "Status": ["Kosong"]*5}
-        st.session_state.db_laporan_tugas = {
-            "ICHA": pd.DataFrame(template),
-            "NISSA": pd.DataFrame(template),
-            "INGGI": pd.DataFrame(template),
-            "LISA": pd.DataFrame(template)
+    # 1. DATABASE TUGAS (Tulis tugas mereka di sini)
+    # Kamu bisa ganti isi list tugasnya kapan saja
+    if 'tugas_harian' not in st.session_state:
+        st.session_state.tugas_harian = {
+            "ICHA": [
+                {"tugas": "Edit Video Utama Minecraft", "done": False},
+                {"tugas": "Buat 3 Thumbnail Variasi", "done": False},
+                {"tugas": "Upload & Set Jadwal", "done": False}
+            ],
+            "NISSA": [
+                {"tugas": "Riset 10 Ide Shorts", "done": False},
+                {"tugas": "Produksi 5 Video AI", "done": False},
+                {"tugas": "Optimasi Tag & Judul", "done": False}
+            ],
+            "INGGI": [
+                {"tugas": "Cek SEO 3 Channel", "done": False},
+                {"tugas": "Balas Komentar Netizen", "done": False}
+            ],
+            "LISA": [
+                {"tugas": "Update Laporan Keuangan", "done": False},
+                {"tugas": "Monitoring Jam Tayang", "done": False}
+            ]
         }
 
     st.title("📋 TUGAS KERJA")
 
+    # 2. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1211,116 +1225,64 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # --- FIX: DATA MASTER PROFIL (Semua sudah ada 'catatan') ---
+        # Data Profil (Foto)
         data_profil = {
-            "ICHA": {
-                "posisi": "Editor", 
-                "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", 
-                "tugas": "Edit 5 Video Minecraft Survival",
-                "catatan": "Sound effect lebih dramatis."
-            },
-            "NISSA": {
-                "posisi": "Editor", 
-                "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", 
-                "tugas": "Shorts Cinematic AI 10 Video",
-                "catatan": "Color grading rapi."
-            },
-            "INGGI": {
-                "posisi": "Uploader", 
-                "foto": "https://via.placeholder.com/150", 
-                "tugas": "Optimasi SEO & Tag",
-                "catatan": "Cek skor SEO minimal 80%."
-            },
-            "LISA": {
-                "posisi": "Uploader", 
-                "foto": "https://via.placeholder.com/150", 
-                "tugas": "Scheduling Video Long Form",
-                "catatan": "Thumbnail jangan sampai ada typo."
-            }
+            "ICHA": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
+            "NISSA": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
+            "INGGI": "https://via.placeholder.com/150",
+            "LISA": "https://via.placeholder.com/150"
         }
 
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
         
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
-                staf = data_profil.get(nama_staf)
-                df_staf = st.session_state.db_laporan_tugas[nama_staf].copy()
+                list_tugas = st.session_state.tugas_harian[nama_staf]
                 
-                # --- LOGIKA PROGRESS ---
-                links_filled = df_staf[df_staf["Link Drive"].str.strip() != ""]
-                total_setor = len(links_filled)
-                done_count = (df_staf['Status'] == 'Selesai').sum()
-                revisi_count = (df_staf['Status'] == 'Wajib Revisi').sum()
-                progress = (done_count / total_setor) if total_setor > 0 else 0
+                # Hitung Progres
+                total = len(list_tugas)
+                selesai = sum(1 for t in list_tugas if t['done'])
+                progres_persen = (selesai / total) if total > 0 else 0
                 
-                if progress == 1.0 and total_setor > 0:
-                    status_label, theme_color = "🔥 GACOR PARAH", "#FFD700"
-                elif revisi_count > 0:
-                    status_label, theme_color = "⚠️ ADA REVISI", "#FF4B4B"
-                else:
-                    status_label, theme_color = "🎬 ON PROGRESS", "#1d976c"
+                # Tentukan Warna & Status
+                is_gacor = progres_persen == 1.0
+                theme_color = "#FFD700" if is_gacor else "#1d976c"
+                status_txt = "🔥 GACOR PARAH" if is_gacor else "🎬 ON PROGRESS"
 
+                # --- UI CARD MEWAH ---
                 st.markdown(f"""
-                    <div style="border: 2px solid {theme_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 20px;">
+                    <div style="border: 2px solid {theme_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 15px;">
                         <div style="display: flex; align-items: center;">
-                            <img src="{staf['foto']}" style="width: 80px; height: 80px; border-radius: 50%; border: 3px solid {theme_color}; object-fit: cover;">
-                            <div style="margin-left: 20px;">
-                                <h2 style="margin: 0;">{nama_staf}</h2>
-                                <span style="background: {theme_color}; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.8rem; font-weight: bold;">{status_label}</span>
+                            <img src="{data_profil[nama_staf]}" style="width: 70px; height: 70px; border-radius: 50%; border: 2px solid {theme_color}; object-fit: cover;">
+                            <div style="margin-left: 15px;">
+                                <h3 style="margin: 0;">{nama_staf}</h3>
+                                <span style="background: {theme_color}; color: white; padding: 2px 10px; border-radius: 10px; font-size: 0.7rem; font-weight: bold;">{status_txt}</span>
                             </div>
                         </div>
+                    </div>
                 """, unsafe_allow_html=True)
 
-                col_m, col_in = st.columns([1, 2.5])
-                with col_m:
-                    st.write("")
-                    st.write("**Status Review:**")
-                    st.progress(progress)
-                    st.caption(f"{int(progress*100)}% Verified")
-                    st.divider()
-                    m1, m2 = st.columns(2)
-                    m1.metric("DONE", done_count)
-                    m2.metric("REVISI", revisi_count, delta_color="inverse")
-
-                with col_in:
-                    st.info(f"📌 **TUGAS:** {staf['tugas']}")
+                # --- KOLOM CHECKLIST ---
+                st.write("**Daftar Tugas Hari Ini:**")
+                
+                for idx, item in enumerate(list_tugas):
+                    # Staf bisa centang, Dian bisa lihat
+                    checked = st.checkbox(item['tugas'], value=item['done'], key=f"chk_{nama_staf}_{idx}")
                     
-                    is_admin = (user_aktif == "DIAN")
-                    edited_df = st.data_editor(
-                        df_staf,
-                        column_config={
-                            "Link Drive": st.column_config.LinkColumn("Link Laporan", width="large"),
-                            "Status": st.column_config.SelectboxColumn("Status (Admin)", options=["Kosong", "Proses Review", "Wajib Revisi", "Selesai"], disabled=not is_admin)
-                        },
-                        num_rows="dynamic",
-                        hide_index=True,
-                        use_container_width=True,
-                        key=f"editor_{nama_staf}"
-                    )
-
-                    if not is_admin:
-                        for idx, row in edited_df.iterrows():
-                            if str(row["Link Drive"]).strip() != "" and row["Status"] == "Kosong":
-                                edited_df.at[idx, "Status"] = "Proses Review"
-                            elif str(row["Link Drive"]).strip() == "":
-                                edited_df.at[idx, "Status"] = "Kosong"
-
-                    if st.button(f"Simpan Laporan {nama_staf} ✅", key=f"btn_{nama_staf}", use_container_width=True):
-                        st.session_state.db_laporan_tugas[nama_staf] = edited_df
-                        st.success("Tersimpan!")
-                        time.sleep(0.5)
+                    # Simpan perubahan jika dicentang
+                    if checked != item['done']:
+                        st.session_state.tugas_harian[nama_staf][idx]['done'] = checked
                         st.rerun()
-                    
-                    # Error tadi di sini, sekarang sudah aman karena semua staf punya kunci 'catatan'
-                    st.warning(f"✍️ **CATATAN:** {staf['catatan']}")
 
-                st.markdown("</div>", unsafe_allow_html=True)
+                st.progress(progres_persen)
+                st.caption(f"Progress: {selesai}/{total} Tugas Selesai")
 
-    if user_aktif == "DIAN":
-        with st.expander("🛠️ OWNER CONTROL"):
-            if st.button("Reset Database Tugas"):
-                st.session_state.db_laporan_tugas = {k: pd.DataFrame({"Link Drive": [""]*5, "Status": ["Kosong"]*5}) for k in ["ICHA", "NISSA", "INGGI", "LISA"]}
-                st.rerun()
+                if user_aktif == "DIAN":
+                    st.divider()
+                    if st.button(f"Reset Tugas {nama_staf} 🔄", key=f"reset_{nama_staf}"):
+                        for t in st.session_state.tugas_harian[nama_staf]:
+                            t['done'] = False
+                        st.rerun()
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1329,6 +1291,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
