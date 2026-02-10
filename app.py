@@ -1106,26 +1106,36 @@ elif menu_select == "⚡ QUICK PROMPT":
             }
             st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
 
-    # --- 3. AREA HASIL (FULL WIDTH & CLEAN) ---
+    # --- 3. AREA HASIL (COPY & RESET SEJAJAR) ---
     if 'q_result' in st.session_state:
         st.write("")
         st.markdown("#### ✅ HASIL RACIKAN")
-        # Menggunakan st.code karena sudah paling stabil untuk copy-paste
         st.code(st.session_state.q_result, language="text")
         
-        c_reset, _ = st.columns([1, 4])
-        if c_reset.button("🗑️ Reset / Hapus", use_container_width=True):
-            del st.session_state.q_result
-            st.rerun()
+        # Kolom tombol: COPY > RESET
+        c_copy, c_reset, _ = st.columns([1, 1, 3])
+        
+        with c_copy:
+            if st.button("📋 COPY", use_container_width=True, type="primary"):
+                # Trik JavaScript untuk copy ke clipboard
+                st.components.v1.html(f"""
+                    <script>
+                    navigator.clipboard.writeText({repr(st.session_state.q_result)});
+                    </script>
+                """, height=0)
+                st.toast("Prompt disalin ke Clipboard!", icon="✅")
+        
+        with c_reset:
+            if st.button("🗑️ RESET", use_container_width=True):
+                del st.session_state.q_result
+                st.rerun()
 
     st.markdown("""
         <style>
-        /* Mempertegas tampilan container */
         [data-testid="stVerticalBlockBorderWrapper"] {
             border: 1px solid #1d976c !important;
             border-radius: 15px !important;
         }
-        /* Tombol primary emerald */
         div.stButton > button[kind="primary"] {
             background-color: #1d976c !important;
             border: none !important;
@@ -1142,6 +1152,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
