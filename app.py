@@ -800,7 +800,7 @@ if menu_select == "🚀 PRODUCTION HUB":
         elif not active_scenes:
             st.warning("⚠️ **Mohon isi deskripsi cerita visual!**")
         else:
-            with st.spinner(f"⏳ Meracik prompt lengkap sesuai parameter Bagian 8..."):
+            with st.spinner(f"⏳ Meracik prompt lengkap tanpa penyederhanaan..."):
                 st.session_state.last_generated_results = []
                 
                 try:
@@ -825,52 +825,53 @@ if menu_select == "🚀 PRODUCTION HUB":
                             if re.search(rf'\b{re.escape(c_name_raw.lower())}\b', v_text_low):
                                 mentioned_chars_list.append({"name": c_name_raw.upper(), "desc": c.get('desc', '')})
                     
-                    if len(mentioned_chars_list) == 1:
-                        target_name = mentioned_chars_list[0]['name']
-                        char_info = f"[[ CHARACTER_{target_name}: {mentioned_chars_list[0]['desc']} ]]"
-                        instruction_header = f"IMAGE REFERENCE RULE: Use the uploaded photo for {target_name}'s face and body.\nSTRICT LIMIT: This scene MUST ONLY feature {target_name}."
-                    elif len(mentioned_chars_list) > 1:
-                        char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars_list])
-                        instruction_header = "IMAGE REFERENCE RULE: Use uploaded photos for each character."
+                    # --- 1. LOGIKA HEADER INSTRUKSI ---
+                    if len(mentioned_chars_list) > 1:
+                        instruction_header = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
                     else:
-                        char_info = f"[[ CHARACTER_MAIN: {all_chars_list[0]['desc']} ]]"
                         instruction_header = "IMAGE REFERENCE RULE: Use the main character reference."
 
-                    # --- LOGIKA GAYA VISUAL (SEMUA GENRE KEMBALI UTUH) ---
-                    if genre_pilihan == "Pixar 3D": 
-                        bumbu_gaya = "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, soft tactile textures"
-                    elif genre_pilihan == "Marvel Superhero": 
-                        bumbu_gaya = "Marvel Cinematic Universe aesthetic, heroic cinematic lighting, tactical suit textures"
-                    elif genre_pilihan == "Transformers (Mecha)":
-                        bumbu_gaya = "Michael Bay cinematic style, Transformers mechanical realism, complex moving gears, anamorphic lens flares"
-                    elif genre_pilihan == "KingKong (VFX Monster)":
-                        bumbu_gaya = "Photorealistic CGI, ILM blockbuster VFX quality, hyper-detailed creature rendering"
-                    elif genre_pilihan == "Asphalt (Balap/Glossy)":
-                        bumbu_gaya = "Asphalt 9 gaming aesthetic, ultra-glossy metallic paint, ray-traced reflections"
-                    elif genre_pilihan == "Ghibli (Estetik/Indah)":
-                        bumbu_gaya = "Studio Ghibli hand-painted style, watercolor textures, soft cel shading"
-                    elif genre_pilihan == "Dragon Ball":
-                        bumbu_gaya = "Dragon Ball Super anime style, sharp ink lineart, intense cel shading"
-                    elif genre_pilihan == "Doraemon 3D":
-                        bumbu_gaya = "Stand By Me Doraemon style, high-end 3D CGI, soft rounded shapes"
-                    elif genre_pilihan == "Naruto (Ninja)":
-                        bumbu_gaya = "Naruto Shippuden anime style, bold ink lines, cinematic cel shading"
-                    elif genre_pilihan == "Tayo (Anak-anak)":
-                        bumbu_gaya = "3D CGI animation for kids, Tayo the Little Bus aesthetic"
-                    elif genre_pilihan == "Sakura School (Anime)":
-                        bumbu_gaya = "Sakura School Simulator style, high-quality 3D anime game graphics"
+                    # --- 2. LOGIKA DATA KARAKTER ---
+                    if mentioned_chars_list:
+                        char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars_list])
                     else:
-                        bumbu_gaya = img_quality_base # Menggunakan parameter Bagian 8
+                        char_info = f"[[ CHARACTER_MAIN: {all_chars_list[0]['desc']} ]]"
 
-                    # --- LOKASI ---
+                    # --- 3. LOGIKA GAYA VISUAL (SEMUA GENRE LENGKAP) ---
+                    if genre_pilihan == "Pixar 3D": 
+                        bumbu_gaya = "Disney Pixar style 3D animation, smooth stylized textures, large expressive eyes, vibrant colors, subsurface scattering"
+                    elif genre_pilihan == "Marvel Superhero": 
+                        bumbu_gaya = "Marvel Cinematic Universe aesthetic, heroic cinematic lighting, tactical suit textures, professional teal and orange color grading"
+                    elif genre_pilihan == "Transformers (Mecha)":
+                        bumbu_gaya = "Michael Bay cinematic style, Transformers mechanical realism, complex moving gears, anamorphic lens flares, sparks and debris"
+                    elif genre_pilihan == "KingKong (VFX Monster)":
+                        bumbu_gaya = "Photorealistic CGI, ILM blockbuster VFX quality, hyper-detailed creature rendering, wet fur and skin micro-textures, volumetric lighting"
+                    elif genre_pilihan == "Asphalt (Balap/Glossy)":
+                        bumbu_gaya = "Asphalt 9 gaming aesthetic, ultra-glossy metallic paint, ray-traced reflections, cinematic motion blur, neon light streaks"
+                    elif genre_pilihan == "Ghibli (Estetik/Indah)":
+                        bumbu_gaya = "Studio Ghibli hand-painted style, watercolor textures, soft cel shading, lush nature aesthetic, whimsical lighting"
+                    elif genre_pilihan == "Dragon Ball":
+                        bumbu_gaya = "Dragon Ball Super anime style, sharp ink lineart, intense cel shading, vibrant energy aura with bloom effect"
+                    elif genre_pilihan == "Doraemon 3D":
+                        bumbu_gaya = "Stand By Me Doraemon style, high-end 3D CGI, soft rounded shapes, warm pastel colors, subsurface scattering"
+                    elif genre_pilihan == "Naruto (Ninja)":
+                        bumbu_gaya = "Naruto Shippuden anime style, bold ink lines, cinematic cel shading, traditional Japanese art influence"
+                    elif genre_pilihan == "Tayo (Anak-anak)":
+                        bumbu_gaya = "3D CGI animation for kids, Tayo the Little Bus aesthetic, vibrant primary colors, clean plastic surfaces"
+                    elif genre_pilihan == "Sakura School (Anime)":
+                        bumbu_gaya = "Sakura School Simulator style, high-quality 3D anime game graphics, bright sunny lighting, smooth plastic textures"
+                    else:
+                        bumbu_gaya = img_quality_stack
+
+                    # --- 4. RAKITAN LOKASI ---
                     pilihan_dropdown = st.session_state.get(f"loc_sel_{item['num']}", "")
                     if pilihan_dropdown == "--- KETIK MANUAL ---":
                         manual_text = st.session_state.get(f"loc_custom_{item['num']}", "").strip()
-                        dna_env = f"{manual_text}, highly detailed textures" if manual_text else "cinematic environment"
+                        dna_env = f"{manual_text}" if manual_text else "cinematic environment"
                     else:
-                        dna_env = LOKASI_DNA.get(pilihan_dropdown.lower(), f"{pilihan_dropdown}, sharp focus.")
+                        dna_env = LOKASI_DNA.get(pilihan_dropdown.lower(), f"{pilihan_dropdown}")
 
-                    # --- LOGIKA KAMERA (KEMBALI LENGKAP) ---
+                    # --- 5. LOGIKA KAMERA (DETEKSI SPESIFIK) ---
                     e_shot = shot_map.get(item["shot"], "Medium Shot")
                     e_angle = angle_map.get(item["angle"], "")
                     
@@ -884,40 +885,36 @@ if menu_select == "🚀 PRODUCTION HUB":
                                 break
                         camera_final = f"{e_angle} looking at {target_focus}, focus on {target_focus}'s facial expression, infinite depth of field"
                     else:
-                        camera_final = f"{e_shot}, {e_angle}, infinite depth of field, f/11 aperture, ultra-sharp focus"
+                        camera_final = f"{e_shot}, {e_angle}, infinite depth of field, f/11 aperture, ultra-sharp focus everywhere"
 
-                    # --- LIGHTING LOGIC (KEMBALI LENGKAP) ---
+                    # --- 6. LIGHTING LOGIC (FULL DETAIL) ---
                     if "Pagi" in item["light"]: 
-                        l_cmd = "6 AM early morning sunlight, subtle sunbeams, anti-glare, low-angle side lighting."
+                        l_cmd = "6 AM early morning sunlight, subtle sunbeams, anti-glare, low-angle side lighting to emphasize textures, vibrant dewy surfaces, high local contrast, crystal clear air."
                     elif "Siang" in item["light"]: 
-                        l_cmd = "Direct harsh midday sunlight, clear blue sky, vibrant naturalism, cinematic contrast."
+                        l_cmd = "Direct harsh midday sunlight, clear blue sky, vibrant naturalism, cinematic contrast, deep black levels, polarizing filter for rich saturated colors."
                     elif "Sore" in item["light"]: 
-                        l_cmd = "4 PM golden hour, warm saturated colors, long dramatic sharp shadows, sharp amber highlights."
+                        l_cmd = "4 PM golden hour, warm saturated colors, long dramatic sharp shadows, sharp amber highlights, high local contrast, no haze, ultra-clear atmosphere."
                     elif "Malam" in item["light"]: 
-                        l_cmd = "Cinematic night, realistic dim moonlight, natural ambient shadows, zero digital noise."
+                        l_cmd = "Cinematic night, realistic dim moonlight, no rim light, no glow, natural ambient shadows, high local contrast on textures, visible ground grit and soil details, deep indigo sky, clean silhouettes, zero digital noise, professional night photography."
                     else: 
-                        l_cmd = "Natural lighting, balanced exposure, sharp focus."
+                        l_cmd = "Natural lighting, high contrast, balanced exposure, sharp focus."
 
-                    # --- MOOD & DIALOG ---
+                    # --- 7. DIALOG & EMOSI ---
                     try:
                         d_text_full = " ".join([f"{d['name']}: {d['text']}" for d in item.get('dialogs', []) if d.get('text')])
                     except:
                         d_text_full = ""
 
-                    # Khusus Gambar: Hanya kirim mood agar tidak muncul teks di layar
-                    if d_text_full:
-                        image_emo = f"Character is expressing intense emotions reflecting the dialogue: '{d_text_full}'. (STRICT: DO NOT RENDER ANY TEXT OR SPEECH BUBBLES)."
-                    else:
-                        image_emo = "Natural cinematic facial expression."
-
-                    # --- FINAL PROMPT ASSEMBLY ---
+                    # --- RAKITAN FINAL (STRUKTUR IDENTIK) ---
                     img_final = (
                         f"{instruction_header}\n\n"
-                        f"CHARACTER: {char_info}\n"
-                        f"ACTION: {item['visual']}. {image_emo}\n"
-                        f"ENVIRONMENT: {dna_env}. (STRICT: No labels, no signs, no readable text in background).\n"
+                        f"STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES. NO SPEECH BUBBLES.\n"
+                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
+                        f"CHARACTER DATA: {char_info}\n"
+                        f"VISUAL ACTION: {item['visual']}. The characters must show facial expressions reflecting this mood: '{d_text_full}'. STRICTLY NO TEXT OR SPEECH BUBBLES ON IMAGE.\n"
+                        f"ENVIRONMENT: {dna_env}.. hyper-detailed grit, sand, leaf veins, tactile micro-textures, NO SOFTENING.\n"
                         f"CAMERA: {camera_final}\n"
-                        f"TECHNICAL: {bumbu_gaya}, {l_cmd}"
+                        f"TECHNICAL: {bumbu_gaya}, {l_cmd}, extreme edge-enhancement, every pixel is sharp, deep color saturation."
                     )
 
                     vid_final = (
@@ -926,14 +923,20 @@ if menu_select == "🚀 PRODUCTION HUB":
                         f"CHARACTER: {char_info}\n"
                         f"ENVIRONMENT: {dna_env}\n"
                         f"LIGHTING: {l_cmd}\n"
-                        f"ACTING REFERENCE: {d_text_full}\n"
+                        f"ACTING REF: {d_text_full}\n"
                         f"QUALITY: {vid_quality_base}"
                     )
 
-                    st.session_state.last_generated_results.append({"id": item["num"], "img": img_final, "vid": vid_final})
-            
-            st.toast("Prompt Lengkap & Sinkron Berhasil! 🚀")
+                    st.session_state.last_generated_results.append({
+                        "id": item["num"], 
+                        "img": img_final, 
+                        "vid": vid_final,
+                        "cam_info": f"{camera_final}"
+                    })
+
+            st.toast("Prompt Utuh & Anti-Teks Berhasil Diracik! 🚀")
             st.rerun()
+
     # --- AREA TAMPILAN HASIL (TETAP SAMA) ---
     if st.session_state.last_generated_results:
         st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
@@ -1102,6 +1105,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
