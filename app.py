@@ -1106,7 +1106,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             }
             st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
 
-    # --- 3. AREA HASIL (SOLUSI ANTI-GAGAL) ---
+    # --- 3. AREA HASIL (SOLUSI PINTU BELAKANG) ---
     if 'q_result' in st.session_state:
         st.write("")
         st.markdown("#### ✅ HASIL RACIKAN")
@@ -1116,15 +1116,17 @@ elif menu_select == "⚡ QUICK PROMPT":
         c_copy, c_reset, _ = st.columns([1, 1, 3])
         
         with c_copy:
-            # Menggunakan fitur resmi Streamlit untuk Copy
             if st.button("📋 COPY", use_container_width=True):
-                try:
-                    # Perintah Copy resmi
-                    st.copy_to_clipboard(st.session_state.q_result)
-                    st.toast("Prompt disalin!", icon="✅")
-                except:
-                    # Backup jika library belum update: infokan user klik ikon pojok kanan st.code
-                    st.warning("Gunakan ikon di pojok kanan box kode!")
+                # Komponen HTML tersembunyi untuk eksekusi Copy
+                st.components.v1.html(f"""
+                    <textarea id="p_copy" style="opacity:0;position:absolute;">{st.session_state.q_result}</textarea>
+                    <script>
+                        var textArea = document.getElementById("p_copy");
+                        textArea.select();
+                        document.execCommand("copy");
+                    </script>
+                """, height=0)
+                st.toast("Prompt berhasil disalin!", icon="✅")
         
         with c_reset:
             if st.button("🗑️ RESET", use_container_width=True):
@@ -1153,6 +1155,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
