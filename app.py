@@ -966,13 +966,14 @@ if menu_select == "🚀 PRODUCTION HUB":
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
 
-    # --- 9. AREA TAMPILAN HASIL ---
+    # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
     if st.session_state.last_generated_results:
         st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
         for res in st.session_state.last_generated_results:
             done_key = f"mark_done_{res['id']}"
             is_done = st.session_state.get(done_key, False)
             status_tag = "✅ SELESAI" if is_done else "⏳ PROSES"
+            
             with st.expander(f"{status_tag} | ADEGAN {res['id']}", expanded=not is_done):
                 c1, c2 = st.columns(2)
                 with c1:
@@ -981,6 +982,15 @@ if menu_select == "🚀 PRODUCTION HUB":
                 with c2:
                     st.markdown("**🎥 PROMPT VIDEO**")
                     st.code(res['vid'], language="text")
+                
+                # --- TOMBOL SUNTIK KE PRODUCTION HUB ---
+                # Baris ini yang menghubungkan AI LAB ke Production Hub secara otomatis
+                if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
+                    st.session_state[f"prod_img_{res['id']}"] = res['img']
+                    st.session_state[f"prod_vid_{res['id']}"] = res['vid']
+                    st.session_state[done_key] = True
+                    st.success(f"Adegan {res['id']} berhasil masuk ke Production Hub!")
+                    st.rerun()
 
 # ==============================================================================
 # 11. HALAMAN AI LAB (VERSI DETAIL LOKASI & TEKS RAPI)
@@ -1134,6 +1144,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
