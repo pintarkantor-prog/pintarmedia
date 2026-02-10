@@ -1176,96 +1176,88 @@ elif menu_select == "⚡ QUICK PROMPT":
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
     
-    # --- 1. TARGET & PESAN KHUSUS OWNER ---
+    # --- PESAN & TARGET (Tetap di Atas) ---
     st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
-    with st.container(border=True):
-        c_msg, c_goal = st.columns([2, 1])
-        with c_msg:
-            st.info("**Pesan Khusus:**\n\nFokus ke retensi penonton di 2 menit awal ya. Pastikan semua link channel sudah benar sebelum upload!")
-        with c_goal:
-            st.success("**Goal Hari Ini:**\n- 5 Video Long Form\n- 10 Shorts Gacor\n- All Channel Clean")
+    st.info("💡 **Pesan Owner:** Pastikan semua konten di-upload tepat waktu sesuai slot jadwal 1 & 2!")
 
-    st.write("")
-
-    # --- 2. DATA KARYAWAN (Bisa kamu edit link fotonya di sini) ---
-    # Simulasi data yang bisa diatur manual
-    data_tim = [
+    # --- SIMULASI DATA DARI GSHEET ---
+    # Nantinya bagian ini otomatis narik dari Google Sheets kamu
+    data_tugas = [
         {
             "nama": "ICHA",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", # Ganti link foto asli
-            "perangkat": "iPhone 13 Pro",
+            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
+            "list_hp": ["iPhone 13", "Samsung S23", "Poco F5", "Redmi Note 12", "Infinix Note 30"],
             "channels": [
-                {"nama": "Minecraft Indo", "link": "youtube.com/c/mc_indo", "jadwal": "17:00 WIB", "jenis": "Long Form"},
-                {"nama": "Shorts Daily", "link": "youtube.com/c/shorts_daily", "jadwal": "12:00 WIB", "jenis": "Shorts"}
-            ]
-        },
-        {
-            "nama": "NISSA",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", # Ganti link foto asli
-            "perangkat": "Poco F5",
-            "channels": [
-                {"nama": "CGI Horror AI", "link": "youtube.com/c/horror_ai", "jadwal": "20:00 WIB", "jenis": "Long Form"}
+                {
+                    "nama": "Minecraft Indo", 
+                    "link": "https://youtube.com", 
+                    "j1": "10:00 WIB", 
+                    "j2": "17:00 WIB", 
+                    "jenis": "Long Form"
+                },
+                {
+                    "nama": "Daily Gaming", 
+                    "link": "https://youtube.com", 
+                    "j1": "12:00 WIB", 
+                    "j2": "19:00 WIB", 
+                    "jenis": "Shorts"
+                }
             ]
         }
-        # Tambahkan Lisa & Inggi dengan format yang sama
     ]
 
-    # --- 3. DASHBOARD MONITORING (Style Card & Sheet) ---
-    st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎬 MONITORING PRODUKSI & UPLOAD</p>", unsafe_allow_html=True)
-
-    for staf in data_tim:
+    # --- TAMPILAN DASHBOARD ---
+    for staf in data_tugas:
         with st.container(border=True):
-            # Layout Utama: Foto (Kiri) | Detail & Sheet (Kanan)
-            col_foto, col_detail = st.columns([1, 4])
+            col_profil, col_main = st.columns([1.2, 4])
             
-            with col_foto:
-                # Foto Profil Melingkar
+            # --- KOLOM KIRI: PROFIL & DAFTAR HP ---
+            with col_profil:
                 st.markdown(f"""
-                    <div style="display: flex; flex-direction: column; align-items: center;">
-                        <img src="{staf['foto']}" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #1d976c;">
-                        <h4 style="margin-top: 10px;">{staf['nama']}</h4>
-                        <code style="font-size: 0.7rem;">📱 {staf['perangkat']}</code>
+                    <div style="text-align: center;">
+                        <img src="{staf['foto']}" style="width: 110px; height: 110px; border-radius: 50%; object-fit: cover; border: 3px solid #1d976c;">
+                        <h3 style="margin: 10px 0 5px 0;">{staf['nama']}</h3>
                     </div>
                 """, unsafe_allow_html=True)
-                st.write("")
-                if st.button(f"Senggol {staf['nama']}", key=f"btn_{staf['nama']}", use_container_width=True):
-                    st.toast(f"Notif dikirim ke {staf['nama']}!")
-
-            with col_detail:
-                # Tampilan Sheet / Tabel untuk Channel
-                st.markdown('<p class="small-label">📋 JADWAL & DETAIL CHANNEL</p>', unsafe_allow_html=True)
                 
-                # Header Tabel
-                h1, h2, h3, h4, h5 = st.columns([1.5, 1.5, 1, 1, 1])
-                h1.caption("Nama Channel")
-                h2.caption("Link")
-                h3.caption("Jadwal")
-                h4.caption("Jenis")
-                h5.caption("Status")
+                st.markdown('<p class="small-label" style="text-align:center;">📱 DAFTAR PERANGKAT (5 HP)</p>', unsafe_allow_html=True)
+                # Nampilin 5 HP pake badge kecil
+                for hp in staf['list_hp']:
+                    st.markdown(f"<div style='background:#1e1e1e; padding:2px 10px; border-radius:5px; font-size:0.75rem; margin-bottom:3px; border-left:3px solid #1d976c;'>{hp}</div>", unsafe_allow_html=True)
 
-                # Isi Data Channel (Looping)
+            # --- KOLOM KANAN: SHEET JADWAL UPLOAD ---
+            with col_main:
+                st.markdown('<p class="small-label">📅 MONITORING CHANNEL & 2 SLOT JADWAL</p>', unsafe_allow_html=True)
+                
+                # Buat Header ala Sheet
+                h1, h2, h3, h4 = st.columns([2, 2, 1, 1.5])
+                h1.caption("CHANNEL")
+                h2.caption("SLOT JADWAL")
+                h3.caption("JENIS")
+                h4.caption("STATUS")
+
                 for ch in staf['channels']:
-                    r1, r2, r3, r4, r5 = st.columns([1.5, 1.5, 1, 1, 1])
-                    r1.write(f"**{ch['nama']}**")
-                    r2.write(f"[Buka Channel]({ch['link']})")
-                    r3.write(f"`{ch['jadwal']}`")
-                    r4.write(ch['jenis'])
-                    # Status Selectbox untuk update progres
-                    r5.selectbox("Ket", ["Editing", "Render", "Upload", "LIVE"], key=f"status_{staf['nama']}_{ch['nama']}", label_visibility="collapsed")
+                    r1, r2, r3, r4 = st.columns([2, 2, 1, 1.5])
+                    
+                    # 1. Info Channel
+                    r1.markdown(f"**{ch['nama']}**\n\n[Link Channel]({ch['link']})")
+                    
+                    # 2. Dua Slot Jadwal
+                    r2.markdown(f"1️⃣ `{ch['j1']}`\n\n2️⃣ `{ch['j2']}`")
+                    
+                    # 3. Jenis Konten
+                    r3.write(ch['jenis'])
+                    
+                    # 4. Update Status
+                    r4.selectbox("Update", ["Editing", "Ready", "Live 1", "Live 2", "Selesai"], key=f"st_{staf['nama']}_{ch['nama']}", label_visibility="collapsed")
+                    
                     st.divider()
 
-    # --- 4. PANEL OWNER (ADMIN) ---
-    st.write("")
-    with st.expander("🛠️ PANEL KONTROL OWNER (Atur Tugas Manual)"):
-        st.write("Hanya Dian yang boleh atur bagian ini:")
-        # Di sini kamu bisa buat form untuk update link foto, ganti HP, atau tambah channel
-        c_adm1, c_adm2 = st.columns(2)
-        target_staf = c_adm1.selectbox("Pilih Staf yang diatur", ["ICHA", "NISSA", "LISA", "INGGI"])
-        aksi_adm = c_adm2.selectbox("Aksi", ["Ganti Perangkat (HP)", "Tambah Channel", "Ganti Link Foto"])
-        
-        input_val = st.text_input("Masukkan Data Baru")
-        if st.button("Simpan Perubahan ✅", use_container_width=True):
-            st.success(f"Berhasil! Data {target_staf} telah diperbarui.")
+    # --- PANEL ATUR GSHEET ---
+    with st.expander("🔗 Koneksi Database (GSheet)"):
+        st.write("Data ini tersinkronisasi otomatis dengan Google Sheets.")
+        if st.button("Refresh Data Manual"):
+            st.rerun()
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1274,6 +1266,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
