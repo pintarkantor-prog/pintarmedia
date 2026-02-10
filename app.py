@@ -1178,121 +1178,120 @@ elif menu_select == "📋 TUGAS KERJA":
     
     st.title("📋 TUGAS KERJA")
     
-    # --- LOGIKA ROLE ACCESS ---
-    # Asumsi: Kamu menyimpan nama user saat login di st.session_state['username']
-    # Kita buat pengecekan sederhana:
-    is_admin = st.session_state.get("username") == "DIAN"
+    # --- 1. SISTEM KUNCI PINTU (Role Access) ---
+    # Ambil username dari session state (Pastikan sudah diset saat login)
+    user_sekarang = st.session_state.get("username", "GUEST")
     
-    # --- 1. TARGET & PESAN OWNER ---
-    st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
-    st.info(f"💡 **Instruksi Tim:** Editor wajib tempel link hasil kerja di kolom 'Link Drive' & update statusnya. Dian akan cek secara berkala!")
+    # Aturan Akses: Siapa boleh buka tab siapa?
+    # Dian (Admin) bisa buka SEMUA. Staf cuma bisa buka punya SENDIRI.
+    access_rules = {
+        "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
+        "ICHA": ["ICHA"],
+        "NISSA": ["NISSA"],
+        "INGGI": ["INGGI"],
+        "LISA": ["LISA"]
+    }
 
-    # --- 2. DATA MASTER (Simulasi) ---
-    data_tim = [
-        {
-            "nama": "ICHA",
+    # Ambil daftar tab yang boleh dilihat oleh user yang sedang login
+    tab_boleh_dilihat = access_rules.get(user_sekarang, [])
+
+    # --- 2. TARGET & PESAN OWNER (Hanya muncul jika diijinkan) ---
+    st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
+    st.info(f"💡 **Halo {user_sekarang}!** Fokus pada target hari ini dan pastikan semua laporan terupdate ya.")
+
+    # --- 3. DATA MASTER ---
+    # Di masa depan, ini bisa ditarik dari Google Sheets
+    data_tim = {
+        "ICHA": {
             "posisi": "Editor & Uploader",
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas_admin": "Edit 5 Video Minecraft Survival (Series Lava)",
+            "tugas": "Edit 5 Video Minecraft Survival",
             "catatan": "Sound effect di menit ke-3 tolong lebih dramatis.",
-            "laporan": [
-                {"Link Drive": "https://drive.google.com/test1", "Status": "Done"},
-                {"Link Drive": "https://drive.google.com/test2", "Status": "Proses"}
-            ]
+            "laporan": [{"Link Drive": "https://drive.google.com/icha-1", "Status": "Done"}]
         },
-        {
-            "nama": "NISSA",
+        "NISSA": {
             "posisi": "Editor & Uploader",
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas_admin": "Shorts Cinematic AI 10 Video",
-            "catatan": "Warna (Color Grading) ikuti referensi yang kemarin ya Nis.",
-            "laporan": [
-                {"Link Drive": "https://drive.google.com/test3", "Status": "Revisi"}
-            ]
+            "tugas": "Shorts Cinematic AI 10 Video",
+            "catatan": "Color grading ikuti referensi kemarin ya Nis.",
+            "laporan": [{"Link Drive": "https://drive.google.com/nissa-1", "Status": "Revisi"}]
+        },
+        "INGGI": {
+            "posisi": "Uploader & SEO",
+            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", # Ganti foto Inggi
+            "tugas": "Optimasi 10 Judul & Tag Channel Utama",
+            "catatan": "SEO harus tembus skor 80+ ya!",
+            "laporan": []
+        },
+        "LISA": {
+            "posisi": "Uploader & SEO",
+            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", # Ganti foto Lisa
+            "tugas": "Scheduling 3 Video Long Form",
+            "catatan": "Cek thumbnail jangan sampai ada typo.",
+            "laporan": []
         }
-    ]
+    }
 
-    # --- 3. GENERATE CARDS ---
-    for staf in data_tim:
-        df_laporan = pd.DataFrame(staf['laporan'])
+    # --- 4. NAVIGASI SUB-TABS ---
+    # Kita buat tab hanya untuk yang berhak melihat
+    if tab_boleh_dilihat:
+        tabs = st.tabs([f"👤 {nama}" for nama in tab_boleh_dilihat])
         
-        # Hitung Counter Done & Revisi Otomatis
-        count_done = (df_laporan['Status'] == 'Done').sum()
-        count_revisi = (df_laporan['Status'] == 'Revisi').sum()
+        for i, nama_staf in enumerate(tab_boleh_dilihat):
+            with tabs[i]:
+                staf = data_tim[nama_staf]
+                df_laporan = pd.DataFrame(staf['laporan']) if staf['laporan'] else pd.DataFrame(columns=["Link Drive", "Status"])
+                
+                # Counter Done & Revisi
+                count_done = (df_laporan['Status'] == 'Done').sum()
+                count_revisi = (df_laporan['Status'] == 'Revisi').sum()
 
-        with st.container(border=True):
-            col_id, col_main = st.columns([1, 3])
-            
-            # --- KOLOM KIRI: IDENTITAS & COUNTER ---
-            with col_id:
-                st.markdown(f"""
-                    <div style="text-align: center; padding: 10px;">
-                        <img src="{staf['foto']}" style="width: 100px; height: 100px; border-radius: 15px; object-fit: cover; border: 2px solid #1d976c;">
-                        <h4 style="margin-top: 10px; margin-bottom: 0px;">{staf['nama']}</h4>
-                        <p style="color: #808495; font-size: 0.8rem; margin-bottom: 10px;">{staf['posisi']}</p>
-                    </div>
-                """, unsafe_allow_html=True)
-                
-                st.write("---")
-                m1, m2 = st.columns(2)
-                m1.metric("Done", count_done)
-                m2.metric("Revisi", count_revisi)
-                
-                st.button(f"Senggol {staf['nama']} 🔔", key=f"ping_{staf['nama']}", use_container_width=True)
+                with st.container(border=True):
+                    col_id, col_main = st.columns([1, 3])
+                    
+                    with col_id:
+                        st.markdown(f"""
+                            <div style="text-align: center; padding: 10px;">
+                                <img src="{staf['foto']}" style="width: 100px; height: 100px; border-radius: 15px; object-fit: cover; border: 2px solid #1d976c;">
+                                <h4 style="margin-top: 10px; margin-bottom: 0px;">{nama_staf}</h4>
+                                <p style="color: #808495; font-size: 0.8rem;">{staf['posisi']}</p>
+                            </div>
+                        """, unsafe_allow_html=True)
+                        st.write("---")
+                        m1, m2 = st.columns(2)
+                        m1.metric("Done", count_done)
+                        m2.metric("Revisi", count_revisi)
 
-            # --- KOLOM KANAN: PANEL KERJA ---
-            with col_main:
-                # A. INSTRUKSI ADMIN
-                st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS DARI ADMIN</p>', unsafe_allow_html=True)
-                st.info(staf['tugas_admin'])
-                
-                # B. AREA LAPORAN KARYAWAN
-                st.markdown('<p class="small-label" style="margin-bottom:5px;">🔗 LAPORAN TUGAS (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
-                
-                # Data Editor agar staf bisa input link & ganti status
-                st.data_editor(
-                    df_laporan,
-                    column_config={
-                        "Link Drive": st.column_config.LinkColumn(
-                            "Link Google Drive", 
-                            width="large"
-                        ),
-                        "Status": st.column_config.SelectboxColumn(
-                            "Status", 
-                            options=["Proses", "Revisi", "Done"], 
-                            required=True
+                    with col_main:
+                        st.markdown('<p class="small-label" style="color:#1d976c;">📝 TUGAS DARI ADMIN</p>', unsafe_allow_html=True)
+                        st.info(staf['tugas'])
+                        
+                        st.markdown('<p class="small-label">🔗 LAPORAN TUGAS (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
+                        st.data_editor(
+                            df_laporan,
+                            column_config={
+                                "Link Drive": st.column_config.LinkColumn("Link Google Drive", width="large"),
+                                "Status": st.column_config.SelectboxColumn("Status", options=["Proses", "Revisi", "Done"], required=True)
+                            },
+                            num_rows="dynamic",
+                            key=f"editor_{nama_staf}",
+                            use_container_width=True,
+                            hide_index=True
                         )
-                    },
-                    num_rows="dynamic",
-                    key=f"editor_{staf['nama']}",
-                    use_container_width=True,
-                    hide_index=True
-                )
-                
-                # C. CATATAN OWNER
-                st.write("")
-                st.markdown('<p class="small-label" style="margin-bottom:5px;">✍️ CATATAN KHUSUS</p>', unsafe_allow_html=True)
-                st.warning(staf['catatan'])
+                        st.write("")
+                        st.markdown('<p class="small-label">✍️ CATATAN KHUSUS OWNER</p>', unsafe_allow_html=True)
+                        st.warning(staf['catatan'])
 
-    # --- 4. PANEL ADMIN (PROTECTED) ---
-    # Panel ini HANYA akan muncul jika yang login adalah username "DIAN"
-    if is_admin:
+    # --- 5. PANEL ADMIN (KHUSUS DIAN) ---
+    if user_sekarang == "DIAN":
         st.write("")
         st.divider()
-        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)", expanded=False):
-            st.markdown("<p style='color:#1d976c; font-weight:bold;'>Ganti instruksi tugas staf secara manual:</p>", unsafe_allow_html=True)
-            col_adm1, col_adm2 = st.columns(2)
-            with col_adm1:
-                target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
-                new_task = st.text_area("Update Instruksi Tugas Baru", placeholder="Ketik tugas di sini...")
-            with col_adm2:
-                new_catatan = st.text_input("Update Catatan Khusus", placeholder="Ketik catatan...")
-            
-            if st.button("Simpan Perubahan ✅", use_container_width=True, type="primary"):
-                st.success(f"Beres! Tugas untuk {target} sudah diperbarui di sistem.")
+        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)"):
+            target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "INGGI", "LISA"])
+            st.text_area(f"Update Tugas untuk {target}")
+            st.button("Simpan Perubahan ✅", use_container_width=True)
     else:
-        # Jika bukan Dian, tampilkan pesan tipis di bawah (opsional)
-        st.caption("🔒 Beberapa fitur kontrol dibatasi hanya untuk Owner.")
+        st.toast(f"Selamat bekerja, {user_sekarang}!", icon="🚀")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1301,6 +1300,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
