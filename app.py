@@ -1174,14 +1174,16 @@ elif menu_select == "⚡ QUICK PROMPT":
                 st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
+    import pandas as pd # Wajib ada agar data_editor jalan
+    
     st.title("📋 TUGAS KERJA")
     
     # --- 1. TARGET & PESAN OWNER ---
     st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
-    st.info("💡 **Pesan Owner:** Karyawan wajib input link hasil render di kolom 'Laporan' ya. Status jangan lupa di-update!")
+    st.info("💡 **Instruksi Tim:** Editor wajib tempel link hasil kerja di kolom 'Link Drive' & update statusnya. Dian akan cek secara berkala!")
 
-    # --- 2. DATA MASTER (Nantinya narik dari GSheet) ---
-    # Ini simulasi data staf
+    # --- 2. DATA MASTER (Simulasi Data Staf) ---
+    # Di masa depan, list ini bisa ditarik otomatis dari Google Sheets
     data_tim = [
         {
             "nama": "ICHA",
@@ -1189,10 +1191,9 @@ elif menu_select == "📋 TUGAS KERJA":
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
             "tugas_admin": "Edit 5 Video Minecraft Survival (Series Lava)",
             "catatan": "Sound effect di menit ke-3 tolong lebih dramatis.",
-            # Laporan ini yang nanti diisi karyawan
             "laporan": [
-                {"Link Drive": "drive.google.com/icha-1", "Status": "Done"},
-                {"Link Drive": "", "Status": "Proses"}
+                {"Link Drive": "https://drive.google.com/test1", "Status": "Done"},
+                {"Link Drive": "https://drive.google.com/test2", "Status": "Proses"}
             ]
         },
         {
@@ -1200,31 +1201,32 @@ elif menu_select == "📋 TUGAS KERJA":
             "posisi": "Editor & Uploader",
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
             "tugas_admin": "Shorts Cinematic AI 10 Video",
-            "catatan": "Warna (Color Grading) ikuti referensi yang kemarin.",
+            "catatan": "Warna (Color Grading) ikuti referensi yang kemarin ya Nis.",
             "laporan": [
-                {"Link Drive": "drive.google.com/nissa-1", "Status": "Done"},
-                {"Link Drive": "drive.google.com/nissa-2", "Status": "Revisi"}
+                {"Link Drive": "https://drive.google.com/test3", "Status": "Revisi"}
             ]
         }
     ]
 
     # --- 3. GENERATE CARDS ---
     for staf in data_tim:
-        # LOGIKA COUNTER: Hitung otomatis dari list laporan
+        # Menyiapkan data untuk tabel
         df_laporan = pd.DataFrame(staf['laporan'])
+        
+        # Hitung Counter Done & Revisi
         count_done = (df_laporan['Status'] == 'Done').sum()
         count_revisi = (df_laporan['Status'] == 'Revisi').sum()
 
         with st.container(border=True):
-            col_profil, col_kerja = st.columns([1, 3])
+            col_id, col_main = st.columns([1, 3])
             
-            # --- KOLOM KIRI: IDENTITAS & COUNTER ---
-            with col_profil:
+            # --- KOLOM KIRI: FOTO & COUNTER ---
+            with col_id:
                 st.markdown(f"""
                     <div style="text-align: center; padding: 10px;">
                         <img src="{staf['foto']}" style="width: 100px; height: 100px; border-radius: 15px; object-fit: cover; border: 2px solid #1d976c;">
                         <h4 style="margin-top: 10px; margin-bottom: 0px;">{staf['nama']}</h4>
-                        <p style="color: #808495; font-size: 0.8rem; margin-bottom: 15px;">{staf['posisi']}</p>
+                        <p style="color: #808495; font-size: 0.8rem; margin-bottom: 10px;">{staf['posisi']}</p>
                     </div>
                 """, unsafe_allow_html=True)
                 
@@ -1234,44 +1236,53 @@ elif menu_select == "📋 TUGAS KERJA":
                 m1.metric("Done", count_done)
                 m2.metric("Revisi", count_revisi)
                 
-                if st.button(f"Senggol {staf['nama']}", key=f"ping_{staf['nama']}", use_container_width=True):
-                    st.toast("Notif terkirim!")
+                if st.button(f"Senggol {staf['nama']} 🔔", key=f"ping_{staf['nama']}", use_container_width=True):
+                    st.toast(f"Notif dikirim ke {staf['nama']}!")
 
-            # --- KOLOM KANAN: PANEL INPUT KARYAWAN ---
-            with col_kerja:
-                # A. INSTRUKSI ADMIN (Read-Only)
-                st.markdown('<p class="small-label" style="color:#1d976c;">📝 TUGAS DARI ADMIN (DIAN)</p>', unsafe_allow_html=True)
+            # --- KOLOM KANAN: PANEL KERJA ---
+            with col_main:
+                # A. INSTRUKSI ADMIN
+                st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS DARI ADMIN</p>', unsafe_allow_html=True)
                 st.info(staf['tugas_admin'])
                 
-                # B. AREA INPUT KARYAWAN (Link Drive & Status)
-                st.markdown('<p class="small-label">🔗 LAPORAN HASIL (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
+                # B. AREA LAPORAN KARYAWAN (Link Drive & Status)
+                st.markdown('<p class="small-label" style="margin-bottom:5px;">🔗 LAPORAN TUGAS (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
                 
-                # Kita pakai data_editor agar karyawan bisa ngetik link & pilih status langsung
+                # Menggunakan LinkColumn agar link bisa diklik langsung
                 edited_df = st.data_editor(
                     df_laporan,
                     column_config={
-                        "Link Drive": st.column_config.TextColumn("Link Google Drive", placeholder="Paste link di sini...", width="large"),
-                        "Status": st.column_config.SelectboxColumn("Status", options=["Proses", "Revisi", "Done"], required=True)
+                        "Link Drive": st.column_config.LinkColumn(
+                            "Link Google Drive", 
+                            width="large",
+                            placeholder="Tempel link drive di sini..."
+                        ),
+                        "Status": st.column_config.SelectboxColumn(
+                            "Status", 
+                            options=["Proses", "Revisi", "Done"], 
+                            required=True
+                        )
                     },
-                    num_rows="dynamic", # Karyawan bisa nambah baris sendiri kalau videonya banyak
+                    num_rows="dynamic", # Karyawan bisa nambah baris sendiri
                     key=f"editor_{staf['nama']}",
                     use_container_width=True,
                     hide_index=True
                 )
                 
-                # C. CATATAN TAMBAHAN
+                # C. CATATAN OWNER
                 st.write("")
-                st.markdown('<p class="small-label">✍️ CATATAN KHUSUS OWNER</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-bottom:5px;">✍️ CATATAN KHUSUS</p>', unsafe_allow_html=True)
                 st.warning(staf['catatan'])
 
-    # --- 4. PANEL ADMIN (KHUSUS KAMU) ---
+    # --- 4. PANEL ADMIN (KHUSUS DIAN) ---
     st.write("")
     with st.expander("🛠️ ADMIN CONTROL PANEL (Update Tugas Utama)"):
-        st.write("Ganti instruksi tugas staf di sini:")
+        st.write("Ganti instruksi tugas staf secara manual:")
         target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
-        new_task = st.text_area("Instruksi Baru")
-        if st.button("Update Tugas", use_container_width=True):
-            st.success("Tugas Berhasil Di-update!")
+        new_task = st.text_area("Update Instruksi Tugas Baru")
+        new_catatan = st.text_input("Update Catatan Khusus")
+        if st.button("Simpan Perubahan ✅", use_container_width=True):
+            st.success(f"Beres! Tugas untuk {target} sudah diperbarui.")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1280,6 +1291,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
