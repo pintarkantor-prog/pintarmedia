@@ -872,7 +872,7 @@ elif menu_select == "🧠 AI LAB":
         st.markdown("### 🎭 1. Tentukan Pemain")
         input_nama_awal = st.session_state.get('current_names', "UDIN, TUNG")
         nama_fix = st.text_input("Nama Tokoh (Maks 2, pisahkan dengan koma):", value=input_nama_awal)
-        st.session_state['current_names'] = nama_fix # Kunci di memori
+        st.session_state['current_names'] = nama_fix 
         
         st.markdown("---")
         
@@ -890,7 +890,6 @@ elif menu_select == "🧠 AI LAB":
             pilihan = st.selectbox("Daftar Premis:", list(gudang_ide.keys()))
             
             if pilihan != "--- Pilih Menu Ide ---":
-                # OTOMATIS GANTI NAMA DI IDE STOK BERDASARKAN INPUT MANUAL
                 names = [n.strip() for n in nama_fix.split(',')]
                 t1 = names[0] if len(names) > 0 else "Tokoh A"
                 t2 = names[1] if len(names) > 1 else "Tokoh B"
@@ -908,7 +907,6 @@ elif menu_select == "🧠 AI LAB":
             if st.button("RAKIT IDE SKAKMAT 🚀", use_container_width=True, type="primary"):
                 with st.spinner("Groq sedang merancang plot..."):
                     try:
-                        # PAKSA AI HANYA GUNAKAN 2 NAMA DARI INPUT MANUAL
                         prompt_ide = f"""
                         Buat 1 premis cerita Shorts 'Karma Visual'. 
                         TOKOH WAJIB: {nama_fix}. 
@@ -953,18 +951,18 @@ elif menu_select == "🧠 AI LAB":
                         ATURAN KETAT:
                         1. Hanya boleh ada MAKSIMAL 2 KARAKTER yaitu {nama_pilihan}.
                         2. DILARANG KERAS memasukkan orang ketiga, figuran, atau kerumunan.
-                        3. Fokus pada ekspresi dan interaksi dua orang ini saja.
+                        3. JANGAN MENULIS LABEL TEKNIS DI DALAM ISI CERITA.
                         
-                        WAJIB gunakan format kaku di bawah ini untuk SETIAP adegan:
+                        WAJIB gunakan format kaku di bawah ini (Gunakan baris baru agar rapi):
 
                         [ADEGAN X]
                         Cerita: (tulis cerita visualnya saja di sini)
                         Suasana: (Pagi/Siang/Sore/Malam)
-                        Shot: (Pilih: Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas)
-                        Angle: (Pilih: Normal/Sudut Rendah/Sudut Tinggi/Samping)
-                        Gerak: (Pilih: Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk)
-                        Lokasi: (Deskripsi lokasi DETAIL, termasuk dekorasi/hiasan dinding secara spesifik)
-                        Dialog: (Format: Nama Tokoh: Teks Dialog)
+                        Shot: (Setengah Badan/Dekat Wajah/Sangat Dekat/Seluruh Badan/Pemandangan Luas)
+                        Angle: (Normal/Sudut Rendah/Sudut Tinggi/Samping)
+                        Gerak: (Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk)
+                        Lokasi: (Deskripsi lokasi DETAIL & hiasan dinding)
+                        Dialog: (Nama: Teks)
                         ---
                         Naskah: {st.session_state['ready_script']}
                         """
@@ -983,7 +981,6 @@ elif menu_select == "🧠 AI LAB":
                     st.session_state['ui_reset_key'] += 1 
                     
                     for i in range(1, 11):
-                        # Cari blok adegan dari [ADEGAN i] sampai adegan berikutnya atau pembatas ---
                         pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                         match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                         
@@ -991,23 +988,19 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                # Regex Lookahead: Berhenti sebelum label teknis berikutnya agar teks tidak 'gede'
-                                m = re.search(rf"{label}:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$)", blok, re.S | re.I)
+                                # Regex yang lebih teliti untuk memisahkan teks
+                                m = re.search(rf"{label}:\s*(.*?)(?=\s*(?:Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))", blok, re.S | re.I)
                                 if m:
                                     return m.group(1).strip()
                                 return ""
 
-                            # 1. Suntik Cerita Visual (Sekarang BERSIH)
+                            # Proses Suntik ke Session State
                             st.session_state[f'vis_input_{i}'] = extract("Cerita")
-                            # 2. Suntik Suasana
                             st.session_state[f'env_input_{i}'] = extract("Suasana").capitalize()
-                            # 3. Suntik Shot & Angle
                             st.session_state[f'size_input_{i}'] = extract("Shot")
                             st.session_state[f'angle_input_{i}'] = extract("Angle")
-                            # 4. Suntik Lokasi Detail
                             st.session_state[f'loc_custom_{i}'] = extract("Lokasi")
                             
-                            # 5. Suntik Dialog (Nama Tokoh Dinamis & Maks 2)
                             if 'current_names' in st.session_state:
                                 names = [n.strip() for n in st.session_state['current_names'].split(',')]
                                 if len(names) >= 1: st.session_state['c_name_1_input'] = names[0].upper()
@@ -1015,16 +1008,18 @@ elif menu_select == "🧠 AI LAB":
                                 
                                 diag_blok = extract("Dialog")
                                 for idx_n, n_name in enumerate(names):
-                                    if idx_n < 2: # Hanya suntik maksimal 2 tokoh
+                                    if idx_n < 2:
+                                        # Cari dialog spesifik berdasarkan nama
                                         d_m = re.search(rf"{n_name}:(.*?)(?=\n|$)", diag_blok, re.I)
                                         if d_m:
                                             st.session_state[f"diag_{i}_{idx_n}"] = d_m.group(1).strip()
 
-                    st.success("🔥 SINKRONISASI BERHASIL: Storyboard sekarang bersih & rapi di Hub!")
+                    st.success("🔥 BERHASIL! Teks sekarang rapi dan tidak menumpuk lagi.")
                     time.sleep(0.5)
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
