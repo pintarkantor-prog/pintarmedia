@@ -1054,7 +1054,64 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
-    st.info("Penjadwalan produksi.")
+    st.markdown("<p style='color:#1d976c;'>Jadwal Produksi & Deadline Terintegrasi GSheets</p>", unsafe_allow_html=True)
+    st.divider()
+
+    # --- FUNGSI AMBIL DATA (Pastikan nama sheet sesuai dengan di GSheets kamu) ---
+    try:
+        # Kita asumsikan tab di GSheets kamu namanya 'Schedule'
+        schedule_data = read_gsheet("Schedule") 
+        
+        if not schedule_data.empty:
+            # 1. RINGKASAN STATUS (METRICS)
+            col_s1, col_s2, col_s3 = st.columns(3)
+            with col_s1:
+                total_prod = len(schedule_data)
+                st.metric("Total Produksi", f"{total_prod} Konten")
+            with col_s2:
+                # Menghitung yang statusnya 'In Progress' atau 'Pending'
+                ongoing = len(schedule_data[schedule_data['Status'].isin(['In Progress', 'Produksi'])])
+                st.metric("Sedang Berjalan", ongoing)
+            with col_s3:
+                completed = len(schedule_data[schedule_data['Status'] == 'Done'].shape[0])
+                st.metric("Selesai", completed)
+
+            st.write("")
+            
+            # 2. TAMPILAN TABEL JADWAL (ELEGAN)
+            st.markdown("##### 📅 Daftar Agenda Produksi")
+            
+            # Styling Tabel agar baris yang 'Urgent' terlihat beda
+            def highlight_status(val):
+                color = '#1d976c' if val == 'Done' else '#ff4b4b' if val == 'Urgent' else '#31333f'
+                return f'background-color: {color}'
+
+            # Menampilkan dataframe dengan styling
+            st.dataframe(
+                schedule_data, 
+                use_container_width=True, 
+                hide_index=True,
+                column_config={
+                    "Status": st.column_config.StatusColumn("Status"),
+                    "Deadline": st.column_config.DateColumn("Tanggal Target"),
+                    "Link": st.column_config.LinkColumn("Referensi")
+                }
+            )
+
+            # 3. TOMBOL UPDATE (KHUSUS ADMIN)
+            if st.session_state.active_user == "admin":
+                st.write("")
+                if st.button("➕ TAMBAH/EDIT JADWAL", use_container_width=True):
+                    st.info("Silakan update data langsung di Google Sheets Anda. Sistem akan sinkron otomatis saat halaman direfresh.")
+                    # Opsional: Tambahkan link ke GSheets kamu
+                    st.markdown(f"[Klik di sini untuk buka Google Sheets](https://docs.google.com/spreadsheets/d/{st.secrets['connections']['gsheets']['spreadsheet_id']})")
+        
+        else:
+            st.warning("Belum ada jadwal yang terdaftar di Google Sheets.")
+
+    except Exception as e:
+        st.error(f"Gagal sinkron dengan GSheets: {e}")
+        st.info("Pastikan Tab 'Schedule' sudah ada di Google Sheets Anda.")
 
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1084,6 +1141,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
