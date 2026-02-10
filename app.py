@@ -30,7 +30,7 @@ def panggil_ai_groq(prompt_user):
             {"role": "system", "content": SOP_PINTAR_MEDIA},
             {"role": "user", "content": prompt_user},
         ],
-        model="llama-3.3-70b-versatile",
+        model="llama-3.1-8b-instant",
         temperature=0.7,
     )
     return chat_completion.choices[0].message.content
@@ -1105,6 +1105,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
