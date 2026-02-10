@@ -846,7 +846,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI FINAL SINKRON - NO ERROR)
+# 11. HALAMAN AI LAB (VERSI LOKASI DETAIL & NAMA DINAMIS)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -862,10 +862,10 @@ elif menu_select == "🧠 AI LAB":
         if mode_ide == "📦 Pakai Ide Stok":
             gudang_ide = {
                 "--- Pilih Menu Ide ---": "",
-                "Karma Konten Palsu": "Tung tarik uang sejuta dari pengemis demi konten, ternyata intel polisi.",
-                "Antri Bansos Mobil Mewah": "Tung pamer mobil mewah pas antre bansos, ternyata mobil sewaan leasing.",
-                "Bos Nyamar OB": "Tung bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi.",
-                "Hutang Gaya Elit": "Tung pamer iPhone baru tapi nunggak hutang ke Udin, HP langsung disita Udin."
+                "Karma Konten Palsu": "Tokoh A tarik uang sejuta dari pengemis demi konten, ternyata intel polisi.",
+                "Antri Bansos Mobil Mewah": "Tokoh A pamer mobil mewah pas antre bansos, ternyata mobil sewaan leasing.",
+                "Bos Nyamar OB": "Tokoh A bentak OB karena baju kotor, ternyata itu CEO baru lagi inspeksi.",
+                "Hutang Gaya Elit": "Tokoh A pamer iPhone baru tapi nunggak hutang ke Tokoh B, HP langsung disita."
             }
             pilihan = st.selectbox("Daftar Premis:", list(gudang_ide.keys()))
             if pilihan != "--- Pilih Menu Ide ---":
@@ -885,13 +885,14 @@ elif menu_select == "🧠 AI LAB":
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
-            nama_tokoh = st.text_input("Tulis Nama Tokoh:", value="UDIN, TUNG", key="lab_tokoh_groq")
+            nama_tokoh = st.text_input("Tulis Nama Tokoh (Pisahkan dengan koma):", value="UDIN, TUNG", key="lab_tokoh_groq")
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
                 with st.spinner("Menyusun naskah..."):
                     try:
                         prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Tokoh: {nama_tokoh}."
                         hasil_dialog = panggil_ai_groq(prompt)
                         st.session_state['ready_script'] = hasil_dialog
+                        st.session_state['current_names'] = nama_tokoh 
                         st.rerun()
                     except Exception as e: st.error(f"Eror: {e}")
             if 'ready_script' in st.session_state:
@@ -899,16 +900,15 @@ elif menu_select == "🧠 AI LAB":
         else:
             st.warning("Pilih ide di Tab 1!")
 
-with tab_storyboard:
+    with tab_storyboard:
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
-            # --- TOMBOL PECAH ADEGAN (DIPERKUAT PROMPTNYA) ---
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Membedah naskah secara detail..."):
+                with st.spinner("Memecah adegan dengan lokasi detail..."):
                     try:
-                        # Prompt diperketat agar AI memberikan data label yang konsisten
+                        # --- PROMPT DIPERKUAT UNTUK LOKASI DETAIL ---
                         prompt = f"""
-                        Pecah naskah ini jadi 10 adegan visual. 
+                        Pecah naskah ini jadi 10 adegan visual yang sinematik. 
                         WAJIB gunakan format kaku di bawah ini untuk SETIAP adegan:
 
                         [ADEGAN X]
@@ -917,11 +917,9 @@ with tab_storyboard:
                         Shot: (Pilih: Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas)
                         Angle: (Pilih: Normal/Sudut Rendah/Sudut Tinggi/Samping/Berhadapan/Intip Bahu/Belakang)
                         Gerak: (Pilih: Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk/Zoom Keluar/Memutar (Orbit))
-                        Lokasi: (Tulis nama lokasi singkat, misal: Jalan Kampung, Teras Rumah, Sawah)
+                        Lokasi: (Berikan deskripsi lokasi yang DETAIL. Misal: 'Teras rumah kampung yang berantakan dengan jemuran pakaian', 'Pinggir jalan raya yang ramai dengan background gedung tinggi', 'Warung kopi sederhana dengan cahaya temaram lampu kuning')
                         ---
-
-                        Naskah yang harus dipecah:
-                        {st.session_state['ready_script']}
+                        Naskah: {st.session_state['ready_script']}
                         """
                         hasil_st = panggil_ai_groq(prompt)
                         st.session_state['ready_storyboard'] = hasil_st
@@ -939,60 +937,62 @@ with tab_storyboard:
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
                         st.toast("Terkirim! ✅")
                 
-                # --- TOMBOL SUNTIK (VERSI PALING PINTAR & BERSIH) ---
                 with col_k2:
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
-                        st.session_state['ui_reset_key'] += 1 # Trigger refresh UI
+                        st.session_state['ui_reset_key'] += 1 
                         
                         for i in range(1, 11):
-                            # Ambil blok per adegan berdasarkan label [ADEGAN i] sampai pembatas ---
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                             
                             if match:
                                 blok = match.group(1)
                                 
-                                # 1. AMBIL CERITA (Hanya ceritanya saja, label dibuang)
+                                # 1. AMBIL CERITA (Teks bersih)
                                 c_match = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
                                 if c_match:
                                     st.session_state[f'vis_input_{i}'] = c_match.group(1).strip()
                                 
-                                # 2. AMBIL SUASANA (Sesuai options_lighting)
+                                # 2. AMBIL SUASANA
                                 s_match = re.search(rf"Suasana:(.*?)(?=\n|$)", blok, re.I)
                                 if s_match:
-                                    s_val = s_match.group(1).strip()
+                                    s_val = s_match.group(1).strip().capitalize()
                                     st.session_state[f'env_input_{i}'] = s_val if s_val in options_lighting else "Siang"
                                 
-                                # 3. AMBIL SHOT SIZE (Sesuai indonesia_shot)
+                                # 3. AMBIL SHOT SIZE
                                 sh_match = re.search(rf"Shot:(.*?)(?=\n|$)", blok, re.I)
                                 if sh_match:
                                     sh_val = sh_match.group(1).strip()
                                     st.session_state[f'size_input_{i}'] = sh_val if sh_val in indonesia_shot else "Setengah Badan"
 
-                                # 4. AMBIL ANGLE (Sesuai indonesia_angle)
+                                # 4. AMBIL ANGLE
                                 a_match = re.search(rf"Angle:(.*?)(?=\n|$)", blok, re.I)
                                 if a_match:
                                     a_val = a_match.group(1).strip()
                                     st.session_state[f'angle_input_{i}'] = a_val if a_val in indonesia_angle else "Normal"
 
-                                # 5. AMBIL GERAKAN KAMERA (Sesuai indonesia_camera)
+                                # 5. AMBIL GERAK
                                 g_match = re.search(rf"Gerak:(.*?)(?=\n|$)", blok, re.I)
                                 if g_match:
                                     g_val = g_match.group(1).strip()
                                     st.session_state[f'cam_move_{i}'] = g_val if g_val in indonesia_camera else "Diam (Tanpa Gerak)"
 
-                                # 6. AMBIL LOKASI CUSTOM
+                                # 6. AMBIL LOKASI DETAIL
                                 l_match = re.search(rf"Lokasi:(.*?)(?=\n|$)", blok, re.I)
                                 if l_match:
                                     st.session_state[f'loc_sel_{i}'] = "--- KETIK MANUAL ---"
                                     st.session_state[f'loc_custom_{i}'] = l_match.group(1).strip()
+                        
+                        # --- DINAMISASI NAMA TOKOH ---
+                        if 'current_names' in st.session_state:
+                            names = [n.strip().upper() for n in st.session_state['current_names'].split(',')]
+                            if len(names) >= 1: st.session_state['c_name_1_input'] = names[0]
+                            if len(names) >= 2: st.session_state['c_name_2_input'] = names[1]
                         
                         st.success("🔥 SINKRONISASI TOTAL BERHASIL!")
                         time.sleep(0.5)
                         st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
-
-
