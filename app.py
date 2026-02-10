@@ -1044,7 +1044,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
             st.code(mega_prompt, language="text")
             st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
 
-    elif mode_lab == "⚡ OTOMATIS (AI PINTAR)":
+    elif mode_lab == "⚡ AI PINTAR":
         if st.button("SULAP JADI ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
             if not owner_core:
                 st.error("Garis Besar Cerita wajib diisi!")
@@ -1229,6 +1229,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
