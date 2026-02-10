@@ -496,7 +496,7 @@ with st.sidebar:
     menu_umum = [
         "🚀 RUANG PRODUKSI", 
         "🧠 PINTAR AI LAB", 
-        "📈 TREND ANALYZER", 
+        "⚡ QUICK PROMPT", 
         "📋 TUGAS KERJA"
     ]
     
@@ -1070,44 +1070,72 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
 
-elif menu_select == "📈 TREND ANALYZER":
-    st.title("📈 TREND ANALYZER")
-    st.markdown("<p style='color:#808495; margin-top:-15px;'>Live Monitoring Tren Indonesia</p>", unsafe_allow_html=True)
-    st.divider()
-
-    # --- BAGIAN 1: LIVE WIDGET GOOGLE TRENDS ---
-    st.markdown("### 🔥 Topik Populer Hari Ini (Indonesia)")
+elif menu_select == "⚡ QUICK PROMPT":
+    st.title("⚡ QUICK PROMPT")
+    st.markdown("<p style='color:#1d976c; font-weight:bold; margin-top:-15px;'>Generator Prompt Instan: Dari Ide ke Teknis dalam 1 Detik</p>", unsafe_allow_html=True)
     
-    # Widget Google Trends Indonesia (Real-time)
-    html_trends = """
-    <script type="text/javascript" src="https://ssl.gstatic.com/trends/embed/widget/js/render_widget.js"></script>
-    <script type="text/javascript">
-      trends.embed.renderWidget("dailytrends", "", {"geo":"ID","guestPath":"https://trends.google.com:443/trends/embed/"});
-    </script>
-    """
-    st.components.v1.html(html_trends, height=450, scrolling=True)
+    # --- CSS AGAR BOX HASIL TERLIHAT PREMIUN ---
+    st.markdown("""
+        <style>
+        .quick-result-card {
+            background-color: #1a1c23; border: 1px solid #1d976c; padding: 20px; 
+            border-radius: 12px; margin-top: 15px; border-left: 8px solid #1d976c;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-    st.write("")
-    
-    # --- BAGIAN 2: SHORTCUT RISET CEPAT (CARD) ---
-    st.markdown("### ⚡ Cek Platform Viral")
-    c1, c2, c3 = st.columns(3)
-    
-    # Gaya tombol yang lebih rapi
-    with c1:
-        st.link_button("📱 TIKTOK TRENDS", "https://ads.tiktok.com/business/creativecenter/trends/pc/en", use_container_width=True)
-    with c2:
-        st.link_button("🎬 YT TRENDING", "https://www.youtube.com/feed/trending", use_container_width=True)
-    with c3:
-        st.link_button("🖼️ PINTEREST", "https://id.pinterest.com/search/pins/?q=konten%20viral", use_container_width=True)
+    # --- PANEL KONTROL ---
+    with st.container(border=True):
+        col_cerita, col_bumbu = st.columns([3, 2])
+        
+        with col_cerita:
+            st.caption("✍️ APA KEJADIANNYA?")
+            isi_ide = st.text_area("InputCerita", placeholder="Misal: Pria kekar sedang menangis tersedu-sedu di pemakaman...", height=160, label_visibility="collapsed")
+        
+        with col_bumbu:
+            st.caption("🎬 PILIH VIBE & SHOT")
+            vibe_val = st.selectbox("Vibe", [
+                "🌅 Golden Hour (Dramatic/Warm)", 
+                "🌑 Dark Moody (Horror/Mystery)", 
+                "💥 High Action (Vivid/Sharp)",
+                "🎞️ Retro 90s (Vintage/Grainy)",
+                "🏠 Clean Realistic (Natural/Sharp)"
+            ], label_visibility="collapsed")
+            
+            shot_val = st.selectbox("Shot", ["Wajah (Close-Up)", "Setengah Badan (Medium)", "Pemandangan (Wide)"], label_visibility="collapsed")
+            
+            st.write("")
+            if st.button("🚀 RAKIT SEKARANG", use_container_width=True, type="primary"):
+                if not isi_ide:
+                    st.warning("Isi dulu kejadian ceritanya!")
+                else:
+                    # Racikan Bumbu Otomatis
+                    map_vibe = {
+                        "🌅 Golden Hour (Dramatic/Warm)": "warm dramatic lighting, long shadows, amber glow, cinematic film grain, 8k RAW photo, masterpiece.",
+                        "🌑 Dark Moody (Horror/Mystery)": "low-key lighting, heavy shadows, cold blue and teal tones, foggy, high contrast, cinematic grit.",
+                        "💥 High Action (Vivid/Sharp)": "dynamic energy, hard lighting, saturated colors, sharp edge enhancement, hyper-detailed textures.",
+                        "🎞️ Retro 90s (Vintage/Grainy)": "authentic 90s film aesthetic, slight chromatic aberration, warm nostalgic colors, organic textures.",
+                        "🏠 Clean Realistic (Natural/Sharp)": "natural daylight, soft shadows, f/11 aperture, ultra-clear focus, realistic skin textures."
+                    }
+                    map_shot = {
+                        "Wajah (Close-Up)": "extreme close-up shot, focus on facial expressions,",
+                        "Setengah Badan (Medium)": "medium shot, waist-up framing, cinematic depth,",
+                        "Pemandangan (Wide)": "wide landscape shot, expansive environment,"
+                    }
+                    
+                    st.session_state.hasil_quick = f"{isi_ide}. {map_shot[shot_val]} {map_vibe[vibe_val]} sharp focus, extremely detailed, no text, no watermark."
 
-    # --- BAGIAN 3: TOOL RISET KATA KUNCI (YANG TADI) ---
-    with st.expander("🛠️ TOOLS RISET SPESIFIK"):
-        keyword = st.text_input("Ketik Topik (Misal: 'Masak')", placeholder="Cari ide visual...")
-        if keyword:
-            st.markdown(f"**Hasil untuk: {keyword}**")
-            st.markdown(f"- [Cari di Pinterest](https://id.pinterest.com/search/pins/?q={keyword})")
-            st.markdown(f"- [Cari di FB Ads Library](https://www.facebook.com/ads/library/?q={keyword}&country=ID)")
+    # --- AREA HASIL ---
+    if 'hasil_quick' in st.session_state:
+        st.markdown('<div class="quick-result-card">', unsafe_allow_html=True)
+        st.markdown("##### 📥 HASIL RAKITAN")
+        st.code(st.session_state.hasil_quick, language="text")
+        
+        c_del, _ = st.columns([1, 4])
+        if c_del.button("🗑️ Reset"):
+            del st.session_state.hasil_quick
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1118,6 +1146,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
