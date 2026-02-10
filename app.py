@@ -956,19 +956,22 @@ if menu_select == "🚀 PRODUCTION HUB":
                         f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}"
                     )
 
-                 st.session_state.last_generated_results.append({
+                    # --- SIMPAN HASIL (BAGIAN 10 - SINKRONISASI TOTAL) ---
+                    # BARIS INI HARUS SEJAJAR DENGAN vid_final DI ATASNYA
+                    st.session_state.last_generated_results.append({
                         "id": item["num"], 
                         "img": img_final, 
                         "vid": vid_final,
                         "cam_info": f"{camera_final}",
-                        
-                        # Simpan Metadata aslinya dari dropdown
-                        "p_light": light_val,    
-                        "p_shot": shot_val,      
-                        "p_angle": angle_val,    
-                        "p_motion": cam_val      
+                        "light": item["light"],  
+                        "shot": item["shot"],    
+                        "angle": item["angle"],  
+                        "motion": item["cam"]    
                     })
 
+            # Baris ini sejajar dengan 'with st.spinner'
+            st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
+            st.rerun()
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
 
@@ -1160,5 +1163,6 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
