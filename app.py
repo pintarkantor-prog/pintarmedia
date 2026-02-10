@@ -936,25 +936,26 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
     st.markdown("### 🧠 PINTAR AI LAB")
     
-    # --- SUB-MENU NAVIGASI AI LAB ---
-    sub_menu = st.radio(
-        "Pilih Mode Operasional:",
-        ["📋 JALUR MANUAL (GEMINI WEB)", "⚡ JALUR OTOMATIS (DIRECT AI)"],
-        horizontal=True
-    )
-    
-    st.divider()
-
-    # --- 1. BOX ATURAN UTAMA (TETAP MUNCUL DI KEDUA MENU) ---
+    # --- 1. BOX ATURAN UTAMA (PROTOKOL WAJIB DI ATAS) ---
     with st.expander("⚠️ PROTOKOL KERJA KARYAWAN (WAJIB BACA)", expanded=True):
-        st.markdown(f"""
-        1. **Mode Aktif:** {sub_menu}
-        2. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
-        3. **Disiplin Prompt:** Dilarang mengetik manual di AI tanpa mengikuti template ini.
-        4. **Verifikasi:** Periksa hasil AI sebelum dimasukkan ke Ruang Produksi.
+        st.markdown("""
+        1. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
+        2. **Disiplin Prompt:** Gunakan sistem ini untuk merakit perintah. Dilarang mengetik manual di AI tanpa template ini.
+        3. **Verifikasi:** Periksa hasil AI sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
         """)
 
-    # --- AREA INPUT (BERLAKU UNTUK KEDUA MENU) ---
+    st.divider()
+
+    # --- 2. SUB-MENU NAVIGASI (Hanya Manual & Otomatis) ---
+    sub_menu = st.segmented_control(
+        "Pilih Mode Operasional:",
+        ["📋 JALUR MANUAL (GEMINI WEB)", "⚡ JALUR OTOMATIS (DIRECT AI)"],
+        default="📋 JALUR MANUAL (GEMINI WEB)"
+    )
+    
+    st.write("")
+
+    # --- 3. INPUT AREA (SUMBER DATA UTAMA) ---
     owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
                               height=150,
                               placeholder="Tuliskan inti cerita di sini...")
@@ -967,10 +968,12 @@ elif menu_select == "🧠 PINTAR AI LAB":
     with c3:
         target_audien = st.selectbox("Target Audiens:", ["Anak-anak", "Remaja/General", "Dewasa/Edukasi"])
 
+    st.divider()
+
     # --- LOGIKA SUB-MENU 1: MANUAL ---
     if sub_menu == "📋 JALUR MANUAL (GEMINI WEB)":
         st.markdown("#### 🏗️ Mesin Perakit Struktur Plot (Manual)")
-        st.caption("Gunakan ini untuk merakit instruksi. Hasilnya wajib di-copy ke Gemini Web.")
+        st.caption("Salin prompt di bawah ini ke Gemini Web.")
         
         mega_prompt_ide = f"""
 ### ROLE: SENIOR SCRIPTWRITER PINTAR MEDIA ###
@@ -995,14 +998,18 @@ INSTRUKSI KAKU:
     # --- LOGIKA SUB-MENU 2: OTOMATIS ---
     elif sub_menu == "⚡ JALUR OTOMATIS (DIRECT AI)":
         st.markdown("#### ⚡ Eksekusi Plot Otomatis (Groq)")
-        st.caption("Hasil akan langsung muncul di bawah setelah tombol ditekan.")
         
-        GROQ_API_KEY = "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI"
+        # MENGAMBIL API KEY DARI SECRETS (AMAN DARI SECRET SCANNING)
+        try:
+            api_key_secure = st.secrets["GROQ_API_KEY"]
+        except:
+            api_key_secure = None
+            st.error("API Key tidak ditemukan di Secrets!")
 
         if st.button("GENERASI ALUR SEKARANG 🚀", use_container_width=True, type="primary"):
-            if owner_core and GROQ_API_KEY != "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI":
+            if owner_core and api_key_secure:
                 try:
-                    client = Groq(api_key=GROQ_API_KEY)
+                    client = Groq(api_key=api_key_secure)
                     with st.spinner("Menghubungkan ke Brain AI..."):
                         sys_msg = f"Kamu adalah Scriptwriter PINTAR MEDIA. Pecahkan ide owner menjadi {jml_sc} adegan visual. Mood: {mood_cerita}. Audiens: {target_audien}. JANGAN improvisasi! Format: Adegan X: [Setting] - [Aksi Visual]."
                         completion = client.chat.completions.create(
@@ -1013,9 +1020,9 @@ INSTRUKSI KAKU:
                         st.success("✅ Alur Cerita Berhasil Dibuat:")
                         st.markdown(completion.choices[0].message.content)
                 except Exception as e:
-                    st.error(f"Error: {e}")
+                    st.error(f"Error AI: {e}")
             else:
-                st.error("Garis Besar Kosong atau API KEY belum dipasang!")
+                st.error("Garis Besar Kosong atau Konfigurasi API bermasalah!")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1049,6 +1056,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
