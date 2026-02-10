@@ -1015,21 +1015,23 @@ RULE: Fokus visual, jangan improvisasi plot, format: Adegan [X]: [Setting] - [Ak
                             messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": owner_core}],
                             temperature=0.7
                         )
-                        hasil_ai = completion.choices[0].message.content
+                        st.session_state['last_ai_result'] = completion.choices[0].message.content
                         status.update(label="✅ Alur Berhasil Dirakit!", state="complete", expanded=False)
                     
-                    # --- OUTPUT KHUSUS DENGAN JEMBATAN OTOMATIS ---
                     st.markdown("---")
                     st.markdown("##### 📋 HASIL NASKAH")
-                    st.code(hasil_ai, language="text")
-                    
-                    # TOMBOL JEMBATAN
-                    if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True):
-                        # Simpan ke session state agar bisa dibaca di halaman produksi
-                        st.session_state['draft_from_lab'] = hasil_ai
-                        st.session_state['auto_load_trigger'] = True
-                        st.success("✅ Naskah dikirim! Silakan pindah ke Ruang Produksi.")
+                    st.code(st.session_state['last_ai_result'], language="text")
 
+                except Exception as e:
+                    st.error(f"Gagal memproses AI: {e}")
+
+        # Tombol kirim diletakkan di luar blok 'try' agar tetap muncul setelah generate selesai
+        if 'last_ai_result' in st.session_state:
+            if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True):
+                st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
+                st.session_state['auto_load_trigger'] = True
+                st.success("✅ Naskah dikirim! Silakan pindah ke Ruang Produksi.")
+                
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
     st.info("Penjadwalan produksi.")
@@ -1062,6 +1064,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
