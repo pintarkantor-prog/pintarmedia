@@ -1044,20 +1044,20 @@ elif menu_select == "🧠 PINTAR AI LAB":
             st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
 
     elif mode_lab == "⚡ OTOMATIS (GROQ)":
-        if st.button("RAKIT ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
+        if st.button("SULAP JADI ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
             if not owner_core:
                 st.error("Garis Besar Cerita wajib diisi!")
             else:
                 try:
                     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-                    with st.status("🎬 Sutradara AI sedang merancang shot list...", expanded=True) as status:
+                    with st.status("🎬 Lagi ngeracik alur cerita buat kamu...", expanded=True) as status:
                         completion = client.chat.completions.create(
                             model="llama-3.3-70b-versatile",
                             messages=[{"role": "system", "content": sys_instruction}, {"role": "user", "content": owner_core}],
                             temperature=0.7
                         )
                         st.session_state['last_ai_result'] = completion.choices[0].message.content
-                        status.update(label="✅ Rancangan Sutradara Selesai!", state="complete", expanded=False)
+                        status.update(label="✅ Beres! Alur cerita udah siap.", state="complete", expanded=False)
                     
                     st.markdown("---")
                     st.code(st.session_state['last_ai_result'], language="text")
@@ -1084,7 +1084,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: udin pergi kesekolah naik cerita...",
-                height=245, # Disesuaikan agar sejajar dengan kolom kanan
+                height=225, # Disesuaikan agar sejajar dengan kolom kanan
                 label_visibility="collapsed"
             )
             
@@ -1180,6 +1180,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
