@@ -781,7 +781,7 @@ if menu_select == "🚀 PRODUCTION HUB":
             
             adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
             
-# ==============================================================================
+    # ==============================================================================
     # 10. GENERATOR PROMPT & MEGA-DRAFT (FULL VERSION - SYNCED & PATEN)
     # ==============================================================================
     import json
@@ -1104,6 +1104,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
