@@ -1303,12 +1303,13 @@ elif menu_select == "📋 TUGAS KERJA":
                 st.success(f"Data {target} berhasil diperbarui!")
 
 elif menu_select == "⚡ KENDALI TIM":
-    if st.session_state.active_user == "admin":
+    if st.session_state.active_user == "dian":
         st.title("⚡ KENDALI TIM")
         st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
