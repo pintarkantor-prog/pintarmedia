@@ -861,7 +861,17 @@ elif menu_select == "🧠 AI LAB":
     ])
 
     with tab_spy:
+        # --- BAGIAN 1: INPUT NAMA TOKOH MANUAL ---
+        st.markdown("### 🎭 1. Tentukan Pemain")
+        input_nama_awal = st.session_state.get('current_names', "UDIN, TUNG")
+        nama_fix = st.text_input("Nama Tokoh (Maks 2, pisahkan dengan koma):", value=input_nama_awal)
+        st.session_state['current_names'] = nama_fix # Kunci di memori
+        
+        st.markdown("---")
+        
+        # --- BAGIAN 2: PILIH IDE ---
         mode_ide = st.radio("Metode Cari Ide:", ["📦 Pakai Ide Stok", "💡 Buat Ide Baru"], horizontal=True)
+        
         if mode_ide == "📦 Pakai Ide Stok":
             gudang_ide = {
                 "--- Pilih Menu Ide ---": "",
@@ -871,16 +881,34 @@ elif menu_select == "🧠 AI LAB":
                 "Hutang Gaya Elit": "Tokoh A pamer iPhone baru tapi nunggak hutang ke Tokoh B, HP langsung disita."
             }
             pilihan = st.selectbox("Daftar Premis:", list(gudang_ide.keys()))
+            
             if pilihan != "--- Pilih Menu Ide ---":
-                st.info(f"**Alur:** {gudang_ide[pilihan]}")
+                # OTOMATIS GANTI NAMA DI IDE STOK BERDASARKAN INPUT MANUAL
+                names = [n.strip() for n in nama_fix.split(',')]
+                t1 = names[0] if len(names) > 0 else "Tokoh A"
+                t2 = names[1] if len(names) > 1 else "Tokoh B"
+                
+                cerita_asli = gudang_ide[pilihan]
+                cerita_custom = cerita_asli.replace("Tokoh A", t1).replace("Tokoh B", t2)
+                
+                st.info(f"**Alur Cerita untuk {t1} & {t2}:**\n\n{cerita_custom}")
+                
                 if st.button("KUNCI IDE INI ⚡", use_container_width=True, type="primary"):
-                    st.session_state['temp_script_spy'] = gudang_ide[pilihan]
-                    st.success("Ide Berhasil Dikunci!")
+                    st.session_state['temp_script_spy'] = cerita_custom
+                    st.success(f"Ide Berhasil Dikunci untuk {t1} & {t2}!")
+        
         else:
             if st.button("RAKIT IDE SKAKMAT 🚀", use_container_width=True, type="primary"):
                 with st.spinner("Groq sedang merancang plot..."):
                     try:
-                        hasil = panggil_ai_groq("Buat 1 premis Shorts: Antagonis sombong kena skakmat Protagonis sabar.")
+                        # PAKSA AI HANYA GUNAKAN 2 NAMA DARI INPUT MANUAL
+                        prompt_ide = f"""
+                        Buat 1 premis cerita Shorts 'Karma Visual'. 
+                        TOKOH WAJIB: {nama_fix}. 
+                        ATURAN: Hanya boleh ada 2 orang ini, DILARANG ada karakter ketiga atau figuran.
+                        Alur: Antagonis sombong kena skakmat oleh Protagonis sabar.
+                        """
+                        hasil = panggil_ai_groq(prompt_ide)
                         st.session_state['temp_script_spy'] = hasil
                         st.markdown(hasil)
                     except Exception as e: st.error(f"Eror: {e}")
@@ -888,23 +916,23 @@ elif menu_select == "🧠 AI LAB":
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
         if 'temp_script_spy' in st.session_state:
-            input_nama_awal = st.session_state.get('current_names', "UDIN, TUNG")
-            nama_tokoh = st.text_input("Tulis Nama Tokoh (Pisahkan dengan koma):", value=input_nama_awal)
+            # Menggunakan nama yang sudah ditentukan di Tab 1
+            input_nama_cloner = st.session_state.get('current_names', "UDIN, TUNG")
+            st.write(f"Tokoh Aktif: **{input_nama_cloner}**")
             
             if st.button("GENERATE NASKAH DIALOG 🧪", use_container_width=True, type="primary"):
                 with st.spinner("Menyusun naskah..."):
                     try:
-                        prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Gunakan tokoh: {nama_tokoh}. Pastikan nama tokoh ini konsisten dalam dialog."
+                        prompt = f"Jadikan dialog Shorts: {st.session_state['temp_script_spy']}. Gunakan tokoh: {input_nama_cloner}. Pastikan hanya 2 tokoh ini yang bicara."
                         hasil_dialog = panggil_ai_groq(prompt)
                         st.session_state['ready_script'] = hasil_dialog
-                        st.session_state['current_names'] = nama_tokoh 
                         st.rerun()
                     except Exception as e: st.error(f"Eror: {e}")
             
             if 'ready_script' in st.session_state:
                 st.markdown(st.session_state['ready_script'])
         else:
-            st.warning("Pilih ide di Tab 1!")
+            st.warning("Pilih atau Buat ide di Tab 1 dulu!")
 
     with tab_storyboard:
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
@@ -916,12 +944,16 @@ elif menu_select == "🧠 AI LAB":
                     try:
                         prompt = f"""
                         Pecah naskah ini jadi 10 adegan visual yang sinematik. 
-                        PENTING: Gunakan nama tokoh {nama_pilihan} secara konsisten.
+                        ATURAN KETAT:
+                        1. Hanya boleh ada MAKSIMAL 2 KARAKTER yaitu {nama_pilihan}.
+                        2. DILARANG KERAS memasukkan orang ketiga, figuran, atau kerumunan.
+                        3. Fokus pada ekspresi dan interaksi dua orang ini saja.
+                        
                         WAJIB gunakan format kaku di bawah ini untuk SETIAP adegan:
 
                         [ADEGAN X]
                         Cerita: (tulis cerita visualnya saja di sini)
-                        Suasana: (Pagi/Siang/Sore/Malam)
+                        Suasana: (Pilih: Pagi/Siang/Sore/Malam)
                         Shot: (Pilih: Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas)
                         Angle: (Pilih: Normal/Sudut Rendah/Sudut Tinggi/Samping)
                         Gerak: (Pilih: Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk)
@@ -952,11 +984,8 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                # Regex ini akan berhenti tepat SEBELUM label teknis berikutnya muncul
-                                # Menggunakan '---' dan '$' agar adegan terakhir tetap bersih
                                 m = re.search(rf"{label}:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$)", blok, re.S | re.I)
                                 if m:
-                                    # .strip() akan membuang spasi dan baris baru yang tidak perlu
                                     return m.group(1).strip()
                                 return ""
 
@@ -967,24 +996,23 @@ elif menu_select == "🧠 AI LAB":
                             # 3. Suntik Shot & Angle
                             st.session_state[f'size_input_{i}'] = extract("Shot")
                             st.session_state[f'angle_input_{i}'] = extract("Angle")
-                            # 4. Suntik Lokasi Detail (Hiasan Dinding dll)
+                            # 4. Suntik Lokasi Detail
                             st.session_state[f'loc_custom_{i}'] = extract("Lokasi")
                             
-                            # 5. Suntik Dialog (Nama Tokoh Dinamis)
+                            # 5. Suntik Dialog (Hanya untuk 2 tokoh)
                             if 'current_names' in st.session_state:
                                 names = [n.strip() for n in st.session_state['current_names'].split(',')]
-                                # Update Nama Tokoh di Hub
                                 if len(names) >= 1: st.session_state['c_name_1_input'] = names[0].upper()
                                 if len(names) >= 2: st.session_state['c_name_2_input'] = names[1].upper()
                                 
-                                # Parsing Dialog dari blok AI
                                 diag_blok = extract("Dialog")
                                 for idx_n, n_name in enumerate(names):
-                                    d_m = re.search(rf"{n_name}:(.*?)(?=\n|$)", diag_blok, re.I)
-                                    if d_m:
-                                        st.session_state[f"diag_{i}_{idx_n}"] = d_m.group(1).strip()
+                                    if idx_n < 2: # Kunci maksimal 2 kolom dialog
+                                        d_m = re.search(rf"{n_name}:(.*?)(?=\n|$)", diag_blok, re.I)
+                                        if d_m:
+                                            st.session_state[f"diag_{i}_{idx_n}"] = d_m.group(1).strip()
 
-                    st.success("🔥 SINKRONISASI TOTAL BERHASIL!")
+                    st.success("🔥 SINKRONISASI BERHASIL: Nama Tokoh & Lokasi sudah masuk ke Hub!")
                     time.sleep(0.5)
                     st.rerun()
         else:
