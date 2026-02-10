@@ -973,7 +973,6 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
     st.title("🧠 PINTAR AI LAB")
     
-    # 1. SUB-MENU MODERN
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
         ["📋 MANUAL PROMPT", "⚡ OTOMATIS (GROQ)"],
@@ -981,10 +980,8 @@ elif menu_select == "🧠 PINTAR AI LAB":
         label_visibility="collapsed"
     )
 
-    # 2. SOP SINGKAT (ELEGAN)
-    st.markdown(f'<div class="sop-text"><b>SOP {mode_lab}:</b> Gunakan Garis Besar Owner sebagai hukum utama. Verifikasi detail visual sebelum dipindahkan ke Ruang Produksi.</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sop-text"><b>SOP {mode_lab}:</b> Output sekarang mencakup detail teknis Kamera, Gerakan, dan Suasana secara otomatis.</div>', unsafe_allow_html=True)
 
-    # 3. INPUT UTAMA
     owner_core = st.text_area("📍 GARIS BESAR DARI OWNER", height=120, placeholder="Tuliskan inti pesan atau alur utama cerita...")
     
     col_x, col_y, col_z = st.columns(3)
@@ -997,55 +994,56 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
     st.divider()
 
-    # --- JALUR MANUAL ---
-    if mode_lab == "📋 MANUAL PROMPT":
-        mega_prompt = f"""
-ROLE: Senior Scriptwriter PINTAR MEDIA.
-TASK: Pecahkan ide ini menjadi {jml_sc} adegan visual storyboard.
-MOOD: {mood_cerita} | AUDIENS: {target_audien}
-IDE OWNER: "{owner_core}"
-RULE: Fokus visual, jangan improvisasi plot, format: Adegan [X]: [Setting] - [Aksi].
-        """.strip()
+    # --- PROMPT SYSTEM (KITA KUNCI DI SINI AGAR AI JADI SUTRADARA) ---
+    sys_instruction = f"""
+    Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
+    Tugasmu memecah ide owner menjadi {jml_sc} adegan visual yang SANGAT TEKNIS.
+    
+    SETIAP ADEGAN WAJIB MEMILIKI FORMAT BERIKUT:
+    Adegan [X]:
+    - Alur: [Deskripsi kejadian]
+    - Lokasi Detail: [Gambarkan latar belakang secara super lengkap & spesifik]
+    - Suasana: [Pagi/Siang/Sore/Malam]
+    - Kamera: [Normal/Sudut Rendah/Sudut Tinggi/Samping/Berhadapan/Intip Bahu/Belakang]
+    - Ukuran: [Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas/Drone Shot]
+    - Gerak (Video): [Diam Tanpa Gerak/Ikuti Karakter/Zoom Masuk/Zoom Keluar/Memutar Orbit]
+    
+    Mood Utama: {mood_cerita}. Audiens: {target_audien}.
+    JANGAN improvisasi plot di luar tema owner!
+    """
 
+    if mode_lab == "📋 MANUAL PROMPT":
+        mega_prompt = f"{sys_instruction}\n\nIDE OWNER: \"{owner_core}\""
         if owner_core:
-            st.markdown("##### 📥 MEGA-PROMPT SIAP SALIN")
             st.code(mega_prompt, language="text")
             st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
 
-    # --- JALUR OTOMATIS (DIRECT GROQ) ---
     elif mode_lab == "⚡ OTOMATIS (GROQ)":
-        if st.button("RAKIT ALUR CERITA SEKARANG 🚀", use_container_width=True, type="primary"):
+        if st.button("RAKIT ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
             if not owner_core:
                 st.error("Garis Besar Cerita wajib diisi!")
             else:
                 try:
-                    # Ambil key dari secrets
                     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-                    
-                    with st.status("🧠 AI sedang menyusun arsitektur alur...", expanded=True) as status:
-                        sys_msg = f"Kamu Scriptwriter PINTAR MEDIA. Pecahkan ide owner jadi {jml_sc} adegan visual. Mood: {mood_cerita}. Audiens: {target_audien}. JANGAN improvisasi plot di luar tema owner! Format wajib: Adegan X: [Setting] - [Aksi Visual]."
-                        
+                    with st.status("🎬 Sutradara AI sedang merancang shot list...", expanded=True) as status:
                         completion = client.chat.completions.create(
                             model="llama-3.3-70b-versatile",
-                            messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": owner_core}],
+                            messages=[{"role": "system", "content": sys_instruction}, {"role": "user", "content": owner_core}],
                             temperature=0.7
                         )
                         st.session_state['last_ai_result'] = completion.choices[0].message.content
-                        status.update(label="✅ Alur Berhasil Dirakit!", state="complete", expanded=False)
+                        status.update(label="✅ Rancangan Sutradara Selesai!", state="complete", expanded=False)
                     
                     st.markdown("---")
-                    st.markdown("##### 📋 HASIL NASKAH")
                     st.code(st.session_state['last_ai_result'], language="text")
 
                 except Exception as e:
                     st.error(f"Gagal memproses AI: {e}")
 
-        # Tombol kirim diletakkan di luar blok 'try' agar tetap muncul setelah generate selesai
         if 'last_ai_result' in st.session_state:
-            if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True):
+            if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True, type="secondary"):
                 st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
-                st.session_state['auto_load_trigger'] = True
-                st.success("✅ Naskah dikirim! Silakan pindah ke Ruang Produksi.")
+                st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1079,6 +1077,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
