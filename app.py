@@ -1075,91 +1075,64 @@ elif menu_select == "🎞️ SCHEDULE":
     df_jadwal = read_gsheet(tab_target)
 
     if not df_jadwal.empty:
-        # --- PROSES DATA AGAR RAPI ---
         df_clean = df_jadwal.fillna("")
 
-        # --- CSS UNTUK TAMPILAN TABEL MIRIP GSHEETS ---
+        # --- CSS SUPER FIX ---
         st.markdown("""
             <style>
-            .gs-table {
-                width: 100%;
-                border-collapse: collapse;
-                font-family: Arial, sans-serif;
-                background-color: #1a1c23;
-                color: white;
-            }
-            .gs-table th {
-                background-color: #f1f100; /* Kuning GSheets */
-                color: black;
-                padding: 10px;
-                border: 1px solid #444;
-                text-align: center;
-                font-weight: bold;
-                text-transform: uppercase;
-            }
-            .gs-table td {
-                border: 1px solid #444;
-                padding: 8px;
-                text-align: center;
-            }
-            .unit-cell {
-                background-color: #d9d9d9; /* Abu-abu Unit */
-                color: black;
-                font-weight: bold;
-                font-size: 20px;
-                width: 50px;
-            }
-            .channel-cell {
-                background-color: #c6efce; /* Hijau GSheets */
-                color: #006100;
-                text-align: left !important;
-                font-weight: bold;
-            }
-            .empty-cell {
-                background-color: #aeaaaa; /* Abu-abu sel kosong */
-            }
-            .time-cell {
-                background-color: white;
-                color: black;
-                font-weight: bold;
-            }
+            .gs-table { width: 100%; border-collapse: collapse; background-color: #1a1c23; color: white; border: 2px solid #444; }
+            .gs-table th { background-color: #ffff00; color: black; padding: 12px; border: 1px solid #444; font-weight: bold; text-align: center; }
+            .gs-table td { border: 1px solid #444; padding: 10px; text-align: center; font-size: 14px; }
+            .unit-cell { background-color: #b7b7b7; color: black; font-weight: bold; font-size: 18px; width: 60px; }
+            .channel-cell { background-color: #c6efce; color: #006100; text-align: left !important; font-weight: bold; width: 180px; }
+            .empty-cell { background-color: #808080; } /* Abu-abu sesuai GSheets */
+            .time-cell { background-color: white; color: black; font-weight: bold; border-radius: 4px; }
             </style>
         """, unsafe_allow_html=True)
 
-        # --- MEMBANGUN TABEL HTML (LOGIKA MERGER & WARNA) ---
+        # --- LOGIKA PENYUSUN TABEL OTOMATIS ---
         html_table = '<table class="gs-table"><thead><tr>'
-        headers = ["HP", "NAMA CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]
-        for h in headers:
+        for h in ["HP", "NAMA CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]:
             html_table += f'<th>{h}</th>'
         html_table += '</tr></thead><tbody>'
 
-        for i, row in df_clean.iterrows():
+        # Kita hitung dulu berapa baris untuk setiap unit HP agar rowspan-nya pas
+        # Logika: Cari baris yang HP-nya tidak kosong
+        rows = df_clean.to_dict('records')
+        
+        for i, row in enumerate(rows):
             html_table += '<tr>'
             
-            # 1. Logika Merger HP (Hanya muncul di baris pertama setiap blok 3 baris)
-            if i % 3 == 0:
-                unit_val = row['HP'] if row['HP'] != "" else (i // 3 + 1)
-                html_table += f'<td class="unit-cell" rowspan="3">{unit_val}</td>'
+            # Cek apakah baris ini adalah awal dari Unit HP baru
+            if row['HP'] != "":
+                # Hitung berapa baris ke bawah yang kosong HP-nya (untuk digabung)
+                count = 1
+                for j in range(i + 1, len(rows)):
+                    if rows[j]['HP'] == "":
+                        count += 1
+                    else:
+                        break
+                html_table += f'<td class="unit-cell" rowspan="{count}">{row["HP"]}</td>'
             
-            # 2. Baris Channel
+            # Tampilkan Channel
             html_table += f'<td class="channel-cell">{row["NAMA CHANNEL"]}</td>'
             
-            # 3. Baris Waktu (Warna Putih jika ada jam, Abu-abu jika kosong)
+            # Tampilkan Jam (Putih jika ada isi, Abu-abu jika kosong)
             for col in ["PAGI", "SIANG 1", "SIANG 2", "SORE"]:
-                val = str(row[col])
-                cell_class = "time-cell" if val.strip() != "" else "empty-cell"
-                html_table += f'<td class="{cell_class}">{val}</td>'
+                val = str(row.get(col, ""))
+                if val.strip() and val != "-":
+                    html_table += f'<td class="time-cell">{val}</td>'
+                else:
+                    html_table += '<td class="empty-cell"></td>'
                 
             html_table += '</tr>'
 
         html_table += '</tbody></table>'
-        
-        # Render Tabel ke Streamlit
         st.markdown(html_table, unsafe_allow_html=True)
-        st.caption(f"📍 Tampilan disesuaikan dengan format asli Google Sheets ({tab_target})")
+        st.caption(f"📍 Sinkronisasi otomatis dari {tab_target}. Data kosong otomatis berwarna abu-abu.")
 
     else:
-        st.warning("Data tidak ditemukan.")
+        st.warning("Data tidak ditemukan atau GSheets belum di-share.")
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1189,6 +1162,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
