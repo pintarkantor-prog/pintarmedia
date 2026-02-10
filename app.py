@@ -1074,24 +1074,27 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
     st.markdown("Rakit instruksi visual profesional dalam satu layar.")
 
-    # --- MAIN INTERFACE (FULL ALIGNMENT) ---
+    # --- MAIN INTERFACE ---
     with st.container(border=True):
         # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
-            st.markdown('<p class="small-label">📝 1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
+            # Judul Gaya Awal (Hijau & Bold)
+            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>🛠️ 1. KEJADIAN / ALUR CERITA</p>", unsafe_allow_html=True)
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running while lava flows behind him...",
-                height=265, # Sejajar sempurna dengan kolom kanan
+                height=265, 
                 label_visibility="collapsed"
             )
             st.write("") 
+            # Tombol Rakit Panjang (use_container_width=True)
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
-            st.markdown('<p class="small-label">⚙️ 2. SETTING VISUAL</p>', unsafe_allow_html=True)
+            # Judul Gaya Awal (Hijau & Bold)
+            st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>⚙️ 2. SETTING VISUAL</p>", unsafe_allow_html=True)
             
             # Baris 1: Style & Lighting
             c1, c2 = st.columns(2)
@@ -1136,7 +1139,6 @@ elif menu_select == "⚡ QUICK PROMPT":
         if not isi_cerita:
             st.warning("Isi dulu ceritanya, Bos!")
         else:
-            # Dictionary Bumbu
             styles = {
                 "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
                 "Ultra Realistic Minecraft": "Ultra realistic Minecraft cinematic video,",
@@ -1159,10 +1161,7 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Smooth Panning": "smooth cinematic panning shot,"
             }
             
-            # Gabungkan detail lokasi jika ada
             detail_lokasi = f"located in {lokasi_v}," if lokasi_v else ""
-            
-            # Rakit Final String
             st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {detail_lokasi} {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
     # --- OUTPUT HASIL ---
@@ -1186,4 +1185,5 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
