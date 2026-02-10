@@ -1072,78 +1072,42 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
 elif menu_select == "📈 TREND ANALYZER":
     st.title("📈 TREND ANALYZER")
-    st.markdown("<p style='color:#808495; margin-top:-15px;'>Riset konten viral dan topik hangat hari ini.</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#808495; margin-top:-15px;'>Live Monitoring Tren Indonesia</p>", unsafe_allow_html=True)
     st.divider()
 
-    # --- CSS UNTUK KARTU TREND ---
-    st.markdown("""
-        <style>
-        .trend-card {
-            background-color: #1a1c23; padding: 20px; border-radius: 12px;
-            border: 1px solid #2d3139; text-align: center; transition: 0.3s;
-        }
-        .trend-card:hover { border-color: #1d976c; transform: translateY(-5px); }
-        .trend-icon { font-size: 40px; margin-bottom: 10px; }
-        .trend-title { color: #ffffff; font-weight: bold; font-size: 1.1rem; }
-        .trend-desc { color: #808495; font-size: 0.8rem; margin-bottom: 15px; }
-        </style>
-    """, unsafe_allow_html=True)
-
-    # --- BARIS 1: LINK RISET CEPAT ---
-    col1, col2, col3 = st.columns(3)
+    # --- BAGIAN 1: LIVE WIDGET GOOGLE TRENDS ---
+    st.markdown("### 🔥 Topik Populer Hari Ini (Indonesia)")
     
-    with col1:
-        st.markdown("""
-            <div class="trend-card">
-                <div class="trend-icon">📱</div>
-                <div class="trend-title">TikTok Creative</div>
-                <div class="trend-desc">Cari lagu dan hashtag yang lagi meledak di TikTok.</div>
-                <a href="https://ads.tiktok.com/business/creativecenter/trends/pc/en" target="_blank" style="text-decoration:none;">
-                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">BUKA TIKTOK TRENDS</div>
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with col2:
-        st.markdown("""
-            <div class="trend-card">
-                <div class="trend-icon">🔍</div>
-                <div class="trend-title">Google Trends</div>
-                <div class="trend-desc">Lihat apa yang sedang diketik orang Indonesia di Google.</div>
-                <a href="https://trends.google.com/trends/trendingsearches/daily?geo=ID" target="_blank" style="text-decoration:none;">
-                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">CEK GOOGLE TRENDS</div>
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
-
-    with col3:
-        st.markdown("""
-            <div class="trend-card">
-                <div class="trend-icon">🎬</div>
-                <div class="trend-title">YouTube Trending</div>
-                <div class="trend-desc">Inspirasi alur cerita dan thumbnail dari video populer.</div>
-                <a href="https://www.youtube.com/feed/trending" target="_blank" style="text-decoration:none;">
-                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">LIHAT YT TRENDING</div>
-                </a>
-            </div>
-        """, unsafe_allow_html=True)
+    # Widget Google Trends Indonesia (Real-time)
+    html_trends = """
+    <script type="text/javascript" src="https://ssl.gstatic.com/trends/embed/widget/js/render_widget.js"></script>
+    <script type="text/javascript">
+      trends.embed.renderWidget("dailytrends", "", {"geo":"ID","guestPath":"https://trends.google.com:443/trends/embed/"});
+    </script>
+    """
+    st.components.v1.html(html_trends, height=450, scrolling=True)
 
     st.write("")
-    st.write("")
+    
+    # --- BAGIAN 2: SHORTCUT RISET CEPAT (CARD) ---
+    st.markdown("### ⚡ Cek Platform Viral")
+    c1, c2, c3 = st.columns(3)
+    
+    # Gaya tombol yang lebih rapi
+    with c1:
+        st.link_button("📱 TIKTOK TRENDS", "https://ads.tiktok.com/business/creativecenter/trends/pc/en", use_container_width=True)
+    with c2:
+        st.link_button("🎬 YT TRENDING", "https://www.youtube.com/feed/trending", use_container_width=True)
+    with c3:
+        st.link_button("🖼️ PINTEREST", "https://id.pinterest.com/search/pins/?q=konten%20viral", use_container_width=True)
 
-    # --- BARIS 2: TOOLS RISET MANDIRI ---
-    with st.expander("🛠️ TOOLS RISET KATA KUNCI"):
-        keyword = st.text_input("Masukkan Topik (Contoh: 'Drama Menantu')", placeholder="Ketik topik untuk riset...")
+    # --- BAGIAN 3: TOOL RISET KATA KUNCI (YANG TADI) ---
+    with st.expander("🛠️ TOOLS RISET SPESIFIK"):
+        keyword = st.text_input("Ketik Topik (Misal: 'Masak')", placeholder="Cari ide visual...")
         if keyword:
-            c1, c2 = st.columns(2)
-            with c1:
-                st.write(f"Cari '{keyword}' di Pinterest")
-                st.markdown(f'<a href="https://id.pinterest.com/search/pins/?q={keyword}" target="_blank">🔎 Buka Pinterest</a>', unsafe_allow_html=True)
-            with c2:
-                st.write(f"Cari '{keyword}' di Facebook Library")
-                st.markdown(f'<a href="https://www.facebook.com/ads/library/?active_status=all&ad_type=all&q={keyword}&country=ID" target="_blank">🔎 Buka FB Ads Library</a>', unsafe_allow_html=True)
-
-    st.caption("📍 Gunakan menu ini setiap pagi sebelum masuk ke Ruang Produksi agar konten tetap relevan.")
+            st.markdown(f"**Hasil untuk: {keyword}**")
+            st.markdown(f"- [Cari di Pinterest](https://id.pinterest.com/search/pins/?q={keyword})")
+            st.markdown(f"- [Cari di FB Ads Library](https://www.facebook.com/ads/library/?q={keyword}&country=ID)")
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1154,6 +1118,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
