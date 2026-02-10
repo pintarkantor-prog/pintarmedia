@@ -983,13 +983,14 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.markdown("**🎥 PROMPT VIDEO**")
                     st.code(res['vid'], language="text")
                 
-                # --- TOMBOL SUNTIK KE PRODUCTION HUB ---
-                # Baris ini yang menghubungkan AI LAB ke Production Hub secara otomatis
+                # --- TOMBOL SUNTIK (TEMBAK KE TARGET VARIABEL) ---
                 if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
-                    st.session_state[f"prod_img_{res['id']}"] = res['img']
-                    st.session_state[f"prod_vid_{res['id']}"] = res['vid']
+                    # Tembak ke variabel yang dibaca oleh Production Hub
+                    st.session_state[f"prod_img_prompt_{res['id']}"] = res['img']
+                    st.session_state[f"prod_vid_prompt_{res['id']}"] = res['vid']
+                    
                     st.session_state[done_key] = True
-                    st.success(f"Adegan {res['id']} berhasil masuk ke Production Hub!")
+                    st.success(f"Adegan {res['id']} Terkirim!")
                     st.rerun()
 
 # ==============================================================================
@@ -1144,6 +1145,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
