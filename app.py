@@ -732,11 +732,39 @@ if menu_select == "🚀 PRODUCTION HUB":
                 
                 r3 = st.columns(1)
                 with r3[0]:
-                    st.markdown('<p class="small-label">📍 Lokasi Detail</p>', unsafe_allow_html=True)
-                    # Menampilkan Lokasi Custom hasil suntikan AI (Termasuk hiasan dinding)
-                    st.session_state[f'loc_sel_{i_s}'] = "--- KETIK MANUAL ---"
+                    st.markdown('<p class="small-label">📍 Lokasi (Pilih DNA atau Ketik Manual)</p>', unsafe_allow_html=True)
+                    
+                    # 1. Panggil Daftar DNA yang sudah kamu tentukan sebelumnya
+                    # 'options_lokasi' berisi DNA Lokasi kamu + "--- KETIK MANUAL ---"
+                    s_loc_sel = st.session_state.get(f'loc_sel_{i_s}', "--- KETIK MANUAL ---")
+                    
+                    # Pastikan jika ada data lama yang tidak ada di list, tidak bikin eror
+                    try:
+                        idx_loc = options_lokasi.index(s_loc_sel)
+                    except:
+                        idx_loc = 0
+
+                    loc_sel_val = st.selectbox(
+                        f"DNA Lokasi {i_s}", 
+                        options_lokasi, 
+                        index=idx_loc, 
+                        key=f"loc_sel_ui_{i_s}_{reset_val}",
+                        label_visibility="collapsed"
+                    )
+                    st.session_state[f'loc_sel_{i_s}'] = loc_sel_val
+
+                    # 2. Kotak Input Spesifik (Tempat Suntikan AI Lab atau Ketik Sendiri)
+                    st.write("") # Kasih jarak dikit
+                    st.markdown('<p class="small-label">Tulis lokasi spesifik latar cerita di sini:</p>', unsafe_allow_html=True)
+                    
                     val_cust = st.session_state.get(f"loc_custom_{i_s}", "")
-                    location_val = st.text_input("Detail:", value=val_cust, key=f"cust_ui_{i_s}_{reset_val}")
+                    location_val = st.text_input(
+                        "Detail Latar:", 
+                        value=val_cust, 
+                        key=f"cust_ui_{i_s}_{reset_val}",
+                        placeholder="Contoh: di dalam gerbang kereta api tua...",
+                        label_visibility="collapsed"
+                    )
                     st.session_state[f"loc_custom_{i_s}"] = location_val
 
             # --- DIALOG DENGAN NAMA TOKOH DINAMIS ---
@@ -1007,6 +1035,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
