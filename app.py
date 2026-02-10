@@ -1072,74 +1072,65 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.markdown("<h2 style='color: #1d976c;'>⚡ QUICK PROMPT</h2>", unsafe_allow_html=True)
-    st.markdown("<p style='color: #808495; margin-top:-15px;'>Rakit instruksi visual kualitas tinggi dalam satu klik.</p>", unsafe_allow_html=True)
-
-    # --- 1. AREA INPUT ---
+    
+    # --- BAGIAN 1: GENERATOR UTAMA (5 KOLOM SEJAJAR) ---
     with st.container(border=True):
-        col_text, col_opt = st.columns([2, 1])
+        st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>🛠️ RAKIT ADEGAN</p>", unsafe_allow_html=True)
+        col_cerita, col_genre, col_suasana, col_kamera, col_aksi = st.columns([2, 1, 1, 1, 1])
         
-        with col_text:
-            isi_ide = st.text_area("CERITAKAN KEJADIANNYA", placeholder="Contoh: Pria tua sedang memancing di danau berkabut...", height=150)
-        
-        with col_opt:
-            vibe = st.selectbox("PILIH MOOD", ["🌅 Golden Hour", "🌑 Dark Noir", "💥 Action High", "🎞️ Vintage 70s", "🏠 Naturalist"])
-            shot = st.selectbox("PILIH SHOT", ["Close-Up (Wajah)", "Medium (Badan)", "Wide (Luas)"])
+        with col_cerita:
+            isi_cerita = st.text_area("Alur Cerita", placeholder="Contoh: Pria sedih duduk...", height=100, label_visibility="collapsed")
+        with col_genre:
+            genre_v = st.selectbox("Genre", ["Cinematic", "Horror", "Vintage", "Realistic", "Anime"])
+        with col_suasana:
+            mood_v = st.selectbox("Suasana", ["Golden Hour", "Gloomy", "Neon Night", "Bright Day"])
+        with col_kamera:
+            cam_v = st.selectbox("Kamera", ["Close Up", "Medium Shot", "Wide Shot", "Drone Shot"])
+        with col_aksi:
             st.write("")
-            generate = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
+            rakit_skrg = st.button("🚀 RAKIT PROMPT", use_container_width=True, type="primary")
 
-    # --- 2. LOGIKA RAKIT ---
-    if generate:
-        if not isi_ide:
-            st.error("Isi dulu ceritanya, Bos!")
-        else:
-            bumbu = {
-                "🌅 Golden Hour": "warm dramatic lighting, backlit, cinematic haze, 8k RAW photo, sharp details.",
-                "🌑 Dark Noir": "low-key contrast, moody teal shadows, foggy night, gritty cinematic grain.",
-                "💥 Action High": "dynamic energy, hard lighting, saturated colors, sharp edge enhancement, hyper-detailed.",
-                "🎞️ Vintage 70s": "Kodak film aesthetic, organic grain, nostalgic warm tones, authentic 70s textures.",
-                "🏠 Naturalist": "natural daylight, soft shadows, f/11 aperture, ultra-clear focus, realistic skin."
-            }
-            framing = {
-                "Close-Up (Wajah)": "extreme close-up shot, focus on facial expressions,",
-                "Medium (Badan)": "medium shot, waist-up framing, cinematic depth,",
-                "Wide (Luas)": "extreme wide landscape shot, expansive environment,"
-            }
-            st.session_state.q_result = f"{isi_ide}. {framing[shot]} {bumbu[vibe]} sharp focus, masterpiece, no text, no watermark."
+    if rakit_skrg and isi_cerita:
+        st.session_state['hasil_cepat'] = f"{isi_cerita}. Genre: {genre_v}, Lighting: {mood_v}, Camera: {cam_v}, ultra-detailed, 8k."
 
-# --- 3. AREA HASIL (ACTION DI KIRI) ---
-    if 'q_result' in st.session_state:
-        st.write("")
-        st.markdown("#### ✅ HASIL RACIKAN")
+    if 'hasil_cepat' in st.session_state:
+        st.code(st.session_state['hasil_cepat'], language="text")
+
+    st.write("")
+    st.divider()
+
+    # --- BAGIAN 2: AI ENVIRONMENT HELPER (PAKE OTAK AI LAB) ---
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>🌍 AI LOKASI DETAIL (Auto-Description)</p>", unsafe_allow_html=True)
+    
+    col_input_loc, col_btn_loc = st.columns([4, 1])
+    with col_input_loc:
+        input_lokasi = st.text_input("Nama Lokasi", placeholder="Ketik lokasi... (Contoh: Pasar, Sawah, Kantor, Kamar Kos)", label_visibility="collapsed")
+    with col_btn_loc:
+        generate_loc = st.button("🪄 DETAILKAN", use_container_width=True)
+
+    if generate_loc and input_lokasi:
+        # Kita panggil fungsi jalankan_ai yang sudah ada di aplikasi kamu
+        instruksi_lokasi = f"""
+        Tugas: Deskripsikan lokasi '{input_lokasi}' secara super detail dan spesifik untuk prompt visual film.
+        Fokus pada: Tekstur material, pencahayaan sinematik, objek kecil di sekitar, dan vibe khas Indonesia.
+        Output: Gunakan Bahasa Inggris (English) agar akurat untuk generator video. 
+        Jangan berikan kalimat pembuka, langsung ke deskripsi teknisnya.
+        """
         
-        # Kita buat dua kolom: Kiri untuk instruksi, Kanan untuk Box Kode
-        col_action, col_box = st.columns([1, 4])
+        with st.spinner("Mendetailkan lokasi..."):
+            hasil_ai_lokasi = jalankan_ai(instruksi_lokasi) # Memanggil fungsi dari AI LAB
+            if hasil_ai_lokasi:
+                st.session_state['loc_detail'] = hasil_ai_lokasi
+
+    if 'loc_detail' in st.session_state:
+        st.markdown(f"**📍 Detail Visual untuk: {input_lokasi}**")
+        st.code(st.session_state['loc_detail'], language="text")
         
-        with col_action:
-            st.write("") # Penyeimbang jarak
-            st.markdown("<p style='color: #1d976c; font-weight: bold; font-size: 0.8rem;'>📋 SALIN DI SINI</p>", unsafe_allow_html=True)
-            st.markdown("👉") # Panah penunjuk ke arah box kode
-            
-            if st.button("🗑️ RESET", use_container_width=True):
-                del st.session_state.q_result
+        col_c, col_r, _ = st.columns([1,1,3])
+        with c_copy: # Tombol copy manual
+            if st.button("🗑️ HAPUS"):
+                del st.session_state['loc_detail']
                 st.rerun()
-        
-        with col_box:
-            # Box ini sudah punya tombol copy otomatis di pojok kanan dalamnya
-            st.code(st.session_state.q_result, language="text")
-            st.caption("Klik ikon kotak di pojok kanan box hitam untuk menyalin ke clipboard.")
-
-    st.markdown("""
-        <style>
-        [data-testid="stVerticalBlockBorderWrapper"] {
-            border: 1px solid #1d976c !important;
-            border-radius: 15px !important;
-        }
-        div.stButton > button[kind="primary"] {
-            background-color: #1d976c !important;
-            border: none !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1150,6 +1141,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
