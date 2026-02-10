@@ -1074,63 +1074,77 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.markdown("<h2 style='color: #1d976c;'>⚡ QUICK PROMPT</h2>", unsafe_allow_html=True)
     st.markdown("<p style='color: #808495; margin-top:-15px;'>Rakit instruksi visual profesional dalam satu layar.</p>", unsafe_allow_html=True)
 
-    # --- CONTAINER UTAMA ---
     with st.container(border=True):
         col_ide, col_style = st.columns([3, 2])
         
         with col_ide:
             st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>1. KEJADIAN / ALUR CERITA</p>", unsafe_allow_html=True)
-            isi_cerita = st.text_area("ide", placeholder="Contoh: Seorang pria tua sedang menangis bahagia melihat anaknya pulang...", height=155, label_visibility="collapsed")
+            # Contoh input: "main character running inside a dark cave while lava flows behind him"
+            isi_cerita = st.text_area("ide", placeholder="Contoh: main character running inside a dark cave while lava flows behind him...", height=155, label_visibility="collapsed")
         
         with col_style:
             st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:0.8rem;'>2. SETTING VISUAL</p>", unsafe_allow_html=True)
-            vibe_v = st.selectbox("Style", ["Cinematic Movie", "CCTV / Found Footage", "Retro Vintage 90s", "Commercial Clean", "Hyper-Realistic RAW"])
-            mood_v = st.selectbox("Lighting", ["Golden Hour", "Moody Dark", "Bright Studio", "Natural Sunlight", "Neon Night"])
-            cam_v = st.selectbox("Shot Type", ["Extreme Close-Up", "Medium Shot", "Bird Eye View", "Handheld Shaky Cam"])
+            # Menambahkan opsi Minecraft sesuai contohmu
+            vibe_v = st.selectbox("Style / World", [
+                "Cinematic Movie", 
+                "Ultra Realistic Minecraft", 
+                "Hyper-Realistic RAW",
+                "CCTV / Found Footage", 
+                "Retro Vintage 90s"
+            ])
+            mood_v = st.selectbox("Lighting & FX", [
+                "Dramatic Shadows & Glowing Eyes", 
+                "Golden Hour", 
+                "Neon Night", 
+                "Lava Light Reflections",
+                "Bright Natural"
+            ])
+            cam_v = st.selectbox("Shot Type", [
+                "Cinematic Tracking Shot", 
+                "Extreme Close-Up", 
+                "Slow-Motion Moment", 
+                "Bird Eye View"
+            ])
             
             st.write("")
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
 
-    # --- LOGIKA RAKIT ---
     if rakit_btn:
         if not isi_cerita:
-            st.warning("Isi dulu kejadian ceritanya, Bos!")
+            st.warning("Isi dulu kejadian ceritanya!")
         else:
-            # Library Bumbu Teknis
+            # KAMUS BUMBU DISESUAIKAN DENGAN CONTOH KAMU
             styles = {
-                "Cinematic Movie": "cinematic lighting, anamorphic lens, 8k, highly detailed, film grain.",
-                "CCTV / Found Footage": "CCTV camera angle, grainy security footage, timestamp overlay, low quality realistic, desaturated colors.",
-                "Retro Vintage 90s": "90s VHS aesthetic, chromatic aberration, tracking lines, vintage color grading.",
-                "Commercial Clean": "high-end commercial photography, sharp focus, vibrant colors, clean studio lighting.",
-                "Hyper-Realistic RAW": "RAW photo, f/1.8, high fidelity, realistic skin textures, shot on 35mm lens."
+                "Cinematic Movie": "Cinematic video, high-end film aesthetic,",
+                "Ultra Realistic Minecraft": "Ultra realistic Minecraft cinematic video,",
+                "Hyper-Realistic RAW": "Hyper-realistic RAW photo aesthetic,",
+                "CCTV / Found Footage": "CCTV grainy security footage,",
+                "Retro Vintage 90s": "90s VHS vintage cinematic video,"
             }
             
-            # Penggabungan Prompt
-            st.session_state.hasil_rakit = f"{isi_cerita}. Style: {styles[vibe_v]} Lighting: {mood_v}. Camera: {cam_v}. Masterpiece quality, extremely detailed, 8k, no text, no watermark."
+            fx = {
+                "Dramatic Shadows & Glowing Eyes": "glowing white eyes, dramatic shadows, dust particles in the air,",
+                "Golden Hour": "warm sunset lighting, long shadows, dust particles,",
+                "Neon Night": "vibrant neon reflections, foggy night atmosphere,",
+                "Lava Light Reflections": "lava light reflections, intense heat distortion, glowing embers,",
+                "Bright Natural": "clear daylight, natural colors, sharp details,"
+            }
 
-    # --- OUTPUT HASIL ---
+            # HASIL GABUNGAN (Mengikuti pola contoh yang kamu kasih)
+            # Format: Style + Cerita + FX + Camera + Kualitas
+            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {fx[mood_v]} {cam_v}, 4K, same character description."
+
     if 'hasil_rakit' in st.session_state:
         st.write("")
         st.markdown("#### ✅ HASIL RACIKAN")
         st.code(st.session_state.hasil_rakit, language="text")
         
         c1, c2, _ = st.columns([1, 1, 3])
-        with c1:
-            st.caption("Copy via ikon di kanan atas")
+        with c1: st.caption("Copy via ikon di kanan")
         with c2:
             if st.button("🗑️ RESET"):
                 del st.session_state.hasil_rakit
                 st.rerun()
-
-    # --- CSS FIX UNTUK EMERALD BORDER ---
-    st.markdown("""
-        <style>
-        [data-testid="stVerticalBlockBorderWrapper"] {
-            border: 1px solid #1d976c !important;
-            border-radius: 15px !important;
-        }
-        </style>
-    """, unsafe_allow_html=True)
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -1141,6 +1155,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
