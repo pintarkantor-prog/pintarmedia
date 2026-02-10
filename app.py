@@ -1174,7 +1174,7 @@ elif menu_select == "⚡ QUICK PROMPT":
                 st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
-    import pandas as pd # Wajib ada agar data_editor jalan
+    import pandas as pd
     
     st.title("📋 TUGAS KERJA")
     
@@ -1182,8 +1182,7 @@ elif menu_select == "📋 TUGAS KERJA":
     st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
     st.info("💡 **Instruksi Tim:** Editor wajib tempel link hasil kerja di kolom 'Link Drive' & update statusnya. Dian akan cek secara berkala!")
 
-    # --- 2. DATA MASTER (Simulasi Data Staf) ---
-    # Di masa depan, list ini bisa ditarik otomatis dari Google Sheets
+    # --- 2. DATA MASTER ---
     data_tim = [
         {
             "nama": "ICHA",
@@ -1220,7 +1219,6 @@ elif menu_select == "📋 TUGAS KERJA":
         with st.container(border=True):
             col_id, col_main = st.columns([1, 3])
             
-            # --- KOLOM KIRI: FOTO & COUNTER ---
             with col_id:
                 st.markdown(f"""
                     <div style="text-align: center; padding: 10px;">
@@ -1230,32 +1228,26 @@ elif menu_select == "📋 TUGAS KERJA":
                     </div>
                 """, unsafe_allow_html=True)
                 
-                # Metrics (Done vs Revisi)
                 st.write("---")
                 m1, m2 = st.columns(2)
                 m1.metric("Done", count_done)
                 m2.metric("Revisi", count_revisi)
                 
-                if st.button(f"Senggol {staf['nama']} 🔔", key=f"ping_{staf['nama']}", use_container_width=True):
-                    st.toast(f"Notif dikirim ke {staf['nama']}!")
+                st.button(f"Senggol {staf['nama']} 🔔", key=f"ping_{staf['nama']}", use_container_width=True)
 
-            # --- KOLOM KANAN: PANEL KERJA ---
             with col_main:
-                # A. INSTRUKSI ADMIN
                 st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS DARI ADMIN</p>', unsafe_allow_html=True)
                 st.info(staf['tugas_admin'])
                 
-                # B. AREA LAPORAN KARYAWAN (Link Drive & Status)
                 st.markdown('<p class="small-label" style="margin-bottom:5px;">🔗 LAPORAN TUGAS (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
                 
-                # Menggunakan LinkColumn agar link bisa diklik langsung
-                edited_df = st.data_editor(
+                # VERSI CLEAN: Menghapus 'placeholder' yang bikin error
+                st.data_editor(
                     df_laporan,
                     column_config={
                         "Link Drive": st.column_config.LinkColumn(
                             "Link Google Drive", 
-                            width="large",
-                            placeholder="Tempel link drive di sini..."
+                            width="large"
                         ),
                         "Status": st.column_config.SelectboxColumn(
                             "Status", 
@@ -1263,26 +1255,23 @@ elif menu_select == "📋 TUGAS KERJA":
                             required=True
                         )
                     },
-                    num_rows="dynamic", # Karyawan bisa nambah baris sendiri
+                    num_rows="dynamic",
                     key=f"editor_{staf['nama']}",
                     use_container_width=True,
                     hide_index=True
                 )
                 
-                # C. CATATAN OWNER
                 st.write("")
                 st.markdown('<p class="small-label" style="margin-bottom:5px;">✍️ CATATAN KHUSUS</p>', unsafe_allow_html=True)
                 st.warning(staf['catatan'])
 
-    # --- 4. PANEL ADMIN (KHUSUS DIAN) ---
+    # --- 4. PANEL ADMIN ---
     st.write("")
-    with st.expander("🛠️ ADMIN CONTROL PANEL (Update Tugas Utama)"):
+    with st.expander("🛠️ ADMIN CONTROL PANEL"):
         st.write("Ganti instruksi tugas staf secara manual:")
         target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
-        new_task = st.text_area("Update Instruksi Tugas Baru")
-        new_catatan = st.text_input("Update Catatan Khusus")
-        if st.button("Simpan Perubahan ✅", use_container_width=True):
-            st.success(f"Beres! Tugas untuk {target} sudah diperbarui.")
+        st.text_area("Update Instruksi Tugas Baru")
+        st.button("Simpan Perubahan ✅", use_container_width=True)
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1291,6 +1280,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
