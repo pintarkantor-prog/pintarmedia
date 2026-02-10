@@ -1083,8 +1083,8 @@ elif menu_select == "⚡ QUICK PROMPT":
             st.write("📝 **1. KEJADIAN / ALUR CERITA**")
             isi_cerita = st.text_area(
                 "input_alur",
-                placeholder="Contoh: main character running while lava flows behind him...",
-                height=265, # Disesuaikan agar sejajar dengan kolom kanan
+                placeholder="Contoh: udin pergi kesekolah naik cerita...",
+                height=245, # Disesuaikan agar sejajar dengan kolom kanan
                 label_visibility="collapsed"
             )
             
@@ -1180,6 +1180,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
