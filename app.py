@@ -1189,7 +1189,7 @@ elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
-    
+    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
     # 1. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
@@ -1240,42 +1240,3 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
