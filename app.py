@@ -960,7 +960,13 @@ if menu_select == "🚀 PRODUCTION HUB":
                         "id": item["num"], 
                         "img": img_final, 
                         "vid": vid_final,
-                        "cam_info": f"{camera_final}"
+                        "cam_info": f"{camera_final}",
+                        
+                        # --- TAMBAHKAN BARIS INI (SINKRONISASI METADATA) ---
+                        "light": item["light"],    # Untuk Suasana
+                        "shot": item["shot"],      # Untuk Ukuran Gambar
+                        "angle": item["angle"],    # Untuk Arah Kamera
+                        "motion": item.get("motion", "Static") # Untuk Gerakan Kamera
                     })
 
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
@@ -983,14 +989,21 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.markdown("**🎥 PROMPT VIDEO**")
                     st.code(res['vid'], language="text")
                 
-                # --- TOMBOL SUNTIK (TEMBAK KE TARGET VARIABEL) ---
-                if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
-                    # Tembak ke variabel yang dibaca oleh Production Hub
-                    st.session_state[f"prod_img_prompt_{res['id']}"] = res['img']
-                    st.session_state[f"prod_vid_prompt_{res['id']}"] = res['vid']
+                # --- TOMBOL SUNTIK (THE REAL FIX) ---
+                if st.button(f"💉 Suntik Adegan {idx} ke Production Hub", key=f"suntik_{idx}"):
+                    # 1. Kirim Teks Prompt (Ini sudah jalan)
+                    st.session_state[f"prod_img_prompt_{idx}"] = res['img']
+                    st.session_state[f"prod_vid_prompt_{idx}"] = res['vid']
+                    
+                    # 2. SUNTIK POSISI DROPDOWN (Ini solusinya!)
+                    # Kita paksa session_state dropdown di Production Hub mengikuti hasil AI HUB
+                    st.session_state[f"light_sel_{idx}"] = res['light']  # Paksa jadi Malam/Siang/Sore
+                    st.session_state[f"shot_sel_{idx}"] = res['shot']    # Paksa jadi Setengah Badan/dll
+                    st.session_state[f"angle_sel_{idx}"] = res['angle']  # Paksa Arah Kamera
+                    st.session_state[f"motion_sel_{idx}"] = res['motion'] # Paksa Gerakan Kamera
                     
                     st.session_state[done_key] = True
-                    st.success(f"Adegan {res['id']} Terkirim!")
+                    st.success(f"Adegan {idx} Sinkron Total!")
                     st.rerun()
 
 # ==============================================================================
@@ -1145,6 +1158,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
