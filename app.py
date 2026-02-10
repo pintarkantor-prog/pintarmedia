@@ -932,109 +932,89 @@ if menu_select == "🚀 RUANG PRODUKSI":
 # HALAMAN LAIN (KOSONGAN UNTUK PENGEMBANGAN)
 # --------------------------------------------------------------------------
 elif menu_select == "🧠 PINTAR AI LAB":
+    from groq import Groq
+
     st.markdown("### 🧠 PINTAR AI LAB")
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Kendali Konsep & Standarisasi Perintah AI</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Kendali Konsep: Jalur Otomatis & Manual</p>", unsafe_allow_html=True)
     st.divider()
 
-    # --- 1. BOX ATURAN UTAMA (OWNER COMMANDS) ---
-    with st.expander("⚠️ PROTOKOL KERJA KARYAWAN (WAJIB BACA)", expanded=True):
-        st.markdown("""
-        1. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
-        2. **Disiplin Prompt:** Gunakan sistem ini untuk merakit perintah. Dilarang mengetik manual di Gemini Web tanpa template ini.
-        3. **Verifikasi:** Periksa hasil dari Gemini Web sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
-        4. **Konsistensi:** Selalu gunakan DNA Karakter yang sama untuk tokoh yang sama.
-        """)
+    # --- KONFIGURASI API GROQ (UNTUK JALUR OTOMATIS) ---
+    GROQ_API_KEY = "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI" # Ganti dengan Key Groq kamu
+    
+    def call_groq_lab(system_msg, user_msg):
+        try:
+            client = Groq(api_key=GROQ_API_KEY)
+            completion = client.chat.completions.create(
+                model="llama-3.3-70b-versatile",
+                messages=[{"role": "system", "content": system_msg}, {"role": "user", "content": user_msg}],
+                temperature=0.7, max_tokens=2048
+            )
+            return completion.choices[0].message.content
+        except Exception as e:
+            return f"Error: {e}"
 
-    # --- 2. TABS INTERFACE ---
-    tab_ide, tab_char = st.tabs(["🏗️ ARCHITECT IDE (PLOT)", "🧬 DNA VAULT (FISIK)"])
+    # --- INTERFACE UTAMA ---
+    st.markdown("#### 🏗️ Arsitek Alur Cerita")
+    
+    # Area Input dari Owner (Hanya satu pintu input agar disiplin)
+    owner_idea = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
+                              height=150,
+                              placeholder="Tuliskan inti cerita atau premis di sini...")
+    
+    col1, col2 = st.columns(2)
+    with col1:
+        jml_adegan = st.number_input("Target Jumlah Adegan", 4, 20, 6)
+    with col2:
+        mood_vibe = st.selectbox("Mood/Tone:", ["Drama Emosional", "Komedi Lucu", "Thriller Mencekam", "Aksi Balap", "Horor"])
 
-    with tab_ide:
-        st.markdown("#### 🏗️ Mesin Perakit Struktur Plot")
+    st.write("")
+    
+    # --- JALUR KONEKSI (HYBRID SYSTEM) ---
+    tab_auto, tab_manual = st.tabs(["⚡ JALUR OTOMATIS (API GROQ)", "📋 JALUR MANUAL (GEMINI WEB)"])
+
+    with tab_auto:
+        st.markdown("<p style='color:#1d976c;'>Mode ini akan langsung memecah ide menggunakan AI. Gunakan selama limit masih ada.</p>", unsafe_allow_html=True)
+        if st.button("EXECUTE AUTO-PLOT 🚀", use_container_width=True):
+            if owner_idea and GROQ_API_KEY != "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI":
+                with st.spinner("Groq AI sedang merancang alur..."):
+                    sys_msg = f"Kamu adalah Scriptwriter PINTAR MEDIA. Pecahkan ide owner menjadi {jml_adegan} adegan visual. Mood: {mood_vibe}. Output harus rapi: Adegan X: [Setting] - [Aksi Visual]."
+                    hasil_auto = call_groq_lab(sys_msg, owner_idea)
+                    st.markdown("---")
+                    st.info("**Hasil Rancangan Otomatis:**")
+                    st.markdown(hasil_auto)
+            else:
+                st.error("Garis Besar belum diisi atau API KEY belum terpasang!")
+
+    with tab_manual:
+        st.markdown("<p style='color:#ffaa00;'>Mode cadangan jika limit API habis. Rakit perintah dan tempel ke Gemini Web.</p>", unsafe_allow_html=True)
         
-        # Area Input Strategis
-        owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
-                                  height=150,
-                                  placeholder="Tuliskan inti cerita di sini...")
-        
-        c1, c2, c3 = st.columns([2,2,2])
-        with c1:
-            jml_sc = st.number_input("Target Adegan", 4, 20, 6)
-        with c2:
-            mood_cerita = st.selectbox("Mood/Vibe:", ["Drama Emosional", "Komedi Situasi", "Thriller/Mencekam", "Action/High Energy", "Horor/Gothic"])
-        with c3:
-            target_audien = st.selectbox("Target Audiens:", ["Anak-anak", "Remaja/General", "Dewasa/Edukasi"])
-
-        # RAKITAN MEGA PROMPT (LOGIKA OWNER - SILAKAN RUBAH TEKS DI DALAM F-STRING INI)
-        mega_prompt_ide = f"""
+        # Rakitan Mega-Prompt (Kaku sesuai aturanmu)
+        mega_prompt_manual = f"""
 ### ROLE: SENIOR SCRIPTWRITER PINTAR MEDIA ###
-TUGAS: Pecahkan Garis Besar Cerita di bawah menjadi {jml_sc} adegan visual storyboard.
+TUGAS: Pecahkan Garis Besar Cerita di bawah menjadi {jml_adegan} adegan visual storyboard.
 
 INTI CERITA DARI OWNER:
-"{owner_core}"
+"{owner_idea}"
 
 INSTRUKSI KAKU (Wajib Dipatuhi):
-1. Mood Utama: {mood_cerita}.
-2. Target Penonton: {target_audien}.
-3. Fokus pada AKSI VISUAL yang tertangkap kamera, bukan perasaan batin.
-4. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
-5. Format Output Adegan (WAJIB):
-   - Adegan [X]: [Setting Tempat/Waktu] - [Kejadian Utama & Gerakan Karakter]
+1. Mood Utama: {mood_vibe}.
+2. Fokus pada AKSI VISUAL yang tertangkap kamera.
+3. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
+4. Format Output Adegan (WAJIB): Adegan [X]: [Setting] - [Kejadian Utama].
 
-Tuliskan alur cerita yang logis, tajam, dan siap diproduksi secara visual.
+Berikan hasil terbaik sesuai standar PINTAR MEDIA.
         """.strip()
 
-        st.divider()
-        if owner_core:
-            st.markdown("##### 📥 MEGA-PROMPT SIAP SALIN")
-            st.caption("Klik tombol copy di kanan atas kotak hitam, lalu paste ke Gemini Web.")
-            st.code(mega_prompt_ide, language="text")
-            
-            # Link Langsung ke Gemini
-            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">🚀 BUKA GEMINI WEB SEKARANG</div></a>', unsafe_allow_html=True)
+        if owner_idea:
+            st.markdown("##### 📥 SALIN PROMPT BERIKUT:")
+            st.code(mega_prompt_manual, language="text")
+            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">👉 PASTE KE GEMINI WEB SEKARANG</div></a>', unsafe_allow_html=True)
         else:
-            st.info("💡 Masukkan Garis Besar Cerita di atas untuk merakit Plot.")
+            st.info("💡 Masukkan Garis Besar Cerita untuk merakit Prompt Manual.")
 
-    with tab_char:
-        st.markdown("#### 🧬 Brankas DNA Karakter")
-        st.caption("Gunakan untuk mengunci ciri fisik agar tokoh tidak berubah wajah (Glitch).")
-        
-        col_c1, col_c2 = st.columns([1,1])
-        with col_c1:
-            c_nama = st.text_input("Nama Tokoh:", placeholder="Siti")
-            c_gender = st.selectbox("Gender:", ["Pria", "Wanita", "Anak-anak"])
-        with col_c2:
-            c_ras = st.selectbox("Etnis/Ras:", ["Indonesia/Melayu", "Asia Timur", "Kaukasia", "Timur Tengah"])
-            c_usia = st.slider("Estimasi Usia:", 5, 80, 25)
-        
-        c_fisik_extra = st.text_area("Ciri Khas Fisik & Pakaian:", 
-                                     placeholder="Contoh: Kacamata tebal, tahi lalat di dagu, pakai hijab motif bunga, jaket kulit hitam.")
-        
-        # RAKITAN PROMPT DNA (SANGAT TEKNIS)
-        mega_prompt_char = f"""
-### ROLE: CHARACTER DESIGNER DNA ###
-TUGAS: Terjemahkan deskripsi fisik menjadi TECHNICAL CHARACTER DESCRIPTION (Bahasa Inggris).
-
-DATA TOKOH:
-- Name: {c_nama}
-- Gender: {c_gender}
-- Race: {c_ras}
-- Age: {c_usia} years old
-- Details: {c_fisik_extra}
-
-SPECIFICATION RULES:
-1. Output HANYA bahasa Inggris.
-2. Deskripsi harus sangat detail mencakup: skin texture, facial structure, eye shape, and clothing material.
-3. Tambahkan keyword: "consistent facial features, high fidelity, 8k, sharp photography".
-4. DILARANG menyebutkan emosi atau aksi. Hanya data fisik diam.
-
-RAKITKAN DNA FISIKNYA SEKARANG:
-        """.strip()
-
-        if c_nama and c_fisik_extra:
-            st.divider()
-            st.markdown("##### 🧬 DNA PROMPT (TECHNICAL)")
-            st.code(mega_prompt_char, language="text")
-            st.caption("Gunakan hasil terjemahan dari Gemini untuk mengisi kolom Karakter di Ruang Produksi.")
+    st.divider()
+    with st.expander("📝 CATATAN KERJA"):
+        st.caption("Setelah mendapatkan alur (baik dari Groq atau Gemini), pastikan karyawan menyalin hasilnya ke Ruang Produksi secara teliti.")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1068,6 +1048,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
