@@ -983,9 +983,10 @@ if menu_select == "🚀 PRODUCTION HUB":
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
 
-    # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
+# --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
     if st.session_state.last_generated_results:
         st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
+        
         for res in st.session_state.last_generated_results:
             done_key = f"mark_done_{res['id']}"
             is_done = st.session_state.get(done_key, False)
@@ -1000,22 +1001,22 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.markdown("**🎥 PROMPT VIDEO**")
                     st.code(res['vid'], language="text")
                 
-                # --- TOMBOL SUNTIK (BAGIAN 9 - THE REAL FIX) ---
+                # --- TOMBOL SUNTIK (THE REAL FIX) ---
                 if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
                     idx = res['id']
                     
-                    # 1. Kirim Teks Prompt
+                    # 1. Kirim Teks Prompt ke Kotak Visual
                     st.session_state[f"vis_input_{idx}"] = res['img']
-                    st.session_state[f"prod_img_prompt_{idx}"] = res['img']
-                    st.session_state[f"prod_vid_prompt_{idx}"] = res['vid']
                     
-                    # 2. SUNTIK POSISI DROPDOWN (MENYAMAKAN KEY DENGAN UI)
+                    # 2. SUNTIK POSISI DROPDOWN (MENYAMAKAN KEY DENGAN INISIALISASI)
                     st.session_state[f"env_input_{idx}"] = res['light']  
                     st.session_state[f"size_input_{idx}"] = res['shot']   
                     st.session_state[f"angle_input_{idx}"] = res['angle'] 
                     st.session_state[f"cam_move_{idx}"] = res['motion'] 
                     
+                    # 3. Tandai Selesai & Refresh UI
                     st.session_state[done_key] = True
+                    st.session_state.ui_reset_key += 1
                     st.success(f"Adegan {idx} Sinkron Total!")
                     st.rerun()
 
@@ -1171,6 +1172,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
