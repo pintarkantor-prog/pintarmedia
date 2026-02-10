@@ -964,44 +964,54 @@ if menu_select == "🚀 PRODUCTION HUB":
                         f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}"
                     )
 
-                # --- 10. SIMPAN KE MEMORI (VERSI ANTI-GHAIB) ---
-                # Baris ini WAJIB menjorok ke dalam (sejajar dengan img_final)
+    # ==============================================================================
+    # 10. GENERATOR PROMPT (Tempat Masak)
+    # ==============================================================================
+    if st.button("🚀 GENERATE ALL PROMPTS", type="primary", use_container_width=True):
+        with st.spinner("Sedang meracik..."):
+            st.session_state.last_generated_results = [] # Bersihkan koper
+            
+            for item in active_scenes:
+                # ... (Proses rakit img_final & vid_final) ...
+                
+                # SIMPAN KE KOPER
                 st.session_state.last_generated_results.append({
                     "id": item["num"],
                     "img": img_final,
                     "vid": vid_final,
-                    "p_light": item["light"],  
-                    "p_shot": item["shot"],    
-                    "p_angle": item["angle"],  
-                    "p_motion": item["cam"]    
+                    "p_light": item["light"],
+                    "p_shot": item["shot"],
+                    "p_angle": item["angle"],
+                    "p_motion": item["cam"]
                 })
+        
+        # SETELAH SELESAI MASAK, PAKSA REFRESH BIAR KOPER KELIHATAN
+        st.rerun()
 
-        # --- PENUTUP PROSES (Sejajar dengan 'with st.spinner') ---
-        st.toast("Prompt Berhasil Diracik! 🚀")
-        st.rerun() # <--- INI KUNCINYA: Memaksa Streamlit sadar ada data baru
-
-# --- 9. AREA TAMPILAN HASIL (Di luar blok 'if st.button') ---
-if st.session_state.last_generated_results:
-    st.markdown(f"### 🎬 HASIL RACIKAN")
-    for res in st.session_state.last_generated_results:
-        with st.expander(f"ADEGAN {res['id']}", expanded=True):
-            st.code(res['img'], language="text")
-            
-            # --- TOMBOL SUNTIK ---
-            if st.button(f"💉 Suntik Adegan {res['id']}", key=f"suntik_fix_{res['id']}"):
-                idx = res['id']
-                # Suntik Teks
-                st.session_state[f"vis_input_{idx}"] = res['img']
-                # Suntik Dropdown
-                st.session_state[f"env_input_{idx}"] = res['p_light']
-                st.session_state[f"size_input_{idx}"] = res['p_shot']
-                st.session_state[f"angle_input_{idx}"] = res['p_angle']
-                st.session_state[f"cam_move_{idx}"] = res['p_motion']
+    # ==============================================================================
+    # 9. AREA TAMPILAN HASIL (Tempat Pajang)
+    # ==============================================================================
+    # PENTING: Baris ini harus sejajar dengan 'if st.button' di atas (DI LUARNYA)
+    if st.session_state.last_generated_results:
+        st.markdown("---")
+        st.subheader("🎬 HASIL STORYBOARD")
+        
+        for res in st.session_state.last_generated_results:
+            with st.expander(f"ADEGAN {res['id']}", expanded=True):
+                st.code(res['img'], language="text")
                 
-                st.session_state.ui_reset_key += 1
-                st.success(f"Adegan {idx} Masuk ke Hub!")
-                st.rerun()
-
+                # TOMBOL SUNTIK
+                if st.button(f"💉 Suntik ke Hub {res['id']}", key=f"btn_suntik_{res['id']}"):
+                    idx = res['id']
+                    st.session_state[f"vis_input_{idx}"] = res['img']
+                    st.session_state[f"env_input_{idx}"] = res['p_light']
+                    st.session_state[f"size_input_{idx}"] = res['p_shot']
+                    st.session_state[f"angle_input_{idx}"] = res['p_angle']
+                    st.session_state[f"cam_move_{idx}"] = res['p_motion']
+                    
+                    st.session_state.ui_reset_key += 1 # Kunci refresh UI
+                    st.success(f"Adegan {idx} Sinkron!")
+                    st.rerun()
 # ==============================================================================
 # 11. HALAMAN AI LAB (VERSI DETAIL LOKASI & TEKS RAPI)
 # ==============================================================================
@@ -1154,6 +1164,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
