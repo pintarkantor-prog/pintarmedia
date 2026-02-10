@@ -327,7 +327,7 @@ st.markdown("""
 
         /* Tampilkan pesan peringatan di layar HP/Tab */
         body::before {
-            content: "⚠️ AKSES DITOLAK \A Gunakan PC / Laptop!";
+            content: "⚠️ Gunakan PC! \A";
             display: flex;
             justify-content: center;
             align-items: center;
@@ -967,5 +967,6 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
