@@ -934,41 +934,44 @@ if menu_select == "🚀 RUANG PRODUKSI":
 elif menu_select == "🧠 PINTAR AI LAB":
     from groq import Groq
 
-    st.markdown("### 🧠 PINTAR AI LAB")
+    # --- STYLE MINIMALIS ELEGAN ---
+    st.markdown("""
+        <style>
+        .stSegmentedControl { gap: 10px; }
+        .sop-text { color: #808495; font-size: 0.9rem; border-left: 3px solid #1d976c; padding-left: 15px; margin: 10px 0 25px 0; }
+        </style>
+    """, unsafe_allow_html=True)
+
+    st.title("🧠 PINTAR AI LAB")
     
-    # --- SUB-MENU SEGMENTED (SIMPEL & ELEGAN) ---
-    # Tampilannya akan seperti tombol toggle modern di dashboard premium
+    # 1. SUB-MENU MODERN
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
-        ["📋 MANUAL MODE", "⚡ AUTO MODE"],
-        default="📋 MANUAL MODE"
+        ["📋 MANUAL PROMPT", "⚡ OTOMATIS (GROQ)"],
+        default="📋 MANUAL PROMPT",
+        label_visibility="collapsed"
     )
+
+    # 2. SOP SINGKAT (ELEGAN)
+    st.markdown(f'<div class="sop-text"><b>SOP {mode_lab}:</b> Gunakan Garis Besar Owner sebagai hukum utama. Verifikasi detail visual sebelum dipindahkan ke Ruang Produksi.</div>', unsafe_allow_html=True)
+
+    # 3. INPUT UTAMA
+    owner_core = st.text_area("📍 GARIS BESAR DARI OWNER", height=120, placeholder="Tuliskan inti pesan atau alur utama cerita...")
+    
+    col_x, col_y, col_z = st.columns(3)
+    with col_x:
+        jml_sc = st.number_input("Target Adegan", 4, 20, 6)
+    with col_y:
+        mood_cerita = st.selectbox("Mood Visual", ["Drama Emosional", "Komedi Situasi", "Thriller Mencekam", "Aksi Balap", "Horor"])
+    with col_z:
+        target_audien = st.selectbox("Audiens", ["General", "Anak-anak", "Dewasa"])
 
     st.divider()
 
-    # --- 1. PROTOKOL SINGKAT ---
-    st.markdown(f"> **SOP {mode_lab}:** Ikuti garis besar Owner. Dilarang improvisasi liar. Verifikasi hasil sebelum produksi.")
-
-    # --- 2. INPUT AREA (CLEAN LAYOUT) ---
-    owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
-                              height=120,
-                              placeholder="Tuliskan inti pesan atau alur utama di sini...")
-    
-    col_a, col_b, col_c = st.columns(3)
-    with col_a:
-        jml_sc = st.number_input("Total Adegan", 4, 20, 6)
-    with col_b:
-        mood_cerita = st.selectbox("Mood", ["Drama", "Komedi", "Thriller", "Action", "Horor"])
-    with col_c:
-        target_audien = st.selectbox("Audiens", ["General", "Anak-anak", "Dewasa"])
-
-    st.write("")
-
-    # --- 3. LOGIKA JALUR ---
-    if mode_lab == "📋 MANUAL MODE":
-        # Rakitan Prompt yang sudah dioptimasi agar Gemini Web nurut
+    # --- JALUR MANUAL ---
+    if mode_lab == "📋 MANUAL PROMPT":
         mega_prompt = f"""
-ROLE: Senior Scriptwriter.
+ROLE: Senior Scriptwriter PINTAR MEDIA.
 TASK: Pecahkan ide ini menjadi {jml_sc} adegan visual storyboard.
 MOOD: {mood_cerita} | AUDIENS: {target_audien}
 IDE OWNER: "{owner_core}"
@@ -976,34 +979,40 @@ RULE: Fokus visual, jangan improvisasi plot, format: Adegan [X]: [Setting] - [Ak
         """.strip()
 
         if owner_core:
-            st.markdown("---")
-            st.caption("Salin prompt di bawah ke Gemini Web:")
+            st.markdown("##### 📥 MEGA-PROMPT SIAP SALIN")
             st.code(mega_prompt, language="text")
-            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:8px; border-radius:5px; text-align:center; font-weight:bold; font-size:14px;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
+            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background: linear-gradient(to right, #1d976c, #11998e); color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">COPY & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
 
-    elif mode_lab == "⚡ AUTO MODE":
-        # Jalur Cepat API Groq
-        if st.button("GENERATE PLOT SEKARANG", use_container_width=True, type="primary"):
-            if owner_core:
+    # --- JALUR OTOMATIS (DIRECT GROQ) ---
+    elif mode_lab == "⚡ OTOMATIS (GROQ)":
+        if st.button("RAKIT ALUR CERITA SEKARANG 🚀", use_container_width=True, type="primary"):
+            if not owner_core:
+                st.error("Garis Besar Cerita wajib diisi!")
+            else:
                 try:
-                    # Mengambil API KEY dari secrets agar aman
+                    # Ambil key dari secrets
                     client = Groq(api_key=st.secrets["GROQ_API_KEY"])
-                    with st.spinner("AI sedang merancang..."):
-                        sys_msg = f"Kamu Scriptwriter PINTAR MEDIA. Pecahkan ide owner jadi {jml_sc} adegan visual. Mood: {mood_cerita}. Format: Adegan X: [Setting] - [Aksi]. NO IMPROVISATION."
+                    
+                    with st.status("🧠 AI sedang menyusun arsitektur alur...", expanded=True) as status:
+                        sys_msg = f"Kamu Scriptwriter PINTAR MEDIA. Pecahkan ide owner jadi {jml_sc} adegan visual. Mood: {mood_cerita}. Audiens: {target_audien}. JANGAN improvisasi plot di luar tema owner! Format wajib: Adegan X: [Setting] - [Aksi Visual]."
+                        
                         completion = client.chat.completions.create(
                             model="llama-3.3-70b-versatile",
                             messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": owner_core}],
                             temperature=0.7
                         )
-                        st.markdown("---")
-                        st.success("✅ Alur Berhasil Dibuat:")
-                        st.markdown(completion.choices[0].message.content)
+                        hasil_ai = completion.choices[0].message.content
+                        status.update(label="✅ Alur Berhasil Dirakit!", state="complete", expanded=False)
+                    
+                    # --- OUTPUT KHUSUS DENGAN FITUR COPY OTOMATIS ---
+                    st.markdown("---")
+                    st.markdown("##### 📋 HASIL NASKAH (SIAP COPY KE RUANG PRODUKSI)")
+                    st.caption("Klik tombol copy di pojok kanan kotak di bawah untuk memindahkan naskah.")
+                    # Menggunakan st.code agar karyawan bisa copy instan dengan tombol bawaan
+                    st.code(hasil_ai, language="text")
+                    
                 except Exception as e:
-                    st.error(f"Hubungi Admin untuk cek API Key. Error: {e}")
-            else:
-                st.warning("Isi Garis Besar dulu!")
-
-    st.divider()
+                    st.error(f"Gagal memproses AI. Pastikan API Key Groq sudah terpasang. (Error: {e})")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1037,6 +1046,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
