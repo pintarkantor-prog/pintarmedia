@@ -1172,8 +1172,22 @@ elif menu_select == "🎞️ SCHEDULE":
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
-    st.info("Daftar tugas tim.")
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Komando Produksi</p>", unsafe_allow_html=True)
+    st.divider()
 
+    # Contoh Tampilan Manual (Bukan GSheets)
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("### 🎯 Tugas Hari Ini")
+        st.info("**Lisa:** Riset 5 lagu viral TikTok")
+        st.success("**Inggi:** Update jadwal Unit 4")
+        st.error("**Urgent:** Perbaiki typo judul di Video Unit 1")
+        
+    with col2:
+        st.markdown("### 📢 Pengumuman")
+        st.warning("Rapat evaluasi jam 4 sore di Ruang Produksi.")
+        st.help("Jangan lupa backup naskah dari AI Lab ke Ruang Produksi!")
 elif menu_select == "📈 TREND ANALYZER":
     st.title("📈 TREND ANALYZER")
     st.info("Analisis tren konten terkini.")
@@ -1198,6 +1212,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
