@@ -964,54 +964,43 @@ if menu_select == "🚀 PRODUCTION HUB":
                         f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}"
                     )
 
-                    # --- SIMPAN DATA (BAGIAN 10 - VERSI LENGKAP) ---
-                    st.session_state.last_generated_results.append({
-                        "id": item["num"],
-                        "img": img_final,
-                        "vid": vid_final,
-                        "cam_info": f"{camera_final}", # <-- TETAP ADA BUAT CATATAN TEKNIS
-                        "p_light": light_val,          # Buat suntik Suasana
-                        "p_shot": shot_val,            # Buat suntik Ukuran
-                        "p_angle": angle_val,          # Buat suntik Angle
-                        "p_motion": cam_val            # Buat suntik Gerakan
-                    })
+                # --- 10. SIMPAN KE MEMORI (VERSI ANTI-GHAIB) ---
+                # Baris ini WAJIB menjorok ke dalam (sejajar dengan img_final)
+                st.session_state.last_generated_results.append({
+                    "id": item["num"],
+                    "img": img_final,
+                    "vid": vid_final,
+                    "p_light": item["light"],  
+                    "p_shot": item["shot"],    
+                    "p_angle": item["angle"],  
+                    "p_motion": item["cam"]    
+                })
 
-            # Baris ini sejajar dengan 'with st.spinner'
-            st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
-            st.rerun()
+        # --- PENUTUP PROSES (Sejajar dengan 'with st.spinner') ---
+        st.toast("Prompt Berhasil Diracik! 🚀")
+        st.rerun() # <--- INI KUNCINYA: Memaksa Streamlit sadar ada data baru
 
-    # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
-    if st.session_state.last_generated_results:
-        st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
-        for res in st.session_state.last_generated_results:
-            done_key = f"mark_done_{res['id']}"
-            is_done = st.session_state.get(done_key, False)
+# --- 9. AREA TAMPILAN HASIL (Di luar blok 'if st.button') ---
+if st.session_state.last_generated_results:
+    st.markdown(f"### 🎬 HASIL RACIKAN")
+    for res in st.session_state.last_generated_results:
+        with st.expander(f"ADEGAN {res['id']}", expanded=True):
+            st.code(res['img'], language="text")
             
-            with st.expander(f"ADEGAN {res['id']}", expanded=not is_done):
-                st.code(res['img'], language="text")
+            # --- TOMBOL SUNTIK ---
+            if st.button(f"💉 Suntik Adegan {res['id']}", key=f"suntik_fix_{res['id']}"):
+                idx = res['id']
+                # Suntik Teks
+                st.session_state[f"vis_input_{idx}"] = res['img']
+                # Suntik Dropdown
+                st.session_state[f"env_input_{idx}"] = res['p_light']
+                st.session_state[f"size_input_{idx}"] = res['p_shot']
+                st.session_state[f"angle_input_{idx}"] = res['p_angle']
+                st.session_state[f"cam_move_{idx}"] = res['p_motion']
                 
-                # --- TOMBOL SUNTIK ---
-                if st.button(f"💉 Suntik Adegan {res['id']}", key=f"suntik_btn_{res['id']}"):
-                    idx = res['id']
-                    
-                    # 1. Suntik Teks ke Kotak Visual
-                    st.session_state[f"vis_input_{idx}"] = res['img']
-                    
-                    # 2. Suntik Info Kamera (Jika kamu punya kolom penampung cam_info di Hub)
-                    # Jika tidak ada kolomnya, baris ini tidak akan merusak apa pun
-                    st.session_state[f"cam_info_input_{idx}"] = res['cam_info']
-                    
-                    # 3. SUNTIK DROPDOWN (PASTIKAN KEY INI SAMA DENGAN DI PRODUCTION HUB)
-                    st.session_state[f"env_input_{idx}"] = res['p_light']
-                    st.session_state[f"size_input_{idx}"] = res['p_shot']
-                    st.session_state[f"angle_input_{idx}"] = res['p_angle']
-                    st.session_state[f"cam_move_{idx}"] = res['p_motion']
-                    
-                    # 4. Paksa UI Berubah & Refresh
-                    st.session_state[done_key] = True
-                    st.session_state.ui_reset_key += 1
-                    st.success(f"Adegan {idx} Sinkron Total!")
-                    st.rerun()
+                st.session_state.ui_reset_key += 1
+                st.success(f"Adegan {idx} Masuk ke Hub!")
+                st.rerun()
 
 # ==============================================================================
 # 11. HALAMAN AI LAB (VERSI DETAIL LOKASI & TEKS RAPI)
@@ -1165,6 +1154,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
