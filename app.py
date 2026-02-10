@@ -1201,12 +1201,12 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # --- 2. DATABASE SESSION (Pastikan Data Gak Ilang) ---
+        # --- 2. DATABASE SESSION (Agar Data Tidak Hilang) ---
         if 'db_laporan' not in st.session_state:
             template = [{"Link Drive": "", "Status": "Kosong"}] * 5
             st.session_state.db_laporan = {k: pd.DataFrame(template) for k in ["ICHA", "NISSA", "INGGI", "LISA"]}
 
-        # --- 3. DATABASE PROFIL (Balikin Foto & Posisi) ---
+        # --- 3. DATABASE PROFIL ---
         data_master = {
             "ICHA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Edit 5 Video Minecraft Survival", "catatan": "Sound effect lebih dramatis."},
             "NISSA": {"posisi": "Editor", "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", "tugas": "Shorts Cinematic AI 10 Video", "catatan": "Color grading rapi."},
@@ -1219,10 +1219,11 @@ elif menu_select == "📋 TUGAS KERJA":
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_master.get(nama_staf)
-                df_staf = st.session_state.db_laporan[nama_staf]
+                df_staf = st.session_state.db_laporan[nama_staf].copy() # Pakai copy agar stabil
                 
-                # --- LOGIKA HITUNGAN (Done/Revisi/Progres) ---
-                total_tugas = len(df_staf[df_staf["Link Drive"] != ""])
+                # --- LOGIKA HITUNGAN PROGRESS ---
+                links_filled = df_staf[df_staf["Link Drive"].str.strip() != ""]
+                total_tugas = len(links_filled)
                 done_count = (df_staf['Status'] == 'Selesai').sum()
                 revisi_count = (df_staf['Status'] == 'Wajib Revisi').sum()
                 progress = (done_count / total_tugas) if total_tugas > 0 else 0
@@ -1235,7 +1236,7 @@ elif menu_select == "📋 TUGAS KERJA":
                 else:
                     status_badge, b_color = "🎬 ON PROGRESS", "#1d976c"
 
-                # --- TAMPILAN CARD KEREN ---
+                # --- TAMPILAN CARD PREMIUM ---
                 st.markdown(f"""
                     <div style="border: 2px solid {b_color}; border-radius: 15px; padding: 20px; background-color: rgba(29, 151, 108, 0.05); margin-bottom: 20px;">
                         <div style="display: flex; align-items: center;">
@@ -1265,14 +1266,22 @@ elif menu_select == "📋 TUGAS KERJA":
                 with col_table:
                     st.info(f"📌 **TUGAS:** {staf['tugas']}")
                     
-                    # --- DATA EDITOR (SISTEM OTOMATIS & TERKUNCI) ---
-                    is_disabled = (user_aktif != "DIAN")
+                    # --- DATA EDITOR (TANPA PARAMETER PLACEHOLDER BIAR GAK ERROR) ---
+                    is_disabled_stat = (user_aktif != "DIAN")
                     
                     edited_df = st.data_editor(
                         df_staf,
                         column_config={
-                            "Link Drive": st.column_config.LinkColumn("Link Laporan", width="large", placeholder="Paste link drive..."),
-                            "Status": st.column_config.SelectboxColumn("Status Review", options=["Kosong", "Proses Review", "Wajib Revisi", "Selesai"], disabled=is_disabled)
+                            "Link Drive": st.column_config.LinkColumn(
+                                "Link Laporan", 
+                                width="large"
+                                # Parameter placeholder dihapus agar tidak TypeError
+                            ),
+                            "Status": st.column_config.SelectboxColumn(
+                                "Status Review", 
+                                options=["Kosong", "Proses Review", "Wajib Revisi", "Selesai"], 
+                                disabled=is_disabled_stat
+                            )
                         },
                         num_rows="dynamic",
                         hide_index=True,
@@ -1280,17 +1289,19 @@ elif menu_select == "📋 TUGAS KERJA":
                         key=f"editor_{nama_staf}"
                     )
 
-                    # Logika Otomatisasi Status (Khusus Staff)
+                    # Logika Otomatisasi Status untuk Staff
                     if user_aktif != "DIAN":
                         for idx, row in edited_df.iterrows():
+                            # Cek jika link diisi tapi status masih Kosong
                             if str(row["Link Drive"]).strip() != "" and row["Status"] == "Kosong":
                                 edited_df.at[idx, "Status"] = "Proses Review"
+                            # Cek jika link dihapus, status balik Kosong
                             elif str(row["Link Drive"]).strip() == "":
                                 edited_df.at[idx, "Status"] = "Kosong"
 
                     if st.button(f"Simpan Laporan {nama_staf} ✅", key=f"btn_{nama_staf}", use_container_width=True):
                         st.session_state.db_laporan[nama_staf] = edited_df
-                        st.success("Berhasil diupdate!")
+                        st.success(f"Berhasil! Laporan {nama_staf} sudah di-update.")
                         st.rerun()
                     
                     st.warning(f"✍️ **CATATAN DIAN:** {staf['catatan']}")
@@ -1300,8 +1311,9 @@ elif menu_select == "📋 TUGAS KERJA":
     # --- 4. ADMIN CONTROL PANEL ---
     if user_aktif == "DIAN":
         with st.expander("🛠️ ADMIN CONTROL PANEL"):
-            st.selectbox("Pilih Staf", list(data_master.keys()))
-            st.button("Update Instruksi ✅")
+            st.selectbox("Pilih Staf", list(data_master.keys()), key="adm_select")
+            st.text_area("Update Instruksi", key="adm_task")
+            st.button("Update Instruksi ✅", key="adm_btn")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1310,6 +1322,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
