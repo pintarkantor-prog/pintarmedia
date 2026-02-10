@@ -98,7 +98,7 @@ for i in range(1, 51):
             st.session_state[key] = default
 
 # ==============================================================================
-# 3. LOGIKA LOGGING GOOGLE SHEETS
+# 3. LOGIKA LOGGING GOOGLE SHEETS (SERVICE ACCOUNT MODE - FULL DATA)
 # ==============================================================================
 def record_to_sheets(user, data_packet, total_scenes):
     try:
@@ -119,37 +119,143 @@ def record_to_sheets(user, data_packet, total_scenes):
 # ==============================================================================
 st.markdown("""
     <style>
+    /* A. CUSTOM SCROLLBAR */
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: #0e1117; }
     ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
     ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+
+    /* 1. FIXED HEADER */
     [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-        position: fixed; top: 0; left: 310px; right: 0; z-index: 99999; background-color: #0e1117; padding: 10px 2rem; border-bottom: 2px solid #31333f;
+        position: fixed;
+        top: 0;
+        left: 310px;
+        right: 0;
+        z-index: 99999;
+        background-color: #0e1117;
+        padding: 10px 2rem;
+        border-bottom: 2px solid #31333f;
     }
-    @media (max-width: 768px) { [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; } }
-    [data-testid="stSidebar"] { background-color: #1a1c24 !important; border-right: 1px solid rgba(29, 151, 108, 0.1) !important; }
-    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label { color: #ffffff !important; }
+
+    @media (max-width: 768px) {
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+            left: 0;
+        }
+    }
+
+    /* 2. STYLE SIDEBAR */
+    [data-testid="stSidebar"] {
+        background-color: #1a1c24 !important;
+        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label {
+        color: #ffffff !important;
+    }
+
+    /* 3. TOMBOL GENERATE (KEMBALI KE RESPONS INSTAN - TANPA TRANSISI) */
     div.stButton > button[kind="primary"] {
-        background: linear-gradient(to right, #1d976c, #11998e) !important; color: white !important; border: none !important; border-radius: 8px !important; padding: 0.6rem 1.2rem !important; font-weight: bold !important; font-size: 16px !important; width: 100%; box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: bold !important;
+        font-size: 16px !important;
+        width: 100%;
+        box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
     }
-    div.stButton > button[kind="primary"]:hover { background: #11998e !important; box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important; }
-    .staff-header-premium { background: rgba(29, 151, 108, 0.2) !important; border: 2px solid #1d976c !important; border-radius: 10px !important; padding: 15px 20px !important; margin-bottom: 25px !important; display: flex !important; align-items: center !important; gap: 12px !important; box-shadow: none !important; }
-    .staff-header-premium b { color: #1d976c !important; font-size: 1.15em !important; text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important; }
-    .staff-header-premium span { color: #1d976c !important; }
-    .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
-    .stTextArea textarea:focus, .stTextInput input:focus { border: 1px solid #31333f !important; background-color: #0e1117 !important; box-shadow: none !important; outline: none !important; }
-    h1, h2, h3, .stMarkdown h3 { color: #ffffff !important; background: none !important; -webkit-text-fill-color: initial !important; }
-    button[title="Copy to clipboard"] { background-color: #28a745 !important; color: white !important; border-radius: 6px !important; transform: scale(1.1); }
-    .stTextArea textarea { font-size: 16px !important; border-radius: 10px !important; background-color: #0e1117 !important; border: 1px solid #31333f !important; }
-    .small-label { color: #1d976c !important; letter-spacing: 1px; text-transform: uppercase; font-size: 10px !important; font-weight: 800 !important; }
-    .stExpander { border: 1px solid rgba(29, 151, 108, 0.3) !important; border-radius: 12px !important; background-color: #161922 !important; margin-bottom: 15px !important; }
-    hr { margin: 2em 0 !important; border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-    .stTextArea textarea { border: 1px solid rgba(255,255,255,0.1) !important; }
+
+    div.stButton > button[kind="primary"]:hover {
+        background: #11998e !important;
+        box-shadow: 0 6px 15px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    /* 4. MODIFIKASI BOX STAF AKTIF (HIJAU TEGAS & FLAT) */
+    .staff-header-premium {
+        background: rgba(29, 151, 108, 0.2) !important;
+        border: 2px solid #1d976c !important;
+        border-radius: 10px !important;
+        padding: 15px 20px !important;
+        margin-bottom: 25px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        box-shadow: none !important; 
+    }
+    
+    .staff-header-premium b {
+        color: #1d976c !important;
+        font-size: 1.15em !important;
+        text-shadow: 0 0 10px rgba(29, 151, 108, 0.3) !important;
+    }
+
+    .staff-header-premium span {
+        color: #1d976c !important;
+    }
+
+    .staff-header-premium i {
+        color: #e0e0e0 !important;
+        font-style: normal !important;
+    }
+
+    /* 5. EFEK FOKUS (DIKEMBALIKAN KE STANDAR) */
+    .stTextArea textarea:focus, .stTextInput input:focus {
+        border: 1px solid #31333f !important;
+        background-color: #0e1117 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+
+    /* 6. STYLE LAINNYA */
+    h1, h2, h3, .stMarkdown h3 {
+        color: #ffffff !important;
+        background: none !important;
+        -webkit-text-fill-color: initial !important;
+    }
+    button[title="Copy to clipboard"] {
+        background-color: #28a745 !important;
+        color: white !important;
+        border-radius: 6px !important;
+        transform: scale(1.1);
+    }
+    .stTextArea textarea {
+        font-size: 16px !important;
+        border-radius: 10px !important;
+        background-color: #0e1117 !important;
+        border: 1px solid #31333f !important;
+    }
+    .small-label {
+        font-size: 12px; font-weight: bold; color: #a1a1a1; margin-bottom: 2px;
+    }
+    /* 7. OPTIMASI KOTAK ADEGAN */
+    .stExpander {
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important;
+        background-color: #161922 !important;
+        margin-bottom: 15px !important;
+    }
+
+    .small-label {
+        color: #1d976c !important;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        font-size: 10px !important;
+        font-weight: 800 !important;
+    }
+
+    hr {
+        margin: 2em 0 !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    }
+
+    .stTextArea textarea {
+        border: 1px solid rgba(255,255,255,0.1) !important;
+    }
     </style>
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 5. HEADER STAF
+# 5. HEADER STAF (ELEGANT VERSION)
 # ==============================================================================
 nama_display = st.session_state.active_user.capitalize()
 st.markdown(f"""
@@ -164,12 +270,13 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # ==============================================================================
-# 6. MAPPING TRANSLATION
+# 6. MAPPING TRANSLATION (REVISED & SYNCHRONIZED)
 # ==============================================================================
 indonesia_camera = ["Diam (Tanpa Gerak)", "Ikuti Karakter", "Zoom Masuk", "Zoom Keluar", "Memutar (Orbit)"]
 indonesia_shot = ["Sangat Dekat", "Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"]
 indonesia_angle = ["Normal", "Sudut Rendah", "Sudut Tinggi", "Samping", "Berhadapan", "Intip Bahu", "Belakang"]
 options_lighting = ["Pagi", "Siang", "Sore", "Malam"]
+
 LOKASI_DNA = {
     "jalan kampung": "shabby dirt road in Indonesian village, dense banana trees, microscopic dust particles, weathered textures, ultra-detailed gravel and soil.",
     "jalan kota kecil": "rugged asphalt road, weathered 90s shophouses with peeling paint, messy tangled electricity wires, sharp urban grit, high-contrast textures.",
@@ -184,27 +291,59 @@ LOKASI_DNA = {
     "teras rumah kaya": "modern minimalist mansion terrace, premium marble floor reflections, manicured garden details, sleek luxury aesthetic, sharp clean lines.",
     "dalam rumah kaya": "high-end luxury living room, polished stone textures, floor-to-ceiling glass walls, premium leather sofa grain, sharp interior design clarity."
 }
+
 options_lokasi = ["--- KETIK MANUAL ---"] + list(LOKASI_DNA.keys())
-camera_map = {"Diam (Tanpa Gerak)": "Static camera...", "Ikuti Karakter": "Dynamic tracking..."}
-shot_map = {"Sangat Dekat": "Extreme Close-Up...", "Dekat Wajah": "Close-Up...", "Setengah Badan": "Medium Shot...", "Seluruh Badan": "Full body shot...", "Pemandangan Luas": "Wide landscape...", "Drone Shot": "Cinematic Aerial Drone shot..."}
-angle_map = {"Normal": "eye-level shot...", "Sudut Rendah": "heroic low angle...", "Sudut Tinggi": "high angle...", "Samping": "side profile...", "Berhadapan": "dual profile...", "Intip Bahu": "over-the-shoulder...", "Belakang": "shot from behind..."}
+
+camera_map = {
+    "Diam (Tanpa Gerak)": "Static camera, no movement, stable shot",
+    "Ikuti Karakter": "Dynamic tracking shot following the subject's movement",
+    "Zoom Masuk": "Slow cinematic zoom-in, intensifying focus",
+    "Zoom Keluar": "Slow cinematic zoom-out, revealing environment",
+    "Memutar (Orbit)": "360-degree orbital circular camera rotation"
+}
+
+shot_map = {
+    "Sangat Dekat": "Extreme Close-Up shot, macro photography, hyper-detailed micro textures",
+    "Dekat Wajah": "Close-Up shot, focus on facial expressions and skin details",
+    "Setengah Badan": "Medium Shot, waist-up framing, cinematic depth",
+    "Seluruh Badan": "Full body shot, head-to-toe framing, environment visible",
+    "Pemandangan Luas": "Wide landscape shot, expansive scenery, subject is small in frame",
+    "Drone Shot": "Cinematic Aerial Drone shot, high altitude, bird's-eye view from above"
+}
+
+angle_map = {
+    "Normal": "eye-level shot, straight on perspective, natural head-on view",
+    "Sudut Rendah": "heroic low angle shot, looking up from below, monumental framing",
+    "Sudut Tinggi": "high angle shot, looking down at the subject, making it look smaller",
+    "Samping": "side profile view, 90-degree side angle, parallel to camera, full profile perspective",
+    "Berhadapan": "dual profile view, two subjects facing each other, face-to-face, symmetrical",
+    "Intip Bahu": "over-the-shoulder shot, foreground shoulder blur, cinematic dialogue depth",
+    "Belakang": "shot from behind, back view, following the subject, looking away from camera"
+}
 
 # ==============================================================================
-# 7. SIDEBAR: NAVIGASI RUANGAN (PENAMBAHAN STRUKTUR)
+# 7. SIDEBAR: KONFIGURASI UTAMA (DENGAN NAVIGASI MENU)
 # ==============================================================================
 with st.sidebar:
     st.markdown("#### 🖥️ MAIN COMMAND")
     menu_umum = ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "🎞️ SCHEDULE", "📋 TEAM TASK", "📈 TREND ANALYZER"]
     menu_rahasia = ["👥 DATABASE LOCKER", "📊 MONITORING", "🛠️ COMMAND CENTER"]
-    if st.session_state.active_user == "admin": menu_final = menu_umum + menu_rahasia
-    else: menu_final = menu_umum
+    
+    if st.session_state.active_user == "admin":
+        menu_final = menu_umum + menu_rahasia
+    else:
+        menu_final = menu_umum
+        
     menu_select = st.radio("Pilih Ruangan:", menu_final, label_visibility="collapsed")
     st.divider()
 
     if menu_select == "🚀 RUANG PRODUKSI":
-        try: st.image("PINTAR.png", use_container_width=True)
-        except: st.title("📸 PINTAR MEDIA")
+        try:
+            st.image("PINTAR.png", use_container_width=True)
+        except:
+            st.title("📸 PINTAR MEDIA")
         st.write("") 
+        
         if st.session_state.active_user == "admin":
             if st.checkbox("🚀 Buka Dashboard Utama", value=False):
                 st.info("Log aktivitas tercatat di Cloud.")
@@ -220,18 +359,36 @@ with st.sidebar:
                         df_display = df_monitor.tail(10).copy()
                         df_display.columns = ["🕒 Waktu", "👤 User", "🎬 Total", "📝 Visual Utama"]
                         st.dataframe(df_display, use_container_width=True, hide_index=True)
-                except: st.error("Gagal muat dashboard.")
+                    else:
+                        st.warning("Belum ada data aktivitas tercatat.")
+                except Exception as e:
+                    st.error(f"Gagal memuat data Cloud: {e}")
             st.divider()
 
         num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
+        st.write("") 
         st.markdown("#### 🎨 GENRE VISUAL")
         list_genre = ["Realistik (Nyata)", "Pixar 3D", "Marvel Superhero", "Transformers (Mecha)", "KingKong (VFX Monster)", "Asphalt (Balap/Glossy)", "Ghibli (Estetik/Indah)", "Dragon Ball", "Doraemon 3D", "Naruto (Ninja)", "Tayo (Anak-anak)", "Sakura School (Anime)"]
         genre_saved = st.session_state.get("genre_pilihan_saved", "Realistik (Nyata)")
         try: idx_default = list_genre.index(genre_saved)
         except: idx_default = 0
-        genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default)
+        genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default, help="Pilih genre visual.")
+        st.write("")
         
-        # --- TOMBOL SAVE & LOAD UTUH ---
+        if st.session_state.last_generated_results:
+            st.markdown("### 🗺️ STATUS PRODUKSI")
+            total_p = len(st.session_state.last_generated_results)
+            done_p = 0
+            for res in st.session_state.last_generated_results:
+                done_key = f"mark_done_{res['id']}"
+                if st.checkbox(f"Adegan {res['id']}", key=done_key):
+                    done_p += 1
+            st.progress(done_p / total_p)
+            if done_p == total_p and total_p > 0:
+                st.balloons() 
+                st.success("🎉 Semua Adegan Selesai!")
+        st.divider()
+
         btn_col1, btn_col2 = st.columns(2)
         with btn_col1:
             save_trigger = st.button("💾 SAVE", use_container_width=True)
@@ -244,6 +401,7 @@ with st.sidebar:
                     record_to_sheets(f"DRAFT_{st.session_state.active_user}", json.dumps(master_packet), len([s for s in scene_data.values() if s['vis']]))
                     st.toast("Project Tersimpan! ✅")
                 except Exception as e: st.error(f"Gagal simpan: {e}")
+
         with btn_col2:
             load_trigger = st.button("🔄 LOAD", use_container_width=True)
             if load_trigger:
@@ -268,13 +426,13 @@ with st.sidebar:
         st.divider()
 
     if st.button("KELUAR SISTEM ⚡", use_container_width=True):
-        st.query_params.clear(); [st.session_state.pop(k) for k in list(st.session_state.keys())]; st.rerun()
+        st.query_params.clear() 
+        for key in list(st.session_state.keys()): del st.session_state[key]
+        st.rerun()
 
 # ==============================================================================
-# ROUTING MAIN CONTENT
+# MAIN PAGE ROUTING (NAVIGASI)
 # ==============================================================================
-
-
 if menu_select == "🚀 RUANG PRODUKSI":
     # ==============================================================================
     # 8. PARAMETER KUALITAS (FULL ORIGINAL)
@@ -321,7 +479,7 @@ if menu_select == "🚀 RUANG PRODUKSI":
                     with cols[idx_offset]:
                         st.markdown(f"##### 👤 Karakter Utama {idx}")
                         name = st.text_input("Nama", key=f"c_name_{idx}_input", placeholder=f"Nama {idx}", label_visibility="collapsed")
-                        desc = st.text_area("Fisik", key=f"c_desc_{idx}_input", height=120, placeholder=f"Fisik {idx}", label_visibility="collapsed")
+                        desc = st.text_area("Penampilan Fisik", key=f"c_desc_{idx}_input", height=120, placeholder=f"Ciri fisik {idx}...", label_visibility="collapsed")
                         all_chars_list.append({"name": name, "desc": desc})
             st.write("---") 
 
@@ -331,7 +489,7 @@ if menu_select == "🚀 RUANG PRODUKSI":
         with st.expander(l_box_title, expanded=(i_s == 1)):
             col_v, col_ctrl = st.columns([6, 4])
             with col_v:
-                visual_input = st.text_area(f"Visual {i_s}", key=f"vis_input_{i_s}", height=265, placeholder="Detail adegan...")
+                visual_input = st.text_area(f"Cerita Visual {i_s}", key=f"vis_input_{i_s}", height=265, placeholder="Ceritakan detail adegannya...")
             with col_ctrl:
                 r1 = st.columns(2)
                 with r1[0]:
@@ -342,17 +500,18 @@ if menu_select == "🚀 RUANG PRODUKSI":
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ Arah Kamera</p>', 1); angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_input_{i_s}", label_visibility="collapsed")
                 with r2[1]:
-                    st.markdown('<p class="small-label">🎬 Gerakan</p>', 1); cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=0, key=f"camera_input_{i_s}", label_visibility="collapsed")
-                loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_sel_{i_s}")
+                    st.markdown('<p class="small-label">🎬 Gerakan Kamera</p>', 1); cam_val = st.selectbox(f"C{i_s}", indonesia_camera, index=0, key=f"camera_input_{i_s}", label_visibility="collapsed")
+                loc_choice = st.selectbox(f"LocSelect{i_s}", options=options_lokasi, key=f"loc_sel_{i_s}", label_visibility="collapsed")
                 location_val = st.text_input("Manual:", key=f"loc_custom_{i_s}") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
-            
-            diag_cols = st.columns(len(all_chars_list)); scene_dialogs = []
+
+            diag_cols = st.columns(len(all_chars_list))
+            scene_dialogs_list = []
             for i_char, char_data in enumerate(all_chars_list):
                 with diag_cols[i_char]:
                     char_label = char_data['name'] if char_data['name'] else f"Karakter {i_char+1}"
                     d_in = st.text_input(f"Dialog {char_label}", key=f"diag_{i_s}_{i_char}")
-                    scene_dialogs.append({"name": char_label, "text": d_in})
-            adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs})
+                    scene_dialogs_list.append({"name": char_label, "text": d_in})
+            adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
 
     # ==============================================================================
     # 10. GENERATOR PROMPT (FULL ORIGINAL)
@@ -360,24 +519,23 @@ if menu_select == "🚀 RUANG PRODUKSI":
     if st.button("🚀 GENERATE ALL PROMPTS", type="primary", use_container_width=True):
         nama_tokoh_utama = st.session_state.get("c_name_1_input", "").strip()
         active_scenes = [a for a in adegan_storage if a["visual"].strip() != ""]
-        if not nama_tokoh_utama: st.warning("⚠️ Karakter 1 belum diisi!")
+        if not nama_tokoh_utama: st.warning("⚠️ Nama Karakter 1 belum diisi!")
         elif not active_scenes: st.warning("⚠️ Mohon isi deskripsi visual!")
         else:
             with st.spinner("Meracik prompt..."):
                 st.session_state.last_generated_results = []
                 record_to_sheets(st.session_state.active_user, active_scenes[0]["visual"], len(active_scenes))
                 for item in active_scenes:
-                    mentioned_chars_list = []
                     v_text_low = str(item.get('visual', "")).lower().strip()
+                    mentioned_chars_list = []
                     for c in all_chars_list:
                         c_name_raw = str(c.get('name', "")).strip()
                         if c_name_raw and re.search(rf'\b{re.escape(c_name_raw.lower())}\b', v_text_low):
                             mentioned_chars_list.append({"name": c_name_raw.upper(), "desc": c.get('desc', '')})
                     
                     if len(mentioned_chars_list) == 1:
-                        target_name = mentioned_chars_list[0]['name']
-                        char_info = f"[[ CHARACTER_{target_name}: {mentioned_chars_list[0]['desc']} ]]"
-                        instruction_header = f"IMAGE REFERENCE RULE: Use uploaded photo for {target_name}. ONLY {target_name}."
+                        char_info = f"[[ CHARACTER_{mentioned_chars_list[0]['name']}: {mentioned_chars_list[0]['desc']} ]]"
+                        instruction_header = f"IMAGE REFERENCE RULE: Use uploaded photo for {mentioned_chars_list[0]['name']}."
                     elif len(mentioned_chars_list) > 1:
                         char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars_list])
                         instruction_header = "IMAGE REFERENCE RULE: Use uploaded photos. Interaction required."
@@ -386,10 +544,11 @@ if menu_select == "🚀 RUANG PRODUKSI":
                         instruction_header = "IMAGE REFERENCE RULE: Use main character reference."
 
                     if genre_pilihan == "Pixar 3D": bumbu_gaya = "Disney Pixar style 3D animation..."
-                    # ... (Logika Bumbu Gaya lainnya identik dengan aslinya)
+                    elif genre_pilihan == "Marvel Superhero": bumbu_gaya = "Marvel Cinematic Universe aesthetic..."
+                    # ... (Logika Bumbu Gaya lainnya identik)
                     else: bumbu_gaya = img_quality_stack
 
-                    img_final = f"{instruction_header}\n\nSTRICT: NO TEXT. FOCUS: SHARP. CHAR: {char_info}\nACTION: {item['visual']}\nENV: {item['location']}\nTECH: {bumbu_gaya}"
+                    img_final = f"{instruction_header}\nCHARACTER: {char_info}\nACTION: {item['visual']}\nENV: {item['location']}\nTECH: {bumbu_gaya}, {img_quality_base}"
                     vid_final = f"{instruction_header}\nMOTION: {item['visual']}\nCHAR: {char_info}\nTECH: {vid_quality_base}"
                     st.session_state.last_generated_results.append({"id": item["num"], "img": img_final, "vid": vid_final})
             st.rerun()
