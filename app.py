@@ -994,14 +994,14 @@ elif menu_select == "🧠 PINTAR AI LAB":
     
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
-        ["📋 MANUAL PROMPT", "⚡ OTOMATIS (GROQ)"],
+        ["📋 MANUAL PROMPT", "⚡ OTOMATIS (PINTAR AI)"],
         default="📋 MANUAL PROMPT",
         label_visibility="collapsed"
     )
 
-    st.markdown(f'<div class="sop-text"><b>SOP {mode_lab}:</b> Output sekarang mencakup detail teknis Kamera, Gerakan, dan Suasana secara otomatis.</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="sop-text"><b>SOP {mode_lab}:</b> otomatis ngeracik detail alur cerita, teknis kamera, gerakan kamera, sampe suasananya.</div>', unsafe_allow_html=True)
 
-    owner_core = st.text_area("📍 GARIS BESAR DARI OWNER", height=120, placeholder="Tuliskan inti pesan atau alur utama cerita...")
+    owner_core = st.text_area("📍 SEBAGAI BAHAN IDE CERITA", height=120, placeholder="Tuliskan inti pesan atau alur utama cerita...")
     
     col_x, col_y, col_z = st.columns(3)
     with col_x:
@@ -1184,6 +1184,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
