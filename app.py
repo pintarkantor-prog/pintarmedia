@@ -782,15 +782,17 @@ if menu_select == "🚀 PRODUCTION HUB":
             adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
             
     # ==============================================================================
-    # 10. GENERATOR PROMPT & MEGA-DRAFT (FULL VERSION - SYNCED & PATEN)
+    # 10. GENERATOR PROMPT & MEGA-DRAFT (FULL VERSION - PATEN RECOVERY)
     # ==============================================================================
     import json
 
+    # 1. Siapkan Lemari Penyimpanan Hasil Generate
     if 'last_generated_results' not in st.session_state:
         st.session_state.last_generated_results = []
 
     st.write("")
 
+    # 2. PROSES GENERATE (Saat tombol diklik)
     if st.button("🚀 GENERATE ALL PROMPTS", type="primary", use_container_width=True):
         nama_tokoh_utama = st.session_state.get("c_name_1_input", "").strip()
         active_scenes = [a for a in adegan_storage if a["visual"].strip() != ""]
@@ -800,9 +802,10 @@ if menu_select == "🚀 PRODUCTION HUB":
         elif not active_scenes:
             st.warning("⚠️ **Mohon isi deskripsi cerita visual!**")
         else:
-            with st.spinner(f"⏳ Meracik prompt lengkap tanpa penyederhanaan..."):
+            with st.spinner(f"⏳ Sedang meracik prompt tajam..."):
                 st.session_state.last_generated_results = []
-                
+            
+                # --- [BLOCK 1: AUTO-SAVE KOPER LENGKAP] ---
                 try:
                     captured_scenes_auto = {f"v{i}": st.session_state.get(f"vis_input_{i}") for i in range(1, int(num_scenes) + 1) if st.session_state.get(f"vis_input_{i}")}
                     auto_packet = {
@@ -811,45 +814,89 @@ if menu_select == "🚀 PRODUCTION HUB":
                         "scenes": captured_scenes_auto
                     }
                     record_to_sheets(f"AUTO_{st.session_state.active_user}", json.dumps(auto_packet), len(captured_scenes_auto))
-                except: pass
+                except: 
+                    pass
             
                 record_to_sheets(st.session_state.active_user, active_scenes[0]["visual"], len(active_scenes))
                 
+                # --- MULAI PERULANGAN ADEGAN ---
                 for item in active_scenes:
                     import re
                     mentioned_chars_list = []
                     v_text_low = str(item.get('visual', "")).lower().strip()
+                    
+                    # 1. SCAN KARAKTER (LOGIKA KATA UTUH)
                     for c in all_chars_list:
                         c_name_raw = str(c.get('name', "")).strip()
                         if c_name_raw:
                             if re.search(rf'\b{re.escape(c_name_raw.lower())}\b', v_text_low):
                                 mentioned_chars_list.append({"name": c_name_raw.upper(), "desc": c.get('desc', '')})
                     
-                    # --- 1. LOGIKA HEADER INSTRUKSI ---
-                    if len(mentioned_chars_list) > 1:
-                        instruction_header = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
+                    # 2. LOGIKA HEADER INSTRUKSI
+                    if len(mentioned_chars_list) == 1:
+                        target_name = mentioned_chars_list[0]['name']
+                        char_info = f"[[ CHARACTER_{target_name}: {mentioned_chars_list[0]['desc']} ]]"
+                        instruction_header = (
+                            f"IMAGE REFERENCE RULE: Use the uploaded photo for {target_name}'s face and body.\n"
+                            f"STRICT LIMIT: This scene MUST ONLY feature {target_name}. Do NOT add other characters."
+                        )
+                    elif len(mentioned_chars_list) > 1:
                         char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars_list])
+                        instruction_header = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
                     else:
-                        instruction_header = "IMAGE REFERENCE RULE: Use the main character reference."
                         char_info = f"[[ CHARACTER_MAIN: {all_chars_list[0]['desc']} ]]"
+                        instruction_header = "IMAGE REFERENCE RULE: Use the main character reference."
 
-                    # --- 2. LIGHTING LOGIC (DISEBUT DULUAN AGAR BISA DI-REPLACE) ---
+                    # --- 3. RAKITAN LOKASI (THE ULTIMATE FIX - PATEN) ---
+                    pilihan_dropdown = st.session_state.get(f"loc_sel_{item['num']}", "")
+                    if pilihan_dropdown == "--- KETIK MANUAL ---":
+                        manual_text = st.session_state.get(f"loc_custom_{item['num']}", "").strip()
+                        if manual_text:
+                            dna_env = f"{manual_text}, highly detailed textures, realistic environment, 8k resolution, cinematic sharp focus, tactile surfaces."
+                        else:
+                            dna_env = "cinematic environment, highly detailed textures, sharp focus."
+                    else:
+                        dna_env = LOKASI_DNA.get(pilihan_dropdown.lower(), f"{pilihan_dropdown}, sharp focus.")
+
+                    # --- 4. LOGIKA CERDAS CAMERA SINKRON MENU (PATEN) ---
+                    e_shot = shot_map.get(item["shot"], "Medium Shot")
+                    e_angle = angle_map.get(item["angle"], "")
+                    
+                    if "drone" in e_shot.lower():
+                        camera_final = f"{e_shot}, high-altitude view, expansive landscape, infinite focus, f/11"
+                    elif "over-the-shoulder" in e_angle.lower():
+                        target_focus = "the character"
+                        for m in mentioned_chars_list:
+                            if m['name'].lower() in v_text_low:
+                                target_focus = m['name']
+                                break
+                        camera_final = f"{e_angle} looking at {target_focus}, focus on {target_focus}'s facial expression, infinite depth of field"
+                    else:
+                        camera_final = f"{e_shot}, {e_angle}, infinite depth of field, f/11 aperture, ultra-sharp focus everywhere"
+
+                    # --- 5. LIGHTING LOGIC (FULL DETAIL - PATEN) ---
                     if "Pagi" in item["light"]: 
-                        l_cmd = "6 AM early morning sunlight, subtle sunbeams, anti-glare, low-angle side lighting to emphasize textures, vibrant dewy surfaces, high local contrast, crystal clear air."
+                        l_cmd = ("6 AM early morning sunlight, subtle sunbeams, anti-glare, "
+                                 "no lens flare, low-angle side lighting to emphasize textures, "
+                                 "vibrant dewy surfaces, high local contrast, crystal clear air.")
                     elif "Siang" in item["light"]: 
-                        l_cmd = "Direct harsh midday sunlight, clear blue sky, vibrant naturalism, cinematic contrast, deep black levels, polarizing filter for rich saturated colors."
+                        l_cmd = ("Direct harsh midday sunlight, clear blue sky, vibrant naturalism, "
+                                 "cinematic contrast, deep black levels, polarizing filter for rich saturated colors.")
                     elif "Sore" in item["light"]: 
-                        l_cmd = "4 PM golden hour, warm saturated colors, long dramatic sharp shadows, sharp amber highlights, high local contrast, no haze, ultra-clear atmosphere."
+                        l_cmd = ("4 PM golden hour, warm saturated colors, long dramatic sharp shadows, "
+                                 "sharp amber highlights, high local contrast, no haze, ultra-clear atmosphere.")
                     elif "Malam" in item["light"]: 
-                        l_cmd = "Cinematic night, realistic dim moonlight, no rim light, no glow, natural ambient shadows, high local contrast on textures, visible ground grit and soil details, deep indigo sky, clean silhouettes, zero digital noise, professional night photography."
+                        l_cmd = ("Cinematic night, realistic dim moonlight, no rim light, no glow, "
+                                 "natural ambient shadows, high local contrast on textures, "
+                                 "visible ground grit and soil details, deep indigo sky, "
+                                 "clean silhouettes, zero digital noise, professional night photography.")
                     else: 
                         l_cmd = "Natural lighting, high contrast, balanced exposure, sharp focus."
 
-                    # --- 3. LOGIKA GAYA VISUAL (FULL 11 GENRE + AUTO REPLACE) ---
-                    current_quality_stack = img_quality_stack # Backup stack original
-
+                    # --- 6. LOGIKA GAYA VISUAL (11 GENRE + AUTO REPLACE - PATEN) ---
+                    current_quality_stack = img_quality_stack 
                     if genre_pilihan == "Pixar 3D":
-                        bumbu_gaya = "Disney Pixar style 3D animation, smooth stylized textures, large expressive eyes, vibrant colors, subsurface scattering"
+                        bumbu_gaya = "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering, soft tactile textures"
                     elif genre_pilihan == "Marvel Superhero":
                         bumbu_gaya = "Marvel Cinematic Universe aesthetic, heroic cinematic lighting, tactical suit textures, professional teal and orange color grading"
                     elif genre_pilihan == "Transformers (Mecha)":
@@ -876,38 +923,18 @@ if menu_select == "🚀 PRODUCTION HUB":
                     else:
                         bumbu_gaya = current_quality_stack
 
-                    # --- 4. RAKITAN LOKASI ---
-                    pilihan_dropdown = st.session_state.get(f"loc_sel_{item['num']}", "")
-                    if pilihan_dropdown == "--- KETIK MANUAL ---":
-                        manual_text = st.session_state.get(f"loc_custom_{item['num']}", "").strip()
-                        dna_env = f"{manual_text}, highly detailed textures, realistic environment, 8k resolution, cinematic sharp focus, tactile surfaces." if manual_text else "cinematic environment, highly detailed textures, sharp focus."
-                    else:
-                        dna_env = LOKASI_DNA.get(pilihan_dropdown.lower(), f"{pilihan_dropdown}, sharp focus.")
-
-                    # --- 5. LOGIKA KAMERA ---
-                    e_shot = shot_map.get(item["shot"], "Medium Shot")
-                    e_angle = angle_map.get(item["angle"], "")
-                    
-                    if "drone" in e_shot.lower():
-                        camera_final = f"{e_shot}, high-altitude view, expansive landscape, infinite focus, f/11"
-                    elif "over-the-shoulder" in e_angle.lower():
-                        target_focus = "the character"
-                        for m in mentioned_chars_list:
-                            if m['name'].lower() in v_text_low: target_focus = m['name']; break
-                        camera_final = f"{e_angle} looking at {target_focus}, focus on {target_focus}'s facial expression, infinite depth of field"
-                    else:
-                        camera_final = f"{e_shot}, {e_angle}, infinite depth of field, f/11 aperture, ultra-sharp focus everywhere"
-
-                    # --- 6. DIALOG & EMOSI ---
-                    try: d_text_full = " ".join([f"{d['name']}: {d['text']}" for d in item.get('dialogs', []) if d.get('text')])
-                    except: d_text_full = ""
+                    # --- 7. DIALOG & EMOSI (OPERASI ANTI-TEKS - PATEN) ---
+                    try:
+                        d_text_full = " ".join([f"{d['name']}: {d['text']}" for d in item.get('dialogs', []) if d.get('text')])
+                    except:
+                        d_text_full = ""
 
                     if d_text_full:
                         image_emo = f"The characters must show facial expressions reflecting this mood: '{d_text_full}'. STRICTLY NO TEXT OR SPEECH BUBBLES ON IMAGE."
                     else:
                         image_emo = "Natural cinematic facial expression."
 
-                    # --- 7. RAKITAN FINAL (STRUKTUR PATEN) ---
+                    # --- 8. RAKITAN FINAL (STRUKTUR PATEN IDENTIK) ---
                     img_final = (
                         f"{instruction_header}\n\n"
                         f"STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES. NO SPEECH BUBBLES.\n"
@@ -922,7 +949,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     vid_final = (
                         f"{instruction_header}\n"
                         f"ACTION & MOTION: {item['visual']}. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
-                        f"CHARACTER CONSISTENCY: {char_info}. Maintain 100% facial identity consistency, high-fidelity facial features, no face morphing.\n"
+                        f"CHARACTER CONSISTENCY: {char_info}. Maintain 100% facial identity consistency, high-fidelity facial features, no face morphing, look exactly like the reference.\n"
                         f"ENVIRONMENT: {dna_env}.\n"
                         f"LIGHTING: {l_cmd}.\n"
                         f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): Use this dialogue for emotional reference only: '{d_text_full}'.\n"
@@ -930,13 +957,16 @@ if menu_select == "🚀 PRODUCTION HUB":
                     )
 
                     st.session_state.last_generated_results.append({
-                        "id": item["num"], "img": img_final, "vid": vid_final, "cam_info": f"{camera_final}"
+                        "id": item["num"], 
+                        "img": img_final, 
+                        "vid": vid_final,
+                        "cam_info": f"{camera_final}"
                     })
 
-            st.toast("Prompt Utuh & Anti-Teks Berhasil Diracik! 🚀")
+            st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
 
-    # --- AREA TAMPILAN HASIL (TETAP SAMA) ---
+    # --- 9. AREA TAMPILAN HASIL ---
     if st.session_state.last_generated_results:
         st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
         for res in st.session_state.last_generated_results:
@@ -1104,6 +1134,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
