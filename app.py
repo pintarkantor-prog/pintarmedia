@@ -594,7 +594,8 @@ if menu_select == "🚀 RUANG PRODUKSI":
             
             col_apply, col_cancel = st.columns(2)
             with col_apply:
-                if st.button("✅ TERAPKAN KE SETIAP ADEGAN", use_container_width=True, type="primary"):
+                # Warna tombol dibuat sama (secondary) agar elegan dan simpel
+                if st.button("✅ TERAPKAN KE SETIAP ADEGAN", use_container_width=True, type="secondary"):
                     import re
                     # Proses pemecahan teks ke session state masing-masing adegan
                     parts = re.split(r'Adegan \d+[:\- ]+', naskah_utuh)
@@ -605,10 +606,11 @@ if menu_select == "🚀 RUANG PRODUKSI":
                             st.session_state[f"vis_input_{idx+1}"] = isi
                     
                     st.success("Berhasil! Naskah telah disebar ke kolom adegan di bawah.")
-                    st.rerun() # Refresh agar teks muncul di kolom bawah
+                    st.rerun() 
             
             with col_cancel:
-                if st.button("🗑️ HAPUS DRAFT", use_container_width=True):
+                # Tombol Hapus Draft
+                if st.button("🗑️ HAPUS DRAFT", use_container_width=True, type="secondary"):
                     del st.session_state['draft_from_lab']
                     st.rerun()
                     
@@ -1077,6 +1079,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
