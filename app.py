@@ -1013,7 +1013,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
 
     st.divider()
 
-    # --- 1. FORMAT UNTUK OTOMATIS (LENGKAP) ---
+    # --- 1. FORMAT UNTUK OTOMATIS (LENGKAP PAKE KAMERA DLL) ---
     sys_instruction_ai = f"""
     Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
     Tugasmu memecah ide owner menjadi {jml_sc} adegan visual teknis.
@@ -1038,37 +1038,35 @@ elif menu_select == "🧠 PINTAR AI LAB":
     JANGAN improvisasi plot di luar tema owner!
     """
 
-    # --- 2. FORMAT UNTUK MANUAL (RINGKAS SESUAI REQUEST KAMU) ---
-    sys_instruction_manual = f"""
-    Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
-    Tugasmu memecah ide owner menjadi {jml_sc} adegan visual teknis.
-    
-    WAJIB MENGGUNAKAN FORMAT BERIKUT (DENGAN SPASI ANTAR POIN):
-    
-    Adegan [X]:
-    Suasana: [Isi]
+    # --- 2. FORMAT UNTUK MANUAL (RINGKAS SESUAI REQUEST) ---
+    sys_instruction_manual = f"""Kamu adalah Sutradara & Scriptwriter Senior PINTAR MEDIA. 
+Tugasmu memecah ide owner menjadi {jml_sc} adegan visual teknis.
 
-    Alur Cerita: [Deskripsi kejadian/aksi karakter]
+WAJIB MENGGUNAKAN FORMAT BERIKUT (DENGAN SPASI ANTAR POIN):
 
-    Lokasi Detail: [Gambarkan latar belakang secara super lengkap & spesifik]
+Adegan [X]:
+Suasana: [Isi]
 
-    Dialog: [Tuliskan dialog jika ada, jika tidak ada tulis "-"]
-    
-    --------------------------------------------------
-    
-    Mood Utama: {mood_cerita}. Audiens: {target_audien}.
-    JANGAN improvisasi plot di luar tema owner!
-    
-    IDE OWNER: "{owner_core}"
-    """
+Alur Cerita: [Deskripsi kejadian/aksi karakter]
 
-    # --- LOGIKA TAMPILAN ---
+Lokasi Detail: [Gambarkan latar belakang secara super lengkap & spesifik]
+
+Dialog: [Tuliskan dialog jika ada, jika tidak ada tulis "-"]
+
+--------------------------------------------------
+
+Mood Utama: {mood_cerita}. Audiens: {target_audien}.
+JANGAN improvisasi plot di luar tema owner!
+
+IDE OWNER: "{owner_core}"
+"""
+
+    # --- EKSEKUSI MENU ---
     if mode_lab == "📋 MANUAL PROMPT":
         if owner_core:
             st.markdown("### 🚀 Prompt Siap Salin:")
-            # Tampil di layar dengan format yang kamu minta (tanpa kamera/ukuran/gerak)
             st.code(sys_instruction_manual, language="text")
-            st.caption("💡 Klik ikon copy di pojok kanan atas, lalu paste di Gemini manual.")
+            st.caption("💡 Silakan salin teks di atas dan tempel di Gemini secara manual.")
 
     elif mode_lab == "⚡ AI PINTAR":
         if st.button("SULAP JADI ALUR & TEKNIS KAMERA 🚀", use_container_width=True, type="primary"):
@@ -1081,7 +1079,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
                         completion = client.chat.completions.create(
                             model="llama-3.3-70b-versatile",
                             messages=[
-                                {"role": "system", "content": sys_instruction_ai}, # Pake yang LENGKAP
+                                {"role": "system", "content": sys_instruction_ai}, 
                                 {"role": "user", "content": owner_core}
                             ],
                             temperature=0.7
@@ -1093,6 +1091,14 @@ elif menu_select == "🧠 PINTAR AI LAB":
                     st.code(st.session_state['last_ai_result'], language="text")
                 except Exception as e:
                     st.error(f"Gagal memproses AI: {e}")
+
+        # --- TOMBOL KIRIM KE PRODUKSI (JANGAN SAMPAI KETINGGALAN LAGI) ---
+        if 'last_ai_result' in st.session_state:
+            st.write("")
+            if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True, type="secondary"):
+                st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
+                st.success("✅ Berhasil dikirim! Lanjut ke ruang produksi ya..")
+
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
@@ -1150,7 +1156,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             st.markdown('<p class="small-label">📍 Lokasi (Manual)</p>', unsafe_allow_html=True)
             lokasi_v = st.text_input("loc_input", placeholder="Misal: dark cave, abandoned house...", label_visibility="collapsed")
 
-    # --- TOMBOL RAKIT MEMANJANG (Di dalam container tapi di bawah kedua kolom) ---
+        # --- TOMBOL RAKIT MEMANJANG (Di dalam container tapi di bawah kedua kolom) ---
         st.write("") 
         rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
 
@@ -1252,7 +1258,6 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
-
 
 
 
