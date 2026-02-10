@@ -938,31 +938,15 @@ elif menu_select == "🧠 PINTAR AI LAB":
     st.markdown("<p style='color:#1d976c; font-weight:bold;'>Pusat Kendali Konsep: Jalur Manual & Otomatis</p>", unsafe_allow_html=True)
     st.divider()
 
-    # --- KONFIGURASI API GROQ ---
-    GROQ_API_KEY = "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI"
-    
-    def call_groq_lab(system_msg, user_msg):
-        try:
-            client = Groq(api_key=GROQ_API_KEY)
-            completion = client.chat.completions.create(
-                model="llama-3.3-70b-versatile",
-                messages=[{"role": "system", "content": system_msg}, {"role": "user", "content": user_msg}],
-                temperature=0.7, max_tokens=2048
-            )
-            return completion.choices[0].message.content
-        except Exception as e:
-            return f"Error: {e}"
-
     # --- 1. BOX ATURAN UTAMA (OWNER COMMANDS) ---
     with st.expander("⚠️ PROTOKOL KERJA KARYAWAN (WAJIB BACA)", expanded=True):
         st.markdown("""
         1. **Dilarang Improvisasi:** Jangan menambah plot cerita di luar Garis Besar yang diberikan Owner.
         2. **Disiplin Prompt:** Gunakan sistem ini untuk merakit perintah. Dilarang mengetik manual di Gemini Web tanpa template ini.
-        3. **Verifikasi:** Periksa hasil dari Gemini Web sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
-        4. **Output:** Pastikan format adegan rapi agar mudah dipindahkan ke Ruang Produksi.
+        3. **Verifikasi:** Periksa hasil AI sebelum dimasukkan ke Ruang Produksi. Pastikan masuk akal.
         """)
 
-    # --- 2. INPUT STRATEGIS (DIGUNAKAN OLEH KEDUA TAB) ---
+    # --- 2. INPUT STRATEGIS (INPUT UTAMA) ---
     owner_core = st.text_area("📍 GARIS BESAR CERITA (Input Owner/Admin):", 
                               height=150,
                               placeholder="Tuliskan inti cerita di sini...")
@@ -975,17 +959,13 @@ elif menu_select == "🧠 PINTAR AI LAB":
     with c3:
         target_audien = st.selectbox("Target Audiens:", ["Anak-anak", "Remaja/General", "Dewasa/Edukasi"])
 
-    st.write("")
+    st.divider()
 
-    # --- 3. TABS INTERFACE (MANUAL VS OTOMATIS) ---
-    tab_manual, tab_auto = st.tabs(["📋 JALUR MANUAL (GEMINI WEB)", "⚡ JALUR OTOMATIS (API GROQ)"])
-
-    with tab_manual:
-        st.markdown("#### 🏗️ Mesin Perakit Struktur Plot (Manual)")
-        st.caption("Gunakan ini jika limit API habis. Salin prompt ke Gemini Web.")
-        
-        # RAKITAN MEGA PROMPT
-        mega_prompt_ide = f"""
+    # --- 3. JALUR MANUAL (RAKITAN PROMPT) ---
+    st.markdown("#### 📋 JALUR 1: MANUAL PROMPT (GEMINI WEB)")
+    st.caption("Gunakan ini sebagai jalur utama atau jika limit API habis.")
+    
+    mega_prompt_ide = f"""
 ### ROLE: SENIOR SCRIPTWRITER PINTAR MEDIA ###
 TUGAS: Pecahkan Garis Besar Cerita di bawah menjadi {jml_sc} adegan visual storyboard.
 
@@ -995,41 +975,47 @@ INTI CERITA DARI OWNER:
 INSTRUKSI KAKU (Wajib Dipatuhi):
 1. Mood Utama: {mood_cerita}.
 2. Target Penonton: {target_audien}.
-3. Fokus pada AKSI VISUAL yang tertangkap kamera, bukan perasaan batin.
+3. Fokus pada AKSI VISUAL yang tertangkap kamera.
 4. JANGAN melakukan improvisasi cerita yang mengubah inti pesan Owner.
-5. Format Output Adegan (WAJIB):
-   - Adegan [X]: [Setting Tempat/Waktu] - [Kejadian Utama & Gerakan Karakter]
+5. Format Output Adegan (WAJIB): Adegan [X]: [Setting] - [Kejadian Utama].
 
-Tuliskan alur cerita yang logis, tajam, dan siap diproduksi secara visual.
-        """.strip()
+Berikan hasil terbaik sesuai standar PINTAR MEDIA.
+    """.strip()
 
-        st.divider()
-        if owner_core:
-            st.markdown("##### 📥 MEGA-PROMPT SIAP SALIN")
-            st.code(mega_prompt_ide, language="text")
-            st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#1d976c; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold;">🚀 BUKA GEMINI WEB SEKARANG</div></a>', unsafe_allow_html=True)
-        else:
-            st.info("💡 Masukkan Garis Besar Cerita di atas untuk merakit Plot.")
+    if owner_core:
+        st.code(mega_prompt_ide, language="text")
+        st.markdown(f'<a href="https://gemini.google.com/" target="_blank" style="text-decoration:none;"><div style="background-color:#31333f; color:white; padding:10px; border-radius:8px; text-align:center; font-weight:bold; border: 1px solid #1d976c;">📋 COPY PROMPT & BUKA GEMINI WEB</div></a>', unsafe_allow_html=True)
+    else:
+        st.info("💡 Isi Garis Besar untuk memunculkan Prompt Manual.")
 
-    with tab_auto:
-        st.markdown("#### ⚡ Eksekusi Plot Otomatis")
-        st.caption("Gunakan mode ini untuk hasil instan tanpa perlu pindah tab browser.")
-        
-        if st.button("PROSES PLOT OTOMATIS 🚀", use_container_width=True):
-            if owner_core and GROQ_API_KEY != "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI":
-                with st.spinner("Groq AI sedang menyusun alur cerita..."):
-                    system_instr = f"""Kamu adalah Senior Scriptwriter PINTAR MEDIA. 
-                    Pecahkan ide owner menjadi {jml_sc} adegan visual. 
-                    Mood: {mood_cerita}. Audiens: {target_audien}.
-                    Format: Adegan X: [Setting] - [Aksi Visual]. 
-                    JANGAN improvisasi di luar garis besar owner!"""
+    st.write("")
+    st.write("")
+
+    # --- 4. JALUR OTOMATIS (DIRECT API) ---
+    st.markdown("#### ⚡ JALUR 2: OTOMATIS (GROQ API)")
+    st.caption("Klik tombol di bawah untuk mendapatkan alur cerita langsung di sini.")
+    
+    GROQ_API_KEY = "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI"
+
+    if st.button("RUN AUTO-GENERATE 🚀", use_container_width=True, type="primary"):
+        if owner_core and GROQ_API_KEY != "MASUKKAN_API_KEY_GROQ_KAMU_DI_SINI":
+            try:
+                client = Groq(api_key=GROQ_API_KEY)
+                with st.spinner("Groq AI sedang bekerja..."):
+                    sys_msg = f"Kamu adalah Scriptwriter PINTAR MEDIA. Pecahkan ide owner menjadi {jml_sc} adegan visual. Mood: {mood_cerita}. Audiens: {target_audien}. JANGAN improvisasi di luar garis besar owner! Format: Adegan X: [Setting] - [Aksi Visual]."
                     
-                    hasil_auto = call_groq_lab(system_instr, owner_core)
-                    st.markdown("---")
-                    st.success("✅ Alur Cerita Berhasil Dibuat:")
+                    completion = client.chat.completions.create(
+                        model="llama-3.3-70b-versatile",
+                        messages=[{"role": "system", "content": sys_msg}, {"role": "user", "content": owner_core}],
+                        temperature=0.7
+                    )
+                    hasil_auto = completion.choices[0].message.content
+                    st.success("✅ Alur Cerita Berhasil Dibuat Secara Otomatis:")
                     st.markdown(hasil_auto)
-            else:
-                st.error("Garis Besar harus diisi dan API KEY Groq wajib aktif!")
+            except Exception as e:
+                st.error(f"Terjadi kendala teknis: {e}")
+        else:
+            st.error("Garis Besar kosong atau API KEY belum diatur!")
 
     st.divider()
 
@@ -1065,6 +1051,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
