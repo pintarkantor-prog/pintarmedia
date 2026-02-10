@@ -25,15 +25,23 @@ GAYA BAHASA: Lokal, tongkrongan, ceplas-ceplos.
 """
 
 def panggil_ai_groq(prompt_user):
-    chat_completion = client.chat.completions.create(
-        messages=[
-            {"role": "system", "content": SOP_PINTAR_MEDIA},
-            {"role": "user", "content": prompt_user},
-        ],
-        model="llama-3.3-70b-specdec",
-        temperature=0.7,
-    )
-    return chat_completion.choices[0].message.content
+    try:
+        chat_completion = client.chat.completions.create(
+            messages=[
+                {"role": "system", "content": SOP_PINTAR_MEDIA},
+                {"role": "user", "content": prompt_user},
+            ],
+            # Menggunakan model Versatile karena sudah berlangganan (Paid Tier)
+            model="llama-3.1-8b-instant",
+            temperature=0.7,
+        )
+        return chat_completion.choices[0].message.content
+    except Exception as e:
+        if "rate_limit_exceeded" in str(e).lower():
+            st.warning("⚠️ Server Groq sedang padat. Tunggu sebentar lalu klik lagi.")
+        else:
+            st.error(f"⚠️ Ada gangguan teknis: {str(e)[:100]}")
+        return ""
     
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -1163,6 +1171,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
