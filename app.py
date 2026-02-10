@@ -856,7 +856,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI SUPER RAPI & CLEAN DISPLAY)
+# 11. HALAMAN AI LAB (VERSI FINAL: RAPI & OTOMATIS JALAN)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -928,21 +928,27 @@ elif menu_select == "🧠 AI LAB":
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
                 with st.spinner(f"Memecah adegan..."):
                     try:
-                        # PROMPT SKAKMAT: Memaksa format bullet points agar tulisan terlihat rapi dan tidak 'gede'
+                        # PROMPT: Pakai Newline Ganda agar rapi, tapi label tetap bersih
                         prompt = f"""
                         Pecah naskah ini jadi 10 adegan visual. 
-                        PENTING: Gunakan format list (bullet points) di bawah ini agar tampilan rapi dan mudah dibaca.
+                        Gunakan BARIS KOSONG antar label agar tampilan rapi.
                         Hanya gunakan 2 tokoh utama: {nama_pilihan}.
 
-                        FORMAT WAJIB:
+                        FORMAT KAKU PER ADEGAN:
                         [ADEGAN X]
-                        ● Cerita: (isi)
-                        ● Suasana: (isi)
-                        ● Shot: (isi)
-                        ● Angle: (isi)
-                        ● Gerak: (isi)
-                        ● Lokasi: (isi)
-                        ● Dialog: (isi)
+                        Cerita: (narasi)
+
+                        Suasana: (Pagi/Siang/Sore/Malam)
+
+                        Shot: (Pilih salah satu)
+
+                        Angle: (Pilih salah satu)
+
+                        Gerak: (Pilih salah satu)
+
+                        Lokasi: (Isi detail)
+
+                        Dialog: (Nama: Teks)
                         ---
                         Naskah: {st.session_state['ready_script']}
                         """
@@ -951,7 +957,7 @@ elif menu_select == "🧠 AI LAB":
                     except Exception as e: st.error(f"Eror: {e}")
             
             if 'ready_storyboard' in st.session_state:
-                # TAMPILAN RAPI DENGAN FONT YANG TERLIHAT LEBIH TERATUR
+                # Menampilkan hasil dengan Markdown agar font terlihat proporsional
                 st.markdown(st.session_state['ready_storyboard'])
                 st.markdown("---")
                 
@@ -968,14 +974,24 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                # Regex yang mendukung simbol bullet point ●
-                                p = rf"{label}:\s*(.*?)(?=\s*(?:●|Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
+                                # Regex diperbaiki: Mencari label dan berhenti sebelum label berikutnya
+                                # Menghapus karakter non-alfa di awal untuk membersihkan simbol jika AI bandel
+                                p = rf"{label}:\s*(.*?)(?=\s*(?:Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
                                 m = re.search(p, blok, re.S | re.I)
-                                return m.group(1).strip() if m else ""
+                                if m:
+                                    res = m.group(1).strip()
+                                    # Bersihkan dari simbol bullet jika ada yang nyangkut
+                                    res = re.sub(r'^[●○•\-\*\s]+', '', res)
+                                    return res
+                                return ""
 
-                            # Pindahkan ke Hub
+                            # Suntik data ke Hub
                             st.session_state[f'vis_input_{i}'] = extract("Cerita")
-                            st.session_state[f'env_input_{i}'] = extract("Suasana").capitalize()
+                            
+                            # Khusus Suasana: Pastikan Capitalize agar cocok dengan opsi dropdown
+                            env_val = extract("Suasana").capitalize()
+                            st.session_state[f'env_input_{i}'] = env_val
+                            
                             st.session_state[f'size_input_{i}'] = extract("Shot")
                             st.session_state[f'angle_input_{i}'] = extract("Angle")
                             st.session_state[f'loc_custom_{i}'] = extract("Lokasi")
@@ -992,11 +1008,12 @@ elif menu_select == "🧠 AI LAB":
                                         if d_m:
                                             st.session_state[f"diag_{i}_{idx_n}"] = d_m.group(1).strip()
 
-                    st.success("🔥 SINKRONISASI RAPI BERHASIL!")
+                    st.success("🔥 SINKRONISASI BERHASIL: Rapi & Otomatis!")
                     time.sleep(0.5)
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
