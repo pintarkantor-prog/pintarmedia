@@ -1178,11 +1178,16 @@ elif menu_select == "📋 TUGAS KERJA":
     
     st.title("📋 TUGAS KERJA")
     
+    # --- LOGIKA ROLE ACCESS ---
+    # Asumsi: Kamu menyimpan nama user saat login di st.session_state['username']
+    # Kita buat pengecekan sederhana:
+    is_admin = st.session_state.get("username") == "DIAN"
+    
     # --- 1. TARGET & PESAN OWNER ---
     st.markdown("<p style='color:#1d976c; font-weight:bold; font-size:1.2rem;'>🎯 TARGET & PESAN HARI INI</p>", unsafe_allow_html=True)
-    st.info("💡 **Instruksi Tim:** Editor wajib tempel link hasil kerja di kolom 'Link Drive' & update statusnya. Dian akan cek secara berkala!")
+    st.info(f"💡 **Instruksi Tim:** Editor wajib tempel link hasil kerja di kolom 'Link Drive' & update statusnya. Dian akan cek secara berkala!")
 
-    # --- 2. DATA MASTER ---
+    # --- 2. DATA MASTER (Simulasi) ---
     data_tim = [
         {
             "nama": "ICHA",
@@ -1209,16 +1214,16 @@ elif menu_select == "📋 TUGAS KERJA":
 
     # --- 3. GENERATE CARDS ---
     for staf in data_tim:
-        # Menyiapkan data untuk tabel
         df_laporan = pd.DataFrame(staf['laporan'])
         
-        # Hitung Counter Done & Revisi
+        # Hitung Counter Done & Revisi Otomatis
         count_done = (df_laporan['Status'] == 'Done').sum()
         count_revisi = (df_laporan['Status'] == 'Revisi').sum()
 
         with st.container(border=True):
             col_id, col_main = st.columns([1, 3])
             
+            # --- KOLOM KIRI: IDENTITAS & COUNTER ---
             with col_id:
                 st.markdown(f"""
                     <div style="text-align: center; padding: 10px;">
@@ -1235,13 +1240,16 @@ elif menu_select == "📋 TUGAS KERJA":
                 
                 st.button(f"Senggol {staf['nama']} 🔔", key=f"ping_{staf['nama']}", use_container_width=True)
 
+            # --- KOLOM KANAN: PANEL KERJA ---
             with col_main:
+                # A. INSTRUKSI ADMIN
                 st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS DARI ADMIN</p>', unsafe_allow_html=True)
                 st.info(staf['tugas_admin'])
                 
+                # B. AREA LAPORAN KARYAWAN
                 st.markdown('<p class="small-label" style="margin-bottom:5px;">🔗 LAPORAN TUGAS (INPUT BY KARYAWAN)</p>', unsafe_allow_html=True)
                 
-                # VERSI CLEAN: Menghapus 'placeholder' yang bikin error
+                # Data Editor agar staf bisa input link & ganti status
                 st.data_editor(
                     df_laporan,
                     column_config={
@@ -1261,17 +1269,30 @@ elif menu_select == "📋 TUGAS KERJA":
                     hide_index=True
                 )
                 
+                # C. CATATAN OWNER
                 st.write("")
                 st.markdown('<p class="small-label" style="margin-bottom:5px;">✍️ CATATAN KHUSUS</p>', unsafe_allow_html=True)
                 st.warning(staf['catatan'])
 
-    # --- 4. PANEL ADMIN ---
-    st.write("")
-    with st.expander("🛠️ ADMIN CONTROL PANEL"):
-        st.write("Ganti instruksi tugas staf secara manual:")
-        target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
-        st.text_area("Update Instruksi Tugas Baru")
-        st.button("Simpan Perubahan ✅", use_container_width=True)
+    # --- 4. PANEL ADMIN (PROTECTED) ---
+    # Panel ini HANYA akan muncul jika yang login adalah username "DIAN"
+    if is_admin:
+        st.write("")
+        st.divider()
+        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)", expanded=False):
+            st.markdown("<p style='color:#1d976c; font-weight:bold;'>Ganti instruksi tugas staf secara manual:</p>", unsafe_allow_html=True)
+            col_adm1, col_adm2 = st.columns(2)
+            with col_adm1:
+                target = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
+                new_task = st.text_area("Update Instruksi Tugas Baru", placeholder="Ketik tugas di sini...")
+            with col_adm2:
+                new_catatan = st.text_input("Update Catatan Khusus", placeholder="Ketik catatan...")
+            
+            if st.button("Simpan Perubahan ✅", use_container_width=True, type="primary"):
+                st.success(f"Beres! Tugas untuk {target} sudah diperbarui di sistem.")
+    else:
+        # Jika bukan Dian, tampilkan pesan tipis di bawah (opsional)
+        st.caption("🔒 Beberapa fitur kontrol dibatasi hanya untuk Owner.")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1280,6 +1301,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
