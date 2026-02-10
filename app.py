@@ -1069,197 +1069,92 @@ elif menu_select == "🧠 PINTAR AI LAB":
             if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True, type="secondary"):
                 st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
                 st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
-                
-elif menu_select == "🎞️ SCHEDULE":
-    st.markdown("### 🎞️ SCHEDULE")
-    
-    # Navigasi & Refresh dalam satu baris untuk hemat ruang
-    c_nav, c_ref = st.columns([4, 1])
-    with c_nav:
-        tab_target = st.segmented_control(
-            "Jadwal:", ["JADWAL LISA", "JADWAL INGGI"], 
-            default="JADWAL LISA", label_visibility="collapsed"
-        )
-    with c_ref:
-        if st.button("🔄 Sync", use_container_width=True): st.rerun()
 
-    df_jadwal = read_gsheet(tab_target)
-
-    if not df_jadwal.empty:
-        df_clean = df_jadwal.fillna("")
-
-        # --- CSS ULTRA COMPACT ---
-        st.markdown("""
-            <style>
-            .ultra-compact-table { 
-                width: 100%; 
-                border-collapse: collapse; 
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-                font-size: 0.75rem; /* Font lebih kecil */
-                line-height: 1;
-            }
-            .ultra-compact-table th { 
-                background-color: #1a1c23; 
-                color: #1d976c; 
-                text-align: center; 
-                padding: 4px; 
-                border: 1px solid #2d3139;
-                font-weight: bold;
-                font-size: 0.7rem;
-            }
-            .ultra-compact-table td { 
-                padding: 2px 5px; /* Padding sangat tipis */
-                text-align: center; 
-                border: 1px solid #2d3139;
-                color: #cfcfcf;
-            }
-            .ultra-compact-table tr:hover { background-color: #252932; }
-            
-            .unit-box { 
-                color: #1d976c; 
-                font-weight: 800; 
-                font-size: 0.85rem;
-            }
-            .channel-name { 
-                text-align: left !important; 
-                color: #1d976c;
-                font-weight: 600;
-                width: 30%;
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .time-slot { 
-                background-color: rgba(29, 151, 108, 0.2); 
-                color: #ffffff; 
-                font-weight: bold; 
-                border-radius: 2px; 
-                padding: 1px 4px;
-                font-size: 0.75rem;
-                display: inline-block;
-            }
-            .empty-slot { color: #333; }
-            </style>
-        """, unsafe_allow_html=True)
-
-        # --- RENDER TABEL ---
-        html_code = '<table class="ultra-compact-table"><thead><tr>'
-        for h in ["ID", "CHANNEL", "PAGI", "S1", "S2", "SORE"]:
-            html_code += f'<th>{h}</th>'
-        html_code += '</tr></thead><tbody>'
-
-        rows = df_clean.to_dict('records')
-        for i, row in enumerate(rows):
-            html_code += '<tr>'
-            
-            if row['HP'] != "":
-                count = 1
-                for j in range(i + 1, len(rows)):
-                    if rows[j]['HP'] == "": count += 1
-                    else: break
-                html_code += f'<td rowspan="{count}" class="unit-box">{int(float(row["HP"]))}</td>'
-            
-            html_code += f'<td class="channel-name">{row["NAMA CHANNEL"]}</td>'
-            
-            for col in ["PAGI", "SIANG 1", "SIANG 2", "SORE"]:
-                val = str(row.get(col, "")).strip()
-                if val and val != "-":
-                    html_code += f'<td><span class="time-slot">{val}</span></td>'
-                else:
-                    html_code += '<td><span class="empty-slot">·</span></td>'
-            
-            html_code += '</tr>'
-
-        html_code += '</tbody></table>'
-        st.markdown(html_code, unsafe_allow_html=True)
-
-    else:
-        st.warning("Data tidak ditemukan.")
-        
-elif menu_select == "📋 TEAM TASK":
-    st.title("📋 TEAM TASK")
-    st.markdown("<p style='color:#808495; margin-top:-15px;'>Pusat Kendali & Checklist Progres Tim</p>", unsafe_allow_html=True)
-
-    # 1. KONEKSI KE GSHEETS
-    conn = st.connection("gsheets", type=GSheetsConnection)
-    df_task = conn.read(worksheet="TeamTask", ttl=0)
-
-    if not df_task.empty:
-        st.markdown("---")
-        
-        # --- CSS KHUSUS CHECKLIST (AMAN & TIDAK BOCOR) ---
-        st.markdown("""
-            <style>
-            .stCheckbox {
-                background-color: #1a1c23;
-                padding: 10px 15px;
-                border-radius: 8px;
-                border-left: 4px solid #1d976c;
-                margin-bottom: 5px;
-            }
-            .stCheckbox:hover { background-color: #252932; }
-            </style>
-        """, unsafe_allow_html=True)
-
-        # 2. LOOPING TUGAS SEBAGAI CHECKLIST
-        for index, row in df_task.iterrows():
-            # Jika status di GSheets adalah TRUE, maka checkbox otomatis tercentang
-            is_done = st.checkbox(
-                f"**{row['PIC']}**: {row['Tugas']} (Deadline: {row['Deadline']})", 
-                value=(row['Status'] == True),
-                key=f"task_{index}"
-            )
-            
-            # 3. LOGIKA UPDATE (Jika diklik)
-            if is_done != row['Status']:
-                df_task.at[index, 'Status'] = is_done
-                # Perintah update kembali ke Google Sheets
-                conn.update(worksheet="TeamTask", data=df_task)
-                st.toast(f"Progres {row['PIC']} diperbarui!", icon="✅")
-                st.rerun()
-
-    else:
-        st.info("Belum ada tugas hari ini. Tambahkan di Google Sheets!")
-
-    # 4. FITUR TAMBAH CEPAT (KHUSUS ADMIN)
-    if st.session_state.get('active_user') == "admin":
-        with st.expander("➕ Tambah Tugas Baru"):
-            with st.form("task_form"):
-                new_pic = st.text_input("Nama PIC")
-                new_task = st.text_area("Deskripsi Tugas")
-                new_dead = st.text_input("Deadline (Contoh: 14:00)")
-                if st.form_submit_button("Kirim ke Tim"):
-                    # Logika menambah baris baru ke dataframe dan upload
-                    new_data = pd.DataFrame([{"PIC": new_pic, "Tugas": new_task, "Deadline": new_dead, "Status": False}])
-                    updated_df = pd.concat([df_task, new_data], ignore_index=True)
-                    conn.update(worksheet="TeamTask", data=updated_df)
-                    st.success("Tugas berhasil ditambahkan!")
-                    st.rerun()
-        
 elif menu_select == "📈 TREND ANALYZER":
     st.title("📈 TREND ANALYZER")
-    st.info("Analisis tren konten terkini.")
+    st.markdown("<p style='color:#808495; margin-top:-15px;'>Riset konten viral dan topik hangat hari ini.</p>", unsafe_allow_html=True)
+    st.divider()
 
-elif menu_select == "👥 DATABASE LOCKER":
+    # --- CSS UNTUK KARTU TREND ---
+    st.markdown("""
+        <style>
+        .trend-card {
+            background-color: #1a1c23; padding: 20px; border-radius: 12px;
+            border: 1px solid #2d3139; text-align: center; transition: 0.3s;
+        }
+        .trend-card:hover { border-color: #1d976c; transform: translateY(-5px); }
+        .trend-icon { font-size: 40px; margin-bottom: 10px; }
+        .trend-title { color: #ffffff; font-weight: bold; font-size: 1.1rem; }
+        .trend-desc { color: #808495; font-size: 0.8rem; margin-bottom: 15px; }
+        </style>
+    """, unsafe_allow_html=True)
+
+    # --- BARIS 1: LINK RISET CEPAT ---
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+            <div class="trend-card">
+                <div class="trend-icon">📱</div>
+                <div class="trend-title">TikTok Creative</div>
+                <div class="trend-desc">Cari lagu dan hashtag yang lagi meledak di TikTok.</div>
+                <a href="https://ads.tiktok.com/business/creativecenter/trends/pc/en" target="_blank" style="text-decoration:none;">
+                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">BUKA TIKTOK TRENDS</div>
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col2:
+        st.markdown("""
+            <div class="trend-card">
+                <div class="trend-icon">🔍</div>
+                <div class="trend-title">Google Trends</div>
+                <div class="trend-desc">Lihat apa yang sedang diketik orang Indonesia di Google.</div>
+                <a href="https://trends.google.com/trends/trendingsearches/daily?geo=ID" target="_blank" style="text-decoration:none;">
+                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">CEK GOOGLE TRENDS</div>
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    with col3:
+        st.markdown("""
+            <div class="trend-card">
+                <div class="trend-icon">🎬</div>
+                <div class="trend-title">YouTube Trending</div>
+                <div class="trend-desc">Inspirasi alur cerita dan thumbnail dari video populer.</div>
+                <a href="https://www.youtube.com/feed/trending" target="_blank" style="text-decoration:none;">
+                    <div style="background:#1d976c; color:white; padding:8px; border-radius:5px; font-size:0.8rem;">LIHAT YT TRENDING</div>
+                </a>
+            </div>
+        """, unsafe_allow_html=True)
+
+    st.write("")
+    st.write("")
+
+    # --- BARIS 2: TOOLS RISET MANDIRI ---
+    with st.expander("🛠️ TOOLS RISET KATA KUNCI"):
+        keyword = st.text_input("Masukkan Topik (Contoh: 'Drama Menantu')", placeholder="Ketik topik untuk riset...")
+        if keyword:
+            c1, c2 = st.columns(2)
+            with c1:
+                st.write(f"Cari '{keyword}' di Pinterest")
+                st.markdown(f'<a href="https://id.pinterest.com/search/pins/?q={keyword}" target="_blank">🔎 Buka Pinterest</a>', unsafe_allow_html=True)
+            with c2:
+                st.write(f"Cari '{keyword}' di Facebook Library")
+                st.markdown(f'<a href="https://www.facebook.com/ads/library/?active_status=all&ad_type=all&q={keyword}&country=ID" target="_blank">🔎 Buka FB Ads Library</a>', unsafe_allow_html=True)
+
+    st.caption("📍 Gunakan menu ini setiap pagi sebelum masuk ke Ruang Produksi agar konten tetap relevan.")
+                
+elif menu_select == "📋 TUGAS KERJA":
+    st.title("📋 TUGAS KERJA")
+
+elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
-        st.title("👥 DATABASE LOCKER")
-        st.info("Brankas aset karakter dan lokasi.")
+        st.title("⚡ KENDALI TIM")
+        # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
 
-elif menu_select == "📊 MONITORING":
-    if st.session_state.active_user == "admin":
-        st.title("📊 MONITORING")
-        st.info("Pantau aktivitas operasional.")
-    else:
-        st.error("Akses Ditolak!")
-
-elif menu_select == "🛠️ COMMAND CENTER":
-    if st.session_state.active_user == "admin":
-        st.title("🛠️ COMMAND CENTER")
-        st.info("Pusat kendali sistem.")
-    else:
-        st.error("Akses Ditolak!")
 
 
 
