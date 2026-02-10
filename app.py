@@ -956,58 +956,57 @@ if menu_select == "🚀 PRODUCTION HUB":
                         f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}"
                     )
 
-                    # --- SIMPAN HASIL (BAGIAN 10 - FIX SINKRONISASI) ---
-                    st.session_state.last_generated_results.append({
+                 st.session_state.last_generated_results.append({
                         "id": item["num"], 
                         "img": img_final, 
                         "vid": vid_final,
                         "cam_info": f"{camera_final}",
                         
-                        # PAKAI VARIABEL LOKAL YANG SUDAH JELAS ADA ISINYA
-                        "light": light_val,    # Mengambil dari dropdown Suasana
-                        "shot": shot_val,      # Mengambil dari dropdown Ukuran
-                        "angle": angle_val,    # Mengambil dari dropdown Arah
-                        "motion": cam_val      # Mengambil dari dropdown Gerakan
+                        # Simpan Metadata aslinya dari dropdown
+                        "p_light": light_val,    
+                        "p_shot": shot_val,      
+                        "p_angle": angle_val,    
+                        "p_motion": cam_val      
                     })
 
             st.toast("Prompt Utuh & Paten Berhasil Diracik! 🚀")
             st.rerun()
 
-            # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
-            if st.session_state.last_generated_results:
-                st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
-                for res in st.session_state.last_generated_results:
-                    done_key = f"mark_done_{res['id']}"
-                    is_done = st.session_state.get(done_key, False)
-                    status_tag = "✅ SELESAI" if is_done else "⏳ PROSES"
+    # --- 9. AREA TAMPILAN HASIL (SINKRON PRODUKSI) ---
+    if st.session_state.last_generated_results:
+        st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
+        for res in st.session_state.last_generated_results:
+            done_key = f"mark_done_{res['id']}"
+            is_done = st.session_state.get(done_key, False)
+            status_tag = "✅ SELESAI" if is_done else "⏳ PROSES"
             
-                    with st.expander(f"{status_tag} | ADEGAN {res['id']}", expanded=not is_done):
-                        c1, c2 = st.columns(2)
-                        with c1:
-                            st.markdown("**📸 PROMPT GAMBAR**")
-                            st.code(res['img'], language="text")
-                        with c2:
-                            st.markdown("**🎥 PROMPT VIDEO**")
-                            st.code(res['vid'], language="text")
+            with st.expander(f"{status_tag} | ADEGAN {res['id']}", expanded=not is_done):
+                c1, c2 = st.columns(2)
+                with c1:
+                    st.markdown("**📸 PROMPT GAMBAR**")
+                    st.code(res['img'], language="text")
+                with c2:
+                    st.markdown("**🎥 PROMPT VIDEO**")
+                    st.code(res['vid'], language="text")
                 
-                        # --- TOMBOL SUNTIK (BAGIAN 9 - THE REAL FIX) ---
-                        if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
-                            idx = res['id']
+                # --- TOMBOL SUNTIK (BAGIAN 9 - THE REAL FIX) ---
+                if st.button(f"💉 Suntik Adegan {res['id']} ke Production Hub", key=f"suntik_{res['id']}"):
+                    idx = res['id']
                     
-                            # 1. Kirim Teks Prompt
-                            st.session_state[f"vis_input_{idx}"] = res['img'] # Menimpa visual lama dengan prompt tajam
-                            st.session_state[f"prod_img_prompt_{idx}"] = res['img']
-                            st.session_state[f"prod_vid_prompt_{idx}"] = res['vid']
+                    # 1. Kirim Teks Prompt
+                    st.session_state[f"vis_input_{idx}"] = res['img']
+                    st.session_state[f"prod_img_prompt_{idx}"] = res['img']
+                    st.session_state[f"prod_vid_prompt_{idx}"] = res['vid']
                     
-                            # 2. SUNTIK POSISI DROPDOWN (MENYAMAKAN KEY DENGAN UI)
-                            st.session_state[f"env_input_{idx}"] = res['light']  
-                            st.session_state[f"size_input_{idx}"] = res['shot']   
-                            st.session_state[f"angle_input_{idx}"] = res['angle'] 
-                            st.session_state[f"cam_move_{idx}"] = res['motion'] 
+                    # 2. SUNTIK POSISI DROPDOWN (MENYAMAKAN KEY DENGAN UI)
+                    st.session_state[f"env_input_{idx}"] = res['light']  
+                    st.session_state[f"size_input_{idx}"] = res['shot']   
+                    st.session_state[f"angle_input_{idx}"] = res['angle'] 
+                    st.session_state[f"cam_move_{idx}"] = res['motion'] 
                     
-                            st.session_state[done_key] = True
-                            st.success(f"Adegan {idx} Sinkron Total!")
-                            st.rerun()
+                    st.session_state[done_key] = True
+                    st.success(f"Adegan {idx} Sinkron Total!")
+                    st.rerun()
 
 # ==============================================================================
 # 11. HALAMAN AI LAB (VERSI DETAIL LOKASI & TEKS RAPI)
@@ -1161,4 +1160,5 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
