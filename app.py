@@ -480,7 +480,7 @@ with st.sidebar:
     st.write("") 
 
     # 2. LOGIKA ADMIN (DARI KODE ASLI)
-    if st.session_state.active_user == "admin":
+    if st.session_state.active_user == "dian":
         if st.checkbox("🚀 Buka Dashboard Utama", value=False):
             st.info("Log aktivitas tercatat di Cloud.")
             try:
@@ -513,7 +513,7 @@ with st.sidebar:
     ]
     
     # Tambahkan menu rahasia HANYA jika usernya 'admin'
-    if st.session_state.active_user == "admin":
+    if st.session_state.active_user == "dian":
         menu_final = menu_umum + ["⚡ KENDALI TIM"]
     else:
         menu_final = menu_umum
@@ -1309,6 +1309,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
