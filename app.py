@@ -990,6 +990,7 @@ elif menu_select == "🧠 PINTAR AI LAB":
     """, unsafe_allow_html=True)
 
     st.title("🧠 PINTAR AI LAB")
+    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba! Tetap gunakan kreatifmu ya!")
     
     mode_lab = st.segmented_control(
         "Pilih Jalur Produksi Ide:",
@@ -1068,11 +1069,12 @@ elif menu_select == "🧠 PINTAR AI LAB":
         if 'last_ai_result' in st.session_state:
             if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True, type="secondary"):
                 st.session_state['draft_from_lab'] = st.session_state['last_ai_result']
-                st.success("✅ Rancangan terkirim! Staf tinggal eksekusi di Ruang Produksi.")
+                st.success("✅ Berhasil dikirim! Lanjut ke ruang produksi ya..")
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.markdown("Rakit instruksi visual profesional dalam satu layar.")
+    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
+    st.markdown("Buat prompt singkat satu gambar/video.")
 
     # --- MAIN INTERFACE ---
     with st.container(border=True):
@@ -1173,13 +1175,16 @@ elif menu_select == "⚡ QUICK PROMPT":
                 
 elif menu_select == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
+    st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
         st.title("⚡ KENDALI TIM")
+        st.info("⚠️ **INFO:** Menu ini masih tahap uji coba!")
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
