@@ -4,6 +4,18 @@ import pandas as pd
 from datetime import datetime
 import pytz
 import time
+from streamlit_gsheets import GSheetsConnection
+
+def read_gsheet(sheet_name):
+    try:
+        # Koneksi menggunakan st.secrets yang tadi kita isi
+        conn = st.connection("gsheets", type=GSheetsConnection)
+        # Ambil data dari tab spesifik, ttl=0 agar data selalu fresh
+        df = conn.read(worksheet=sheet_name, ttl=0)
+        return df
+    except Exception as e:
+        st.error(f"Gagal memuat tab '{sheet_name}': {e}")
+        return pd.DataFrame()
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -1054,60 +1066,40 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
-    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Kalender Produksi PINTAR MEDIA (Data: JADWAL LISA)</p>", unsafe_allow_html=True)
+    st.markdown("<p style='color:#1d976c; font-weight:bold;'>Data Real-Time dari Google Sheets</p>", unsafe_allow_html=True)
     st.divider()
 
-    try:
-        # 1. AMBIL DATA DARI TAB SPESIFIK
-        # Ganti 'JADWAL LISA' sesuai nama tab yang ingin ditampilkan
-        df_schedule = read_gsheet("JADWAL LISA") 
-        
-        if not df_schedule.empty:
-            # Mengatur Header agar sesuai dengan GSheets kamu
-            # Kolom: HP, NAMA CHANNEL, PAGI, SIANG 1, SIANG 2, SORE
-            
-            # 2. TAMPILAN METRICS RINGKAS
-            total_channel = len(df_schedule['NAMA CHANNEL'].dropna().unique())
-            st.metric("Total Channel Aktif", f"{total_channel} Channel")
-            
-            st.write("")
-            st.markdown("##### 📅 Jadwal Posting Harian")
-            
-            # 3. TAMPILAN TABEL DENGAN STYLE ELEGAN
-            # Kita bersihkan data kosong (NaN) agar tampilan rapi
-            df_display = df_schedule.fillna("-")
-            
-            st.dataframe(
-                df_display,
-                use_container_width=True,
-                hide_index=True,
-                column_config={
-                    "HP": st.column_config.TextColumn("📱 Unit HP", width="small"),
-                    "NAMA CHANNEL": st.column_config.TextColumn("📺 Nama Channel", width="medium"),
-                    "PAGI": st.column_config.TextColumn("🌅 Pagi"),
-                    "SIANG 1": st.column_config.TextColumn("☀️ Siang 1"),
-                    "SIANG 2": st.column_config.TextColumn("🌤️ Siang 2"),
-                    "SORE": st.column_config.TextColumn("🌇 Sore"),
-                }
-            )
-            
-            # 4. FITUR SEARCH (CARI JADWAL BERDASARKAN CHANNEL)
-            st.write("")
-            search_ch = st.text_input("🔍 Cari Jadwal Channel Spesifik:", placeholder="Ketik nama channel...")
-            if search_ch:
-                filtered_df = df_display[df_display['NAMA CHANNEL'].str.contains(search_ch, case=False)]
-                if not filtered_df.empty:
-                    st.table(filtered_df)
-                else:
-                    st.warning("Channel tidak ditemukan.")
+    # PILIHAN TAB (Sesuaikan dengan nama tab di GSheets kamu)
+    tab_target = st.segmented_control(
+        "Pilih Jadwal Tim:",
+        ["JADWAL LISA", "JADWAL INGGI"],
+        default="JADWAL LISA"
+    )
 
-        else:
-            st.warning("Tab 'JADWAL LISA' kosong atau tidak terbaca.")
+    # PROSES AMBIL DATA
+    df_jadwal = read_gsheet(tab_target)
 
-    except Exception as e:
-        st.error(f"Gagal memuat jadwal: {e}")
-        st.info("Pastikan tab 'JADWAL LISA' tersedia di Google Sheets Anda.")
+    if not df_jadwal.empty:
+        # Bersihkan data NaN/Kosong agar rapi
+        df_clean = df_jadwal.fillna("-")
 
+        # Tampilkan Tabel
+        st.dataframe(
+            df_clean,
+            use_container_width=True,
+            hide_index=True,
+            column_config={
+                "HP": st.column_config.TextColumn("📱 UNIT"),
+                "NAMA CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width="medium"),
+                "PAGI": st.column_config.TextColumn("🌅 PAGI"),
+                "SIANG 1": st.column_config.TextColumn("☀️ SIANG 1"),
+                "SIANG 2": st.column_config.TextColumn("🌤️ SIANG 2"),
+                "SORE": st.column_config.TextColumn("🌇 SORE")
+            }
+        )
+        st.caption(f"📍 Menampilkan data otomatis dari Google Sheets (Tab: {tab_target})")
+    else:
+        st.warning(f"Data di tab '{tab_target}' tidak ditemukan atau akses ditolak.")
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
     st.info("Daftar tugas tim.")
@@ -1136,6 +1128,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
