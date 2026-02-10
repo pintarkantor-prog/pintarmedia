@@ -856,7 +856,7 @@ if menu_select == "🚀 PRODUCTION HUB":
                     st.code(res['vid'], language="text")
 
 # ==============================================================================
-# 11. HALAMAN AI LAB (VERSI ANTI-TUMPUK & RAPI)
+# 11. HALAMAN AI LAB (VERSI SUPER RAPI & CLEAN DISPLAY)
 # ==============================================================================
 elif menu_select == "🧠 AI LAB":
     nama_display = st.session_state.active_user.capitalize() 
@@ -870,7 +870,7 @@ elif menu_select == "🧠 AI LAB":
     with tab_spy:
         st.markdown("### 🎭 1. Tentukan Pemain")
         input_nama_awal = st.session_state.get('current_names', "UDIN, TUNG")
-        nama_fix = st.text_input("Nama Tokoh (Maks 2, pisahkan koma):", value=input_nama_awal)
+        nama_fix = st.text_input("Nama Tokoh (Maks 2):", value=input_nama_awal)
         st.session_state['current_names'] = nama_fix
         
         st.markdown("---")
@@ -899,10 +899,11 @@ elif menu_select == "🧠 AI LAB":
                 with st.spinner("Merancang plot..."):
                     try:
                         p = f"Buat 1 premis Shorts. Tokoh: {nama_fix}. Maks 2 orang. Antagonis sombong kena skakmat."
-                        hasil = panggil_ai_groq(p)
-                        st.session_state['temp_script_spy'] = hasil
-                        st.markdown(hasil)
+                        st.session_state['temp_script_spy'] = panggil_ai_groq(p)
+                        st.rerun()
                     except Exception as e: st.error(f"Eror: {e}")
+            if 'temp_script_spy' in st.session_state:
+                st.markdown(st.session_state['temp_script_spy'])
 
     with tab_cloner:
         st.subheader("🔄 Langkah 2: Suntik Dialog")
@@ -927,21 +928,21 @@ elif menu_select == "🧠 AI LAB":
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
                 with st.spinner(f"Memecah adegan..."):
                     try:
-                        # PROMPT INI DIPERBAIKI: Memaksa baris baru di setiap label
+                        # PROMPT SKAKMAT: Memaksa format bullet points agar tulisan terlihat rapi dan tidak 'gede'
                         prompt = f"""
                         Pecah naskah ini jadi 10 adegan visual. 
-                        ATURAN TAMPILAN: Setiap label (Cerita, Suasana, dll) WAJIB berada di BARIS BARU.
+                        PENTING: Gunakan format list (bullet points) di bawah ini agar tampilan rapi dan mudah dibaca.
                         Hanya gunakan 2 tokoh utama: {nama_pilihan}.
 
-                        Gunakan format kaku ini per adegan:
+                        FORMAT WAJIB:
                         [ADEGAN X]
-                        Cerita: (narasi)
-                        Suasana: (Pagi/Siang/Sore/Malam)
-                        Shot: (Ukuran Gambar)
-                        Angle: (Sudut Kamera)
-                        Gerak: (Gerakan Kamera)
-                        Lokasi: (Detail Lokasi)
-                        Dialog: (Nama: Teks)
+                        ● Cerita: (isi)
+                        ● Suasana: (isi)
+                        ● Shot: (isi)
+                        ● Angle: (isi)
+                        ● Gerak: (isi)
+                        ● Lokasi: (isi)
+                        ● Dialog: (isi)
                         ---
                         Naskah: {st.session_state['ready_script']}
                         """
@@ -950,6 +951,7 @@ elif menu_select == "🧠 AI LAB":
                     except Exception as e: st.error(f"Eror: {e}")
             
             if 'ready_storyboard' in st.session_state:
+                # TAMPILAN RAPI DENGAN FONT YANG TERLIHAT LEBIH TERATUR
                 st.markdown(st.session_state['ready_storyboard'])
                 st.markdown("---")
                 
@@ -959,7 +961,6 @@ elif menu_select == "🧠 AI LAB":
                     st.session_state['ui_reset_key'] += 1 
                     
                     for i in range(1, 11):
-                        # Regex diperkuat untuk mencari blok adegan secara bersih
                         pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                         match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                         
@@ -967,12 +968,12 @@ elif menu_select == "🧠 AI LAB":
                             blok = match.group(1)
                             
                             def extract(label):
-                                # REGEX BARU: Berhenti tepat sebelum label berikutnya untuk mencegah teks "gede"
-                                p = rf"{label}:\s*(.*?)(?=\s*(?:Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
+                                # Regex yang mendukung simbol bullet point ●
+                                p = rf"{label}:\s*(.*?)(?=\s*(?:●|Suasana:|Shot:|Angle:|Gerak:|Lokasi:|Dialog:|---|$))"
                                 m = re.search(p, blok, re.S | re.I)
                                 return m.group(1).strip() if m else ""
 
-                            # Masukkan ke Session State dengan pembersihan total
+                            # Pindahkan ke Hub
                             st.session_state[f'vis_input_{i}'] = extract("Cerita")
                             st.session_state[f'env_input_{i}'] = extract("Suasana").capitalize()
                             st.session_state[f'size_input_{i}'] = extract("Shot")
@@ -996,6 +997,7 @@ elif menu_select == "🧠 AI LAB":
                     st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
 
 
 
