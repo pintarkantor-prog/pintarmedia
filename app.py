@@ -1176,80 +1176,82 @@ elif menu_select == "⚡ QUICK PROMPT":
 elif menu_select == "📋 TUGAS KERJA":
     import pandas as pd
     
-    # 1. IDENTIFIKASI USER LOGIN
-    # Mengambil nama user dari session state dan paksa ke Uppercase agar sinkron
+    # 1. IDENTIFIKASI USER (Sinkron dengan Sistem Login kamu)
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
     st.write(f"Selamat bekerja, **{user_aktif}**! 👋")
 
-    # 2. KONFIGURASI AKSES (SIAPA BOLEH LIHAT SIAPA)
+    # 2. KONFIGURASI AKSES (Admin bisa lihat semua, Staf cuma tab sendiri)
     access_rules = {
-        "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
+        "DIAN": ["ICHA", "NISSA", "INGGI", "LISA", "EZAALMA"],
         "ICHA": ["ICHA"],
         "NISSA": ["NISSA"],
         "INGGI": ["INGGI"],
-        "LISA": ["LISA"]
+        "LISA": ["LISA"],
+        "EZAALMA": ["EZAALMA"]
     }
 
-    # Tentukan tab mana saja yang akan dirender
     tab_list = access_rules.get(user_aktif, [])
 
-    # 3. DATABASE TUGAS (Simulasi - Nantinya ini bisa dari Google Sheets)
-    # Struktur: Foto, Posisi, Instruksi Admin, Catatan, dan List Laporan
+    # 3. DATABASE TUGAS (Semua Staf PINTAR MEDIA)
+    # Foto & Deskripsi bisa kamu sesuaikan link-nya nanti
     data_master = {
         "ICHA": {
             "posisi": "Editor & Uploader",
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas": "Edit 5 Video Minecraft Survival (Series Lava)",
+            "tugas": "Edit 5 Video Minecraft Survival & Upload sesuai jadwal.",
             "catatan": "Sound effect di menit ke-3 tolong lebih dramatis.",
-            "laporan": [{"Link Drive": "https://drive.google.com/icha-1", "Status": "Done"}]
+            "laporan": []
         },
         "NISSA": {
             "posisi": "Editor & Uploader",
             "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas": "Shorts Cinematic AI 10 Video",
-            "catatan": "Warna (Color Grading) ikuti referensi yang kemarin.",
-            "laporan": [{"Link Drive": "https://drive.google.com/nissa-1", "Status": "Revisi"}]
+            "tugas": "Shorts Cinematic AI 10 Video & Manajemen Channel.",
+            "catatan": "Color grading ikuti referensi kemarin ya Nis.",
+            "laporan": []
         },
         "INGGI": {
             "posisi": "Uploader & SEO",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE", 
-            "tugas": "Optimasi SEO Channel Utama",
-            "catatan": "Target skor Tubebuddy 80% ke atas.",
+            "foto": "https://via.placeholder.com/150", 
+            "tugas": "Optimasi SEO & Penjadwalan 3 Channel Utama.",
+            "catatan": "Target skor SEO 80% ke atas.",
             "laporan": []
         },
         "LISA": {
             "posisi": "Uploader & SEO",
-            "foto": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE",
-            "tugas": "Scheduling Video Long Form",
-            "catatan": "Cek thumbnail, pastikan tidak ada typo pada teks.",
+            "foto": "https://via.placeholder.com/150",
+            "tugas": "Management Channel & Balas Komentar.",
+            "catatan": "Cek thumbnail, pastikan tidak ada typo.",
+            "laporan": []
+        },
+        "EZAALMA": {
+            "posisi": "Tim Kreatif / Editor",
+            "foto": "https://via.placeholder.com/150",
+            "tugas": "Riset Ide Konten & Produksi Video.",
+            "catatan": "Siapkan script untuk project minggu depan.",
             "laporan": []
         }
     }
 
-    # 4. RENDERING TABS BERDASARKAN IZIN AKSES
+    # 4. RENDERING TABS
     if not tab_list:
-        st.warning("⚠️ Akun kamu tidak memiliki akses ke daftar tugas. Silakan hubungi Admin.")
+        st.warning("⚠️ Akun kamu belum terdaftar di sistem akses. Hubungi Dian.")
     else:
-        # Membuat tab secara dinamis
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
         
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_master.get(nama_staf)
-                
-                # Setup Dataframe untuk Laporan
+                # Template tabel laporan kosong jika belum ada isinya
                 df_laporan = pd.DataFrame(staf['laporan']) if staf['laporan'] else pd.DataFrame(columns=["Link Drive", "Status"])
                 
-                # Logika Counter Status
                 count_done = (df_laporan['Status'] == 'Done').sum()
                 count_revisi = (df_laporan['Status'] == 'Revisi').sum()
 
                 with st.container(border=True):
                     col_id, col_main = st.columns([1, 3])
                     
-                    # --- KIRI: PROFIL & METRICS ---
                     with col_id:
                         st.markdown(f"""
                             <div style="text-align: center; padding: 10px;">
@@ -1262,17 +1264,14 @@ elif menu_select == "📋 TUGAS KERJA":
                         m1, m2 = st.columns(2)
                         m1.metric("Done", count_done)
                         m2.metric("Revisi", count_revisi)
-                        
                         st.button(f"Senggol {nama_staf} 🔔", key=f"ping_{nama_staf}", use_container_width=True)
 
-                    # --- KANAN: PANEL KERJA ---
                     with col_main:
-                        # Pesan Target Hari Ini
-                        st.markdown('<p class="small-label" style="color:#1d976c;">📝 TUGAS DARI ADMIN (DIAN)</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS UTAMA (DARI DIAN)</p>', unsafe_allow_html=True)
                         st.info(staf['tugas'])
                         
-                        # Area Input Laporan Link Drive
                         st.markdown('<p class="small-label">🔗 LAPORAN HASIL (INPUT BY STAFF)</p>', unsafe_allow_html=True)
+                        # Data editor untuk staf input link
                         st.data_editor(
                             df_laporan,
                             column_config={
@@ -1284,26 +1283,20 @@ elif menu_select == "📋 TUGAS KERJA":
                             use_container_width=True,
                             hide_index=True
                         )
-                        
                         st.write("")
-                        st.markdown('<p class="small-label">✍️ CATATAN KHUSUS OWNER</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label">✍️ CATATAN OWNER</p>', unsafe_allow_html=True)
                         st.warning(staf['catatan'])
 
-    # 5. ADMIN CONTROL PANEL (Hanya muncul jika yang login DIAN)
+    # 5. ADMIN CONTROL PANEL (Owner Only)
     if user_aktif == "DIAN":
         st.write("")
         st.divider()
-        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)", expanded=False):
-            st.markdown("<p style='color:#1d976c; font-weight:bold;'>Ganti instruksi tugas staf secara manual:</p>", unsafe_allow_html=True)
-            col_adm1, col_adm2 = st.columns(2)
-            with col_adm1:
-                target_edit = st.selectbox("Pilih Staf", ["ICHA", "NISSA", "LISA", "INGGI"])
-                new_task = st.text_area("Update Instruksi Tugas Baru")
-            with col_adm2:
-                new_cat = st.text_input("Update Catatan Khusus")
-                st.write("")
-                if st.button("Simpan Perubahan ✅", use_container_width=True, type="primary"):
-                    st.success(f"Beres! Tugas {target_edit} berhasil diperbarui.")
+        with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)"):
+            target_edit = st.selectbox("Pilih Staf", list(data_master.keys()))
+            st.text_area(f"Update Tugas Utama untuk {target_edit}")
+            st.text_input(f"Update Catatan untuk {target_edit}")
+            if st.button("Simpan & Update Sistem ✅", use_container_width=True, type="primary"):
+                st.success(f"Beres Bos! Tugas {target_edit} sudah diperbarui.")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1312,6 +1305,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
