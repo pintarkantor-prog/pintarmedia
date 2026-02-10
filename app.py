@@ -1190,19 +1190,12 @@ elif menu_select == "📋 TUGAS KERJA":
     
     st.title("📋 TUGAS KERJA")
 
-    # --- TAMBAHAN: LOGIKA TERIMA SENGGOL ---
-    senggol_key = f"notif_senggol_{user_aktif}"
-    if senggol_key in st.session_state:
-        st.markdown(f"""
-            <div style="background-color: #ff4b4b; padding: 20px; border-radius: 15px; border-left: 10px solid white; margin-bottom: 25px;">
-                <h3 style="color: white; margin: 0;">⚠️ PERINGATAN OWNER</h3>
-                <p style="color: white; margin: 5px 0 15px 0; font-size: 1.1rem;">
-                    <b>Bos DIAN</b> sedang memantau progres kerja kamu sekarang. Tetap fokus! 🔥
-                </p>
-            </div>
-        """, unsafe_allow_html=True)
-        if st.button(f"SAYA MENGERTI, LANJUT KERJA! ✅", use_container_width=True):
-            del st.session_state[senggol_key]
+    # --- 1. CEK NOTIFIKASI (Taruh paling atas biar langsung kelihatan) ---
+    notif_key = f"notif_senggol_{user_aktif}"
+    if notif_key in st.session_state and st.session_state[notif_key]:
+        st.error(f"⚠️ **PESAN DARI OWNER:** Bos DIAN lagi mantau kamu nih! Fokus kerja ya! 🔥")
+        if st.button("SIAP BOS! ✅", use_container_width=True):
+            st.session_state[notif_key] = False # Matikan notif
             st.rerun()
 
     st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
@@ -1217,7 +1210,7 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # 2. DATA PROFIL TIM (Murni Info)
+        # 2. DATA PROFIL TIM
         data_profil = {
             "ICHA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
             "NISSA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
@@ -1231,15 +1224,9 @@ elif menu_select == "📋 TUGAS KERJA":
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
                 
-                # --- TAMPILAN CARD MURNI (HANYA INFO) ---
+                # --- TAMPILAN CARD (Sesuai Code Kamu) ---
                 st.markdown(f"""
-                <div style="
-                    border: 2px solid #1d976c; 
-                    border-radius: 20px; 
-                    padding: 35px; 
-                    background-color: rgba(29, 151, 108, 0.05); 
-                    margin-top: 15px;
-                ">
+                <div style="border: 2px solid #1d976c; border-radius: 20px; padding: 35px; background-color: rgba(29, 151, 108, 0.05); margin-top: 15px;">
                     <div style="display: flex; align-items: center;">
                         <img src="{staf['f']}" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #1d976c; object-fit: cover;">
                         <div style="margin-left: 35px;">
@@ -1250,10 +1237,10 @@ elif menu_select == "📋 TUGAS KERJA":
                 </div>
                 """, unsafe_allow_html=True)
 
-                # --- TAMBAHAN: TOMBOL SENGGOL (KHUSUS DIAN) ---
+                # --- TOMBOL KIRIM SENGGOL (Hanya muncul di akun DIAN) ---
                 if user_aktif == "DIAN":
                     st.write("")
-                    if st.button(f"Senggol {nama_staf} 🔔", key=f"senggol_{nama_staf}", use_container_width=True):
+                    if st.button(f"Senggol {nama_staf} 🔔", key=f"senggol_btn_{nama_staf}"):
                         st.session_state[f"notif_senggol_{nama_staf}"] = True
                         st.toast(f"Berhasil menyenggol {nama_staf}! 😂")
 
@@ -1264,4 +1251,5 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
