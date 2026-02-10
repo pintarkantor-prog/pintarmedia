@@ -1074,36 +1074,36 @@ elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
     st.markdown("Rakit instruksi visual profesional dalam satu layar.")
 
-    # --- MAIN INTERFACE ---
+    # --- MAIN INTERFACE (FULL ALIGNMENT) ---
     with st.container(border=True):
         # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
         col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
         
         with col_main_left:
-            st.write("📝 **1. KEJADIAN / ALUR CERITA**")
+            st.markdown('<p class="small-label">📝 1. KEJADIAN / ALUR CERITA</p>', unsafe_allow_html=True)
             isi_cerita = st.text_area(
                 "input_alur",
                 placeholder="Contoh: main character running while lava flows behind him...",
-                height=265, # Disesuaikan agar sejajar dengan kolom kanan
+                height=265, # Sejajar sempurna dengan kolom kanan
                 label_visibility="collapsed"
             )
             st.write("") 
             rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
             
         with col_main_right:
-            st.write("⚙️ **2. SETTING VISUAL**")
+            st.markdown('<p class="small-label">⚙️ 2. SETTING VISUAL</p>', unsafe_allow_html=True)
             
             # Baris 1: Style & Lighting
             c1, c2 = st.columns(2)
             with c1:
-                st.caption("🌍 Style / World")
-                vibe_v = st.selectbox("s1", [
+                st.markdown('<p class="small-label">🌍 Style / World</p>', unsafe_allow_html=True)
+                vibe_v = st.selectbox("v1", [
                     "Cinematic Movie", "Ultra Realistic Minecraft", 
                     "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
                 ], label_visibility="collapsed")
             with c2:
-                st.caption("💡 Lighting & FX")
-                mood_v = st.selectbox("s2", [
+                st.markdown('<p class="small-label">💡 Lighting & FX</p>', unsafe_allow_html=True)
+                mood_v = st.selectbox("v2", [
                     "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
                     "Golden Hour", "Moody Dark", "Bright Studio"
                 ], label_visibility="collapsed")
@@ -1113,29 +1113,30 @@ elif menu_select == "⚡ QUICK PROMPT":
             # Baris 2: Motion & Shot Type
             c3, c4 = st.columns(2)
             with c3:
-                st.caption("🎬 Motion & Speed")
-                motion_v = st.selectbox("s3", [
+                st.markdown('<p class="small-label">🎬 Motion & Speed</p>', unsafe_allow_html=True)
+                motion_v = st.selectbox("v3", [
                     "Slow Motion", "High Speed Action", 
                     "Time-lapse", "Static (Diam)", "Smooth Panning"
                 ], label_visibility="collapsed")
             with c4:
-                st.caption("🎥 Shot Type")
-                cam_v = st.selectbox("s4", [
+                st.markdown('<p class="small-label">🎥 Shot Type</p>', unsafe_allow_html=True)
+                cam_v = st.selectbox("v4", [
                     "Cinematic Tracking Shot", "Extreme Close-Up", 
                     "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
                 ], label_visibility="collapsed")
 
             st.write("")
             
-            # Baris 3: LOKASI DI PALING BAWAH (Sesuai Permintaan)
-            st.caption("📍 Lokasi (Manual)")
-            lokasi_v = st.text_input("loc", placeholder="Misal: dark cave, abandoned house, forest...", label_visibility="collapsed")
+            # Baris 3: LOKASI DI PALING BAWAH
+            st.markdown('<p class="small-label">📍 Lokasi (Manual)</p>', unsafe_allow_html=True)
+            lokasi_v = st.text_input("loc_input", placeholder="Misal: dark cave, abandoned house...", label_visibility="collapsed")
 
     # --- LOGIKA RAKIT ---
     if rakit_btn:
         if not isi_cerita:
-            st.warning("Isi dulu ceritanya, Dian!")
+            st.warning("Isi dulu ceritanya, Bos!")
         else:
+            # Dictionary Bumbu
             styles = {
                 "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
                 "Ultra Realistic Minecraft": "Ultra realistic Minecraft cinematic video,",
@@ -1158,16 +1159,16 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Smooth Panning": "smooth cinematic panning shot,"
             }
             
-            # Gabungkan detail lokasi jika diisi
+            # Gabungkan detail lokasi jika ada
             detail_lokasi = f"located in {lokasi_v}," if lokasi_v else ""
             
-            # HASIL GABUNGAN FINAL
+            # Rakit Final String
             st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {detail_lokasi} {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
 
-    # --- OUTPUT AREA ---
+    # --- OUTPUT HASIL ---
     if 'hasil_rakit' in st.session_state:
         st.write("")
-        st.write("✅ **HASIL RACIKAN**")
+        st.markdown('<p class="small-label">✅ HASIL RACIKAN</p>', unsafe_allow_html=True)
         st.code(st.session_state.hasil_rakit, language="text")
         
         c_reset, _ = st.columns([1, 4])
@@ -1185,3 +1186,4 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
