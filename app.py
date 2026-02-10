@@ -1066,7 +1066,9 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
+    st.markdown("<p style='color:#808495; margin-top:-15px;'>Dashboard Monitoring Jadwal Posting Real-Time</p>", unsafe_allow_html=True)
     
+    # 1. SUB-NAVIGASI ELEGAN
     tab_target = st.segmented_control(
         "Pilih Jadwal Tim:", ["JADWAL LISA", "JADWAL INGGI"], 
         default="JADWAL LISA", label_visibility="collapsed"
@@ -1077,62 +1079,107 @@ elif menu_select == "🎞️ SCHEDULE":
     if not df_jadwal.empty:
         df_clean = df_jadwal.fillna("")
 
-        # --- CSS SUPER FIX ---
+        # 2. HIGHLIGHT METRICS (Sentuhan Elegan di Atas)
+        m1, m2, m3 = st.columns(3)
+        with m1:
+            total_ch = len(df_clean['NAMA CHANNEL'].dropna())
+            st.metric("Total Channel", f"{total_ch} Akun")
+        with m2:
+            st.metric("Status Sistem", "Connected", delta="Live")
+        with m3:
+            if st.button("🔄 REFRESH DATA", use_container_width=True):
+                st.rerun()
+
+        st.divider()
+
+        # 3. CSS CUSTOM UNTUK TAMPILAN PREMUM (Gaya Gelap & Emerald)
         st.markdown("""
             <style>
-            .gs-table { width: 100%; border-collapse: collapse; background-color: #1a1c23; color: white; border: 2px solid #444; }
-            .gs-table th { background-color: #ffff00; color: black; padding: 12px; border: 1px solid #444; font-weight: bold; text-align: center; }
-            .gs-table td { border: 1px solid #444; padding: 10px; text-align: center; font-size: 14px; }
-            .unit-cell { background-color: #b7b7b7; color: black; font-weight: bold; font-size: 18px; width: 60px; }
-            .channel-cell { background-color: #c6efce; color: #006100; text-align: left !important; font-weight: bold; width: 180px; }
-            .empty-cell { background-color: #808080; } /* Abu-abu sesuai GSheets */
-            .time-cell { background-color: white; color: black; font-weight: bold; border-radius: 4px; }
+            .main-container { background-color: #0e1117; }
+            .premium-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-family: 'Inter', sans-serif; }
+            .premium-table th { 
+                background-color: transparent; 
+                color: #1d976c; 
+                text-align: center; 
+                padding: 15px; 
+                font-weight: 600; 
+                text-transform: uppercase; 
+                letter-spacing: 1px;
+                font-size: 0.85rem;
+            }
+            .premium-table tr { background-color: #1a1c23; transition: all 0.3s ease; }
+            .premium-table tr:hover { background-color: #252932; transform: scale(1.005); }
+            .premium-table td { 
+                padding: 15px; 
+                text-align: center; 
+                border-top: 1px solid #2d3139; 
+                border-bottom: 1px solid #2d3139;
+                color: #e0e0e0;
+            }
+            .unit-box { 
+                background-color: #1d976c; 
+                color: white; 
+                font-weight: bold; 
+                border-radius: 8px; 
+                padding: 5px 12px;
+                font-size: 1.1rem;
+            }
+            .channel-name { 
+                text-align: left !important; 
+                font-weight: 500; 
+                color: #1d976c;
+                border-left: 4px solid #1d976c !important;
+                padding-left: 20px !important;
+            }
+            .time-slot { 
+                background-color: rgba(29, 151, 108, 0.1); 
+                color: #1d976c; 
+                font-weight: bold; 
+                border-radius: 6px; 
+                padding: 6px 10px;
+                border: 1px solid rgba(29, 151, 108, 0.3);
+            }
+            .empty-slot { color: #444; font-style: italic; font-size: 0.8rem; }
             </style>
         """, unsafe_allow_html=True)
 
-        # --- LOGIKA PENYUSUN TABEL OTOMATIS ---
-        html_table = '<table class="gs-table"><thead><tr>'
-        for h in ["HP", "NAMA CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]:
-            html_table += f'<th>{h}</th>'
-        html_table += '</tr></thead><tbody>'
+        # 4. RENDER TABEL CUSTOM
+        html_code = '<table class="premium-table"><thead><tr>'
+        for h in ["UNIT", "CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]:
+            html_code += f'<th>{h}</th>'
+        html_code += '</tr></thead><tbody>'
 
-        # Kita hitung dulu berapa baris untuk setiap unit HP agar rowspan-nya pas
-        # Logika: Cari baris yang HP-nya tidak kosong
         rows = df_clean.to_dict('records')
-        
         for i, row in enumerate(rows):
-            html_table += '<tr>'
+            html_code += '<tr>'
             
-            # Cek apakah baris ini adalah awal dari Unit HP baru
+            # Logika Merger Unit HP
             if row['HP'] != "":
-                # Hitung berapa baris ke bawah yang kosong HP-nya (untuk digabung)
                 count = 1
                 for j in range(i + 1, len(rows)):
-                    if rows[j]['HP'] == "":
-                        count += 1
-                    else:
-                        break
-                html_table += f'<td class="unit-cell" rowspan="{count}">{row["HP"]}</td>'
+                    if rows[j]['HP'] == "": count += 1
+                    else: break
+                html_code += f'<td rowspan="{count}"><span class="unit-box">{int(float(row["HP"]))}</span></td>'
             
-            # Tampilkan Channel
-            html_table += f'<td class="channel-cell">{row["NAMA CHANNEL"]}</td>'
+            # Channel Name
+            html_code += f'<td class="channel-name">{row["NAMA CHANNEL"]}</td>'
             
-            # Tampilkan Jam (Putih jika ada isi, Abu-abu jika kosong)
+            # Waktu Posting
             for col in ["PAGI", "SIANG 1", "SIANG 2", "SORE"]:
-                val = str(row.get(col, ""))
-                if val.strip() and val != "-":
-                    html_table += f'<td class="time-cell">{val}</td>'
+                val = str(row.get(col, "")).strip()
+                if val and val != "-":
+                    html_code += f'<td><span class="time-slot">{val}</span></td>'
                 else:
-                    html_table += '<td class="empty-cell"></td>'
-                
-            html_table += '</tr>'
+                    html_code += '<td><span class="empty-slot">--:--</span></td>'
+            
+            html_code += '</tr>'
 
-        html_table += '</tbody></table>'
-        st.markdown(html_table, unsafe_allow_html=True)
-        st.caption(f"📍 Sinkronisasi otomatis dari {tab_target}. Data kosong otomatis berwarna abu-abu.")
+        html_code += '</tbody></table>'
+        st.markdown(html_code, unsafe_allow_html=True)
+        st.caption(f"📍 Data otomatis diserap dari database {tab_target}.")
 
     else:
-        st.warning("Data tidak ditemukan atau GSheets belum di-share.")
+        st.warning("Data jadwal tidak ditemukan. Pastikan koneksi GSheets aktif.")
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1162,6 +1209,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
