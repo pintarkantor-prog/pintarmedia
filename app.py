@@ -1186,19 +1186,12 @@ elif menu_select == "⚡ QUICK PROMPT":
                 st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
-    import time
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
-    # 1. DATABASE STATUS
-    if 'status_gacor' not in st.session_state:
-        st.session_state.status_gacor = {
-            "ICHA": False, "NISSA": False, "INGGI": False, "LISA": False
-        }
-
     st.title("📋 TUGAS KERJA")
-    st.write(f"Halo, **{user_aktif}**! Pantau performa tim hari ini.")
+    st.write(f"Informasi Tim Pintar Media - Login: **{user_aktif}**")
 
-    # 2. ATURAN AKSES
+    # 1. ATURAN AKSES (Tetap dijaga biar privat)
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1208,7 +1201,7 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
-        # Data Profil
+        # 2. DATA PROFIL TIM
         data_profil = {
             "ICHA": {"p": "Editor Utama", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/o0A6BeBIAfA7eEAnAIBmE2AfhC8fIDAf9fE9fE"},
             "NISSA": {"p": "Creative Editor", "f": "https://p16-va.lemons8cdn.com/obj/tos-alisg-v-a3e477-sg/oMA7fEAfhBIA7EAnAIBmE2AfhC8fIDAf9fE9fE"},
@@ -1221,56 +1214,33 @@ elif menu_select == "📋 TUGAS KERJA":
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
-                is_gacor = st.session_state.status_gacor.get(nama_staf, False)
                 
-                # --- SETINGAN WARNA ---
-                theme_color = "#FFD700" if is_gacor else "#1d976c"
-                status_txt = "🔥 GACOR PARAH" if is_gacor else "🎬 ON PROGRESS"
-                badge_bg = theme_color
-                text_color = "black" if is_gacor else "white"
-
-                # --- UI CARD (FIXED NO LEAK) ---
-                card_html = f"""
+                # --- TAMPILAN CARD MURNI (STAT INFO) ---
+                st.markdown(f"""
                 <div style="
-                    border: 3px solid {theme_color}; 
+                    border: 2px solid #1d976c; 
                     border-radius: 20px; 
                     padding: 30px; 
-                    background-color: rgba({(255,215,0) if is_gacor else (29,151,108)}, 0.1); 
-                    margin-bottom: 20px;
+                    background-color: rgba(29, 151, 108, 0.05); 
+                    margin-top: 10px;
                 ">
                     <div style="display: flex; align-items: center;">
-                        <div style="position: relative;">
-                            <img src="{staf['f']}" style="width: 100px; height: 100px; border-radius: 50%; border: 4px solid {theme_color}; object-fit: cover;">
-                            {"<div style='position: absolute; bottom: 0; right: 0; font-size: 25px;'>👑</div>" if is_gacor else ""}
-                        </div>
-                        <div style="margin-left: 25px;">
-                            <h1 style="margin: 0; color: white; font-size: 2.5rem; line-height: 1;">{nama_staf}</h1>
-                            <p style="margin: 5px 0; color: #808495; font-size: 1.1rem;">{staf['p']}</p>
-                            <div style="margin-top: 10px;">
-                                <span style="background: {badge_bg}; color: {text_color}; padding: 6px 16px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; display: inline-block;">
-                                    {status_txt}
+                        <img src="{staf['f']}" style="width: 110px; height: 110px; border-radius: 50%; border: 4px solid #1d976c; object-fit: cover;">
+                        <div style="margin-left: 30px;">
+                            <h1 style="margin: 0; color: white; font-size: 2.8rem; line-height: 1.1;">{nama_staf}</h1>
+                            <p style="margin: 10px 0; color: #808495; font-size: 1.2rem; font-weight: normal;">{staf['p']}</p>
+                            <div style="margin-top: 15px;">
+                                <span style="background: #1d976c; color: white; padding: 7px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: bold; letter-spacing: 1px;">
+                                    🎬 ON PROGRESS
                                 </span>
                             </div>
                         </div>
                     </div>
                 </div>
-                """
-                st.markdown(card_html, unsafe_allow_html=True)
-
-                # --- KONTROL DIAN ---
-                if user_aktif == "DIAN":
-                    st.write("### 🛠️ Owner Action")
-                    c1, c2 = st.columns(2)
-                    if c1.button(f"🚀 Set GACOR: {nama_staf}", key=f"set_{nama_staf}"):
-                        st.session_state.status_gacor[nama_staf] = True
-                        st.rerun()
-                    if c2.button(f"😴 Reset: {nama_staf}", key=f"res_{nama_staf}"):
-                        st.session_state.status_gacor[nama_staf] = False
-                        st.rerun()
+                """, unsafe_allow_html=True)
                 
-                if is_gacor and user_aktif != "DIAN":
-                    st.balloons()
-                    st.success(f"Gokil {nama_staf}! Kamu dapet gelar GACOR hari ini! 🏆")
+                st.write("") 
+                st.caption(f"Status harian {nama_staf.capitalize()} akan diperbarui oleh Admin secara berkala.")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
@@ -1279,6 +1249,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
