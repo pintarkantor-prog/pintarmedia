@@ -4,8 +4,6 @@ import pandas as pd
 from datetime import datetime
 import pytz
 import time
-import json
-import re
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -92,7 +90,6 @@ if 'active_user' in st.session_state and 'login_time' in st.session_state:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
-
 # ==============================================================================
 # 1 & 2. INISIALISASI MEMORI & SINKRONISASI (CLEAN VERSION)
 # ==============================================================================
@@ -123,7 +120,7 @@ for i in range(1, 51):
     ]:
         if key not in st.session_state: 
             st.session_state[key] = default
-
+    
 # ==============================================================================
 # 3. LOGIKA LOGGING GOOGLE SHEETS (SERVICE ACCOUNT MODE - FULL DATA)
 # ==============================================================================
@@ -148,7 +145,7 @@ def record_to_sheets(user, data_packet, total_scenes):
             "Visual Utama": data_packet # <--- Di sini data koper disimpan utuh
         }])
         
-        # 5. Gabungkan data lama dan baru
+        # 5. Gabungkan data lama and baru
         updated_df = pd.concat([existing_data, new_row], ignore_index=True)
         
         # 6. Batasi history maksimal 300 baris agar tidak berat
@@ -161,7 +158,7 @@ def record_to_sheets(user, data_packet, total_scenes):
     except Exception as e:
         # Menampilkan error agar kamu tahu kalau koneksinya bermasalah
         st.error(f"Gagal mencatat ke Cloud: {e}")
-
+        
 # ==============================================================================
 # 4. CUSTOM CSS (VERSION: BOLD FOCUS & INSTANT RESPONSE)
 # ==============================================================================
@@ -416,7 +413,7 @@ def global_sync_v920():
             if key.startswith("shot_input_"): st.session_state[key] = st1
             if key.startswith("angle_input_"): st.session_state[key] = ag1
 # ==============================================================================
-# 7. SIDEBAR: KONFIGURASI UTAMA (MODIFIKASI NAVIGASI)
+# 7. SIDEBAR: KONFIGURASI UTAMA (MODIFIKASI NAVIGASI RUANGAN)
 # ==============================================================================
 with st.sidebar:
     # --- A. MENU NAVIGASI ---
@@ -434,14 +431,14 @@ with st.sidebar:
 
     # --- B. ISI ASLI SIDEBAR (Hanya muncul jika memilih Ruang Produksi) ---
     if menu_select == "🚀 RUANG PRODUKSI":
-        # --- 1. LOGO SIDEBAR ---
+        # --- 1. LOGO SIDEBAR (DARI KODE ASLI) ---
         try:
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.title("📸 PINTAR MEDIA")
         st.write("") 
         
-        # --- 2. LOGIKA ADMIN ---
+        # --- 2. LOGIKA ADMIN (DARI KODE ASLI) ---
         if st.session_state.active_user == "admin":
             if st.checkbox("🚀 Buka Dashboard Utama", value=False):
                 st.info("Log aktivitas tercatat di Cloud.")
@@ -463,7 +460,7 @@ with st.sidebar:
                     st.error(f"Gagal memuat data Cloud: {e}")
             st.divider()
 
-        # --- 3. KONFIGURASI UMUM ---
+        # --- 3. KONFIGURASI UMUM (DARI KODE ASLI) ---
         num_scenes = st.number_input("Tambah Jumlah Adegan", min_value=1, max_value=50, value=6)
         st.write("") 
         st.markdown("#### 🎨 GENRE VISUAL")
@@ -474,7 +471,7 @@ with st.sidebar:
         genre_pilihan = st.selectbox("Pilih Gaya Film:", options=list_genre, index=idx_default, help="Pilih genre visual. Jika pilih Realistik, hasil akan seperti foto asli.")
         st.write("")
         
-        # --- 4. STATUS PRODUKSI ---
+        # --- 4. STATUS PRODUKSI (DARI KODE ASLI) ---
         if st.session_state.last_generated_results:
             st.markdown("### 🗺️ STATUS PRODUKSI")
             total_p = len(st.session_state.last_generated_results)
@@ -489,7 +486,7 @@ with st.sidebar:
                 st.success("🎉 Semua Adegan Selesai!")
         st.divider()
 
-        # --- C. TOMBOL SAVE & LOAD UTUH ---
+        # --- C. TOMBOL SAVE & LOAD (DARI KODE ASLI - UTUH) ---
         btn_col1, btn_col2 = st.columns(2)
         with btn_col1:
             save_trigger = st.button("💾 SAVE", use_container_width=True)
@@ -543,7 +540,7 @@ with st.sidebar:
                     st.error(f"Gagal: {e}")
         st.divider()
 
-    # --- TOMBOL LOGOUT ---
+    # --- TOMBOL LOGOUT (DARI KODE ASLI) ---
     if st.button("KELUAR SISTEM ⚡", use_container_width=True):
         st.query_params.clear() 
         for key in list(st.session_state.keys()):
@@ -551,7 +548,7 @@ with st.sidebar:
         st.rerun()
 
 # ==============================================================================
-# MAIN PAGE ROUTING (NAVIGASI)
+# MAIN PAGE ROUTING (Sistem Navigasi Ruangan)
 # ==============================================================================
 
 if menu_select == "🚀 RUANG PRODUKSI":
@@ -616,7 +613,7 @@ if menu_select == "🚀 RUANG PRODUKSI":
                         name = st.text_input("Nama", key=f"c_name_{idx}_input", placeholder=f"Nama Karakter Utama {idx}", label_visibility="collapsed")
                         desc = st.text_area("Penampilan Fisik", key=f"c_desc_{idx}_input", height=120, placeholder=f"Ciri fisik Karakter Utama {idx}...", label_visibility="collapsed")
                         all_chars_list.append({"name": name, "desc": desc})
-        st.write("---") 
+            st.write("---") 
 
     # --- LIST ADEGAN ---
     adegan_storage = []
@@ -669,25 +666,25 @@ if menu_select == "🚀 RUANG PRODUKSI":
                     else:
                         location_val = loc_choice
 
-        # --- BAGIAN DIALOG ---
-        diag_cols = st.columns(len(all_chars_list))
-        scene_dialogs_list = []
-        for i_char, char_data in enumerate(all_chars_list):
-            with diag_cols[i_char]:
-                char_label = char_data['name'] if char_data['name'] else f"Karakter {i_char+1}"
-                d_in = st.text_input(f"Dialog {char_label}", key=f"diag_{i_s}_{i_char}")
-                scene_dialogs_list.append({"name": char_label, "text": d_in})
-        
-        adegan_storage.append({
-            "num": i_s, 
-            "visual": visual_input, 
-            "light": light_val,
-            "location": location_val, # Ini akan berisi 'Pasar' ATAU hasil ketikan manual
-            "cam": cam_val, 
-            "shot": shot_val,
-            "angle": angle_val, 
-            "dialogs": scene_dialogs_list
-        })
+            # --- BAGIAN DIALOG ---
+            diag_cols = st.columns(len(all_chars_list))
+            scene_dialogs_list = []
+            for i_char, char_data in enumerate(all_chars_list):
+                with diag_cols[i_char]:
+                    char_label = char_data['name'] if char_data['name'] else f"Karakter {i_char+1}"
+                    d_in = st.text_input(f"Dialog {char_label}", key=f"diag_{i_s}_{i_char}")
+                    scene_dialogs_list.append({"name": char_label, "text": d_in})
+            
+            adegan_storage.append({
+                "num": i_s, 
+                "visual": visual_input, 
+                "light": light_val,
+                "location": location_val, # Ini akan berisi 'Pasar' ATAU hasil ketikan manual
+                "cam": cam_val, 
+                "shot": shot_val,
+                "angle": angle_val, 
+                "dialogs": scene_dialogs_list
+            })
 
     # ==============================================================================
     # 10. GENERATOR PROMPT & MEGA-DRAFT (OPTIMASI GEMINI IDENTITY) - REVISED SHARP
@@ -765,7 +762,7 @@ if menu_select == "🚀 RUANG PRODUKSI":
                     elif genre_pilihan == "Transformers (Mecha)":
                         # Kita hapus efek 'Matahari Siang' secara paksa di sini agar Flare & Ledakan lebih kelihatan
                         bumbu_gaya = "Michael Bay cinematic style, Transformers mechanical realism, complex moving gears, anamorphic lens flares, sparks and debris"
-                        l_cmd = l_cmd.replace("Direct harsh midday sunlight,", "Dramatic cinematic lighting,")
+                        l_cmd_temp = "Dramatic cinematic lighting,"
 
                     elif genre_pilihan == "KingKong (VFX Monster)":
                         bumbu_gaya = "Photorealistic CGI, ILM blockbuster VFX quality, hyper-detailed creature rendering, wet fur and skin micro-textures, volumetric lighting"
@@ -773,10 +770,8 @@ if menu_select == "🚀 RUANG PRODUKSI":
                     elif genre_pilihan == "Asphalt (Balap/Glossy)":
                         # TRIK KHUSUS: Kita buang perintah 'Zero Blur' dan 'Midday' agar Motion Blur-nya jalan
                         bumbu_gaya = "Asphalt 9 gaming aesthetic, ultra-glossy metallic paint, ray-traced reflections, cinematic motion blur, neon light streaks"
-                        # Membersihkan instruksi matahari siang agar neon & glossy studio lebih keluar
-                        l_cmd = l_cmd.replace("Direct harsh midday sunlight,", "Automotive studio lighting,")
-                        # Membersihkan perintah 'Zero Blur' di prompt final nanti
-                        img_quality_stack = img_quality_stack.replace("zero background blur,", "").replace("zero bokeh,", "")
+                        l_cmd_temp = "Automotive studio lighting,"
+                        img_quality_stack_temp = img_quality_stack.replace("zero background blur,", "").replace("zero bokeh,", "")
 
                     elif genre_pilihan == "Ghibli (Estetik/Indah)":
                         bumbu_gaya = "Studio Ghibli hand-painted style, watercolor textures, soft cel shading, lush nature aesthetic, whimsical lighting"
@@ -798,34 +793,27 @@ if menu_select == "🚀 RUANG PRODUKSI":
 
                     else:
                         # Default: Kembali ke gaya Realistik (Foto)
-                        # Biarkan instruksi tajam/matahari siang kamu bekerja di sini
                         bumbu_gaya = img_quality_stack
 
                     # --- 3. RAKITAN LOKASI (THE ULTIMATE FIX) ---
-                    # Jangan ambil dari 'item', tapi langsung tembak ke session_state pusat
                     pilihan_dropdown = st.session_state.get(f"loc_sel_{item['num']}", "")
                     
                     if pilihan_dropdown == "--- KETIK MANUAL ---":
-                        # Tembak langsung ke kotak ketikan manualnya
                         manual_text = st.session_state.get(f"loc_custom_{item['num']}", "").strip()
                         if manual_text:
                             dna_env = f"{manual_text}, highly detailed textures, realistic environment, 8k resolution, cinematic sharp focus, tactile surfaces."
                         else:
                             dna_env = "cinematic environment, highly detailed textures, sharp focus."
                     else:
-                        # Ambil dari DNA, gunakan .lower() supaya sinkron dengan key di LOKASI_DNA
                         dna_env = LOKASI_DNA.get(pilihan_dropdown.lower(), f"{pilihan_dropdown}, sharp focus.")
 
                     # Penentuan shot dan angle tetap sama
                     e_shot = shot_map.get(item["shot"], "Medium Shot")
                     e_angle = angle_map.get(item["angle"], "")
                     
-                    # --- [PERBAIKAN BESAR: LOGIKA CERDAS CAMERA SINKRON MENU] ---
-                    # A. Logika Drone
+                    # --- [LOGIKA CERDAS CAMERA SINKRON MENU] ---
                     if "drone" in e_shot.lower():
                         camera_final = f"{e_shot}, high-altitude view, expansive landscape, infinite focus, f/11"
-                    
-                    # B. Logika Intip Bahu (Cek dari e_angle sekarang, bukan e_shot)
                     elif "over-the-shoulder" in e_angle.lower():
                         target_focus = "the character"
                         for m in mentioned_chars_list:
@@ -833,53 +821,33 @@ if menu_select == "🚀 RUANG PRODUKSI":
                                 target_focus = m['name']
                                 break
                         camera_final = f"{e_angle} looking at {target_focus}, focus on {target_focus}'s facial expression, infinite depth of field"
-                    
-                    # C. Logika Standar (Solo/Duo) - Dibuat SUPER TAJAM
                     else:
                         camera_final = f"{e_shot}, {e_angle}, infinite depth of field, f/11 aperture, ultra-sharp focus everywhere"
                     
-                    # --- LIGHTING LOGIC (VERSION: APEX SHARPNESS & CONTROLLED LIGHT) ---
+                    # --- LIGHTING LOGIC ---
                     if "Pagi" in item["light"]: 
-                        l_cmd = (
-                            "6 AM early morning sunlight, subtle sunbeams, anti-glare, "
-                            "no lens flare, low-angle side lighting to emphasize textures, "
-                            "vibrant dewy surfaces, high local contrast, crystal clear air."
-                        )
+                        l_cmd = ("6 AM early morning sunlight, subtle sunbeams, anti-glare, no lens flare, low-angle side lighting to emphasize textures, vibrant dewy surfaces, high local contrast, crystal clear air.")
                     elif "Siang" in item["light"]: 
-                        l_cmd = (
-                            "Direct harsh midday sunlight, clear blue sky, vibrant naturalism, "
-                            "cinematic contrast, deep black levels, polarizing filter for rich saturated colors."
-                        )
+                        l_cmd = ("Direct harsh midday sunlight, clear blue sky, vibrant naturalism, cinematic contrast, deep black levels, polarizing filter for rich saturated colors.")
                     elif "Sore" in item["light"]: 
-                        l_cmd = (
-                            "4 PM golden hour, warm saturated colors, long dramatic sharp shadows, "
-                            "sharp amber highlights, high local contrast, no haze, ultra-clear atmosphere."
-                        )
+                        l_cmd = ("4 PM golden hour, warm saturated colors, long dramatic sharp shadows, sharp amber highlights, high local contrast, no haze, ultra-clear atmosphere.")
                     elif "Malam" in item["light"]: 
-                        l_cmd = (
-                            "Cinematic night, realistic dim moonlight, no rim light, no glow, "
-                            "natural ambient shadows, high local contrast on textures, "
-                            "visible ground grit and soil details, deep indigo sky, "
-                            "clean silhouettes, zero digital noise, professional night photography."
-                        )
+                        l_cmd = ("Cinematic night, realistic dim moonlight, no rim light, no glow, natural ambient shadows, high local contrast on textures, visible ground grit and soil details, deep indigo sky, clean silhouettes, zero digital noise, professional night photography.")
                     else: 
                         l_cmd = "Natural lighting, high contrast, balanced exposure, sharp focus."
 
-                    # --- 1. PROSES DIALOG & EMOSI (OPERASI ANTI-TEKS) ---
+                    # --- PROSES DIALOG & EMOSI ---
                     try:
-                        # Ambil semua teks dialog untuk referensi akting
                         d_text_full = " ".join([f"{d['name']}: {d['text']}" for d in item.get('dialogs', []) if d.get('text')])
                     except:
                         d_text_full = ""
 
-                    # Kita buat instruksi emosi untuk GAMBAR (Tanpa menyertakan teks dialognya)
                     if d_text_full:
-                        # AI hanya diberi tahu "mood" dari dialognya saja, dilarang nulis teks
                         image_emo = f"The characters must show facial expressions reflecting this mood: '{d_text_full}'. STRICTLY NO TEXT OR SPEECH BUBBLES ON IMAGE."
                     else:
                         image_emo = "Natural cinematic facial expression."
 
-                    # --- 4. OUTPUT AKHIR (VERSI BERSIH & TAJAM) ---
+                    # --- OUTPUT AKHIR ---
                     img_final = (
                         f"{instruction_header}\n\n"
                         f"STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES. NO SPEECH BUBBLES.\n"
@@ -891,7 +859,6 @@ if menu_select == "🚀 RUANG PRODUKSI":
                         f"TECHNICAL: {bumbu_gaya}, {l_cmd}, extreme edge-enhancement, every pixel is sharp, deep color saturation."
                     )
 
-                    # Untuk VIDEO, dialog tetap boleh disertakan secara utuh
                     vid_final = (
                         f"{instruction_header}\n"
                         f"ACTION & MOTION: {item['visual']}. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
@@ -899,10 +866,9 @@ if menu_select == "🚀 RUANG PRODUKSI":
                         f"ENVIRONMENT: {dna_env}.\n"
                         f"LIGHTING: {l_cmd}.\n"
                         f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): Use this dialogue for emotional reference only: '{d_text_full}'.\n"
-                        f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}" # <--- TAMBAHKAN BARIS INI
+                        f"TECHNICAL: {bumbu_gaya}, {vid_quality_base}"
                     )
 
-                    # --- SIMPAN HASIL ---
                     st.session_state.last_generated_results.append({
                         "id": item["num"], 
                         "img": img_final, 
@@ -912,24 +878,15 @@ if menu_select == "🚀 RUANG PRODUKSI":
 
             st.toast("Prompt Berhasil Diracik! 🚀")
             st.rerun()
-    # ==============================================================================
-    # AREA TAMPILAN HASIL (REVISED: NO DUPLICATE KEYS)
-    # ==============================================================================
-    if st.session_state.last_generated_results:
 
+    if st.session_state.last_generated_results:
         st.markdown(f"### 🎬 Hasil Prompt: {st.session_state.active_user.capitalize()}❤️")
-        
         for res in st.session_state.last_generated_results:
             done_key = f"mark_done_{res['id']}"
             is_done = st.session_state.get(done_key, False)
-            
             status_tag = "✅ SELESAI" if is_done else "⏳ PROSES"
-            
             with st.expander(f"{status_tag} | ADEGAN {res['id']}", expanded=not is_done):
-                if is_done:
-                    st.success(f"Adegan {res['id']} Selesai!")
-                
-                # --- GRID PROMPT ---
+                if is_done: st.success(f"Adegan {res['id']} Selesai!")
                 c1, c2 = st.columns(2)
                 with c1:
                     st.markdown("**📸 PROMPT GAMBAR**")
