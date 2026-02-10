@@ -585,6 +585,20 @@ with st.sidebar:
 # ==============================================================================
 
 if menu_select == "🚀 RUANG PRODUKSI":
+    # --- POSISI DISINI (LOGIKA PENYERAP DRAF DARI AI LAB) ---
+    if st.session_state.get('auto_load_trigger'):
+        raw_text = st.session_state.get('draft_from_lab', "")
+        import re
+        # Kita pecah berdasarkan "Adegan 1:", "Adegan 2:", dst.
+        parts = re.split(r'Adegan \d+[:\- ]+', raw_text)
+        parts = [p.strip() for p in parts if p.strip()] 
+        
+        for idx, isi in enumerate(parts):
+            if idx < 50: 
+                st.session_state[f"vis_input_{idx+1}"] = isi
+        
+        del st.session_state['auto_load_trigger']
+        st.toast("⚡ Naskah dari AI LAB berhasil diserap otomatis!", icon="🔥")
     # ==============================================================================
     # 8. PARAMETER KUALITAS (VERSION: APEX SHARPNESS & VIVID)
     # ==============================================================================
@@ -1004,15 +1018,17 @@ RULE: Fokus visual, jangan improvisasi plot, format: Adegan [X]: [Setting] - [Ak
                         hasil_ai = completion.choices[0].message.content
                         status.update(label="✅ Alur Berhasil Dirakit!", state="complete", expanded=False)
                     
-                    # --- OUTPUT KHUSUS DENGAN FITUR COPY OTOMATIS ---
+                    # --- OUTPUT KHUSUS DENGAN JEMBATAN OTOMATIS ---
                     st.markdown("---")
-                    st.markdown("##### 📋 HASIL NASKAH (SIAP COPY KE RUANG PRODUKSI)")
-                    st.caption("Klik tombol copy di pojok kanan kotak di bawah untuk memindahkan naskah.")
-                    # Menggunakan st.code agar karyawan bisa copy instan dengan tombol bawaan
+                    st.markdown("##### 📋 HASIL NASKAH")
                     st.code(hasil_ai, language="text")
                     
-                except Exception as e:
-                    st.error(f"Gagal memproses AI. Pastikan API Key Groq sudah terpasang. (Error: {e})")
+                    # TOMBOL JEMBATAN
+                    if st.button("📥 KIRIM HASIL KE RUANG PRODUKSI", use_container_width=True):
+                        # Simpan ke session state agar bisa dibaca di halaman produksi
+                        st.session_state['draft_from_lab'] = hasil_ai
+                        st.session_state['auto_load_trigger'] = True
+                        st.success("✅ Naskah dikirim! Silakan pindah ke Ruang Produksi.")
 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
@@ -1046,6 +1062,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
