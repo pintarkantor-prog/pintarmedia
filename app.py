@@ -1067,66 +1067,99 @@ elif menu_select == "🧠 PINTAR AI LAB":
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
     
-    # Header dengan indikator sinkronisasi
-    col_header, col_sync = st.columns([4,1])
-    with col_header:
-        st.markdown("<p style='color:#808495; margin-top:-15px;'>Monitoring Jadwal Posting & Unit Produksi</p>", unsafe_allow_html=True)
-    with col_sync:
-        if st.button("🔄 REFRESH"):
-            st.rerun()
-
-    st.divider()
-
-    # PILIHAN TAB (Segmented Control yang elegan)
     tab_target = st.segmented_control(
-        "Pilih Jadwal Tim:",
-        ["JADWAL LISA", "JADWAL INGGI"],
-        default="JADWAL LISA",
-        label_visibility="collapsed"
+        "Pilih Jadwal Tim:", ["JADWAL LISA", "JADWAL INGGI"], 
+        default="JADWAL LISA", label_visibility="collapsed"
     )
 
-    # PROSES AMBIL DATA
     df_jadwal = read_gsheet(tab_target)
 
     if not df_jadwal.empty:
-        # 1. HIGHLIGHT METRICS (Agar tidak kaku)
-        c1, c2, c3 = st.columns(3)
-        with c1:
-            total_unit = len(df_jadwal['HP'].dropna().unique())
-            st.metric("Total Unit HP", f"{total_unit} Unit")
-        with c2:
-            total_ch = len(df_jadwal['NAMA CHANNEL'].dropna())
-            st.metric("Total Channel", f"{total_ch} Akun")
-        with c3:
-            st.metric("Status Server", "Online", delta="Connected")
+        # --- PROSES DATA AGAR RAPI ---
+        df_clean = df_jadwal.fillna("")
 
-        st.write("")
-        
-        # 2. TABEL DENGAN STYLING KHUSUS
-        # Membersihkan data dan memberi highlight pada baris yang berisi jam
-        df_clean = df_jadwal.fillna("-")
-
-        st.dataframe(
-            df_clean,
-            use_container_width=True,
-            hide_index=True,
-            column_config={
-                "HP": st.column_config.NumberColumn("📱 UNIT", format="%.0f"), # Hilangkan .0 belakang angka
-                "NAMA CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width="medium"),
-                "PAGI": st.column_config.TextColumn("🌅 PAGI"),
-                "SIANG 1": st.column_config.TextColumn("☀️ SIANG 1"),
-                "SIANG 2": st.column_config.TextColumn("🌤️ SIANG 2"),
-                "SORE": st.column_config.TextColumn("🌇 SORE")
+        # --- CSS UNTUK TAMPILAN TABEL MIRIP GSHEETS ---
+        st.markdown("""
+            <style>
+            .gs-table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: Arial, sans-serif;
+                background-color: #1a1c23;
+                color: white;
             }
-        )
+            .gs-table th {
+                background-color: #f1f100; /* Kuning GSheets */
+                color: black;
+                padding: 10px;
+                border: 1px solid #444;
+                text-align: center;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+            .gs-table td {
+                border: 1px solid #444;
+                padding: 8px;
+                text-align: center;
+            }
+            .unit-cell {
+                background-color: #d9d9d9; /* Abu-abu Unit */
+                color: black;
+                font-weight: bold;
+                font-size: 20px;
+                width: 50px;
+            }
+            .channel-cell {
+                background-color: #c6efce; /* Hijau GSheets */
+                color: #006100;
+                text-align: left !important;
+                font-weight: bold;
+            }
+            .empty-cell {
+                background-color: #aeaaaa; /* Abu-abu sel kosong */
+            }
+            .time-cell {
+                background-color: white;
+                color: black;
+                font-weight: bold;
+            }
+            </style>
+        """, unsafe_allow_html=True)
+
+        # --- MEMBANGUN TABEL HTML (LOGIKA MERGER & WARNA) ---
+        html_table = '<table class="gs-table"><thead><tr>'
+        headers = ["HP", "NAMA CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]
+        for h in headers:
+            html_table += f'<th>{h}</th>'
+        html_table += '</tr></thead><tbody>'
+
+        for i, row in df_clean.iterrows():
+            html_table += '<tr>'
+            
+            # 1. Logika Merger HP (Hanya muncul di baris pertama setiap blok 3 baris)
+            if i % 3 == 0:
+                unit_val = row['HP'] if row['HP'] != "" else (i // 3 + 1)
+                html_table += f'<td class="unit-cell" rowspan="3">{unit_val}</td>'
+            
+            # 2. Baris Channel
+            html_table += f'<td class="channel-cell">{row["NAMA CHANNEL"]}</td>'
+            
+            # 3. Baris Waktu (Warna Putih jika ada jam, Abu-abu jika kosong)
+            for col in ["PAGI", "SIANG 1", "SIANG 2", "SORE"]:
+                val = str(row[col])
+                cell_class = "time-cell" if val.strip() != "" else "empty-cell"
+                html_table += f'<td class="{cell_class}">{val}</td>'
+                
+            html_table += '</tr>'
+
+        html_table += '</tbody></table>'
         
-        # 3. NOTIFIKASI TIME-CHECK (Fitur Tambahan Elegan)
-        with st.expander("ℹ️ CATATAN OPERASIONAL"):
-            st.caption(f"📍 Data ini disinkronkan langsung dari Google Sheets Tab: {tab_target}")
-            st.info("Pastikan setiap Unit HP melakukan upload tepat waktu sesuai jadwal di atas untuk menjaga algoritma channel.")
+        # Render Tabel ke Streamlit
+        st.markdown(html_table, unsafe_allow_html=True)
+        st.caption(f"📍 Tampilan disesuaikan dengan format asli Google Sheets ({tab_target})")
 
     else:
-        st.warning(f"Data di tab '{tab_target}' tidak ditemukan. Cek kembali penamaan Tab di GSheets kamu.")
+        st.warning("Data tidak ditemukan.")
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1156,6 +1189,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
