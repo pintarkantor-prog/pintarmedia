@@ -7,31 +7,30 @@ import time
 import google.generativeai as genai
 
 # ==============================================================================
-# KONFIGURASI OTAK AI (GROQ MODE - ANTI 404 & SUPER SPEED)
+# KONFIGURASI OTAK AI (GROQ MODE - VERSI AMAN & SMART)
 # ==============================================================================
 from groq import Groq
 
-# Ambil kunci dari Secrets (Pastikan di Streamlit Cloud sudah isi groq_key)
+# AMAN: Mengambil key dari Secrets Streamlit Cloud (Jangan tulis kuncinya di sini!)
 if "groq_key" in st.secrets:
     client = Groq(api_key=st.secrets["groq_key"])
 else:
-    # Fallback jika belum ada (Ganti dengan kunci dari console.groq.com)
-    client = Groq(api_key="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")
+    st.error("⚠️ API Key 'groq_key' tidak ditemukan di Secrets Streamlit!")
+    st.stop() 
 
 SOP_PINTAR_MEDIA = """
-Kamu adalah Scriptwriter Senior PINTAR MEDIA.
-GAYA BAHASA: Lokal, tongkrongan, ceplas-ceplos, nyelekit.
-ALUR: Antagonis (TUNG) sombong, Protagonis (UDIN) kasih balasan SKAKMAT.
+Kamu adalah Scriptwriter Senior PINTAR MEDIA. 
+TUGAS: Membedah naskah menjadi adegan visual yang sangat detail.
+GAYA BAHASA: Lokal, tongkrongan, ceplas-ceplos.
 """
 
-# Fungsi Helper Panggil Groq
 def panggil_ai_groq(prompt_user):
     chat_completion = client.chat.completions.create(
         messages=[
             {"role": "system", "content": SOP_PINTAR_MEDIA},
             {"role": "user", "content": prompt_user},
         ],
-        model="llama-3.3-70b-versatile", # Model paling pinter di Groq
+        model="llama-3.3-70b-versatile",
         temperature=0.7,
     )
     return chat_completion.choices[0].message.content
@@ -900,13 +899,30 @@ elif menu_select == "🧠 AI LAB":
         else:
             st.warning("Pilih ide di Tab 1!")
 
-    with tab_storyboard:
+with tab_storyboard:
         st.subheader("📝 Langkah 3: Storyboard (10 Adegan)")
         if 'ready_script' in st.session_state:
+            # --- TOMBOL PECAH ADEGAN (DIPERKUAT PROMPTNYA) ---
             if st.button("PECAH MENJADI 10 ADEGAN 🎬", use_container_width=True, type="primary"):
-                with st.spinner("Memecah adegan..."):
+                with st.spinner("Membedah naskah secara detail..."):
                     try:
-                        prompt = f"Pecah jadi 10 adegan visual dengan format [ADEGAN 1] sampai [ADEGAN 10]. Sertakan keterangan suasana (siang/malam) dan shot size (close up/full body) di tiap adegan. Naskah: {st.session_state['ready_script']}"
+                        # Prompt diperketat agar AI memberikan data label yang konsisten
+                        prompt = f"""
+                        Pecah naskah ini jadi 10 adegan visual. 
+                        WAJIB gunakan format kaku di bawah ini untuk SETIAP adegan:
+
+                        [ADEGAN X]
+                        Cerita: (tulis cerita visualnya saja di sini)
+                        Suasana: (Pilih: Pagi/Siang/Sore/Malam)
+                        Shot: (Pilih: Sangat Dekat/Dekat Wajah/Setengah Badan/Seluruh Badan/Pemandangan Luas)
+                        Angle: (Pilih: Normal/Sudut Rendah/Sudut Tinggi/Samping/Berhadapan/Intip Bahu/Belakang)
+                        Gerak: (Pilih: Diam (Tanpa Gerak)/Ikuti Karakter/Zoom Masuk/Zoom Keluar/Memutar (Orbit))
+                        Lokasi: (Tulis nama lokasi singkat, misal: Jalan Kampung, Teras Rumah, Sawah)
+                        ---
+
+                        Naskah yang harus dipecah:
+                        {st.session_state['ready_script']}
+                        """
                         hasil_st = panggil_ai_groq(prompt)
                         st.session_state['ready_storyboard'] = hasil_st
                         st.rerun()
@@ -916,7 +932,6 @@ elif menu_select == "🧠 AI LAB":
                 st.markdown(st.session_state['ready_storyboard'])
                 st.markdown("---")
                 
-                # --- DEFINISI KOLOM DISINI AGAR TIDAK NAME ERROR ---
                 col_k1, col_k2 = st.columns(2)
                 
                 with col_k1:
@@ -924,37 +939,60 @@ elif menu_select == "🧠 AI LAB":
                         st.session_state['naskah_produksi'] = st.session_state['ready_storyboard']
                         st.toast("Terkirim! ✅")
                 
+                # --- TOMBOL SUNTIK (VERSI PALING PINTAR & BERSIH) ---
                 with col_k2:
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
-                        st.session_state['ui_reset_key'] += 1 # Tambah kunci reset
+                        st.session_state['ui_reset_key'] += 1 # Trigger refresh UI
                         
                         for i in range(1, 11):
-                            pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|$)"
+                            # Ambil blok per adegan berdasarkan label [ADEGAN i] sampai pembatas ---
+                            pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
+                            
                             if match:
-                                isi = match.group(1).strip()
-                                st.session_state[f'vis_input_{i}'] = isi
-                                t_low = isi.lower()
+                                blok = match.group(1)
                                 
-                                # Deteksi Suasana
-                                if "malam" in t_low: st.session_state[f'env_input_{i}'] = "Malam"
-                                elif "sore" in t_low: st.session_state[f'env_input_{i}'] = "Sore"
-                                else: st.session_state[f'env_input_{i}'] = "Siang"
+                                # 1. AMBIL CERITA (Hanya ceritanya saja, label dibuang)
+                                c_match = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
+                                if c_match:
+                                    st.session_state[f'vis_input_{i}'] = c_match.group(1).strip()
                                 
-                                # Deteksi Shot Size (WAJIB SAMA DENGAN DAFTAR indonesia_shot)
-                                if "full body" in t_low or "seluruh badan" in t_low:
-                                    st.session_state[f'size_input_{i}'] = "Seluruh Badan"
-                                elif "close up" in t_low or "wajah" in t_low:
-                                    st.session_state[f'size_input_{i}'] = "Dekat Wajah"
-                                elif "sangat dekat" in t_low or "extreme" in t_low:
-                                    st.session_state[f'size_input_{i}'] = "Sangat Dekat"
-                                else:
-                                    st.session_state[f'size_input_{i}'] = "Setengah Badan"
+                                # 2. AMBIL SUASANA (Sesuai options_lighting)
+                                s_match = re.search(rf"Suasana:(.*?)(?=\n|$)", blok, re.I)
+                                if s_match:
+                                    s_val = s_match.group(1).strip()
+                                    st.session_state[f'env_input_{i}'] = s_val if s_val in options_lighting else "Siang"
+                                
+                                # 3. AMBIL SHOT SIZE (Sesuai indonesia_shot)
+                                sh_match = re.search(rf"Shot:(.*?)(?=\n|$)", blok, re.I)
+                                if sh_match:
+                                    sh_val = sh_match.group(1).strip()
+                                    st.session_state[f'size_input_{i}'] = sh_val if sh_val in indonesia_shot else "Setengah Badan"
+
+                                # 4. AMBIL ANGLE (Sesuai indonesia_angle)
+                                a_match = re.search(rf"Angle:(.*?)(?=\n|$)", blok, re.I)
+                                if a_match:
+                                    a_val = a_match.group(1).strip()
+                                    st.session_state[f'angle_input_{i}'] = a_val if a_val in indonesia_angle else "Normal"
+
+                                # 5. AMBIL GERAKAN KAMERA (Sesuai indonesia_camera)
+                                g_match = re.search(rf"Gerak:(.*?)(?=\n|$)", blok, re.I)
+                                if g_match:
+                                    g_val = g_match.group(1).strip()
+                                    st.session_state[f'cam_move_{i}'] = g_val if g_val in indonesia_camera else "Diam (Tanpa Gerak)"
+
+                                # 6. AMBIL LOKASI CUSTOM
+                                l_match = re.search(rf"Lokasi:(.*?)(?=\n|$)", blok, re.I)
+                                if l_match:
+                                    st.session_state[f'loc_sel_{i}'] = "--- KETIK MANUAL ---"
+                                    st.session_state[f'loc_custom_{i}'] = l_match.group(1).strip()
                         
-                        st.success("🔥 SINKRON TOTAL! Cek Hub.")
+                        st.success("🔥 SINKRONISASI TOTAL BERHASIL!")
+                        time.sleep(0.5)
                         st.rerun()
-                        st.rerun() # Paksa refresh agar UI langsung update
+        else:
+            st.warning("Silakan buat naskah dialog dulu di Tab 2!")
 
 
