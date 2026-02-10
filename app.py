@@ -941,58 +941,70 @@ elif menu_select == "🧠 AI LAB":
                     if st.button("💉 SUNTIK KE 10 KOTAK HUB", use_container_width=True, type="primary"):
                         import re
                         text = st.session_state['ready_storyboard']
+                        
+                        # Trigger UI Refresh
                         st.session_state['ui_reset_key'] += 1 
                         
                         for i in range(1, 11):
+                            # Mencari blok adegan dari [ADEGAN i] sampai adegan berikutnya atau tanda pemisah ---
                             pattern = rf"\[ADEGAN {i}\](.*?)(?=\[ADEGAN {i+1}\]|---|$)"
                             match = re.search(pattern, text, re.DOTALL | re.IGNORECASE)
                             
                             if match:
                                 blok = match.group(1)
                                 
-                                # 1. AMBIL CERITA (Teks bersih)
+                                # 1. SUNTIK CERITA VISUAL (Hanya teks ceritanya saja)
                                 c_match = re.search(rf"Cerita:(.*?)(?=Suasana:|Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.S | re.I)
                                 if c_match:
                                     st.session_state[f'vis_input_{i}'] = c_match.group(1).strip()
                                 
-                                # 2. AMBIL SUASANA
-                                s_match = re.search(rf"Suasana:(.*?)(?=\n|$)", blok, re.I)
+                                # 2. SUNTIK SUASANA (Dropdown Suasana)
+                                s_match = re.search(rf"Suasana:(.*?)(?=Shot:|Angle:|Gerak:|Lokasi:|$)", blok, re.I)
                                 if s_match:
                                     s_val = s_match.group(1).strip().capitalize()
+                                    # Pastikan masuk ke lemari yang dibaca UI
                                     st.session_state[f'env_input_{i}'] = s_val if s_val in options_lighting else "Siang"
-                                
-                                # 3. AMBIL SHOT SIZE
-                                sh_match = re.search(rf"Shot:(.*?)(?=\n|$)", blok, re.I)
+
+                                # 3. SUNTIK UKURAN GAMBAR (Shot Size)
+                                sh_match = re.search(rf"Shot:(.*?)(?=Angle:|Gerak:|Lokasi:|$)", blok, re.I)
                                 if sh_match:
                                     sh_val = sh_match.group(1).strip()
-                                    st.session_state[f'size_input_{i}'] = sh_val if sh_val in indonesia_shot else "Setengah Badan"
+                                    # Mapping sederhana agar sinkron dengan daftar indonesia_shot
+                                    if "Seluruh Badan" in sh_val or "Full" in sh_val: final_sh = "Seluruh Badan"
+                                    elif "Dekat Wajah" in sh_val or "Close" in sh_val: final_sh = "Dekat Wajah"
+                                    elif "Sangat Dekat" in sh_val: final_sh = "Sangat Dekat"
+                                    elif "Pemandangan" in sh_val or "Wide" in sh_val: final_sh = "Pemandangan Luas"
+                                    else: final_sh = "Setengah Badan"
+                                    st.session_state[f'size_input_{i}'] = final_sh
 
-                                # 4. AMBIL ANGLE
-                                a_match = re.search(rf"Angle:(.*?)(?=\n|$)", blok, re.I)
+                                # 4. SUNTIK ARAH KAMERA (Angle)
+                                a_match = re.search(rf"Angle:(.*?)(?=Gerak:|Lokasi:|$)", blok, re.I)
                                 if a_match:
                                     a_val = a_match.group(1).strip()
                                     st.session_state[f'angle_input_{i}'] = a_val if a_val in indonesia_angle else "Normal"
 
-                                # 5. AMBIL GERAK
-                                g_match = re.search(rf"Gerak:(.*?)(?=\n|$)", blok, re.I)
+                                # 5. SUNTIK GERAKAN KAMERA (Gerak)
+                                g_match = re.search(rf"Gerak:(.*?)(?=Lokasi:|$)", blok, re.I)
                                 if g_match:
                                     g_val = g_match.group(1).strip()
                                     st.session_state[f'cam_move_{i}'] = g_val if g_val in indonesia_camera else "Diam (Tanpa Gerak)"
 
-                                # 6. AMBIL LOKASI DETAIL
-                                l_match = re.search(rf"Lokasi:(.*?)(?=\n|$)", blok, re.I)
+                                # 6. SUNTIK LOKASI CUSTOM
+                                l_match = re.search(rf"Lokasi:(.*?)$", blok, re.I)
                                 if l_match:
                                     st.session_state[f'loc_sel_{i}'] = "--- KETIK MANUAL ---"
                                     st.session_state[f'loc_custom_{i}'] = l_match.group(1).strip()
-                        
-                        # --- DINAMISASI NAMA TOKOH ---
+
+                        # --- DINAMISASI NAMA TOKOH (Agar kotak Dialog Muncul) ---
+                        # Kita ambil nama tokoh dari input Langkah 2
                         if 'current_names' in st.session_state:
                             names = [n.strip().upper() for n in st.session_state['current_names'].split(',')]
                             if len(names) >= 1: st.session_state['c_name_1_input'] = names[0]
                             if len(names) >= 2: st.session_state['c_name_2_input'] = names[1]
-                        
-                        st.success("🔥 SINKRONISASI TOTAL BERHASIL!")
+
+                        st.success("🔥 BOOM! Semua kolom & nama tokoh sudah sinkron otomatis.")
                         time.sleep(0.5)
                         st.rerun()
         else:
             st.warning("Silakan buat naskah dialog dulu di Tab 2!")
+
