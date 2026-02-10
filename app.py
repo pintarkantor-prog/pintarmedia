@@ -1066,11 +1066,10 @@ elif menu_select == "🧠 PINTAR AI LAB":
                 
 elif menu_select == "🎞️ SCHEDULE":
     st.title("🎞️ SCHEDULE")
-    st.markdown("<p style='color:#808495; margin-top:-15px;'>Dashboard Monitoring Jadwal Posting Real-Time</p>", unsafe_allow_html=True)
     
-    # 1. SUB-NAVIGASI ELEGAN
+    # Sub-Menu yang lebih rapat
     tab_target = st.segmented_control(
-        "Pilih Jadwal Tim:", ["JADWAL LISA", "JADWAL INGGI"], 
+        "Pilih Jadwal:", ["JADWAL LISA", "JADWAL INGGI"], 
         default="JADWAL LISA", label_visibility="collapsed"
     )
 
@@ -1079,71 +1078,64 @@ elif menu_select == "🎞️ SCHEDULE":
     if not df_jadwal.empty:
         df_clean = df_jadwal.fillna("")
 
-        # 2. HIGHLIGHT METRICS (Sentuhan Elegan di Atas)
-        m1, m2, m3 = st.columns(3)
-        with m1:
-            total_ch = len(df_clean['NAMA CHANNEL'].dropna())
-            st.metric("Total Channel", f"{total_ch} Akun")
-        with m2:
-            st.metric("Status Sistem", "Connected", delta="Live")
-        with m3:
-            if st.button("🔄 REFRESH DATA", use_container_width=True):
-                st.rerun()
+        # Metrics dibuat mini agar tidak makan tempat
+        m1, m2, m3 = st.columns([1,1,1])
+        with m1: st.caption(f"📊 {len(df_clean['NAMA CHANNEL'].dropna())} Channels")
+        with m2: st.caption("🟢 System Live")
+        with m3: 
+            if st.container().button("🔄 Refresh", use_container_width=True): st.rerun()
 
-        st.divider()
-
-        # 3. CSS CUSTOM UNTUK TAMPILAN PREMUM (Gaya Gelap & Emerald)
+        # --- CSS COMPACT & SLEEK ---
         st.markdown("""
             <style>
-            .main-container { background-color: #0e1117; }
-            .premium-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; font-family: 'Inter', sans-serif; }
+            .premium-table { width: 100%; border-collapse: collapse; font-family: 'Inter', sans-serif; font-size: 0.85rem; }
             .premium-table th { 
-                background-color: transparent; 
+                background-color: #1a1c23; 
                 color: #1d976c; 
                 text-align: center; 
-                padding: 15px; 
-                font-weight: 600; 
-                text-transform: uppercase; 
-                letter-spacing: 1px;
-                font-size: 0.85rem;
+                padding: 8px; 
+                border-bottom: 2px solid #2d3139;
+                font-weight: 600;
+                font-size: 0.75rem;
             }
-            .premium-table tr { background-color: #1a1c23; transition: all 0.3s ease; }
-            .premium-table tr:hover { background-color: #252932; transform: scale(1.005); }
             .premium-table td { 
-                padding: 15px; 
+                padding: 6px 10px; 
                 text-align: center; 
-                border-top: 1px solid #2d3139; 
                 border-bottom: 1px solid #2d3139;
                 color: #e0e0e0;
             }
+            .premium-table tr:hover { background-color: #252932; }
+            
             .unit-box { 
                 background-color: #1d976c; 
                 color: white; 
                 font-weight: bold; 
-                border-radius: 8px; 
-                padding: 5px 12px;
-                font-size: 1.1rem;
+                border-radius: 4px; 
+                padding: 2px 8px;
+                font-size: 0.8rem;
             }
             .channel-name { 
                 text-align: left !important; 
                 font-weight: 500; 
                 color: #1d976c;
-                border-left: 4px solid #1d976c !important;
-                padding-left: 20px !important;
+                padding-left: 10px !important;
+                width: 25%;
             }
             .time-slot { 
-                background-color: rgba(29, 151, 108, 0.1); 
+                background-color: rgba(29, 151, 108, 0.15); 
                 color: #1d976c; 
                 font-weight: bold; 
-                border-radius: 6px; 
-                padding: 6px 10px;
-                border: 1px solid rgba(29, 151, 108, 0.3);
+                border-radius: 4px; 
+                padding: 2px 6px;
+                border: 1px solid rgba(29, 151, 108, 0.4);
+                display: inline-block;
+                min-width: 45px;
             }
-            .empty-slot { color: #444; font-style: italic; font-size: 0.8rem; }
+            .empty-slot { color: #333; font-size: 0.7rem; }
             </style>
         """, unsafe_allow_html=True)
 
-        # 4. RENDER TABEL CUSTOM
+        # --- RENDER TABEL ---
         html_code = '<table class="premium-table"><thead><tr>'
         for h in ["UNIT", "CHANNEL", "PAGI", "SIANG 1", "SIANG 2", "SORE"]:
             html_code += f'<th>{h}</th>'
@@ -1153,33 +1145,30 @@ elif menu_select == "🎞️ SCHEDULE":
         for i, row in enumerate(rows):
             html_code += '<tr>'
             
-            # Logika Merger Unit HP
             if row['HP'] != "":
                 count = 1
                 for j in range(i + 1, len(rows)):
                     if rows[j]['HP'] == "": count += 1
                     else: break
+                # Unit box lebih kecil
                 html_code += f'<td rowspan="{count}"><span class="unit-box">{int(float(row["HP"]))}</span></td>'
             
-            # Channel Name
             html_code += f'<td class="channel-name">{row["NAMA CHANNEL"]}</td>'
             
-            # Waktu Posting
             for col in ["PAGI", "SIANG 1", "SIANG 2", "SORE"]:
                 val = str(row.get(col, "")).strip()
                 if val and val != "-":
                     html_code += f'<td><span class="time-slot">{val}</span></td>'
                 else:
-                    html_code += '<td><span class="empty-slot">--:--</span></td>'
+                    html_code += '<td><span class="empty-slot">-</span></td>'
             
             html_code += '</tr>'
 
         html_code += '</tbody></table>'
         st.markdown(html_code, unsafe_allow_html=True)
-        st.caption(f"📍 Data otomatis diserap dari database {tab_target}.")
 
     else:
-        st.warning("Data jadwal tidak ditemukan. Pastikan koneksi GSheets aktif.")
+        st.warning("Data kosong.")
         
 elif menu_select == "📋 TEAM TASK":
     st.title("📋 TEAM TASK")
@@ -1209,6 +1198,7 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
 
 
