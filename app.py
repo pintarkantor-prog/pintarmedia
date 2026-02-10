@@ -22,12 +22,12 @@ st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", i
 # 0. SISTEM LOGIN TUNGGAL (FULL STABLE: 10-HOUR SESSION + NEW USER)
 # ==============================================================================
 USER_PASSWORDS = {
-    "ADMIN": "QWERTY21ab",
+    "dian": "QWERTY21ab",  # Sudah dirubah dari admin jadi dian
     "icha": "udin99",
     "nissa": "tung22",
     "inggi": "udin33",
     "lisa": "tung66",
-    "ezaalma": "aprihgino"
+    "lyta": "QWERTY21ab"
 }
 
 # --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY (SOLUSI REFRESH) ---
@@ -35,8 +35,13 @@ if 'active_user' not in st.session_state:
     q_user = st.query_params.get("u")
     if q_user and q_user.lower() in USER_PASSWORDS:
         # LOGIKA PENYELAMAT: Jika user ada di URL, langsung pulihkan sesi
-        # Ini yang membuat REFRESH tidak logout
-        st.session_state.active_user = q_user.lower()
+        user_fix = q_user.lower()
+        st.session_state.active_user = user_fix
+        
+        # --- JEMBATAN UNTUK TUGAS KERJA ---
+        # Kita simpan versi Uppercase agar sistem Tab tidak error
+        st.session_state['username'] = user_fix.upper()
+        
         if 'login_time' not in st.session_state:
             st.session_state.login_time = time.time()
         st.rerun() 
@@ -73,9 +78,14 @@ if 'active_user' not in st.session_state:
             if submit_button:
                 user_clean = user_input.lower().strip()
                 if user_clean in USER_PASSWORDS and pass_input == USER_PASSWORDS[user_clean]:
-                    # 1. Simpan ke session
+                    # 1. Simpan ke session original
                     st.session_state.active_user = user_clean
                     st.session_state.login_time = time.time()
+                    
+                    # --- JEMBATAN UNTUK TUGAS KERJA ---
+                    # Menyimpan identitas kapital untuk sistem akses tab
+                    st.session_state['username'] = user_clean.upper()
+                    
                     # 2. BERSIHKAN URL (Buang password & sampah lainnya)
                     st.query_params.clear() 
                     # 3. SET ULANG URL (Hanya nama user)
@@ -85,6 +95,7 @@ if 'active_user' not in st.session_state:
                     with placeholder.container():
                         st.write("")
                         st.markdown("<h3 style='text-align: center; color: #28a745;'>✅ AKSES DITERIMA!</h3>", unsafe_allow_html=True)
+                        # Menampilkan nama yang rapi saat sukses login
                         st.markdown(f"<h1 style='text-align: center;'>Selamat bekerja, {user_clean.capitalize()}!</h1>", unsafe_allow_html=True)
                         time.sleep(1.0)
                     st.rerun()
@@ -102,6 +113,7 @@ if 'active_user' in st.session_state and 'login_time' in st.session_state:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
+        
 # ==============================================================================
 # 1 & 2. INISIALISASI MEMORI & SINKRONISASI (CLEAN VERSION)
 # ==============================================================================
@@ -1176,26 +1188,24 @@ elif menu_select == "⚡ QUICK PROMPT":
 elif menu_select == "📋 TUGAS KERJA":
     import pandas as pd
     
-    # 1. IDENTIFIKASI USER (Sinkron dengan Sistem Login kamu)
+    # 1. IDENTIFIKASI USER (Sinkron dengan Login)
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
     st.write(f"Selamat bekerja, **{user_aktif}**! 👋")
 
-    # 2. KONFIGURASI AKSES (Admin bisa lihat semua, Staf cuma tab sendiri)
+    # 2. KONFIGURASI AKSES PRIVASI (Ezaalma Dihapus)
     access_rules = {
-        "DIAN": ["ICHA", "NISSA", "INGGI", "LISA", "EZAALMA"],
+        "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"],
         "NISSA": ["NISSA"],
         "INGGI": ["INGGI"],
-        "LISA": ["LISA"],
-        "EZAALMA": ["EZAALMA"]
+        "LISA": ["LISA"]
     }
-
+    
     tab_list = access_rules.get(user_aktif, [])
 
-    # 3. DATABASE TUGAS (Semua Staf PINTAR MEDIA)
-    # Foto & Deskripsi bisa kamu sesuaikan link-nya nanti
+    # 3. DATABASE TUGAS & LAPORAN (4 Tim Utama)
     data_master = {
         "ICHA": {
             "posisi": "Editor & Uploader",
@@ -1224,28 +1234,22 @@ elif menu_select == "📋 TUGAS KERJA":
             "tugas": "Management Channel & Balas Komentar.",
             "catatan": "Cek thumbnail, pastikan tidak ada typo.",
             "laporan": []
-        },
-        "EZAALMA": {
-            "posisi": "Tim Kreatif / Editor",
-            "foto": "https://via.placeholder.com/150",
-            "tugas": "Riset Ide Konten & Produksi Video.",
-            "catatan": "Siapkan script untuk project minggu depan.",
-            "laporan": []
         }
     }
 
     # 4. RENDERING TABS
     if not tab_list:
-        st.warning("⚠️ Akun kamu belum terdaftar di sistem akses. Hubungi Dian.")
+        st.warning("⚠️ Akun kamu tidak memiliki akses ke halaman ini.")
     else:
         tabs = st.tabs([f"👤 {nama}" for nama in tab_list])
         
         for i, nama_staf in enumerate(tab_list):
             with tabs[i]:
                 staf = data_master.get(nama_staf)
-                # Template tabel laporan kosong jika belum ada isinya
+                # Template tabel laporan
                 df_laporan = pd.DataFrame(staf['laporan']) if staf['laporan'] else pd.DataFrame(columns=["Link Drive", "Status"])
                 
+                # Metrics
                 count_done = (df_laporan['Status'] == 'Done').sum()
                 count_revisi = (df_laporan['Status'] == 'Revisi').sum()
 
@@ -1267,11 +1271,10 @@ elif menu_select == "📋 TUGAS KERJA":
                         st.button(f"Senggol {nama_staf} 🔔", key=f"ping_{nama_staf}", use_container_width=True)
 
                     with col_main:
-                        st.markdown('<p class="small-label" style="color:#1d976c; margin-bottom:5px;">📝 TUGAS UTAMA (DARI DIAN)</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label" style="color:#1d976c;">📝 TUGAS UTAMA (DARI DIAN)</p>', unsafe_allow_html=True)
                         st.info(staf['tugas'])
                         
                         st.markdown('<p class="small-label">🔗 LAPORAN HASIL (INPUT BY STAFF)</p>', unsafe_allow_html=True)
-                        # Data editor untuk staf input link
                         st.data_editor(
                             df_laporan,
                             column_config={
@@ -1287,16 +1290,17 @@ elif menu_select == "📋 TUGAS KERJA":
                         st.markdown('<p class="small-label">✍️ CATATAN OWNER</p>', unsafe_allow_html=True)
                         st.warning(staf['catatan'])
 
-    # 5. ADMIN CONTROL PANEL (Owner Only)
+    # 5. ADMIN CONTROL PANEL (Hanya untuk DIAN)
     if user_aktif == "DIAN":
         st.write("")
         st.divider()
         with st.expander("🛠️ ADMIN CONTROL PANEL (Owner Only)"):
-            target_edit = st.selectbox("Pilih Staf", list(data_master.keys()))
-            st.text_area(f"Update Tugas Utama untuk {target_edit}")
-            st.text_input(f"Update Catatan untuk {target_edit}")
-            if st.button("Simpan & Update Sistem ✅", use_container_width=True, type="primary"):
-                st.success(f"Beres Bos! Tugas {target_edit} sudah diperbarui.")
+            st.markdown("<p style='color:#1d976c; font-weight:bold;'>Update Tugas & Catatan Tim:</p>", unsafe_allow_html=True)
+            target = st.selectbox("Pilih Staf", list(data_master.keys()))
+            st.text_area(f"Update Tugas untuk {target}")
+            st.text_input(f"Update Catatan untuk {target}")
+            if st.button("Simpan & Update ✅", use_container_width=True, type="primary"):
+                st.success(f"Data {target} berhasil diperbarui!")
 
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "admin":
@@ -1305,6 +1309,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
