@@ -315,6 +315,37 @@ st.markdown("""
     .stTextArea textarea {
         border: 1px solid rgba(255,255,255,0.1) !important;
     }
+    /* MENGHAPUS SEMUA PERINTAH DUPLIKAT DI BAWAH */
+    div[data-baseweb="input"], div[data-baseweb="textarea"] { border: none !important; }
+    @media (max-width: 1024px) {
+        /* Sembunyikan semua konten utama */
+        [data-testid="stAppViewContainer"], 
+        [data-testid="stSidebar"], 
+        .main {
+            display: none !important;
+        }
+
+        /* Tampilkan pesan peringatan di layar HP/Tab */
+        body::before {
+            content: "⚠️ AKSES DITOLAK \A Gunakan PC / Laptop!";
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: #0e1117;
+            color: #ffffff;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            font-weight: bold;
+            text-align: center;
+            padding: 40px;
+            font-size: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+        }
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -936,4 +967,5 @@ elif menu_select == "🛠️ COMMAND CENTER":
         st.info("Pusat kendali sistem.")
     else:
         st.error("Akses Ditolak!")
+
 
