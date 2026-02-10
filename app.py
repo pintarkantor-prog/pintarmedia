@@ -4,10 +4,6 @@ import pandas as pd
 from datetime import datetime
 import pytz
 import time
-@st.cache_resource
-def get_global_notif():
-    return {} # Memori bersama untuk semua user
-global_notif = get_global_notif()
 
 st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide", initial_sidebar_state="expanded")
 # ==============================================================================
@@ -1181,17 +1177,9 @@ elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
     
     st.title("📋 TUGAS KERJA")
-
-    # --- 1. CEK NOTIFIKASI GLOBAL ---
-    if user_aktif in global_notif and global_notif[user_aktif]:
-        st.error(f"⚠️ **PESAN DARI OWNER:** Bos DIAN lagi mantau kamu nih! Fokus kerja ya! 🔥")
-        if st.button("SIAP BOS! ✅", use_container_width=True):
-            global_notif[user_aktif] = False
-            st.rerun()
-
-    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba!")
+    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
     
-    # 2. ATURAN AKSES
+    # 1. ATURAN AKSES
     access_rules = {
         "DIAN": ["ICHA", "NISSA", "INGGI", "LISA"],
         "ICHA": ["ICHA"], "NISSA": ["NISSA"], "INGGI": ["INGGI"], "LISA": ["LISA"]
@@ -1201,6 +1189,7 @@ elif menu_select == "📋 TUGAS KERJA":
     if not tab_list:
         st.warning("⚠️ Akses ditolak.")
     else:
+        # 2. DATA PROFIL TIM (Murni Info)
         data_profil = {
             "ICHA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
             "NISSA": {"p": "Creative Editor", "f": "https://i.imgur.com/zAYESQm.png"},
@@ -1214,9 +1203,15 @@ elif menu_select == "📋 TUGAS KERJA":
             with tabs[i]:
                 staf = data_profil.get(nama_staf)
                 
-                # --- TAMPILAN CARD ---
+                # --- TAMPILAN CARD MURNI (HANYA INFO) ---
                 st.markdown(f"""
-                <div style="border: 2px solid #1d976c; border-radius: 20px; padding: 35px; background-color: rgba(29, 151, 108, 0.05); margin-top: 15px;">
+                <div style="
+                    border: 2px solid #1d976c; 
+                    border-radius: 20px; 
+                    padding: 35px; 
+                    background-color: rgba(29, 151, 108, 0.05); 
+                    margin-top: 15px;
+                ">
                     <div style="display: flex; align-items: center;">
                         <img src="{staf['f']}" style="width: 120px; height: 120px; border-radius: 50%; border: 4px solid #1d976c; object-fit: cover;">
                         <div style="margin-left: 35px;">
@@ -1227,13 +1222,6 @@ elif menu_select == "📋 TUGAS KERJA":
                 </div>
                 """, unsafe_allow_html=True)
 
-                # --- TOMBOL SENGGOL KHUSUS DIAN ---
-                if user_aktif == "DIAN":
-                    st.write("")
-                    if st.button(f"Senggol {nama_staf} 🔔", key=f"s_btn_{nama_staf}"):
-                        global_notif[nama_staf] = True
-                        st.toast(f"Berhasil menyenggol {nama_staf}! 😂")
-
 elif menu_select == "⚡ KENDALI TIM":
     if st.session_state.active_user == "dian":
         st.title("⚡ KENDALI TIM")
@@ -1241,6 +1229,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
