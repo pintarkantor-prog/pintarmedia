@@ -1102,7 +1102,7 @@ IDE OWNER: "{owner_core}"
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.info("💡 **TIPS:** Mode 2 karakter konsisten via referensi gambar. Tambah dialog untuk ekspresi! Output: 2 prompt (gambar + video) sekaligus.")
+    st.info("💡 **TIPS:** Mode khusus untuk 2 karakter konsisten via referensi gambar. Tambah dialog untuk ekspresi! Output: 2 prompt (gambar + video) sekaligus.")
 
     # --- QUALITY STACK (Diupgrade untuk super tajam/jernih) ---
     QUALITY_STACK_QUICK = (
@@ -1145,9 +1145,16 @@ elif menu_select == "⚡ QUICK PROMPT":
             q_interaction = st.text_input("Detail Ekspresi & Interaksi", 
                                          placeholder="intense eye contact, serious expression, natural body language untuk bentuk humanoid kompleks",
                                          key="q_interaction")
-            q_dialog = st.text_area("Dialog (opsional, untuk ekspresi/video cue)", 
-                                   placeholder="Contoh: A: 'Halo, apa kabar?' B: 'Baik, terima kasih!'",
-                                   height=80, key="q_dialog", label_visibility="collapsed")
+            
+            st.write("🗣️ **DIALOG (satu baris per karakter, opsional)**")
+            st.caption("Contoh format:\nA: Halo, apa kabar?\nB: Baik, lagi sibuk nih.\nC: Ayo cepat!")
+            q_dialog_multi = st.text_area(
+                "Masukkan dialog (bisa lebih dari 2 karakter)",
+                placeholder="A: ...\nB: ...\nC: ... (kosongkan jika tidak ada dialog)",
+                height=140,
+                key="q_dialog_multi",
+                label_visibility="collapsed"
+            )
 
         with col_right:
             st.write("⚙️ **ENVIRONMENT & SETTING**")
@@ -1166,7 +1173,7 @@ elif menu_select == "⚡ QUICK PROMPT":
         st.write("")
         rakit_btn_quick = st.button("🚀 RAKIT 2 PROMPT (GAMBAR + VIDEO)", use_container_width=True, type="primary")
 
-    # --- LOGIKA GENERATE (Format Elegan Baru) ---
+    # --- LOGIKA GENERATE (dengan dialog multi-karakter) ---
     if rakit_btn_quick:
         if not q_name_a or not q_name_b or not q_action or not q_desc_a.strip() or not q_desc_b.strip():
             st.error("⚠️ Nama kedua karakter, deskripsi fisik (detail), dan aksi adegan wajib diisi!")
@@ -1183,16 +1190,25 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "Distinct separate characters – no merging, fusion, or overlap. Frame-by-frame consistency if video."
             )
 
-            # Dialog Handling
-            dialog_text = q_dialog.strip()
-            if dialog_text:
-                emotion_cue = f"Characters show facial expressions and body language matching this hidden dialog cue: '{dialog_text}'. STRICTLY NO VISIBLE TEXT, SPEECH BUBBLES, OR SUBTITLES ON IMAGE/VIDEO."
-                video_cue = f"ACTING CUE (for lip sync/audio reference only): {dialog_text}. Natural delivery, no on-screen text."
+            # Proses dialog multi-karakter
+            dialog_lines = [line.strip() for line in q_dialog_multi.split('\n') if line.strip()]
+            if dialog_lines:
+                # Format dialog untuk cue
+                dialog_text = "\n".join(dialog_lines)
+                emotion_cue = (
+                    f"Characters show precise facial expressions, lip movements (if video), "
+                    f"and body language exactly matching this hidden dialog cue:\n{dialog_text}\n"
+                    "STRICTLY NO VISIBLE TEXT, SPEECH BUBBLES, SUBTITLES, OR ON-SCREEN WORDS in the final output."
+                )
+                video_cue = (
+                    f"ACTING & LIP-SYNC CUE (audio reference only, no visible text):\n{dialog_text}\n"
+                    "Natural delivery timing, emotional intonation matching the lines."
+                )
             else:
-                emotion_cue = "Natural neutral expressions and body language."
-                video_cue = "Silent natural interaction, fluid movements."
+                emotion_cue = "Natural neutral to context-appropriate expressions and body language."
+                video_cue = "Silent natural interaction, fluid movements without spoken words."
 
-            # Prompt Gambar (Dialog disembunyikan, hanya untuk emotion)
+            # Prompt Gambar (dialog disembunyikan, hanya cue emosi)
             prompt_image = (
                 f"{ref_instruction}\n\n"
                 f"{consistency_rule}\n\n"
@@ -1205,7 +1221,7 @@ elif menu_select == "⚡ QUICK PROMPT":
                 f"TECHNICAL: {QUALITY_STACK_QUICK}"
             )
 
-            # Prompt Video (Dialog sebagai cue, tapi no text on screen)
+            # Prompt Video (dialog sebagai cue acting/lip-sync)
             prompt_video = (
                 f"{ref_instruction}\n\n"
                 f"{consistency_rule}\n\n"
@@ -1216,7 +1232,8 @@ elif menu_select == "⚡ QUICK PROMPT":
                 f"INTERACTION: {q_interaction.strip() or 'natural interaction'}, {emotion_cue}\n"
                 f"{video_cue}\n\n"
                 f"ENVIRONMENT: {q_background}, hyper-detailed realistic textures.\n\n"
-                f"TECHNICAL: {QUALITY_STACK_QUICK}, smooth 60fps cinematic motion, fluid natural movements, no stuttering."
+                f"TECHNICAL: {QUALITY_STACK_QUICK}, smooth 60fps cinematic motion, "
+                "fluid natural movements, precise lip-sync timing if dialog present, no stuttering."
             )
 
             st.session_state.hasil_rakit_2char = {
@@ -1224,17 +1241,17 @@ elif menu_select == "⚡ QUICK PROMPT":
                 "video": prompt_video,
                 "negative": NEGATIVE_QUICK
             }
-            st.success("2 Prompt siap! Gambar (dialog hidden) + Video (dialog sebagai cue). Copy ke Grok/Flux.")
+            st.success(f"2 Prompt siap! (Dialog: {'ada' if dialog_lines else 'tidak ada'})")
 
     # --- OUTPUT (2 Prompt + Negative) ---
     if 'hasil_rakit_2char' in st.session_state:
         st.divider()
         st.markdown("### ✅ HASIL RACIKAN (FORMAT ELEGAN BARU)")
         
-        st.markdown("**PROMPT GAMBAR (Dialog disembunyikan, hanya untuk ekspresi):**")
+        st.markdown("**PROMPT GAMBAR (Dialog disembunyikan, hanya memengaruhi ekspresi):**")
         st.code(st.session_state.hasil_rakit_2char["image"], language="text")
         
-        st.markdown("**PROMPT VIDEO (Dialog sebagai cue acting, no text on screen):**")
+        st.markdown("**PROMPT VIDEO (Dialog sebagai cue acting/lip-sync, no text visible):**")
         st.code(st.session_state.hasil_rakit_2char["video"], language="text")
         
         st.markdown("**PROMPT NEGATIF (untuk keduanya):**")
@@ -1243,7 +1260,7 @@ elif menu_select == "⚡ QUICK PROMPT":
         col_reset, _ = st.columns([1, 3])
         with col_reset:
             if st.button("🗑️ Reset Semua Input & Hasil", use_container_width=True):
-                for key in ["q_name_a", "q_desc_a", "q_name_b", "q_desc_b", "q_action", "q_interaction", "q_dialog", "q_loc_select", "q_loc_manual", "q_is_video"]:
+                for key in ["q_name_a", "q_desc_a", "q_name_b", "q_desc_b", "q_action", "q_interaction", "q_dialog_multi", "q_loc_select", "q_loc_manual", "q_is_video"]:
                     if key in st.session_state:
                         del st.session_state[key]
                 if 'hasil_rakit_2char' in st.session_state:
@@ -1306,6 +1323,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
