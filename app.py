@@ -1101,171 +1101,109 @@ IDE OWNER: "{owner_core}"
 
 
 elif menu_select == "⚡ QUICK PROMPT":
-    st.title("⚡ QUICK PROMPT")
-    st.info("💡 **TIPS:** Mode khusus untuk 2 karakter konsisten via referensi gambar. Tambah dialog untuk ekspresi! Output: 2 prompt (gambar + video) sekaligus.")
+    st.title("⚡ QUICK PROMPT (DUAL-ENGINE)")
+    st.info("💡 **INFO:** Sekali klik menghasilkan 2 prompt terpisah untuk Gambar & Video dengan kualitas super jernih.")
 
-    # --- QUALITY STACK (Diupgrade untuk super tajam/jernih) ---
-    QUALITY_STACK_QUICK = (
-        "hyper-realistic 8K RAW cinematic, infinite depth of field, f/11 aperture, zero bokeh, "
-        "crystal-clear pixels, extreme micro-detail on pores, veins, fabrics, metallic sheen, "
-        "ultra-sharp edge enhancement, no softening filters, natural balanced exposure, "
-        "tactile hyper-detailed textures everywhere, realistic volumetric shadows, "
-        "masterpiece quality, vivid naturalism, absolute fidelity to references, no artifacts."
+    # --- 1. PARAMETER KUALITAS (ULTRA SHARP & NO TEXT) ---
+    QUALITY_IMAGE = (
+        "hyper-realistic 8K RAW photo, infinite depth of field, f/11 aperture, zero bokeh, "
+        "ultra-sharp focus on every detail including skin pores, fabric weave, and complex anatomical features, "
+        "tactile textures, vivid naturalism, no artifacts, no deformation, strictly no text, no watermark."
     )
     
-    NEGATIVE_QUICK = (
-        "blurry, low-res, distortion, simplified anatomy, cartoon, extra limbs, fused bodies, "
-        "text overlays, speech bubbles, watermark, merged characters, wrong proportions, "
-        "over-saturated, under-exposed, robotic motion, flickering."
+    QUALITY_VIDEO = (
+        "8k UHD cinematic video, professional color grading, ray-traced reflections, "
+        "clean pixels, zero digital noise, smooth cinematic motion, fluid complex humanoid movement, "
+        "masterpiece quality, strictly no text, no watermark."
     )
 
+    # --- 2. INTERFACE INPUT ---
     with st.container(border=True):
+        # Seksi Karakter
         col_c1, col_c2 = st.columns(2)
         with col_c1:
-            st.write("👤 **KARAKTER A (Ref Image 1)**")
-            q_name_a = st.text_input("Nama A", placeholder="Misal: Udin", key="q_name_a", label_visibility="collapsed")
-            q_desc_a = st.text_area("Deskripsi Fisik A (wajib detail)", 
-                                   placeholder="Detail fisik, pakaian, warna kulit, bentuk unik humanoid, aksesoris...", 
-                                   height=100, key="q_desc_a", label_visibility="collapsed")
+            st.markdown("👤 **KARAKTER A (Ref 1)**")
+            q_name_a = st.text_input("Nama A", placeholder="Misal: Udin", key="qn_a", label_visibility="collapsed")
+            q_desc_a = st.text_area("Ciri Fisik A", placeholder="Detail fisik & pakaian...", height=70, key="qd_a", label_visibility="collapsed")
         with col_c2:
-            st.write("👤 **KARAKTER B (Ref Image 2)**")
-            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", key="q_name_b", label_visibility="collapsed")
-            q_desc_b = st.text_area("Deskripsi Fisik B (wajib detail)", 
-                                   placeholder="Detail fisik, pakaian, warna kulit, bentuk unik humanoid, aksesoris...", 
-                                   height=100, key="q_desc_b", label_visibility="collapsed")
+            st.markdown("👤 **KARAKTER B (Ref 2)**")
+            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", key="qn_b", label_visibility="collapsed")
+            q_desc_b = st.text_area("Ciri Fisik B", placeholder="Detail fisik & pakaian...", height=70, key="qd_b", label_visibility="collapsed")
+
+        st.divider()
+        
+        # Seksi Cerita & Dialog
+        st.write("📝 **CERITA & DIALOG**")
+        q_action = st.text_area("Aksi Adegan", placeholder="Deskripsikan apa yang terjadi...", height=100, label_visibility="collapsed")
+        
+        col_d1, col_d2 = st.columns(2)
+        with col_d1:
+            q_diag_a = st.text_input(f"Dialog {q_name_a if q_name_a else 'A'}", placeholder="Apa yang diucapkan A?")
+        with col_d2:
+            q_diag_b = st.text_input(f"Dialog {q_name_b if q_name_b else 'B'}", placeholder="Apa yang diucapkan B?")
 
         st.divider()
 
-        col_left, col_right = st.columns([1.2, 1], gap="large")
-        with col_left:
-            st.write("📝 **SCENE & INTERACTION**")
-            q_action = st.text_area("Aksi Adegan (jelaskan posisi & gerakan)", 
-                                   placeholder="Contoh: Character A (kiri) meraih tangan Character B (kanan) sambil menatap tajam...",
-                                   height=120, key="q_action", label_visibility="collapsed")
-            q_interaction = st.text_input("Detail Ekspresi & Interaksi", 
-                                         placeholder="intense eye contact, serious expression, natural body language untuk bentuk humanoid kompleks",
-                                         key="q_interaction")
-            
-            st.write("🗣️ **DIALOG (satu baris per karakter, opsional)**")
-            st.caption("Contoh format:\nA: Halo, apa kabar?\nB: Baik, lagi sibuk nih.\nC: Ayo cepat!")
-            q_dialog_multi = st.text_area(
-                "Masukkan dialog (bisa lebih dari 2 karakter)",
-                placeholder="A: ...\nB: ...\nC: ... (kosongkan jika tidak ada dialog)",
-                height=140,
-                key="q_dialog_multi",
-                label_visibility="collapsed"
-            )
-
-        with col_right:
-            st.write("⚙️ **ENVIRONMENT & SETTING**")
-            q_loc_select = st.selectbox("Pilih Latar Cerita:", options_lokasi, key="q_loc_select")
-            
-            if q_loc_select == "--- KETIK MANUAL ---":
-                q_loc_manual = st.text_input("Ketik Lokasi Manual:", 
-                                            placeholder="Futuristic city rooftop at night with neon lights...",
-                                            key="q_loc_manual")
-                q_background = q_loc_manual.strip() or "detailed urban environment, realistic textures"  # fallback
-            else:
-                q_background = LOKASI_DNA.get(q_loc_select.lower(), "detailed environment, realistic textures")
-
-            q_is_video = st.toggle("Tambah Motion untuk Video (selalu generate 2 prompt)", value=True, key="q_is_video")  # Default on
-
-        st.write("")
-        rakit_btn_quick = st.button("🚀 RAKIT 2 PROMPT (GAMBAR + VIDEO)", use_container_width=True, type="primary")
-
-    # --- LOGIKA GENERATE (dengan dialog multi-karakter) ---
-    if rakit_btn_quick:
-        if not q_name_a or not q_name_b or not q_action or not q_desc_a.strip() or not q_desc_b.strip():
-            st.error("⚠️ Nama kedua karakter, deskripsi fisik (detail), dan aksi adegan wajib diisi!")
+        # Seksi Lokasi
+        st.write("📍 **LATAR CERITA (KONSISTEN)**")
+        q_loc_select = st.selectbox("Pilih Lokasi:", options_lokasi, label_visibility="collapsed")
+        if q_loc_select == "--- KETIK MANUAL ---":
+            q_background = st.text_input("Lokasi Manual:", placeholder="Futuristic alleyway at night...")
         else:
-            # Bagian Umum (Ref + Rule)
-            ref_instruction = (
-                "REFERENCE SETUP:\n"
-                f"- Image 1: STRICTLY for {q_name_a} – absolute 100% fidelity to facial features, body proportions, skin texture, clothing, and complex humanoid anatomy.\n"
-                f"- Image 2: STRICTLY for {q_name_b} – absolute 100% fidelity to facial features, body proportions, skin texture, clothing, and complex humanoid anatomy.\n"
-            )
-            
-            consistency_rule = (
-                "CONSISTENCY RULE: Preserve ALL unique humanoid details without alteration, simplification, or normalization. "
-                "Distinct separate characters – no merging, fusion, or overlap. Frame-by-frame consistency if video."
-            )
+            q_background = LOKASI_DNA.get(q_loc_select.lower(), q_loc_select)
 
-            # Proses dialog multi-karakter
-            dialog_lines = [line.strip() for line in q_dialog_multi.split('\n') if line.strip()]
-            if dialog_lines:
-                # Format dialog untuk cue
-                dialog_text = "\n".join(dialog_lines)
-                emotion_cue = (
-                    f"Characters show precise facial expressions, lip movements (if video), "
-                    f"and body language exactly matching this hidden dialog cue:\n{dialog_text}\n"
-                    "STRICTLY NO VISIBLE TEXT, SPEECH BUBBLES, SUBTITLES, OR ON-SCREEN WORDS in the final output."
-                )
-                video_cue = (
-                    f"ACTING & LIP-SYNC CUE (audio reference only, no visible text):\n{dialog_text}\n"
-                    "Natural delivery timing, emotional intonation matching the lines."
-                )
+        st.write("") 
+        if st.button("🚀 RAKIT DUAL PROMPT SEKARANG", use_container_width=True, type="primary"):
+            if not q_name_a or not q_action:
+                st.warning("⚠️ Minimal isi Nama Karakter A dan Aksi Adegan!")
             else:
-                emotion_cue = "Natural neutral to context-appropriate expressions and body language."
-                video_cue = "Silent natural interaction, fluid movements without spoken words."
+                # Logika Referensi & Konsistensi
+                ref_text = (
+                    f"Use uploaded reference image 1 for Character A: {q_name_a} (maintain 100% exact facial features, anatomy, and textures).\n"
+                    f"Use uploaded reference image 2 for Character B: {q_name_b} (maintain 100% exact facial features, anatomy, and textures)."
+                )
+                strict_rule = "STRICT CONSISTENCY: Do NOT simplify humanoid anatomy or proportions. Preserve every detail from references."
+                
+                # Pengolahan Dialog (Untuk Gambar = Emosi, Untuk Video = Acting Cue)
+                combined_diag = f"{q_name_a}: '{q_diag_a}' | {q_name_b}: '{q_diag_b}'" if q_diag_a or q_diag_b else ""
+                
+                # --- RAKIT PROMPT GAMBAR (Dialog Sembunyi ke Emosi) ---
+                st.session_state.q_res_img = (
+                    f"{ref_text}\n{strict_rule}\n\n"
+                    f"Character Profiles: {q_name_a} ({q_desc_a}), {q_name_b} ({q_desc_b})\n"
+                    f"Scene: {q_action}\n"
+                    f"Facial Expression: Intense emotion based on their interaction, natural body language.\n"
+                    f"Environment: {q_background}, tactile textures, realistic shadows.\n"
+                    f"Technical: {QUALITY_IMAGE}"
+                )
 
-            # Prompt Gambar (dialog disembunyikan, hanya cue emosi)
-            prompt_image = (
-                f"{ref_instruction}\n\n"
-                f"{consistency_rule}\n\n"
-                "CHARACTER PROFILES:\n"
-                f"- {q_name_a}: {q_desc_a.strip()}\n"
-                f"- {q_name_b}: {q_desc_b.strip()}\n\n"
-                f"SCENE: {q_action.strip()}\n\n"
-                f"INTERACTION: {q_interaction.strip() or 'natural interaction'}, {emotion_cue}\n\n"
-                f"ENVIRONMENT: {q_background}, hyper-detailed realistic textures.\n\n"
-                f"TECHNICAL: {QUALITY_STACK_QUICK}"
-            )
+                # --- RAKIT PROMPT VIDEO (Dialog untuk Acting Cue) ---
+                st.session_state.q_res_vid = (
+                    f"{ref_text}\n{strict_rule}\n\n"
+                    f"Character Profiles: {q_name_a} ({q_desc_a}), {q_name_b} ({q_desc_b})\n"
+                    f"Scene: {q_action}. Characters must interact naturally.\n"
+                    f"Acting Cue: Use this dialogue for emotional depth: {combined_diag}. (STRICTLY NO TEXT ON SCREEN).\n"
+                    f"Environment: {q_background}.\n"
+                    f"Technical: {QUALITY_VIDEO}"
+                )
 
-            # Prompt Video (dialog sebagai cue acting/lip-sync)
-            prompt_video = (
-                f"{ref_instruction}\n\n"
-                f"{consistency_rule}\n\n"
-                "CHARACTER PROFILES:\n"
-                f"- {q_name_a}: {q_desc_a.strip()}\n"
-                f"- {q_name_b}: {q_desc_b.strip()}\n\n"
-                f"SCENE: {q_action.strip()}\n\n"
-                f"INTERACTION: {q_interaction.strip() or 'natural interaction'}, {emotion_cue}\n"
-                f"{video_cue}\n\n"
-                f"ENVIRONMENT: {q_background}, hyper-detailed realistic textures.\n\n"
-                f"TECHNICAL: {QUALITY_STACK_QUICK}, smooth 60fps cinematic motion, "
-                "fluid natural movements, precise lip-sync timing if dialog present, no stuttering."
-            )
-
-            st.session_state.hasil_rakit_2char = {
-                "image": prompt_image,
-                "video": prompt_video,
-                "negative": NEGATIVE_QUICK
-            }
-            st.success(f"2 Prompt siap! (Dialog: {'ada' if dialog_lines else 'tidak ada'})")
-
-    # --- OUTPUT (2 Prompt + Negative) ---
-    if 'hasil_rakit_2char' in st.session_state:
-        st.divider()
-        st.markdown("### ✅ HASIL RACIKAN (FORMAT ELEGAN BARU)")
+    # --- 3. DISPLAY HASIL (DUAL BOX) ---
+    if 'q_res_img' in st.session_state:
+        st.write("")
+        col_res1, col_res2 = st.columns(2)
         
-        st.markdown("**PROMPT GAMBAR (Dialog disembunyikan, hanya memengaruhi ekspresi):**")
-        st.code(st.session_state.hasil_rakit_2char["image"], language="text")
+        with col_res1:
+            st.markdown("### 📸 IMAGE PROMPT")
+            st.code(st.session_state.q_res_img, language="text")
+            
+        with col_res2:
+            st.markdown("### 🎥 VIDEO PROMPT")
+            st.code(st.session_state.q_res_vid, language="text")
         
-        st.markdown("**PROMPT VIDEO (Dialog sebagai cue acting/lip-sync, no text visible):**")
-        st.code(st.session_state.hasil_rakit_2char["video"], language="text")
-        
-        st.markdown("**PROMPT NEGATIF (untuk keduanya):**")
-        st.code(st.session_state.hasil_rakit_2char["negative"], language="text")
-
-        col_reset, _ = st.columns([1, 3])
-        with col_reset:
-            if st.button("🗑️ Reset Semua Input & Hasil", use_container_width=True):
-                for key in ["q_name_a", "q_desc_a", "q_name_b", "q_desc_b", "q_action", "q_interaction", "q_dialog_multi", "q_loc_select", "q_loc_manual", "q_is_video"]:
-                    if key in st.session_state:
-                        del st.session_state[key]
-                if 'hasil_rakit_2char' in st.session_state:
-                    del st.session_state.hasil_rakit_2char
-                st.rerun()
+        if st.button("🗑️ Reset Quick Prompt", use_container_width=True):
+            del st.session_state.q_res_img
+            del st.session_state.q_res_vid
+            st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
@@ -1323,6 +1261,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
