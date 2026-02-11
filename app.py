@@ -1101,7 +1101,7 @@ IDE OWNER: "{owner_core}"
 
 
 elif menu_select == "⚡ QUICK PROMPT":
-    st.title("⚡ QUICK PROMPT (DUAL-ENGINE)")
+    st.title("⚡ QUICK PROMPT")
     st.info("💡 **INFO:** Sekali klik menghasilkan 2 prompt terpisah untuk Gambar & Video dengan kualitas super jernih.")
 
     # --- 1. PARAMETER KUALITAS (ULTRA SHARP & NO TEXT) ---
@@ -1127,7 +1127,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             q_desc_a = st.text_area("Ciri Fisik A", placeholder="Detail fisik & pakaian...", height=70, key="qd_a", label_visibility="collapsed")
         with col_c2:
             st.markdown("👤 **KARAKTER B (Ref 2)**")
-            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", key="qn_b", label_visibility="collapsed")
+            q_name_b = st.text_input("Nama B", placeholder="Misal: Rumi", key="qn_b", label_visibility="collapsed")
             q_desc_b = st.text_area("Ciri Fisik B", placeholder="Detail fisik & pakaian...", height=70, key="qd_b", label_visibility="collapsed")
 
         st.divider()
@@ -1153,7 +1153,7 @@ elif menu_select == "⚡ QUICK PROMPT":
             q_background = LOKASI_DNA.get(q_loc_select.lower(), q_loc_select)
 
         st.write("") 
-        if st.button("🚀 RAKIT DUAL PROMPT SEKARANG", use_container_width=True, type="primary"):
+        if st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary"):
             if not q_name_a or not q_action:
                 st.warning("⚠️ Minimal isi Nama Karakter A dan Aksi Adegan!")
             else:
@@ -1261,6 +1261,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
