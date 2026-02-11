@@ -1102,105 +1102,111 @@ IDE OWNER: "{owner_core}"
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.info("⚠️ **INFO PENTING:** Menu ini masih tahap uji coba! Belum siap untuk digunakan!")
-    st.markdown("Buat prompt singkat satu gambar/video.")
+    st.info("💡 **TIPS:** Gunakan mode ini untuk interaksi 2 karakter yang sangat konsisten dengan referensi gambar.")
 
-    # --- MAIN INTERFACE ---
+    # --- 1. SETTING KUALITAS STANDAR (QUALITY STACK) ---
+    QUALITY_STACK_QUICK = (
+        "hyper-realistic 8K RAW photo, infinite depth of field, f/11 aperture, zero bokeh, "
+        "ultra-sharp focus on every detail including skin pores, fabric weave, metallic surfaces, "
+        "and complex anatomical features, tactile textures everywhere, natural lighting with realistic shadows, "
+        "masterpiece quality, vivid naturalism, no artifacts, no deformation."
+    )
+    
+    NEGATIVE_QUICK = (
+        "blurry anatomy, distorted proportions, simplified features, cartoonish, extra limbs, "
+        "fused bodies, text, watermark, merged bodies, wrong anatomy, simplified design"
+    )
+
+    # --- 2. MAIN INTERFACE ---
     with st.container(border=True):
-        # Membagi area jadi Kiri (Cerita) dan Kanan (Semua Setting)
-        col_main_left, col_main_right = st.columns([1.2, 1], gap="large")
+        # Header Karakter
+        col_c1, col_c2 = st.columns(2)
+        with col_c1:
+            st.write("👤 **KARAKTER A (Ref Image 1)**")
+            q_name_a = st.text_input("Nama A", placeholder="Misal: Udin", label_visibility="collapsed")
+            q_desc_a = st.text_area("Deskripsi Fisik A", placeholder="Detail fisik, pakaian, dll...", height=80, label_visibility="collapsed")
+        with col_c2:
+            st.write("👤 **KARAKTER B (Ref Image 2)**")
+            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", label_visibility="collapsed")
+            q_desc_b = st.text_area("Deskripsi Fisik B", placeholder="Detail fisik, pakaian, dll...", height=80, label_visibility="collapsed")
+
+        st.divider()
         
-        with col_main_left:
-            st.write("📝 **1. KEJADIAN / ALUR CERITA**")
-            isi_cerita = st.text_area(
-                "input_alur",
-                placeholder="Contoh: udin pergi kesekolah naik cerita...",
-                height=225, # Disesuaikan agar sejajar dengan kolom kanan
+        col_left, col_right = st.columns([1.2, 1], gap="large")
+        
+        with col_left:
+            st.write("📝 **SCENE & INTERACTION**")
+            q_action = st.text_area(
+                "Aksi Adegan",
+                placeholder="Contoh: Character A (left side) is reaching out to shake hands with Character B...",
+                height=150,
                 label_visibility="collapsed"
             )
+            q_interaction = st.text_input("Detail Interaksi", placeholder="Misal: intense eye contact, serious expression...")
             
-        with col_main_right:
-            st.write("⚙️ **2. SETTING VISUAL**")
+        with col_right:
+            st.write("⚙️ **ENVIRONMENT & SETTING**")
+            # Gunakan DNA Lokasi yang sudah ada di Part 6
+            q_loc_select = st.selectbox("Pilih Latar Cerita:", options_lokasi)
             
-            # Baris 1: Style & Lighting
-            c1, c2 = st.columns(2)
-            with c1:
-                st.markdown('<p class="small-label">🌍 Style / World</p>', unsafe_allow_html=True)
-                vibe_v = st.selectbox("v1", [
-                    "Cinematic Movie", "Ultra Realistic Minecraft", 
-                    "Hyper-Realistic RAW", "CCTV / Found Footage", "Commercial Clean"
-                ], label_visibility="collapsed")
-            with c2:
-                st.markdown('<p class="small-label">💡 Lighting & FX</p>', unsafe_allow_html=True)
-                mood_v = st.selectbox("v2", [
-                    "Dramatic Shadows & Glowing Eyes", "Lava Light Reflections",
-                    "Golden Hour", "Moody Dark", "Bright Studio"
-                ], label_visibility="collapsed")
+            if q_loc_select == "--- KETIK MANUAL ---":
+                q_loc_manual = st.text_input("Ketik Lokasi Manual:", placeholder="Futuristic city rooftop...")
+                q_background = q_loc_manual
+            else:
+                q_background = LOKASI_DNA.get(q_loc_select.lower(), q_loc_select)
             
-            # Baris 2: Motion & Shot Type
-            c3, c4 = st.columns(2)
-            with c3:
-                st.markdown('<p class="small-label">🎬 Motion & Speed</p>', unsafe_allow_html=True)
-                motion_v = st.selectbox("v3", [
-                    "Slow Motion", "High Speed Action", 
-                    "Time-lapse", "Static (Diam)", "Smooth Panning"
-                ], label_visibility="collapsed")
-            with c4:
-                st.markdown('<p class="small-label">🎥 Shot Type</p>', unsafe_allow_html=True)
-                cam_v = st.selectbox("v4", [
-                    "Cinematic Tracking Shot", "Extreme Close-Up", 
-                    "Medium Shot", "Handheld Shaky Cam", "Bird Eye View"
-                ], label_visibility="collapsed")
-            
-            # Baris 3: LOKASI DI PALING BAWAH
-            st.markdown('<p class="small-label">📍 Lokasi (Manual)</p>', unsafe_allow_html=True)
-            lokasi_v = st.text_input("loc_input", placeholder="Misal: dark cave, abandoned house...", label_visibility="collapsed")
+            st.write("")
+            q_is_video = st.toggle("Mode Video (Gerakan Cinematic)")
 
-        # --- TOMBOL RAKIT MEMANJANG (Di dalam container tapi di bawah kedua kolom) ---
         st.write("") 
-        rakit_btn = st.button("🚀 RAKIT PROMPT SEKARANG", use_container_width=True, type="primary")
+        rakit_btn_quick = st.button("🚀 RAKIT PROMPT 2 KARAKTER", use_container_width=True, type="primary")
 
-    # --- LOGIKA RAKIT ---
-    if rakit_btn:
-        if not isi_cerita:
-            st.warning("Isi dulu ceritanya, Bos!")
+    # --- 3. LOGIKA RAKIT (MENYESUAIKAN FUNGSI YANG KAMU MINTA) ---
+    if rakit_btn_quick:
+        if not q_name_a or not q_name_b or not q_action:
+            st.warning("⚠️ Nama Karakter dan Aksi wajib diisi!")
         else:
-            styles = {
-                "Cinematic Movie": "Cinematic movie scene, high-end film aesthetic,",
-                "Ultra Realistic Minecraft": "Ultra realistic Minecraft cinematic video,",
-                "Hyper-Realistic RAW": "Hyper-realistic RAW photo, f/1.8, high fidelity,",
-                "CCTV / Found Footage": "CCTV grainy security footage,",
-                "Commercial Clean": "High-end commercial clean photography,"
-            }
-            fx = {
-                "Dramatic Shadows & Glowing Eyes": "glowing white eyes, dramatic shadows, dust particles,",
-                "Lava Light Reflections": "lava light reflections, intense heat distortion,",
-                "Golden Hour": "warm cinematic golden hour lighting,",
-                "Moody Dark": "dark moody atmosphere, low-key lighting,",
-                "Bright Studio": "bright studio lighting, vibrant colors,"
-            }
-            motions = {
-                "Slow Motion": "slow-motion moments, fluid movement,",
-                "High Speed Action": "fast-paced action, intense movement,",
-                "Time-lapse": "time-lapse effect, fast forward motion,",
-                "Static (Diam)": "static camera, no movement, stable shot,",
-                "Smooth Panning": "smooth cinematic panning shot,"
-            }
+            # Bagian Referensi (Sesuai Struktur Request)
+            ref_instruction = (
+                f"Use uploaded reference image 1 for Character A: {q_name_a} – maintain 100% exact facial features, body proportions, skin texture, clothing details, and complex humanoid anatomy from the reference.\n"
+                f"Use uploaded reference image 2 for Character B: {q_name_b} – maintain 100% exact facial features, body proportions, skin texture, clothing details, and complex humanoid anatomy from the reference."
+            )
             
-            detail_lokasi = f"located in {lokasi_v}," if lokasi_v else ""
-            st.session_state.hasil_rakit = f"{styles[vibe_v]} {isi_cerita}, {detail_lokasi} {fx[mood_v]} {motions[motion_v]} {cam_v}, 4K, same character description."
+            consistency_rule = "STRICT CONSISTENCY RULE: Do NOT alter or simplify the unique humanoid anatomy, proportions, or design elements from the references – preserve every detail perfectly even if unusual or complex."
+            
+            # Rakit Prompt Akhir
+            base_prompt = (
+                f"{ref_instruction}\n\n"
+                f"{consistency_rule}\n\n"
+                f"Character Profiles: {q_name_a} ({q_desc_a}), {q_name_b} ({q_desc_b})\n\n"
+                f"Scene: {q_action}\n\n"
+                f"Interaction: {q_interaction}, natural body language for their complex humanoid forms.\n\n"
+                f"Environment: {q_background}, detailed textures, realistic lighting.\n\n"
+                f"Technical: {QUALITY_STACK_QUICK}"
+            )
+            
+            if q_is_video:
+                base_prompt += "\n\nMotion: Smooth cinematic motion, natural interaction between characters, fluid complex humanoid movement."
 
-    # --- OUTPUT HASIL ---
-    if 'hasil_rakit' in st.session_state:
+            st.session_state.hasil_rakit_2char = {
+                "positive": base_prompt,
+                "negative": NEGATIVE_QUICK
+            }
+
+    # --- 4. OUTPUT HASIL ---
+    if 'hasil_rakit_2char' in st.session_state:
         st.write("")
-        st.markdown('<p class="small-label">✅ HASIL RACIKAN</p>', unsafe_allow_html=True)
-        st.code(st.session_state.hasil_rakit, language="text")
+        st.markdown("### ✅ HASIL RACIKAN 2 KARAKTER")
         
-        c_reset, _ = st.columns([1, 4])
-        with c_reset:
-            if st.button("🗑️ Reset", use_container_width=True):
-                del st.session_state.hasil_rakit
-                st.rerun()
+        st.markdown("**PROMPT POSITIF (Siap Copy):**")
+        st.code(st.session_state.hasil_rakit_2char["positive"], language="text")
+        
+        st.markdown("**PROMPT NEGATIF:**")
+        st.code(st.session_state.hasil_rakit_2char["negative"], language="text")
+        
+        if st.button("🗑️ Reset Quick Prompt"):
+            del st.session_state.hasil_rakit_2char
+            st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
@@ -1258,4 +1264,5 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
