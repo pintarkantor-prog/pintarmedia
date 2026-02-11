@@ -1102,7 +1102,7 @@ IDE OWNER: "{owner_core}"
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.info("💡 **INFO:** Sekali klik menghasilkan 2 prompt terpisah untuk Gambar & Video dengan kualitas super jernih.")
+    st.info("💡 **INFO:** cocok untuk membuat gambar atau video per-satu adegan")
 
     # --- 1. PARAMETER KUALITAS (ULTRA SHARP & NO TEXT) ---
     QUALITY_IMAGE = (
@@ -1261,6 +1261,7 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
 
