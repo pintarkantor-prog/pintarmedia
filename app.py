@@ -1102,9 +1102,9 @@ IDE OWNER: "{owner_core}"
 
 elif menu_select == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
-    st.info("💡 **TIPS:** Gunakan mode ini untuk interaksi 2 karakter yang sangat konsisten dengan referensi gambar.")
+    st.info("💡 **TIPS:** Mode khusus untuk 2 karakter konsisten via referensi gambar. Upload 2 gambar berbeda sebelum generate di Grok/Flux.")
 
-    # --- 1. SETTING KUALITAS STANDAR (QUALITY STACK) ---
+    # --- QUALITY STACK (bisa dipindah ke atas file kalau mau global) ---
     QUALITY_STACK_QUICK = (
         "hyper-realistic 8K RAW photo, infinite depth of field, f/11 aperture, zero bokeh, "
         "ultra-sharp focus on every detail including skin pores, fabric weave, metallic surfaces, "
@@ -1117,96 +1117,112 @@ elif menu_select == "⚡ QUICK PROMPT":
         "fused bodies, text, watermark, merged bodies, wrong anatomy, simplified design"
     )
 
-    # --- 2. MAIN INTERFACE ---
     with st.container(border=True):
-        # Header Karakter
         col_c1, col_c2 = st.columns(2)
         with col_c1:
             st.write("👤 **KARAKTER A (Ref Image 1)**")
-            q_name_a = st.text_input("Nama A", placeholder="Misal: Udin", label_visibility="collapsed")
-            q_desc_a = st.text_area("Deskripsi Fisik A", placeholder="Detail fisik, pakaian, dll...", height=80, label_visibility="collapsed")
+            q_name_a = st.text_input("Nama A", placeholder="Misal: Udin", key="q_name_a", label_visibility="collapsed")
+            q_desc_a = st.text_area("Deskripsi Fisik A (wajib detail)", 
+                                   placeholder="Detail fisik, pakaian, warna kulit, bentuk unik humanoid, aksesoris...", 
+                                   height=100, key="q_desc_a", label_visibility="collapsed")
         with col_c2:
             st.write("👤 **KARAKTER B (Ref Image 2)**")
-            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", label_visibility="collapsed")
-            q_desc_b = st.text_area("Deskripsi Fisik B", placeholder="Detail fisik, pakaian, dll...", height=80, label_visibility="collapsed")
+            q_name_b = st.text_input("Nama B", placeholder="Misal: Badu", key="q_name_b", label_visibility="collapsed")
+            q_desc_b = st.text_area("Deskripsi Fisik B (wajib detail)", 
+                                   placeholder="Detail fisik, pakaian, warna kulit, bentuk unik humanoid, aksesoris...", 
+                                   height=100, key="q_desc_b", label_visibility="collapsed")
 
         st.divider()
-        
+
         col_left, col_right = st.columns([1.2, 1], gap="large")
-        
         with col_left:
             st.write("📝 **SCENE & INTERACTION**")
-            q_action = st.text_area(
-                "Aksi Adegan",
-                placeholder="Contoh: Character A (left side) is reaching out to shake hands with Character B...",
-                height=150,
-                label_visibility="collapsed"
-            )
-            q_interaction = st.text_input("Detail Interaksi", placeholder="Misal: intense eye contact, serious expression...")
-            
+            q_action = st.text_area("Aksi Adegan (jelaskan posisi & gerakan)", 
+                                   placeholder="Contoh: Character A (kiri) meraih tangan Character B (kanan) sambil menatap tajam...",
+                                   height=140, key="q_action", label_visibility="collapsed")
+            q_interaction = st.text_input("Detail Ekspresi & Interaksi", 
+                                         placeholder="intense eye contact, serious expression, natural body language untuk bentuk humanoid kompleks",
+                                         key="q_interaction")
+
         with col_right:
             st.write("⚙️ **ENVIRONMENT & SETTING**")
-            # Gunakan DNA Lokasi yang sudah ada di Part 6
-            q_loc_select = st.selectbox("Pilih Latar Cerita:", options_lokasi)
+            q_loc_select = st.selectbox("Pilih Latar Cerita:", options_lokasi, key="q_loc_select")
             
             if q_loc_select == "--- KETIK MANUAL ---":
-                q_loc_manual = st.text_input("Ketik Lokasi Manual:", placeholder="Futuristic city rooftop...")
-                q_background = q_loc_manual
+                q_loc_manual = st.text_input("Ketik Lokasi Manual:", 
+                                            placeholder="Futuristic city rooftop at night with neon lights...",
+                                            key="q_loc_manual")
+                q_background = q_loc_manual.strip() or "detailed urban environment, realistic textures"  # fallback
             else:
-                q_background = LOKASI_DNA.get(q_loc_select.lower(), q_loc_select)
-            
-            st.write("")
-            q_is_video = st.toggle("Mode Video (Gerakan Cinematic)")
+                q_background = LOKASI_DNA.get(q_loc_select.lower(), "detailed environment, realistic textures")
 
-        st.write("") 
+            q_is_video = st.toggle("Mode Video (Tambah Gerakan Cinematic)", key="q_is_video")
+
+        st.write("")
         rakit_btn_quick = st.button("🚀 RAKIT PROMPT 2 KARAKTER", use_container_width=True, type="primary")
 
-    # --- 3. LOGIKA RAKIT (MENYESUAIKAN FUNGSI YANG KAMU MINTA) ---
+    # --- LOGIKA GENERATE ---
     if rakit_btn_quick:
-        if not q_name_a or not q_name_b or not q_action:
-            st.warning("⚠️ Nama Karakter dan Aksi wajib diisi!")
+        if not q_name_a or not q_name_b or not q_action or not q_desc_a.strip() or not q_desc_b.strip():
+            st.error("⚠️ Nama kedua karakter, deskripsi fisik (detail), dan aksi adegan wajib diisi!")
         else:
-            # Bagian Referensi (Sesuai Struktur Request)
             ref_instruction = (
-                f"Use uploaded reference image 1 for Character A: {q_name_a} – maintain 100% exact facial features, body proportions, skin texture, clothing details, and complex humanoid anatomy from the reference.\n"
-                f"Use uploaded reference image 2 for Character B: {q_name_b} – maintain 100% exact facial features, body proportions, skin texture, clothing details, and complex humanoid anatomy from the reference."
+                f"Use uploaded reference image 1 STRICTLY for Character A: {q_name_a} – "
+                f"maintain 100% exact facial features, body proportions, skin texture, clothing details, "
+                f"and complex humanoid anatomy from the reference.\n"
+                f"Use uploaded reference image 2 STRICTLY for Character B: {q_name_b} – "
+                f"maintain 100% exact facial features, body proportions, skin texture, clothing details, "
+                f"and complex humanoid anatomy from the reference."
             )
             
-            consistency_rule = "STRICT CONSISTENCY RULE: Do NOT alter or simplify the unique humanoid anatomy, proportions, or design elements from the references – preserve every detail perfectly even if unusual or complex."
-            
-            # Rakit Prompt Akhir
+            consistency_rule = (
+                "STRICT CONSISTENCY RULE: Do NOT alter, simplify, or normalize the unique humanoid anatomy, "
+                "proportions, asymmetrical features, or design elements from the references – "
+                "preserve EVERY detail perfectly even if unusual or complex. "
+                "Two distinct separate characters, no body merging, no fusion, no overlapping anatomy."
+            )
+
             base_prompt = (
                 f"{ref_instruction}\n\n"
                 f"{consistency_rule}\n\n"
-                f"Character Profiles: {q_name_a} ({q_desc_a}), {q_name_b} ({q_desc_b})\n\n"
-                f"Scene: {q_action}\n\n"
-                f"Interaction: {q_interaction}, natural body language for their complex humanoid forms.\n\n"
-                f"Environment: {q_background}, detailed textures, realistic lighting.\n\n"
+                f"Character Profiles:\n- {q_name_a}: {q_desc_a.strip()}\n- {q_name_b}: {q_desc_b.strip()}\n\n"
+                f"Scene: {q_action.strip()}\n\n"
+                f"Interaction & Emotion: {q_interaction.strip() or 'natural interaction, appropriate expressions'}, "
+                f"natural body language respecting their complex humanoid forms.\n\n"
+                f"Environment: {q_background}, hyper-detailed textures on all surfaces, realistic lighting and shadows.\n\n"
                 f"Technical: {QUALITY_STACK_QUICK}"
             )
-            
+
             if q_is_video:
-                base_prompt += "\n\nMotion: Smooth cinematic motion, natural interaction between characters, fluid complex humanoid movement."
+                base_prompt += "\n\nMotion: Smooth 60fps cinematic motion, fluid natural interaction between characters, "
+                "no flickering, no robotic movement, preserve complex humanoid dynamics."
 
             st.session_state.hasil_rakit_2char = {
                 "positive": base_prompt,
                 "negative": NEGATIVE_QUICK
             }
+            st.success("Prompt siap! Copy ke Grok / Flux. Pastikan sudah upload 2 gambar referensi berbeda.")
 
-    # --- 4. OUTPUT HASIL ---
+    # --- OUTPUT ---
     if 'hasil_rakit_2char' in st.session_state:
-        st.write("")
+        st.divider()
         st.markdown("### ✅ HASIL RACIKAN 2 KARAKTER")
         
-        st.markdown("**PROMPT POSITIF (Siap Copy):**")
+        st.markdown("**PROMPT POSITIF (copy-paste ke AI):**")
         st.code(st.session_state.hasil_rakit_2char["positive"], language="text")
         
-        st.markdown("**PROMPT NEGATIF:**")
+        st.markdown("**PROMPT NEGATIF (opsional tapi direkomendasikan):**")
         st.code(st.session_state.hasil_rakit_2char["negative"], language="text")
-        
-        if st.button("🗑️ Reset Quick Prompt"):
-            del st.session_state.hasil_rakit_2char
-            st.rerun()
+
+        col_reset, _ = st.columns([1, 3])
+        with col_reset:
+            if st.button("🗑️ Reset Semua Input & Hasil", use_container_width=True):
+                for key in ["q_name_a", "q_desc_a", "q_name_b", "q_desc_b", "q_action", "q_interaction", "q_loc_select", "q_loc_manual", "q_is_video"]:
+                    if key in st.session_state:
+                        del st.session_state[key]
+                if 'hasil_rakit_2char' in st.session_state:
+                    del st.session_state.hasil_rakit_2char
+                st.rerun()
                 
 elif menu_select == "📋 TUGAS KERJA":
     user_aktif = st.session_state.get("username", "GUEST").upper()
@@ -1264,5 +1280,6 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
 
