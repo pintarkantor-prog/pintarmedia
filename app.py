@@ -446,7 +446,7 @@ def tampilkan_ai_lab():
             with target_col:
                 with st.container(border=True):
                     # Label teks statis tetap ada biar staf gak bingung kotak itu buat siapa
-                    label_tokoh = "Tokoh 1" if i == 0 else f"Tokoh {i+1}"
+                    label_tokoh = "Karakter 1" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_tokoh}**")
                     
                     # Input Nama dengan Placeholder
@@ -700,6 +700,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
