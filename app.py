@@ -69,39 +69,83 @@ USER_PASSWORDS = {
 # ────────────────────────────────────────────────
 # LOGIN & SESSION MANAGEMENT
 # ────────────────────────────────────────────────
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
-    st.session_state.user = None
-    st.session_state.login_time = None
-
-# Auto logout setelah 10 jam (36000 detik)
-if st.session_state.logged_in and st.session_state.login_time:
-    if time.time() - st.session_state.login_time > 36000:
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
-
-# Halaman login jika belum login
 if not st.session_state.logged_in:
-    st.title("Login ke PINTAR MEDIA Generator")
-    col_left, col_mid, col_right = st.columns([1, 2, 1])
-    with col_mid:
-        username = st.text_input("Username", key="login_username")
-        password = st.text_input("Password", type="password", key="login_password")
+    # Background gelap full screen
+    st.markdown("""
+        <style>
+        .login-container {
+            max-width: 420px;
+            margin: 80px auto;
+            padding: 40px 30px;
+            background: #1a1c24;
+            border-radius: 16px;
+            border: 1px solid #2d3748;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            text-align: center;
+        }
+        .login-title {
+            font-size: 3.2rem;
+            font-weight: bold;
+            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d, #feca57);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 40px;
+        }
+        .stTextInput > div > div > input {
+            background: #0e1117;
+            color: white;
+            border: 1px solid #3a3f4a;
+            border-radius: 8px;
+            padding: 12px;
+        }
+        .stTextInput label {
+            color: #a0a0a0 !important;
+            font-size: 0.95rem;
+        }
+        .eye-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0a0a0;
+            cursor: pointer;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-        if st.button("MASUK", type="primary", use_container_width=True):
-            clean_user = username.strip().lower()
-            if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
-                st.session_state.logged_in = True
-                st.session_state.user = clean_user
-                st.session_state.login_time = time.time()
-                st.success(f"Selamat datang, {clean_user.capitalize()}!")
-                time.sleep(0.8)
-                st.rerun()
-            else:
-                st.error("Username atau password salah.")
+    # Konten login
+    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+
+    # Logo / Judul gradient
+    st.markdown('<h1 class="login-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
+
+    # Form login
+    username = st.text_input("Username", placeholder="Username...", key="login_username")
+    password = st.text_input("Password", type="password", placeholder="Password...", key="login_password")
+
+    # Tombol masuk
+    if st.button("MASUK", type="primary", use_container_width=True):
+        clean_user = username.strip().lower()
+        if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
+            st.session_state.logged_in = True
+            st.session_state.user = clean_user
+            st.session_state.login_time = time.time()
+            st.success(f"Selamat datang, {clean_user.capitalize()}!")
+            time.sleep(1.8)
+            st.rerun()
+        else:
+            st.error("Username atau password salah.")
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Footer kecil
+    st.markdown("""
+        <div style="text-align:center; color:#666; margin-top:30px; font-size:0.85rem;">
+            © 2026 PINTAR MEDIA • Secure Access
+        </div>
+    """, unsafe_allow_html=True)
+
     st.stop()
-
 # ────────────────────────────────────────────────
 # SIDEBAR NAVIGASI
 # ────────────────────────────────────────────────
@@ -279,4 +323,5 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
