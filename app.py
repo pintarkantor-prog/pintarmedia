@@ -5,6 +5,23 @@ from datetime import datetime
 import pytz
 
 # ────────────────────────────────────────────────
+# INISIALISASI SESSION STATE SECARA AMAN (HARUS DI ATAS SEMUA)
+# ────────────────────────────────────────────────
+# Ini wajib untuk mencegah error "_missing_attr_error_message"
+if 'initialized' not in st.session_state:
+    st.session_state.initialized = True
+    st.session_state.logged_in = False
+    st.session_state.user = None
+    st.session_state.login_time = None
+
+# Auto logout setelah 10 jam (36.000 detik)
+if st.session_state.get('logged_in', False) and st.session_state.get('login_time'):
+    if time.time() - st.session_state.login_time > 36000:
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
+
+# ────────────────────────────────────────────────
 # KONFIGURASI HALAMAN & CSS
 # ────────────────────────────────────────────────
 st.set_page_config(
@@ -36,7 +53,6 @@ st.markdown("""
             z-index: 9999;
         }
     }
-
     /* Tema gelap + hijau accent */
     :root {
         --bg: #0e1117;
@@ -55,22 +71,21 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# DATA USER & PASSWORD (ubah sesuai kebutuhan)
+# DATA USER & PASSWORD
 # ────────────────────────────────────────────────
 USER_PASSWORDS = {
-    "dian":   "QWERTY21ab",
-    "icha":   "udin99",
-    "nissa":  "tung22",
-    "inggi":  "udin11",
-    "lisa":   "tung55",
-    "tamu":   "tamu123",
+    "dian": "QWERTY21ab",
+    "icha": "udin99",
+    "nissa": "tung22",
+    "inggi": "udin11",
+    "lisa": "tung55",
+    "tamu": "tamu123",
 }
 
 # ────────────────────────────────────────────────
-# LOGIN & SESSION MANAGEMENT
+# HALAMAN LOGIN
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    # CSS untuk login minimalis & kotak kecil
     st.markdown("""
         <style>
         .login-container {
@@ -114,17 +129,15 @@ if not st.session_state.logged_in:
 
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    # Logo dari GitHub (ganti URL raw dengan milikmu!)
+    # Logo dari GitHub (ganti URL raw ini dengan URL asli milikmu!)
     try:
         st.image(
             "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",
             use_container_width=True
         )
     except:
-        # Fallback jika gambar gagal load
         st.markdown('<h1 class="login-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
 
-    # Form login
     username = st.text_input("Username", placeholder="Username...", key="login_username")
     password = st.text_input("Password", type="password", placeholder="Password...", key="login_password")
 
@@ -134,10 +147,8 @@ if not st.session_state.logged_in:
             st.session_state.logged_in = True
             st.session_state.user = clean_user
             st.session_state.login_time = time.time()
-
-            # Ucapan selamat datang di tengah + delay 2 detik
             st.markdown(f'<div class="welcome-message">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
-            time.sleep(2)  # Tunggu 2 detik agar ucapan terlihat
+            time.sleep(2)
             st.rerun()
         else:
             st.error("Username atau password salah.")
@@ -151,6 +162,7 @@ if not st.session_state.logged_in:
     """, unsafe_allow_html=True)
 
     st.stop()
+
 # ────────────────────────────────────────────────
 # SIDEBAR NAVIGASI
 # ────────────────────────────────────────────────
@@ -174,20 +186,17 @@ with st.sidebar:
         st.rerun()
 
 # ────────────────────────────────────────────────
-# MENU UTAMA
+# MENU UTAMA (sama seperti sebelumnya)
 # ────────────────────────────────────────────────
-
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
 
-    # Inisialisasi data adegan
     if 'scenes' not in st.session_state:
         st.session_state.scenes = [""] * 10
     if 'scene_count' not in st.session_state:
         st.session_state.scene_count = 10
 
-    # Kontrol jumlah adegan
     col_slider, col_apply = st.columns([4, 1])
     with col_slider:
         new_count = st.slider("Jumlah adegan", min_value=1, max_value=50, value=st.session_state.scene_count)
@@ -200,7 +209,6 @@ if selected_menu == "🚀 RUANG PRODUKSI":
                 st.session_state.scenes = st.session_state.scenes[:new_count]
             st.rerun()
 
-    # Input deskripsi tiap adegan
     for i in range(st.session_state.scene_count):
         st.session_state.scenes[i] = st.text_area(
             f"Adegan {i+1}",
@@ -209,7 +217,6 @@ if selected_menu == "🚀 RUANG PRODUKSI":
             key=f"scene_input_{i}"
         )
 
-    # Save & Load Project
     st.divider()
     col1, col2 = st.columns(2)
     with col1:
@@ -228,7 +235,6 @@ if selected_menu == "🚀 RUANG PRODUKSI":
                 mime="application/json",
                 use_container_width=True
             )
-
     with col2:
         uploaded_file = st.file_uploader("Upload project sebelumnya (.json)", type=["json"])
         if uploaded_file is not None:
@@ -241,10 +247,8 @@ if selected_menu == "🚀 RUANG PRODUKSI":
             except Exception as e:
                 st.error(f"Gagal membaca file: {str(e)}")
 
-    # Placeholder untuk generate prompt (bisa dikembangkan lebih lanjut)
     if st.button("🚀 Generate Semua Prompt", type="primary", use_container_width=True):
         st.info("Fitur generate prompt lengkap akan ditambahkan di sini (genre, lighting, camera, dll).")
-
 
 elif selected_menu == "🧠 PINTAR AI LAB":
     st.title("🧠 PINTAR AI LAB")
@@ -328,6 +332,7 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
 
 
