@@ -81,13 +81,12 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
-        /* CLASS BARU: LABEL KECIL & RAPAT */
         .small-label {
-            font-size: 12px !important;
-            font-weight: bold !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
             color: #d1d5db !important;
-            margin-bottom: -18px !important; /* Menarik input ke atas agar rapat */
-            padding-bottom: 0px !important;
+            margin-bottom: 4px !important; /* Jarak aman ke kotak input */
+            margin-top: 10px !important;    /* Jarak antar menu */
             display: block;
         }
         
@@ -285,6 +284,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
