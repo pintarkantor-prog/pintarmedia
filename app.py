@@ -73,7 +73,7 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - DEGRADASI HIJAU ELEGAN
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - UPDATED
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -88,7 +88,7 @@ def pasang_css_kustom():
             padding: 20px !important;
         }
 
-        /* TOMBOL DEGRADASI HIJAU (EMERALD TO GREEN) */
+        /* TOMBOL DEGRADASI HIJAU */
         div[data-testid="stFormSubmitButton"] button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
             color: white !important;
@@ -99,19 +99,21 @@ def pasang_css_kustom():
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
         }
         
-        /* Text di dalam tombol */
         div[data-testid="stFormSubmitButton"] button p {
-            color: white !important;
-            font-weight: bold !important;
-            font-size: 16px !important;
-            letter-spacing: 0.5px !important;
+            color: white !important; font-weight: bold !important; font-size: 16px !important;
         }
 
-        /* Efek Hover: Lebih terang & Sedikit Glow */
-        div[data-testid="stFormSubmitButton"] button:hover {
-            background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
-            transform: translateY(-2px) !important;
+        /* STYLE BARU: KOTAK HASIL PROMPT */
+        .prompt-result {
+            background-color: #161b22;
+            border: 1px solid #30363d;
+            border-left: 5px solid #10b981;
+            padding: 15px;
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            margin-bottom: 20px;
+            font-size: 14px;
         }
 
         div[data-baseweb="input"], div[data-baseweb="textarea"] {
@@ -129,7 +131,7 @@ def pasang_css_kustom():
         }
         </style>
         """, unsafe_allow_html=True)
-
+    
 # ==============================================================================
 # BAGIAN 4: NAVIGASI SIDEBAR
 # ==============================================================================
@@ -153,37 +155,63 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SPECIFIC FOR GROK & VEO)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
     
+    # 1. DATA KARAKTER
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
-        juml = st.number_input("Total Karakter", 1, 5, 2)
+        juml = st.number_input("Total Karakter", 1, 3, 1)
+        karakter_list = []
         cols = st.columns(juml)
         for i in range(juml):
             with cols[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                st.text_input(f"Nama Karakter {i+1}", key=f"n_{i}", placeholder="Nama...")
-                st.text_area(f"Deskripsi Fisik {i+1}", key=f"d_{i}", height=150, placeholder="Detail fisik...")
+                nama = st.text_input(f"Nama", key=f"nama_{i}", placeholder="Udin/Tung")
+                fisik = st.text_area(f"Ciri Fisik", key=f"fisik_{i}", height=100, placeholder="Kepala kayu, baju batik...")
+                karakter_list.append({"nama": nama, "fisik": fisik})
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Input Adegan Berurutan ke Bawah
-    with st.expander("🟢 ADEGAN 1", expanded=True):
-        st.text_input("Lokasi Adegan 1", key="loc1", placeholder="Lokasi...")
-        st.text_area("Aksi & Narasi Adegan 1", key="act1", height=200, placeholder="Narasi...")
+    # 2. DETAIL ADEGAN & TEKNIS
+    with st.expander("🟢 DETAIL ALUR & STYLE", expanded=True):
+        col_st1, col_st2 = st.columns(2)
+        with col_st1:
+            mood = st.selectbox("Cinematic Style", ["3D Animation Disney Style", "Hyper-Realistic Photo", "Anime Studio Ghibli", "Cyberpunk Neon", "Vintage 90s Film"])
+            ratio = st.selectbox("Aspect Ratio", ["16:9 (YouTube)", "9:16 (TikTok/Shorts)", "1:1 (Instagram)"])
+        with col_st2:
+            lighting = st.selectbox("Lighting", ["Golden Hour", "Cinematic Studio", "Volumetric Fog", "Night Street Light", "Natural Sunlight"])
+            camera = st.selectbox("Camera Movement (For Video)", ["Static", "Slow Zoom In", "Panning Left to Right", "Dynamic Drone Shot", "Handheld Shaky Cam"])
 
-    st.markdown("<br>", unsafe_allow_html=True)
+        lokasi = st.text_input("Lokasi Adegan", placeholder="Contoh: Di teras rumah panggung tua...")
+        aksi = st.text_area("Aksi & Pergerakan", height=150, placeholder="Contoh: Udin sedang kaget melihat Tung jatuh dari pohon...")
 
-    with st.expander("🎬 ADEGAN 2", expanded=True):
-        st.text_input("Lokasi Adegan 2", key="loc2", placeholder="Lokasi...")
-        st.text_area("Aksi & Narasi Adegan 2", key="act2", height=200, placeholder="Narasi...")
-
+    # 3. COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Prompt berhasil dikompilasi!")
+        st.markdown("---")
+        
+        # Format Karakter untuk Prompt
+        char_desc = " AND ".join([f"{c['nama']} ({c['fisik']})" for c in karakter_list if c['nama']])
+        
+        # PROMPT UNTUK GROK (GAMBAR)
+        grok_prompt = f"**[IMAGE PROMPT FOR GROK]**\n{mood}, {char_desc} at {lokasi}. Scene: {aksi}. Lighting: {lighting}, ultra detailed, 8k resolution, cinematic composition, --ar {ratio.split(' ')[0]}"
+        
+        # PROMPT UNTUK VEO (VIDEO)
+        veo_prompt = f"**[VIDEO PROMPT FOR VEO]**\nCinematic {mood} video. {char_desc} in {lokasi}. Action: {aksi}. Camera: {camera}. Lighting: {lighting}. Realistic movement, fluid animation, high fidelity, smooth motion, {ratio.split(' ')[0]} aspect ratio."
+
+        # DISPLAY HASIL
+        st.subheader("📋 Production Ready Prompts")
+        
+        st.markdown("##### 🖼️ Grok / Image Engine")
+        st.markdown(f'<div class="prompt-result">{grok_prompt}</div>', unsafe_allow_html=True)
+        
+        st.markdown("##### 🎬 Veo / Video Engine")
+        st.markdown(f'<div class="prompt-result">{veo_prompt}</div>', unsafe_allow_html=True)
+        
+        st.success("Selesai! Prompt di atas sudah dioptimasi untuk Grok dan Veo.")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -204,4 +232,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
