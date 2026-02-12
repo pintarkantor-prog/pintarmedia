@@ -4,9 +4,7 @@ import time
 from datetime import datetime
 import pytz
 
-# ────────────────────────────────────────────────
-# INISIALISASI SESSION STATE SECARA AMAN (WAJIB DI ATAS)
-# ────────────────────────────────────────────────
+# Inisialisasi session state aman
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
     st.session_state.logged_in = False
@@ -20,9 +18,6 @@ if st.session_state.get('logged_in', False) and st.session_state.get('login_time
             del st.session_state[key]
         st.rerun()
 
-# ────────────────────────────────────────────────
-# KONFIGURASI HALAMAN & CSS
-# ────────────────────────────────────────────────
 st.set_page_config(
     page_title="PINTAR MEDIA Generator",
     page_icon="🎬",
@@ -30,19 +25,21 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# CSS utama - pastikan background gelap dan login terlihat
 st.markdown("""
     <style>
-    /* Force dark background full app */
-    .stApp, [data-testid="stAppViewContainer"], section.main {
+    /* Background gelap full app */
+    .stApp, [data-testid="stAppViewContainer"], section.main, .block-container {
         background-color: #0e1117 !important;
         color: #e0e0e0 !important;
+        min-height: 100vh !important;
     }
 
     /* Blokir HP */
     @media (max-width: 1024px) {
         .stApp { display: none !important; }
         body::before {
-            content: "⚠️ Gunakan komputer / layar lebar!";
+            content: "Gunakan komputer / layar lebar!";
             display: flex !important;
             justify-content: center;
             align-items: center;
@@ -54,11 +51,11 @@ st.markdown("""
             text-align: center;
             position: fixed;
             inset: 0;
-            z-index: 999999 !important;
+            z-index: 999999;
         }
     }
 
-    /* Login page styling */
+    /* Login page container */
     .login-wrapper {
         min-height: 100vh;
         display: flex;
@@ -66,12 +63,11 @@ st.markdown("""
         justify-content: center;
         align-items: center;
         padding: 20px;
-        background: #0e1117;
     }
     .login-box {
         width: 100%;
         max-width: 380px;
-        background: #1a1c24 !important;
+        background: #1a1c24;
         border-radius: 12px;
         padding: 32px 24px;
         border: 1px solid #2d3748;
@@ -95,36 +91,32 @@ st.markdown("""
         text-align: center;
     }
 
-    /* Input lebih kompak */
-    div[data-testid="stTextInput"] {
-        margin-bottom: 12px !important;
-    }
+    /* Input field lebih ramping */
     .stTextInput > div > div > input {
-        background: #0e1117 !important;
-        border: 1px solid #3a3f4a !important;
+        background: #0e1117;
+        border: 1px solid #3a3f4a;
         border-radius: 6px;
-        padding: 10px 12px !important;
-        color: white !important;
+        padding: 10px 12px;
+        color: white;
     }
     .stTextInput label {
         color: #a0a0a0 !important;
-        margin-bottom: 4px !important;
-        font-size: 0.9rem !important;
+        font-size: 0.9rem;
+        margin-bottom: 4px;
     }
 
-    /* Tombol lebih rapi */
+    /* Tombol MASUK hijau */
     button[kind="primary"] {
-        width: 100% !important;
-        padding: 10px !important;
-        font-size: 1rem !important;
+        width: 100%;
+        padding: 10px;
+        font-size: 1rem;
         background: linear-gradient(90deg, #1d976c, #28a745) !important;
+        border: none;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# ────────────────────────────────────────────────
-# DATA USER & PASSWORD
-# ────────────────────────────────────────────────
+# Data login
 USER_PASSWORDS = {
     "dian": "QWERTY21ab",
     "icha": "udin99",
@@ -134,47 +126,47 @@ USER_PASSWORDS = {
     "tamu": "tamu123",
 }
 
-# ────────────────────────────────────────────────
-# HALAMAN LOGIN
-# ────────────────────────────────────────────────
+# Halaman login
 if not st.session_state.logged_in:
-    st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
-    st.markdown('<div class="login-box">', unsafe_allow_html=True)
+    login_container = st.container()
+    with login_container:
+        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
+        st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
-    # Logo dari GitHub - GANTI URL RAW INI DENGAN YANG BENAR MILIKMU!
-    st.markdown('<div class="logo-container">', unsafe_allow_html=True)
-    try:
-        st.image(
-            "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",
-            use_container_width=True
-        )
-    except:
-        st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+        # Logo
+        st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+        try:
+            st.image(
+                "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",  # GANTI DENGAN URL RAW ASLI
+                use_container_width=True
+            )
+        except:
+            st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
-    username = st.text_input("Username", placeholder="Username...", key="login_username", label_visibility="collapsed")
-    password = st.text_input("Password", type="password", placeholder="Password...", key="login_password", label_visibility="collapsed")
+        # Form input
+        username = st.text_input("Username", placeholder="Username...", key="login_username", label_visibility="collapsed")
+        password = st.text_input("Password", type="password", placeholder="Password...", key="login_password", label_visibility="collapsed")
 
-    if st.button("MASUK", type="primary"):
-        clean_user = username.strip().lower()
-        if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
-            st.session_state.logged_in = True
-            st.session_state.user = clean_user
-            st.session_state.login_time = time.time()
-            st.markdown(f'<div class="welcome-msg">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
-            time.sleep(2)
-            st.rerun()
-        else:
-            st.error("Username atau password salah.")
+        if st.button("MASUK", type="primary"):
+            clean_user = username.strip().lower()
+            if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
+                st.session_state.logged_in = True
+                st.session_state.user = clean_user
+                st.session_state.login_time = time.time()
+                st.markdown(f'<div class="welcome-msg">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
+                time.sleep(2)
+                st.rerun()
+            else:
+                st.error("Username atau password salah.")
 
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)  # tutup login-box
+        st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
+        st.markdown('</div>', unsafe_allow_html=True)  # tutup wrapper
+
     st.stop()
 
-# ────────────────────────────────────────────────
-# SIDEBAR NAVIGASI
-# ────────────────────────────────────────────────
+# Sidebar setelah login berhasil
 with st.sidebar:
     st.markdown(f"**User aktif:** {st.session_state.user.upper()}")
     st.caption(f"Login sejak: {datetime.fromtimestamp(st.session_state.login_time, tz=pytz.timezone('Asia/Jakarta')).strftime('%Y-%m-%d %H:%M WIB')}")
@@ -194,9 +186,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# ────────────────────────────────────────────────
-# MENU UTAMA
-# ────────────────────────────────────────────────
+# Menu utama
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
