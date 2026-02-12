@@ -471,8 +471,6 @@ def tampilkan_ruang_produksi():
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
-            # Ganti baris "---" dengan spasi kecil jika ingin lebih rapat
-            st.markdown('<div style="margin-top: -10px;"></div>', unsafe_allow_html=True)
             
             # MENGAMBIL NAMA USER AKTIF UNTUK JUDUL
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
@@ -525,6 +523,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
