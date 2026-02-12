@@ -28,17 +28,6 @@ def inisialisasi_keamanan():
             st.session_state.user_aktif = params.get("user", "User")
             st.session_state.waktu_login = datetime.now()
 
-def cek_autentikasi():
-    if st.session_state.sudah_login:
-        if 'waktu_login' in st.session_state:
-            # Pengecekan Logout Otomatis 10 Jam
-            durasi = datetime.now() - st.session_state.waktu_login
-            if durasi > timedelta(hours=10):
-                proses_logout()
-                return False
-        return True
-    return False
-
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
         st.session_state.fase_notif = True
@@ -104,8 +93,6 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses 
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
-    
-    # SEKSI KARAKTER (Dikembalikan utuh)
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         juml = st.number_input("Total Karakter", 1, 5, 2)
         cols = st.columns(juml)
@@ -116,8 +103,6 @@ def tampilkan_ruang_produksi():
                 st.text_area(f"Ciri Fisik", key=f"d_{i}", height=120)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    # SEKSI ADEGAN (Dikembalikan utuh)
     with st.expander("🟢 ADEGAN 1"):
         c1, c2 = st.columns([1, 2])
         with c1: st.text_input("Lokasi Adegan 1", key="loc1")
@@ -138,9 +123,10 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
-    # LOGIKA ELIF UNTUK MENGHINDARI TAMPILAN MENUMPUK
+    # --- LOGIKA EKSEKUSI TUNGGAL (AGAR TIDAK NUMPUK) ---
+    
+    # 1. JIKA SEDANG DALAM FASE NOTIFIKASI
     if st.session_state.fase_notif:
-        # Layar bersih untuk notifikasi
         user = st.session_state.user_aktif
         st.markdown(f"""
             <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 85vh;">
@@ -155,16 +141,19 @@ def utama():
                 </div>
             </div>
         """, unsafe_allow_html=True)
+        
         time.sleep(2)
         
+        # Pindah status ke login tetap
         st.session_state.sudah_login = True
         st.session_state.fase_notif = False
         st.session_state.waktu_login = datetime.now()
         st.query_params.update({"auth": "true", "user": user})
         st.rerun()
+        st.stop() # PAKSA BERHENTI DI SINI AGAR TIDAK BACA KODE LOGIN DI BAWAH
 
-    elif not st.session_state.sudah_login:
-        # Halaman Login
+    # 2. JIKA BELUM LOGIN
+    if not st.session_state.sudah_login:
         st.markdown("<br><br><br>", unsafe_allow_html=True)
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
         with col_m:
@@ -175,15 +164,15 @@ def utama():
                 submit = st.form_submit_button("MASUK", use_container_width=True)
                 if submit:
                     proses_login(u, p)
+        st.stop() # PAKSA BERHENTI AGAR TIDAK BACA KODE DASHBOARD DI BAWAH
 
-    else:
-        # Dashboard Utama
-        menu = tampilkan_navigasi_sidebar()
-        if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
-        elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
-        elif menu == "⚡ QUICK PROMPT": tampilkan_quick_prompt()
-        elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
-        elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
+    # 3. JIKA SUDAH LOGIN (DASHBOARD)
+    menu = tampilkan_navigasi_sidebar()
+    if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
+    elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
+    elif menu == "⚡ QUICK PROMPT": tampilkan_quick_prompt()
+    elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
+    elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
 if __name__ == "__main__":
     utama()
