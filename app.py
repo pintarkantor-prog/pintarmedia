@@ -376,7 +376,6 @@ def tampilkan_navigasi_sidebar():
 # ==============================================================================
 # BAGIAN 5: MODUL-MODUL PENDUKUNG (UPGRADED VERSION)
 # ==============================================================================
-import streamlit as st
 
 def tampilkan_ai_lab():
     # Menggunakan header standar Streamlit agar sinkron dengan menu lain
@@ -400,7 +399,7 @@ def tampilkan_ai_lab():
         
         jumlah_adegan = st.slider("Target Jumlah Adegan", 1, 10, 3)
         
-        # Tombol menggunakan container width agar penuh sesuai kolom (seperti di fotomu)
+        # Tombol menggunakan container width agar penuh sesuai kolom
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True)
 
     with col2:
@@ -420,14 +419,15 @@ Topik: {topik}
 Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: 3D Pixar-style animation, high detail texture (orange and wood), vibrant colors."""
                 
-                # Menggunakan text_area standar agar ada tombol 'copy' bawaan Streamlit
-                st.text_area("Hasil:", value=master_instruction, height=350)
-                st.success("Mantra siap! Silakan copy ke Gemini.")
+                # Menggunakan st.code karena memiliki tombol COPY default yang sangat jelas di pojok kanan atas
+                st.code(master_instruction, language="text")
+                st.success("Mantra siap! Klik ikon papan klip (copy) di pojok kanan atas kotak hitam.")
             else:
                 st.warning("Silakan isi topik ceritanya dulu, Bos!")
         else:
-            # Placeholder sesuai yang ada di fotomu
+            # Placeholder awal saat belum ada input
             st.info("Masukkan topik cerita di samping, lalu klik tombol Generate.")
+
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
     st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
@@ -623,6 +623,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
