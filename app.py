@@ -3,18 +3,6 @@
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
-import os
-
-# Import khusus untuk Streamlit Cloud agar tahan refresh
-try:
-    from cookies_manager import EncryptedCookieManager
-except ImportError:
-    from streamlit_cookies_manager import EncryptedCookieManager
-
-# Inisialisasi Cookie Manager
-cookies = EncryptedCookieManager(password="pintarmedia_key_2026")
-if not cookies.ready():
-    st.stop()
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -24,34 +12,46 @@ DAFTAR_USER = {
 st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 
 # ==============================================================================
-# BAGIAN 2: SISTEM KEAMANAN (LOGIN, LOGOUT, DAN SESI 10 JAM)
+# BAGIAN 2: SISTEM KEAMANAN (URL-BASED PERSISTENCE & 10H TIMEOUT)
 # ==============================================================================
-def cek_autentikasi():
-    sudah_login = cookies.get("sudah_login") == "True"
-    waktu_login_str = cookies.get("waktu_login")
+def inisialisasi_keamanan():
+    # Ambil status login dari URL (agar tahan refresh)
+    params = st.query_params
+    if "auth" in params and params["auth"] == "true":
+        if 'sudah_login' not in st.session_state:
+            st.session_state.sudah_login = True
+            st.session_state.user_aktif = params.get("user", "User")
+            st.session_state.waktu_login = datetime.now()
     
-    if sudah_login and waktu_login_str:
-        waktu_login_dt = datetime.fromisoformat(waktu_login_str)
-        if datetime.now() - waktu_login_dt > timedelta(hours=10):
-            proses_logout()
-            st.rerun()
-    return sudah_login
+    if 'sudah_login' not in st.session_state:
+        st.session_state.sudah_login = False
+
+def cek_autentikasi():
+    if st.session_state.sudah_login:
+        # Cek Auto-Logout 10 Jam
+        if 'waktu_login' in st.session_state:
+            durasi = datetime.now() - st.session_state.waktu_login
+            if durasi > timedelta(hours=10):
+                proses_logout()
+                return False
+        return True
+    return False
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        cookies["sudah_login"] = "True"
-        cookies["user_aktif"] = user
-        cookies["waktu_login"] = datetime.now().isoformat()
-        cookies.save() # Ini yang mengunci login di browser kamu
+        st.session_state.sudah_login = True
+        st.session_state.user_aktif = user
+        st.session_state.waktu_login = datetime.now()
+        # Kunci status di URL agar saat refresh tetap login
+        st.query_params.update({"auth": "true", "user": user})
         st.rerun()
     else:
         st.error("Credential salah.")
 
 def proses_logout():
-    cookies.delete("sudah_login")
-    cookies.delete("user_aktif")
-    cookies.delete("waktu_login")
-    cookies.save()
+    st.session_state.sudah_login = False
+    st.session_state.user_aktif = ""
+    st.query_params.clear()
     st.rerun()
 
 # ==============================================================================
@@ -68,7 +68,7 @@ def pasang_css_kustom():
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
-            .stApp::before { content: '⚠️ AKSES TERBATAS PC'; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; background-color: #0e1117; padding: 40px; text-align: center; }
+            .stApp::before { content: '⚠️ AKSES PC ONLY'; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; background-color: #0e1117; }
         }
         </style>
         """, unsafe_allow_html=True)
@@ -81,11 +81,11 @@ def tampilkan_navigasi_sidebar():
         st.markdown("<br>", unsafe_allow_html=True)
         pilihan = st.radio("NAVIGASI", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
         st.markdown("<br>"*12, unsafe_allow_html=True)
-        if st.button("KELUAR SISTEM", use_container_width=True):
+        if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
         
-        u = cookies.get("user_aktif", "USER").upper()
-        st.markdown(f'<div class="status-footer">STATION: {u}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
+        user = st.session_state.get("user_aktif", "USER").upper()
+        st.markdown(f'<div class="status-footer">STATION: {user}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
     return pilihan
 
 # ==============================================================================
@@ -102,7 +102,7 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses 
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
-    with st.expander("👥 Karakter Utama", expanded=True):
+    with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         juml = st.number_input("Total Karakter", 1, 5, 2)
         cols = st.columns(juml)
         for i in range(juml):
@@ -117,7 +117,9 @@ def tampilkan_ruang_produksi():
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
 # ==============================================================================
 def utama():
+    inisialisasi_keamanan()
     pasang_css_kustom()
+    
     if not cek_autentikasi():
         st.markdown("<br><br>", unsafe_allow_html=True)
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
