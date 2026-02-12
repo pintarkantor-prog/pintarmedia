@@ -304,9 +304,6 @@ def tampilkan_navigasi_sidebar():
         with col2:
             if st.button("🔄LOAD", use_container_width=True):
                 muat_dari_gsheet()
-
-        # 3. KONTROL SISTEM (Diberi jarak agar rapi)
-        st.markdown("<br>" * 10, unsafe_allow_html=True)
         
         if st.button("⚡ KELUAR SISTEM", use_container_width=True):
             proses_logout()
@@ -510,6 +507,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
