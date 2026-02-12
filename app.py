@@ -80,68 +80,57 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* 1. TEMA DASAR */
+        /* 1. DASAR APLIKASI */
         .stApp { background-color: #0b0e14; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #0f141a !important; border-right: 1px solid #1e252e; }
 
-        /* 2. LABEL KECIL (SIDEBAR & NASKAH) */
+        /* 2. LABEL HIJAU */
         .small-label {
             font-size: 10px !important;
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 800 !important;
             color: #10b981 !important;
-            margin-bottom: 5px !important;
-            margin-top: 12px !important;
+            margin-bottom: 8px !important;
             display: block;
         }
 
-        /* 3. KOTAK ADEGAN (NUMBER INPUT) - ANTI MERAH & ELEGAN */
-        div[data-testid="stNumberInput"] {
+        /* 3. INPUT TANPA EFEK WARNA SAAT DIKLIK */
+        div[data-baseweb="input"], 
+        div[data-baseweb="textarea"], 
+        div[data-testid="stNumberInput"],
+        [data-baseweb="base-input"] {
             border: 1px solid #30363d !important;
-            border-radius: 10px !important;
+            border-radius: 8px !important;
             background-color: #0d1117 !important;
+            outline: none !important;
+            box-shadow: none !important; /* Hapus semua bayangan */
         }
 
-        /* Menghilangkan Garis Merah saat Fokus/Klik */
+        /* MATIKAN SEMUA WARNA SAAT FOKUS */
+        div[data-baseweb="input"]:focus-within, 
+        div[data-baseweb="textarea"]:focus-within,
         div[data-testid="stNumberInput"]:focus-within {
-            border-color: #10b981 !important;
+            border-color: #4f5b66 !important; /* Hanya berubah jadi abu-abu terang saja biar tahu aktif */
             box-shadow: none !important;
+            outline: none !important;
         }
 
-        div[data-testid="stNumberInput"] input {
-            color: #10b981 !important;
-            font-family: monospace !important;
-            background-color: transparent !important;
+        /* Matikan paksa outline browser */
+        input, textarea {
             border: none !important;
-            outline: none !important; /* Kunci utama anti merah */
             box-shadow: none !important;
+            outline: none !important;
+            background-color: transparent !important;
         }
 
-        /* Tombol + dan - */
-        div[data-testid="stNumberInput"] button {
-            border: none !important;
-            background-color: transparent !important;
-            color: #8b949e !important;
-        }
+        /* 4. FOOTER & TOMBOL */
+        .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         
-        div[data-testid="stNumberInput"] button:hover {
-            color: #10b981 !important;
-            background-color: rgba(16, 185, 129, 0.1) !important;
-        }
-
-        /* 4. FOOTER SIDEBAR */
-        .status-footer { 
-            font-size: 11px !important; 
-            color: #8b949e !important; 
-            font-family: monospace; 
-        }
-
-        /* 5. TOMBOL LOGOUT */
-        div[data-testid="stBaseButton-headerNoPadding"] button, .stButton button {
+        .stButton button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            border: none !important; 
-            color: white !important; 
+            border: none !important;
+            color: white !important;
             font-weight: bold !important;
             border-radius: 8px !important;
         }
@@ -362,6 +351,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
