@@ -135,7 +135,6 @@ def pasang_css_kustom():
         /* MERUBAH TAMPILAN KOLOM/KOTAK INPUT ADEGAN */
         div[data-testid="stNumberInput"] {
             background-color: #161922 !important; /* Warna dasar kotak lebih gelap */
-            border: 1px solid #30363d !important; /* Border tipis elegan */
             border-radius: 10px !important;       /* Sudut melengkung halus */
             padding: 2px !important;
         }
@@ -357,6 +356,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
