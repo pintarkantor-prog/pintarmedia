@@ -368,7 +368,6 @@ def tampilkan_ruang_produksi():
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
-        st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
@@ -528,6 +527,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
