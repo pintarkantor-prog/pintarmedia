@@ -69,72 +69,126 @@ if not is_desktop():
     st.stop()
 
 # ────────────────────────────────────────────────
-# Styling login elegan, simpel, compact
+# Styling login → super minimal, centered, elegant dark mode
 # ────────────────────────────────────────────────
 st.markdown("""
     <style>
-        .login-box {
-            max-width: 380px;
-            margin: 80px auto 0 auto;
-            padding: 40px 32px;
-            background: white;
+        /* Reset & centering */
+        .stApp {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+        section.main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 0 !important;
+        }
+        .st-emotion-cache-1wivap2 {
+            max-width: 420px !important;
+            margin: auto !important;
+        }
+
+        /* Login card */
+        .login-card {
+            background: #1e293b;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            padding: 40px 36px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border: 1px solid #334155;
+            width: 100%;
+            max-width: 380px;
             text-align: center;
         }
         .login-title {
-            font-size: 26px;
+            color: #e2e8f0;
+            font-size: 28px;
             font-weight: 700;
-            color: #1a1a1a;
-            margin-bottom: 32px;
+            margin-bottom: 36px;
+            letter-spacing: -0.5px;
         }
+        .login-subtitle {
+            color: #94a3b8;
+            font-size: 15px;
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+
+        /* Inputs */
         .stTextInput > div > div > input {
-            border: 1px solid #d1d5db;
+            background: #0f172a;
+            color: #e2e8f0;
+            border: 1px solid #475569;
             border-radius: 10px;
             padding: 14px 16px;
             font-size: 16px;
-            background: #f9fafb;
+            transition: all 0.2s;
         }
         .stTextInput > div > div > input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96,165,250,0.25);
+            background: #1e293b;
         }
+        .stTextInput > div > label {
+            display: none !important;
+        }
+
+        /* Button */
         .stButton > button {
             width: 100%;
-            background: #3b82f6;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
             color: white;
             border: none;
             border-radius: 10px;
             padding: 14px;
             font-size: 16px;
             font-weight: 600;
-            margin-top: 20px;
-            transition: all 0.2s;
+            margin-top: 24px;
+            transition: all 0.25s;
         }
         .stButton > button:hover {
-            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59,130,246,0.4);
+            background: linear-gradient(90deg, #2563eb, #3b82f6);
         }
+
+        /* Alerts */
         .stAlert {
             border-radius: 10px;
-            margin-top: 16px;
+            margin-top: 20px;
+            background: #334155;
+            color: #e2e8f0;
         }
-        .main > div {padding-top: 0 !important;}
-        footer {visibility: hidden;}
-        section[data-testid="stSidebar"] {background-color: #f8fafc;}
+
+        /* Hide unnecessary elements */
+        footer, .stDeployButton, .reportview-container .main footer { display: none !important; }
+        .st-emotion-cache-1y4p8pa { padding-top: 0 !important; }
     </style>
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# Halaman Login
+# Halaman Login (centered & minimal)
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
     with st.container():
-        st.markdown('<div class="login-box">', unsafe_allow_html=True)
+        st.markdown('<div class="login-card">', unsafe_allow_html=True)
         
         st.markdown('<div class="login-title">Generator Prompt</div>', unsafe_allow_html=True)
+        st.markdown('<div class="login-subtitle">Masuk untuk mulai membuat prompt konsisten</div>', unsafe_allow_html=True)
         
-        username = st.text_input("", placeholder="Username", key="login_user", label_visibility="collapsed")
-        password = st.text_input("", type="password", placeholder="Password", key="login_pass", label_visibility="collapsed")
+        username = st.text_input(
+            label="Username",
+            placeholder="Username",
+            key="login_user",
+            label_visibility="collapsed"
+        )
+        password = st.text_input(
+            label="Password",
+            type="password",
+            placeholder="Password",
+            key="login_pass",
+            label_visibility="collapsed"
+        )
         
         if st.button("Masuk"):
             if username in USERS and USERS[username] == password:
@@ -142,13 +196,14 @@ if not st.session_state.logged_in:
                 st.session_state.username = username
                 st.session_state.login_time = datetime.now().isoformat()
                 st.session_state.data = load_data()
-                st.success(f"Selamat datang, {username}!", icon="👋")
-                time.sleep(0.7)
+                st.success(f"Selamat datang kembali, {username}", icon="✨")
+                time.sleep(0.6)
                 st.rerun()
             else:
-                st.error("Username atau password salah", icon="🚫")
+                st.error("Username atau password salah", icon="🔒")
         
         st.markdown('</div>', unsafe_allow_html=True)
+    
     st.stop()
 
 # ────────────────────────────────────────────────
@@ -256,3 +311,4 @@ elif page == "📋 TUGAS KERJA":
 elif page == "⚡ KENDALI TIM":
     st.header("⚡ KENDALI TIM")
     st.write("Monitor progress & kinerja tim (placeholder)")
+
