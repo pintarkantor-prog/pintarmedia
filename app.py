@@ -4,7 +4,7 @@
 import streamlit as st
 from datetime import datetime
 
-# Daftar user resmi Pintar Media
+# Daftar akun resmi Pintar Media
 USERS_DB = {
     "dian": "QWERTY21ab",
     "icha": "udin99",
@@ -38,7 +38,7 @@ st.markdown("""
     /* Global Background */
     .stApp { background-color: #0e1117; color: #e0e0e0; }
     
-    /* Sidebar Area */
+    /* Sidebar Styling */
     [data-testid="stSidebar"] { 
         background-color: #161b22 !important; 
         border-right: 1px solid #30363d; 
@@ -56,14 +56,14 @@ st.markdown("""
         border: 1px solid #30363d !important;
     }
 
-    /* Input & Textarea Dark Style */
+    /* Input & Textarea Styling */
     div[data-baseweb="input"], div[data-baseweb="textarea"] {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
         border-radius: 8px !important;
     }
 
-    /* Footer Sidebar (Status Info) */
+    /* Status Footer Sidebar */
     .status-footer {
         position: fixed;
         bottom: 20px;
@@ -73,7 +73,7 @@ st.markdown("""
         text-transform: uppercase;
         letter-spacing: 1px;
         line-height: 1.5;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: monospace;
     }
 
     /* --- PROTEKSI PC ONLY --- */
@@ -81,15 +81,9 @@ st.markdown("""
         .main { display: none !important; }
         [data-testid="stSidebar"] { display: none !important; }
         .stApp::before {
-            content: '⚠️ AKSES TERBATAS: Sistem Ruang Produksi Pintar Media hanya dapat diakses melalui perangkat PC / Desktop.';
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: white;
-            text-align: center;
-            padding: 40px;
-            background-color: #0e1117;
+            content: '⚠️ AKSES TERBATAS: Gunakan perangkat Desktop/PC untuk mengakses Ruang Produksi.';
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; color: white; text-align: center; padding: 40px; background-color: #0e1117;
         }
     }
     </style>
@@ -103,44 +97,43 @@ def show_login_page():
     col1, col2, col3 = st.columns([1, 1.2, 1])
     
     with col2:
-        st.markdown("<h2 style='text-align: center; color: white;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #8b949e;'>AI Production Studio Login</p>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #8b949e;'>AI Production Studio Access</p>", unsafe_allow_html=True)
         
-        user_input = st.text_input("Username").lower()
-        pass_input = st.text_input("Password", type="password")
+        u_input = st.text_input("Username").lower()
+        p_input = st.text_input("Password", type="password")
         
         if st.button("LOG IN", use_container_width=True):
-            if user_input in USERS_DB and USERS_DB[user_input] == pass_input:
+            if u_input in USERS_DB and USERS_DB[u_input] == p_input:
                 st.session_state.logged_in = True
-                st.session_state.user_name = user_input
+                st.session_state.user_name = u_input
                 st.session_state.login_time = datetime.now()
                 st.rerun()
             else:
-                st.error("Credential tidak valid. Silakan hubungi admin.")
+                st.error("Credential salah.")
 
 # ==============================================================================
-# PART 5: SIDEBAR NAVIGATION & FOOTER STATUS
+# PART 5: SIDEBAR NAVIGATION (MENU LANGSUNG DI ATAS)
 # ==============================================================================
 def show_sidebar():
     with st.sidebar:
-        st.markdown("<h2 style='color: white; letter-spacing: 2px;'>LAB AREA</h2>", unsafe_allow_html=True)
-        st.markdown("---")
+        st.markdown("<br>", unsafe_allow_html=True) # Spacer kecil di atas
         
-        # Menu Navigasi
+        # Menu Navigasi Utama (Langsung di atas tanpa judul Lab Area)
         selection = st.radio(
             "MENU UTAMA",
             ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
         )
         
-        st.markdown("<br>"*8, unsafe_allow_html=True)
+        st.markdown("<br>"*12, unsafe_allow_html=True)
         
-        # Logout Area
+        # Tombol Logout
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             st.session_state.logged_in = False
             st.session_state.user_name = ""
             st.rerun()
 
-        # Footer Dinamis: Station Info & Uptime
+        # Footer Status Dinamis
         uptime = datetime.now() - st.session_state.login_time
         st.markdown(f"""
             <div class="status-footer">
@@ -157,7 +150,7 @@ def show_sidebar():
 def ruang_produksi():
     st.markdown("### 📝 Detail Adegan Storyboard")
     
-    # --- SUB-PART: KARAKTER ---
+    # --- SEKSI KARAKTER ---
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         num_chars = st.number_input("Jumlah Karakter Utama", 1, 5, 2)
         st.markdown("<br>", unsafe_allow_html=True)
@@ -167,28 +160,28 @@ def ruang_produksi():
             with char_cols[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
                 st.text_input(f"Nama Karakter", key=f"name_{i}", placeholder="Input Nama...")
-                st.text_area(f"Ciri Fisik", key=f"desc_{i}", height=120, placeholder="Rambut, Pakaian, Atribut...")
+                st.text_area(f"Ciri Fisik", key=f"desc_{i}", height=120, placeholder="Ciri fisik...")
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # --- SUB-PART: DAFTAR ADEGAN ---
+    # --- SEKSI ADEGAN ---
     with st.expander("🟢 ADEGAN 1", expanded=False):
         c1a, c1b = st.columns([1, 2])
-        with c1a: st.text_input("Lokasi", key="l1", placeholder="Lokasi Adegan 1...")
-        with c1b: st.text_area("Aksi / Kejadian", key="a1", placeholder="Apa yang terjadi?")
+        with c1a: st.text_input("Lokasi Adegan 1", key="l1", placeholder="Lokasi...")
+        with c1b: st.text_area("Aksi Adegan 1", key="a1", placeholder="Apa yang terjadi?")
 
     with st.expander("🎬 ADEGAN 2", expanded=False):
         c2a, c2b = st.columns([1, 2])
-        with c2a: st.text_input("Lokasi", key="l2", placeholder="Lokasi Adegan 2...")
-        with c2b: st.text_area("Aksi / Kejadian", key="a2", placeholder="Apa yang terjadi?")
+        with c2a: st.text_input("Lokasi Adegan 2", key="l2", placeholder="Lokasi...")
+        with c2b: st.text_area("Aksi Adegan 2", key="a2", placeholder="Apa yang terjadi?")
 
-    # --- SUB-PART: GENERATOR BUTTON ---
+    # --- ACTION BUTTON ---
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Data Storyboard Berhasil Dikompilasi. Siap dikirim ke Gemini.")
+        st.success("Data Storyboard Berhasil Dikompilasi.")
 
 # ==============================================================================
-# PART 7: MAIN ROUTER (MENJALANKAN SISTEM)
+# PART 7: MAIN ROUTER
 # ==============================================================================
 if not st.session_state.logged_in:
     show_login_page()
@@ -199,8 +192,4 @@ else:
         ruang_produksi()
     else:
         st.title(current_menu)
-        st.info(f"Modul {current_menu} sedang dalam tahap sinkronisasi data.")
-
-# ==============================================================================
-# END OF CODE
-# ==============================================================================
+        st.info(f"Halaman {current_menu} sedang dalam pengembangan.")
