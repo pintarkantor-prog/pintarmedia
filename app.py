@@ -80,29 +80,51 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        .stApp { background-color: #0e1117; color: #e0e0e0; }
-        [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
+        /* Efek Deep Dark Mode */
+        .stApp { background-color: #0b0e14; color: #e0e0e0; }
+        [data-testid="stSidebar"] { background-color: #0f141a !important; border-right: 1px solid #1e252e; }
         
+        /* Glassmorphism untuk Expander */
+        .st-emotion-cache-p4mowd { 
+            background-color: rgba(22, 27, 34, 0.5) !important;
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+        }
+
         .small-label {
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            color: #d1d5db !important;
-            margin-bottom: 4px !important;
-            margin-top: 10px !important;
+            font-size: 11px !important;
+            letter-spacing: 0.05rem;
+            text-transform: uppercase;
+            font-weight: 700 !important;
+            color: #8b949e !important;
+            margin-bottom: 2px !important;
+            margin-top: 12px !important;
             display: block;
         }
-        
-        div[data-testid="stForm"] { border: 1px solid #30363d !important; border-radius: 12px !important; padding: 20px !important; }
 
-        div[data-testid="stFormSubmitButton"] button {
+        /* Tombol Generate Glow */
+        div[data-testid="stBaseButton-headerNoPadding"] button, 
+        .stButton button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            color: white !important; border: none !important; height: 50px !important; border-radius: 10px !important;
+            border: none !important;
+            color: white !important;
+            font-weight: bold !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
+            transition: all 0.3s ease !important;
+        }
+        
+        .stButton button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
         }
 
-        div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #1d2127 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
-        .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
+        /* Style Input & Textarea */
+        div[data-baseweb="input"], div[data-baseweb="textarea"] {
+            background-color: #0d1117 !important;
+            border: 1px solid #30363d !important;
+        }
         </style>
-        """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
 # ==============================================================================
 # BAGIAN 4: NAVIGASI SIDEBAR
@@ -264,6 +286,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
