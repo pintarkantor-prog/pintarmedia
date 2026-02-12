@@ -376,24 +376,22 @@ def tampilkan_navigasi_sidebar():
 # ==============================================================================
 # BAGIAN 5: MODUL-MODUL PENDUKUNG (UPGRADED VERSION)
 # ==============================================================================
-import streamlit as st
+def tampilkan_ai_lab():
+    st.title("🧠 PINTAR AI LAB")
+    st.caption("Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!")
 
-# --- JUDUL & DESKRIPSI (Sesuai Foto Kamu) ---
-st.title("🧠 PINTAR AI LAB")
-st.caption("Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!")
+    # --- AREA INPUT (Sisi Kiri) ---
+    col1, col2 = st.columns(2)
 
-# --- AREA INPUT (Sisi Kiri) ---
-col1, col2 = st.columns(2)
+    with col1:
+        st.subheader("📝 Input Ide")
+        topik = st.text_input("Mau bikin cerita tentang apa?", placeholder="Contoh: Udin nemu dompet di jalan...")
+        gaya = st.selectbox("Gaya Cerita", ["Drama Plot Twist", "Komedi Slapstick", "Horor Komedi", "Action Cepat"])
+        jumlah_adegan = st.slider("Target Jumlah Adegan", 1, 10, 3)
 
-with col1:
-    st.subheader("📝 Input Ide")
-    topik = st.text_input("Mau bikin cerita tentang apa?", placeholder="Contoh: Udin nemu dompet di jalan...")
-    gaya = st.selectbox("Gaya Cerita", ["Drama Plot Twist", "Komedi Slapstick", "Horor Komedi", "Action Cepat"])
-    jumlah_adegan = st.slider("Target Jumlah Adegan", 1, 10, 3)
-
-# --- LOGIKA MASTER PROMPT ---
-# Ini adalah "instruksi rahasia" agar AI selalu patuh pada karakter Pintar Media
-master_instruction = f"""
+    # --- LOGIKA MASTER PROMPT ---
+    # Menggunakan f-string untuk merakit instruksi
+    master_instruction = f"""
 Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
 1. UDIN: Pria kepala jeruk, lucu, tapi sering sial.
@@ -406,19 +404,18 @@ Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: 3D Pixar-style animation, high detail texture (orange and wood), vibrant colors.
 """
 
-# --- TOMBOL GENERATE & OUTPUT (Sisi Kanan) ---
-with col2:
-    st.subheader("📜 Hasil Mantra (Copy ke Gemini)")
-    
-    if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True):
-        if topik:
-            # Menampilkan hasil di area teks agar mudah di-copy
-            st.text_area("Salin teks di bawah ini:", value=master_instruction, height=300)
-            st.success("Mantra berhasil dirakit! Silakan copy ke Gemini.")
+    # --- TOMBOL GENERATE & OUTPUT (Sisi Kanan) ---
+    with col2:
+        st.subheader("📜 Hasil Mantra (Copy ke Gemini)")
+        
+        if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True):
+            if topik:
+                st.text_area("Salin teks di bawah ini:", value=master_instruction, height=300)
+                st.success("Mantra berhasil dirakit! Silakan copy ke Gemini.")
+            else:
+                st.warning("Isi dulu topiknya, Bos!")
         else:
-            st.warning("Isi dulu topiknya, Bos!")
-    else:
-        st.info("Masukkan topik cerita di samping, lalu klik tombol Generate.")
+            st.info("Masukkan topik cerita di samping, lalu klik tombol Generate.")
 
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -615,6 +612,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
