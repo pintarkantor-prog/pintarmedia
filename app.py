@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (DENGAN FITUR AUTO-COPY)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL VERSION WITH SHOT SIZE)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -182,27 +182,29 @@ def tampilkan_ruang_produksi():
         
         with col_text:
             st.markdown("📸 **Naskah Visual & Aksi**")
-            aksi = st.text_area(
-                "Aksi & Interaksi", 
-                height=420, 
-                key="h_act", 
-                placeholder="Deskripsikan aksi karakter di sini...",
-                label_visibility="collapsed"
-            )
+            aksi = st.text_area("Aksi & Interaksi", height=500, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
+            # Grid Sidebar 2 Kolom Internal
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
                 st.markdown("✨ **STYLE**")
                 mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
+                
                 st.markdown("💡 **LIGHTING**")
                 lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
+                
                 st.markdown("📐 **ARAH KAMERA**")
                 arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
-                st.markdown("📏 **RATIO**")
+                # MENU BARU: UKURAN GAMBAR (SHOT SIZE)
+                st.markdown("🔍 **UKURAN GAMBAR**")
+                shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
+                
+                st.markdown("📺 **ASPECT RATIO**")
                 rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
+                
                 st.markdown("🎥 **GERAKAN**")
                 kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
@@ -212,38 +214,44 @@ def tampilkan_ruang_produksi():
         st.markdown("💬 **ACTING CUE (DIALOG UNTUK EMOSI)**")
         col_d1, col_d2 = st.columns(2)
         with col_d1:
-            d1 = st.text_input("Dialog Karakter 1", key="h_d1", placeholder="Karakter 1 bicara...")
+            d1 = st.text_input("Dialog Karakter 1", key="h_d1")
         with col_d2:
-            d2 = st.text_input("Dialog Karakter 2", key="h_d2", placeholder="Karakter 2 bicara...")
+            d2 = st.text_input("Dialog Karakter 2", key="h_d2")
 
-    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM DENGAN TOMBOL COPY)
+    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM SEJAJAR)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
-        char_identities = " AND ".join([
-            f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. Wearing: {c['wear']} ]]" 
-            for c in karakter_data if c['nama']
-        ])
-        dialog_cue = f"{karakter_data[0]['nama']}: '{d1}' | {karakter_data[1]['nama']}: '{d2}'" if len(karakter_data) > 1 else f"'{d1}'"
+        # Identitas Karakter
+        char_identities = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in karakter_data if c['nama']])
+        char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
 
-        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood/Style: {mood}, Camera View: {arah_kam}, Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
-        video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera Angle: {arah_kam}, Motion: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
+        # Formulasi Prompt Gambar (Grup 1 Style)
+        image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
+STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
+FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
+CHARACTER DATA: {char_identities}
+VISUAL ACTION: {aksi}
+ENVIRONMENT: {lokasi}
+CAMERA: {shot_size}, {arah_kam} angle.
+TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio}"""
+
+        # Formulasi Prompt Video (Grup 2 Style)
+        video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
+Character Profiles: {char_profiles}
+Scene: {aksi} at {lokasi}.
+Acting Cue: {d1} | {d2}. (STRICTLY NO TEXT ON SCREEN).
+Technical: {mood} cinematic video, {shot_size}, {kamera} at {arah_kam}, 60fps, fluid motion, 8k UHD, no watermark. aspect ratio {rasio}."""
 
         st.subheader("📋 Production Ready Prompts")
-        out_col1, out_col2 = st.columns(2)
-        
+        out_col1, out_col2 = st.columns(2) # Output Berdampingan
         with out_col1:
             st.markdown("##### 🖼️ PROMPT GAMBAR")
-            # Menggunakan st.code agar ada tombol copy otomatis
             st.code(image_p, language="text")
-        
         with out_col2:
             st.markdown("##### 🎬 PROMPT VIDEO")
-            # Menggunakan st.code agar ada tombol copy otomatis
             st.code(video_p, language="text")
-        
-        st.success("Prompt siap! Klik ikon copy di pojok kanan kotak prompt untuk menyalin.")
         
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -264,6 +272,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
