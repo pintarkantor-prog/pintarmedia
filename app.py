@@ -108,32 +108,28 @@ def muat_dari_gsheet():
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # Ambil semua data dari GSheet
         semua_data = sheet.get_all_records()
         user_sekarang = st.session_state.get("user_aktif", "").lower()
         
-        # Cari baris milik user ini (kita buat lebih fleksibel pemeriksaannya)
-        user_rows = []
-        for row in semua_data:
-            # Kita cek kolom 'Username' (pastikan di GSheet tulisannya 'Username')
-            nama_di_sheet = str(row.get('Username', '')).lower()
-            if nama_di_sheet == user_sekarang:
-                user_rows.append(row)
+        user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang]
         
         if user_rows:
-            # Ambil data dari baris paling terakhir
             naskah_terakhir = user_rows[-1]['Data_Naskah']
             
-            # Update Laci (Session State)
+            # 1. Update Laci Utama
             st.session_state.data_produksi = json.loads(naskah_terakhir)
             
-            st.success(f"🔄 Naskah {user_sekarang} berhasil dipulihkan!")
-            st.rerun() # Refresh layar agar data muncul di form
-        else:
-            st.warning(f"⚠️ Tidak ada data ditemukan untuk user: {user_sekarang}")
+            # 2. TRIK PENTING: Ubah 'version' untuk memaksa widget refresh
+            if 'form_version' not in st.session_state:
+                st.session_state.form_version = 0
+            st.session_state.form_version += 1
             
+            st.success(f"🔄 Naskah {user_sekarang} berhasil dipulihkan!")
+            st.rerun()
+        else:
+            st.warning("⚠️ Data tidak ditemukan.")
     except Exception as e:
-        st.error(f"Gagal memuat dari Cloud: {e}")
+        st.error(f"Gagal: {e}")
         
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -331,10 +327,10 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SUDAH SUPPORT RESTORE)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    # 1. LOGIKA WAKTU & USER (WIB)
+    # ... (Logika waktu tetap sama) ...
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
@@ -345,40 +341,38 @@ def tampilkan_ruang_produksi():
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # 2. HEADER: TEKNIK 3 KOLOM (Agar lebar teks pas)
+    # HEADER (Tetap sama)
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
-    
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
         st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
-        
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        # Menggunakan st.success murni
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
     
     st.write("---")
     
     data = st.session_state.data_produksi
+    # Ambil versi form untuk paksa refresh saat Restore
+    ver = st.session_state.get("form_version", 0)
 
     # 1. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
-        # Kata "Jumlah Karakter" sekarang tersembunyi
-        data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed")
+        data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         
         cols_char = st.columns(data["jumlah_karakter"])
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}", placeholder="Nama...", label_visibility="collapsed")
-                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Pakaian...", label_visibility="collapsed")
-                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Fisik...", label_visibility="collapsed")
+                # TAMBAHKAN {ver} PADA SETIAP KEY
+                data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}_{ver}", placeholder="Nama...", label_visibility="collapsed")
+                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}_{ver}", placeholder="Pakaian...", label_visibility="collapsed")
+                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}_{ver}", height=80, placeholder="Fisik...", label_visibility="collapsed")
 
-    # 2. GENERASI INPUT ADEGAN SECARA DINAMIS
+    # 2. GENERASI INPUT ADEGAN
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
         
-        # Inisialisasi struktur data adegan jika belum ada
         if scene_id not in data["adegan"]:
             data["adegan"][scene_id] = {
                 "aksi": "", "style": "Realistis", "light": "Studio", 
@@ -391,42 +385,42 @@ def tampilkan_ruang_produksi():
             col_text, col_set = st.columns([1.5, 1])
             
             with col_text:
-                # KEMBALI KE SMALL-LABEL SESUAI REQUEST
                 st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
+                # TAMBAHKAN {ver} PADA KEY
+                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
             
             with col_set:
                 sub1, sub2 = st.columns(2)
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], index=0, key=f"mood_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], index=0, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", ["Golden Hour", "Studio", "Natural"], key=f"light_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", ["Golden Hour", "Studio", "Natural"], key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key=f"arah_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
 
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key=f"shot_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", ["16:9", "9:16", "1:1"], key=f"ratio_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", ["16:9", "9:16", "1:1"], key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", ["Static", "Zoom In", "Tracking"], key=f"cam_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", ["Static", "Zoom In", "Tracking"], key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}", label_visibility="collapsed", placeholder="Lokasi adegan...")
+                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
-            # Baris Dialog Sejajar Horizontal
+            # Dialog (TAMBAHKAN {ver} PADA KEY)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
                     char_name = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed", placeholder="Dialog...")
+                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
     # 3. GLOBAL COMPILER LOGIC (DENGAN NAMA USER DINAMIS)
     if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True, type="primary"):
@@ -490,6 +484,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
