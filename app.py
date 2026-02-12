@@ -133,7 +133,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL MULTI-SCENE & VALIDASI)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -172,7 +172,8 @@ def tampilkan_ruang_produksi():
             col_text, col_set = st.columns([1.5, 1])
             
             with col_text:
-                st.markdown("### 📸 Naskah Visual & Aksi")
+                # KEMBALI KE SMALL-LABEL SESUAI REQUEST
+                st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
             
             with col_set:
@@ -222,35 +223,19 @@ def tampilkan_ruang_produksi():
             st.markdown("---")
             st.subheader("📋 Production Ready Script Prompts")
             
-            # String Identitas Global
-            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in data["karakter"] if c['nama']])
+            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
             char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in data["karakter"] if c['nama']])
 
-            # Loop HANYA untuk adegan yang terisi
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 st.markdown(f"#### 🎬 ADEGAN {scene_id}")
                 
-                # Mengumpulkan dialog yang tidak kosong
                 all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
                                     for i in range(data["jumlah_karakter"]) 
                                     if data['karakter'][i]['nama'] and sc['dialogs'][i]])
                 
-                # Format Prompt Gambar (Grup 1)
-                img_p = f"""IMAGE REFERENCE RULE: Use uploaded photos. Interaction required.
-STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO TEXT. NO SUBTITLES.
-CHARACTER DATA: {char_ids}
-VISUAL ACTION: {sc['aksi']}
-ENVIRONMENT: {sc['loc']}
-CAMERA: {sc['shot']}, {sc['arah']} angle.
-TECHNICAL: {sc['style']}, {sc['light']} lighting. Hyper-realistic 8k, f/11 aperture. --ar {sc['ratio']}"""
-
-                # Format Prompt Video (Grup 2)
-                vid_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
-Character Profiles: {char_profiles}
-Scene: {sc['aksi']} at {sc['loc']}.
-Acting Cue: {all_d if all_d else 'Focus on visual emotion and character movement'}.
-Technical: {sc['style']} cinematic video, {sc['shot']}, {sc['cam']} at {sc['arah']}, 60fps, fluid motion, 8k UHD. aspect ratio {sc['ratio']}."""
+                img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {sc['light']}, {sc['shot']} --ar {sc['ratio']}"
+                vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
 
                 out_c1, out_c2 = st.columns(2)
                 with out_c1:
@@ -279,5 +264,6 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
