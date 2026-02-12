@@ -374,7 +374,7 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - GRID SYSTEM)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - PRO LAYOUT)
 # ==============================================================================
 
 def tampilkan_ai_lab():
@@ -383,26 +383,32 @@ def tampilkan_ai_lab():
     st.divider() 
 
     # --- AREA ATAS: SETTING UTAMA ---
-    st.subheader("📝 Input Cerita")
-    col_a, col_b, col_c = st.columns([1.5, 1, 1])
+    # Topik dibuat besar di kolom sendiri (rasio 2:1:1)
+    col_topik, col_pola, col_visual = st.columns([2, 1, 1])
     
-    with col_a:
-        topik = st.text_input("Topik Utama", placeholder="Contoh: Dituduh mencuri...")
-    with col_b:
-        pola = st.selectbox("Pola Alur Cerita", [
+    with col_topik:
+        st.subheader("📝 Topik Utama")
+        topik = st.text_input("Apa ide ceritanya?", placeholder="Contoh: Dituduh mencuri...", label_visibility="collapsed")
+    
+    with col_pola:
+        st.subheader("🎭 Pola Alur")
+        pola = st.selectbox("Pilih Pola", [
             "Viral Drama (Zero to Hero / Revenge)", 
             "Lomba Konyol (Komedi Interaktif / Call to Action)",
             "Drama Plot Twist (Standard)",
             "Komedi Slapstick (Konyol & Sial)"
-        ])
-    with col_c:
-        visual = st.selectbox("Gaya Visual AI", [
-            "3D Pixar Style (Ceria & Detail)",
+        ], label_visibility="collapsed")
+    
+    with col_visual:
+        st.subheader("🎨 Gaya Visual")
+        visual = st.selectbox("Pilih Gaya", [
             "Cinematic Realistic (Seperti Film Nyata)",
+            "3D Pixar Style (Ceria & Detail)",
             "Anime / Manga Style (Gaya Jepang)",
             "Retro Cartoon (Gaya Kartun Jadul)"
-        ])
+        ], index=0, label_visibility="collapsed") # Default Cinematic Realistic
     
+    st.write(" ")
     jumlah_adegan = st.slider("Target Jumlah Adegan", 3, 10, 5)
 
     st.divider()
@@ -410,35 +416,33 @@ def tampilkan_ai_lab():
     # --- AREA TENGAH: GRID SETTING KARAKTER ---
     st.subheader("👤 Setting Karakter (Maks. 4)")
     
-    # Inisialisasi session state jumlah karakter
     if 'jumlah_karakter' not in st.session_state:
         st.session_state.jumlah_karakter = 2
 
-    # Tombol Kontrol Karakter
     c_btn1, c_btn2, _ = st.columns([0.2, 0.2, 0.6])
     with c_btn1:
-        if st.button("➕ Tambah", use_container_width=True) and st.session_state.jumlah_karakter < 4:
+        if st.button("➕ Tambah Tokoh", use_container_width=True) and st.session_state.jumlah_karakter < 4:
             st.session_state.jumlah_karakter += 1
             st.rerun()
     with c_btn2:
-        if st.button("➖ Kurang", use_container_width=True) and st.session_state.jumlah_karakter > 1:
+        if st.button("➖ Kurang Tokoh", use_container_width=True) and st.session_state.jumlah_karakter > 1:
             st.session_state.jumlah_karakter -= 1
             st.rerun()
 
-    # Membuat Grid Karakter (2 kolom per baris agar rapi)
     list_karakter = []
-    rows = (st.session_state.jumlah_karakter + 1) // 2  # Menghitung baris yang dibutuhkan
+    rows = (st.session_state.jumlah_karakter + 1) // 2 
     
     for r in range(rows):
-        cols = st.columns(2)  # Buat 2 kolom per baris
+        cols = st.columns(2) 
         for c in range(2):
             idx = r * 2 + c
             if idx < st.session_state.jumlah_karakter:
                 with cols[c]:
-                    with st.container(border=True): # Kotak pembungkus karakter
+                    with st.container(border=True):
                         st.markdown(f"**Karakter {idx+1}**")
-                        nama = st.text_input(f"Nama Tokoh", value=f"Tokoh {idx+1}", key=f"nama_{idx}")
-                        sifat = st.text_input(f"Sifat & Ciri Visual", placeholder="Contoh: Kepala Kayu, kaku", key=f"sifat_{idx}")
+                        # Field input tanpa label teks yang berulang agar rapi
+                        nama = st.text_input(f"Nama Tokoh {idx+1}", value=f"Tokoh {idx+1}", key=f"nama_{idx}")
+                        sifat = st.text_input(f"Sifat & Ciri Visual {idx+1}", placeholder="Contoh: Kepala Kayu, kaku", key=f"sifat_{idx}")
                         list_karakter.append(f"{idx+1}. {nama.upper()}: {sifat}")
 
     st.write(" ")
@@ -450,18 +454,16 @@ def tampilkan_ai_lab():
 
     if btn_generate:
         if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
-            # Mapping Visual & Alur
             visual_map = {
-                "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture, vibrant colors.",
-                "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, natural lighting.",
-                "Anime / Manga Style (Gaya Jepang)": "Modern anime style, vibrant colors, clean lines.",
-                "Retro Cartoon (Gaya Kartun Jadul)": "1990s retro cartoon style, bold outlines."
+                "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture, natural lighting.",
+                "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture, vibrant colors, cinematic lighting.",
+                "Anime / Manga Style (Gaya Jepang)": "Modern anime style, vibrant colors, clean lines, high quality cel-shaded.",
+                "Retro Cartoon (Gaya Kartun Jadul)": "1990s retro cartoon style, hand-drawn aesthetic, bold outlines."
             }
             prompt_visual = visual_map[visual]
             str_karakter = "\n".join(list_karakter)
             tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
 
-            # Penentuan Judul & Alur
             if pola == "Viral Drama (Zero to Hero / Revenge)":
                 alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Tengah: Konflik memuncak. Adegan Akhir: {tokoh_utama} terbukti sukses/hebat."
                 judul_viral = f"🔥 JUDUL: Dituduh {topik}, Ternyata {tokoh_utama} Adalah..."
@@ -478,12 +480,11 @@ Karakter Wajib:
 
 Tugas: Buatkan naskah {jumlah_adegan} adegan dengan pola: {pola}.
 Topik Cerita: {topik}
-Alur: {alur_spesifik}
+Alur Spesifik: {alur_spesifik}
 
 Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: {prompt_visual}"""
 
-            # Output Grid
             res_col1, res_col2 = st.columns([0.4, 0.6])
             with res_col1:
                 st.info("💎 Judul Clickbait")
@@ -492,9 +493,9 @@ Gaya Visual: {prompt_visual}"""
                 st.info("🔮 Mantra Naskah")
                 st.code(master_instruction, language="text")
         else:
-            st.error("Lengkapi dulu Topik dan Sifat Karakter, Bos!")
+            st.error("Tolong isi Topik dan Sifat Karakter dulu ya!")
     else:
-        st.info("Klik tombol Generate untuk melihat naskah di sini.")
+        st.info("Hasil naskah akan muncul di sini setelah klik tombol Generate.")
             
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -691,6 +692,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
