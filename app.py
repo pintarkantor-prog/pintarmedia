@@ -101,8 +101,8 @@ def pasang_css_kustom():
             [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
         }
 
-        /* 3. SEMUA TOMBOL (HIJAU MANTAP) */
-        div.stButton > button {
+        /* 3. HANYA TOMBOL GENERATE YANG HIJAU (PRIMARY) */
+        div.stButton > button[kind="primary"] {
             background: linear-gradient(to right, #1d976c, #11998e) !important;
             color: white !important; 
             border: none !important; 
@@ -221,9 +221,8 @@ def tampilkan_navigasi_sidebar():
         # Jarak Logout
         st.markdown("<br>" * 6, unsafe_allow_html=True)
         
-        # --- PERBAIKAN SPASI DI SINI ---
         if st.button("LOGOUT SYSTEM", use_container_width=True):
-            proses_logout() # Baris ini harus menjorok ke dalam
+            proses_logout()
         
         # Baris ini harus sejajar kembali dengan 'if' di atas
         user = st.session_state.get("user_aktif", "USER").upper()
@@ -408,6 +407,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
