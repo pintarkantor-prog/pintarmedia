@@ -38,20 +38,21 @@ def cek_autentikasi():
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        # Tampilkan Notifikasi di Tengah
+        # Tampilkan Notifikasi Sesuai Gambar (2 Detik)
         placeholder = st.empty()
         with placeholder.container():
             st.markdown(f"""
-                <div style="display: flex; justify-content: center; align-items: center; height: 300px;">
-                    <div style="padding: 20px 40px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); 
-                                border-radius: 15px; color: white; font-size: 24px; font-weight: bold; 
-                                text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
-                        Selamat Bekerja, {user.upper()}!
+                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
+                    <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
+                        ✅ AKSES DITERIMA!
+                    </div>
+                    <div style="color: white; font-size: 42px; font-weight: bold; font-family: sans-serif;">
+                        Selamat bekerja, {user.capitalize()}!
                     </div>
                 </div>
             """, unsafe_allow_html=True)
         
-        time.sleep(2) # Jeda 2 Detik
+        time.sleep(2) 
         placeholder.empty()
 
         st.session_state.sudah_login = True
@@ -144,7 +145,6 @@ def utama():
         with col_m:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
             
-            # Form agar bisa Enter untuk Login
             with st.form("login_form"):
                 u = st.text_input("Username").lower()
                 p = st.text_input("Password", type="password")
