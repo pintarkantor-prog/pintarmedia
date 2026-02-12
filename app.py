@@ -23,13 +23,13 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-    # INISIALISASI LACI PENYIMPANAN DATA (ANTI-HILANG)
+    # LACI PENYIMPANAN DATA (TIDAK DIUBAH)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
             "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
             "jumlah_adegan": 5,
-            "adegan": {} # Tempat menyimpan naskah per adegan
+            "adegan": {} 
         }
 
     params = st.query_params
@@ -79,62 +79,49 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-def simpan_proyek():
-    """Mengambil data naskah dari memori aplikasi dan merubahnya menjadi teks JSON"""
-    if 'data_produksi' in st.session_state:
-        data = st.session_state.data_produksi
-        return json.dumps(data, indent=4)
-    return "{}"
-
+# FUNGSI BACKUP (Fokus GSheet lewat Secrets)
 def simpan_ke_gsheet():
     try:
-        # 1. Koneksi pakai file kunci.json
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = Credentials.from_service_account_file("kunci.json", scopes=scope)
+        # Pakai st.secrets (tidak pakai file kunci.json)
+        creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # 2. Buka spreadsheet pakai URL milikmu
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # 3. Ambil data dari aplikasi
         user = st.session_state.get("user_aktif", "Staff")
         waktu = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         data_json = json.dumps(st.session_state.data_produksi)
         
-        # 4. Tulis ke baris paling bawah di GSheet
         sheet.append_row([user, waktu, data_json])
         st.toast("🚀 Berhasil disimpan ke Cloud GSheet!", icon="☁️")
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
+# FUNGSI RESTORE (Fokus GSheet lewat Secrets)
 def muat_dari_gsheet():
     try:
-        # 1. Koneksi resmi
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = Credentials.from_service_account_file("kunci.json", scopes=scope)
+        # Pakai st.secrets (tidak pakai file kunci.json)
+        creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # 2. Buka file
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # 3. Ambil semua data dan cari punya user aktif
         semua_data = sheet.get_all_records()
         user_sekarang = st.session_state.get("user_aktif", "")
         
-        # Cari baris yang usernamenya cocok
         user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang.lower()]
         
         if user_rows:
-            # Ambil naskah terbaru (baris paling bawah dari user tersebut)
             naskah_terakhir = user_rows[-1]['Data_Naskah']
             st.session_state.data_produksi = json.loads(naskah_terakhir)
-            st.success(f"🔄 Naskah milik {user_sekarang} berhasil dipulihkan dari Cloud!")
+            st.success(f"🔄 Naskah milik {user_sekarang} berhasil dipulihkan!")
             st.rerun()
         else:
-            st.warning("⚠️ Kamu belum pernah menyimpan data ke Cloud.")
-            
+            st.warning("⚠️ Data kamu tidak ditemukan di Cloud.")
     except Exception as e:
         st.error(f"Gagal memuat dari Cloud: {e}")
         
@@ -493,6 +480,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
