@@ -178,30 +178,19 @@ def tampilkan_ruang_produksi():
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
     
-    # Mengambil nama user yang sedang login
+    # Ambil nama user aktif
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # 2. HEADER TAMPILAN (Rasio kolom diatur agar proporsional)
-    c1, c2 = st.columns([2.2, 1.8]) 
+    # 2. HEADER TAMPILAN (Murni Streamlit)
+    c1, c2 = st.columns([2, 2]) # Pakai rasio 2:2 agar ruang kanan lebih luas untuk teks panjang
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
         st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
     
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        # Menampilkan Tanggal & Nama Staf Aktif
-        st.markdown(f"""
-            <div style="background-color: rgba(16, 185, 129, 0.1); 
-                        padding: 10px; 
-                        border-radius: 8px; 
-                        border: 1px solid #10b981; 
-                        color: #10b981; 
-                        font-size: 13px; 
-                        font-weight: bold; 
-                        text-align: center;">
-                🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf Aktif: {user_aktif}
-            </div>
-        """, unsafe_allow_html=True)
+        # MENGGUNAKAN ST.SUCCESS (TANPA CSS MANUAL)
+        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf Aktif: {user_aktif}")
     
     st.write("---")
     
@@ -337,6 +326,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
