@@ -136,7 +136,7 @@ def pasang_css_kustom():
         div[data-testid="stNumberInput"] {
             background-color: #161922 !important; /* Warna dasar kotak lebih gelap */
             border-radius: 0px !important;       /* Sudut melengkung halus */
-            padding: 5px !important;
+            padding: 2px !important;
 
         }
 
@@ -357,6 +357,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
