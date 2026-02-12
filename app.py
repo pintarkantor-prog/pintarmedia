@@ -20,77 +20,77 @@ USER_PASSWORDS = {
 
 # --- 1. FITUR SINKRONISASI SESI & AUTO-RECOVERY (SOLUSI REFRESH) ---
 if 'active_user' not in st.session_state:
-    q_user = st.query_params.get("u")
-    if q_user and q_user.lower() in USER_PASSWORDS:
-        # LOGIKA PENYELAMAT: Jika user ada di URL, langsung pulihkan sesi
-        user_fix = q_user.lower()
-        st.session_state.active_user = user_fix
-        
-        # --- JEMBATAN UNTUK TUGAS KERJA ---
-        # Kita simpan versi Uppercase agar sistem Tab tidak error
-        st.session_state['username'] = user_fix.upper()
-        
-        if 'login_time' not in st.session_state:
-            st.session_state.login_time = time.time()
-        st.rerun() 
-else:
-    # Jaga agar URL tetap sinkron saat sedang bekerja
-    if st.query_params.get("u") != st.session_state.active_user:
-        st.query_params["u"] = st.session_state.active_user
-
-# --- 2. LAYAR LOGIN (Hanya muncul jika recovery di atas gagal) ---
-if 'active_user' not in st.session_state:
     placeholder = st.empty()
     with placeholder.container():
-        st.write("")
-        st.write("")
-        
-        # Penjepit tetap 1.8 agar ramping di layout Wide
-        _, col_login, _ = st.columns([1.8, 1.0, 1.8]) 
-        
+        # Spasi atas minimal supaya tidak memanjang
+        st.markdown("<div style='height: 8vh;'></div>", unsafe_allow_html=True)
+
+        # Centering lebih rapat (sisi kosong lebih lebar → kotak lebih kecil)
+        _, col_login, _ = st.columns([2.2, 1.0, 2.2])
+
         with col_login:
+            # Rainbow gradient teks utama (selalu muncul, gambar jadi opsional)
+            st.markdown("""
+                <h1 style='text-align: center; font-size: 46px; font-weight: 900; margin-bottom: 35px;
+                background: linear-gradient(90deg, #ff00cc, #3333ff, #00ff99, #ffcc00);
+                -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
+                    PINTAR MEDIA
+                </h1>
+            """, unsafe_allow_html=True)
+
+            # Gambar logo (jika berhasil) – kecil di bawah rainbow
             try:
-                st.image("PINTAR.png", use_container_width=True) 
+                st.image("PINTAR.png", width=180, use_column_width=False)
             except:
-                st.markdown("<h1 style='text-align: center;'>📸 PINTAR MEDIA</h1>", unsafe_allow_html=True)
-            
+                pass  # rainbow sudah cukup
+
             with st.form("login_form", clear_on_submit=False):
-                # Prefill tetap ada buat user baru yang pertama kali masuk lewat link
-                default_user = st.query_params.get("u", "")                
-                user_input = st.text_input("Username", value=default_user, placeholder="Username...")
-                pass_input = st.text_input("Password", type="password", placeholder="Password...")
-                
-                st.write("")
-                submit_button = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
-            
+                default_user = st.query_params.get("u", "")
+                # Tanpa label sama sekali – hanya placeholder
+                user_input = st.text_input("", value=default_user, placeholder="Username...", key="user_input_unique")
+                pass_input = st.text_input("", type="password", placeholder="Password...", key="pass_input_unique")
+
+                st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+
+                submit_button = st.form_submit_button(
+                    "MASUK KE SISTEM 🚀",
+                    use_container_width=True,
+                    type="primary"
+                )
+
             if submit_button:
                 user_clean = user_input.lower().strip()
                 if user_clean in USER_PASSWORDS and pass_input == USER_PASSWORDS[user_clean]:
-                    # 1. Simpan ke session original
                     st.session_state.active_user = user_clean
                     st.session_state.login_time = time.time()
-                    
-                    # --- JEMBATAN UNTUK TUGAS KERJA ---
-                    # Menyimpan identitas kapital untuk sistem akses tab
-                    st.session_state['username'] = user_clean.upper()
-                    
-                    # 2. BERSIHKAN URL (Buang password & sampah lainnya)
-                    st.query_params.clear() 
-                    # 3. SET ULANG URL (Hanya nama user)
+                    st.session_state.username = user_clean.upper()
+
+                    st.query_params.clear()
                     st.query_params["u"] = user_clean
-                    
-                    placeholder.empty() 
+
+                    placeholder.empty()
                     with placeholder.container():
-                        st.write("")
-                        st.markdown("<h3 style='text-align: center; color: #28a745;'>✅ AKSES DITERIMA!</h3>", unsafe_allow_html=True)
-                        # Menampilkan nama yang rapi saat sukses login
-                        st.markdown(f"<h1 style='text-align: center;'>Selamat bekerja, {user_clean.capitalize()}!</h1>", unsafe_allow_html=True)
-                        time.sleep(1.0)
+                        st.markdown("<div style='height: 30vh;'></div>", unsafe_allow_html=True)
+                        st.markdown(
+                            "<h2 style='text-align: center; color: #10b981; font-size: 28px;'>AKSES DITERIMA! ✅</h2>",
+                            unsafe_allow_html=True
+                        )
+                        st.markdown(
+                            f"<h3 style='text-align: center; color: #e2e8f0;'>Selamat bekerja, {user_clean.capitalize()}!</h3>",
+                            unsafe_allow_html=True
+                        )
+                        time.sleep(1.2)
                     st.rerun()
                 else:
-                    st.error("❌ Username atau Password salah.")
-            
-            st.caption("<p style='text-align: center;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
+                    st.error("Username atau password salah", icon="🚫")
+
+            # Footer kecil
+            st.markdown(
+                "<p style='text-align: center; color: #6b7280; font-size: 13px; margin-top: 30px;'>"
+                "Secure Access - PINTAR MEDIA</p>",
+                unsafe_allow_html=True
+            )
+
     st.stop()
 
 # --- 3. PROTEKSI SESI (AUTO-LOGOUT 10 JAM) ---
@@ -1261,3 +1261,4 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
