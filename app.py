@@ -155,63 +155,68 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SPECIFIC FOR GROK & VEO)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (HYBRID MASTER COMPILER)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    st.markdown("### 🚀 Ruang Produksi")
+    st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. DATA KARAKTER
-    with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
-        juml = st.number_input("Total Karakter", 1, 3, 1)
-        karakter_list = []
+    # 1. IDENTITY LOCK (Mengunci Kemiripan Karakter)
+    with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
+        juml = st.number_input("Jumlah Karakter di Scene", 1, 3, 2)
+        karakter_data = []
         cols = st.columns(juml)
         for i in range(juml):
             with cols[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                nama = st.text_input(f"Nama", key=f"nama_{i}", placeholder="Udin/Tung")
-                fisik = st.text_area(f"Ciri Fisik", key=f"fisik_{i}", height=100, placeholder="Kepala kayu, baju batik...")
-                karakter_list.append({"nama": nama, "fisik": fisik})
+                nama = st.text_input(f"Nama", key=f"h_nama_{i}", placeholder="Udin/Sari/Tung")
+                pakaian = st.text_input(f"Pakaian", key=f"h_wear_{i}", placeholder="Kaos oranye/Batik")
+                fisik = st.text_area(f"Ciri Fisik Utama", key=f"h_fix_{i}", height=80, placeholder="Maintain 100% exact facial features...")
+                karakter_data.append({"nama": nama, "wear": pakaian, "fisik": fisik})
 
+    # 2. SCENE & INTERACTION (Kekuatan Grup 2)
+    with st.expander("🎬 DETAIL ALUR & EMOSI", expanded=True):
+        c1, c2 = st.columns(2)
+        with c1:
+            lokasi = st.text_input("Lokasi / Environment", placeholder="Pasar tradisional/Jalan raya")
+            mood = st.selectbox("Cinematic Style", ["Hyper-Realistic RAW Photo", "3D Animation Style", "Cinematic Film 90s"])
+        with c2:
+            rasio = st.selectbox("Aspect Ratio", ["16:9", "9:16", "1:1"])
+            kamera = st.selectbox("Gerakan Kamera", ["Static Shot", "Tracking Side View", "Slow Zoom In", "Handheld Cinematic"])
+            
+        aksi = st.text_area("Aksi & Interaksi Karakter", height=100, placeholder="Udin menyalip Tung sambil tertawa...")
+        dialog_cue = st.text_input("Acting Cue (Dialog untuk Emosi)", placeholder="Udin: 'Duluan ya Tung!'")
+
+    # 3. HYBRID COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    # 2. DETAIL ADEGAN & TEKNIS
-    with st.expander("🟢 DETAIL ALUR & STYLE", expanded=True):
-        col_st1, col_st2 = st.columns(2)
-        with col_st1:
-            mood = st.selectbox("Cinematic Style", ["3D Animation Disney Style", "Hyper-Realistic Photo", "Anime Studio Ghibli", "Cyberpunk Neon", "Vintage 90s Film"])
-            ratio = st.selectbox("Aspect Ratio", ["16:9 (YouTube)", "9:16 (TikTok/Shorts)", "1:1 (Instagram)"])
-        with col_st2:
-            lighting = st.selectbox("Lighting", ["Golden Hour", "Cinematic Studio", "Volumetric Fog", "Night Street Light", "Natural Sunlight"])
-            camera = st.selectbox("Camera Movement (For Video)", ["Static", "Slow Zoom In", "Panning Left to Right", "Dynamic Drone Shot", "Handheld Shaky Cam"])
-
-        lokasi = st.text_input("Lokasi Adegan", placeholder="Contoh: Di teras rumah panggung tua...")
-        aksi = st.text_area("Aksi & Pergerakan", height=150, placeholder="Contoh: Udin sedang kaget melihat Tung jatuh dari pohon...")
-
-    # 3. COMPILER LOGIC
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
+    if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
-        # Format Karakter untuk Prompt
-        char_desc = " AND ".join([f"{c['nama']} ({c['fisik']})" for c in karakter_list if c['nama']])
-        
-        # PROMPT UNTUK GROK (GAMBAR)
-        grok_prompt = f"**[IMAGE PROMPT FOR GROK]**\n{mood}, {char_desc} at {lokasi}. Scene: {aksi}. Lighting: {lighting}, ultra detailed, 8k resolution, cinematic composition, --ar {ratio.split(' ')[0]}"
-        
-        # PROMPT UNTUK VEO (VIDEO)
-        veo_prompt = f"**[VIDEO PROMPT FOR VEO]**\nCinematic {mood} video. {char_desc} in {lokasi}. Action: {aksi}. Camera: {camera}. Lighting: {lighting}. Realistic movement, fluid animation, high fidelity, smooth motion, {ratio.split(' ')[0]} aspect ratio."
+        # Logic Penggabungan Identitas (Grup 1 Style)
+        char_identities = " AND ".join([
+            f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. Wearing: {c['wear']} ]]" 
+            for c in karakter_data if c['nama']
+        ])
 
-        # DISPLAY HASIL
+        # COMMON TECHNICAL RULES (Anti-Kacau)
+        tech_rules = "STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO TEXT. NO SUBTITLES. NO WATERMARK. f/11 aperture, infinite depth of field, ultra-sharp focus, 8k RAW photo, tactile textures."
+
+        # OUTPUT 1: IMAGE PROMPT (Optimized for Grok/Flux)
+        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood: {mood}. {tech_rules} --ar {rasio}"
+
+        # OUTPUT 2: VIDEO PROMPT (Optimized for Veo)
+        video_p = f"{char_identities}. Action & Motion: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}' (STRICTLY NO TEXT ON SCREEN). Camera: {kamera}. Smooth fluid complex movement, no morphing, no flickering, 60fps, cinematic high-fidelity animation."
+
+        # DISPLAY RESULTS
         st.subheader("📋 Production Ready Prompts")
         
-        st.markdown("##### 🖼️ Grok / Image Engine")
-        st.markdown(f'<div class="prompt-result">{grok_prompt}</div>', unsafe_allow_html=True)
+        st.markdown("##### 🖼️ Grok Image Prompt (Identity Lock)")
+        st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
         
-        st.markdown("##### 🎬 Veo / Video Engine")
-        st.markdown(f'<div class="prompt-result">{veo_prompt}</div>', unsafe_allow_html=True)
+        st.markdown("##### 🎬 Veo Video Prompt (Motion Control)")
+        st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
         
-        st.success("Selesai! Prompt di atas sudah dioptimasi untuk Grok dan Veo.")
+        st.success("Hybrid Prompt Berhasil Disusun! Karakter akan konsisten merujuk pada foto referensi.")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -232,5 +237,6 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
