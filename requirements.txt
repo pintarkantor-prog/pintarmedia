@@ -1,3 +1,5 @@
-streamlit>=1.38.0
-pandas>=2.0
-pytz>=2024.1
+streamlit
+pandas
+st-gsheets-connection
+pytz
+groq
