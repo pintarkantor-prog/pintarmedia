@@ -5,7 +5,7 @@ from datetime import datetime
 import pytz
 
 # ────────────────────────────────────────────────
-# INISIALISASI SESSION STATE SECARA AMAN
+# INISIALISASI SESSION STATE SECARA AMAN (WAJIB DI ATAS)
 # ────────────────────────────────────────────────
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
@@ -141,7 +141,7 @@ if not st.session_state.logged_in:
     st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
     st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
-    # Logo dari GitHub - GANTI URL RAW INI DENGAN YANG BENAR!
+    # Logo dari GitHub - GANTI URL RAW INI DENGAN YANG BENAR MILIKMU!
     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
     try:
         st.image(
