@@ -70,12 +70,12 @@ USER_PASSWORDS = {
 # LOGIN & SESSION MANAGEMENT
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    # Background gelap full screen
+    # CSS untuk login minimalis & kotak kecil
     st.markdown("""
         <style>
         .login-container {
-            max-width: 420px;
-            margin: 80px auto;
+            max-width: 400px;
+            margin: 100px auto;
             padding: 40px 30px;
             background: #1a1c24;
             border-radius: 16px;
@@ -89,7 +89,14 @@ if not st.session_state.logged_in:
             background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d, #feca57);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
+        }
+        .welcome-message {
+            text-align: center;
+            font-size: 1.8rem;
+            color: #28a745;
+            margin: 20px 0;
+            font-weight: bold;
         }
         .stTextInput > div > div > input {
             background: #0e1117;
@@ -102,46 +109,44 @@ if not st.session_state.logged_in:
             color: #a0a0a0 !important;
             font-size: 0.95rem;
         }
-        .eye-icon {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #a0a0a0;
-            cursor: pointer;
-        }
         </style>
     """, unsafe_allow_html=True)
 
-    # Konten login
     st.markdown('<div class="login-container">', unsafe_allow_html=True)
 
-    # Logo / Judul gradient
-    st.markdown('<h1 class="login-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
+    # Logo dari GitHub (ganti URL raw dengan milikmu!)
+    try:
+        st.image(
+            "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",
+            use_container_width=True
+        )
+    except:
+        # Fallback jika gambar gagal load
+        st.markdown('<h1 class="login-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
 
     # Form login
     username = st.text_input("Username", placeholder="Username...", key="login_username")
     password = st.text_input("Password", type="password", placeholder="Password...", key="login_password")
 
-    # Tombol masuk
     if st.button("MASUK", type="primary", use_container_width=True):
         clean_user = username.strip().lower()
         if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
             st.session_state.logged_in = True
             st.session_state.user = clean_user
             st.session_state.login_time = time.time()
-            st.success(f"Selamat datang, {clean_user.capitalize()}!")
-            time.sleep(1.8)
+
+            # Ucapan selamat datang di tengah + delay 2 detik
+            st.markdown(f'<div class="welcome-message">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
+            time.sleep(2)  # Tunggu 2 detik agar ucapan terlihat
             st.rerun()
         else:
             st.error("Username atau password salah.")
 
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Footer kecil
     st.markdown("""
         <div style="text-align:center; color:#666; margin-top:30px; font-size:0.85rem;">
-            © 2026 PINTAR MEDIA • Secure Access
+            © 2026 PINTAR MEDIA • Akses Aman
         </div>
     """, unsafe_allow_html=True)
 
@@ -323,5 +328,6 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
 
