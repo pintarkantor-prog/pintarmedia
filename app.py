@@ -514,6 +514,26 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
+                # --- 1. LOGIKA SUNTIKAN STYLE (HIDDEN PROMPT) ---
+                st_meta = ""
+                if sc['style'] == "Realistis":
+                    st_meta = "highly detailed, photorealistic, 8k, raw photo, master part, sharp focus"
+                elif sc['style'] == "Pixar 3D":
+                    st_meta = "subsurface scattering, clay material, high-end 3D animation, cute proportions"
+                elif sc['style'] == "Glossy Asphalt":
+                    st_meta = "high contrast, wet surface, reflections, cinematic noir, moody lighting"
+                elif sc['style'] == "Naruto Anime":
+                    st_meta = "cel shaded, 2D vector art, dynamic action lines, vibrant colors"
+
+                # --- 2. LOGIKA SUNTIKAN LIGHTING ---
+                lt_meta = ""
+                if sc['light'] == "Golden Hour":
+                    lt_meta = "warm sunlight, long shadows, cinematic 5000k orange glow"
+                elif sc['light'] == "Studio":
+                    lt_meta = "soft box lighting, three-point lighting, clean shadows, professional setup"
+                elif sc['light'] == "Natural":
+                    lt_meta = "daylight, overcast sky, soft natural environment lighting"
+
                 # MEMBUAT BLOK HASIL PER ADEGAN YANG RAPI
                 with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
                     
@@ -521,8 +541,10 @@ def tampilkan_ruang_produksi():
                                         for i in range(data["jumlah_karakter"]) 
                                         if data['karakter'][i]['nama'] and sc['dialogs'][i]])
                     
-                    img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {sc['light']}, {sc['shot']} --ar {sc['ratio']}"
-                    vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
+                    # DISINI KITA GABUNGKAN STYLE & LIGHTING BARU (img_p dan vid_p di-update)
+                    img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {st_meta}, {sc['light']}, {lt_meta}, {sc['shot']} --ar {sc['ratio']}"
+                    
+                    vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {st_meta}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
 
                     col_img, col_vid = st.columns(2)
                     
@@ -534,7 +556,6 @@ def tampilkan_ruang_produksi():
                         st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
                 
-                # Ganti <br> dengan margin negatif jika ingin antar kotak hasil lebih rapat
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
@@ -555,3 +576,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
