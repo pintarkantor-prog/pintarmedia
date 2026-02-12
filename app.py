@@ -80,74 +80,73 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* Efek Deep Dark Mode */
+        /* 1. GLOBAL THEME */
         .stApp { background-color: #0b0e14; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #0f141a !important; border-right: 1px solid #1e252e; }
-        
-        /* Glassmorphism untuk Expander */
-        .st-emotion-cache-p4mowd { 
-            background-color: rgba(22, 27, 34, 0.5) !important;
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-        }
 
-        /* Label Input Adegan (Kecil & Rapi) */
+        /* 2. LABEL KECIL (Digunakan di Sidebar & Naskah) */
         .small-label {
-            font-size: 11px !important; /* Kita buat sedikit lebih kecil agar elegan */
-            letter-spacing: 0.05rem;
+            font-size: 10px !important;
+            letter-spacing: 1px;
             text-transform: uppercase;
-            font-weight: 700 !important;
-            color: #8b949e !important;
-            margin-bottom: 2px !important;
+            font-weight: 800 !important;
+            color: #10b981 !important; /* Hijau konsisten */
+            margin-bottom: 5px !important;
             margin-top: 12px !important;
             display: block;
         }
 
-        /* FIX SIDEBAR: Mengunci tulisan STATION agar tidak ikut membesar */
-        .status-footer { 
-            font-size: 11px !important; 
-            color: #8b949e !important; 
-            font-family: monospace;
-            line-height: 1.4 !important;
+        /* 3. KOTAK DURASI FILM (NUMBER INPUT) - ANTI MERAH & CIAMIK */
+        div[data-testid="stNumberInput"] {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            transition: all 0.3s ease;
         }
 
-        /* Tombol Generate Glow */
-        div[data-testid="stBaseButton-headerNoPadding"] button, 
-        .stButton button {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+        /* Hilangkan Garis Merah/Biru saat diklik */
+        div[data-testid="stNumberInput"]:focus-within {
+            border-color: #10b981 !important;
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        div[data-testid="stNumberInput"] input {
+            color: #10b981 !important;
+            font-family: monospace !important;
+            font-size: 15px !important;
+            background-color: transparent !important;
             border: none !important;
-            color: white !important;
-            font-weight: bold !important;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
-            transition: all 0.3s ease !important;
+            outline: none !important;
+        }
+
+        /* Tombol + dan - */
+        div[data-testid="stNumberInput"] button {
+            border: none !important;
+            background-color: transparent !important;
+            color: #8b949e !important;
         }
         
-        .stButton button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+        div[data-testid="stNumberInput"] button:hover {
+            color: #10b981 !important;
+            background-color: rgba(16, 185, 129, 0.1) !important;
         }
 
-        /* Style Input & Textarea */
-        div[data-baseweb="input"], div[data-baseweb="textarea"] {
-            background-color: #0d1117 !important;
-            border: 1px solid #30363d !important;
-        }
-        /* 7. OPTIMASI KOTAK ADEGAN */
+        /* 4. EXPANDER NASKAH */
         .stExpander {
-            border: 1px solid rgba(29, 151, 108, 0.3) !important;
+            border: 1px solid rgba(16, 185, 129, 0.2) !important;
             border-radius: 12px !important;
             background-color: #161922 !important;
-            margin-bottom: 15px !important;
         }
-        /* Label dropdown agar lebih tegas dan sinematik */
-        .small-label {
-            color: #1d976c !important; /* Hijau branding kamu */
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            font-size: 10px !important;
-            font-weight: 800 !important;
-        }
+
+        /* 5. FOOTER & BUTTONS */
+        .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         
+        div[data-testid="stBaseButton-headerNoPadding"] button, .stButton button {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            border: none !important; color: white !important; font-weight: bold !important;
+            border-radius: 8px !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -156,34 +155,31 @@ def pasang_css_kustom():
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
-        # Menambahkan logo atau jarak atas agar tidak terlalu mepet layar
         st.markdown("<br>", unsafe_allow_html=True)
-        
-        # Menggunakan judul yang lebih elegan
-        st.markdown("<p style='font-size: 12px; color: #8b949e; font-weight: bold; letter-spacing: 1px;'>MAIN WORKSPACE</p>", unsafe_allow_html=True)
+        st.markdown("<p style='font-size: 11px; color: #8b949e; font-weight: bold; letter-spacing: 1px;'>MAIN WORKSPACE</p>", unsafe_allow_html=True)
         
         pilihan = st.radio(
-            "PILIH MODUL:", # Label ini akan disembunyikan oleh CSS .small-label kita
+            "MODUL",
             ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"],
             label_visibility="collapsed"
         )
         
         st.markdown("---")
         
+        # Kotak Durasi Film
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
         st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
             "Jumlah Adegan", 1, 50, 
             value=st.session_state.data_produksi["jumlah_adegan"],
-            label_visibility="collapsed" # Kita sembunyikan label asli biar nggak tumpuk
+            label_visibility="collapsed"
         )
         
-        # Memberikan spasi fleksibel agar tombol logout terdorong ke bawah
-        st.markdown("<br>" * 8, unsafe_allow_html=True)
+        # Jarak Logout (Sesuaikan jumlah <br> jika terlalu jauh/dekat)
+        st.markdown("<br>" * 6, unsafe_allow_html=True)
         
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
         
-        # Bagian Footer Info User yang Rapi
         user = st.session_state.get("user_aktif", "USER").upper()
         st.markdown(f'''
             <div style="border-top: 1px solid #30363d; padding-top: 15px; margin-top: 10px;">
@@ -368,6 +364,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
