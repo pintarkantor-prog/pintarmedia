@@ -114,22 +114,32 @@ def muat_dari_gsheet():
         user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang]
         
         if user_rows:
-            naskah_terakhir = user_rows[-1]['Data_Naskah']
+            # Ambil data JSON mentah
+            naskah_mentah = user_rows[-1]['Data_Naskah']
+            data_termuat = json.loads(naskah_mentah)
             
-            # 1. Update Laci Utama
-            st.session_state.data_produksi = json.loads(naskah_terakhir)
+            # --- PROSES PERBAIKAN STRUKTUR (PENTING!) ---
+            # Mengubah kunci adegan dari "teks" kembali ke "angka"
+            if "adegan" in data_termuat:
+                adegan_baru = {}
+                for k, v in data_termuat["adegan"].items():
+                    adegan_baru[int(k)] = v # Paksa jadi angka 1, 2, 3...
+                data_termuat["adegan"] = adegan_baru
             
-            # 2. TRIK PENTING: Ubah 'version' untuk memaksa widget refresh
+            # Masukkan ke laci utama
+            st.session_state.data_produksi = data_termuat
+            
+            # Update versi form agar layar dipaksa gambar ulang
             if 'form_version' not in st.session_state:
                 st.session_state.form_version = 0
             st.session_state.form_version += 1
             
-            st.success(f"🔄 Naskah {user_sekarang} berhasil dipulihkan!")
+            st.success(f"🔄 Naskah {user_sekarang} Berhasil Dipulihkan!")
             st.rerun()
         else:
-            st.warning("⚠️ Data tidak ditemukan.")
+            st.warning("⚠️ Data tidak ditemukan di Cloud.")
     except Exception as e:
-        st.error(f"Gagal: {e}")
+        st.error(f"Gagal memuat: {e}")
         
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -484,6 +494,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
