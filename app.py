@@ -155,17 +155,7 @@ def pasang_css_kustom():
             color: #8b949e !important;
             outline: none !important;
         }
-
-        div[data-testid="stNumberInput"] button:hover {
-            color: #10b981 !important;
-            background-color: rgba(16, 185, 129, 0.1) !important;
-        }
-
-        /* Menghilangkan sisa border baseweb yang sering jadi merah */
-        div[data-baseweb="input"] {
-            border: none !important;
-            outline: none !important;
-        }
+        
         </style>
     """, unsafe_allow_html=True)
 
@@ -386,6 +376,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
