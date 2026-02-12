@@ -167,14 +167,29 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    # Header Keren
-    c1, c2 = st.columns([3, 1])
+    # Mengambil waktu saat ini (WIB)
+    sekarang = datetime.now()
+    
+    # Daftar nama hari dan bulan dalam bahasa Indonesia
+    hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+    bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+    
+    nama_hari = hari_id[sekarang.weekday()]
+    tgl = sekarang.day
+    nama_bulan = bulan_id[sekarang.month - 1]
+    jam_menit = sekarang.strftime("%H:%M")
+
+    # Header Ruang Produksi
+    c1, c2 = st.columns([2.5, 1.5]) # Sesuaikan rasio agar jam tidak terpotong
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
         st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
+    
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        st.success("🛰️ SYSTEM ONLINE")
+        # Menampilkan Format: 🛰️ Kamis, 12 Februari | Pukul 21:17
+        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Pukul {jam_menit} WIB")
     
     st.write("---")
     
@@ -310,6 +325,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
