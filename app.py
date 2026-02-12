@@ -18,23 +18,20 @@ if st.session_state.get('logged_in', False) and st.session_state.get('login_time
             del st.session_state[key]
         st.rerun()
 
-st.set_page_config(
-    page_title="PINTAR MEDIA Generator",
-    page_icon="🎬",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="PINTAR MEDIA Generator", page_icon="🎬", layout="wide")
 
-# CSS: centering paksa + padding minimal
+# CSS fix: hilangkan padding atas Streamlit, centering paksa
 st.markdown("""
     <style>
-    .stApp, section.main, .block-container {
-        background-color: #0e1117 !important;
-        color: #e0e0e0 !important;
+    /* Hilangkan semua padding/margin default Streamlit */
+    .stApp, section.main, .block-container, div[data-testid="stToolbar"] {
         margin: 0 !important;
         padding: 0 !important;
+        background-color: #0e1117 !important;
+        color: #e0e0e0 !important;
     }
 
+    /* Blokir HP */
     @media (max-width: 1024px) {
         .stApp { display: none !important; }
         body::before {
@@ -52,6 +49,7 @@ st.markdown("""
         }
     }
 
+    /* Login centering paksa + kurangi space atas */
     .login-outer {
         height: 100vh;
         display: flex;
@@ -60,13 +58,14 @@ st.markdown("""
         background: #0e1117;
         margin: 0;
         padding: 0;
+        margin-top: -80px !important;  /* push ke bawah kalau terlalu atas */
     }
     .login-inner {
         width: 100%;
         max-width: 360px;
         background: #1a1c24;
         border-radius: 12px;
-        padding: 20px 16px;  /* dikecilkan agar lebih rapat */
+        padding: 20px 16px;
         border: 1px solid #2d3748;
         box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         text-align: center;
@@ -87,6 +86,7 @@ st.markdown("""
         text-align: center;
     }
 
+    /* Input rapi */
     .stTextInput > div > div > input {
         background: #0e1117;
         border: 1px solid #3a3f4a;
@@ -118,7 +118,7 @@ if not st.session_state.logged_in:
     st.markdown('<div class="login-outer">', unsafe_allow_html=True)
     st.markdown('<div class="login-inner">', unsafe_allow_html=True)
 
-    # Logo - URL sudah diganti dengan yang kamu berikan
+    # Logo pakai URL asli kamu
     st.markdown('<div class="logo-box">', unsafe_allow_html=True)
     try:
         st.image(
@@ -170,7 +170,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# Menu utama (lengkap dari kode kamu)
+# Menu utama (lengkap)
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
