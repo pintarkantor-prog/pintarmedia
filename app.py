@@ -1,10 +1,11 @@
+import streamlit as st
 import json
 import time
 from datetime import datetime
 import pytz
 
 # ────────────────────────────────────────────────
-# INISIALISASI SESSION STATE SECARA AMAN (WAJIB DI ATAS SEMUA)
+# INISIALISASI SESSION STATE SECARA AMAN
 # ────────────────────────────────────────────────
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
@@ -20,7 +21,7 @@ if st.session_state.get('logged_in', False) and st.session_state.get('login_time
         st.rerun()
 
 # ────────────────────────────────────────────────
-# KONFIGURASI HALAMAN
+# KONFIGURASI HALAMAN & CSS
 # ────────────────────────────────────────────────
 st.set_page_config(
     page_title="PINTAR MEDIA Generator",
@@ -29,7 +30,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS: Blokir HP + tema gelap + fix background & login layout
 st.markdown("""
     <style>
     /* Force dark background full app */
@@ -58,7 +58,7 @@ st.markdown("""
         }
     }
 
-    /* Login page full height centered */
+    /* Login page styling */
     .login-wrapper {
         min-height: 100vh;
         display: flex;
@@ -123,7 +123,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# DATA LOGIN
+# DATA USER & PASSWORD
 # ────────────────────────────────────────────────
 USER_PASSWORDS = {
     "dian": "QWERTY21ab",
@@ -135,25 +135,23 @@ USER_PASSWORDS = {
 }
 
 # ────────────────────────────────────────────────
-# HALAMAN LOGIN (kompak & centered)
+# HALAMAN LOGIN
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
     st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
-
     st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
-    # Logo (ganti URL raw dengan yang BENAR!)
+    # Logo dari GitHub - GANTI URL RAW INI DENGAN YANG BENAR!
     st.markdown('<div class="logo-container">', unsafe_allow_html=True)
     try:
         st.image(
-            "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",  # <-- GANTI INI
+            "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",
             use_container_width=True
         )
     except:
         st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Input tanpa label (gunakan placeholder saja)
     username = st.text_input("Username", placeholder="Username...", key="login_username", label_visibility="collapsed")
     password = st.text_input("Password", type="password", placeholder="Password...", key="login_password", label_visibility="collapsed")
 
@@ -169,15 +167,13 @@ if not st.session_state.logged_in:
         else:
             st.error("Username atau password salah.")
 
-    st.markdown('</div>', unsafe_allow_html=True)  # tutup login-box
-
+    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)  # tutup wrapper
-
+    st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
 # ────────────────────────────────────────────────
-# SIDEBAR & MENU UTAMA (sama seperti sebelumnya)
+# SIDEBAR NAVIGASI
 # ────────────────────────────────────────────────
 with st.sidebar:
     st.markdown(f"**User aktif:** {st.session_state.user.upper()}")
@@ -199,7 +195,7 @@ with st.sidebar:
         st.rerun()
 
 # ────────────────────────────────────────────────
-# MENU UTAMA (sama seperti sebelumnya)
+# MENU UTAMA
 # ────────────────────────────────────────────────
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
@@ -282,15 +278,12 @@ elif selected_menu == "🧠 PINTAR AI LAB":
             st.info("Fitur ini membutuhkan koneksi ke LLM (Groq / Gemini / OpenAI). Saat ini hanya contoh output.")
             st.markdown("""
             **Contoh hasil yang diharapkan:**
-
-            Adegan 1:  
-            - Suasana: Pagi cerah di desa  
-            - Alur: Gadis menemukan cincin di bawah pohon  
+            Adegan 1:
+            - Suasana: Pagi cerah di desa
+            - Alur: Gadis menemukan cincin di bawah pohon
             - Dialog: "Ini... apa ya?"
-
             Adegan 2: ...
             """)
-
 
 elif selected_menu == "⚡ QUICK PROMPT":
     st.title("⚡ QUICK PROMPT")
@@ -309,12 +302,10 @@ elif selected_menu == "⚡ QUICK PROMPT":
             ar_clean = ratio.split()[0]
             st.subheader("Prompt Gambar")
             st.code(f"{adegan_desc}, {gaya.lower()} style, cinematic lighting, ultra detailed, sharp focus --ar {ar_clean} --v 6 --q 2")
-
             st.subheader("Prompt Video")
             st.code(f"{adegan_desc}, {gaya.lower()} style, smooth cinematic motion, 8k, dynamic camera --ar {ar_clean} --fps 30")
         else:
             st.warning("Isi deskripsi adegan terlebih dahulu.")
-
 
 elif selected_menu == "📋 TUGAS KERJA":
     st.title("📋 TUGAS KERJA")
@@ -326,7 +317,6 @@ elif selected_menu == "📋 TUGAS KERJA":
     - Upload 2 video final ke platform
     - Koordinasi revisi dengan klien
     """)
-
 
 elif selected_menu == "⚡ KENDALI TIM":
     st.title("⚡ KENDALI TIM")
@@ -345,11 +335,3 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
-
-
-
-
-
-
-
-
