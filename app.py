@@ -116,7 +116,7 @@ def pasang_css_kustom():
             box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
 
-        /* 4. MODE TANPA GARIS (BORDERLESS) PADA SEMUA INPUT */
+        /* 4. MODE TANPA GARIS & KOTAK INPUT LEBIH TEBAL (BERISI) */
         .stTextArea textarea, 
         .stTextInput input, 
         div[data-testid="stNumberInput"], 
@@ -129,16 +129,15 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border-radius: 10px !important;
             color: #ffffff !important;
+            
+            /* TAMBAHKAN PADDING AGAR KOTAK TERLIHAT TEBAL/TINGGI */
+            padding: 12px 15px !important; 
         }
         
-        .stTextArea textarea:focus, 
-        .stTextInput input:focus, 
-        div[data-testid="stNumberInput"]:focus-within,
-        div[data-baseweb="input"]:focus-within,
-        [data-baseweb="base-input"]:focus-within {
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
+        /* Memberikan ruang lebih pada area teks naskah agar tidak sesak */
+        .stTextArea textarea {
+            padding: 15px !important;
+            line-height: 1.6 !important; /* Jarak antar baris tulisan lebih enak dibaca */
         }
 
         /* 5. STAFF HEADER & LABEL */
@@ -157,10 +156,10 @@ def pasang_css_kustom():
             margin-bottom: 5px !important; display: block;
         }
 
-        /* 6. KOMPONEN LAIN - GARIS DITEBALKAN */
+        /* 6. KOMPONEN LAIN - TEBAL TAPI WARNA DEFAULT (ABU-ABU GELAP) */
         .stExpander {
-            /* 2px untuk ketebalan, solid untuk garis tanpa putus, dan warna hijau terang */
-            border: 2px solid #10b981 !important; 
+            /* Menggunakan warna #30363d (warna border default dark mode) */
+            border: 2px solid #30363d !important; 
             border-radius: 12px !important; 
             background-color: #161922 !important;
             margin-bottom: 10px !important;
@@ -168,11 +167,11 @@ def pasang_css_kustom():
         
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         
-        /* Menebalkan garis pemisah (hr) di atas dialog */
+        /* Garis pemisah (hr) tebal tapi warna default */
         hr { 
             border: none !important;
-            border-top: 2px solid #10b981 !important; 
-            opacity: 1 !important; 
+            border-top: 2px solid #30363d !important; 
+            opacity: 0.5 !important; /* Dibuat agak soft agar tidak terlalu tajam */
             margin: 20px 0 !important;
         }
 
