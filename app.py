@@ -139,13 +139,6 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             overflow: hidden !important;
         }
-
-        /* KOTAK JUMLAH ADEGAN - FINAL NO RED */
-        div[data-testid="stNumberInput"] {
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-            background-color: #0d1117 !important;
-        }
         
         </style>
     """, unsafe_allow_html=True)
@@ -367,6 +360,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
