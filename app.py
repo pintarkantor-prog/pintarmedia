@@ -374,7 +374,7 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - STUDIO LAYOUT)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - SYMMETRICAL STUDIO LAYOUT)
 # ==============================================================================
 
 def tampilkan_ai_lab():
@@ -383,25 +383,35 @@ def tampilkan_ai_lab():
     st.caption("Solusi cerdas buat staf Pintar Media. Gak perlu API, tinggal Copy-Paste ke Gemini!")
     st.divider() 
 
-    # --- LAYOUT UTAMA: 1 KOLOM BESAR (KIRI) & 2 KOLOM SUB-SIDEBAR (KANAN) ---
-    # Rasio 2 untuk Naskah, 1.5 untuk area Karakter & Setting
-    col_naskah, col_sidebar = st.columns([2, 1.5], gap="large")
+    # --- LAYOUT UTAMA: KOLOM KERJA (KIRI) & SUB-SIDEBAR (KANAN) ---
+    col_kerja, col_sidebar = st.columns([2, 1.5], gap="large")
 
-    with col_naskah:
+    with col_kerja:
+        # Bagian 1: Topik Utama (Panjang & Lebar)
         st.subheader("📝 Topik & Premis Utama")
         topik = st.text_area(
             "Detail Cerita", 
-            placeholder="Contoh: Udin dituduh mencuri di toko emas, padahal dia sebenarnya pemilik toko tersebut yang sedang menyamar untuk menguji kejujuran karyawannya...",
-            height=300, # Dibuat panjang dan lebar sesuai permintaan
+            placeholder="Contoh: Udin dituduh mencuri di toko emas, padahal dia sebenarnya pemilik toko tersebut...",
+            height=300, 
+            label_visibility="collapsed"
+        )
+        
+        # Bagian 2: Jumlah Adegan (Diletakkan di bawah topik dengan lebar yang sama)
+        st.write(" ")
+        st.markdown("**🎬 Jumlah Adegan**")
+        jumlah_adegan = st.select_slider(
+            "Pilih jumlah adegan",
+            options=list(range(3, 11)),
+            value=5,
             label_visibility="collapsed"
         )
         
         st.write(" ")
-        # Tombol Generate ditaruh di bawah area naskah agar aksesnya cepat
+        # Tombol Utama Produksi
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
 
     with col_sidebar:
-        # Sub-sidebar Kanan dibagi lagi menjadi 2 kolom untuk pengaturan Karakter
+        # Sub-sidebar Kanan dibagi menjadi 2 kolom
         st.subheader("👤 Pengaturan")
         
         if 'jumlah_karakter' not in st.session_state:
@@ -410,34 +420,32 @@ def tampilkan_ai_lab():
         # Kontrol Karakter
         c_add, c_rem = st.columns(2)
         with c_add:
-            if st.button("➕ Tambah", use_container_width=True) and st.session_state.jumlah_karakter < 4:
+            if st.button("➕ Tambah Tokoh", use_container_width=True) and st.session_state.jumlah_karakter < 4:
                 st.session_state.jumlah_karakter += 1
                 st.rerun()
         with c_rem:
-            if st.button("➖ Kurang", use_container_width=True) and st.session_state.jumlah_karakter > 1:
+            if st.button("➖ Kurang Tokoh", use_container_width=True) and st.session_state.jumlah_karakter > 1:
                 st.session_state.jumlah_karakter -= 1
                 st.rerun()
 
         st.write("---")
         
-        # Grid Karakter di dalam Sidebar (2 Kolom Kecil)
+        # Grid Karakter (2 Kolom)
         list_karakter = []
         char_col1, char_col2 = st.columns(2)
         
         for i in range(st.session_state.jumlah_karakter):
-            # Menentukan kolom mana karakter akan muncul (bergantian)
             target_col = char_col1 if i % 2 == 0 else char_col2
-            
             with target_col:
                 with st.container(border=True):
                     st.markdown(f"**Tokoh {i+1}**")
-                    nama = st.text_input(f"Nama", value=f"Tokoh {i+1}", key=f"n_{i}", label_visibility="collapsed")
-                    sifat = st.text_input(f"Sifat", placeholder="Sifat/Visual", key=f"s_{i}", label_visibility="collapsed")
+                    nama = st.text_input(f"Nama {i}", value=f"Tokoh {i+1}", key=f"n_{i}", label_visibility="collapsed")
+                    sifat = st.text_input(f"Sifat {i}", placeholder="Sifat/Visual", key=f"s_{i}", label_visibility="collapsed")
                     list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
 
         st.write("---")
         
-        # Setting Tambahan di bawah Grid Karakter
+        # Setting Alur & Visual
         pola = st.selectbox("🎭 Pola Alur", [
             "Viral Drama (Zero to Hero / Revenge)", 
             "Lomba Konyol (Komedi Interaktif / Call to Action)",
@@ -451,14 +459,12 @@ def tampilkan_ai_lab():
             "Anime / Manga Style",
             "Retro Cartoon"
         ], index=0) # Default Cinematic Realistic
-        
-        jumlah_adegan = st.number_input("🎬 Jumlah Adegan", min_value=3, max_value=10, value=5)
 
-    # --- AREA HASIL PRODUKSI (LEBAR PENUH DI BAWAH) ---
+    # --- AREA HASIL PRODUKSI (BAWAH) ---
     st.divider()
     if btn_generate:
         if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
-            # Mapping Logika Produksi
+            # Mapping Produksi Pintar Media
             visual_map = {
                 "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture.",
                 "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, vibrant colors, cinematic lighting.",
@@ -469,8 +475,9 @@ def tampilkan_ai_lab():
             str_karakter = "\n".join(list_karakter)
             tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
 
+            # Logika Viral
             if pola == "Viral Drama (Zero to Hero / Revenge)":
-                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Akhir: {tokoh_utama} terbukti sukses/hebat."
+                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Akhir: {tokoh_utama} terbukti hebat."
                 judul_viral = f"🔥 JUDUL: Dituduh {topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
             elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
                 alur_spesifik = f"Adegan 1-3: Lomba konyol. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Juara konyol."
@@ -696,6 +703,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
