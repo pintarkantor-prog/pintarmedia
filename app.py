@@ -73,53 +73,36 @@ def cek_autentikasi():
     return False
 
 def proses_logout():
-    st.session_state.clear() # Bersihkan semua memori saat logout
+    st.session_state.clear()
     st.query_params.clear()
     st.rerun()
-    def simpan_ke_gsheet():
+
+def simpan_ke_gsheet():
     try:
-        # 1. Inisialisasi koneksi ke GSheet
+        # PENTING: Baris ini harus menjorok 8 spasi ke dalam (di bawah try)
+        url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         conn = st.connection("gsheets", type=GSheetsConnection)
         
-        # 2. Baca data yang sudah ada (biar naskah baru nambah di bawahnya)
-        df_lama = conn.read()
+        # Ambil data lama
+        df_lama = conn.read(spreadsheet=url_gsheet)
         
-        # 3. Siapkan data baru dari session state
+        # Bungkus data produksi jadi JSON
         data_naskah_json = json.dumps(st.session_state.data_produksi)
+        
+        # Buat baris baru
         data_baru = pd.DataFrame([{
-            "Username": st.session_state.get("user_aktif", "Unknown"),
+            "Username": st.session_state.get("user_aktif", "Staff"),
             "Waktu": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
             "Data_Naskah": data_naskah_json
         }])
         
-        # 4. Gabungkan data lama dan baru
+        # Gabungkan dan kirim
         df_update = pd.concat([df_lama, data_baru], ignore_index=True)
+        conn.update(spreadsheet=url_gsheet, data=df_update)
         
-        # 5. Kirim kembali ke Google Sheets
-        conn.update(data=df_update)
-        
-        st.toast("☁️ Naskah berhasil dicadangkan ke Cloud!", icon="✅")
+        st.toast("☁️ Berhasil disimpan ke Cloud GSheet!", icon="✅")
     except Exception as e:
-        st.error(f"Gagal terhubung ke GSheet: {e}")
-
-def muat_dari_gsheet():
-    try:
-        conn = st.connection("gsheets", type=GSheetsConnection)
-        df = conn.read()
-        
-        # Ambil naskah terakhir milik user yang sedang login
-        user_sekarang = st.session_state.get("user_aktif", "")
-        user_data = df[df['Username'] == user_sekarang].tail(1)
-        
-        if not user_data.empty:
-            naskah_mentah = user_data.iloc[0]['Data_Naskah']
-            st.session_state.data_produksi = json.loads(naskah_mentah)
-            st.success("🔄 Naskah terakhir kamu berhasil dimuat!")
-            st.rerun()
-        else:
-            st.warning("⚠️ Kamu belum punya riwayat simpanan di Cloud.")
-    except Exception as e:
-        st.error(f"Gagal memuat data: {e}")
+        st.error(f"Gagal akses GSheet: {e}")
 
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -477,5 +460,6 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
