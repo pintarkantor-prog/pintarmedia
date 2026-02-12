@@ -80,44 +80,42 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* 1. GLOBAL THEME */
+        /* 1. TEMA DASAR */
         .stApp { background-color: #0b0e14; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #0f141a !important; border-right: 1px solid #1e252e; }
 
-        /* 2. LABEL KECIL (Digunakan di Sidebar & Naskah) */
+        /* 2. LABEL KECIL (SIDEBAR & NASKAH) */
         .small-label {
             font-size: 10px !important;
             letter-spacing: 1px;
             text-transform: uppercase;
             font-weight: 800 !important;
-            color: #10b981 !important; /* Hijau konsisten */
+            color: #10b981 !important;
             margin-bottom: 5px !important;
             margin-top: 12px !important;
             display: block;
         }
 
-        /* 3. KOTAK DURASI FILM (NUMBER INPUT) - ANTI MERAH & CIAMIK */
+        /* 3. KOTAK ADEGAN (NUMBER INPUT) - ANTI MERAH & ELEGAN */
         div[data-testid="stNumberInput"] {
             border: 1px solid #30363d !important;
             border-radius: 10px !important;
             background-color: #0d1117 !important;
-            transition: all 0.3s ease;
         }
 
-        /* Hilangkan Garis Merah/Biru saat diklik */
+        /* Menghilangkan Garis Merah saat Fokus/Klik */
         div[data-testid="stNumberInput"]:focus-within {
             border-color: #10b981 !important;
             box-shadow: none !important;
-            outline: none !important;
         }
 
         div[data-testid="stNumberInput"] input {
             color: #10b981 !important;
             font-family: monospace !important;
-            font-size: 15px !important;
             background-color: transparent !important;
             border: none !important;
-            outline: none !important;
+            outline: none !important; /* Kunci utama anti merah */
+            box-shadow: none !important;
         }
 
         /* Tombol + dan - */
@@ -132,19 +130,19 @@ def pasang_css_kustom():
             background-color: rgba(16, 185, 129, 0.1) !important;
         }
 
-        /* 4. EXPANDER NASKAH */
-        .stExpander {
-            border: 1px solid rgba(16, 185, 129, 0.2) !important;
-            border-radius: 12px !important;
-            background-color: #161922 !important;
+        /* 4. FOOTER SIDEBAR */
+        .status-footer { 
+            font-size: 11px !important; 
+            color: #8b949e !important; 
+            font-family: monospace; 
         }
 
-        /* 5. FOOTER & BUTTONS */
-        .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
-        
+        /* 5. TOMBOL LOGOUT */
         div[data-testid="stBaseButton-headerNoPadding"] button, .stButton button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            border: none !important; color: white !important; font-weight: bold !important;
+            border: none !important; 
+            color: white !important; 
+            font-weight: bold !important;
             border-radius: 8px !important;
         }
         </style>
@@ -364,6 +362,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
