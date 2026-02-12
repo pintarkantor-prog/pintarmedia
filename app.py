@@ -16,12 +16,12 @@ st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 # BAGIAN 2: SISTEM KEAMANAN (URL-BASED PERSISTENCE & 10H TIMEOUT)
 # ==============================================================================
 def inisialisasi_keamanan():
-    params = st.query_params
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
-    if 'fase_transisi' not in st.session_state:
-        st.session_state.fase_transisi = False
+    if 'fase_notif' not in st.session_state:
+        st.session_state.fase_notif = False
 
+    params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
@@ -31,6 +31,7 @@ def inisialisasi_keamanan():
 def cek_autentikasi():
     if st.session_state.sudah_login:
         if 'waktu_login' in st.session_state:
+            # Pengecekan Logout Otomatis 10 Jam
             durasi = datetime.now() - st.session_state.waktu_login
             if durasi > timedelta(hours=10):
                 proses_logout()
@@ -40,8 +41,7 @@ def cek_autentikasi():
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        # Masuk ke fase transisi dulu
-        st.session_state.fase_transisi = True
+        st.session_state.fase_notif = True
         st.session_state.user_aktif = user
         st.rerun()
     else:
@@ -49,7 +49,7 @@ def proses_login(user, pwd):
 
 def proses_logout():
     st.session_state.sudah_login = False
-    st.session_state.fase_transisi = False
+    st.session_state.fase_notif = False
     st.session_state.user_aktif = ""
     st.query_params.clear()
     st.rerun()
@@ -63,20 +63,10 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
+        .streamlit-expanderContent { background-color: #0d1117 !important; border: 1px solid #30363d; border-top: none; }
         div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
-        
-        /* Hilangkan border form */
         div[data-testid="stForm"] { border: none !important; padding: 0 !important; }
-
-        /* Animasi Fade In untuk Notifikasi */
-        .fade-in {
-            animation: fadeIn 1.5s;
-        }
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
         
         @media (max-width: 1024px) {
             .main { display: none !important; }
@@ -114,15 +104,32 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses 
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
+    
+    # SEKSI KARAKTER (Dikembalikan utuh)
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         juml = st.number_input("Total Karakter", 1, 5, 2)
         cols = st.columns(juml)
         for i in range(juml):
             with cols[i]:
-                st.text_input(f"Nama {i+1}", key=f"n_{i}")
-                st.text_area(f"Ciri Fisik {i+1}", key=f"d_{i}", height=120)
+                st.markdown(f"👤 **Karakter {i+1}**")
+                st.text_input(f"Nama", key=f"n_{i}")
+                st.text_area(f"Ciri Fisik", key=f"d_{i}", height=120)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # SEKSI ADEGAN (Dikembalikan utuh)
+    with st.expander("🟢 ADEGAN 1"):
+        c1, c2 = st.columns([1, 2])
+        with c1: st.text_input("Lokasi Adegan 1", key="loc1")
+        with c2: st.text_area("Aksi Adegan 1", key="act1")
+        
+    with st.expander("🎬 ADEGAN 2"):
+        c3, c4 = st.columns([1, 2])
+        with c3: st.text_input("Lokasi Adegan 2", key="loc2")
+        with c4: st.text_area("Aksi Adegan 2", key="act2")
+
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Berhasil disusun!")
+        st.success("Prompt berhasil dikompilasi!")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -131,17 +138,16 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
-    # --- LOGIKA ROUTING 3 TAHAP ---
-    
-    # TAHAP A: FASE TRANSISI (LAYAR SELAMAT BEKERJA)
-    if st.session_state.fase_transisi:
+    # LOGIKA ELIF UNTUK MENGHINDARI TAMPILAN MENUMPUK
+    if st.session_state.fase_notif:
+        # Layar bersih untuk notifikasi
         user = st.session_state.user_aktif
         st.markdown(f"""
-            <div class="fade-in" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 85vh;">
-                <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 15px; letter-spacing: 2px;">
-                    ✅ AKSES DITERIMA
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 85vh;">
+                <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
+                    ✅ AKSES DITERIMA!
                 </div>
-                <div style="color: white; font-size: 48px; font-weight: bold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                <div style="color: white; font-size: 42px; font-weight: bold; font-family: sans-serif;">
                     Selamat bekerja, {user.capitalize()}!
                 </div>
                 <div style="color: #484f58; font-size: 14px; margin-top: 20px; font-family: monospace;">
@@ -149,33 +155,29 @@ def utama():
                 </div>
             </div>
         """, unsafe_allow_html=True)
+        time.sleep(2)
         
-        time.sleep(2) # Durasi Layar Transisi
-        
-        # Pindah ke Dashboard
         st.session_state.sudah_login = True
-        st.session_state.fase_transisi = False
+        st.session_state.fase_notif = False
         st.session_state.waktu_login = datetime.now()
         st.query_params.update({"auth": "true", "user": user})
         st.rerun()
 
-    # TAHAP B: HALAMAN LOGIN (JIKA BELUM LOGIN)
-    elif not cek_autentikasi():
+    elif not st.session_state.sudah_login:
+        # Halaman Login
         st.markdown("<br><br><br>", unsafe_allow_html=True)
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
         with col_m:
-            st.markdown("<h2 style='text-align: center; letter-spacing: 3px;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-            st.markdown("<p style='text-align: center; color: #484f58; font-size: 12px;'>AI PRODUCTION STUDIO</p><br>", unsafe_allow_html=True)
-            
+            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
             with st.form("login_form"):
                 u = st.text_input("Station Username").lower()
                 p = st.text_input("Access Password", type="password")
-                submit = st.form_submit_button("LOGIN TO STATION", use_container_width=True)
+                submit = st.form_submit_button("MASUK", use_container_width=True)
                 if submit:
                     proses_login(u, p)
 
-    # TAHAP C: DASHBOARD UTAMA (JIKA SUDAH LOGIN)
     else:
+        # Dashboard Utama
         menu = tampilkan_navigasi_sidebar()
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
         elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
