@@ -9,28 +9,30 @@ DAFTAR_USER = {
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
 }
 
-st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
+st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
 
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & TAMPILAN LOGIN (AUTENTIKASI)
 # ==============================================================================
 def inisialisasi_keamanan():
+    if 'sudah_login' not in st.session_state:
+        st.session_state.sudah_login = False
+    
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
-        if 'sudah_login' not in st.session_state:
+        if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
             st.session_state.user_aktif = params.get("user", "User")
             st.session_state.waktu_login = datetime.now()
-    
-    if 'sudah_login' not in st.session_state:
-        st.session_state.sudah_login = False
 
 def tampilkan_halaman_login():
     st.markdown("<br><br>", unsafe_allow_html=True)
-    col_l, col_m, col_r = st.columns([1, 1.1, 1])
+    
+    # PERUBAHAN DISINI: Menggunakan rasio kolom yang lebih sempit di tengah agar tidak memanjang
+    col_l, col_m, col_r = st.columns([1.5, 1, 1.5]) 
     
     with col_m:
-        # Tampilan Logo PINTAR MEDIA (File: PINTAR.png)
+        # Menampilkan Logo PINTAR MEDIA
         try:
             st.image("PINTAR.png", use_container_width=True)
         except:
@@ -38,18 +40,16 @@ def tampilkan_halaman_login():
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Container Login Box
+        # Login Box (Card Style)
         with st.container(border=True):
-            st.markdown("<p style='font-weight: bold; margin-bottom: -10px;'>Username</p>", unsafe_allow_html=True)
-            u = st.text_input("User", label_visibility="collapsed", placeholder="Username...", key="login_user").lower()
-            
-            st.markdown("<p style='font-weight: bold; margin-bottom: -10px; margin-top: 10px;'>Password</p>", unsafe_allow_html=True)
-            p = st.text_input("Pass", label_visibility="collapsed", type="password", placeholder="Password...", key="login_pass")
+            u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
+            p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             
             st.markdown("<br>", unsafe_allow_html=True)
             
-            # Tombol Masuk Custom (Merah/Coral) sesuai gambar
-            if st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary"):
+            # Tombol Merah/Coral
+            submit = st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
+            if submit:
                 if u in DAFTAR_USER and DAFTAR_USER[u] == p:
                     st.session_state.sudah_login = True
                     st.session_state.user_aktif = u
@@ -83,32 +83,27 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* Background Utama */
         .stApp { background-color: #0e1117; color: #e0e0e0; }
-        
-        /* Sidebar Styling */
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
-        /* Tombol Primary Merah/Coral sesuai gambar */
+        /* Tombol Merah Coral */
         div.stButton > button[kind="primary"] {
             background-color: #ff4b4b !important;
             color: white !important;
             border: none !important;
-            font-weight: bold !important;
             height: 45px !important;
+            font-weight: bold !important;
         }
-        
-        /* Input Field Styling */
+
+        /* Input styling */
         div[data-baseweb="input"] {
             background-color: #1d2127 !important;
             border: 1px solid #30363d !important;
             border-radius: 8px !important;
         }
 
-        /* Navigasi Footer di Sidebar */
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
         
-        /* Proteksi Desktop Only */
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -160,7 +155,6 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
-    # Langsung menggunakan logika Bagian 2
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
