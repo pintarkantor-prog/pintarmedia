@@ -478,13 +478,13 @@ def tampilkan_ai_lab():
             # Logika Viral
             if pola == "Viral Drama (Zero to Hero / Revenge)":
                 alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Akhir: {tokoh_utama} terbukti hebat."
-                judul_viral = f"🔥 JUDUL: Dituduh {topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
+                judul_viral = f"🔥 JUDUL: {topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
             elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
                 alur_spesifik = f"Adegan 1-3: Lomba konyol. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Juara konyol."
-                judul_viral = f"🤣 JUDUL: Lomba {topik[:20]}... Paling Absurd!"
+                judul_viral = f"🤣 JUDUL: {topik[:20]}... Paling Absurd!"
             else:
                 alur_spesifik = "Alur standar dengan plot twist."
-                judul_viral = f"🎬 JUDUL: Kisah {topik[:20]}..."
+                judul_viral = f"🎬 JUDUL: {topik[:20]}..."
 
             master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
@@ -703,6 +703,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
