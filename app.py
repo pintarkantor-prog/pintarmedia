@@ -257,8 +257,40 @@ def pasang_css_kustom():
             font-weight: 600 !important;
             font-size: 14px !important;
         }
+        /* 8. COPY TO CLIPBOARD - BUTTON STYLING */
+        /* Kotak kodenya kita buat lebih tegas */
+        .stCodeBlock {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            padding: 10px !important;
+        }
+        
+        /* Tombol copy bawaan Streamlit dibuat besar & berwarna hijau */
+        button[title="Copy to clipboard"] {
+            background-color: #238636 !important;
+            color: white !important;
+            transform: scale(1.6); /* Memperbesar ukuran ikon */
+            margin-right: 15px !important;
+            margin-top: 15px !important;
+            border-radius: 6px !important;
+            border: none !important;
+            transition: all 0.2s ease-in-out !important;
+        }
+        
+        /* Efek saat kursor menempel (Hover) */
+        button[title="Copy to clipboard"]:hover {
+            background-color: #2ea043 !important;
+            transform: scale(1.8) !important;
+            cursor: pointer !important;
+        }
 
-        /* 8. PROTEKSI LAYAR (PC ONLY) - DI POSISI PALING BAWAH */
+        /* Menghilangkan background bawaan agar warna hijau kita solid */
+        button[title="Copy to clipboard"]:active {
+            background-color: #3fb950 !important;
+        }
+
+        /* 9. PROTEKSI LAYAR (PC ONLY) - DI POSISI PALING BAWAH */
         @media (max-width: 1024px) {
             [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .main { display: none !important; }
             body::before {
@@ -523,6 +555,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
