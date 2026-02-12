@@ -27,8 +27,6 @@ def inisialisasi_keamanan():
 
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    # Rasio [2, 1, 2] agar kotak login kecil/pas di tengah
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
     
     with col_m:
@@ -39,14 +37,10 @@ def tampilkan_halaman_login():
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # MENGGUNAKAN FORM AGAR FITUR 'ENTER' AKTIF
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
-            
             st.markdown("<br>", unsafe_allow_html=True)
-            
-            # Tombol Hijau Emerald
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
             
             if submit:
@@ -86,25 +80,21 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
-        /* Form Login Container */
         div[data-testid="stForm"] {
             border: 1px solid #30363d !important;
             border-radius: 12px !important;
             padding: 20px !important;
-            background-color: transparent !important;
         }
 
-        /* Tombol Form Submit (Warna Hijau Emerald) */
         button[kind="primaryFormSubmit"] {
             background-color: #10b981 !important;
             color: white !important;
             border: none !important;
             height: 45px !important;
             font-weight: bold !important;
-            width: 100% !important;
         }
 
-        div[data-baseweb="input"] {
+        div[data-baseweb="input"], div[data-baseweb="textarea"] {
             background-color: #1d2127 !important;
             border: 1px solid #30363d !important;
             border-radius: 8px !important;
@@ -137,7 +127,7 @@ def tampilkan_navigasi_sidebar():
 # ==============================================================================
 # BAGIAN 5: MODUL-MODUL PENDUKUNG
 # ==============================================================================
-def tampilkan_ai_lab(): st.markdown("### 🧠 Pintar AI Lab"); st.info("Area riset.")
+def tampilkan_ai_lab(): st.markdown("### 🧠 Pintar AI Lab"); st.info("Area riset prompt.")
 def tampilkan_quick_prompt(): st.markdown("### ⚡ Quick Prompt"); st.info("Generator kilat.")
 def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja"); st.info("Antrian tim.")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses tim.")
@@ -148,13 +138,36 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses 
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
+    
+    # 1. INPUT KARAKTER
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         juml = st.number_input("Total Karakter", 1, 5, 2)
         cols = st.columns(juml)
         for i in range(juml):
             with cols[i]:
-                st.text_input(f"Nama {i+1}", key=f"n_{i}")
-                st.text_area(f"Ciri Fisik {i+1}", key=f"d_{i}", height=120)
+                st.markdown(f"👤 **Karakter {i+1}**")
+                st.text_input(f"Nama Karakter {i+1}", key=f"n_{i}", placeholder="Contoh: Udin")
+                st.text_area(f"Deskripsi Fisik {i+1}", key=f"d_{i}", height=150, placeholder="Contoh: Kepala botak, kaos oranye...")
+
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # 2. INPUT ADEGAN (STORYBOARD)
+    col_a, col_b = st.columns(2)
+    
+    with col_a:
+        with st.expander("🟢 ADEGAN 1", expanded=True):
+            st.text_input("Lokasi Adegan 1", key="loc1", placeholder="Contoh: Hutan Lindung")
+            st.text_area("Aksi & Narasi Adegan 1", key="act1", height=150, placeholder="Apa yang terjadi di sini?")
+
+    with col_b:
+        with st.expander("🎬 ADEGAN 2", expanded=True):
+            st.text_input("Lokasi Adegan 2", key="loc2", placeholder="Contoh: Kamar Udin")
+            st.text_area("Aksi & Narasi Adegan 2", key="act2", height=150, placeholder="Kelanjutan ceritanya...")
+
+    # 3. TOMBOL PROSES
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
+        st.success("Prompt berhasil disusun untuk diproses AI!")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
