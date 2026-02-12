@@ -157,16 +157,24 @@ def pasang_css_kustom():
             margin-bottom: 5px !important; display: block;
         }
 
-        /* 6. KOMPONEN LAIN (HAPUS GARIS HIJAU & HR) */
+        /* 6. KOMPONEN LAIN - GARIS DITEBALKAN */
         .stExpander {
-            border: none !important;
+            /* 2px untuk ketebalan, solid untuk garis tanpa putus, dan warna hijau terang */
+            border: 2px solid #10b981 !important; 
             border-radius: 12px !important; 
             background-color: #161922 !important;
+            margin-bottom: 10px !important;
         }
+        
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         
-        /* Mematikan fungsi garis pemisah (hr) agar bersih total */
-        hr { display: none !important; }
+        /* Menebalkan garis pemisah (hr) di atas dialog */
+        hr { 
+            border: none !important;
+            border-top: 2px solid #10b981 !important; 
+            opacity: 1 !important; 
+            margin: 20px 0 !important;
+        }
 
         /* 7. PENGATURAN INPUT HALAMAN LOGIN */
         .stForm div[data-baseweb="input"] {
@@ -410,6 +418,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
