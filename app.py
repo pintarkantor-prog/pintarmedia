@@ -2,106 +2,138 @@ import streamlit as st
 from datetime import datetime
 import time
 
-# 1. Konfigurasi Halaman
-st.set_page_config(page_title="Prompt Generator Pro", layout="wide")
+# --- CONFIG & SESSION ---
+st.set_page_config(page_title="Prompt Master Pro", layout="wide")
 
-# 2. Logika Penghitung Waktu Login (Sederhana)
 if 'login_time' not in st.session_state:
-    st.session_state.login_time = time.time()
+    st.session_state.login_time = datetime.now()
 
-def get_duration():
-    duration = time.time() - st.session_state.login_time
-    minutes = int(duration // 60)
-    seconds = int(duration % 60)
-    return f"{minutes}m {seconds}s"
-
-# 3. Sidebar (Informasi Pengguna & Navigasi)
-with st.sidebar:
-    st.title("📂 Dashboard")
-    st.markdown("---")
-    st.subheader("Informasi Sesi")
-    st.write(f"📅 **Tanggal:** {datetime.now().strftime('%d %B %Y')}")
-    st.write(f"👤 **Status:** Terhubung")
-    
-    # Placeholder untuk penghitung waktu (akan update setiap refresh)
-    st.write(f"⏱️ **Lama Sesi:** {get_duration()}")
-    
-    st.markdown("---")
-    st.info("Gunakan sidebar ini nanti untuk riwayat prompt atau pengaturan lainnya.")
-
-# 4. Custom CSS untuk Tampilan Mewah
+# --- CSS UNTUK TAMPILAN PREMIUM ---
 st.markdown("""
     <style>
-    .main .block-container { max-width: 900px; padding-top: 3rem; }
-    .stTextInput input, .stTextArea textarea {
-        border-radius: 15px !important;
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+    
+    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+    
+    /* Style Sidebar */
+    [data-testid="stSidebar"] {
+        background-color: #f0f2f6;
+        border-right: 1px solid #e0e0e0;
+        padding: 20px;
     }
-    .prompt-section {
-        background-color: #f8f9fa;
-        border-radius: 20px;
-        padding: 25px;
-        border-left: 5px solid #4285f4;
+
+    /* Card Styling */
+    .prompt-card {
+        background: white;
+        border: 1px solid #e6e9ef;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
         margin-bottom: 20px;
     }
-    .title-gradient {
-        background: linear-gradient(to right, #4285f4, #9b72cb, #d96570);
+
+    /* Gradient Title */
+    .header-text {
+        font-size: 2.5rem;
+        font-weight: 600;
+        background: linear-gradient(90deg, #1A73E8, #9B72CB);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        font-size: 40px; font-weight: bold;
+    }
+
+    /* Badge Login */
+    .login-info {
+        background: #e8f0fe;
+        color: #1967d2;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 0.8rem;
+        border-left: 4px solid #1A73E8;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# 5. Halaman Utama
-st.markdown('<h1 class="title-gradient">Prompt Generator Detail</h1>', unsafe_allow_html=True)
-st.write("Buat prompt kompleks untuk teks, gambar, dan video dalam satu klik.")
+# --- SIDEBAR LOGIC ---
+with st.sidebar:
+    st.image("https://cdn-icons-png.flaticon.com/512/2103/2103633.png", width=50)
+    st.markdown("### **User Dashboard**")
+    
+    # Info Waktu Login
+    current_time = datetime.now()
+    duration = current_time - st.session_state.login_time
+    minutes = int(duration.total_seconds() // 60)
+    
+    st.markdown(f"""
+    <div class="login-info">
+        <b>Sesi Aktif</b><br>
+        📅 {st.session_state.login_time.strftime('%d %b %Y')}<br>
+        ⏰ Masuk: {st.session_state.login_time.strftime('%H:%M')}<br>
+        ⏳ Durasi: {minutes} menit
+    </div>
+    """, unsafe_allow_html=True)
+    
+    st.markdown("---")
+    menu = st.radio("Navigasi", ["Generator Utama", "Riwayat Prompt", "Pengaturan"])
 
-# Input Form
-with st.container():
-    col1, col2 = st.columns(2)
-    with col1:
-        topik = st.text_input("Topik Utama", placeholder="Contoh: Petualangan Udin di luar angkasa")
-    with col2:
-        mood = st.selectbox("Mood/Atmosfer", ["Cinematic", "Lucu", "Horror", "Futuristik", "Professional"])
+# --- HALAMAN UTAMA ---
+if menu == "Generator Utama":
+    st.markdown('<h1 class="header-text">AI Command Center</h1>', unsafe_allow_html=True)
+    st.write("Rancang instruksi detail untuk ekosistem AI milikmu.")
 
-    detail = st.text_area("Detail Tambahan (Opsional)", placeholder="Tambahkan konteks spesifik, karakter, atau alur...")
-
-if st.button("Generate Master Prompt ✨"):
-    if topik:
-        # LOGIKA PEMBUATAN PROMPT SIGNIFIKAN
+    # Input Section
+    with st.container():
+        col_main, col_opt = st.columns([2, 1])
         
-        # 1. Prompt Teks (Konteks Dalam)
-        text_prompt = f"""Tolong buatkan narasi mendalam tentang {topik}. 
-Gunakan gaya {mood}. Detail tambahan: {detail}. 
-Struktur cerita harus memiliki pembukaan yang kuat, konflik yang terasa nyata, dan penutup yang berkesan."""
-
-        # 2. Prompt Gambar (Visual Detail)
-        image_prompt = f"Hyper-realistic photo of {topik}, {mood} lighting, 8k resolution, highly detailed texture, shot on 35mm lens, masterpiece, --ar 16:9"
-
-        # 3. Prompt Video (Movement & Scene)
-        video_prompt = f"Cinematic drone shot moving towards {topik}, {mood} atmosphere, volumetric lighting, high frame rate, smooth motion, professional color grading."
-
-        # Menampilkan Hasil
-        st.markdown("---")
+        with col_main:
+            topik = st.text_input("Topik Cerita/Konten", placeholder="Misal: Udin menemukan mesin waktu di dapur")
+            karakter = st.text_area("Deskripsi Karakter & Properti", placeholder="Contoh: Udin (pria kepala oranye), Tung (pria kepala kayu), suasana dapur berantakan.")
         
-        st.markdown('<div class="prompt-section">', unsafe_allow_html=True)
-        st.subheader("📝 Prompt Teks (Untuk Gemini)")
-        st.code(text_prompt, language="text")
-        st.markdown('</div>', unsafe_allow_html=True)
+        with col_opt:
+            gaya = st.selectbox("Style Artistik", ["Disney Pixar Style", "Cyberpunk 2077", "Studio Ghibli", "Cinematic Realistic", "Penciler/Sketch"])
+            rasio = st.selectbox("Aspek Rasio", ["16:9 (YouTube)", "9:16 (Shorts/TikTok)", "1:1 (Instagram)"])
 
-        st.markdown('<div class="prompt-section" style="border-left-color: #34a853;">', unsafe_allow_html=True)
-        st.subheader("🖼️ Prompt Gambar (Midjourney/DALL-E)")
-        st.code(image_prompt, language="text")
-        st.markdown('</div>', unsafe_allow_html=True)
+    if st.button("Generate Comprehensive Suite ✨", use_container_width=True):
+        if topik and karakter:
+            st.markdown("---")
+            
+            # --- LOGIKA GENERATOR PROMPT DETAIL ---
+            
+            # 1. TEXT PROMPT (Gemini)
+            text_final = f"Buatkan naskah film pendek tentang '{topik}'. Karakter: {karakter}. Gaya penceritaan: {gaya}. Fokus pada dialog yang natural tapi berkesan, sertakan instruksi emosi karakter di setiap baris."
+            
+            # 2. IMAGE PROMPT (Midjourney/DALL-E)
+            image_final = f"Extreme close-up shot of {karakter} in the middle of {topik}, {gaya}, masterwork, ultra-detailed, depth of field, global illumination, ray tracing, 8k, --ar {rasio.split(' ')[0]}"
+            
+            # 3. VIDEO PROMPT (Veo/Runway/Luma)
+            video_final = f"Cinematic tracking shot, {karakter} is performing action: {topik}. Lighting: {gaya} atmosphere. Camera movement: slow zoom in. High fidelity, fluid motion, 60fps, realistic physics."
 
-        st.markdown('<div class="prompt-section" style="border-left-color: #fabb05;">', unsafe_allow_html=True)
-        st.subheader("🎬 Prompt Video (Runway/Sora)")
-        st.code(video_prompt, language="text")
-        st.markdown('</div>', unsafe_allow_html=True)
-        
-        st.success("Prompt berhasil dibuat! Silakan salin ke platform yang sesuai.")
-    else:
-        st.warning("Masukkan topik terlebih dahulu!")
+            # Tampilan Output dengan Kolom/Cards
+            c1, c2, c3 = st.columns(3)
+            
+            with c1:
+                st.markdown("### 📝 Text Prompt")
+                st.info(text_final)
+                st.button("Copy Text", key="btn_text", on_click=lambda: st.write("Tersalin ke Clipboard (Simulasi)"))
+            
+            with c2:
+                st.markdown("### 🖼️ Image Prompt")
+                st.success(image_final)
+                st.button("Copy Image Prompt", key="btn_img")
 
-# Footer tipis
-st.markdown("<br><hr><center><small>Copy-paste hasil ke Gemini untuk eksekusi</small></center>", unsafe_allow_html=True)
+            with c3:
+                st.markdown("### 🎬 Video Prompt")
+                st.warning(video_final)
+                st.button("Copy Video Prompt", key="btn_vid")
+            
+            st.markdown("---")
+            st.caption("Gunakan prompt di atas sesuai dengan platform AI masing-masing.")
+        else:
+            st.error("Mohon isi topik dan deskripsi karakter agar hasil maksimal.")
+
+else:
+    st.info("Halaman ini sedang dalam pengembangan.")
+
+# Auto-refresh sederhana untuk timer
+time.sleep(1)
+if st.sidebar.button("Update Timer"):
+    st.rerun()
