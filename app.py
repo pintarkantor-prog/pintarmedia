@@ -140,27 +140,47 @@ def pasang_css_kustom():
             overflow: hidden !important;
         }
 
-        /* Hilangkan border asli Streamlit di dalamnya agar bersih */
-        div[data-testid="stNumberInput-Input"] {
-            border: none !important;
-            background-color: transparent !important;
-            color: #10b981 !important; /* Angka jadi hijau neon elegan */
-            font-family: 'Monaco', monospace !important;
-            font-size: 16px !important;
-            font-weight: bold !important;
+        /* KOTAK JUMLAH ADEGAN - FINAL NO RED */
+        div[data-testid="stNumberInput"] {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            transition: border-color 0.3s ease !important;
         }
 
-        /* Tombol + dan - jadi lebih minimalis */
-        div[data-testid="stNumberInput"] button {
-            background-color: #161b22 !important;
+        /* MENGHILANGKAN EFEK MERAH SAAT KURSOR MASUK/KLIK */
+        div[data-testid="stNumberInput"]:focus-within {
+            border-color: #10b981 !important; /* Tetap hijau saat diklik */
+            box-shadow: none !important; /* Hapus bayangan merah */
+            outline: none !important; /* Hapus garis luar merah */
+        }
+
+        /* Menghapus outline pada elemen input di dalamnya */
+        div[data-testid="stNumberInput"] input {
+            color: #10b981 !important;
+            background-color: transparent !important;
             border: none !important;
+            outline: none !important; /* Kunci utama no-red */
+            box-shadow: none !important;
+        }
+
+        /* Tombol + dan - tetap elegan */
+        div[data-testid="stNumberInput"] button {
+            border: none !important;
+            background-color: transparent !important;
             color: #8b949e !important;
-            transition: all 0.2s ease !important;
+            outline: none !important;
         }
 
         div[data-testid="stNumberInput"] button:hover {
             color: #10b981 !important;
-            background-color: #1d2127 !important;
+            background-color: rgba(16, 185, 129, 0.1) !important;
+        }
+
+        /* Menghilangkan sisa border baseweb yang sering jadi merah */
+        div[data-baseweb="input"] {
+            border: none !important;
+            outline: none !important;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -382,6 +402,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
