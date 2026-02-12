@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FIX SYNTAX ERROR)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SIDEBAR 2 KOLOM)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -176,34 +176,39 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (TATA LETAK REFERENSI)
+    # 2. INPUT ADEGAN (TATA LETAK SIDEBAR 2 KOLOM)
     with st.expander("🟢 ADEGAN 1", expanded=True):
-        col_text, col_set = st.columns([2, 1])
+        col_text, col_set = st.columns([1.5, 1]) # Rasio diatur agar seimbang
         
         with col_text:
             st.markdown("📸 **Naskah Visual & Aksi**")
-            # Perbaikan tanda kurung di bawah ini:
             aksi = st.text_area(
                 "Aksi & Interaksi", 
-                height=350, 
+                height=420, # Ditambah tingginya agar sejajar dengan 2 kolom samping
                 key="h_act", 
                 placeholder="Deskripsikan aksi karakter di sini...",
                 label_visibility="collapsed"
             )
         
         with col_set:
-            st.markdown("✨ **CINEMATIC STYLE**")
-            mood = st.selectbox("Style", ["Hyper-Realistic RAW Photo", "3D Animation Style", "Cinematic Film 90s"], key="h_mood", label_visibility="collapsed")
+            # Membagi area pengaturan menjadi 2 kolom internal
+            sub_col1, sub_col2 = st.columns(2)
             
-            st.markdown("📐 **ASPECT RATIO**")
-            rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
+            with sub_col1:
+                st.markdown("✨ **STYLE**")
+                mood = st.selectbox("Style", ["Hyper-Realistic", "3D Animation", "Cinematic Film"], key="h_mood", label_visibility="collapsed")
+                
+                st.markdown("💡 **LIGHTING**")
+                lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
+
+            with sub_col2:
+                st.markdown("📐 **RATIO**")
+                rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
+                
+                st.markdown("🎥 **CAMERA**")
+                kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
-            st.markdown("💡 **LIGHTING**")
-            lighting = st.selectbox("Lighting", ["Golden Hour", "Cinematic Studio", "Volumetric Fog", "Night Street Light", "Natural Sunlight"], key="h_light", label_visibility="collapsed")
-            
-            st.markdown("🎥 **CAMERA MOVEMENT**")
-            kamera = st.selectbox("Camera", ["Static Shot", "Tracking Side View", "Slow Zoom In", "Handheld Cinematic"], key="h_cam", label_visibility="collapsed")
-            
+            # Lokasi diletakkan di bawah grid 2 kolom agar tetap lebar
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
@@ -230,9 +235,7 @@ def tampilkan_ruang_produksi():
         video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
 
         st.subheader("📋 Production Ready Prompts")
-        st.markdown("##### 🖼️ Grok Image Prompt")
         st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
-        st.markdown("##### 🎬 Veo Video Prompt")
         st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
         
 # ==============================================================================
@@ -254,6 +257,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
