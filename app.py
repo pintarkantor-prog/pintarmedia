@@ -374,15 +374,15 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - PERSISTENT VERSION)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - STABLE & PERSISTENT)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Solusi cerdas buat staf Pintar Media. Data aman dan sinkron!")
+    st.caption("Solusi cerdas buat staf Pintar Media. Data aman dan anti-crash!")
     st.divider() 
 
-    # --- 1. DEFINISI DAFTAR PILIHAN (Agar Konsisten) ---
+    # --- 1. DEFINISI DAFTAR PILIHAN (WAJIB SAMA PERSIS) ---
     opsi_pola = [
         "Viral Drama (Zero to Hero / Revenge)", 
         "Lomba Konyol (Komedi Interaktif / Call to Action)",
@@ -413,7 +413,7 @@ def tampilkan_ai_lab():
         st.session_state.lab_topik = st.text_area(
             "Detail Cerita", 
             value=st.session_state.lab_topik,
-            placeholder="Contoh: Udin dituduh mencuri di toko emas...",
+            placeholder="Contoh: Tokoh A dituduh mencuri, ternyata dia pemilik tokonya...",
             height=300, 
             label_visibility="collapsed"
         )
@@ -429,8 +429,8 @@ def tampilkan_ai_lab():
         
         st.write(" ")
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
-
-        # Tombol Reset (Opsional, ditaruh kecil di bawah)
+        
+        # Tombol Reset Form
         if st.button("🗑️ Reset Form", use_container_width=False):
             st.session_state.lab_topik = ""
             st.session_state.lab_hasil_mantra = None
@@ -466,30 +466,39 @@ def tampilkan_ai_lab():
 
         st.write("---")
         
-        # Menggunakan .index() yang lebih aman karena list opsi sudah didefinisikan di atas
+        # JARING PENGAMAN: Cek apakah nilai di memori ada di daftar opsi
+        try:
+            idx_pola = opsi_pola.index(st.session_state.lab_pola)
+        except ValueError:
+            idx_pola = 0
+            
         st.session_state.lab_pola = st.selectbox(
             "🎭 Pola Alur", 
             options=opsi_pola,
-            index=opsi_pola.index(st.session_state.lab_pola)
+            index=idx_pola
         )
         
+        try:
+            idx_visual = opsi_visual.index(st.session_state.lab_visual)
+        except ValueError:
+            idx_visual = 0
+
         st.session_state.lab_visual = st.selectbox(
             "🎨 Gaya Visual", 
             options=opsi_visual,
-            index=opsi_visual.index(st.session_state.lab_visual)
+            index=idx_visual
         )
 
     # --- 4. LOGIKA GENERATE ---
     if btn_generate:
         if st.session_state.lab_topik:
-            # Mapping Produksi
             visual_map = {
                 "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture.",
                 "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, vibrant colors, cinematic lighting.",
                 "Anime / Manga Style": "Modern anime style, vibrant colors, clean lines.",
                 "Retro Cartoon": "1990s retro cartoon style, bold outlines."
             }
-            prompt_visual = visual_map[st.session_state.lab_visual]
+            prompt_visual = visual_map.get(st.session_state.lab_visual, "Cinematic realistic photography")
             str_karakter = "\n".join(list_karakter)
             tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
 
@@ -517,6 +526,7 @@ Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: {prompt_visual}"""
             }
 
+    # --- 5. TAMPILKAN HASIL ---
     if st.session_state.lab_hasil_mantra:
         st.divider()
         st.subheader("📜 Hasil Produksi")
@@ -723,6 +733,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
