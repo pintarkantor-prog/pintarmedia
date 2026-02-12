@@ -190,7 +190,7 @@ def tampilkan_ruang_produksi():
         
         with col_text:
             st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-            aksi = st.text_area("Aksi", height=345, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
+            aksi = st.text_area("Aksi", height=335, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
             sub_col1, sub_col2 = st.columns(2)
@@ -281,6 +281,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
