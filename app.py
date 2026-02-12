@@ -216,9 +216,6 @@ def tampilkan_ruang_produksi():
             
             st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
             lokasi = st.text_input("Lokasi", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
-
-        # Garis pembatas tipis (Garis Hijau di coretanmu)
-        st.markdown('<hr style="border:0.5px solid #10b981; opacity:0.3; margin-top:20px; margin-bottom:10px;">', unsafe_allow_html=True)
         
         # Baris Dialog Sejajar
         cols_dialog = st.columns(juml)
@@ -284,6 +281,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
