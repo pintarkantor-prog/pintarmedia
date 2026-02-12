@@ -77,113 +77,85 @@ def proses_logout():
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - OPTIMIZED VERSION
 # ==============================================================================
-def pasang_css_kustom():
-    st.markdown("""
-        <style>
-        /* 1. TEMA UTAMA & SCROLLBAR */
-        .stApp { background-color: #0b0e14; color: #e0e0e0; }
-        [data-testid="stSidebar"] { 
-            background-color: #0f141a !important; 
-            border-right: 1px solid #1e252e !important; 
-        }
-        
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0e1117; }
-        ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+st.markdown("""
+    <style>
+    /* A. GLOBAL & SCROLLBAR */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #0e1117; }
+    ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
+    .stApp { background-color: #0b0e14; color: #e0e0e0; }
 
-        /* 2. FIXED HEADER */
-        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
-            position: fixed; top: 0; left: 310px; right: 0; z-index: 99999;
-            background-color: #0e1117; padding: 10px 2rem;
-            border-bottom: 2px solid #31333f;
-        }
-        @media (max-width: 768px) {
-            [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
-        }
+    /* 1. FIXED HEADER */
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
+        position: fixed; top: 0; left: 310px; right: 0; z-index: 99999;
+        background-color: #0e1117; padding: 10px 2rem; border-bottom: 2px solid #31333f;
+    }
+    @media (max-width: 768px) {
+        [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
+    }
 
-        /* 3. LABEL KECIL (SATU DEFINISI UTAMA) */
-        .small-label {
-            color: #1d976c !important; /* Hijau Branding */
-            font-size: 10px !important;
-            font-weight: 800 !important;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 8px !important;
-            margin-top: 12px !important;
-        }
+    /* 2. STYLE SIDEBAR */
+    [data-testid="stSidebar"] {
+        background-color: #1a1c24 !important;
+        border-right: 1px solid rgba(29, 151, 108, 0.1) !important;
+    }
+    [data-testid="stSidebar"] p, [data-testid="stSidebar"] span, [data-testid="stSidebar"] label { color: #ffffff !important; }
 
-        /* 4. KOTAK INPUT & NUMBER INPUT (KOLOM ADEGAN) */
-        div[data-baseweb="input"], 
-        div[data-baseweb="textarea"], 
-        div[data-testid="stNumberInput"] {
-            background-color: #0d1117 !important;
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-            transition: border-color 0.3s ease;
-        }
+    /* 3. TOMBOL GENERATE (INSTANT) */
+    div.stButton > button[kind="primary"] {
+        background: linear-gradient(to right, #1d976c, #11998e) !important;
+        color: white !important; border: none !important; border-radius: 8px !important;
+        padding: 0.6rem 1.2rem !important; font-weight: bold !important;
+        width: 100%; box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+    }
 
-        /* Fokus: No Red, Just Neutral */
-        div[data-baseweb="input"]:focus-within, 
-        div[data-baseweb="textarea"]:focus-within,
-        div[data-testid="stNumberInput"]:focus-within {
-            border-color: #1d976c !important;
-            box-shadow: none !important;
-            outline: none !important;
-        }
+    /* 4. STAFF HEADER PREMIUM (CLEAN VERSION) */
+    .staff-header-premium {
+        background: rgba(29, 151, 108, 0.2) !important;
+        border: 2px solid #1d976c !important;
+        border-radius: 10px !important;
+        padding: 15px 20px !important; margin-bottom: 25px !important;
+        display: flex !important; align-items: center !important; gap: 12px !important;
+    }
+    .staff-header-premium b { color: #1d976c !important; font-size: 1.15em !important; text-shadow: 0 0 10px rgba(29, 151, 108, 0.1); }
+    .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
 
-        /* Hilangkan border internal agar tidak tumpuk */
-        .stTextArea textarea, .stTextInput input, div[data-testid="stNumberInput"] input {
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-            background-color: transparent !important;
-            color: #ffffff !important;
-        }
+    /* 5. KOTAK INPUT & ADEGAN (UNIFORM STYLE) */
+    .stTextArea textarea, .stTextInput input, div[data-testid="stNumberInput"] {
+        background-color: #0e1117 !important;
+        border: 1px solid #31333f !important;
+        border-radius: 10px !important;
+        color: #ffffff !important;
+    }
+    .stTextArea textarea:focus, .stTextInput input:focus, div[data-testid="stNumberInput"]:focus-within {
+        border-color: #1d976c !important;
+        box-shadow: none !important; outline: none !important;
+    }
 
-        /* 5. TOMBOL LOGOUT & GENERATE */
-        .stButton button {
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            border: none !important;
-            color: white !important;
-            font-weight: bold !important;
-            border-radius: 8px !important;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
-        }
-        .stButton button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
-        }
+    /* 6. LABEL & EXPANDER */
+    .small-label {
+        color: #1d976c !important; font-size: 10px !important;
+        font-weight: 800 !important; letter-spacing: 1px; text-transform: uppercase;
+        margin-bottom: 5px !important; display: block;
+    }
+    .stExpander {
+        border: 1px solid rgba(29, 151, 108, 0.3) !important;
+        border-radius: 12px !important; background-color: #161922 !important;
+    }
 
-        /* 6. STAFF HEADER PREMIUM (BOX HIJAU) */
-        .staff-header-premium {
-            background: rgba(29, 151, 108, 0.2) !important;
-            border: 2px solid #1d976c !important;
-            border-radius: 10px !important;
-            padding: 15px 20px !important;
-            margin-bottom: 25px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
+    /* 7. MOBILE PROTECTION */
+    @media (max-width: 1024px) {
+        [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .main { display: none !important; }
+        body::before {
+            content: "⚠️ Gunakan PC untuk akses Pintar Media!";
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; width: 100vw; background: #0e1117; color: white;
+            position: fixed; top: 0; left: 0; z-index: 9999; text-align: center; padding: 20px;
         }
-        .staff-header-premium b { color: #1d976c !important; font-size: 1.15em !important; }
-
-        /* 7. EXPANDER & LAINNYA */
-        .stExpander {
-            border: 1px solid rgba(29, 151, 108, 0.3) !important;
-            border-radius: 12px !important;
-            background-color: #161922 !important;
-        }
-        .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
-        hr { border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
-
-        /* Mobile Protection */
-        @media (max-width: 1024px) {
-            [data-testid="stAppViewContainer"], [data-testid="stSidebar"] { display: none !important; }
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    }
+    </style>
+""", unsafe_allow_html=True)
 
 # ==============================================================================
 # BAGIAN 4: NAVIGASI SIDEBAR
@@ -399,6 +371,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
