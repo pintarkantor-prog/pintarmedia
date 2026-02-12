@@ -204,11 +204,14 @@ def tampilkan_navigasi_sidebar():
             label_visibility="collapsed"
         )
         
-        # Jarak Logout (Sesuaikan jumlah <br> jika terlalu jauh/dekat)
+        # Jarak Logout
         st.markdown("<br>" * 6, unsafe_allow_html=True)
         
-        if st.button("LOGOUT SYSTEM", use_container_width=True, type="primary"):
+        # --- PERBAIKAN SPASI DI SINI ---
+        if st.button("LOGOUT SYSTEM", use_container_width=True):
+            proses_logout() # Baris ini harus menjorok ke dalam
         
+        # Baris ini harus sejajar kembali dengan 'if' di atas
         user = st.session_state.get("user_aktif", "USER").upper()
         st.markdown(f'''
             <div style="border-top: 1px solid #30363d; padding-top: 15px; margin-top: 10px;">
@@ -391,6 +394,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
