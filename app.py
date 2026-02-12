@@ -70,26 +70,53 @@ if not is_desktop():
     st.stop()
 
 # ────────────────────────────────────────────────
-# Halaman Login (hanya tampil jika dari Desktop)
+# Halaman Login (versi elegan & ringkas)
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    st.title("Login - Generator Prompt")
+    # Center layout sederhana
+    col_empty1, col_main, col_empty2 = st.columns([1, 2, 1])
+    
+    with col_main:
+        st.markdown("<h2 style='text-align: center; color: #2c3e50; margin-bottom: 1.5rem;'>Generator Prompt</h2>", unsafe_allow_html=True)
+        
+        # Kotak login dengan border subtle
+        with st.container():
+            st.markdown("""
+                <div style="
+                    background: white;
+                    padding: 2rem 1.8rem;
+                    border-radius: 12px;
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                    border: 1px solid #e0e0e0;
+                ">
+            """, unsafe_allow_html=True)
+            
+            st.markdown("<h3 style='text-align: center; margin-bottom: 1.5rem; color: #34495e;'>Masuk ke Akun</h3>", unsafe_allow_html=True)
+            
+            username = st.text_input("", placeholder="Username", key="login_user", label_visibility="collapsed")
+            password = st.text_input("", placeholder="Password", type="password", key="login_pass", label_visibility="collapsed")
+            
+            if st.button("Masuk", use_container_width=True, type="primary"):
+                if username in USERS and USERS[username] == password:
+                    st.session_state.logged_in = True
+                    st.session_state.username = username
+                    st.session_state.login_time = datetime.now().isoformat()
+                    st.session_state.data = load_data()
+                    st.success(f"Selamat datang, {username}")
+                    time.sleep(0.6)
+                    st.rerun()
+                else:
+                    st.error("Username atau password salah", icon="🚫")
+            
+            st.markdown("</div>", unsafe_allow_html=True)
+        
+        # Info kecil di bawah (opsional, ringkas)
+        st.markdown("""
+            <p style='text-align: center; color: #7f8c8d; font-size: 0.85rem; margin-top: 1.2rem;'>
+                Hanya dapat diakses dari PC • Auto logout setelah 10 jam
+            </p>
+        """, unsafe_allow_html=True)
 
-    username = st.text_input("Username", key="login_user")
-    password = st.text_input("Password", type="password", key="login_pass")
-
-    if st.button("Masuk"):
-        if username in USERS and USERS[username] == password:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.session_state.login_time = datetime.now().isoformat()
-            # Load data saat login
-            st.session_state.data = load_data()
-            st.success(f"Selamat datang, {username}!")
-            time.sleep(0.8)
-            st.rerun()
-        else:
-            st.error("Username atau password salah.")
     st.stop()
 
 # ────────────────────────────────────────────────
@@ -194,3 +221,4 @@ elif page == "📋 TUGAS KERJA":
 elif page == "⚡ KENDALI TIM":
     st.header("KENDALI TIM")
     st.write("Monitor progress & kinerja staff (placeholder)")
+
