@@ -1,129 +1,131 @@
 import streamlit as st
 from datetime import datetime
-import time
 
-# --- CONFIG HALAMAN ---
+# --- 1. CONFIG & SESSION ---
 st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 
-# --- SESSION STATE ---
 if 'login_time' not in st.session_state:
     st.session_state.login_time = datetime.now()
 
-# --- CUSTOM CSS (HIGH-END DARK MINIMALIST) ---
+# --- 2. STYLE CSS (Premium Dark Mode) ---
 st.markdown("""
     <style>
-    /* Background Utama & Font */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+    .stApp { background-color: #0e1117; color: #e0e0e0; }
     
-    .stApp {
-        background-color: #0b0e11;
-        font-family: 'Inter', sans-serif;
+    /* Sidebar Styling */
+    [data-testid="stSidebar"] { 
+        background-color: #161b22 !important; 
+        border-right: 1px solid #30363d; 
     }
     
-    /* Sidebar Minimalis */
-    [data-testid="stSidebar"] {
-        background-color: #0b0e11 !important;
-        border-right: 1px solid #1e2329;
-    }
-    
-    /* Menghilangkan border default expander */
+    /* Expander Styling */
     .streamlit-expanderHeader {
-        background-color: #1e2329 !important;
-        border: none !important;
-        border-radius: 12px !important;
-        font-weight: 600 !important;
-        color: #ffffff !important;
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 8px !important;
     }
     .streamlit-expanderContent {
-        border: 1px solid #1e2329 !important;
-        border-top: none !important;
-        border-bottom-left-radius: 12px;
-        border-bottom-right-radius: 12px;
-        background-color: #161b22;
-    }
-
-    /* Status Info (Minimalist Text) */
-    .status-text {
-        font-size: 0.75rem;
-        color: #484f58;
-        letter-spacing: 0.05rem;
-        text-transform: uppercase;
-    }
-
-    /* Input & TextArea Styling */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
-        background-color: #0b0e11 !important;
+        background-color: #0d1117 !important;
         border: 1px solid #30363d !important;
-        border-radius: 10px !important;
+        border-top: none !important;
     }
 
-    /* Button Gradient */
-    .stButton>button {
-        background: linear-gradient(90deg, #3b82f6, #8b5cf6) !important;
-        border: none !important;
-        color: white !important;
-        border-radius: 10px !important;
-        font-weight: 600 !important;
-        padding: 0.6rem 2rem !important;
+    /* Custom Radio Sidebar agar mirip Menu */
+    div[data-testid="stSidebarUserContent"] .st-emotion-cache-17l36p9 {
+        padding-top: 2rem;
+    }
+    
+    /* Footer Status */
+    .status-footer {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        font-size: 10px;
+        color: #484f58;
+        text-transform: uppercase;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR (CLEAN VERSION) ---
+# --- 3. SIDEBAR NAVIGATION ---
 with st.sidebar:
-    st.markdown("<h2 style='color: white; font-weight: 600;'>Studio</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color: white; letter-spacing: 1px;'>LAB AREA</h2>", unsafe_allow_html=True)
     st.markdown("---")
     
-    # Navigasi tanpa ikon berlebihan
-    menu = st.radio("WORKSPACE", ["Project Baru", "Riwayat", "Aset Karakter"])
+    # Menu dengan Urutan Sesuai Gambar
+    menu = st.radio(
+        "MENU UTAMA",
+        [
+            "🚀 RUANG PRODUKSI", 
+            "🧠 PINTAR AI LAB", 
+            "⚡ QUICK PROMPT", 
+            "📋 TUGAS KERJA", 
+            "⚡ KENDALI TIM"
+        ],
+        index=0 # Menjadikan RUANG PRODUKSI sebagai default
+    )
     
-    st.markdown("<br>"*15, unsafe_allow_html=True) # Jarak ke bawah
-    
-    # Info Session yang jauh lebih elegan (Hanya teks kecil di pojok bawah sidebar)
+    # Status Minimalis di Bawah
     uptime = datetime.now() - st.session_state.login_time
     st.markdown(f"""
-    <div style='border-top: 1px solid #1e2329; padding-top: 20px;'>
-        <p class="status-text">SYSTEM ACTIVE</p>
-        <p style='color: #8b949e; font-size: 0.8rem;'>
-            {datetime.now().strftime('%d.%m.%y')} — {uptime.seconds // 60}m active
-        </p>
-    </div>
+        <div class="status-footer">
+            CONNECTED: {uptime.seconds // 60}M ACTIVE <br>
+            STATION: PINTAR_MEDIA_01
+        </div>
     """, unsafe_allow_html=True)
 
-# --- MAIN CONTENT ---
-st.markdown("<h3 style='color: white;'>Detail Adegan Storyboard</h3>", unsafe_allow_html=True)
+# --- 4. MAIN CONTENT ROUTER ---
 
-# Container Karakter Utama
-with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
-    # Kolom untuk jumlah karakter
-    col_qty = st.columns([1, 4])
-    with col_qty[0]:
-        num_chars = st.number_input("Total", min_value=1, max_value=4, value=2)
+if "RUANG PRODUKSI" in menu:
+    st.markdown("### 📝 Detail Adegan Storyboard")
     
+    # --- BAGIAN 1: KARAKTER ---
+    with st.expander("👥 Nama Karakter Utama & Penampilan Fisik! (WAJIB ISI)", expanded=True):
+        st.markdown("<p style='font-size: 0.9rem; color: #8b949e;'>Total Karakter Utama dalam Project</p>", unsafe_allow_html=True)
+        num_chars = st.number_input("Total Karakter", min_value=1, max_value=5, value=2, step=1, label_visibility="collapsed")
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        char_cols = st.columns(num_chars)
+        for i in range(num_chars):
+            with char_cols[i]:
+                st.markdown(f"👤 **Karakter Utama {i+1}**")
+                st.text_input(f"Nama {i+1}", placeholder="Nama Karakter...", key=f"n_{i}", label_visibility="collapsed")
+                st.text_area(f"Ciri {i+1}", placeholder="Deskripsi fisik...", key=f"d_{i}", height=120, label_visibility="collapsed")
+
     st.markdown("<br>", unsafe_allow_html=True)
-    
-    char_cols = st.columns(num_chars)
-    char_data = {}
-    
-    for i in range(num_chars):
-        with char_cols[i]:
-            st.markdown(f"<p style='color: #8b949e; font-size: 0.9rem;'>KARAKTER {i+1}</p>", unsafe_allow_html=True)
-            name = st.text_input(f"Nama {i+1}", key=f"n{i}", label_visibility="collapsed", placeholder="Nama...")
-            desc = st.text_area(f"Ciri {i+1}", key=f"d{i}", label_visibility="collapsed", placeholder="Ciri fisik & atribut...", height=120)
-            char_data[i] = {"nama": name, "ciri": desc}
 
-# Container Adegan
-st.markdown("<br>", unsafe_allow_html=True)
-with st.expander("🎬 ADEGAN 1", expanded=False):
-    loc_1 = st.text_input("Lokasi", placeholder="Tempat adegan berlangsung...")
-    act_1 = st.text_area("Aksi", placeholder="Deskripsikan tindakan karakter secara detail...")
+    # --- BAGIAN 2: ADEGAN ---
+    # Adegan 1
+    with st.expander("🟢 ADEGAN 1", expanded=False):
+        col_a1, col_b1 = st.columns([1, 2])
+        with col_a1:
+            st.text_input("Lokasi / Latar", placeholder="E.g. Ruang Tamu", key="loc1")
+        with col_b1:
+            st.text_area("Aksi / Kejadian", placeholder="Apa yang dilakukan karakter?", key="act1")
 
-with st.expander("🎬 ADEGAN 2", expanded=False):
-    loc_2 = st.text_input("Lokasi ", placeholder="Tempat adegan berlangsung...")
-    act_2 = st.text_area("Aksi ", placeholder="Deskripsikan tindakan karakter secara detail...")
+    # Adegan 2
+    with st.expander("🎬 ADEGAN 2", expanded=False):
+        col_a2, col_b2 = st.columns([1, 2])
+        with col_a2:
+            st.text_input("Lokasi / Latar ", placeholder="E.g. Hutan", key="loc2")
+        with col_b2:
+            st.text_area("Aksi / Kejadian ", placeholder="Detail aksi karakter...", key="act2")
 
-# Action Button
-st.markdown("<br>", unsafe_allow_html=True)
-if st.button("GENERATE MASTER PROMPT"):
-    st.success("Prompt telah dikompilasi. Silakan cek hasil di bawah.")
-    # Hasil Prompt detail di sini (seperti versi sebelumnya)
+    # --- BAGIAN 3: GENERATOR ---
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
+        st.toast("Menyusun data...")
+        # Tampilkan hasil prompt di sini dengan st.code()
+
+elif "PINTAR AI LAB" in menu:
+    st.title("🧠 Pintar AI Lab")
+    st.write("Eksperimen model dan riset prompt.")
+
+elif "QUICK PROMPT" in menu:
+    st.title("⚡ Quick Prompt")
+    st.write("Generator instan untuk kebutuhan cepat.")
+
+else:
+    st.title("🚧 Work in Progress")
+    st.write(f"Halaman {menu} sedang disiapkan.")
