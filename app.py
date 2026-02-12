@@ -506,66 +506,49 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
-            char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in data["karakter"] if c['nama']])
+            # --- IDENTITY LOCK (DIPERKUAT DENGAN TEKSTUR MAKRO) ---
+            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: {c['fisik']}, organic macro-texture, maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
+            char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)" for c in data["karakter"] if c['nama']])
 
             # --- MANTRA ANTI-TEXT & ANTI-MLEYOT (VERSI DEWA) ---
-            no_text_strict = (
-                "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, "
-                "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, "
-                "the image must be a CLEAN cinematic shot without any written characters."
-            )
-
-            negative_motion_strict = (
-                "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, "
-                "NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
-            )
+            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, CLEAN cinematic shot."
+            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO flickering textures, NO sudden lighting jumps."
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-            # --- A. LOGIKA SUNTIKAN STYLE (ULTRA-HD SPECS) ---
+                # --- A. LOGIKA SUNTIKAN STYLE (DIPERTAJAM) ---
                 st_meta = ""
                 if sc['style'] == "Realistis":
-                    # Menambahkan 'depth of field' dan 'ray-traced ambient occlusion'
-                    st_meta = "shot on Fujifilm X-T4, XF 35mm f/1.4 R, f/2.8, 8k, highly detailed skin texture, micro-pores, sharp optical clarity, ray-traced ambient occlusion"
+                    st_meta = "shot on Fujifilm X-T4, XF 35mm f/1.4 R, f/2.8, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion"
                 elif sc['style'] == "Pixar 3D":
-                    # Menambahkan 'octane render' untuk kilauan material yang mewah
-                    st_meta = "Unreal Engine 5.4, Octane Render, 8k, cinematic production baby, subsurface scattering, subsurface leather, high-end 3D animation"
+                    st_meta = "Unreal Engine 5.4, Octane Render, 8k, subsurface scattering, cinematic 3D animation style"
                 elif sc['style'] == "Glossy Asphalt":
-                    st_meta = "shot on Sony A7R IV, 24mm wide angle, f/8, ultra-high dynamic range, street photography masterpiece, sharp reflection on wet ground"
+                    st_meta = "shot on Sony A7R IV, 24mm wide lens, f/8, ultra-high dynamic range, street photography, sharp reflections"
                 elif sc['style'] == "Naruto Anime":
-                    # Menambahkan efek visual khas studio Ufotable (Demon Slayer)
-                    st_meta = "Studio Ufotable style, cinematic composition, high-end cel-shading, sharp digital line art, masterpiece 2D"
+                    st_meta = "Studio Ufotable style, sharp line art, vibrant cinematic anime, masterpiece 2D, high-end cel-shading"
 
-                # --- B. LOGIKA SUNTIKAN LIGHTING (ATMOSPHERIC) ---
+                # --- B. LOGIKA SUNTIKAN LIGHTING ---
                 lt_meta = ""
                 if sc['light'] == "Golden Hour":
-                    # Menambahkan 'Tyndall Effect' (sinar matahari menembus debu/daun)
-                    lt_meta = "cinematic golden hour, warm sunset glow, volumetric lighting, Tyndall effect, long dramatic shadows, 5000k color temp, backlit rim light"
+                    lt_meta = "cinematic golden hour, warm sunset glow, volumetric lighting, Tyndall effect, long shadows, 5000k"
                 elif sc['light'] == "Studio":
-                    lt_meta = "three-point professional studio lighting, rim lighting, softbox shadows, ISO 100, zero grain, high-end fashion photography style"
+                    lt_meta = "professional studio lighting, rim lighting, softbox shadows, ISO 100, zero grain"
                 elif sc['light'] == "Natural":
-                    # Menambahkan detail awan dan saturasi alam
-                    lt_meta = "bright daylight, clear azure sky, detailed cumulus clouds, high-contrast natural lighting, vivid organic colors, sharp environmental visibility"
-                # --- C. LOGIKA AUTO-ADJUST & PEMBERSIH TABRAKAN (SMART FILTER) ---
+                    lt_meta = "bright daylight, clear azure sky, detailed cumulus clouds, high-contrast natural lighting, vivid organic colors"
+
+                # --- C. SMART FILTER (PEMBERSIH OTOMATIS) ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                
-                # Standar ketajaman dasar
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
 
                 if is_outdoor:
-                    # Bumbu tajam khusus alam
-                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture detail, NO SOFTENING, high-fidelity environment"
-                    # Buang elemen indoor dari lighting/tech jika ada
+                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
                     lt_final = lt_meta
                     tech_final = tech_base
                 else:
-                    # Bumbu tajam khusus indoor
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
-                    # Buang elemen outdoor (awan/langit) agar AI tidak bingung
-                    lt_final = lt_meta.replace("volumetric god rays, ", "").replace("realistic clouds, ", "")
+                    lt_final = lt_meta.replace("volumetric god rays, ", "").replace("realistic clouds, ", "").replace("detailed cumulus clouds, ", "")
                     tech_final = tech_base.replace("vivid greenery, ", "")
 
                 # --- D. TAMPILKAN HASIL ---
@@ -574,7 +557,6 @@ def tampilkan_ruang_produksi():
                                         for i in range(data["jumlah_karakter"]) 
                                         if data['karakter'][i]['nama'] and sc['dialogs'][i]])
                     
-                    # PROMPT GAMBAR: Kita tambahkan label NEGATIVE PROMPT sebelum mantra
                     img_p = (f"CHARACTER: {char_ids}\n"
                              f"ACTION: {sc['aksi']}\n"
                              f"ENV: {sc['loc']}. {bumbu_final}.\n"
@@ -582,7 +564,6 @@ def tampilkan_ruang_produksi():
                              f"TECH: {sc['style']}, {sc['light']}, {lt_final}, {sc['shot']}, {tech_final}\n"
                              f"NEGATIVE PROMPT: {no_text_strict} --ar {sc['ratio']} --v 6.0")
                     
-                    # PROMPT VIDEO: Kita gabungkan kedua mantra pelindung
                     vid_p = (f"Profiles: {char_profiles}\n"
                              f"Scene: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
                              f"Tech: {sc['style']}, {st_meta}, {sc['shot']}, {sc['cam']}, {tech_final}\n"
@@ -616,6 +597,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
