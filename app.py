@@ -45,12 +45,9 @@ def tampilkan_halaman_login():
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
-            st.markdown("<br>", unsafe_allow_html=True)
             
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
             
@@ -207,3 +204,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
