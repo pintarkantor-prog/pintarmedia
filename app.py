@@ -148,22 +148,6 @@ def pasang_css_kustom():
             transition: border-color 0.3s ease !important;
         }
 
-        /* MENGHILANGKAN EFEK MERAH SAAT KURSOR MASUK/KLIK */
-        div[data-testid="stNumberInput"]:focus-within {
-            border-color: #10b981 !important; /* Tetap hijau saat diklik */
-            box-shadow: none !important; /* Hapus bayangan merah */
-            outline: none !important; /* Hapus garis luar merah */
-        }
-
-        /* Menghapus outline pada elemen input di dalamnya */
-        div[data-testid="stNumberInput"] input {
-            color: #10b981 !important;
-            background-color: transparent !important;
-            border: none !important;
-            outline: none !important; /* Kunci utama no-red */
-            box-shadow: none !important;
-        }
-
         /* Tombol + dan - tetap elegan */
         div[data-testid="stNumberInput"] button {
             border: none !important;
@@ -402,6 +386,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
