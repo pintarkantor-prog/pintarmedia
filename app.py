@@ -1,170 +1,166 @@
 import streamlit as st
-import streamlit_authenticator as stauth
-import datetime
-import sqlite3
-import pandas as pd
-import random
 import time
-from streamlit.components.v1 import html
+import sqlite3
+from streamlit_javascript import st_javascript
 
-# --- Tema Elegan seperti Grok (CSS Custom) ---
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #1e1e1e;  /* Dark background */
-        color: #ffffff;  /* White text */
-    }
-    .sidebar .sidebar-content {
-        background-color: #2a2a2a;  /* Dark sidebar */
-    }
-    button {
-        background-color: #4CAF50;  /* Green button */
-        color: white;
-    }
-    input, textarea {
-        background-color: #333333;
-        color: white;
-    }
-    .stTextInput > div > div > input {
-        background-color: #333333;
-        color: white;
-    }
-    </style>
-""", unsafe_allow_html=True)
+# ==============================================
+# 1. DATABASE ENGINE (Simpan & Muat Permanen)
+# ==============================================
+def init_db():
+    conn = sqlite3.connect('pintar_media.db')
+    c = conn.cursor()
+    c.execute('''CREATE TABLE IF NOT EXISTS produksi 
+                 (id INTEGER PRIMARY KEY, user TEXT, master_context TEXT, adegan_data TEXT)''')
+    conn.commit()
+    conn.close()
 
-# --- Deteksi User-Agent untuk Batasi Mobile ---
-user_agent = st.experimental_get_query_params().get("user_agent", [""])[0]  # Ini aproksimasi; untuk akurat, gunakan JS
-if "Mobile" in user_agent or "Android" in user_agent or "iPhone" in user_agent:
-    st.error("Akses dibatasi: Hanya bisa diakses menggunakan PC/Komputer.")
-    st.stop()
+def save_data(user, context, adegans):
+    conn = sqlite3.connect('pintar_media.db')
+    c = conn.cursor()
+    # Hapus data lama user ini, simpan yang baru (Upsert logic)
+    c.execute("DELETE FROM produksi WHERE user=?", (user,))
+    c.execute("INSERT INTO produksi (user, master_context, adegan_data) VALUES (?, ?, ?)", 
+              (user, context, str(adegans)))
+    conn.commit()
+    conn.close()
 
-# --- Setup Database SQLite ---
-conn = sqlite3.connect('prompt_db.db')
-c = conn.cursor()
-c.execute('''CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)''')
-c.execute('''CREATE TABLE IF NOT EXISTS scenes (user TEXT, data TEXT)''')  # Untuk save adegan
-c.execute('''CREATE TABLE IF NOT EXISTS tasks (task TEXT)''')  # Contoh untuk TUGAS KERJA
-conn.commit()
+def load_data(user):
+    conn = sqlite3.connect('pintar_media.db')
+    c = conn.cursor()
+    c.execute("SELECT master_context, adegan_data FROM produksi WHERE user=?", (user,))
+    data = c.fetchone()
+    conn.close()
+    return data
 
-# --- Setup Autentikasi (Tambah user default: admin/password) ---
-# Ganti dengan user/password mu. Hash password untuk aman.
-credentials = {
-    "credentials": {
-        "usernames": {
-            "admin": {
-                "name": "Admin",
-                "password": stauth.Hasher(['password']).generate()[0]  # Hash 'password'
-            }
-        }
-    }
-}
-authenticator = stauth.Authenticate(credentials, "app_cookie", "random_key", cookie_expiry_days=0)
+# ==============================================
+# 2. TEMA GROK (DARK MINIMALIST)
+# ==============================================
+def apply_grok_theme():
+    st.markdown("""
+        <style>
+        .stApp { background-color: #000000; color: #FFFFFF; }
+        [data-testid="stSidebar"] { background-color: #080808; border-right: 1px solid #1F1F1F; }
+        .stTextArea>div>div>textarea { background-color: #0F0F0F !important; color: #FFFFFF !important; border: 1px solid #262626 !important; border-radius: 12px !important; }
+        .stButton>button { background-color: #FFFFFF; color: #000000; border-radius: 25px; font-weight: 600; border: none; height: 45px; }
+        .stButton>button:hover { background-color: #E0E0E0; border: 1px solid #FFFFFF; }
+        header {visibility: hidden;}
+        footer {visibility: hidden;}
+        /* Card Style untuk Adegan */
+        .adegan-card { background-color: #0A0A0A; padding: 20px; border-radius: 15px; border: 1px solid #1F1F1F; margin-bottom: 10px; }
+        </style>
+    """, unsafe_content_html=True)
 
-# --- Halaman Login ---
-if 'authentication_status' not in st.session_state:
-    st.session_state['authentication_status'] = None
+# ==============================================
+# 3. RUANG PRODUKSI (MAIN GENERATOR)
+# ==============================================
+def render_ruang_produksi():
+    st.markdown("<h2 style='margin-bottom:0;'>🚀 RUANG PRODUKSI</h2>", unsafe_content_html=True)
+    st.caption("Pusat Kendali Prompt YouTube Shorts - Konsistensi Adegan")
+    st.write("---")
 
-name, authentication_status, username = authenticator.login('Login', 'main')
+    # Kolom Master Context (Kunci Konsistensi)
+    with st.expander("🧠 MASTER CONTEXT (Karakter, Style, Latar)", expanded=True):
+        master_ctx = st.text_area("Jelaskan detail karakter (misal: Udin berkepala orange) dan style visual agar konsisten di semua adegan.", 
+                                  value=st.session_state.get('master_ctx', ''), height=100)
+        st.session_state.master_ctx = master_ctx
 
-if authentication_status:
-    # --- Auto-Logout setelah 10 jam ---
-    if 'login_time' not in st.session_state:
-        st.session_state['login_time'] = datetime.datetime.now()
+    st.write("### 🎬 Daftar 10 Adegan")
     
-    delta = datetime.datetime.now() - st.session_state['login_time']
-    if delta > datetime.timedelta(hours=10):
-        st.session_state['authentication_status'] = False
-        st.session_state['name'] = None
-        st.session_state['username'] = None
-        st.experimental_rerun()  # Force logout
+    # Grid untuk Adegan
+    for i in range(10):
+        with st.container():
+            st.markdown(f"<div class='adegan-card'>", unsafe_content_html=True)
+            col_idx, col_input, col_action = st.columns([0.5, 7, 2])
+            
+            with col_idx:
+                st.markdown(f"<h3 style='color:#444;'>{i+1}</h3>", unsafe_content_html=True)
+            
+            with col_input:
+                st.session_state.adegan_list[i] = st.text_area(
+                    f"Deskripsi Visual Adegan {i+1}", 
+                    value=st.session_state.adegan_list[i],
+                    placeholder="Contoh: Udin sedang berjalan di pasar malam dengan wajah ceria...",
+                    key=f"area_{i}", height=80, label_visibility="collapsed"
+                )
+            
+            with col_action:
+                if st.button(f"Copy Prompt {i+1}", key=f"btn_{i}"):
+                    full_prompt = f"STYLE: {master_ctx} \n\nSCENE: {st.session_state.adegan_list[i]}"
+                    st.code(full_prompt) # Menampilkan box copyable
+            st.markdown("</div>", unsafe_content_html=True)
 
-    # --- Sidebar Menu ---
-    st.sidebar.title("Menu")
-    menu = st.sidebar.radio("Pilih Menu", [
-        "🚀 RUANG PRODUKSI",
-        "🧠 PINTAR AI LAB",
-        "⚡ QUICK PROMPT",
-        "📋 TUGAS KERJA",
-        "⚡ KENDALI TIM"
-    ])
-    authenticator.logout('Logout', 'sidebar')
+    # Floating Action Bar (Simpan & Load)
+    st.sidebar.markdown("---")
+    st.sidebar.subheader("💾 Database Control")
+    if st.sidebar.button("SIMPAN SEMUA DATA"):
+        save_data(st.session_state.username, st.session_state.master_ctx, st.session_state.adegan_list)
+        st.sidebar.success("Berhasil disimpan ke Database!")
+    
+    if st.sidebar.button("LOAD DATA TERAKHIR"):
+        data = load_data(st.session_state.username)
+        if data:
+            st.session_state.master_ctx = data[0]
+            st.session_state.adegan_list = eval(data[1])
+            st.rerun()
 
-    # --- Fungsi Save/Load Data (untuk RUANG PRODUKSI) ---
-    def save_scenes(user, scenes):
-        scenes_str = ','.join(scenes)  # Simpan sebagai string
-        c.execute("INSERT OR REPLACE INTO scenes (user, data) VALUES (?, ?)", (user, scenes_str))
-        conn.commit()
+# ==============================================
+# 4. KONTROL UTAMA & NAVIGASI
+# ==============================================
+def main():
+    apply_grok_theme()
+    init_db()
 
-    def load_scenes(user):
-        c.execute("SELECT data FROM scenes WHERE user=?", (user,))
-        result = c.fetchone()
-        return result[0].split(',') if result else []
+    # Inisialisasi Session State
+    if 'logged_in' not in st.session_state:
+        st.session_state.logged_in = False
+    if 'adegan_list' not in st.session_state:
+        st.session_state.adegan_list = [""] * 10
+    if 'menu' not in st.session_state:
+        st.session_state.menu = "🚀 RUANG PRODUKSI"
 
-    # --- Menu Implementation ---
-    if menu == "🚀 RUANG PRODUKSI":
-        st.title("🚀 RUANG PRODUKSI")
-        st.write("Generate 10 adegan konsisten. Tambah manual, save/load.")
+    # Login Logic
+    if not st.session_state.logged_in:
+        render_login()
+    else:
+        # Check PC Only
+        width = st_javascript("window.innerWidth")
+        if width is not None and width < 1024:
+            st.warning("⚠️ Gunakan Desktop untuk mengakses Ruang Produksi.")
+            st.stop()
         
-        # Load data jika ada
-        if 'scenes' not in st.session_state:
-            st.session_state['scenes'] = load_scenes(username)
-        
-        # Generate 10 adegan
-        if st.button("Generate 10 Adegan"):
-            themes = ["petualangan", "misteri", "romansa", "sci-fi"]  # Contoh template
-            st.session_state['scenes'] = [f"Adegan {i+1}: {random.choice(themes)} dengan detail kompleks." for i in range(10)]
-        
-        # Tampilkan adegan
-        for i, scene in enumerate(st.session_state['scenes']):
-            st.text_area(f"Adegan {i+1}", value=scene, key=f"scene_{i}")
-        
-        # Tambah manual
-        new_scene = st.text_input("Tambah Adegan Manual")
-        if st.button("Tambah"):
-            st.session_state['scenes'].append(new_scene)
-        
-        # Save/Load
-        if st.button("Save Data"):
-            save_scenes(username, st.session_state['scenes'])
-            st.success("Data disimpan!")
-        
-        if st.button("Load Data"):
-            st.session_state['scenes'] = load_scenes(username)
-            st.success("Data dimuat!")
+        # Sidebar Menu
+        with st.sidebar:
+            st.markdown("<h2 style='letter-spacing: 2px;'>PINTAR MEDIA</h2>", unsafe_content_html=True)
+            st.write(f"User: **{st.session_state.username}**")
+            st.session_state.menu = st.radio("NAVIGASI", [
+                "🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"
+            ])
+            if st.button("Logout"):
+                st.session_state.logged_in = False
+                st.rerun()
 
-    elif menu == "🧠 PINTAR AI LAB":
-        st.title("🧠 PINTAR AI LAB")
-        premis = st.text_area("Masukkan Premis atau Alur Cerita")
-        if st.button("Generate Ide Cerita"):
-            # Logic sederhana; bisa expand ke AI API
-            st.write(f"Ide berdasarkan '{premis}': Cerita tentang pahlawan yang {premis.lower()} dengan twist akhir.")
+        # Route Halaman
+        if st.session_state.menu == "🚀 RUANG PRODUKSI":
+            render_ruang_produksi()
+        else:
+            st.title(st.session_state.menu)
+            st.info("Halaman ini sedang dalam pengembangan.")
 
-    elif menu == "⚡ QUICK PROMPT":
-        st.title("⚡ QUICK PROMPT")
-        type_prompt = st.selectbox("Pilih Tipe", ["Gambar", "Video"])
-        desc = st.text_input("Deskripsi")
-        if st.button("Generate Prompt"):
-            st.write(f"Prompt {type_prompt}: Gambar/Video tentang {desc} dengan detail tinggi.")
+def render_login():
+    st.markdown("<div style='height:100px'></div>", unsafe_content_html=True)
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.markdown("<h1 style='text-align:center;'>LOG IN</h1>", unsafe_content_html=True)
+        user = st.text_input("Username")
+        pw = st.text_input("Password", type="password")
+        if st.button("Masuk Ke Sistem"):
+            if user == "admin" and pw == "pintar2026":
+                st.session_state.logged_in = True
+                st.session_state.username = user
+                st.session_state.login_time = time.time()
+                st.rerun()
+            else:
+                st.error("Kredensial Salah")
 
-    elif menu == "📋 TUGAS KERJA":
-        st.title("📋 TUGAS KERJA")
-        # Contoh list tugas dari DB
-        new_task = st.text_input("Tambah Tugas")
-        if st.button("Tambah Tugas"):
-            c.execute("INSERT INTO tasks (task) VALUES (?)", (new_task,))
-            conn.commit()
-        
-        tasks = pd.read_sql_query("SELECT * FROM tasks", conn)
-        st.table(tasks)
-
-    elif menu == "⚡ KENDALI TIM":
-        st.title("⚡ KENDALI TIM")
-        st.write("Monitor kinerja staff. (Contoh dashboard sederhana)")
-        # Tambah metric dummy
-        st.metric("Kinerja Staff 1", "90%", "5%")
-        st.metric("Kinerja Staff 2", "85%", "-2%")
-
-elif authentication_status == False:
-    st.error('Username/password salah')
-elif authentication_status == None:
-    st.warning('Silakan login dengan username dan password')
+if __name__ == "__main__":
+    main()
