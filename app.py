@@ -374,94 +374,97 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (CUSTOM CHARACTER VERSION)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - ELEGANT LAYOUT)
 # ==============================================================================
 
 def tampilkan_ai_lab():
+    # Header Standar Pintar Media
     st.title("🧠 PINTAR AI LAB")
     st.write("Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!")
     st.divider() 
 
-    col1, col2 = st.columns(2)
+    # --- BAGIAN ATAS: INPUT & SETTING (DIBAGI 2 KOLOM) ---
+    col_input, col_preview = st.columns([1.2, 0.8], gap="large")
 
-    with col1:
-        st.subheader("📝 Input Ide & Karakter")
-        topik = st.text_input("Mau bikin cerita tentang apa?", placeholder="Contoh: Dituduh mencuri...")
+    with col_input:
+        st.subheader("📝 Input Cerita")
+        topik = st.text_input("Topik Utama", placeholder="Contoh: Dituduh mencuri...")
         
-        # --- INPUT KARAKTER DINAMIS ---
-        st.markdown("---")
-        st.write("👤 **Setting Karakter (Maks. 4)**")
+        # Pilihan Pola & Visual bersandingan agar ringkas
+        c1, c2 = st.columns(2)
+        with c1:
+            pola = st.selectbox("Pola Alur Cerita", [
+                "Viral Drama (Zero to Hero / Revenge)", 
+                "Lomba Konyol (Komedi Interaktif / Call to Action)",
+                "Drama Plot Twist (Standard)",
+                "Komedi Slapstick (Konyol & Sial)"
+            ])
+        with c2:
+            visual = st.selectbox("Gaya Visual AI", [
+                "3D Pixar Style (Ceria & Detail)",
+                "Cinematic Realistic (Seperti Film Nyata)",
+                "Anime / Manga Style (Gaya Jepang)",
+                "Retro Cartoon (Gaya Kartun Jadul)"
+            ])
         
-        # Gunakan session state untuk menyimpan jumlah karakter
+        jumlah_adegan = st.slider("Target Jumlah Adegan", 3, 10, 5)
+        st.write(" ")
+        btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True)
+
+    with col_preview:
+        st.subheader("👤 Setting Karakter (Maks. 4)")
+        
         if 'jumlah_karakter' not in st.session_state:
             st.session_state.jumlah_karakter = 2
 
-        # Tombol Tambah/Kurang Karakter
-        c1, c2 = st.columns(2)
-        with c1:
-            if st.button("➕ Tambah Karakter") and st.session_state.jumlah_karakter < 4:
+        # Tombol Tambah/Kurang Karakter yang lebih mungil
+        ck1, ck2 = st.columns(2)
+        with ck1:
+            if st.button("➕ Tambah Tokoh", use_container_width=True) and st.session_state.jumlah_karakter < 4:
                 st.session_state.jumlah_karakter += 1
-        with c2:
-            if st.button("➖ Kurang Karakter") and st.session_state.jumlah_karakter > 1:
+        with ck2:
+            if st.button("➖ Kurang Tokoh", use_container_width=True) and st.session_state.jumlah_karakter > 1:
                 st.session_state.jumlah_karakter -= 1
 
-        # Form Input Karakter
+        # List untuk menampung data karakter
         list_karakter = []
         for i in range(st.session_state.jumlah_karakter):
-            st.markdown(f"**Karakter {i+1}**")
-            nama = st.text_input(f"Nama Karakter {i+1}", value=f"Tokoh {i+1}", key=f"nama_{i}")
-            sifat = st.text_input(f"Sifat/Ciri Visual {i+1}", placeholder="Contoh: Kepala Jeruk, lucu, sial", key=f"sifat_{i}")
-            list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
-        
-        st.markdown("---")
+            with st.expander(f"Karakter {i+1}", expanded=True):
+                nama = st.text_input(f"Nama", value=f"Tokoh {i+1}", key=f"nama_{i}")
+                sifat = st.text_input(f"Sifat & Visual", placeholder="Contoh: Kepala Kayu, kaku, logis", key=f"sifat_{i}")
+                list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
 
-        pola = st.selectbox("Pilih Pola Alur", [
-            "Viral Drama (Zero to Hero / Revenge)", 
-            "Lomba Konyol (Komedi Interaktif / Call to Action)",
-            "Drama Plot Twist (Standard)",
-            "Komedi Slapstick (Konyol & Sial)"
-        ])
+    # --- BAGIAN BAWAH: HASIL PRODUKSI (LEBAR PENUH) ---
+    st.divider()
+    st.subheader("📜 Hasil Produksi")
 
-        visual = st.selectbox("Gaya Visual AI", [
-            "3D Pixar Style (Ceria & Detail)",
-            "Cinematic Realistic (Seperti Film Nyata)",
-            "Anime / Manga Style (Gaya Jepang)",
-            "Retro Cartoon (Gaya Kartun Jadul)"
-        ])
-        
-        jumlah_adegan = st.slider("Target Jumlah Adegan", 3, 10, 5)
-        btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True)
+    if btn_generate:
+        if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
+            # 1. Mapping Visual
+            visual_map = {
+                "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture, vibrant colors, cinematic lighting.",
+                "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture, natural lighting.",
+                "Anime / Manga Style (Gaya Jepang)": "Modern anime style, vibrant colors, clean lines, high quality cel-shaded.",
+                "Retro Cartoon (Gaya Kartun Jadul)": "1990s retro cartoon style, hand-drawn aesthetic, bold outlines."
+            }
+            prompt_visual = visual_map[visual]
 
-    with col2:
-        st.subheader("📜 Hasil Produksi")
-        
-        if btn_generate:
-            if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
-                # Mapping Visual
-                visual_map = {
-                    "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture, vibrant colors, cinematic lighting.",
-                    "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture, natural lighting.",
-                    "Anime / Manga Style (Gaya Jepang)": "Modern anime style, vibrant colors, clean lines, high quality cel-shaded.",
-                    "Retro Cartoon (Gaya Kartun Jadul)": "1990s retro cartoon style, hand-drawn aesthetic, bold outlines."
-                }
-                prompt_visual = visual_map[visual]
+            # 2. Logika Alur & Judul
+            str_karakter = "\n".join(list_karakter)
+            tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0] # Ambil nama Karakter 1
 
-                # Mapping Alur & Judul
-                str_karakter = "\n".join(list_karakter)
-                tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0] # Ambil nama Karakter 1
+            if pola == "Viral Drama (Zero to Hero / Revenge)":
+                alur_spesifik = f"Adegan 1: {tokoh_utama} direndahkan/dituduh. Adegan Tengah: Konflik memuncak. Adegan Akhir: {tokoh_utama} terbukti hebat dan lawan menyesal."
+                judul_viral = f"🔥 JUDUL: Dituduh {topik}, Ternyata {tokoh_utama} Adalah..."
+            elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
+                alur_spesifik = f"Adegan 1-3: Tantangan konyol {topik}. Adegan 4: {tokoh_utama} minta LIKE & SUBSCRIBE. Adegan 5: Hasil konyol."
+                judul_viral = f"🤣 JUDUL: Lomba {topik} Paling Absurd!"
+            else:
+                alur_spesifik = "Alur standar dengan plot twist di akhir."
+                judul_viral = f"🎬 JUDUL: Kisah {topik}"
 
-                if pola == "Viral Drama (Zero to Hero / Revenge)":
-                    alur_spesifik = f"Adegan 1: {tokoh_utama} direndahkan/dituduh. Adegan Tengah: Konflik memuncak. Adegan Akhir: {tokoh_utama} terbukti hebat dan lawan menyesal."
-                    judul_viral = f"🔥 JUDUL: Dituduh {topik}, Ternyata {tokoh_utama} Adalah..."
-                elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
-                    alur_spesifik = f"Adegan 1-3: Tantangan konyol {topik}. Adegan 4: {tokoh_utama} minta LIKE & SUBSCRIBE. Adegan 5: Hasil konyol."
-                    judul_viral = f"🤣 JUDUL: Lomba {topik} Paling Absurd!"
-                else:
-                    alur_spesifik = "Alur standar dengan plot twist di akhir."
-                    judul_viral = f"🎬 JUDUL: Kisah {topik}"
-
-                # Rakitan Mantra
-                master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
+            # 3. Rakitan Mantra Master
+            master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
 {str_karakter}
 
@@ -473,17 +476,21 @@ Struktur Alur:
 
 Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: {prompt_visual}"""
-                
-                st.info("💡 Salin Judul dan Mantra ke Gemini/Grok.")
-                st.markdown("**1. Rekomendasi Judul:**")
+
+            # Menampilkan hasil di bawah
+            res_col1, res_col2 = st.columns([0.4, 0.6])
+            with res_col1:
+                st.info("💎 Judul Clickbait")
                 st.code(judul_viral, language="text")
-                st.markdown("**2. Mantra Naskah:**")
+            with res_col2:
+                st.info("🔮 Mantra Naskah (Copy ke Gemini)")
                 st.code(master_instruction, language="text")
-                st.success("Mantra Berhasil Dirakit!")
-            else:
-                st.warning("Isi Topik dan Semua Sifat Karakter dulu ya!")
+            
+            st.success("Produksi Berhasil! Semua bahan siap digunakan.")
         else:
-            st.info("Masukkan input di samping untuk merakit mantra.")
+            st.error("Waduh! Mohon isi topik dan deskripsi karakter dulu ya.")
+    else:
+        st.info("Silakan isi data di atas dan klik Generate untuk melihat hasil di sini.")
             
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -680,6 +687,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
