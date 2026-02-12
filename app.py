@@ -36,7 +36,10 @@ def proses_login(user, pwd):
         st.error("Username atau Password salah.")
 
 def tampilkan_halaman_login():
+    # Posisi naik (hanya 1 break)
     st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Rasio [2, 1, 2] agar kotak login kecil/pas di tengah
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
     
     with col_m:
@@ -47,13 +50,13 @@ def tampilkan_halaman_login():
         
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # FORM UNTUK FITUR ENTER
+        # FORM UNTUK FITUR ENTER & TOMBOL HIJAU
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             st.markdown("<br>", unsafe_allow_html=True)
             
-            # Tombol ini akan otomatis berwarna hijau karena CSS di Bagian 3
+            # Tombol Submit (Warna akan dipaksa Hijau lewat CSS)
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
             
             if submit:
@@ -78,7 +81,7 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - DISINI WARNA HIJAUNYA
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - DIPERKUAT
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -93,21 +96,24 @@ def pasang_css_kustom():
             padding: 20px !important;
         }
 
-        /* PERBAIKAN TOMBOL HIJAU EMERALD UNTUK FORM */
+        /* PAKSA WARNA HIJAU EMERALD PADA TOMBOL FORM SUBMIT */
+        button[data-testid="stFormSubmitButton"] > div > p, 
         button[kind="primaryFormSubmit"] {
             background-color: #10b981 !important;
             color: white !important;
             border: none !important;
             height: 45px !important;
             font-weight: bold !important;
-            transition: 0.3s !important;
+            border-radius: 8px !important;
         }
         
+        /* Efek Hover Hijau */
         button[kind="primaryFormSubmit"]:hover {
             background-color: #059669 !important;
-            border: none !important;
+            color: white !important;
         }
 
+        /* Input styling */
         div[data-baseweb="input"], div[data-baseweb="textarea"] {
             background-color: #1d2127 !important;
             border: 1px solid #30363d !important;
