@@ -22,10 +22,10 @@ DATA_FILE = "produksi_data.json"
 # ────────────────────────────────────────────────
 # Fungsi bantu
 # ────────────────────────────────────────────────
-def is_mobile():
+def is_desktop():
     ua = st.context.headers.get("User-Agent", "").lower()
-    mobile_keywords = ["mobile", "android", "iphone", "ipad", "ipod"]
-    return any(kw in ua for kw in mobile_keywords)
+    mobile_keywords = ["mobile", "android", "iphone", "ipad", "ipod", "tablet", "kindle", "silk"]
+    return not any(kw in ua for kw in mobile_keywords)
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -59,15 +59,21 @@ if st.session_state.logged_in and st.session_state.login_time:
         st.rerun()
 
 # ────────────────────────────────────────────────
-# Halaman Login
+# Halaman Utama – Cek Device dulu
+# ────────────────────────────────────────────────
+if not is_desktop():
+    st.title("Akses Ditolak")
+    st.error("Aplikasi ini **hanya boleh diakses dari PC / Desktop**.")
+    st.warning("Gunakan komputer/laptop. Akses dari HP, tablet, atau perangkat mobile diblokir.")
+    st.markdown("---")
+    st.info("Alasan: Untuk pengalaman optimal dan keamanan workflow produksi.")
+    st.stop()
+
+# ────────────────────────────────────────────────
+# Halaman Login (hanya tampil jika dari Desktop)
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
     st.title("Login - Generator Prompt")
-
-    # Batasi akses hanya dari HP (opsional – bisa di-comment jika tidak ingin)
-    if not is_mobile():
-        st.warning("Aplikasi ini hanya dapat diakses dari perangkat mobile (HP).")
-        st.stop()
 
     username = st.text_input("Username", key="login_user")
     password = st.text_input("Password", type="password", key="login_pass")
@@ -108,12 +114,11 @@ page = st.sidebar.radio("Menu", [
 ])
 
 # ────────────────────────────────────────────────
-# RUANG PRODUKSI
+# RUANG PRODUKSI (sama seperti sebelumnya)
 # ────────────────────────────────────────────────
 if page == "🚀 RUANG PRODUKSI":
     st.header("RUANG PRODUKSI – Generator 10 Adegan Konsisten")
 
-    # Load dari session (sudah di-load saat login)
     scenes = st.session_state.data.get("scenes", [])
 
     col1, col2 = st.columns([3,1])
@@ -136,7 +141,6 @@ if page == "🚀 RUANG PRODUKSI":
         else:
             st.warning("Masukkan tema terlebih dahulu.")
 
-    # Tambah manual
     with st.expander("➕ Tambah Adegan Manual"):
         manual_prompt = st.text_area("Tulis prompt adegan", height=100)
         if st.button("Tambahkan Adegan"):
@@ -148,7 +152,6 @@ if page == "🚀 RUANG PRODUKSI":
             else:
                 st.warning("Prompt tidak boleh kosong.")
 
-    # Tampilkan semua adegan
     st.markdown("### Daftar Adegan Saat Ini")
     if scenes:
         for idx, scene in enumerate(scenes):
@@ -168,7 +171,7 @@ if page == "🚀 RUANG PRODUKSI":
         st.success("Data tersimpan!")
 
 # ────────────────────────────────────────────────
-# Placeholder menu lain
+# Placeholder menu lain (sama seperti sebelumnya)
 # ────────────────────────────────────────────────
 elif page == "🧠 PINTAR AI LAB":
     st.header("PINTAR AI LAB")
