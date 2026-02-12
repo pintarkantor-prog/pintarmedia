@@ -101,12 +101,22 @@ def pasang_css_kustom():
             [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
         }
 
-        /* 3. TOMBOL UTAMA (INSTANT RESPONSE) */
+        /* 3. TOMBOL UTAMA (SPASI RAPI & INSTANT) */
         div.stButton > button[kind="primary"] {
             background: linear-gradient(to right, #1d976c, #11998e) !important;
-            color: white !important; border: none !important; border-radius: 8px !important;
-            padding: 0.6rem 1.2rem !important; font-weight: bold !important;
-            width: 100%; box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+            color: white !important; 
+            border: none !important; 
+            border-radius: 8px !important;
+    
+        /* PENGATURAN SPASI */
+            padding: 10px 20px !important;    /* Atas-Bawah 10px, Kiri-Kanan 20px */
+            margin-top: 15px !important;      /* Jarak dari elemen di atasnya */
+            margin-bottom: 10px !important;   /* Jarak ke elemen di bawahnya */
+    
+            font-weight: bold !important;
+            font-size: 14px !important;       /* Ukuran teks disesuaikan agar rapi */
+            width: 100%; 
+            box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
 
         /* 4. MODE TANPA GARIS (BORDERLESS) PADA SEMUA INPUT */
@@ -388,6 +398,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
