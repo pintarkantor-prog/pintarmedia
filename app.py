@@ -36,14 +36,10 @@ def tampilkan_halaman_login():
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-        
-        st.markdown("<br>", unsafe_allow_html=True)
-        
+            
         with st.container(border=True):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
-            
-            st.markdown("<br>", unsafe_allow_html=True)
             
             # Tombol Hijau Emerald
             submit = st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
@@ -170,3 +166,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
