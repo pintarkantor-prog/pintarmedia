@@ -145,7 +145,6 @@ def pasang_css_kustom():
             border: 1px solid #30363d !important;
             border-radius: 10px !important;
             background-color: #0d1117 !important;
-            transition: border-color 0.3s ease !important;
         }
         
         </style>
@@ -368,6 +367,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
