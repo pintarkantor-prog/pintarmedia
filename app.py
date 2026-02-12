@@ -277,16 +277,30 @@ def pasang_css_kustom():
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("<p style='font-size: 11px; color: #8b949e; font-weight: bold; letter-spacing: 1px;'>MAIN WORKSPACE</p>", unsafe_allow_html=True)
+        # Judul Menu dengan Style Terminal
+        st.markdown("""
+            <div style='margin-bottom: -20px;'>
+                <p style='font-size: 13px; color: #8b949e; font-weight: bold; letter-spacing: 1.5px;'>
+                    🖥️ MAIN COMMAND
+                </p>
+            </div>
+        """, unsafe_allow_html=True)
         
+        # Menu Radio
         pilihan = st.radio(
-            "MODUL",
-            ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"],
+            "COMMAND_MENU",
+            [
+                "🚀 RUANG PRODUKSI", 
+                "🧠 PINTAR AI LAB", 
+                "⚡ QUICK PROMPT", 
+                "📋 TUGAS KERJA", 
+                "⚡ KENDALI TIM"
+            ],
             label_visibility="collapsed"
         )
         
-        st.markdown("---")
+        # Spasi ke bawah sebelum masuk ke Cloud Database
+        st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
         
         # 1. KOTAK DURASI FILM
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
@@ -513,6 +527,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
