@@ -1,181 +1,163 @@
 # ==============================================================================
-# PART 1: KONFIGURASI & DATABASE USER
+# BAGIAN 1: KONFIGURASI DAN DATABASE PENGGUNA
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
+from cookies_manager import EncryptedCookieManager
 
-# Daftar akun resmi Pintar Media
-USERS_DB = {
-    "dian": "QWERTY21ab",
-    "icha": "udin99",
-    "nissa": "tung22",
-    "inggi": "udin33",
-    "lisa": "tung66",
-    "tamu": "123"
+cookies = EncryptedCookieManager(password="pintarmedia_kunci_rahasia_2026")
+if not cookies.ready():
+    st.stop()
+
+DAFTAR_USER = {
+    "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
+    "inggi": "udin33", "lisa": "tung66", "tamu": "123"
 }
 
-# Konfigurasi halaman diletakkan paling atas
-st.set_page_config(
-    page_title="Pintar Media | AI Studio", 
-    layout="wide", 
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 
 # ==============================================================================
-# PART 2: PERSISTENT SESSION MANAGEMENT (ANTI-REFRESH & 10H TIMEOUT)
+# BAGIAN 2: SISTEM KEAMANAN (LOGIN, LOGOUT, DAN SESI)
 # ==============================================================================
-# Inisialisasi state jika belum ada
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
-if 'user_name' not in st.session_state:
-    st.session_state.user_name = ""
-if 'login_time' not in st.session_state:
-    st.session_state.login_time = None
+def cek_autentikasi():
+    sudah_login = cookies.get("sudah_login") == "True"
+    waktu_login_str = cookies.get("waktu_login")
+    if sudah_login and waktu_login_str:
+        waktu_login_dt = datetime.fromisoformat(waktu_login_str)
+        if datetime.now() - waktu_login_dt > timedelta(hours=10):
+            proses_logout()
+            st.rerun()
+    return sudah_login
 
-# Logika Logout Otomatis 10 Jam
-if st.session_state.logged_in and st.session_state.login_time:
-    # Memastikan login_time tetap dalam objek datetime
-    if isinstance(st.session_state.login_time, str):
-        st.session_state.login_time = datetime.fromisoformat(st.session_state.login_time)
-        
-    elapsed = datetime.now() - st.session_state.login_time
-    if elapsed > timedelta(hours=10):
-        for key in st.session_state.keys():
-            del st.session_state[key]
-        st.warning("Sesi berakhir (10 Jam).")
+def proses_login(user, pwd):
+    if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
+        cookies["sudah_login"] = "True"
+        cookies["user_aktif"] = user
+        cookies["waktu_login"] = datetime.now().isoformat()
+        cookies.save()
         st.rerun()
+    else:
+        st.error("Login gagal.")
+
+def proses_logout():
+    cookies.delete("sudah_login")
+    cookies.delete("user_aktif")
+    cookies.delete("waktu_login")
+    cookies.save()
+    st.rerun()
 
 # ==============================================================================
-# PART 3: CUSTOM CSS (DARK THEME & PROTEKSI PC ONLY)
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS)
 # ==============================================================================
-st.markdown("""
-    <style>
-    .stApp { background-color: #0e1117; color: #e0e0e0; }
-    [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
-    
-    /* Expander / Box Styling */
-    .streamlit-expanderHeader {
-        background-color: #161b22 !important;
-        border: 1px solid #30363d !important;
-        border-radius: 8px !important;
-    }
-    .streamlit-expanderContent { background-color: #0d1117 !important; border: 1px solid #30363d; border-top: none; }
-
-    /* Input & Textarea */
-    div[data-baseweb="input"], div[data-baseweb="textarea"] {
-        background-color: #161b22 !important;
-        border: 1px solid #30363d !important;
-        border-radius: 8px !important;
-    }
-
-    /* Footer Sidebar */
-    .status-footer {
-        position: fixed; bottom: 20px; left: 20px; font-size: 10px;
-        color: #484f58; text-transform: uppercase; letter-spacing: 1px;
-        line-height: 1.5; font-family: monospace;
-    }
-
-    /* PROTEKSI PC ONLY */
-    @media (max-width: 1024px) {
-        .main { display: none !important; }
-        [data-testid="stSidebar"] { display: none !important; }
-        .stApp::before {
-            content: '⚠️ AKSES TERBATAS: Gunakan perangkat Desktop/PC untuk mengakses Ruang Produksi.';
-            display: flex; justify-content: center; align-items: center;
-            height: 100vh; color: white; text-align: center; padding: 40px; background-color: #0e1117;
+def pasang_css_kustom():
+    st.markdown("""
+        <style>
+        .stApp { background-color: #0e1117; color: #e0e0e0; }
+        [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
+        .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
+        .streamlit-expanderContent { background-color: #0d1117 !important; }
+        div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
+        .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
+        @media (max-width: 1024px) {
+            .main { display: none !important; }
+            [data-testid="stSidebar"] { display: none !important; }
+            .stApp::before { content: '⚠️ AKSES TERBATAS: GUNAKAN PC'; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; background-color: #0e1117; }
         }
-    }
-    </style>
-    """, unsafe_allow_html=True)
+        </style>
+        """, unsafe_allow_html=True)
 
 # ==============================================================================
-# PART 4: HALAMAN LOGIN
+# BAGIAN 4: NAVIGASI SIDEBAR
 # ==============================================================================
-def login_screen():
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #8b949e;'>AI Production Studio Access</p>", unsafe_allow_html=True)
-        
-        user_val = st.text_input("Username", key="u_input").lower()
-        pass_val = st.text_input("Password", type="password", key="p_input")
-        
-        if st.button("LOG IN", use_container_width=True):
-            if user_val in USERS_DB and USERS_DB[user_val] == pass_val:
-                st.session_state.logged_in = True
-                st.session_state.user_name = user_val
-                st.session_state.login_time = datetime.now()
-                st.rerun()
-            else:
-                st.error("Credential salah.")
-
-# ==============================================================================
-# PART 5: SIDEBAR NAVIGATION
-# ==============================================================================
-def main_sidebar():
+def tampilkan_navigasi_sidebar():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
-        # Navigasi Menu
-        choice = st.radio(
-            "MENU UTAMA",
+        pilihan_menu = st.radio(
+            "NAVIGASI WORKSPACE", 
             ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
         )
-        
         st.markdown("<br>"*12, unsafe_allow_html=True)
-        
-        if st.button("LOGOUT SYSTEM", use_container_width=True):
-            st.session_state.logged_in = False
-            st.session_state.user_name = ""
-            st.session_state.login_time = None
-            st.rerun()
-
-        # Footer Status
-        if st.session_state.login_time:
-            uptime = datetime.now() - st.session_state.login_time
-            st.markdown(f"""
-                <div class="status-footer">
-                    STATION: {st.session_state.user_name.upper()}_SESSION <br>
-                    ACTIVE: {uptime.seconds // 60}M — {st.session_state.login_time.strftime('%d.%m.%y')}
-                </div>
-            """, unsafe_allow_html=True)
-        return choice
+        if st.button("KELUAR SISTEM", use_container_width=True):
+            proses_logout()
+        nama_user = cookies.get("user_aktif", "TIDAK DIKENAL")
+        st.markdown(f'<div class="status-footer">STATION: {nama_user.upper()}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
+    return pilihan_menu
 
 # ==============================================================================
-# PART 6: RUANG PRODUKSI (KONTEN UTAMA)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG
 # ==============================================================================
-def show_ruang_produksi():
-    st.markdown("### 📝 Detail Adegan Storyboard")
+def tampilkan_ai_lab():
+    st.markdown("### 🧠 Pintar AI Lab")
+    st.info("Area riset prompt dan eksperimen.")
+
+def tampilkan_quick_prompt():
+    st.markdown("### ⚡ Quick Prompt")
+    st.info("Generator prompt kilat.")
+
+def tampilkan_tugas_kerja():
+    st.markdown("### 📋 Tugas Kerja")
+    st.info("Monitoring antrian produksi tim.")
+
+def tampilkan_kendali_tim():
+    st.markdown("### ⚡ Kendali Tim")
+    st.info("Pengaturan akses dan koordinasi.")
+
+# ==============================================================================
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI
+# ==============================================================================
+def tampilkan_ruang_produksi():
+    st.markdown("### 🚀 Ruang Produksi")
+    st.write("---")
     
+    # SEKSI KARAKTER
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
-        num = st.number_input("Jumlah Karakter Utama", 1, 5, 2)
-        st.markdown("<br>", unsafe_allow_html=True)
-        cols = st.columns(num)
-        for i in range(num):
+        jumlah = st.number_input("Total Karakter", 1, 5, 2)
+        cols = st.columns(jumlah)
+        for i in range(jumlah):
             with cols[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                st.text_input(f"Nama Karakter", key=f"nm_{i}", placeholder="Input Nama...")
-                st.text_area(f"Ciri Fisik", key=f"cf_{i}", height=120, placeholder="Ciri fisik...")
+                st.text_input(f"Nama", key=f"n_{i}")
+                st.text_area(f"Ciri Fisik", key=f"d_{i}", height=120)
 
     st.markdown("<br>", unsafe_allow_html=True)
-    with st.expander("🟢 ADEGAN 1", expanded=False):
+    
+    # SEKSI ADEGAN
+    with st.expander("🟢 ADEGAN 1"):
         c1, c2 = st.columns([1, 2])
-        with c1: st.text_input("Lokasi", key="loc_1", placeholder="Lokasi Adegan 1...")
-        with c2: st.text_area("Aksi / Kejadian", key="act_1", placeholder="Apa yang terjadi?")
+        with c1: st.text_input("Lokasi Adegan 1", key="loc1")
+        with c2: st.text_area("Aksi Adegan 1", key="act1")
 
-    st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Data Storyboard Berhasil Dikompilasi.")
+        st.success("Prompt berhasil dikompilasi!")
 
 # ==============================================================================
-# PART 7: MAIN ROUTER
+# BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
 # ==============================================================================
-if not st.session_state.logged_in:
-    login_screen()
-else:
-    active_menu = main_sidebar()
-    if active_menu == "🚀 RUANG PRODUKSI":
-        show_ruang_produksi()
+def utama():
+    pasang_css_kustom()
+    
+    if not cek_autentikasi():
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        col_kiri, col_tengah, col_kanan = st.columns([1, 1.2, 1])
+        with col_tengah:
+            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+            u_input = st.text_input("Username").lower()
+            p_input = st.text_input("Password", type="password")
+            if st.button("MASUK", use_container_width=True):
+                proses_login(u_input, p_input)
     else:
-        st.title(active_menu)
-        st.info(f"Modul {active_menu} sedang dalam tahap pengembangan.")
+        menu_aktif = tampilkan_navigasi_sidebar()
+        
+        if menu_aktif == "🚀 RUANG PRODUKSI":
+            tampilkan_ruang_produksi()
+        elif menu_aktif == "🧠 PINTAR AI LAB":
+            tampilkan_ai_lab()
+        elif menu_aktif == "⚡ QUICK PROMPT":
+            tampilkan_quick_prompt()
+        elif menu_aktif == "📋 TUGAS KERJA":
+            tampilkan_tugas_kerja()
+        elif menu_aktif == "⚡ KENDALI TIM":
+            tampilkan_kendali_tim()
+
+if __name__ == "__main__":
+    utama()
