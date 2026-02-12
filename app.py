@@ -11,35 +11,32 @@ if 'initialized' not in st.session_state:
     st.session_state.user = None
     st.session_state.login_time = None
 
-# Auto logout setelah 10 jam
+# Auto logout 10 jam
 if st.session_state.get('logged_in', False) and st.session_state.get('login_time'):
     if time.time() - st.session_state.login_time > 36000:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
 
-st.set_page_config(
-    page_title="PINTAR MEDIA Generator",
-    page_icon="🎬",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
+st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide")
 
-# CSS utama - pastikan background gelap dan login terlihat
+# CSS yang lebih sederhana & kuat centering
 st.markdown("""
     <style>
-    /* Background gelap full app */
-    .stApp, [data-testid="stAppViewContainer"], section.main, .block-container {
+    /* Background gelap full */
+    .stApp, section.main, .block-container {
         background-color: #0e1117 !important;
         color: #e0e0e0 !important;
         min-height: 100vh !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* Blokir HP */
     @media (max-width: 1024px) {
         .stApp { display: none !important; }
         body::before {
-            content: "Gunakan komputer / layar lebar!";
+            content: "Gunakan komputer!";
             display: flex !important;
             justify-content: center;
             align-items: center;
@@ -47,76 +44,64 @@ st.markdown("""
             background: #0e1117;
             color: white;
             font-size: 1.5rem;
-            font-weight: bold;
-            text-align: center;
             position: fixed;
             inset: 0;
             z-index: 999999;
         }
     }
 
-    /* Login page container */
-    .login-wrapper {
-        min-height: 100vh;
+    /* Login centering paksa */
+    .login-outer {
+        height: 100vh;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 20px;
+        background: #0e1117;
+        margin: 0;
+        padding: 0;
     }
-    .login-box {
+    .login-inner {
         width: 100%;
-        max-width: 380px;
+        max-width: 360px;
         background: #1a1c24;
         border-radius: 12px;
-        padding: 32px 24px;
+        padding: 28px 20px;
         border: 1px solid #2d3748;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         text-align: center;
     }
-    .logo-container {
-        margin-bottom: 24px;
+    .logo-box {
+        margin-bottom: 20px;
     }
-    .welcome-msg {
-        text-align: center;
+    .welcome {
         color: #28a745;
-        font-size: 1.6rem;
+        font-size: 1.5rem;
         font-weight: bold;
         margin: 20px 0;
     }
     .footer {
-        margin-top: 40px;
         color: #666;
-        font-size: 0.85rem;
-        text-align: center;
+        font-size: 0.8rem;
+        margin-top: 30px;
     }
-
-    /* Input field lebih ramping */
+    /* Input lebih rapi */
     .stTextInput > div > div > input {
         background: #0e1117;
         border: 1px solid #3a3f4a;
         border-radius: 6px;
-        padding: 10px 12px;
+        padding: 10px;
         color: white;
     }
-    .stTextInput label {
-        color: #a0a0a0 !important;
-        font-size: 0.9rem;
-        margin-bottom: 4px;
-    }
-
-    /* Tombol MASUK hijau */
     button[kind="primary"] {
         width: 100%;
         padding: 10px;
-        font-size: 1rem;
-        background: linear-gradient(90deg, #1d976c, #28a745) !important;
+        background: #28a745 !important;
         border: none;
     }
     </style>
 """, unsafe_allow_html=True)
 
-# Data login
+# Data user
 USER_PASSWORDS = {
     "dian": "QWERTY21ab",
     "icha": "udin99",
@@ -128,25 +113,25 @@ USER_PASSWORDS = {
 
 # Halaman login
 if not st.session_state.logged_in:
-    login_container = st.container()
-    with login_container:
-        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
-        st.markdown('<div class="login-box">', unsafe_allow_html=True)
+    # Pakai container luar untuk centering vertikal
+    outer = st.container()
+    with outer:
+        st.markdown('<div class="login-outer">', unsafe_allow_html=True)
+        st.markdown('<div class="login-inner">', unsafe_allow_html=True)
 
         # Logo
-        st.markdown('<div class="logo-container">', unsafe_allow_html=True)
+        st.markdown('<div class="logo-box">', unsafe_allow_html=True)
         try:
             st.image(
-                "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",  # GANTI DENGAN URL RAW ASLI
+                "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",  # GANTI DENGAN RAW URL ASLI KAMU
                 use_container_width=True
             )
         except:
             st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-        # Form input
-        username = st.text_input("Username", placeholder="Username...", key="login_username", label_visibility="collapsed")
-        password = st.text_input("Password", type="password", placeholder="Password...", key="login_password", label_visibility="collapsed")
+        username = st.text_input("Username", placeholder="Username...", key="login_user", label_visibility="collapsed")
+        password = st.text_input("Password", type="password", placeholder="Password...", key="login_pass", label_visibility="collapsed")
 
         if st.button("MASUK", type="primary"):
             clean_user = username.strip().lower()
@@ -154,19 +139,19 @@ if not st.session_state.logged_in:
                 st.session_state.logged_in = True
                 st.session_state.user = clean_user
                 st.session_state.login_time = time.time()
-                st.markdown(f'<div class="welcome-msg">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
+                st.markdown('<div class="welcome">Selamat datang, ' + clean_user.capitalize() + '!</div>', unsafe_allow_html=True)
                 time.sleep(2)
                 st.rerun()
             else:
                 st.error("Username atau password salah.")
 
-        st.markdown('</div>', unsafe_allow_html=True)  # tutup login-box
+        st.markdown('</div>', unsafe_allow_html=True)
         st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)  # tutup wrapper
+        st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
-# Sidebar setelah login berhasil
+# Sidebar setelah login
 with st.sidebar:
     st.markdown(f"**User aktif:** {st.session_state.user.upper()}")
     st.caption(f"Login sejak: {datetime.fromtimestamp(st.session_state.login_time, tz=pytz.timezone('Asia/Jakarta')).strftime('%Y-%m-%d %H:%M WIB')}")
@@ -186,7 +171,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# Menu utama
+# Menu utama (sama seperti kode kamu)
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
@@ -325,3 +310,4 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
