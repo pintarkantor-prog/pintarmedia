@@ -23,12 +23,12 @@ st.set_page_config(page_title="PINTAR MEDIA Generator", page_icon="🎬", layout
 # CSS: centering paksa + rapatkan layout
 st.markdown("""
     <style>
-    /* Background gelap full + hilangkan padding atas default */
-    .stApp, section.main, .block-container, div[data-testid="stToolbar"] {
-        background-color: #0e1117 !important;
-        color: #e0e0e0 !important;
+    /* Hilangkan padding default Streamlit */
+    .stApp, section.main, .block-container, [data-testid="stDecoration"] {
         margin: 0 !important;
         padding: 0 !important;
+        background-color: #0e1117 !important;
+        color: #e0e0e0 !important;
     }
 
     /* Blokir HP */
@@ -58,31 +58,31 @@ st.markdown("""
         background: #0e1117;
         margin: 0;
         padding: 0;
-        margin-top: 0px;  /* Ubah jadi -100px kalau terlalu atas */
+        margin-top: -150px !important;  /* push ke bawah kalau terlalu atas */
     }
     .login-inner {
         width: 100%;
         max-width: 360px;
         background: #1a1c24;
         border-radius: 12px;
-        padding: 16px 12px;
+        padding: 20px 16px;
         border: 1px solid #2d3748;
         box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         text-align: center;
     }
     .logo-box {
-        margin-bottom: 12px;
+        margin-bottom: 16px;
     }
     .welcome {
         color: #28a745;
         font-size: 1.5rem;
         font-weight: bold;
-        margin: 12px 0;
+        margin: 16px 0;
     }
     .footer {
         color: #666;
         font-size: 0.8rem;
-        margin-top: 20px;
+        margin-top: 24px;
         text-align: center;
     }
 
@@ -170,7 +170,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# Menu utama (lengkap dari kode kamu)
+# Menu utama
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
