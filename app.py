@@ -132,6 +132,22 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
+        /* MERUBAH TAMPILAN KOLOM/KOTAK INPUT ADEGAN */
+        div[data-testid="stNumberInput"] {
+            background-color: #161922 !important; /* Warna dasar kotak lebih gelap */
+            border: 1px solid #30363d !important; /* Border tipis elegan */
+            border-radius: 10px !important;       /* Sudut melengkung halus */
+            padding: 2px !important;
+        }
+
+        /* MERAPIKAN AREA ANGKA DI DALAM KOLOM */
+        div[data-testid="stNumberInput"] input {
+            background-color: transparent !important;
+            color: #1d976c !important; /* Warna angka hijau branding kamu */
+            font-size: 18px !important;
+            font-weight: bold !important;
+            border: none !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -349,6 +365,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
