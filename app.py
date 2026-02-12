@@ -99,29 +99,39 @@ def simpan_ke_gsheet():
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
-# FUNGSI RESTORE (Fokus GSheet lewat Secrets)
 def muat_dari_gsheet():
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        # Pakai st.secrets (tidak pakai file kunci.json)
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
+        # Ambil semua data dari GSheet
         semua_data = sheet.get_all_records()
-        user_sekarang = st.session_state.get("user_aktif", "")
+        user_sekarang = st.session_state.get("user_aktif", "").lower()
         
-        user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang.lower()]
+        # Cari baris milik user ini (kita buat lebih fleksibel pemeriksaannya)
+        user_rows = []
+        for row in semua_data:
+            # Kita cek kolom 'Username' (pastikan di GSheet tulisannya 'Username')
+            nama_di_sheet = str(row.get('Username', '')).lower()
+            if nama_di_sheet == user_sekarang:
+                user_rows.append(row)
         
         if user_rows:
+            # Ambil data dari baris paling terakhir
             naskah_terakhir = user_rows[-1]['Data_Naskah']
+            
+            # Update Laci (Session State)
             st.session_state.data_produksi = json.loads(naskah_terakhir)
-            st.success(f"🔄 Naskah milik {user_sekarang} berhasil dipulihkan!")
-            st.rerun()
+            
+            st.success(f"🔄 Naskah {user_sekarang} berhasil dipulihkan!")
+            st.rerun() # Refresh layar agar data muncul di form
         else:
-            st.warning("⚠️ Data kamu tidak ditemukan di Cloud.")
+            st.warning(f"⚠️ Tidak ada data ditemukan untuk user: {user_sekarang}")
+            
     except Exception as e:
         st.error(f"Gagal memuat dari Cloud: {e}")
         
@@ -480,6 +490,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
