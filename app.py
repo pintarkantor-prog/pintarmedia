@@ -95,33 +95,35 @@ def pasang_css_kustom():
             display: block;
         }
 
-        /* 3. INPUT TANPA EFEK WARNA SAAT DIKLIK */
+        /* 3. MATIKAN SEMUA EFEK MERAH DI SEMUA INPUT */
+        /* Kita targetkan semua kemungkinan selector yang memicu garis merah */
         div[data-baseweb="input"], 
         div[data-baseweb="textarea"], 
         div[data-testid="stNumberInput"],
-        [data-baseweb="base-input"] {
+        div[data-baseweb="base-input"],
+        .st-ae, .st-af, .st-ag, .st-ah { 
             border: 1px solid #30363d !important;
-            border-radius: 8px !important;
-            background-color: #0d1117 !important;
-            outline: none !important;
-            box-shadow: none !important; /* Hapus semua bayangan */
-        }
-
-        /* MATIKAN SEMUA WARNA SAAT FOKUS */
-        div[data-baseweb="input"]:focus-within, 
-        div[data-baseweb="textarea"]:focus-within,
-        div[data-testid="stNumberInput"]:focus-within {
-            border-color: #4f5b66 !important; /* Hanya berubah jadi abu-abu terang saja biar tahu aktif */
             box-shadow: none !important;
             outline: none !important;
         }
 
-        /* Matikan paksa outline browser */
-        input, textarea {
+        /* KHUSUS SAAT DIKLIK/FOKUS: Paksa tetap abu-abu, JANGAN MERAH */
+        div[data-baseweb="input"]:focus-within, 
+        div[data-baseweb="textarea"]:focus-within,
+        div[data-testid="stNumberInput"]:focus-within,
+        [data-baseweb="base-input"]:focus-within {
+            border-color: #4f5b66 !important; /* Hanya berubah abu-abu netral */
+            box-shadow: none !important;
+            outline: none !important;
+        }
+
+        /* Hilangkan ring fokus bawaan browser di level terdalam */
+        input, textarea, [role="spinbutton"] {
             border: none !important;
             box-shadow: none !important;
             outline: none !important;
             background-color: transparent !important;
+            -webkit-box-shadow: none !important;
         }
 
         /* 4. FOOTER & TOMBOL */
@@ -351,6 +353,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
