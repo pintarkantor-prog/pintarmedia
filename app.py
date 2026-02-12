@@ -26,27 +26,26 @@ def inisialisasi_keamanan():
             st.session_state.waktu_login = datetime.now()
 
 def tampilkan_halaman_login():
-    # Mengurangi spasi atas agar posisi lebih naik
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # PERUBAHAN: Rasio [2, 1, 2] membuat kolom tengah (kotak login) lebih ramping/kecil
+    # Rasio [2, 1, 2] agar kotak login kecil dan elegan di tengah
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
     
     with col_m:
-        # Menampilkan Logo PINTAR MEDIA
         try:
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-                
-        # Login Box (Card Style)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
         with st.container(border=True):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             
             st.markdown("<br>", unsafe_allow_html=True)
             
-            # Tombol Merah/Coral
+            # Tombol Hijau Emerald
             submit = st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
             if submit:
                 if u in DAFTAR_USER and DAFTAR_USER[u] == p:
@@ -85,12 +84,19 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
+        /* Tombol Hijau Emerald (#10b981) */
         div.stButton > button[kind="primary"] {
-            background-color: #ff4b4b !important;
+            background-color: #10b981 !important;
             color: white !important;
             border: none !important;
             height: 45px !important;
             font-weight: bold !important;
+            transition: 0.3s;
+        }
+        
+        div.stButton > button[kind="primary"]:hover {
+            background-color: #059669 !important; /* Hijau agak gelap saat di-hover */
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
         div[data-baseweb="input"] {
@@ -164,4 +170,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
