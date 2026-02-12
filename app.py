@@ -382,10 +382,9 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SUDAH SUPPORT RESTORE)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI FINAL WOW)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    # ... (Logika waktu tetap sama) ...
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
@@ -396,7 +395,7 @@ def tampilkan_ruang_produksi():
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # HEADER (Tetap sama)
+    # HEADER
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
@@ -405,7 +404,6 @@ def tampilkan_ruang_produksi():
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
     
     data = st.session_state.data_produksi
-    # Ambil versi form untuk paksa refresh saat Restore
     ver = st.session_state.get("form_version", 0)
 
     # 1. IDENTITY LOCK
@@ -416,7 +414,6 @@ def tampilkan_ruang_produksi():
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                # TAMBAHKAN {ver} PADA SETIAP KEY
                 data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}_{ver}", placeholder="Nama...", label_visibility="collapsed")
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}_{ver}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}_{ver}", height=80, placeholder="Fisik...", label_visibility="collapsed")
@@ -442,8 +439,6 @@ def tampilkan_ruang_produksi():
             
             with col_set:
                 sub1, sub2 = st.columns(2)
-                
-                # --- DEFINISI LIST PILIHAN ---
                 opts_style = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
                 opts_light = ["Golden Hour", "Studio", "Natural"]
                 opts_arah  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
@@ -453,7 +448,6 @@ def tampilkan_ruang_produksi():
 
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    # Cari urutan ke berapa data yang di-restore dalam list pilihan
                     curr_style = data["adegan"][scene_id].get("style", "Realistis")
                     idx_style = opts_style.index(curr_style) if curr_style in opts_style else 0
                     data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", opts_style, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
@@ -487,7 +481,6 @@ def tampilkan_ruang_produksi():
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
-            # Dialog (TAMBAHKAN {ver} PADA KEY)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
@@ -495,9 +488,9 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # 3. GLOBAL COMPILER LOGIC (DENGAN NAMA USER DINAMIS)
+    # --- 3. GLOBAL COMPILER LOGIC (DIPERBAIKI) ---
+    st.markdown("---")
     if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True, type="primary"):
-        
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
@@ -506,18 +499,15 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- IDENTITY LOCK (DIPERKUAT DENGAN TEKSTUR MAKRO) ---
             char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: {c['fisik']}, organic macro-texture, maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
             char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)" for c in data["karakter"] if c['nama']])
 
-            # --- MANTRA ANTI-TEXT & ANTI-MLEYOT (VERSI DEWA) ---
-            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, CLEAN cinematic shot."
-            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO flickering textures, NO sudden lighting jumps."
+            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
+            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # --- A. LOGIKA SUNTIKAN STYLE (DIPERTAJAM) ---
                 st_meta = ""
                 if sc['style'] == "Realistis":
                     st_meta = "shot on Fujifilm X-T4, XF 35mm f/1.4 R, f/2.8, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion"
@@ -528,7 +518,6 @@ def tampilkan_ruang_produksi():
                 elif sc['style'] == "Naruto Anime":
                     st_meta = "Studio Ufotable style, sharp line art, vibrant cinematic anime, masterpiece 2D, high-end cel-shading"
 
-                # --- B. LOGIKA SUNTIKAN LIGHTING ---
                 lt_meta = ""
                 if sc['light'] == "Golden Hour":
                     lt_meta = "cinematic golden hour, warm sunset glow, volumetric lighting, Tyndall effect, long shadows, 5000k"
@@ -537,26 +526,21 @@ def tampilkan_ruang_produksi():
                 elif sc['light'] == "Natural":
                     lt_meta = "bright daylight, clear azure sky, detailed cumulus clouds, high-contrast natural lighting, vivid organic colors"
 
-                # --- C. SMART FILTER (PEMBERSIH OTOMATIS) ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
+                
+                lt_final = lt_meta
+                tech_final = tech_base
 
                 if is_outdoor:
                     bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
-                    lt_final = lt_meta
-                    tech_final = tech_base
                 else:
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
                     lt_final = lt_meta.replace("volumetric god rays, ", "").replace("realistic clouds, ", "").replace("detailed cumulus clouds, ", "")
                     tech_final = tech_base.replace("vivid greenery, ", "")
 
-                # --- D. TAMPILKAN HASIL ---
                 with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
-                    all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
-                                        for i in range(data["jumlah_karakter"]) 
-                                        if data['karakter'][i]['nama'] and sc['dialogs'][i]])
-                    
                     img_p = (f"CHARACTER: {char_ids}\n"
                              f"ACTION: {sc['aksi']}\n"
                              f"ENV: {sc['loc']}. {bumbu_final}.\n"
@@ -597,6 +581,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
