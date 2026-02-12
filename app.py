@@ -320,7 +320,6 @@ def tampilkan_ruang_produksi():
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
             # Baris Dialog Sejajar Horizontal
-            st.markdown('<hr style="border:0.5px solid #10b981; opacity:0.3; margin-top:20px; margin-bottom:10px;">', unsafe_allow_html=True)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
@@ -389,6 +388,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
