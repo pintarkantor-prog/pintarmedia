@@ -300,8 +300,7 @@ def tampilkan_ruang_produksi():
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Fisik...", label_visibility="collapsed")
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    
+    st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)    
     # 2. GENERASI INPUT ADEGAN SECARA DINAMIS
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
@@ -418,76 +417,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
