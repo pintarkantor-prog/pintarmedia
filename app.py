@@ -181,8 +181,6 @@ def tampilkan_ruang_produksi():
                 pakaian = st.text_input(f"Pakaian", key=f"h_wear_{i}", placeholder="Kaos oranye/Batik")
                 fisik = st.text_area(f"Ciri Fisik Utama", key=f"h_fix_{i}", height=80, placeholder="Maintain 100% exact facial features...")
                 karakter_data.append({"nama": nama, "wear": pakaian, "fisik": fisik})
-
-    st.markdown("<br>", unsafe_allow_html=True)
     
     # 2. INPUT ADEGAN
     with st.expander("🟢 ADEGAN 1", expanded=True):
@@ -281,6 +279,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
