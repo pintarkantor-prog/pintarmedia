@@ -1,2 +1,5 @@
 streamlit
-streamlit-javascript
+pandas
+st-gsheets-connection
+pytz
+groq
