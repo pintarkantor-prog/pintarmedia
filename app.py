@@ -379,23 +379,37 @@ def tampilkan_navigasi_sidebar():
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Bisa dipakai untuk referensi ide (jangan ditelan mentah-mentah naskahnya)!")
+    st.caption("Solusi cerdas buat staf Pintar Media. Data aman dan sinkron!")
     st.divider() 
 
-    # --- INISIALISASI SESSION STATE (MEMORI PENYIMPANAN) ---
+    # --- 1. DEFINISI DAFTAR PILIHAN (Agar Konsisten) ---
+    opsi_pola = [
+        "Viral Drama (Zero to Hero / Revenge)", 
+        "Lomba Konyol (Komedi Interaktif / Call to Action)",
+        "Drama Plot Twist (Standard)",
+        "Komedi Slapstick"
+    ]
+    
+    opsi_visual = [
+        "Cinematic Realistic (Seperti Film Nyata)",
+        "3D Pixar Style (Ceria & Detail)",
+        "Anime / Manga Style",
+        "Retro Cartoon"
+    ]
+
+    # --- 2. INISIALISASI SESSION STATE ---
     if 'lab_topik' not in st.session_state: st.session_state.lab_topik = ""
-    if 'lab_pola' not in st.session_state: st.session_state.lab_pola = "Viral Drama (Zero to Hero / Revenge)"
-    if 'lab_visual' not in st.session_state: st.session_state.lab_visual = "Cinematic Realistic (Setelah Film Nyata)"
+    if 'lab_pola' not in st.session_state: st.session_state.lab_pola = opsi_pola[0]
+    if 'lab_visual' not in st.session_state: st.session_state.lab_visual = opsi_visual[0]
     if 'lab_adegan' not in st.session_state: st.session_state.lab_adegan = 5
     if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
     if 'lab_hasil_mantra' not in st.session_state: st.session_state.lab_hasil_mantra = None
 
-    # --- LAYOUT UTAMA ---
+    # --- 3. LAYOUT UTAMA ---
     col_kerja, col_sidebar = st.columns([2, 1.5], gap="large")
 
     with col_kerja:
         st.subheader("📝 Topik & Premis Utama")
-        # Simpan input ke session state
         st.session_state.lab_topik = st.text_area(
             "Detail Cerita", 
             value=st.session_state.lab_topik,
@@ -416,6 +430,12 @@ def tampilkan_ai_lab():
         st.write(" ")
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
 
+        # Tombol Reset (Opsional, ditaruh kecil di bawah)
+        if st.button("🗑️ Reset Form", use_container_width=False):
+            st.session_state.lab_topik = ""
+            st.session_state.lab_hasil_mantra = None
+            st.rerun()
+
     with col_sidebar:
         st.subheader("👤 Pengaturan")
         
@@ -432,7 +452,6 @@ def tampilkan_ai_lab():
 
         st.write("---")
         
-        # Grid Karakter (Data disimpan otomatis di key unik)
         list_karakter = []
         char_col1, char_col2 = st.columns(2)
         
@@ -447,23 +466,23 @@ def tampilkan_ai_lab():
 
         st.write("---")
         
-        st.session_state.lab_pola = st.selectbox("🎭 Pola Alur", [
-            "Viral Drama (Zero to Hero / Revenge)", 
-            "Lomba Konyol (Komedi Interaktif / Call to Action)",
-            "Drama Plot Twist (Standard)",
-            "Komedi Slapstick"
-        ], index=["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif / Call to Action)", "Drama Plot Twist (Standard)", "Komedi Slapstick"].index(st.session_state.lab_pola))
+        # Menggunakan .index() yang lebih aman karena list opsi sudah didefinisikan di atas
+        st.session_state.lab_pola = st.selectbox(
+            "🎭 Pola Alur", 
+            options=opsi_pola,
+            index=opsi_pola.index(st.session_state.lab_pola)
+        )
         
-        st.session_state.lab_visual = st.selectbox("🎨 Gaya Visual", [
-            "Cinematic Realistic (Seperti Film Nyata)",
-            "3D Pixar Style (Ceria & Detail)",
-            "Anime / Manga Style",
-            "Retro Cartoon"
-        ], index=["Cinematic Realistic (Seperti Film Nyata)", "3D Pixar Style (Ceria & Detail)", "Anime / Manga Style", "Retro Cartoon"].index(st.session_state.lab_visual))
+        st.session_state.lab_visual = st.selectbox(
+            "🎨 Gaya Visual", 
+            options=opsi_visual,
+            index=opsi_visual.index(st.session_state.lab_visual)
+        )
 
-    # --- LOGIKA GENERATE ---
+    # --- 4. LOGIKA GENERATE ---
     if btn_generate:
-        if st.session_state.lab_topik and all([k.split(": ")[1] != "" for k in list_karakter]):
+        if st.session_state.lab_topik:
+            # Mapping Produksi
             visual_map = {
                 "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture.",
                 "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, vibrant colors, cinematic lighting.",
@@ -484,7 +503,6 @@ def tampilkan_ai_lab():
                 alur_spesifik = "Alur standar dengan plot twist."
                 judul_v = f"🎬 JUDUL: Kisah {st.session_state.lab_topik[:20]}..."
 
-            # Simpan hasil ke session state agar tidak hilang
             st.session_state.lab_hasil_mantra = {
                 "judul": judul_v,
                 "mantra": f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
@@ -499,7 +517,6 @@ Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: {prompt_visual}"""
             }
 
-    # --- TAMPILKAN HASIL DARI SESSION STATE ---
     if st.session_state.lab_hasil_mantra:
         st.divider()
         st.subheader("📜 Hasil Produksi")
@@ -706,6 +723,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
