@@ -59,64 +59,96 @@ if st.session_state.logged_in and st.session_state.login_time:
         st.rerun()
 
 # ────────────────────────────────────────────────
-# Halaman Utama – Cek Device dulu
+# Cek device (hanya PC boleh akses)
 # ────────────────────────────────────────────────
 if not is_desktop():
     st.title("Akses Ditolak")
     st.error("Aplikasi ini **hanya boleh diakses dari PC / Desktop**.")
-    st.warning("Gunakan komputer/laptop. Akses dari HP, tablet, atau perangkat mobile diblokir.")
-    st.markdown("---")
-    st.info("Alasan: Untuk pengalaman optimal dan keamanan workflow produksi.")
+    st.warning("Gunakan komputer/laptop. HP, tablet, atau perangkat mobile diblokir.")
+    st.info("Alasan: Pengalaman optimal & keamanan workflow produksi.")
     st.stop()
 
 # ────────────────────────────────────────────────
-# Halaman Login (versi elegan & ringkas)
+# Styling login elegan, simpel, compact
+# ────────────────────────────────────────────────
+st.markdown("""
+    <style>
+        .login-box {
+            max-width: 380px;
+            margin: 80px auto 0 auto;
+            padding: 40px 32px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            text-align: center;
+        }
+        .login-title {
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 32px;
+        }
+        .stTextInput > div > div > input {
+            border: 1px solid #d1d5db;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 16px;
+            background: #f9fafb;
+        }
+        .stTextInput > div > div > input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.2);
+        }
+        .stButton > button {
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: all 0.2s;
+        }
+        .stButton > button:hover {
+            background: #2563eb;
+        }
+        .stAlert {
+            border-radius: 10px;
+            margin-top: 16px;
+        }
+        .main > div {padding-top: 0 !important;}
+        footer {visibility: hidden;}
+        section[data-testid="stSidebar"] {background-color: #f8fafc;}
+    </style>
+""", unsafe_allow_html=True)
+
+# ────────────────────────────────────────────────
+# Halaman Login
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    # Center layout sederhana
-    col_empty1, col_main, col_empty2 = st.columns([1, 2, 1])
-    
-    with col_main:
-        st.markdown("<h2 style='text-align: center; color: #2c3e50; margin-bottom: 1.5rem;'>Generator Prompt</h2>", unsafe_allow_html=True)
+    with st.container():
+        st.markdown('<div class="login-box">', unsafe_allow_html=True)
         
-        # Kotak login dengan border subtle
-        with st.container():
-            st.markdown("""
-                <div style="
-                    background: white;
-                    padding: 2rem 1.8rem;
-                    border-radius: 12px;
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-                    border: 1px solid #e0e0e0;
-                ">
-            """, unsafe_allow_html=True)
-            
-            st.markdown("<h3 style='text-align: center; margin-bottom: 1.5rem; color: #34495e;'>Masuk ke Akun</h3>", unsafe_allow_html=True)
-            
-            username = st.text_input("", placeholder="Username", key="login_user", label_visibility="collapsed")
-            password = st.text_input("", placeholder="Password", type="password", key="login_pass", label_visibility="collapsed")
-            
-            if st.button("Masuk", use_container_width=True, type="primary"):
-                if username in USERS and USERS[username] == password:
-                    st.session_state.logged_in = True
-                    st.session_state.username = username
-                    st.session_state.login_time = datetime.now().isoformat()
-                    st.session_state.data = load_data()
-                    st.success(f"Selamat datang, {username}")
-                    time.sleep(0.6)
-                    st.rerun()
-                else:
-                    st.error("Username atau password salah", icon="🚫")
-            
-            st.markdown("</div>", unsafe_allow_html=True)
+        st.markdown('<div class="login-title">Generator Prompt</div>', unsafe_allow_html=True)
         
-        # Info kecil di bawah (opsional, ringkas)
-        st.markdown("""
-            <p style='text-align: center; color: #7f8c8d; font-size: 0.85rem; margin-top: 1.2rem;'>
-                Hanya dapat diakses dari PC • Auto logout setelah 10 jam
-            </p>
-        """, unsafe_allow_html=True)
-
+        username = st.text_input("", placeholder="Username", key="login_user", label_visibility="collapsed")
+        password = st.text_input("", type="password", placeholder="Password", key="login_pass", label_visibility="collapsed")
+        
+        if st.button("Masuk"):
+            if username in USERS and USERS[username] == password:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.session_state.login_time = datetime.now().isoformat()
+                st.session_state.data = load_data()
+                st.success(f"Selamat datang, {username}!", icon="👋")
+                time.sleep(0.7)
+                st.rerun()
+            else:
+                st.error("Username atau password salah", icon="🚫")
+        
+        st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
 # ────────────────────────────────────────────────
@@ -141,7 +173,7 @@ page = st.sidebar.radio("Menu", [
 ])
 
 # ────────────────────────────────────────────────
-# RUANG PRODUKSI (sama seperti sebelumnya)
+# RUANG PRODUKSI
 # ────────────────────────────────────────────────
 if page == "🚀 RUANG PRODUKSI":
     st.header("RUANG PRODUKSI – Generator 10 Adegan Konsisten")
@@ -151,11 +183,9 @@ if page == "🚀 RUANG PRODUKSI":
     col1, col2 = st.columns([3,1])
     with col1:
         tema = st.text_input("Tema / Karakter Utama / Gaya Visual", 
-                             value="Gadis cyberpunk berambut neon di kota malam hujan", 
-                             key="tema_utama")
+                             value="Gadis cyberpunk berambut neon di kota malam hujan")
         style = st.text_input("Style prompt (contoh: cinematic, ultra detailed, 8k)", 
-                              value="cinematic, highly detailed, moody lighting, 8k", 
-                              key="style_global")
+                              value="cinematic, highly detailed, moody lighting, 8k")
 
     if st.button("Generate 10 Adegan Otomatis"):
         if tema.strip():
@@ -165,6 +195,7 @@ if page == "🚀 RUANG PRODUKSI":
             st.session_state.data["scenes"] = scenes
             save_data(st.session_state.data)
             st.success("10 adegan berhasil ditambahkan!")
+            st.rerun()
         else:
             st.warning("Masukkan tema terlebih dahulu.")
 
@@ -176,49 +207,52 @@ if page == "🚀 RUANG PRODUKSI":
                 st.session_state.data["scenes"] = scenes
                 save_data(st.session_state.data)
                 st.success("Adegan ditambahkan!")
+                st.rerun()
             else:
                 st.warning("Prompt tidak boleh kosong.")
 
     st.markdown("### Daftar Adegan Saat Ini")
     if scenes:
         for idx, scene in enumerate(scenes):
-            with st.container():
+            with st.container(border=True):
                 col_a, col_b = st.columns([8,2])
                 col_a.markdown(f"**Adegan {idx+1}**  \n{scene}")
-                if col_b.button("🗑️", key=f"del_{idx}"):
+                if col_b.button("🗑️ Hapus", key=f"del_{idx}"):
                     scenes.pop(idx)
                     st.session_state.data["scenes"] = scenes
                     save_data(st.session_state.data)
                     st.rerun()
     else:
-        st.info("Belum ada adegan. Generate atau tambah manual.")
+        st.info("Belum ada adegan. Generate atau tambah manual dulu.")
 
-    if st.button("Simpan Data Sekarang"):
+    if st.button("💾 Simpan Data Sekarang"):
         save_data(st.session_state.data)
         st.success("Data tersimpan!")
 
 # ────────────────────────────────────────────────
-# Placeholder menu lain (sama seperti sebelumnya)
+# Menu lain (placeholder)
 # ────────────────────────────────────────────────
 elif page == "🧠 PINTAR AI LAB":
-    st.header("PINTAR AI LAB")
-    st.write("Masukkan premis/alur cerita → AI bantu kembangkan ide cerita + twist")
+    st.header("🧠 PINTAR AI LAB")
+    st.write("Masukkan premis atau alur cerita → AI bantu kembangkan ide + twist")
     premis = st.text_area("Premis utama cerita")
     if st.button("Generate Ide"):
-        st.info("Fitur ini akan terhubung ke model AI nanti (placeholder)")
+        st.info("(Fitur AI akan ditambahkan nanti – saat ini placeholder)")
 
 elif page == "⚡ QUICK PROMPT":
-    st.header("QUICK PROMPT")
-    st.write("Buat satu prompt gambar atau video cepat")
-    quick = st.text_area("Deskripsi gambar/video")
+    st.header("⚡ QUICK PROMPT")
+    st.write("Buat satu prompt gambar atau video dengan cepat")
+    quick = st.text_area("Deskripsi gambar / video")
     if st.button("Buat Prompt"):
-        st.code(quick or "Belum ada deskripsi", language="text")
+        if quick.strip():
+            st.code(quick, language="text")
+        else:
+            st.warning("Masukkan deskripsi dulu")
 
 elif page == "📋 TUGAS KERJA":
-    st.header("TUGAS KERJA – Staff")
-    st.write("Area untuk catat tugas harian staff (akan dikembangkan)")
+    st.header("📋 TUGAS KERJA – Staff")
+    st.write("Area untuk mencatat tugas harian staff (dalam pengembangan)")
 
 elif page == "⚡ KENDALI TIM":
-    st.header("KENDALI TIM")
-    st.write("Monitor progress & kinerja staff (placeholder)")
-
+    st.header("⚡ KENDALI TIM")
+    st.write("Monitor progress & kinerja tim (placeholder)")
