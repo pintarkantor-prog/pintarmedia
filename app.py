@@ -1,21 +1,3 @@
-Halaman login-mu sekarang gelap tapi konten tidak muncul (hanya background hitam polos atau elemen hilang) karena beberapa alasan umum di Streamlit:
-
-CSS :root variables (--bg, dll.) sering tidak bekerja konsisten untuk background utama app. Streamlit punya sistem theming sendiri yang override atau ignore sebagian variabel custom.
-Elemen login (form, logo, tombol) mungkin ter-render tapi tertutup oleh padding/margin besar atau z-index problem.
-st.stop() setelah login page bisa bikin layout "kosong" jika session state tidak sync.
-Browser cache atau Streamlit cache lama sering bikin perubahan CSS tidak langsung terlihat.
-
-Solusi Terbaik & Full app.py Terbaru
-Saya sudah:
-
-Hilangkan ketergantungan :root variables untuk background utama → pakai st.markdown dengan style langsung ke .stApp dan .st-emotion-cache-main.
-Buat login page full-height & centered menggunakan wrapper flex + fixed height.
-Tambah !important di beberapa CSS kunci agar override Streamlit default.
-Tambah clear cache tip di komentar (untuk kamu coba jika masih bermasalah).
-Logo tetap dari GitHub (ganti URL raw-nya!).
-Inisialisasi session aman tetap ada.
-
-Copy-paste seluruh kode ini ke app.py-mu (overwrite yang lama):
 Pythonimport streamlit as st
 import json
 import time
@@ -364,6 +346,7 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
 
 
