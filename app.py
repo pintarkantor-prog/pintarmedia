@@ -116,7 +116,7 @@ def pasang_css_kustom():
             box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
 
-        /* 4. MODE TANPA GARIS & KOTAK INPUT LEBIH TEBAL (BERISI) */
+        /* 4. MODE TANPA GARIS (BORDERLESS) PADA SEMUA INPUT */
         .stTextArea textarea, 
         .stTextInput input, 
         div[data-testid="stNumberInput"], 
@@ -129,15 +129,16 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border-radius: 10px !important;
             color: #ffffff !important;
-            
-            /* TAMBAHKAN PADDING AGAR KOTAK TERLIHAT TEBAL/TINGGI */
-            padding: 12px 15px !important; 
         }
         
-        /* Memberikan ruang lebih pada area teks naskah agar tidak sesak */
-        .stTextArea textarea {
-            padding: 15px !important;
-            line-height: 1.6 !important; /* Jarak antar baris tulisan lebih enak dibaca */
+        .stTextArea textarea:focus, 
+        .stTextInput input:focus, 
+        div[data-testid="stNumberInput"]:focus-within,
+        div[data-baseweb="input"]:focus-within,
+        [data-baseweb="base-input"]:focus-within {
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
         }
 
         /* 5. STAFF HEADER & LABEL */
@@ -417,6 +418,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
