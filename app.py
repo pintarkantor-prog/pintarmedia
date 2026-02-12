@@ -296,18 +296,13 @@ def tampilkan_navigasi_sidebar():
             label_visibility="collapsed"
         )
         
-        st.markdown("---")
-
-        # 2. SISTEM DATABASE CLOUD (GSHEET)
-        st.markdown("<p class='small-label'>☁️ CLOUD DATABASE (GSHEET)</p>", unsafe_allow_html=True)
-        
         # Tombol Backup & Restore Berdampingan
         col1, col2 = st.columns(2)
         with col1:
-            if st.button("📤 BACKUP", use_container_width=True, type="primary"):
+            if st.button("📤SAVE", use_container_width=True, type="primary"):
                 simpan_ke_gsheet()
         with col2:
-            if st.button("🔄 RESTORE", use_container_width=True):
+            if st.button("🔄LOAD", use_container_width=True):
                 muat_dari_gsheet()
 
         # 3. KONTROL SISTEM (Diberi jarak agar rapi)
@@ -515,6 +510,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
