@@ -396,30 +396,51 @@ def tampilkan_ruang_produksi():
             
             with col_text:
                 st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-                # TAMBAHKAN {ver} PADA KEY
                 data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
             
             with col_set:
                 sub1, sub2 = st.columns(2)
+                
+                # --- DEFINISI LIST PILIHAN ---
+                opts_style = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
+                opts_light = ["Golden Hour", "Studio", "Natural"]
+                opts_arah  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
+                opts_shot  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"]
+                opts_ratio = ["16:9", "9:16", "1:1"]
+                opts_cam   = ["Static", "Zoom In", "Tracking"]
+
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], index=0, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
+                    # Cari urutan ke berapa data yang di-restore dalam list pilihan
+                    curr_style = data["adegan"][scene_id].get("style", "Realistis")
+                    idx_style = opts_style.index(curr_style) if curr_style in opts_style else 0
+                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", opts_style, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", ["Golden Hour", "Studio", "Natural"], key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_light = data["adegan"][scene_id].get("light", "Studio")
+                    idx_light = opts_light.index(curr_light) if curr_light in opts_light else 0
+                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", opts_light, index=idx_light, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_arah = data["adegan"][scene_id].get("arah", "Normal")
+                    idx_arah = opts_arah.index(curr_arah) if curr_arah in opts_arah else 0
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", opts_arah, index=idx_arah, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
 
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_shot = data["adegan"][scene_id].get("shot", "Setengah Badan")
+                    idx_shot = opts_shot.index(curr_shot) if curr_shot in opts_shot else 0
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", opts_shot, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", ["16:9", "9:16", "1:1"], key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_ratio = data["adegan"][scene_id].get("ratio", "16:9")
+                    idx_ratio = opts_ratio.index(curr_ratio) if curr_ratio in opts_ratio else 0
+                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", opts_ratio, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", ["Static", "Zoom In", "Tracking"], key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_cam = data["adegan"][scene_id].get("cam", "Static")
+                    idx_cam = opts_cam.index(curr_cam) if curr_cam in opts_cam else 0
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", opts_cam, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
@@ -494,6 +515,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
