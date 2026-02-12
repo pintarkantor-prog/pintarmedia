@@ -382,7 +382,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI FINAL WOW)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -394,6 +394,11 @@ def tampilkan_ruang_produksi():
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
+
+    # --- [NEW] QUALITY BOOSTER (Settingan Umum Pusat) ---
+    # Nantinya QB ini bisa kamu kendalikan dari halaman QUICK PROMPT
+    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
+    QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
 
     # HEADER
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
@@ -488,7 +493,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC (DIPERBAIKI) ---
+    # --- 3. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -508,49 +513,27 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                st_meta = ""
-                if sc['style'] == "Realistis":
-                    st_meta = "shot on Fujifilm X-T4, XF 35mm f/1.4 R, f/2.8, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion"
-                elif sc['style'] == "Pixar 3D":
-                    st_meta = "Unreal Engine 5.4, Octane Render, 8k, subsurface scattering, cinematic 3D animation style"
-                elif sc['style'] == "Glossy Asphalt":
-                    st_meta = "shot on Sony A7R IV, 24mm wide lens, f/8, ultra-high dynamic range, street photography, sharp reflections"
-                elif sc['style'] == "Naruto Anime":
-                    st_meta = "Studio Ufotable style, sharp line art, vibrant cinematic anime, masterpiece 2D, high-end cel-shading"
-
-                lt_meta = ""
-                if sc['light'] == "Golden Hour":
-                    lt_meta = "cinematic golden hour, warm sunset glow, volumetric lighting, Tyndall effect, long shadows, 5000k"
-                elif sc['light'] == "Studio":
-                    lt_meta = "professional studio lighting, rim lighting, softbox shadows, ISO 100, zero grain"
-                elif sc['light'] == "Natural":
-                    lt_meta = "bright daylight, clear azure sky, detailed cumulus clouds, high-contrast natural lighting, vivid organic colors"
-
+                # --- SMART FILTER LOGIC ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
-                
-                lt_final = lt_meta
-                tech_final = tech_base
 
                 if is_outdoor:
                     bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
                 else:
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
-                    lt_final = lt_meta.replace("volumetric god rays, ", "").replace("realistic clouds, ", "").replace("detailed cumulus clouds, ", "")
-                    tech_final = tech_base.replace("vivid greenery, ", "")
 
                 with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
                     img_p = (f"CHARACTER: {char_ids}\n"
                              f"ACTION: {sc['aksi']}\n"
                              f"ENV: {sc['loc']}. {bumbu_final}.\n"
-                             f"CAMERA: {st_meta}\n"
-                             f"TECH: {sc['style']}, {sc['light']}, {lt_final}, {sc['shot']}, {tech_final}\n"
+                             f"CAMERA: {QB_IMG}\n" # Memanggil Booster Pusat
+                             f"TECH: {sc['style']}, {sc['light']}, {sc['shot']}, {tech_base}\n"
                              f"NEGATIVE PROMPT: {no_text_strict} --ar {sc['ratio']} --v 6.0")
                     
                     vid_p = (f"Profiles: {char_profiles}\n"
                              f"Scene: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
-                             f"Tech: {sc['style']}, {st_meta}, {sc['shot']}, {sc['cam']}, {tech_final}\n"
+                             f"Tech: {sc['style']}, {sc['shot']}, {sc['cam']}, {QB_VID}\n" # Memanggil Booster Pusat
                              f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}")
 
                     c_img, c_vid = st.columns(2)
@@ -581,6 +564,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
