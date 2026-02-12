@@ -1,110 +1,13 @@
 import streamlit as st
 import json
+import os
 import time
-from datetime import datetime
-import pytz
+from datetime import datetime, timedelta
 
-# Inisialisasi session state aman
-if 'initialized' not in st.session_state:
-    st.session_state.initialized = True
-    st.session_state.logged_in = False
-    st.session_state.user = None
-    st.session_state.login_time = None
-
-# Auto logout setelah 10 jam
-if st.session_state.get('logged_in', False) and st.session_state.get('login_time'):
-    if time.time() - st.session_state.login_time > 36000:
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
-
-st.set_page_config(page_title="PINTAR MEDIA Generator", page_icon="🎬", layout="wide")
-
-# CSS: centering paksa + rapatkan layout
-st.markdown("""
-    <style>
-    /* Hilangkan padding default Streamlit */
-    .stApp, section.main, .block-container, [data-testid="stDecoration"] {
-        margin: 0 !important;
-        padding: 0 !important;
-        background-color: #0e1117 !important;
-        color: #e0e0e0 !important;
-    }
-
-    /* Blokir HP */
-    @media (max-width: 1024px) {
-        .stApp { display: none !important; }
-        body::before {
-            content: "Gunakan komputer!";
-            display: flex !important;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background: #0e1117;
-            color: white;
-            font-size: 1.5rem;
-            position: fixed;
-            inset: 0;
-            z-index: 999999;
-        }
-    }
-
-    /* Login centering paksa */
-    .login-outer {
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background: #0e1117;
-        margin: 0;
-        padding: 0;
-        margin-top: -150px !important;  /* push ke bawah kalau terlalu atas */
-    }
-    .login-inner {
-        width: 100%;
-        max-width: 360px;
-        background: #1a1c24;
-        border-radius: 12px;
-        padding: 20px 16px;
-        border: 1px solid #2d3748;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-        text-align: center;
-    }
-    .logo-box {
-        margin-bottom: 16px;
-    }
-    .welcome {
-        color: #28a745;
-        font-size: 1.5rem;
-        font-weight: bold;
-        margin: 16px 0;
-    }
-    .footer {
-        color: #666;
-        font-size: 0.8rem;
-        margin-top: 24px;
-        text-align: center;
-    }
-
-    /* Input lebih rapat */
-    .stTextInput > div > div > input {
-        background: #0e1117;
-        border: 1px solid #3a3f4a;
-        border-radius: 6px;
-        padding: 8px;
-        color: white;
-    }
-    button[kind="primary"] {
-        width: 100%;
-        padding: 8px;
-        background: #28a745 !important;
-        border: none;
-    }
-    </style>
-""", unsafe_allow_html=True)
-
-# Data user
-USER_PASSWORDS = {
+# ────────────────────────────────────────────────
+# KONFIGURASI
+# ────────────────────────────────────────────────
+USERS = {
     "dian": "QWERTY21ab",
     "icha": "udin99",
     "nissa": "tung22",
@@ -113,199 +16,178 @@ USER_PASSWORDS = {
     "tamu": "tamu123",
 }
 
-# Halaman login
+AUTO_LOGOUT_HOURS = 10
+DATA_FILE = "produksi_data.json"
+
+# ────────────────────────────────────────────────
+# Fungsi bantu
+# ────────────────────────────────────────────────
+def is_mobile():
+    ua = st.context.headers.get("User-Agent", "").lower()
+    mobile_keywords = ["mobile", "android", "iphone", "ipad", "ipod"]
+    return any(kw in ua for kw in mobile_keywords)
+
+def load_data():
+    if os.path.exists(DATA_FILE):
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"scenes": [], "last_updated": None}
+
+def save_data(data):
+    data["last_updated"] = datetime.now().isoformat()
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+
+# ────────────────────────────────────────────────
+# Inisialisasi session state
+# ────────────────────────────────────────────────
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+    st.session_state.username = None
+    st.session_state.login_time = None
+    st.session_state.data = {"scenes": []}
+
+# ────────────────────────────────────────────────
+# Cek auto logout
+# ────────────────────────────────────────────────
+if st.session_state.logged_in and st.session_state.login_time:
+    login_dt = datetime.fromisoformat(st.session_state.login_time)
+    if datetime.now() - login_dt > timedelta(hours=AUTO_LOGOUT_HOURS):
+        st.session_state.logged_in = False
+        st.session_state.username = None
+        st.session_state.login_time = None
+        st.rerun()
+
+# ────────────────────────────────────────────────
+# Halaman Login
+# ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    st.markdown('<div class="login-outer">', unsafe_allow_html=True)
-    st.markdown('<div class="login-inner">', unsafe_allow_html=True)
+    st.title("Login - Generator Prompt")
 
-    # Logo pakai URL asli kamu
-    st.markdown('<div class="logo-box">', unsafe_allow_html=True)
-    try:
-        st.image(
-            "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png",
-            use_container_width=True
-        )
-    except:
-        st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    # Batasi akses hanya dari HP (opsional – bisa di-comment jika tidak ingin)
+    if not is_mobile():
+        st.warning("Aplikasi ini hanya dapat diakses dari perangkat mobile (HP).")
+        st.stop()
 
-    username = st.text_input("Username", placeholder="Username...", key="login_user", label_visibility="collapsed")
-    password = st.text_input("Password", type="password", placeholder="Password...", key="login_pass", label_visibility="collapsed")
+    username = st.text_input("Username", key="login_user")
+    password = st.text_input("Password", type="password", key="login_pass")
 
-    if st.button("MASUK", type="primary"):
-        clean_user = username.strip().lower()
-        if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
+    if st.button("Masuk"):
+        if username in USERS and USERS[username] == password:
             st.session_state.logged_in = True
-            st.session_state.user = clean_user
-            st.session_state.login_time = time.time()
-            st.markdown('<div class="welcome">Selamat datang, ' + clean_user.capitalize() + '!</div>', unsafe_allow_html=True)
-            time.sleep(2)
+            st.session_state.username = username
+            st.session_state.login_time = datetime.now().isoformat()
+            # Load data saat login
+            st.session_state.data = load_data()
+            st.success(f"Selamat datang, {username}!")
+            time.sleep(0.8)
             st.rerun()
         else:
             st.error("Username atau password salah.")
-
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
-
     st.stop()
 
-# Sidebar setelah login
-with st.sidebar:
-    st.markdown(f"**User aktif:** {st.session_state.user.upper()}")
-    st.caption(f"Login sejak: {datetime.fromtimestamp(st.session_state.login_time, tz=pytz.timezone('Asia/Jakarta')).strftime('%Y-%m-%d %H:%M WIB')}")
+# ────────────────────────────────────────────────
+# Sidebar & Logout
+# ────────────────────────────────────────────────
+st.sidebar.title(f"Halo, {st.session_state.username}")
+if st.sidebar.button("Logout"):
+    st.session_state.logged_in = False
+    st.session_state.username = None
+    st.session_state.login_time = None
+    st.rerun()
 
-    menu_options = [
-        "🚀 RUANG PRODUKSI",
-        "🧠 PINTAR AI LAB",
-        "⚡ QUICK PROMPT",
-        "📋 TUGAS KERJA",
-        "⚡ KENDALI TIM"
-    ]
-    selected_menu = st.radio("Pilih Ruangan", menu_options, label_visibility="collapsed")
+st.sidebar.markdown(f"**Sisa waktu sesi:** ~{AUTO_LOGOUT_HOURS} jam sejak login")
+st.sidebar.markdown("---")
 
-    st.divider()
-    if st.button("🚪 Keluar Sistem", use_container_width=True):
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
+page = st.sidebar.radio("Menu", [
+    "🚀 RUANG PRODUKSI",
+    "🧠 PINTAR AI LAB",
+    "⚡ QUICK PROMPT",
+    "📋 TUGAS KERJA",
+    "⚡ KENDALI TIM"
+])
 
-# Menu utama
-if selected_menu == "🚀 RUANG PRODUKSI":
-    st.title("🚀 RUANG PRODUKSI")
-    st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
+# ────────────────────────────────────────────────
+# RUANG PRODUKSI
+# ────────────────────────────────────────────────
+if page == "🚀 RUANG PRODUKSI":
+    st.header("RUANG PRODUKSI – Generator 10 Adegan Konsisten")
 
-    if 'scenes' not in st.session_state:
-        st.session_state.scenes = [""] * 10
-    if 'scene_count' not in st.session_state:
-        st.session_state.scene_count = 10
+    # Load dari session (sudah di-load saat login)
+    scenes = st.session_state.data.get("scenes", [])
 
-    col_slider, col_apply = st.columns([4, 1])
-    with col_slider:
-        new_count = st.slider("Jumlah adegan", min_value=1, max_value=50, value=st.session_state.scene_count)
-    with col_apply:
-        if st.button("Terapkan"):
-            st.session_state.scene_count = new_count
-            if new_count > len(st.session_state.scenes):
-                st.session_state.scenes += [""] * (new_count - len(st.session_state.scenes))
+    col1, col2 = st.columns([3,1])
+    with col1:
+        tema = st.text_input("Tema / Karakter Utama / Gaya Visual", 
+                             value="Gadis cyberpunk berambut neon di kota malam hujan", 
+                             key="tema_utama")
+        style = st.text_input("Style prompt (contoh: cinematic, ultra detailed, 8k)", 
+                              value="cinematic, highly detailed, moody lighting, 8k", 
+                              key="style_global")
+
+    if st.button("Generate 10 Adegan Otomatis"):
+        if tema.strip():
+            base_prompt = f"{tema}, {style}"
+            new_scenes = [f"Adegan {i+1}: {base_prompt} – variasi {i+1}" for i in range(10)]
+            scenes.extend(new_scenes)
+            st.session_state.data["scenes"] = scenes
+            save_data(st.session_state.data)
+            st.success("10 adegan berhasil ditambahkan!")
+        else:
+            st.warning("Masukkan tema terlebih dahulu.")
+
+    # Tambah manual
+    with st.expander("➕ Tambah Adegan Manual"):
+        manual_prompt = st.text_area("Tulis prompt adegan", height=100)
+        if st.button("Tambahkan Adegan"):
+            if manual_prompt.strip():
+                scenes.append(manual_prompt)
+                st.session_state.data["scenes"] = scenes
+                save_data(st.session_state.data)
+                st.success("Adegan ditambahkan!")
             else:
-                st.session_state.scenes = st.session_state.scenes[:new_count]
-            st.rerun()
+                st.warning("Prompt tidak boleh kosong.")
 
-    for i in range(st.session_state.scene_count):
-        st.session_state.scenes[i] = st.text_area(
-            f"Adegan {i+1}",
-            value=st.session_state.scenes[i],
-            height=130,
-            key=f"scene_input_{i}"
-        )
+    # Tampilkan semua adegan
+    st.markdown("### Daftar Adegan Saat Ini")
+    if scenes:
+        for idx, scene in enumerate(scenes):
+            with st.container():
+                col_a, col_b = st.columns([8,2])
+                col_a.markdown(f"**Adegan {idx+1}**  \n{scene}")
+                if col_b.button("🗑️", key=f"del_{idx}"):
+                    scenes.pop(idx)
+                    st.session_state.data["scenes"] = scenes
+                    save_data(st.session_state.data)
+                    st.rerun()
+    else:
+        st.info("Belum ada adegan. Generate atau tambah manual.")
 
-    st.divider()
-    col1, col2 = st.columns(2)
-    with col1:
-        if st.button("💾 Simpan Project", type="primary", use_container_width=True):
-            project = {
-                "user": st.session_state.user,
-                "timestamp": datetime.now(pytz.timezone('Asia/Jakarta')).isoformat(),
-                "scene_count": st.session_state.scene_count,
-                "scenes": st.session_state.scenes
-            }
-            json_data = json.dumps(project, indent=2, ensure_ascii=False)
-            st.download_button(
-                label="Download file project (.json)",
-                data=json_data,
-                file_name=f"pintar_project_{st.session_state.user}_{datetime.now().strftime('%Y%m%d_%H%M')}.json",
-                mime="application/json",
-                use_container_width=True
-            )
-    with col2:
-        uploaded_file = st.file_uploader("Upload project sebelumnya (.json)", type=["json"])
-        if uploaded_file is not None:
-            try:
-                data = json.load(uploaded_file)
-                st.session_state.scene_count = data.get("scene_count", 10)
-                st.session_state.scenes = data.get("scenes", [""] * st.session_state.scene_count)
-                st.success("Project berhasil dimuat!")
-                st.rerun()
-            except Exception as e:
-                st.error(f"Gagal membaca file: {str(e)}")
+    if st.button("Simpan Data Sekarang"):
+        save_data(st.session_state.data)
+        st.success("Data tersimpan!")
 
-    if st.button("🚀 Generate Semua Prompt", type="primary", use_container_width=True):
-        st.info("Fitur generate prompt lengkap akan ditambahkan di sini.")
+# ────────────────────────────────────────────────
+# Placeholder menu lain
+# ────────────────────────────────────────────────
+elif page == "🧠 PINTAR AI LAB":
+    st.header("PINTAR AI LAB")
+    st.write("Masukkan premis/alur cerita → AI bantu kembangkan ide cerita + twist")
+    premis = st.text_area("Premis utama cerita")
+    if st.button("Generate Ide"):
+        st.info("Fitur ini akan terhubung ke model AI nanti (placeholder)")
 
-elif selected_menu == "🧠 PINTAR AI LAB":
-    st.title("🧠 PINTAR AI LAB")
-    st.caption("Generate ide cerita / naskah dasar dari premis yang kamu berikan")
+elif page == "⚡ QUICK PROMPT":
+    st.header("QUICK PROMPT")
+    st.write("Buat satu prompt gambar atau video cepat")
+    quick = st.text_area("Deskripsi gambar/video")
+    if st.button("Buat Prompt"):
+        st.code(quick or "Belum ada deskripsi", language="text")
 
-    premis_text = st.text_area(
-        "Premis / Alur Utama Cerita",
-        height=160,
-        placeholder="Contoh: Seorang gadis desa menemukan cincin ajaib yang bisa membawanya ke dunia paralel..."
-    )
+elif page == "📋 TUGAS KERJA":
+    st.header("TUGAS KERJA – Staff")
+    st.write("Area untuk catat tugas harian staff (akan dikembangkan)")
 
-    target_scenes = st.slider("Jumlah adegan yang diinginkan", 4, 20, 8)
-
-    if st.button("Generate Ide Cerita", type="primary"):
-        if not premis_text.strip():
-            st.warning("Masukkan premis terlebih dahulu.")
-        else:
-            st.info("Fitur ini membutuhkan koneksi ke LLM (Groq / Gemini / OpenAI). Saat ini hanya contoh output.")
-            st.markdown("""
-            **Contoh hasil yang diharapkan:**
-            Adegan 1:
-            - Suasana: Pagi cerah di desa
-            - Alur: Gadis menemukan cincin di bawah pohon
-            - Dialog: "Ini... apa ya?"
-            Adegan 2: ...
-            """)
-
-elif selected_menu == "⚡ QUICK PROMPT":
-    st.title("⚡ QUICK PROMPT")
-    st.caption("Buat prompt gambar dan video untuk satu adegan saja")
-
-    adegan_desc = st.text_area("Deskripsi adegan lengkap", height=180)
-
-    col_a, col_b = st.columns(2)
-    with col_a:
-        gaya = st.selectbox("Gaya visual", ["Realistis", "Anime", "3D Pixar", "Cyberpunk", "Vintage", "Horror"])
-    with col_b:
-        ratio = st.selectbox("Aspect Ratio", ["16:9 (landscape)", "9:16 (portrait)", "1:1 (square)", "4:3"])
-
-    if st.button("Generate Prompt", type="primary"):
-        if adegan_desc.strip():
-            ar_clean = ratio.split()[0]
-            st.subheader("Prompt Gambar")
-            st.code(f"{adegan_desc}, {gaya.lower()} style, cinematic lighting, ultra detailed, sharp focus --ar {ar_clean} --v 6 --q 2")
-            st.subheader("Prompt Video")
-            st.code(f"{adegan_desc}, {gaya.lower()} style, smooth cinematic motion, 8k, dynamic camera --ar {ar_clean} --fps 30")
-        else:
-            st.warning("Isi deskripsi adegan terlebih dahulu.")
-
-elif selected_menu == "📋 TUGAS KERJA":
-    st.title("📋 TUGAS KERJA")
-    st.info("Daftar tugas harian / mingguan untuk staff")
-    st.markdown("""
-    **Tugas hari ini (contoh):**
-    - Review storyboard dari 3 project
-    - Generate prompt untuk iklan baru
-    - Upload 2 video final ke platform
-    - Koordinasi revisi dengan klien
-    """)
-
-elif selected_menu == "⚡ KENDALI TIM":
-    st.title("⚡ KENDALI TIM")
-    st.caption("Dashboard monitoring aktivitas & kinerja tim")
-
-    col1, col2 = st.columns(2)
-    with col1:
-        st.metric("Total prompt dibuat minggu ini", "312", delta="↑ 58")
-    with col2:
-        st.metric("Adegan selesai", "245 / 280", delta="87.5%")
-
-    st.subheader("Aktivitas Terbaru")
-    st.table([
-        {"Waktu": "12 Feb 2026 13:30", "User": "icha", "Aksi": "Generate 15 adegan", "Durasi": "22 menit"},
-        {"Waktu": "12 Feb 2026 10:15", "User": "nissa", "Aksi": "Load & edit project kemarin", "Durasi": "9 menit"},
-    ])
-
-    st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+elif page == "⚡ KENDALI TIM":
+    st.header("KENDALI TIM")
+    st.write("Monitor progress & kinerja staff (placeholder)")
