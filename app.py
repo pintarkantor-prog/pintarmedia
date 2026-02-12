@@ -73,13 +73,23 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - UPDATED
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - FINAL UI OPTIMIZATION
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
         <style>
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
+        
+        /* CLASS BARU: LABEL KECIL & RAPAT */
+        .small-label {
+            font-size: 12px !important;
+            font-weight: bold !important;
+            color: #d1d5db !important;
+            margin-bottom: -18px !important; /* Menarik input ke atas agar rapat */
+            padding-bottom: 0px !important;
+            display: block;
+        }
         
         /* BOX LOGIN */
         div[data-testid="stForm"] {
@@ -131,7 +141,6 @@ def pasang_css_kustom():
         }
         </style>
         """, unsafe_allow_html=True)
-    
 # ==============================================================================
 # BAGIAN 4: NAVIGASI SIDEBAR
 # ==============================================================================
@@ -155,7 +164,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (KEPATUHAN VISUAL & SPASI RAPAT)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL UI DENGAN SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -181,48 +190,48 @@ def tampilkan_ruang_produksi():
         col_text, col_set = st.columns([1.5, 1])
         
         with col_text:
-            # Mengecilkan label Naskah dan merapatkan spasi bawah
-            st.markdown('<p style="font-size: 13px; font-weight: bold; margin-bottom: -15px;">📸 Naskah Visual & Aksi</p>', unsafe_allow_html=True)
-            aksi = st.text_area("Aksi & Interaksi", height=345, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
+            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
+            aksi = st.text_area("Aksi", height=345, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px;">✨ STYLE</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
                 mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
                 
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px; margin-top: 10px;">💡 LIGHTING</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
                 lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
                 
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px; margin-top: 10px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
                 arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px;">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
                 shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
                 
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px; margin-top: 10px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
                 rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
                 
-                st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px; margin-top: 10px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
                 kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
-            st.markdown('<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px; margin-top: 10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-            lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
+            st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
+            lokasi = st.text_input("Lokasi", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-        # Baris Dialog Sejajar (Tanpa spasi besar)
-        st.markdown('<hr style="border:0.5px solid #30363d; margin-top: 5px; margin-bottom: 15px;">', unsafe_allow_html=True)
+        # Garis pembatas tipis (Garis Hijau di coretanmu)
+        st.markdown('<hr style="border:0.5px solid #10b981; opacity:0.3; margin-top:20px; margin-bottom:10px;">', unsafe_allow_html=True)
+        
+        # Baris Dialog Sejajar
         cols_dialog = st.columns(juml)
         dialogs = []
         for i in range(juml):
             with cols_dialog[i]:
                 char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                # Label dialog diperkecil dan dirapatkan ke kotak input
-                st.markdown(f'<p style="font-size: 12px; font-weight: bold; margin-bottom: -15px;">Dialog {char_name}</p>', unsafe_allow_html=True)
-                d_in = st.text_input(f"D_{i}", key=f"h_d{i}", placeholder=f"Ketik dialog...", label_visibility="collapsed")
+                st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
+                d_in = st.text_input(f"D_{i}", key=f"h_d{i}", placeholder="Ketik dialog...", label_visibility="collapsed")
                 dialogs.append(f"{char_name}: '{d_in}'")
 
-    # 3. HYBRID COMPILER LOGIC
+    # 3. COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
@@ -231,6 +240,7 @@ def tampilkan_ruang_produksi():
         char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
         all_dialogs = " | ".join(dialogs)
 
+        # Prompt Gambar (Grup 1)
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
 STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
 FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
@@ -240,6 +250,7 @@ ENVIRONMENT: {lokasi}
 CAMERA: {shot_size}, {arah_kam} angle.
 TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio}"""
 
+        # Prompt Video (Grup 2)
         video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
 Character Profiles: {char_profiles}
 Scene: {aksi} at {lokasi}.
@@ -274,6 +285,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
