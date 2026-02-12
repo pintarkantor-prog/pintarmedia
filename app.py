@@ -69,129 +69,86 @@ if not is_desktop():
     st.stop()
 
 # ────────────────────────────────────────────────
-# Gabungan CSS: styling lama (compact & centered) + styling baru (rainbow logo, tombol merah, dll)
+# Login page FINAL: clean, no labels on top, rainbow logo, red button
 # ────────────────────────────────────────────────
 st.markdown("""
     <style>
-        /* Background & full centering dari CSS lama */
         .stApp {
-            background: #0a0e17 !important;  /* lebih gelap seperti screenshot */
+            background: #0a0e17;
         }
         .main > div:first-child {
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            justify-content: center !important;
-            min-height: 100vh !important;
-            padding: 0 !important;
-            margin: 0 !important;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
         }
-        .block-container {
-            max-width: 420px !important;
-            padding: 0 1.5rem !important;
-        }
-
-        /* Container utama login */
-        .login-container {
-            text-align: center;
-            max-width: 420px;
-            width: 100%;
-        }
-
-        /* Rainbow title besar seperti screenshot */
         .rainbow-title {
-            font-size: 42px;
+            font-size: 48px;
             font-weight: 900;
             background: linear-gradient(90deg, #ff00cc, #3333ff, #00ff99, #ffcc00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0 0 40px 0;
+            margin-bottom: 50px;
             letter-spacing: -1px;
         }
-
-        /* Kotak form (gelap, rounded) */
         .form-box {
             background: #111827;
-            border-radius: 12px;
-            padding: 32px 28px;
+            border-radius: 16px;
+            padding: 40px 32px;
             border: 1px solid #374151;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            width: 100%;
+            max-width: 380px;
         }
-
-        /* Label input */
-        .stTextInput > div > label {
-            color: #e5e7eb;
-            font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        /* Input field */
         .stTextInput > div > div > input {
             background: #1f2937;
             color: #f3f4f6;
             border: 1px solid #4b5563;
-            border-radius: 8px;
-            padding: 12px 14px;
-            font-size: 15px;
-            height: 44px;
+            border-radius: 10px;
+            padding: 14px 16px;
+            font-size: 16px;
+            margin-bottom: 16px;
+            width: 100%;
         }
         .stTextInput > div > div > input:focus {
             border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99,102,241,0.2);
+            box-shadow: 0 0 0 3px rgba(99,102,241,0.25);
         }
-
-        /* Tombol merah seperti screenshot */
         .stButton > button {
-            width: 100% !important;
-            background: #ef4444 !important;
-            color: white !important;
-            border: none !important;
-            border-radius: 8px !important;
-            padding: 14px !important;
-            font-size: 16px !important;
-            font-weight: 600 !important;
-            margin-top: 20px !important;
-            transition: all 0.2s;
+            width: 100%;
+            background: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 20px;
         }
         .stButton > button:hover {
-            background: #dc2626 !important;
-            transform: translateY(-1px);
-        }
-
-        /* Alert & footer */
-        .stAlert {
-            margin-top: 12px;
-            border-radius: 8px;
-            padding: 10px;
+            background: #dc2626;
         }
         .footer-text {
             color: #6b7280;
-            font-size: 13px;
-            margin-top: 24px;
+            font-size: 14px;
+            margin-top: 32px;
+            text-align: center;
         }
-
-        /* Hide elemen tidak perlu */
         footer {display: none !important;}
-        .st-emotion-cache-1y4p8pa {padding-top: 0 !important;}
-        section[data-testid="stSidebar"] {display: none !important;}  /* sidebar hilang saat login */
+        section[data-testid="stSidebar"] {display: none !important;}
     </style>
 """, unsafe_allow_html=True)
 
-# ────────────────────────────────────────────────
-# Halaman login dengan gabungan style di atas
-# ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
-    
-    st.markdown('<h1 class="rainbow-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
+    st.markdown('<div class="rainbow-title">PINTAR MEDIA</div>', unsafe_allow_html=True)
     
     st.markdown('<div class="form-box">', unsafe_allow_html=True)
     
-    username = st.text_input("Username", key="login_user", placeholder="Username...")
-    password = st.text_input("Password", type="password", key="login_pass", placeholder="Password...")
+    username = st.text_input("", key="login_user", placeholder="Username...")
+    password = st.text_input("", type="password", key="login_pass", placeholder="Password...")
     
     if st.button("MASUK KE SISTEM 🚀"):
         if username in USERS and USERS[username] == password:
@@ -200,16 +157,14 @@ if not st.session_state.logged_in:
             st.session_state.login_time = datetime.now().isoformat()
             st.session_state.data = load_data()
             st.success(f"Selamat datang, {username}!", icon="🔥")
-            time.sleep(1.2)
+            time.sleep(1)
             st.rerun()
         else:
-            st.error("Akses ditolak. Coba lagi.", icon="🚫")
+            st.error("Salah username atau password", icon="🚫")
     
     st.markdown('</div>', unsafe_allow_html=True)
     
     st.markdown('<div class="footer-text">Secure Access - PINTAR MEDIA</div>', unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
     
     st.stop()
 # ────────────────────────────────────────────────
@@ -317,6 +272,7 @@ elif page == "📋 TUGAS KERJA":
 elif page == "⚡ KENDALI TIM":
     st.header("⚡ KENDALI TIM")
     st.write("Monitor progress & kinerja tim (placeholder)")
+
 
 
 
