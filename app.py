@@ -157,10 +157,10 @@ def pasang_css_kustom():
             margin-bottom: 5px !important; display: block;
         }
 
-        /* 6. KOMPONEN LAIN - TEBAL TAPI WARNA DEFAULT (ABU-ABU GELAP) */
+        /* 6. KOMPONEN LAIN - KETEBALAN STANDAR WARNA DEFAULT */
         .stExpander {
-            /* Menggunakan warna #30363d (warna border default dark mode) */
-            border: 2px solid #30363d !important; 
+            /* 1px adalah ukuran standar yang paling pas, warna abu-abu gelap */
+            border: 1px solid #30363d !important; 
             border-radius: 12px !important; 
             background-color: #161922 !important;
             margin-bottom: 10px !important;
@@ -168,12 +168,12 @@ def pasang_css_kustom():
         
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         
-        /* Garis pemisah (hr) tebal tapi warna default */
+        /* Garis pemisah (hr) tipis warna default */
         hr { 
             border: none !important;
-            border-top: 2px solid #30363d !important; 
-            opacity: 0.5 !important; /* Dibuat agak soft agar tidak terlalu tajam */
-            margin: 20px 0 !important;
+            border-top: 1px solid #30363d !important; 
+            opacity: 0.3 !important; /* Dibuat samar agar dashboard terlihat bersih */
+            margin: 15px 0 !important;
         }
 
         /* 7. PENGATURAN INPUT HALAMAN LOGIN */
@@ -418,6 +418,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
