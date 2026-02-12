@@ -155,16 +155,19 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL VERSION WITH SHOT SIZE)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (KAPASITAS 4 KARAKTER)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. IDENTITY LOCK
+    # 1. IDENTITY LOCK (Ditingkatkan menjadi maksimal 4 karakter)
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
-        juml = st.number_input("Jumlah Karakter di Scene", 1, 3, 2)
+        # Perubahan: Nilai maksimal diubah dari 3 menjadi 4
+        juml = st.number_input("Jumlah Karakter di Scene", 1, 4, 2) 
         karakter_data = []
+        
+        # Grid dinamis: Akan menyesuaikan jumlah kolom berdasarkan input (maks 4)
         cols_char = st.columns(juml)
         for i in range(juml):
             with cols_char[i]:
@@ -198,7 +201,7 @@ def tampilkan_ruang_produksi():
                 arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
-                # MENU BARU: UKURAN GAMBAR (SHOT SIZE)
+                # MENU: UKURAN GAMBAR (SHOT SIZE)
                 st.markdown("🔍 **UKURAN GAMBAR**")
                 shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
                 
@@ -211,12 +214,15 @@ def tampilkan_ruang_produksi():
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
+        # Input Dialog (Mendukung hingga 4 Karakter secara dinamis)
         st.markdown("💬 **ACTING CUE (DIALOG UNTUK EMOSI)**")
-        col_d1, col_d2 = st.columns(2)
-        with col_d1:
-            d1 = st.text_input("Dialog Karakter 1", key="h_d1")
-        with col_d2:
-            d2 = st.text_input("Dialog Karakter 2", key="h_d2")
+        d_cols = st.columns(juml)
+        dialogs = []
+        for i in range(juml):
+            with d_cols[i]:
+                char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
+                d_input = st.text_input(f"Dialog {char_name}", key=f"h_d{i}")
+                dialogs.append(f"{char_name}: '{d_input}'")
 
     # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM SEJAJAR)
     st.markdown("<br>", unsafe_allow_html=True)
@@ -226,6 +232,7 @@ def tampilkan_ruang_produksi():
         # Identitas Karakter
         char_identities = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in karakter_data if c['nama']])
         char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
+        all_dialogs = " | ".join(dialogs)
 
         # Formulasi Prompt Gambar (Grup 1 Style)
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
@@ -241,7 +248,7 @@ TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio
         video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
 Character Profiles: {char_profiles}
 Scene: {aksi} at {lokasi}.
-Acting Cue: {d1} | {d2}. (STRICTLY NO TEXT ON SCREEN).
+Acting Cue: {all_dialogs}. (STRICTLY NO TEXT ON SCREEN).
 Technical: {mood} cinematic video, {shot_size}, {kamera} at {arah_kam}, 60fps, fluid motion, 8k UHD, no watermark. aspect ratio {rasio}."""
 
         st.subheader("📋 Production Ready Prompts")
@@ -272,6 +279,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
