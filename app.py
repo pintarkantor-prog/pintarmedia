@@ -374,25 +374,32 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - PRO LAYOUT)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - WIDE TOPIC VERSION)
 # ==============================================================================
 
 def tampilkan_ai_lab():
+    # Header Utama Dashboard
     st.title("🧠 PINTAR AI LAB")
     st.write("Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!")
     st.divider() 
 
-    # --- AREA ATAS: SETTING UTAMA ---
-    # Topik dibuat besar di kolom sendiri (rasio 2:1:1)
-    col_topik, col_pola, col_visual = st.columns([2, 1, 1])
-    
-    with col_topik:
-        st.subheader("📝 Topik Utama")
-        topik = st.text_input("Apa ide ceritanya?", placeholder="Contoh: Dituduh mencuri...", label_visibility="collapsed")
+    # --- AREA ATAS: TOPIK UTAMA (FULL WIDTH) ---
+    st.subheader("📝 Topik Utama")
+    # Menggunakan text_area agar staf bisa mengetik ide yang sangat panjang dan lebar
+    topik = st.text_area(
+        "Apa ide ceritanya?", 
+        placeholder="Contoh: Udin dituduh mencuri di toko emas, padahal dia sebenarnya pemilik toko tersebut yang sedang menyamar...",
+        height=100,
+        label_visibility="collapsed"
+    )
+
+    # --- AREA TENGAH: PENGATURAN ALUR & VISUAL (SAMPINGAN) ---
+    st.write(" ")
+    col_pola, col_visual, col_adegan = st.columns([1.5, 1.5, 1])
     
     with col_pola:
-        st.subheader("🎭 Pola Alur")
-        pola = st.selectbox("Pilih Pola", [
+        st.markdown("**🎭 Pola Alur Cerita**")
+        pola = st.selectbox("Pola", [
             "Viral Drama (Zero to Hero / Revenge)", 
             "Lomba Konyol (Komedi Interaktif / Call to Action)",
             "Drama Plot Twist (Standard)",
@@ -400,16 +407,17 @@ def tampilkan_ai_lab():
         ], label_visibility="collapsed")
     
     with col_visual:
-        st.subheader("🎨 Gaya Visual")
-        visual = st.selectbox("Pilih Gaya", [
+        st.markdown("**🎨 Gaya Visual AI**")
+        visual = st.selectbox("Gaya", [
             "Cinematic Realistic (Seperti Film Nyata)",
             "3D Pixar Style (Ceria & Detail)",
             "Anime / Manga Style (Gaya Jepang)",
             "Retro Cartoon (Gaya Kartun Jadul)"
-        ], index=0, label_visibility="collapsed") # Default Cinematic Realistic
-    
-    st.write(" ")
-    jumlah_adegan = st.slider("Target Jumlah Adegan", 3, 10, 5)
+        ], index=0, label_visibility="collapsed") # Default Cinematic
+        
+    with col_adegan:
+        st.markdown("**🎬 Jumlah Adegan**")
+        jumlah_adegan = st.number_input("Adegan", min_value=3, max_value=10, value=5, label_visibility="collapsed")
 
     st.divider()
 
@@ -440,9 +448,8 @@ def tampilkan_ai_lab():
                 with cols[c]:
                     with st.container(border=True):
                         st.markdown(f"**Karakter {idx+1}**")
-                        # Field input tanpa label teks yang berulang agar rapi
-                        nama = st.text_input(f"Nama Tokoh {idx+1}", value=f"Tokoh {idx+1}", key=f"nama_{idx}")
-                        sifat = st.text_input(f"Sifat & Ciri Visual {idx+1}", placeholder="Contoh: Kepala Kayu, kaku", key=f"sifat_{idx}")
+                        nama = st.text_input(f"Nama Tokoh", value=f"Tokoh {idx+1}", key=f"nama_{idx}")
+                        sifat = st.text_input(f"Sifat & Ciri Visual", placeholder="Contoh: Kepala Kayu, kaku", key=f"sifat_{idx}")
                         list_karakter.append(f"{idx+1}. {nama.upper()}: {sifat}")
 
     st.write(" ")
@@ -454,6 +461,7 @@ def tampilkan_ai_lab():
 
     if btn_generate:
         if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
+            # Mapping Visual
             visual_map = {
                 "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture, natural lighting.",
                 "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture, vibrant colors, cinematic lighting.",
@@ -464,15 +472,16 @@ def tampilkan_ai_lab():
             str_karakter = "\n".join(list_karakter)
             tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
 
+            # Logika Judul & Alur Viral
             if pola == "Viral Drama (Zero to Hero / Revenge)":
-                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Tengah: Konflik memuncak. Adegan Akhir: {tokoh_utama} terbukti sukses/hebat."
-                judul_viral = f"🔥 JUDUL: Dituduh {topik}, Ternyata {tokoh_utama} Adalah..."
+                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Tengah: Konflik memuncak. Adegan Akhir: {tokoh_utama} terbukti hebat."
+                judul_viral = f"🔥 JUDUL: Dituduh {topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
             elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
-                alur_spesifik = f"Adegan 1-3: Proses lomba {topik} yang absurd. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Penentuan juara konyol."
-                judul_viral = f"🤣 JUDUL: Lomba {topik} Paling Absurd!"
+                alur_spesifik = f"Adegan 1-3: Proses lomba absurd. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Penentuan juara konyol."
+                judul_viral = f"🤣 JUDUL: Lomba {topik[:20]}... Paling Absurd!"
             else:
                 alur_spesifik = "Alur standar dengan plot twist mengejutkan di akhir."
-                judul_viral = f"🎬 JUDUL: Kisah {topik}"
+                judul_viral = f"🎬 JUDUL: Kisah {topik[:20]}..."
 
             master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
@@ -493,7 +502,7 @@ Gaya Visual: {prompt_visual}"""
                 st.info("🔮 Mantra Naskah")
                 st.code(master_instruction, language="text")
         else:
-            st.error("Tolong isi Topik dan Sifat Karakter dulu ya!")
+            st.error("Lengkapi dulu Topik dan Sifat Karakter, Bos!")
     else:
         st.info("Hasil naskah akan muncul di sini setelah klik tombol Generate.")
             
@@ -692,6 +701,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
