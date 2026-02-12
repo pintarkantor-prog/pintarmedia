@@ -155,19 +155,16 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (KAPASITAS 4 KARAKTER)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL ALIGNMENT & CLEAN UI)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. IDENTITY LOCK (Ditingkatkan menjadi maksimal 4 karakter)
+    # 1. IDENTITY LOCK (Dukungan hingga 4 Karakter)
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
-        # Perubahan: Nilai maksimal diubah dari 3 menjadi 4
-        juml = st.number_input("Jumlah Karakter di Scene", 1, 4, 2) 
+        juml = st.number_input("Jumlah Karakter di Scene", 1, 4, 2)
         karakter_data = []
-        
-        # Grid dinamis: Akan menyesuaikan jumlah kolom berdasarkan input (maks 4)
         cols_char = st.columns(juml)
         for i in range(juml):
             with cols_char[i]:
@@ -179,7 +176,7 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (TATA LETAK SIDEBAR 2 KOLOM)
+    # 2. INPUT ADEGAN (TATA LETAK SIMETRIS)
     with st.expander("🟢 ADEGAN 1", expanded=True):
         col_text, col_set = st.columns([1.5, 1])
         
@@ -188,53 +185,50 @@ def tampilkan_ruang_produksi():
             aksi = st.text_area("Aksi & Interaksi", height=500, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
-            # Grid Sidebar 2 Kolom Internal
+            # Grid Sidebar Internal
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
                 st.markdown("✨ **STYLE**")
                 mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
-                
                 st.markdown("💡 **LIGHTING**")
                 lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
-                
                 st.markdown("📐 **ARAH KAMERA**")
                 arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
-                # MENU: UKURAN GAMBAR (SHOT SIZE)
                 st.markdown("🔍 **UKURAN GAMBAR**")
                 shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
-                
                 st.markdown("📺 **ASPECT RATIO**")
                 rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
-                
                 st.markdown("🎥 **GERAKAN**")
                 kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-        # Input Dialog (Mendukung hingga 4 Karakter secara dinamis)
-        st.markdown("💬 **ACTING CUE (DIALOG UNTUK EMOSI)**")
-        d_cols = st.columns(juml)
-        dialogs = []
-        for i in range(juml):
-            with d_cols[i]:
-                char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                d_input = st.text_input(f"Dialog {char_name}", key=f"h_d{i}")
-                dialogs.append(f"{char_name}: '{d_input}'")
+            # BAGIAN DIALOG (ACTING CUE) - Sejajar dengan Lokasi
+            # Tulisan label dihapus sesuai permintaan, fungsi tetap jalan.
+            st.markdown("<br>", unsafe_allow_html=True)
+            dialogs = []
+            # Menggunakan 2 kolom di bawah lokasi agar sejajar dengan lebar kolom kanan
+            d_col_left, d_col_right = st.columns(2)
+            for i in range(juml):
+                # Menempatkan input dialog secara bergantian di kolom kiri/kanan sidebar
+                target_col = d_col_left if i % 2 == 0 else d_col_right
+                with target_col:
+                    char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
+                    d_input = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
+                    dialogs.append(f"{char_name}: '{d_input}'")
 
-    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM SEJAJAR)
+    # 3. COMPILER LOGIC (Format Terstruktur Grup 1 & 2)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
-        # Identitas Karakter
         char_identities = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in karakter_data if c['nama']])
         char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
         all_dialogs = " | ".join(dialogs)
 
-        # Formulasi Prompt Gambar (Grup 1 Style)
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
 STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
 FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
@@ -244,7 +238,6 @@ ENVIRONMENT: {lokasi}
 CAMERA: {shot_size}, {arah_kam} angle.
 TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio}"""
 
-        # Formulasi Prompt Video (Grup 2 Style)
         video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
 Character Profiles: {char_profiles}
 Scene: {aksi} at {lokasi}.
@@ -279,6 +272,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
