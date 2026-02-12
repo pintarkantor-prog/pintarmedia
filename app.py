@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (POSISI DIALOG AKURAT)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL SEJAJAR & CLEAN)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -178,7 +178,7 @@ def tampilkan_ruang_produksi():
     
     # 2. INPUT ADEGAN
     with st.expander("🟢 ADEGAN 1", expanded=True):
-        # Baris Atas: Naskah (Kiri) & Sidebar (Kanan)
+        # Baris Utama
         col_text, col_set = st.columns([1.5, 1])
         
         with col_text:
@@ -196,6 +196,7 @@ def tampilkan_ruang_produksi():
                 arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
+                # Menu Shot Size
                 st.markdown("🔍 **UKURAN GAMBAR**")
                 shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
                 st.markdown("📺 **ASPECT RATIO**")
@@ -207,17 +208,16 @@ def tampilkan_ruang_produksi():
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
         # ----------------------------------------------------------------------
-        # BARIS DIALOG: Posisi di bawah, Satu Baris Penuh (Dinamis hingga 4)
+        # BARIS DIALOG: Sejajar tepat di bawah garis akhir naskah (Tanpa Judul)
         # ----------------------------------------------------------------------
+        # Menghapus label 'ACTING CUE' agar sejajar sesuai Untitled.png
         st.markdown("<br>", unsafe_allow_html=True)
-        # Membuat kolom horizontal sejajar sesuai jumlah karakter yang dipilih
         cols_dialog = st.columns(juml)
         dialogs = []
         for i in range(juml):
             with cols_dialog[i]:
                 char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                # Label diletakkan di atas input secara bersih
-                st.markdown(f"**Dialog {char_name}**")
+                st.markdown(f"**Dialog {char_name}**") # Label kecil di atas kotak
                 d_in = st.text_input(f"D_{i}", key=f"h_d{i}", placeholder=f"Ketik dialog...", label_visibility="collapsed")
                 dialogs.append(f"{char_name}: '{d_in}'")
 
@@ -230,6 +230,7 @@ def tampilkan_ruang_produksi():
         char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
         all_dialogs = " | ".join(dialogs)
 
+        # Output format Modular Grup 1
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
 STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
 FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
@@ -239,6 +240,7 @@ ENVIRONMENT: {lokasi}
 CAMERA: {shot_size}, {arah_kam} angle.
 TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio}"""
 
+        # Output format Sinematik Grup 2
         video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
 Character Profiles: {char_profiles}
 Scene: {aksi} at {lokasi}.
@@ -273,6 +275,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
