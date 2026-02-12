@@ -92,7 +92,7 @@ def pasang_css_kustom():
         }
 
         .small-label {
-            font-size: 11px !important;
+            font-size: 12px !important;
             letter-spacing: 0.05rem;
             text-transform: uppercase;
             font-weight: 700 !important;
@@ -286,6 +286,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
