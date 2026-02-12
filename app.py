@@ -276,6 +276,7 @@ def tampilkan_ruang_produksi():
                 with out_c2:
                     st.markdown(f"<p style='margin-bottom: -5px;'>**🎬 Video Prompt S{scene_id}**</p>", unsafe_allow_html=True)
                     st.code(vid_p, language="text")
+                    st.markdown("---")
                 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
@@ -295,6 +296,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
