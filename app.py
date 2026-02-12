@@ -374,15 +374,15 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - STABLE & PERSISTENT)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - FULL PERSISTENT)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Solusi cerdas buat staf Pintar Media. Data aman dan anti-crash!")
+    st.caption("Solusi cerdas buat staf Pintar Media. Nama & Sifat Karakter kini tersimpan aman!")
     st.divider() 
 
-    # --- 1. DEFINISI DAFTAR PILIHAN (WAJIB SAMA PERSIS) ---
+    # --- 1. DEFINISI DAFTAR PILIHAN ---
     opsi_pola = [
         "Viral Drama (Zero to Hero / Revenge)", 
         "Lomba Konyol (Komedi Interaktif / Call to Action)",
@@ -430,16 +430,16 @@ def tampilkan_ai_lab():
         st.write(" ")
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
         
-        # Tombol Reset Form
         if st.button("🗑️ Reset Form", use_container_width=False):
-            st.session_state.lab_topik = ""
-            st.session_state.lab_hasil_mantra = None
+            # Bersihkan semua session state lab
+            for key in list(st.session_state.keys()):
+                if key.startswith("lab_"):
+                    del st.session_state[key]
             st.rerun()
 
     with col_sidebar:
         st.subheader("👤 Pengaturan")
         
-        # Kontrol Karakter
         c_add, c_rem = st.columns(2)
         with c_add:
             if st.button("➕ Tambah Tokoh", use_container_width=True) and st.session_state.jumlah_karakter < 4:
@@ -456,38 +456,34 @@ def tampilkan_ai_lab():
         char_col1, char_col2 = st.columns(2)
         
         for i in range(st.session_state.jumlah_karakter):
+            # Inisialisasi state per karakter jika belum ada
+            if f"lab_n_{i}" not in st.session_state: st.session_state[f"lab_n_{i}"] = f"Tokoh {i+1}"
+            if f"lab_s_{i}" not in st.session_state: st.session_state[f"lab_s_{i}"] = ""
+
             target_col = char_col1 if i % 2 == 0 else char_col2
             with target_col:
                 with st.container(border=True):
                     st.markdown(f"**Tokoh {i+1}**")
-                    nama = st.text_input(f"Nama {i}", value=f"Tokoh {i+1}", key=f"lab_n_{i}", label_visibility="collapsed")
-                    sifat = st.text_input(f"Sifat {i}", placeholder="Sifat/Visual", key=f"lab_s_{i}", label_visibility="collapsed")
+                    # Tambahkan parameter value agar data terpanggil kembali
+                    nama = st.text_input(f"Nama {i}", value=st.session_state[f"lab_n_{i}"], key=f"lab_n_{i}", label_visibility="collapsed")
+                    sifat = st.text_input(f"Sifat {i}", value=st.session_state[f"lab_s_{i}"], placeholder="Sifat/Visual", key=f"lab_s_{i}", label_visibility="collapsed")
                     list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
 
         st.write("---")
         
-        # JARING PENGAMAN: Cek apakah nilai di memori ada di daftar opsi
         try:
             idx_pola = opsi_pola.index(st.session_state.lab_pola)
-        except ValueError:
+        except:
             idx_pola = 0
             
-        st.session_state.lab_pola = st.selectbox(
-            "🎭 Pola Alur", 
-            options=opsi_pola,
-            index=idx_pola
-        )
+        st.session_state.lab_pola = st.selectbox("🎭 Pola Alur", options=opsi_pola, index=idx_pola)
         
         try:
             idx_visual = opsi_visual.index(st.session_state.lab_visual)
-        except ValueError:
+        except:
             idx_visual = 0
 
-        st.session_state.lab_visual = st.selectbox(
-            "🎨 Gaya Visual", 
-            options=opsi_visual,
-            index=idx_visual
-        )
+        st.session_state.lab_visual = st.selectbox("🎨 Gaya Visual", options=opsi_visual, index=idx_visual)
 
     # --- 4. LOGIKA GENERATE ---
     if btn_generate:
@@ -733,6 +729,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
