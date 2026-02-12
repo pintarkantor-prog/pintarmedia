@@ -28,7 +28,7 @@ def inisialisasi_keamanan():
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # Rasio [2, 1, 2] agar kotak login kecil dan elegan di tengah
+    # Rasio [2, 1, 2] agar kotak login kecil/pas di tengah
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
     
     with col_m:
@@ -36,13 +36,19 @@ def tampilkan_halaman_login():
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-            
-        with st.container(border=True):
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # MENGGUNAKAN FORM AGAR FITUR 'ENTER' AKTIF
+        with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             
+            st.markdown("<br>", unsafe_allow_html=True)
+            
             # Tombol Hijau Emerald
-            submit = st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary")
+            submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
+            
             if submit:
                 if u in DAFTAR_USER and DAFTAR_USER[u] == p:
                     st.session_state.sudah_login = True
@@ -80,19 +86,22 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
-        /* Tombol Hijau Emerald (#10b981) */
-        div.stButton > button[kind="primary"] {
+        /* Form Login Container */
+        div[data-testid="stForm"] {
+            border: 1px solid #30363d !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+            background-color: transparent !important;
+        }
+
+        /* Tombol Form Submit (Warna Hijau Emerald) */
+        button[kind="primaryFormSubmit"] {
             background-color: #10b981 !important;
             color: white !important;
             border: none !important;
             height: 45px !important;
             font-weight: bold !important;
-            transition: 0.3s;
-        }
-        
-        div.stButton > button[kind="primary"]:hover {
-            background-color: #059669 !important; /* Hijau agak gelap saat di-hover */
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            width: 100% !important;
         }
 
         div[data-baseweb="input"] {
@@ -166,4 +175,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
