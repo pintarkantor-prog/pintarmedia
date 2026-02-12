@@ -26,15 +26,23 @@ def inisialisasi_keamanan():
         st.session_state.sudah_login = False
 
 def tampilkan_halaman_login():
-    """Seluruh logika tampilan login diringkas di sini"""
-    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
     col_l, col_m, col_r = st.columns([1, 1.2, 1])
+    
     with col_m:
-        st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        # Mengambil logo PINTAR.png dari root folder GitHub
+        try:
+            st.image("PINTAR.png", width=180)
+        except:
+            st.markdown("<h1 style='text-align: center;'>🎬</h1>", unsafe_allow_html=True)
+        
+        st.markdown("<h2 style='text-align: center; margin-top: -10px;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center; color: #484f58; font-size: 12px; margin-top: -15px;'>AI PRODUCTION STUDIO</p>", unsafe_allow_html=True)
+        
         with st.form("login_form"):
             u = st.text_input("Station Username").lower()
             p = st.text_input("Access Password", type="password")
-            submit = st.form_submit_button("MASUK", use_container_width=True)
+            submit = st.form_submit_button("MASUK KE STATION", use_container_width=True)
             if submit:
                 if u in DAFTAR_USER and DAFTAR_USER[u] == p:
                     st.session_state.sudah_login = True
