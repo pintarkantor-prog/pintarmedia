@@ -142,31 +142,89 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-if not st.session_state.logged_in:
-    st.markdown('<div class="rainbow-title">PINTAR MEDIA</div>', unsafe_allow_html=True)
-    
-    st.markdown('<div class="form-box">', unsafe_allow_html=True)
-    
-    username = st.text_input("", key="login_user", placeholder="Username...")
-    password = st.text_input("", type="password", key="login_pass", placeholder="Password...")
-    
-    if st.button("MASUK KE SISTEM 🚀"):
-        if username in USERS and USERS[username] == password:
-            st.session_state.logged_in = True
-            st.session_state.username = username
-            st.session_state.login_time = datetime.now().isoformat()
-            st.session_state.data = load_data()
-            st.success(f"Selamat datang, {username}!", icon="🔥")
-            time.sleep(1)
-            st.rerun()
-        else:
-            st.error("Salah username atau password", icon="🚫")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
-    
-    st.markdown('<div class="footer-text">Secure Access - PINTAR MEDIA</div>', unsafe_allow_html=True)
-    
+# --- 2. LAYAR LOGIN ---
+if 'active_user' not in st.session_state:
+    placeholder = st.empty()
+    with placeholder.container():
+        # Kosongkan ruang atas supaya tidak memanjang
+        st.markdown("<div style='height: 10vh;'></div>", unsafe_allow_html=True)
+
+        # Centering lebih rapat
+        _, col_login, _ = st.columns([2.0, 1.0, 2.0])  # lebih ramping dari 1.8
+
+        with col_login:
+            # Logo gambar atau fallback rainbow
+            try:
+                st.image("PINTAR.png", use_container_width=True)
+            except:
+                st.markdown("""
+                    <h1 style='text-align: center; font-size: 42px; font-weight: 900;
+                    background: linear-gradient(90deg, #ff00cc, #3333ff, #00ff99, #ffcc00);
+                    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                    margin: 0 0 30px 0;'>
+                        PINTAR MEDIA
+                    </h1>
+                """, unsafe_allow_html=True)
+
+            with st.form("login_form", clear_on_submit=False):
+                # Input clean tanpa label tebal
+                default_user = st.query_params.get("u", "")
+                user_input = st.text_input("", value=default_user, placeholder="Username...", key="user_input")
+                pass_input = st.text_input("", type="password", placeholder="Password...", key="pass_input")
+
+                # Spasi kecil saja
+                st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
+
+                submit_button = st.form_submit_button(
+                    "MASUK KE SISTEM 🚀",
+                    use_container_width=True,
+                    type="primary"  # biasanya merah/biru tergantung theme, bisa di-CSS kalau perlu
+                )
+
+            if submit_button:
+                user_clean = user_input.lower().strip()
+                if user_clean in USERS and USERS[user_clean] == pass_input:  # pakai USERS dari kode awalmu
+                    st.session_state.active_user = user_clean
+                    st.session_state.login_time = time.time()
+                    st.session_state.username = user_clean.upper()  # jembatan tugas kerja
+
+                    # Bersihkan & set query params
+                    st.query_params.clear()
+                    st.query_params["u"] = user_clean
+
+                    placeholder.empty()
+                    with placeholder.container():
+                        st.markdown("<div style='height: 30vh;'></div>", unsafe_allow_html=True)
+                        st.markdown(
+                            "<h2 style='text-align: center; color: #10b981;'>AKSES DITERIMA! ✅</h2>",
+                            unsafe_allow_html=True
+                        )
+                        st.markdown(
+                            f"<h3 style='text-align: center; color: #e2e8f0;'>Selamat bekerja, {user_clean.capitalize()}!</h3>",
+                            unsafe_allow_html=True
+                        )
+                        time.sleep(1.2)
+                    st.rerun()
+                else:
+                    st.error("Username atau password salah", icon="🚫")
+
+            # Footer kecil
+            st.markdown(
+                "<p style='text-align: center; color: #6b7280; font-size: 13px; margin-top: 24px;'>"
+                "Secure Access - PINTAR MEDIA</p>",
+                unsafe_allow_html=True
+            )
+
     st.stop()
+
+# --- 3. PROTEKSI SESI (AUTO-LOGOUT 10 JAM) ---
+if 'active_user' in st.session_state and 'login_time' in st.session_state:
+    selisih_detik = time.time() - st.session_state.login_time
+    if selisih_detik > (10 * 60 * 60):
+        st.query_params.clear()
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
 # ────────────────────────────────────────────────
 # Sidebar & Logout
 # ────────────────────────────────────────────────
@@ -272,6 +330,7 @@ elif page == "📋 TUGAS KERJA":
 elif page == "⚡ KENDALI TIM":
     st.header("⚡ KENDALI TIM")
     st.write("Monitor progress & kinerja tim (placeholder)")
+
 
 
 
