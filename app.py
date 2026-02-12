@@ -36,11 +36,13 @@ def cek_autentikasi():
         return True
     return False
 
-def proses_login(user, pwd):
+def proses_login(user, pwd, placeholder_utama):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        # Tampilkan Notifikasi Sesuai Gambar (2 Detik)
-        placeholder = st.empty()
-        with placeholder.container():
+        # 1. HAPUS FORM LOGIN DARI LAYAR
+        placeholder_utama.empty()
+        
+        # 2. TAMPILKAN NOTIFIKASI DI LAYAR BERSIH
+        with st.container():
             st.markdown(f"""
                 <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
                     <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
@@ -52,9 +54,9 @@ def proses_login(user, pwd):
                 </div>
             """, unsafe_allow_html=True)
         
-        time.sleep(2) 
-        placeholder.empty()
-
+        time.sleep(2) # Jeda 2 Detik
+        
+        # 3. SET SESI DAN RERUN
         st.session_state.sudah_login = True
         st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
@@ -80,10 +82,7 @@ def pasang_css_kustom():
         .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
-        
-        /* CSS Tambahan untuk tombol Enter di Form */
         div[data-testid="stForm"] { border: none !important; padding: 0 !important; }
-        
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -102,7 +101,6 @@ def tampilkan_navigasi_sidebar():
         st.markdown("<br>"*12, unsafe_allow_html=True)
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
-        
         user = st.session_state.get("user_aktif", "USER").upper()
         st.markdown(f'<div class="status-footer">STATION: {user}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
     return pilihan
@@ -128,7 +126,6 @@ def tampilkan_ruang_produksi():
             with cols[i]:
                 st.text_input(f"Nama {i+1}", key=f"n_{i}")
                 st.text_area(f"Ciri Fisik {i+1}", key=f"d_{i}", height=120)
-
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
         st.success("Berhasil disusun!")
 
@@ -140,18 +137,21 @@ def utama():
     pasang_css_kustom()
     
     if not cek_autentikasi():
-        st.markdown("<br><br>", unsafe_allow_html=True)
-        col_l, col_m, col_r = st.columns([1, 1.2, 1])
-        with col_m:
-            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-            
-            with st.form("login_form"):
-                u = st.text_input("Username").lower()
-                p = st.text_input("Password", type="password")
-                submit = st.form_submit_button("MASUK", use_container_width=True)
-                
-                if submit:
-                    proses_login(u, p)
+        # CONTAINER UTAMA UNTUK LOGIN
+        placeholder_utama = st.empty()
+        
+        with placeholder_utama.container():
+            st.markdown("<br><br>", unsafe_allow_html=True)
+            col_l, col_m, col_r = st.columns([1, 1.2, 1])
+            with col_m:
+                st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+                with st.form("login_form"):
+                    u = st.text_input("Username").lower()
+                    p = st.text_input("Password", type="password")
+                    submit = st.form_submit_button("MASUK", use_container_width=True)
+                    
+                    if submit:
+                        proses_login(u, p, placeholder_utama)
     else:
         menu = tampilkan_navigasi_sidebar()
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
