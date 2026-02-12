@@ -11,23 +11,27 @@ if 'initialized' not in st.session_state:
     st.session_state.user = None
     st.session_state.login_time = None
 
-# Auto logout 10 jam
+# Auto logout setelah 10 jam
 if st.session_state.get('logged_in', False) and st.session_state.get('login_time'):
     if time.time() - st.session_state.login_time > 36000:
         for key in list(st.session_state.keys()):
             del st.session_state[key]
         st.rerun()
 
-st.set_page_config(page_title="PINTAR MEDIA", page_icon="🎬", layout="wide")
+st.set_page_config(
+    page_title="PINTAR MEDIA Generator",
+    page_icon="🎬",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# CSS yang lebih sederhana & kuat centering
+# CSS: background gelap + centering login lebih kuat
 st.markdown("""
     <style>
     /* Background gelap full */
     .stApp, section.main, .block-container {
         background-color: #0e1117 !important;
         color: #e0e0e0 !important;
-        min-height: 100vh !important;
         margin: 0 !important;
         padding: 0 !important;
     }
@@ -65,7 +69,7 @@ st.markdown("""
         max-width: 360px;
         background: #1a1c24;
         border-radius: 12px;
-        padding: 28px 20px;
+        padding: 24px 20px;
         border: 1px solid #2d3748;
         box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         text-align: center;
@@ -83,8 +87,10 @@ st.markdown("""
         color: #666;
         font-size: 0.8rem;
         margin-top: 30px;
+        text-align: center;
     }
-    /* Input lebih rapi */
+
+    /* Input rapi */
     .stTextInput > div > div > input {
         background: #0e1117;
         border: 1px solid #3a3f4a;
@@ -113,41 +119,38 @@ USER_PASSWORDS = {
 
 # Halaman login
 if not st.session_state.logged_in:
-    # Pakai container luar untuk centering vertikal
-    outer = st.container()
-    with outer:
-        st.markdown('<div class="login-outer">', unsafe_allow_html=True)
-        st.markdown('<div class="login-inner">', unsafe_allow_html=True)
+    st.markdown('<div class="login-outer">', unsafe_allow_html=True)
+    st.markdown('<div class="login-inner">', unsafe_allow_html=True)
 
-        # Logo
-        st.markdown('<div class="logo-box">', unsafe_allow_html=True)
-        try:
-            st.image(
-                "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",  # GANTI DENGAN RAW URL ASLI KAMU
-                use_container_width=True
-            )
-        except:
-            st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    # Logo - GANTI URL RAW INI DENGAN URL ASLI DARI GITHUB KAMU!
+    st.markdown('<div class="logo-box">', unsafe_allow_html=True)
+    try:
+        st.image(
+            "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png",  # <-- PASTIKAN INI URL RAW BENAR!
+            use_container_width=True
+        )
+    except:
+        st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-        username = st.text_input("Username", placeholder="Username...", key="login_user", label_visibility="collapsed")
-        password = st.text_input("Password", type="password", placeholder="Password...", key="login_pass", label_visibility="collapsed")
+    username = st.text_input("Username", placeholder="Username...", key="login_user", label_visibility="collapsed")
+    password = st.text_input("Password", type="password", placeholder="Password...", key="login_pass", label_visibility="collapsed")
 
-        if st.button("MASUK", type="primary"):
-            clean_user = username.strip().lower()
-            if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
-                st.session_state.logged_in = True
-                st.session_state.user = clean_user
-                st.session_state.login_time = time.time()
-                st.markdown('<div class="welcome">Selamat datang, ' + clean_user.capitalize() + '!</div>', unsafe_allow_html=True)
-                time.sleep(2)
-                st.rerun()
-            else:
-                st.error("Username atau password salah.")
+    if st.button("MASUK", type="primary"):
+        clean_user = username.strip().lower()
+        if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
+            st.session_state.logged_in = True
+            st.session_state.user = clean_user
+            st.session_state.login_time = time.time()
+            st.markdown('<div class="welcome">Selamat datang, ' + clean_user.capitalize() + '!</div>', unsafe_allow_html=True)
+            time.sleep(2)
+            st.rerun()
+        else:
+            st.error("Username atau password salah.")
 
-        st.markdown('</div>', unsafe_allow_html=True)
-        st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
@@ -171,7 +174,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# Menu utama (sama seperti kode kamu)
+# Menu utama
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
@@ -310,4 +313,3 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
-
