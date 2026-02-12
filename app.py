@@ -183,7 +183,7 @@ def tampilkan_ruang_produksi():
         
         with col_text:
             st.markdown("📸 **Naskah Visual & Aksi**")
-            aksi = st.text_area("Aksi & Interaksi", height=370, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
+            aksi = st.text_area("Aksi & Interaksi", height=330, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
             sub_col1, sub_col2 = st.columns(2)
@@ -275,6 +275,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
