@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SIDEBAR 2 KOLOM)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SIDEBAR 2 KOLOM - UPDATED MENU)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -184,7 +184,7 @@ def tampilkan_ruang_produksi():
             st.markdown("📸 **Naskah Visual & Aksi**")
             aksi = st.text_area(
                 "Aksi & Interaksi", 
-                height=420, # Ditambah tingginya agar sejajar dengan 2 kolom samping
+                height=420, # Sejajar dengan 2 kolom samping
                 key="h_act", 
                 placeholder="Deskripsikan aksi karakter di sini...",
                 label_visibility="collapsed"
@@ -196,16 +196,21 @@ def tampilkan_ruang_produksi():
             
             with sub_col1:
                 st.markdown("✨ **STYLE**")
-                mood = st.selectbox("Style", ["Hyper-Realistic", "3D Animation", "Cinematic Film"], key="h_mood", label_visibility="collapsed")
+                # Update Pilihan Style sesuai permintaan
+                mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
                 
                 st.markdown("💡 **LIGHTING**")
                 lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
+
+                # Penambahan Arah Kamera (Sudut Pandang)
+                st.markdown("📐 **ARAH KAMERA**")
+                arah_kam = st.selectbox("Arah Kamera", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
                 st.markdown("📐 **RATIO**")
                 rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
                 
-                st.markdown("🎥 **CAMERA**")
+                st.markdown("🎥 **CAMERA MOVEMENT**")
                 kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
             # Lokasi diletakkan di bawah grid 2 kolom agar tetap lebar
@@ -231,11 +236,14 @@ def tampilkan_ruang_produksi():
         
         dialog_cue = f"{karakter_data[0]['nama']}: '{d1}' | {karakter_data[1]['nama']}: '{d2}'" if len(karakter_data) > 1 else f"'{d1}'"
 
-        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood: {mood}. Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
-        video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
+        # Memasukkan variabel 'arah_kam' ke dalam prompt final
+        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood/Style: {mood}, Camera View: {arah_kam}, Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
+        video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera Angle: {arah_kam}, Motion: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
 
         st.subheader("📋 Production Ready Prompts")
+        st.markdown("##### 🖼️ Grok Image Prompt")
         st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
+        st.markdown("##### 🎬 Veo Video Prompt")
         st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
         
 # ==============================================================================
@@ -257,6 +265,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
