@@ -286,7 +286,7 @@ def tampilkan_ruang_produksi():
                 "dialogs": [""]*4
             }
 
-        with st.expander(f"🟢 ADEGAN {scene_id}", expanded=(scene_id == 1)):
+        with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
             col_text, col_set = st.columns([1.5, 1])
             
             with col_text:
@@ -388,6 +388,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
