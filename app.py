@@ -58,11 +58,11 @@ st.markdown("""
 # DATA USER & PASSWORD (ubah sesuai kebutuhan)
 # ────────────────────────────────────────────────
 USER_PASSWORDS = {
-    "dian":   "dian2025",
-    "icha":   "icha2025",
-    "nissa":  "nissa2025",
-    "inggi":  "inggi2025",
-    "lisa":   "lisa2025",
+    "dian":   "QWERTY21ab",
+    "icha":   "udin99",
+    "nissa":  "tung22",
+    "inggi":  "udin11",
+    "lisa":   "tung55",
     "tamu":   "tamu123",
 }
 
@@ -279,3 +279,4 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
