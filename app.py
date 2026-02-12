@@ -133,12 +133,13 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (ALL-PROMPT GENERATOR)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL MULTI-SCENE & VALIDASI)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
+    # Ambil data dari laci memori (Session State)
     data = st.session_state.data_produksi
 
     # 1. IDENTITY LOCK (Global untuk semua adegan)
@@ -148,16 +149,17 @@ def tampilkan_ruang_produksi():
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                data["karakter"][i]["nama"] = st.text_input(f"Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}")
-                data["karakter"][i]["wear"] = st.text_input(f"Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}")
-                data["karakter"][i]["fisik"] = st.text_area(f"Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80)
+                data["karakter"][i]["nama"] = st.text_input(f"Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}", placeholder="Contoh: Udin")
+                data["karakter"][i]["wear"] = st.text_input(f"Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Contoh: Kaos Oranye")
+                data["karakter"][i]["fisik"] = st.text_area(f"Ciri Fisik Utama", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Maintain 100% exact facial features...")
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (Looping sesuai jumlah adegan di Sidebar)
+    # 2. GENERASI INPUT ADEGAN SECARA DINAMIS
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
-        # Pastikan data adegan tersedia di memori
+        
+        # Inisialisasi struktur data adegan jika belum ada
         if scene_id not in data["adegan"]:
             data["adegan"][scene_id] = {
                 "aksi": "", "style": "Realistis", "light": "Studio", 
@@ -170,84 +172,94 @@ def tampilkan_ruang_produksi():
             col_text, col_set = st.columns([1.5, 1])
             
             with col_text:
-                st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=335, key=f"act_{scene_id}", label_visibility="collapsed")
+                st.markdown("### 📸 Naskah Visual & Aksi")
+                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
             
             with col_set:
                 sub1, sub2 = st.columns(2)
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], index=0, key=f"mood_{scene_id}", label_visibility="collapsed")
+                    
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", ["Golden Hour", "Studio", "Natural"], key=f"light_{scene_id}", label_visibility="collapsed")
+                    
                     st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key=f"arah_{scene_id}", label_visibility="collapsed")
+
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas"], key=f"shot_{scene_id}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key=f"shot_{scene_id}", label_visibility="collapsed")
+                    
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", ["16:9", "9:16", "1:1"], key=f"ratio_{scene_id}", label_visibility="collapsed")
+                    
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", ["Static", "Zoom In", "Tracking"], key=f"cam_{scene_id}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}", label_visibility="collapsed")
+                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
-            # BARIS DIALOG (SEJAJAR DI BAWAH)
+            # Baris Dialog Sejajar Horizontal
             st.markdown('<hr style="border:0.5px solid #10b981; opacity:0.3; margin-top:20px; margin-bottom:10px;">', unsafe_allow_html=True)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
-                    name = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
-                    st.markdown(f'<p class="small-label">Dialog {name}</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed")
+                    char_name = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
+                    st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # 3. GLOBAL COMPILER (Satu Tombol untuk Semua Adegan)
+    # 3. GLOBAL COMPILER LOGIC (Satu Tombol untuk Semua dengan Filter Validasi)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True):
-        st.markdown("---")
-        st.subheader("📋 Full Production Script Prompts")
         
-        # Identity Lock Global String
-        char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in data["karakter"] if c['nama']])
-        char_profiles = ", ".join([f"{c['nama']} (wearing: {c['wear']})" for c in data["karakter"] if c['nama']])
+        # Validasi: Cari adegan yang ada naskahnya
+        adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
+        
+        if not adegan_terisi:
+            st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
+        else:
+            st.markdown("---")
+            st.subheader("📋 Production Ready Script Prompts")
+            
+            # String Identitas Global
+            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in data["karakter"] if c['nama']])
+            char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in data["karakter"] if c['nama']])
 
-        # Loop untuk menampilkan hasil per adegan
-        for s in range(data["jumlah_adegan"]):
-            scene_id = s + 1
-            sc = data["adegan"][scene_id]
-            
-            # Jika naskah kosong, lewati (opsional)
-            if not sc["aksi"]: continue
-            
-            st.markdown(f"#### 🎬 ADEGAN {scene_id}")
-            
-            all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" for i in range(data["jumlah_karakter"]) if data['karakter'][i]['nama']])
-            
-            # Formulasi Prompt Gambar (Grup 1 Style)
-            img_p = f"""IMAGE REFERENCE RULE: Use uploaded photos.
-STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO TEXT.
+            # Loop HANYA untuk adegan yang terisi
+            for scene_id in adegan_terisi:
+                sc = data["adegan"][scene_id]
+                st.markdown(f"#### 🎬 ADEGAN {scene_id}")
+                
+                # Mengumpulkan dialog yang tidak kosong
+                all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
+                                    for i in range(data["jumlah_karakter"]) 
+                                    if data['karakter'][i]['nama'] and sc['dialogs'][i]])
+                
+                # Format Prompt Gambar (Grup 1)
+                img_p = f"""IMAGE REFERENCE RULE: Use uploaded photos. Interaction required.
+STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO TEXT. NO SUBTITLES.
 CHARACTER DATA: {char_ids}
 VISUAL ACTION: {sc['aksi']}
 ENVIRONMENT: {sc['loc']}
 CAMERA: {sc['shot']}, {sc['arah']} angle.
-TECHNICAL: {sc['style']}, {sc['light']} lighting. f/11 aperture. --ar {sc['ratio']}"""
+TECHNICAL: {sc['style']}, {sc['light']} lighting. Hyper-realistic 8k, f/11 aperture. --ar {sc['ratio']}"""
 
-            # Formulasi Prompt Video (Grup 2 Style)
-            vid_p = f"""STRICT CONSISTENCY: Use uploaded reference images.
+                # Format Prompt Video (Grup 2)
+                vid_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
 Character Profiles: {char_profiles}
 Scene: {sc['aksi']} at {sc['loc']}.
-Acting Cue: {all_d}. (STRICTLY NO TEXT ON SCREEN).
-Technical: {sc['style']} cinematic video, {sc['shot']}, {sc['cam']} at {sc['arah']}, 60fps. aspect ratio {sc['ratio']}."""
+Acting Cue: {all_d if all_d else 'Focus on visual emotion and character movement'}.
+Technical: {sc['style']} cinematic video, {sc['shot']}, {sc['cam']} at {sc['arah']}, 60fps, fluid motion, 8k UHD. aspect ratio {sc['ratio']}."""
 
-            out_c1, out_c2 = st.columns(2)
-            with out_c1:
-                st.markdown(f"**🖼️ Image Prompt S{scene_id}**")
-                st.code(img_p, language="text")
-            with out_c2:
-                st.markdown(f"**🎬 Video Prompt S{scene_id}**")
-                st.code(vid_p, language="text")
-            st.markdown("---")
+                out_c1, out_c2 = st.columns(2)
+                with out_c1:
+                    st.markdown(f"**🖼️ Image Prompt S{scene_id}**")
+                    st.code(img_p, language="text")
+                with out_c2:
+                    st.markdown(f"**🎬 Video Prompt S{scene_id}**")
+                    st.code(vid_p, language="text")
+                st.markdown("<br>", unsafe_allow_html=True)
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
@@ -267,4 +279,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
