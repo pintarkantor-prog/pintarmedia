@@ -374,12 +374,12 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - FULL PERSISTENT)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - FINAL STABLE)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Solusi cerdas buat staf Pintar Media. Nama & Sifat Karakter kini tersimpan aman!")
+    st.caption("Studio Kreatif Pintar Media. Data tersimpan otomatis & Anti-Crash!")
     st.divider() 
 
     # --- 1. DEFINISI DAFTAR PILIHAN ---
@@ -397,7 +397,7 @@ def tampilkan_ai_lab():
         "Retro Cartoon"
     ]
 
-    # --- 2. INISIALISASI SESSION STATE ---
+    # --- 2. INISIALISASI SESSION STATE (MEMORI) ---
     if 'lab_topik' not in st.session_state: st.session_state.lab_topik = ""
     if 'lab_pola' not in st.session_state: st.session_state.lab_pola = opsi_pola[0]
     if 'lab_visual' not in st.session_state: st.session_state.lab_visual = opsi_visual[0]
@@ -410,6 +410,7 @@ def tampilkan_ai_lab():
 
     with col_kerja:
         st.subheader("📝 Topik & Premis Utama")
+        # Menggunakan session_state sebagai value tunggal
         st.session_state.lab_topik = st.text_area(
             "Detail Cerita", 
             value=st.session_state.lab_topik,
@@ -431,7 +432,7 @@ def tampilkan_ai_lab():
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
         
         if st.button("🗑️ Reset Form", use_container_width=False):
-            # Bersihkan semua session state lab
+            # Hapus hanya session state yang diawali 'lab_'
             for key in list(st.session_state.keys()):
                 if key.startswith("lab_"):
                     del st.session_state[key]
@@ -440,6 +441,7 @@ def tampilkan_ai_lab():
     with col_sidebar:
         st.subheader("👤 Pengaturan")
         
+        # Kontrol Jumlah Karakter
         c_add, c_rem = st.columns(2)
         with c_add:
             if st.button("➕ Tambah Tokoh", use_container_width=True) and st.session_state.jumlah_karakter < 4:
@@ -452,37 +454,41 @@ def tampilkan_ai_lab():
 
         st.write("---")
         
+        # Grid Karakter (2 Kolom)
         list_karakter = []
         char_col1, char_col2 = st.columns(2)
         
         for i in range(st.session_state.jumlah_karakter):
-            # Inisialisasi state per karakter jika belum ada
-            if f"lab_n_{i}" not in st.session_state: st.session_state[f"lab_n_{i}"] = f"Tokoh {i+1}"
-            if f"lab_s_{i}" not in st.session_state: st.session_state[f"lab_s_{i}"] = ""
+            # Inisialisasi state per karakter jika belum ada (Tanpa memicu warning)
+            key_n = f"lab_n_{i}"
+            key_s = f"lab_s_{i}"
+            if key_n not in st.session_state: st.session_state[key_n] = f"Tokoh {i+1}"
+            if key_s not in st.session_state: st.session_state[key_s] = ""
 
             target_col = char_col1 if i % 2 == 0 else char_col2
             with target_col:
                 with st.container(border=True):
                     st.markdown(f"**Tokoh {i+1}**")
-                    # Tambahkan parameter value agar data terpanggil kembali
-                    nama = st.text_input(f"Nama {i}", value=st.session_state[f"lab_n_{i}"], key=f"lab_n_{i}", label_visibility="collapsed")
-                    sifat = st.text_input(f"Sifat {i}", value=st.session_state[f"lab_s_{i}"], placeholder="Sifat/Visual", key=f"lab_s_{i}", label_visibility="collapsed")
-                    list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
+                    # Menggunakan KEY sebagai sumber value utama (Best Practice)
+                    st.text_input(f"Nama {i}", key=key_n, label_visibility="collapsed")
+                    st.text_input(f"Sifat {i}", placeholder="Sifat/Visual", key=key_s, label_visibility="collapsed")
+                    
+                    # Ambil nilai terbaru dari state untuk rakitan mantra
+                    list_karakter.append(f"{i+1}. {st.session_state[key_n].upper()}: {st.session_state[key_s]}")
 
         st.write("---")
         
+        # Dropdown Pola & Visual dengan Jaring Pengaman
         try:
             idx_pola = opsi_pola.index(st.session_state.lab_pola)
         except:
             idx_pola = 0
-            
         st.session_state.lab_pola = st.selectbox("🎭 Pola Alur", options=opsi_pola, index=idx_pola)
         
         try:
             idx_visual = opsi_visual.index(st.session_state.lab_visual)
         except:
             idx_visual = 0
-
         st.session_state.lab_visual = st.selectbox("🎨 Gaya Visual", options=opsi_visual, index=idx_visual)
 
     # --- 4. LOGIKA GENERATE ---
@@ -496,18 +502,20 @@ def tampilkan_ai_lab():
             }
             prompt_visual = visual_map.get(st.session_state.lab_visual, "Cinematic realistic photography")
             str_karakter = "\n".join(list_karakter)
-            tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
+            tokoh_utama = st.session_state["lab_n_0"] if "lab_n_0" in st.session_state else "Tokoh Utama"
 
+            # Logika Viral Scripting
             if st.session_state.lab_pola == "Viral Drama (Zero to Hero / Revenge)":
-                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Akhir: {tokoh_utama} terbukti hebat."
+                alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh atau dihina. Adegan Akhir: {tokoh_utama} menunjukkan jati dirinya yang luar biasa."
                 judul_v = f"🔥 JUDUL: Dituduh {st.session_state.lab_topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
             elif st.session_state.lab_pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
-                alur_spesifik = f"Adegan 1-3: Lomba konyol. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Juara konyol."
+                alur_spesifik = f"Adegan 1-3: Lomba absurd. Adegan 4: {tokoh_utama} minta LIKE & SUB agar menang. Adegan 5: Ending konyol."
                 judul_v = f"🤣 JUDUL: Lomba {st.session_state.lab_topik[:20]}... Paling Absurd!"
             else:
-                alur_spesifik = "Alur standar dengan plot twist."
+                alur_spesifik = "Alur standar dengan kejutan di akhir cerita."
                 judul_v = f"🎬 JUDUL: Kisah {st.session_state.lab_topik[:20]}..."
 
+            # Simpan hasil permanen di session state
             st.session_state.lab_hasil_mantra = {
                 "judul": judul_v,
                 "mantra": f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
@@ -729,6 +737,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
