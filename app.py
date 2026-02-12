@@ -3,6 +3,9 @@
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
+import json
+import pandas as pd
+from streamlit_gsheets import GSheetsConnection
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -73,6 +76,50 @@ def proses_logout():
     st.session_state.clear() # Bersihkan semua memori saat logout
     st.query_params.clear()
     st.rerun()
+    def simpan_ke_gsheet():
+    try:
+        # 1. Inisialisasi koneksi ke GSheet
+        conn = st.connection("gsheets", type=GSheetsConnection)
+        
+        # 2. Baca data yang sudah ada (biar naskah baru nambah di bawahnya)
+        df_lama = conn.read()
+        
+        # 3. Siapkan data baru dari session state
+        data_naskah_json = json.dumps(st.session_state.data_produksi)
+        data_baru = pd.DataFrame([{
+            "Username": st.session_state.get("user_aktif", "Unknown"),
+            "Waktu": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
+            "Data_Naskah": data_naskah_json
+        }])
+        
+        # 4. Gabungkan data lama dan baru
+        df_update = pd.concat([df_lama, data_baru], ignore_index=True)
+        
+        # 5. Kirim kembali ke Google Sheets
+        conn.update(data=df_update)
+        
+        st.toast("☁️ Naskah berhasil dicadangkan ke Cloud!", icon="✅")
+    except Exception as e:
+        st.error(f"Gagal terhubung ke GSheet: {e}")
+
+def muat_dari_gsheet():
+    try:
+        conn = st.connection("gsheets", type=GSheetsConnection)
+        df = conn.read()
+        
+        # Ambil naskah terakhir milik user yang sedang login
+        user_sekarang = st.session_state.get("user_aktif", "")
+        user_data = df[df['Username'] == user_sekarang].tail(1)
+        
+        if not user_data.empty:
+            naskah_mentah = user_data.iloc[0]['Data_Naskah']
+            st.session_state.data_produksi = json.loads(naskah_mentah)
+            st.success("🔄 Naskah terakhir kamu berhasil dimuat!")
+            st.rerun()
+        else:
+            st.warning("⚠️ Kamu belum punya riwayat simpanan di Cloud.")
+    except Exception as e:
+        st.error(f"Gagal memuat data: {e}")
 
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -221,7 +268,7 @@ def tampilkan_navigasi_sidebar():
         
         st.markdown("---")
         
-        # Kotak Durasi Film
+        # 1. KOTAK DURASI FILM
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
         st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
             "Jumlah Adegan", 1, 50, 
@@ -229,13 +276,27 @@ def tampilkan_navigasi_sidebar():
             label_visibility="collapsed"
         )
         
-        # Jarak Logout
-        st.markdown("<br>" * 6, unsafe_allow_html=True)
+        st.markdown("---")
         
+        # 2. SISTEM CLOUD DATABASE (GSHEET)
+        st.markdown("<p class='small-label'>☁️ CLOUD DATABASE</p>", unsafe_allow_html=True)
+        
+        # Tombol Backup (Simpan)
+        if st.button("📤 BACKUP KE GSHEET", use_container_width=True, type="primary"):
+            simpan_ke_gsheet()
+            
+        # Tombol Restore (Muat) - Opsional jika ingin staf bisa ambil data lama
+        if st.button("🔄 RESTORE DARI CLOUD", use_container_width=True):
+            # Fungsi muat_dari_gsheet bisa ditambahkan nanti di Bagian 2
+            st.info("Fitur Restore sedang sinkronisasi...")
+        
+        # Jarak Logout (Dikurangi sedikit karena ada tombol Cloud)
+        st.markdown("<br>" * 3, unsafe_allow_html=True)
+        
+        # 3. KONTROL SISTEM
         if st.button("⚡KELUAR SISTEM", use_container_width=True):
             proses_logout()
         
-        # Baris ini harus sejajar kembali dengan 'if' di atas
         user = st.session_state.get("user_aktif", "USER").upper()
         st.markdown(f'''
             <div style="border-top: 1px solid #30363d; padding-top: 15px; margin-top: 10px;">
@@ -416,4 +477,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
