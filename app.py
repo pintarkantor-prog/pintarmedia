@@ -221,7 +221,7 @@ def tampilkan_navigasi_sidebar():
         # Jarak Logout
         st.markdown("<br>" * 6, unsafe_allow_html=True)
         
-        if st.button("LOGOUT SYSTEM", use_container_width=True):
+        if st.button("⚡KELUAR SISTEM", use_container_width=True):
             proses_logout()
         
         # Baris ini harus sejajar kembali dengan 'if' di atas
@@ -407,6 +407,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
