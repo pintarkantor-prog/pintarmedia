@@ -117,22 +117,20 @@ def pasang_css_kustom():
         }
 
         /* 4. MODE TANPA GARIS (BORDERLESS) PADA SEMUA INPUT */
-        /* Menghapus garis di kondisi diam maupun diklik */
         .stTextArea textarea, 
         .stTextInput input, 
         div[data-testid="stNumberInput"], 
         div[data-baseweb="input"],
         div[data-baseweb="textarea"],
         [data-baseweb="base-input"] {
-            border: none !important;           /* Hapus garis total */
-            box-shadow: none !important;        /* Hapus glow merah/hijau */
-            outline: none !important;          /* Hapus garis luar browser */
-            background-color: #0d1117 !important; /* Warna kotak tetap gelap */
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            background-color: #0d1117 !important;
             border-radius: 10px !important;
             color: #ffffff !important;
         }
         
-        /* Memastikan saat kursor aktif, tetap TIDAK ADA GARIS */
         .stTextArea textarea:focus, 
         .stTextInput input:focus, 
         div[data-testid="stNumberInput"]:focus-within,
@@ -167,7 +165,22 @@ def pasang_css_kustom():
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         hr { border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
 
-        /* 7. PROTEKSI LAYAR (PC ONLY) */
+        /* 7. PENGATURAN INPUT HALAMAN LOGIN */
+        .stForm div[data-baseweb="input"] {
+            background-color: #1a1f26 !important;
+            border: 1px solid #30363d !important;
+        }
+        .stForm input {
+            color: #ffffff !important;
+            -webkit-text-fill-color: #ffffff !important;
+        }
+        .stForm label p {
+            color: #e0e0e0 !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+        }
+
+        /* 8. PROTEKSI LAYAR (PC ONLY) - DI POSISI PALING BAWAH */
         @media (max-width: 1024px) {
             [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .main { display: none !important; }
             body::before {
@@ -175,6 +188,7 @@ def pasang_css_kustom():
                 display: flex; justify-content: center; align-items: center;
                 height: 100vh; width: 100vw; background: #0e1117; color: white;
                 position: fixed; top: 0; left: 0; z-index: 9999; text-align: center; padding: 20px;
+                font-family: sans-serif; font-weight: bold;
             }
         }
         </style>
@@ -394,6 +408,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
