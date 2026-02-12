@@ -17,13 +17,11 @@ st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 # ==============================================================================
 def inisialisasi_keamanan():
     params = st.query_params
-    # Pastikan state awal ada
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
-    if 'sedang_animasi' not in st.session_state:
-        st.session_state.sedang_animasi = False
+    if 'fase_transisi' not in st.session_state:
+        st.session_state.fase_transisi = False
 
-    # Persistence via URL
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
@@ -42,17 +40,17 @@ def cek_autentikasi():
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        # Aktifkan fase animasi
-        st.session_state.sedang_animasi = True
+        # Masuk ke fase transisi dulu
+        st.session_state.fase_transisi = True
         st.session_state.user_aktif = user
         st.rerun()
     else:
-        st.error("Credential salah.")
+        st.error("Username atau Password salah.")
 
 def proses_logout():
     st.session_state.sudah_login = False
+    st.session_state.fase_transisi = False
     st.session_state.user_aktif = ""
-    st.session_state.sedang_animasi = False
     st.query_params.clear()
     st.rerun()
 
@@ -67,7 +65,19 @@ def pasang_css_kustom():
         .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
+        
+        /* Hilangkan border form */
         div[data-testid="stForm"] { border: none !important; padding: 0 !important; }
+
+        /* Animasi Fade In untuk Notifikasi */
+        .fade-in {
+            animation: fadeIn 1.5s;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -121,42 +131,50 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
-    # KONDISI 1: FASE ANIMASI (SETELAH KLIK LOGIN)
-    if st.session_state.sedang_animasi:
+    # --- LOGIKA ROUTING 3 TAHAP ---
+    
+    # TAHAP A: FASE TRANSISI (LAYAR SELAMAT BEKERJA)
+    if st.session_state.fase_transisi:
         user = st.session_state.user_aktif
         st.markdown(f"""
-            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
-                <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
-                    ✅ AKSES DITERIMA!
+            <div class="fade-in" style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 85vh;">
+                <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 15px; letter-spacing: 2px;">
+                    ✅ AKSES DITERIMA
                 </div>
-                <div style="color: white; font-size: 42px; font-weight: bold; font-family: sans-serif;">
+                <div style="color: white; font-size: 48px; font-weight: bold; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
                     Selamat bekerja, {user.capitalize()}!
+                </div>
+                <div style="color: #484f58; font-size: 14px; margin-top: 20px; font-family: monospace;">
+                    INITIALIZING STATION...
                 </div>
             </div>
         """, unsafe_allow_html=True)
-        time.sleep(2)
         
-        # Selesaikan fase animasi, masuk ke dashboard
+        time.sleep(2) # Durasi Layar Transisi
+        
+        # Pindah ke Dashboard
         st.session_state.sudah_login = True
-        st.session_state.sedang_animasi = False
+        st.session_state.fase_transisi = False
         st.session_state.waktu_login = datetime.now()
         st.query_params.update({"auth": "true", "user": user})
         st.rerun()
 
-    # KONDISI 2: HALAMAN LOGIN (BELUM LOGIN)
+    # TAHAP B: HALAMAN LOGIN (JIKA BELUM LOGIN)
     elif not cek_autentikasi():
-        st.markdown("<br><br>", unsafe_allow_html=True)
+        st.markdown("<br><br><br>", unsafe_allow_html=True)
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
         with col_m:
-            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center; letter-spacing: 3px;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+            st.markdown("<p style='text-align: center; color: #484f58; font-size: 12px;'>AI PRODUCTION STUDIO</p><br>", unsafe_allow_html=True)
+            
             with st.form("login_form"):
-                u = st.text_input("Username").lower()
-                p = st.text_input("Password", type="password")
-                submit = st.form_submit_button("MASUK", use_container_width=True)
+                u = st.text_input("Station Username").lower()
+                p = st.text_input("Access Password", type="password")
+                submit = st.form_submit_button("LOGIN TO STATION", use_container_width=True)
                 if submit:
                     proses_login(u, p)
-    
-    # KONDISI 3: DASHBOARD UTAMA (SUDAH LOGIN)
+
+    # TAHAP C: DASHBOARD UTAMA (JIKA SUDAH LOGIN)
     else:
         menu = tampilkan_navigasi_sidebar()
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
