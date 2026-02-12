@@ -76,7 +76,7 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - INI YANG SAYA PERKUAT HABIS-HABISAN
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - DEGRADASI HIJAU ELEGAN
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -91,26 +91,30 @@ def pasang_css_kustom():
             padding: 20px !important;
         }
 
-        /* PAKSA TOMBOL JADI HIJAU EMERALD - SEMUA ELEMENT DI DALAMNYA */
+        /* TOMBOL DEGRADASI HIJAU (EMERALD TO GREEN) */
         div[data-testid="stFormSubmitButton"] button {
-            background-color: #10b981 !important;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+            color: white !important;
             border: none !important;
             height: 50px !important;
-            transition: 0.3s !important;
+            border-radius: 10px !important;
+            transition: all 0.4s ease !important;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
         }
         
-        /* Paksa Teks di dalam tombol jadi putih & tebal */
+        /* Text di dalam tombol */
         div[data-testid="stFormSubmitButton"] button p {
             color: white !important;
             font-weight: bold !important;
             font-size: 16px !important;
+            letter-spacing: 0.5px !important;
         }
 
-        /* Hover Effect */
+        /* Efek Hover: Lebih terang & Sedikit Glow */
         div[data-testid="stFormSubmitButton"] button:hover {
-            background-color: #059669 !important;
-            border: none !important;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+            background: linear-gradient(135deg, #34d399 0%, #10b981 100%) !important;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.4) !important;
+            transform: translateY(-2px) !important;
         }
 
         div[data-baseweb="input"], div[data-baseweb="textarea"] {
@@ -147,9 +151,9 @@ def tampilkan_navigasi_sidebar():
 # BAGIAN 5: MODUL-MODUL PENDUKUNG
 # ==============================================================================
 def tampilkan_ai_lab(): st.markdown("### 🧠 Pintar AI Lab"); st.info("Area riset prompt.")
-def tampilkan_quick_prompt(): st.markdown("### ⚡ Quick Prompt"); st.info("Generator kilat.")
-def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja"); st.info("Antrian tim.")
-def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses tim.")
+def tampilkan_quick_prompt(): st.markdown("### ⚡ Quick Prompt")
+def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
+def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI
@@ -169,6 +173,7 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
+    # Input Adegan Berurutan ke Bawah
     with st.expander("🟢 ADEGAN 1", expanded=True):
         st.text_input("Lokasi Adegan 1", key="loc1", placeholder="Lokasi...")
         st.text_area("Aksi & Narasi Adegan 1", key="act1", height=200, placeholder="Narasi...")
