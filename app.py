@@ -374,15 +374,15 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - STUDIO FINAL)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - PERMANENT STORAGE)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Studio Kreatif Pintar Media. Fokus pada konten viral!")
+    st.caption("Studio Kreatif Pintar Media. Data Terkunci Permanen di Memori!")
     st.divider() 
 
-    # --- 1. INISIALISASI MEMORI PERMANEN ---
+    # --- 1. INISIALISASI MEMORI PERMANEN (Hanya berjalan sekali) ---
     if 'lab_topik' not in st.session_state: st.session_state.lab_topik = ""
     if 'lab_pola' not in st.session_state: st.session_state.lab_pola = "Viral Drama (Zero to Hero / Revenge)"
     if 'lab_visual' not in st.session_state: st.session_state.lab_visual = "Cinematic Realistic (Seperti Film Nyata)"
@@ -390,23 +390,13 @@ def tampilkan_ai_lab():
     if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
     if 'lab_hasil_mantra' not in st.session_state: st.session_state.lab_hasil_mantra = None
     
-    # Memori Permanen Karakter
+    # Memori Permanen untuk Nama & Sifat Karakter
     if 'memori_n' not in st.session_state: st.session_state.memori_n = {}
     if 'memori_s' not in st.session_state: st.session_state.memori_s = {}
 
     # --- 2. DEFINISI DAFTAR PILIHAN ---
-    opsi_pola = [
-        "Viral Drama (Zero to Hero / Revenge)", 
-        "Lomba Konyol (Komedi Interaktif / Call to Action)", 
-        "Drama Plot Twist (Standard)", 
-        "Komedi Slapstick"
-    ]
-    opsi_visual = [
-        "Cinematic Realistic (Seperti Film Nyata)", 
-        "3D Pixar Style (Ceria & Detail)", 
-        "Anime / Manga Style", 
-        "Retro Cartoon"
-    ]
+    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif / Call to Action)", "Drama Plot Twist (Standard)", "Komedi Slapstick"]
+    opsi_visual = ["Cinematic Realistic (Seperti Film Nyata)", "3D Pixar Style (Ceria & Detail)", "Anime / Manga Style", "Retro Cartoon"]
 
     # --- 3. LAYOUT UTAMA ---
     col_kerja, col_sidebar = st.columns([2, 1.5], gap="large")
@@ -414,14 +404,14 @@ def tampilkan_ai_lab():
     with col_kerja:
         st.subheader("📝 Topik & Premis Utama")
         st.session_state.lab_topik = st.text_area(
-            "Detail Cerita", value=st.session_state.lab_topik, height=300, 
-            placeholder="Tulis premis ceritamu di sini...", label_visibility="collapsed"
+            "Detail Cerita", value=st.session_state.lab_topik, height=300, label_visibility="collapsed",
+            placeholder="Tulis premis ceritamu di sini..."
         )
         
         st.write(" ")
         st.markdown("**🎬 Jumlah Adegan**")
         st.session_state.lab_adegan = st.select_slider(
-            "Adegan", options=list(range(3, 11)), value=st.session_state.lab_adegan, label_visibility="collapsed"
+            "Pilih adegan", options=list(range(3, 11)), value=st.session_state.lab_adegan, label_visibility="collapsed"
         )
         
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
@@ -449,32 +439,43 @@ def tampilkan_ai_lab():
         char_col1, char_col2 = st.columns(2)
         
         for i in range(st.session_state.jumlah_karakter):
-            # Inisialisasi Memori
-            if i not in st.session_state.memori_n: st.session_state.memori_n[i] = f"Tokoh {i+1}"
-            if i not in st.session_state.memori_s: st.session_state.memori_s[i] = ""
+            # Inisialisasi Memori: Tokoh 1 (index 0) dikosongkan agar placeholder terlihat
+            if i not in st.session_state.memori_n: 
+                st.session_state.memori_n[i] = "" if i == 0 else f"Tokoh {i+1}"
+            if i not in st.session_state.memori_s: 
+                st.session_state.memori_s[i] = ""
 
             target_col = char_col1 if i % 2 == 0 else char_col2
             with target_col:
                 with st.container(border=True):
-                    # Karakter 1 tanpa judul teks di atas (clean look)
-                    if i > 0:
-                        st.markdown(f"**Tokoh {i+1}**")
-                    else:
-                        st.markdown("**Tokoh Utama**") # Penanda halus untuk Tokoh 1
+                    # Penamaan label atas
+                    st.markdown(f"**Tokoh Utama**" if i == 0 else f"**Tokoh {i+1}**")
                     
+                    # Input Nama
                     st.session_state.memori_n[i] = st.text_input(
-                        f"N{i}", value=st.session_state.memori_n[i], key=f"in_n_{i}", label_visibility="collapsed"
-                    )
-                    st.session_state.memori_s[i] = st.text_input(
-                        f"S{i}", value=st.session_state.memori_s[i], key=f"in_s_{i}", 
-                        placeholder="Sifat/Visual", label_visibility="collapsed"
+                        f"Nama {i}", 
+                        value=st.session_state.memori_n[i], 
+                        key=f"inp_n_{i}", 
+                        placeholder="Nama Karakter..." if i == 0 else "",
+                        label_visibility="collapsed"
                     )
                     
-                    list_karakter.append(f"{i+1}. {st.session_state.memori_n[i].upper()}: {st.session_state.memori_s[i]}")
+                    # Input Sifat/Visual
+                    st.session_state.memori_s[i] = st.text_input(
+                        f"Sifat {i}", 
+                        value=st.session_state.memori_s[i], 
+                        key=f"inp_s_{i}", 
+                        placeholder="Sifat/Visual", 
+                        label_visibility="collapsed"
+                    )
+                    
+                    # Logic penamaan untuk Mantra (tetap ada nama default jika input kosong)
+                    nama_mantra = st.session_state.memori_n[i] if st.session_state.memori_n[i] else f"Tokoh {i+1}"
+                    list_karakter.append(f"{i+1}. {nama_mantra.upper()}: {st.session_state.memori_s[i]}")
 
         st.write("---")
         
-        # Selectbox dengan Jaring Pengaman
+        # Jaring pengaman selectbox
         try: idx_pola = opsi_pola.index(st.session_state.lab_pola)
         except: idx_pola = 0
         st.session_state.lab_pola = st.selectbox("🎭 Pola Alur", options=opsi_pola, index=idx_pola)
@@ -493,21 +494,12 @@ def tampilkan_ai_lab():
                 "Retro Cartoon": "1990s retro cartoon style."
             }
             prompt_v = visual_map.get(st.session_state.lab_visual, "Cinematic realistic")
-            tokoh_u = st.session_state.memori_n[0]
-
-            if st.session_state.lab_pola == "Viral Drama (Zero to Hero / Revenge)":
-                alur = f"Adegan 1: {tokoh_u} dihina/dibully. Akhir: {tokoh_u} membalas dengan kesuksesan luar biasa."
-                judul = f"🔥 Dituduh {st.session_state.lab_topik[:20]}..., Ternyata {tokoh_u} Adalah..."
-            elif st.session_state.lab_pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
-                alur = f"Adegan 1-3: Lomba konyol. Adegan 4: {tokoh_u} minta LIKE & SUB. Adegan 5: Juara konyol."
-                judul = f"🤣 Lomba {st.session_state.lab_topik[:20]}... Paling Absurd!"
-            else:
-                alur = "Alur standar dengan twist."
-                judul = f"🎬 Kisah {st.session_state.lab_topik[:20]}..."
+            # Nama tokoh utama untuk Judul
+            tokoh_head = st.session_state.memori_n[0] if st.session_state.memori_n[0] else "Utama"
 
             st.session_state.lab_hasil_mantra = {
-                "judul": judul,
-                "mantra": f"Identitas: Scriptwriter Pintar Media.\nKarakter:\n{chr(10).join(list_karakter)}\n\nTugas: Naskah {st.session_state.lab_adegan} adegan. Pola: {st.session_state.lab_pola}. Visual: {prompt_v}.\nAlur: {alur}\nTopik: {st.session_state.lab_topik}"
+                "judul": f"🔥 {st.session_state.lab_pola}: {st.session_state.lab_topik[:30]}...",
+                "mantra": f"Identitas: Scriptwriter Pintar Media.\nKarakter:\n{chr(10).join(list_karakter)}\n\nTugas: Naskah {st.session_state.lab_adegan} adegan. Gaya: {st.session_state.lab_pola}. Visual: {prompt_v}.\nTopik: {st.session_state.lab_topik}"
             }
 
     # --- 5. TAMPILKAN HASIL ---
@@ -515,12 +507,12 @@ def tampilkan_ai_lab():
         st.divider()
         st.subheader("📜 Hasil Produksi")
         res_c1, res_c2 = st.columns([0.4, 0.6])
-        with res_c1:
+        with res_c1: 
             st.info("💎 Judul")
-            st.code(st.session_state.lab_hasil_mantra["judul"], language="text")
-        with res_c2:
+            st.code(st.session_state.lab_hasil_mantra["judul"])
+        with res_c2: 
             st.info("🔮 Mantra")
-            st.code(st.session_state.lab_hasil_mantra["mantra"], language="text")
+            st.code(st.session_state.lab_hasil_mantra["mantra"])
             
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -717,6 +709,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
