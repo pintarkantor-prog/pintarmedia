@@ -38,8 +38,6 @@ def tampilkan_halaman_login():
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        
         # Login Box (Card Style)
         with st.container(border=True):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
@@ -167,3 +165,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
