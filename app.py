@@ -5,7 +5,9 @@ import streamlit as st
 from datetime import datetime, timedelta
 import json
 import pandas as pd
-from streamlit_gsheets import GSheetsConnection
+import gspread # Menambahkan mesin gspread
+from google.oauth2.service_account import Credentials # Menambahkan sistem kunci
+from streamlit_gsheets import GSheetsConnection # Tetap biarkan jika masih dipakai
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -77,22 +79,27 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-# --- GANTI FUNGSI GSHEET TADI DENGAN INI ---
-def simpan_proyek():
-    """Mengambil data naskah dan merubahnya menjadi teks JSON"""
-    data = st.session_state.data_produksi
-    return json.dumps(data, indent=4)
-
-def muat_proyek(file_upload):
-    """Membaca file JSON yang diunggah dan memasukkannya ke layar"""
-    if file_upload is not None:
-        try:
-            data_load = json.load(file_upload)
-            st.session_state.data_produksi = data_load
-            st.success("✅ Naskah Berhasil Dimuat!")
-            st.rerun()
-        except Exception as e:
-            st.error(f"❌ File tidak valid atau rusak: {e}")
+def simpan_ke_gsheet():
+    try:
+        # 1. Koneksi pakai file kunci.json yang kamu upload ke GitHub
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = Credentials.from_service_account_file("kunci.json", scopes=scope)
+        client = gspread.authorize(creds)
+        
+        # 2. Buka spreadsheet pakai URL milikmu
+        url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+        sheet = client.open_by_url(url_gsheet).sheet1
+        
+        # 3. Ambil data dari aplikasi
+        user = st.session_state.get("user_aktif", "Staff")
+        waktu = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        data_json = json.dumps(st.session_state.data_produksi)
+        
+        # 4. Tulis ke baris paling bawah di GSheet
+        sheet.append_row([user, waktu, data_json])
+        st.toast("🚀 Berhasil disimpan ke Cloud GSheet!", icon="☁️")
+    except Exception as e:
+        st.error(f"Gagal Simpan Cloud: {e}")
 
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -457,6 +464,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
