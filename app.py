@@ -249,15 +249,12 @@ def tampilkan_ruang_produksi():
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
     # 2. HEADER: TEKNIK 3 KOLOM (Agar lebar teks pas)
-    # Kolom 1: Judul | Kolom 2: Ruang Kosong | Kolom 3: Status
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
     
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
         st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
-    
-    # Kolom tengah dibiarkan kosong sebagai pembatas agar kolom kanan tidak melar
-    
+        
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
         # Menggunakan st.success murni
@@ -265,7 +262,6 @@ def tampilkan_ruang_produksi():
     
     st.write("---")
     
-    # Ambil data dari laci memori (Session State)
     data = st.session_state.data_produksi
 
     # 1. IDENTITY LOCK
@@ -338,15 +334,15 @@ def tampilkan_ruang_produksi():
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed", placeholder="Dialog...")
 
     # 3. GLOBAL COMPILER LOGIC (DENGAN NAMA USER DINAMIS)
-    st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True):
+    if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True, type="primary"):
         
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
-            st.markdown("---")
+            # Ganti baris "---" dengan spasi kecil jika ingin lebih rapat
+            st.markdown('<div style="margin-top: -10px;"></div>', unsafe_allow_html=True)
             
             # MENGAMBIL NAMA USER AKTIF UNTUK JUDUL
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
@@ -371,14 +367,15 @@ def tampilkan_ruang_produksi():
                     col_img, col_vid = st.columns(2)
                     
                     with col_img:
-                        st.markdown("📷 **PROMPT GAMBAR**") # Label rapi
+                        st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
                         st.code(img_p, language="text")
                     
                     with col_vid:
-                        st.markdown("🎥 **PROMPT VIDEO**") # Label rapi
+                        st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
                 
-                st.markdown("<br>", unsafe_allow_html=True)
+                # Ganti <br> dengan margin negatif jika ingin antar kotak hasil lebih rapat
+                st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
@@ -398,6 +395,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
