@@ -169,7 +169,6 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 def tampilkan_ruang_produksi():
     # 1. LOGIKA WAKTU & USER (WIB)
     sekarang = datetime.utcnow() + timedelta(hours=7) 
-    
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
                 "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -177,20 +176,22 @@ def tampilkan_ruang_produksi():
     nama_hari = hari_id[sekarang.weekday()]
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
-    
-    # Ambil nama user aktif
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # 2. HEADER TAMPILAN (Murni Streamlit)
-    c1, c2 = st.columns([2, 2]) # Pakai rasio 2:2 agar ruang kanan lebih luas untuk teks panjang
+    # 2. HEADER: TEKNIK 3 KOLOM (Agar lebar teks pas)
+    # Kolom 1: Judul | Kolom 2: Ruang Kosong | Kolom 3: Status
+    c1, c_kosong, c2 = st.columns([2, 0.5, 1.5]) 
+    
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
         st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
     
+    # Kolom tengah dibiarkan kosong sebagai pembatas agar kolom kanan tidak melar
+    
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        # MENGGUNAKAN ST.SUCCESS (TANPA CSS MANUAL)
-        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf Aktif: {user_aktif}")
+        # Menggunakan st.success murni
+        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
     
     st.write("---")
     
@@ -326,6 +327,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
