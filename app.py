@@ -132,7 +132,28 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
-        /* 7. OPTIMASI KOTAK ADEGAN */
+        /* STYLE LAINNYA */
+        h1, h2, h3, .stMarkdown h3 {
+            color: #ffffff !important;
+            background: none !important;
+            -webkit-text-fill-color: initial !important;
+        }
+        button[title="Copy to clipboard"] {
+            background-color: #28a745 !important;
+            color: white !important;
+            border-radius: 6px !important;
+            transform: scale(1.1);
+        }
+        .stTextArea textarea {
+            font-size: 16px !important;
+            border-radius: 10px !important;
+            background-color: #0e1117 !important;
+            border: 1px solid #31333f !important;
+        }
+        .small-label {
+            font-size: 12px; font-weight: bold; color: #a1a1a1; margin-bottom: 2px;
+        }
+        /* OPTIMASI KOTAK ADEGAN */
         .stExpander {
             border: 1px solid rgba(29, 151, 108, 0.3) !important;
             border-radius: 12px !important;
@@ -366,6 +387,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
