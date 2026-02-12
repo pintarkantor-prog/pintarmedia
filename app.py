@@ -147,14 +147,6 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             transition: border-color 0.3s ease !important;
         }
-
-        /* Tombol + dan - tetap elegan */
-        div[data-testid="stNumberInput"] button {
-            border: none !important;
-            background-color: transparent !important;
-            color: #8b949e !important;
-            outline: none !important;
-        }
         
         </style>
     """, unsafe_allow_html=True)
@@ -376,6 +368,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
