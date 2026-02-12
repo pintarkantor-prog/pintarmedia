@@ -169,6 +169,16 @@ def pasang_css_kustom():
             font-size: 10px !important;
             font-weight: 800 !important;
         }
+        /* Membuat garis pemisah adegan lebih halus */
+        hr {
+            margin: 2em 0 !important;
+            border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+        }
+
+        /* Menjaga teks area visual tetap rapi */
+        .stTextArea textarea {
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }
 
         </style>
     """, unsafe_allow_html=True)
@@ -387,6 +397,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
