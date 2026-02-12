@@ -155,13 +155,13 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL ALIGNMENT & CLEAN UI)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (DIALOG DI BAWAH SEJAJAR)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. IDENTITY LOCK (Dukungan hingga 4 Karakter)
+    # 1. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
         juml = st.number_input("Jumlah Karakter di Scene", 1, 4, 2)
         karakter_data = []
@@ -176,16 +176,16 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (TATA LETAK SIMETRIS)
+    # 2. INPUT ADEGAN (TATA LETAK BARU)
     with st.expander("🟢 ADEGAN 1", expanded=True):
+        # Baris Utama: Naskah di kiri, Pengaturan di kanan
         col_text, col_set = st.columns([1.5, 1])
         
         with col_text:
             st.markdown("📸 **Naskah Visual & Aksi**")
-            aksi = st.text_area("Aksi & Interaksi", height=500, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
+            aksi = st.text_area("Aksi & Interaksi", height=420, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
         
         with col_set:
-            # Grid Sidebar Internal
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
                 st.markdown("✨ **STYLE**")
@@ -206,21 +206,34 @@ def tampilkan_ruang_produksi():
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-            # BAGIAN DIALOG (ACTING CUE) - Sejajar dengan Lokasi
-            # Tulisan label dihapus sesuai permintaan, fungsi tetap jalan.
-            st.markdown("<br>", unsafe_allow_html=True)
-            dialogs = []
-            # Menggunakan 2 kolom di bawah lokasi agar sejajar dengan lebar kolom kanan
-            d_col_left, d_col_right = st.columns(2)
-            for i in range(juml):
-                # Menempatkan input dialog secara bergantian di kolom kiri/kanan sidebar
-                target_col = d_col_left if i % 2 == 0 else d_col_right
-                with target_col:
+        # Baris Bawah: Dialog Karakter (Sejajar dengan kolom di atasnya)
+        # Label judul dihapus sesuai permintaan
+        st.markdown("<br>", unsafe_allow_html=True)
+        col_d_left, col_d_right = st.columns([1.5, 1]) # Menyesuaikan rasio kolom atas
+        
+        dialogs = []
+        # Kolom Dialog Kiri (Sejajar Naskah)
+        with col_d_left:
+            d_sub_l, d_sub_r = st.columns(2)
+            for i in range(min(juml, 2)):
+                target = d_sub_l if i == 0 else d_sub_r
+                with target:
                     char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                    d_input = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
-                    dialogs.append(f"{char_name}: '{d_input}'")
+                    d_in = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
+                    dialogs.append(f"{char_name}: '{d_in}'")
 
-    # 3. COMPILER LOGIC (Format Terstruktur Grup 1 & 2)
+        # Kolom Dialog Kanan (Sejajar Sidebar) - Jika karakter > 2
+        with col_d_right:
+            if juml > 2:
+                d_sub_l2, d_sub_r2 = st.columns(2)
+                for i in range(2, juml):
+                    target = d_sub_l2 if i == 2 else d_sub_r2
+                    with target:
+                        char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
+                        d_in = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
+                        dialogs.append(f"{char_name}: '{d_in}'")
+
+    # 3. HYBRID COMPILER LOGIC (Format Terstruktur Grup 1 & 2)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
@@ -231,7 +244,7 @@ def tampilkan_ruang_produksi():
 
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
 STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
-FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
+FOCUS RULE: INFINITE DEPTH of FIELD, EVERYTHING MUST BE ULTRA-SHARP.
 CHARACTER DATA: {char_identities}
 VISUAL ACTION: {aksi}
 ENVIRONMENT: {lokasi}
@@ -272,6 +285,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
