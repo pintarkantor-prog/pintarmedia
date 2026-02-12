@@ -158,7 +158,15 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
+    # Header Keren
+    c1, c2 = st.columns([3, 1])
+    with c1:
+        st.markdown("# 🚀 RUANG PRODUKSI")
+        st.markdown("<p style='color:#8b949e; margin-top:-20px;'>Hybrid Cinematic Engine v2.0</p>", unsafe_allow_html=True)
+    with c2:
+        st.markdown("<br>", unsafe_allow_html=True)
+        st.success("🛰️ SYSTEM ONLINE")
+    
     st.write("---")
     
     # Ambil data dari laci memori (Session State)
@@ -261,13 +269,14 @@ def tampilkan_ruang_produksi():
 
                 out_c1, out_c2 = st.columns(2)
                 with out_c1:
-                    st.markdown(f"**🖼️ Image Prompt S{scene_id}**")
+                    # Menambahkan sedikit jarak bawah pada label judul
+                    st.markdown(f"<p style='margin-bottom: -5px;'>**🖼️ Image Prompt S{scene_id}**</p>", unsafe_allow_html=True)
                     st.code(img_p, language="text")
+                
                 with out_c2:
-                    st.markdown(f"**🎬 Video Prompt S{scene_id}**")
+                    st.markdown(f"<p style='margin-bottom: -5px;'>**🎬 Video Prompt S{scene_id}**</p>", unsafe_allow_html=True)
                     st.code(vid_p, language="text")
-                st.markdown("<br>", unsafe_allow_html=True)
-
+                
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
@@ -286,6 +295,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
