@@ -240,43 +240,48 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # 3. GLOBAL COMPILER LOGIC (Satu Tombol untuk Semua dengan Filter Validasi)
+    # 3. GLOBAL COMPILER LOGIC (DENGAN NAMA USER DINAMIS)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True):
         
-        # Validasi: Cari adegan yang ada naskahnya
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
             st.markdown("---")
-            st.subheader("📋 Production Ready Script Prompts")
+            
+            # MENGAMBIL NAMA USER AKTIF UNTUK JUDUL
+            user_nama = st.session_state.get("user_aktif", "User").capitalize()
+            st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
             char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
             char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in data["karakter"] if c['nama']])
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
-                st.markdown(f"#### 🎬 ADEGAN {scene_id}")
                 
-                all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
-                                    for i in range(data["jumlah_karakter"]) 
-                                    if data['karakter'][i]['nama'] and sc['dialogs'][i]])
-                
-                img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {sc['light']}, {sc['shot']} --ar {sc['ratio']}"
-                vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
+                # MEMBUAT BLOK HASIL PER ADEGAN YANG RAPI
+                with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
+                    
+                    all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
+                                        for i in range(data["jumlah_karakter"]) 
+                                        if data['karakter'][i]['nama'] and sc['dialogs'][i]])
+                    
+                    img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {sc['light']}, {sc['shot']} --ar {sc['ratio']}"
+                    vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
 
-                out_c1, out_c2 = st.columns(2)
-                with out_c1:
-                    # Menambahkan sedikit jarak bawah pada label judul
-                    st.markdown(f"<p style='margin-bottom: -5px;'>**🖼️ Image Prompt S{scene_id}**</p>", unsafe_allow_html=True)
-                    st.code(img_p, language="text")
+                    col_img, col_vid = st.columns(2)
+                    
+                    with col_img:
+                        st.markdown("📷 **PROMPT GAMBAR**") # Label rapi
+                        st.code(img_p, language="text")
+                    
+                    with col_vid:
+                        st.markdown("🎥 **PROMPT VIDEO**") # Label rapi
+                        st.code(vid_p, language="text")
                 
-                with out_c2:
-                    st.markdown(f"<p style='margin-bottom: -5px;'>**🎬 Video Prompt S{scene_id}**</p>", unsafe_allow_html=True)
-                    st.code(vid_p, language="text")
-                    st.markdown("---")
+                st.markdown("<br>", unsafe_allow_html=True)
                 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
@@ -296,6 +301,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
