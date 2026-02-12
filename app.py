@@ -1,8 +1,11 @@
+# ==============================================================================
+# PART 1: KONFIGURASI & DATABASE USER
+# ==============================================================================
 import streamlit as st
 from datetime import datetime
 
-# --- 1. DATA USER & KONFIGURASI ---
-users = {
+# Daftar user resmi Pintar Media
+USERS_DB = {
     "dian": "QWERTY21ab",
     "icha": "udin99",
     "nissa": "tung22",
@@ -11,10 +14,15 @@ users = {
     "tamu": "123"
 }
 
-# Konfigurasi Halaman Utama
-st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
+st.set_page_config(
+    page_title="Pintar Media | AI Studio", 
+    layout="wide", 
+    initial_sidebar_state="expanded"
+)
 
-# --- 2. SESSION STATE (Agar tidak logout saat refresh) ---
+# ==============================================================================
+# PART 2: SESSION MANAGEMENT (ANTI-LOGOUT REFRESH)
+# ==============================================================================
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 if 'user_name' not in st.session_state:
@@ -22,31 +30,40 @@ if 'user_name' not in st.session_state:
 if 'login_time' not in st.session_state:
     st.session_state.login_time = None
 
-# --- 3. CUSTOM CSS (Dark Theme + Proteksi Mobile) ---
+# ==============================================================================
+# PART 3: CUSTOM CSS (DARK THEME & PROTEKSI PC ONLY)
+# ==============================================================================
 st.markdown("""
     <style>
-    /* Dark Theme Base */
+    /* Global Background */
     .stApp { background-color: #0e1117; color: #e0e0e0; }
     
-    /* Sidebar Styling */
+    /* Sidebar Area */
     [data-testid="stSidebar"] { 
         background-color: #161b22 !important; 
         border-right: 1px solid #30363d; 
     }
     
-    /* Expander Styling */
+    /* Expander / Box Adegan */
     .streamlit-expanderHeader {
         background-color: #161b22 !important;
         border: 1px solid #30363d !important;
         border-radius: 8px !important;
+        font-size: 14px !important;
     }
     .streamlit-expanderContent {
         background-color: #0d1117 !important;
         border: 1px solid #30363d !important;
-        border-top: none !important;
     }
 
-    /* Status Footer Sidebar */
+    /* Input & Textarea Dark Style */
+    div[data-baseweb="input"], div[data-baseweb="textarea"] {
+        background-color: #161b22 !important;
+        border: 1px solid #30363d !important;
+        border-radius: 8px !important;
+    }
+
+    /* Footer Sidebar (Status Info) */
     .status-footer {
         position: fixed;
         bottom: 20px;
@@ -55,20 +72,21 @@ st.markdown("""
         color: #484f58;
         text-transform: uppercase;
         letter-spacing: 1px;
+        line-height: 1.5;
+        font-family: 'Courier New', Courier, monospace;
     }
 
-    /* PROTEKSI PC ONLY: Menyembunyikan konten jika lebar layar < 1024px */
+    /* --- PROTEKSI PC ONLY --- */
     @media (max-width: 1024px) {
         .main { display: none !important; }
         [data-testid="stSidebar"] { display: none !important; }
         .stApp::before {
-            content: '⚠️ AKSES TERBATAS: Sistem Ruang Produksi hanya dapat diakses melalui perangkat PC / Desktop demi kenyamanan tata letak storyboard.';
+            content: '⚠️ AKSES TERBATAS: Sistem Ruang Produksi Pintar Media hanya dapat diakses melalui perangkat PC / Desktop.';
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             color: white;
-            font-weight: bold;
             text-align: center;
             padding: 40px;
             background-color: #0e1117;
@@ -77,102 +95,112 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-# --- 4. FUNGSI HALAMAN LOGIN ---
-def show_login():
+# ==============================================================================
+# PART 4: LOGIKA HALAMAN LOGIN
+# ==============================================================================
+def show_login_page():
     st.markdown("<br><br>", unsafe_allow_html=True)
     col1, col2, col3 = st.columns([1, 1.2, 1])
+    
     with col2:
-        st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align: center; color: white;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
         st.markdown("<p style='text-align: center; color: #8b949e;'>AI Production Studio Login</p>", unsafe_allow_html=True)
         
-        username = st.text_input("Username").lower()
-        password = st.text_input("Password", type="password")
+        user_input = st.text_input("Username").lower()
+        pass_input = st.text_input("Password", type="password")
         
         if st.button("LOG IN", use_container_width=True):
-            if username in users and users[username] == password:
+            if user_input in USERS_DB and USERS_DB[user_input] == pass_input:
                 st.session_state.logged_in = True
-                st.session_state.user_name = username
+                st.session_state.user_name = user_input
                 st.session_state.login_time = datetime.now()
                 st.rerun()
             else:
-                st.error("Credential tidak valid.")
+                st.error("Credential tidak valid. Silakan hubungi admin.")
 
-# --- 5. FUNGSI APLIKASI UTAMA (Ruang Produksi) ---
-def show_main():
-    # SIDEBAR NAVIGATION
+# ==============================================================================
+# PART 5: SIDEBAR NAVIGATION & FOOTER STATUS
+# ==============================================================================
+def show_sidebar():
     with st.sidebar:
-        st.markdown("<h2 style='color: white; letter-spacing: 1px;'>LAB AREA</h2>", unsafe_allow_html=True)
-        st.markdown(f"👤 Aktif: **{st.session_state.user_name.upper()}**")
+        st.markdown("<h2 style='color: white; letter-spacing: 2px;'>LAB AREA</h2>", unsafe_allow_html=True)
         st.markdown("---")
         
-        menu = st.radio(
+        # Menu Navigasi
+        selection = st.radio(
             "MENU UTAMA",
             ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
         )
         
-        st.markdown("<br>"*5, unsafe_allow_html=True)
-        if st.button("LOGOUT", use_container_width=True):
+        st.markdown("<br>"*8, unsafe_allow_html=True)
+        
+        # Logout Area
+        if st.button("LOGOUT SYSTEM", use_container_width=True):
             st.session_state.logged_in = False
+            st.session_state.user_name = ""
             st.rerun()
 
-        # Footer Status Minimalis
+        # Footer Dinamis: Station Info & Uptime
         uptime = datetime.now() - st.session_state.login_time
         st.markdown(f"""
             <div class="status-footer">
-                STATION: PINTAR_MEDIA_01 <br>
+                STATION: {st.session_state.user_name.upper()}_SESSION <br>
                 ACTIVE: {uptime.seconds // 60}M — {datetime.now().strftime('%d.%m.%y')}
             </div>
         """, unsafe_allow_html=True)
-
-    # ROUTER MENU
-    if "RUANG PRODUKSI" in menu:
-        st.markdown("### 📝 Detail Adegan Storyboard")
         
-        # --- SEKSI KARAKTER ---
-        with st.expander("👥 Nama Karakter Utama & Penampilan Fisik! (WAJIB ISI)", expanded=True):
-            st.write("Total Karakter Utama dalam Project")
-            num_chars = st.number_input("", min_value=1, max_value=5, value=2, step=1, label_visibility="collapsed")
-            
-            st.markdown("<br>", unsafe_allow_html=True)
-            char_cols = st.columns(num_chars)
-            char_info = {}
-            
-            for i in range(num_chars):
-                with char_cols[i]:
-                    st.markdown(f"👤 **Karakter Utama {i+1}**")
-                    c_name = st.text_input(f"Nama {i+1}", key=f"name_{i}", placeholder="Nama...", label_visibility="collapsed")
-                    c_desc = st.text_area(f"Ciri {i+1}", key=f"desc_{i}", placeholder="Ciri fisik...", height=100, label_visibility="collapsed")
-                    char_info[i] = {"nama": c_name, "ciri": c_desc}
+        return selection
 
+# ==============================================================================
+# PART 6: KONTEN UTAMA - RUANG PRODUKSI
+# ==============================================================================
+def ruang_produksi():
+    st.markdown("### 📝 Detail Adegan Storyboard")
+    
+    # --- SUB-PART: KARAKTER ---
+    with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
+        num_chars = st.number_input("Jumlah Karakter Utama", 1, 5, 2)
         st.markdown("<br>", unsafe_allow_html=True)
+        
+        char_cols = st.columns(num_chars)
+        for i in range(num_chars):
+            with char_cols[i]:
+                st.markdown(f"👤 **Karakter {i+1}**")
+                st.text_input(f"Nama Karakter", key=f"name_{i}", placeholder="Input Nama...")
+                st.text_area(f"Ciri Fisik", key=f"desc_{i}", height=120, placeholder="Rambut, Pakaian, Atribut...")
 
-        # --- SEKSI ADEGAN ---
-        with st.expander("🟢 ADEGAN 1", expanded=False):
-            c1a, c1b = st.columns([1, 2])
-            with c1a: loc1 = st.text_input("Lokasi Adegan 1", placeholder="Lokasi...", key="l1")
-            with c1b: act1 = st.text_area("Aksi Adegan 1", placeholder="Kejadian...", key="a1")
+    st.markdown("<br>", unsafe_allow_html=True)
 
-        with st.expander("🎬 ADEGAN 2", expanded=False):
-            c2a, c2b = st.columns([1, 2])
-            with c2a: loc2 = st.text_input("Lokasi Adegan 2", placeholder="Lokasi...", key="l2")
-            with c2b: act2 = st.text_area("Aksi Adegan 2", placeholder="Kejadian...", key="a2")
+    # --- SUB-PART: DAFTAR ADEGAN ---
+    with st.expander("🟢 ADEGAN 1", expanded=False):
+        c1a, c1b = st.columns([1, 2])
+        with c1a: st.text_input("Lokasi", key="l1", placeholder="Lokasi Adegan 1...")
+        with c1b: st.text_area("Aksi / Kejadian", key="a1", placeholder="Apa yang terjadi?")
 
-        # --- TOMBOL GENERATE ---
-        st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-            st.success("Prompt berhasil disusun! (Tempelkan hasilnya ke Gemini)")
-            # Logika penggabungan teks prompt bisa ditambahkan di sini
+    with st.expander("🎬 ADEGAN 2", expanded=False):
+        c2a, c2b = st.columns([1, 2])
+        with c2a: st.text_input("Lokasi", key="l2", placeholder="Lokasi Adegan 2...")
+        with c2b: st.text_area("Aksi / Kejadian", key="a2", placeholder="Apa yang terjadi?")
 
-    elif "PINTAR AI LAB" in menu:
-        st.title("🧠 Pintar AI Lab")
-        st.info("Halaman eksperimen riset AI.")
+    # --- SUB-PART: GENERATOR BUTTON ---
+    st.markdown("<br>", unsafe_allow_html=True)
+    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
+        st.success("Data Storyboard Berhasil Dikompilasi. Siap dikirim ke Gemini.")
 
-    else:
-        st.title(menu)
-        st.write(f"Halaman {menu} sedang dalam tahap pengembangan.")
-
-# --- 6. ROUTER UTAMA ---
+# ==============================================================================
+# PART 7: MAIN ROUTER (MENJALANKAN SISTEM)
+# ==============================================================================
 if not st.session_state.logged_in:
-    show_login()
+    show_login_page()
 else:
-    show_main()
+    current_menu = show_sidebar()
+    
+    if current_menu == "🚀 RUANG PRODUKSI":
+        ruang_produksi()
+    else:
+        st.title(current_menu)
+        st.info(f"Modul {current_menu} sedang dalam tahap sinkronisasi data.")
+
+# ==============================================================================
+# END OF CODE
+# ==============================================================================
