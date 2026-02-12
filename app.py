@@ -157,13 +157,16 @@ def pasang_css_kustom():
             margin-bottom: 5px !important; display: block;
         }
 
-        /* 6. KOMPONEN LAIN */
+        /* 6. KOMPONEN LAIN (HAPUS GARIS HIJAU & HR) */
         .stExpander {
-            border: 1px solid rgba(29, 151, 108, 0.3) !important;
-            border-radius: 12px !important; background-color: #161922 !important;
+            border: none !important;
+            border-radius: 12px !important; 
+            background-color: #161922 !important;
         }
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
-        hr { border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
+        
+        /* Mematikan fungsi garis pemisah (hr) agar bersih total */
+        hr { display: none !important; }
 
         /* 7. PENGATURAN INPUT HALAMAN LOGIN */
         .stForm div[data-baseweb="input"] {
@@ -407,6 +410,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
