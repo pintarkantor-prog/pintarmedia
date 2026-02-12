@@ -372,8 +372,6 @@ def tampilkan_ruang_produksi():
         st.markdown("<br>", unsafe_allow_html=True)
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
     
-    st.write("---")
-    
     data = st.session_state.data_produksi
     # Ambil versi form untuk paksa refresh saat Restore
     ver = st.session_state.get("form_version", 0)
@@ -527,6 +525,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
