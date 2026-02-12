@@ -3,7 +3,7 @@
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
-from cookies_manager import EncryptedCookieManager
+from streamlit_cookies_manager import EncryptedCookieManager
 
 cookies = EncryptedCookieManager(password="pintarmedia_kunci_rahasia_2026")
 if not cookies.ready():
@@ -161,3 +161,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
