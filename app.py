@@ -269,9 +269,6 @@ def pasang_css_kustom():
         </style>
     """, unsafe_allow_html=True)
 
-# ==============================================================================
-# BAGIAN 4: NAVIGASI SIDEBAR
-# ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
@@ -294,31 +291,43 @@ def tampilkan_navigasi_sidebar():
         )
         
         st.markdown("---")
-        st.markdown("<p class='small-label'>💾 SISTEM PENYIMPANAN</p>", unsafe_allow_html=True)
-        
-        # TOMBOL DOWNLOAD (SAVE)
-        # Fungsi simpan_proyek dipanggil di sini
-        data_json = simpan_proyek()
-        user_name = st.session_state.get("user_aktif", "staff").lower()
-        
-        st.download_button(
-            label="📥 DOWNLOAD NASKAH (.json)",
-            data=data_json,
-            file_name=f"Naskah_{user_name}_{datetime.now().strftime('%d%m%y')}.json",
-            mime="application/json",
-            use_container_width=True
-        )
-        
-        # AREA UNGGAH (RESTORE / LOAD)
-        file_diunggah = st.file_uploader("UPLOAD NASKAH", type="json", label_visibility="collapsed")
-        if file_diunggah:
-            if st.button("🔄 RESTORE DATA", use_container_width=True, type="primary"):
-                muat_proyek(file_diunggah)
 
-        # Jarak Logout
+        # 2. SISTEM DATABASE CLOUD (GSHEET)
+        st.markdown("<p class='small-label'>☁️ CLOUD DATABASE (GSHEET)</p>", unsafe_allow_html=True)
+        col1, col2 = st.columns(2)
+        with col1:
+            if st.button("📤 BACKUP", use_container_width=True, type="primary"):
+                simpan_ke_gsheet()
+        with col2:
+            if st.button("🔄 RESTORE", use_container_width=True):
+                muat_dari_gsheet()
+
+        st.markdown("---")
+
+        # 3. PENYIMPANAN LOKAL (FILE JSON)
+        with st.expander("📂 OPSI FILE LOKAL"):
+            st.markdown("<p style='font-size: 11px; color: #8b949e;'>Download/Upload Manual</p>", unsafe_allow_html=True)
+            
+            # Tombol Download
+            data_json = simpan_proyek()
+            user_name = st.session_state.get("user_aktif", "staff").lower()
+            st.download_button(
+                label="📥 DOWNLOAD .JSON",
+                data=data_json,
+                file_name=f"Naskah_{user_name}_{datetime.now().strftime('%d%m%y')}.json",
+                mime="application/json",
+                use_container_width=True
+            )
+            
+            # Area Upload
+            file_diunggah = st.file_uploader("Upload", type="json", label_visibility="collapsed")
+            if file_diunggah:
+                if st.button("⚠️ RESTORE DARI FILE", use_container_width=True):
+                    muat_proyek(file_diunggah)
+
+        # 4. KONTROL SISTEM
         st.markdown("<br>" * 2, unsafe_allow_html=True)
-        
-        if st.button("⚡KELUAR SISTEM", use_container_width=True):
+        if st.button("⚡ KELUAR SISTEM", use_container_width=True):
             proses_logout()
         
         user = st.session_state.get("user_aktif", "USER").upper()
@@ -501,6 +510,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
