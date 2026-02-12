@@ -167,7 +167,7 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    # Ambil data waktu (WIB)
+    # 1. LOGIKA WAKTU & USER (WIB)
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
@@ -177,11 +177,11 @@ def tampilkan_ruang_produksi():
     nama_hari = hari_id[sekarang.weekday()]
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
+    
+    # Mengambil nama user yang sedang login
+    user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # Ambil nama user yang sedang login
-    user_aktif = st.session_state.get("user_aktif", "User").capitalize()
-
-    # Header Ruang Produksi
+    # 2. HEADER TAMPILAN (Rasio kolom diatur agar proporsional)
     c1, c2 = st.columns([2.2, 1.8]) 
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
@@ -189,7 +189,7 @@ def tampilkan_ruang_produksi():
     
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        # Tampilan Baru: Tanggal | Staf Aktif
+        # Menampilkan Tanggal & Nama Staf Aktif
         st.markdown(f"""
             <div style="background-color: rgba(16, 185, 129, 0.1); 
                         padding: 10px; 
@@ -337,6 +337,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
