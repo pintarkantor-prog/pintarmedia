@@ -1,204 +1,176 @@
 import streamlit as st
 import requests
-import json
 
 # ────────────────────────────────────────────────
-# Custom styling mirip Grok / xAI (dark & clean)
+# Page config: centered, mobile-like
 # ────────────────────────────────────────────────
-st.set_page_config(page_title="Prompt Generator • Grok Style", layout="centered")
+st.set_page_config(
+    page_title="Prompt Generator • Grok Style",
+    layout="centered",
+    initial_sidebar_state="collapsed"   # Sidebar disembunyikan dulu biar lebih clean
+)
 
+# ────────────────────────────────────────────────
+# True black + Gemini-like dark theme CSS
+# ────────────────────────────────────────────────
 st.markdown("""
     <style>
-    /* Dark theme base */
+    /* True black background seperti Gemini 2025-2026 */
     .stApp {
-        background-color: #0f0f11;
-        color: #e0e0e0;
+        background-color: #000000;
+        color: #e0e0ff;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     }
-    /* Sidebar */
-    section[data-testid="stSidebar"] {
-        background-color: #111113;
+    /* Hilangkan padding berlebih biar lebih mobile-like */
+    .block-container {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        max-width: 680px;  /* Lebar mirip app mobile */
     }
-    /* Text input & textarea */
-    .stTextInput > div > div > input,
-    .stTextArea > div > div > textarea {
-        background-color: #1a1a1e;
-        color: #f0f0f0;
-        border: 1px solid #333338;
-        border-radius: 6px;
-    }
-    /* Button */
-    .stButton > button {
-        background-color: #0066ff;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        padding: 0.6rem 1.4rem;
-        font-weight: 500;
-    }
-    .stButton > button:hover {
-        background-color: #0055dd;
-    }
-    .stButton > button:active {
-        background-color: #0044bb;
-    }
-    /* Headers & text */
-    h1, h2, h3 {
+    /* Greeting sparkle style */
+    .greeting {
+        font-size: 2.2rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 2rem 0 1.5rem;
         color: #ffffff;
     }
-    hr {
-        border-color: #333;
+    .sparkle {
+        font-size: 2.8rem;
+        vertical-align: middle;
+        margin-right: 0.5rem;
     }
-    /* Expander & other elements */
-    .stExpander {
-        background-color: #16161a;
-        border: 1px solid #2a2a2f;
+    /* Prompt input besar & rounded */
+    .stTextArea > div > div > textarea {
+        background-color: #111114;
+        color: #f0f0ff;
+        border: 1px solid #333338;
+        border-radius: 24px !important;
+        padding: 16px 20px !important;
+        font-size: 1.1rem;
+        min-height: 120px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+    }
+    /* Suggestion chips */
+    .chip-button {
+        background-color: #1a1a2e;
+        color: #8ab4f8;
+        border: 1px solid #333366;
+        border-radius: 999px;
+        padding: 10px 20px;
+        margin: 6px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: inline-block;
+        text-align: center;
+        transition: all 0.2s;
+    }
+    .chip-button:hover {
+        background-color: #2a2a4a;
+        border-color: #5060ff;
+    }
+    /* Generate button */
+    .stButton > button[kind="primary"] {
+        background: linear-gradient(90deg, #0066ff, #00aaff);
+        color: white;
+        border: none;
+        border-radius: 999px;
+        padding: 14px 32px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        margin: 1.5rem auto;
+        display: block;
+        width: 80%;
+        max-width: 320px;
+    }
+    hr {
+        border-color: #222;
+        margin: 2rem 0;
+    }
+    /* Sidebar minimal */
+    section[data-testid="stSidebar"] {
+        background-color: #0a0a0a;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# Header & Intro
+# Greeting mirip Gemini
 # ────────────────────────────────────────────────
-st.title("Prompt Generator")
-st.caption("Buat prompt gambar & video yang optimal — powered by Grok")
-
-st.markdown("---")
+st.markdown('<div class="greeting"><span class="sparkle">✨</span> Halo Pintar</div>', unsafe_allow_html=True)
+st.markdown('<p style="text-align:center; color:#a0a0ff; margin-bottom:2rem;">Sebaiknya kita mulai dari mana?</p>', unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# Sidebar (API Key & Settings)
+# Sidebar: API Key & Settings (collapsed by default)
 # ────────────────────────────────────────────────
 with st.sidebar:
-    st.header("Settings")
-    
-    api_key = st.text_input(
-        "xAI API Key (SuperGrok)",
-        type="password",
-        help="Dapatkan dari https://console.x.ai"
-    )
-    
-    model = st.selectbox(
-        "Model",
-        ["grok-4", "grok-beta"],
-        index=0
-    )
-    
-    max_tokens = st.slider("Max tokens", 100, 600, 350)
+    st.header("Pengaturan")
+    api_key = st.text_input("xAI API Key", type="password", help="Dapatkan di https://console.x.ai")
+    model = st.selectbox("Model Grok", ["grok-4", "grok-beta"], index=0)
+    max_tokens = st.slider("Max tokens", 150, 500, 300)
 
 # ────────────────────────────────────────────────
-# Main Form
+# Main prompt area
 # ────────────────────────────────────────────────
-col1, col2 = st.columns([3, 1])
-
-with col1:
-    user_input = st.text_area(
-        "Deskripsikan gambar atau video yang kamu inginkan",
-        height=160,
-        placeholder="Contoh:\nSeorang samurai cyberpunk berdiri di atap gedung neon Tokyo malam hari, hujan deras, sangat detail, sinematik, 8k"
-    )
-
-with col2:
-    prompt_type = st.radio(
-        "Tipe",
-        ["Gambar", "Video"],
-        index=0,
-        horizontal=False
-    )
-
-    aspect_ratio = st.selectbox(
-        "Aspect Ratio",
-        ["1:1", "16:9", "9:16", "4:3", "3:4", "21:9", "Custom"],
-        index=1
-    )
-
-    style_preset = st.selectbox(
-        "Gaya (opsional)",
-        ["", "Photorealistic", "Cinematic", "Anime", "Cyberpunk", "Studio Ghibli", "Surreal", "Oil Painting", "3D Render", "Minimalist"],
-        index=0
-    )
+user_input = st.text_area(
+    "",
+    height=140,
+    placeholder="Minta prompt gambar/video yang kamu mau...",
+    key="prompt_input",
+    label_visibility="collapsed"
+)
 
 # ────────────────────────────────────────────────
-# Generate Button & Logic
+# Suggestion chips (mirip Gemini suggestions)
 # ────────────────────────────────────────────────
-if st.button("Generate Prompt", type="primary", use_container_width=True):
-    
-    if not api_key.strip():
-        st.error("Masukkan xAI API Key terlebih dahulu di sidebar")
-        st.stop()
-    
-    if not user_input.strip():
-        st.warning("Tulis deskripsi dulu ya...")
-        st.stop()
+st.markdown("### Ide cepat")
+chips = [
+    "Buat Gambar", "Buat Video", "Buat hari ini lebih produktif",
+    "Tulis apa saja", "Bantu belajar", "Cerita horor malam ini"
+]
 
-    # ─── Prepare system prompt ───────────────────────
-    system_prompt = """Kamu adalah ahli prompt engineering untuk AI gambar dan video (Midjourney, Flux, Runway, Kling, Luma, Pika, dll).
-Buat prompt yang sangat detail, deskriptif, terstruktur, dan powerful dalam bahasa Inggris.
-Gunakan kata-kata visual yang kuat, lighting, komposisi, mood, warna, detail tekstur, dan kualitas tinggi."""
+cols = st.columns(2)
+for i, chip in enumerate(chips):
+    with cols[i % 2]:
+        if st.button(chip, key=f"chip_{i}", use_container_width=True, type="secondary"):
+            # Contoh: auto-fill prompt input (bisa dikembangkan)
+            st.session_state.prompt_input = f"Generate prompt untuk {chip.lower()} yang keren dan detail"
+            st.rerun()
 
-    if prompt_type == "Video":
-        system_prompt += "\nKarena ini untuk video: tambahkan elemen gerakan, camera movement, timing, dan dinamika scene."
+# ────────────────────────────────────────────────
+# Generate logic
+# ────────────────────────────────────────────────
+if st.button("Generate Prompt", type="primary"):
+    if not api_key:
+        st.error("Masukkan API Key dulu di sidebar ya")
+    elif not user_input.strip():
+        st.warning("Tulis dulu idenya...")
+    else:
+        with st.spinner("Grok sedang memasak prompt terbaik..."):
+            try:
+                headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+                payload = {
+                    "model": model,
+                    "messages": [
+                        {"role": "system", "content": "Kamu ahli prompt engineering untuk gambar & video AI. Buat prompt super detail dalam bahasa Inggris, optimal untuk Flux/Midjourney/Runway/Kling dll. Jawab HANYA prompt-nya saja, tanpa intro."},
+                        {"role": "user", "content": user_input}
+                    ],
+                    "max_tokens": max_tokens,
+                    "temperature": 0.75
+                }
+                resp = requests.post("https://api.x.ai/v1/chat/completions", headers=headers, json=payload, timeout=40)
+                resp.raise_for_status()
+                prompt_result = resp.json()["choices"][0]["message"]["content"].strip()
 
-    if style_preset:
-        system_prompt += f"\nGunakan gaya {style_preset}."
+                st.success("Prompt siap!")
+                st.markdown("**Prompt yang dihasilkan:**")
+                st.code(prompt_result, language=None)
 
-    if aspect_ratio != "Custom":
-        system_prompt += f"\nGunakan aspect ratio {aspect_ratio}."
+                st.download_button("Simpan sebagai .txt", prompt_result, "prompt-kreatif.txt")
 
-    user_message = f"""Buat prompt terbaik berdasarkan deskripsi berikut:
+            except Exception as e:
+                st.error(f"Ada masalah: {str(e)}")
 
-{user_input}
-
-Jawab HANYA dengan prompt-nya saja, tanpa pengantar, tanpa tanda kutip, tanpa penjelasan tambahan."""
-
-    # ─── Call xAI API ────────────────────────────────
-    with st.spinner("Meminta Grok membuat prompt terbaik..."):
-        try:
-            headers = {
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
-            }
-
-            payload = {
-                "model": model,
-                "messages": [
-                    {"role": "system", "content": system_prompt},
-                    {"role": "user", "content": user_message}
-                ],
-                "temperature": 0.7,
-                "max_tokens": max_tokens
-            }
-
-            response = requests.post(
-                "https://api.x.ai/v1/chat/completions",
-                headers=headers,
-                json=payload,
-                timeout=45
-            )
-
-            response.raise_for_status()
-            result = response.json()
-
-            generated_prompt = result["choices"][0]["message"]["content"].strip()
-
-            # Tampilkan hasil
-            st.success("Prompt berhasil dibuat!")
-            st.markdown("### Prompt yang siap dipakai")
-            st.code(generated_prompt, language=None)
-
-            # Tombol copy (Streamlit 1.38+ mendukung ini)
-            st.download_button(
-                label="Download .txt",
-                data=generated_prompt,
-                file_name="prompt.txt",
-                mime="text/plain"
-            )
-
-        except requests.exceptions.RequestException as e:
-            st.error(f"Error koneksi ke xAI API:\n{str(e)}")
-        except KeyError:
-            st.error("Format response API tidak sesuai. Coba lagi atau ganti model.")
-        except Exception as e:
-            st.error(f"Terjadi kesalahan:\n{str(e)}")
-
-# Footer
-st.markdown("---")
-st.caption("Made with Streamlit • Powered by Grok (xAI) • 2026")
+# Footer kecil
+st.markdown("<hr>", unsafe_allow_html=True)
+st.caption("Powered by Grok • Dibuat dengan Streamlit • 2026")
