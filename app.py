@@ -379,7 +379,7 @@ def tampilkan_navigasi_sidebar():
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    # Caption dihapus sesuai request untuk tampilan lebih bersih
+    st.info("🚀 **Gaskeun!** Rakit ide cerita di sini, lalu **Copy-Paste** hasilnya ke **Gemini, Grok, atau ChatGPT** sebagai bahan referensi!")
     st.divider() 
 
     # --- 1. INISIALISASI MEMORI PERMANEN ---
@@ -413,7 +413,7 @@ def tampilkan_ai_lab():
             "Adegan", options=list(range(3, 11)), value=st.session_state.lab_adegan, label_visibility="collapsed"
         )
         
-        btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
+        btn_generate = st.button("✨ GENERATE IDE CERITA", use_container_width=True, type="primary")
         
         if st.button("🗑️ Reset Form"):
             for key in ["lab_topik", "lab_hasil_mantra", "memori_n", "memori_s"]:
@@ -444,7 +444,7 @@ def tampilkan_ai_lab():
             target_col = char_col1 if i % 2 == 0 else char_col2
             with target_col:
                 with st.container(border=True):
-                    label_karakter = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
+                    label_karakter = "Karakter 1" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_karakter}**")
                     
                     st.session_state.memori_n[i] = st.text_input(
@@ -700,6 +700,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
