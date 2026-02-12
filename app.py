@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (DIALOG DI BAWAH SEJAJAR)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (POSISI DIALOG AKURAT)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -176,9 +176,9 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (TATA LETAK BARU)
+    # 2. INPUT ADEGAN
     with st.expander("🟢 ADEGAN 1", expanded=True):
-        # Baris Utama: Naskah di kiri, Pengaturan di kanan
+        # Baris Atas: Naskah (Kiri) & Sidebar (Kanan)
         col_text, col_set = st.columns([1.5, 1])
         
         with col_text:
@@ -206,34 +206,22 @@ def tampilkan_ruang_produksi():
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-        # Baris Bawah: Dialog Karakter (Sejajar dengan kolom di atasnya)
-        # Label judul dihapus sesuai permintaan
+        # ----------------------------------------------------------------------
+        # BARIS DIALOG: Posisi di bawah, Satu Baris Penuh (Dinamis hingga 4)
+        # ----------------------------------------------------------------------
         st.markdown("<br>", unsafe_allow_html=True)
-        col_d_left, col_d_right = st.columns([1.5, 1]) # Menyesuaikan rasio kolom atas
-        
+        # Membuat kolom horizontal sejajar sesuai jumlah karakter yang dipilih
+        cols_dialog = st.columns(juml)
         dialogs = []
-        # Kolom Dialog Kiri (Sejajar Naskah)
-        with col_d_left:
-            d_sub_l, d_sub_r = st.columns(2)
-            for i in range(min(juml, 2)):
-                target = d_sub_l if i == 0 else d_sub_r
-                with target:
-                    char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                    d_in = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
-                    dialogs.append(f"{char_name}: '{d_in}'")
+        for i in range(juml):
+            with cols_dialog[i]:
+                char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
+                # Label diletakkan di atas input secara bersih
+                st.markdown(f"**Dialog {char_name}**")
+                d_in = st.text_input(f"D_{i}", key=f"h_d{i}", placeholder=f"Ketik dialog...", label_visibility="collapsed")
+                dialogs.append(f"{char_name}: '{d_in}'")
 
-        # Kolom Dialog Kanan (Sejajar Sidebar) - Jika karakter > 2
-        with col_d_right:
-            if juml > 2:
-                d_sub_l2, d_sub_r2 = st.columns(2)
-                for i in range(2, juml):
-                    target = d_sub_l2 if i == 2 else d_sub_r2
-                    with target:
-                        char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                        d_in = st.text_input(f"Dialog {char_name}", key=f"h_d{i}", placeholder=f"Dialog {char_name}...")
-                        dialogs.append(f"{char_name}: '{d_in}'")
-
-    # 3. HYBRID COMPILER LOGIC (Format Terstruktur Grup 1 & 2)
+    # 3. HYBRID COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
@@ -244,7 +232,7 @@ def tampilkan_ruang_produksi():
 
         image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
 STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
-FOCUS RULE: INFINITE DEPTH of FIELD, EVERYTHING MUST BE ULTRA-SHARP.
+FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
 CHARACTER DATA: {char_identities}
 VISUAL ACTION: {aksi}
 ENVIRONMENT: {lokasi}
@@ -265,7 +253,7 @@ Technical: {mood} cinematic video, {shot_size}, {kamera} at {arah_kam}, 60fps, f
         with out_col2:
             st.markdown("##### 🎬 PROMPT VIDEO")
             st.code(video_p, language="text")
-        
+            
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
 # ==============================================================================
@@ -285,6 +273,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
