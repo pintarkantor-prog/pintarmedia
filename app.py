@@ -75,12 +75,12 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - CLEAN & FIXED SPACING
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - CLEAN, NEUTRAL & FIXED
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* 1. TEMA UTAMA & SCROLLBAR */
+        /* 1. DASAR APLIKASI & SCROLLBAR */
         .stApp { background-color: #0b0e14; color: #e0e0e0; }
         [data-testid="stSidebar"] { 
             background-color: #1a1c24 !important; 
@@ -92,7 +92,7 @@ def pasang_css_kustom():
         ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-        /* 2. FIXED HEADER */
+        /* 2. FIXED HEADER (STATION & JAM) */
         [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
             position: fixed; top: 0; left: 310px; right: 0; z-index: 99999;
             background-color: #0e1117; padding: 10px 2rem; border-bottom: 2px solid #31333f;
@@ -101,7 +101,7 @@ def pasang_css_kustom():
             [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
         }
 
-        /* 3. TOMBOL GENERATE (INSTANT RESPONSE) */
+        /* 3. TOMBOL UTAMA (INSTANT RESPONSE) */
         div.stButton > button[kind="primary"] {
             background: linear-gradient(to right, #1d976c, #11998e) !important;
             color: white !important; border: none !important; border-radius: 8px !important;
@@ -109,7 +109,26 @@ def pasang_css_kustom():
             width: 100%; box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
 
-        /* 4. STAFF HEADER PREMIUM (BOX HIJAU) */
+        /* 4. KOTAK INPUT & ADEGAN (NEUTRAL MODE - NO RED, NO GREEN) */
+        /* Mengatur tampilan saat diam */
+        .stTextArea textarea, .stTextInput input, div[data-testid="stNumberInput"], div[data-baseweb="input"] {
+            background-color: #0e1117 !important;
+            border: 1px solid #31333f !important;
+            border-radius: 10px !important;
+            color: #ffffff !important;
+        }
+        
+        /* Mengatur tampilan saat diklik (Focus) agar tetap netral abu-abu */
+        .stTextArea textarea:focus, 
+        .stTextInput input:focus, 
+        div[data-testid="stNumberInput"]:focus-within,
+        div[data-baseweb="input"]:focus-within {
+            border-color: #4f5b66 !important; /* Abu-abu netral, bukan hijau atau merah */
+            box-shadow: none !important; 
+            outline: none !important;
+        }
+
+        /* 5. STAFF HEADER & LABEL */
         .staff-header-premium {
             background: rgba(29, 151, 108, 0.2) !important;
             border: 2px solid #1d976c !important;
@@ -118,29 +137,14 @@ def pasang_css_kustom():
             display: flex !important; align-items: center !important; gap: 12px !important;
         }
         .staff-header-premium b { color: #1d976c !important; font-size: 1.15em !important; }
-        .staff-header-premium i { color: #e0e0e0 !important; font-style: normal !important; }
-
-        /* 5. KOTAK INPUT & KOLOM ADEGAN (UNIFORM & ANTI-RED) */
-        .stTextArea textarea, .stTextInput input, div[data-testid="stNumberInput"] {
-            background-color: #0e1117 !important;
-            border: 1px solid #31333f !important;
-            border-radius: 10px !important;
-            color: #ffffff !important;
-        }
         
-        /* Fokus State: Tetap Abu-abu atau Hijau Tipis, NO RED */
-        .stTextArea textarea:focus, .stTextInput input:focus, div[data-testid="stNumberInput"]:focus-within {
-            border-color: #1d976c !important;
-            box-shadow: none !important; 
-            outline: none !important;
-        }
-
-        /* 6. LABEL & EXPANDER */
         .small-label {
             color: #1d976c !important; font-size: 10px !important;
             font-weight: 800 !important; letter-spacing: 1px; text-transform: uppercase;
             margin-bottom: 5px !important; display: block;
         }
+
+        /* 6. KOMPONEN LAIN */
         .stExpander {
             border: 1px solid rgba(29, 151, 108, 0.3) !important;
             border-radius: 12px !important; background-color: #161922 !important;
@@ -148,7 +152,7 @@ def pasang_css_kustom():
         .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
         hr { border-bottom: 1px solid rgba(255,255,255,0.05) !important; }
 
-        /* 7. MOBILE PROTECTION (PC ONLY) */
+        /* 7. PROTEKSI LAYAR (PC ONLY) */
         @media (max-width: 1024px) {
             [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .main { display: none !important; }
             body::before {
@@ -375,6 +379,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
