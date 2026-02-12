@@ -12,12 +12,21 @@ DAFTAR_USER = {
 st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
 
 # ==============================================================================
-# BAGIAN 2: SISTEM KEAMANAN & TAMPILAN LOGIN (AUTENTIKASI)
+# BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
 # ==============================================================================
 def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
+    # INISIALISASI LACI PENYIMPANAN DATA (ANTI-HILANG)
+    if 'data_produksi' not in st.session_state:
+        st.session_state.data_produksi = {
+            "jumlah_karakter": 2,
+            "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
+            "jumlah_adegan": 5,
+            "adegan": {} # Tempat menyimpan naskah per adegan
+        }
+
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
@@ -38,22 +47,16 @@ def proses_login(user, pwd):
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
-    
     with col_m:
         try:
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-        
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
-            
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
-            
-            if submit:
-                proses_login(u, p)
-        
+            if submit: proses_login(u, p)
         st.markdown("<p style='text-align: center; color: #484f58; font-size: 11px; margin-top: 15px;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
 
 def cek_autentikasi():
@@ -67,13 +70,12 @@ def cek_autentikasi():
     return False
 
 def proses_logout():
-    st.session_state.sudah_login = False
-    st.session_state.user_aktif = ""
+    st.session_state.clear() # Bersihkan semua memori saat logout
     st.query_params.clear()
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - FINAL UI OPTIMIZATION
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS)
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -85,61 +87,23 @@ def pasang_css_kustom():
             font-size: 13px !important;
             font-weight: 600 !important;
             color: #d1d5db !important;
-            margin-bottom: 4px !important; /* Jarak aman ke kotak input */
-            margin-top: 10px !important;    /* Jarak antar menu */
+            margin-bottom: 4px !important;
+            margin-top: 10px !important;
             display: block;
         }
         
-        /* BOX LOGIN */
-        div[data-testid="stForm"] {
-            border: 1px solid #30363d !important;
-            border-radius: 12px !important;
-            padding: 20px !important;
-        }
+        div[data-testid="stForm"] { border: 1px solid #30363d !important; border-radius: 12px !important; padding: 20px !important; }
 
-        /* TOMBOL DEGRADASI HIJAU */
         div[data-testid="stFormSubmitButton"] button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
-            color: white !important;
-            border: none !important;
-            height: 50px !important;
-            border-radius: 10px !important;
-            transition: all 0.4s ease !important;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2) !important;
-        }
-        
-        div[data-testid="stFormSubmitButton"] button p {
-            color: white !important; font-weight: bold !important; font-size: 16px !important;
+            color: white !important; border: none !important; height: 50px !important; border-radius: 10px !important;
         }
 
-        /* STYLE BARU: KOTAK HASIL PROMPT */
-        .prompt-result {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-left: 5px solid #10b981;
-            padding: 15px;
-            border-radius: 8px;
-            color: #e0e0e0;
-            font-family: 'Courier New', Courier, monospace;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        div[data-baseweb="input"], div[data-baseweb="textarea"] {
-            background-color: #1d2127 !important;
-            border: 1px solid #30363d !important;
-            border-radius: 8px !important;
-        }
-
+        div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #1d2127 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
-        
-        @media (max-width: 1024px) {
-            .main { display: none !important; }
-            [data-testid="stSidebar"] { display: none !important; }
-            .stApp::before { content: '⚠️ AKSES PC ONLY'; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; background-color: #0e1117; }
-        }
         </style>
         """, unsafe_allow_html=True)
+
 # ==============================================================================
 # BAGIAN 4: NAVIGASI SIDEBAR
 # ==============================================================================
@@ -147,7 +111,13 @@ def tampilkan_navigasi_sidebar():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
         pilihan = st.radio("NAVIGASI WORKSPACE", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
-        st.markdown("<br>"*12, unsafe_allow_html=True)
+        
+        # PENGATUR JUMLAH ADEGAN (DEFAULT 5)
+        st.markdown("---")
+        st.markdown("🎬 **PENGATURAN FILM**")
+        st.session_state.data_produksi["jumlah_adegan"] = st.number_input("Jumlah Adegan", 1, 50, st.session_state.data_produksi["jumlah_adegan"])
+        
+        st.markdown("<br>"*5, unsafe_allow_html=True)
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
         user = st.session_state.get("user_aktif", "USER").upper()
@@ -163,110 +133,89 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FINAL UI DENGAN SMALL-LABEL)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (MULTI-SCENE & ANTI-HILANG)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. IDENTITY LOCK
+    data = st.session_state.data_produksi
+
+    # 1. IDENTITY LOCK (GLOBAL UNTUK SEMUA ADEGAN)
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
-        juml = st.number_input("Jumlah Karakter di Scene", 1, 4, 2)
-        karakter_data = []
-        cols_char = st.columns(juml)
-        for i in range(juml):
+        data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"])
+        cols_char = st.columns(data["jumlah_karakter"])
+        for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                nama = st.text_input(f"Nama", key=f"h_nama_{i}", placeholder="Udin/Sari/Tung")
-                pakaian = st.text_input(f"Pakaian", key=f"h_wear_{i}", placeholder="Kaos oranye/Batik")
-                fisik = st.text_area(f"Ciri Fisik Utama", key=f"h_fix_{i}", height=80, placeholder="Maintain 100% exact facial features...")
-                karakter_data.append({"nama": nama, "wear": pakaian, "fisik": fisik})
-    
-    # 2. INPUT ADEGAN
-    with st.expander("🟢 ADEGAN 1", expanded=True):
-        col_text, col_set = st.columns([1.5, 1])
-        
-        with col_text:
-            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-            aksi = st.text_area("Aksi", height=335, key="h_act", placeholder="Deskripsikan aksi karakter di sini...", label_visibility="collapsed")
-        
-        with col_set:
-            sub_col1, sub_col2 = st.columns(2)
-            with sub_col1:
-                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
+                data["karakter"][i]["nama"] = st.text_input(f"Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}")
+                data["karakter"][i]["wear"] = st.text_input(f"Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}")
+                data["karakter"][i]["fisik"] = st.text_area(f"Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80)
 
-            with sub_col2:
-                st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                shot_size = st.selectbox("Shot Size", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"], key="h_shot", label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
-            
-            st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-            lokasi = st.text_input("Lokasi", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
-        
-        # Baris Dialog Sejajar
-        cols_dialog = st.columns(juml)
-        dialogs = []
-        for i in range(juml):
-            with cols_dialog[i]:
-                char_name = karakter_data[i]['nama'] if karakter_data[i]['nama'] else f"Karakter {i+1}"
-                st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
-                d_in = st.text_input(f"D_{i}", key=f"h_d{i}", placeholder="Ketik dialog...", label_visibility="collapsed")
-                dialogs.append(f"{char_name}: '{d_in}'")
-
-    # 3. COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
-    if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
-        st.markdown("---")
-        
-        char_identities = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. ]]" for c in karakter_data if c['nama']])
-        char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in karakter_data if c['nama']])
-        all_dialogs = " | ".join(dialogs)
+    
+    # 2. GENERASI ADEGAN SECARA DINAMIS
+    for s in range(data["jumlah_adegan"]):
+        scene_id = s + 1
+        # Pastikan data adegan ada di laci
+        if scene_id not in data["adegan"]:
+            data["adegan"][scene_id] = {"aksi": "", "style": "Realistis", "light": "Studio", "arah": "Normal", "shot": "Setengah Badan", "ratio": "16:9", "cam": "Static", "loc": "", "dialogs": [""]*4}
 
-        # Prompt Gambar (Grup 1)
-        image_p = f"""IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.
-STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO WRITTEN TEXT. NO SUBTITLES.
-FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.
-CHARACTER DATA: {char_identities}
-VISUAL ACTION: {aksi}
-ENVIRONMENT: {lokasi}
-CAMERA: {shot_size}, {arah_kam} angle.
-TECHNICAL: {mood}, {lighting} lighting. 8k RAW photo, f/11 aperture. --ar {rasio}"""
-
-        # Prompt Video (Grup 2)
-        video_p = f"""STRICT CONSISTENCY: Use uploaded reference images. Do NOT simplify anatomy.
-Character Profiles: {char_profiles}
-Scene: {aksi} at {lokasi}.
-Acting Cue: {all_dialogs}. (STRICTLY NO TEXT ON SCREEN).
-Technical: {mood} cinematic video, {shot_size}, {kamera} at {arah_kam}, 60fps, fluid motion, 8k UHD, no watermark. aspect ratio {rasio}."""
-
-        st.subheader("📋 Production Ready Prompts")
-        out_col1, out_col2 = st.columns(2)
-        with out_col1:
-            st.markdown("##### 🖼️ PROMPT GAMBAR")
-            st.code(image_p, language="text")
-        with out_col2:
-            st.markdown("##### 🎬 PROMPT VIDEO")
-            st.code(video_p, language="text")
+        with st.expander(f"🟢 ADEGAN {scene_id}", expanded=(scene_id == 1)):
+            col_text, col_set = st.columns([1.5, 1])
             
+            with col_text:
+                st.markdown("### 📸 Naskah Visual & Aksi")
+                data["adegan"][scene_id]["aksi"] = st.text_area("Aksi", value=data["adegan"][scene_id]["aksi"], height=335, key=f"act_{scene_id}", label_visibility="collapsed")
+            
+            with col_set:
+                sub1, sub2 = st.columns(2)
+                with sub1:
+                    st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["style"] = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], index=0, key=f"mood_{scene_id}", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["light"] = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key=f"light_{scene_id}", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["arah"] = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key=f"arah_{scene_id}", label_visibility="collapsed")
+                with sub2:
+                    st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["shot"] = st.selectbox("Shot", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas"], key=f"shot_{scene_id}", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["ratio"] = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key=f"ratio_{scene_id}", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["cam"] = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key=f"cam_{scene_id}", label_visibility="collapsed")
+                
+                st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
+                data["adegan"][scene_id]["loc"] = st.text_input("Lokasi", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}", label_visibility="collapsed")
+
+            # BARIS DIALOG
+            st.markdown('<hr style="border:0.5px solid #10b981; opacity:0.3; margin-top:20px; margin-bottom:10px;">', unsafe_allow_html=True)
+            cols_d = st.columns(data["jumlah_karakter"])
+            for i in range(data["jumlah_karakter"]):
+                with cols_d[i]:
+                    name = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
+                    st.markdown(f'<p class="small-label">Dialog {name}</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}", label_visibility="collapsed")
+
+            # TOMBOL GENERATE PER ADEGAN
+            if st.button(f"🚀 GENERATE PROMPT ADEGAN {scene_id}", use_container_width=True, key=f"btn_{scene_id}"):
+                st.markdown("---")
+                char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
+                all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{data['adegan'][scene_id]['dialogs'][i]}'" for i in range(data["jumlah_karakter"])])
+                
+                img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {data['adegan'][scene_id]['aksi']}\nENVIRONMENT: {data['adegan'][scene_id]['loc']}\nTECHNICAL: {data['adegan'][scene_id]['style']}, {data['adegan'][scene_id]['light']}, {data['adegan'][scene_id]['shot']} --ar {data['adegan'][scene_id]['ratio']}"
+                vid_p = f"Character Profiles: {char_ids}\nScene: {data['adegan'][scene_id]['aksi']} at {data['adegan'][scene_id]['loc']}\nActing Cue: {all_d}\nTechnical: {data['adegan'][scene_id]['cam']} at {data['adegan'][scene_id]['arah']}, 60fps."
+
+                c1, c2 = st.columns(2)
+                with c1: st.code(img_p)
+                with c2: st.code(vid_p)
+
 # ==============================================================================
-# BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
+# BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
 def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
-    
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
@@ -279,30 +228,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
