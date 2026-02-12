@@ -2,7 +2,6 @@ import streamlit as st
 import time
 import sqlite3
 import json
-from streamlit_javascript import st_javascript
 
 # ==============================================
 # 1. DATABASE ENGINE
@@ -34,10 +33,9 @@ def load_data(user):
     return data
 
 # ==============================================
-# 2. TEMA GROK (DARK MINIMALIST) - MENGGUNAKAN ST.HTML
+# 2. TEMA GROK (DARK MINIMALIST)
 # ==============================================
 def apply_grok_theme():
-    # st.html adalah cara paling aman di versi terbaru untuk injeksi CSS
     st.html("""
         <style>
             .stApp { background-color: #000000 !important; color: #FFFFFF !important; }
@@ -56,27 +54,25 @@ def apply_grok_theme():
 # ==============================================
 def render_ruang_produksi():
     st.title("🚀 RUANG PRODUKSI")
-    st.write("Kelola 10 Adegan YouTube Shorts Anda")
+    st.write("Sistem Pembuatan 10 Adegan YouTube Shorts")
     
-    # Master Context
     st.subheader("🧠 MASTER CONTEXT")
     st.session_state.master_ctx = st.text_area(
         "Konteks Karakter & Gaya Visual",
         value=st.session_state.get('master_ctx', ''),
         placeholder="Contoh: Style Animasi 3D, Udin kepala orange...",
         key="master_ctx_input",
-        height=100
+        height=100,
+        label_visibility="collapsed"
     )
 
     st.write("---")
     
-    # 10 Adegan Generator
     for i in range(10):
-        # Menggunakan container bawaan agar lebih stabil
         with st.container():
             st.write(f"### Adegan {i+1}")
             st.session_state.adegan_list[i] = st.text_area(
-                f"Deskripsi Adegan {i+1}",
+                f"Input Adegan {i+1}",
                 value=st.session_state.adegan_list[i],
                 key=f"scene_{i}",
                 height=90,
@@ -89,12 +85,41 @@ def render_ruang_produksi():
             st.write("---")
 
 # ==============================================
-# 4. SISTEM LOGIN & UTAMA
+# 4. SISTEM LOGIN & DATA USER
+# ==============================================
+def render_login():
+    # Daftar User & Password sesuai permintaan
+    users_db = {
+        "dian": "QWERTY21ab",  
+        "icha": "udin99",
+        "nissa": "tung22",
+        "inggi": "udin33",
+        "lisa": "tung66",
+        "tamu": "123"
+    }
+
+    st.markdown("<div style='height:100px'></div>", unsafe_content_html=True)
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.title("🧠 PINTAR AI LAB")
+        u = st.text_input("Username", key="login_u")
+        p = st.text_input("Password", type="password", key="login_p")
+        
+        if st.button("MASUK SISTEM"):
+            if u in users_db and users_db[u] == p:
+                st.session_state.logged_in = True
+                st.session_state.username = u
+                st.session_state.login_time = time.time()
+                st.rerun()
+            else:
+                st.error("Username atau Password salah")
+
+# ==============================================
+# 5. LOGIKA UTAMA & NAVIGASI
 # ==============================================
 def main():
     apply_grok_theme()
 
-    # Inisialisasi Session State
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
     if 'adegan_list' not in st.session_state:
@@ -103,35 +128,17 @@ def main():
         st.session_state.master_ctx = ""
 
     if not st.session_state.logged_in:
-        # Menghindari markdown HTML untuk judul login
-        st.title("🧠 PINTAR AI LAB")
-        u = st.text_input("Username", key="login_u")
-        p = st.text_input("Password", type="password", key="login_p")
-        
-        if st.button("MASUK SISTEM"):
-            if u == "admin" and p == "pintar2026":
-                st.session_state.logged_in = True
-                st.session_state.username = u
-                st.session_state.login_time = time.time()
-                st.rerun()
-            else:
-                st.error("Username atau Password salah")
+        render_login()
     else:
-        # Logout otomatis 10 jam
+        # Logout otomatis 10 jam (36000 detik)
         if time.time() - st.session_state.login_time > 36000:
             st.session_state.logged_in = False
             st.rerun()
 
-        # Proteksi Layar (Dijalankan hanya setelah login)
-        width = st_javascript("window.innerWidth")
-        if width is not None and width < 1024:
-            st.warning("⚠️ RUANG PRODUKSI HANYA TERSEDIA DI DESKTOP.")
-            st.stop()
-
         # Sidebar Navigasi
         with st.sidebar:
             st.title("PINTAR MEDIA")
-            st.write(f"User: **{st.session_state.username}**")
+            st.write(f"Logged in as: **{st.session_state.username}**")
             menu = st.radio("MENU", [
                 "🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"
             ])
@@ -159,9 +166,6 @@ def main():
             st.title(menu)
             st.info("Fitur dalam pengembangan...")
 
-# ==============================================
-# 5. EKSEKUSI FINAL
-# ==============================================
 if __name__ == "__main__":
     init_db()
     main()
