@@ -374,49 +374,51 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - SYMMETRICAL STUDIO LAYOUT)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (PINTAR AI LAB - PERSISTENT VERSION)
 # ==============================================================================
 
 def tampilkan_ai_lab():
-    # Header Utama
     st.title("🧠 PINTAR AI LAB")
-    st.caption("Solusi cerdas buat staf Pintar Media. Gak perlu API, tinggal Copy-Paste ke Gemini!")
+    st.caption("Bisa dipakai untuk referensi ide (jangan ditelan mentah-mentah naskahnya)!")
     st.divider() 
 
-    # --- LAYOUT UTAMA: KOLOM KERJA (KIRI) & SUB-SIDEBAR (KANAN) ---
+    # --- INISIALISASI SESSION STATE (MEMORI PENYIMPANAN) ---
+    if 'lab_topik' not in st.session_state: st.session_state.lab_topik = ""
+    if 'lab_pola' not in st.session_state: st.session_state.lab_pola = "Viral Drama (Zero to Hero / Revenge)"
+    if 'lab_visual' not in st.session_state: st.session_state.lab_visual = "Cinematic Realistic (Setelah Film Nyata)"
+    if 'lab_adegan' not in st.session_state: st.session_state.lab_adegan = 5
+    if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
+    if 'lab_hasil_mantra' not in st.session_state: st.session_state.lab_hasil_mantra = None
+
+    # --- LAYOUT UTAMA ---
     col_kerja, col_sidebar = st.columns([2, 1.5], gap="large")
 
     with col_kerja:
-        # Bagian 1: Topik Utama (Panjang & Lebar)
         st.subheader("📝 Topik & Premis Utama")
-        topik = st.text_area(
+        # Simpan input ke session state
+        st.session_state.lab_topik = st.text_area(
             "Detail Cerita", 
-            placeholder="Contoh: Udin dituduh mencuri di toko emas, padahal dia sebenarnya pemilik toko tersebut...",
+            value=st.session_state.lab_topik,
+            placeholder="Contoh: Udin dituduh mencuri di toko emas...",
             height=300, 
             label_visibility="collapsed"
         )
         
-        # Bagian 2: Jumlah Adegan (Diletakkan di bawah topik dengan lebar yang sama)
         st.write(" ")
         st.markdown("**🎬 Jumlah Adegan**")
-        jumlah_adegan = st.select_slider(
+        st.session_state.lab_adegan = st.select_slider(
             "Pilih jumlah adegan",
             options=list(range(3, 11)),
-            value=5,
+            value=st.session_state.lab_adegan,
             label_visibility="collapsed"
         )
         
         st.write(" ")
-        # Tombol Utama Produksi
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
 
     with col_sidebar:
-        # Sub-sidebar Kanan dibagi menjadi 2 kolom
         st.subheader("👤 Pengaturan")
         
-        if 'jumlah_karakter' not in st.session_state:
-            st.session_state.jumlah_karakter = 2
-
         # Kontrol Karakter
         c_add, c_rem = st.columns(2)
         with c_add:
@@ -430,7 +432,7 @@ def tampilkan_ai_lab():
 
         st.write("---")
         
-        # Grid Karakter (2 Kolom)
+        # Grid Karakter (Data disimpan otomatis di key unik)
         list_karakter = []
         char_col1, char_col2 = st.columns(2)
         
@@ -439,74 +441,75 @@ def tampilkan_ai_lab():
             with target_col:
                 with st.container(border=True):
                     st.markdown(f"**Tokoh {i+1}**")
-                    nama = st.text_input(f"Nama {i}", value=f"Tokoh {i+1}", key=f"n_{i}", label_visibility="collapsed")
-                    sifat = st.text_input(f"Sifat {i}", placeholder="Sifat/Visual", key=f"s_{i}", label_visibility="collapsed")
+                    nama = st.text_input(f"Nama {i}", value=f"Tokoh {i+1}", key=f"lab_n_{i}", label_visibility="collapsed")
+                    sifat = st.text_input(f"Sifat {i}", placeholder="Sifat/Visual", key=f"lab_s_{i}", label_visibility="collapsed")
                     list_karakter.append(f"{i+1}. {nama.upper()}: {sifat}")
 
         st.write("---")
         
-        # Setting Alur & Visual
-        pola = st.selectbox("🎭 Pola Alur", [
+        st.session_state.lab_pola = st.selectbox("🎭 Pola Alur", [
             "Viral Drama (Zero to Hero / Revenge)", 
             "Lomba Konyol (Komedi Interaktif / Call to Action)",
             "Drama Plot Twist (Standard)",
             "Komedi Slapstick"
-        ])
+        ], index=["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif / Call to Action)", "Drama Plot Twist (Standard)", "Komedi Slapstick"].index(st.session_state.lab_pola))
         
-        visual = st.selectbox("🎨 Gaya Visual", [
+        st.session_state.lab_visual = st.selectbox("🎨 Gaya Visual", [
             "Cinematic Realistic (Seperti Film Nyata)",
             "3D Pixar Style (Ceria & Detail)",
             "Anime / Manga Style",
             "Retro Cartoon"
-        ], index=0) # Default Cinematic Realistic
+        ], index=["Cinematic Realistic (Seperti Film Nyata)", "3D Pixar Style (Ceria & Detail)", "Anime / Manga Style", "Retro Cartoon"].index(st.session_state.lab_visual))
 
-    # --- AREA HASIL PRODUKSI (BAWAH) ---
-    st.divider()
+    # --- LOGIKA GENERATE ---
     if btn_generate:
-        if topik and all([k.split(": ")[1] != "" for k in list_karakter]):
-            # Mapping Produksi Pintar Media
+        if st.session_state.lab_topik and all([k.split(": ")[1] != "" for k in list_karakter]):
             visual_map = {
                 "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed texture.",
                 "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, vibrant colors, cinematic lighting.",
                 "Anime / Manga Style": "Modern anime style, vibrant colors, clean lines.",
                 "Retro Cartoon": "1990s retro cartoon style, bold outlines."
             }
-            prompt_visual = visual_map[visual]
+            prompt_visual = visual_map[st.session_state.lab_visual]
             str_karakter = "\n".join(list_karakter)
             tokoh_utama = list_karakter[0].split(". ")[1].split(":")[0]
 
-            # Logika Viral
-            if pola == "Viral Drama (Zero to Hero / Revenge)":
+            if st.session_state.lab_pola == "Viral Drama (Zero to Hero / Revenge)":
                 alur_spesifik = f"Adegan 1: {tokoh_utama} dituduh/dihina. Adegan Akhir: {tokoh_utama} terbukti hebat."
-                judul_viral = f"🔥 JUDUL: {topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
-            elif pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
+                judul_v = f"🔥 JUDUL: Dituduh {st.session_state.lab_topik[:20]}..., Ternyata {tokoh_utama} Adalah..."
+            elif st.session_state.lab_pola == "Lomba Konyol (Komedi Interaktif / Call to Action)":
                 alur_spesifik = f"Adegan 1-3: Lomba konyol. Adegan 4: {tokoh_utama} minta LIKE & SUB. Adegan 5: Juara konyol."
-                judul_viral = f"🤣 JUDUL: {topik[:20]}... Paling Absurd!"
+                judul_v = f"🤣 JUDUL: Lomba {st.session_state.lab_topik[:20]}... Paling Absurd!"
             else:
                 alur_spesifik = "Alur standar dengan plot twist."
-                judul_viral = f"🎬 JUDUL: {topik[:20]}..."
+                judul_v = f"🎬 JUDUL: Kisah {st.session_state.lab_topik[:20]}..."
 
-            master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
+            # Simpan hasil ke session state agar tidak hilang
+            st.session_state.lab_hasil_mantra = {
+                "judul": judul_v,
+                "mantra": f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
 {str_karakter}
 
-Tugas: Buatkan naskah {jumlah_adegan} adegan dengan pola: {pola}.
-Topik Cerita: {topik}
+Tugas: Buatkan naskah {st.session_state.lab_adegan} adegan dengan pola: {st.session_state.lab_pola}.
+Topik Cerita: {st.session_state.lab_topik}
 Alur Spesifik: {alur_spesifik}
 
 Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
 Gaya Visual: {prompt_visual}"""
+            }
 
-            st.subheader("📜 Hasil Produksi")
-            res_c1, res_c2 = st.columns([0.4, 0.6])
-            with res_c1:
-                st.info("💎 Judul Clickbait")
-                st.code(judul_viral, language="text")
-            with res_c2:
-                st.info("🔮 Mantra Naskah")
-                st.code(master_instruction, language="text")
-        else:
-            st.error("Lengkapi data dulu, Bos!")
+    # --- TAMPILKAN HASIL DARI SESSION STATE ---
+    if st.session_state.lab_hasil_mantra:
+        st.divider()
+        st.subheader("📜 Hasil Produksi")
+        res_c1, res_c2 = st.columns([0.4, 0.6])
+        with res_c1:
+            st.info("💎 Judul Clickbait")
+            st.code(st.session_state.lab_hasil_mantra["judul"], language="text")
+        with res_c2:
+            st.info("🔮 Mantra Naskah")
+            st.code(st.session_state.lab_hasil_mantra["mantra"], language="text")
             
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -703,6 +706,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
