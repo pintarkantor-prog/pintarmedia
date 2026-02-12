@@ -140,19 +140,45 @@ def pasang_css_kustom():
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
+        # Menambahkan logo atau jarak atas agar tidak terlalu mepet layar
         st.markdown("<br>", unsafe_allow_html=True)
-        pilihan = st.radio("NAVIGASI WORKSPACE", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
         
-        # PENGATUR JUMLAH ADEGAN (DEFAULT 5)
+        # Menggunakan judul yang lebih elegan
+        st.markdown("<p style='font-size: 12px; color: #8b949e; font-weight: bold; letter-spacing: 1px;'>MAIN WORKSPACE</p>", unsafe_allow_html=True)
+        
+        pilihan = st.radio(
+            "PILIH MODUL:", # Label ini akan disembunyikan oleh CSS .small-label kita
+            ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"],
+            label_visibility="collapsed"
+        )
+        
         st.markdown("---")
-        st.markdown("🎬 **PENGATURAN FILM**")
-        st.session_state.data_produksi["jumlah_adegan"] = st.number_input("Jumlah Adegan", 1, 50, st.session_state.data_produksi["jumlah_adegan"])
         
-        st.markdown("<br>"*5, unsafe_allow_html=True)
+        # PENGATUR JUMLAH ADEGAN dibuat lebih minimalis
+        st.markdown("<p style='font-size: 12px; color: #8b949e; font-weight: bold;'>🎬 FILM SETTINGS</p>", unsafe_allow_html=True)
+        st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
+            "Jumlah Adegan", 1, 50, 
+            value=st.session_state.data_produksi["jumlah_adegan"],
+            label_visibility="visible"
+        )
+        
+        # Memberikan spasi fleksibel agar tombol logout terdorong ke bawah
+        st.markdown("<br>" * 8, unsafe_allow_html=True)
+        
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
+        
+        # Bagian Footer Info User yang Rapi
         user = st.session_state.get("user_aktif", "USER").upper()
-        st.markdown(f'<div class="status-footer">STATION: {user}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
+        st.markdown(f'''
+            <div style="border-top: 1px solid #30363d; padding-top: 15px; margin-top: 10px;">
+                <p class="status-footer">
+                    🛰️ STATION: {user}_SESSION<br>
+                    🟢 STATUS: AKTIF
+                </p>
+            </div>
+        ''', unsafe_allow_html=True)
+        
     return pilihan
 
 # ==============================================================================
@@ -327,6 +353,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
