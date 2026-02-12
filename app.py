@@ -277,16 +277,17 @@ def pasang_css_kustom():
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
-        # Judul Menu dengan Style Terminal
+        # 1. JUDUL DENGAN IKON (Sesuai Gambar)
         st.markdown("""
-            <div style='margin-bottom: -20px;'>
-                <p style='font-size: 13px; color: #8b949e; font-weight: bold; letter-spacing: 1.5px;'>
-                    🖥️ MAIN COMMAND
-                </p>
+            <div style='display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;'>
+                <span style='font-size: 20px; margin-right: 10px;'>🖥️</span>
+                <span style='font-size: 14px; color: white; font-weight: bold; letter-spacing: 1px;'>
+                    MAIN COMMAND
+                </span>
             </div>
         """, unsafe_allow_html=True)
         
-        # Menu Radio
+        # 2. MENU RADIO (Daftar Pilihan)
         pilihan = st.radio(
             "COMMAND_MENU",
             [
@@ -299,8 +300,8 @@ def tampilkan_navigasi_sidebar():
             label_visibility="collapsed"
         )
         
-        # Spasi ke bawah sebelum masuk ke Cloud Database
-        st.markdown("<div style='margin-top: 30px;'></div>", unsafe_allow_html=True)
+        # 3. GARIS PEMISAH & SPASI KE BAWAH
+        st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         
         # 1. KOTAK DURASI FILM
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
@@ -527,6 +528,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
