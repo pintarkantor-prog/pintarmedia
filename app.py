@@ -25,10 +25,9 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS: background gelap + centering login lebih kuat
+# CSS: centering paksa + padding minimal
 st.markdown("""
     <style>
-    /* Background gelap full */
     .stApp, section.main, .block-container {
         background-color: #0e1117 !important;
         color: #e0e0e0 !important;
@@ -36,7 +35,6 @@ st.markdown("""
         padding: 0 !important;
     }
 
-    /* Blokir HP */
     @media (max-width: 1024px) {
         .stApp { display: none !important; }
         body::before {
@@ -54,7 +52,6 @@ st.markdown("""
         }
     }
 
-    /* Login centering paksa */
     .login-outer {
         height: 100vh;
         display: flex;
@@ -69,28 +66,27 @@ st.markdown("""
         max-width: 360px;
         background: #1a1c24;
         border-radius: 12px;
-        padding: 24px 20px;
+        padding: 20px 16px;  /* dikecilkan agar lebih rapat */
         border: 1px solid #2d3748;
         box-shadow: 0 8px 32px rgba(0,0,0,0.6);
         text-align: center;
     }
     .logo-box {
-        margin-bottom: 20px;
+        margin-bottom: 16px;
     }
     .welcome {
         color: #28a745;
         font-size: 1.5rem;
         font-weight: bold;
-        margin: 20px 0;
+        margin: 16px 0;
     }
     .footer {
         color: #666;
         font-size: 0.8rem;
-        margin-top: 30px;
+        margin-top: 24px;
         text-align: center;
     }
 
-    /* Input rapi */
     .stTextInput > div > div > input {
         background: #0e1117;
         border: 1px solid #3a3f4a;
@@ -122,11 +118,11 @@ if not st.session_state.logged_in:
     st.markdown('<div class="login-outer">', unsafe_allow_html=True)
     st.markdown('<div class="login-inner">', unsafe_allow_html=True)
 
-    # Logo - GANTI URL RAW INI DENGAN URL ASLI DARI GITHUB KAMU!
+    # Logo - URL sudah diganti dengan yang kamu berikan
     st.markdown('<div class="logo-box">', unsafe_allow_html=True)
     try:
         st.image(
-            "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png",  # <-- PASTIKAN INI URL RAW BENAR!
+            "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png",
             use_container_width=True
         )
     except:
@@ -174,7 +170,7 @@ with st.sidebar:
             del st.session_state[key]
         st.rerun()
 
-# Menu utama
+# Menu utama (lengkap dari kode kamu)
 if selected_menu == "🚀 RUANG PRODUKSI":
     st.title("🚀 RUANG PRODUKSI")
     st.caption("Buat storyboard adegan secara konsisten (bisa tambah adegan manual)")
