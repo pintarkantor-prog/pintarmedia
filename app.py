@@ -376,12 +376,11 @@ def tampilkan_navigasi_sidebar():
 # ==============================================================================
 # BAGIAN 5: MODUL-MODUL PENDUKUNG (UPGRADED VERSION)
 # ==============================================================================
-
 def tampilkan_ai_lab():
-    # Menggunakan header standar Streamlit agar sinkron dengan menu lain
+    # Menggunakan header standar Streamlit
     st.title("🧠 PINTAR AI LAB")
     st.write("Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!")
-    st.divider() # Garis pemisah standar
+    st.divider() 
 
     # Layout kolom menggunakan rasio standar
     col1, col2 = st.columns(2)
@@ -396,10 +395,25 @@ def tampilkan_ai_lab():
             "Horor Komedi", 
             "Action Cepat"
         ])
+
+        # FITUR BARU: Pilihan Gaya Visual
+        visual = st.selectbox("Gaya Visual AI", [
+            "3D Pixar Style (Ceria & Detail)",
+            "Cinematic Realistic (Seperti Film Nyata)",
+            "Anime / Manga Style (Gaya Jepang)",
+            "Retro Cartoon (Gaya Kartun Jadul)"
+        ])
+        
+        # Mapping pilihan ke instruksi bahasa Inggris untuk AI
+        visual_map = {
+            "3D Pixar Style (Ceria & Detail)": "3D Pixar-style animation, high detail texture (orange and wood), vibrant colors, cinematic lighting.",
+            "Cinematic Realistic (Seperti Film Nyata)": "Cinematic realistic photography, 8k resolution, highly detailed skin and wood texture, natural lighting.",
+            "Anime / Manga Style (Gaya Jepang)": "Modern anime style, vibrant colors, clean lines, expressive facial expressions, high quality cel-shaded.",
+            "Retro Cartoon (Gaya Kartun Jadul)": "1990s retro cartoon style, hand-drawn aesthetic, bold outlines, saturated colors."
+        }
         
         jumlah_adegan = st.slider("Target Jumlah Adegan", 1, 10, 3)
         
-        # Tombol menggunakan container width agar penuh sesuai kolom
         btn_generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True)
 
     with col2:
@@ -407,7 +421,10 @@ def tampilkan_ai_lab():
         
         if btn_generate:
             if topik:
-                # Rakitan Mantra Master untuk Pintar Media
+                # Mengambil instruksi visual berdasarkan pilihan
+                prompt_visual = visual_map[visual]
+
+                # Rakitan Mantra Master
                 master_instruction = f"""Identitas: Kamu adalah Scriptwriter Pro untuk channel 'Pintar Media'.
 Karakter Wajib:
 1. UDIN: Pria kepala jeruk, lucu, tapi sering sial.
@@ -417,17 +434,16 @@ Tugas: Buatkan naskah {jumlah_adegan} adegan dengan gaya {gaya}.
 Topik: {topik}
 
 Format Output: Tabel (Adegan, Aksi Visual Detail, Prompt Gambar Inggris, SFX).
-Gaya Visual: 3D Pixar-style animation, high detail texture (orange and wood), vibrant colors."""
+Gaya Visual: {prompt_visual}"""
                 
-                # Menggunakan st.code karena memiliki tombol COPY default yang sangat jelas di pojok kanan atas
+                # Menampilkan hasil dengan st.code agar ada tombol COPY
                 st.code(master_instruction, language="text")
-                st.success("Mantra siap! Klik ikon papan klip (copy) di pojok kanan atas kotak hitam.")
+                st.success(f"Mantra gaya {visual} siap! Silakan copy ke Gemini.")
             else:
                 st.warning("Silakan isi topik ceritanya dulu, Bos!")
         else:
-            # Placeholder awal saat belum ada input
             st.info("Masukkan topik cerita di samping, lalu klik tombol Generate.")
-
+            
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
     st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
@@ -623,6 +639,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
