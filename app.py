@@ -154,12 +154,11 @@ def tampilkan_navigasi_sidebar():
         
         st.markdown("---")
         
-        # PENGATUR JUMLAH ADEGAN dibuat lebih minimalis
-        st.markdown("<p style='font-size: 12px; color: #8b949e; font-weight: bold;'>🎬 FILM SETTINGS</p>", unsafe_allow_html=True)
-        st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
+        st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
+        st.session_state.data_produksi["jumlah_adegan"] = st.slider(
             "Jumlah Adegan", 1, 50, 
             value=st.session_state.data_produksi["jumlah_adegan"],
-            label_visibility="visible"
+            label_visibility="collapsed"
         )
         
         # Memberikan spasi fleksibel agar tombol logout terdorong ke bawah
@@ -353,6 +352,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
