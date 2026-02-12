@@ -26,7 +26,6 @@ def inisialisasi_keamanan():
             st.session_state.waktu_login = datetime.now()
 
 def proses_login(user, pwd):
-    """Fungsi mandiri untuk validasi login (DIKEMBALIKAN)"""
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
         st.session_state.sudah_login = True
         st.session_state.user_aktif = user
@@ -48,10 +47,13 @@ def tampilkan_halaman_login():
         
         st.markdown("<br>", unsafe_allow_html=True)
         
+        # FORM UNTUK FITUR ENTER
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             st.markdown("<br>", unsafe_allow_html=True)
+            
+            # Tombol ini akan otomatis berwarna hijau karena CSS di Bagian 3
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
             
             if submit:
@@ -76,17 +78,44 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS)
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - DISINI WARNA HIJAUNYA
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
         <style>
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
-        div[data-testid="stForm"] { border: 1px solid #30363d !important; border-radius: 12px !important; padding: 20px !important; }
-        button[kind="primaryFormSubmit"] { background-color: #10b981 !important; color: white !important; border: none !important; height: 45px !important; font-weight: bold !important; }
-        div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #1d2127 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
+        
+        /* BOX LOGIN */
+        div[data-testid="stForm"] {
+            border: 1px solid #30363d !important;
+            border-radius: 12px !important;
+            padding: 20px !important;
+        }
+
+        /* PERBAIKAN TOMBOL HIJAU EMERALD UNTUK FORM */
+        button[kind="primaryFormSubmit"] {
+            background-color: #10b981 !important;
+            color: white !important;
+            border: none !important;
+            height: 45px !important;
+            font-weight: bold !important;
+            transition: 0.3s !important;
+        }
+        
+        button[kind="primaryFormSubmit"]:hover {
+            background-color: #059669 !important;
+            border: none !important;
+        }
+
+        div[data-baseweb="input"], div[data-baseweb="textarea"] {
+            background-color: #1d2127 !important;
+            border: 1px solid #30363d !important;
+            border-radius: 8px !important;
+        }
+
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
+        
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -110,31 +139,32 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG (DIKEMBALIKAN DETAIL)
+# BAGIAN 5: MODUL-MODUL PENDUKUNG
 # ==============================================================================
 def tampilkan_ai_lab(): 
     st.markdown("### 🧠 Pintar AI Lab")
-    st.info("Area riset prompt. Gunakan modul ini untuk bereksperimen dengan perintah AI baru.")
+    st.info("Area riset prompt untuk eksperimen model AI.")
 
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
-    st.info("Generator kilat. Masukkan ide singkat untuk mendapatkan prompt instan.")
+    st.info("Generator prompt instan untuk produksi kilat.")
 
 def tampilkan_tugas_kerja(): 
     st.markdown("### 📋 Tugas Kerja")
-    st.info("Daftar antrian produksi. Pastikan setiap anggota tim menyelesaikan tugas sesuai jadwal.")
+    st.info("Monitoring antrian produksi tim.")
 
 def tampilkan_kendali_tim(): 
     st.markdown("### ⚡ Kendali Tim")
-    st.info("Panel administrasi untuk mengatur akses station dan pembagian beban kerja.")
+    st.info("Pengaturan akses dan koordinasi tim.")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (DIKEMBALIKAN FULL)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
     
+    # INPUT KARAKTER
     with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
         juml = st.number_input("Total Karakter", 1, 5, 2)
         cols = st.columns(juml)
@@ -146,6 +176,7 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
+    # INPUT ADEGAN (BERURUTAN KE BAWAH)
     with st.expander("🟢 ADEGAN 1", expanded=True):
         st.text_input("Lokasi Adegan 1", key="loc1", placeholder="Lokasi...")
         st.text_area("Aksi & Narasi Adegan 1", key="act1", height=200, placeholder="Narasi...")
@@ -158,7 +189,7 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Prompt berhasil disusun!")
+        st.success("Prompt berhasil dikompilasi!")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
