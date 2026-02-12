@@ -167,10 +167,9 @@ def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (FULL CONSISTENT SMALL-LABEL)
 # ==============================================================================
 def tampilkan_ruang_produksi():
-    # Mengambil waktu UTC dan ditambah 7 jam agar jadi WIB
+    # Ambil data waktu (WIB)
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     
-    # Daftar nama hari dan bulan Indonesia
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
                 "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
@@ -178,7 +177,9 @@ def tampilkan_ruang_produksi():
     nama_hari = hari_id[sekarang.weekday()]
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
-    jam_menit = sekarang.strftime("%H:%M")
+
+    # Ambil nama user yang sedang login
+    user_aktif = st.session_state.get("user_aktif", "User").capitalize()
 
     # Header Ruang Produksi
     c1, c2 = st.columns([2.2, 1.8]) 
@@ -188,8 +189,19 @@ def tampilkan_ruang_produksi():
     
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
-        # Menampilkan waktu yang sudah ditambah 7 jam
-        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Pukul {jam_menit} WIB")
+        # Tampilan Baru: Tanggal | Staf Aktif
+        st.markdown(f"""
+            <div style="background-color: rgba(16, 185, 129, 0.1); 
+                        padding: 10px; 
+                        border-radius: 8px; 
+                        border: 1px solid #10b981; 
+                        color: #10b981; 
+                        font-size: 13px; 
+                        font-weight: bold; 
+                        text-align: center;">
+                🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf Aktif: {user_aktif}
+            </div>
+        """, unsafe_allow_html=True)
     
     st.write("---")
     
@@ -325,6 +337,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
