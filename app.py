@@ -155,13 +155,13 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (TATA LETAK BARU)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (TATA LETAK REFERENSI + MENU HYBRID)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
     st.write("---")
     
-    # 1. IDENTITY LOCK (Tetap di bagian atas)
+    # 1. IDENTITY LOCK (Tetap di atas untuk mengunci kemiripan foto)
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
         juml = st.number_input("Jumlah Karakter di Scene", 1, 3, 2)
         karakter_data = []
@@ -176,73 +176,72 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (MENIRU TATA LETAK GAMBAR REFERENSI)
+    # 2. INPUT ADEGAN (TATA LETAK MENIRU REFERENSI - ISI MENU SESUAI KESEPAKATAN)
     with st.expander("🟢 ADEGAN 1", expanded=True):
-        # Baris Utama: Cerita Visual di kiri, Pengaturan di kanan
+        # Layout: 2 kolom (Kiri untuk naskah luas, Kanan untuk setting teknis)
         col_text, col_set = st.columns([2, 1])
         
         with col_text:
-            st.markdown("📸 **Cerita Visual 1**")
+            st.markdown("📸 **Naskah Visual & Aksi**")
             aksi = st.text_area(
-                "Detail adegan", 
-                height=250, 
+                "Aksi & Interaksi", 
+                height=350, # Dibuat tinggi agar puas mengetik
                 key="h_act", 
-                placeholder="Ceritakan detail adegannya di sini...",
+                placeholder="Deskripsikan aksi karakter dan detail kejadian di sini...",
                 label_visibility="collapsed"
             )
         
         with col_set:
-            # Grid pengaturan di sisi kanan
-            st.markdown("💡 **SUASANA**")
-            mood = st.selectbox("Mood", ["Siang", "Malam", "Sore/Golden Hour", "Cinematic", "Cyberpunk"], key="h_mood", label_visibility="collapsed")
+            # Menu-menu di sisi kanan sesuai kesepakatan Hybrid kita
+            st.markdown("✨ **CINEMATIC STYLE**")
+            mood = st.selectbox("Style", ["Hyper-Realistic RAW Photo", "3D Animation Style", "Cinematic Film 90s"], key="h_mood", label_visibility="collapsed")
             
-            st.markdown("📐 **UKURAN GAMBAR**")
-            rasio = st.selectbox("Ratio", ["Setengah Badan", "Seluruh Badan (Full Shot)", "Close Up", "Extreme Close Up"], key="h_rasio", label_visibility="collapsed")
+            st.markdown("📐 **ASPECT RATIO**")
+            rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
             
-            st.markdown("🪄 **ARAH KAMERA**")
-            kamera_arah = st.selectbox("Arah", ["Normal", "Dari Bawah (Low Angle)", "Dari Atas (High Angle)", "Samping"], key="h_kam_arah", label_visibility="collapsed")
+            st.markdown("💡 **LIGHTING**")
+            lighting = st.selectbox("Lighting", ["Golden Hour", "Cinematic Studio", "Volumetric Fog", "Night Street Light", "Natural Sunlight"], key="h_light", label_visibility="collapsed")
             
-            st.markdown("🎬 **GERAKAN KAMERA (KHUSUS VIDEO)**")
-            kamera_gerak = st.selectbox("Gerak", ["Diam (Tanpa Gerak)", "Slow Zoom In", "Panning", "Tracking Shot"], key="h_kam_gerak", label_visibility="collapsed")
+            st.markdown("🎥 **CAMERA MOVEMENT (VIDEO)**")
+            kamera = st.selectbox("Camera", ["Static Shot", "Tracking Side View", "Slow Zoom In", "Handheld Cinematic"], key="h_cam", label_visibility="collapsed")
             
             st.markdown("📍 **LOKASI**")
-            lokasi_preset = st.selectbox("Preset", ["--- KETIK MANUAL ---", "Hutan", "Pasar", "Kota", "Kantor"], key="h_loc_pre", label_visibility="collapsed")
-            lokasi = st.text_input("Spesifik Lokasi", key="h_loc", placeholder="Contoh: di dalam gerbang kereta api tua...")
+            lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-        # Baris Bawah: Dialog Karakter
+        # Baris Bawah untuk Dialog (Acting Cue)
+        st.markdown("💬 **ACTING CUE (DIALOG UNTUK EMOSI)**")
         col_d1, col_d2 = st.columns(2)
         with col_d1:
-            st.markdown("💬 **Dialog Karakter 1**")
-            d1 = st.text_input("D1", key="h_d1", label_visibility="collapsed")
+            d1 = st.text_input("Dialog Karakter 1", key="h_d1", placeholder="Karakter 1 bicara...")
         with col_d2:
-            st.markdown("💬 **Dialog Karakter 2**")
-            d2 = st.text_input("D2", key="h_d2", label_visibility="collapsed")
+            d2 = st.text_input("Dialog Karakter 2", key= "h_d2", placeholder="Karakter 2 bicara...")
 
-    # 3. HYBRID COMPILER LOGIC (Tetap sama sesuai hasil diskusi kita)
+    # 3. HYBRID COMPILER LOGIC
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
-        # Penggabungan Data untuk Prompt
+        # Logic Identity Lock
         char_identities = " AND ".join([
             f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. Wearing: {c['wear']} ]]" 
             for c in karakter_data if c['nama']
         ])
         
-        # Gabungan dialog untuk Acting Cue
+        # Dialog Cue
         dialog_cue = f"{karakter_data[0]['nama']}: '{d1}' | {karakter_data[1]['nama']}: '{d2}'" if len(karakter_data) > 1 else f"'{d1}'"
 
-        tech_rules = "STRICT VISUAL RULE: CLEAN PHOTOGRAPHY. NO TEXT. NO SUBTITLES. f/11 aperture, infinite depth of field, 8k RAW photo."
+        # Image Prompt (Grok)
+        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood: {mood}. Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
 
-        # Hasil Compile
-        image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Style: {mood}, {rasio}, {kamera_arah}. {tech_rules}"
-        video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: {dialog_cue}. Camera: {kamera_gerak}. 60fps, fluid motion."
+        # Video Prompt (Veo)
+        video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera: {kamera}. Lighting: {lighting}. 60fps, fluid motion, no morphing."
 
         st.subheader("📋 Production Ready Prompts")
-        st.markdown("##### 🖼️ Grok Image Prompt")
+        st.markdown("##### 🖼️ Grok Image Prompt (Identity Lock)")
         st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
-        st.markdown("##### 🎬 Veo Video Prompt")
+        st.markdown("##### 🎬 Veo Video Prompt (Motion Control)")
         st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
+        )
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
 # ==============================================================================
@@ -262,6 +261,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
