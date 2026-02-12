@@ -374,12 +374,69 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: MODUL-MODUL PENDUKUNG
+# BAGIAN 5: MODUL-MODUL PENDUKUNG (UPGRADED VERSION)
 # ==============================================================================
-def tampilkan_ai_lab(): st.markdown("### 🧠 Pintar AI Lab"); st.info("Area riset prompt.")
-def tampilkan_quick_prompt(): st.markdown("### ⚡ Quick Prompt")
-def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
-def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
+def tampilkan_ai_lab():
+    st.markdown("# 🧠 PINTAR AI LAB")
+    st.markdown("<p style='color: #8b949e;'>Solusi cerdas buat staf yang buntu ide. Gak perlu API, tinggal Copy-Paste ke Gemini!</p>", unsafe_allow_html=True)
+    st.markdown("---")
+
+    col_input, col_output = st.columns([1, 1.2])
+
+    with col_input:
+        st.markdown("### 📝 Input Ide")
+        topik = st.text_input("Mau bikin cerita tentang apa?", placeholder="Contoh: Udin nemu dompet di jalan...")
+        
+        gaya = st.selectbox("Gaya Cerita", [
+            "Komedi Lucu (Slapstick)", 
+            "Action Tegas (Hollywood)", 
+            "Horor Mencekam", 
+            "Edukasi Santai",
+            "Drama Plot Twist"
+        ])
+        
+        jml_adegan = st.slider("Target Jumlah Adegan", 3, 10, 5)
+
+        st.markdown("---")
+        generate = st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary")
+
+    with col_output:
+        st.markdown("### 📜 Hasil Mantra (Copy ke Gemini)")
+        if generate and topik:
+            # --- PROMPT MASTER DENGAN PENGENALAN KARAKTER OTOMATIS ---
+            master_prompt = (
+                f"Tolong buatkan naskah video pendek YouTube Shorts untuk channel 'Pintar Media'.\n\n"
+                f"TOPIK: {topik}\n"
+                f"STYLE: {gaya}\n"
+                f"JUMLAH ADEGAN: {jml_adegan}\n\n"
+                f"REFERENSI KARAKTER (WAJIB PAKAI):\n"
+                f"1. UDIN: Pria berkepala jeruk, sifatnya lucu tapi sering sial.\n"
+                f"2. TUNG: Pria berkepala kayu, sifatnya kaku, logis, dan sering jadi penengah.\n\n"
+                f"ATURAN PENULISAN:\n"
+                f"- Buat naskah yang CEPAT, PADAT, dan VISUAL.\n"
+                f"- Berikan Plot Twist yang tak terduga di akhir cerita.\n"
+                f"- Tuliskan AKSI VISUAL detil per adegan (tanpa dialog dulu).\n"
+                f"- Format Output: Adegan 1: [Aksi], Adegan 2: [Aksi], dst.\n\n"
+                f"Gunakan bahasa Indonesia yang kreatif dan menarik!"
+            )
+            
+            st.success("✅ MANTRA SIAP!")
+            st.code(master_prompt, language="text")
+            st.info("💡 **Cara Pakai:** Copy teks di atas, paste ke Gemini/ChatGPT, lalu ambil hasilnya untuk dimasukkan ke Ruang Produksi.")
+        else:
+            st.info("Masukkan topik cerita di samping, lalu klik tombol Generate.")
+
+def tampilkan_quick_prompt(): 
+    st.markdown("### ⚡ Quick Prompt")
+    st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
+
+def tampilkan_tugas_kerja(): 
+    st.markdown("### 📋 Tugas Kerja")
+    st.info("Daftar tugas tim produksi Pintar Media.")
+
+def tampilkan_kendali_tim(): 
+    st.markdown("### ⚡ Kendali Tim")
+    st.info("Area manajemen staf dan performa.")
 
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -564,6 +621,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
