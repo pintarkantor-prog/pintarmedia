@@ -5,16 +5,15 @@ from datetime import datetime
 import pytz
 
 # ────────────────────────────────────────────────
-# INISIALISASI SESSION STATE SECARA AMAN (HARUS DI ATAS SEMUA)
+# INISIALISASI SESSION STATE SECARA AMAN (WAJIB DI ATAS)
 # ────────────────────────────────────────────────
-# Ini wajib untuk mencegah error "_missing_attr_error_message"
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
     st.session_state.logged_in = False
     st.session_state.user = None
     st.session_state.login_time = None
 
-# Auto logout setelah 10 jam (36.000 detik)
+# Auto logout setelah 10 jam
 if st.session_state.get('logged_in', False) and st.session_state.get('login_time'):
     if time.time() - st.session_state.login_time > 36000:
         for key in list(st.session_state.keys()):
@@ -22,7 +21,7 @@ if st.session_state.get('logged_in', False) and st.session_state.get('login_time
         st.rerun()
 
 # ────────────────────────────────────────────────
-# KONFIGURASI HALAMAN & CSS
+# KONFIGURASI HALAMAN & CSS GLOBAL
 # ────────────────────────────────────────────────
 st.set_page_config(
     page_title="PINTAR MEDIA Generator",
@@ -31,29 +30,29 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS: Blokir HP + tema gelap dengan aksen hijau
 st.markdown("""
     <style>
-    /* Blokir akses dari HP / layar kecil */
+    /* Blokir HP */
     @media (max-width: 1024px) {
         .stApp { display: none !important; }
         body::before {
-            content: "⚠️ Aplikasi ini hanya bisa diakses dari komputer / layar lebar";
+            content: "⚠️ Gunakan komputer / layar lebar!";
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             background: #0e1117;
-            color: #ffffff;
+            color: white;
             font-size: 1.5rem;
             font-weight: bold;
             text-align: center;
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
+            inset: 0;
             z-index: 9999;
         }
     }
-    /* Tema gelap + hijau accent */
+
+    /* Tema gelap */
     :root {
         --bg: #0e1117;
         --text: #e0e0e0;
@@ -61,17 +60,66 @@ st.markdown("""
         --accent-light: #28a745;
     }
     .stApp { background-color: var(--bg); color: var(--text); }
-    .stButton > button[kind="primary"] {
-        background: linear-gradient(90deg, var(--accent), var(--accent-light));
-        color: white;
-        border: none;
+
+    /* Login page styling */
+    .login-wrapper {
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
     }
-    h1, h2, h3 { color: var(--accent-light); }
+    .login-box {
+        width: 100%;
+        max-width: 380px;
+        background: #1a1c24;
+        border-radius: 12px;
+        padding: 32px 24px;
+        border: 1px solid #2d3748;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+    }
+    .logo-container {
+        margin-bottom: 24px;
+        text-align: center;
+    }
+    .welcome-msg {
+        text-align: center;
+        color: #28a745;
+        font-size: 1.6rem;
+        font-weight: bold;
+        margin: 20px 0;
+    }
+    .footer {
+        margin-top: 40px;
+        color: #666;
+        font-size: 0.85rem;
+        text-align: center;
+    }
+    /* Input lebih ramping */
+    .stTextInput > div > div > input {
+        background: #0e1117;
+        border: 1px solid #3a3f4a;
+        border-radius: 6px;
+        padding: 10px 12px;
+        color: white;
+    }
+    .stTextInput label {
+        color: #a0a0a0 !important;
+        margin-bottom: 4px;
+        font-size: 0.9rem;
+    }
+    /* Tombol full width tapi lebih kecil */
+    .stButton > button {
+        width: 100%;
+        padding: 10px !important;
+        font-size: 1rem !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# DATA USER & PASSWORD
+# DATA LOGIN
 # ────────────────────────────────────────────────
 USER_PASSWORDS = {
     "dian": "QWERTY21ab",
@@ -83,88 +131,48 @@ USER_PASSWORDS = {
 }
 
 # ────────────────────────────────────────────────
-# HALAMAN LOGIN
+# HALAMAN LOGIN (kompak, mirip screenshot)
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    st.markdown("""
-        <style>
-        .login-container {
-            max-width: 400px;
-            margin: 100px auto;
-            padding: 40px 30px;
-            background: #1a1c24;
-            border-radius: 16px;
-            border: 1px solid #2d3748;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-            text-align: center;
-        }
-        .login-title {
-            font-size: 3.2rem;
-            font-weight: bold;
-            background: linear-gradient(90deg, #ff6b6b, #4ecdc4, #45b7d1, #96c93d, #feca57);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 30px;
-        }
-        .welcome-message {
-            text-align: center;
-            font-size: 1.8rem;
-            color: #28a745;
-            margin: 20px 0;
-            font-weight: bold;
-        }
-        .stTextInput > div > div > input {
-            background: #0e1117;
-            color: white;
-            border: 1px solid #3a3f4a;
-            border-radius: 8px;
-            padding: 12px;
-        }
-        .stTextInput label {
-            color: #a0a0a0 !important;
-            font-size: 0.95rem;
-        }
-        </style>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
 
-    st.markdown('<div class="login-container">', unsafe_allow_html=True)
+    st.markdown('<div class="login-box">', unsafe_allow_html=True)
 
-    # Logo dari GitHub (ganti URL raw ini dengan URL asli milikmu!)
+    # Logo (ganti URL raw dengan yang BENAR dari repo GitHub-mu!)
+    st.markdown('<div class="logo-container">', unsafe_allow_html=True)
     try:
         st.image(
             "https://raw.githubusercontent.com/PintarKantor/nama-repo-mu/main/PINTAR.png",
             use_container_width=True
         )
     except:
-        st.markdown('<h1 class="login-title">PINTAR MEDIA</h1>', unsafe_allow_html=True)
+        st.markdown('<h2 style="color:#28a745; margin:0;">PINTAR MEDIA</h2>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
 
-    username = st.text_input("Username", placeholder="Username...", key="login_username")
-    password = st.text_input("Password", type="password", placeholder="Password...", key="login_password")
+    username = st.text_input("", placeholder="Username...", key="login_username", label_visibility="collapsed")
+    password = st.text_input("", type="password", placeholder="Password...", key="login_password", label_visibility="collapsed")
 
-    if st.button("MASUK", type="primary", use_container_width=True):
+    if st.button("MASUK", type="primary"):
         clean_user = username.strip().lower()
         if clean_user in USER_PASSWORDS and password == USER_PASSWORDS[clean_user]:
             st.session_state.logged_in = True
             st.session_state.user = clean_user
             st.session_state.login_time = time.time()
-            st.markdown(f'<div class="welcome-message">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
+            st.markdown(f'<div class="welcome-msg">Selamat datang, {clean_user.capitalize()}!</div>', unsafe_allow_html=True)
             time.sleep(2)
             st.rerun()
         else:
             st.error("Username atau password salah.")
 
-    st.markdown('</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)  # tutup login-box
 
-    st.markdown("""
-        <div style="text-align:center; color:#666; margin-top:30px; font-size:0.85rem;">
-            © 2026 PINTAR MEDIA • Akses Aman
-        </div>
-    """, unsafe_allow_html=True)
+    st.markdown('<div class="footer">© 2026 PINTAR MEDIA • Akses Aman</div>', unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)  # tutup wrapper
 
     st.stop()
 
 # ────────────────────────────────────────────────
-# SIDEBAR NAVIGASI
+# SIDEBAR (setelah login)
 # ────────────────────────────────────────────────
 with st.sidebar:
     st.markdown(f"**User aktif:** {st.session_state.user.upper()}")
@@ -248,7 +256,7 @@ if selected_menu == "🚀 RUANG PRODUKSI":
                 st.error(f"Gagal membaca file: {str(e)}")
 
     if st.button("🚀 Generate Semua Prompt", type="primary", use_container_width=True):
-        st.info("Fitur generate prompt lengkap akan ditambahkan di sini (genre, lighting, camera, dll).")
+        st.info("Fitur generate prompt lengkap akan ditambahkan di sini.")
 
 elif selected_menu == "🧠 PINTAR AI LAB":
     st.title("🧠 PINTAR AI LAB")
@@ -332,6 +340,7 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
 
 
