@@ -207,11 +207,6 @@ def tampilkan_ruang_produksi():
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
-        # ----------------------------------------------------------------------
-        # BARIS DIALOG: Sejajar tepat di bawah garis akhir naskah (Tanpa Judul)
-        # ----------------------------------------------------------------------
-        # Menghapus label 'ACTING CUE' agar sejajar sesuai Untitled.png
-        st.markdown("<br>", unsafe_allow_html=True)
         cols_dialog = st.columns(juml)
         dialogs = []
         for i in range(juml):
@@ -275,6 +270,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
