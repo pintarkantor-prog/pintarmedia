@@ -80,62 +80,82 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
-        /* 1. DASAR APLIKASI */
+        /* Efek Deep Dark Mode */
         .stApp { background-color: #0b0e14; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #0f141a !important; border-right: 1px solid #1e252e; }
+        
+        /* Glassmorphism untuk Expander */
+        .st-emotion-cache-p4mowd { 
+            background-color: rgba(22, 27, 34, 0.5) !important;
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+        }
 
-        /* 2. LABEL HIJAU */
+        /* Label Input Adegan (Kecil & Rapi) */
         .small-label {
-            font-size: 10px !important;
-            letter-spacing: 1px;
+            font-size: 11px !important; /* Kita buat sedikit lebih kecil agar elegan */
+            letter-spacing: 0.05rem;
             text-transform: uppercase;
-            font-weight: 800 !important;
-            color: #10b981 !important;
-            margin-bottom: 8px !important;
+            font-weight: 700 !important;
+            color: #8b949e !important;
+            margin-bottom: 2px !important;
+            margin-top: 12px !important;
             display: block;
         }
 
-        /* 3. MATIKAN SEMUA EFEK MERAH DI SEMUA INPUT */
-        /* Kita targetkan semua kemungkinan selector yang memicu garis merah */
-        div[data-baseweb="input"], 
-        div[data-baseweb="textarea"], 
-        div[data-testid="stNumberInput"],
-        div[data-baseweb="base-input"],
-        .st-ae, .st-af, .st-ag, .st-ah { 
-            border: 1px solid #30363d !important;
-            box-shadow: none !important;
-            outline: none !important;
+        /* FIX SIDEBAR: Mengunci tulisan STATION agar tidak ikut membesar */
+        .status-footer { 
+            font-size: 11px !important; 
+            color: #8b949e !important; 
+            font-family: monospace;
+            line-height: 1.4 !important;
         }
 
-        /* KHUSUS SAAT DIKLIK/FOKUS: Paksa tetap abu-abu, JANGAN MERAH */
-        div[data-baseweb="input"]:focus-within, 
-        div[data-baseweb="textarea"]:focus-within,
-        div[data-testid="stNumberInput"]:focus-within,
-        [data-baseweb="base-input"]:focus-within {
-            border-color: #4f5b66 !important; /* Hanya berubah abu-abu netral */
-            box-shadow: none !important;
-            outline: none !important;
-        }
-
-        /* Hilangkan ring fokus bawaan browser di level terdalam */
-        input, textarea, [role="spinbutton"] {
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-            background-color: transparent !important;
-            -webkit-box-shadow: none !important;
-        }
-
-        /* 4. FOOTER & TOMBOL */
-        .status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
-        
+        /* Tombol Generate Glow */
+        div[data-testid="stBaseButton-headerNoPadding"] button, 
         .stButton button {
             background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
             border: none !important;
             color: white !important;
             font-weight: bold !important;
-            border-radius: 8px !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2) !important;
+            transition: all 0.3s ease !important;
         }
+        
+        .stButton button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        /* Style Input & Textarea */
+        div[data-baseweb="input"], div[data-baseweb="textarea"] {
+            background-color: #0d1117 !important;
+            border: 1px solid #30363d !important;
+        }
+        /* KOTAK JUMLAH ADEGAN CIAMIK */
+        div[data-testid="stNumberInput"] {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            overflow: hidden !important;
+        }
+
+        /* KOTAK JUMLAH ADEGAN - FINAL NO RED */
+        div[data-testid="stNumberInput"] {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            transition: border-color 0.3s ease !important;
+        }
+
+        /* Tombol + dan - tetap elegan */
+        div[data-testid="stNumberInput"] button {
+            border: none !important;
+            background-color: transparent !important;
+            color: #8b949e !important;
+            outline: none !important;
+        }
+        
         </style>
     """, unsafe_allow_html=True)
 
@@ -353,6 +373,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
