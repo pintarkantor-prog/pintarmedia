@@ -79,9 +79,16 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
+def simpan_proyek():
+    """Mengambil data naskah dari memori aplikasi dan merubahnya menjadi teks JSON"""
+    if 'data_produksi' in st.session_state:
+        data = st.session_state.data_produksi
+        return json.dumps(data, indent=4)
+    return "{}"
+
 def simpan_ke_gsheet():
     try:
-        # 1. Koneksi pakai file kunci.json yang kamu upload ke GitHub
+        # 1. Koneksi pakai file kunci.json
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_file("kunci.json", scopes=scope)
         client = gspread.authorize(creds)
@@ -101,6 +108,36 @@ def simpan_ke_gsheet():
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
+def muat_dari_gsheet():
+    try:
+        # 1. Koneksi resmi
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = Credentials.from_service_account_file("kunci.json", scopes=scope)
+        client = gspread.authorize(creds)
+        
+        # 2. Buka file
+        url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+        sheet = client.open_by_url(url_gsheet).sheet1
+        
+        # 3. Ambil semua data dan cari punya user aktif
+        semua_data = sheet.get_all_records()
+        user_sekarang = st.session_state.get("user_aktif", "")
+        
+        # Cari baris yang usernamenya cocok
+        user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang.lower()]
+        
+        if user_rows:
+            # Ambil naskah terbaru (baris paling bawah dari user tersebut)
+            naskah_terakhir = user_rows[-1]['Data_Naskah']
+            st.session_state.data_produksi = json.loads(naskah_terakhir)
+            st.success(f"🔄 Naskah milik {user_sekarang} berhasil dipulihkan dari Cloud!")
+            st.rerun()
+        else:
+            st.warning("⚠️ Kamu belum pernah menyimpan data ke Cloud.")
+            
+    except Exception as e:
+        st.error(f"Gagal memuat dari Cloud: {e}")
+        
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
 # ==============================================================================
@@ -464,6 +501,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
