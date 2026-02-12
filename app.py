@@ -132,10 +132,21 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
-        /* MERUBAH TAMPILAN KOLOM/KOTAK INPUT ADEGAN */
-        div[data-testid="stNumberInput"] {
-            background-color: #161922 !important; /* Warna dasar kotak lebih gelap */
-            border-radius: 5px !important;       /* Sudut melengkung halus */
+        /* 7. OPTIMASI KOTAK ADEGAN */
+        .stExpander {
+            border: 1px solid rgba(29, 151, 108, 0.3) !important;
+            border-radius: 12px !important;
+            background-color: #161922 !important;
+            margin-bottom: 15px !important;
+        }
+
+        /* Label dropdown agar lebih tegas dan sinematik */
+        .small-label {
+            color: #1d976c !important; /* Hijau branding kamu */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 10px !important;
+            font-weight: 800 !important;
         }
 
         </style>
@@ -355,6 +366,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
