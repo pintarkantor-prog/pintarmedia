@@ -258,14 +258,15 @@ def tampilkan_ruang_produksi():
     # Ambil data dari laci memori (Session State)
     data = st.session_state.data_produksi
 
-    # 1. IDENTITY LOCK (Global untuk semua adegan)
+    # 1. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
-        data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"])
+        # Kata "Jumlah Karakter" sekarang tersembunyi
+        data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed")
+        
         cols_char = st.columns(data["jumlah_karakter"])
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                # Pakai label_visibility="collapsed" untuk sembunyikan teks
                 data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}", placeholder="Nama...", label_visibility="collapsed")
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Fisik...", label_visibility="collapsed")
@@ -388,6 +389,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
