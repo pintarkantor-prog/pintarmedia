@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (SIDEBAR 2 KOLOM - UPDATED MENU)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (2-COLUMN SIDEBAR & 2-COLUMN OUTPUT)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -176,44 +176,37 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (TATA LETAK SIDEBAR 2 KOLOM)
+    # 2. INPUT ADEGAN (SIDEBAR 2 KOLOM)
     with st.expander("🟢 ADEGAN 1", expanded=True):
-        col_text, col_set = st.columns([1.5, 1]) # Rasio diatur agar seimbang
+        col_text, col_set = st.columns([1.5, 1])
         
         with col_text:
             st.markdown("📸 **Naskah Visual & Aksi**")
             aksi = st.text_area(
                 "Aksi & Interaksi", 
-                height=420, # Sejajar dengan 2 kolom samping
+                height=420, 
                 key="h_act", 
                 placeholder="Deskripsikan aksi karakter di sini...",
                 label_visibility="collapsed"
             )
         
         with col_set:
-            # Membagi area pengaturan menjadi 2 kolom internal
+            # Menu dibagi 2 kolom internal
             sub_col1, sub_col2 = st.columns(2)
-            
             with sub_col1:
                 st.markdown("✨ **STYLE**")
-                # Update Pilihan Style sesuai permintaan
                 mood = st.selectbox("Style", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="h_mood", label_visibility="collapsed")
-                
                 st.markdown("💡 **LIGHTING**")
                 lighting = st.selectbox("Lighting", ["Golden Hour", "Studio", "Natural"], key="h_light", label_visibility="collapsed")
-
-                # Penambahan Arah Kamera (Sudut Pandang)
                 st.markdown("📐 **ARAH KAMERA**")
-                arah_kam = st.selectbox("Arah Kamera", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
+                arah_kam = st.selectbox("Arah", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="h_arah_kam", label_visibility="collapsed")
 
             with sub_col2:
-                st.markdown("📐 **RATIO**")
+                st.markdown("📏 **RATIO**")
                 rasio = st.selectbox("Ratio", ["16:9", "9:16", "1:1"], key="h_rasio", label_visibility="collapsed")
-                
-                st.markdown("🎥 **CAMERA MOVEMENT**")
+                st.markdown("🎥 **GERAKAN**")
                 kamera = st.selectbox("Camera", ["Static", "Zoom In", "Tracking"], key="h_cam", label_visibility="collapsed")
             
-            # Lokasi diletakkan di bawah grid 2 kolom agar tetap lebar
             st.markdown("📍 **LOKASI**")
             lokasi = st.text_input("Lokasi Adegan", key="h_loc", placeholder="Contoh: Pasar Tradisional...", label_visibility="collapsed")
 
@@ -224,27 +217,33 @@ def tampilkan_ruang_produksi():
         with col_d2:
             d2 = st.text_input("Dialog Karakter 2", key="h_d2", placeholder="Karakter 2 bicara...")
 
-    # 3. HYBRID COMPILER LOGIC
+    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
+        # Identity Logic
         char_identities = " AND ".join([
             f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. Wearing: {c['wear']} ]]" 
             for c in karakter_data if c['nama']
         ])
-        
         dialog_cue = f"{karakter_data[0]['nama']}: '{d1}' | {karakter_data[1]['nama']}: '{d2}'" if len(karakter_data) > 1 else f"'{d1}'"
 
-        # Memasukkan variabel 'arah_kam' ke dalam prompt final
+        # Formulasi Prompt
         image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood/Style: {mood}, Camera View: {arah_kam}, Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
         video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera Angle: {arah_kam}, Motion: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
 
+        # Tampilan Hasil 2 Kolom (Sesuai image_4e025c.png)
         st.subheader("📋 Production Ready Prompts")
-        st.markdown("##### 🖼️ Grok Image Prompt")
-        st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
-        st.markdown("##### 🎬 Veo Video Prompt")
-        st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
+        out_col1, out_col2 = st.columns(2)
+        
+        with out_col1:
+            st.markdown("##### 🖼️ PROMPT GAMBAR")
+            st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
+        
+        with out_col2:
+            st.markdown("##### 🎬 PROMPT VIDEO")
+            st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
         
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -265,6 +264,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
