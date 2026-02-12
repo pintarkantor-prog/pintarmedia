@@ -180,7 +180,7 @@ def tampilkan_ruang_produksi():
 
     # 2. HEADER: TEKNIK 3 KOLOM (Agar lebar teks pas)
     # Kolom 1: Judul | Kolom 2: Ruang Kosong | Kolom 3: Status
-    c1, c_kosong, c2 = st.columns([2, 0.5, 0.7]) 
+    c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
     
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
@@ -327,6 +327,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
