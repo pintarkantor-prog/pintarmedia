@@ -265,9 +265,10 @@ def tampilkan_ruang_produksi():
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                data["karakter"][i]["nama"] = st.text_input(f"Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}", placeholder="Contoh: Udin")
-                data["karakter"][i]["wear"] = st.text_input(f"Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Contoh: Kaos Oranye")
-                data["karakter"][i]["fisik"] = st.text_area(f"Ciri Fisik Utama", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Maintain 100% exact facial features...")
+                # Pakai label_visibility="collapsed" untuk sembunyikan teks
+                data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}", placeholder="Nama...", label_visibility="collapsed")
+                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}", placeholder="Pakaian...", label_visibility="collapsed")
+                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}", height=80, placeholder="Fisik...", label_visibility="collapsed")
 
     st.markdown("<br>", unsafe_allow_html=True)
     
@@ -387,6 +388,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
