@@ -77,32 +77,22 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-def simpan_ke_gsheet():
-    try:
-        # PENTING: Baris ini harus menjorok 8 spasi ke dalam (di bawah try)
-        url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
-        conn = st.connection("gsheets", type=GSheetsConnection)
-        
-        # Ambil data lama
-        df_lama = conn.read(spreadsheet=url_gsheet)
-        
-        # Bungkus data produksi jadi JSON
-        data_naskah_json = json.dumps(st.session_state.data_produksi)
-        
-        # Buat baris baru
-        data_baru = pd.DataFrame([{
-            "Username": st.session_state.get("user_aktif", "Staff"),
-            "Waktu": datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-            "Data_Naskah": data_naskah_json
-        }])
-        
-        # Gabungkan dan kirim
-        df_update = pd.concat([df_lama, data_baru], ignore_index=True)
-        conn.update(spreadsheet=url_gsheet, data=df_update)
-        
-        st.toast("☁️ Berhasil disimpan ke Cloud GSheet!", icon="✅")
-    except Exception as e:
-        st.error(f"Gagal akses GSheet: {e}")
+# --- GANTI FUNGSI GSHEET TADI DENGAN INI ---
+def simpan_proyek():
+    """Mengambil data naskah dan merubahnya menjadi teks JSON"""
+    data = st.session_state.data_produksi
+    return json.dumps(data, indent=4)
+
+def muat_proyek(file_upload):
+    """Membaca file JSON yang diunggah dan memasukkannya ke layar"""
+    if file_upload is not None:
+        try:
+            data_load = json.load(file_upload)
+            st.session_state.data_produksi = data_load
+            st.success("✅ Naskah Berhasil Dimuat!")
+            st.rerun()
+        except Exception as e:
+            st.error(f"❌ File tidak valid atau rusak: {e}")
 
 # ==============================================================================
 # BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTAL BORDERLESS & STATIC
@@ -260,23 +250,30 @@ def tampilkan_navigasi_sidebar():
         )
         
         st.markdown("---")
+        st.markdown("<p class='small-label'>💾 SISTEM PENYIMPANAN</p>", unsafe_allow_html=True)
         
-        # 2. SISTEM CLOUD DATABASE (GSHEET)
-        st.markdown("<p class='small-label'>☁️ CLOUD DATABASE</p>", unsafe_allow_html=True)
+        # TOMBOL DOWNLOAD (SAVE)
+        # Fungsi simpan_proyek dipanggil di sini
+        data_json = simpan_proyek()
+        user_name = st.session_state.get("user_aktif", "staff").lower()
         
-        # Tombol Backup (Simpan)
-        if st.button("📤 BACKUP KE GSHEET", use_container_width=True, type="primary"):
-            simpan_ke_gsheet()
-            
-        # Tombol Restore (Muat) - Opsional jika ingin staf bisa ambil data lama
-        if st.button("🔄 RESTORE DARI CLOUD", use_container_width=True):
-            # Fungsi muat_dari_gsheet bisa ditambahkan nanti di Bagian 2
-            st.info("Fitur Restore sedang sinkronisasi...")
+        st.download_button(
+            label="📥 DOWNLOAD NASKAH (.json)",
+            data=data_json,
+            file_name=f"Naskah_{user_name}_{datetime.now().strftime('%d%m%y')}.json",
+            mime="application/json",
+            use_container_width=True
+        )
         
-        # Jarak Logout (Dikurangi sedikit karena ada tombol Cloud)
-        st.markdown("<br>" * 3, unsafe_allow_html=True)
+        # AREA UNGGAH (RESTORE / LOAD)
+        file_diunggah = st.file_uploader("UPLOAD NASKAH", type="json", label_visibility="collapsed")
+        if file_diunggah:
+            if st.button("🔄 RESTORE DATA", use_container_width=True, type="primary"):
+                muat_proyek(file_diunggah)
+
+        # Jarak Logout
+        st.markdown("<br>" * 2, unsafe_allow_html=True)
         
-        # 3. KONTROL SISTEM
         if st.button("⚡KELUAR SISTEM", use_container_width=True):
             proses_logout()
         
@@ -460,6 +457,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
