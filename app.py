@@ -132,6 +132,36 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
+        /* KOTAK JUMLAH ADEGAN CIAMIK */
+        div[data-testid="stNumberInput"] {
+            border: 1px solid #30363d !important;
+            border-radius: 10px !important;
+            background-color: #0d1117 !important;
+            overflow: hidden !important;
+        }
+
+        /* Hilangkan border asli Streamlit di dalamnya agar bersih */
+        div[data-testid="stNumberInput-Input"] {
+            border: none !important;
+            background-color: transparent !important;
+            color: #10b981 !important; /* Angka jadi hijau neon elegan */
+            font-family: 'Monaco', monospace !important;
+            font-size: 16px !important;
+            font-weight: bold !important;
+        }
+
+        /* Tombol + dan - jadi lebih minimalis */
+        div[data-testid="stNumberInput"] button {
+            background-color: #161b22 !important;
+            border: none !important;
+            color: #8b949e !important;
+            transition: all 0.2s ease !important;
+        }
+
+        div[data-testid="stNumberInput"] button:hover {
+            color: #10b981 !important;
+            background-color: #1d2127 !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -155,10 +185,10 @@ def tampilkan_navigasi_sidebar():
         st.markdown("---")
         
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
-        st.session_state.data_produksi["jumlah_adegan"] = st.slider(
+        st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
             "Jumlah Adegan", 1, 50, 
             value=st.session_state.data_produksi["jumlah_adegan"],
-            label_visibility="collapsed"
+            label_visibility="collapsed" # Kita sembunyikan label asli biar nggak tumpuk
         )
         
         # Memberikan spasi fleksibel agar tombol logout terdorong ke bawah
@@ -352,6 +382,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
