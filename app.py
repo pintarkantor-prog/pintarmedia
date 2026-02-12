@@ -27,23 +27,29 @@ def inisialisasi_keamanan():
 
 def tampilkan_halaman_login():
     st.markdown("<br><br>", unsafe_allow_html=True)
-    col_l, col_m, col_r = st.columns([1, 1.2, 1])
+    col_l, col_m, col_r = st.columns([1, 1.1, 1])
     
     with col_m:
-        # Mengambil logo PINTAR.png dari root folder GitHub
+        # Tampilan Logo PINTAR MEDIA (File: PINTAR.png)
         try:
-            st.image("PINTAR.png", width=180)
+            st.image("PINTAR.png", use_container_width=True)
         except:
-            st.markdown("<h1 style='text-align: center;'>🎬</h1>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
         
-        st.markdown("<h2 style='text-align: center; margin-top: -10px;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #484f58; font-size: 12px; margin-top: -15px;'>AI PRODUCTION STUDIO</p>", unsafe_allow_html=True)
+        st.markdown("<br>", unsafe_allow_html=True)
         
-        with st.form("login_form"):
-            u = st.text_input("Station Username").lower()
-            p = st.text_input("Access Password", type="password")
-            submit = st.form_submit_button("MASUK KE STATION", use_container_width=True)
-            if submit:
+        # Container Login Box
+        with st.container(border=True):
+            st.markdown("<p style='font-weight: bold; margin-bottom: -10px;'>Username</p>", unsafe_allow_html=True)
+            u = st.text_input("User", label_visibility="collapsed", placeholder="Username...", key="login_user").lower()
+            
+            st.markdown("<p style='font-weight: bold; margin-bottom: -10px; margin-top: 10px;'>Password</p>", unsafe_allow_html=True)
+            p = st.text_input("Pass", label_visibility="collapsed", type="password", placeholder="Password...", key="login_pass")
+            
+            st.markdown("<br>", unsafe_allow_html=True)
+            
+            # Tombol Masuk Custom (Merah/Coral) sesuai gambar
+            if st.button("MASUK KE SISTEM 🚀", use_container_width=True, type="primary"):
                 if u in DAFTAR_USER and DAFTAR_USER[u] == p:
                     st.session_state.sudah_login = True
                     st.session_state.user_aktif = u
@@ -52,6 +58,8 @@ def tampilkan_halaman_login():
                     st.rerun()
                 else:
                     st.error("Username atau Password salah.")
+        
+        st.markdown("<p style='text-align: center; color: #484f58; font-size: 11px; margin-top: 15px;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
 
 def cek_autentikasi():
     if st.session_state.sudah_login:
@@ -75,12 +83,32 @@ def proses_logout():
 def pasang_css_kustom():
     st.markdown("""
         <style>
+        /* Background Utama */
         .stApp { background-color: #0e1117; color: #e0e0e0; }
+        
+        /* Sidebar Styling */
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
-        .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
-        div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
+        
+        /* Tombol Primary Merah/Coral sesuai gambar */
+        div.stButton > button[kind="primary"] {
+            background-color: #ff4b4b !important;
+            color: white !important;
+            border: none !important;
+            font-weight: bold !important;
+            height: 45px !important;
+        }
+        
+        /* Input Field Styling */
+        div[data-baseweb="input"] {
+            background-color: #1d2127 !important;
+            border: 1px solid #30363d !important;
+            border-radius: 8px !important;
+        }
+
+        /* Navigasi Footer di Sidebar */
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
-        div[data-testid="stForm"] { border: none !important; padding: 0 !important; }
+        
+        /* Proteksi Desktop Only */
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -95,7 +123,7 @@ def pasang_css_kustom():
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
-        pilihan = st.radio("NAVIGASI", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
+        pilihan = st.radio("NAVIGASI WORKSPACE", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
         st.markdown("<br>"*12, unsafe_allow_html=True)
         if st.button("LOGOUT SYSTEM", use_container_width=True):
             proses_logout()
@@ -124,14 +152,6 @@ def tampilkan_ruang_produksi():
             with cols[i]:
                 st.text_input(f"Nama {i+1}", key=f"n_{i}")
                 st.text_area(f"Ciri Fisik {i+1}", key=f"d_{i}", height=120)
-    
-    with st.expander("🟢 ADEGAN 1"):
-        c1, c2 = st.columns([1, 2])
-        with c1: st.text_input("Lokasi", key="loc1")
-        with c2: st.text_area("Aksi", key="act1")
-
-    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
-        st.success("Berhasil disusun!")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -140,6 +160,7 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
+    # Langsung menggunakan logika Bagian 2
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
