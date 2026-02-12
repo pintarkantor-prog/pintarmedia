@@ -3,8 +3,19 @@
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
+import os
 
-# Daftar akun resmi Pintar Media
+# Import khusus untuk Streamlit Cloud agar tahan refresh
+try:
+    from cookies_manager import EncryptedCookieManager
+except ImportError:
+    from streamlit_cookies_manager import EncryptedCookieManager
+
+# Inisialisasi Cookie Manager
+cookies = EncryptedCookieManager(password="pintarmedia_key_2026")
+if not cookies.ready():
+    st.stop()
+
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
@@ -15,44 +26,36 @@ st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN (LOGIN, LOGOUT, DAN SESI 10 JAM)
 # ==============================================================================
-def inisialisasi_sesi():
-    """Menyiapkan variabel sesi agar tidak hilang saat refresh"""
-    if 'sudah_login' not in st.session_state:
-        st.session_state.sudah_login = False
-    if 'user_aktif' not in st.session_state:
-        st.session_state.user_aktif = ""
-    if 'waktu_login' not in st.session_state:
-        st.session_state.waktu_login = None
-
 def cek_autentikasi():
-    """Logika pengecekan login dan batas waktu 10 jam"""
-    if st.session_state.sudah_login and st.session_state.waktu_login:
-        # Hitung selisih waktu
-        durasi_aktif = datetime.now() - st.session_state.waktu_login
-        if durasi_aktif > timedelta(hours=10):
+    sudah_login = cookies.get("sudah_login") == "True"
+    waktu_login_str = cookies.get("waktu_login")
+    
+    if sudah_login and waktu_login_str:
+        waktu_login_dt = datetime.fromisoformat(waktu_login_str)
+        if datetime.now() - waktu_login_dt > timedelta(hours=10):
             proses_logout()
-            st.warning("Sesi Anda berakhir setelah 10 jam. Silakan login kembali.")
-            return False
-        return True
-    return False
+            st.rerun()
+    return sudah_login
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        st.session_state.sudah_login = True
-        st.session_state.user_aktif = user
-        st.session_state.waktu_login = datetime.now()
+        cookies["sudah_login"] = "True"
+        cookies["user_aktif"] = user
+        cookies["waktu_login"] = datetime.now().isoformat()
+        cookies.save() # Ini yang mengunci login di browser kamu
         st.rerun()
     else:
-        st.error("Credential salah. Silakan coba lagi.")
+        st.error("Credential salah.")
 
 def proses_logout():
-    st.session_state.sudah_login = False
-    st.session_state.user_aktif = ""
-    st.session_state.waktu_login = None
+    cookies.delete("sudah_login")
+    cookies.delete("user_aktif")
+    cookies.delete("waktu_login")
+    cookies.save()
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) DAN PROTEKSI PC
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS)
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -62,15 +65,10 @@ def pasang_css_kustom():
         .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
-        
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
-            .stApp::before { 
-                content: '⚠️ AKSES TERBATAS: Gunakan perangkat PC/Desktop.'; 
-                display: flex; justify-content: center; align-items: center; 
-                height: 100vh; color: white; background-color: #0e1117; padding: 40px; text-align: center;
-            }
+            .stApp::before { content: '⚠️ AKSES TERBATAS PC'; display: flex; justify-content: center; align-items: center; height: 100vh; color: white; background-color: #0e1117; padding: 40px; text-align: center; }
         }
         </style>
         """, unsafe_allow_html=True)
@@ -81,37 +79,22 @@ def pasang_css_kustom():
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
         st.markdown("<br>", unsafe_allow_html=True)
-        pilihan = st.radio(
-            "NAVIGASI WORKSPACE", 
-            ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
-        )
+        pilihan = st.radio("NAVIGASI", ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "⚡ QUICK PROMPT", "📋 TUGAS KERJA", "⚡ KENDALI TIM"])
         st.markdown("<br>"*12, unsafe_allow_html=True)
         if st.button("KELUAR SISTEM", use_container_width=True):
             proses_logout()
         
-        user = st.session_state.user_aktif.upper()
-        tgl = st.session_state.waktu_login.strftime('%d.%m.%y')
-        st.markdown(f'<div class="status-footer">STATION: {user}_SESSION<br>AKTIF SEJAK: {tgl}</div>', unsafe_allow_html=True)
+        u = cookies.get("user_aktif", "USER").upper()
+        st.markdown(f'<div class="status-footer">STATION: {u}_SESSION<br>STATUS: AKTIF</div>', unsafe_allow_html=True)
     return pilihan
 
 # ==============================================================================
 # BAGIAN 5: MODUL-MODUL PENDUKUNG
 # ==============================================================================
-def tampilkan_ai_lab():
-    st.markdown("### 🧠 Pintar AI Lab")
-    st.info("Area riset prompt dan eksperimen.")
-
-def tampilkan_quick_prompt():
-    st.markdown("### ⚡ Quick Prompt")
-    st.info("Generator prompt kilat.")
-
-def tampilkan_tugas_kerja():
-    st.markdown("### 📋 Tugas Kerja")
-    st.info("Monitoring antrian produksi tim.")
-
-def tampilkan_kendali_tim():
-    st.markdown("### ⚡ Kendali Tim")
-    st.info("Pengaturan akses dan koordinasi.")
+def tampilkan_ai_lab(): st.markdown("### 🧠 Pintar AI Lab"); st.info("Area riset.")
+def tampilkan_quick_prompt(): st.markdown("### ⚡ Quick Prompt"); st.info("Generator kilat.")
+def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja"); st.info("Antrian tim.")
+def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim"); st.info("Akses tim.")
 
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI
@@ -119,32 +102,22 @@ def tampilkan_kendali_tim():
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi")
     st.write("---")
-    
-    with st.expander("👥 Karakter Utama & Penampilan Fisik", expanded=True):
-        jumlah = st.number_input("Total Karakter", 1, 5, 2)
-        cols = st.columns(jumlah)
-        for i in range(jumlah):
+    with st.expander("👥 Karakter Utama", expanded=True):
+        juml = st.number_input("Total Karakter", 1, 5, 2)
+        cols = st.columns(juml)
+        for i in range(juml):
             with cols[i]:
-                st.markdown(f"👤 **Karakter {i+1}**")
-                st.text_input(f"Nama", key=f"n_{i}")
-                st.text_area(f"Ciri Fisik", key=f"d_{i}", height=120)
+                st.text_input(f"Nama {i+1}", key=f"n_{i}")
+                st.text_area(f"Ciri Fisik {i+1}", key=f"d_{i}", height=120)
 
-    st.markdown("<br>", unsafe_allow_html=True)
-    with st.expander("🟢 ADEGAN 1"):
-        c1, c2 = st.columns([1, 2])
-        with c1: st.text_input("Lokasi Adegan 1", key="loc1")
-        with c2: st.text_area("Aksi Adegan 1", key="act1")
-
-    if st.button("🚀 SUSUN MASTER PROMPT", use_container_width=True):
-        st.success("Data berhasil diproses!")
+    if st.button("🚀 COMPILE MASTER PROMPT", use_container_width=True):
+        st.success("Berhasil disusun!")
 
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
 # ==============================================================================
 def utama():
-    inisialisasi_sesi()
     pasang_css_kustom()
-    
     if not cek_autentikasi():
         st.markdown("<br><br>", unsafe_allow_html=True)
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
@@ -156,16 +129,11 @@ def utama():
                 proses_login(u, p)
     else:
         menu = tampilkan_navigasi_sidebar()
-        if menu == "🚀 RUANG PRODUKSI":
-            tampilkan_ruang_produksi()
-        elif menu == "🧠 PINTAR AI LAB":
-            tampilkan_ai_lab()
-        elif menu == "⚡ QUICK PROMPT":
-            tampilkan_quick_prompt()
-        elif menu == "📋 TUGAS KERJA":
-            tampilkan_tugas_kerja()
-        elif menu == "⚡ KENDALI TIM":
-            tampilkan_kendali_tim()
+        if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
+        elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
+        elif menu == "⚡ QUICK PROMPT": tampilkan_quick_prompt()
+        elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
+        elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
 if __name__ == "__main__":
     utama()
