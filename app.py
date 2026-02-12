@@ -2,138 +2,148 @@ import streamlit as st
 from datetime import datetime
 import time
 
-# --- CONFIG & SESSION ---
-st.set_page_config(page_title="Prompt Master Pro", layout="wide")
+# --- KONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Aura Prompt Lab", layout="wide", initial_sidebar_state="expanded")
 
-if 'login_time' not in st.session_state:
-    st.session_state.login_time = datetime.now()
+# --- LOGIKA SESI ---
+if 'start_time' not in st.session_state:
+    st.session_state.start_time = datetime.now()
 
-# --- CSS UNTUK TAMPILAN PREMIUM ---
+# --- CUSTOM CSS (THE ELEGANCE LAYER) ---
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
-    
-    html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-    
-    /* Style Sidebar */
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+    html, body, [class*="css"] {
+        font-family: 'Outfit', sans-serif;
+        color: #2D3436;
+    }
+
+    /* Background Utama */
+    .stApp {
+        background: radial-gradient(circle at top right, #f8faff, #ffffff);
+    }
+
+    /* Sidebar Refinement */
     [data-testid="stSidebar"] {
-        background-color: #f0f2f6;
-        border-right: 1px solid #e0e0e0;
-        padding: 20px;
+        background: rgba(255, 255, 255, 0.6) !important;
+        backdrop-filter: blur(15px);
+        border-right: 1px solid rgba(0,0,0,0.05);
     }
 
-    /* Card Styling */
+    /* Container Hasil Prompt */
     .prompt-card {
-        background: white;
-        border: 1px solid #e6e9ef;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.02);
-        margin-bottom: 20px;
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 30px;
+        border: 1px solid #f1f3f5;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        margin-top: 20px;
     }
 
-    /* Gradient Title */
-    .header-text {
-        font-size: 2.5rem;
+    /* Judul Elegan */
+    .main-title {
+        font-size: 3.5rem;
         font-weight: 600;
-        background: linear-gradient(90deg, #1A73E8, #9B72CB);
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        margin-bottom: 0.5rem;
     }
 
-    /* Badge Login */
-    .login-info {
-        background: #e8f0fe;
-        color: #1967d2;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        border-left: 4px solid #1A73E8;
+    /* Sidebar Info */
+    .user-info-box {
+        padding: 1.5rem;
+        background: #1e293b;
+        color: white;
+        border-radius: 20px;
+        margin-bottom: 2rem;
+    }
+
+    /* Input Styling */
+    .stTextInput > div > div > input, .stTextArea > div > div > textarea {
+        background-color: #f8fafd !important;
+        border-radius: 16px !important;
+        border: 1px solid #e2e8f0 !important;
+        padding: 15px !important;
+    }
+
+    /* Tab Styling */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 24px;
+        background-color: transparent;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        background-color: transparent !important;
+        border: none !important;
+        font-weight: 600;
     }
     </style>
     """, unsafe_allow_html=True)
 
-# --- SIDEBAR LOGIC ---
+# --- SIDEBAR CONTENT ---
 with st.sidebar:
-    st.image("https://cdn-icons-png.flaticon.com/512/2103/2103633.png", width=50)
-    st.markdown("### **User Dashboard**")
-    
-    # Info Waktu Login
-    current_time = datetime.now()
-    duration = current_time - st.session_state.login_time
-    minutes = int(duration.total_seconds() // 60)
-    
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(f"""
-    <div class="login-info">
-        <b>Sesi Aktif</b><br>
-        📅 {st.session_state.login_time.strftime('%d %b %Y')}<br>
-        ⏰ Masuk: {st.session_state.login_time.strftime('%H:%M')}<br>
-        ⏳ Durasi: {minutes} menit
+    <div class="user-info-box">
+        <p style="opacity: 0.8; margin-bottom: 5px; font-size: 0.8rem;">SESI AKTIF</p>
+        <h4 style="margin: 0;">Pintar Media</h4>
+        <p style="font-size: 0.85rem; margin-top: 10px;">
+            📅 {st.session_state.start_time.strftime('%d %B %Y')}<br>
+            🕒 Masuk: {st.session_state.start_time.strftime('%H:%M')}
+        </p>
     </div>
     """, unsafe_allow_html=True)
     
+    # Penghitung waktu login sederhana
+    duration = datetime.now() - st.session_state.start_time
+    st.write(f"⏱️ **Lama Bekerja:** {duration.seconds // 60} menit")
+    
     st.markdown("---")
-    menu = st.radio("Navigasi", ["Generator Utama", "Riwayat Prompt", "Pengaturan"])
+    st.markdown("### Navigasi")
+    st.caption("Eksplorasi Ide & Produksi")
 
 # --- HALAMAN UTAMA ---
-if menu == "Generator Utama":
-    st.markdown('<h1 class="header-text">AI Command Center</h1>', unsafe_allow_html=True)
-    st.write("Rancang instruksi detail untuk ekosistem AI milikmu.")
+st.markdown('<h1 class="main-title">Aura Generator</h1>', unsafe_allow_html=True)
+st.markdown("<p style='font-size: 1.2rem; color: #64748b;'>Rancang instruksi visual dan naratif yang mendalam secara instan.</p>", unsafe_allow_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
-    # Input Section
-    with st.container():
-        col_main, col_opt = st.columns([2, 1])
+# Area Input
+with st.container():
+    topik = st.text_input("Fokus Utama Ide", placeholder="Contoh: Pertemuan Udin dan Tung di dimensi kayu")
+    detail_konteks = st.text_area("Detail Visual & Karakter", placeholder="Gambarkan suasana, emosi, dan detail fisik karakter secara spesifik...")
+
+if st.button("Generate Master Suite", use_container_width=True):
+    if topik:
+        st.markdown("---")
         
-        with col_main:
-            topik = st.text_input("Topik Cerita/Konten", placeholder="Misal: Udin menemukan mesin waktu di dapur")
-            karakter = st.text_area("Deskripsi Karakter & Properti", placeholder="Contoh: Udin (pria kepala oranye), Tung (pria kepala kayu), suasana dapur berantakan.")
+        # PROMPT ENGINEERING YANG SIGNIFIKAN
+        tab1, tab2, tab3 = st.tabs(["📄 Narasi Teks", "🖼️ Visual Gambar", "🎬 Produksi Video"])
         
-        with col_opt:
-            gaya = st.selectbox("Style Artistik", ["Disney Pixar Style", "Cyberpunk 2077", "Studio Ghibli", "Cinematic Realistic", "Penciler/Sketch"])
-            rasio = st.selectbox("Aspek Rasio", ["16:9 (YouTube)", "9:16 (Shorts/TikTok)", "1:1 (Instagram)"])
+        with tab1:
+            st.markdown('<div class="prompt-card">', unsafe_allow_html=True)
+            text_p = f"""[Identity: Expert Storyteller]
+Tolong buatkan skrip mendalam dengan fokus pada: {topik}.
+Konteks: {detail_konteks}.
+Gunakan struktur narasi tiga babak. Sertakan instruksi blocking kamera dan nada bicara untuk karakter Udin dan Tung agar terasa hidup."""
+            st.code(text_p, language="markdown")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-    if st.button("Generate Comprehensive Suite ✨", use_container_width=True):
-        if topik and karakter:
-            st.markdown("---")
-            
-            # --- LOGIKA GENERATOR PROMPT DETAIL ---
-            
-            # 1. TEXT PROMPT (Gemini)
-            text_final = f"Buatkan naskah film pendek tentang '{topik}'. Karakter: {karakter}. Gaya penceritaan: {gaya}. Fokus pada dialog yang natural tapi berkesan, sertakan instruksi emosi karakter di setiap baris."
-            
-            # 2. IMAGE PROMPT (Midjourney/DALL-E)
-            image_final = f"Extreme close-up shot of {karakter} in the middle of {topik}, {gaya}, masterwork, ultra-detailed, depth of field, global illumination, ray tracing, 8k, --ar {rasio.split(' ')[0]}"
-            
-            # 3. VIDEO PROMPT (Veo/Runway/Luma)
-            video_final = f"Cinematic tracking shot, {karakter} is performing action: {topik}. Lighting: {gaya} atmosphere. Camera movement: slow zoom in. High fidelity, fluid motion, 60fps, realistic physics."
+        with tab2:
+            st.markdown('<div class="prompt-card">', unsafe_allow_html=True)
+            img_p = f"Cinematic wide shot, {topik}, {detail_konteks}, hyper-realistic, photorealistic, shot on ARRI Alexa, 85mm lens, f/1.8, cinematic lighting, volumetric fog, unreal engine 5 render, highly detailed, 8k, --ar 16:9 --v 6.0"
+            st.code(img_p, language="text")
+            st.markdown('</div>', unsafe_allow_html=True)
 
-            # Tampilan Output dengan Kolom/Cards
-            c1, c2, c3 = st.columns(3)
-            
-            with c1:
-                st.markdown("### 📝 Text Prompt")
-                st.info(text_final)
-                st.button("Copy Text", key="btn_text", on_click=lambda: st.write("Tersalin ke Clipboard (Simulasi)"))
-            
-            with c2:
-                st.markdown("### 🖼️ Image Prompt")
-                st.success(image_final)
-                st.button("Copy Image Prompt", key="btn_img")
+        with tab3:
+            st.markdown('<div class="prompt-card">', unsafe_allow_html=True)
+            vid_p = f"Camera move: Slow drone orbit around {topik}. Lighting transitions from golden hour to dusk. Character {detail_konteks} moving in slow motion. High dynamic range, fluid motion, professional color grade, 4k 60fps."
+            st.code(vid_p, language="text")
+            st.markdown('</div>', unsafe_allow_html=True)
+    else:
+        st.error("Silakan masukkan topik untuk memulai.")
 
-            with c3:
-                st.markdown("### 🎬 Video Prompt")
-                st.warning(video_final)
-                st.button("Copy Video Prompt", key="btn_vid")
-            
-            st.markdown("---")
-            st.caption("Gunakan prompt di atas sesuai dengan platform AI masing-masing.")
-        else:
-            st.error("Mohon isi topik dan deskripsi karakter agar hasil maksimal.")
-
-else:
-    st.info("Halaman ini sedang dalam pengembangan.")
-
-# Auto-refresh sederhana untuk timer
-time.sleep(1)
-if st.sidebar.button("Update Timer"):
-    st.rerun()
+# Footer
+st.markdown("<br><p style='text-align: center; color: #cbd5e1;'>Aura Generator | Powered by Gemini Context</p>", unsafe_allow_html=True)
