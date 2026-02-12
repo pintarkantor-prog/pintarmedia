@@ -132,12 +132,12 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
-        /* KOTAK JUMLAH ADEGAN CIAMIK */
-        div[data-testid="stNumberInput"] {
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-            background-color: #0d1117 !important;
-            overflow: hidden !important;
+        /* 7. OPTIMASI KOTAK ADEGAN */
+        .stExpander {
+            border: 1px solid rgba(29, 151, 108, 0.3) !important;
+            border-radius: 12px !important;
+            background-color: #161922 !important;
+            margin-bottom: 15px !important;
         }
         
         </style>
@@ -360,6 +360,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
