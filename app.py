@@ -75,7 +75,7 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS)
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - FIX SIDEBAR RAKSASA
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -91,8 +91,9 @@ def pasang_css_kustom():
             border-radius: 10px !important;
         }
 
+        /* Label Input Adegan (Kecil & Rapi) */
         .small-label {
-            font-size: 12px !important;
+            font-size: 11px !important; /* Kita buat sedikit lebih kecil agar elegan */
             letter-spacing: 0.05rem;
             text-transform: uppercase;
             font-weight: 700 !important;
@@ -100,6 +101,14 @@ def pasang_css_kustom():
             margin-bottom: 2px !important;
             margin-top: 12px !important;
             display: block;
+        }
+
+        /* FIX SIDEBAR: Mengunci tulisan STATION agar tidak ikut membesar */
+        .status-footer { 
+            font-size: 11px !important; 
+            color: #8b949e !important; 
+            font-family: monospace;
+            line-height: 1.4 !important;
         }
 
         /* Tombol Generate Glow */
@@ -301,6 +310,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
