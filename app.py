@@ -308,6 +308,8 @@ def tampilkan_navigasi_sidebar():
         with col2:
             if st.button("🔄 RESTORE", use_container_width=True):
                 muat_dari_gsheet()
+                
+        st.markdown("---")
         
         if st.button("⚡ KELUAR SISTEM", use_container_width=True):
             proses_logout()
@@ -511,6 +513,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
