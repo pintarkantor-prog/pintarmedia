@@ -17,14 +17,18 @@ st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 # ==============================================================================
 def inisialisasi_keamanan():
     params = st.query_params
+    # Pastikan state awal ada
+    if 'sudah_login' not in st.session_state:
+        st.session_state.sudah_login = False
+    if 'sedang_animasi' not in st.session_state:
+        st.session_state.sedang_animasi = False
+
+    # Persistence via URL
     if "auth" in params and params["auth"] == "true":
-        if 'sudah_login' not in st.session_state:
+        if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
             st.session_state.user_aktif = params.get("user", "User")
             st.session_state.waktu_login = datetime.now()
-    
-    if 'sudah_login' not in st.session_state:
-        st.session_state.sudah_login = False
 
 def cek_autentikasi():
     if st.session_state.sudah_login:
@@ -36,31 +40,11 @@ def cek_autentikasi():
         return True
     return False
 
-def proses_login(user, pwd, placeholder_utama):
+def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        # 1. HAPUS FORM LOGIN DARI LAYAR
-        placeholder_utama.empty()
-        
-        # 2. TAMPILKAN NOTIFIKASI DI LAYAR BERSIH
-        with st.container():
-            st.markdown(f"""
-                <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
-                    <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
-                        ✅ AKSES DITERIMA!
-                    </div>
-                    <div style="color: white; font-size: 42px; font-weight: bold; font-family: sans-serif;">
-                        Selamat bekerja, {user.capitalize()}!
-                    </div>
-                </div>
-            """, unsafe_allow_html=True)
-        
-        time.sleep(2) # Jeda 2 Detik
-        
-        # 3. SET SESI DAN RERUN
-        st.session_state.sudah_login = True
+        # Aktifkan fase animasi
+        st.session_state.sedang_animasi = True
         st.session_state.user_aktif = user
-        st.session_state.waktu_login = datetime.now()
-        st.query_params.update({"auth": "true", "user": user})
         st.rerun()
     else:
         st.error("Credential salah.")
@@ -68,6 +52,7 @@ def proses_login(user, pwd, placeholder_utama):
 def proses_logout():
     st.session_state.sudah_login = False
     st.session_state.user_aktif = ""
+    st.session_state.sedang_animasi = False
     st.query_params.clear()
     st.rerun()
 
@@ -136,22 +121,42 @@ def utama():
     inisialisasi_keamanan()
     pasang_css_kustom()
     
-    if not cek_autentikasi():
-        # CONTAINER UTAMA UNTUK LOGIN
-        placeholder_utama = st.empty()
+    # KONDISI 1: FASE ANIMASI (SETELAH KLIK LOGIN)
+    if st.session_state.sedang_animasi:
+        user = st.session_state.user_aktif
+        st.markdown(f"""
+            <div style="display: flex; flex-direction: column; justify-content: center; align-items: center; height: 80vh;">
+                <div style="color: #4CAF50; font-size: 24px; font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">
+                    ✅ AKSES DITERIMA!
+                </div>
+                <div style="color: white; font-size: 42px; font-weight: bold; font-family: sans-serif;">
+                    Selamat bekerja, {user.capitalize()}!
+                </div>
+            </div>
+        """, unsafe_allow_html=True)
+        time.sleep(2)
         
-        with placeholder_utama.container():
-            st.markdown("<br><br>", unsafe_allow_html=True)
-            col_l, col_m, col_r = st.columns([1, 1.2, 1])
-            with col_m:
-                st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-                with st.form("login_form"):
-                    u = st.text_input("Username").lower()
-                    p = st.text_input("Password", type="password")
-                    submit = st.form_submit_button("MASUK", use_container_width=True)
-                    
-                    if submit:
-                        proses_login(u, p, placeholder_utama)
+        # Selesaikan fase animasi, masuk ke dashboard
+        st.session_state.sudah_login = True
+        st.session_state.sedang_animasi = False
+        st.session_state.waktu_login = datetime.now()
+        st.query_params.update({"auth": "true", "user": user})
+        st.rerun()
+
+    # KONDISI 2: HALAMAN LOGIN (BELUM LOGIN)
+    elif not cek_autentikasi():
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        col_l, col_m, col_r = st.columns([1, 1.2, 1])
+        with col_m:
+            st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+            with st.form("login_form"):
+                u = st.text_input("Username").lower()
+                p = st.text_input("Password", type="password")
+                submit = st.form_submit_button("MASUK", use_container_width=True)
+                if submit:
+                    proses_login(u, p)
+    
+    # KONDISI 3: DASHBOARD UTAMA (SUDAH LOGIN)
     else:
         menu = tampilkan_navigasi_sidebar()
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
