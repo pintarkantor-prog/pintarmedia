@@ -22,40 +22,33 @@ USER_PASSWORDS = {
 if 'active_user' not in st.session_state:
     placeholder = st.empty()
     with placeholder.container():
-        # Spasi atas minimal supaya tidak memanjang
-        st.markdown("<div style='height: 8vh;'></div>", unsafe_allow_html=True)
+        # Spasi atas minimal biar tidak memanjang
+        st.markdown("<div style='height: 15vh;'></div>", unsafe_allow_html=True)
 
-        # Centering lebih rapat (sisi kosong lebih lebar → kotak lebih kecil)
-        _, col_login, _ = st.columns([2.2, 1.0, 2.2])
+        # Centering kotak login
+        _, col_login, _ = st.columns([2.5, 1.2, 2.5])
 
         with col_login:
-            # Rainbow gradient teks utama (selalu muncul, gambar jadi opsional)
+            # Hanya teks PINTAR MEDIA (tanpa gradient, tanpa emoji, persis seperti contoh)
             st.markdown("""
-                <h1 style='text-align: center; font-size: 46px; font-weight: 900; margin-bottom: 35px;
-                background: linear-gradient(90deg, #ff00cc, #3333ff, #00ff99, #ffcc00);
-                -webkit-background-clip: text; -webkit-text-fill-color: transparent;'>
+                <h1 style='text-align: center; color: #ffffff; font-size: 38px; font-weight: bold; margin-bottom: 40px;'>
                     PINTAR MEDIA
                 </h1>
             """, unsafe_allow_html=True)
 
-            # Gambar logo (jika berhasil) – kecil di bawah rainbow
-            try:
-                st.image("PINTAR.png", width=180, use_column_width=False)
-            except:
-                pass  # rainbow sudah cukup
-
             with st.form("login_form", clear_on_submit=False):
                 default_user = st.query_params.get("u", "")
-                # Tanpa label sama sekali – hanya placeholder
+                # Input tanpa label sama sekali – hanya placeholder
                 user_input = st.text_input("", value=default_user, placeholder="Username...", key="user_input_unique")
                 pass_input = st.text_input("", type="password", placeholder="Password...", key="pass_input_unique")
 
-                st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
+                # Spasi kecil sebelum tombol
+                st.markdown("<div style='height: 20px;'></div>", unsafe_allow_html=True)
 
                 submit_button = st.form_submit_button(
                     "MASUK KE SISTEM 🚀",
                     use_container_width=True,
-                    type="primary"
+                    type="primary"  # ini biasanya merah di theme Streamlit
                 )
 
             if submit_button:
@@ -72,11 +65,11 @@ if 'active_user' not in st.session_state:
                     with placeholder.container():
                         st.markdown("<div style='height: 30vh;'></div>", unsafe_allow_html=True)
                         st.markdown(
-                            "<h2 style='text-align: center; color: #10b981; font-size: 28px;'>AKSES DITERIMA! ✅</h2>",
+                            "<h3 style='text-align: center; color: #10b981;'>AKSES DITERIMA! ✅</h3>",
                             unsafe_allow_html=True
                         )
                         st.markdown(
-                            f"<h3 style='text-align: center; color: #e2e8f0;'>Selamat bekerja, {user_clean.capitalize()}!</h3>",
+                            f"<h4 style='text-align: center; color: #ffffff;'>Selamat bekerja, {user_clean.capitalize()}!</h4>",
                             unsafe_allow_html=True
                         )
                         time.sleep(1.2)
@@ -84,23 +77,14 @@ if 'active_user' not in st.session_state:
                 else:
                     st.error("Username atau password salah", icon="🚫")
 
-            # Footer kecil
+            # Footer persis seperti contoh
             st.markdown(
-                "<p style='text-align: center; color: #6b7280; font-size: 13px; margin-top: 30px;'>"
+                "<p style='text-align: center; color: #6b7280; font-size: 13px; margin-top: 40px;'>"
                 "Secure Access - PINTAR MEDIA</p>",
                 unsafe_allow_html=True
             )
 
     st.stop()
-
-# --- 3. PROTEKSI SESI (AUTO-LOGOUT 10 JAM) ---
-if 'active_user' in st.session_state and 'login_time' in st.session_state:
-    selisih_detik = time.time() - st.session_state.login_time
-    if selisih_detik > (10 * 60 * 60): # 10 Jam
-        st.query_params.clear()
-        for key in list(st.session_state.keys()):
-            del st.session_state[key]
-        st.rerun()
         
 # ==============================================================================
 # 1 & 2. INISIALISASI MEMORI & SINKRONISASI (CLEAN VERSION)
@@ -1261,4 +1245,5 @@ elif menu_select == "⚡ KENDALI TIM":
         # Nanti kita isi kodenya di sini
     else:
         st.error("Akses Ditolak!")
+
 
