@@ -26,10 +26,11 @@ def inisialisasi_keamanan():
             st.session_state.waktu_login = datetime.now()
 
 def tampilkan_halaman_login():
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    # Mengurangi spasi atas agar posisi lebih naik
+    st.markdown("<br>", unsafe_allow_html=True)
     
-    # PERUBAHAN DISINI: Menggunakan rasio kolom yang lebih sempit di tengah agar tidak memanjang
-    col_l, col_m, col_r = st.columns([1.5, 1, 1.5]) 
+    # PERUBAHAN: Rasio [2, 1, 2] membuat kolom tengah (kotak login) lebih ramping/kecil
+    col_l, col_m, col_r = st.columns([2, 1, 2]) 
     
     with col_m:
         # Menampilkan Logo PINTAR MEDIA
@@ -37,6 +38,8 @@ def tampilkan_halaman_login():
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        
+        st.markdown("<br>", unsafe_allow_html=True)
         
         # Login Box (Card Style)
         with st.container(border=True):
@@ -84,7 +87,6 @@ def pasang_css_kustom():
         .stApp { background-color: #0e1117; color: #e0e0e0; }
         [data-testid="stSidebar"] { background-color: #161b22 !important; border-right: 1px solid #30363d; }
         
-        /* Tombol Merah Coral */
         div.stButton > button[kind="primary"] {
             background-color: #ff4b4b !important;
             color: white !important;
@@ -93,7 +95,6 @@ def pasang_css_kustom():
             font-weight: bold !important;
         }
 
-        /* Input styling */
         div[data-baseweb="input"] {
             background-color: #1d2127 !important;
             border: 1px solid #30363d !important;
@@ -165,4 +166,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
