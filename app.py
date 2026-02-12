@@ -503,57 +503,77 @@ def tampilkan_ruang_produksi():
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
-            
-            # MENGAMBIL NAMA USER AKTIF UNTUK JUDUL
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
             char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
             char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']})" for c in data["karakter"] if c['nama']])
 
+            # --- MANTRA ANTI-TEXT & ANTI-MLEYOT ---
+            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, CLEAN cinematic shot."
+            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO flickering textures."
+
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # --- 1. LOGIKA SUNTIKAN STYLE (HIDDEN PROMPT) ---
+                # --- A. LOGIKA SUNTIKAN STYLE ---
                 st_meta = ""
                 if sc['style'] == "Realistis":
-                    st_meta = "highly detailed, photorealistic, 8k, raw photo, master part, sharp focus"
+                    st_meta = "shot on Fujifilm X-T4, XF 35mm f/1.4 R, hyper-realistic, 8k, skin pores detail, sharp focus"
                 elif sc['style'] == "Pixar 3D":
-                    st_meta = "subsurface scattering, clay material, high-end 3D animation, cute proportions"
+                    st_meta = "Unreal Engine 5.4 render, ray-tracing, subsurface scattering, vivid colors"
                 elif sc['style'] == "Glossy Asphalt":
-                    st_meta = "high contrast, wet surface, reflections, cinematic noir, moody lighting"
+                    st_meta = "shot on Sony A7R IV, cinematic noir, wet asphalt, sharp reflections, high contrast"
                 elif sc['style'] == "Naruto Anime":
-                    st_meta = "cel shaded, 2D vector art, dynamic action lines, vibrant colors"
+                    st_meta = "Ufotable studio style, sharp line art, vibrant cinematic anime, detailed background"
 
-                # --- 2. LOGIKA SUNTIKAN LIGHTING ---
+                # --- B. LOGIKA SUNTIKAN LIGHTING ---
                 lt_meta = ""
                 if sc['light'] == "Golden Hour":
-                    lt_meta = "warm sunlight, long shadows, cinematic 5000k orange glow"
+                    lt_meta = "cinematic golden hour, volumetric god rays, long shadows, warm 5000k glow"
                 elif sc['light'] == "Studio":
-                    lt_meta = "soft box lighting, three-point lighting, clean shadows, professional setup"
+                    lt_meta = "professional studio lighting, rim lighting, softbox shadows, ISO 100, clean"
                 elif sc['light'] == "Natural":
-                    lt_meta = "daylight, overcast sky, soft natural environment lighting"
+                    lt_meta = "bright daylight, clear sky, realistic clouds, vivid greenery, high clarity"
 
-                # MEMBUAT BLOK HASIL PER ADEGAN YANG RAPI
+                # --- C. LOGIKA AUTO-ADJUST BUMBU TAJAM ---
+                loc_lower = sc['loc'].lower()
+                is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun'])
+                
+                if is_outdoor:
+                    bumbu_tajam = "hyper-detailed grit, sand, leaf veins, tactile micro-textures, NO SOFTENING"
+                else:
+                    # Gabungan kayu, kain, dan pantulan kaca untuk indoor
+                    bumbu_tajam = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
+
+                tech_final = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
+
+                # --- D. TAMPILKAN HASIL ---
                 with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
-                    
                     all_d = " | ".join([f"{data['karakter'][i]['nama']}: '{sc['dialogs'][i]}'" 
                                         for i in range(data["jumlah_karakter"]) 
                                         if data['karakter'][i]['nama'] and sc['dialogs'][i]])
                     
-                    # DISINI KITA GABUNGKAN STYLE & LIGHTING BARU (img_p dan vid_p di-update)
-                    img_p = f"CHARACTER DATA: {char_ids}\nVISUAL ACTION: {sc['aksi']}\nENVIRONMENT: {sc['loc']}\nTECHNICAL: {sc['style']}, {st_meta}, {sc['light']}, {lt_meta}, {sc['shot']} --ar {sc['ratio']}"
+                    # Prompt Gambar (Paling ujung dikasih Mantra No Text)
+                    img_p = (f"CHARACTER: {char_ids}\n"
+                             f"ACTION: {sc['aksi']}\n"
+                             f"ENV: {sc['loc']}. {bumbu_tajam}.\n"
+                             f"CAMERA: {st_meta}\n"
+                             f"TECH: {sc['style']}, {sc['light']}, {lt_meta}, {sc['shot']}, {tech_final}\n"
+                             f"NEGATIVE: {no_text_strict} --ar {sc['ratio']} --v 6.0")
                     
-                    vid_p = f"Profiles: {char_profiles}\nScene: {sc['aksi']} at {sc['loc']}\nActing: {all_d}\nTech: {sc['style']}, {st_meta}, {sc['shot']}, {sc['cam']} at {sc['arah']}."
+                    # Prompt Video (Dikasih Mantra No Text + No Mleyot)
+                    vid_p = (f"Profiles: {char_profiles}\n"
+                             f"Scene: {sc['aksi']} at {sc['loc']}. {bumbu_tajam}.\n"
+                             f"Tech: {sc['style']}, {st_meta}, {sc['shot']}, {sc['cam']}, {tech_final}\n"
+                             f"NEGATIVE: {no_text_strict}, {negative_motion_strict}")
 
-                    col_img, col_vid = st.columns(2)
-                    
-                    with col_img:
-                        st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
+                    c_img, c_vid = st.columns(2)
+                    with c_img:
+                        st.markdown('<p class="small-label">📷 GAMBAR (ULTRA-SHARP)</p>', unsafe_allow_html=True)
                         st.code(img_p, language="text")
-                    
-                    with col_vid:
-                        st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
+                    with c_vid:
+                        st.markdown('<p class="small-label">🎥 VIDEO (ULTRA-SHARP)</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -576,4 +596,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
