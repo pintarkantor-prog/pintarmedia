@@ -101,20 +101,17 @@ def pasang_css_kustom():
             [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
         }
 
-        /* 3. TOMBOL UTAMA (SPASI RAPI & INSTANT) */
-        div.stButton > button[kind="primary"] {
+        /* 3. SEMUA TOMBOL (HIJAU MANTAP) */
+        div.stButton > button {
             background: linear-gradient(to right, #1d976c, #11998e) !important;
             color: white !important; 
             border: none !important; 
             border-radius: 8px !important;
-    
-        /* PENGATURAN SPASI */
-            padding: 10px 20px !important;    /* Atas-Bawah 10px, Kiri-Kanan 20px */
-            margin-top: 15px !important;      /* Jarak dari elemen di atasnya */
-            margin-bottom: 10px !important;   /* Jarak ke elemen di bawahnya */
-    
+            padding: 10px 20px !important;
+            margin-top: 15px !important;
+            margin-bottom: 10px !important;
             font-weight: bold !important;
-            font-size: 14px !important;       /* Ukuran teks disesuaikan agar rapi */
+            font-size: 14px !important;
             width: 100%; 
             box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
@@ -210,8 +207,7 @@ def tampilkan_navigasi_sidebar():
         # Jarak Logout (Sesuaikan jumlah <br> jika terlalu jauh/dekat)
         st.markdown("<br>" * 6, unsafe_allow_html=True)
         
-        if st.button("LOGOUT SYSTEM", use_container_width=True):
-            proses_logout()
+        if st.button("LOGOUT SYSTEM", use_container_width=True, type="primary"):
         
         user = st.session_state.get("user_aktif", "USER").upper()
         st.markdown(f'''
@@ -395,6 +391,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
