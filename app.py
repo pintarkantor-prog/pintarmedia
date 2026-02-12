@@ -1,4 +1,3 @@
-Pythonimport streamlit as st
 import json
 import time
 from datetime import datetime
@@ -346,6 +345,7 @@ elif selected_menu == "⚡ KENDALI TIM":
     ])
 
     st.info("Untuk tracking real-time, sebaiknya integrasikan Google Sheets atau database sederhana.")
+
 
 
 
