@@ -93,7 +93,7 @@ def pasang_css_kustom():
 
         /* Label Input Adegan (Kecil & Rapi) */
         .small-label {
-            font-size: 11px !important; /* Kita buat sedikit lebih kecil agar elegan */
+            font-size: 12px !important;
             letter-spacing: 0.05rem;
             text-transform: uppercase;
             font-weight: 700 !important;
@@ -132,30 +132,6 @@ def pasang_css_kustom():
             background-color: #0d1117 !important;
             border: 1px solid #30363d !important;
         }
-        /* KOTAK JUMLAH ADEGAN CIAMIK */
-        div[data-testid="stNumberInput"] {
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-            background-color: #0d1117 !important;
-            overflow: hidden !important;
-        }
-
-        /* KOTAK JUMLAH ADEGAN - FINAL NO RED */
-        div[data-testid="stNumberInput"] {
-            border: 1px solid #30363d !important;
-            border-radius: 10px !important;
-            background-color: #0d1117 !important;
-            transition: border-color 0.3s ease !important;
-        }
-
-        /* Tombol + dan - tetap elegan */
-        div[data-testid="stNumberInput"] button {
-            border: none !important;
-            background-color: transparent !important;
-            color: #8b949e !important;
-            outline: none !important;
-        }
-        
         </style>
     """, unsafe_allow_html=True)
 
@@ -373,6 +349,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
