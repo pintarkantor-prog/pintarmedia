@@ -139,6 +139,14 @@ def pasang_css_kustom():
             background-color: #161922 !important;
             margin-bottom: 15px !important;
         }
+        /* Label dropdown agar lebih tegas dan sinematik */
+        .small-label {
+            color: #1d976c !important; /* Hijau branding kamu */
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-size: 10px !important;
+            font-weight: 800 !important;
+        }
         
         </style>
     """, unsafe_allow_html=True)
@@ -360,6 +368,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
