@@ -155,7 +155,7 @@ def tampilkan_tugas_kerja(): st.markdown("### 📋 Tugas Kerja")
 def tampilkan_kendali_tim(): st.markdown("### ⚡ Kendali Tim")
 
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (2-COLUMN SIDEBAR & 2-COLUMN OUTPUT)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (DENGAN FITUR AUTO-COPY)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     st.markdown("### 🚀 Ruang Produksi - Hybrid Engine")
@@ -176,7 +176,7 @@ def tampilkan_ruang_produksi():
 
     st.markdown("<br>", unsafe_allow_html=True)
     
-    # 2. INPUT ADEGAN (SIDEBAR 2 KOLOM)
+    # 2. INPUT ADEGAN (TATA LETAK SIDEBAR 2 KOLOM)
     with st.expander("🟢 ADEGAN 1", expanded=True):
         col_text, col_set = st.columns([1.5, 1])
         
@@ -191,7 +191,6 @@ def tampilkan_ruang_produksi():
             )
         
         with col_set:
-            # Menu dibagi 2 kolom internal
             sub_col1, sub_col2 = st.columns(2)
             with sub_col1:
                 st.markdown("✨ **STYLE**")
@@ -217,33 +216,34 @@ def tampilkan_ruang_produksi():
         with col_d2:
             d2 = st.text_input("Dialog Karakter 2", key="h_d2", placeholder="Karakter 2 bicara...")
 
-    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM)
+    # 3. HYBRID COMPILER LOGIC (OUTPUT 2 KOLOM DENGAN TOMBOL COPY)
     st.markdown("<br>", unsafe_allow_html=True)
     if st.button("🚀 GENERATE HYBRID MASTER PROMPT", use_container_width=True):
         st.markdown("---")
         
-        # Identity Logic
         char_identities = " AND ".join([
             f"[[ CHARACTER_{c['nama'].upper()}: \"{c['fisik']}\" maintain 100% exact facial features, anatomy, and textures. Wearing: {c['wear']} ]]" 
             for c in karakter_data if c['nama']
         ])
         dialog_cue = f"{karakter_data[0]['nama']}: '{d1}' | {karakter_data[1]['nama']}: '{d2}'" if len(karakter_data) > 1 else f"'{d1}'"
 
-        # Formulasi Prompt
         image_p = f"{char_identities}. Scene: {aksi} at {lokasi}. Mood/Style: {mood}, Camera View: {arah_kam}, Lighting: {lighting}. f/11 aperture, infinite depth of field, 8k RAW photo, tactile textures. --ar {rasio}"
         video_p = f"{char_identities}. Action: {aksi} at {lokasi}. {mood} video. Acting Cue: '{dialog_cue}'. Camera Angle: {arah_kam}, Motion: {kamera}. Lighting: {lighting}. 60fps, fluid motion."
 
-        # Tampilan Hasil 2 Kolom (Sesuai image_4e025c.png)
         st.subheader("📋 Production Ready Prompts")
         out_col1, out_col2 = st.columns(2)
         
         with out_col1:
             st.markdown("##### 🖼️ PROMPT GAMBAR")
-            st.markdown(f'<div class="prompt-result">{image_p}</div>', unsafe_allow_html=True)
+            # Menggunakan st.code agar ada tombol copy otomatis
+            st.code(image_p, language="text")
         
         with out_col2:
             st.markdown("##### 🎬 PROMPT VIDEO")
-            st.markdown(f'<div class="prompt-result">{video_p}</div>', unsafe_allow_html=True)
+            # Menggunakan st.code agar ada tombol copy otomatis
+            st.code(video_p, language="text")
+        
+        st.success("Prompt siap! Klik ikon copy di pojok kanan kotak prompt untuk menyalin.")
         
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (MAIN ROUTER)
@@ -264,6 +264,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
