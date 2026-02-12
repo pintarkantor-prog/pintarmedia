@@ -168,26 +168,29 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ────────────────────────────────────────────────
-# Login page: versi paling sederhana, centered, tanpa CSS rumit
+# Login page: lebih pendek, tanpa teks berlebih, centered
 # ────────────────────────────────────────────────
 if not st.session_state.logged_in:
-    # Buat layout centered pakai columns + empty space
-    empty1, col, empty2 = st.columns([1, 2, 1])
+    # Centering pakai columns
+    empty1, col, empty2 = st.columns([1, 2.5, 1])
     
     with col:
-        st.markdown("<h2 style='text-align: center; color: #e2e8f0;'>Generator Prompt</h2>", unsafe_allow_html=True)
-        st.markdown("<p style='text-align: center; color: #94a3b8;'>Masuk untuk mulai membuat prompt konsisten</p>", unsafe_allow_html=True)
-        
+        # Logo lebih besar & centered
         st.image(
             "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png",
-            width=180,
+            width=220,
             use_column_width=False
         )
         
-        st.markdown("<br>", unsafe_allow_html=True)  # spasi kecil
+        st.markdown("<h3 style='text-align: center; color: #e2e8f0; margin-top: 8px; margin-bottom: 24px;'>PINTAR MEDIA</h3>", unsafe_allow_html=True)
+        
+        # Spasi kecil saja
+        st.markdown("<div style='height: 12px;'></div>", unsafe_allow_html=True)
         
         username = st.text_input("Username", key="login_user", placeholder="Masukkan username")
         password = st.text_input("Password", type="password", key="login_pass", placeholder="Masukkan password")
+        
+        st.markdown("<div style='height: 16px;'></div>", unsafe_allow_html=True)
         
         if st.button("Masuk", use_container_width=True):
             if username in USERS and USERS[username] == password:
@@ -196,7 +199,7 @@ if not st.session_state.logged_in:
                 st.session_state.login_time = datetime.now().isoformat()
                 st.session_state.data = load_data()
                 st.success(f"Selamat datang, {username}!", icon="👋")
-                time.sleep(1.5)
+                time.sleep(1.2)
                 st.rerun()
             else:
                 st.error("Username atau password salah", icon="🚫")
@@ -307,6 +310,7 @@ elif page == "📋 TUGAS KERJA":
 elif page == "⚡ KENDALI TIM":
     st.header("⚡ KENDALI TIM")
     st.write("Monitor progress & kinerja tim (placeholder)")
+
 
 
 
