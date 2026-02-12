@@ -3,6 +3,7 @@
 # ==============================================================================
 import streamlit as st
 from datetime import datetime, timedelta
+import time
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -15,7 +16,6 @@ st.set_page_config(page_title="Pintar Media | AI Studio", layout="wide")
 # BAGIAN 2: SISTEM KEAMANAN (URL-BASED PERSISTENCE & 10H TIMEOUT)
 # ==============================================================================
 def inisialisasi_keamanan():
-    # Ambil status login dari URL (agar tahan refresh)
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if 'sudah_login' not in st.session_state:
@@ -28,7 +28,6 @@ def inisialisasi_keamanan():
 
 def cek_autentikasi():
     if st.session_state.sudah_login:
-        # Cek Auto-Logout 10 Jam
         if 'waktu_login' in st.session_state:
             durasi = datetime.now() - st.session_state.waktu_login
             if durasi > timedelta(hours=10):
@@ -39,10 +38,25 @@ def cek_autentikasi():
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
+        # Tampilkan Notifikasi di Tengah
+        placeholder = st.empty()
+        with placeholder.container():
+            st.markdown(f"""
+                <div style="display: flex; justify-content: center; align-items: center; height: 300px;">
+                    <div style="padding: 20px 40px; background: linear-gradient(90deg, #3b82f6, #8b5cf6); 
+                                border-radius: 15px; color: white; font-size: 24px; font-weight: bold; 
+                                text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                        Selamat Bekerja, {user.upper()}!
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+        
+        time.sleep(2) # Jeda 2 Detik
+        placeholder.empty()
+
         st.session_state.sudah_login = True
         st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
-        # Kunci status di URL agar saat refresh tetap login
         st.query_params.update({"auth": "true", "user": user})
         st.rerun()
     else:
@@ -65,6 +79,10 @@ def pasang_css_kustom():
         .streamlit-expanderHeader { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         div[data-baseweb="input"], div[data-baseweb="textarea"] { background-color: #161b22 !important; border: 1px solid #30363d !important; border-radius: 8px !important; }
         .status-footer { position: fixed; bottom: 20px; left: 20px; font-size: 10px; color: #484f58; text-transform: uppercase; font-family: monospace; }
+        
+        /* CSS Tambahan untuk tombol Enter di Form */
+        div[data-testid="stForm"] { border: none !important; padding: 0 !important; }
+        
         @media (max-width: 1024px) {
             .main { display: none !important; }
             [data-testid="stSidebar"] { display: none !important; }
@@ -125,10 +143,15 @@ def utama():
         col_l, col_m, col_r = st.columns([1, 1.2, 1])
         with col_m:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
-            u = st.text_input("Username").lower()
-            p = st.text_input("Password", type="password")
-            if st.button("MASUK", use_container_width=True):
-                proses_login(u, p)
+            
+            # Form agar bisa Enter untuk Login
+            with st.form("login_form"):
+                u = st.text_input("Username").lower()
+                p = st.text_input("Password", type="password")
+                submit = st.form_submit_button("MASUK", use_container_width=True)
+                
+                if submit:
+                    proses_login(u, p)
     else:
         menu = tampilkan_navigasi_sidebar()
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
