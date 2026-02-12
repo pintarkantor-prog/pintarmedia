@@ -75,7 +75,7 @@ def proses_logout():
     st.rerun()
 
 # ==============================================================================
-# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - CLEAN, NEUTRAL & FIXED
+# BAGIAN 3: PENGATURAN TAMPILAN (CSS) - TOTALLY STATIC & CLEAN
 # ==============================================================================
 def pasang_css_kustom():
     st.markdown("""
@@ -109,22 +109,30 @@ def pasang_css_kustom():
             width: 100%; box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
         }
 
-        /* 4. KOTAK INPUT & ADEGAN (NEUTRAL MODE - NO RED, NO GREEN) */
-        /* Mengatur tampilan saat diam */
-        .stTextArea textarea, .stTextInput input, div[data-testid="stNumberInput"], div[data-baseweb="input"] {
+        /* 4. KOTAK INPUT (JUMLAH ADEGAN & NASKAH) - TOTAL STATIC MODE */
+        /* Bagian ini mengunci tampilan agar TIDAK BERUBAH saat diklik */
+        .stTextArea textarea, 
+        .stTextInput input, 
+        div[data-testid="stNumberInput"], 
+        div[data-baseweb="input"],
+        div[data-baseweb="textarea"] {
             background-color: #0e1117 !important;
-            border: 1px solid #31333f !important;
+            border: 1px solid #31333f !important; /* Warna border tetap */
             border-radius: 10px !important;
             color: #ffffff !important;
+            box-shadow: none !important; /* Hapus glow */
+            outline: none !important;   /* Hapus garis luar */
         }
         
-        /* Mengatur tampilan saat diklik (Focus) agar tetap netral abu-abu */
+        /* MENGHAPUS SEMUA REAKSI KLIK (FOKUS) */
+        /* Kode di bawah ini memaksa border TIDAK BERUBAH WARNA saat kursor masuk */
         .stTextArea textarea:focus, 
         .stTextInput input:focus, 
         div[data-testid="stNumberInput"]:focus-within,
-        div[data-baseweb="input"]:focus-within {
-            border-color: #4f5b66 !important; /* Abu-abu netral, bukan hijau atau merah */
-            box-shadow: none !important; 
+        div[data-baseweb="input"]:focus-within,
+        div[data-baseweb="textarea"]:focus-within {
+            border-color: #31333f !important; /* Tetap sama dengan warna border diam */
+            box-shadow: none !important;
             outline: none !important;
         }
 
@@ -379,6 +387,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
