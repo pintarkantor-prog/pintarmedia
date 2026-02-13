@@ -684,6 +684,18 @@ def tampilkan_quick_prompt():
         else:
             st.warning("Isi dulu aksinya, Bos!")
             
+def kirim_notif_wa(pesan):
+    """Fungsi pengirim notifikasi ke Grup WA YT YT 🔥"""
+    token = "f4CApLBAJDTPrVHHZCDF"
+    target = "120363407726656878@g.us"
+    url = "https://api.fonnte.com/send"
+    payload = {'target': target, 'message': pesan, 'countryCode': '62'}
+    headers = {'Authorization': token}
+    try:
+        requests.post(url, data=payload, headers=headers, timeout=10)
+    except:
+        pass
+
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
@@ -763,6 +775,8 @@ def tampilkan_tugas_kerja():
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}")
+                    # --- NOTIF WA ---
+                    kirim_notif_wa(f"✨ *TUGAS BARU - PINTAR MEDIA*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Mantra:* {isi_tugas[:100]}...\n\n_Segera dikerjakan ya!_ 🚀")
                     st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
 
     # --- 3. DAFTAR TUGAS AKTIF ---
@@ -815,79 +829,15 @@ def tampilkan_tugas_kerja():
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
                             catat_log(f"Menyetor tugas {t['ID']}")
+                            # --- NOTIF WA ---
+                            kirim_notif_wa(f"📤 *SETOR TUGAS - PINTAR MEDIA*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}\n\n_Silakan dicek ya Bos Dian!_ 🍿")
                             st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
                 elif user_sekarang == "dian" and status != "FINISH":
                     cat = st.text_area("Catatan:", key=f"cat_{t['ID']}")
                     col1, col2 = st.columns(2)
                     with col1:
                         if st.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
-                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                            catat_log(f"Finish tugas {t['ID']}")
-                            st.success("✅ Selesai!"); time.sleep(1); st.rerun()
-                    with col2:
-                        if st.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
-                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, cat)
-                            catat_log(f"Revisi tugas {t['ID']}")
-                            st.success("✅ Revisi!"); time.sleep(1); st.rerun()
-            st.markdown("</div>", unsafe_allow_html=True)
-
-    # --- 4. LACI ARSIP ---
-    st.divider()
-    df_arsip = pd.DataFrame()
-    with st.expander("📜 Lihat Riwayat Tugas Selesai (Bulan Ini)"):
-        if not df_all_tugas.empty:
-            mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
-                     (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
-                     (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
-            if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
-            df_arsip = df_all_tugas[mask_s].copy()
-            if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
-            else: st.write("Belum ada riwayat.")
-
-    # --- 5. TOMBOL GAJIAN (SINKRON DENGAN MESIN ABSEN & KENDALI TIM) ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
-        st.divider()
-        with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
-            try:
-                # A. Hitung Video Finish
-                jml_video = len(df_arsip)
-                
-                # B. Hitung Hadir (Dari tab Absensi hasil mesin absen otomatis kamu)
-                data_absensi = sheet_absensi.get_all_records()
-                df_absensi = pd.DataFrame(data_absensi)
-                
-                if not df_absensi.empty:
-                    df_absensi['Tanggal_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
-                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & \
-                               (df_absensi['Tanggal_DT'].dt.month == sekarang.month)
-                    jml_hadir = len(df_absensi[mask_ab])
-                else:
-                    jml_hadir = 0
-                
-                # C. Tarik Data Gaji Pokok & Tunjangan
-                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
-                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
-                
-                # D. Kalkulasi Sesuai Opsi B (10rb video, 50rb absen)
-                bonus_video = jml_video * 10000
-                bonus_hadir = jml_hadir * 50000
-                total_gaji = gapok + tunjangan + bonus_video + bonus_hadir
-                
-                # TAMPILAN SLIP SINKRON
-                st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
-                st.write(f"💵 Gaji Pokok & Tunjangan: **Rp {gapok + tunjangan:,}**")
-                st.write(f"📅 Bonus Hadir ({jml_hadir} hari): **Rp {bonus_hadir:,}**")
-                st.write(f"🎬 Bonus Video ({jml_video} klip): **Rp {bonus_video:,}**")
-                st.divider()
-                st.metric("TOTAL ESTIMASI TERIMA", f"Rp {total_gaji:,}")
-                
-                if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                    catat_log(f"KLAIM GAJI Rp {total_gaji:,} (V:{jml_video} H:{jml_hadir})")
-                    st.balloons()
-                    st.success("Konfirmasi Berhasil! Sudah sesuai dengan Kendali Tim.")
-            except Exception as e:
-                st.warning("Menghitung rincian... Pastikan data tab Staff & Absensi sudah benar.")
+                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row,
                                     
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1246,6 +1196,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
