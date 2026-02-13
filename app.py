@@ -127,18 +127,6 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-inisialisasi_keamanan()
-
-if not cek_autentikasi():
-    tampilkan_halaman_login()
-else:
-    # Sidebar Logout
-    if st.sidebar.button("LOGOUT 🚪"):
-        proses_logout()
-    
-    # Dashboard Utama kamu lanjut di sini...
-    st.write(f"Halo **{st.session_state.user_aktif.upper()}**, selamat datang di AI Studio.")
-
 # FUNGSI BACKUP (Fokus GSheet lewat Secrets)
 def simpan_ke_gsheet():
     try:
@@ -1195,13 +1183,16 @@ def tampilkan_ruang_produksi():
 # BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
 def utama():
-    inisialisasi_keamanan() # <--- Biarkan dia di sini saja
-    pasang_css_kustom()
+    inisialisasi_keamanan() 
+    pasang_css_kustom() # Tambahkan ini agar CSS kamu langsung aktif saat login
     
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
+        # Panggil Sidebar & Menu setelah login berhasil
         menu = tampilkan_navigasi_sidebar()
+        
+        # Logika Menu
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
         elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
         elif menu == "⚡ QUICK PROMPT": tampilkan_quick_prompt()
