@@ -660,7 +660,7 @@ def tampilkan_tugas_kerja():
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN
+    # 1. PANEL BOS DIAN (Input Tugas Baru)
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
@@ -678,7 +678,6 @@ def tampilkan_tugas_kerja():
                 if isi_tugas:
                     t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
                     waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
-                    # Langsung PROSES
                     sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "PROSES", waktu, "", ""])
                     st.success(f"Tugas {t_id} Berhasil Dikirim!")
                     st.rerun()
@@ -718,72 +717,48 @@ def tampilkan_tugas_kerja():
 
                         st.divider()
 
-                        # --- LOGIKA STAF (Hanya ada tombol SETOR) ---
+                        # --- LOGIKA STAF (SETOR HASIL) ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status not in ["FINISH", "SEDANG DI REVIEW"]:
-                                link_input = st.text_input("Link GDrive/Video (Wajib):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                                link_input = st.text_input("Link GDrive/Video:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                                 lock_btn = not link_input.strip()
-                                if lock_btn: st.warning("⚠️ Link wajib diisi untuk lapor SETOR.")
+                                if lock_btn: st.warning("⚠️ Masukkan link hasil kerja untuk lapor SETOR.")
                                 
                                 if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=lock_btn):
                                     try:
-                                        # Pencarian ID yang lebih agresif
-                                        target_id = str(t['ID']).strip()
-                                        # Ambil ulang data kolom untuk memastikan sinkronisasi terbaru
-                                        col_id = sheet_tugas.col_values(1)
-                                        clean_ids = [str(i).strip() for i in col_id]
-                                        
-                                        if target_id in clean_ids:
-                                            row_idx = clean_ids.index(target_id) + 1
-                                            # Update Status (Kolom 5) dan Link (Kolom 7)
-                                            sheet_tugas.update_cell(row_idx, 5, "SEDANG DI REVIEW")
-                                            sheet_tugas.update_cell(row_idx, 7, link_input)
-                                            st.toast("Hasil kerja berhasil disetor!")
-                                            st.rerun()
-                                        else:
-                                            # Jika ID tidak ditemukan di kolom 1, kita cari di seluruh sheet
-                                            cell = sheet_tugas.find(target_id)
-                                            sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
-                                            sheet_tugas.update_cell(cell.row, 7, link_input)
-                                            st.rerun()
-                                    except Exception as e:
-                                        st.error(f"Gagal sinkron database: {e}")
+                                        # TRIK SAKTI: Cari baris secara real-time berdasarkan ID
+                                        curr_cell = sheet_tugas.find(str(t['ID']).strip())
+                                        sheet_tugas.update_cell(curr_cell.row, 5, "SEDANG DI REVIEW")
+                                        sheet_tugas.update_cell(curr_cell.row, 7, link_input)
+                                        st.toast("Laporan Terkirim!")
+                                        st.rerun()
+                                    except: st.error("Gagal sinkron. Coba segarkan halaman.")
                             else:
                                 st.info("✅ Menunggu review Bos Dian.")
 
-                        # --- LOGIKA UNTUK DIAN (BOS: REVIEW & FINISH) ---
+                        # --- LOGIKA BOS DIAN (Tampilan Tombol Atas Bawah di Kanan) ---
                         elif user_sekarang == "dian":
-                            # Mengatur layout: kiri untuk catatan, kanan untuk tombol aksi
-                            col_catatan, col_aksi = st.columns([2, 1])
-                            
-                            with col_catatan:
-                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", placeholder="Tulis catatan revisi di sini jika ada...", height=135)
-                            
-                            with col_aksi:
-                                st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True) # Jarak agar sejajar
+                            col_cat, col_btn = st.columns([2, 1])
+                            with col_cat:
+                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120)
+                            with col_btn:
+                                st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True)
                                 # Tombol FINISH TOTAL (Atas)
                                 if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
                                     try:
-                                        target_id = str(t['ID']).strip()
-                                        all_ids = [str(x).strip() for x in sheet_tugas.col_values(1)]
-                                        if target_id in all_ids:
-                                            row_idx = all_ids.index(target_id) + 1
-                                            sheet_tugas.update_cell(row_idx, 5, "FINISH")
-                                            st.balloons()
-                                            st.rerun()
-                                    except: st.error("Gagal update.")
+                                        curr_cell = sheet_tugas.find(str(t['ID']).strip())
+                                        sheet_tugas.update_cell(curr_cell.row, 5, "FINISH")
+                                        st.balloons()
+                                        st.rerun()
+                                    except: st.error("Gagal update. ID tidak sinkron.")
                                 
                                 # Tombol REVISI (Bawah)
                                 if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                     try:
-                                        target_id = str(t['ID']).strip()
-                                        all_ids = [str(x).strip() for x in sheet_tugas.col_values(1)]
-                                        if target_id in all_ids:
-                                            row_idx = all_ids.index(target_id) + 1
-                                            sheet_tugas.update_cell(row_idx, 5, "REVISI") 
-                                            sheet_tugas.update_cell(row_idx, 8, catatan) 
-                                            st.warning("Status: REVISI")
-                                            st.rerun()
+                                        curr_cell = sheet_tugas.find(str(t['ID']).strip())
+                                        sheet_tugas.update_cell(curr_cell.row, 5, "REVISI") 
+                                        sheet_tugas.update_cell(curr_cell.row, 8, catatan) 
+                                        st.rerun()
                                     except: st.error("Gagal update.")
                                     
 def tampilkan_kendali_tim(): 
@@ -1003,6 +978,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
