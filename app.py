@@ -410,7 +410,7 @@ def tampilkan_ai_lab():
 
     list_karakter = []
     
-    # --- INI PERUBAHANNYA: Menggunakan Expander agar kontras input berbeda (hitam di dalam navy/abu) ---
+    # DETAIL KARAKTER (Kontras Navy vs Hitam)
     with st.expander("👥 DETAIL KARAKTER PINTAR MEDIA", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
@@ -420,7 +420,6 @@ def tampilkan_ai_lab():
                 with st.container(border=True):
                     label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_k}**")
-                    # Input di bawah ini akan otomatis terlihat hitam pekat karena berada di dalam struktur expander & container
                     st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
                     st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
                     n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
@@ -435,11 +434,9 @@ def tampilkan_ai_lab():
     with tab_manual:
         with st.expander("📝 TOPIK UTAMA & KONFIGURASI", expanded=True):
             col_m1, col_m2 = st.columns([2, 1])
-            
             with col_m1:
                 st.markdown("**📝 Topik Utama**")
                 topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=245, key="m_topik", label_visibility="collapsed")
-            
             with col_m2:
                 st.markdown("**🎭 Pola & Style**")
                 pola_m = st.selectbox("Pola", opsi_pola, key="m_pola")
@@ -449,6 +446,7 @@ def tampilkan_ai_lab():
             if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
                 if topik_m:
                     str_k = "\n".join(list_karakter)
+                    # MANTRA SAKTI DIKEMBALIKAN
                     mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
 
@@ -472,30 +470,39 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
     with tab_otomatis:
         with st.expander("⚡ AI INSTANT GENERATION", expanded=True):
             col_o1, col_o2 = st.columns([2, 1])
-            
             with col_o1:
                 st.markdown("**📝 Ide Cerita (API)**")
-                topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan AI yang berimajinasi...", height=245, key="o_topik", label_visibility="collapsed")
-            
+                topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini...", height=245, key="o_topik", label_visibility="collapsed")
             with col_o2:
                 st.markdown("**⚙️ Konfigurasi AI**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
-                adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
+                adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
                 st.info("AI otomatis menyesuaikan visual cinematic.")
 
             if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
-                    st.toast("Menghubungkan ke Groq API...", icon="🌐")
-                    with st.spinner("Groq lagi ngetik naskah gila buat kamu..."):
+                    st.toast("Menghubungkan ke Groq...", icon="🌐")
+                    with st.spinner("Groq lagi ngetik naskah gila..."):
                         try:
                             import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
                             
-                            prompt = f"Scriptwriter Pro Pintar Media.\nKarakter:\n{str_k}\nTopik: {topik_o}\nPola: {pola_o}\nNaskah {adegan_o} adegan."
+                            # PROMPT OTOMATIS DIKEMBALIKAN LENGKAP
+                            prompt_otomatis = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
+
+Karakter:
+{str_k}
+
+Topik: {topik_o}
+Pola: {pola_o}
+
+Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_o} adegan."""
+
                             payload = {
                                 "model": "llama-3.3-70b-versatile", 
-                                "messages": [{"role": "user", "content": prompt}],
+                                "messages": [{"role": "user", "content": prompt_otomatis}],
                                 "temperature": 0.7
                             }
                             res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
@@ -503,12 +510,12 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                             st.balloons()
                             st.toast("Naskah Berhasil Dibuat!", icon="✅")
                         except Exception as e:
-                            st.error(f"Error Koneksi Groq: {e}")
+                            st.error(f"Error: {e}")
 
         if st.session_state.lab_hasil_otomatis:
-            with st.container(border=True):
-                st.subheader("🎬 Naskah Jadi (Hasil Groq)")
-                st.markdown(st.session_state.lab_hasil_otomatis)
+            st.write("") 
+            with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
+                st.code(st.session_state.lab_hasil_otomatis, language="markdown")
                 st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
                 
 def tampilkan_quick_prompt(): 
@@ -705,6 +712,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
