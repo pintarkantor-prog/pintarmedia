@@ -931,20 +931,23 @@ def tampilkan_kendali_tim():
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
+        sh = client.open_by_url(url_gsheet)
         
         # --- AMBIL DATA DARI GSHEET ---
-        df_staff = pd.DataFrame(client.open_by_url(url_gsheet).worksheet("Staff").get_all_records())
-        df_absen = pd.DataFrame(client.open_by_url(url_gsheet).worksheet("Absensi").get_all_records())
-        df_tugas = pd.DataFrame(client.open_by_url(url_gsheet).worksheet("Tugas").get_all_records())
+        df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
+        df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
+        df_tugas = pd.DataFrame(sh.worksheet("Tugas").get_all_records())
+        # Ambil data Arus Kas Baru
+        df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
         # --- NORMALISASI DATA ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
 
         # --- PROSES REKAP VIDEO (Tugas) ---
         rekap_finish = {}
+        df_tugas_terfilter = pd.DataFrame()
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'], errors='coerce')
-            # Perbaikan Logika Filter (Menghindari Ambiguous Error)
             mask_tugas = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
                          (df_tugas['Deadline'].dt.year == tahun_dipilih) & \
                          (df_tugas['Status'].astype(str).str.upper() == "FINISH")
@@ -963,9 +966,51 @@ def tampilkan_kendali_tim():
             if not df_absen_terfilter.empty:
                 rekap_absen = df_absen_terfilter['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- TAMPILAN DASHBOARD ---
+        # --- LOGIKA KEUANGAN (NEW) ---
+        # 1. Hitung Gaji Otomatis
+        total_payroll = 0
+        for _, row in df_staff.iterrows():
+            jh = rekap_absen.get(row['Nama_Upper'], 0)
+            jv = rekap_finish.get(row['Nama_Upper'], 0)
+            total_payroll += (int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000))
+
+        # 2. Hitung Income & Outgo dari Tab Arus_Kas
+        total_income = 0
+        total_biaya_lain = 0
+        if not df_kas.empty:
+            df_kas['Tanggal'] = pd.to_datetime(df_kas['Tanggal'], errors='coerce')
+            df_kas_bln = df_kas[(df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)]
+            total_income = df_kas_bln[df_kas_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
+            total_biaya_lain = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
+
+        net_profit = total_income - (total_payroll + total_biaya_lain)
+
+        # --- 3. TAMPILAN METRIC LABA RUGI ---
+        c1, c2, c3 = st.columns(3)
+        c1.metric("💰 TOTAL INCOME", f"Rp {total_income:,}")
+        c2.metric("💸 TOTAL OUTGO", f"Rp {(total_payroll + total_biaya_lain):,}", help="Payroll + Operasional")
+        c3.metric("💎 NET PROFIT", f"Rp {net_profit:,}")
+
+        # --- 4. FORM INPUT KEUANGAN ---
+        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
+            with st.form("form_kas", clear_on_submit=True):
+                col1, col2, col3 = st.columns(3)
+                t_tipe = col1.selectbox("Tipe:", ["PENDAPATAN", "PENGELUARAN"])
+                # Kategori bisa dipilih atau tulis manual di keterangan
+                t_kat = col2.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
+                t_nom = col3.number_input("Nominal (Rp):", min_value=0, step=10000)
+                t_ket = st.text_input("Keterangan Tambahan:")
+                if st.form_submit_button("Simpan Transaksi"):
+                    try:
+                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), t_tipe, t_kat, t_nom, t_ket, "Dian"])
+                        st.success("Tersimpan!"); time.sleep(1); st.rerun()
+                    except: st.error("Gagal simpan!")
+
+        st.divider()
+
+        # --- TAMPILAN DASHBOARD ASLI KAMU ---
         st.subheader(f"📊 Produktivitas Editor ({pilihan_nama})")
-        if not df_tugas_terfilter.empty if 'df_tugas_terfilter' in locals() else False:
+        if not df_tugas_terfilter.empty:
             st.bar_chart(rekap_finish)
         else:
             st.info("Belum ada data video FINISH.")
@@ -978,7 +1023,7 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- HITUNG GAJI & SLIP PREMIUM ---
+        # --- HITUNG GAJI & SLIP PREMIUM ASLI KAMU ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
         
         for _, row in df_staff.iterrows():
@@ -1018,20 +1063,20 @@ def tampilkan_kendali_tim():
                                 <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                 <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                 <tr><td>Gaji Pokok</td><td align="right">Rp {int(gapok):,}</td></tr>
-                                <tr><td>Tunjangan</td><td align="right">Rp {int(tunjangan):,}</td></tr>
-                                <tr><td>Bonus Hadir ({jml_hadir}x)</td><td align="right">Rp {bonus_hadir:,}</td></tr>
-                                <tr><td>Bonus Video ({jml_video}x)</td><td align="right">Rp {bonus_video:,}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
-                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                    <td>TOTAL TERIMA</td><td align="right">Rp {total_terima:,}</td></tr>
-                            </table>
-                            <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
-                                <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
-                                <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
-                                <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
+                                    <tr><td>Tunjangan</td><td align="right">Rp {int(tunjangan):,}</td></tr>
+                                    <tr><td>Bonus Hadir ({jml_hadir}x)</td><td align="right">Rp {bonus_hadir:,}</td></tr>
+                                    <tr><td>Bonus Video ({jml_video}x)</td><td align="right">Rp {bonus_video:,}</td></tr>
+                                    <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
+                                    <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
+                                        <td>TOTAL TERIMA</td><td align="right">Rp {total_terima:,}</td></tr>
+                                </table>
+                                <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                                    <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
+                                    <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
+                                    <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
+                                </div>
                             </div>
-                        </div>
-                        """
+                            """
                         import streamlit.components.v1 as components
                         components.html(f"<body>{slip_html}</body>", height=520)
 
@@ -1256,37 +1301,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
