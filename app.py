@@ -851,20 +851,23 @@ def tampilkan_kendali_tim():
         st.title("⚡ KENDALI TIM")
         st.divider()
         st.warning("🔒 **AREA TERBATAS**")
+        st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya untuk Admin.")
         return
 
-    # 2. HALAMAN ADMIN
+    # 2. HALAMAN KHUSUS BOS DIAN
     st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
+    # --- FITUR PILIH BULAN & TAHUN ---
     col_a, col_b = st.columns([2, 4])
     with col_a:
         daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
         pilihan_nama = st.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
         bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
+    
     with col_b:
         tahun_dipilih = st.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
 
@@ -875,45 +878,65 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # --- AMBIL DATA STAFF (KOREKSI NAMA TAB: Staff) ---
+        # --- AMBIL DATA SEMUA TAB ---
+        sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
+        df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
+        
+        sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
+        df_absen = pd.DataFrame(sheet_absen.get_all_records())
+        
         try:
-            # Sesuai saran awal: "Staff" (Huruf S besar saja)
             sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
             df_staff = pd.DataFrame(sheet_staff.get_all_records())
-            
-            # Bersihkan data agar tidak ada spasi gaib
             df_staff['Nama'] = df_staff['Nama'].astype(str).str.strip().str.upper()
             staf_list = [n for n in df_staff['Nama'].unique().tolist() if n and n != 'NAN']
-        except Exception as e:
-            st.error(f"❌ Gagal membaca tab 'Staff'. Cek apakah namanya sudah pas 'Staff' di GSheet.")
+        except:
+            st.error("❌ Gagal baca tab 'Staff'. Pastikan namanya 'Staff' di GSheet.")
             return
 
-        # --- AMBIL DATA LAIN ---
-        df_tugas = pd.DataFrame(client.open_by_url(url_gsheet).worksheet("Tugas").get_all_records())
-        df_absen = pd.DataFrame(client.open_by_url(url_gsheet).worksheet("Absensi").get_all_records())
-
-        # --- REKAP VIDEO & ABSEN ---
+        # --- BAGIAN A: ANALISA PRODUKTIVITAS (GRAFIK) ---
+        st.subheader(f"📊 Produktivitas Editor ({pilihan_nama} {tahun_dipilih})")
+        df_terfilter = pd.DataFrame()
         rekap_finish = {}
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'], errors='coerce')
             mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & (df_tugas['Deadline'].dt.year == tahun_dipilih) & (df_tugas['Status'] == "FINISH")
-            df_f = df_tugas[mask].copy()
-            if not df_f.empty:
-                rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
+            df_terfilter = df_tugas[mask].copy()
+            if not df_terfilter.empty:
+                df_terfilter['Staf_Upper'] = df_terfilter['Staf'].astype(str).str.strip().str.upper()
+                rekap_finish = df_terfilter['Staf_Upper'].value_counts()
+                st.bar_chart(rekap_finish)
+                
+                m1, m2, m3 = st.columns(3)
+                with m1: st.metric("Total Video Finish", len(df_terfilter))
+                with m2: st.metric("Top Editor", rekap_finish.idxmax())
+                with m3: st.metric("Periode", f"{pilihan_nama}")
+            else:
+                st.info("Belum ada data video finish bulan ini.")
 
+        st.divider()
+
+        # --- BAGIAN B: LAPORAN ABSENSI (TABEL) ---
+        st.subheader(f"🕒 Laporan Kehadiran ({pilihan_nama})")
+        df_absen_final = pd.DataFrame()
         rekap_absen = {}
         if not df_absen.empty:
             df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'], errors='coerce')
             mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & (df_absen['Tanggal'].dt.year == tahun_dipilih)
-            df_a = df_absen[mask_absen].copy()
-            if not df_a.empty:
-                rekap_absen = df_a['Nama'].astype(str).str.strip().str.upper().value_counts()
+            df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False).copy()
+            if not df_absen_final.empty:
+                st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
+                df_absen_final['Nama_Upper'] = df_absen_final['Nama'].astype(str).str.strip().str.upper()
+                rekap_absen = df_absen_final['Nama_Upper'].value_counts()
+            else:
+                st.write("Belum ada data kehadiran bulan ini.")
 
-        # --- BAGIAN TAMPILAN GAJI ---
+        st.divider()
+
+        # --- BAGIAN C: HITUNG GAJI & SLIP (OTOMATIS) ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
         for s in staf_list:
             data_s = df_staff[df_staff['Nama'] == s]
-            # Ambil kolom Gaji_Pokok & Tunjangan
             gapok = int(data_s['Gaji_Pokok'].values[0]) if not data_s.empty else 0
             tunj = int(data_s['Tunjangan'].values[0]) if not data_s.empty else 0
             
@@ -931,23 +954,25 @@ def tampilkan_kendali_tim():
                 with c4:
                     if st.button(f"🧾 SLIP {s}", key=f"slp_{s}"):
                         slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 20px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 300px; margin: auto;">
+                        <div style="background-color: white; color: black; padding: 20px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 310px; margin: auto;">
                             <center><img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="120"></center>
                             <hr style="border: 1px dashed #ccc;">
-                            <table style="width: 100%; font-size: 12px; color: black;">
-                                <tr><td>Staf</td><td align="right"><b>{s}</b></td></tr>
+                            <table style="width: 100%; font-size: 13px; color: black;">
+                                <tr><td>Penerima</td><td align="right"><b>{s}</b></td></tr>
+                                <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
                                 <tr><td>Gaji Pokok</td><td align="right">Rp {gapok:,}</td></tr>
                                 <tr><td>Tunjangan</td><td align="right">Rp {tunj:,}</td></tr>
-                                <tr><td>Bonus Hadir ({h_count}x)</td><td align="right">Rp {bonus_h:,}</td></tr>
-                                <tr><td>Bonus Video ({v_count}x)</td><td align="right">Rp {bonus_v:,}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 1px solid #eee;"></td></tr>
-                                <tr style="font-weight: bold; color: #1d976c; font-size: 14px;"><td>TOTAL TERIMA</td><td align="right">Rp {total:,}</td></tr>
+                                <tr><td>Hadir ({h_count}x)</td><td align="right">Rp {bonus_h:,}</td></tr>
+                                <tr><td>Video ({v_count}x)</td><td align="right">Rp {bonus_v:,}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 1px dashed black;"></td></tr>
+                                <tr style="font-weight: bold; color: #1d976c; font-size: 15px;"><td>TOTAL TERIMA</td><td align="right">Rp {total:,}</td></tr>
                             </table>
                             <div style="font-size: 8px; color: #aaa; text-align: center; margin-top: 15px;">Diterbitkan otomatis: {datetime.now().strftime('%d/%m/%y %H:%M')}</div>
                         </div>
                         """
                         import streamlit.components.v1 as components
-                        components.html(f"<body>{slip_html}</body>", height=420)
+                        components.html(f"<body>{slip_html}</body>", height=460)
                         st.info("💡 Screenshot slip ini untuk dikirim ke staf.")
 
     except Exception as e:
@@ -1171,6 +1196,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
