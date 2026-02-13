@@ -865,6 +865,51 @@ def tampilkan_tugas_kerja():
             if not df_arsip.empty:
                 st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], use_container_width=True, hide_index=True)
             else: st.write("Belum ada riwayat tugas selesai.")
+    # ==============================================================================
+    # 4. FITUR SELF-SERVICE GAJI (Hanya muncul tanggal 25 ke atas untuk Staf)
+    # ==============================================================================
+    if user_sekarang != "dian" and user_sekarang != "tamu":
+        hari_ini_tgl = datetime.now(tz_wib).day
+        
+        # Tombol hanya muncul jika sudah tanggal 25 ke atas
+        if hari_ini_tgl >= 25:
+            st.divider()
+            st.success(f"💰 **SISTEM GAJIAN BULAN {sekarang.strftime('%B').upper()} TELAH DIBUKA!**")
+            
+            with st.expander("🧧 Klik untuk Klaim Slip Gaji Anda"):
+                # 1. Hitung total video FINISH milik staf ini bulan ini
+                # (data_tugas sudah ditarik di bagian atas fungsi ini)
+                df_gaji = pd.DataFrame(data_tugas)
+                df_gaji['Deadline_DT'] = pd.to_datetime(df_gaji['Deadline'], errors='coerce')
+                
+                mask_klaim = (df_gaji['Staf'].astype(str).str.lower() == user_sekarang) & \
+                             (df_gaji['Deadline_DT'].dt.month == sekarang.month) & \
+                             (df_gaji['Status'].astype(str).str.upper() == "FINISH")
+                
+                total_video_finish = len(df_gaji[mask_klaim])
+                
+                # 2. Ambil Rate Gaji dari data staff yang sudah ditarik (df_staff_raw)
+                try:
+                    # Pastikan di GSheet tab Staff ada kolom 'Rate_Video'
+                    rate_per_video = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]['Rate_Video'].values[0]
+                except:
+                    rate_per_video = 0
+                
+                total_pendapatan = total_video_finish * rate_per_video
+                
+                # 3. Tampilan Slip Sederhana
+                st.write(f"Halo **{user_sekarang.upper()}**, berikut ringkasan pendapatanmu:")
+                col_g1, col_g2 = st.columns(2)
+                col_g1.metric("Video Selesai (Finish)", f"{total_video_finish} Klip")
+                col_g2.metric("Estimasi Gaji", f"Rp {total_pendapatan:,}")
+                
+                st.caption("_Jika ada perbedaan jumlah video, silakan lapor ke Bos Dian sebelum konfirmasi._")
+                
+                if st.button("🧧 KONFIRMASI & KLAIM GAJI", use_container_width=True):
+                    # Mencatat ke Spy Mode agar Dian tahu staf sudah cek gaji
+                    catat_log(f"Mengklaim slip gaji {sekarang.strftime('%B')} sebesar Rp {total_pendapatan:,}")
+                    st.balloons()
+                    st.success("Konfirmasi Berhasil! Data sudah masuk ke Log Bos Dian.")
                                     
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1223,6 +1268,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
