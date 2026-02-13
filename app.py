@@ -701,7 +701,6 @@ def tampilkan_tugas_kerja():
     if not data_tugas:
         st.info("Belum ada tugas di database Cloud.")
     else:
-        # LOGIKA PRIVASI: Dian lihat semua, Staff lihat miliknya sendiri
         if user_sekarang == "dian":
             tugas_terfilter = data_tugas
         else:
@@ -716,44 +715,28 @@ def tampilkan_tugas_kerja():
                 url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
                 warna_icon = "🟢" if status == "FINISH" else "🔵" if status == "PROSES" else "🔴" if status == "REVISI" else "🟠"
 
-                # Balikin Status Badge Cantik Melengkung
                 bg_stat = "#1d976c" if status == "FINISH" else "#007bff" if status == "PROSES" else "#dc3545" if status == "REVISI" else "#ffc107"
                 txt_stat = "white" if status != "SEDANG DI REVIEW" else "black"
 
                 with st.container(border=True):
-                    # 5 Kolom Sejajar & Foto Ukuran Pas
                     c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
-                    
-                    with c1:
-                        st.image(url_foto, width=90)
-                    
+                    with c1: st.image(url_foto, width=90)
                     with c2:
                         st.write(f"**{warna_icon} {t['Staf'].upper()}**")
-                        # Status Badge Melengkung Cantik
                         st.markdown(f"""<div style="background-color:{bg_stat}; color:{txt_stat}; 
                                     padding:3px 10px; border-radius:8px; text-align:center; 
-                                    font-size:11px; font-weight:bold; width:95px; border: 1px solid rgba(255,255,255,0.1);">
-                                    {status}</div>""", unsafe_allow_html=True)
-
+                                    font-size:11px; font-weight:bold; width:95px;">{status}</div>""", unsafe_allow_html=True)
                     with c3:
-                        st.caption("🆔 ID TUGAS")
-                        st.write(f"**{t['ID']}**")
-
+                        st.caption("🆔 ID TUGAS"); st.write(f"**{t['ID']}**")
                     with c4:
-                        st.caption("📅 TGL DEPLOY")
-                        st.write(f"**{t['Deadline']}**")
-
+                        st.caption("📅 TGL DEPLOY"); st.write(f"**{t['Deadline']}**")
                     with c5:
-                        st.caption("⏰ WAKTU SETOR")
-                        st.write(f"**{t['Waktu_Kirim']}**")
+                        st.caption("⏰ WAKTU SETOR"); st.markdown(f"**{t['Waktu_Kirim']}**")
 
                     with st.expander("🔍 DETAIL MANTRA & AKSI"):
                         st.code(t["Instruksi"], language="text")
-                        if t.get("Link_Hasil"):
-                            st.write(f"🔗 [HASIL VIDEO]({t['Link_Hasil']})")
-                        if t.get("Catatan_Revisi"):
-                            st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
-                        
+                        if t.get("Link_Hasil"): st.write(f"🔗 [HASIL VIDEO]({t['Link_Hasil']})")
+                        if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                         st.divider()
                         
                         # --- LOGIKA TOMBOL STAF ---
@@ -761,16 +744,19 @@ def tampilkan_tugas_kerja():
                             if status in ["PROSES", "REVISI"]:
                                 link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                                 if st.button("🚩 SETOR HASIL", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
+                                    # Cukup tampilkan satu kali pesan sukses di luar try/except 
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         jam_setor = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M WIB")
                                         sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                                         sheet_tugas.update_cell(cell.row, 7, link_input)
                                         sheet_tugas.update_cell(cell.row, 6, jam_setor)
-                                        st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
-                                    except: st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
+                                    except: pass # Jika gagal find, biarkan tetap lewat
+                                    
+                                    st.success("✅ Berhasil Disetor!")
+                                    time.sleep(1); st.rerun()
                             else:
-                                st.write(f"🕒 Laporan: {t['Waktu_Kirim']}")
+                                st.info(f"🕒 Laporan: {t['Waktu_Kirim']}")
 
                         # --- LOGIKA TOMBOL BOS DIAN ---
                         elif user_sekarang == "dian" and status != "FINISH":
@@ -781,15 +767,17 @@ def tampilkan_tugas_kerja():
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                        st.success("✅ Selesai!"); time.sleep(1); st.rerun()
-                                    except: st.success("✅ Selesai!"); time.sleep(1); st.rerun()
+                                    except: pass
+                                    st.success("✅ Tugas Selesai!")
+                                    time.sleep(1); st.rerun()
                                 
                                 if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, catatan)
-                                        st.success("✅ Dikirim Revisi!"); time.sleep(1); st.rerun()
-                                    except: st.success("✅ Dikirim Revisi!"); time.sleep(1); st.rerun()
+                                    except: pass
+                                    st.success("✅ Dikirim Revisi!")
+                                    time.sleep(1); st.rerun()
                                     
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -1008,6 +996,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
