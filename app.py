@@ -757,7 +757,7 @@ def tampilkan_tugas_kerja():
                             col_catatan, col_aksi = st.columns([2, 1])
                             
                             with col_catatan:
-                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", placeholder="Tulis catatan revisi di sini jika ada...", height=115)
+                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", placeholder="Tulis catatan revisi di sini jika ada...", height=135)
                             
                             with col_aksi:
                                 st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True) # Jarak agar sejajar
@@ -1003,6 +1003,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
