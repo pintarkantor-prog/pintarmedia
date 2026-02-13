@@ -751,27 +751,40 @@ def tampilkan_tugas_kerja():
                             else:
                                 st.info("✅ Menunggu review Bos Dian.")
 
-                        # --- LOGIKA BOS DIAN ---
+                        # --- LOGIKA UNTUK DIAN (BOS: REVIEW & FINISH) ---
                         elif user_sekarang == "dian":
-                            c_rev, c_fin = st.columns(2)
-                            with c_rev:
-                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
+                            # Mengatur layout: kiri untuk catatan, kanan untuk tombol aksi
+                            col_catatan, col_aksi = st.columns([2, 1])
+                            
+                            with col_catatan:
+                                catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", placeholder="Tulis catatan revisi di sini jika ada...", height=115)
+                            
+                            with col_aksi:
+                                st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True) # Jarak agar sejajar
+                                # Tombol FINISH TOTAL (Atas)
+                                if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
+                                    try:
+                                        target_id = str(t['ID']).strip()
+                                        all_ids = [str(x).strip() for x in sheet_tugas.col_values(1)]
+                                        if target_id in all_ids:
+                                            row_idx = all_ids.index(target_id) + 1
+                                            sheet_tugas.update_cell(row_idx, 5, "FINISH")
+                                            st.balloons()
+                                            st.rerun()
+                                    except: st.error("Gagal update.")
+                                
+                                # Tombol REVISI (Bawah)
                                 if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                     try:
-                                        cell = sheet_tugas.find(str(t['ID']).strip())
-                                        sheet_tugas.update_cell(cell.row, 5, "REVISI") 
-                                        sheet_tugas.update_cell(cell.row, 8, catatan) 
-                                        st.rerun()
-                                    except: st.error("Gagal")
-                            with c_fin:
-                                st.write("<br>"*2, unsafe_allow_html=True)
-                                if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True, type="primary"):
-                                    try:
-                                        cell = sheet_tugas.find(str(t['ID']).strip())
-                                        sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                        st.balloons()
-                                        st.rerun()
-                                    except: st.error("Gagal")
+                                        target_id = str(t['ID']).strip()
+                                        all_ids = [str(x).strip() for x in sheet_tugas.col_values(1)]
+                                        if target_id in all_ids:
+                                            row_idx = all_ids.index(target_id) + 1
+                                            sheet_tugas.update_cell(row_idx, 5, "REVISI") 
+                                            sheet_tugas.update_cell(row_idx, 8, catatan) 
+                                            st.warning("Status: REVISI")
+                                            st.rerun()
+                                    except: st.error("Gagal update.")
                                     
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -990,6 +1003,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
