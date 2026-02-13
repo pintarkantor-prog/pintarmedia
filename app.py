@@ -671,7 +671,7 @@ def tampilkan_tugas_kerja():
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN (Hanya input instruksi, waktu kirim kosong)
+    # 1. PANEL BOS DIAN (Input Tugas - Deadline dihapus, ganti Tgl Deploy)
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("✨ **DEPLOY TUGAS EDIT BARU**", expanded=False):
@@ -680,24 +680,25 @@ def tampilkan_tugas_kerja():
                 st.markdown("##### 📝 INSTRUKSI EDIT / MANTRA")
                 isi_tugas = st.text_area("Isi", height=160, placeholder="Ketik detail mantra...", label_visibility="collapsed")
             with c1:
-                st.markdown("##### 👤 TARGET")
+                st.markdown("##### 👤 TARGET EDITOR")
                 staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
-                st.markdown("##### 📅 DEADLINE")
-                deadline = st.date_input("Tgl", datetime.now(tz_wib) + timedelta(days=1), label_visibility="collapsed")
+                st.info("🕒 Waktu akan dicatat otomatis saat tugas dikirim.")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                    # Waktu kirim laporan (kolom ke-6) diisi "-" dulu karena belum dikerjakan
-                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "PROSES", "-", "", ""])
-                    st.success("✅ Tugas dideploy! Menunggu laporan editor.")
+                    # Mencatat waktu Deploy saat ini
+                    tgl_deploy = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M WIB")
+                    # Simpan ke GSheet: ID, Staf, Tgl Deploy (kolom 3), Instruksi, Status, Waktu Setor (kolom 6)
+                    sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
+                    st.success("✅ Tugas berhasil dideploy!")
                     time.sleep(1)
                     st.rerun()
 
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (VCard Modern)
+    # 2. DAFTAR TUGAS (VCard Modern - ID, Tgl Deploy, Waktu Setor)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -724,16 +725,17 @@ def tampilkan_tugas_kerja():
                             elif status == "REVISI": st.error(status)
                             else: st.success(status)
 
-                        i1, i2, i3 = st.columns([1, 1.2, 1.5])
+                        # URUTAN BARU: ID -> TGL DEPLOY -> WAKTU SETOR
+                        i1, i2, i3 = st.columns([1, 1.4, 1.4])
                         with i1: 
                             st.caption("🆔 ID TUGAS")
                             st.markdown(f"**{t['ID']}**")
                         with i2: 
-                            st.caption("📅 DEADLINE")
-                            st.markdown(f"**{t['Deadline']}**")
+                            st.caption("📅 TGL DEPLOY")
+                            # Di kolom GSheet ke-3 sekarang berisi tanggal kirim dari Dian
+                            st.markdown(f"**{t['Deadline']}**") 
                         with i3: 
                             st.caption("⏰ WAKTU SETOR")
-                            # Menampilkan "-" jika belum setor, atau jam jika sudah setor
                             st.markdown(f"**{t['Waktu_Kirim']}**")
                     
                     with st.expander("🔍 BUKA DETAIL & MANTRA"):
@@ -748,20 +750,17 @@ def tampilkan_tugas_kerja():
 
                         st.divider()
 
-                        # --- LOGIKA STAF (DI SINI JAM DICATAT) ---
+                        # --- LOGIKA STAF (Setor Waktu) ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status in ["PROSES", "REVISI"]:
                                 link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                                 if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
-                                        # Ambil waktu sekarang saat tombol diklik
                                         jam_setor = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M WIB")
-                                        
-                                        sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW") # Status
-                                        sheet_tugas.update_cell(cell.row, 7, link_input)       # Link
-                                        sheet_tugas.update_cell(cell.row, 6, jam_setor)        # WAKTU SETOR!
-                                        
+                                        sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
+                                        sheet_tugas.update_cell(cell.row, 7, link_input)
+                                        sheet_tugas.update_cell(cell.row, 6, jam_setor) # Update Waktu Setor
                                         st.success(f"✅ Berhasil disetor pada {jam_setor}")
                                     except: st.success("✅ Berhasil disetor!")
                                     time.sleep(1)
@@ -1013,6 +1012,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
