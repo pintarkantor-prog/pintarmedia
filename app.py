@@ -840,16 +840,28 @@ def tampilkan_kendali_tim():
 
     # 2. HALAMAN KHUSUS BOS DIAN
     st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
-    st.write(f"Monitor performa **Pintar Media** secara real-time.")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
-    # Filter Otomatis Bulan & Tahun Berjalan
-    bulan_ini = sekarang.month
-    tahun_ini = sekarang.year
-    nama_bulan = sekarang.strftime("%B %Y")
+    # --- FITUR PILIH BULAN & TAHUN ---
+    col_a, col_b = st.columns([2, 4])
+    with col_a:
+        daftar_bulan = {
+            1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 
+            5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 
+            9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+        }
+        # Dropdown bulan (Default ke bulan sekarang)
+        pilihan_nama = st.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
+        bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
+    
+    with col_b:
+        # Input tahun (Default ke tahun sekarang)
+        tahun_dipilih = st.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
+
+    st.divider()
 
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -860,56 +872,54 @@ def tampilkan_kendali_tim():
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
 
-        st.subheader(f"📊 Produktivitas Editor ({nama_bulan})")
+        st.subheader(f"📊 Produktivitas Editor ({pilihan_nama} {tahun_dipilih})")
         
         if not df_tugas.empty:
-            # Pastikan format tanggal kolom Deadline benar
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'])
             
-            # Filter: Bulan berjalan & Status FINISH
-            mask = (df_tugas['Deadline'].dt.month == bulan_ini) & \
-                   (df_tugas['Deadline'].dt.year == tahun_ini) & \
+            # FILTER BERDASARKAN BULAN & TAHUN YANG DIPILIH
+            mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
+                   (df_tugas['Deadline'].dt.year == tahun_dipilih) & \
                    (df_tugas['Status'] == "FINISH")
             
-            df_bulan_ini = df_tugas[mask]
+            df_terfilter = df_tugas[mask]
 
-            if not df_bulan_ini.empty:
-                # Grafik Batang Produktivitas 
-                prod_counts = df_bulan_ini['Staf'].value_counts()
+            if not df_terfilter.empty:
+                prod_counts = df_terfilter['Staf'].value_counts()
                 st.bar_chart(prod_counts) 
                 
-                # Metrik Angka Utama
                 m1, m2, m3 = st.columns(3)
-                with m1: st.metric("Total Video Finish", len(df_bulan_ini))
+                with m1: st.metric("Total Video Finish", len(df_terfilter))
                 with m2: st.metric("Top Editor", prod_counts.idxmax())
-                with m3: st.metric("Periode", nama_bulan)
+                with m3: st.metric("Periode", f"{pilihan_nama}")
             else:
-                st.info("Belum ada data tugas yang selesai (FINISH) di bulan ini.")
+                st.info(f"Belum ada data tugas FINISH untuk periode {pilihan_nama} {tahun_dipilih}.")
 
         st.divider()
 
         # --- BAGIAN B: LAPORAN ABSENSI ---
-        st.subheader("🕒 Laporan Kehadiran (Auto-Absen)")
+        st.subheader(f"🕒 Laporan Kehadiran ({pilihan_nama})")
         try:
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             df_absen = pd.DataFrame(sheet_absen.get_all_records())
             
             if not df_absen.empty:
                 df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
-                # Filter absen bulan berjalan
-                mask_absen = (df_absen['Tanggal'].dt.month == bulan_ini) & \
-                             (df_absen['Tanggal'].dt.year == tahun_ini)
+                
+                # FILTER ABSEN BERDASARKAN BULAN & TAHUN YANG DIPILIH
+                mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
+                             (df_absen['Tanggal'].dt.year == tahun_dipilih)
                 
                 df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False)
                 
                 if not df_absen_final.empty:
                     st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
                 else:
-                    st.write("Belum ada data kehadiran bulan ini.")
+                    st.write(f"Belum ada data kehadiran untuk bulan {pilihan_nama}.")
             else:
                 st.write("Data kehadiran masih kosong.")
         except:
-            st.warning("⚠️ Tab 'Absensi' tidak ditemukan. Pastikan kamu sudah buat tab 'Absensi' di Google Sheets.")
+            st.warning("⚠️ Tab 'Absensi' tidak ditemukan.")
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
@@ -1127,45 +1137,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
