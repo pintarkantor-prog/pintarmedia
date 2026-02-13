@@ -647,13 +647,13 @@ def tampilkan_quick_prompt():
             st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
+    # Judul Default Streamlit
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
     
-    # Foto Staff - Masukkan link foto asli di sini
     foto_staff = {
         "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
         "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
@@ -672,16 +672,16 @@ def tampilkan_tugas_kerja():
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN (Deploy Tugas)
+    # 1. PANEL BOS DIAN
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("✨ **DEPLOY TUGAS EDIT BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
             with c2:
-                st.markdown("##### 📝 INSTRUKSI EDIT / MANTRA")
+                st.write("**📝 INSTRUKSI EDIT / MANTRA**")
                 isi_tugas = st.text_area("Isi", height=160, placeholder="Ketik mantra...", label_visibility="collapsed")
             with c1:
-                st.markdown("##### 👤 TARGET EDITOR")
+                st.write("**👤 TARGET EDITOR**")
                 staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
@@ -695,60 +695,60 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (VCard 5-Kolom Presisi)
+    # 2. DAFTAR TUGAS (Murni Komponen Default)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
     if not data_tugas:
         st.info("Belum ada tugas di database Cloud.")
     else:
-        for t in reversed(data_tugas):
-            if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
+        # LOGIKA FILTER PRIVASI
+        if user_sekarang == "dian":
+            tugas_terfilter = data_tugas
+        else:
+            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang]
+
+        if not tugas_terfilter:
+            st.info(f"☕ Halo {user_sekarang.capitalize()}, belum ada tugas untukmu saat ini.")
+        else:
+            for t in reversed(tugas_terfilter):
                 status = str(t["Status"]).upper()
                 nama_key = t["Staf"].lower()
                 url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
-                warna_icon = "🟢" if status == "FINISH" else "🔵" if status == "PROSES" else "🔴" if status == "REVISI" else "🟠"
-
-                # Style Badge Status Cantik
-                bg_stat = "#1d976c" if status == "FINISH" else "#007bff" if status == "PROSES" else "#dc3545" if status == "REVISI" else "#ffc107"
-                txt_stat = "white" if status != "SEDANG DI REVIEW" else "black"
-
+                
                 with st.container(border=True):
-                    # Grid 5 Kolom Sejajar
+                    # Layout 5 Kolom Sejajar
                     c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
                     
                     with c1:
-                        # Ukuran foto width=90 agar sejajar dengan tinggi teks
                         st.image(url_foto, width=90)
                     
                     with c2:
-                        # Baris 1: Nama Staff
-                        st.markdown(f"**{warna_icon} {t['Staf'].upper()}**")
-                        # Baris 2: Badge Status Estetik
-                        st.markdown(f"""<div style="background-color:{bg_stat}; color:{txt_stat}; 
-                                    padding:3px 10px; border-radius:8px; text-align:center; 
-                                    font-size:11px; font-weight:bold; width:95px; border: 1px solid rgba(255,255,255,0.1);">
-                                    {status}</div>""", unsafe_allow_html=True)
+                        st.write(f"👤 **{t['Staf'].upper()}**")
+                        # Menggunakan Status Default Streamlit
+                        if status == "FINISH": st.success(status)
+                        elif status == "PROSES": st.info(status)
+                        elif status == "REVISI": st.error(status)
+                        else: st.warning(status)
 
                     with c3:
                         st.caption("🆔 ID TUGAS")
-                        st.markdown(f"**{t['ID']}**")
+                        st.write(f"**{t['ID']}**")
 
                     with c4:
                         st.caption("📅 TGL DEPLOY")
-                        st.markdown(f"**{t['Deadline']}**")
+                        st.write(f"**{t['Deadline']}**")
 
                     with c5:
                         st.caption("⏰ WAKTU SETOR")
-                        st.markdown(f"**{t['Waktu_Kirim']}**")
+                        st.write(f"**{t['Waktu_Kirim']}**")
 
-                    # Detail Expander
                     with st.expander("🔍 DETAIL MANTRA"):
                         st.code(t["Instruksi"], language="text")
                         if t.get("Link_Hasil"):
-                            st.success(f"🔗 [HASIL VIDEO]({t['Link_Hasil']})")
+                            st.write(f"🔗 [HASIL VIDEO]({t['Link_Hasil']})")
                         if t.get("Catatan_Revisi"):
-                            st.error(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                            st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                         
                         st.divider()
                         
@@ -766,7 +766,7 @@ def tampilkan_tugas_kerja():
                                         st.success("Berhasil!"); time.sleep(1); st.rerun()
                                     except: st.success("Berhasil!"); time.sleep(1); st.rerun()
                             else:
-                                st.info(f"🕒 Laporan: {t['Waktu_Kirim']}")
+                                st.write(f"🕒 Laporan: {t['Waktu_Kirim']}")
 
                         # --- LOGIKA TOMBOL BOS DIAN ---
                         elif user_sekarang == "dian" and status != "FINISH":
@@ -1003,6 +1003,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
