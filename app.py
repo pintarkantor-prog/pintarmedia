@@ -973,19 +973,27 @@ def tampilkan_kendali_tim():
             jv_p = rekap_finish.get(st_up, 0)
             total_payroll_bln_ini += (int(row_p['Gaji_Pokok']) + int(row_p['Tunjangan']) + (jh_p * 50000) + (jv_p * 10000))
 
-        # --- HITUNG PENDAPATAN & PENGELUARAN LAIN ---
+        # --- LOGIKA ARUS KAS (ANTI-SALAH FORMAT) ---
         total_income = 0
         total_operasional = 0
         if not df_kas.empty:
-            df_kas['Tanggal'] = pd.to_datetime(df_kas['Tanggal'], errors='coerce')
-            mask_kas = (df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)
+            # Paksa baca tanggal secara fleksibel (Indo/Internasional)
+            df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
+            
+            mask_kas = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & \
+                       (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
+            
             df_kas_bln = df_kas[mask_kas].copy()
+            
+            # Paksa Nominal jadi angka agar bisa dijumlah
+            df_kas_bln['Nominal'] = pd.to_numeric(df_kas_bln['Nominal'], errors='coerce').fillna(0)
+            
             total_income = df_kas_bln[df_kas_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
             total_operasional = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
         net_profit = total_income - (total_payroll_bln_ini + total_operasional)
 
-        # --- 3. METRIC RINGKASAN CEPAT ---
+        # --- 3. DASHBOARD METRIC ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL INCOME", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL OUTGO", f"Rp {(total_payroll_bln_ini + total_operasional):,}", help="Gaji Tim + Biaya Operasional")
@@ -1001,9 +1009,13 @@ def tampilkan_kendali_tim():
                 f_ket = st.text_input("Keterangan Tambahan:")
                 if st.form_submit_button("Simpan Transaksi"):
                     try:
-                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, f_nom, f_ket, "Dian"])
-                        st.success("Berhasil Disimpan!"); time.sleep(1); st.rerun()
-                    except: st.error("Gagal simpan!")
+                        # Masukkan data ke GSheet dengan format standar YYYY-MM-DD
+                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                        st.success(f"✅ Tersimpan! {f_tipe} Rp {int(f_nom):,}")
+                        time.sleep(1.5)
+                        st.rerun()
+                    except Exception as e:
+                        st.error(f"Gagal simpan: {e}")
 
         # --- 5. EXPANDER: PRODUKTIVITAS EDITOR ---
         with st.expander(f"📊 Produktivitas Editor ({pilihan_nama})", expanded=True):
@@ -1019,16 +1031,13 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada data absensi.")
 
-        # --- 7. EXPANDER: HITUNG GAJI & SLIP PREMIUM (KODE ASLI DIAN) ---
+        # --- 7. EXPANDER: GAJI & SLIP (KODE ASLI DIAN) ---
         with st.expander(f"💰 Hitung Gaji Otomatis ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_upper = row['Nama_Upper']
-                s_asli = row['Nama']
-                jabatan = row['Jabatan']
-                gapok = row['Gaji_Pokok']
-                tunjangan = row['Tunjangan']
+                s_asli = row['Nama']; jabatan = row['Jabatan']
+                gapok = row['Gaji_Pokok']; tunjangan = row['Tunjangan']
 
-                # Hitung Variabel
                 jml_hadir = rekap_absen.get(s_upper, 0)
                 jml_video = rekap_finish.get(s_upper, 0)
                 bonus_hadir = jml_hadir * 50000 
@@ -1038,8 +1047,7 @@ def tampilkan_kendali_tim():
                 with st.container(border=True):
                     c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
                     with c1: 
-                        st.write(f"👤 **{s_asli}**")
-                        st.caption(f"💼 {jabatan}")
+                        st.write(f"👤 **{s_asli}**"); st.caption(f"💼 {jabatan}")
                     with c2: st.caption("HADIR"); st.write(f"{jml_hadir} Hari")
                     with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                     with c4:
@@ -1296,5 +1304,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
