@@ -645,7 +645,7 @@ def tampilkan_quick_prompt():
             st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
-    st.markdown("<h1 style='text-align: center; color: #1d976c;'>🚀 PINTAR INTEGRATED SYSTEM</h1>", unsafe_allow_html=True)
+    st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -993,6 +993,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
