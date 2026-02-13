@@ -611,21 +611,26 @@ def tampilkan_quick_prompt():
         if aksi_q:
             bumbu = "hyper-detailed grit, sand, leaf veins, tactile micro-textures" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'sawah']) else "hyper-detailed wood grain, ray-traced reflections"
             
-            # --- MANTRA GAMBAR (OPTIMAL UNTUK BANANA & SUPERGROK) ---
-            img_p = (f"ACTION: {aksi_q}\n"
-                     f"ENV: {loc_q}. {bumbu}. NO SOFTENING.\n"
-                     f"RULE: Use uploaded photos for each character. Interaction required.\n"
-                     f"CAMERA: {shot_q}, {arah_q} view, full profile perspective\n"
-                     f"TECHNICAL: {QB_IMG}, {style_q}, {light_q}, extreme edge-enhancement\n"
-                     f"FORMAT: Aspect Ratio {OPTS_RATIO[0]}, Ultra-HD Photorealistic RAW Output") # Bersih dari kode MJ
+            # --- MANTRA GAMBAR (OPTIMAL & RAPI) ---
+            img_p = (
+                f"ACTION: {aksi_q}\n\n"
+                f"ENV: {loc_q}. {bumbu}. NO SOFTENING.\n\n"
+                f"RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                f"CAMERA: {shot_q}, {arah_q} view, full profile perspective, {QB_IMG}\n\n"
+                f"TECHNICAL: {style_q}, {light_q}, extreme edge-enhancement\n\n"
+                f"NEGATIVE PROMPT: {no_text_strict}\n\n"
+                f"FORMAT: Aspect Ratio {OPTS_RATIO[0]}, Ultra-HD Photorealistic RAW Output"
+            )
 
-            # --- MANTRA VIDEO (OPTIMAL UNTUK VEO) ---
-            vid_p = (f"SCENE: {aksi_q} at {loc_q}\n"
-                     f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
-                     f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
-                     f"LIGHTING: {light_q}, vibrant naturalism, cinematic contrast\n"
-                     f"TECHNICAL: {QB_VID}, {style_q}, {shot_q}, cinematic character-tracking motion\n"
-                     f"FORMAT: 9:16 Vertical, 8k Cinematic Render for Veo") # Spesifik untuk Veo
+            # --- MANTRA VIDEO (OPTIMAL & RAPI) ---
+            vid_p = (
+                f"SCENE: {aksi_q} at {loc_q}\n\n"
+                f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
+                f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
+                f"TECHNICAL: {QB_VID}, {style_q}, {shot_q}, cinematic character-tracking motion\n\n"
+                f"NEGATIVE PROMPT: {no_text_strict}, {neg_vid_strict}\n\n"
+                f"FORMAT: 9:16 Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
+            )
             
             st.success("✅ Mantra Masterpiece Berhasil Dirakit!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
@@ -642,62 +647,94 @@ def tampilkan_quick_prompt():
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
     
-    # Ambil user aktif
+    # Ambil user aktif & URL GSheet dari session/secrets
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     
-    # 1. TAMPILAN KHUSUS BOS (DIAN) - UNTUK KASIH TUGAS
+    # Setting Koneksi GSheet (Menggunakan Secrets yang sudah ada)
+    try:
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
+        client = gspread.authorize(creds)
+        sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
+    except Exception as e:
+        st.error(f"❌ Koneksi GSheet Gagal: {e}")
+        return
+
+    # ==============================================================================
+    # A. PANEL KONTROL BOS (Hanya Muncul Jika User = DIAN)
+    # ==============================================================================
     if user_sekarang == "dian":
-        st.subheader("🎯 Berikan Instruksi Baru")
+        st.subheader("🎯 Bos Dian: Berikan Instruksi Baru")
         with st.container(border=True):
             c1, c2 = st.columns([1, 2])
             with c1:
                 st.markdown('<p class="small-label">👤 PILIH STAF</p>', unsafe_allow_html=True)
-                staf_tujuan = st.selectbox("Pilih Staf", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
+                staf_tujuan = st.selectbox("Staf", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
                 
-                st.markdown('<p class="small-label">📅 TENGGAT WAKTU</p>', unsafe_allow_html=True)
-                deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1), label_visibility="collapsed")
+                st.markdown('<p class="small-label">📅 DEADLINE</p>', unsafe_allow_html=True)
+                deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
             
             with c2:
-                st.markdown('<p class="small-label">📝 DETAIL TUGAS / KONSEP BRILLIAN</p>', unsafe_allow_html=True)
-                isi_tugas = st.text_area("Isi Tugas", height=115, placeholder="Contoh: Buat 5 video pendek Udin & Tung tema ramadhan...", label_visibility="collapsed")
+                st.markdown('<p class="small-label">📝 DETAIL TUGAS / MANTRA CLOUD</p>', unsafe_allow_html=True)
+                isi_tugas = st.text_area("Isi", height=115, placeholder="Ketik tugas atau tempel mantra hasil rakitan di sini...", label_visibility="collapsed")
             
             if st.button("🚀 KIRIM TUGAS KE TIM", use_container_width=True, type="primary"):
                 if isi_tugas:
-                    # Logika simpan tugas (untuk sementara kita pakai toast, nanti bisa sambung ke GSheet)
-                    st.success(f"Tugas berhasil dikirim ke {staf_tujuan}!")
+                    tugas_id = f"T-{datetime.now().strftime('%m%d%H%M%S')}"
+                    waktu_kirim = datetime.now().strftime("%d/%m/%Y %H:%M")
+                    # Simpan ke GSheet: [ID, Staf, Deadline, Instruksi, Status, Waktu_Kirim]
+                    sheet_tugas.append_row([tugas_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu_kirim])
+                    st.success(f"🔥 Tugas berhasil dikirim ke {staf_tujuan}!")
                     st.balloons()
+                    st.rerun()
                 else:
-                    st.warning("Isi dulu detail tugasnya, Bos!")
+                    st.warning("Tulis dulu instruksinya, Bos!")
 
     st.divider()
 
-    # 2. TAMPILAN UNTUK STAF (DAN VIEW BOS) - LIST TUGAS
+    # ==============================================================================
+    # B. DAFTAR TUGAS AKTIF (Filter Berdasarkan User)
+    # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
-    # Simulasi Data Tugas (Nanti ini diambil dari GSheet)
-    tugas_dummy = [
-        {"staf": "Icha", "tugas": "Render 3 adegan Udin lagi balapan karung", "status": "Pending", "deadline": "2026-02-15"},
-        {"staf": "Nissa", "tugas": "Buat script AI Lab tema horor konyol", "status": "Proses", "deadline": "2026-02-14"},
-        {"staf": "Icha", "tugas": "Cek background Pixar Style untuk adegan hutan", "status": "Selesai", "deadline": "2026-02-13"},
-    ]
-
-    # Filter tugas berdasarkan siapa yang login
-    for t in tugas_dummy:
-        # Dian bisa lihat semua, staf cuma bisa lihat miliknya
-        if user_sekarang == "dian" or user_sekarang == t["staf"].lower():
-            warna_status = "🟡" if t["status"] == "Pending" else "🔵" if t["status"] == "Proses" else "🟢"
-            
-            with st.expander(f"{warna_status} [{t['staf'].upper()}] - {t['tugas'][:40]}..."):
-                st.write(f"**Instruksi:** {t['tugas']}")
-                st.write(f"**Deadline:** {t['deadline']}")
-                st.write(f"**Status:** {t['status']}")
+    data_tugas = sheet_tugas.get_all_records()
+    
+    if not data_tugas:
+        st.info("Belum ada tugas yang tercatat di Cloud.")
+    else:
+        # Tampilkan dari yang terbaru (reversed)
+        for i, t in enumerate(reversed(data_tugas)):
+            # Aturan Akses: Dian lihat semua, Staf lihat milik sendiri
+            if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
+                status = t["Status"]
+                warna = "🟡" if status == "Pending" else "🔵" if status == "Proses" else "🟢"
                 
-                # Staf bisa update status tugasnya sendiri
-                if user_sekarang != "dian":
-                    c1, c2, c3 = st.columns(3)
-                    with c1: st.button("Set Pending", key=f"p_{t['tugas']}")
-                    with c2: st.button("Set Proses", key=f"r_{t['tugas']}")
-                    with c3: st.button("Set Selesai", key=f"s_{t['tugas']}")
+                with st.expander(f"{warna} [{t['Staf'].upper()}] - {t['Deadline']}"):
+                    st.markdown(f"**ID Tugas:** `{t['ID']}`")
+                    st.code(t["Instruksi"], language="text") # Pakai st.code biar gampang di-copy mantra-nya
+                    st.caption(f"Dikirim pada: {t['Waktu_Kirim']}")
+                    
+                    # Logika Update Status (Hanya untuk Staf yang bersangkutan atau Dian)
+                    if user_sekarang != "tamu":
+                        st.markdown("---")
+                        col_stat, col_btn = st.columns([2, 1])
+                        with col_stat:
+                            opsi_status = ["Pending", "Proses", "Selesai"]
+                            idx_status = opsi_status.index(status) if status in opsi_status else 0
+                            pilihan_baru = st.selectbox("Ubah Status:", opsi_status, index=idx_status, key=f"sel_{t['ID']}")
+                        
+                        with col_btn:
+                            st.write("<br>", unsafe_allow_html=True)
+                            if st.button("Update ✅", key=f"btn_{t['ID']}", use_container_width=True):
+                                # Cari baris di GSheet berdasarkan ID (GSheet index mulai dari 1)
+                                try:
+                                    cell = sheet_tugas.find(t["ID"])
+                                    sheet_tugas.update_cell(cell.row, 5, pilihan_baru) # Kolom 5 adalah kolom Status
+                                    st.success("Status Diperbarui!")
+                                    st.rerun()
+                                except:
+                                    st.error("Gagal update. ID tidak ditemukan.")
 
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -865,26 +902,28 @@ def tampilkan_ruang_produksi():
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- [RAKITAN WOW] MANTRA GAMBAR ---
-                    # Urutan Rapi, Tanpa --v 6.0, Proteksi Utuh
-                    img_p = (f"CHARACTER: {char_ids}\n"
-                             f"ACTION: {sc['aksi']}\n"
-                             f"ENV: {sc['loc']}. {bumbu_final}.\n"
-                             f"RULE: Use uploaded photos for each character. Interaction required.\n"
-                             f"CAMERA: {QB_IMG}\n"
-                             f"TECH: {sc['style']}, {sc['light']}, {sc['shot']}, Angle {sc['arah']}, {tech_base}\n"
-                             f"NEGATIVE PROMPT: {no_text_strict}\n"
-                             f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output")
+                    # --- MANTRA GAMBAR (LIST MODE & DETAIL CAMERA) ---
+                    img_p = (
+                        f"CHARACTER: {char_ids}\n\n"
+                        f"ACTION: {sc['aksi']}\n\n"
+                        f"ENV: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
+                        f"RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n\n"
+                        f"TECH: {sc['style']}, {sc['light']}, {tech_base}\n\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}\n\n"
+                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
+                    )
                     
-                    # --- [RAKITAN WOW] MANTRA VIDEO ---
-                    # Tambah Motion Rule, Proteksi Utuh (no_text + negative_motion)
-                    vid_p = (f"PROFILES: {char_profiles}\n"
-                             f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
-                             f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
-                             f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
-                             f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n"
-                             f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
-                             f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression")
+                    # --- MANTRA VIDEO (LIST MODE & MOTION MASTERY) ---
+                    vid_p = (
+                        f"PROFILES: {char_profiles}\n\n"
+                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n\n"
+                        f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
+                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n\n"
+                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
+                    )
 
                     c_img, c_vid = st.columns(2)
                     with c_img:
@@ -914,3 +953,4 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
