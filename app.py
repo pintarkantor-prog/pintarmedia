@@ -644,6 +644,8 @@ def tampilkan_quick_prompt():
         else:
             st.warning("Isi dulu aksinya, Bos!")
             
+import time # Tambahkan ini di bagian paling atas file app.py
+
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
@@ -656,14 +658,14 @@ def tampilkan_tugas_kerja():
         client = gspread.authorize(creds)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         
-        # Fresh Fetch: Ambil data terbaru setiap halaman dimuat
+        # Ambil data terbaru
         data_tugas = sheet_tugas.get_all_records()
     except Exception as e:
         st.error(f"❌ Koneksi Database Gagal: {e}")
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN
+    # 1. PANEL BOS DIAN (Input Tugas Baru)
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
@@ -681,8 +683,10 @@ def tampilkan_tugas_kerja():
                 if isi_tugas:
                     t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
                     waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
+                    # Langsung PROSES
                     sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "PROSES", waktu, "", ""])
                     st.success(f"Tugas {t_id} Berhasil Dikirim!")
+                    time.sleep(1) # Jeda sinkronisasi
                     st.rerun()
 
     st.divider()
@@ -719,25 +723,29 @@ def tampilkan_tugas_kerja():
 
                         st.divider()
 
-                        # --- LOGIKA STAF (SETOR HASIL) ---
+                        # --- LOGIKA STAF (LOGIN ICHA) ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status in ["PROSES", "REVISI"]:
-                                link_input = st.text_input("Link GDrive/Video:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
-                                if not link_input.strip():
-                                    st.warning("⚠️ Link wajib diisi untuk lapor SETOR.")
+                                link_input = st.text_input("Link GDrive/Video (Wajib):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                                lock_btn = not link_input.strip()
+                                if lock_btn: st.warning("⚠️ Link wajib diisi untuk lapor SETOR.")
                                 
-                                if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
+                                if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=lock_btn):
                                     try:
+                                        # Cari baris real-time
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                                         sheet_tugas.update_cell(cell.row, 7, link_input)
                                         st.toast("Laporan Terkirim!")
+                                        time.sleep(1) # Tunggu GSheet update
                                         st.rerun()
-                                    except: st.error("Gagal sinkron database.")
+                                    except:
+                                        st.error("Gagal sinkron. ID tugas mungkin sudah berubah. Coba refresh.")
                             elif status == "FINISH":
-                                st.success("🎉 Tugas ini sudah SELESAI TOTAL.") #
+                                # Tampilkan pesan sukses jika sudah FINISH
+                                st.success("✅ Tugas ini sudah SELESAI TOTAL dan disetujui Bos Dian.")
                             else:
-                                st.info("✅ Menunggu review Bos Dian.")
+                                st.info("🕒 Sedang dalam tahap review Bos Dian.")
 
                         # --- LOGIKA BOS DIAN ---
                         elif user_sekarang == "dian":
@@ -746,24 +754,23 @@ def tampilkan_tugas_kerja():
                                 with col_cat:
                                     catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120)
                                 with col_btn:
-                                    st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True)
-                                    # Tombol FINISH tanpa bubble/balloons
+                                    st.write("<br>", unsafe_allow_html=True)
                                     if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            st.rerun() # Refresh agar status di Icha ikut berubah
-                                        except: st.error("Gagal update.")
+                                            time.sleep(1)
+                                            st.rerun()
+                                        except: st.error("Gagal update ID.")
                                     
                                     if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "REVISI") 
                                             sheet_tugas.update_cell(cell.row, 8, catatan) 
+                                            time.sleep(1)
                                             st.rerun()
                                         except: st.error("Gagal update.")
-                            else:
-                                st.success("Tugas ini telah diselesaikan.")
                                     
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -982,6 +989,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
