@@ -414,6 +414,7 @@ def tampilkan_ai_lab():
         if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
         if i not in st.session_state.memori_s: st.session_state.memori_s[i] = ""
         with char_cols[i % 2]:
+            # Menggunakan border=True untuk menciptakan kontras awal
             with st.container(border=True):
                 label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
                 st.markdown(f"**{label_k}**")
@@ -429,12 +430,13 @@ def tampilkan_ai_lab():
 
     # MODE MANUAL
     with tab_manual:
-        with st.container(border=True):
-            st.markdown("### 📝 Input Konten (Manual)")
+        # Trik: Expander menciptakan warna background luar yang lebih terang dari kotak input
+        with st.expander("📝 TOPIK UTAMA & KONFIGURASI", expanded=True):
             col_m1, col_m2 = st.columns([2, 1])
             
             with col_m1:
                 st.markdown("**📝 Topik Utama**")
+                # text_area di sini akan berwarna hitam pekat secara default di dalam expander
                 topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=245, key="m_topik", label_visibility="collapsed")
             
             with col_m2:
@@ -467,8 +469,7 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
 
     # MODE OTOMATIS
     with tab_otomatis:
-        with st.container(border=True):
-            st.markdown("### ⚡ AI Instant Generation")
+        with st.expander("⚡ AI INSTANT GENERATION", expanded=True):
             col_o1, col_o2 = st.columns([2, 1])
             
             with col_o1:
@@ -479,7 +480,7 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                 st.markdown("**⚙️ Konfigurasi AI**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
                 adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
-                st.info("AI akan otomatis menyesuaikan visual cinematic.")
+                st.info("AI otomatis menyesuaikan visual cinematic.")
 
             if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
@@ -512,15 +513,13 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                             st.toast("Naskah Berhasil Dibuat!", icon="✅")
                         except Exception as e:
                             st.error(f"Error Koneksi Groq: {e}")
-                else:
-                    st.error("API Key kosong atau Ide Cerita belum diisi!")
 
         if st.session_state.lab_hasil_otomatis:
             with st.container(border=True):
                 st.subheader("🎬 Naskah Jadi (Hasil Groq)")
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
-
+                
 def tampilkan_quick_prompt(): 
     st.title("⚡ Quick Prompt")
     st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
@@ -715,6 +714,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
