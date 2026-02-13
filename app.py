@@ -900,7 +900,9 @@ def tampilkan_kendali_tim():
             df_terfilter = df_tugas[mask]
 
             if not df_terfilter.empty:
-                prod_counts = df_terfilter['Staf'].value_counts()
+                # Normalisasi nama ke HURUF BESAR agar chart akurat
+                df_terfilter['Staf_Upper'] = df_terfilter['Staf'].str.upper()
+                prod_counts = df_terfilter['Staf_Upper'].value_counts()
                 st.bar_chart(prod_counts) 
                 
                 m1, m2, m3 = st.columns(3)
@@ -908,7 +910,7 @@ def tampilkan_kendali_tim():
                 with m2: st.metric("Top Editor", prod_counts.idxmax())
                 with m3: st.metric("Periode", f"{pilihan_nama}")
             else:
-                st.info(f"Belum ada data tugas FINISH untuk periode {pilihan_nama} {tahun_dipilih}.")
+                st.info(f"Belum ada data tugas FINISH.")
 
         st.divider()
 
@@ -924,26 +926,25 @@ def tampilkan_kendali_tim():
             if not df_absen_final.empty:
                 st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
             else:
-                st.write(f"Belum ada data kehadiran untuk bulan {pilihan_nama}.")
+                st.write(f"Belum ada data kehadiran.")
 
         st.divider()
 
-        # --- BAGIAN C: HITUNG GAJI & SLIP (REVISI SINKRONISASI) ---
+        # --- BAGIAN C: HITUNG GAJI & SLIP (SINKRONISASI LOGO) ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
         
-        # Normalisasi semua data rekap ke huruf besar agar sinkron
+        # Normalisasi semua data rekap ke huruf besar
         rekap_absen = df_absen_final['Nama'].str.upper().value_counts() if not df_absen_final.empty else {}
         rekap_finish = df_terfilter['Staf'].str.upper().value_counts() if not df_terfilter.empty else {}
 
-        # Daftar staf (pakai huruf besar agar match dengan rekap)
+        # Daftar staf harus HURUF BESAR agar cocok dengan rekap
         staf_list = ["ICHA", "NISSA", "INGGI", "LISA"]
         
         for s in staf_list:
-            # Hitung nilai
             jml_hadir = rekap_absen.get(s, 0)
             jml_video = rekap_finish.get(s, 0)
             
-            # Perhitungan Upah (Tarif sesuai permintaan Bos Dian)
+            # Perhitungan Upah (Tarif Bos Dian)
             upah_absen = jml_hadir * 50000 
             upah_video = jml_video * 10000
             total_terima = upah_absen + upah_video
@@ -955,7 +956,7 @@ def tampilkan_kendali_tim():
                 with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                 with c4:
                     if st.button(f"🧾 SLIP {s}", key=f"btn_slip_{s}"):
-                        # Template Slip Gaji dengan Logo PINTAR MEDIA
+                        # Template Slip Gaji Sesuai Gambar image_d8fe22.png
                         slip_html = f"""
                         <div style="background-color: white; color: black; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: 'Courier New', Courier, monospace; width: 350px; margin: auto;">
                             <div style="text-align: center; margin-bottom: 10px;">
@@ -989,7 +990,7 @@ def tampilkan_kendali_tim():
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
-    
+        
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
 # ==============================================================================
@@ -1208,6 +1209,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
