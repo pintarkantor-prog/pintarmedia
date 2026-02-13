@@ -30,7 +30,7 @@ st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN)
 # ==============================================================================
 def log_absen_otomatis(nama_user):
-    # Dian (Bos) & Tamu tidak perlu masuk hitungan absen
+    # Dian & Tamu tidak perlu masuk hitungan absen
     if nama_user.lower() in ["dian", "tamu"]:
         return
     
@@ -42,22 +42,25 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    # Syarat: Hanya mencatat jika login antara jam 13:00 - 14:00 WIB
-    if 13 <= jam < 14:
+    # Syarat: Hanya mencatat jika login antara jam 13:00 - 15:00 WIB
+    if 13 <= jam < 15:
         try:
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
             client = gspread.authorize(creds)
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             
-            # Cek agar tidak tercatat dua kali di hari yang sama
             data_absen = sheet_absen.get_all_records()
-            sudah_absen = any(str(row.get('Tanggal')) == tgl_skrg and str(row.get('Nama')).lower() == nama_user.lower() for row in data_absen)
+            # Cek duplikat agar tidak dobel absen di hari yang sama
+            sudah_absen = any(str(row.get('Tanggal')) == tgl_skrg and str(row.get('Nama')).upper() == nama_user.upper() for row in data_absen)
             
             if not sudah_absen:
-                sheet_absen.append_row([tgl_skrg, nama_user.upper(), jam_skrg, "HADIR"])
-        except:
-            pass # Gagal absen tidak boleh bikin aplikasi macet
+                # URUTAN KOLOM: Nama, Tanggal, Jam Masuk, Status
+                sheet_absen.append_row([nama_user.upper(), tgl_skrg, jam_skrg, "HADIR"])
+                st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
+        except Exception as e:
+            # Gagal absen tidak boleh bikin aplikasi macet, tapi bisa dipantau di log jika perlu
+            pass
 
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
@@ -66,7 +69,6 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-    # LACI PENYIMPANAN DATA (TIDAK DIUBAH)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
@@ -88,7 +90,8 @@ def proses_login(user, pwd):
         st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
         
-        # --- BARIS BARU (Hanya ini yang ditambah) ---
+        # --- REVISI: AKTIVASI MESIN ABSEN ---
+        # Begitu login sukses, jalankan pengecekan jam absen
         log_absen_otomatis(user)
         
         st.query_params.update({"auth": "true", "user": user})
@@ -104,11 +107,14 @@ def tampilkan_halaman_login():
             st.image("PINTAR.png", use_container_width=True)
         except:
             st.markdown("<h2 style='text-align: center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+        
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Username...", key="login_user").lower()
             p = st.text_input("Password", type="password", placeholder="Password...", key="login_pass")
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
-            if submit: proses_login(u, p)
+            if submit: 
+                proses_login(u, p)
+        
         st.markdown("<p style='text-align: center; color: #484f58; font-size: 11px; margin-top: 15px;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
 
 def cek_autentikasi():
@@ -125,6 +131,18 @@ def proses_logout():
     st.session_state.clear()
     st.query_params.clear()
     st.rerun()
+
+inisialisasi_keamanan()
+
+if not cek_autentikasi():
+    tampilkan_halaman_login()
+else:
+    # Sidebar Logout
+    if st.sidebar.button("LOGOUT 🚪"):
+        proses_logout()
+    
+    # Dashboard Utama kamu lanjut di sini...
+    st.write(f"Halo **{st.session_state.user_aktif.upper()}**, selamat datang di AI Studio.")
 
 # FUNGSI BACKUP (Fokus GSheet lewat Secrets)
 def simpan_ke_gsheet():
@@ -1196,5 +1214,6 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
