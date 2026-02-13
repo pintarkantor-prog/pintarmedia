@@ -549,17 +549,31 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT")
-    st.info("💡 Pusat kendali kualitas visual Pintar Media. Copy mantra di bawah ke modul produksi!")
+    st.title("⚡ QUICK PROMPT (ONE-SHOT)")
+    st.info("🚀 Masukkan ide visualmu, pilih bumbu kualitas, dan ambil prompt instannya!")
 
-    with st.expander("📸 IMAGE QUALITY BOOSTER", expanded=True):
-        st.code("shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING", language="text")
-    
-    with st.expander("🎥 VIDEO MOTION BOOSTER", expanded=True):
-        st.code("Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture", language="text")
+    # 1. Input Utama
+    aksi_cepat = st.text_area("📸 Masukkan Aksi Visual / Referensi Adegan", height=150, placeholder="Contoh: Udin sedang berlari di tengah hutan hujan...")
 
-    with st.expander("🚫 GLOBAL NEGATIVE PROMPT", expanded=True):
-        st.code("STRICTLY NO text, NO watermark, NO distorted faces, NO extra limbs, CLEAN shot", language="text")
+    # 2. Bumbu Kualitas (Quality Booster)
+    c1, c2 = st.columns(2)
+    with c1:
+        mode_q = st.radio("Pilih Kualitas Dasar", ["Realistic Pro", "Anime Style", "3D Render"])
+    with c2:
+        booster = st.multiselect("Tambahan Booster", ["8k Resolution", "Cinematic Lighting", "High-Fidelity Texture"])
+
+    # 3. Compiler Prompt Instan
+    if st.button("🔥 COMPILE INSTANT PROMPT", use_container_width=True):
+        if aksi_cepat:
+            # Mengambil referensi dari gudang mantra kamu
+            img_result = f"{aksi_cepat}, {mode_q}, {', '.join(booster)}, shot on Fujifilm X-T4, sharp focus --ar 16:9"
+            
+            st.divider()
+            st.subheader("📋 Hasil Prompt Kamu")
+            st.code(img_result, language="text")
+            st.toast("Prompt siap di-copy!", icon="✅")
+        else:
+            st.warning("Isi aksinya dulu, Bos!")
 
 def tampilkan_tugas_kerja(): 
     st.title("📋 TUGAS KERJA")
@@ -760,6 +774,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
