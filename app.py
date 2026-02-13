@@ -559,37 +559,37 @@ def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
     
     st.info("""
-    💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Input naskah (Kiri) & Setting bumbu (Kanan) simetris dan kontras.
-    - Lokasi memanjang penuh di bawah area input.
-    - Mantra Gambar & Video berbaris rapi (List Mode) dan otomatis menyertakan:
-        - Aturan Konsistensi & Interaksi Karakter (Gambar & Video).
-        - Aturan Gerakan Karakter Alami & Sinematik (Video Saja).
+    💡 **PINTAR MEDIA - MASTERPIECE MODE:**
+    - Fokus pada ketajaman optik Ultra-Sharp & Infinite Depth.
+    - Karakter bersifat default (sesuaikan di naskah aksi).
+    - Mantra Gambar & Video berbaris rapi (List Mode).
     """)
 
-    # Kualitas Dasar Pintar Media (Global, tidak dihapus)
-    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING"
-    QB_VID = "Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture"
-    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
+    # --- QUALITY BOOSTER (ULTRA-SHARP SETTINGS) ---
+    QB_IMG = (
+        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
+        "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
+        "ultra-clear optical clarity, CPL filter, high local contrast, vivid naturalism"
+    )
+    
+    QB_VID = (
+        "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
+        "professional color grading, ray-traced reflections, hyper-detailed textures, "
+        "zero digital noise, clean pixels, smooth motion, professional cinematography"
+    )
+
+    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # --- WORKSPACE UTAMA DENGAN LANTAI ABU-ABU (EXPANDER) ---
+    # --- WORKSPACE UTAMA ---
     with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
-        # Baris 1: Naskah Sejajar dengan Settings (Simetris & Rapi)
         col_naskah, col_settings = st.columns([1.5, 1])
         
         with col_naskah:
             st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-            aksi_q = st.text_area(
-                "Aksi Q", 
-                height=300, 
-                placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
-                key="q_aksi", 
-                label_visibility="collapsed"
-            )
+            aksi_q = st.text_area("Aksi Q", height=300, placeholder="KETIK DI SINI: Deskripsi aksi dan karakter...", key="q_aksi", label_visibility="collapsed")
         
         with col_settings:
-            # Layout 4 Kolom Settings (2x2 agar simetris)
             s1, s2 = st.columns(2)
             with s1:
                 st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
@@ -602,40 +602,32 @@ def tampilkan_quick_prompt():
                 st.markdown('<p class="small-label" style="margin-top:20px;">📐 ARAH</p>', unsafe_allow_html=True)
                 arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
-        # Baris 2: LOKASI Memanjang Full Width (Di bawah baris pertama)
         st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input(
-            "Loc Q", 
-            placeholder="CONTOH: Hutan Gelap, Ruang Tamu, Jalan Raya...", 
-            key="q_loc", 
-            label_visibility="collapsed"
-        )
+        loc_q = st.text_input("Loc Q", placeholder="CONTOH: Sawah pedesaan...", key="q_loc", label_visibility="collapsed")
 
-    # 2. GENERATE LOGIC DENGAN URUTAN RAPI & SEMUA RULE BARU
+    # --- GENERATE LOGIC ---
     st.markdown("---")
-    if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
+    if st.button("🔥 GENERATE MASTERPIECE PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
-            # Smart Logic Outdoor/Indoor
-            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'pantai', 'kebun']) else "hyper-detailed wood grain, ray-traced reflections"
+            bumbu = "hyper-detailed grit, sand, leaf veins, tactile micro-textures" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'sawah']) else "hyper-detailed wood grain, ray-traced reflections"
             
-            # --- RAKIT MANTRA GAMBAR (URUTAN RAPI KE BAWAH) ---
+            # --- MANTRA GAMBAR (OPTIMAL UNTUK BANANA & SUPERGROK) ---
             img_p = (f"ACTION: {aksi_q}\n"
-                     f"ENV: {loc_q}. {bumbu}\n"
+                     f"ENV: {loc_q}. {bumbu}. NO SOFTENING.\n"
                      f"RULE: Use uploaded photos for each character. Interaction required.\n"
-                     f"CAMERA: {QB_IMG}\n"
-                     f"TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}\n"
-                     f"NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0")
-            
-            # --- RAKIT MANTRA VIDEO (URUTAN RAPI KE BAWAH + GERAKAN) ---
+                     f"CAMERA: {shot_q}, {arah_q} view, full profile perspective\n"
+                     f"TECHNICAL: {QB_IMG}, {style_q}, {light_q}, extreme edge-enhancement\n"
+                     f"FORMAT: Aspect Ratio {OPTS_RATIO[0]}, Ultra-HD Photorealistic RAW Output") # Bersih dari kode MJ
+
+            # --- MANTRA VIDEO (OPTIMAL UNTUK VEO) ---
             vid_p = (f"SCENE: {aksi_q} at {loc_q}\n"
                      f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
-                     f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n" # Tambahan untuk Video
-                     f"TECH: {style_q}, {shot_q}, cinematic character-tracking motion\n"
-                     f"ENGINE: {QB_VID}\n"
-                     f"NEGATIVE: {no_text_strict}, {neg_vid_strict}")
+                     f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
+                     f"LIGHTING: {light_q}, vibrant naturalism, cinematic contrast\n"
+                     f"TECHNICAL: {QB_VID}, {style_q}, {shot_q}, cinematic character-tracking motion\n"
+                     f"FORMAT: 9:16 Vertical, 8k Cinematic Render for Veo") # Spesifik untuk Veo
             
-            st.success("✅ Mantra Berhasil Dirakit!")
-            # Expander Hasil Rakitan
+            st.success("✅ Mantra Masterpiece Berhasil Dirakit!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
@@ -645,7 +637,7 @@ def tampilkan_quick_prompt():
                     st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
                     st.code(vid_p, language="text")
         else:
-            st.warning("Eits, naskah aksinya belum diisi, Bos!")
+            st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -902,6 +894,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
