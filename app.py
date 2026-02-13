@@ -684,8 +684,10 @@ def tampilkan_quick_prompt():
         else:
             st.warning("Isi dulu aksinya, Bos!")
             
+import requests # Pastikan ini ada di baris paling atas app.py
+
 def kirim_notif_wa(pesan):
-    """Fungsi pengirim notifikasi ke Grup WA YT YT 🔥"""
+    """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
     token = "f4CApLBAJDTPrVHHZCDF"
     target = "120363407726656878@g.us"
     url = "https://api.fonnte.com/send"
@@ -725,7 +727,6 @@ def tampilkan_tugas_kerja():
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
         
-        # Inisialisasi kolom tanggal agar tidak KeyError
         if not df_all_tugas.empty:
             df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
         
@@ -740,7 +741,7 @@ def tampilkan_tugas_kerja():
         st.error(f"❌ Database Offline: {e}")
         return
 
-    # --- 1. LEADERBOARD (JUARA BULAN INI) ---
+    # --- 1. LEADERBOARD ---
     if not df_all_tugas.empty:
         mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                  (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
@@ -761,12 +762,12 @@ def tampilkan_tugas_kerja():
 
     st.divider()
 
-    # --- 2. PANEL BOS DIAN ---
+    # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
-        with st.expander("✨ **DEPLOY TUGAS EDIT BARU**", expanded=False):
+        with st.expander("✨ **DEPLOY TUGAS BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
             with c2:
-                isi_tugas = st.text_area("Instruksi / Mantra", height=150)
+                isi_tugas = st.text_area("Instruksi Tugas", height=150)
             with c1:
                 staf_tujuan = st.selectbox("Pilih Editor", staf_options)
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
@@ -775,9 +776,10 @@ def tampilkan_tugas_kerja():
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}")
+                    
                     # --- NOTIF WA ---
-                    kirim_notif_wa(f"✨ *TUGAS BARU - PINTAR MEDIA*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Mantra:* {isi_tugas[:100]}...\n\n_Segera dikerjakan ya!_ 🚀")
-                    st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
+                    kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
+                    st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
     # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
@@ -789,7 +791,7 @@ def tampilkan_tugas_kerja():
             tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
 
     if not tugas_terfilter:
-        st.info(f"☕ Semua tugas beres!")
+        st.info(f"☕ Belum ada tugas aktif.")
     else:
         for t in reversed(tugas_terfilter):
             status = str(t["Status"]).upper()
@@ -805,7 +807,7 @@ def tampilkan_tugas_kerja():
             with c1: st.image(url_foto, width=90)
             with c2: 
                 st.write(f"**{str(t['Staf']).upper()}**")
-                st.caption(f"{status} {'⚠️ TELAT!' if is_telat else ''}")
+                st.caption(f"{status} {'⚠️ DEADLINE!' if is_telat else ''}")
             with c3: st.caption("🆔 ID"); st.write(t['ID'])
             with c4: st.caption("📅 DEADLINE"); st.write(t['Deadline'])
             with c5: st.caption("⏰ SETOR"); st.write(t['Waktu_Kirim'])
@@ -829,16 +831,75 @@ def tampilkan_tugas_kerja():
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
                             catat_log(f"Menyetor tugas {t['ID']}")
+                            
                             # --- NOTIF WA ---
-                            kirim_notif_wa(f"📤 *SETOR TUGAS - PINTAR MEDIA*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}\n\n_Silakan dicek ya Bos Dian!_ 🍿")
-                            st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
+                            kirim_notif_wa(f"📤 *UPDATE SETORAN TUGAS*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}\n\n_Tugas sudah dikirim ke sistem._ 🍿")
+                            st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
                 elif user_sekarang == "dian" and status != "FINISH":
-                    cat = st.text_area("Catatan:", key=f"cat_{t['ID']}")
+                    cat = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
                     col1, col2 = st.columns(2)
                     with col1:
-                        if st.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
-                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row,
-                                    
+                        if st.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                            catat_log(f"Finish tugas {t['ID']}")
+                            
+                            # --- NOTIF WA ---
+                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\nTugas editor *{t['Staf'].upper()}* (ID: {t['ID']}) telah divalidasi.\n✨ Hasil kerja sudah masuk rekapan bulanan.")
+                            st.success("✅ Validasi Selesai!"); time.sleep(1); st.rerun()
+                    with col2:
+                        if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                            sheet_tugas.update_cell(cell.row, 8, cat)
+                            catat_log(f"Revisi tugas {t['ID']}")
+                            
+                            # --- NOTIF WA ---
+                            kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat}\n\n_Mohon untuk diperbaiki kembali._ 🛠️")
+                            st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- 4. LACI ARSIP ---
+    st.divider()
+    df_arsip = pd.DataFrame()
+    with st.expander("📜 Riwayat Tugas Selesai (Bulan Ini)"):
+        if not df_all_tugas.empty:
+            mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
+                     (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
+                     (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+            if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
+            df_arsip = df_all_tugas[mask_s].copy()
+            if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
+            else: st.write("Belum ada riwayat.")
+
+    # --- 5. GAJIAN ---
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 25:
+        st.divider()
+        with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
+            try:
+                jml_video = len(df_arsip)
+                data_absensi = sheet_absensi.get_all_records()
+                df_absensi = pd.DataFrame(data_absensi)
+                if not df_absensi.empty:
+                    df_absensi['Tgl_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
+                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & (df_absensi['Tgl_DT'].dt.month == sekarang.month)
+                    jml_hadir = len(df_absensi[mask_ab])
+                else: jml_hadir = 0
+                
+                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
+                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
+                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+                total_gaji = gapok + tunjangan + (jml_video * 10000) + (jml_hadir * 50000)
+                
+                st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+                st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,}")
+                    
+                    # --- NOTIF WA ---
+                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
+                    st.balloons(); st.success("Konfirmasi Berhasil!")
+            except: st.warning("Sedang memproses data...")
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
@@ -1196,6 +1257,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
