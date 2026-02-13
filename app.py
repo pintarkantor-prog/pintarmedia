@@ -560,9 +560,9 @@ def tampilkan_quick_prompt():
     
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Isi naskah aksi di dalam kotak kontras di bawah.
-    - Atur bumbu visual di sebelah kanan.
-    - Klik Generate untuk hasil Mantra Gambar & Video.
+    - Isi naskah di kotak hitam (Kiri).
+    - Atur bumbu di kotak kontras abu-abu (Kanan).
+    - Klik Generate untuk hasil instan!
     """)
 
     # Kualitas Dasar Pintar Media
@@ -576,34 +576,38 @@ def tampilkan_quick_prompt():
         col_input, col_settings = st.columns([1.5, 1])
         
         with col_input:
-            # Menggunakan Expander di dalam sini untuk menciptakan efek kontras "Lantai" yang berbeda
-            with st.expander("📝 MASUKKAN NASKAH VISUAL & AKSI", expanded=True):
-                aksi_q = st.text_area(
-                    "Aksi Q", 
-                    height=250, 
-                    placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
-                    key="q_aksi", 
-                    label_visibility="collapsed"
-                )
+            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
+            # Kotak input ini akan terlihat gelap di atas background container
+            aksi_q = st.text_area(
+                "Aksi Q", 
+                height=345, 
+                placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
+                key="q_aksi", 
+                label_visibility="collapsed"
+            )
             
             st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
             loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Gelap, Ruang Tamu...", key="q_loc", label_visibility="collapsed")
         
         with col_settings:
-            s1, s2 = st.columns(2)
-            with s1:
-                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
-                shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
-            with s2:
-                st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
-                light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
-                arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
-            
-            st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
-            cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
+            # --- SOLUSI KONTRAST ---
+            # Kita bungkus seluruh menu kanan dengan Expander agar latarnya jadi abu-abu kontras
+            # Ini akan membuat area yang kamu coret merah di Untitled.png jadi lebih terang
+            with st.expander("🛠️ SETTING VISUAL", expanded=True):
+                s1, s2 = st.columns(2)
+                with s1:
+                    st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+                    style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
+                    shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
+                with s2:
+                    st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
+                    light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
+                    st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
+                    arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
+                
+                st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
+                cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
 
     # 2. GENERATE LOGIC
     st.markdown("---")
@@ -881,6 +885,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
