@@ -558,19 +558,39 @@ Aturan Main:
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
     
+    # st.info Tambahan untuk Panduan Tim
+    st.info("""
+    💡 **PINTAR MEDIA - QUICK COMMAND:**
+    - Modul ini digunakan untuk merakit 1 adegan secara instan (Gambar & Video).
+    - Masukkan detail aksi, pilih bumbu kualitas, lalu klik Generate.
+    - Hasil akan muncul dalam 2 kolom: Mantra Gambar & Mantra Video.
+    """)
+
     # Kualitas Dasar Pintar Media
     QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
     QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
-    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO labels, CLEAN cinematic shot."
+    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # 1. AREA INPUT (KONTRAS TINGGI)
+    # 1. AREA INPUT (Tanpa CSS tambahan, murni placeholder kontras)
     with st.container(border=True):
         st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-        aksi_q = st.text_area("Aksi Q", height=200, placeholder="Contoh: Udin kaget melihat Tung berubah jadi kayu...", key="q_aksi", label_visibility="collapsed")
+        # Placeholder dibikin huruf besar di awal supaya "eye-catching"
+        aksi_q = st.text_area(
+            "Aksi Q", 
+            height=200, 
+            placeholder="KETIK DI SINI: Deskripsi adegan secara detail... (Misal: Udin kaget melihat Tung berubah jadi kayu)", 
+            key="q_aksi", 
+            label_visibility="collapsed"
+        )
         
         st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Bambu, Kamar Tidur...", key="q_loc", label_visibility="collapsed")
+        loc_q = st.text_input(
+            "Loc Q", 
+            placeholder="MASUKKAN LOKASI: (Misal: Hutan Bambu, Kamar Tidur, Jalan Raya...)", 
+            key="q_loc", 
+            label_visibility="collapsed"
+        )
         
         # 2. SETTING 4 KOLOM SEJAJAR (SINKRON PUSAT)
         st.markdown("<br>", unsafe_allow_html=True)
@@ -601,16 +621,16 @@ def tampilkan_quick_prompt():
             # Prompt Video
             vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, {OPTS_CAM[0]}, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
-            st.success("✅ Prompt Siap!")
+            st.success("✅ Prompt Berhasil Dirakit!")
             col_res1, col_res2 = st.columns(2)
             with col_res1:
-                st.markdown('<p class="small-label">📷 GAMBAR</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label">📷 MANTRA GAMBAR (INSTAN)</p>', unsafe_allow_html=True)
                 st.code(img_p, language="text")
             with col_res2:
-                st.markdown('<p class="small-label">🎥 VIDEO</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label">🎥 MANTRA VIDEO (INSTAN)</p>', unsafe_allow_html=True)
                 st.code(vid_p, language="text")
         else:
-            st.warning("Isi aksinya dulu, Bos!")
+            st.warning("Eits, naskah aksinya belum diisi, Bos!")
 
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -867,6 +887,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
