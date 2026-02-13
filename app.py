@@ -550,37 +550,38 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
-    st.info("🚀 **Mode Sat-Set!** Langsung rakit visual satu adegan di sini.")
+    st.info("🚀 **Mode Sat-Set!** Fokus rakit visual satu adegan dengan lighting dan angle mantap.")
 
-    # 1. INPUT UTAMA (Hanya 1 Kolom Besar)
+    # 1. INPUT UTAMA
     with st.container(border=True):
         st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
         aksi_instan = st.text_area("Aksi Instan", height=200, placeholder="Tulis aksi visual di sini...", key="q_aksi", label_visibility="collapsed")
         
-        # 2. QUICK SETTINGS (Disederhanakan dari Ruang Produksi)
+        # 2. QUICK SETTINGS (Style, Lighting, & Arah Kamera)
         c1, c2, c3 = st.columns(3)
         with c1:
             st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
             style_q = st.selectbox("S_Q", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="q_style", label_visibility="collapsed")
         with c2:
-            st.markdown('<p class="small-label">📺 RATIO</p>', unsafe_allow_html=True)
-            ratio_q = st.selectbox("R_Q", ["16:9", "9:16", "1:1"], key="q_ratio", label_visibility="collapsed")
+            st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
+            light_q = st.selectbox("L_Q", ["Golden Hour", "Studio", "Natural", "Cinematic Neon"], key="q_light", label_visibility="collapsed")
         with c3:
-            st.markdown('<p class="small-label">🔍 SHOT</p>', unsafe_allow_html=True)
-            shot_q = st.selectbox("Sh_Q", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan"], key="q_shot", label_visibility="collapsed")
+            st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+            arah_q = st.selectbox("A_Q", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="q_arah", label_visibility="collapsed")
 
     # 3. COMPILER LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_instan:
-            # Mengambil Quality Booster dari Pusat (QB_IMG)
+            # Mengambil Quality Booster dari Pusat (QB_IMG) agar hasil tetap pro
             QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
             
-            prompt_hasil = f"ACTION: {aksi_instan} \nSTYLE: {style_q}, {shot_q} \nCAMERA: {QB_IMG} \nRATIO: --ar {ratio_q}"
+            prompt_hasil = f"ACTION: {aksi_instan} \nSTYLE: {style_q} \nLIGHTING: {light_q} \nANGLE: {arah_q} \nCAMERA: {QB_IMG}"
             
             st.success("✅ Prompt Instan Siap!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 st.code(prompt_hasil, language="text")
+                st.toast("Mantra berhasil dirakit!", icon="⚡")
         else:
             st.warning("Isi dulu aksinya, Bos!")
 
@@ -783,6 +784,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
