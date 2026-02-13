@@ -30,7 +30,6 @@ st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN)
 # ==============================================================================
 def log_absen_otomatis(nama_user):
-    # Dian & Tamu tidak perlu masuk hitungan absen
     if nama_user.lower() in ["dian", "tamu"]:
         return
     
@@ -43,7 +42,7 @@ def log_absen_otomatis(nama_user):
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
     # Syarat: Hanya mencatat jika login antara jam 13:00 - 15:00 WIB
-    if True:
+    if 13 <= jam < 15: # Kembalikan ke False/True kalau mau tes malam
         try:
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
@@ -51,15 +50,12 @@ def log_absen_otomatis(nama_user):
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             
             data_absen = sheet_absen.get_all_records()
-            # Cek duplikat agar tidak dobel absen di hari yang sama
             sudah_absen = any(str(row.get('Tanggal')) == tgl_skrg and str(row.get('Nama')).upper() == nama_user.upper() for row in data_absen)
             
             if not sudah_absen:
-                # URUTAN KOLOM: Nama, Tanggal, Jam Masuk, Status
                 sheet_absen.append_row([nama_user.upper(), tgl_skrg, jam_skrg, "HADIR"])
                 st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
-        except Exception as e:
-            # Gagal absen tidak boleh bikin aplikasi macet, tapi bisa dipantau di log jika perlu
+        except:
             pass
 
 # ==============================================================================
@@ -77,6 +73,7 @@ def inisialisasi_keamanan():
             "adegan": {} 
         }
 
+    # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
@@ -90,8 +87,7 @@ def proses_login(user, pwd):
         st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
         
-        # --- REVISI: AKTIVASI MESIN ABSEN ---
-        # Begitu login sukses, jalankan pengecekan jam absen
+        # AKTIVASI ABSEN
         log_absen_otomatis(user)
         
         st.query_params.update({"auth": "true", "user": user})
@@ -114,7 +110,6 @@ def tampilkan_halaman_login():
             submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
             if submit: 
                 proses_login(u, p)
-        
         st.markdown("<p style='text-align: center; color: #484f58; font-size: 11px; margin-top: 15px;'>Secure Access - PINTAR MEDIA</p>", unsafe_allow_html=True)
 
 def cek_autentikasi():
@@ -1200,8 +1195,9 @@ def tampilkan_ruang_produksi():
 # BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
 def utama():
-    inisialisasi_keamanan()
+    inisialisasi_keamanan() # <--- Biarkan dia di sini saja
     pasang_css_kustom()
+    
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
@@ -1212,6 +1208,7 @@ def utama():
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
         elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
+# --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
 
