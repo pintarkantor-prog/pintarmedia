@@ -560,9 +560,9 @@ def tampilkan_quick_prompt():
     
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Isi naskah di kotak gelap (Kiri) dan atur bumbu di kolom kanan.
-    - Lokasi sekarang memanjang penuh untuk detail yang lebih tajam.
-    - Gerakan kamera otomatis diatur sistem (Follow Character).
+    - Isi naskah aksi di kotak hitam (Kiri) dan pilih bumbu di kolom kanan.
+    - Lokasi ditaruh memanjang penuh di bawah untuk detail maksimal.
+    - Gerakan kamera otomatis (Cinematic Tracking) untuk hasil video.
     """)
 
     # Kualitas Dasar Pintar Media
@@ -571,9 +571,9 @@ def tampilkan_quick_prompt():
     no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # --- SOLUSI KONTRAST: FULL EXPANDER SEBAGAI LANTAI ---
+    # --- WORKSPACE UTAMA MENGGUNAKAN EXPANDER UNTUK KONTRAS (LANTAI ABU-ABU) ---
     with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
-        # Baris 1: Naskah & Settings
+        # Baris 1: Naskah Sejajar dengan Settings (Seperti gambar keduamu)
         col_naskah, col_settings = st.columns([1.5, 1])
         
         with col_naskah:
@@ -587,7 +587,7 @@ def tampilkan_quick_prompt():
             )
         
         with col_settings:
-            # Layout 4 Kolom Settings (Style, Lighting, Ukuran, Arah)
+            # Layout 4 Kolom Settings (2x2 agar simetris)
             s1, s2 = st.columns(2)
             with s1:
                 st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
@@ -600,11 +600,11 @@ def tampilkan_quick_prompt():
                 st.markdown('<p class="small-label" style="margin-top:20px;">📐 ARAH</p>', unsafe_allow_html=True)
                 arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
-        # Baris 2: LOKASI (Memanjang Full Width)
+        # Baris 2: LOKASI Memanjang Full Width (Di bawah baris pertama)
         st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
         loc_q = st.text_input(
             "Loc Q", 
-            placeholder="CONTOH: Hutan Bambu Gelap, Kamar Tidur Minimalis, Jalan Raya Berdebu...", 
+            placeholder="CONTOH: Hutan Gelap, Ruang Tamu, Jalan Raya...", 
             key="q_loc", 
             label_visibility="collapsed"
         )
@@ -614,15 +614,16 @@ def tampilkan_quick_prompt():
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
             # Smart Logic Outdoor/Indoor
-            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'pantai', 'kebun']) else "hyper-detailed wood grain, ray-traced"
+            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
             
             # Mantra Gambar
             img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
             
-            # Mantra Video (Gerakan Kamera Otomatis: Dynamic Character Tracking)
-            vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, cinematic tracking motion, following character movement, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
+            # Mantra Video (Logika Gerakan Kamera Otomatis ditanam di sini)
+            vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, cinematic character-tracking motion, following subject, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
             st.success("✅ Mantra Berhasil Dirakit!")
+            # Expander Hasil Rakitan (Seperti gambar c01446.png)
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
@@ -632,7 +633,7 @@ def tampilkan_quick_prompt():
                     st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
                     st.code(vid_p, language="text")
         else:
-            st.warning("Isi aksinya dulu, Bos!")
+            st.warning("Eits, naskah aksinya belum diisi, Bos!")
 
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -889,6 +890,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
