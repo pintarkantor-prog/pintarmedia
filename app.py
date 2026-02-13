@@ -557,7 +557,6 @@ Aturan Main:
                             }
                             res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
                             st.session_state.lab_hasil_otomatis = res.json()['choices'][0]['message']['content']
-                            st.balloons()
                             st.toast("Naskah Berhasil Dibuat!", icon="✅")
                         except Exception as e:
                             st.error(f"Error: {e}")
@@ -873,7 +872,7 @@ def tampilkan_tugas_kerja():
             else: st.write("Belum ada riwayat.")
 
     # --- 5. GAJIAN ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 1:
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
@@ -898,7 +897,7 @@ def tampilkan_tugas_kerja():
                     
                     # --- NOTIF WA ---
                     kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
-                    st.balloons(); st.success("Konfirmasi Berhasil!")
+                    st.success("Konfirmasi Berhasil!")
             except: st.warning("Sedang memproses data...")
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1257,6 +1256,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
