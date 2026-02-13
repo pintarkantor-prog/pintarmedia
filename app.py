@@ -548,9 +548,18 @@ Aturan Main:
                         use_container_width=True
                     )
                 
-def tampilkan_quick_prompt(): 
-    st.title("⚡ Quick Prompt")
-    st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
+def tampilkan_quick_prompt():
+    st.title("⚡ QUICK PROMPT")
+    st.info("💡 Pusat kendali kualitas visual Pintar Media. Copy mantra di bawah ke modul produksi!")
+
+    with st.expander("📸 IMAGE QUALITY BOOSTER", expanded=True):
+        st.code("shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING", language="text")
+    
+    with st.expander("🎥 VIDEO MOTION BOOSTER", expanded=True):
+        st.code("Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture", language="text")
+
+    with st.expander("🚫 GLOBAL NEGATIVE PROMPT", expanded=True):
+        st.code("STRICTLY NO text, NO watermark, NO distorted faces, NO extra limbs, CLEAN shot", language="text")
 
 def tampilkan_tugas_kerja(): 
     st.title("📋 TUGAS KERJA")
@@ -751,6 +760,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
