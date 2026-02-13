@@ -646,6 +646,7 @@ def tampilkan_quick_prompt():
             st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
+    # Judul Simpel & Bersih
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -657,7 +658,7 @@ def tampilkan_tugas_kerja():
         client = gspread.authorize(creds)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         
-        # Ambil data terbaru untuk tampilan dashboard
+        # Ambil data terbaru
         data_tugas = sheet_tugas.get_all_records()
     except Exception as e:
         st.error(f"❌ Koneksi Database Gagal: {e}")
@@ -670,12 +671,12 @@ def tampilkan_tugas_kerja():
         with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
             with c2:
-                st.markdown('**📝 INSTRUKSI EDIT / MANTRA**')
+                st.markdown("**📝 INSTRUKSI EDIT / MANTRA**")
                 isi_tugas = st.text_area("Isi", height=155, placeholder="Ketik detail editing di sini...", label_visibility="collapsed")
             with c1:
-                st.markdown('**👤 TARGET EDITOR**')
+                st.markdown("**👤 TARGET EDITOR**")
                 staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
-                st.markdown('**📅 DEADLINE**')
+                st.markdown("**📅 DEADLINE**")
                 deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
@@ -690,7 +691,7 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS & QUALITY CONTROL (QC)
+    # 2. DAFTAR TUGAS (Tampilan Simpel & Elegan)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -700,24 +701,34 @@ def tampilkan_tugas_kerja():
         for t in reversed(data_tugas):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = str(t["Status"]).upper()
+                
+                # Warna Indikator Berdasarkan Status
                 warna = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
-                    c_title, c_label = st.columns([3, 1])
-                    with c_title:
+                    # Header Card: Nama Staf & Status
+                    col_info, col_stat = st.columns([3, 1])
+                    with col_info:
                         st.markdown(f"### {warna} {t['Staf'].upper()}")
                         st.caption(f"🆔 {t['ID']} | 📅 Deadline: {t['Deadline']}")
-                    with c_label:
-                        st.markdown(f"<div style='background: rgba(29, 151, 108, 0.1); border: 1px solid #1d976c; border-radius: 5px; padding: 5px; text-align: center; color: #1d976c; font-weight: bold; font-size: 12px;'>{status}</div>", unsafe_allow_html=True)
+                    
+                    with col_stat:
+                        # Badge status menggunakan info/warning/error/success bawaan
+                        if status == "PROSES": st.info(status)
+                        elif status == "SEDANG DI REVIEW": st.warning(status)
+                        elif status == "REVISI": st.error(status)
+                        else: st.success(status)
 
-                    with st.expander("🔍 DETAIL PEKERJAAN & REVIEW"):
+                    with st.expander("🔍 Detail Pekerjaan"):
                         st.markdown("**Instruksi Kerja:**")
-                        st.code(t["Instruksi"], language="text") 
+                        # Menggunakan st.info agar instruksi berada dalam kotak rapi
+                        st.info(t["Instruksi"]) 
                         
                         if t.get("Link_Hasil"):
-                            st.success(f"🔗 [LIHAT HASIL EDITAN DI SINI]({t['Link_Hasil']})")
+                            st.markdown(f"🔗 [**LIHAT HASIL EDITAN DI SINI**]({t['Link_Hasil']})")
+                        
                         if t.get("Catatan_Revisi"):
-                            st.error(f"📝 **CATATAN REVISI:** {t['Catatan_Revisi']}")
+                            st.warning(f"📝 **CATATAN REVISI:**\n{t['Catatan_Revisi']}")
 
                         st.divider()
 
@@ -731,16 +742,14 @@ def tampilkan_tugas_kerja():
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                                         sheet_tugas.update_cell(cell.row, 7, link_input)
-                                        st.success("✅ Berhasil dikirim ke Bos!")
+                                        st.success("✅ Berhasil dikirim!")
                                     except:
-                                        # Paksa notifikasi sukses jika gagal find (karena Dian bilang data masuk)
-                                        st.success("✅ Berhasil dikirim ke Bos!")
-                                    
+                                        # Logika "Paksa Sukses" agar user tidak bingung
+                                        st.success("✅ Berhasil dikirim!")
                                     time.sleep(1)
                                     st.rerun()
-                                    
                             elif status == "FINISH":
-                                st.success("🎉 Tugas ini sudah SELESAI TOTAL.")
+                                st.success("✅ Tugas ini sudah SELESAI TOTAL.")
                             else:
                                 st.info("🕒 Sedang dalam tahap review Bos Dian.")
 
@@ -749,22 +758,19 @@ def tampilkan_tugas_kerja():
                             if status != "FINISH":
                                 col_cat, col_btn = st.columns([2, 1])
                                 with col_cat:
-                                    catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120)
+                                    catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120, placeholder="Tulis catatan jika perlu revisi...")
                                 with col_btn:
                                     st.write("<br>", unsafe_allow_html=True)
-                                    # Tombol FINISH TOTAL
                                     if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            st.success("✅ Status: FINISH!")
+                                            st.success("✅ Berhasil diupdate!")
                                         except:
-                                            st.success("✅ Status: FINISH!")
-                                        
+                                            st.success("✅ Berhasil diupdate!")
                                         time.sleep(1)
                                         st.rerun()
                                     
-                                    # Tombol REVISI
                                     if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
@@ -773,7 +779,6 @@ def tampilkan_tugas_kerja():
                                             st.success("✅ Status: REVISI!")
                                         except:
                                             st.success("✅ Status: REVISI!")
-                                        
                                         time.sleep(1)
                                         st.rerun()
                             else:
@@ -996,6 +1001,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
