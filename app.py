@@ -410,7 +410,7 @@ def tampilkan_ai_lab():
 
     list_karakter = []
     
-    # Bungkus Karakter dengan Expander agar kontras input berbeda (Hitam di dalam Navy)
+    # DETAIL KARAKTER (Kontras Navy vs Hitam)
     with st.expander("👥 DETAIL KARAKTER PINTAR MEDIA", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
@@ -420,7 +420,7 @@ def tampilkan_ai_lab():
                 with st.container(border=True):
                     label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_k}**")
-                    # Input ini otomatis hitam pekat di dalam container navy
+                    # Input tetap hitam pekat
                     st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
                     st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
                     n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
@@ -460,11 +460,8 @@ Gaya Visual: {visual_m}
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
                     st.divider()
                     st.success("✨ **Mantra Sakti Siap!**")
-                    # Fitur Copy otomatis ada di st.code
                     st.code(mantra_sakti, language="text")
                     st.toast("Mantra sudah siap di-copy!", icon="🚀")
-                else:
-                    st.warning("Isi topik dulu, Bos!")
 
     # MODE OTOMATIS
     with tab_otomatis:
@@ -487,7 +484,6 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                             import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
-                            
                             prompt_otomatis = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN.
 
@@ -518,20 +514,14 @@ Aturan:
                         except Exception as e:
                             st.error(f"Error: {e}")
 
-        # HASIL NASKAH OTOMATIS
+        # HASIL NASKAH OTOMATIS: Versi Bersih & Kontras
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
-                # 1. Render Tabel Visual agar rapi dibaca
+                # Render Tabel Visual yang rapi
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 
                 st.divider()
-                
-                # 2. Fitur Copy to Clipboard (Mantra Mentah)
-                st.markdown("**📋 Salin Naskah (Mantra Mentah):**")
-                # st.code otomatis berwarna hitam pekat dan punya tombol Copy
-                st.code(st.session_state.lab_hasil_otomatis, language="markdown")
-                
                 st.download_button(
                     "📥 Download Naskah (.txt)", 
                     st.session_state.lab_hasil_otomatis, 
@@ -733,6 +723,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
