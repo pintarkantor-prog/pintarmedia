@@ -705,39 +705,39 @@ def tampilkan_tugas_kerja():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # 1. Ambil Data Tugas
+        # Koneksi ke tab-tab GSheet
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
+        sheet_log = client.open_by_url(url_gsheet).worksheet("Log_Aktivitas")
+        
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
 
-        # 2. Ambil Daftar Staff Dinamis
         sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
-        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-        staf_options = df_staff_raw['Nama'].unique().tolist()
-        
+        staf_options = pd.DataFrame(sheet_staff.get_all_records())['Nama'].unique().tolist()
+
+        # --- FUNGSI SPY MODE (INTERNAL) ---
+        def catat_log(aksi):
+            waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
+            sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
+
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
 
     # ==============================================================================
-    # 0. PAPAN KLASEMEN / LEADERBOARD (TAMBAHAN BARU)
+    # 0. PAPAN KLASEMEN (LEADERBOARD BULAN INI)
     # ==============================================================================
-    if not df_all_tugas.empty:        
-        # Filter hanya yang FINISH bulan ini
+    if not df_all_tugas.empty:
         df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
         mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                  (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
                  (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
         
         df_finish_l = df_all_tugas[mask_l].copy()
-        
         if not df_finish_l.empty:
-            # Hitung perolehan video
             skor = df_finish_l['Staf'].astype(str).str.strip().str.upper().value_counts().reset_index()
             skor.columns = ['Nama', 'Video']
             ranks = skor.values.tolist()
-            
-            # Tampilan Metric Juara
             c1, c2, c3 = st.columns(3)
             with c1: 
                 if len(ranks) > 0: st.metric("🥇 JUARA 1", ranks[0][0], f"{ranks[0][1]} Video")
@@ -745,8 +745,6 @@ def tampilkan_tugas_kerja():
                 if len(ranks) > 1: st.metric("🥈 JUARA 2", ranks[1][0], f"{ranks[1][1]} Video")
             with c3: 
                 if len(ranks) > 2: st.metric("🥉 JUARA 3", ranks[2][0], f"{ranks[2][1]} Video")
-        else:
-            st.info("Ayo kejar setoran! Belum ada video yang selesai bulan ini. 🚀")
 
     st.divider()
 
@@ -768,103 +766,92 @@ def tampilkan_tugas_kerja():
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
-                    st.success("✅ Berhasil!")
-                    time.sleep(1); st.rerun()
+                    catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}") # <--- LOG SPY
+                    st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (DENGAN DETEKSI TERLAMBAT)
+    # 2. DAFTAR TUGAS AKTIF
     # ==============================================================================
     st.subheader("📑 Tugas On-Progress")
-    
-    if not data_tugas:
-        st.info("Belum ada tugas di database.")
+    if user_sekarang == "dian":
+        tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
     else:
-        if user_sekarang == "dian":
-            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
-        else:
-            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
+        tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
 
-        if not tugas_terfilter:
-            st.info(f"☕ Luar biasa {user_sekarang.capitalize()}! Semua tugas sudah beres.")
-        else:
-            for t in reversed(tugas_terfilter):
-                status = str(t["Status"]).upper()
-                nama_key = str(t["Staf"]).lower()
-                url_foto = foto_staff.get(nama_key, foto_staff_default)
+    if not tugas_terfilter:
+        st.info(f"☕ Luar biasa {user_sekarang.capitalize()}! Semua tugas sudah beres.")
+    else:
+        for t in reversed(tugas_terfilter):
+            status = str(t["Status"]).upper()
+            nama_key = str(t["Staf"]).lower()
+            url_foto = foto_staff.get(nama_key, foto_staff_default)
+            
+            try: selisih = (sekarang.date() - pd.to_datetime(t['Deadline']).date()).days
+            except: selisih = 0
+            is_telat = status in ["PROSES", "REVISI"] and selisih >= 2
+            warna_b = "#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"
+            
+            st.markdown(f'<div style="border: 2px solid {warna_b}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">', unsafe_allow_html=True)
+            c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
+            with c1: st.image(url_foto, width=90)
+            with c2: 
+                st.write(f"**{str(t['Staf']).upper()}**")
+                st.caption(f"{status} {'⚠️ TELAT!' if is_telat else ''}")
+            with c3: st.caption("🆔 ID"); st.write(t['ID'])
+            with c4: st.caption("📅 DEADLINE"); st.write(t['Deadline'])
+            with c5: st.caption("⏰ SETOR"); st.write(t['Waktu_Kirim'])
+
+            with st.expander("🔍 DETAIL MANTRA & AKSI"):
+                st.code(t["Instruksi"], language="text")
+                if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                    links = str(t["Link_Hasil"]).split(",")
+                    for i, link in enumerate(links):
+                        clean_l = link.strip()
+                        if "http" in clean_l: st.write(f"🔗 [LINK {i+1}]({clean_l})")
                 
-                try:
-                    tgl_deploy_dt = pd.to_datetime(t['Deadline']).date()
-                    selisih_hari = (datetime.now(tz_wib).date() - tgl_deploy_dt).days
-                except: selisih_hari = 0
+                if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                st.divider()
                 
-                is_telat = status in ["PROSES", "REVISI"] and selisih_hari >= 2
-                warna_border = "#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"
-                bg_stat = "#ff4b4b" if is_telat else ("#007bff" if status == "PROSES" else "#dc3545" if status == "REVISI" else "#ffc107")
-                label_status = f"{status} ⚠️ TELAT!" if is_telat else status
-                txt_stat = "white" if status != "SEDANG DI REVIEW" else "black"
+                # --- AKSI STAF ---
+                if user_sekarang != "dian" and user_sekarang != "tamu":
+                    if status in ["PROSES", "REVISI"]:
+                        st.caption("💡 *Pisahkan link dengan koma ( , ) jika lebih dari satu*")
+                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                        if st.button("🚩 SETOR HASIL", key=f"btn_s_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
+                            sheet_tugas.update_cell(cell.row, 7, l_in)
+                            sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
+                            catat_log(f"Menyetor hasil tugas {t['ID']}") # <--- LOG SPY
+                            st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
+                
+                # --- AKSI DIAN ---
+                elif user_sekarang == "dian" and status != "FINISH":
+                    cat = st.text_area("Catatan:", key=f"cat_{t['ID']}")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button("🟢 FINISH", key=f"fin_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                            catat_log(f"Klik FINISH pada tugas {t['ID']}") # <--- LOG SPY
+                            st.success("✅ Selesai!"); time.sleep(1); st.rerun()
+                    with col2:
+                        if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                            sheet_tugas.update_cell(cell.row, 8, cat)
+                            catat_log(f"Klik REVISI pada tugas {t['ID']} dengan catatan: {cat[:20]}...") # <--- LOG SPY
+                            st.success("✅ Revisi!"); time.sleep(1); st.rerun()
 
-                st.markdown(f'<div style="border: 2px solid {warna_border}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">', unsafe_allow_html=True)
-
-                c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
-                with c1: st.image(url_foto, width=90)
-                with c2: 
-                    st.write(f"**{str(t['Staf']).upper()}**")
-                    st.markdown(f'<div style="background-color:{bg_stat}; color:{txt_stat}; padding:3px 10px; border-radius:8px; text-align:center; font-size:11px; font-weight:bold; width:110px;">{label_status}</div>', unsafe_allow_html=True)
-                with c3: st.caption("🆔 ID TUGAS"); st.write(f"**{t['ID']}**")
-                with c4: st.caption("📅 TGL DEPLOY"); st.write(f"**{t['Deadline']}**")
-                with c5: st.caption("⏰ WAKTU SETOR"); st.write(f"**{t['Waktu_Kirim']}**")
-
-                with st.expander("🔍 DETAIL MANTRA & AKSI"):
-                    st.code(t["Instruksi"], language="text")
-                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                        links = str(t["Link_Hasil"]).split(",")
-                        for i, link in enumerate(links):
-                            clean_link = link.strip()
-                            if "http" in clean_link: st.write(f"🔗 [LIHAT HASIL VIDEO {i+1}]({clean_link})")
-                            else: st.write(f"📁 {clean_link}")
-                    if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
-                    st.divider()
-                    
-                    if user_sekarang != "dian" and user_sekarang != "tamu":
-                        if status in ["PROSES", "REVISI"]:
-                            st.caption("💡 *Tips: Jika lebih dari 1 link, pisahkan dengan tanda koma (,)*")
-                            link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}", placeholder="link1.com, link2.com")
-                            if st.button("🚩 SETOR HASIL", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
-                                try:
-                                    cell = sheet_tugas.find(str(t['ID']).strip())
-                                    jam_setor = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M WIB")
-                                    sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
-                                    sheet_tugas.update_cell(cell.row, 7, link_input)
-                                    sheet_tugas.update_cell(cell.row, 6, jam_setor)
-                                    st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
-                                except: pass
-                        else: st.write(f"🕒 Laporan: {t['Waktu_Kirim']}")
-                    elif user_sekarang == "dian" and status != "FINISH":
-                        c_cat, c_act = st.columns([2, 1])
-                        with c_cat: catatan = st.text_area("Catatan:", key=f"cat_{t['ID']}")
-                        with c_act:
-                            if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
-                                try:
-                                    cell = sheet_tugas.find(str(t['ID']).strip())
-                                    sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                    st.success("✅ Selesai!"); time.sleep(1); st.rerun()
-                                except: pass
-                            if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
-                                try:
-                                    cell = sheet_tugas.find(str(t['ID']).strip())
-                                    sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, catatan)
-                                    st.success("✅ Revisi!"); time.sleep(1); st.rerun()
-                                except: pass
-
-                st.markdown("</div>", unsafe_allow_html=True)
+            st.markdown("</div>", unsafe_allow_html=True)
 
     # ==============================================================================
-    # 3. LACI ARSIP (TUGAS SELESAI BULAN INI)
+    # 3. LACI ARSIP
     # ==============================================================================
     st.divider()
     with st.expander("📜 Lihat Riwayat Tugas Selesai (Bulan Ini)"):
         if not df_all_tugas.empty:
-            # Karena mask_selesai sudah didefinisikan secara dinamis berdasarkan user_sekarang
+            df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
             if user_sekarang == "dian":
                 mask_selesai = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                                (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
@@ -878,7 +865,6 @@ def tampilkan_tugas_kerja():
             if not df_arsip.empty:
                 st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], use_container_width=True, hide_index=True)
             else: st.write("Belum ada riwayat tugas selesai.")
-        else: st.write("Belum ada data tugas.")
                                     
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1237,6 +1223,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
