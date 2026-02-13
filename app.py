@@ -522,12 +522,14 @@ Aturan:
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
-                # Render visual tabel yang rapi
+                # 1. Render Tabel Visual agar rapi dibaca
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 
                 st.divider()
-                # Tambahkan fitur Copy to Clipboard manual via st.code di bawah tabel
+                
+                # 2. Fitur Copy to Clipboard (Mantra Mentah)
                 st.markdown("**📋 Salin Naskah (Mantra Mentah):**")
+                # st.code otomatis berwarna hitam pekat dan punya tombol Copy
                 st.code(st.session_state.lab_hasil_otomatis, language="markdown")
                 
                 st.download_button(
@@ -731,6 +733,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
