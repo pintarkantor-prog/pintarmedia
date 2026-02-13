@@ -656,20 +656,20 @@ def tampilkan_tugas_kerja():
         client = gspread.authorize(creds)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
     except Exception as e:
-        st.error(f"❌ Database GSheet Gagal: {e}")
+        st.error(f"❌ GSheet Gagal: {e}")
         return
 
     # ==============================================================================
     # A. PANEL BOS DIAN (Input Tugas Baru)
     # ==============================================================================
     if user_sekarang == "dian":
-        with st.expander("🎯 **DEPLOY MISSION BARU**", expanded=False):
+        with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
             c1, c2 = st.columns([1, 2])
             with c1:
-                staf_tujuan = st.selectbox("Pilih Staf Editor", ["Icha", "Nissa", "Inggi", "Lisa"])
+                staf_tujuan = st.selectbox("Target Editor", ["Icha", "Nissa", "Inggi", "Lisa"])
                 deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1))
             with c2:
-                isi_tugas = st.text_area("Mantra / Instruksi Edit Video:", height=125)
+                isi_tugas = st.text_area("Instruksi Edit / Mantra:", height=125)
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True, type="primary"):
                 if isi_tugas:
@@ -677,85 +677,89 @@ def tampilkan_tugas_kerja():
                     waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
                     # Kolom: ID, Staf, Deadline, Instruksi, Status, Waktu_Kirim, Link_Hasil, Catatan_Revisi
                     sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu, "", ""])
-                    st.success("Misi berhasil dideploy!")
+                    st.success(f"Tugas {t_id} Berhasil Dikirim!")
                     st.rerun()
 
     st.divider()
 
     # ==============================================================================
-    # B. DAFTAR TUGAS & QUALITY CONTROL
+    # B. DAFTAR TUGAS & QUALITY CONTROL (QC)
     # ==============================================================================
     data_tugas = sheet_tugas.get_all_records()
     
     if not data_tugas:
-        st.info("Belum ada tugas di orbit.")
+        st.info("Belum ada tugas di database.")
     else:
         for t in reversed(data_tugas):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = t["Status"]
                 
-                # Warna Status yang Lebih Dinamis
-                warna_box = "🟡" # Default
-                if status == "Proses": warna_box = "🔵"
-                elif status == "Review": warna_box = "🟠"
-                elif status == "Revisi": warna_box = "🔴"
-                elif status == "Selesai (Finish)": warna_box = "🟢"
+                # Pengaturan Warna Berdasarkan Status Baru
+                warna = "🟡" # Pending
+                if status == "Proses": warna = "🔵"
+                elif status == "SEDANG DI REVIEW": warna = "🟠"
+                elif status == "REVISI": warna = "🔴"
+                elif status == "FINISH": warna = "🟢"
 
                 with st.container(border=True):
-                    c_info, c_stat = st.columns([3, 1])
-                    with c_info:
-                        st.markdown(f"### {warna_box} {t['Staf'].upper()}")
+                    c_title, c_label = st.columns([3, 1])
+                    with c_title:
+                        st.markdown(f"### {warna} {t['Staf'].upper()}")
                         st.caption(f"🆔 {t['ID']} | 📅 Deadline: {t['Deadline']}")
-                    with c_stat:
+                    with c_label:
                         st.info(f"**{status}**")
 
-                    # AREA KERJA (Expander)
-                    with st.expander("🛠️ DETAIL PEKERJAAN & HASIL"):
-                        st.markdown("**Instruksi:**")
+                    with st.expander("🔍 DETAIL PEKERJAAN & REVIEW"):
+                        st.markdown("**Instruksi Kerja:**")
                         st.code(t["Instruksi"], language="text")
                         
-                        if t.get("Catatan_Revisi"):
-                            st.error(f"⚠️ **CATATAN REVISI BOS:**\n{t['Catatan_Revisi']}")
-
+                        # Tampilkan Link jika sudah ada
                         if t.get("Link_Hasil"):
-                            st.success(f"🔗 [KLIK UNTUK LIHAT HASIL EDIT]({t['Link_Hasil']})")
+                            st.success(f"🔗 [LIHAT HASIL EDITAN DI SINI]({t['Link_Hasil']})")
                         
+                        # Tampilkan Catatan Revisi jika ada
+                        if t.get("Catatan_Revisi"):
+                            st.error(f"📝 **CATATAN REVISI:**\n{t['Catatan_Revisi']}")
+
                         st.divider()
 
-                        # LOGIKA INTERAKSI (DIAN vs STAF)
-                        if user_sekarang != "tamu":
-                            # 1. Jika Staf (Input Link Hasil)
-                            if user_sekarang != "dian":
-                                new_link = st.text_input("Tempel Link Video (Gdrive/YT):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
-                                new_stat = st.selectbox("Update Progress:", ["Proses", "Review"], 
-                                                        index=0 if status == "Proses" else 1, key=f"staf_{t['ID']}")
+                        # --- LOGIKA UNTUK STAF ---
+                        if user_sekarang != "dian" and user_sekarang != "tamu":
+                            link_input = st.text_input("Link GDrive/Video:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                            opsi_staf = st.radio("Update Progress:", ["PROSES", "SELESAI"], 
+                                                index=0 if status != "SEDANG DI REVIEW" else 1, 
+                                                horizontal=True, key=f"rad_{t['ID']}")
+                            
+                            if st.button("Kirim ke Bos ✅", key=f"btn_s_{t['ID']}", use_container_width=True):
+                                # Jika staf klik SELESAI, otomatis status jadi SEDANG DI REVIEW
+                                status_final = "SEDANG DI REVIEW" if opsi_staf == "SELESAI" else "PROSES"
                                 
-                                if st.button("Kirim Hasil ke Bos Dian ✅", key=f"btn_s_{t['ID']}"):
+                                try:
                                     row = sheet_tugas.find(str(t['ID'])).row
-                                    sheet_tugas.update_cell(row, 5, new_stat) # Update Status
-                                    sheet_tugas.update_cell(row, 7, new_link) # Update Link_Hasil (Kolom 7)
-                                    st.toast("Laporan terkirim!")
+                                    sheet_tugas.update_cell(row, 5, status_final)
+                                    sheet_tugas.update_cell(row, 7, link_input)
+                                    st.toast("Laporan Terkirim!")
                                     st.rerun()
+                                except: st.error("Gagal update GSheet.")
 
-                            # 2. Jika Dian (QC/Review)
-                            else:
-                                c_revisi, c_finish = st.columns(2)
-                                with c_revisi:
-                                    catatan = st.text_area("Catatan Revisi:", value=t.get("Catatan_Revisi", ""), key=f"rev_{t['ID']}")
-                                    if st.button("🔴 PERLU REVISI", key=f"btn_rev_{t['ID']}", use_container_width=True):
-                                        row = sheet_tugas.find(str(t['ID'])).row
-                                        sheet_tugas.update_cell(row, 5, "Revisi")
-                                        sheet_tugas.update_cell(row, 8, catatan) # Kolom 8
-                                        st.warning("Status diubah ke Revisi!")
-                                        st.rerun()
-                                with c_finish:
-                                    st.write("<br>"*2, unsafe_allow_html=True)
-                                    if st.button("🟢 OKE, FINISH TOTAL!", key=f"btn_fin_{t['ID']}", use_container_width=True):
-                                        row = sheet_tugas.find(str(t['ID'])).row
-                                        sheet_tugas.update_cell(row, 5, "Selesai (Finish)")
-                                        st.balloons()
-                                        st.rerun()
-
+                        # --- LOGIKA UNTUK DIAN (BOS) ---
+                        elif user_sekarang == "dian":
+                            c_rev, c_fin = st.columns(2)
+                            with c_rev:
+                                catatan = st.text_area("Catatan jika ingin REVISI:", key=f"cat_{t['ID']}")
+                                if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
+                                    row = sheet_tugas.find(str(t['ID'])).row
+                                    sheet_tugas.update_cell(row, 5, "REVISI")
+                                    sheet_tugas.update_cell(row, 8, catatan)
+                                    st.warning("Status: REVISI")
+                                    st.rerun()
+                            with c_fin:
+                                st.write("<br>"*2, unsafe_allow_html=True)
+                                if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True, type="primary"):
+                                    row = sheet_tugas.find(str(t['ID'])).row
+                                    sheet_tugas.update_cell(row, 5, "FINISH")
+                                    st.balloons()
+                                    st.rerun()
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
     st.info("Area manajemen staf dan performa.")
@@ -973,6 +977,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
