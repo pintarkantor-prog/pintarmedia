@@ -494,13 +494,14 @@ Topik: {topik_o}
 Pola: {pola_o}
 
 STRUKTUR TABEL WAJIB:
-| Adegan | Visual Detail & Prompt Gambar (Inggris) | Dialog (Bahasa Indonesia) | SFX & Musik |
+| Adegan | Visual Detail & Prompt (Indonesia) | Visual Detail & Prompt (Inggris) | Dialog (Bahasa Indonesia) |
 
-Aturan:
-1. Dialog dipisah dari visual agar rapi.
-2. Gunakan bahasa Indonesia viral dan santai.
+Aturan Main:
+1. Kolom "Visual Detail & Prompt (Inggris)" harus berisi terjemahan detail dari kolom Indonesia untuk digunakan sebagai Prompt AI Image.
+2. Dialog harus santai, viral, dan bikin penasaran.
 3. Naskah harus {adegan_o} adegan.
-4. JANGAN kasih kata sambutan, LANGSUNG TABEL."""
+4. JANGAN memberikan kata pembuka, LANGSUNG TABELNYA SAJA.
+"""
 
                             payload = {
                                 "model": "llama-3.3-70b-versatile", 
@@ -518,14 +519,14 @@ Aturan:
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
-                # Render Tabel Visual yang rapi
+                # Render Tabel Visual Default Streamlit
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 
                 st.divider()
                 st.download_button(
                     "📥 Download Naskah (.txt)", 
                     st.session_state.lab_hasil_otomatis, 
-                    file_name="naskah_pintar_media.txt", 
+                    file_name="naskah_pintar_media_dual_prompt.txt", 
                     use_container_width=True
                 )
                 
@@ -723,6 +724,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
