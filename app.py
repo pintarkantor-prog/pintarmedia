@@ -400,49 +400,52 @@ def tampilkan_ai_lab():
     st.subheader("👤 Pengaturan Karakter")
     c_add, c_rem, c_spacer = st.columns([0.25, 0.25, 0.5])
     with c_add:
-        if st.button("➕ Tambah Karakter", use_container_width=True) and st.session_state.jumlah_karakter < 4:
+        if st.button("➕ Tambah", use_container_width=True) and st.session_state.jumlah_karakter < 4:
             st.session_state.jumlah_karakter += 1
             st.rerun()
     with c_rem:
-        if st.button("➖ Kurang Karakter", use_container_width=True) and st.session_state.jumlah_karakter > 1:
+        if st.button("➖ Kurang", use_container_width=True) and st.session_state.jumlah_karakter > 1:
             st.session_state.jumlah_karakter -= 1
             st.rerun()
 
     list_karakter = []
-    char_cols = st.columns(2)
-    for i in range(st.session_state.jumlah_karakter):
-        if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
-        if i not in st.session_state.memori_s: st.session_state.memori_s[i] = ""
-        with char_cols[i % 2]:
-            # Menggunakan border=True untuk menciptakan kontras awal
-            with st.container(border=True):
-                label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
-                st.markdown(f"**{label_k}**")
-                st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
-                st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
-                n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
-                list_karakter.append(f"{i+1}. {n_f.upper()}: {st.session_state.memori_s[i]}")
+    # Kontainer Luar (Warna Navy/Abu-abu gelap)
+    with st.container(border=True):
+        char_cols = st.columns(2)
+        for i in range(st.session_state.jumlah_karakter):
+            if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
+            if i not in st.session_state.memori_s: st.session_state.memori_s[i] = ""
+            with char_cols[i % 2]:
+                # Kontainer Dalam (Menciptakan kontras agar input di dalamnya terlihat hitam)
+                with st.container(border=True):
+                    label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
+                    st.markdown(f"**{label_k}**")
+                    # Input Nama & Sifat Karakter
+                    st.session_state.memori_n[i] = st.text_input(f"Nama {i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
+                    st.session_state.memori_s[i] = st.text_input(f"Sifat {i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
+                    n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
+                    list_karakter.append(f"{i+1}. {n_f.upper()}: {st.session_state.memori_s[i]}")
 
     st.write("---")
 
     # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual (Mantra)", "⚡ Mode Otomatis (Groq)"])
 
-    # MODE MANUAL
+    # MODE MANUAL: Rakit Mantra Sakti
     with tab_manual:
-        # Trik: Expander menciptakan warna background luar yang lebih terang dari kotak input
-        with st.expander("📝 TOPIK UTAMA & KONFIGURASI", expanded=True):
+        with st.container(border=True):
+            st.markdown("### 📝 Input Konten (Manual)")
             col_m1, col_m2 = st.columns([2, 1])
             
             with col_m1:
                 st.markdown("**📝 Topik Utama**")
-                # text_area di sini akan berwarna hitam pekat secara default di dalam expander
+                # Kotak input hitam pekat karena berada dalam container
                 topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=245, key="m_topik", label_visibility="collapsed")
             
             with col_m2:
                 st.markdown("**🎭 Pola & Style**")
-                pola_m = st.selectbox("Pola", opsi_pola, key="m_pola")
-                visual_m = st.selectbox("Visual", opsi_visual, key="m_visual")
+                pola_m = st.selectbox("Pola Cerita", opsi_pola, key="m_pola")
+                visual_m = st.selectbox("Gaya Visual", opsi_visual, key="m_visual")
                 adegan_m = st.number_input("Jumlah Adegan", 3, 10, 5, key="m_adegan")
 
             if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
@@ -467,20 +470,22 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                 else:
                     st.warning("Isi topik dulu, Bos!")
 
-    # MODE OTOMATIS
+    # MODE OTOMATIS: Langsung Jadi Naskah via API
     with tab_otomatis:
-        with st.expander("⚡ AI INSTANT GENERATION", expanded=True):
+        with st.container(border=True):
+            st.markdown("### ⚡ AI Instant Generation")
             col_o1, col_o2 = st.columns([2, 1])
             
             with col_o1:
                 st.markdown("**📝 Ide Cerita (API)**")
+                # Kotak input hitam pekat
                 topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan AI yang berimajinasi...", height=245, key="o_topik", label_visibility="collapsed")
             
             with col_o2:
                 st.markdown("**⚙️ Konfigurasi AI**")
-                pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
-                adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
-                st.info("AI otomatis menyesuaikan visual cinematic.")
+                pola_o = st.selectbox("Pilih Pola", opsi_pola, key="o_pola")
+                adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
+                st.info("AI akan otomatis menyesuaikan visual cinematic sesuai brand Pintar Media.")
 
             if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
@@ -513,7 +518,10 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                             st.toast("Naskah Berhasil Dibuat!", icon="✅")
                         except Exception as e:
                             st.error(f"Error Koneksi Groq: {e}")
+                else:
+                    st.error("API Key kosong atau Ide Cerita belum diisi!")
 
+        # Menampilkan Hasil Naskah dalam kontras yang sama
         if st.session_state.lab_hasil_otomatis:
             with st.container(border=True):
                 st.subheader("🎬 Naskah Jadi (Hasil Groq)")
@@ -714,6 +722,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
