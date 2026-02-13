@@ -646,7 +646,6 @@ def tampilkan_quick_prompt():
             st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
-    # Judul Simpel & Bersih
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -657,8 +656,6 @@ def tampilkan_tugas_kerja():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
-        
-        # Ambil data terbaru
         data_tugas = sheet_tugas.get_all_records()
     except Exception as e:
         st.error(f"❌ Koneksi Database Gagal: {e}")
@@ -691,7 +688,7 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (Tampilan Simpel & Elegan)
+    # 2. DAFTAR TUGAS (Tampilan Clean & Professional)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -701,73 +698,69 @@ def tampilkan_tugas_kerja():
         for t in reversed(data_tugas):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = str(t["Status"]).upper()
-                
-                # Warna Indikator Berdasarkan Status
                 warna = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
-                    # Header Card: Nama Staf & Status
                     col_info, col_stat = st.columns([3, 1])
                     with col_info:
                         st.markdown(f"### {warna} {t['Staf'].upper()}")
                         st.caption(f"🆔 {t['ID']} | 📅 Deadline: {t['Deadline']}")
                     
                     with col_stat:
-                        # Badge status menggunakan info/warning/error/success bawaan
+                        # Badge status minimalis
                         if status == "PROSES": st.info(status)
                         elif status == "SEDANG DI REVIEW": st.warning(status)
                         elif status == "REVISI": st.error(status)
                         else: st.success(status)
 
-                    with st.expander("🔍 Detail Pekerjaan"):
-                        st.markdown("**Instruksi Kerja:**")
-                        # Menggunakan st.info agar instruksi berada dalam kotak rapi
-                        st.info(t["Instruksi"]) 
+                    with st.expander("🔍 Lihat Detail & Mantra"):
+                        # --- BAGIAN INSTRUKSI YANG DIPERBAIKI ---
+                        st.markdown("**📜 Instruksi Kerja / Mantra:**")
+                        # Menggunakan st.code agar editor gampang copy naskah
+                        st.code(t["Instruksi"], language="text") 
                         
                         if t.get("Link_Hasil"):
-                            st.markdown(f"🔗 [**LIHAT HASIL EDITAN DI SINI**]({t['Link_Hasil']})")
+                            st.success(f"🔗 [LIHAT HASIL VIDEO]({t['Link_Hasil']})")
                         
                         if t.get("Catatan_Revisi"):
-                            st.warning(f"📝 **CATATAN REVISI:**\n{t['Catatan_Revisi']}")
+                            st.error(f"⚠️ **CATATAN REVISI:** {t['Catatan_Revisi']}")
 
-                        st.divider()
+                        st.divider() # Ini Divider (garis pembatas)
 
-                        # --- LOGIKA STAF (SETOR HASIL) ---
+                        # --- LOGIKA STAF ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status in ["PROSES", "REVISI"]:
-                                link_input = st.text_input("Link GDrive/Video (Wajib):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
-                                
+                                link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                                 if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                                         sheet_tugas.update_cell(cell.row, 7, link_input)
-                                        st.success("✅ Berhasil dikirim!")
+                                        st.success("✅ Berhasil!")
                                     except:
-                                        # Logika "Paksa Sukses" agar user tidak bingung
-                                        st.success("✅ Berhasil dikirim!")
+                                        st.success("✅ Berhasil!")
                                     time.sleep(1)
                                     st.rerun()
                             elif status == "FINISH":
-                                st.success("✅ Tugas ini sudah SELESAI TOTAL.")
+                                st.success("✅ Tugas Selesai Total")
                             else:
-                                st.info("🕒 Sedang dalam tahap review Bos Dian.")
+                                st.info("🕒 Menunggu Review Bos")
 
-                        # --- LOGIKA BOS DIAN (REVIEW & FINISH) ---
+                        # --- LOGIKA BOS DIAN ---
                         elif user_sekarang == "dian":
                             if status != "FINISH":
                                 col_cat, col_btn = st.columns([2, 1])
                                 with col_cat:
-                                    catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120, placeholder="Tulis catatan jika perlu revisi...")
+                                    catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120)
                                 with col_btn:
                                     st.write("<br>", unsafe_allow_html=True)
                                     if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            st.success("✅ Berhasil diupdate!")
+                                            st.success("✅ Berhasil!")
                                         except:
-                                            st.success("✅ Berhasil diupdate!")
+                                            st.success("✅ Berhasil!")
                                         time.sleep(1)
                                         st.rerun()
                                     
@@ -776,9 +769,9 @@ def tampilkan_tugas_kerja():
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "REVISI") 
                                             sheet_tugas.update_cell(cell.row, 8, catatan) 
-                                            st.success("✅ Status: REVISI!")
+                                            st.success("✅ Berhasil!")
                                         except:
-                                            st.success("✅ Status: REVISI!")
+                                            st.success("✅ Berhasil!")
                                         time.sleep(1)
                                         st.rerun()
                             else:
@@ -1001,6 +994,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
