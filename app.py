@@ -791,26 +791,27 @@ def tampilkan_tugas_kerja():
                                     st.success("✅ Revisi!"); time.sleep(1); st.rerun()
                                     
 def tampilkan_kendali_tim():
-    # 1. CEK USER (KUNCI GERBANG UTAMA)
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # JIKA BUKAN DIAN (Hanya tampilkan pesan terkunci)
+    # 1. PROTEKSI AKSES (Hanya Dian yang bisa buka)
     if user_sekarang != "dian":
         st.title("⚡ KENDALI TIM")
         st.divider()
         st.warning("🔒 **AREA TERBATAS**")
-        st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya dapat diakses oleh Admin untuk keperluan pantauan performa tim.")
-        st.image("https://cdn-icons-png.flaticon.com/512/2575/2575515.png", width=200) # Gambar Gembok
+        st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya dapat diakses oleh Admin untuk pantauan performa.")
+        # Menampilkan gambar gembok sebagai pengganti rumah
+        st.image("https://cdn-icons-png.flaticon.com/512/2575/2575515.png", width=120)
         return
 
-    # 2. KHUSUS DIAN (Isi Dashboard Rahasia)
+    # 2. HALAMAN KHUSUS BOS DIAN
     st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
-    st.write(f"Halo **Bos Dian**, berikut adalah rekapan performa staf bulan ini.")
+    st.write(f"Monitor performa **Pintar Media** secara real-time.")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
+    # Filter Otomatis Bulan & Tahun Berjalan
     bulan_ini = sekarang.month
     tahun_ini = sekarang.year
     nama_bulan = sekarang.strftime("%B %Y")
@@ -820,35 +821,40 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # --- BAGIAN ANALISA PRODUKTIVITAS ---
+        # --- BAGIAN A: ANALISA PRODUKTIVITAS ---
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
 
+        st.subheader(f"📊 Produktivitas Editor ({nama_bulan})")
+        
         if not df_tugas.empty:
+            # Pastikan format tanggal kolom Deadline benar
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'])
-            # Filter: Bulan ini & Status FINISH
+            
+            # Filter: Bulan berjalan & Status FINISH
             mask = (df_tugas['Deadline'].dt.month == bulan_ini) & \
                    (df_tugas['Deadline'].dt.year == tahun_ini) & \
                    (df_tugas['Status'] == "FINISH")
             
             df_bulan_ini = df_tugas[mask]
 
-            st.subheader(f"📊 Produktivitas Editor ({nama_bulan})")
             if not df_bulan_ini.empty:
+                # Grafik Batang Produktivitas 
                 prod_counts = df_bulan_ini['Staf'].value_counts()
-                st.bar_chart(prod_counts) # Grafik Batang
+                st.bar_chart(prod_counts) 
                 
-                c1, c2, c3 = st.columns(3)
-                with c1: st.metric("Total Video Finish", len(df_bulan_ini))
-                with c2: st.metric("Editor Terajin", prod_counts.idxmax())
-                with c3: st.metric("Periode", nama_bulan)
+                # Metrik Angka Utama
+                m1, m2, m3 = st.columns(3)
+                with m1: st.metric("Total Video Finish", len(df_bulan_ini))
+                with m2: st.metric("Top Editor", prod_counts.idxmax())
+                with m3: st.metric("Periode", nama_bulan)
             else:
-                st.info("Belum ada data tugas yang diselesaikan bulan ini.")
+                st.info("Belum ada data tugas yang selesai (FINISH) di bulan ini.")
 
         st.divider()
 
-        # --- BAGIAN REKAP ABSENSI ---
-        st.subheader("🕒 Laporan Presensi Otomatis")
+        # --- BAGIAN B: LAPORAN ABSENSI ---
+        st.subheader("🕒 Laporan Kehadiran (Auto-Absen)")
         try:
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             df_absen = pd.DataFrame(sheet_absen.get_all_records())
@@ -856,15 +862,22 @@ def tampilkan_kendali_tim():
             if not df_absen.empty:
                 df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
                 # Filter absen bulan berjalan
-                mask_absen = (df_absen['Tanggal'].dt.month == bulan_ini)
-                st.dataframe(df_absen[mask_absen], use_container_width=True)
+                mask_absen = (df_absen['Tanggal'].dt.month == bulan_ini) & \
+                             (df_absen['Tanggal'].dt.year == tahun_ini)
+                
+                df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False)
+                
+                if not df_absen_final.empty:
+                    st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
+                else:
+                    st.write("Belum ada data kehadiran bulan ini.")
             else:
-                st.write("Belum ada data kehadiran.")
+                st.write("Data kehadiran masih kosong.")
         except:
-            st.warning("⚠️ Tab 'Absensi' tidak ditemukan di GSheets.")
+            st.warning("⚠️ Tab 'Absensi' tidak ditemukan. Pastikan kamu sudah buat tab 'Absensi' di Google Sheets.")
 
     except Exception as e:
-        st.error(f"Gagal memuat data kendali: {e}")
+        st.error(f"Gagal memuat data: {e}")
     
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1079,6 +1092,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
