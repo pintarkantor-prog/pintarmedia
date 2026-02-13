@@ -556,15 +556,44 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.markdown("# ⚡ QUICK PROMPT (INSTAN)")
-    st.info("🚀 **Mode Sat-Set!** Rakit visual satu adegan dengan cepat tanpa ribet.")
+    st.title("⚡ QUICK PROMPT (INSTAN)")
+    
+    # --- [NEW] QUALITY BOOSTER (Settingan Umum Pusat) ---
+    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
+    QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
+    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
+    negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
 
-    # 1. INPUT UTAMA
+    # CONTAINER UTAMA DENGAN BORDER
     with st.container(border=True):
-        st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-        aksi_instan = st.text_area("Aksi Instan", height=200, placeholder="Tulis aksi visual di sini...", key="q_aksi", label_visibility="collapsed")
         
-        # 2. QUICK SETTINGS (4 KOLOM SEJAJAR DARI PUSAT KENDALI)
+        # --- IDENTITY LOCK INSTAN (OPSIONAL) ---
+        st.markdown('### 👤 Karakter Instan (Opsional)')
+        cols_char_q = st.columns(2)
+        with cols_char_q[0]:
+            nama_q = st.text_input("Nama Karakter", placeholder="Contoh: Udin", key="q_nama")
+        with cols_char_q[1]:
+            wear_q = st.text_input("Pakaian Karakter", placeholder="Contoh: Kemeja kotak-kotak", key="q_wear")
+        
+        fisik_q = st.text_area("Ciri Fisik Karakter", height=70, placeholder="Contoh: Pria dewasa, kulit sawo matang, rambut ikal, mata belo, wajah konyol", key="q_fisik")
+        st.markdown("---") # Pembatas
+
+        # --- AKSI UTAMA ---
+        st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+        aksi_instan = st.text_area(
+            "Aksi Instan", 
+            height=200, # Dikurangi sedikit tingginya
+            placeholder="Ketik detail aksi visual di sini... (Contoh: Udin kaget melihat Tung berubah jadi kayu)", 
+            key="q_aksi", 
+            label_visibility="collapsed"
+        )
+        
+        st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI ADEGAN</p>', unsafe_allow_html=True)
+        loc_q = st.text_input("Lokasi Instan", placeholder="Contoh: Ruang Tamu, Hutan Bambu", key="q_loc", label_visibility="collapsed")
+        
+        st.markdown("<br>", unsafe_allow_html=True)
+        
+        # 4 KOLOM SETTINGS (SINKRON DENGAN PUSAT KENDALI)
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
@@ -573,31 +602,68 @@ def tampilkan_quick_prompt():
             st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
             light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
         with c3:
-            st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
+            st.markdown('<p class="small-label">🔍 UKURAN</p>', unsafe_allow_html=True)
             shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
         with c4:
             st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
             arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
-    # 3. COMPILER LOGIC
+        # Gerakan Kamera untuk Video (Hanya di Quick Prompt)
+        st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA (VIDEO)</p>', unsafe_allow_html=True)
+        cam_q = st.selectbox("Cam_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
+
+
+    # --- 3. COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_instan:
-            # Mengambil Quality Booster Pusat dari Ruang Produksi agar hasil tetap konsisten
-            QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
             
-            prompt_hasil = (f"CHARACTER: [[ High-fidelity texture ]]\n"
-                            f"ACTION: {aksi_instan}\n"
-                            f"TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}\n"
-                            f"CAMERA: {QB_IMG}\n"
-                            f"NEGATIVE PROMPT: NO text, NO watermark, NO distorted faces --ar {OPTS_RATIO[0]} --v 6.0")
+            # --- LOGIC PEMBENTUKAN KARAKTER ---
+            char_prompt_img = ""
+            char_prompt_vid_profile = ""
+            if nama_q and fisik_q:
+                char_prompt_img = f"[[ CHARACTER_{nama_q.upper()}: {fisik_q}, organic macro-texture, maintain 100% exact facial features. ]]"
+                char_prompt_vid_profile = f"{nama_q} (pakaian: {wear_q if wear_q else 'sesuai fisik'}, high-fidelity fabric texture)"
+            elif nama_q: # Jika hanya nama tapi fisik kosong
+                 char_prompt_img = f"[[ CHARACTER_{nama_q.upper()} ]]"
+                 char_prompt_vid_profile = f"{nama_q} (pakaian: {wear_q if wear_q else 'sesuai fisik'})"
+            
+            # --- SMART FILTER LOGIC (Untuk Prompt Gambar) ---
+            loc_lower_q = loc_q.lower()
+            is_outdoor_q = any(x in loc_lower_q for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
+            tech_base_q = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
+
+            if is_outdoor_q:
+                bumbu_final_q = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
+            else:
+                bumbu_final_q = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
+
+            # --- RAKIT PROMPT GAMBAR ---
+            img_p_q = (f"CHARACTER: {char_prompt_img}\n"
+                       f"ACTION: {aksi_instan}\n"
+                       f"ENV: {loc_q}. {bumbu_final_q}.\n"
+                       f"CAMERA: {QB_IMG}\n"
+                       f"TECH: {style_q}, {light_q}, {shot_q}, {tech_base_q}\n"
+                       f"NEGATIVE PROMPT: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0")
+            
+            # --- RAKIT PROMPT VIDEO ---
+            vid_p_q = (f"Profiles: {char_prompt_vid_profile if char_prompt_vid_profile else 'A character'}\n"
+                       f"Scene: {aksi_instan} at {loc_q}. {bumbu_final_q}.\n" # Bumbu final tetap relevan
+                       f"Tech: {style_q}, {shot_q}, {cam_q}, {QB_VID}\n"
+                       f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}")
             
             st.success("✅ Prompt Instan Siap!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
-                st.code(prompt_hasil, language="text")
+                c_q_img, c_q_vid = st.columns(2)
+                with c_q_img:
+                    st.markdown('<p class="small-label">📷 GAMBAR (ULTRA-SHARP)</p>', unsafe_allow_html=True)
+                    st.code(img_p_q, language="text")
+                with c_q_vid:
+                    st.markdown('<p class="small-label">🎥 VIDEO (ULTRA-SHARP)</p>', unsafe_allow_html=True)
+                    st.code(vid_p_q, language="text")
                 st.toast("Mantra berhasil dirakit!", icon="⚡")
         else:
-            st.warning("Isi dulu aksinya, Bos!")
+            st.warning("Isi dulu 'NASKAH VISUAL & AKSI' ya!")
 
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -854,6 +920,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
