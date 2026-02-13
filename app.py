@@ -963,6 +963,8 @@ def tampilkan_kendali_tim():
                         components.html(f"<body>{slip_content}</body>", height=450)
                         
                         st.info("💡 Screenshot slip di atas untuk dikirim ke WA staf.")
+        except Exception as e:
+        st.error(f"Gagal memuat data: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1182,6 +1184,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
