@@ -2,5 +2,4 @@ streamlit
 pandas
 gspread
 google-auth
-import streamlit as st
-import requests
+requests
