@@ -828,7 +828,11 @@ def tampilkan_tugas_kerja():
                     # --- TOMBOL STAF ---
                     if user_sekarang != "dian" and user_sekarang != "tamu":
                         if status in ["PROSES", "REVISI"]:
-                            link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                            # TAMBAHKAN INFO KECIL DI SINI
+                            st.caption("💡 *Tips: Jika lebih dari 1 link, pisahkan dengan tanda koma (,)*")
+                            
+                            link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}", placeholder="link1.com, link2.com")
+                            
                             if st.button("🚩 SETOR HASIL", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
                                 try:
                                     cell = sheet_tugas.find(str(t['ID']).strip())
@@ -1218,6 +1222,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
