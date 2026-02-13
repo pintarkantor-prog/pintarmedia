@@ -663,11 +663,15 @@ def tampilkan_ruang_produksi():
         scene_id = s + 1
         
         if scene_id not in data["adegan"]:
-            # Default awal menggunakan elemen pertama dari PUSAT KENDALI OPSI
             data["adegan"][scene_id] = {
-                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
-                "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], 
-                "ratio": "16:9", "cam": "Static", "loc": "", 
+                "aksi": "", 
+                "style": OPTS_STYLE[0], 
+                "light": OPTS_LIGHT[0], 
+                "arah": OPTS_ARAH[0], 
+                "shot": OPTS_SHOT[0], 
+                "ratio": OPTS_RATIO[0],
+                "cam": OPTS_CAM[0],
+                "loc": "", 
                 "dialogs": [""]*4
             }
 
@@ -794,6 +798,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
