@@ -558,12 +558,10 @@ Aturan Main:
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
     
-    # st.info Tambahan untuk Panduan Tim
     st.info("""
     💡 **PINTAR MEDIA - QUICK COMMAND:**
     - Modul ini digunakan untuk merakit 1 adegan secara instan (Gambar & Video).
     - Masukkan detail aksi, pilih bumbu kualitas, lalu klik Generate.
-    - Hasil akan muncul dalam 2 kolom: Mantra Gambar & Mantra Video.
     """)
 
     # Kualitas Dasar Pintar Media
@@ -572,27 +570,14 @@ def tampilkan_quick_prompt():
     no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # 1. AREA INPUT (Tanpa CSS tambahan, murni placeholder kontras)
+    # 1. AREA INPUT
     with st.container(border=True):
         st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-        # Placeholder dibikin huruf besar di awal supaya "eye-catching"
-        aksi_q = st.text_area(
-            "Aksi Q", 
-            height=200, 
-            placeholder="KETIK DI SINI: Deskripsi adegan secara detail... (Misal: Udin kaget melihat Tung berubah jadi kayu)", 
-            key="q_aksi", 
-            label_visibility="collapsed"
-        )
+        aksi_q = st.text_area("Aksi Q", height=200, placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", key="q_aksi", label_visibility="collapsed")
         
         st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input(
-            "Loc Q", 
-            placeholder="MASUKKAN LOKASI: (Misal: Hutan Bambu, Kamar Tidur, Jalan Raya...)", 
-            key="q_loc", 
-            label_visibility="collapsed"
-        )
+        loc_q = st.text_input("Loc Q", placeholder="MASUKKAN LOKASI: (Misal: Hutan Bambu, Kamar Tidur...)", key="q_loc", label_visibility="collapsed")
         
-        # 2. SETTING 4 KOLOM SEJAJAR (SINKRON PUSAT)
         st.markdown("<br>", unsafe_allow_html=True)
         c1, c2, c3, c4 = st.columns(4)
         with c1:
@@ -608,27 +593,29 @@ def tampilkan_quick_prompt():
             st.markdown('<p class="small-label">📐 ARAH</p>', unsafe_allow_html=True)
             arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
-    # 3. GENERATE LOGIC
+    # 2. GENERATE LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
-            # Smart Logic Outdoor/Indoor
             bumbu = "hyper-detailed grit, leaf veins, razor-sharp" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced reflections"
             
-            # Prompt Gambar
             img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
-            
-            # Prompt Video
             vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, {OPTS_CAM[0]}, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
-            st.success("✅ Prompt Berhasil Dirakit!")
-            col_res1, col_res2 = st.columns(2)
-            with col_res1:
-                st.markdown('<p class="small-label">📷 MANTRA GAMBAR (INSTAN)</p>', unsafe_allow_html=True)
-                st.code(img_p, language="text")
-            with col_res2:
-                st.markdown('<p class="small-label">🎥 MANTRA VIDEO (INSTAN)</p>', unsafe_allow_html=True)
-                st.code(vid_p, language="text")
+            st.success("✅ Mantra Berhasil Dirakit!")
+            
+            # --- BAGIAN KONTRAST EXPANDER ---
+            # Kita buat expander terbuka (expanded=True) agar tim langsung lihat hasilnya
+            with st.expander("📋 LIHAT HASIL RAKITAN MANTRA (KLIK UNTUK TUTUP/BUKA)", expanded=True):
+                col_res1, col_res2 = st.columns(2)
+                with col_res1:
+                    st.markdown('<p class="small-label">📷 MANTRA GAMBAR</p>', unsafe_allow_html=True)
+                    st.code(img_p, language="text")
+                with col_res2:
+                    st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
+                    st.code(vid_p, language="text")
+            
+            st.toast("Mantra siap di-copy!", icon="⚡")
         else:
             st.warning("Eits, naskah aksinya belum diisi, Bos!")
 
@@ -887,6 +874,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
