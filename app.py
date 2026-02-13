@@ -891,7 +891,7 @@ def tampilkan_kendali_tim():
         # --- BAGIAN A: ANALISA PRODUKTIVITAS ---
         st.subheader(f"📊 Produktivitas Editor ({pilihan_nama} {tahun_dipilih})")
         
-        df_terfilter = pd.DataFrame() # Inisialisasi kosong
+        df_terfilter = pd.DataFrame()
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'])
             mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
@@ -914,7 +914,7 @@ def tampilkan_kendali_tim():
 
         # --- BAGIAN B: LAPORAN ABSENSI ---
         st.subheader(f"🕒 Laporan Kehadiran ({pilihan_nama})")
-        df_absen_final = pd.DataFrame() # Inisialisasi kosong
+        df_absen_final = pd.DataFrame()
         if not df_absen.empty:
             df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
             mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
@@ -928,21 +928,22 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- BAGIAN C: HITUNG GAJI & SLIP (BARU) ---
+        # --- BAGIAN C: HITUNG GAJI & SLIP (REVISI SINKRONISASI) ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
         
-        # Ambil list staf dari absensi/tugas untuk rekap
-        rekap_absen = df_absen_final['Nama'].value_counts() if not df_absen_final.empty else {}
-        rekap_finish = df_terfilter['Staf'].value_counts() if not df_terfilter.empty else {}
+        # Normalisasi semua data rekap ke huruf besar agar sinkron
+        rekap_absen = df_absen_final['Nama'].str.upper().value_counts() if not df_absen_final.empty else {}
+        rekap_finish = df_terfilter['Staf'].str.upper().value_counts() if not df_terfilter.empty else {}
 
-        staf_list = ["Icha", "Nissa", "Inggi", "Lisa"]
+        # Daftar staf (pakai huruf besar agar match dengan rekap)
+        staf_list = ["ICHA", "NISSA", "INGGI", "LISA"]
         
         for s in staf_list:
             # Hitung nilai
-            jml_hadir = rekap_absen.get(s.upper(), 0) # Absen biasanya simpan huruf besar
-            jml_video = rekap_finish.get(s, 0) # Tugas biasanya Capitalize
+            jml_hadir = rekap_absen.get(s, 0)
+            jml_video = rekap_finish.get(s, 0)
             
-            # Settingan Upah (Bisa diubah nilainya)
+            # Perhitungan Upah (Tarif sesuai permintaan Bos Dian)
             upah_absen = jml_hadir * 50000 
             upah_video = jml_video * 10000
             total_terima = upah_absen + upah_video
@@ -953,33 +954,38 @@ def tampilkan_kendali_tim():
                 with c2: st.caption("HADIR"); st.write(f"{jml_hadir} Hari")
                 with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                 with c4:
-                    if st.button(f"🧾 SLIP {s.upper()}", key=f"btn_slip_{s}"):
-                        # Template HTML untuk Slip Gaji (Warna Putih agar mudah di-SS)
+                    if st.button(f"🧾 SLIP {s}", key=f"btn_slip_{s}"):
+                        # Template Slip Gaji dengan Logo PINTAR MEDIA
                         slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: 'Courier New', Courier, monospace; width: 320px;">
-                            <div style="text-align: center;">
-                                <h3 style="margin:0;">PINTAR MEDIA</h3>
-                                <p style="font-size: 10px; margin:0;">Banjarnegara, Jawa Tengah</p>
-                                <hr style="border: 1px dashed black;">
-                                <h4 style="margin:5px 0;">SLIP GAJI DIGITAL</h4>
+                        <div style="background-color: white; color: black; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: 'Courier New', Courier, monospace; width: 350px; margin: auto;">
+                            <div style="text-align: center; margin-bottom: 10px;">
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 10px;">
+                                <p style="font-size: 10px; margin:0; color: #666;">Creative AI Studio & Content Production</p>
+                                <p style="font-size: 9px; margin:0; color: #666;">Banjarnegara, Jawa Tengah</p>
+                                <hr style="border: 1px dashed #ccc; margin: 10px 0;">
+                                <h4 style="margin:5px 0; background: #1d976c; color: white; display: inline-block; padding: 2px 10px; border-radius: 5px;">SLIP GAJI RESMI</h4>
                             </div>
-                            <table style="width: 100%; font-size: 13px;">
-                                <tr><td>Staf</td><td>: {s.upper()}</td></tr>
-                                <tr><td>Periode</td><td>: {pilihan_nama} {tahun_dipilih}</td></tr>
+                            
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                                <tr><td style="padding: 5px 0;">Penerima</td><td style="text-align:right;"><b>{s}</b></td></tr>
+                                <tr><td style="padding: 5px 0;">Periode</td><td style="text-align:right;">{pilihan_nama} {tahun_dipilih}</td></tr>
                                 <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
-                                <tr><td>Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
-                                <tr><td>Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 1px dashed black;"></td></tr>
-                                <tr style="font-weight: bold; font-size: 15px;">
+                                <tr><td style="padding: 5px 0;">Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
+                                <tr><td style="padding: 5px 0;">Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 10px 0;"></td></tr>
+                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                     <td>TOTAL TERIMA</td><td style="text-align:right;">Rp {total_terima:,}</td></tr>
                             </table>
-                            <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #666;">
-                                Generated by PINTAR System<br>{datetime.now().strftime('%d/%m/%Y %H:%M')}
+                            
+                            <div style="margin-top: 25px; text-align: center;">
+                                <p style="font-size: 9px; margin:0; color: #888;">Dokumen ini diterbitkan secara otomatis oleh</p>
+                                <p style="font-size: 10px; font-weight: bold; margin:0; color: #1d976c;">PINTAR DIGITAL SYSTEM</p>
+                                <p style="font-size: 8px; color: #bbb;">{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}</p>
                             </div>
                         </div>
                         """
                         st.markdown(slip_html, unsafe_allow_html=True)
-                        st.info("💡 **Cara Kirim ke WA:** Gunakan **Win + Shift + S** (Snipping Tool), seleksi gambar slip di atas, lalu **Paste (Ctrl+V)** di WhatsApp staf.")
+                        st.info("💡 **Tips:** Screenshot slip di atas untuk dikirim ke WhatsApp staf.")
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
@@ -1202,6 +1208,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
