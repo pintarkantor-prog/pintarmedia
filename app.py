@@ -560,11 +560,12 @@ def tampilkan_quick_prompt():
     
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Area kerja di bawah menggunakan mode Expander untuk kontras maksimal.
     - Isi naskah di kotak gelap (Kiri) dan atur bumbu di kolom kanan.
+    - Lokasi sekarang memanjang penuh untuk detail yang lebih tajam.
+    - Gerakan kamera otomatis diatur sistem (Follow Character).
     """)
 
-    # Kualitas Dasar Pintar Media (Tetap terjaga, tidak ada yang dihapus)
+    # Kualitas Dasar Pintar Media
     QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING"
     QB_VID = "Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture"
     no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
@@ -572,21 +573,18 @@ def tampilkan_quick_prompt():
 
     # --- SOLUSI KONTRAST: FULL EXPANDER SEBAGAI LANTAI ---
     with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
-        col_input, col_settings = st.columns([1.5, 1])
+        # Baris 1: Naskah & Settings
+        col_naskah, col_settings = st.columns([1.5, 1])
         
-        with col_input:
+        with col_naskah:
             st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-            # Kotak ini akan terlihat hitam pekat di atas lantai abu-abu expander
             aksi_q = st.text_area(
                 "Aksi Q", 
-                height=345, 
+                height=300, 
                 placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
                 key="q_aksi", 
                 label_visibility="collapsed"
             )
-            
-            st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-            loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Gelap, Ruang Tamu...", key="q_loc", label_visibility="collapsed")
         
         with col_settings:
             # Layout 4 Kolom Settings (Style, Lighting, Ukuran, Arah)
@@ -594,30 +592,37 @@ def tampilkan_quick_prompt():
             with s1:
                 st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
                 style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:20px;">🔍 UKURAN</p>', unsafe_allow_html=True)
                 shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
             with s2:
                 st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
                 light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
+                st.markdown('<p class="small-label" style="margin-top:20px;">📐 ARAH</p>', unsafe_allow_html=True)
                 arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
-            
-            st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
-            cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
+
+        # Baris 2: LOKASI (Memanjang Full Width)
+        st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
+        loc_q = st.text_input(
+            "Loc Q", 
+            placeholder="CONTOH: Hutan Bambu Gelap, Kamar Tidur Minimalis, Jalan Raya Berdebu...", 
+            key="q_loc", 
+            label_visibility="collapsed"
+        )
 
     # 2. GENERATE LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
             # Smart Logic Outdoor/Indoor
-            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
+            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'pantai', 'kebun']) else "hyper-detailed wood grain, ray-traced"
             
-            # Rakit Mantra Gambar & Video
+            # Mantra Gambar
             img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
-            vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, {cam_q}, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
+            
+            # Mantra Video (Gerakan Kamera Otomatis: Dynamic Character Tracking)
+            vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, cinematic tracking motion, following character movement, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
             st.success("✅ Mantra Berhasil Dirakit!")
-            # Expander hasil tetap di bawah
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
@@ -884,6 +889,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
