@@ -846,12 +846,12 @@ def tampilkan_tugas_kerja():
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # 1. PROTEKSI AKSES (Hanya Dian yang bisa buka)
+    # 1. PROTEKSI AKSES
     if user_sekarang != "dian":
         st.title("⚡ KENDALI TIM")
         st.divider()
         st.warning("🔒 **AREA TERBATAS**")
-        st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya dapat diakses oleh Admin untuk pantauan performa.")
+        st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya untuk Admin.")
         return
 
     # 2. HALAMAN KHUSUS BOS DIAN
@@ -861,14 +861,9 @@ def tampilkan_kendali_tim():
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
-    # --- FITUR PILIH BULAN & TAHUN ---
     col_a, col_b = st.columns([2, 4])
     with col_a:
-        daftar_bulan = {
-            1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 
-            5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 
-            9: "September", 10: "Oktober", 11: "November", 12: "Desember"
-        }
+        daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
         pilihan_nama = st.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
         bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
     
@@ -882,7 +877,6 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # --- AMBIL DATA ---
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
         sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
@@ -890,27 +884,15 @@ def tampilkan_kendali_tim():
 
         # --- BAGIAN A: ANALISA PRODUKTIVITAS ---
         st.subheader(f"📊 Produktivitas Editor ({pilihan_nama} {tahun_dipilih})")
-        
         df_terfilter = pd.DataFrame()
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'])
-            mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
-                   (df_tugas['Deadline'].dt.year == tahun_dipilih) & \
-                   (df_tugas['Status'] == "FINISH")
+            mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & (df_tugas['Deadline'].dt.year == tahun_dipilih) & (df_tugas['Status'] == "FINISH")
             df_terfilter = df_tugas[mask]
-
             if not df_terfilter.empty:
-                # Normalisasi nama ke HURUF BESAR agar chart akurat
                 df_terfilter['Staf_Upper'] = df_terfilter['Staf'].str.upper()
                 prod_counts = df_terfilter['Staf_Upper'].value_counts()
                 st.bar_chart(prod_counts) 
-                
-                m1, m2, m3 = st.columns(3)
-                with m1: st.metric("Total Video Finish", len(df_terfilter))
-                with m2: st.metric("Top Editor", prod_counts.idxmax())
-                with m3: st.metric("Periode", f"{pilihan_nama}")
-            else:
-                st.info(f"Belum ada data tugas FINISH.")
 
         st.divider()
 
@@ -919,32 +901,22 @@ def tampilkan_kendali_tim():
         df_absen_final = pd.DataFrame()
         if not df_absen.empty:
             df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
-            mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
-                         (df_absen['Tanggal'].dt.year == tahun_dipilih)
+            mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & (df_absen['Tanggal'].dt.year == tahun_dipilih)
             df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False)
-            
             if not df_absen_final.empty:
                 st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
-            else:
-                st.write(f"Belum ada data kehadiran.")
 
         st.divider()
 
-        # --- BAGIAN C: HITUNG GAJI & SLIP (SINKRONISASI LOGO) ---
+        # --- BAGIAN C: HITUNG GAJI & SLIP ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
-        
-        # Normalisasi semua data rekap ke huruf besar
         rekap_absen = df_absen_final['Nama'].str.upper().value_counts() if not df_absen_final.empty else {}
         rekap_finish = df_terfilter['Staf'].str.upper().value_counts() if not df_terfilter.empty else {}
-
-        # Daftar staf harus HURUF BESAR agar cocok dengan rekap
         staf_list = ["ICHA", "NISSA", "INGGI", "LISA"]
         
         for s in staf_list:
             jml_hadir = rekap_absen.get(s, 0)
             jml_video = rekap_finish.get(s, 0)
-            
-            # Perhitungan Upah (Tarif Bos Dian)
             upah_absen = jml_hadir * 50000 
             upah_video = jml_video * 10000
             total_terima = upah_absen + upah_video
@@ -956,37 +928,38 @@ def tampilkan_kendali_tim():
                 with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                 with c4:
                     if st.button(f"🧾 SLIP {s}", key=f"btn_slip_{s}"):
-                        # Template Slip Gaji Sesuai Gambar image_d8fe22.png
+                        # REVISI: Menggunakan style khusus agar tidak dianggap 'code' oleh CSS dashboard
                         slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: 'Courier New', Courier, monospace; width: 350px; margin: auto;">
+                        <div style="background-color: white !important; color: black !important; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 350px; margin: auto;">
                             <div style="text-align: center; margin-bottom: 10px;">
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 10px;">
-                                <p style="font-size: 10px; margin:0; color: #666;">Creative AI Studio & Content Production</p>
-                                <p style="font-size: 9px; margin:0; color: #666;">Banjarnegara, Jawa Tengah</p>
+                                <p style="font-size: 10px; margin:0; color: #666 !important;">Creative AI Studio & Content Production</p>
+                                <p style="font-size: 9px; margin:0; color: #666 !important;">Banjarnegara, Jawa Tengah</p>
                                 <hr style="border: 1px dashed #ccc; margin: 10px 0;">
-                                <h4 style="margin:5px 0; background: #1d976c; color: white; display: inline-block; padding: 2px 10px; border-radius: 5px;">SLIP GAJI RESMI</h4>
+                                <div style="margin:5px 0; background-color: #1d976c !important; color: white !important; display: inline-block; padding: 2px 10px; border-radius: 5px; font-weight: bold;">SLIP GAJI RESMI</div>
                             </div>
                             
-                            <table style="width: 100%; font-size: 13px; border-collapse: collapse;">
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black !important;">
                                 <tr><td style="padding: 5px 0;">Penerima</td><td style="text-align:right;"><b>{s}</b></td></tr>
                                 <tr><td style="padding: 5px 0;">Periode</td><td style="text-align:right;">{pilihan_nama} {tahun_dipilih}</td></tr>
                                 <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
                                 <tr><td style="padding: 5px 0;">Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
                                 <tr><td style="padding: 5px 0;">Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
                                 <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 10px 0;"></td></tr>
-                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
+                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c !important;">
                                     <td>TOTAL TERIMA</td><td style="text-align:right;">Rp {total_terima:,}</td></tr>
                             </table>
                             
                             <div style="margin-top: 25px; text-align: center;">
-                                <p style="font-size: 9px; margin:0; color: #888;">Dokumen ini diterbitkan secara otomatis oleh</p>
-                                <p style="font-size: 10px; font-weight: bold; margin:0; color: #1d976c;">PINTAR DIGITAL SYSTEM</p>
-                                <p style="font-size: 8px; color: #bbb;">{datetime.now().strftime('%d/%m/%Y %H:%M:%S')}</p>
+                                <p style="font-size: 9px; margin:0; color: #888 !important;">Diterbitkan otomatis oleh</p>
+                                <p style="font-size: 10px; font-weight: bold; margin:0; color: #1d976c !important;">PINTAR DIGITAL SYSTEM</p>
+                                <p style="font-size: 8px; color: #bbb !important;">{datetime.now().strftime('%d/%m/%Y %H:%M')}</p>
                             </div>
                         </div>
                         """
+                        # GUNAKAN unsafe_allow_html=True tanpa st.code
                         st.markdown(slip_html, unsafe_allow_html=True)
-                        st.info("💡 **Tips:** Screenshot slip di atas untuk dikirim ke WhatsApp staf.")
+                        st.info("💡 Screenshot slip di atas untuk dikirim ke WA staf.")
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
@@ -1209,6 +1182,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
