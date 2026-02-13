@@ -653,7 +653,7 @@ def tampilkan_tugas_kerja():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
     
-    # Foto Staff - Pastikan link foto asli kamu masukkan di sini
+    # Foto Staff - Sesuaikan link foto aslinya di sini
     foto_staff = {
         "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
         "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
@@ -688,7 +688,7 @@ def tampilkan_tugas_kerja():
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                    tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") # Format tanggal deploy
+                    tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     st.success("✅ Tugas berhasil dideploy!")
                     time.sleep(1)
@@ -697,7 +697,7 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (VCard Modern - Foto Lebih Besar & Sejajar)
+    # 2. DAFTAR TUGAS (VCard Modern - Sejajar & Elegan)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -708,47 +708,45 @@ def tampilkan_tugas_kerja():
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = str(t["Status"]).upper()
                 nama_key = t["Staf"].lower()
-                # Default icon jika link foto tidak ada
                 url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
-                
                 warna_icon = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
-                    # Rasio kolom diubah agar foto lebih leluasa (1.2 : 4)
-                    v_foto, v_info = st.columns([1.2, 4])
+                    # Kolom Utama: Foto (Kiri) dan Data (Kanan)
+                    col_kiri, col_kanan = st.columns([1, 4])
                     
-                    with v_foto:
-                        # Ukuran foto diperbesar ke 130 agar sejajar dengan baris data
-                        st.image(url_foto, width=130)
+                    with col_kiri:
+                        st.image(url_foto, width=120)
                     
-                    with v_info:
-                        # Header: Nama Editor & Tombol Status
-                        h1, h2 = st.columns([2, 1])
-                        with h1:
-                            st.markdown(f"## {warna_icon} {t['Staf'].upper()}")
-                        with h2:
+                    with col_kanan:
+                        # Baris 1: Nama dan Status Cantik
+                        s1, s2 = st.columns([2, 3])
+                        with s1:
+                            st.markdown(f"### {warna_icon} {t['Staf'].upper()}")
+                            # Tombol Status Cantik di bawah nama
                             if status == "PROSES": st.info(status)
                             elif status == "SEDANG DI REVIEW": st.warning(status)
                             elif status == "REVISI": st.error(status)
                             else: st.success(status)
-
-                        # Baris Data: ID, Deploy, Setor
-                        st.write("") # Spasi kecil biar sejajar tengah dengan foto
-                        i1, i2, i3 = st.columns([1, 1, 1.5])
-                        with i1: 
+                        
+                        # Baris 2: Data Horizontal (ID, Deploy, Setor)
+                        st.write("") 
+                        d1, d2, d3 = st.columns([1, 1, 1.5])
+                        with d1:
                             st.caption("🆔 ID TUGAS")
                             st.markdown(f"**{t['ID']}**")
-                        with i2: 
+                        with d2:
                             st.caption("📅 TGL DEPLOY")
-                            st.markdown(f"**{t['Deadline']}**") # Menyimpan Tgl Deploy
-                        with i3: 
+                            st.markdown(f"**{t['Deadline']}**")
+                        with d3:
                             st.caption("⏰ WAKTU SETOR")
-                            st.markdown(f"**{t['Waktu_Kirim']}**") # Waktu Setor WIB
-                    
+                            st.markdown(f"**{t['Waktu_Kirim']}**")
+
+                    # Detail Expander
                     with st.expander("🔍 BUKA DETAIL & MANTRA"):
                         st.write("---")
                         st.markdown("**📜 Instruksi Kerja / Mantra:**")
-                        st.code(t["Instruksi"], language="text") #
+                        st.code(t["Instruksi"], language="text")
                         
                         if t.get("Link_Hasil"):
                             st.success(f"🔗 [LIHAT HASIL VIDEO]({t['Link_Hasil']})")
@@ -774,6 +772,7 @@ def tampilkan_tugas_kerja():
                                     time.sleep(1)
                                     st.rerun()
                             else:
+                                # Notifikasi waktu setor yang rapi
                                 st.info(f"🕒 Laporan disetor: {t['Waktu_Kirim']}")
 
                         # --- LOGIKA BOS DIAN ---
@@ -788,8 +787,8 @@ def tampilkan_tugas_kerja():
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            st.success("✅ Berhasil!")
-                                        except: st.success("✅ Berhasil!")
+                                            st.success("✅ Selesai!")
+                                        except: st.success("✅ Selesai!")
                                         time.sleep(1)
                                         st.rerun()
                                     
@@ -1020,6 +1019,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
