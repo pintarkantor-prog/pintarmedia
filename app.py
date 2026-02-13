@@ -2,12 +2,13 @@
 # BAGIAN 1: KONFIGURASI DAN DATABASE PENGGUNA
 # ==============================================================================
 import streamlit as st
+import requests  # <--- WAJIB TAMBAHKAN BARIS INI DI SINI, BOS!
 from datetime import datetime, timedelta
 import json
 import pandas as pd
-import gspread # Menambahkan mesin gspread
-from google.oauth2.service_account import Credentials # Menambahkan sistem kunci
-from streamlit_gsheets import GSheetsConnection # Tetap biarkan jika masih dipakai
+import gspread 
+from google.oauth2.service_account import Credentials 
+from streamlit_gsheets import GSheetsConnection 
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -714,6 +715,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
