@@ -664,21 +664,31 @@ def tampilkan_tugas_kerja():
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
-            c1, c2 = st.columns([1, 2])
-            with c1:
-                staf_tujuan = st.selectbox("Target Editor", ["Icha", "Nissa", "Inggi", "Lisa"])
-                deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1))
-            with c2:
-                isi_tugas = st.text_area("Instruksi Edit / Mantra:", height=125, placeholder="Ketik detail editing di sini...")
+            # Kolom diatur: c2 (kiri) lebih lebar untuk instruksi, c1 (kanan) untuk setting
+            c2, c1 = st.columns([2, 1]) 
             
-            if st.button("🚀 KIRIM KE EDITOR", use_container_width=True, type="primary"):
+            with c2:
+                st.markdown('<p class="small-label">📝 INSTRUKSI EDIT / MANTRA</p>', unsafe_allow_html=True)
+                isi_tugas = st.text_area("Isi", height=155, placeholder="Ketik detail editing di sini...", label_visibility="collapsed")
+            
+            with c1:
+                st.markdown('<p class="small-label">👤 TARGET EDITOR</p>', unsafe_allow_html=True)
+                staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
+                
+                st.markdown('<p class="small-label" style="margin-top:15px;">📅 DEADLINE</p>', unsafe_allow_html=True)
+                deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
+            
+            # Tombol Default (tanpa type="primary")
+            if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
                     waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
-                    # Simpan ke GSheet (8 Kolom)
+                    # Simpan ke GSheet (8 Kolom: ID, Staf, Tgl, Isi, Status, Waktu, Link, Revisi)
                     sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu, "", ""])
                     st.success(f"Tugas {t_id} Berhasil Dikirim!")
                     st.rerun()
+                else:
+                    st.warning("Tulis dulu instruksinya, Bos!")
 
     st.divider()
 
@@ -993,6 +1003,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
