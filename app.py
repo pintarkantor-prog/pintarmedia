@@ -374,35 +374,40 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# PINTAR AI LAB - DUAL MODE (SECRETS CONNECTED)
+# BAGIAN 5: PINTAR AI LAB - PRO EDITION (STABLE & SECRETS READY)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.info("🚀 **Gaskeun!** Rakit mantra di mode **Manual**, atau langsung jadi naskah di mode **Otomatis**.")
+    
+    # Notif Instruksi di Paling Atas
+    st.info("🚀 **Gaskeun!** Rakit mantra di mode **Manual**, atau langsung jadi naskah gila di mode **Otomatis** via API Groq!")
     st.divider() 
 
     # --- 1. KONFIGURASI & SESSION STATE ---
-    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol", "Drama Plot Twist", "Komedi Slapstick"]
-    opsi_visual = ["Cinematic Realistic (Seperti Film Nyata)", "3D Pixar Style", "Anime / Manga Style", "Retro Cartoon"]
+    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif / Call to Action)", "Drama Plot Twist (Standard)", "Komedi Slapstick"]
+    opsi_visual = ["Cinematic Realistic (Seperti Film Nyata)", "3D Pixar Style (Ceria & Detail)", "Anime / Manga Style", "Retro Cartoon"]
     
-    # MENGAMBIL API KEY DARI SECRETS (LEBIH AMAN)
+    # Mengambil API Key dari Secrets
     try:
         api_key_groq = st.secrets["GROQ_API_KEY"]
     except:
         st.error("Waduh, GROQ_API_KEY belum terdaftar di menu Secrets Streamlit, Bos!")
         api_key_groq = None
 
+    # Inisialisasi Memori
     if 'lab_topik' not in st.session_state: st.session_state.lab_topik = ""
+    if 'lab_pola' not in st.session_state: st.session_state.lab_pola = opsi_pola[0]
+    if 'lab_visual' not in st.session_state: st.session_state.lab_visual = opsi_visual[0]
     if 'lab_adegan' not in st.session_state: st.session_state.lab_adegan = 5
     if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
     if 'memori_n' not in st.session_state: st.session_state.memori_n = {}
     if 'memori_s' not in st.session_state: st.session_state.memori_s = {}
     if 'lab_hasil_otomatis' not in st.session_state: st.session_state.lab_hasil_otomatis = ""
 
-    # --- 2. AREA KARAKTER (GRID ATAS) ---
-    # (Kode Karakter sama seperti sebelumnya agar layout tetap rapi sesuai referensi)
-    c_add, c_rem = st.columns([0.2, 0.2, 0.6])
+    # --- 2. AREA PENGATURAN KARAKTER (GRID ATAS) ---
+    st.subheader("👤 Pengaturan Karakter")
+    c_add, c_rem, c_spacer = st.columns([0.25, 0.25, 0.5]) # Fix ValueError: 3 variabel untuk 3 kolom
     with c_add:
         if st.button("➕ Tambah Karakter", use_container_width=True) and st.session_state.jumlah_karakter < 4:
             st.session_state.jumlah_karakter += 1
@@ -415,69 +420,104 @@ def tampilkan_ai_lab():
     list_karakter = []
     char_cols = st.columns(2)
     for i in range(st.session_state.jumlah_karakter):
+        # Gunakan placeholder agar tampilan bersih sesuai request
         if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
         if i not in st.session_state.memori_s: st.session_state.memori_s[i] = ""
+        
         target_col = char_cols[i % 2]
         with target_col:
             with st.container(border=True):
-                st.markdown(f"**Karakter {i+1}**" if i > 0 else "**Karakter Utama**")
-                st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
-                st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
-                n_final = st.session_state.memori_n[i] if st.session_state.memori_n[i] else f"Karakter {i+1}"
+                label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
+                st.markdown(f"**{label_k}**")
+                
+                # Input Nama
+                st.session_state.memori_n[i] = st.text_input(
+                    f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", 
+                    placeholder=f"Nama {label_k}...", label_visibility="collapsed"
+                )
+                
+                # Input Sifat
+                st.session_state.memori_s[i] = st.text_input(
+                    f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", 
+                    placeholder="Sifat/Visual Karakter...", label_visibility="collapsed"
+                )
+                
+                n_final = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
                 list_karakter.append(f"{i+1}. {n_final.upper()}: {st.session_state.memori_s[i]}")
 
-    st.write(" ")
+    st.write("---")
 
-    # --- 3. TAB MODE ---
+    # --- 3. TAB MODE (MANUAL vs OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual (Mantra)", "⚡ Mode Otomatis (API Groq)"])
 
+    # MODE MANUAL
     with tab_manual:
-        # (Isi Tab Manual tetap sama seperti kemarin untuk kenyamanan tim)
-        col_m1, col_m2, col_m3, col_m4 = st.columns([2, 1, 1, 0.5])
+        col_m1, col_m2, col_m3, col_m4 = st.columns([2, 1.2, 1.2, 0.6])
         with col_m1:
             st.markdown("**📝 Topik Utama**")
             topik_m = st.text_area("T", value=st.session_state.lab_topik, height=100, key="m_topik", label_visibility="collapsed")
         with col_m2:
             st.markdown("**🎭 Pola**")
-            pola_m = st.selectbox("P", opsi_pola, key="m_pola", label_visibility="collapsed")
+            st.session_state.lab_pola = st.selectbox("P", opsi_pola, key="m_pola", label_visibility="collapsed")
         with col_m3:
             st.markdown("**🎨 Visual**")
-            visual_m = st.selectbox("V", opsi_visual, key="m_visual", label_visibility="collapsed")
+            st.session_state.lab_visual = st.selectbox("V", opsi_visual, key="m_visual", label_visibility="collapsed")
         with col_m4:
             st.markdown("**🎬 Adegan**")
-            adegan_m = st.number_input("A", 3, 10, st.session_state.lab_adegan, key="m_adegan", label_visibility="collapsed")
+            st.session_state.lab_adegan = st.number_input("A", 3, 10, st.session_state.lab_adegan, key="m_adegan", label_visibility="collapsed")
 
-        if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary", key="btn_m"):
-            str_k = "\n".join(list_karakter)
-            mantra = f"Identitas: Scriptwriter Pintar Media.\nKarakter:\n{str_k}\n\nTugas: Naskah {adegan_m} adegan.\nGaya: {pola_m}.\nTopik: {topik_m}"
-            st.subheader("🔮 Mantra Naskah")
-            st.code(mantra, language="text")
+        if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
+            if topik_m:
+                str_k = "\n".join(list_karakter)
+                mantra = f"Identitas: Scriptwriter Pintar Media.\nKarakter:\n{str_k}\n\nTugas: Naskah {st.session_state.lab_adegan} adegan.\nGaya: {st.session_state.lab_pola}.\nTopik: {topik_m}"
+                st.divider()
+                st.success("✨ **Selesai!** Tinggal **Copy** mantra di bawah, lalu **Paste** ke Gemini, Grok, atau ChatGPT. Gaskeun!")
+                st.subheader("🔮 Mantra Naskah")
+                st.code(mantra, language="text")
+                st.toast("Mantra siap di-copy, Bos!", icon="🚀")
 
+    # MODE OTOMATIS
     with tab_otomatis:
-        col_o1, col_o2 = st.columns([2, 1])
+        col_o1, col_o2 = st.columns([2, 1.2])
         with col_o1:
-            topik_o = st.text_area("Ide Cerita (API)", placeholder="Ketik ide ceritanya di sini...", height=150, key="o_topik")
+            st.markdown("**📝 Ide Cerita (API)**")
+            topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan Groq yang mikir...", height=150, key="o_topik", label_visibility="collapsed")
         with col_o2:
+            st.markdown("**⚙️ Konfigurasi API**")
             pola_o = st.selectbox("Pilih Pola Cerita", opsi_pola, key="o_pola")
-            adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan")
+            adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
 
         if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
             if api_key_groq and topik_o:
                 with st.spinner("Groq lagi ngetik naskah buat Pintar Media..."):
                     try:
                         headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
-                        prompt = f"Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).\nKarakter:\n{chr(10).join(list_karakter)}\nTopik: {topik_o}\nPola: {pola_o}\nVisual: {visual_m}"
-                        payload = {"model": "llama-3.3-70b-versatile", "messages": [{"role": "user", "content": prompt}]}
+                        prompt = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
+Karakter:
+{chr(10).join(list_karakter)}
+Topik: {topik_o}
+Pola: {pola_o}
+Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_o} adegan."""
+                        
+                        payload = {
+                            "model": "llama-3.3-70b-versatile", 
+                            "messages": [{"role": "user", "content": prompt}],
+                            "temperature": 0.7
+                        }
                         res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
                         st.session_state.lab_hasil_otomatis = res.json()['choices'][0]['message']['content']
+                        st.balloons()
                     except Exception as e:
                         st.error(f"Error Koneksi Groq: {e}")
             else:
-                st.warning("Pastikan API Key sudah benar dan topik sudah diisi!")
+                st.warning("Pastikan API Key sudah ada di Secrets dan topik sudah diisi!")
 
         if st.session_state.lab_hasil_otomatis:
             st.divider()
+            st.subheader("🎬 Naskah Jadi (Hasil Groq)")
             st.markdown(st.session_state.lab_hasil_otomatis)
+            st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt")
             
 def tampilkan_quick_prompt(): 
     st.markdown("### ⚡ Quick Prompt")
@@ -674,6 +714,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
