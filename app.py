@@ -958,12 +958,11 @@ def tampilkan_kendali_tim():
                         </div>
                         """
                         
-                        # SOLUSI SAKTI: Gunakan components.html agar tidak dibungkus kotak hitam kode
                         import streamlit.components.v1 as components
                         components.html(f"<body>{slip_content}</body>", height=450)
-                        
                         st.info("💡 Screenshot slip di atas untuk dikirim ke WA staf.")
-        except Exception as e:
+
+    except Exception as e:
         st.error(f"Gagal memuat data: {e}")
         
 # ==============================================================================
@@ -1184,6 +1183,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
