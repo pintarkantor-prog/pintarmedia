@@ -717,9 +717,20 @@ def tampilkan_ruang_produksi():
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # --- [NEW] QUALITY BOOSTER (Settingan Umum Pusat) ---
-    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
-    QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
+    # --- [SUNTIKAN MASTERPIECE] QUALITY BOOSTER ---
+    # Menggunakan f/11 & CPL Filter untuk ketajaman optik maksimal di Banana & SuperGrok
+    QB_IMG = (
+        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
+        "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
+        "ultra-clear optical clarity, CPL filter, high local contrast, vivid naturalism"
+    )
+    
+    # Menggunakan Unreal 5.4 & 60fps untuk fluid motion maksimal di Veo
+    QB_VID = (
+        "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
+        "professional color grading, ray-traced reflections, hyper-detailed textures, "
+        "zero digital noise, clean pixels, smooth motion, professional cinematography"
+    )
 
     # HEADER
     c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
@@ -843,7 +854,7 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # --- SMART FILTER LOGIC ---
+            # --- SMART FILTER LOGIC ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
@@ -853,25 +864,34 @@ def tampilkan_ruang_produksi():
                 else:
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
-                with st.expander(f"⌛ PROSES | ADEGAN {scene_id}", expanded=True):
+                with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                    # --- [RAKITAN WOW] MANTRA GAMBAR ---
+                    # Urutan Rapi, Tanpa --v 6.0, Proteksi Utuh
                     img_p = (f"CHARACTER: {char_ids}\n"
                              f"ACTION: {sc['aksi']}\n"
                              f"ENV: {sc['loc']}. {bumbu_final}.\n"
-                             f"CAMERA: {QB_IMG}\n" # Memanggil Booster Pusat
-                             f"TECH: {sc['style']}, {sc['light']}, {sc['shot']}, {tech_base}\n"
-                             f"NEGATIVE PROMPT: {no_text_strict} --ar {sc['ratio']} --v 6.0")
+                             f"RULE: Use uploaded photos for each character. Interaction required.\n"
+                             f"CAMERA: {QB_IMG}\n"
+                             f"TECH: {sc['style']}, {sc['light']}, {sc['shot']}, Angle {sc['arah']}, {tech_base}\n"
+                             f"NEGATIVE PROMPT: {no_text_strict}\n"
+                             f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output")
                     
-                    vid_p = (f"Profiles: {char_profiles}\n"
-                             f"Scene: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
-                             f"Tech: {sc['style']}, {sc['shot']}, {sc['cam']}, {QB_VID}\n" # Memanggil Booster Pusat
-                             f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}")
+                    # --- [RAKITAN WOW] MANTRA VIDEO ---
+                    # Tambah Motion Rule, Proteksi Utuh (no_text + negative_motion)
+                    vid_p = (f"PROFILES: {char_profiles}\n"
+                             f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                             f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
+                             f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
+                             f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n"
+                             f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
+                             f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression")
 
                     c_img, c_vid = st.columns(2)
                     with c_img:
-                        st.markdown('<p class="small-label">📷 GAMBAR (ULTRA-SHARP)</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label">📷 MANTRA GAMBAR</p>', unsafe_allow_html=True)
                         st.code(img_p, language="text")
                     with c_vid:
-                        st.markdown('<p class="small-label">🎥 VIDEO (ULTRA-SHARP)</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -894,88 +914,3 @@ def utama():
 
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
