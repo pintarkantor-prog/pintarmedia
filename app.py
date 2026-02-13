@@ -970,6 +970,7 @@ def tampilkan_kendali_tim():
                                     <td>TOTAL TERIMA</td><td align="right">Rp {total_terima:,}</td></tr>
                             </table>
                             <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                                <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                 <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
                                 <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
                             </div>
@@ -1199,6 +1200,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
