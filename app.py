@@ -27,6 +27,39 @@ DAFTAR_USER = {
 st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
 
 # ==============================================================================
+# FUNGSI ABSENSI OTOMATIS (MESIN ABSEN)
+# ==============================================================================
+def log_absen_otomatis(nama_user):
+    # Dian (Bos) & Tamu tidak perlu masuk hitungan absen
+    if nama_user.lower() in ["dian", "tamu"]:
+        return
+    
+    url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+    tz_wib = pytz.timezone('Asia/Jakarta')
+    waktu_skrg = datetime.now(tz_wib)
+    
+    jam = waktu_skrg.hour
+    tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
+    jam_skrg = waktu_skrg.strftime("%H:%M")
+
+    # Syarat: Hanya mencatat jika login antara jam 13:00 - 14:00 WIB
+    if 13 <= jam < 14:
+        try:
+            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+            creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
+            client = gspread.authorize(creds)
+            sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
+            
+            # Cek agar tidak tercatat dua kali di hari yang sama
+            data_absen = sheet_absen.get_all_records()
+            sudah_absen = any(str(row.get('Tanggal')) == tgl_skrg and str(row.get('Nama')).lower() == nama_user.lower() for row in data_absen)
+            
+            if not sudah_absen:
+                sheet_absen.append_row([tgl_skrg, nama_user.upper(), jam_skrg, "HADIR"])
+        except:
+            pass # Gagal absen tidak boleh bikin aplikasi macet
+
+# ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
 # ==============================================================================
 def inisialisasi_keamanan():
@@ -54,6 +87,10 @@ def proses_login(user, pwd):
         st.session_state.sudah_login = True
         st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
+        
+        # --- BARIS BARU (Hanya ini yang ditambah) ---
+        log_absen_otomatis(user)
+        
         st.query_params.update({"auth": "true", "user": user})
         st.rerun()
     else:
@@ -1092,6 +1129,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
