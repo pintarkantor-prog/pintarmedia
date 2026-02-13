@@ -722,9 +722,7 @@ def tampilkan_tugas_kerja():
     # ==============================================================================
     # 0. PAPAN KLASEMEN / LEADERBOARD (TAMBAHAN BARU)
     # ==============================================================================
-    if not df_all_tugas.empty:
-        st.subheader(f"🏆 Klasemen Editor ({sekarang.strftime('%B %Y')})")
-        
+    if not df_all_tugas.empty:        
         # Filter hanya yang FINISH bulan ini
         df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
         mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
@@ -1239,6 +1237,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
