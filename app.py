@@ -435,7 +435,7 @@ def tampilkan_ai_lab():
             
             with col_m1:
                 st.markdown("**📝 Topik Utama**")
-                topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=255, key="m_topik", label_visibility="collapsed")
+                topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=245, key="m_topik", label_visibility="collapsed")
             
             with col_m2:
                 st.markdown("**🎭 Pola & Style**")
@@ -473,7 +473,7 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
             
             with col_o1:
                 st.markdown("**📝 Ide Cerita (API)**")
-                topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan AI yang berimajinasi...", height=255, key="o_topik", label_visibility="collapsed")
+                topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan AI yang berimajinasi...", height=245, key="o_topik", label_visibility="collapsed")
             
             with col_o2:
                 st.markdown("**⚙️ Konfigurasi AI**")
@@ -715,6 +715,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
