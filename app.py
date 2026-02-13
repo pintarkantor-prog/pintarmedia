@@ -651,6 +651,15 @@ def tampilkan_tugas_kerja():
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
+    # URL Foto Staff (Silakan ganti link ini dengan link foto asli mereka nanti)
+    # Tips: Gunakan link dari Google Drive atau hosting gambar
+    foto_staff = {
+        "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
+        "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
+        "inggi": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
+        "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
+    }
+    
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
@@ -688,7 +697,7 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (Luxury Simple Layout)
+    # 2. DAFTAR TUGAS (Konsep VCard Modern)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -698,44 +707,58 @@ def tampilkan_tugas_kerja():
         for t in reversed(data_tugas):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = str(t["Status"]).upper()
-                warna = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
+                nama_key = t["Staf"].lower()
+                url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
+                
+                warna_icon = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
-                    # Header Atas (Nama & Status)
-                    h1, h2 = st.columns([3, 1])
-                    with h1:
-                        st.markdown(f"## {warna} {t['Staf'].upper()}")
-                    with h2:
-                        # Badge Status Bawaan
-                        if status == "PROSES": st.info(status)
-                        elif status == "SEDANG DI REVIEW": st.warning(status)
-                        elif status == "REVISI": st.error(status)
-                        else: st.success(status)
+                    # Layout VCard: Foto (1) dan Informasi (4)
+                    v_foto, v_info = st.columns([1, 4])
+                    
+                    with v_foto:
+                        st.image(url_foto, width=80)
+                    
+                    with v_info:
+                        # Baris Atas: Nama & Badge Status
+                        h1, h2 = st.columns([2, 1])
+                        with h1:
+                            st.markdown(f"### {warna_icon} {t['Staf'].upper()}")
+                        with h2:
+                            if status == "PROSES": st.info(status)
+                            elif status == "SEDANG DI REVIEW": st.warning(status)
+                            elif status == "REVISI": st.error(status)
+                            else: st.success(status)
 
-                    # Baris Info Sekunder (Deadline & ID) - Lebih Rapi ke samping
-                    i1, i2, i3 = st.columns([1.2, 1.2, 2])
-                    with i1: st.caption(f"🆔 **{t['ID']}**")
-                    with i2: st.caption(f"⏳ **{t['Deadline']}**")
+                        # Baris Bawah: Detail ID, Deadline, Kirim
+                        i1, i2, i3 = st.columns([1, 1.2, 1.5])
+                        with i1: 
+                            st.caption("🆔 ID TUGAS")
+                            st.markdown(f"**{t['ID']}**")
+                        with i2: 
+                            st.caption("📅 DEADLINE")
+                            st.markdown(f"**{t['Deadline']}**")
+                        with i3: 
+                            st.caption("⏰ WAKTU KIRIM")
+                            st.markdown(f"**{t['Waktu_Kirim']}**")
                     
                     with st.expander("🔍 BUKA DETAIL & MANTRA"):
                         st.write("---")
                         st.markdown("**📜 Instruksi Kerja / Mantra:**")
-                        st.code(t["Instruksi"], language="text") #
+                        st.code(t["Instruksi"], language="text")
                         
                         if t.get("Link_Hasil"):
                             st.success(f"🔗 [LIHAT HASIL VIDEO]({t['Link_Hasil']})")
                         
                         if t.get("Catatan_Revisi"):
-                            # Kotak revisi yang lebih tegas
                             st.error(f"⚠️ **CATATAN REVISI:** {t['Catatan_Revisi']}")
 
-                        st.write("") # Spasi tambahan
                         st.divider()
 
-                        # --- LOGIKA STAF ---
+                        # --- LOGIKA STAF / BOS TETAP SAMA ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status in ["PROSES", "REVISI"]:
-                                link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}", placeholder="Tempel link video di sini...")
+                                link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                                 if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
                                     try:
                                         cell = sheet_tugas.find(str(t['ID']).strip())
@@ -750,12 +773,11 @@ def tampilkan_tugas_kerja():
                             else:
                                 st.info("🕒 Menunggu Review Bos Dian")
 
-                        # --- LOGIKA BOS DIAN ---
                         elif user_sekarang == "dian":
                             if status != "FINISH":
                                 c_cat, c_act = st.columns([2, 1])
                                 with c_cat:
-                                    catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120, placeholder="Tulis catatan jika ada revisi...")
+                                    catatan = st.text_area("Catatan:", key=f"cat_{t['ID']}", height=120)
                                 with c_act:
                                     st.write("<br>", unsafe_allow_html=True)
                                     if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
@@ -776,8 +798,6 @@ def tampilkan_tugas_kerja():
                                         except: st.success("✅ Berhasil!")
                                         time.sleep(1)
                                         st.rerun()
-                            else:
-                                st.success("Tugas ini telah diselesaikan.")
                                     
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -996,6 +1016,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
