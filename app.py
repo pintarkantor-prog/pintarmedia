@@ -410,7 +410,7 @@ def tampilkan_ai_lab():
 
     list_karakter = []
     
-    # DETAIL KARAKTER (Kontras Navy vs Hitam)
+    # Bungkus Karakter dengan Expander agar kontras input berbeda (Hitam di dalam Navy)
     with st.expander("👥 DETAIL KARAKTER PINTAR MEDIA", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
@@ -446,7 +446,6 @@ def tampilkan_ai_lab():
             if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
                 if topik_m:
                     str_k = "\n".join(list_karakter)
-                    # MANTRA SAKTI DIKEMBALIKAN
                     mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
 
@@ -458,7 +457,6 @@ Pola: {pola_m}
 Gaya Visual: {visual_m}
 
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
-                    
                     st.divider()
                     st.success("✨ **Mantra Sakti Siap!**")
                     st.code(mantra_sakti, language="text")
@@ -488,9 +486,9 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
                             
-                            # PROMPT OTOMATIS DIKEMBALIKAN LENGKAP
+                            # PROMPT DIPERKUAT: WAJIB TABEL AGAR TIDAK MEMUSINGKAN
                             prompt_otomatis = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
-Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
+Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN.
 
 Karakter:
 {str_k}
@@ -498,7 +496,14 @@ Karakter:
 Topik: {topik_o}
 Pola: {pola_o}
 
-Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_o} adegan."""
+STRUKTUR TABEL WAJIB:
+| Adegan | Visual Detail & Prompt Gambar (Inggris) | Dialog (Bahasa Indonesia) | SFX & Musik |
+
+Aturan:
+1. Dialog dipisah dari visual agar rapi.
+2. Gunakan bahasa Indonesia viral dan santai.
+3. Naskah harus {adegan_o} adegan.
+4. JANGAN kasih kata sambutan, LANGSUNG TABEL."""
 
                             payload = {
                                 "model": "llama-3.3-70b-versatile", 
@@ -512,9 +517,11 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                         except Exception as e:
                             st.error(f"Error: {e}")
 
+        # HASIL NASKAH OTOMATIS: Menggunakan st.expander untuk kontras premium
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
+                # st.code memberikan fitur COPY default agar mudah disalin
                 st.code(st.session_state.lab_hasil_otomatis, language="markdown")
                 st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
                 
@@ -712,6 +719,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
