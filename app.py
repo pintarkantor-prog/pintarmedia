@@ -647,18 +647,19 @@ def tampilkan_quick_prompt():
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
     
-    # Ambil user aktif & URL GSheet dari session/secrets
-    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    # URL GSheet milik Dian (Sudah Terhubung)
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # Setting Koneksi GSheet (Menggunakan Secrets yang sudah ada)
+    # Koneksi ke GSheet (Gunakan Tab 'Tugas')
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
+        # Pastikan kamu sudah klik (+) di GSheet dan beri nama 'Tugas'
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
     except Exception as e:
-        st.error(f"❌ Koneksi GSheet Gagal: {e}")
+        st.error(f"❌ Koneksi GSheet Gagal: Pastikan tab 'Tugas' sudah dibuat di file GSheet kamu! (Error: {e})")
         return
 
     # ==============================================================================
@@ -712,7 +713,7 @@ def tampilkan_tugas_kerja():
                 
                 with st.expander(f"{warna} [{t['Staf'].upper()}] - {t['Deadline']}"):
                     st.markdown(f"**ID Tugas:** `{t['ID']}`")
-                    st.code(t["Instruksi"], language="text") # Pakai st.code biar gampang di-copy mantra-nya
+                    st.code(t["Instruksi"], language="text") # Biar gampang di-copy staf
                     st.caption(f"Dikirim pada: {t['Waktu_Kirim']}")
                     
                     # Logika Update Status (Hanya untuk Staf yang bersangkutan atau Dian)
@@ -727,10 +728,9 @@ def tampilkan_tugas_kerja():
                         with col_btn:
                             st.write("<br>", unsafe_allow_html=True)
                             if st.button("Update ✅", key=f"btn_{t['ID']}", use_container_width=True):
-                                # Cari baris di GSheet berdasarkan ID (GSheet index mulai dari 1)
                                 try:
                                     cell = sheet_tugas.find(t["ID"])
-                                    sheet_tugas.update_cell(cell.row, 5, pilihan_baru) # Kolom 5 adalah kolom Status
+                                    sheet_tugas.update_cell(cell.row, 5, pilihan_baru) # Update kolom ke-5 (Status)
                                     st.success("Status Diperbarui!")
                                     st.rerun()
                                 except:
@@ -953,4 +953,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
