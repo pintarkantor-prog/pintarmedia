@@ -515,7 +515,7 @@ Aturan Main:
                         except Exception as e:
                             st.error(f"Error: {e}")
 
-        # HASIL NASKAH OTOMATIS: Versi Bersih & Kontras
+        # HASIL NASKAH OTOMATIS: Versi 3 Tombol Sejajar
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
@@ -523,20 +523,24 @@ Aturan Main:
                 
                 st.divider()
                 
-                # Menggunakan columns agar tombol berjajar rapi
-                col_btn1, col_btn2 = st.columns(2)
-                with col_btn1:
-                    # Tombol kirim default (tanpa type="primary") agar sama dengan download
-                    if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
-                        # Simpan naskah teksnya
-                        st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
-                        
-                        # Update jumlah slot adegan di Ruang Produksi secara otomatis
-                        st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
-                        
-                        st.toast("Naskah & Jumlah Adegan berhasil dikirim!", icon="🚀")
+                # Kita bagi jadi 3 kolom agar rapi
+                btn_col1, btn_col2, btn_col3 = st.columns(3)
                 
-                with col_btn2:
+                with btn_col1:
+                    # LOGIKA KIRIM (TETAP ADA)
+                    if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
+                        st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
+                        st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
+                        st.toast("Naskah & Adegan terkirim!", icon="🚀")
+                
+                with btn_col2:
+                    # LOGIKA BERSIHKAN (BARU)
+                    if st.button("🗑️ BERSIHKAN REFERENSI", use_container_width=True):
+                        st.session_state.naskah_siap_produksi = ""
+                        st.toast("Referensi dibersihkan!", icon="🗑️")
+                
+                with btn_col3:
+                    # LOGIKA DOWNLOAD (TETAP ADA)
                     st.download_button(
                         "📥 DOWNLOAD NASKAH (.txt)", 
                         st.session_state.lab_hasil_otomatis, 
@@ -747,6 +751,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
