@@ -645,7 +645,7 @@ def tampilkan_quick_prompt():
             st.warning("Isi dulu aksinya, Bos!")
             
 def tampilkan_tugas_kerja():
-    st.title("🚀 PINTAR TASK SYSTEM")
+    st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -660,88 +660,101 @@ def tampilkan_tugas_kerja():
         return
 
     # ==============================================================================
-    # A. PANEL BOS (Hanya Muncul Jika User = DIAN)
+    # A. PANEL BOS DIAN (Input Tugas Baru)
     # ==============================================================================
     if user_sekarang == "dian":
-        with st.expander("🎯 **KONTROL BOS: DEPLOY TUGAS BARU**", expanded=True):
+        with st.expander("🎯 **DEPLOY MISSION BARU**", expanded=False):
             c1, c2 = st.columns([1, 2])
             with c1:
-                st.markdown("**TARGET STAF**")
-                staf_tujuan = st.selectbox("Staf", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
-                
-                st.markdown("**DEADLINE**")
-                deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
-            
+                staf_tujuan = st.selectbox("Pilih Staf Editor", ["Icha", "Nissa", "Inggi", "Lisa"])
+                deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1))
             with c2:
-                st.markdown("**INSTRUKSI / MANTRA VISUAL**")
-                isi_tugas = st.text_area("Isi", height=125, placeholder="Ketik tugas atau tempel mantra di sini...", label_visibility="collapsed")
+                isi_tugas = st.text_area("Mantra / Instruksi Edit Video:", height=125)
             
-            if st.button("🚀 KIRIM TUGAS KE CLOUD", use_container_width=True, type="primary"):
+            if st.button("🚀 KIRIM KE EDITOR", use_container_width=True, type="primary"):
                 if isi_tugas:
                     t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
                     waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
-                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu])
-                    st.success(f"Tugas {t_id} Berhasil Di-deploy!")
-                    st.balloons()
+                    # Kolom: ID, Staf, Deadline, Instruksi, Status, Waktu_Kirim, Link_Hasil, Catatan_Revisi
+                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu, "", ""])
+                    st.success("Misi berhasil dideploy!")
                     st.rerun()
 
-    st.markdown("---")
+    st.divider()
 
     # ==============================================================================
-    # B. DAFTAR TUGAS AKTIF (Tampilan Bersih & Elegan)
+    # B. DAFTAR TUGAS & QUALITY CONTROL
     # ==============================================================================
-    st.subheader("📑 Daftar Tugas Aktif")
-    
     data_tugas = sheet_tugas.get_all_records()
     
     if not data_tugas:
         st.info("Belum ada tugas di orbit.")
     else:
         for t in reversed(data_tugas):
-            # Aturan Akses: Dian lihat semua, Staf lihat milik sendiri
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = t["Status"]
                 
-                # Menggunakan Container Border agar terlihat seperti kartu
-                with st.container(border=True):
-                    # Baris Header Kartu
-                    col_info, col_status = st.columns([3, 1])
-                    with col_info:
-                        st.markdown(f"### 👤 {t['Staf'].upper()}")
-                        st.markdown(f"📅 **Deadline:** `{t['Deadline']}` | 🆔 `{t['ID']}`")
-                    
-                    with col_status:
-                        # Label status otomatis
-                        if status == "Pending": st.warning(f"🟡 {status}")
-                        elif status == "Proses": st.info(f"🔵 {status}")
-                        else: st.success(f"🟢 {status}")
+                # Warna Status yang Lebih Dinamis
+                warna_box = "🟡" # Default
+                if status == "Proses": warna_box = "🔵"
+                elif status == "Review": warna_box = "🟠"
+                elif status == "Revisi": warna_box = "🔴"
+                elif status == "Selesai (Finish)": warna_box = "🟢"
 
-                    # Bagian Instruksi (Di dalam expander biar rapi)
-                    with st.expander("🔍 Lihat Detail Instruksi / Mantra"):
+                with st.container(border=True):
+                    c_info, c_stat = st.columns([3, 1])
+                    with c_info:
+                        st.markdown(f"### {warna_box} {t['Staf'].upper()}")
+                        st.caption(f"🆔 {t['ID']} | 📅 Deadline: {t['Deadline']}")
+                    with c_stat:
+                        st.info(f"**{status}**")
+
+                    # AREA KERJA (Expander)
+                    with st.expander("🛠️ DETAIL PEKERJAAN & HASIL"):
+                        st.markdown("**Instruksi:**")
                         st.code(t["Instruksi"], language="text")
-                        st.caption(f"Dikirim pada: {t['Waktu_Kirim']}")
                         
-                        # Tombol Update hanya untuk yang punya tugas atau Dian
+                        if t.get("Catatan_Revisi"):
+                            st.error(f"⚠️ **CATATAN REVISI BOS:**\n{t['Catatan_Revisi']}")
+
+                        if t.get("Link_Hasil"):
+                            st.success(f"🔗 [KLIK UNTUK LIHAT HASIL EDIT]({t['Link_Hasil']})")
+                        
+                        st.divider()
+
+                        # LOGIKA INTERAKSI (DIAN vs STAF)
                         if user_sekarang != "tamu":
-                            st.divider()
-                            c_sel, c_btn = st.columns([2, 1])
-                            with c_sel:
-                                opsi = ["Pending", "Proses", "Selesai"]
-                                idx = opsi.index(status) if status in opsi else 0
-                                n_stat = st.selectbox("Update Status", opsi, index=idx, key=f"upd_{t['ID']}", label_visibility="collapsed")
-                            with c_btn:
-                                if st.button("Update ✅", key=f"btn_{t['ID']}", use_container_width=True):
-                                    try:
-                                        # Ambil ID dan cari barisnya
-                                        target_id = str(t['ID']).strip()
-                                        all_ids = [str(x).strip() for x in sheet_tugas.col_values(1)]
-                                        if target_id in all_ids:
-                                            row_idx = all_ids.index(target_id) + 1
-                                            sheet_tugas.update_cell(row_idx, 5, n_stat)
-                                            st.toast(f"Status {target_id} Diperbarui!", icon="✅")
-                                            st.rerun()
-                                    except Exception as e:
-                                        st.error(f"Gagal Update: {e}")
+                            # 1. Jika Staf (Input Link Hasil)
+                            if user_sekarang != "dian":
+                                new_link = st.text_input("Tempel Link Video (Gdrive/YT):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                                new_stat = st.selectbox("Update Progress:", ["Proses", "Review"], 
+                                                        index=0 if status == "Proses" else 1, key=f"staf_{t['ID']}")
+                                
+                                if st.button("Kirim Hasil ke Bos Dian ✅", key=f"btn_s_{t['ID']}"):
+                                    row = sheet_tugas.find(str(t['ID'])).row
+                                    sheet_tugas.update_cell(row, 5, new_stat) # Update Status
+                                    sheet_tugas.update_cell(row, 7, new_link) # Update Link_Hasil (Kolom 7)
+                                    st.toast("Laporan terkirim!")
+                                    st.rerun()
+
+                            # 2. Jika Dian (QC/Review)
+                            else:
+                                c_revisi, c_finish = st.columns(2)
+                                with c_revisi:
+                                    catatan = st.text_area("Catatan Revisi:", value=t.get("Catatan_Revisi", ""), key=f"rev_{t['ID']}")
+                                    if st.button("🔴 PERLU REVISI", key=f"btn_rev_{t['ID']}", use_container_width=True):
+                                        row = sheet_tugas.find(str(t['ID'])).row
+                                        sheet_tugas.update_cell(row, 5, "Revisi")
+                                        sheet_tugas.update_cell(row, 8, catatan) # Kolom 8
+                                        st.warning("Status diubah ke Revisi!")
+                                        st.rerun()
+                                with c_finish:
+                                    st.write("<br>"*2, unsafe_allow_html=True)
+                                    if st.button("🟢 OKE, FINISH TOTAL!", key=f"btn_fin_{t['ID']}", use_container_width=True):
+                                        row = sheet_tugas.find(str(t['ID'])).row
+                                        sheet_tugas.update_cell(row, 5, "Selesai (Finish)")
+                                        st.balloons()
+                                        st.rerun()
 
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -960,6 +973,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
