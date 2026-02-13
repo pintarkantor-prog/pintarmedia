@@ -560,12 +560,14 @@ def tampilkan_quick_prompt():
     
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Isi naskah di kotak gelap (Kiri) dan pilih bumbu di kolom kanan.
-    - Lokasi ditaruh memanjang penuh di bawah.
-    - Hasil mantra sekarang berbaris rapi ke bawah (List Mode).
+    - Input naskah (Kiri) & Setting bumbu (Kanan) simetris dan kontras.
+    - Lokasi memanjang penuh di bawah area input.
+    - Mantra Gambar & Video berbaris rapi (List Mode) dan otomatis menyertakan:
+        - Aturan Konsistensi & Interaksi Karakter (Gambar & Video).
+        - Aturan Gerakan Karakter Alami & Sinematik (Video Saja).
     """)
 
-    # Kualitas Dasar Pintar Media
+    # Kualitas Dasar Pintar Media (Global, tidak dihapus)
     QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING"
     QB_VID = "Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture"
     no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
@@ -573,13 +575,21 @@ def tampilkan_quick_prompt():
 
     # --- WORKSPACE UTAMA DENGAN LANTAI ABU-ABU (EXPANDER) ---
     with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
+        # Baris 1: Naskah Sejajar dengan Settings (Simetris & Rapi)
         col_naskah, col_settings = st.columns([1.5, 1])
         
         with col_naskah:
             st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-            aksi_q = st.text_area("Aksi Q", height=150, placeholder="KETIK DI SINI...", key="q_aksi", label_visibility="collapsed")
+            aksi_q = st.text_area(
+                "Aksi Q", 
+                height=300, 
+                placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
+                key="q_aksi", 
+                label_visibility="collapsed"
+            )
         
         with col_settings:
+            # Layout 4 Kolom Settings (2x2 agar simetris)
             s1, s2 = st.columns(2)
             with s1:
                 st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
@@ -592,30 +602,40 @@ def tampilkan_quick_prompt():
                 st.markdown('<p class="small-label" style="margin-top:20px;">📐 ARAH</p>', unsafe_allow_html=True)
                 arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
+        # Baris 2: LOKASI Memanjang Full Width (Di bawah baris pertama)
         st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input("Loc Q", placeholder="CONTOH: Hutan Gelap...", key="q_loc", label_visibility="collapsed")
+        loc_q = st.text_input(
+            "Loc Q", 
+            placeholder="CONTOH: Hutan Gelap, Ruang Tamu, Jalan Raya...", 
+            key="q_loc", 
+            label_visibility="collapsed"
+        )
 
-    # 2. GENERATE LOGIC DENGAN OUTPUT RAPI (BARIS BARU)
+    # 2. GENERATE LOGIC DENGAN URUTAN RAPI & SEMUA RULE BARU
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
-            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
+            # Smart Logic Outdoor/Indoor
+            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'pantai', 'kebun']) else "hyper-detailed wood grain, ray-traced reflections"
             
-            # MANTRA GAMBAR (URUTAN RAPI KE BAWAH)
+            # --- RAKIT MANTRA GAMBAR (URUTAN RAPI KE BAWAH) ---
             img_p = (f"ACTION: {aksi_q}\n"
                      f"ENV: {loc_q}. {bumbu}\n"
+                     f"RULE: Use uploaded photos for each character. Interaction required.\n"
                      f"CAMERA: {QB_IMG}\n"
                      f"TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}\n"
                      f"NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0")
             
-            # MANTRA VIDEO (URUTAN RAPI KE BAWAH)
+            # --- RAKIT MANTRA VIDEO (URUTAN RAPI KE BAWAH + GERAKAN) ---
             vid_p = (f"SCENE: {aksi_q} at {loc_q}\n"
-                     f"BUMBU: {bumbu}\n"
-                     f"TECH: {style_q}, {shot_q}, cinematic character-tracking\n"
+                     f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
+                     f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n" # Tambahan untuk Video
+                     f"TECH: {style_q}, {shot_q}, cinematic character-tracking motion\n"
                      f"ENGINE: {QB_VID}\n"
                      f"NEGATIVE: {no_text_strict}, {neg_vid_strict}")
             
             st.success("✅ Mantra Berhasil Dirakit!")
+            # Expander Hasil Rakitan
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
@@ -625,7 +645,7 @@ def tampilkan_quick_prompt():
                     st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
                     st.code(vid_p, language="text")
         else:
-            st.warning("Isi aksinya dulu, Bos!")
+            st.warning("Eits, naskah aksinya belum diisi, Bos!")
             
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -882,6 +902,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
