@@ -694,9 +694,9 @@ def tampilkan_tugas_kerja():
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = t["Status"]
                 
-                # Pengaturan Warna Berdasarkan Status Baru
+                # Warna Status
                 warna = "🟡" # Pending
-                if status == "Proses": warna = "🔵"
+                if status == "PROSES": warna = "🔵"
                 elif status == "SEDANG DI REVIEW": warna = "🟠"
                 elif status == "REVISI": warna = "🔴"
                 elif status == "FINISH": warna = "🟢"
@@ -713,11 +713,9 @@ def tampilkan_tugas_kerja():
                         st.markdown("**Instruksi Kerja:**")
                         st.code(t["Instruksi"], language="text")
                         
-                        # Tampilkan Link jika sudah ada
                         if t.get("Link_Hasil"):
                             st.success(f"🔗 [LIHAT HASIL EDITAN DI SINI]({t['Link_Hasil']})")
                         
-                        # Tampilkan Catatan Revisi jika ada
                         if t.get("Catatan_Revisi"):
                             st.error(f"📝 **CATATAN REVISI:**\n{t['Catatan_Revisi']}")
 
@@ -725,13 +723,23 @@ def tampilkan_tugas_kerja():
 
                         # --- LOGIKA UNTUK STAF ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
-                            link_input = st.text_input("Link GDrive/Video:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
+                            link_input = st.text_input("Link GDrive/Video (Wajib diisi jika Selesai):", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
                             opsi_staf = st.radio("Update Progress:", ["PROSES", "SELESAI"], 
                                                 index=0 if status != "SEDANG DI REVIEW" else 1, 
                                                 horizontal=True, key=f"rad_{t['ID']}")
                             
-                            if st.button("Kirim ke Bos ✅", key=f"btn_s_{t['ID']}", use_container_width=True):
-                                # Jika staf klik SELESAI, otomatis status jadi SEDANG DI REVIEW
+                            # LOGIKA VALIDASI: Tombol hanya aktif jika link diisi saat pilih SELESAI
+                            tombol_dinonaktifkan = False
+                            pesan_peringatan = ""
+                            
+                            if opsi_staf == "SELESAI" and not link_input.strip():
+                                tombol_dinonaktifkan = True
+                                pesan_peringatan = "⚠️ Link GDrive wajib diisi untuk status SELESAI!"
+
+                            if tombol_dinonaktifkan:
+                                st.warning(pesan_peringatan)
+                            
+                            if st.button("Kirim ke Bos ✅", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=tombol_dinonaktifkan):
                                 status_final = "SEDANG DI REVIEW" if opsi_staf == "SELESAI" else "PROSES"
                                 
                                 try:
@@ -760,6 +768,7 @@ def tampilkan_tugas_kerja():
                                     sheet_tugas.update_cell(row, 5, "FINISH")
                                     st.balloons()
                                     st.rerun()
+                                    
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
     st.info("Area manajemen staf dan performa.")
@@ -977,6 +986,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
