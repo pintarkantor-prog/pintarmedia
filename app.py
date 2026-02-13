@@ -809,8 +809,17 @@ def tampilkan_tugas_kerja():
 
                 with st.expander("🔍 DETAIL MANTRA & AKSI"):
                     st.code(t["Instruksi"], language="text")
-                    if t.get("Link_Hasil"):
-                        st.write(f"🔗 [HASIL VIDEO]({t['Link_Hasil']})")
+                    
+                    # --- PERBAIKAN MULTI-LINK DI SINI ---
+                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                        links = str(t["Link_Hasil"]).split(",") # Memecah link jika ada koma
+                        for i, link in enumerate(links):
+                            clean_link = link.strip()
+                            if "http" in clean_link:
+                                st.write(f"🔗 [LIHAT HASIL VIDEO {i+1}]({clean_link})")
+                            else:
+                                st.write(f"📁 {clean_link}")
+                    
                     if t.get("Catatan_Revisi"):
                         st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                     
@@ -1209,6 +1218,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
