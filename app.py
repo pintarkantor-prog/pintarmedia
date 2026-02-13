@@ -427,26 +427,26 @@ def tampilkan_ai_lab():
     # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual (Mantra)", "⚡ Mode Otomatis (Groq)"])
 
-    # MODE MANUAL: Rakit Mantra Sakti (Sama Detailnya dengan API)
+    # MODE MANUAL
     with tab_manual:
-        col_m1, col_m2, col_m3, col_m4 = st.columns([2, 1.2, 1.2, 0.6])
-        with col_m1:
-            st.markdown("**📝 Topik Utama**")
-            topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=100, key="m_topik", label_visibility="collapsed")
-        with col_m2:
-            st.markdown("**🎭 Pola**")
-            pola_m = st.selectbox("P", opsi_pola, key="m_pola", label_visibility="collapsed")
-        with col_m3:
-            st.markdown("**🎨 Visual**")
-            visual_m = st.selectbox("V", opsi_visual, key="m_visual", label_visibility="collapsed")
-        with col_m4:
-            st.markdown("**🎬 Adegan**")
-            adegan_m = st.number_input("A", 3, 10, 5, key="m_adegan", label_visibility="collapsed")
+        with st.container(border=True):
+            st.markdown("### 📝 Input Konten (Manual)")
+            col_m1, col_m2 = st.columns([2, 1])
+            
+            with col_m1:
+                st.markdown("**📝 Topik Utama**")
+                topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=155, key="m_topik", label_visibility="collapsed")
+            
+            with col_m2:
+                st.markdown("**🎭 Pola & Style**")
+                pola_m = st.selectbox("Pola", opsi_pola, key="m_pola")
+                visual_m = st.selectbox("Visual", opsi_visual, key="m_visual")
+                adegan_m = st.number_input("Jumlah Adegan", 3, 10, 5, key="m_adegan")
 
-        if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
-            if topik_m:
-                str_k = "\n".join(list_karakter)
-                mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+            if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
+                if topik_m:
+                    str_k = "\n".join(list_karakter)
+                    mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
 
 Karakter:
@@ -457,32 +457,40 @@ Pola: {pola_m}
 Gaya Visual: {visual_m}
 
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
-                
-                st.divider()
-                st.success("✨ **Mantra Sakti Siap!** Copy-paste ke Gemini, Grok, atau ChatGPT.")
-                st.subheader("🔮 Master Prompt")
-                st.code(mantra_sakti, language="text")
-                st.toast("Mantra sudah lengkap, Bos!", icon="🚀")
+                    
+                    st.divider()
+                    st.success("✨ **Mantra Sakti Siap!**")
+                    st.code(mantra_sakti, language="text")
+                    st.toast("Mantra sudah siap di-copy!", icon="🚀")
+                else:
+                    st.warning("Isi topik dulu, Bos!")
 
-    # MODE OTOMATIS: Langsung Jadi Naskah via API
+    # MODE OTOMATIS
     with tab_otomatis:
-        col_o1, col_o2 = st.columns([2, 1.2])
-        with col_o1:
-            st.markdown("**📝 Ide Cerita (API)**")
-            topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini...", height=150, key="o_topik", label_visibility="collapsed")
-        with col_o2:
-            st.markdown("**⚙️ Konfigurasi API**")
-            pola_o = st.selectbox("Pilih Pola Cerita", opsi_pola, key="o_pola")
-            adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
+        with st.container(border=True):
+            st.markdown("### ⚡ AI Instant Generation")
+            col_o1, col_o2 = st.columns([2, 1])
+            
+            with col_o1:
+                st.markdown("**📝 Ide Cerita (API)**")
+                topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini, biarkan AI yang berimajinasi...", height=155, key="o_topik", label_visibility="collapsed")
+            
+            with col_o2:
+                st.markdown("**⚙️ Konfigurasi AI**")
+                pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
+                adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
+                st.info("AI akan otomatis menyesuaikan visual cinematic.")
 
-        if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
-            if api_key_groq and topik_o:
-                with st.spinner("Groq lagi ngetik naskah buat Pintar Media..."):
-                    try:
-                        headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
-                        str_k = "\n".join(list_karakter)
-                        
-                        prompt = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+            if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
+                if api_key_groq and topik_o:
+                    st.toast("Menghubungkan ke Groq API...", icon="🌐")
+                    with st.spinner("Groq lagi ngetik naskah gila buat kamu..."):
+                        try:
+                            import requests
+                            headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
+                            str_k = "\n".join(list_karakter)
+                            
+                            prompt = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
 
 Karakter:
@@ -493,22 +501,25 @@ Pola: {pola_o}
 
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_o} adegan."""
 
-                        payload = {
-                            "model": "llama-3.3-70b-versatile", 
-                            "messages": [{"role": "user", "content": prompt}],
-                            "temperature": 0.7
-                        }
-                        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
-                        st.session_state.lab_hasil_otomatis = res.json()['choices'][0]['message']['content']
-                        st.balloons()
-                    except Exception as e:
-                        st.error(f"Error Koneksi Groq: {e}")
+                            payload = {
+                                "model": "llama-3.3-70b-versatile", 
+                                "messages": [{"role": "user", "content": prompt}],
+                                "temperature": 0.7
+                            }
+                            res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+                            st.session_state.lab_hasil_otomatis = res.json()['choices'][0]['message']['content']
+                            st.balloons()
+                            st.toast("Naskah Berhasil Dibuat!", icon="✅")
+                        except Exception as e:
+                            st.error(f"Error Koneksi Groq: {e}")
+                else:
+                    st.error("API Key kosong atau Ide Cerita belum diisi!")
 
         if st.session_state.lab_hasil_otomatis:
-            st.divider()
-            st.subheader("🎬 Naskah Jadi (Hasil Groq)")
-            st.markdown(st.session_state.lab_hasil_otomatis)
-            st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
+            with st.container(border=True):
+                st.subheader("🎬 Naskah Jadi (Hasil Groq)")
+                st.markdown(st.session_state.lab_hasil_otomatis)
+                st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
 
 def tampilkan_quick_prompt(): 
     st.title("⚡ Quick Prompt")
@@ -704,6 +715,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
