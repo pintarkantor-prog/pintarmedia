@@ -928,41 +928,41 @@ def tampilkan_kendali_tim():
                 with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                 with c4:
                     if st.button(f"🧾 SLIP {s}", key=f"btn_slip_{s}"):
-                        # REVISI: Menggunakan style khusus agar tidak dianggap 'code' oleh CSS dashboard
-                        slip_html = f"""
-                        <div style="background-color: white !important; color: black !important; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 350px; margin: auto;">
+                        # Template Slip Gaji dalam format HTML murni
+                        slip_content = f"""
+                        <div style="background-color: white; color: black; padding: 20px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 310px; margin: auto; text-align: left;">
                             <div style="text-align: center; margin-bottom: 10px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 10px;">
-                                <p style="font-size: 10px; margin:0; color: #666 !important;">Creative AI Studio & Content Production</p>
-                                <p style="font-size: 9px; margin:0; color: #666 !important;">Banjarnegara, Jawa Tengah</p>
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="120" style="margin-bottom: 5px;">
+                                <div style="font-size: 10px; color: #666; margin-bottom: 2px;">Creative AI Studio & Content Production</div>
+                                <div style="font-size: 9px; color: #666;">Banjarnegara, Jawa Tengah</div>
                                 <hr style="border: 1px dashed #ccc; margin: 10px 0;">
-                                <div style="margin:5px 0; background-color: #1d976c !important; color: white !important; display: inline-block; padding: 2px 10px; border-radius: 5px; font-weight: bold;">SLIP GAJI RESMI</div>
+                                <div style="background-color: #1d976c; color: white; display: inline-block; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
                             </div>
                             
-                            <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black !important;">
-                                <tr><td style="padding: 5px 0;">Penerima</td><td style="text-align:right;"><b>{s}</b></td></tr>
-                                <tr><td style="padding: 5px 0;">Periode</td><td style="text-align:right;">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
-                                <tr><td style="padding: 5px 0;">Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
-                                <tr><td style="padding: 5px 0;">Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 10px;">
+                                <tr><td style="padding: 4px 0;">Penerima</td><td style="text-align:right;"><b>{s}</b></td></tr>
+                                <tr><td style="padding: 4px 0;">Periode</td><td style="text-align:right;">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 5px 0;"></td></tr>
+                                <tr><td style="padding: 4px 0;">Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
+                                <tr><td style="padding: 4px 0;">Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
                                 <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 10px 0;"></td></tr>
-                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c !important;">
+                                <tr style="font-weight: bold; font-size: 15px; color: #1d976c;">
                                     <td>TOTAL TERIMA</td><td style="text-align:right;">Rp {total_terima:,}</td></tr>
                             </table>
                             
-                            <div style="margin-top: 25px; text-align: center;">
-                                <p style="font-size: 9px; margin:0; color: #888 !important;">Diterbitkan otomatis oleh</p>
-                                <p style="font-size: 10px; font-weight: bold; margin:0; color: #1d976c !important;">PINTAR DIGITAL SYSTEM</p>
-                                <p style="font-size: 8px; color: #bbb !important;">{datetime.now().strftime('%d/%m/%Y %H:%M')}</p>
+                            <div style="margin-top: 20px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                                <div style="font-size: 9px; color: #888;">Diterbitkan otomatis oleh</div>
+                                <div style="font-size: 10px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
+                                <div style="font-size: 8px; color: #bbb; margin-top: 3px;">{datetime.now().strftime('%d/%m/%Y %H:%M')}</div>
                             </div>
                         </div>
                         """
-                        # GUNAKAN unsafe_allow_html=True tanpa st.code
-                        st.markdown(slip_html, unsafe_allow_html=True)
+                        
+                        # SOLUSI SAKTI: Gunakan components.html agar tidak dibungkus kotak hitam kode
+                        import streamlit.components.v1 as components
+                        components.html(f"<body>{slip_content}</body>", height=450)
+                        
                         st.info("💡 Screenshot slip di atas untuk dikirim ke WA staf.")
-
-    except Exception as e:
-        st.error(f"Gagal memuat data: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1182,6 +1182,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
