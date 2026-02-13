@@ -868,12 +868,10 @@ def tampilkan_kendali_tim():
             5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 
             9: "September", 10: "Oktober", 11: "November", 12: "Desember"
         }
-        # Dropdown bulan (Default ke bulan sekarang)
         pilihan_nama = st.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
         bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
     
     with col_b:
-        # Input tahun (Default ke tahun sekarang)
         tahun_dipilih = st.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
 
     st.divider()
@@ -883,20 +881,21 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # --- BAGIAN A: ANALISA PRODUKTIVITAS ---
+        # --- AMBIL DATA ---
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
+        sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
+        df_absen = pd.DataFrame(sheet_absen.get_all_records())
 
+        # --- BAGIAN A: ANALISA PRODUKTIVITAS ---
         st.subheader(f"📊 Produktivitas Editor ({pilihan_nama} {tahun_dipilih})")
         
+        df_terfilter = pd.DataFrame() # Inisialisasi kosong
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'])
-            
-            # FILTER BERDASARKAN BULAN & TAHUN YANG DIPILIH
             mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
                    (df_tugas['Deadline'].dt.year == tahun_dipilih) & \
                    (df_tugas['Status'] == "FINISH")
-            
             df_terfilter = df_tugas[mask]
 
             if not df_terfilter.empty:
@@ -914,27 +913,72 @@ def tampilkan_kendali_tim():
 
         # --- BAGIAN B: LAPORAN ABSENSI ---
         st.subheader(f"🕒 Laporan Kehadiran ({pilihan_nama})")
-        try:
-            sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
-            df_absen = pd.DataFrame(sheet_absen.get_all_records())
+        df_absen_final = pd.DataFrame() # Inisialisasi kosong
+        if not df_absen.empty:
+            df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
+            mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
+                         (df_absen['Tanggal'].dt.year == tahun_dipilih)
+            df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False)
             
-            if not df_absen.empty:
-                df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'])
-                
-                # FILTER ABSEN BERDASARKAN BULAN & TAHUN YANG DIPILIH
-                mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
-                             (df_absen['Tanggal'].dt.year == tahun_dipilih)
-                
-                df_absen_final = df_absen[mask_absen].sort_values(by="Tanggal", ascending=False)
-                
-                if not df_absen_final.empty:
-                    st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
-                else:
-                    st.write(f"Belum ada data kehadiran untuk bulan {pilihan_nama}.")
+            if not df_absen_final.empty:
+                st.dataframe(df_absen_final, use_container_width=True, hide_index=True)
             else:
-                st.write("Data kehadiran masih kosong.")
-        except:
-            st.warning("⚠️ Tab 'Absensi' tidak ditemukan.")
+                st.write(f"Belum ada data kehadiran untuk bulan {pilihan_nama}.")
+
+        st.divider()
+
+        # --- BAGIAN C: HITUNG GAJI & SLIP (BARU) ---
+        st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
+        
+        # Ambil list staf dari absensi/tugas untuk rekap
+        rekap_absen = df_absen_final['Nama'].value_counts() if not df_absen_final.empty else {}
+        rekap_finish = df_terfilter['Staf'].value_counts() if not df_terfilter.empty else {}
+
+        staf_list = ["Icha", "Nissa", "Inggi", "Lisa"]
+        
+        for s in staf_list:
+            # Hitung nilai
+            jml_hadir = rekap_absen.get(s.upper(), 0) # Absen biasanya simpan huruf besar
+            jml_video = rekap_finish.get(s, 0) # Tugas biasanya Capitalize
+            
+            # Settingan Upah (Bisa diubah nilainya)
+            upah_absen = jml_hadir * 50000 
+            upah_video = jml_video * 10000
+            total_terima = upah_absen + upah_video
+            
+            with st.container(border=True):
+                c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
+                with c1: st.write(f"👤 **{s}**")
+                with c2: st.caption("HADIR"); st.write(f"{jml_hadir} Hari")
+                with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
+                with c4:
+                    if st.button(f"🧾 SLIP {s.upper()}", key=f"btn_slip_{s}"):
+                        # Template HTML untuk Slip Gaji (Warna Putih agar mudah di-SS)
+                        slip_html = f"""
+                        <div style="background-color: white; color: black; padding: 25px; border-radius: 10px; border: 4px solid #1d976c; font-family: 'Courier New', Courier, monospace; width: 320px;">
+                            <div style="text-align: center;">
+                                <h3 style="margin:0;">PINTAR MEDIA</h3>
+                                <p style="font-size: 10px; margin:0;">Banjarnegara, Jawa Tengah</p>
+                                <hr style="border: 1px dashed black;">
+                                <h4 style="margin:5px 0;">SLIP GAJI DIGITAL</h4>
+                            </div>
+                            <table style="width: 100%; font-size: 13px;">
+                                <tr><td>Staf</td><td>: {s.upper()}</td></tr>
+                                <tr><td>Periode</td><td>: {pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
+                                <tr><td>Gaji (Hadir {jml_hadir}x)</td><td style="text-align:right;">Rp {upah_absen:,}</td></tr>
+                                <tr><td>Bonus ({jml_video} Video)</td><td style="text-align:right;">Rp {upah_video:,}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 1px dashed black;"></td></tr>
+                                <tr style="font-weight: bold; font-size: 15px;">
+                                    <td>TOTAL TERIMA</td><td style="text-align:right;">Rp {total_terima:,}</td></tr>
+                            </table>
+                            <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #666;">
+                                Generated by PINTAR System<br>{datetime.now().strftime('%d/%m/%Y %H:%M')}
+                            </div>
+                        </div>
+                        """
+                        st.markdown(slip_html, unsafe_allow_html=True)
+                        st.info("💡 **Cara Kirim ke WA:** Gunakan **Win + Shift + S** (Snipping Tool), seleksi gambar slip di atas, lalu **Paste (Ctrl+V)** di WhatsApp staf.")
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
@@ -1152,4 +1196,5 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
