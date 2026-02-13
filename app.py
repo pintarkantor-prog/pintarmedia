@@ -558,12 +558,11 @@ Aturan Main:
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
     
-    # st.info sebagai panduan
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Masukkan detail aksi visual di kotak input yang tersedia.
-    - Pilih bumbu kualitas di kolom sebelah kanan.
-    - Klik Generate untuk hasil Mantra Gambar & Video sekaligus!
+    - Isi naskah aksi di dalam kotak kontras di bawah.
+    - Atur bumbu visual di sebelah kanan.
+    - Klik Generate untuk hasil Mantra Gambar & Video.
     """)
 
     # Kualitas Dasar Pintar Media
@@ -577,14 +576,15 @@ def tampilkan_quick_prompt():
         col_input, col_settings = st.columns([1.5, 1])
         
         with col_input:
-            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-            aksi_q = st.text_area(
-                "Aksi Q", 
-                height=300, 
-                placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
-                key="q_aksi", 
-                label_visibility="collapsed"
-            )
+            # Menggunakan Expander di dalam sini untuk menciptakan efek kontras "Lantai" yang berbeda
+            with st.expander("📝 MASUKKAN NASKAH VISUAL & AKSI", expanded=True):
+                aksi_q = st.text_area(
+                    "Aksi Q", 
+                    height=250, 
+                    placeholder="KETIK DI SINI: Deskripsi adegan secara detail...", 
+                    key="q_aksi", 
+                    label_visibility="collapsed"
+                )
             
             st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
             loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Gelap, Ruang Tamu...", key="q_loc", label_visibility="collapsed")
@@ -609,7 +609,6 @@ def tampilkan_quick_prompt():
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
-            # Smart Logic Outdoor/Indoor
             bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
             
             img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
@@ -882,6 +881,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
