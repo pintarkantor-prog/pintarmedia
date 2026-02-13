@@ -1,11 +1,12 @@
 import streamlit as st
-import requests  # <--- WAJIB TAMBAHKAN BARIS INI DI SINI, BOS!
+import requests  
 from datetime import datetime, timedelta
 import json
 import pandas as pd
 import gspread 
 from google.oauth2.service_account import Credentials 
 from streamlit_gsheets import GSheetsConnection 
+import time
 
 # ==============================================================================
 # BAGIAN 1: PUSAT KENDALI OPSI (SINKRONISASI GLOBAL)
@@ -989,6 +990,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
