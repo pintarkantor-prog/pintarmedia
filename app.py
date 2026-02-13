@@ -599,9 +599,65 @@ def tampilkan_quick_prompt():
         else:
             st.warning("Isi dulu aksinya, Bos!")
 
-def tampilkan_tugas_kerja(): 
-    st.title("📋 TUGAS KERJA")
-    st.warning("Menunggu instruksi Konsep Brillian dari Bos Dian... 💡")
+def tampilkan_tugas_kerja():
+    st.title("📋 PINTAR TASK SYSTEM")
+    
+    # Ambil user aktif
+    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    
+    # 1. TAMPILAN KHUSUS BOS (DIAN) - UNTUK KASIH TUGAS
+    if user_sekarang == "dian":
+        st.subheader("🎯 Berikan Instruksi Baru")
+        with st.container(border=True):
+            c1, c2 = st.columns([1, 2])
+            with c1:
+                st.markdown('<p class="small-label">👤 PILIH STAF</p>', unsafe_allow_html=True)
+                staf_tujuan = st.selectbox("Pilih Staf", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
+                
+                st.markdown('<p class="small-label">📅 TENGGAT WAKTU</p>', unsafe_allow_html=True)
+                deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1), label_visibility="collapsed")
+            
+            with c2:
+                st.markdown('<p class="small-label">📝 DETAIL TUGAS / KONSEP BRILLIAN</p>', unsafe_allow_html=True)
+                isi_tugas = st.text_area("Isi Tugas", height=115, placeholder="Contoh: Buat 5 video pendek Udin & Tung tema ramadhan...", label_visibility="collapsed")
+            
+            if st.button("🚀 KIRIM TUGAS KE TIM", use_container_width=True, type="primary"):
+                if isi_tugas:
+                    # Logika simpan tugas (untuk sementara kita pakai toast, nanti bisa sambung ke GSheet)
+                    st.success(f"Tugas berhasil dikirim ke {staf_tujuan}!")
+                    st.balloons()
+                else:
+                    st.warning("Isi dulu detail tugasnya, Bos!")
+
+    st.divider()
+
+    # 2. TAMPILAN UNTUK STAF (DAN VIEW BOS) - LIST TUGAS
+    st.subheader("📑 Daftar Tugas Aktif")
+    
+    # Simulasi Data Tugas (Nanti ini diambil dari GSheet)
+    tugas_dummy = [
+        {"staf": "Icha", "tugas": "Render 3 adegan Udin lagi balapan karung", "status": "Pending", "deadline": "2026-02-15"},
+        {"staf": "Nissa", "tugas": "Buat script AI Lab tema horor konyol", "status": "Proses", "deadline": "2026-02-14"},
+        {"staf": "Icha", "tugas": "Cek background Pixar Style untuk adegan hutan", "status": "Selesai", "deadline": "2026-02-13"},
+    ]
+
+    # Filter tugas berdasarkan siapa yang login
+    for t in tugas_dummy:
+        # Dian bisa lihat semua, staf cuma bisa lihat miliknya
+        if user_sekarang == "dian" or user_sekarang == t["staf"].lower():
+            warna_status = "🟡" if t["status"] == "Pending" else "🔵" if t["status"] == "Proses" else "🟢"
+            
+            with st.expander(f"{warna_status} [{t['staf'].upper()}] - {t['tugas'][:40]}..."):
+                st.write(f"**Instruksi:** {t['tugas']}")
+                st.write(f"**Deadline:** {t['deadline']}")
+                st.write(f"**Status:** {t['status']}")
+                
+                # Staf bisa update status tugasnya sendiri
+                if user_sekarang != "dian":
+                    c1, c2, c3 = st.columns(3)
+                    with c1: st.button("Set Pending", key=f"p_{t['tugas']}")
+                    with c2: st.button("Set Proses", key=f"r_{t['tugas']}")
+                    with c3: st.button("Set Selesai", key=f"s_{t['tugas']}")
 
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -798,6 +854,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
