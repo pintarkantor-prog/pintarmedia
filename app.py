@@ -864,6 +864,37 @@ def tampilkan_tugas_kerja():
                                 except: pass
 
                 st.markdown("</div>", unsafe_allow_html=True) # Tutup box border
+
+    # ==============================================================================
+    # 3. LACI ARSIP (TUGAS SELESAI BULAN INI) - TAMBAHAN BARU
+    # ==============================================================================
+    st.divider()
+    with st.expander("📜 Lihat Riwayat Tugas Selesai (Bulan Ini)"):
+        # Konversi data ke DataFrame untuk memudahkan filter tanggal
+        df_all_tugas = pd.DataFrame(data_tugas)
+        sekarang = datetime.now(tz_wib)
+        
+        if not df_all_tugas.empty:
+            df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
+            
+            if user_sekarang == "dian":
+                mask_selesai = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
+                               (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
+                               (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+            else:
+                mask_selesai = (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang) & \
+                               (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
+                               (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+            
+            df_arsip = df_all_tugas[mask_selesai].copy()
+            
+            if not df_arsip.empty:
+                # Tampilkan tabel arsip
+                st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], use_container_width=True, hide_index=True)
+            else:
+                st.write("Belum ada riwayat tugas selesai.")
+        else:
+            st.write("Belum ada data tugas.")
                                     
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1222,6 +1253,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
