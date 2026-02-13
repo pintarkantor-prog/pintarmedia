@@ -671,7 +671,7 @@ def tampilkan_tugas_kerja():
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN (Input Tugas)
+    # 1. PANEL BOS DIAN
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("✨ **DEPLOY TUGAS EDIT BARU**", expanded=False):
@@ -694,14 +694,14 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (SISTEM PRIVACY LOCKING + FULL BUTTONS)
+    # 2. DAFTAR TUGAS (SISTEM PRIVACY + STATUS BADGE CANTIK)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
     if not data_tugas:
         st.info("Belum ada tugas di database Cloud.")
     else:
-        # --- LOGIKA PRIVASI ---
+        # LOGIKA PRIVASI: Dian lihat semua, Staff lihat miliknya sendiri
         if user_sekarang == "dian":
             tugas_terfilter = data_tugas
         else:
@@ -716,8 +716,12 @@ def tampilkan_tugas_kerja():
                 url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
                 warna_icon = "🟢" if status == "FINISH" else "🔵" if status == "PROSES" else "🔴" if status == "REVISI" else "🟠"
 
+                # Balikin Status Badge Cantik Melengkung
+                bg_stat = "#1d976c" if status == "FINISH" else "#007bff" if status == "PROSES" else "#dc3545" if status == "REVISI" else "#ffc107"
+                txt_stat = "white" if status != "SEDANG DI REVIEW" else "black"
+
                 with st.container(border=True):
-                    # Layout 5 Kolom Sejajar (Kembali ke Settingan Pas)
+                    # 5 Kolom Sejajar & Foto Ukuran Pas
                     c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
                     
                     with c1:
@@ -725,10 +729,11 @@ def tampilkan_tugas_kerja():
                     
                     with c2:
                         st.write(f"**{warna_icon} {t['Staf'].upper()}**")
-                        if status == "FINISH": st.success(status)
-                        elif status == "PROSES": st.info(status)
-                        elif status == "REVISI": st.error(status)
-                        else: st.warning(status)
+                        # Status Badge Melengkung Cantik
+                        st.markdown(f"""<div style="background-color:{bg_stat}; color:{txt_stat}; 
+                                    padding:3px 10px; border-radius:8px; text-align:center; 
+                                    font-size:11px; font-weight:bold; width:95px; border: 1px solid rgba(255,255,255,0.1);">
+                                    {status}</div>""", unsafe_allow_html=True)
 
                     with c3:
                         st.caption("🆔 ID TUGAS")
@@ -742,7 +747,6 @@ def tampilkan_tugas_kerja():
                         st.caption("⏰ WAKTU SETOR")
                         st.write(f"**{t['Waktu_Kirim']}**")
 
-                    # Expanders dengan Semua Fungsi Tombol
                     with st.expander("🔍 DETAIL MANTRA & AKSI"):
                         st.code(t["Instruksi"], language="text")
                         if t.get("Link_Hasil"):
@@ -766,9 +770,9 @@ def tampilkan_tugas_kerja():
                                         st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
                                     except: st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
                             else:
-                                st.write(f"🕒 Laporan sudah disetor pada: {t['Waktu_Kirim']}")
+                                st.write(f"🕒 Laporan: {t['Waktu_Kirim']}")
 
-                        # --- LOGIKA TOMBOL BOS DIAN (SUDAH KEMBALI) ---
+                        # --- LOGIKA TOMBOL BOS DIAN ---
                         elif user_sekarang == "dian" and status != "FINISH":
                             c_cat, c_act = st.columns([2, 1])
                             with c_cat: catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
@@ -1004,6 +1008,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
