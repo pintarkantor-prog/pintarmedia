@@ -43,7 +43,7 @@ def log_absen_otomatis(nama_user):
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
     # Syarat: Hanya mencatat jika login antara jam 13:00 - 15:00 WIB
-    if 13 <= jam < 15:
+    if True:
         try:
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
@@ -1214,6 +1214,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
