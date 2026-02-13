@@ -898,6 +898,7 @@ def tampilkan_tugas_kerja():
                     kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
                     st.success("Konfirmasi Berhasil!")
             except: st.warning("Sedang memproses data...")
+                
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
@@ -936,7 +937,6 @@ def tampilkan_kendali_tim():
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_tugas = pd.DataFrame(sh.worksheet("Tugas").get_all_records())
-        # Ambil data Arus Kas Baru
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
         # --- NORMALISASI DATA ---
@@ -965,103 +965,99 @@ def tampilkan_kendali_tim():
             if not df_absen_terfilter.empty:
                 rekap_absen = df_absen_terfilter['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- LOGIKA KEUANGAN (NEW) ---
-        # 1. Hitung Gaji Otomatis
-        total_payroll = 0
-        for _, row in df_staff.iterrows():
-            jh = rekap_absen.get(row['Nama_Upper'], 0)
-            jv = rekap_finish.get(row['Nama_Upper'], 0)
-            total_payroll += (int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000))
+        # --- LOGIKA HITUNG GAJI OTOMATIS (UNTUK LABA RUGI) ---
+        total_payroll_bln_ini = 0
+        for _, row_p in df_staff.iterrows():
+            st_up = row_p['Nama_Upper']
+            jh_p = rekap_absen.get(st_up, 0)
+            jv_p = rekap_finish.get(st_up, 0)
+            total_payroll_bln_ini += (int(row_p['Gaji_Pokok']) + int(row_p['Tunjangan']) + (jh_p * 50000) + (jv_p * 10000))
 
-        # 2. Hitung Income & Outgo dari Tab Arus_Kas
+        # --- HITUNG PENDAPATAN & PENGELUARAN LAIN ---
         total_income = 0
-        total_biaya_lain = 0
+        total_operasional = 0
         if not df_kas.empty:
             df_kas['Tanggal'] = pd.to_datetime(df_kas['Tanggal'], errors='coerce')
-            df_kas_bln = df_kas[(df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)]
+            mask_kas = (df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)
+            df_kas_bln = df_kas[mask_kas].copy()
             total_income = df_kas_bln[df_kas_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
-            total_biaya_lain = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
+            total_operasional = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
-        net_profit = total_income - (total_payroll + total_biaya_lain)
+        net_profit = total_income - (total_payroll_bln_ini + total_operasional)
 
-        # --- 3. TAMPILAN METRIC LABA RUGI ---
-        c1, c2, c3 = st.columns(3)
-        c1.metric("💰 TOTAL INCOME", f"Rp {total_income:,}")
-        c2.metric("💸 TOTAL OUTGO", f"Rp {(total_payroll + total_biaya_lain):,}", help="Payroll + Operasional")
-        c3.metric("💎 NET PROFIT", f"Rp {net_profit:,}")
+        # --- 3. METRIC RINGKASAN CEPAT ---
+        m1, m2, m3 = st.columns(3)
+        m1.metric("💰 TOTAL INCOME", f"Rp {total_income:,}")
+        m2.metric("💸 TOTAL OUTGO", f"Rp {(total_payroll_bln_ini + total_operasional):,}", help="Gaji Tim + Biaya Operasional")
+        m3.metric("💎 NET PROFIT", f"Rp {net_profit:,}")
 
-        # --- 4. FORM INPUT KEUANGAN ---
+        # --- 4. EXPANDER: INPUT TRANSAKSI (KHUSUS DIAN) ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
-            with st.form("form_kas", clear_on_submit=True):
-                col1, col2, col3 = st.columns(3)
-                t_tipe = col1.selectbox("Tipe:", ["PENDAPATAN", "PENGELUARAN"])
-                # Kategori bisa dipilih atau tulis manual di keterangan
-                t_kat = col2.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
-                t_nom = col3.number_input("Nominal (Rp):", min_value=0, step=10000)
-                t_ket = st.text_input("Keterangan Tambahan:")
+            with st.form("form_arus_kas", clear_on_submit=True):
+                c_tipe, c_kat, c_nom = st.columns(3)
+                f_tipe = c_tipe.selectbox("Jenis Transaksi:", ["PENDAPATAN", "PENGELUARAN"])
+                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
+                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
+                f_ket = st.text_input("Keterangan Tambahan:")
                 if st.form_submit_button("Simpan Transaksi"):
                     try:
-                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), t_tipe, t_kat, t_nom, t_ket, "Dian"])
-                        st.success("Tersimpan!"); time.sleep(1); st.rerun()
+                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, f_nom, f_ket, "Dian"])
+                        st.success("Berhasil Disimpan!"); time.sleep(1); st.rerun()
                     except: st.error("Gagal simpan!")
 
-        st.divider()
+        # --- 5. EXPANDER: PRODUKTIVITAS EDITOR ---
+        with st.expander(f"📊 Produktivitas Editor ({pilihan_nama})", expanded=True):
+            if not df_tugas_terfilter.empty:
+                st.bar_chart(rekap_finish)
+            else:
+                st.info("Belum ada data video FINISH.")
 
-        # --- TAMPILAN DASHBOARD ASLI KAMU ---
-        st.subheader(f"📊 Produktivitas Editor ({pilihan_nama})")
-        if not df_tugas_terfilter.empty:
-            st.bar_chart(rekap_finish)
-        else:
-            st.info("Belum ada data video FINISH.")
+        # --- 6. EXPANDER: LAPORAN KEHADIRAN ---
+        with st.expander(f"🕒 Laporan Kehadiran ({pilihan_nama})"):
+            if not df_absen_terfilter.empty:
+                st.dataframe(df_absen_terfilter, use_container_width=True, hide_index=True)
+            else:
+                st.info("Belum ada data absensi.")
 
-        st.subheader(f"🕒 Laporan Kehadiran ({pilihan_nama})")
-        if not df_absen_terfilter.empty:
-            st.dataframe(df_absen_terfilter, use_container_width=True, hide_index=True)
-        else:
-            st.info("Belum ada data absensi.")
+        # --- 7. EXPANDER: HITUNG GAJI & SLIP PREMIUM (KODE ASLI DIAN) ---
+        with st.expander(f"💰 Hitung Gaji Otomatis ({pilihan_nama})"):
+            for _, row in df_staff.iterrows():
+                s_upper = row['Nama_Upper']
+                s_asli = row['Nama']
+                jabatan = row['Jabatan']
+                gapok = row['Gaji_Pokok']
+                tunjangan = row['Tunjangan']
 
-        st.divider()
-
-        # --- HITUNG GAJI & SLIP PREMIUM ASLI KAMU ---
-        st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
-        
-        for _, row in df_staff.iterrows():
-            s_upper = row['Nama_Upper']
-            s_asli = row['Nama']
-            jabatan = row['Jabatan']
-            gapok = row['Gaji_Pokok']
-            tunjangan = row['Tunjangan']
-
-            # Hitung Variabel
-            jml_hadir = rekap_absen.get(s_upper, 0)
-            jml_video = rekap_finish.get(s_upper, 0)
-            bonus_hadir = jml_hadir * 50000 
-            bonus_video = jml_video * 10000
-            total_terima = int(gapok) + int(tunjangan) + bonus_hadir + bonus_video
-            
-            with st.container(border=True):
-                c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
-                with c1: 
-                    st.write(f"👤 **{s_asli}**")
-                    st.caption(f"💼 {jabatan}")
-                with c2: st.caption("HADIR"); st.write(f"{jml_hadir} Hari")
-                with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
-                with c4:
-                    if st.button(f"🧾 SLIP {s_upper}", key=f"btn_slip_{s_upper}"):
-                        slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                            <div style="text-align: center; margin-bottom: 15px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
-                                <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
-                                <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
-                            </div>
-                            <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
-                                <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
-                                <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
-                                <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
-                                <tr><td>Gaji Pokok</td><td align="right">Rp {int(gapok):,}</td></tr>
+                # Hitung Variabel
+                jml_hadir = rekap_absen.get(s_upper, 0)
+                jml_video = rekap_finish.get(s_upper, 0)
+                bonus_hadir = jml_hadir * 50000 
+                bonus_video = jml_video * 10000
+                total_terima = int(gapok) + int(tunjangan) + bonus_hadir + bonus_video
+                
+                with st.container(border=True):
+                    c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
+                    with c1: 
+                        st.write(f"👤 **{s_asli}**")
+                        st.caption(f"💼 {jabatan}")
+                    with c2: st.caption("HADIR"); st.write(f"{jml_hadir} Hari")
+                    with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
+                    with c4:
+                        if st.button(f"🧾 SLIP {s_upper}", key=f"btn_slip_{s_upper}"):
+                            slip_html = f"""
+                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                                <div style="text-align: center; margin-bottom: 15px;">
+                                    <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
+                                    <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
+                                    <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
+                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
+                                </div>
+                                <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
+                                    <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
+                                    <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
+                                    <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                    <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
+                                    <tr><td>Gaji Pokok</td><td align="right">Rp {int(gapok):,}</td></tr>
                                     <tr><td>Tunjangan</td><td align="right">Rp {int(tunjangan):,}</td></tr>
                                     <tr><td>Bonus Hadir ({jml_hadir}x)</td><td align="right">Rp {bonus_hadir:,}</td></tr>
                                     <tr><td>Bonus Video ({jml_video}x)</td><td align="right">Rp {bonus_video:,}</td></tr>
@@ -1076,8 +1072,8 @@ def tampilkan_kendali_tim():
                                 </div>
                             </div>
                             """
-                        import streamlit.components.v1 as components
-                        components.html(f"<body>{slip_html}</body>", height=520)
+                            import streamlit.components.v1 as components
+                            components.html(f"<body>{slip_html}</body>", height=520)
 
     except Exception as e:
         st.error(f"Gagal memuat data: {e}")
@@ -1300,4 +1296,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
