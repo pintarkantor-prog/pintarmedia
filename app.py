@@ -836,8 +836,6 @@ def tampilkan_kendali_tim():
         st.divider()
         st.warning("🔒 **AREA TERBATAS**")
         st.info(f"Maaf **{user_sekarang.capitalize()}**, halaman ini hanya dapat diakses oleh Admin untuk pantauan performa.")
-        # Menampilkan gambar gembok sebagai pengganti rumah
-        st.image("https://cdn-icons-png.flaticon.com/512/2575/2575515.png", width=120)
         return
 
     # 2. HALAMAN KHUSUS BOS DIAN
@@ -1129,6 +1127,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
