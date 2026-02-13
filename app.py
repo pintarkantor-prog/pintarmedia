@@ -519,16 +519,30 @@ Aturan Main:
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
-                # Render Tabel Visual Default Streamlit
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 
                 st.divider()
-                st.download_button(
-                    "📥 Download Naskah (.txt)", 
-                    st.session_state.lab_hasil_otomatis, 
-                    file_name="naskah_pintar_media_dual_prompt.txt", 
-                    use_container_width=True
-                )
+                
+                # Tambahkan di sini
+                col_btn1, col_btn2 = st.columns(2)
+                with col_btn1:
+                    if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True, type="primary"):
+                        # Simpan naskah teksnya
+                        st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
+                        
+                        # Update jumlah slot adegan di Ruang Produksi secara otomatis
+                        # Menggunakan adegan_o dari input number_input di atas
+                        st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
+                        
+                        st.toast("Naskah & Jumlah Adegan berhasil dikirim!", icon="🚀")
+                
+                with col_btn2:
+                    st.download_button(
+                        "📥 DOWNLOAD NASKAH (.txt)", 
+                        st.session_state.lab_hasil_otomatis, 
+                        file_name="naskah_pintar_media.txt", 
+                        use_container_width=True
+                    )
                 
 def tampilkan_quick_prompt(): 
     st.title("⚡ Quick Prompt")
@@ -570,6 +584,15 @@ def tampilkan_ruang_produksi():
     
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
+
+    if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
+        with st.expander("📖 NASKAH DARI PINTAR AI LAB (REFERENSI)", expanded=True):
+            st.info("💡 Gunakan tabel di bawah ini sebagai panduan mengisi Aksi Visual dan Dialog adegan.")
+            st.markdown(st.session_state.naskah_siap_produksi)
+            
+            if st.button("🗑️ Bersihkan Naskah Referensi", use_container_width=True):
+                st.session_state.naskah_siap_produksi = ""
+                st.rerun()
 
     # 1. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
@@ -724,6 +747,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
