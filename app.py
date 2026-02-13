@@ -691,6 +691,8 @@ def tampilkan_tugas_kerja():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
     
+    # URL Foto default jika staff baru belum ada di dictionary
+    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/847/847969.png"
     foto_staff = {
         "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
         "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
@@ -702,8 +704,17 @@ def tampilkan_tugas_kerja():
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
+        
+        # 1. Ambil Data Tugas
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         data_tugas = sheet_tugas.get_all_records()
+
+        # 2. AMBIL DAFTAR EDITOR DINAMIS DARI TAB 'Staff'
+        sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
+        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
+        # Ini kuncinya: Daftar editor di dropdown target akan mengikuti isi GSheet kamu
+        staf_options = df_staff_raw['Nama'].unique().tolist()
+        
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
@@ -719,11 +730,13 @@ def tampilkan_tugas_kerja():
                 isi_tugas = st.text_area("Isi", height=160, placeholder="Ketik mantra...", label_visibility="collapsed")
             with c1:
                 st.write("**👤 TARGET EDITOR**")
-                staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
+                # Dropdown otomatis dari GSheet (Tidak lagi manual Icha, Nissa, dkk)
+                staf_tujuan = st.selectbox("Editor", staf_options, label_visibility="collapsed")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    # Gunakan tgl hari ini untuk kolom Deadline awal (bisa kamu ganti manual di GSheet nanti)
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     st.success("✅ Berhasil!")
@@ -749,8 +762,8 @@ def tampilkan_tugas_kerja():
         else:
             for t in reversed(tugas_terfilter):
                 status = str(t["Status"]).upper()
-                nama_key = t["Staf"].lower()
-                url_foto = foto_staff.get(nama_key, "https://cdn-icons-png.flaticon.com/512/847/847969.png")
+                nama_key = str(t["Staf"]).lower()
+                url_foto = foto_staff.get(nama_key, foto_staff_default)
                 
                 # --- LOGIKA HITUNG TERLAMBAT ---
                 try:
@@ -760,16 +773,12 @@ def tampilkan_tugas_kerja():
                 except:
                     selisih_hari = 0
                 
-                # Syarat Telat: Belum kelar & sudah 2 hari atau lebih
                 is_telat = status in ["PROSES", "REVISI"] and selisih_hari >= 2
-                
-                # Atur Warna
                 warna_border = "#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"
                 bg_stat = "#ff4b4b" if is_telat else ("#007bff" if status == "PROSES" else "#dc3545" if status == "REVISI" else "#ffc107")
                 label_status = f"{status} ⚠️ TELAT!" if is_telat else status
                 txt_stat = "white" if status != "SEDANG DI REVIEW" else "black"
 
-                # BUNGKUSAN BOX (Ganti st.container biasa)
                 st.markdown(f"""
                     <div style="border: 2px solid {warna_border}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">
                 """, unsafe_allow_html=True)
@@ -780,7 +789,7 @@ def tampilkan_tugas_kerja():
                     st.image(url_foto, width=90)
                 
                 with c2:
-                    st.write(f"**{t['Staf'].upper()}**")
+                    st.write(f"**{str(t['Staf']).upper()}**")
                     st.markdown(f"""<div style="background-color:{bg_stat}; color:{txt_stat}; 
                                     padding:3px 10px; border-radius:8px; text-align:center; 
                                     font-size:11px; font-weight:bold; width:110px;">
@@ -1200,6 +1209,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
