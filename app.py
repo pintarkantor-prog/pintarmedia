@@ -647,94 +647,82 @@ def tampilkan_quick_prompt():
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
     
-    # URL GSheet milik Dian (Sudah Terhubung)
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # Koneksi ke GSheet (Gunakan Tab 'Tugas')
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
-        # Pastikan kamu sudah klik (+) di GSheet dan beri nama 'Tugas'
+        # Pastikan Tab ini sudah kamu buat di GSheet (klik + di bawah)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
     except Exception as e:
-        st.error(f"❌ Koneksi GSheet Gagal: Pastikan tab 'Tugas' sudah dibuat di file GSheet kamu! (Error: {e})")
+        st.error(f"❌ Tab 'Tugas' tidak ditemukan di GSheet. Buat dulu ya! Error: {e}")
         return
 
-    # ==============================================================================
-    # A. PANEL KONTROL BOS (Hanya Muncul Jika User = DIAN)
-    # ==============================================================================
+    # --- PANEL BOS (KHUSUS DIAN) ---
     if user_sekarang == "dian":
         st.subheader("🎯 Bos Dian: Berikan Instruksi Baru")
         with st.container(border=True):
             c1, c2 = st.columns([1, 2])
             with c1:
-                st.markdown('<p class="small-label">👤 PILIH STAF</p>', unsafe_allow_html=True)
-                staf_tujuan = st.selectbox("Staf", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label">📅 DEADLINE</p>', unsafe_allow_html=True)
-                deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
-            
+                staf_tujuan = st.selectbox("Pilih Staf", ["Icha", "Nissa", "Inggi", "Lisa"])
+                deadline = st.date_input("Deadline", datetime.now() + timedelta(days=1))
             with c2:
-                st.markdown('<p class="small-label">📝 DETAIL TUGAS / MANTRA CLOUD</p>', unsafe_allow_html=True)
-                isi_tugas = st.text_area("Isi", height=115, placeholder="Ketik tugas atau tempel mantra hasil rakitan di sini...", label_visibility="collapsed")
+                isi_tugas = st.text_area("Detail Tugas / Mantra:", placeholder="Tempel mantra di sini...")
             
             if st.button("🚀 KIRIM TUGAS KE TIM", use_container_width=True, type="primary"):
                 if isi_tugas:
-                    tugas_id = f"T-{datetime.now().strftime('%m%d%H%M%S')}"
-                    waktu_kirim = datetime.now().strftime("%d/%m/%Y %H:%M")
-                    # Simpan ke GSheet: [ID, Staf, Deadline, Instruksi, Status, Waktu_Kirim]
-                    sheet_tugas.append_row([tugas_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu_kirim])
-                    st.success(f"🔥 Tugas berhasil dikirim ke {staf_tujuan}!")
-                    st.balloons()
+                    # Buat ID yang bersih tanpa karakter aneh
+                    t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
+                    waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
+                    
+                    # Simpan dengan urutan kolom yang pasti
+                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "Pending", waktu])
+                    st.success(f"Tugas {t_id} berhasil dikirim ke {staf_tujuan}!")
                     st.rerun()
-                else:
-                    st.warning("Tulis dulu instruksinya, Bos!")
 
     st.divider()
 
-    # ==============================================================================
-    # B. DAFTAR TUGAS AKTIF (Filter Berdasarkan User)
-    # ==============================================================================
+    # --- DAFTAR TUGAS ---
     st.subheader("📑 Daftar Tugas Aktif")
+    # Ambil data terbaru langsung dari Cloud
+    data = sheet_tugas.get_all_records()
     
-    data_tugas = sheet_tugas.get_all_records()
-    
-    if not data_tugas:
-        st.info("Belum ada tugas yang tercatat di Cloud.")
+    if not data:
+        st.info("Belum ada tugas di database GSheet.")
     else:
-        # Tampilkan dari yang terbaru (reversed)
-        for i, t in enumerate(reversed(data_tugas)):
-            # Aturan Akses: Dian lihat semua, Staf lihat milik sendiri
+        for t in reversed(data):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
-                status = t["Status"]
-                warna = "🟡" if status == "Pending" else "🔵" if status == "Proses" else "🟢"
-                
+                warna = "🟡" if t["Status"] == "Pending" else "🔵" if t["Status"] == "Proses" else "🟢"
                 with st.expander(f"{warna} [{t['Staf'].upper()}] - {t['Deadline']}"):
-                    st.markdown(f"**ID Tugas:** `{t['ID']}`")
-                    st.code(t["Instruksi"], language="text") # Biar gampang di-copy staf
-                    st.caption(f"Dikirim pada: {t['Waktu_Kirim']}")
+                    st.markdown(f"**ID:** `{t['ID']}`")
+                    st.code(t["Instruksi"], language="text")
                     
-                    # Logika Update Status (Hanya untuk Staf yang bersangkutan atau Dian)
                     if user_sekarang != "tamu":
                         st.markdown("---")
-                        col_stat, col_btn = st.columns([2, 1])
-                        with col_stat:
-                            opsi_status = ["Pending", "Proses", "Selesai"]
-                            idx_status = opsi_status.index(status) if status in opsi_status else 0
-                            pilihan_baru = st.selectbox("Ubah Status:", opsi_status, index=idx_status, key=f"sel_{t['ID']}")
-                        
-                        with col_btn:
+                        col1, col2 = st.columns([2, 1])
+                        with col1:
+                            new_stat = st.selectbox("Update Status:", ["Pending", "Proses", "Selesai"], 
+                                                    index=["Pending", "Proses", "Selesai"].index(t["Status"]), 
+                                                    key=f"st_{t['ID']}")
+                        with col2:
                             st.write("<br>", unsafe_allow_html=True)
-                            if st.button("Update ✅", key=f"btn_{t['ID']}", use_container_width=True):
+                            if st.button("Simpan ✅", key=f"btn_{t['ID']}", use_container_width=True):
                                 try:
-                                    cell = sheet_tugas.find(t["ID"])
-                                    sheet_tugas.update_cell(cell.row, 5, pilihan_baru) # Update kolom ke-5 (Status)
-                                    st.success("Status Diperbarui!")
-                                    st.rerun()
-                                except:
-                                    st.error("Gagal update. ID tidak ditemukan.")
+                                    target_id = str(t['ID']).strip()
+                                    # CARA CADANGAN: Ambil semua ID di kolom A untuk dicocokkan manual
+                                    semua_id = [str(x).strip() for x in sheet_tugas.col_values(1)]
+                                    
+                                    if target_id in semua_id:
+                                        row_idx = semua_id.index(target_id) + 1
+                                        sheet_tugas.update_cell(row_idx, 5, new_stat)
+                                        st.success("Status Berhasil Diperbarui!")
+                                        st.rerun()
+                                    else:
+                                        st.error(f"ID {target_id} tidak ada di GSheet.")
+                                except Exception as e:
+                                    st.error(f"Gagal Update: {e}")
 
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
@@ -953,5 +941,6 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
