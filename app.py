@@ -549,31 +549,40 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT (ONE-SHOT)")
-    st.info("🚀 Masukkan ide visualmu, pilih bumbu kualitas, dan ambil prompt instannya!")
+    st.title("⚡ QUICK PROMPT (INSTAN)")
+    st.info("🚀 **Mode Sat-Set!** Langsung rakit visual satu adegan di sini.")
 
-    # 1. Input Utama
-    aksi_cepat = st.text_area("📸 Masukkan Aksi Visual / Referensi Adegan", height=150, placeholder="Contoh: Udin sedang berlari di tengah hutan hujan...")
+    # 1. INPUT UTAMA (Hanya 1 Kolom Besar)
+    with st.container(border=True):
+        st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+        aksi_instan = st.text_area("Aksi Instan", height=200, placeholder="Tulis aksi visual di sini...", key="q_aksi", label_visibility="collapsed")
+        
+        # 2. QUICK SETTINGS (Disederhanakan dari Ruang Produksi)
+        c1, c2, c3 = st.columns(3)
+        with c1:
+            st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+            style_q = st.selectbox("S_Q", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="q_style", label_visibility="collapsed")
+        with c2:
+            st.markdown('<p class="small-label">📺 RATIO</p>', unsafe_allow_html=True)
+            ratio_q = st.selectbox("R_Q", ["16:9", "9:16", "1:1"], key="q_ratio", label_visibility="collapsed")
+        with c3:
+            st.markdown('<p class="small-label">🔍 SHOT</p>', unsafe_allow_html=True)
+            shot_q = st.selectbox("Sh_Q", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan"], key="q_shot", label_visibility="collapsed")
 
-    # 2. Bumbu Kualitas (Quality Booster)
-    c1, c2 = st.columns(2)
-    with c1:
-        mode_q = st.radio("Pilih Kualitas Dasar", ["Realistic Pro", "Anime Style", "3D Render"])
-    with c2:
-        booster = st.multiselect("Tambahan Booster", ["8k Resolution", "Cinematic Lighting", "High-Fidelity Texture"])
-
-    # 3. Compiler Prompt Instan
-    if st.button("🔥 COMPILE INSTANT PROMPT", use_container_width=True):
-        if aksi_cepat:
-            # Mengambil referensi dari gudang mantra kamu
-            img_result = f"{aksi_cepat}, {mode_q}, {', '.join(booster)}, shot on Fujifilm X-T4, sharp focus --ar 16:9"
+    # 3. COMPILER LOGIC
+    st.markdown("---")
+    if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
+        if aksi_instan:
+            # Mengambil Quality Booster dari Pusat (QB_IMG)
+            QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
             
-            st.divider()
-            st.subheader("📋 Hasil Prompt Kamu")
-            st.code(img_result, language="text")
-            st.toast("Prompt siap di-copy!", icon="✅")
+            prompt_hasil = f"ACTION: {aksi_instan} \nSTYLE: {style_q}, {shot_q} \nCAMERA: {QB_IMG} \nRATIO: --ar {ratio_q}"
+            
+            st.success("✅ Prompt Instan Siap!")
+            with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
+                st.code(prompt_hasil, language="text")
         else:
-            st.warning("Isi aksinya dulu, Bos!")
+            st.warning("Isi dulu aksinya, Bos!")
 
 def tampilkan_tugas_kerja(): 
     st.title("📋 TUGAS KERJA")
@@ -774,6 +783,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
