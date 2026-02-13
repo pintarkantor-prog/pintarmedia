@@ -846,7 +846,7 @@ def tampilkan_tugas_kerja():
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # 1. PROTEKSI AKSES (Hanya Bos Dian)
+    # 1. PROTEKSI AKSES
     if user_sekarang != "dian":
         st.title("⚡ KENDALI TIM")
         st.divider()
@@ -877,41 +877,40 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # --- LOAD DATA DARI GSHEET ---
+        # --- LOAD DATA ---
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         df_tugas = pd.DataFrame(sheet_tugas.get_all_records())
         
         sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
         df_absen = pd.DataFrame(sheet_absen.get_all_records())
         
-        # Ambil Data Plafon Gaji dari Tab STAFF
+        # --- AMBIL DATA STAFF SECARA OTOMATIS ---
         try:
             sheet_staff = client.open_by_url(url_gsheet).worksheet("STAFF")
             df_staff = pd.DataFrame(sheet_staff.get_all_records())
             df_staff['Nama'] = df_staff['Nama'].astype(str).str.upper()
+            
+            # INI DIA: staf_list otomatis diambil dari kolom Nama di tab STAFF
+            staf_list = df_staff['Nama'].unique().tolist()
         except:
-            df_staff = pd.DataFrame(columns=['Nama', 'Gaji_Pokok', 'Tunjangan'])
+            st.error("Gagal mengambil daftar nama dari tab 'STAFF'")
+            staf_list = []
 
         # --- PROSES REKAP VIDEO ---
-        df_terfilter = pd.DataFrame()
+        rekap_finish = {}
         if not df_tugas.empty:
             df_tugas['Deadline'] = pd.to_datetime(df_tugas['Deadline'], errors='coerce')
-            mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & \
-                   (df_tugas['Deadline'].dt.year == tahun_dipilih) & \
-                   (df_tugas['Status'] == "FINISH")
+            mask = (df_tugas['Deadline'].dt.month == bulan_dipilih) & (df_tugas['Deadline'].dt.year == tahun_dipilih) & (df_tugas['Status'] == "FINISH")
             df_terfilter = df_tugas[mask].copy()
             if not df_terfilter.empty:
                 df_terfilter['Staf_Upper'] = df_terfilter['Staf'].str.upper()
                 rekap_finish = df_terfilter['Staf_Upper'].value_counts()
-            else: rekap_finish = {}
-        else: rekap_finish = {}
 
         # --- PROSES REKAP ABSEN ---
         rekap_absen = {}
         if not df_absen.empty:
             df_absen['Tanggal'] = pd.to_datetime(df_absen['Tanggal'], errors='coerce')
-            mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & \
-                         (df_absen['Tanggal'].dt.year == tahun_dipilih)
+            mask_absen = (df_absen['Tanggal'].dt.month == bulan_dipilih) & (df_absen['Tanggal'].dt.year == tahun_dipilih)
             df_absen_final = df_absen[mask_absen].copy()
             if not df_absen_final.empty:
                 df_absen_final['Nama_Upper'] = df_absen_final['Nama'].astype(str).str.upper()
@@ -919,15 +918,16 @@ def tampilkan_kendali_tim():
 
         # --- BAGIAN C: HITUNG GAJI & SLIP ---
         st.subheader(f"💰 Hitung Gaji Otomatis ({pilihan_nama})")
-        staf_list = ["ICHA", "NISSA", "INGGI", "LISA"]
         
         for s in staf_list:
-            # Ambil Gapok & Tunjangan dari tab STAFF
+            # Ambil data dari df_staff
             data_s = df_staff[df_staff['Nama'] == s]
+            
+            # Ambil Gaji_Pokok & Tunjangan secara dinamis
             gapok = int(data_s['Gaji_Pokok'].values[0]) if not data_s.empty else 0
             tunjangan = int(data_s['Tunjangan'].values[0]) if not data_s.empty else 0
 
-            # Hitung Variabel (Absen & Video)
+            # Hitung Bonus
             jml_hadir = rekap_absen.get(s, 0)
             jml_video = rekap_finish.get(s, 0)
             bonus_hadir = jml_hadir * 50000 
@@ -941,7 +941,7 @@ def tampilkan_kendali_tim():
                 with c3: st.caption("VIDEO"); st.write(f"{jml_video} Video")
                 with c4:
                     if st.button(f"🧾 SLIP {s}", key=f"btn_slip_{s}"):
-                        slip_content = f"""
+                        slip_html = f"""
                         <div style="background-color: white; color: black; padding: 20px; border-radius: 10px; border: 4px solid #1d976c; font-family: sans-serif; width: 310px; margin: auto; text-align: left;">
                             <div style="text-align: center; margin-bottom: 10px;">
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="120" style="margin-bottom: 5px;">
@@ -950,7 +950,6 @@ def tampilkan_kendali_tim():
                                 <hr style="border: 1px dashed #ccc; margin: 10px 0;">
                                 <div style="background-color: #1d976c; color: white; display: inline-block; padding: 4px 12px; border-radius: 5px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
                             </div>
-                            
                             <table style="width: 100%; font-size: 13px; border-collapse: collapse; margin-top: 10px; color: black;">
                                 <tr><td style="padding: 3px 0;">Penerima</td><td style="text-align:right;"><b>{s}</b></td></tr>
                                 <tr><td style="padding: 3px 0;">Periode</td><td style="text-align:right;">{pilihan_nama} {tahun_dipilih}</td></tr>
@@ -963,7 +962,6 @@ def tampilkan_kendali_tim():
                                 <tr style="font-weight: bold; font-size: 15px; color: #1d976c;">
                                     <td>TOTAL TERIMA</td><td style="text-align:right;">Rp {total_terima:,}</td></tr>
                             </table>
-                            
                             <div style="margin-top: 20px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                 <div style="font-size: 9px; color: #888;">Diterbitkan otomatis oleh</div>
                                 <div style="font-size: 10px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
@@ -972,7 +970,7 @@ def tampilkan_kendali_tim():
                         </div>
                         """
                         import streamlit.components.v1 as components
-                        components.html(f"<body>{slip_content}</body>", height=460)
+                        components.html(f"<body>{slip_html}</body>", height=480)
                         st.info("💡 Screenshot slip di atas untuk dikirim ke WA staf.")
 
     except Exception as e:
@@ -1196,6 +1194,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
