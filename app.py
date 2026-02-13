@@ -560,24 +560,23 @@ def tampilkan_quick_prompt():
     
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Isi naskah di kotak hitam (Kiri).
-    - Atur bumbu di kotak kontras abu-abu (Kanan).
-    - Klik Generate untuk hasil instan!
+    - Area kerja di bawah menggunakan mode Expander untuk kontras maksimal.
+    - Isi naskah di kotak gelap (Kiri) dan atur bumbu di kolom kanan.
     """)
 
-    # Kualitas Dasar Pintar Media
+    # Kualitas Dasar Pintar Media (Tetap terjaga, tidak ada yang dihapus)
     QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING"
     QB_VID = "Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture"
     no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # 1. CONTAINER UTAMA
-    with st.container(border=True):
+    # --- SOLUSI KONTRAST: FULL EXPANDER SEBAGAI LANTAI ---
+    with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
         col_input, col_settings = st.columns([1.5, 1])
         
         with col_input:
-            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-            # Kotak input ini akan terlihat gelap di atas background container
+            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+            # Kotak ini akan terlihat hitam pekat di atas lantai abu-abu expander
             aksi_q = st.text_area(
                 "Aksi Q", 
                 height=345, 
@@ -590,35 +589,35 @@ def tampilkan_quick_prompt():
             loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Gelap, Ruang Tamu...", key="q_loc", label_visibility="collapsed")
         
         with col_settings:
-            # --- SOLUSI KONTRAST ---
-            # Kita bungkus seluruh menu kanan dengan Expander agar latarnya jadi abu-abu kontras
-            # Ini akan membuat area yang kamu coret merah di Untitled.png jadi lebih terang
-            with st.expander("🛠️ SETTING VISUAL", expanded=True):
-                s1, s2 = st.columns(2)
-                with s1:
-                    st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
-                    st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
-                    shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
-                with s2:
-                    st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
-                    st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
-                    arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
-                
-                st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
-                cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
+            # Layout 4 Kolom Settings (Style, Lighting, Ukuran, Arah)
+            s1, s2 = st.columns(2)
+            with s1:
+                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+                style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
+                st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
+                shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
+            with s2:
+                st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
+                light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
+                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
+                arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
+            
+            st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
+            cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
 
     # 2. GENERATE LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
+            # Smart Logic Outdoor/Indoor
             bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
             
+            # Rakit Mantra Gambar & Video
             img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
             vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, {cam_q}, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
             st.success("✅ Mantra Berhasil Dirakit!")
+            # Expander hasil tetap di bawah
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
@@ -885,6 +884,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
