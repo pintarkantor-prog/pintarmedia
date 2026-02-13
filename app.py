@@ -381,8 +381,7 @@ def tampilkan_navigasi_sidebar():
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
     st.info("🚀 **Gaskeun!** Rakit mantra di mode **Manual**, atau langsung jadi naskah gila di mode **Otomatis** via API Groq!")
-    st.divider() 
-
+    
     # --- 1. KONFIGURASI & SESSION STATE ---
     if 'lab_hasil_otomatis' not in st.session_state: st.session_state.lab_hasil_otomatis = ""
     if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
@@ -705,6 +704,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
