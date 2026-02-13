@@ -375,37 +375,37 @@ def tampilkan_navigasi_sidebar():
     return pilihan
 
 # ==============================================================================
-# BAGIAN 5: PINTAR AI LAB - PURE GENERATOR MODE
+# BAGIAN 5: PINTAR AI LAB - PRO EDITION (SYNCHRONIZED MANTRA)
 # ==============================================================================
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.info("🚀 **Gaskeun!** Rakit mantra manual atau pakai Groq API untuk naskah instan.")
+    st.info("🚀 **Gaskeun!** Rakit mantra di mode **Manual**, atau langsung jadi naskah gila di mode **Otomatis** via API Groq!")
     st.divider() 
 
-    # --- 1. SESSION STATE ---
+    # --- 1. KONFIGURASI & SESSION STATE ---
     if 'lab_hasil_otomatis' not in st.session_state: st.session_state.lab_hasil_otomatis = ""
     if 'jumlah_karakter' not in st.session_state: st.session_state.jumlah_karakter = 2
     if 'memori_n' not in st.session_state: st.session_state.memori_n = {}
     if 'memori_s' not in st.session_state: st.session_state.memori_s = {}
     
-    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol", "Drama Plot Twist", "Komedi Slapstick"]
-    opsi_visual = ["Cinematic Realistic", "3D Pixar Style", "Anime Style", "Retro Cartoon"]
+    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif)", "Drama Plot Twist (Standard)", "Komedi Slapstick"]
+    opsi_visual = ["Cinematic Realistic (Film Nyata)", "3D Pixar Style (Ceria)", "Anime / Manga Style", "Retro Cartoon"]
 
     try:
         api_key_groq = st.secrets["GROQ_API_KEY"]
     except:
         api_key_groq = None
 
-    # --- 2. PENGATURAN KARAKTER ---
+    # --- 2. AREA PENGATURAN KARAKTER ---
     st.subheader("👤 Pengaturan Karakter")
     c_add, c_rem, c_spacer = st.columns([0.25, 0.25, 0.5])
     with c_add:
-        if st.button("➕ Tambah", use_container_width=True):
+        if st.button("➕ Tambah Karakter", use_container_width=True) and st.session_state.jumlah_karakter < 4:
             st.session_state.jumlah_karakter += 1
             st.rerun()
     with c_rem:
-        if st.button("➖ Kurang", use_container_width=True) and st.session_state.jumlah_karakter > 1:
+        if st.button("➖ Kurang Karakter", use_container_width=True) and st.session_state.jumlah_karakter > 1:
             st.session_state.jumlah_karakter -= 1
             st.rerun()
 
@@ -425,81 +425,103 @@ def tampilkan_ai_lab():
 
     st.write("---")
 
-    # --- 3. TAB MENU (MURNI MANUAL & OTOMATIS) ---
+    # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual (Mantra)", "⚡ Mode Otomatis (Groq)"])
 
+    # MODE MANUAL: Rakit Mantra Sakti (Sama Detailnya dengan API)
     with tab_manual:
         col_m1, col_m2, col_m3, col_m4 = st.columns([2, 1.2, 1.2, 0.6])
         with col_m1:
-            topik_m = st.text_area("Topik Utama", placeholder="Rakit mantra manual...", height=100, key="m_topik")
+            st.markdown("**📝 Topik Utama**")
+            topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=100, key="m_topik", label_visibility="collapsed")
         with col_m2:
-            pola_m = st.selectbox("Pola Alur", opsi_pola, key="m_pola")
+            st.markdown("**🎭 Pola**")
+            pola_m = st.selectbox("P", opsi_pola, key="m_pola", label_visibility="collapsed")
         with col_m3:
-            visual_m = st.selectbox("Gaya Visual", opsi_visual, key="m_visual")
+            st.markdown("**🎨 Visual**")
+            visual_m = st.selectbox("V", opsi_visual, key="m_visual", label_visibility="collapsed")
         with col_m4:
-            adegan_m = st.number_input("Adegan", 3, 10, 5, key="m_adegan")
+            st.markdown("**🎬 Adegan**")
+            adegan_m = st.number_input("A", 3, 10, 5, key="m_adegan", label_visibility="collapsed")
 
         if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
-            mantra_man = f"Identitas: Scriptwriter Pintar Media.\nKarakter:\n{chr(10).join(list_karakter)}\n\nTugas: Naskah {adegan_m} adegan.\nGaya: {pola_m}.\nTopik: {topik_m}"
-            st.code(mantra_man, language="text")
+            if topik_m:
+                str_k = "\n".join(list_karakter)
+                mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
 
+Karakter:
+{str_k}
+
+Topik: {topik_m}
+Pola: {pola_m}
+Gaya Visual: {visual_m}
+
+Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
+                
+                st.divider()
+                st.success("✨ **Mantra Sakti Siap!** Copy-paste ke Gemini, Grok, atau ChatGPT.")
+                st.subheader("🔮 Master Prompt")
+                st.code(mantra_sakti, language="text")
+                st.toast("Mantra sudah lengkap, Bos!", icon="🚀")
+
+    # MODE OTOMATIS: Langsung Jadi Naskah via API
     with tab_otomatis:
         col_o1, col_o2 = st.columns([2, 1.2])
         with col_o1:
-            topik_o = st.text_area("Ide Cerita (API)", placeholder="Ketik ide ceritanya...", height=150, key="o_topik")
+            st.markdown("**📝 Ide Cerita (API)**")
+            topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini...", height=150, key="o_topik", label_visibility="collapsed")
         with col_o2:
+            st.markdown("**⚙️ Konfigurasi API**")
             pola_o = st.selectbox("Pilih Pola Cerita", opsi_pola, key="o_pola")
             adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
 
         if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
             if api_key_groq and topik_o:
-                with st.spinner("Groq lagi ngetik naskah..."):
+                with st.spinner("Groq lagi ngetik naskah buat Pintar Media..."):
                     try:
                         headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
+                        str_k = "\n".join(list_karakter)
+                        
                         prompt = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
+
 Karakter:
-{chr(10).join(list_karakter)}
+{str_k}
+
 Topik: {topik_o}
 Pola: {pola_o}
+
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_o} adegan."""
-                        payload = {"model": "llama-3.3-70b-versatile", "messages": [{"role": "user", "content": prompt}], "temperature": 0.7}
+
+                        payload = {
+                            "model": "llama-3.3-70b-versatile", 
+                            "messages": [{"role": "user", "content": prompt}],
+                            "temperature": 0.7
+                        }
                         res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
                         st.session_state.lab_hasil_otomatis = res.json()['choices'][0]['message']['content']
                         st.balloons()
-                    except Exception as e: st.error(f"Error: {e}")
+                    except Exception as e:
+                        st.error(f"Error Koneksi Groq: {e}")
 
         if st.session_state.lab_hasil_otomatis:
             st.divider()
+            st.subheader("🎬 Naskah Jadi (Hasil Groq)")
             st.markdown(st.session_state.lab_hasil_otomatis)
-            st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
-            
+            st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
+
 def tampilkan_quick_prompt(): 
-    st.markdown("### ⚡ Quick Prompt")
+    st.title("⚡ Quick Prompt")
     st.info("Halaman ini sedang disiapkan untuk settingan kualitas global (Quality Booster).")
 
 def tampilkan_tugas_kerja(): 
-    # Menu ini kita arahkan untuk menampilkan hasil kerja tim
     st.title("📋 TUGAS KERJA")
-    st.subheader("Laporan Aktivitas Produksi")
-    
-    if not st.session_state.get('db_tugas'):
-        st.info("Belum ada tugas yang masuk hari ini, Bos. Staf masih di dapur AI Lab.")
-    else:
-        # Menampilkan data yang sama dengan yang ada di Monitoring AI Lab
-        for tugas in st.session_state.db_tugas:
-            with st.container(border=True):
-                c_t1, c_t2, c_t3 = st.columns([1, 4, 1.5])
-                with c_t1: st.markdown(f"🕒 **{tugas['Jam']}**")
-                with c_t2: 
-                    st.markdown(f"👤 **{tugas['Staf']}** — {tugas['Tugas']}")
-                    st.caption(f"Topik: {tugas['Topik']}")
-                with c_t3: st.success(tugas['Status'])
+    st.warning("Menunggu instruksi Konsep Brillian dari Bos Dian... 💡")
 
 def tampilkan_kendali_tim(): 
-    st.markdown("### ⚡ Kendali Tim")
+    st.title("⚡ Kendali Tim")
     st.info("Area manajemen staf dan performa.")
-
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
 # ==============================================================================
@@ -683,6 +705,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
