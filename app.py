@@ -14,6 +14,8 @@ OPTS_STYLE = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
 OPTS_LIGHT = ["Golden Hour", "Studio", "Natural", "Cinematic Neon"]
 OPTS_ARAH  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
 OPTS_SHOT  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"]
+OPTS_RATIO = ["9:16", "16:9", "1:1"] 
+OPTS_CAM   = ["Static", "Zoom In", "Tracking"]
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -554,41 +556,41 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT (INSTAN)")
-    st.info("🚀 **Mode Sat-Set!** Rakit visual satu adegan dengan formasi lengkap 4 pilar kualitas.")
+    st.markdown("# ⚡ QUICK PROMPT (INSTAN)")
+    st.info("🚀 **Mode Sat-Set!** Rakit visual satu adegan dengan cepat tanpa ribet.")
 
     # 1. INPUT UTAMA
     with st.container(border=True):
         st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
         aksi_instan = st.text_area("Aksi Instan", height=200, placeholder="Tulis aksi visual di sini...", key="q_aksi", label_visibility="collapsed")
         
-        # 2. QUICK SETTINGS (4 KOLOM SEJAJAR)
+        # 2. QUICK SETTINGS (4 KOLOM SEJAJAR DARI PUSAT KENDALI)
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-            style_q = st.selectbox("S_Q", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="q_style", label_visibility="collapsed")
+            style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
         with c2:
             st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
-            light_q = st.selectbox("L_Q", ["Golden Hour", "Studio", "Natural", "Cinematic Neon"], key="q_light", label_visibility="collapsed")
+            light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
         with c3:
             st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-            shot_q = st.selectbox("Sh_Q", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"], key="q_shot", label_visibility="collapsed")
+            shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
         with c4:
             st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-            arah_q = st.selectbox("A_Q", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="q_arah", label_visibility="collapsed")
+            arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
 
     # 3. COMPILER LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_instan:
-            # Tetap menggunakan Quality Booster Pusat agar hasil tetap mewah
+            # Mengambil Quality Booster Pusat dari Ruang Produksi agar hasil tetap konsisten
             QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
             
-            prompt_hasil = (f"CHARACTER: [[ High-fidelity detail ]]\n"
+            prompt_hasil = (f"CHARACTER: [[ High-fidelity texture ]]\n"
                             f"ACTION: {aksi_instan}\n"
-                            f"STYLE: {style_q}, {light_q}\n"
-                            f"SHOT: {shot_q}, Angle: {arah_q}\n"
-                            f"CAMERA: {QB_IMG}")
+                            f"TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}\n"
+                            f"CAMERA: {QB_IMG}\n"
+                            f"NEGATIVE PROMPT: NO text, NO watermark, NO distorted faces --ar {OPTS_RATIO[0]} --v 6.0")
             
             st.success("✅ Prompt Instan Siap!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
@@ -604,6 +606,7 @@ def tampilkan_tugas_kerja():
 def tampilkan_kendali_tim(): 
     st.title("⚡ Kendali Tim")
     st.info("Area manajemen staf dan performa.")
+    
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
 # ==============================================================================
@@ -619,7 +622,6 @@ def tampilkan_ruang_produksi():
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
     # --- [NEW] QUALITY BOOSTER (Settingan Umum Pusat) ---
-    # Nantinya QB ini bisa kamu kendalikan dari halaman QUICK PROMPT
     QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
     QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
 
@@ -634,6 +636,7 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
+    # 1. INTEGRASI NASKAH DARI AI LAB
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
         with st.expander("📖 NASKAH DARI PINTAR AI LAB (REFERENSI)", expanded=True):
             st.info("💡 Gunakan tabel di bawah ini sebagai panduan mengisi Aksi Visual dan Dialog adegan.")
@@ -660,9 +663,10 @@ def tampilkan_ruang_produksi():
         scene_id = s + 1
         
         if scene_id not in data["adegan"]:
+            # Default awal menggunakan elemen pertama dari PUSAT KENDALI OPSI
             data["adegan"][scene_id] = {
-                "aksi": "", "style": "Realistis", "light": "Studio", 
-                "arah": "Normal", "shot": "Setengah Badan", 
+                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
+                "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], 
                 "ratio": "16:9", "cam": "Static", "loc": "", 
                 "dialogs": [""]*4
             }
@@ -676,44 +680,38 @@ def tampilkan_ruang_produksi():
             
             with col_set:
                 sub1, sub2 = st.columns(2)
-                opts_style = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
-                opts_light = ["Golden Hour", "Studio", "Natural"]
-                opts_arah  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
-                opts_shot  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"]
-                opts_ratio = ["16:9", "9:16", "1:1"]
-                opts_cam   = ["Static", "Zoom In", "Tracking"]
-
+                
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    curr_style = data["adegan"][scene_id].get("style", "Realistis")
-                    idx_style = opts_style.index(curr_style) if curr_style in opts_style else 0
-                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", opts_style, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_style = data["adegan"][scene_id].get("style", OPTS_STYLE[0])
+                    idx_style = OPTS_STYLE.index(curr_style) if curr_style in OPTS_STYLE else 0
+                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", OPTS_STYLE, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    curr_light = data["adegan"][scene_id].get("light", "Studio")
-                    idx_light = opts_light.index(curr_light) if curr_light in opts_light else 0
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", opts_light, index=idx_light, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_light = data["adegan"][scene_id].get("light", OPTS_LIGHT[0])
+                    idx_light = OPTS_LIGHT.index(curr_light) if curr_light in OPTS_LIGHT else 0
+                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=idx_light, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                    curr_arah = data["adegan"][scene_id].get("arah", "Normal")
-                    idx_arah = opts_arah.index(curr_arah) if curr_arah in opts_arah else 0
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", opts_arah, index=idx_arah, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_arah = data["adegan"][scene_id].get("arah", OPTS_ARAH[0])
+                    idx_arah = OPTS_ARAH.index(curr_arah) if curr_arah in OPTS_ARAH else 0
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=idx_arah, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
 
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    curr_shot = data["adegan"][scene_id].get("shot", "Setengah Badan")
-                    idx_shot = opts_shot.index(curr_shot) if curr_shot in opts_shot else 0
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", opts_shot, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_shot = data["adegan"][scene_id].get("shot", OPTS_SHOT[0])
+                    idx_shot = OPTS_SHOT.index(curr_shot) if curr_shot in OPTS_SHOT else 0
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    curr_ratio = data["adegan"][scene_id].get("ratio", "16:9")
-                    idx_ratio = opts_ratio.index(curr_ratio) if curr_ratio in opts_ratio else 0
-                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", opts_ratio, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0]) # Memanggil OPTS_RATIO
+                    idx_ratio = OPTS_RATIO.index(curr_ratio) if curr_ratio in OPTS_RATIO else 0
+                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    curr_cam = data["adegan"][scene_id].get("cam", "Static")
-                    idx_cam = opts_cam.index(curr_cam) if curr_cam in opts_cam else 0
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", opts_cam, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
+                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0]) # Memanggil OPTS_CAM
+                    idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_CAM else 0
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
@@ -796,6 +794,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
