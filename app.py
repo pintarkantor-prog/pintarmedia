@@ -577,7 +577,7 @@ def tampilkan_quick_prompt():
         
         with col_naskah:
             st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
-            aksi_q = st.text_area("Aksi Q", height=170, placeholder="KETIK DI SINI...", key="q_aksi", label_visibility="collapsed")
+            aksi_q = st.text_area("Aksi Q", height=150, placeholder="KETIK DI SINI...", key="q_aksi", label_visibility="collapsed")
         
         with col_settings:
             s1, s2 = st.columns(2)
@@ -882,6 +882,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
