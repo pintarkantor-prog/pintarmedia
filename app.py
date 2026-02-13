@@ -521,9 +521,17 @@ Aturan:
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
             with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
-                # st.code memberikan fitur COPY default agar mudah disalin
-                st.code(st.session_state.lab_hasil_otomatis, language="markdown")
-                st.download_button("📥 Download Naskah", st.session_state.lab_hasil_otomatis, file_name="naskah_pintar_media.txt", use_container_width=True)
+                # JANGAN pakai st.code untuk tabel, gunakan st.markdown
+                st.markdown(st.session_state.lab_hasil_otomatis)
+                
+                st.divider()
+                # Tombol download tetap ada untuk keperluan copy-paste ke dokumen lain
+                st.download_button(
+                    "📥 Download Naskah (.txt)", 
+                    st.session_state.lab_hasil_otomatis, 
+                    file_name="naskah_pintar_media.txt", 
+                    use_container_width=True
+                )
                 
 def tampilkan_quick_prompt(): 
     st.title("⚡ Quick Prompt")
@@ -719,6 +727,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
