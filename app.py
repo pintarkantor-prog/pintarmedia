@@ -7,6 +7,7 @@ import gspread
 from google.oauth2.service_account import Credentials 
 from streamlit_gsheets import GSheetsConnection 
 import time
+import pytz
 
 # ==============================================================================
 # BAGIAN 1: PUSAT KENDALI OPSI (SINKRONISASI GLOBAL)
@@ -651,8 +652,10 @@ def tampilkan_tugas_kerja():
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # URL Foto Staff (Silakan ganti link ini dengan link foto asli mereka nanti)
-    # Tips: Gunakan link dari Google Drive atau hosting gambar
+    # Setting zona waktu WIB
+    tz_wib = pytz.timezone('Asia/Jakarta')
+    
+    # Foto Staff (VCard Concept)
     foto_staff = {
         "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
         "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
@@ -683,13 +686,14 @@ def tampilkan_tugas_kerja():
                 st.markdown("##### 👤 TARGET")
                 staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
                 st.markdown("##### 📅 DEADLINE")
-                deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
+                deadline = st.date_input("Tgl", datetime.now(tz_wib) + timedelta(days=1), label_visibility="collapsed")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
-                    t_id = f"ID{datetime.now().strftime('%m%d%H%M%S')}"
-                    waktu = datetime.now().strftime("%d/%m/%Y %H:%M")
-                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "PROSES", waktu, "", ""])
+                    t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    # SEKARANG PAKAI WAKTU WIB (Asia/Jakarta)
+                    waktu_wib = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M WIB")
+                    sheet_tugas.append_row([t_id, staf_tujuan, str(deadline), isi_tugas, "PROSES", waktu_wib, "", ""])
                     st.success("✅ Mantra berhasil dideploy!")
                     time.sleep(1)
                     st.rerun()
@@ -697,7 +701,7 @@ def tampilkan_tugas_kerja():
     st.divider()
 
     # ==============================================================================
-    # 2. DAFTAR TUGAS (Konsep VCard Modern)
+    # 2. DAFTAR TUGAS (VCard Modern - WIB Version)
     # ==============================================================================
     st.subheader("📑 Daftar Tugas Aktif")
     
@@ -713,14 +717,12 @@ def tampilkan_tugas_kerja():
                 warna_icon = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
-                    # Layout VCard: Foto (1) dan Informasi (4)
                     v_foto, v_info = st.columns([1, 4])
                     
                     with v_foto:
                         st.image(url_foto, width=80)
                     
                     with v_info:
-                        # Baris Atas: Nama & Badge Status
                         h1, h2 = st.columns([2, 1])
                         with h1:
                             st.markdown(f"### {warna_icon} {t['Staf'].upper()}")
@@ -730,7 +732,6 @@ def tampilkan_tugas_kerja():
                             elif status == "REVISI": st.error(status)
                             else: st.success(status)
 
-                        # Baris Bawah: Detail ID, Deadline, Kirim
                         i1, i2, i3 = st.columns([1, 1.2, 1.5])
                         with i1: 
                             st.caption("🆔 ID TUGAS")
@@ -755,7 +756,7 @@ def tampilkan_tugas_kerja():
 
                         st.divider()
 
-                        # --- LOGIKA STAF / BOS TETAP SAMA ---
+                        # --- LOGIKA STAF & BOS TETAP SAMA (Hanya jam yang lebih akurat) ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
                             if status in ["PROSES", "REVISI"]:
                                 link_input = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
@@ -1016,6 +1017,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
