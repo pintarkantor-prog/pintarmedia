@@ -555,93 +555,89 @@ Aturan Main:
                         use_container_width=True
                     )
                 
+Siap, Dian! Paham, kita balik ke cara default yang bersih tanpa suntikan CSS tambahan di dalam fungsi.
+
+Ternyata kontras yang kamu maksud itu bisa didapat secara alami hanya dengan membungkus st.text_area di dalam st.container(border=True). Di Streamlit, secara default, area di dalam container yang punya border akan memberikan bayangan dan kedalaman warna yang berbeda pada kotak inputnya, persis seperti coretan merah kamu.
+
+Berikut kode ⚡ QUICK PROMPT versi murni (default) tapi tetap kontras dan lengkap:
+
+Python
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
     
-    # st.info yang informatif sesuai permintaan
+    # st.info sebagai panduan
     st.info("""
     💡 **PINTAR MEDIA - COMMAND CENTER:**
-    - Masukkan detail aksi visual di kotak hitam besar di bawah.
-    - Pilih bumbu kualitas (Style, Lighting, dll) di kolom setting.
-    - Hasil akan muncul berdampingan: Mantra Gambar (Kiri) & Mantra Video (Kanan).
+    - Masukkan detail aksi visual di kotak input yang tersedia.
+    - Pilih bumbu kualitas di kolom sebelah kanan.
+    - Klik Generate untuk hasil Mantra Gambar & Video sekaligus!
     """)
 
-    # Kualitas Dasar Pintar Media (JANGAN DIHAPUS)
-    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
-    QB_VID = "Unreal Engine 5.4, Octane Render, 8k, cinematic production, stable motion, high-fidelity fabric texture"
-    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
+    # Kualitas Dasar Pintar Media
+    QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced, NO SOFTENING"
+    QB_VID = "Unreal Engine 5.4, 8k, cinematic production, stable motion, high-fidelity texture"
+    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN shot."
     neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
 
-    # 1. CONTAINER UTAMA
+    # 1. CONTAINER UTAMA (Memberikan kontras default)
     with st.container(border=True):
-        st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+        col_input, col_settings = st.columns([1.5, 1])
         
-        # AREA INPUT: Dibikin kontras dengan placeholder kapital
-        aksi_q = st.text_area(
-            "Aksi Q", 
-            height=200, 
-            placeholder="INPUT NASKAH DI SINI: Udin kaget melihat Tung berubah jadi kayu...", 
-            key="q_aksi", 
-            label_visibility="collapsed"
-        )
+        with col_input:
+            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+            # Placeholder menggunakan huruf besar untuk kontras visual
+            aksi_q = st.text_area(
+                "Aksi Q", 
+                height=300, 
+                placeholder="KETIK DI SINI: Udin sedang berlari ketakutan dikejar kayu raksasa...", 
+                key="q_aksi", 
+                label_visibility="collapsed"
+            )
+            
+            st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
+            loc_q = st.text_input("Loc Q", placeholder="Contoh: Hutan Gelap, Ruang Tamu...", key="q_loc", label_visibility="collapsed")
         
-        st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input(
-            "Loc Q", 
-            placeholder="INPUT LOKASI: Hutan Bambu, Kamar Tidur, dll...", 
-            key="q_loc", 
-            label_visibility="collapsed"
-        )
-        
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        # 2. AREA SETTING (4 KOLOM) - Ini yang akan terlihat beda kontrasnya
-        c1, c2, c3, c4 = st.columns(4)
-        with c1:
-            st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-            style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
-        with c2:
-            st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
-            light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
-        with c3:
-            st.markdown('<p class="small-label">🔍 UKURAN</p>', unsafe_allow_html=True)
-            shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
-        with c4:
-            st.markdown('<p class="small-label">📐 ARAH</p>', unsafe_allow_html=True)
-            arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
+        with col_settings:
+            # Layout 4 Kolom Settings (Style, Lighting, Ukuran, Arah)
+            s1, s2 = st.columns(2)
+            with s1:
+                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+                style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
+                st.markdown('<p class="small-label" style="margin-top:15px;">🔍 UKURAN</p>', unsafe_allow_html=True)
+                shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
+            with s2:
+                st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
+                light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
+                st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH</p>', unsafe_allow_html=True)
+                arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
+            
+            st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN KAMERA</p>', unsafe_allow_html=True)
+            # Mengambil dari OPTS_CAM yang sudah kita buat
+            cam_q = st.selectbox("C_Q", OPTS_CAM, key="q_cam", label_visibility="collapsed")
 
     # 3. GENERATE LOGIC
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_q:
-            # Smart Logic (Dian, ini bagian yang penting, nggak saya hapus!)
-            bumbu = "hyper-detailed grit, leaf veins, razor-sharp" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'pantai', 'desa']) else "hyper-detailed wood grain, ray-traced reflections"
+            # Smart Logic Outdoor/Indoor
+            bumbu = "hyper-detailed grit, leaf veins" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar']) else "hyper-detailed wood grain, ray-traced"
             
-            # Prompt Gambar
-            img_p = (f"ACTION: {aksi_q}. \nENV: {loc_q}. {bumbu}. \nCAMERA: {QB_IMG}. \n"
-                     f"TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. \n"
-                     f"NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0")
-            
-            # Prompt Video
-            vid_p = (f"SCENE: {aksi_q} at {loc_q}. {bumbu}. \n"
-                     f"TECH: {style_q}, {shot_q}, {OPTS_CAM[0]}, {QB_VID}. \n"
-                     f"NEGATIVE: {no_text_strict}, {neg_vid_strict}")
+            # Prompt Gambar & Video
+            img_p = f"ACTION: {aksi_q}. ENV: {loc_q}. {bumbu}. CAMERA: {QB_IMG}. TECH: {style_q}, {light_q}, {shot_q}, Angle {arah_q}. NEGATIVE: {no_text_strict} --ar {OPTS_RATIO[0]} --v 6.0"
+            vid_p = f"SCENE: {aksi_q} at {loc_q}. {bumbu}. TECH: {style_q}, {shot_q}, {cam_q}, {QB_VID}. NEGATIVE: {no_text_strict}, {neg_vid_strict}"
             
             st.success("✅ Mantra Berhasil Dirakit!")
-            
-            # MENGGUNAKAN EXPANDER AGAR HASILNYA TERPISAH (KONTRAS)
+            # Expander untuk hasil agar tetap rapi
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
-                col_res1, col_res2 = st.columns(2)
-                with col_res1:
+                c_res1, c_res2 = st.columns(2)
+                with c_res1:
                     st.markdown('<p class="small-label">📷 MANTRA GAMBAR</p>', unsafe_allow_html=True)
                     st.code(img_p, language="text")
-                with col_res2:
+                with c_res2:
                     st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
                     st.code(vid_p, language="text")
-            
-            st.toast("Mantra siap di-copy!", icon="⚡")
         else:
-            st.warning("Isi dulu aksinya, Bos!")
+            st.warning("Isi aksinya dulu, Bos!")
 
 def tampilkan_tugas_kerja():
     st.title("📋 PINTAR TASK SYSTEM")
@@ -898,6 +894,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
