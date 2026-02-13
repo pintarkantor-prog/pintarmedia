@@ -1,6 +1,3 @@
-# ==============================================================================
-# BAGIAN 1: KONFIGURASI DAN DATABASE PENGGUNA
-# ==============================================================================
 import streamlit as st
 import requests  # <--- WAJIB TAMBAHKAN BARIS INI DI SINI, BOS!
 from datetime import datetime, timedelta
@@ -9,6 +6,14 @@ import pandas as pd
 import gspread 
 from google.oauth2.service_account import Credentials 
 from streamlit_gsheets import GSheetsConnection 
+
+# ==============================================================================
+# BAGIAN 1: PUSAT KENDALI OPSI (SINKRONISASI GLOBAL)
+# ==============================================================================
+OPTS_STYLE = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
+OPTS_LIGHT = ["Golden Hour", "Studio", "Natural", "Cinematic Neon"]
+OPTS_ARAH  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
+OPTS_SHOT  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"]
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -550,15 +555,15 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (INSTAN)")
-    st.info("🚀 **Mode Sat-Set!** Fokus rakit visual satu adegan dengan lighting dan angle mantap.")
+    st.info("🚀 **Mode Sat-Set!** Rakit visual satu adegan dengan formasi lengkap 4 pilar kualitas.")
 
     # 1. INPUT UTAMA
     with st.container(border=True):
         st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
         aksi_instan = st.text_area("Aksi Instan", height=200, placeholder="Tulis aksi visual di sini...", key="q_aksi", label_visibility="collapsed")
         
-        # 2. QUICK SETTINGS (Style, Lighting, & Arah Kamera)
-        c1, c2, c3 = st.columns(3)
+        # 2. QUICK SETTINGS (4 KOLOM SEJAJAR)
+        c1, c2, c3, c4 = st.columns(4)
         with c1:
             st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
             style_q = st.selectbox("S_Q", ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"], key="q_style", label_visibility="collapsed")
@@ -566,6 +571,9 @@ def tampilkan_quick_prompt():
             st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
             light_q = st.selectbox("L_Q", ["Golden Hour", "Studio", "Natural", "Cinematic Neon"], key="q_light", label_visibility="collapsed")
         with c3:
+            st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
+            shot_q = st.selectbox("Sh_Q", ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"], key="q_shot", label_visibility="collapsed")
+        with c4:
             st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
             arah_q = st.selectbox("A_Q", ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"], key="q_arah", label_visibility="collapsed")
 
@@ -573,10 +581,14 @@ def tampilkan_quick_prompt():
     st.markdown("---")
     if st.button("🔥 GENERATE INSTANT PROMPT", use_container_width=True, type="primary"):
         if aksi_instan:
-            # Mengambil Quality Booster dari Pusat (QB_IMG) agar hasil tetap pro
+            # Tetap menggunakan Quality Booster Pusat agar hasil tetap mewah
             QB_IMG = "shot on Fujifilm X-T4, 8k, skin pores detail, sharp focus, ray-traced ambient occlusion, NO SOFTENING"
             
-            prompt_hasil = f"ACTION: {aksi_instan} \nSTYLE: {style_q} \nLIGHTING: {light_q} \nANGLE: {arah_q} \nCAMERA: {QB_IMG}"
+            prompt_hasil = (f"CHARACTER: [[ High-fidelity detail ]]\n"
+                            f"ACTION: {aksi_instan}\n"
+                            f"STYLE: {style_q}, {light_q}\n"
+                            f"SHOT: {shot_q}, Angle: {arah_q}\n"
+                            f"CAMERA: {QB_IMG}")
             
             st.success("✅ Prompt Instan Siap!")
             with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
@@ -784,6 +796,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
