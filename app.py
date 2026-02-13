@@ -523,15 +523,15 @@ Aturan Main:
                 
                 st.divider()
                 
-                # Tambahkan di sini
+                # Menggunakan columns agar tombol berjajar rapi
                 col_btn1, col_btn2 = st.columns(2)
                 with col_btn1:
-                    if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True, type="primary"):
+                    # Tombol kirim default (tanpa type="primary") agar sama dengan download
+                    if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
                         # Simpan naskah teksnya
                         st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
                         
                         # Update jumlah slot adegan di Ruang Produksi secara otomatis
-                        # Menggunakan adegan_o dari input number_input di atas
                         st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
                         
                         st.toast("Naskah & Jumlah Adegan berhasil dikirim!", icon="🚀")
@@ -747,6 +747,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
