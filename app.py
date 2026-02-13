@@ -656,14 +656,14 @@ def tampilkan_tugas_kerja():
         client = gspread.authorize(creds)
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         
-        # PAKSA AMBIL DATA TERBARU (Fresh Fetch) agar login Icha & Dian sinkron
+        # Fresh Fetch: Ambil data terbaru setiap halaman dimuat
         data_tugas = sheet_tugas.get_all_records()
     except Exception as e:
         st.error(f"❌ Koneksi Database Gagal: {e}")
         return
 
     # ==============================================================================
-    # 1. PANEL BOS DIAN (Input Tugas Baru)
+    # 1. PANEL BOS DIAN
     # ==============================================================================
     if user_sekarang == "dian":
         with st.expander("🎯 **DEPLOY TUGAS EDIT BARU**", expanded=False):
@@ -674,7 +674,7 @@ def tampilkan_tugas_kerja():
             with c1:
                 st.markdown('**👤 TARGET EDITOR**')
                 staf_tujuan = st.selectbox("Editor", ["Icha", "Nissa", "Inggi", "Lisa"], label_visibility="collapsed")
-                st.markdown('**📅 DEADLINE**', help="Tentukan batas waktu pengerjaan")
+                st.markdown('**📅 DEADLINE**')
                 deadline = st.date_input("Tgl", datetime.now() + timedelta(days=1), label_visibility="collapsed")
             
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
@@ -698,8 +698,6 @@ def tampilkan_tugas_kerja():
         for t in reversed(data_tugas):
             if user_sekarang == "dian" or user_sekarang == t["Staf"].lower():
                 status = str(t["Status"]).upper()
-                
-                # Pengaturan Warna Indikator Berdasarkan Status Terbaru
                 warna = "🔵" if status == "PROSES" else "🟠" if status == "SEDANG DI REVIEW" else "🔴" if status == "REVISI" else "🟢"
 
                 with st.container(border=True):
@@ -723,45 +721,40 @@ def tampilkan_tugas_kerja():
 
                         # --- LOGIKA STAF (SETOR HASIL) ---
                         if user_sekarang != "dian" and user_sekarang != "tamu":
-                            # HANYA munculkan input jika status adalah PROSES atau REVISI
                             if status in ["PROSES", "REVISI"]:
                                 link_input = st.text_input("Link GDrive/Video:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
-                                lock_btn = not link_input.strip()
-                                if lock_btn: st.warning("⚠️ Masukkan link hasil kerja untuk lapor SETOR.")
+                                if not link_input.strip():
+                                    st.warning("⚠️ Link wajib diisi untuk lapor SETOR.")
                                 
-                                if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=lock_btn):
+                                if st.button("🚩 SETOR HASIL KERJA", key=f"btn_s_{t['ID']}", use_container_width=True, disabled=not link_input.strip()):
                                     try:
-                                        # Ambil koordinat sel secara LIVE untuk menghindari ID tidak sinkron
                                         cell = sheet_tugas.find(str(t['ID']).strip())
                                         sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                                         sheet_tugas.update_cell(cell.row, 7, link_input)
                                         st.toast("Laporan Terkirim!")
                                         st.rerun()
-                                    except: st.error("Gagal sinkron. ID tugas mungkin sudah berubah di GSheet.")
+                                    except: st.error("Gagal sinkron database.")
                             elif status == "FINISH":
-                                st.success("🎉 Tugas ini sudah SELESAI TOTAL. Bagus!")
+                                st.success("🎉 Tugas ini sudah SELESAI TOTAL.") #
                             else:
                                 st.info("✅ Menunggu review Bos Dian.")
 
-                        # --- LOGIKA BOS DIAN (Tombol Vertikal di Kanan) ---
+                        # --- LOGIKA BOS DIAN ---
                         elif user_sekarang == "dian":
-                            # Jangan tampilkan kontrol jika sudah FINISH
                             if status != "FINISH":
                                 col_cat, col_btn = st.columns([2, 1])
                                 with col_cat:
                                     catatan = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}", height=120)
                                 with col_btn:
                                     st.write("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True)
-                                    # Tombol FINISH TOTAL (Atas) - Warna Default
+                                    # Tombol FINISH tanpa bubble/balloons
                                     if st.button("🟢 FINISH TOTAL", key=f"fin_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            st.balloons()
-                                            st.rerun()
-                                        except: st.error("Gagal update. Pastikan ID masih ada di GSheet.")
+                                            st.rerun() # Refresh agar status di Icha ikut berubah
+                                        except: st.error("Gagal update.")
                                     
-                                    # Tombol REVISI (Bawah) - Warna Default
                                     if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
                                         try:
                                             cell = sheet_tugas.find(str(t['ID']).strip())
@@ -989,6 +982,7 @@ def utama():
 
 if __name__ == "__main__":
     utama()
+
 
 
 
