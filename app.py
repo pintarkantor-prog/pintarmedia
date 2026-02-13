@@ -705,17 +705,17 @@ def tampilkan_tugas_kerja():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        # Koneksi ke tab-tab GSheet
         sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
         sheet_log = client.open_by_url(url_gsheet).worksheet("Log_Aktivitas")
+        sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
         
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
+        
+        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
+        staf_options = df_staff_raw['Nama'].unique().tolist()
 
-        sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
-        staf_options = pd.DataFrame(sheet_staff.get_all_records())['Nama'].unique().tolist()
-
-        # --- FUNGSI SPY MODE (INTERNAL) ---
+        # Fungsi Spy Mode
         def catat_log(aksi):
             waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
             sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
@@ -724,9 +724,7 @@ def tampilkan_tugas_kerja():
         st.error(f"❌ Database Offline: {e}")
         return
 
-    # ==============================================================================
-    # 0. PAPAN KLASEMEN (LEADERBOARD BULAN INI)
-    # ==============================================================================
+    # --- 1. LEADERBOARD (Otomatis Reset Tiap Bulan) ---
     if not df_all_tugas.empty:
         df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
         mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
@@ -748,30 +746,23 @@ def tampilkan_tugas_kerja():
 
     st.divider()
 
-    # ==============================================================================
-    # 1. PANEL BOS DIAN (Hanya Dian yang bisa input)
-    # ==============================================================================
+    # --- 2. PANEL BOS DIAN (Input Tugas Baru) ---
     if user_sekarang == "dian":
         with st.expander("✨ **DEPLOY TUGAS EDIT BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
             with c2:
-                st.write("**📝 INSTRUKSI EDIT / MANTRA**")
-                isi_tugas = st.text_area("Isi", height=160, placeholder="Ketik mantra...", label_visibility="collapsed")
+                isi_tugas = st.text_area("Instruksi / Mantra", height=150)
             with c1:
-                st.write("**👤 TARGET EDITOR**")
-                staf_tujuan = st.selectbox("Editor", staf_options, label_visibility="collapsed")
-            
+                staf_tujuan = st.selectbox("Pilih Editor", staf_options)
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
-                    catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}") # <--- LOG SPY
+                    catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}")
                     st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
 
-    # ==============================================================================
-    # 2. DAFTAR TUGAS AKTIF
-    # ==============================================================================
+    # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
     if user_sekarang == "dian":
         tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
@@ -779,7 +770,7 @@ def tampilkan_tugas_kerja():
         tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
 
     if not tugas_terfilter:
-        st.info(f"☕ Luar biasa {user_sekarang.capitalize()}! Semua tugas sudah beres.")
+        st.info(f"☕ Semua tugas beres!")
     else:
         for t in reversed(tugas_terfilter):
             status = str(t["Status"]).upper()
@@ -789,9 +780,8 @@ def tampilkan_tugas_kerja():
             try: selisih = (sekarang.date() - pd.to_datetime(t['Deadline']).date()).days
             except: selisih = 0
             is_telat = status in ["PROSES", "REVISI"] and selisih >= 2
-            warna_b = "#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"
             
-            st.markdown(f'<div style="border: 2px solid {warna_b}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">', unsafe_allow_html=True)
+            st.markdown(f'<div style="border: 2px solid {"#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">', unsafe_allow_html=True)
             c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
             with c1: st.image(url_foto, width=90)
             with c2: 
@@ -801,115 +791,86 @@ def tampilkan_tugas_kerja():
             with c4: st.caption("📅 DEADLINE"); st.write(t['Deadline'])
             with c5: st.caption("⏰ SETOR"); st.write(t['Waktu_Kirim'])
 
-            with st.expander("🔍 DETAIL MANTRA & AKSI"):
-                st.code(t["Instruksi"], language="text")
+            with st.expander("🔍 DETAIL & AKSI"):
+                st.code(t["Instruksi"])
                 if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
                     links = str(t["Link_Hasil"]).split(",")
                     for i, link in enumerate(links):
-                        clean_l = link.strip()
-                        if "http" in clean_l: st.write(f"🔗 [LINK {i+1}]({clean_l})")
+                        if "http" in link: st.write(f"🔗 [LINK {i+1}]({link.strip()})")
                 
-                if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
                 st.divider()
                 
-                # --- AKSI STAF ---
                 if user_sekarang != "dian" and user_sekarang != "tamu":
                     if status in ["PROSES", "REVISI"]:
-                        st.caption("💡 *Pisahkan link dengan koma ( , ) jika lebih dari satu*")
-                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"link_{t['ID']}")
-                        if st.button("🚩 SETOR HASIL", key=f"btn_s_{t['ID']}", use_container_width=True):
+                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                        if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
                             cell = sheet_tugas.find(str(t['ID']).strip())
                             sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
-                            catat_log(f"Menyetor hasil tugas {t['ID']}") # <--- LOG SPY
+                            catat_log(f"Menyetor tugas {t['ID']}")
                             st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
-                
-                # --- AKSI DIAN ---
                 elif user_sekarang == "dian" and status != "FINISH":
                     cat = st.text_area("Catatan:", key=f"cat_{t['ID']}")
                     col1, col2 = st.columns(2)
                     with col1:
-                        if st.button("🟢 FINISH", key=f"fin_{t['ID']}", use_container_width=True):
-                            cell = sheet_tugas.find(str(t['ID']).strip())
-                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                            catat_log(f"Klik FINISH pada tugas {t['ID']}") # <--- LOG SPY
+                        if st.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                            catat_log(f"Finish tugas {t['ID']}")
                             st.success("✅ Selesai!"); time.sleep(1); st.rerun()
                     with col2:
-                        if st.button("🔴 REVISI", key=f"rev_{t['ID']}", use_container_width=True):
-                            cell = sheet_tugas.find(str(t['ID']).strip())
-                            sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                            sheet_tugas.update_cell(cell.row, 8, cat)
-                            catat_log(f"Klik REVISI pada tugas {t['ID']} dengan catatan: {cat[:20]}...") # <--- LOG SPY
+                        if st.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip()); sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, cat)
+                            catat_log(f"Revisi tugas {t['ID']}")
                             st.success("✅ Revisi!"); time.sleep(1); st.rerun()
-
             st.markdown("</div>", unsafe_allow_html=True)
 
-    # ==============================================================================
-    # 3. LACI ARSIP
-    # ==============================================================================
+    # --- 4. LACI ARSIP ---
     st.divider()
     with st.expander("📜 Lihat Riwayat Tugas Selesai (Bulan Ini)"):
-        if not df_all_tugas.empty:
-            df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
-            if user_sekarang == "dian":
-                mask_selesai = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
-                               (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
-                               (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
-            else:
-                mask_selesai = (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang) & \
-                               (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
-                               (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+        mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
+                 (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+        if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
+        df_arsip = df_all_tugas[mask_s].copy()
+        if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
+        else: st.write("Belum ada riwayat.")
+
+    # --- 5. TOMBOL GAJIAN (SINKRON DENGAN OPSI B) ---
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 1: # Ganti 1 ke 25 untuk rilis
+        st.divider()
+        with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
+            # Hitung Video dari Arsip
+            jml_video = len(df_arsip)
             
-            df_arsip = df_all_tugas[mask_selesai].copy()
-            if not df_arsip.empty:
-                st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], use_container_width=True, hide_index=True)
-            else: st.write("Belum ada riwayat tugas selesai.")
-    # ==============================================================================
-    # 4. FITUR SELF-SERVICE GAJI (Hanya muncul tanggal 25 ke atas untuk Staf)
-    # ==============================================================================
-    if user_sekarang != "dian" and user_sekarang != "tamu":
-        hari_ini_tgl = datetime.now(tz_wib).day
-        
-        # Tombol hanya muncul jika sudah tanggal 25 ke atas
-        if hari_ini_tgl >= 25:
+            # Ambil Data Dasar dari Tab Staff
+            try:
+                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
+                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
+                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+            except: gapok = tunjangan = 0
+            
+            # Logika Bonus Opsi B (Sinkron dengan Menu Bos Dian)
+            bonus_video = jml_video * 10000
+            
+            # (Opsional) Jika kamu ingin menarik jml_hadir juga, pastikan variabel rekap_absen tersedia
+            # Untuk saat ini kita set 0 atau sesuaikan jika variabelnya sudah ditarik di menu utama
+            jml_hadir = 0 
+            bonus_hadir = jml_hadir * 50000
+            
+            total_gaji = gapok + tunjangan + bonus_video + bonus_hadir
+            
+            st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+            st.write(f"💵 Gaji Pokok & Tunjangan: **Rp {gapok + tunjangan:,}**")
+            st.write(f"🎬 Bonus Video ({jml_video} klip): **Rp {bonus_video:,}**")
+            
             st.divider()
-            st.success(f"💰 **SISTEM GAJIAN BULAN {sekarang.strftime('%B').upper()} TELAH DIBUKA!**")
+            st.metric("TOTAL ESTIMASI TERIMA", f"Rp {total_gaji:,}")
             
-            with st.expander("🧧 Klik untuk Klaim Slip Gaji Anda"):
-                # 1. Hitung total video FINISH milik staf ini bulan ini
-                # (data_tugas sudah ditarik di bagian atas fungsi ini)
-                df_gaji = pd.DataFrame(data_tugas)
-                df_gaji['Deadline_DT'] = pd.to_datetime(df_gaji['Deadline'], errors='coerce')
-                
-                mask_klaim = (df_gaji['Staf'].astype(str).str.lower() == user_sekarang) & \
-                             (df_gaji['Deadline_DT'].dt.month == sekarang.month) & \
-                             (df_gaji['Status'].astype(str).str.upper() == "FINISH")
-                
-                total_video_finish = len(df_gaji[mask_klaim])
-                
-                # 2. Ambil Rate Gaji dari data staff yang sudah ditarik (df_staff_raw)
-                try:
-                    # Pastikan di GSheet tab Staff ada kolom 'Rate_Video'
-                    rate_per_video = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]['Rate_Video'].values[0]
-                except:
-                    rate_per_video = 0
-                
-                total_pendapatan = total_video_finish * rate_per_video
-                
-                # 3. Tampilan Slip Sederhana
-                st.write(f"Halo **{user_sekarang.upper()}**, berikut ringkasan pendapatanmu:")
-                col_g1, col_g2 = st.columns(2)
-                col_g1.metric("Video Selesai (Finish)", f"{total_video_finish} Klip")
-                col_g2.metric("Estimasi Gaji", f"Rp {total_pendapatan:,}")
-                
-                st.caption("_Jika ada perbedaan jumlah video, silakan lapor ke Bos Dian sebelum konfirmasi._")
-                
-                if st.button("🧧 KONFIRMASI & KLAIM GAJI", use_container_width=True):
-                    # Mencatat ke Spy Mode agar Dian tahu staf sudah cek gaji
-                    catat_log(f"Mengklaim slip gaji {sekarang.strftime('%B')} sebesar Rp {total_pendapatan:,}")
-                    st.balloons()
-                    st.success("Konfirmasi Berhasil! Data sudah masuk ke Log Bos Dian.")
+            if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                catat_log(f"Klaim gaji {sekarang.strftime('%B')} sebesar Rp {total_gaji:,}")
+                st.balloons()
+                st.success("Konfirmasi Berhasil! Slip gaji sudah dicatat di sistem Bos Dian.")
                                     
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1268,6 +1229,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
