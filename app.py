@@ -772,7 +772,7 @@ def tampilkan_tugas_kerja():
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_deploy = datetime.now(tz_wib).strftime("%Y-%m-%d") 
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
-                    catat_log(f"Deploy Tugas Baru {t_id} ke {staf_tujuan}")
+                    catat_log(f"Kirim Tugas Baru {t_id} ke {staf_tujuan}")
                     
                     # --- NOTIF WA ---
                     kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
@@ -1303,6 +1303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
