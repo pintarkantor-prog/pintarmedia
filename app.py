@@ -23,7 +23,7 @@ DAFTAR_USER = {
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
 }
 
-st.set_page_config(page_title="PINTAR MEDIA | AI Studio", layout="wide")
+st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 
 # ==============================================================================
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN)
@@ -142,7 +142,7 @@ def simpan_ke_gsheet():
         data_json = json.dumps(st.session_state.data_produksi)
         
         sheet.append_row([user, waktu, data_json])
-        st.toast("🚀 Berhasil disimpan ke Cloud GSheet!", icon="☁️")
+        st.toast("🚀 Berhasil disimpan ke Cloud!", icon="☁️")
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
@@ -426,7 +426,7 @@ def tampilkan_navigasi_sidebar():
 
 def tampilkan_ai_lab():
     st.title("🧠 PINTAR AI LAB")
-    st.info("🚀 **Gaskeun!** Rakit mantra di mode **Manual**, atau langsung jadi naskah gila di mode **Otomatis** via API Groq!")
+    st.info("🚀 **Gaskeun!** Ide cerita di mode **Manual**, atau langsung jadi naskah di mode **Otomatis**!")
     
     # --- 1. KONFIGURASI & SESSION STATE ---
     if 'lab_hasil_otomatis' not in st.session_state: st.session_state.lab_hasil_otomatis = ""
@@ -457,7 +457,7 @@ def tampilkan_ai_lab():
     list_karakter = []
     
     # DETAIL KARAKTER (Kontras Navy vs Hitam)
-    with st.expander("👥 DETAIL KARAKTER PINTAR MEDIA", expanded=True):
+    with st.expander("👥 DETAIL KARAKTER", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
             if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
@@ -468,7 +468,7 @@ def tampilkan_ai_lab():
                     st.markdown(f"**{label_k}**")
                     # Input tetap hitam pekat
                     st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
-                    st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Sifat/Visual...", label_visibility="collapsed")
+                    st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Detail fisik/pakaian...", label_visibility="collapsed")
                     n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
                     list_karakter.append(f"{i+1}. {n_f.upper()}: {st.session_state.memori_s[i]}")
 
@@ -479,18 +479,18 @@ def tampilkan_ai_lab():
 
     # MODE MANUAL
     with tab_manual:
-        with st.expander("📝 TOPIK UTAMA & KONFIGURASI", expanded=True):
+        with st.expander("📝 KONFIGURASI MANUAL", expanded=True):
             col_m1, col_m2 = st.columns([2, 1])
             with col_m1:
                 st.markdown("**📝 Topik Utama**")
-                topik_m = st.text_area("T", placeholder="Misal: Udin ingin jadi YouTuber tapi dibully...", height=245, key="m_topik", label_visibility="collapsed")
+                topik_m = st.text_area("T", placeholder="Ketik ide ceritanya di sini...", height=245, key="m_topik", label_visibility="collapsed")
             with col_m2:
                 st.markdown("**🎭 Pola & Style**")
                 pola_m = st.selectbox("Pola", opsi_pola, key="m_pola")
                 visual_m = st.selectbox("Visual", opsi_visual, key="m_visual")
                 adegan_m = st.number_input("Jumlah Adegan", 3, 10, 5, key="m_adegan")
 
-            if st.button("✨ GENERATE MASTER PROMPT", use_container_width=True, type="primary"):
+            if st.button("✨ GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if topik_m:
                     str_k = "\n".join(list_karakter)
                     mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
@@ -505,24 +505,24 @@ Gaya Visual: {visual_m}
 
 Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
                     st.divider()
-                    st.success("✨ **Mantra Sakti Siap!**")
+                    st.success("✨ **Naskah ide cerita Siap!**")
                     st.code(mantra_sakti, language="text")
                     st.toast("Mantra sudah siap di-copy!", icon="🚀")
 
     # MODE OTOMATIS
     with tab_otomatis:
-        with st.expander("⚡ AI INSTANT GENERATION", expanded=True):
+        with st.expander("⚡ KONFIGURASI OTOMATIS", expanded=True):
             col_o1, col_o2 = st.columns([2, 1])
             with col_o1:
-                st.markdown("**📝 Ide Cerita (API)**")
+                st.markdown("**📝 Topik Utama**")
                 topik_o = st.text_area("O", placeholder="Ketik ide ceritanya di sini...", height=245, key="o_topik", label_visibility="collapsed")
             with col_o2:
-                st.markdown("**⚙️ Konfigurasi AI**")
+                st.markdown("**⚙️ Konfigurasi Otomatis**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
                 adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
-                st.info("AI otomatis menyesuaikan visual cinematic.")
+                st.info("AI otomatis menyesuaikan ide cerita.")
 
-            if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
+            if st.button("🔥 GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
                     st.toast("Sedang menghubungkan...", icon="🌐")
                     with st.spinner("lagi ngetik naskah gila..."):
@@ -563,7 +563,7 @@ Aturan Main:
         # HASIL NASKAH OTOMATIS: Versi 3 Tombol Sejajar
         if st.session_state.lab_hasil_otomatis:
             st.write("") 
-            with st.expander("🎬 NASKAH JADI (HASIL GROQ)", expanded=True):
+            with st.expander("🎬 NASKAH JADI (OTOMATIS)", expanded=True):
                 st.markdown(st.session_state.lab_hasil_otomatis)
                 
                 st.divider()
@@ -576,11 +576,11 @@ Aturan Main:
                     if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
                         st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
                         st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
-                        st.toast("Naskah & Adegan terkirim!", icon="🚀")
+                        st.toast("Naskah sukses terkirim!", icon="🚀")
                 
                 with btn_col2:
                     # LOGIKA BERSIHKAN (BARU)
-                    if st.button("🗑️ BERSIHKAN REFERENSI", use_container_width=True):
+                    if st.button("🗑️ BERSIHKAN NASKAH", use_container_width=True):
                         st.session_state.naskah_siap_produksi = ""
                         st.toast("Referensi dibersihkan!", icon="🗑️")
                 
@@ -594,13 +594,12 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT (INSTAN)")
+    st.title("⚡ QUICK PROMPT")
     
     st.info("""
-    💡 **PINTAR MEDIA - MASTERPIECE MODE:**
+    💡 **PINTAR MEDIA - INSTAN PROMPT:**
     - Fokus pada ketajaman optik Ultra-Sharp & Infinite Depth.
     - Karakter bersifat default (sesuaikan di naskah aksi).
-    - Mantra Gambar & Video berbaris rapi (List Mode).
     """)
 
     # --- QUALITY BOOSTER (ULTRA-SHARP SETTINGS) ---
@@ -624,7 +623,7 @@ def tampilkan_quick_prompt():
         col_naskah, col_settings = st.columns([1.5, 1])
         
         with col_naskah:
-            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI (SATU ADEGAN)</p>', unsafe_allow_html=True)
+            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
             aksi_q = st.text_area("Aksi Q", height=300, placeholder="KETIK DI SINI: Deskripsi aksi dan karakter...", key="q_aksi", label_visibility="collapsed")
         
         with col_settings:
@@ -670,17 +669,17 @@ def tampilkan_quick_prompt():
                 f"FORMAT: 9:16 Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
             )
             
-            st.success("✅ Mantra Masterpiece Berhasil Dirakit!")
-            with st.expander("📋 HASIL RAKITAN MANTRA", expanded=True):
+            st.success("✅ Prompt Instan Berhasil Dirakit!")
+            with st.expander("📋 Hasil Prompt", expanded=True):
                 c_res1, c_res2 = st.columns(2)
                 with c_res1:
-                    st.markdown('<p class="small-label">📷 MANTRA GAMBAR</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
                     st.code(img_p, language="text")
                 with c_res2:
-                    st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
                     st.code(vid_p, language="text")
         else:
-            st.warning("Isi dulu aksinya, Bos!")
+            st.warning("Mohon isi dulu aksinya!")
             
 import requests # Pastikan ini ada di baris paling atas app.py
 
@@ -762,7 +761,7 @@ def tampilkan_tugas_kerja():
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
-        with st.expander("✨ **DEPLOY TUGAS BARU**", expanded=False):
+        with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
             with c2:
                 isi_tugas = st.text_area("Instruksi Tugas", height=150)
@@ -810,7 +809,7 @@ def tampilkan_tugas_kerja():
             with c4: st.caption("📅 DEADLINE"); st.write(t['Deadline'])
             with c5: st.caption("⏰ SETOR"); st.write(t['Waktu_Kirim'])
 
-            with st.expander("🔍 DETAIL & AKSI"):
+            with st.expander("🔍 CEK TUGAS KERJA HARIAN"):
                 st.code(t["Instruksi"])
                 if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
                     links = str(t["Link_Hasil"]).split(",")
@@ -910,7 +909,7 @@ def tampilkan_kendali_tim():
         return
 
     # 2. HALAMAN KHUSUS ADMIN
-    st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
+    st.title("⚡ PUSAT KENDALI TIM")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -995,9 +994,9 @@ def tampilkan_kendali_tim():
 
         # --- 3. DASHBOARD METRIC ---
         m1, m2, m3 = st.columns(3)
-        m1.metric("💰 TOTAL INCOME", f"Rp {total_income:,}")
-        m2.metric("💸 TOTAL OUTGO", f"Rp {(total_payroll_bln_ini + total_operasional):,}", help="Gaji Tim + Biaya Operasional")
-        m3.metric("💎 NET PROFIT", f"Rp {net_profit:,}")
+        m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
+        m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bln_ini + total_operasional):,}", help="Gaji Tim + Biaya Operasional")
+        m3.metric("💎 PENDAPATAN BERSIH", f"Rp {net_profit:,}")
 
         # --- 4. EXPANDER: INPUT TRANSAKSI (KHUSUS DIAN) ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
@@ -1018,7 +1017,7 @@ def tampilkan_kendali_tim():
                         st.error(f"Gagal simpan: {e}")
 
         # --- 5. EXPANDER: PRODUKTIVITAS EDITOR ---
-        with st.expander(f"📊 Produktivitas Editor ({pilihan_nama})", expanded=True):
+        with st.expander(f"📊 Produktivitas Staff ({pilihan_nama})", expanded=True):
             if not df_tugas_terfilter.empty:
                 st.bar_chart(rekap_finish)
             else:
@@ -1058,7 +1057,7 @@ def tampilkan_kendali_tim():
                                     <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
                                     <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
                                     <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
+                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
                                 </div>
                                 <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
                                     <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
@@ -1075,7 +1074,7 @@ def tampilkan_kendali_tim():
                                 </table>
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
-                                    <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR DIGITAL SYSTEM</div>
+                                    <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
                                     <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
                                 </div>
                             </div>
@@ -1137,7 +1136,7 @@ def tampilkan_ruang_produksi():
                 st.rerun()
 
     # 1. IDENTITY LOCK
-    with st.expander("🛡️ IDENTITY LOCK - Referensi Foto", expanded=True):
+    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         
         cols_char = st.columns(data["jumlah_karakter"])
@@ -1219,7 +1218,7 @@ def tampilkan_ruang_produksi():
 
     # --- 3. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
-    if st.button("🚀 GENERATE ALL SCENES PROMPT", use_container_width=True, type="primary"):
+    if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
@@ -1273,10 +1272,10 @@ def tampilkan_ruang_produksi():
 
                     c_img, c_vid = st.columns(2)
                     with c_img:
-                        st.markdown('<p class="small-label">📷 MANTRA GAMBAR</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
                         st.code(img_p, language="text")
                     with c_vid:
-                        st.markdown('<p class="small-label">🎥 MANTRA VIDEO</p>', unsafe_allow_html=True)
+                        st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1304,6 +1303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
