@@ -475,7 +475,7 @@ def tampilkan_ai_lab():
     st.write("---")
 
     # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
-    tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual (Mantra)", "⚡ Mode Otomatis (Groq)"])
+    tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual", "⚡ Mode Otomatis"])
 
     # MODE MANUAL
     with tab_manual:
@@ -524,8 +524,8 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
 
             if st.button("🔥 GENERATE INSTANT SCRIPT", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
-                    st.toast("Menghubungkan ke Groq...", icon="🌐")
-                    with st.spinner("Groq lagi ngetik naskah gila..."):
+                    st.toast("Sedang menghubungkan...", icon="🌐")
+                    with st.spinner("lagi ngetik naskah gila..."):
                         try:
                             import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
@@ -1304,6 +1304,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
