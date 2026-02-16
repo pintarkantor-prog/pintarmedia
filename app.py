@@ -951,8 +951,10 @@ def tampilkan_kendali_tim():
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
 
-        # --- NORMALISASI DATA STAFF ---
+        # --- NORMALISASI DATA STAFF & JABATAN ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
+        # FIX JABATAN: Buat kamus jabatan agar Inggi jadi 'Uploader' bukan 'Editor'
+        dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
         # --- 3. FITUR RUANG QUALITY CONTROL (QC) ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
@@ -968,7 +970,8 @@ def tampilkan_kendali_tim():
                         st.write(f"🎬 **{judul_qc}**")
                         
                         deadline_raw = row_qc.get('Deadline', '')
-                        deadline_dt = pd.to_datetime(deadline_raw, errors='coerce')
+                        # FIX TANGGAL: dayfirst=True agar format Indo DD/MM terbaca benar
+                        deadline_dt = pd.to_datetime(deadline_raw, dayfirst=True, errors='coerce')
                         
                         if deadline_dt and deadline_dt.date() < sekarang.date():
                             st.error(f"⚠️ TELAT: Deadline {deadline_raw}")
@@ -976,7 +979,6 @@ def tampilkan_kendali_tim():
                             st.caption(f"Editor: {row_qc.get('Staf', 'Anonim')} | Deadline: {deadline_raw}")
                     
                     with c2:
-                        # idx_gsheet: index pandas + 2 (header + urutan 1)
                         idx_gs = row_qc.name + 2
                         if st.button(f"✅ APPROVE", key=f"app_{i}_{idx_gs}", use_container_width=True):
                             ws_tugas.update_cell(idx_gs, 5, "FINISH")
@@ -995,7 +997,8 @@ def tampilkan_kendali_tim():
         rekap_finish = {}
         df_finish = pd.DataFrame()
         if not df_tugas.empty:
-            df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], errors='coerce')
+            # FIX TANGGAL: dayfirst=True agar filter bulan Januari/Maret tidak lari ke Februari
+            df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
             mask_f = (df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & \
                      (df_tugas['Deadline_DT'].dt.year == tahun_dipilih) & \
                      (df_tugas['Status'].astype(str).str.upper() == "FINISH")
@@ -1005,7 +1008,7 @@ def tampilkan_kendali_tim():
 
         rekap_absen = {}
         if not df_absen.empty:
-            df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], errors='coerce')
+            df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
             mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & \
                      (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
             df_absen_f = df_absen[mask_a].copy()
@@ -1024,6 +1027,7 @@ def tampilkan_kendali_tim():
         total_operasional = 0
         if not df_kas.empty:
             df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
+            # FIX FILTER KAS: Mengikuti bulan_dipilih dan tahun_dipilih
             mask_k = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
             df_kas_bln = df_kas[mask_k].copy()
             df_kas_bln['Nominal'] = pd.to_numeric(df_kas_bln['Nominal'], errors='coerce').fillna(0)
@@ -1061,6 +1065,9 @@ def tampilkan_kendali_tim():
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
+                # FIX JABATAN: Mengambil dari hasil scan GSheet Staff
+                jab_final = dict_jabatan.get(s_up, row['Jabatan'])
+                
                 jh = rekap_absen.get(s_up, 0)
                 jv = rekap_finish.get(s_up, 0)
                 bonus_h = jh * 50000
@@ -1071,7 +1078,7 @@ def tampilkan_kendali_tim():
                     c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
                     with c1:
                         st.write(f"👤 **{row['Nama']}**")
-                        st.caption(f"💼 {row['Jabatan']}")
+                        st.caption(f"💼 {jab_final}") # Jabatan dinamis
                     with c2: st.caption("HADIR"); st.write(f"{jh} Hari")
                     with c3: st.caption("VIDEO"); st.write(f"{jv} Video")
                     with c4:
@@ -1086,7 +1093,7 @@ def tampilkan_kendali_tim():
                                 </div>
                                 <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
                                     <tr><td>Staf</td><td align="right"><b>{row['Nama']}</b></td></tr>
-                                    <tr><td>Jabatan</td><td align="right">{row['Jabatan']}</td></tr>
+                                    <tr><td>Jabatan</td><td align="right">{jab_final}</td></tr>
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {int(row['Gaji_Pokok']):,}</td></tr>
@@ -1328,6 +1335,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
