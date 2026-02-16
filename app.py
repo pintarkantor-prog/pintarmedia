@@ -933,81 +933,86 @@ def tampilkan_kendali_tim():
         sh = client.open_by_url(url_gsheet)
         ws_tugas = sh.worksheet("Tugas")
         
-        # --- AMBIL DATA DARI GSHEET ---
+        # --- AMBIL DATA DARI GSHEET (VERSI ANTI-ERROR STATUS) ---
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
-        df_tugas = pd.DataFrame(ws_tugas.get_all_records())
-        df_tugas.columns = [c.strip() for c in df_tugas.columns]
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
+
+        # Pengambilan Data Tugas secara manual (posisi kolom)
+        data_tugas_raw = ws_tugas.get_all_values()
+        if len(data_tugas_raw) > 1:
+            header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
+            df_tugas = pd.DataFrame(data_tugas_raw[1:], columns=header_tugas)
+            # Paksa kolom ke-5 (Index 4) jadi 'Status'
+            if len(df_tugas.columns) >= 5:
+                cols = list(df_tugas.columns)
+                cols[4] = 'Status'
+                df_tugas.columns = cols
+        else:
+            df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
 
         # --- NORMALISASI DATA STAFF ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
 
         # --- 3. FITUR RUANG QUALITY CONTROL (QC) ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
-        if 'Status' in df_tugas.columns:
-            df_qc = df_tugas[df_tugas['Status'].astype(str).str.upper() == "WAITING QC"].copy()
-            
-            if not df_qc.empty:
-                for i, row_qc in df_qc.iterrows():
-                    with st.container(border=True):
-                        c1, c2, c3 = st.columns([3, 2, 2])
-                        with c1:
-                            # Pakai kolom 'Instruksi' atau 'Judul_Video'
-                            judul_tugas = row_qc.get('Instruksi', row_qc.get('Judul_Video', 'Tugas Tanpa Judul'))
-                            st.write(f"🎬 **{judul_tugas}**")
-                            
-                            deadline_raw = row_qc.get('Deadline', '')
-                            deadline_tugas = pd.to_datetime(deadline_raw, errors='coerce')
-                            
-                            if deadline_tugas and deadline_tugas.date() < sekarang.date():
-                                st.error(f"⚠️ TELAT: Deadline {deadline_raw}")
-                            else:
-                                st.caption(f"Editor: {row_qc.get('Staf', 'Anonim')} | Deadline: {deadline_raw}")
+        # Filter WAITING QC
+        df_qc = df_tugas[df_tugas['Status'].astype(str).str.upper() == "WAITING QC"].copy()
+        
+        if not df_qc.empty:
+            for i, row_qc in df_qc.iterrows():
+                with st.container(border=True):
+                    c1, c2, c3 = st.columns([3, 2, 2])
+                    with c1:
+                        judul_qc = row_qc.get('Instruksi', 'Tugas Tanpa Judul')
+                        st.write(f"🎬 **{judul_qc}**")
                         
-                        with c2:
-                            # idx_gsheet: index pandas + 2 (karena header dan mulai dari 1)
-                            idx_gsheet = row_qc.name + 2
-                            if st.button(f"✅ APPROVE", key=f"app_{i}", use_container_width=True):
-                                # Update Kolom 5 (Status) di GSheet
-                                ws_tugas.update_cell(idx_gsheet, 5, "FINISH")
-                                st.success("Video Approved!")
-                                time.sleep(1); st.rerun()
+                        deadline_raw = row_qc.get('Deadline', '')
+                        deadline_dt = pd.to_datetime(deadline_raw, errors='coerce')
                         
-                        with c3:
-                            if st.button(f"❌ REVISI", key=f"rev_{i}", use_container_width=True):
-                                # Update Kolom 5 (Status) di GSheet
-                                ws_tugas.update_cell(idx_gsheet, 5, "REVISI")
-                                st.warning("Dikembalikan untuk revisi.")
-                                time.sleep(1); st.rerun()
-            else:
-                st.info("Antrean QC kosong. Aman, Dian! 😎")
+                        if deadline_dt and deadline_dt.date() < sekarang.date():
+                            st.error(f"⚠️ TELAT: Deadline {deadline_raw}")
+                        else:
+                            st.caption(f"Editor: {row_qc.get('Staf', 'Anonim')} | Deadline: {deadline_raw}")
+                    
+                    with c2:
+                        # idx_gsheet: index pandas + 2 (header + urutan 1)
+                        idx_gs = row_qc.name + 2
+                        if st.button(f"✅ APPROVE", key=f"app_{i}_{idx_gs}", use_container_width=True):
+                            ws_tugas.update_cell(idx_gs, 5, "FINISH")
+                            st.success("Approved!"); time.sleep(1.5); st.rerun()
+                    
+                    with c3:
+                        if st.button(f"❌ REVISI", key=f"rev_{i}_{idx_gs}", use_container_width=True):
+                            ws_tugas.update_cell(idx_gs, 5, "REVISI")
+                            st.warning("Revisi dikirim!"); time.sleep(1.5); st.rerun()
         else:
-            st.error("Kolom 'Status' tidak ditemukan di GSheet (Tab Tugas)!")
+            st.info("Antrean QC kosong. Aman, Dian! 😎")
 
         st.divider()
 
-        # --- 4. PROSES REKAP DATA UNTUK DASHBOARD ---
+        # --- 4. PROSES REKAP DATA (HANYA FINISH) ---
         rekap_finish = {}
-        if not df_tugas.empty and 'Status' in df_tugas.columns:
+        df_finish = pd.DataFrame()
+        if not df_tugas.empty:
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], errors='coerce')
-            mask_finish = (df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & \
-                          (df_tugas['Deadline_DT'].dt.year == tahun_dipilih) & \
-                          (df_tugas['Status'].astype(str).str.upper() == "FINISH")
-            df_finish = df_tugas[mask_finish].copy()
+            mask_f = (df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & \
+                     (df_tugas['Deadline_DT'].dt.year == tahun_dipilih) & \
+                     (df_tugas['Status'].astype(str).str.upper() == "FINISH")
+            df_finish = df_tugas[mask_f].copy()
             if not df_finish.empty:
                 rekap_finish = df_finish['Staf'].astype(str).str.strip().str.upper().value_counts()
 
         rekap_absen = {}
         if not df_absen.empty:
             df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], errors='coerce')
-            mask_absen = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & \
-                         (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_absen_terfilter = df_absen[mask_absen].copy()
-            if not df_absen_terfilter.empty:
-                rekap_absen = df_absen_terfilter['Nama'].astype(str).str.strip().str.upper().value_counts()
+            mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & \
+                     (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
+            df_absen_f = df_absen[mask_a].copy()
+            if not df_absen_f.empty:
+                rekap_absen = df_absen_f['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- 5. LOGIKA KEUANGAN & PAYROLL ---
+        # --- 5. LOGIKA KEUANGAN ---
         total_payroll = 0
         for _, row_p in df_staff.iterrows():
             st_up = row_p['Nama_Upper']
@@ -1019,8 +1024,8 @@ def tampilkan_kendali_tim():
         total_operasional = 0
         if not df_kas.empty:
             df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
-            mask_kas = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_kas_bln = df_kas[mask_kas].copy()
+            mask_k = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
+            df_kas_bln = df_kas[mask_k].copy()
             df_kas_bln['Nominal'] = pd.to_numeric(df_kas_bln['Nominal'], errors='coerce').fillna(0)
             total_income = df_kas_bln[df_kas_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
             total_operasional = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
@@ -1030,12 +1035,12 @@ def tampilkan_kendali_tim():
         # --- 6. DASHBOARD METRIC ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
-        m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll + total_operasional):,}", help="Gaji Tim + Operasional")
+        m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll + total_operasional):,}")
         m3.metric("💎 PENDAPATAN BERSIH", f"Rp {net_profit:,}")
 
-        # --- 7. EXPANDER: INPUT TRANSAKSI ---
+        # --- 7. EXPANDER: INPUT KAS ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
-            with st.form("form_arus_kas", clear_on_submit=True):
+            with st.form("form_kas", clear_on_submit=True):
                 c_tipe, c_kat, c_nom = st.columns(3)
                 f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
                 f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
@@ -1043,16 +1048,16 @@ def tampilkan_kendali_tim():
                 f_ket = st.text_input("Keterangan:")
                 if st.form_submit_button("Simpan Transaksi"):
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Tersimpan!"); time.sleep(1.5); st.rerun()
+                    st.success("Berhasil!"); time.sleep(1); st.rerun()
 
         # --- 8. EXPANDER: PRODUKTIVITAS ---
         with st.expander(f"📊 Produktivitas Staff ({pilihan_nama})", expanded=True):
-            if not df_finish.empty if 'df_finish' in locals() else False:
+            if not df_finish.empty:
                 st.bar_chart(rekap_finish)
             else:
-                st.info("Belum ada video FINISH bulan ini.")
+                st.info("Belum ada video yang disetujui (FINISH) bulan ini.")
 
-        # --- 9. EXPANDER: HITUNG GAJI & SLIP (FULL HTML) ---
+        # --- 9. EXPANDER: GAJI & SLIP (FULL HTML) ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
@@ -1323,6 +1328,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
