@@ -933,12 +933,12 @@ def tampilkan_kendali_tim():
         sh = client.open_by_url(url_gsheet)
         ws_tugas = sh.worksheet("Tugas")
         
-        # --- AMBIL DATA DARI GSHEET ---
+        # --- AMBIL DATA GSHEET ---
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
-        # Pengambilan Data Tugas secara manual (posisi kolom)
+        # Ambil Data Tugas (Versi Anti-Error Status)
         data_tugas_raw = ws_tugas.get_all_values()
         if len(data_tugas_raw) > 1:
             header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
@@ -950,12 +950,12 @@ def tampilkan_kendali_tim():
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
 
-        # --- NORMALISASI DATA STAFF & JABATAN ---
+        # --- NORMALISASI DATA & JABATAN DINAMIS ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
-        # FIX JABATAN: Dinamis ambil dari GSheet Staff
+        # FIX JABATAN: Ambil langsung dari GSheet Staff (Inggi -> Uploader)
         dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
-        # --- 3. RUANG QUALITY CONTROL (QC) ---
+        # --- 3. FITUR RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
         df_qc = df_tugas[df_tugas['Status'].astype(str).str.upper() == "WAITING QC"].copy()
         
@@ -976,39 +976,36 @@ def tampilkan_kendali_tim():
                             ws_tugas.update_cell(idx_gs, 5, "REVISI")
                             st.warning("Revisi dikirim!"); time.sleep(1.5); st.rerun()
         else:
-            st.info("Antrean QC kosong. 😎")
+            st.info("Antrean QC kosong. ✨")
 
         st.divider()
 
-        # --- 4. PROSES REKAP DATA (FILTER BULAN DINAMIS) ---
+        # --- 4. REKAP DATA DINAMIS (FILTER BULAN) ---
         rekap_finish = {}
-        df_finish = pd.DataFrame()
         if not df_tugas.empty:
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
             mask_f = (df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & \
                      (df_tugas['Deadline_DT'].dt.year == tahun_dipilih) & \
                      (df_tugas['Status'].astype(str).str.upper() == "FINISH")
-            df_finish = df_tugas[mask_f].copy()
-            if not df_finish.empty:
-                rekap_finish = df_finish['Staf'].astype(str).str.strip().str.upper().value_counts()
+            df_f = df_tugas[mask_f].copy()
+            if not df_f.empty:
+                rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
 
         rekap_absen = {}
         if not df_absen.empty:
             df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
-            mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & \
-                     (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_absen_f = df_absen[mask_a].copy()
-            if not df_absen_f.empty:
-                rekap_absen = df_absen_f['Nama'].astype(str).str.strip().str.upper().value_counts()
+            mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
+            df_a_f = df_absen[mask_a].copy()
+            if not df_a_f.empty:
+                rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- 5. LOGIKA KEUANGAN (FIX ANGKA TIDAK SAMA TIAP BULAN) ---
+        # --- 5. LOGIKA KEUANGAN DINAMIS ---
         total_payroll_bulanan = 0
         for _, row_p in df_staff.iterrows():
             st_up = row_p['Nama_Upper']
             jh = rekap_absen.get(st_up, 0)
             jv = rekap_finish.get(st_up, 0)
-            
-            # Gaji hanya dihitung jika ada aktivitas di bulan terpilih
+            # Gaji hanya dihitung jika ada catatan hadir atau video FINISH di bulan terpilih
             if jh > 0 or jv > 0:
                 total_payroll_bulanan += (int(row_p['Gaji_Pokok']) + int(row_p['Tunjangan']) + (jh * 50000) + (jv * 10000))
 
@@ -1017,20 +1014,20 @@ def tampilkan_kendali_tim():
         if not df_kas.empty:
             df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
             mask_k = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_kas_bln = df_kas[mask_k].copy()
-            df_kas_bln['Nominal'] = pd.to_numeric(df_kas_bln['Nominal'], errors='coerce').fillna(0)
-            total_income = df_kas_bln[df_kas_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
-            total_operasional = df_kas_bln[df_kas_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
+            df_k_bln = df_kas[mask_k].copy()
+            df_k_bln['Nominal'] = pd.to_numeric(df_k_bln['Nominal'], errors='coerce').fillna(0)
+            total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
+            total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
         net_profit = total_income - (total_payroll_bulanan + total_operasional)
 
-        # --- 6. DASHBOARD METRIC ---
+        # --- 6. METRIC ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bulanan + total_operasional):,}")
         m3.metric("💎 PENDAPATAN BERSIH", f"Rp {net_profit:,}")
 
-        # --- 7. INPUT KAS ---
+        # --- 7. INPUT TRANSAKSI ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
             with st.form("form_kas", clear_on_submit=True):
                 c_tipe, c_kat, c_nom = st.columns(3)
@@ -1040,9 +1037,9 @@ def tampilkan_kendali_tim():
                 f_ket = st.text_input("Keterangan:")
                 if st.form_submit_button("Simpan Transaksi"):
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Berhasil!"); time.sleep(1); st.rerun()
+                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-        # --- 8. GAJI & SLIP (FIX JABATAN) ---
+        # --- 8. GAJI & SLIP HIJAU ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
@@ -1075,8 +1072,8 @@ def tampilkan_kendali_tim():
                                         <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                         <tr><td>Gaji Pokok</td><td align="right">Rp {int(row['Gaji_Pokok']):,}</td></tr>
                                         <tr><td>Tunjangan</td><td align="right">Rp {int(row['Tunjangan']):,}</td></tr>
-                                        <tr><td>Bonus Hadir ({jh}x)</td><td align="right">Rp {(jh * 50000):,}</td></tr>
-                                        <tr><td>Bonus Video ({jv}x)</td><td align="right">Rp {(jv * 10000):,}</td></tr>
+                                        <tr><td>Bonus Hadir</td><td align="right">Rp {(jh * 50000):,}</td></tr>
+                                        <tr><td>Bonus Video</td><td align="right">Rp {(jv * 10000):,}</td></tr>
                                         <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                         <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                             <td>TOTAL TERIMA</td><td align="right">Rp {total_gaji:,}</td></tr>
@@ -1306,6 +1303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
