@@ -987,7 +987,7 @@ def tampilkan_kendali_tim():
                             ws_tugas.update_cell(idx_gs, 5, "REVISI")
                             st.warning("Revisi dikirim!"); time.sleep(1.5); st.rerun()
         else:
-            st.info("Antrean QC kosong. Aman, Dian! 😎")
+            st.info("Antrean QC kosong. Sementara Aman! 😎")
 
         st.divider()
 
@@ -1328,6 +1328,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
