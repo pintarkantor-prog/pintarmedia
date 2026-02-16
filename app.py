@@ -1115,7 +1115,7 @@ def tampilkan_ruang_produksi():
     )
 
     # HEADER
-    c1, c_kosong, c2 = st.columns([2, 0.5, 0.9]) 
+    c1, c_kosong, c2 = st.columns([2, 0.5, 1.5]) 
     with c1:
         st.markdown("# 🚀 RUANG PRODUKSI")
     with c2:
@@ -1303,6 +1303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
