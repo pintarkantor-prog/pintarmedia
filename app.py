@@ -937,6 +937,7 @@ def tampilkan_kendali_tim():
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_tugas = pd.DataFrame(ws_tugas.get_all_records())
+        df_tugas.columns = [c.strip() for c in df_tugas.columns]
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
         # --- NORMALISASI DATA STAFF ---
@@ -1322,6 +1323,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
