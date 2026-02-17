@@ -1086,7 +1086,7 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI FINAL - SUPER-QUALITY & FIX)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI KOMPLIT - NO CUTTING)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1133,7 +1133,7 @@ def tampilkan_ruang_produksi():
                 st.session_state.naskah_siap_produksi = ""
                 st.rerun()
 
-    # 2. IDENTITY LOCK (PENGUNCI KARAKTER)
+    # 2. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         
@@ -1165,13 +1165,22 @@ def tampilkan_ruang_produksi():
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", OPTS_STYLE, index=OPTS_STYLE.index(data["adegan"][scene_id]["style"]) if data["adegan"][scene_id]["style"] in OPTS_STYLE else 0, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
+                    
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=OPTS_LIGHT.index(data["adegan"][scene_id]["light"]) if data["adegan"][scene_id]["light"] in OPTS_LIGHT else 0, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
+                    
+                    st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=OPTS_ARAH.index(data["adegan"][scene_id]["arah"]) if data["adegan"][scene_id]["arah"] in OPTS_ARAH else 0, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
+
                 with sub2:
-                    st.markdown('<p class="small-label">🔍 UKURAN</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=OPTS_SHOT.index(data["adegan"][scene_id]["shot"]) if data["adegan"][scene_id]["shot"] in OPTS_SHOT else 0, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
-                    st.markdown('<p class="small-label" style="margin-top:15px;">📺 RATIO</p>', unsafe_allow_html=True)
+                    
+                    st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=OPTS_RATIO.index(data["adegan"][scene_id]["ratio"]) if data["adegan"][scene_id]["ratio"] in OPTS_RATIO else 0, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
+                    
+                    st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=OPTS_CAM.index(data["adegan"][scene_id]["cam"]) if data["adegan"][scene_id]["cam"] in OPTS_CAM else 0, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
@@ -1183,32 +1192,31 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Ketik dialog...")
 
-    # 4. GLOBAL COMPILER LOGIC (HYBRID HIERARCHY)
+    # --- 4. GLOBAL COMPILER LOGIC (FULL & FIXED) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         if not adegan_terisi:
-            st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
+            st.error("⚠️ Gagal: Isi dulu Aksi Visualnya.")
         else:
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- PENYATUAN DATA KARAKTER ---
             karakter_compiled = []
             for c in data["karakter"]:
                 if c['nama']:
-                    nama_clean = c['nama'].strip().replace('"', '').lower()
-                    blok = f"[[ CHARACTER_{nama_clean.upper()}: \"si {nama_clean}\" maintain 100% exact facial features, anatomy, and textures. {c['fisik'].strip()}. Memakai {c['wear'].strip()}. ]]"
+                    n_clean = c['nama'].strip().replace('"', '').lower()
+                    blok = f"[[ CHARACTER_{n_clean.upper()}: \"si {n_clean}\" maintain 100% exact facial features, anatomy, and textures. {c['fisik'].strip()}. Memakai {c['wear'].strip()}. ]]"
                     karakter_compiled.append(blok)
             char_data_final = " AND ".join(karakter_compiled)
 
-            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
+            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, CLEAN cinematic shot."
             negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO flickering textures."
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # --- LOGIKA DIALOG CERDAS ---
+                # --- LOGIKA DIALOG & LIPSYNC ---
                 dialog_list = []
                 who_is_talking = []
                 for i in range(data["jumlah_karakter"]):
@@ -1220,7 +1228,6 @@ def tampilkan_ruang_produksi():
                 
                 teks_dialog_final = " | ".join(dialog_list)
                 
-                # --- LOGIKA MULUT (LIPSYNC) ---
                 if who_is_talking:
                     lipsync_instr = f"Mouth speaking movement for {', '.join(who_is_talking)}, visible phonetic jaw shapes. Maintain character organic textures (No Human Skin)."
                 else:
@@ -1237,6 +1244,7 @@ def tampilkan_ruang_produksi():
                         f"CHARACTER DATA: {char_data_final}\n\n"
                         f"VISUAL DESCRIPTION: {sc['aksi']}. {lipsync_instr}. Frozen in time, no motion blur.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. NO SOFTENING.\n\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view.\n\n"
                         f"FOCUS RULE: {QB_IMG}\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, RAW Still Image Output"
@@ -1246,11 +1254,11 @@ def tampilkan_ruang_produksi():
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
                         f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instr}. Fluid 24fps cinematic motion.\n\n"
-                        f"IDENTITY PROTECTION: Keep character organic textures (orange skin/wood grain) 100% intact during mouth movement. STRICTLY NO human skin or realistic human lips. NO morphing faces.\n\n"
+                        f"TEXTURE PROTECTION: Keep character organic textures (orange skin/wood grain) 100% intact during mouth movement. STRICTLY NO human skin or realistic human lips. NO morphing faces.\n\n"
                         f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity from reference at all times.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. High-fidelity textures.\n\n"
                         f"ACTING CUE & LIP-SYNC (NO SCREEN TEXT): {teks_dialog_final if teks_dialog_final else 'None'}.\n\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['light']}\n\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}\n\n"
                         f"NEGATIVE PROMPT: human skin textures on mouth, realistic human lips, {no_text_strict}, {negative_motion_strict}\n\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Render"
                     )
@@ -1287,6 +1295,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
