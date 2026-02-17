@@ -1087,13 +1087,44 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: RUANG PRODUKSI (VERSI GABUNGAN SEMPURNA - REPLIKA KODE LAMA)
+# BAGIAN 6: RUANG PRODUKSI (VERSI TOTAL REPLIKA - TANPA DROPDOWN LOKASI)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     import re
     import json
     user_aktif = st.session_state.get("active_user", "User").upper()
-    
+
+    # --- [ GUDANG SENJATA KODE LAMA ] ---
+    indonesia_camera = ["Diam (Tanpa Gerak)", "Ikuti Karakter", "Zoom Masuk", "Zoom Keluar", "Memutar (Orbit)"]
+    indonesia_shot = ["Sangat Dekat", "Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Pemandangan Luas", "Drone Shot"]
+    indonesia_angle = ["Normal", "Sudut Rendah", "Sudut Tinggi", "Samping", "Berhadapan", "Intip Bahu", "Belakang"]
+    options_lighting = ["Pagi", "Siang", "Sore", "Malam"]
+
+    camera_map = {
+        "Diam (Tanpa Gerak)": "Static camera, no movement, stable shot",
+        "Ikuti Karakter": "Dynamic tracking shot following the subject's movement",
+        "Zoom Masuk": "Slow cinematic zoom-in, intensifying focus",
+        "Zoom Keluar": "Slow cinematic zoom-out, revealing environment",
+        "Memutar (Orbit)": "360-degree orbital circular camera rotation"
+    }
+    shot_map = {
+        "Sangat Dekat": "Extreme Close-Up shot, macro photography, hyper-detailed micro textures",
+        "Dekat Wajah": "Close-Up shot, focus on facial expressions and skin details",
+        "Setengah Badan": "Medium Shot, waist-up framing, cinematic depth",
+        "Seluruh Badan": "Full body shot, head-to-toe framing, environment visible",
+        "Pemandangan Luas": "Wide landscape shot, expansive scenery, subject is small in frame",
+        "Drone Shot": "Cinematic Aerial Drone shot, high altitude, bird's-eye view from above"
+    }
+    angle_map = {
+        "Normal": "eye-level shot, straight on perspective, natural head-on view",
+        "Sudut Rendah": "heroic low angle shot, looking up from below, monumental framing",
+        "Sudut Tinggi": "high angle shot, looking down at the subject, making it look smaller",
+        "Samping": "side profile view, 90-degree side angle, parallel to camera, full profile perspective",
+        "Berhadapan": "dual profile view, two subjects facing each other, face-to-face, symmetrical",
+        "Intip Bahu": "over-the-shoulder shot, foreground shoulder blur, cinematic dialogue depth",
+        "Belakang": "shot from behind, back view, following the subject, looking away from camera"
+    }
+
     # --- 1. PARAMETER KUALITAS ASLI KODE LAMA ---
     img_quality_stack = (
         "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
@@ -1114,16 +1145,12 @@ def tampilkan_ruang_produksi():
         "NO burned-in text, NO characters speaking with visible words, "
         "the image must be a CLEAN cinematic shot without any written characters."
     )
-    negative_motion_strict = (
-        "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, "
-        "NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
-    )
 
     st.markdown(f"# 🚀 RUANG PRODUKSI")
 
-    # --- 2. IDENTITY LOCK (VERSI ELEGANT GRID KODE LAMA) ---
-    with st.expander("👥 Nama Karakter Utama & Penampilan Fisik!", expanded=True):
-        num_total_char = st.number_input("Total Karakter Utama", 1, 10, 2, key="num_total_char_prod")
+    # --- 2. IDENTITY LOCK ---
+    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter Utama", expanded=True):
+        num_total_char = st.number_input("Total Karakter Utama", 1, 10, 2)
         all_chars_list = []
         for i in range(1, num_total_char + 1, 2):
             cols = st.columns(2)
@@ -1132,12 +1159,12 @@ def tampilkan_ruang_produksi():
                 if idx <= num_total_char:
                     with cols[idx_offset]:
                         st.markdown(f"##### 👤 Karakter Utama {idx}")
-                        name = st.text_input(f"N_{idx}", key=f"c_name_{idx}_input", label_visibility="collapsed", placeholder=f"Nama {idx}")
-                        desc = st.text_area(f"F_{idx}", key=f"c_desc_{idx}_input", height=120, label_visibility="collapsed", placeholder=f"Fisik {idx}")
+                        name = st.text_input(f"N_{idx}", key=f"c_name_{idx}_input", placeholder=f"Nama {idx}", label_visibility="collapsed")
+                        desc = st.text_area(f"F_{idx}", key=f"c_desc_{idx}_input", height=100, placeholder=f"Fisik {idx}", label_visibility="collapsed")
                         all_chars_list.append({"name": name, "desc": desc})
 
-    # --- 3. INPUT ADEGAN (LOGIKA LOOPING KODE LAMA) ---
-    num_scenes = st.sidebar.number_input("Jumlah Adegan", 1, 50, 6, key="sidebar_num_scenes")
+    # --- 3. INPUT ADEGAN ---
+    num_scenes = st.number_input("Tambah Jumlah Adegan", 1, 50, 6)
     adegan_storage = []
     for i_s in range(1, int(num_scenes) + 1):
         with st.expander(f"🎬 ADEGAN {i_s}", expanded=(i_s == 1)):
@@ -1150,18 +1177,18 @@ def tampilkan_ruang_produksi():
                     st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
                     light_val = st.selectbox(f"L{i_s}", options_lighting, key=f"light_input_{i_s}", label_visibility="collapsed")
                 with r1[1]:
-                    st.markdown('<p class="small-label">📐 Ukuran</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">📐 Ukuran Gambar</p>', unsafe_allow_html=True)
                     shot_val = st.selectbox(f"S{i_s}", indonesia_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
                 r2 = st.columns(2)
                 with r2[0]:
-                    st.markdown('<p class="small-label">✨ Arah</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">✨ Arah Kamera</p>', unsafe_allow_html=True)
                     angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_input_{i_s}", label_visibility="collapsed")
                 with r2[1]:
-                    st.markdown('<p class="small-label">🎬 Gerak</p>', unsafe_allow_html=True)
+                    st.markdown('<p class="small-label">🎬 Gerak Kamera</p>', unsafe_allow_html=True)
                     cam_val = st.selectbox(f"C{i_s}", indonesia_camera, key=f"camera_input_{i_s}", label_visibility="collapsed")
-                st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
-                loc_choice = st.selectbox(f"LocSel{i_s}", options=options_lokasi, key=f"loc_sel_{i_s}", label_visibility="collapsed")
-                location_val = st.text_input(f"LocManual{i_s}", key=f"loc_custom_{i_s}", label_visibility="collapsed", placeholder="Ketik manual...") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
+                
+                st.markdown('<p class="small-label">📍 Lokasi Spesifik</p>', unsafe_allow_html=True)
+                location_val = st.text_input(f"Loc_{i_s}", key=f"loc_custom_{i_s}", label_visibility="collapsed", placeholder="Contoh: di teras rumah kayu tua...")
 
             diag_cols = st.columns(len(all_chars_list))
             scene_dialogs_list = []
@@ -1173,19 +1200,17 @@ def tampilkan_ruang_produksi():
             
             adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
 
-    # --- 4. MEGA GENERATOR (GABUNGAN LOGIKA GENRE & DNA LOKASI KODE LAMA) ---
+    # --- 4. GENERATOR PROMPT (TOTAL REPLIKA KODE LAMA) ---
+    st.markdown("---")
     if st.button("🚀 GENERATE ALL PROMPTS", type="primary", use_container_width=True):
         st.session_state.last_generated_results = []
-        genre_pilihan = st.sidebar.selectbox("Gaya Film", ["Realistik (Nyata)", "Pixar 3D", "Marvel Superhero", "Transformers (Mecha)", "KingKong (VFX Monster)", "Asphalt (Balap/Glossy)", "Ghibli (Estetik/Indah)", "Dragon Ball", "Doraemon 3D", "Naruto (Ninja)", "Tayo (Anak-anak)", "Sakura School (Anime)"], key="sidebar_genre")
-
+        
         for item in [a for a in adegan_storage if a["visual"].strip() != ""]:
-            # A. Scan Karakter
             mentioned_chars = []
             for c in all_chars_list:
                 if c['name'] and re.search(rf'\b{re.escape(c["name"].lower())}\b', item['visual'].lower()):
                     mentioned_chars.append({"name": c['name'].upper(), "desc": c['desc']})
 
-            # B. Header Instruksi
             if mentioned_chars:
                 char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
                 ref_rule = f"IMAGE REFERENCE RULE: Use uploaded photo(s) for character faces. PHOTO #1 is Character 1, PHOTO #2 is Character 2."
@@ -1193,37 +1218,36 @@ def tampilkan_ruang_produksi():
                 char_info = f"[[ CHARACTER_MAIN: {all_chars_list[0]['desc']} ]]"
                 ref_rule = "IMAGE REFERENCE RULE: Use main character reference."
 
-            # C. Logika Bumbu Gaya & DNA Lokasi (PERSIS KODE LAMA)
-            bumbu_gaya = img_quality_stack
-            if genre_pilihan == "Pixar 3D": bumbu_gaya = "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, soft tactile textures"
-            elif genre_pilihan == "Marvel Superhero": bumbu_gaya = "Marvel Cinematic Universe aesthetic, heroic cinematic lighting, professional color grading"
-            # ... (Logika genre lainnya tetap sama)
+            d_text_full = " | ".join([f"{d['name']}: {d['text']}" for d in item.get('dialogs', []) if d.get('text')])
 
-            dna_env = LOKASI_DNA.get(item['location'].lower(), f"{item['location']}, highly detailed, sharp focus.")
-            
-            # D. Rakitan Output (Sesuai Layout Web Lama)
+            # --- RAKITAN IDENTIK KODE LAMA ---
             img_p = (f"{ref_rule}\n\nSTRICT VISUAL RULE: {no_text_strict}\n"
-                     f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.\n"
+                     f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
                      f"CHARACTER DATA: {char_info}\n"
                      f"VISUAL ACTION: {item['visual']}\n"
-                     f"ENVIRONMENT: {dna_env}\n"
+                     f"ENVIRONMENT: {item['location']}, highly detailed textures, sharp focus.\n"
                      f"CAMERA: {shot_map.get(item['shot'], 'Medium Shot')}, {angle_map.get(item['angle'], 'Normal')}\n"
-                     f"TECHNICAL: {bumbu_gaya}")
+                     f"TECHNICAL: {img_quality_stack}")
 
-            vid_p = (f"{ref_rule}\nACTION & MOTION: {item['visual']}, {camera_map.get(item['cam'], 'Static')}\n"
-                     f"CHARACTER CONSISTENCY: {char_info}\nENVIRONMENT: {dna_env}\n"
-                     f"TECHNICAL: {vid_quality_stack}, {bumbu_gaya}")
+            vid_p = (f"{ref_rule}\n"
+                     f"ACTION & MOTION: {item['visual']}. Movement: {camera_map.get(item['cam'], 'Static')}\n"
+                     f"CHARACTER CONSISTENCY: {char_info}. Maintain facial identity.\n"
+                     f"ENVIRONMENT: {item['location']}.\n"
+                     f"ACTING CUE: Emotional reference: '{d_text_full}'.\n"
+                     f"TECHNICAL: {vid_quality_stack}")
 
             st.session_state.last_generated_results.append({"id": item["num"], "img": img_p, "vid": vid_p})
         st.rerun()
 
-    # --- 5. DISPLAY HASIL (SINKRON DENGAN STATUS PROSES) ---
-    if st.session_state.last_generated_results:
+    # --- 5. DISPLAY HASIL ---
+    if st.session_state.get('last_generated_results'):
+        st.markdown(f"### 🎬 Hasil Prompt")
         for res in st.session_state.last_generated_results:
             with st.expander(f"PROSES | ADEGAN {res['id']}", expanded=True):
                 c1, c2 = st.columns(2)
                 with c1: st.markdown("📷 **PROMPT GAMBAR**"); st.code(res['img'], language="text")
                 with c2: st.markdown("🎥 **PROMPT VIDEO**"); st.code(res['vid'], language="text")
+                    
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
@@ -1247,6 +1271,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
