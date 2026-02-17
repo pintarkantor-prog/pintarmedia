@@ -604,8 +604,8 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT")
-    st.caption("Copy hasil prompt nya ke Grok/ Gemini/ Veo. *INFO :* Data disini, tidak bisa di simpan / restore!")
-
+    st.info(f"💡 **INFO :** Data disini, tidak bisa di simpan / restore! ")
+    
     # --- FUNGSI HAPUS PROMPT ---
     def hapus_semua():
         for key in st.session_state.keys():
@@ -681,7 +681,7 @@ def tampilkan_quick_prompt():
         with tab_vid:
             st.code(f"VIDEO: {q_vibe}, {smart_move}, 24fps.\nFORMAT: Vertical 9:16.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: {q_weather}.", language="text")
         
-        st.info(f"💡 **Smart Camera Detect:** {smart_move}")
+        st.info(f"💡 Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1446,6 +1446,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
