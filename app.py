@@ -1388,23 +1388,23 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- TOMBOL OPTIMASI GROK (VERSI STABIL) ---
+                    # --- OPTIMASI GROK (VERSI ANTI-HILANG) ---
                     st.markdown("---")
-                    # Gunakan variabel penampung agar hasil tidak hilang saat diklik
-                    if st.button(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", key=f"grok_btn_{scene_id}_{ver}", use_container_width=True):
-                        with st.container():
-                            # Rakitan ulang khusus selera Grok
-                            grok_img = (
-                                f"{QB_IMG}\n\n"
-                                f"STRICT BIOMETRIC LOCK: {dna_lock}\n"
-                                f"SCENE CONTEXT: {aksi_master}\n"
-                                f"LOCATION: {sc['loc']}. {bumbu_final}.\n"
-                                f"SPECS: {sc['shot']}, {sc['style']}, {sc['light']}, 8k resolution, cinematic sharpness\n"
-                                f"NEGATIVE: {no_text_strict}, motion blur, out of focus, lowres, distorted face, messy hair, oily skin"
-                            )
-                            st.success(f"🚀 Prompt Adegan {scene_id} Berhasil Dipertajam!")
-                            st.code(grok_img, language="text")
-                            st.warning("☝️ Segera Copy prompt di atas sebelum melakukan aksi lain agar tidak ter-reset.")
+                    
+                    # Kita pakai Popover: Jendela kecil yang muncul saat diklik dan TIDAK akan hilang
+                    with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
+                        # Rakitan ulang khusus selera Grok
+                        grok_img = (
+                            f"{QB_IMG}\n\n"
+                            f"STRICT BIOMETRIC LOCK: {dna_lock}\n"
+                            f"SCENE CONTEXT: {aksi_master}\n"
+                            f"LOCATION: {sc['loc']}. {bumbu_final}.\n"
+                            f"SPECS: {sc['shot']}, {sc['style']}, {sc['light']}, 8k resolution, cinematic sharpness\n"
+                            f"NEGATIVE: {no_text_strict}, motion blur, out of focus, lowres, distorted face, messy hair, oily skin"
+                        )
+                        st.markdown(f"### 🚀 Grok Optimized - Adegan {scene_id}")
+                        st.code(grok_img, language="text")
+                        st.caption("Salin prompt di atas untuk hasil yang lebih tajam di mesin Grok.")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1431,6 +1431,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
