@@ -901,7 +901,7 @@ def tampilkan_tugas_kerja():
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # 1. PROTEKSI AKSES (Hanya Dian)
+    # 1. PROTEKSI AKSES
     if user_sekarang != "dian":
         st.title("⚡ KENDALI TIM")
         st.divider()
@@ -932,18 +932,17 @@ def tampilkan_kendali_tim():
         client = gspread.authorize(creds)
         sh = client.open_by_url(url_gsheet)
         
-        # --- AMBIL DATA GSHEET ---
+        # Ambil Data Dasar
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
         ws_tugas = sh.worksheet("Tugas")
 
-        # --- FUNGSI PEMBERSIH TANGGAL PALING AMAN (Anti-Crash) ---
-        def paksa_tanggal(df, kolom):
-            if df.empty or kolom not in df.columns:
-                return pd.Series([None] * len(df))
-            # Ubah ke datetime, yang error jadi NaT (kosong)
-            return pd.to_datetime(df[kolom], dayfirst=True, errors='coerce')
+        # --- PEMBERSIH TANGGAL (Pusat Solusi agar tidak Error) ---
+        def olah_tgl(df, kolom):
+            # Ubah ke datetime, yang bukan tanggal jadi NaT (Not a Time)
+            df[kolom] = pd.to_datetime(df[kolom], dayfirst=True, errors='coerce')
+            return df
 
         # Ambil Data Tugas
         data_tugas_raw = ws_tugas.get_all_values()
@@ -954,10 +953,9 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
-            # Buat kolom tanggal bantuan
-            df_tugas['TGL_OBJ'] = paksa_tanggal(df_tugas, 'Deadline')
+            df_tugas = olah_tgl(df_tugas, 'Deadline')
         else:
-            df_tugas = pd.DataFrame(columns=['Staf', 'Deadline', 'Instruksi', 'Status', 'TGL_OBJ'])
+            df_tugas = pd.DataFrame(columns=['Staf', 'Deadline', 'Instruksi', 'Status'])
 
         # Mapping Jabatan (Fix Inggi Uploader)
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
@@ -985,47 +983,37 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- 4. JADWAL PRODUKSI (Tanpa Accessor .dt yang bikin error) ---
+        # --- 4. JADWAL PRODUKSI (ANTI ERROR .DT) ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
-        df_tugas_bln = pd.DataFrame()
-        if not df_tugas.empty:
-            # Cara filter aman tanpa .dt accessor langsung
-            df_tugas_bln = df_tugas[
-                (df_tugas['TGL_OBJ'].notnull()) & 
-                (df_tugas['TGL_OBJ'].apply(lambda x: x.month) == bulan_dipilih) & 
-                (df_tugas['TGL_OBJ'].apply(lambda x: x.year) == tahun_dipilih)
-            ].copy()
-            
-            if not df_tugas_bln.empty:
-                for _, t in df_tugas_bln.sort_values('TGL_OBJ').iterrows():
-                    ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['Status']).upper(), "⚪")
-                    st.write(f"{ikon} **{t['TGL_OBJ'].strftime('%d %b')}** - {t['Instruksi']} ({t['Staf']})")
-            else:
-                st.caption("Belum ada jadwal tugas bulan ini.")
+        # Buang baris yang tanggalnya rusak/kosong (NaT) agar tidak error saat filter bulan
+        df_tugas_bersih = df_tugas.dropna(subset=['Deadline'])
+        
+        # Gunakan kolom .dt hanya pada data yang sudah pasti isinya tanggal
+        df_tugas_bln = df_tugas_bersih[
+            (df_tugas_bersih['Deadline'].dt.month == bulan_dipilih) & 
+            (df_tugas_bersih['Deadline'].dt.year == tahun_dipilih)
+        ].copy()
+        
+        if not df_tugas_bln.empty:
+            for _, t in df_tugas_bln.sort_values('Deadline').iterrows():
+                ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['Status']).upper(), "⚪")
+                st.write(f"{ikon} **{t['Deadline'].strftime('%d %b')}** - {t['Instruksi']} ({t['Staf']})")
+        else:
+            st.caption("Belum ada jadwal tugas bulan ini.")
 
         st.divider()
 
-        # --- 5. LOGIKA KEUANGAN (ANTI-MOGOK) ---
-        # Rekap Video Finish
-        df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy() if not df_tugas_bln.empty else pd.DataFrame()
+        # --- 5. REKAP DATA & KEUANGAN ---
+        df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
         rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts() if not df_f.empty else {}
 
-        # Rekap Absensi
-        df_absen['TGL_OBJ'] = paksa_tanggal(df_absen, 'Tanggal')
-        df_a_f = df_absen[
-            (df_absen['TGL_OBJ'].notnull()) & 
-            (df_absen['TGL_OBJ'].apply(lambda x: x.month) == bulan_dipilih) & 
-            (df_absen['TGL_OBJ'].apply(lambda x: x.year) == tahun_dipilih)
-        ].copy()
+        # Olah Absen & Kas (Pembersihan NaT juga)
+        df_absen = olah_tgl(df_absen, 'Tanggal').dropna(subset=['Tanggal'])
+        df_a_f = df_absen[(df_absen['Tanggal'].dt.month == bulan_dipilih) & (df_absen['Tanggal'].dt.year == tahun_dipilih)].copy()
         rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts() if not df_a_f.empty else {}
 
-        # Rekap Kas
-        df_kas['TGL_OBJ'] = paksa_tanggal(df_kas, 'Tanggal')
-        df_k_bln = df_kas[
-            (df_kas['TGL_OBJ'].notnull()) & 
-            (df_kas['TGL_OBJ'].apply(lambda x: x.month) == bulan_dipilih) & 
-            (df_kas['TGL_OBJ'].apply(lambda x: x.year) == tahun_dipilih)
-        ].copy()
+        df_kas = olah_tgl(df_kas, 'Tanggal').dropna(subset=['Tanggal'])
+        df_k_bln = df_kas[(df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)].copy()
         
         total_income = 0
         total_operasional = 0
@@ -1041,18 +1029,17 @@ def tampilkan_kendali_tim():
             if jh > 0 or jv > 0:
                 total_payroll += (int(r['Gaji_Pokok']) + int(r['Tunjangan']) + (jh * 50000) + (jv * 10000))
 
-        # --- 6. DASHBOARD METRIC ---
+        # --- 6. DASHBOARD METRIC (LAPORAN KEUANGAN) ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll + total_operasional):,}")
         m3.metric("💎 PENDAPATAN BERSIH", f"Rp {total_income - (total_payroll + total_operasional):,}")
 
-        # --- 7. PRODUKTIVITAS ---
+        # --- 7. PRODUKTIVITAS & INPUT KAS ---
         with st.expander(f"📊 Grafik Produktivitas ({pilihan_nama})", expanded=True):
             if not df_f.empty: st.bar_chart(rekap_finish)
             else: st.info("Belum ada video FINISH bulan ini.")
 
-        # --- 8. INPUT KAS ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
             with st.form("f_kas", clear_on_submit=True):
                 c1, c2, c3 = st.columns(3)
@@ -1064,7 +1051,7 @@ def tampilkan_kendali_tim():
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), t_tp, t_kt, int(t_nm), t_ket, "Dian"])
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-        # --- 9. SLIP GAJI (DETAIL RINCIAN) ---
+        # --- 8. SLIP GAJI (RINCIAN DETAIL UTUH) ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, r in df_staff.iterrows():
                 s_up = r['Nama_Upper']
@@ -1095,7 +1082,7 @@ def tampilkan_kendali_tim():
                                 st.components.v1.html(f"<body>{slip_html}</body>", height=480)
 
     except Exception as e:
-        st.error(f"⚠️ Sistem mendeteksi kendala pada data GSheet: {e}")
+        st.error(f"Sistem mendeteksi kendala pada data GSheet: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1315,6 +1302,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
