@@ -1388,23 +1388,22 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK (VERSI ANTI-HILANG) ---
+                    # --- OPTIMASI GROK (VERSI GROK-FORCE SESUAI KEINGINANMU) ---
                     st.markdown("---")
-                    
-                    # Kita pakai Popover: Jendela kecil yang muncul saat diklik dan TIDAK akan hilang
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # Rakitan ulang khusus selera Grok
-                        grok_img = (
-                            f"{QB_IMG}\n\n"
-                            f"STRICT BIOMETRIC LOCK: {dna_lock}\n"
+                        # Kita pakai dna_lock karena detail pakaian & fisik ada di sana
+                        grok_ready = (
+                            f"MASTERPIECE PHOTOGRAPHY, 8k RAW, ultra-sharp focus, professional lighting.\n\n"
+                            f"DNA REFERENCE:\n{dna_lock}\n\n"
                             f"SCENE CONTEXT: {aksi_master}\n"
                             f"LOCATION: {sc['loc']}. {bumbu_final}.\n"
-                            f"SPECS: {sc['shot']}, {sc['style']}, {sc['light']}, 8k resolution, cinematic sharpness\n"
-                            f"NEGATIVE: {no_text_strict}, motion blur, out of focus, lowres, distorted face, messy hair, oily skin"
+                            f"VIBE: {vibe_f}, {weather_f}, cinematic atmosphere.\n"
+                            f"CAMERA: {sc['shot']}, {sc['arah']} view, f/1.8 aperture for crisp details.\n"
+                            f"STRICT NEGATIVE: {no_text_strict}, blur, distorted, low quality, messy, noisy"
                         )
-                        st.markdown(f"### 🚀 Grok Optimized - Adegan {scene_id}")
-                        st.code(grok_img, language="text")
-                        st.caption("Salin prompt di atas untuk hasil yang lebih tajam di mesin Grok.")
+                        st.markdown(f"### 🚀 Grok-Force Optimized - Adegan {scene_id}")
+                        st.code(grok_ready, language="text")
+                        st.caption("Gunakan prompt ini khusus untuk Grok agar hasil tajam seperti Gemini/VEO.")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1431,37 +1430,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
