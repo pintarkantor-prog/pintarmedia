@@ -1230,16 +1230,16 @@ def tampilkan_ruang_produksi():
                 for i in range(jml_c):
                     c = data["karakter"][i]
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        # Kita buatkan Unique ID (misal: SKS_1, SKS_2) agar AI tidak pakai imajinasi nama
-                        unique_id = f"SKS_{i+1}_PERSON" 
+                        u_name = c['nama'].upper()
+                        # Kita gabungkan Token dan Nama agar AI tidak bingung
+                        unique_id = f"SKS_{i+1}_PERSON ({u_name})" 
                         found.append({
                             "id": i + 1, 
-                            "nama_asli": c['nama'].upper(),
+                            "nama": u_name,
                             "unique_token": unique_id,
                             "fisik": c['fisik'], 
                             "wear": c['wear']
                         })
-
                 # B. LOGIKA IDENTITY SWAP (MENGUNCI WAJAH, MENGUBAH PAKAIAN)
                 if len(found) > 1:
                     h_rule = "STRICT IDENTITY SWAP: Maintain face from photos, but change clothing as described."
@@ -1273,10 +1273,13 @@ def tampilkan_ruang_produksi():
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     list_dialog = []
-                    for i in range(data["jumlah_karakter"]):
-                        if sc["dialogs"][i].strip():
-                            nama_c = data["karakter"][i]["nama"] or f"Char_{i+1}"
-                            list_dialog.append(f"{nama_c}: '{sc['dialogs'][i]}'")
+                    for f_char in found:
+                        # Cari apakah karakter ini punya dialog di adegan ini
+                        idx = f_char["id"] - 1
+                        isi_d = sc["dialogs"][idx]
+                        if isi_d.strip():
+                            # Hasilnya: SKS_1_PERSON (UDIN): 'Ini buat kamu!'
+                            list_dialog.append(f"{f_char['unique_token']}: '{isi_d}'")
                     
                     dialog_text = " | ".join(list_dialog) if list_dialog else "No dialogue"
                     # --- MANTRA GAMBAR (SUNTIKAN IDENTITY SWAP) ---
@@ -1298,17 +1301,13 @@ def tampilkan_ruang_produksi():
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
-                        f"AUDIO-VISUAL SYNC: Only the character speaking in DIALOGUE CONTEXT must move their lips. "
-                        f"Match lip-sync and jaw movement specifically for the active speaker.\n"
+                        f"AUDIO-VISUAL SYNC: Character's mouth must move only when their specific SKS token speaks.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
-                        f"MOTION: {sc['cam']}, cinematic movement, organic human behavior, "
-                        f"fluid secondary motion, realistic eye blinking, natural head tilting, "
-                        f"avoid stiff joints, eliminate robotic micro-stutters. "
-                        f"Character must breathe and sway naturally.\n"
+                        f"MOTION: Organic human movement, fluid secondary motion, natural head tilting, realistic breathing. "
+                        f"Eliminate all robotic stiffness and static joints.\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, 60fps fluid motion.\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, "
-                        f"stiff mannequin, robotic speech, wrong character speaking, "
-                        f"static eyes, frozen shoulders, uncanny valley stiffness.\n"
+                        f"static pose, robotic movement, stiff mannequin, wrong character speaking.\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD"
                     )
 
@@ -1345,6 +1344,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
