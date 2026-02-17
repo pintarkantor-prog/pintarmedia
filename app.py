@@ -606,8 +606,7 @@ def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT")
     st.info(f"💡 **INFO :** Data tidak dapat disimpan atau direstore!")
 
-    # --- 1. BRANKAS DATA (Inisialisasi agar tidak hilang saat pindah tab) ---
-    # Kita pakai dictionary agar lebih rapi
+    # --- 1. BRANKAS DATA ---
     if "qp_data" not in st.session_state:
         st.session_state.qp_data = {
             "name_a": "", "det_a": "", 
@@ -623,7 +622,6 @@ def tampilkan_quick_prompt():
             if key == "spk":
                 st.session_state.qp_data[key] = []
             elif key in ["ss", "ar", "vb", "wt"]:
-                # Reset ke default selectbox
                 defaults = {"ss": "Setengah Badan", "ar": "Sejajar Mata", "vb": "Sinematik Film", "wt": "Cerah Bersih"}
                 st.session_state.qp_data[key] = defaults[key]
             else:
@@ -635,17 +633,14 @@ def tampilkan_quick_prompt():
         st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
-            # Gunakan value dari session_state.qp_data
             q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"], key="q_name_a")
-            st.session_state.qp_data["name_a"] = q_char_a # Simpan balik
-            
+            st.session_state.qp_data["name_a"] = q_char_a
             q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80, key="q_det_a")
             st.session_state.qp_data["det_a"] = q_detail_a
             
         with col_b:
             q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"], key="q_name_b")
             st.session_state.qp_data["name_b"] = q_char_b
-            
             q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80, key="q_det_b")
             st.session_state.qp_data["det_b"] = q_detail_b
         
@@ -655,28 +650,47 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
         st.session_state.qp_data["loc"] = q_lokasi
         
+        # --- BAGIAN AKSI DENGAN FITUR GROK-IFY ---
         q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key="q_act")
         st.session_state.qp_data["act"] = q_aksi
         
+        # Tombol poles adegan
+        if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
+            if q_aksi:
+                with st.spinner("Pintar AI lagi memoles adegan..."):
+                    try:
+                        api_key = st.secrets["GROQ_API_KEY"]
+                        headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+                        prompt_ai = f"Ubahlah aksi singkat ini menjadi deskripsi visual sinematik yang sangat detail untuk AI Video. Tetap gunakan Bahasa Indonesia: {q_aksi}"
+                        payload = {
+                            "model": "llama-3.3-70b-versatile",
+                            "messages": [{"role": "user", "content": prompt_ai}],
+                            "temperature": 0.7
+                        }
+                        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
+                        st.session_state.qp_data["act"] = res.json()['choices'][0]['message']['content'].strip()
+                        st.rerun()
+                    except:
+                        st.error("Gagal memoles adegan. Periksa API Key!")
+            else:
+                st.warning("Tulis dulu aksinya sedikit!")
+
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             opts_ss = ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"]
             idx_ss = opts_ss.index(st.session_state.qp_data["ss"])
             q_shot = st.selectbox("📸 Shot Size", opts_ss, index=idx_ss, key="q_ss")
             st.session_state.qp_data["ss"] = q_shot
-            
         with c2:
             opts_ar = ["Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas", "Dari Bawah"]
             idx_ar = opts_ar.index(st.session_state.qp_data["ar"])
             q_arah = st.selectbox("🎥 Arah Kamera", opts_ar, index=idx_ar, key="q_ar")
             st.session_state.qp_data["ar"] = q_arah
-            
         with c3:
             opts_vb = ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"]
             idx_vb = opts_vb.index(st.session_state.qp_data["vb"])
             q_vibe = st.selectbox("🎨 Vibe", opts_vb, index=idx_vb, key="q_vb")
             st.session_state.qp_data["vb"] = q_vibe
-            
         with c4:
             opts_wt = ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"]
             idx_wt = opts_wt.index(st.session_state.qp_data["wt"])
@@ -688,7 +702,6 @@ def tampilkan_quick_prompt():
         st.markdown("#### 💬 DIALOG")
         q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80, key="q_dial")
         st.session_state.qp_data["dial"] = q_dialog
-        
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
         q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, default=st.session_state.qp_data["spk"], key="q_spk")
         st.session_state.qp_data["spk"] = q_speaker
@@ -1487,6 +1500,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
