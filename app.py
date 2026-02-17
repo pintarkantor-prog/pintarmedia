@@ -678,13 +678,13 @@ def tampilkan_quick_prompt():
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
-            # Menggabungkan Arah Kamera ke dalam Shot Size untuk Gambar
-            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres.", language="text")
+            # Menggabungkan Arah Kamera ke dalam Shot Size + Aspect Ratio 9:16
+            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nASPECT RATIO: 9:16 vertical --ar 9:16\nNEGATIVE: text, blur, lowres.", language="text")
             
         with tab_vid:
-            # Menambahkan instruksi Follow-Cam otomatis + Arah Kamera manual
-            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
-        
+            # Menambahkan instruksi Vertical 9:16 dan Follow-Cam otomatis
+            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nFORMAT: Vertical 9:16 aspect ratio.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
+                
         st.success("Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
             
 def kirim_notif_wa(pesan):
@@ -1450,6 +1450,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
