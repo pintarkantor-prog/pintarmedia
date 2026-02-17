@@ -17,8 +17,9 @@ OPTS_LIGHT = ["Sinar Senja (Golden)", "Lampu Studio", "Cahaya Alami", "Neon Rema
 OPTS_ARAH  = ["Sejajar Mata", "Dari Atas", "Dari Bawah", "Dari Samping", "Berhadapan"]
 OPTS_SHOT  = ["Sangat Dekat", "Wajah & Bahu", "Setengah Badan", "Seluruh Badan", "Drone (Jauh)"]
 OPTS_CAM   = ["Diam (Tetap Napas)", "Maju Perlahan", "Ikuti Karakter", "Memutar", "Goyang (Handheld)"]
-OPTS_EKSPRESI = ["Datar/Netral", "Senyum Tipis", "Marah/Tegang", "Tertawa", "Sedih/Galau", "Sinis/Sombong"]
+OPTS_EKSPRESI = ["Datar (Netral)", "Senyum Tipis", "Marah (Tegang)", "Tertawa Ceris", "Sedih/Galau", "Sinis/Sombong"]
 OPTS_CUACA = ["Cerah Bersih", "Berkabut Tipis", "Gerimis Halus", "Banyak Debu Terbang", "Angin Kencang"]
+OPTS_VIBE = ["Sinematik Film", "Horor Mencekam", "Retro Jadul", "Vlog Santai", "Aksi Cepat"]
 OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
 DAFTAR_USER = {
@@ -1395,6 +1396,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
