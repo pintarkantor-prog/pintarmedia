@@ -628,11 +628,14 @@ def tampilkan_quick_prompt():
         
         c1, c2, c3 = st.columns(3)
         with c1:
-            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Close Up"], key="q_ss")
+            # Sesuai dengan OPTS_SHOT di Ruang Produksi
+            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
         with c2:
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik", "Vlog", "Horor"], key="q_vb")
+            # Sesuai dengan OPTS_VIBE
+            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
         with c3:
-            q_weather = st.selectbox("☁️ Cuaca", ["Cerah", "Berkabut", "Hujan"], key="q_wt")
+            # Sesuai dengan OPTS_WEATHER
+            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"], key="q_wt")
 
         st.divider()
 
@@ -640,30 +643,37 @@ def tampilkan_quick_prompt():
         st.markdown("#### 💬 DIALOG & SUARA")
         q_dialog = st.text_area("Tulis Percakapan", placeholder="Udin: Kita tersesat.\nTung: Tenang saja.", height=80, key="q_dial")
         
-        # Nama otomatis muncul jika diisi di atas
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
         q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, key="q_spk")
 
-    # --- HASIL (DI LUAR EXPANDER) ---
+    # --- LOGIKA OTOMATIS (ARAH KAMERA & MOOD) ---
     if q_aksi and q_lokasi:
+        # Arah Kamera Otomatis: Jika 2 karakter diisi, set ke Berhadapan. Jika 1, set Sejajar Mata.
+        if q_char_a and q_char_b:
+            arah_auto = "Berhadapan (Facing each other, profile view)"
+        else:
+            arah_auto = "Sejajar Mata (Eye level, direct cinematic shot)"
+
+        # Mood/Weather Logic
+        mood_q = "bright, sharp focus, clear visibility" if "Cerah" in q_weather else f"{q_weather}, atmospheric moody depth"
+        
         st.divider()
         st.subheader("🚀 Hasil Optimasi Grok")
         
-        # Logika Gabungan (Dibuat lebih rapi untuk Grok)
-        dna_combined = f"CHARACTER A: {q_char_a} ({q_detail_a})\nCHARACTER B: {q_char_b} ({q_detail_b})"
-        mood_q = "bright, sharp focus" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
-        speaker_str = " & ".join(q_speaker) if q_speaker else "None (Background Voice)"
+        dna_combined = f"CHAR 1: {q_char_a} ({q_detail_a})\nCHAR 2: {q_char_b} ({q_detail_b})"
+        speaker_str = " & ".join(q_speaker) if q_speaker else "None"
 
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
             grok_img = (
-                f"STYLE: {q_vibe}, {q_shot}.\n"
+                f"STYLE: {q_vibe}.\n"
+                f"COMPOSITION: {q_shot}, {arah_auto}.\n"
                 f"DNA IDENTITY:\n{dna_combined}\n\n"
                 f"ACTION: {q_aksi} at {q_lokasi}.\n"
                 f"ENVIRONMENT: {mood_q}.\n"
-                f"QUALITY: 8k raw, ultra-sharp, professional photography.\n"
-                f"NEGATIVE: text, watermark, blur, lowres, distorted faces."
+                f"QUALITY: 8k raw, ultra-sharp, professional lighting.\n"
+                f"NEGATIVE: text, watermark, blur, lowres, distorted."
             )
             st.code(grok_img, language="text")
             
@@ -671,16 +681,16 @@ def tampilkan_quick_prompt():
             grok_vid = (
                 f"VIDEO: {q_vibe}, cinematic movement, 24fps.\n"
                 f"DNA IDENTITY:\n{dna_combined}\n\n"
-                f"SCENE: {q_aksi} at {q_lokasi}.\n"
+                f"SCENE: {q_aksi} at {q_lokasi} with {arah_auto}.\n"
                 f"SPEAKER: {speaker_str}\n"
                 f"AUDIO_SCRIPT: \"{q_dialog}\"\n"
                 f"LIP-SYNC: Match mouth movement for {speaker_str}.\n"
-                f"PHYSICS: {q_weather} effects, realistic textures.\n"
+                f"PHYSICS: {q_weather} effects, realistic material physics.\n"
                 f"NEGATIVE: static, morphing, melting, blurry, messy background."
             )
             st.code(grok_vid, language="text")
         
-        st.success("Mantra Berhasil Dirakit! Silakan copy ke Grok.")
+        st.success(f"Prompt Berhasil! Kamera otomatis diset ke: {arah_auto}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1445,6 +1455,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
