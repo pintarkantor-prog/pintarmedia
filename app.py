@@ -931,14 +931,14 @@ def tampilkan_kendali_tim():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         sh = client.open_by_url(url_gsheet)
-        ws_tugas = sh.worksheet("Tugas")
         
-        # --- AMBIL DATA GSHEET ---
+        # Ambil Data
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
+        ws_tugas = sh.worksheet("Tugas")
 
-        # Ambil Data Tugas
+        # Ambil Data Tugas & Pre-Processing Tanggal (Anti-Error)
         data_tugas_raw = ws_tugas.get_all_values()
         if len(data_tugas_raw) > 1:
             header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
@@ -948,14 +948,12 @@ def tampilkan_kendali_tim():
                 cols[4] = 'Status'
                 df_tugas.columns = cols
             
-            # FIX ERROR .dt: Bersihkan data kosong dan paksa ke datetime
+            # Konversi Tanggal Aman
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
-            # Buang baris yang tanggalnya gagal dikonversi agar tidak error .dt
-            df_tugas = df_tugas.dropna(subset=['Deadline_DT'])
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status', 'Deadline_DT'])
 
-        # --- NORMALISASI DATA STAFF & JABATAN ---
+        # Mapping Jabatan (Fix Inggi Uploader)
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
         dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
@@ -984,12 +982,12 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- 4. JADWAL PRODUKSI (FILTER BULAN) ---
+        # --- 4. JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
-        
-        # Filter aman setelah data dibersihkan
-        df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & 
-                                (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
+        # Membersihkan NaT hanya saat filtering biar tidak crash di .dt accessor
+        df_valid_tugas = df_tugas.dropna(subset=['Deadline_DT'])
+        df_tugas_bln = df_valid_tugas[(df_valid_tugas['Deadline_DT'].dt.month == bulan_dipilih) & 
+                                      (df_valid_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
         
         if not df_tugas_bln.empty:
             df_tugas_bln = df_tugas_bln.sort_values('Deadline_DT')
@@ -1002,23 +1000,20 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- 5. REKAP DATA DINAMIS ---
+        # --- 5. REKAP DATA & KEUANGAN ---
         rekap_finish = {}
         df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
         if not df_f.empty:
             rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
 
         rekap_absen = {}
-        if not df_absen.empty:
-            df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
-            # Bersihkan data absen yang tanggalnya rusak
-            df_absen = df_absen.dropna(subset=['Tanggal_DT'])
-            mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_a_f = df_absen[mask_a].copy()
-            if not df_a_f.empty:
-                rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts()
+        df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
+        df_absen_v = df_absen.dropna(subset=['Tanggal_DT'])
+        mask_a = (df_absen_v['Tanggal_DT'].dt.month == bulan_dipilih) & (df_absen_v['Tanggal_DT'].dt.year == tahun_dipilih)
+        df_a_f = df_absen_v[mask_a].copy()
+        if not df_a_f.empty:
+            rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- 6. LOGIKA KEUANGAN ---
         total_payroll_bulanan = 0
         for _, row_p in df_staff.iterrows():
             st_up = row_p['Nama_Upper']
@@ -1029,29 +1024,28 @@ def tampilkan_kendali_tim():
 
         total_income = 0
         total_operasional = 0
-        if not df_kas.empty:
-            df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
-            df_kas = df_kas.dropna(subset=['Tanggal_DT'])
-            mask_k = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
-            df_k_bln = df_kas[mask_k].copy()
-            df_k_bln['Nominal'] = pd.to_numeric(df_k_bln['Nominal'], errors='coerce').fillna(0)
-            total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
-            total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
+        df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
+        df_kas_v = df_kas.dropna(subset=['Tanggal_DT'])
+        mask_k = (df_kas_v['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas_v['Tanggal_DT'].dt.year == tahun_dipilih)
+        df_k_bln = df_kas_v[mask_k].copy()
+        df_k_bln['Nominal'] = pd.to_numeric(df_k_bln['Nominal'], errors='coerce').fillna(0)
+        total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
+        total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
-        # --- 7. DASHBOARD METRIC ---
+        # --- 6. DASHBOARD METRIC ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bulanan + total_operasional):,}")
         m3.metric("💎 PENDAPATAN BERSIH", f"Rp {total_income - (total_payroll_bulanan + total_operasional):,}")
 
-        # --- 8. GRAFIK PRODUKTIVITAS ---
+        # --- 7. PRODUKTIVITAS ---
         with st.expander(f"📊 Grafik Produktivitas ({pilihan_nama})", expanded=True):
             if not df_f.empty:
                 st.bar_chart(rekap_finish)
             else:
                 st.info("Belum ada video FINISH bulan ini.")
 
-        # --- 9. INPUT KAS ---
+        # --- 8. INPUT KAS ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
             with st.form("form_kas", clear_on_submit=True):
                 c_tipe, c_kat, c_nom = st.columns(3)
@@ -1063,7 +1057,7 @@ def tampilkan_kendali_tim():
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-        # --- 10. SLIP GAJI HIJAU ---
+        # --- 9. SLIP GAJI (VERSI LENGKAP 100%) ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
@@ -1071,7 +1065,9 @@ def tampilkan_kendali_tim():
                 jh = rekap_absen.get(s_up, 0)
                 jv = rekap_finish.get(s_up, 0)
                 if jh > 0 or jv > 0:
-                    total_gaji = int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000)
+                    bonus_h = jh * 50000
+                    bonus_v = jv * 10000
+                    total_gaji = int(row['Gaji_Pokok']) + int(row['Tunjangan']) + bonus_h + bonus_v
                     with st.container(border=True):
                         c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
                         with c1: st.write(f"👤 **{row['Nama']}**"); st.caption(f"💼 {jab_final}")
@@ -1080,24 +1076,29 @@ def tampilkan_kendali_tim():
                         with c4:
                             if st.button(f"🧾 SLIP {s_up}", key=f"btn_slip_{s_up}"):
                                 slip_html = f"""
-                                <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto;">
-                                    <div style="text-align: center;">
-                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
-                                        <hr style="border: 0.5px dashed #1d976c;">
-                                        <div style="background-color: #1d976c; color: white; padding: 5px; border-radius: 6px; font-weight: bold;">SLIP GAJI</div>
+                                <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                                    <div style="text-align: center; margin-bottom: 15px;">
+                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
+                                        <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
+                                        <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
                                     </div>
-                                    <table style="width: 100%; font-size: 13px; margin-top: 15px;">
+                                    <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
                                         <tr><td>Staf</td><td align="right"><b>{row['Nama']}</b></td></tr>
                                         <tr><td>Jabatan</td><td align="right">{jab_final}</td></tr>
-                                        <tr><td>Total Bonus</td><td align="right">Rp {(jh*50000 + jv*10000):,}</td></tr>
-                                        <tr style="font-weight: bold; color: #1d976c;"><td>TOTAL</td><td align="right">Rp {total_gaji:,}</td></tr>
+                                        <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
+                                        <tr><td>Gaji Pokok</td><td align="right">Rp {int(row['Gaji_Pokok']):,}</td></tr>
+                                        <tr><td>Tunjangan</td><td align="right">Rp {int(row['Tunjangan']):,}</td></tr>
+                                        <tr><td>Bonus Hadir ({jh}x)</td><td align="right">Rp {bonus_h:,}</td></tr>
+                                        <tr><td>Bonus Video ({jv}x)</td><td align="right">Rp {bonus_v:,}</td></tr>
+                                        <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
+                                        <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
+                                            <td>TOTAL TERIMA</td><td align="right">Rp {total_gaji:,}</td></tr>
                                     </table>
                                 </div>"""
-                                st.components.v1.html(slip_html, height=450)
+                                st.components.v1.html(f"<body>{slip_html}</body>", height=480)
 
     except Exception as e:
-        st.error(f"Sistem Mendeteksi Error Data: {e}")
-        st.info("💡 Tips: Pastikan kolom tanggal di GSheet (Deadline/Tanggal) tidak ada yang kosong atau salah tulis.")
+        st.error(f"⚠️ Terjadi Kendala Data: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1317,6 +1318,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
