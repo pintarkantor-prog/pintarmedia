@@ -654,24 +654,43 @@ def tampilkan_quick_prompt():
         q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key="q_act")
         st.session_state.qp_data["act"] = q_aksi
         
-        # Tombol poles adegan
         if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
             if q_aksi:
-                with st.spinner("Pintar AI lagi memoles adegan..."):
-                    try:
-                        api_key = st.secrets["GROQ_API_KEY"]
-                        headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-                        prompt_ai = f"Ubahlah aksi singkat ini menjadi deskripsi visual sinematik yang sangat detail untuk AI Video. Tetap gunakan Bahasa Indonesia: {q_aksi}"
-                        payload = {
-                            "model": "llama-3.3-70b-versatile",
-                            "messages": [{"role": "user", "content": prompt_ai}],
-                            "temperature": 0.7
-                        }
-                        res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload)
-                        st.session_state.qp_data["act"] = res.json()['choices'][0]['message']['content'].strip()
-                        st.rerun()
-                    except:
-                        st.error("Gagal memoles adegan. Periksa API Key!")
+                # Cek apakah API KEY ada di secrets (Coba huruf besar dulu, baru kecil)
+                api_key = st.secrets.get("GROQ_API_KEY") or st.secrets.get("groq_api_key")
+                
+                if not api_key:
+                    st.error("❌ API Key tidak ditemukan!.")
+                else:
+                    with st.spinner("Pintar AI lagi memoles adegan..."):
+                        try:
+                            headers = {
+                                "Authorization": f"Bearer {api_key}", 
+                                "Content-Type": "application/json"
+                            }
+                            # Instruksi agar Grok tidak terlalu panjang (to the point)
+                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik untuk AI Video. Padat, detail, dan emosional. Bahasa Indonesia: {q_aksi}"
+                            
+                            payload = {
+                                "model": "llama-3.3-70b-versatile",
+                                "messages": [{"role": "user", "content": prompt_ai}],
+                                "temperature": 0.7,
+                                "max_tokens": 500
+                            }
+                            
+                            res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
+                            
+                            if res.status_code == 200:
+                                hasil_ai = res.json()['choices'][0]['message']['content'].strip()
+                                # Bersihkan jika AI memberikan kata pengantar (seperti "Ini hasilnya:")
+                                hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
+                                
+                                st.session_state.qp_data["act"] = hasil_bersih
+                                st.rerun()
+                            else:
+                                st.error(f"Gagal koneksi Pintar AI! Status: {res.status_code}")
+                        except Exception as e:
+                            st.error(f"Terjadi kesalahan teknis: {str(e)}")
             else:
                 st.warning("Tulis dulu aksinya sedikit!")
 
@@ -1500,6 +1519,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
