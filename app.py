@@ -650,7 +650,7 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
         st.session_state.qp_data["loc"] = q_lokasi
         
-        # --- LOGIKA TOMBOL PINTAR AI (DENGAN RESET KEY) ---
+        # --- LOGIKA TOMBOL PINTAR AI (VERSI PADAT & SINGKAT) ---
         if "act_version" not in st.session_state:
             st.session_state.act_version = 0
 
@@ -664,20 +664,29 @@ def tampilkan_quick_prompt():
                     with st.spinner("Pintar AI lagi memoles adegan..."):
                         try:
                             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik yang sangat detail namun padat untuk AI Video. JANGAN BERIKAN KATA PENGANTAR. Bahasa Indonesia: {current_act}"
+                            
+                            # --- MODIFIKASI MANTRA DISINI ---
+                            prompt_ai = f"""Sempurnakan aksi singkat ini menjadi deskripsi visual sinematik untuk prompt AI Video.
+                            ATURAN KETAT:
+                            1. Hasil WAJIB maksimal 2 kalimat saja.
+                            2. Fokus HANYA pada gerakan karakter dan tekstur lingkungan terdekat.
+                            3. JANGAN deskripsikan elemen jauh seperti langit, burung, atau perasaan karakter.
+                            4. Bahasa Indonesia yang baku dan teknis.
+                            5. JANGAN BERIKAN KATA PENGANTAR.
+
+                            Aksi: {current_act}"""
+                            
                             payload = {
                                 "model": "llama-3.3-70b-versatile",
                                 "messages": [{"role": "user", "content": prompt_ai}],
-                                "temperature": 0.7
+                                "temperature": 0.5 # Temperature diturunkan agar AI tidak terlalu kreatif/ngaco
                             }
                             res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
                             if res.status_code == 200:
                                 hasil_ai = res.json()['choices'][0]['message']['content'].strip()
                                 hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
                                 
-                                # 1. Update Brankas
                                 st.session_state.qp_data["act"] = hasil_bersih
-                                # 2. GANTI VERSI KEY (Ini kuncinya agar kolom input berubah)
                                 st.session_state.act_version += 1
                                 st.rerun()
                             else:
@@ -688,7 +697,6 @@ def tampilkan_quick_prompt():
                 st.warning("Tulis dulu aksinya sedikit!")
 
         # --- TEXT AREA DENGAN KEY DINAMIS ---
-        # Key akan berubah (misal: q_act_0 jadi q_act_1) saat AI selesai poles
         q_aksi = st.text_area(
             "🏃 Apa yang terjadi?", 
             value=st.session_state.qp_data["act"], 
@@ -1521,6 +1529,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
