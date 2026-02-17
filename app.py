@@ -1391,17 +1391,16 @@ def tampilkan_ruang_produksi():
                     # --- OPTIMASI GROK (VERSI GROK-FORCE SESUAI KEINGINANMU) ---
                     st.markdown("---")
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # Kita pakai dna_lock karena detail pakaian & fisik ada di sana
+                        # Kita suntikkan instruksi pencahayaan yang super galak buat Grok
                         grok_ready = (
-                            f"MASTERPIECE PHOTOGRAPHY, 8k RAW, ultra-sharp focus, professional lighting.\n\n"
-                            f"DNA REFERENCE:\n{dna_lock}\n\n"
-                            f"SCENE CONTEXT: {aksi_master}\n"
-                            f"LOCATION: {sc['loc']}. {bumbu_final}.\n"
-                            f"VIBE: {vibe_f}, {weather_f}, cinematic atmosphere.\n"
-                            f"CAMERA: {sc['shot']}, {sc['arah']} view, f/1.8 aperture for crisp details.\n"
-                            f"STRICT NEGATIVE: {no_text_strict}, blur, distorted, low quality, messy, noisy"
+                            f"STYLE: Dark Cinematic Photography, High Local Contrast, Moody Atmosphere.\n\n"
+                            f"DNA LOCK (STRICT): \n{dna_lock}\n\n"
+                            f"LIGHTING & MOOD: {weather_f}, {sc['light']}, heavy fog, ominous shadows, low-key lighting, desaturated colors. NO SUNLIGHT.\n"
+                            f"SCENE: {aksi_master} at {sc['loc']}.\n"
+                            f"CAMERA: {sc['shot']}, f/1.8, sharp details on characters, background slightly lost in fog.\n"
+                            f"NEGATIVE PROMPT: sunny, bright day, blue sky, cheerful, vibrant colors, clear weather, {no_text_strict}"
                         )
-                        st.markdown(f"### 🚀 Grok-Force Optimized - Adegan {scene_id}")
+                        st.markdown(f"### 🚀 Grok Moody Fix - Adegan {scene_id}")
                         st.code(grok_ready, language="text")
                         st.caption("Gunakan prompt ini khusus untuk Grok agar hasil tajam seperti Gemini/VEO.")
                 
@@ -1430,3 +1429,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
