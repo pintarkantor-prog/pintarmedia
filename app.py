@@ -1298,15 +1298,18 @@ def tampilkan_ruang_produksi():
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                        f"AUDIO-VISUAL SYNC: Only the character speaking in DIALOGUE CONTEXT must move their lips. "
+                        f"Match lip-sync and jaw movement specifically for the active speaker.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
-                        f"MOTION: {sc['cam']}, cinematic character-tracking, organic human movement, "
-                        f"natural micro-expressions, fluid joint rotation, realistic weight distribution, "
-                        f"shoulders and head swaying naturally while moving.\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, high frame-rate motion blur, "
-                        f"physically-based animation.\n"
+                        f"MOTION: {sc['cam']}, cinematic movement, organic human behavior, "
+                        f"fluid secondary motion, realistic eye blinking, natural head tilting, "
+                        f"avoid stiff joints, eliminate robotic micro-stutters. "
+                        f"Character must breathe and sway naturally.\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, 60fps fluid motion.\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, "
-                        f"robotic movement, stiff limbs, mannequin-like, jittery motion, frozen face.\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
+                        f"stiff mannequin, robotic speech, wrong character speaking, "
+                        f"static eyes, frozen shoulders, uncanny valley stiffness.\n"
+                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD"
                     )
 
                     c_img, c_vid = st.columns(2)
@@ -1342,6 +1345,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
