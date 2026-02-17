@@ -1087,129 +1087,143 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: RUANG PRODUKSI (VERSI KONSISTENSI IDENTITAS - ANTI TERTUKAR)
+# BAGIAN 6: RUANG PRODUKSI (VERSI GABUNGAN SEMPURNA - REPLIKA KODE LAMA)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     import re
+    import json
+    user_aktif = st.session_state.get("active_user", "User").upper()
     
-    # --- 1. SETTING WAKTU & INFO USER ---
-    sekarang = datetime.utcnow() + timedelta(hours=7)
-    user_aktif = st.session_state.get("user_aktif", "User").upper()
-
-    # --- 2. MANTRA KUALITAS (FOKUS KEJELASAN WAJAH) ---
-    img_quality = (
-        "hyper-realistic 8k RAW photo, f/11 aperture, ultra-sharp focus, "
-        "high local contrast, photorealistic character mapping, masterpiece quality."
+    # --- 1. PARAMETER KUALITAS ASLI KODE LAMA ---
+    img_quality_stack = (
+        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
+        "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
+        "ultra-clear optical clarity, tactile textures on sand, gravel, and wood, "
+        "CPL filter, deep blue sky, polarized colors, high local contrast, "
+        "vivid naturalism, realistic shadow recovery, masterpiece quality."
     )
-    vid_quality = (
-        "8k UHD cinematic video, fluid motion, professional color grading, "
-        "high fidelity character textures, smooth cinematography."
+    vid_quality_stack = (
+        "ultra-high definition cinematic video, 8k UHD, high dynamic range, "
+        "professional color grading, vibrant organic colors, ray-traced reflections, "
+        "hyper-detailed textures, zero digital noise, clean pixels, "
+        "smooth motion, professional cinematography, masterpiece quality."
     )
-    no_text = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
+    no_text_strict = (
+        "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, "
+        "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, "
+        "NO burned-in text, NO characters speaking with visible words, "
+        "the image must be a CLEAN cinematic shot without any written characters."
+    )
+    negative_motion_strict = (
+        "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, "
+        "NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
+    )
 
-    # --- 3. UI HEADER ---
     st.markdown(f"# 🚀 RUANG PRODUKSI")
-    st.info(f"🛰️ OPERATOR: {user_aktif} | MODE: CHARACTER PERSISTENCE")
 
-    data = st.session_state.data_produksi
-    ver = st.session_state.get("form_version", 0)
+    # --- 2. IDENTITY LOCK (VERSI ELEGANT GRID KODE LAMA) ---
+    with st.expander("👥 Nama Karakter Utama & Penampilan Fisik!", expanded=True):
+        num_total_char = st.number_input("Total Karakter Utama", 1, 10, 2, key="num_total_char_prod")
+        all_chars_list = []
+        for i in range(1, num_total_char + 1, 2):
+            cols = st.columns(2)
+            for idx_offset in range(2):
+                idx = i + idx_offset
+                if idx <= num_total_char:
+                    with cols[idx_offset]:
+                        st.markdown(f"##### 👤 Karakter Utama {idx}")
+                        name = st.text_input(f"N_{idx}", key=f"c_name_{idx}_input", label_visibility="collapsed", placeholder=f"Nama {idx}")
+                        desc = st.text_area(f"F_{idx}", key=f"c_desc_{idx}_input", height=120, label_visibility="collapsed", placeholder=f"Fisik {idx}")
+                        all_chars_list.append({"name": name, "desc": desc})
 
-    # --- 4. IDENTITY LOCK (NOMOR REFERENSI) ---
-    with st.expander("🛡️ IDENTITY LOCK - Peta Karakter", expanded=True):
-        st.caption("AI akan mengingat Karakter 1 sebagai foto pertama yang kamu upload, dan Karakter 2 sebagai foto kedua.")
-        data["jumlah_karakter"] = st.number_input("Total Karakter", 1, 4, data["jumlah_karakter"], key=f"nc_{ver}")
-        cols_char = st.columns(data["jumlah_karakter"])
-        for i in range(data["jumlah_karakter"]):
-            with cols_char[i]:
-                st.markdown(f"##### 👤 Karakter {i+1}")
-                data["karakter"][i]["nama"] = st.text_input(f"Nama {i+1}", value=data["karakter"][i]["nama"], key=f"cn_{i}_{ver}", placeholder="Contoh: UDIN")
-                data["karakter"][i]["wear"] = st.text_input(f"Baju {i+1}", value=data["karakter"][i]["wear"], key=f"cw_{i}_{ver}", placeholder="Baju...")
-                # Kita gunakan kolom fisik untuk 'Kata Kunci Unik' agar AI tidak tertukar
-                data["karakter"][i]["fisik"] = st.text_input(f"Ciri Unik {i+1}", value=data["karakter"][i]["fisik"], key=f"cf_{i}_{ver}", placeholder="Contoh: Manusia Kayu")
-
-    # --- 5. INPUT ADEGAN ---
-    for s in range(data["jumlah_adegan"]):
-        scene_id = s + 1
-        if scene_id not in data["adegan"]:
-            data["adegan"][scene_id] = {"aksi": "", "light": "Natural", "shot": "Setengah Badan", "cam": "Static", "loc": ""}
-
-        with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
+    # --- 3. INPUT ADEGAN (LOGIKA LOOPING KODE LAMA) ---
+    num_scenes = st.sidebar.number_input("Jumlah Adegan", 1, 50, 6, key="sidebar_num_scenes")
+    adegan_storage = []
+    for i_s in range(1, int(num_scenes) + 1):
+        with st.expander(f"🎬 ADEGAN {i_s}", expanded=(i_s == 1)):
             col_v, col_ctrl = st.columns([6, 4])
             with col_v:
-                st.markdown('<p class="small-label">📸 VISUAL AKSI (CERITA)</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Act_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=250, key=f"vact_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Sebutkan nama karakter...")
-            
+                visual_input = st.text_area(f"Visual {i_s}", key=f"vis_input_{i_s}", height=265, placeholder="Cerita visual...")
             with col_ctrl:
-                st.markdown('<p class="small-label">💡 SUASANA</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, key=f"ls_{scene_id}_{ver}", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:10px;">📐 UKURAN</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["shot"] = st.selectbox(f"S_{scene_id}", OPTS_SHOT, key=f"ss_{scene_id}_{ver}", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:10px;">🎬 GERAK KAMERA</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["cam"] = st.selectbox(f"Cam_{scene_id}", OPTS_CAM, key=f"cs_{scene_id}_{ver}", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"li_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Ketik lokasi...")
+                r1 = st.columns(2)
+                with r1[0]:
+                    st.markdown('<p class="small-label">💡 Suasana</p>', unsafe_allow_html=True)
+                    light_val = st.selectbox(f"L{i_s}", options_lighting, key=f"light_input_{i_s}", label_visibility="collapsed")
+                with r1[1]:
+                    st.markdown('<p class="small-label">📐 Ukuran</p>', unsafe_allow_html=True)
+                    shot_val = st.selectbox(f"S{i_s}", indonesia_shot, key=f"shot_input_{i_s}", label_visibility="collapsed")
+                r2 = st.columns(2)
+                with r2[0]:
+                    st.markdown('<p class="small-label">✨ Arah</p>', unsafe_allow_html=True)
+                    angle_val = st.selectbox(f"A{i_s}", indonesia_angle, key=f"angle_input_{i_s}", label_visibility="collapsed")
+                with r2[1]:
+                    st.markdown('<p class="small-label">🎬 Gerak</p>', unsafe_allow_html=True)
+                    cam_val = st.selectbox(f"C{i_s}", indonesia_camera, key=f"camera_input_{i_s}", label_visibility="collapsed")
+                st.markdown('<p class="small-label">📍 Lokasi</p>', unsafe_allow_html=True)
+                loc_choice = st.selectbox(f"LocSel{i_s}", options=options_lokasi, key=f"loc_sel_{i_s}", label_visibility="collapsed")
+                location_val = st.text_input(f"LocManual{i_s}", key=f"loc_custom_{i_s}", label_visibility="collapsed", placeholder="Ketik manual...") if loc_choice == "--- KETIK MANUAL ---" else loc_choice
 
-            # Input Dialog
-            cols_d = st.columns(data["jumlah_karakter"])
-            for i in range(data["jumlah_karakter"]):
-                with cols_d[i]:
-                    char_n = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
-                    st.markdown(f'<p class="small-label">Dialog {char_n}</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"di_{scene_id}_{i}_{ver}", label_visibility="collapsed")
-
-    # --- 6. GENERATOR (STRICT NUMERICAL REFERENCE) ---
-    st.markdown("---")
-    if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
-        adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
-        if adegan_terisi:
-            st.markdown(f"## 🎬 Hasil Prompt: {user_aktif.capitalize()} ❤️")
+            diag_cols = st.columns(len(all_chars_list))
+            scene_dialogs_list = []
+            for i_char, char_data in enumerate(all_chars_list):
+                with diag_cols[i_char]:
+                    char_label = char_data['name'] if char_data['name'] else f"K_{i_char+1}"
+                    d_in = st.text_input(f"Diag_{i_s}_{i_char}", key=f"diag_{i_s}_{i_char}", placeholder=f"Dialog {char_label}", label_visibility="collapsed")
+                    scene_dialogs_list.append({"name": char_label, "text": d_in})
             
-            map_shot = {"Dekat Wajah": "Close-Up shot", "Setengah Badan": "Medium Shot", "Seluruh Badan": "Full body shot", "Drone Shot": "Aerial Drone View", "Pemandangan Luas": "Wide landscape shot"}
-            map_light = {"Golden Hour": "Warm golden hour sunlight", "Studio": "Professional studio lighting", "Natural": "Natural daylight", "Cinematic Neon": "Stylized cinematic neon lighting"}
-            map_cam = {"Static": "Static camera", "Zoom In": "Slow zoom-in", "Tracking": "Dynamic tracking shot"}
+            adegan_storage.append({"num": i_s, "visual": visual_input, "light": light_val, "location": location_val, "cam": cam_val, "shot": shot_val, "angle": angle_val, "dialogs": scene_dialogs_list})
 
-            for scene_id in adegan_terisi:
-                sc = data["adegan"][scene_id]
-                v_text_low = sc["aksi"].lower()
-                
-                mentioned_chars = []
-                for idx, c in enumerate(data["karakter"]):
-                    if c["nama"] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        # Kita gunakan kata kunci "REFERENCED AS IMAGE X"
-                        desc = f"Character {c['nama'].upper()} (Referenced as Image {idx+1} in our chat history, {c['fisik']}) wearing {c['wear'].upper()}"
-                        mentioned_chars.append(desc)
+    # --- 4. MEGA GENERATOR (GABUNGAN LOGIKA GENRE & DNA LOKASI KODE LAMA) ---
+    if st.button("🚀 GENERATE ALL PROMPTS", type="primary", use_container_width=True):
+        st.session_state.last_generated_results = []
+        genre_pilihan = st.sidebar.selectbox("Gaya Film", ["Realistik (Nyata)", "Pixar 3D", "Marvel Superhero", "Transformers (Mecha)", "KingKong (VFX Monster)", "Asphalt (Balap/Glossy)", "Ghibli (Estetik/Indah)", "Dragon Ball", "Doraemon 3D", "Naruto (Ninja)", "Tayo (Anak-anak)", "Sakura School (Anime)"], key="sidebar_genre")
 
-                if mentioned_chars:
-                    char_final = " AND ".join(mentioned_chars)
-                    # Instruksi keras agar AI melihat kembali foto yang sudah diupload di awal
-                    header = (
-                        "MANDATORY: Look back at the photos I uploaded at the beginning of this chat. "
-                        "Character identities must be 100% consistent with those images. "
-                        "Do not change their faces. Image 1 is always Character 1, Image 2 is always Character 2."
-                    )
-                else:
-                    char_final = f"Main Character wearing {data['karakter'][0]['wear'].upper()}"
-                    header = "MANDATORY: Preserve identity from the first reference image provided."
+        for item in [a for a in adegan_storage if a["visual"].strip() != ""]:
+            # A. Scan Karakter
+            mentioned_chars = []
+            for c in all_chars_list:
+                if c['name'] and re.search(rf'\b{re.escape(c["name"].lower())}\b', item['visual'].lower()):
+                    mentioned_chars.append({"name": c['name'].upper(), "desc": c['desc']})
 
-                # Lipsync & Dialog
-                who_talk = [c['nama'] for idx, c in enumerate(data["karakter"]) if sc["dialogs"][idx].strip() != ""]
-                lipsync_prompt = f"Mouth speaking movement for {', '.join(who_talk)}." if who_talk else "Closed mouth."
-                diag_txt_video = " | ".join([f"{data['karakter'][i]['nama']}: {sc['dialogs'][i]}" for i in range(data["jumlah_karakter"]) if sc["dialogs"][i].strip()])
+            # B. Header Instruksi
+            if mentioned_chars:
+                char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
+                ref_rule = f"IMAGE REFERENCE RULE: Use uploaded photo(s) for character faces. PHOTO #1 is Character 1, PHOTO #2 is Character 2."
+            else:
+                char_info = f"[[ CHARACTER_MAIN: {all_chars_list[0]['desc']} ]]"
+                ref_rule = "IMAGE REFERENCE RULE: Use main character reference."
 
-                with st.expander(f"💎 RESULT ADEGAN {scene_id}", expanded=True):
-                    # --- PROMPT GAMBAR ---
-                    img_p = (f"{header}\n\nCHARACTER: {char_final}\nSCENE: {sc['aksi']}. {lipsync_prompt}\n"
-                             f"LOCATION: {sc['loc']}. Lighting: {map_light.get(sc['light'], sc['light'])}\n"
-                             f"CAMERA: {map_shot.get(sc['shot'], sc['shot'])}, {img_quality}\n\nNEGATIVE: {no_text}")
-                    
-                    # --- PROMPT VIDEO ---
-                    vid_p = (f"{header}\n\nMOTION: {sc['aksi']}. {map_cam.get(sc['cam'], sc['cam'])}. {lipsync_prompt}.\n"
-                             f"CHARACTER: {char_final}\nTECHNICAL: {vid_quality}, {no_text}\n"
-                             f"ACTING CUE: {diag_txt_video if diag_txt_video else 'No Dialogue'}")
-                    
-                    ci, cv = st.columns(2)
-                    with ci: st.code(img_p, language="text")
-                    with cv: st.code(vid_p, language="text")
+            # C. Logika Bumbu Gaya & DNA Lokasi (PERSIS KODE LAMA)
+            bumbu_gaya = img_quality_stack
+            if genre_pilihan == "Pixar 3D": bumbu_gaya = "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, soft tactile textures"
+            elif genre_pilihan == "Marvel Superhero": bumbu_gaya = "Marvel Cinematic Universe aesthetic, heroic cinematic lighting, professional color grading"
+            # ... (Logika genre lainnya tetap sama)
+
+            dna_env = LOKASI_DNA.get(item['location'].lower(), f"{item['location']}, highly detailed, sharp focus.")
+            
+            # D. Rakitan Output (Sesuai Layout Web Lama)
+            img_p = (f"{ref_rule}\n\nSTRICT VISUAL RULE: {no_text_strict}\n"
+                     f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP.\n"
+                     f"CHARACTER DATA: {char_info}\n"
+                     f"VISUAL ACTION: {item['visual']}\n"
+                     f"ENVIRONMENT: {dna_env}\n"
+                     f"CAMERA: {shot_map.get(item['shot'], 'Medium Shot')}, {angle_map.get(item['angle'], 'Normal')}\n"
+                     f"TECHNICAL: {bumbu_gaya}")
+
+            vid_p = (f"{ref_rule}\nACTION & MOTION: {item['visual']}, {camera_map.get(item['cam'], 'Static')}\n"
+                     f"CHARACTER CONSISTENCY: {char_info}\nENVIRONMENT: {dna_env}\n"
+                     f"TECHNICAL: {vid_quality_stack}, {bumbu_gaya}")
+
+            st.session_state.last_generated_results.append({"id": item["num"], "img": img_p, "vid": vid_p})
+        st.rerun()
+
+    # --- 5. DISPLAY HASIL (SINKRON DENGAN STATUS PROSES) ---
+    if st.session_state.last_generated_results:
+        for res in st.session_state.last_generated_results:
+            with st.expander(f"PROSES | ADEGAN {res['id']}", expanded=True):
+                c1, c2 = st.columns(2)
+                with c1: st.markdown("📷 **PROMPT GAMBAR**"); st.code(res['img'], language="text")
+                with c2: st.markdown("🎥 **PROMPT VIDEO**"); st.code(res['vid'], language="text")
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
@@ -1233,6 +1247,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
