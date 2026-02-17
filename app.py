@@ -1216,7 +1216,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-# --- 3. GLOBAL COMPILER LOGIC (VERSI FINAL - ANTI MORPHING & LIPSYNC) ---
+# --- 3. GLOBAL COMPILER LOGIC (VERSI FINAL SUPER-CONSISTENCY) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1227,27 +1227,19 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- PROSES PENYATUAN DATA KARAKTER ---
+            # --- PROSES PENYATUAN DATA KARAKTER (STRATEGI WEB LAMA) ---
             karakter_compiled = []
-            char_profiles_video = []
-            
             for c in data["karakter"]:
                 if c['nama']:
-                    # Format Gambar (Tetap Solid)
+                    # Format Penyatuan: Nama, Fisik, dan Baju dalam satu blok identitas
                     blok = (
                         f"[[ CHARACTER_{c['nama'].upper()}: \"si {c['nama'].lower()}\" "
                         f"maintain 100% exact facial features, anatomy, and textures. "
                         f"{c['fisik']}. Memakai {c['wear']}. ]]"
                     )
                     karakter_compiled.append(blok)
-                    
-                    # Format Video (Diperkuat Deskripsi Fisik agar tidak gabung/morphing)
-                    char_profiles_video.append(
-                        f"{c['nama']} [IDENTITY: {c['fisik']}. Wearing: {c['wear']}]"
-                    )
 
             char_data_final = " AND ".join(karakter_compiled)
-            vid_profiles_final = " AND ".join(char_profiles_video)
 
             no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
             negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
@@ -1255,7 +1247,7 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # Mengumpulkan Dialog untuk Lip-sync AI
+                # Mengumpulkan Dialog untuk Acting Cue (Referensi Emosi & Lipsync)
                 list_dialog = [f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i]}'" for i in range(len(data['karakter'])) if data['karakter'][i]['nama'] and sc['dialogs'][i].strip() != ""]
                 teks_dialog_gabung = " | ".join(list_dialog)
                 
@@ -1270,7 +1262,7 @@ def tampilkan_ruang_produksi():
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (STRATEGI WEB LAMA) ---
+                    # --- MANTRA GAMBAR (MODULAR QUALITY - STRATEGI WEB LAMA) ---
                     img_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n"
@@ -1283,15 +1275,17 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (ANTI MORPHING & DIALOG MODE) ---
+                    # --- MANTRA VIDEO (ADAPTASI TOTAL WEB LAMA - ANTI MORPHING) ---
                     vid_p = (
-                        f"PROFILES & IDENTITY: {vid_profiles_final}\n\n"
-                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n\n"
-                        f"DIALOG CONTEXT (LIP-SYNC): {teks_dialog_gabung}\n\n"
-                        f"RULE: Character Interaction Required. Maintain 100% distinct identity for each character to prevent morphing. Use uploaded photo as primary reference.\n\n"
-                        f"ACTION & MOTION: Characters must move naturally. IMPORTANT: Character's mouth must move according to the DIALOG CONTEXT (Realistic Lip-sync). {sc['cam']}.\n\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, cinematic character-tracking\n\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"ACTION & MOTION: {sc['aksi']}. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
+                        f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity consistency, high-fidelity facial features, no face morphing, look exactly like the reference.\n\n"
+                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}.\n\n"
+                        f"LIGHTING: {sc['light']}, vibrant naturalism, cinematic contrast, deep black levels.\n\n"
+                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): Use this dialogue for emotional reference and lip-sync only: '{teks_dialog_gabung}'.\n\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {QB_IMG}, "
+                        f"{no_text_strict} "
+                        f"{negative_motion_strict}\n\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
                     )
 
@@ -1328,6 +1322,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
