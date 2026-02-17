@@ -1221,52 +1221,55 @@ def tampilkan_ruang_produksi():
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
-        if not adegan_terisi:
-            st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
-        else:
-            user_nama = st.session_state.get("user_aktif", "User").capitalize()
-            st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
-            
-            # --- PROSES PENYATUAN DATA KARAKTER (STRATEGI WEB LAMA) ---
-            karakter_compiled = []
-            char_profiles_video = []
-            
-            for c in data["karakter"]:
-                if c['nama']:
-                    # Format Gambar: Nama, Fisik, dan Baju menyatu
-                    blok = (
-                        f"[[ CHARACTER_{c['nama'].upper()}: \"si {c['nama'].lower()}\" "
-                        f"maintain 100% exact facial features, anatomy, and textures. "
-                        f"{c['fisik']}. Memakai {c['wear']}. ]]"
-                    )
-                    karakter_compiled.append(blok)
-                    
-                    # Format Video: Profil singkat
-                    char_profiles_video.append(f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)")
-
-            char_data_final = " AND ".join(karakter_compiled)
-            vid_profiles_final = ", ".join(char_profiles_video)
-
-            no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
-            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
-
-            for scene_id in adegan_terisi:
+for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
+                v_text_low = sc["aksi"].lower()
                 
-                # --- SMART FILTER LOGIC ---
+                # 1. SCAN: Siapa saja karakter yang disebut di naskah adegan ini?
+                mentioned_chars = []
+                for i in range(data["jumlah_karakter"]):
+                    c = data["karakter"][i]
+                    if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
+                        mentioned_chars.append({
+                            "id": i + 1,
+                            "nama": c['nama'].upper(),
+                            "fisik": c['fisik'],
+                            "wear": c['wear']
+                        })
+
+                # 2. PENENTU HEADER (LOGIKA INTI SS)
+                if len(mentioned_chars) > 1:
+                    # KONDISI 1: Interaction (Udin & Tung ada di naskah)
+                    header_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
+                    char_data_final = " AND ".join([
+                        f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]" 
+                        for m in mentioned_chars
+                    ])
+                
+                elif len(mentioned_chars) == 1:
+                    # KONDISI 2: Solo (Hanya Udin yang ada di naskah)
+                    m = mentioned_chars[0]
+                    header_rule = (f"IMAGE REFERENCE RULE: Use the uploaded photo for {m['nama']}'s face and body.\n"
+                                   f"STRICT LIMIT: This scene MUST ONLY feature {m['nama']}. Do NOT add other characters.")
+                    char_data_final = f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]"
+                
+                else:
+                    # KONDISI 3: General (Tidak tulis nama di naskah)
+                    header_rule = "IMAGE REFERENCE RULE: Use the main character reference."
+                    # Default ambil deskripsi karakter pertama
+                    c1 = data["karakter"][0]
+                    char_data_final = f"[[ CHARACTER_MAIN: {c1['fisik']}. Memakai {c1['wear']}. ]]"
+
+                # 3. SMART FILTER LOKASI (Tetap pakai logika aslimu)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
-
-                if is_outdoor:
-                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
-                else:
-                    bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
+                bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (MODULAR QUALITY - STRATEGI WEB LAMA) ---
+                    # --- MANTRA GAMBAR (PAKAI HEADER DINAMIS) ---
                     img_p = (
-                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"{header_rule}\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n"
                         f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
                         f"CHARACTER DATA: {char_data_final}\n"
@@ -1277,15 +1280,15 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (LIST MODE & MOTION MASTERY) ---
+                    # --- MANTRA VIDEO (SINKRON DENGAN LOGIKA DI ATAS) ---
                     vid_p = (
-                        f"PROFILES: {vid_profiles_final}\n\n"
+                        f"RULE: {header_rule}\n\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
-                        f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
-                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
+                        f"CHARACTER DATA: {char_data_final}\n"
+                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement.\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
+                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
 
                     c_img, c_vid = st.columns(2)
@@ -1321,4 +1324,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
