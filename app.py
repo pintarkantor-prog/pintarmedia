@@ -932,13 +932,13 @@ def tampilkan_kendali_tim():
         client = gspread.authorize(creds)
         sh = client.open_by_url(url_gsheet)
         
-        # Ambil Data
+        # Ambil Data Dasar
         df_staff = pd.DataFrame(sh.worksheet("Staff").get_all_records())
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
         ws_tugas = sh.worksheet("Tugas")
 
-        # Ambil Data Tugas & Pre-Processing Tanggal (Anti-Error)
+        # Ambil Data Tugas
         data_tugas_raw = ws_tugas.get_all_values()
         if len(data_tugas_raw) > 1:
             header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
@@ -948,7 +948,8 @@ def tampilkan_kendali_tim():
                 cols[4] = 'Status'
                 df_tugas.columns = cols
             
-            # Konversi Tanggal Aman
+            # --- FIX JITU UNTUK ERROR .DT ---
+            # Kita konversi dulu ke datetime, yang salah format jadi NaT
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status', 'Deadline_DT'])
@@ -984,10 +985,10 @@ def tampilkan_kendali_tim():
 
         # --- 4. JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
-        # Membersihkan NaT hanya saat filtering biar tidak crash di .dt accessor
-        df_valid_tugas = df_tugas.dropna(subset=['Deadline_DT'])
-        df_tugas_bln = df_valid_tugas[(df_valid_tugas['Deadline_DT'].dt.month == bulan_dipilih) & 
-                                      (df_valid_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
+        # Kita buang data yang tanggalnya NaT (salah format) hanya untuk tampilan Jadwal
+        df_tugas_v = df_tugas.dropna(subset=['Deadline_DT'])
+        df_tugas_bln = df_tugas_v[(df_tugas_v['Deadline_DT'].dt.month == bulan_dipilih) & 
+                                  (df_tugas_v['Deadline_DT'].dt.year == tahun_dipilih)].copy()
         
         if not df_tugas_bln.empty:
             df_tugas_bln = df_tugas_bln.sort_values('Deadline_DT')
@@ -1008,7 +1009,7 @@ def tampilkan_kendali_tim():
 
         rekap_absen = {}
         df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
-        df_absen_v = df_absen.dropna(subset=['Tanggal_DT'])
+        df_absen_v = df_absen.dropna(subset=['Tanggal_DT']) 
         mask_a = (df_absen_v['Tanggal_DT'].dt.month == bulan_dipilih) & (df_absen_v['Tanggal_DT'].dt.year == tahun_dipilih)
         df_a_f = df_absen_v[mask_a].copy()
         if not df_a_f.empty:
@@ -1032,7 +1033,7 @@ def tampilkan_kendali_tim():
         total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
         total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
-        # --- 6. DASHBOARD METRIC ---
+        # --- 6. DASHBOARD METRIC (LAPORAN KEUANGAN) ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bulanan + total_operasional):,}")
@@ -1057,7 +1058,7 @@ def tampilkan_kendali_tim():
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-        # --- 9. SLIP GAJI (VERSI LENGKAP 100%) ---
+        # --- 9. SLIP GAJI (DENGAN RINCIAN LENGKAP) ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
@@ -1098,7 +1099,8 @@ def tampilkan_kendali_tim():
                                 st.components.v1.html(f"<body>{slip_html}</body>", height=480)
 
     except Exception as e:
-        st.error(f"⚠️ Terjadi Kendala Data: {e}")
+        # Jika masih ada error, tampilkan pesan informatif tapi jangan hentikan sisa kode
+        st.error(f"⚠️ Catatan: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1318,6 +1320,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
