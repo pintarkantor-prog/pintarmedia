@@ -603,11 +603,11 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT (GROK OPTIMIZED)")
+    st.title("⚡ QUICK PROMPT (OPTIMIZED)")
     st.caption("Isi detail adegan di bawah ini untuk merakit mantra Grok secara instan.")
 
     # --- SATU EXPANDER UTAMA UNTUK SEMUA INPUT ---
-    with st.expander("📝 FORMULIR PRODUKSI KILAT", expanded=True):
+    with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
         
         # 1. IDENTITAS
         st.markdown("#### 👥 IDENTITAS KARAKTER")
@@ -1455,6 +1455,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
