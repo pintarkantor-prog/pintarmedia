@@ -1413,11 +1413,12 @@ def tampilkan_ruang_produksi():
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            # Prompt Video: Fokus Gerakan
+                            # Prompt Video: Fokus Gerakan + Dialog
                             grok_vid = (
                                 f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"SCENE: {aksi_master} at {sc['loc']}.\n"
+                                f"DIALOGUE: \"{dialog_text}\"\n"
                                 f"ATMOSPHERE: {mood}, realistic physics.\n"
                                 f"NEGATIVE: static, morphing, melting, text, blurry."
                             )
@@ -1450,6 +1451,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
