@@ -1086,7 +1086,7 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL REBORN - FIX NAME ERROR)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1099,20 +1099,21 @@ def tampilkan_ruang_produksi():
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # --- [SUNTIKAN MASTERPIECE] QUALITY BOOSTER ---
-    # Menggunakan f/11 & CPL Filter untuk ketajaman optik maksimal di Banana & SuperGrok
+    # --- [SUNTIKAN MASTERPIECE] QUALITY BOOSTER & ANTI ERROR VARIABLES ---
     QB_IMG = (
         "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
         "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
         "ultra-clear optical clarity, CPL filter, high local contrast, vivid naturalism"
     )
-    
-    # Menggunakan Unreal 5.4 & 60fps untuk fluid motion maksimal di Veo
     QB_VID = (
         "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
         "zero digital noise, clean pixels, smooth motion, professional cinematography"
     )
+    
+    # Definisi Variabel String (Fix NameError)
+    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
+    negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
 
     # HEADER
     c1, c_kosong, c2 = st.columns([2, 0.5, 1.5]) 
@@ -1135,7 +1136,7 @@ def tampilkan_ruang_produksi():
                 st.session_state.naskah_siap_produksi = ""
                 st.rerun()
 
-    # 1. IDENTITY LOCK
+    # 2. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         
@@ -1147,7 +1148,7 @@ def tampilkan_ruang_produksi():
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}_{ver}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}_{ver}", height=80, placeholder="Fisik...", label_visibility="collapsed")
 
-    # 2. GENERASI INPUT ADEGAN
+    # 3. GENERASI INPUT ADEGAN
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
         
@@ -1173,7 +1174,6 @@ def tampilkan_ruang_produksi():
             
             with col_set:
                 sub1, sub2 = st.columns(2)
-                
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
                     curr_style = data["adegan"][scene_id].get("style", OPTS_STYLE[0])
@@ -1197,13 +1197,13 @@ def tampilkan_ruang_produksi():
                     data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0]) # Memanggil OPTS_RATIO
+                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0])
                     idx_ratio = OPTS_RATIO.index(curr_ratio) if curr_ratio in OPTS_RATIO else 0
                     data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0]) # Memanggil OPTS_CAM
-                    idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_CAM else 0
+                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0])
+                    idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_cam else 0
                     data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
@@ -1216,26 +1216,22 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC ---
+    # --- 4. GLOBAL COMPILER LOGIC (PENERAPAN SS LOGIC) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
-        
-        # BARIS INI WAJIB ADA SEBELUM LOOP (Pemicu Error tadi)
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
-            import re
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
-
-            # SEKARANG BARU MASUK KE LOOP
+            
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # 1. SCAN: Siapa saja karakter yang disebut di naskah adegan ini?
+                # A. SCAN KARAKTER
                 mentioned_chars = []
                 for i in range(data["jumlah_karakter"]):
                     c = data["karakter"][i]
@@ -1247,37 +1243,28 @@ def tampilkan_ruang_produksi():
                             "wear": c['wear']
                         })
 
-                # 2. PENENTU HEADER (LOGIKA INTI SS)
+                # B. PENENTU HEADER DINAMIS (LOGIKA SS)
                 if len(mentioned_chars) > 1:
-                    # KONDISI 1: Interaction (Udin & Tung ada di naskah)
                     header_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
-                    char_data_final = " AND ".join([
-                        f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]" 
-                        for m in mentioned_chars
-                    ])
-                
+                    char_data_final = " AND ".join([f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]" for m in mentioned_chars])
                 elif len(mentioned_chars) == 1:
-                    # KONDISI 2: Solo (Hanya Udin yang ada di naskah)
                     m = mentioned_chars[0]
                     header_rule = (f"IMAGE REFERENCE RULE: Use the uploaded photo for {m['nama']}'s face and body.\n"
                                    f"STRICT LIMIT: This scene MUST ONLY feature {m['nama']}. Do NOT add other characters.")
                     char_data_final = f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]"
-                
                 else:
-                    # KONDISI 3: General (Tidak tulis nama di naskah)
                     header_rule = "IMAGE REFERENCE RULE: Use the main character reference."
-                    # Default ambil deskripsi karakter pertama
                     c1 = data["karakter"][0]
                     char_data_final = f"[[ CHARACTER_MAIN: {c1['fisik']}. Memakai {c1['wear']}. ]]"
 
-                # 3. SMART FILTER LOKASI (Tetap pakai logika aslimu)
+                # C. SMART FILTER LOKASI
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
                 bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (PAKAI HEADER DINAMIS) ---
+                    # --- MANTRA GAMBAR ---
                     img_p = (
                         f"{header_rule}\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n"
@@ -1290,7 +1277,7 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (SINKRON DENGAN LOGIKA DI ATAS) ---
+                    # --- MANTRA VIDEO ---
                     vid_p = (
                         f"RULE: {header_rule}\n\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
@@ -1334,6 +1321,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
