@@ -1232,7 +1232,7 @@ def tampilkan_ruang_produksi():
                     data["adegan"][scene_id]["vibe"] = st.selectbox(f"V_{scene_id}", OPTS_VIBE, index=idx_vibe, key=f"vibe_{scene_id}_{ver}", label_visibility="collapsed")
 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
+                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
             # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
             cols_d = st.columns(data["jumlah_karakter"])
@@ -1396,6 +1396,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
