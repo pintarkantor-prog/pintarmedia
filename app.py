@@ -1228,7 +1228,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-        # --- 3. GLOBAL COMPILER LOGIC (DETEKTIF & DNA LOCK) ---
+        # --- 3. GLOBAL COMPILER LOGIC (DETEKTIF & DNA LOCK - VERSI LENGKAP) ---
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
@@ -1244,7 +1244,6 @@ def tampilkan_ruang_produksi():
                 
                 # A. SCAN KARAKTER (Mencari siapa yang ada di naskah)
                 found = []
-                # Pastikan 'jumlah_karakter' atau 'jumlah_carakter' sesuai session state kamu
                 jml_char = data.get("jumlah_karakter", data.get("jumlah_carakter", 2))
                 for i in range(jml_char):
                     c = data["karakter"][i]
@@ -1258,40 +1257,43 @@ def tampilkan_ruang_produksi():
 
                 # B. PENENTU HEADER & DNA (LOGIKA SESUAI SS KAMU)
                 if len(found) > 1:
-                    # Mode Interaksi (Contoh: Udin & Tung)
                     h_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
                     dna_lock = " AND ".join([f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, MUST MATCH FACE AND BODY. {m['fisik']}. Wearing {m['wear']}. ]]" for m in found])
                 elif len(found) == 1:
-                    # Mode Solo (Strict Limit)
                     m = found[0]
                     h_rule = (f"IMAGE REFERENCE RULE: Use the uploaded photo for {m['nama']}'s face and body.\n"
                               f"STRICT LIMIT: This scene MUST ONLY feature {m['nama']}. Do NOT add other characters.")
                     dna_lock = f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, 100% FACE MATCH. {m['fisik']}. Wearing {m['wear']}. ]]"
                 else:
-                    # Mode Umum (Tidak sebut nama)
                     h_rule = "IMAGE REFERENCE RULE: Use the main character reference."
                     c1 = data["karakter"][0]
                     dna_lock = f"[[ CHARACTER_MAIN: Refer to Photo #1. {c1['fisik']}. Wearing {c1['wear']}. ]]"
 
-                # C. SMART FILTER LOKASI
+                # C. SMART FILTER LOGIC (YANG TADI TERHAPUS - KEMBALI LAGI)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                bumbu_final = "hyper-detailed grit, leaf veins" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
+                tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
+
+                if is_outdoor:
+                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
+                else:
+                    bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- OUTPUT PROMPT GAMBAR ---
+                    # --- MANTRA GAMBAR ---
                     img_p = (
                         f"{h_rule}\n\n"
-                        f"IDENTITY LOCK: {dna_lock}\n"
-                        f"ACTION: {sc['aksi']}\n"
+                        f"STRICT VISUAL RULE: {no_text_strict}\n"
+                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
+                        f"CHARACTER DATA: {dna_lock}\n"
+                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
-                    # --- OUTPUT PROMPT VIDEO ---
+                    # --- MANTRA VIDEO ---
                     vid_p = (
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
@@ -1335,6 +1337,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
