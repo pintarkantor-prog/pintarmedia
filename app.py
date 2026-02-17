@@ -1232,19 +1232,37 @@ def tampilkan_ruang_produksi():
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "fisik": c['fisik'], "wear": c['wear']})
 
-                # B. LOGIKA SS (HEADER & DNA LOCK)
+                # B. LOGIKA SS (ULTIMATE IDENTITY LOCK - KONSISTENSI TOTAL)
                 if len(found) > 1:
+                    # Mode Interaksi (Multiple DNA Lock)
                     h_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
-                    dna_lock = " AND ".join([f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, MUST MATCH FACE AND BODY. {m['fisik']}. Wearing {m['wear']}. ]]" for m in found])
+                    dna_lock = " AND ".join([
+                        f"[[ CHARACTER_{m['nama']}: (SKS person:1.5), maintain 100% exact facial geometry from PHOTO #{m['id']}. "
+                        f"High-fidelity skin pores, identical bone structure, (same eye shape:1.3). "
+                        f"{m['fisik']}. Wearing {m['wear']}. ]]" 
+                        for m in found
+                    ])
+                
                 elif len(found) == 1:
+                    # Mode Solo (Single DNA Lock + Strict Limit)
                     m = found[0]
                     h_rule = (f"IMAGE REFERENCE RULE: Use the uploaded photo for {m['nama']}'s face and body.\n"
                               f"STRICT LIMIT: This scene MUST ONLY feature {m['nama']}. Do NOT add other characters.")
-                    dna_lock = f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, 100% FACE MATCH. {m['fisik']}. Wearing {m['wear']}. ]]"
+                    dna_lock = (
+                        f"[[ CHARACTER_{m['nama']}: (SKS person:1.5), refer to PHOTO #{m['id']}, 100% IDENTITY MATCH. "
+                        f"Consistent facial features, identical anatomy, no deviation from source image. "
+                        f"{m['fisik']}. Wearing {m['wear']}. ]]"
+                    )
+                
                 else:
+                    # Mode Umum (Main DNA Lock)
                     h_rule = "IMAGE REFERENCE RULE: Use the main character reference."
                     c1 = data["karakter"][0]
-                    dna_lock = f"[[ CHARACTER_MAIN: Refer to Photo #1. {c1['fisik']}. Wearing {c1['wear']}. ]]"
+                    dna_lock = (
+                        f"[[ CHARACTER_MAIN: (SKS person:1.4), refer to PHOTO #1. "
+                        f"Maintain facial consistency, identical facial features. "
+                        f"{c1['fisik']}. Wearing {c1['wear']}. ]]"
+                    )
 
                 # C. SMART FILTER LOKASI
                 loc_lower = sc['loc'].lower()
@@ -1304,6 +1322,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
