@@ -604,75 +604,72 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (GROK OPTIMIZED)")
-    st.caption("Klik setiap bagian di bawah untuk mengisi detail adegan.")
-
-    # --- BAGIAN 1: IDENTITAS (EXPANDER) ---
-    with st.expander("👥 IDENTITAS & KOSTUM KARAKTER", expanded=True): # expanded=True agar terbuka saat awal
-        col_a, col_b = st.columns(2)
-        with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", placeholder="Contoh: Udin")
-            q_detail_a = st.text_area("Ciri Fisik & Baju (1)", 
-                                     placeholder="Kepala Jeruk, techwear putih, detail pori kulit jeruk terlihat.", height=100)
-        with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", placeholder="Contoh: Tung")
-            q_detail_b = st.text_area("Ciri Fisik & Baju (2)", 
-                                     placeholder="Kepala Kayu, jas formal hitam, tekstur serat kayu alami.", height=100)
     
-    # --- BAGIAN 2: SKENARIO (EXPANDER) ---
-    with st.expander("🎬 LOKASI & AKSI UTAMA"):
-        c_loc, c_shot = st.columns([2, 1])
-        with c_loc:
-            q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di jembatan tua berkabut")
-        with c_shot:
-            q_shot = st.selectbox("📸 Shot", ["Setengah Badan", "Seluruh Badan", "Wajah (Close Up)", "Drone View"])
+    # --- SATU EXPANDER UTAMA ---
+    with st.expander("🛠️ KONFIGURASI ADEGAN KILAT", expanded=True):
+        # --- SUB-TABS MENU DI DALAM EXPANDER ---
+        sub_tab1, sub_tab2, sub_tab3 = st.tabs(["👥 IDENTITAS", "🎬 SKENARIO", "💬 DIALOG"])
         
-        q_aksi = st.text_area("🏃 Apa yang terjadi?", placeholder="Contoh: Karakter 1 sedang berteriak marah kepada Karakter 2.")
+        with sub_tab1:
+            st.markdown(" ") # Spacer kecil
+            col_a, col_b = st.columns(2)
+            with col_a:
+                q_char_a = st.text_input("Nama Karakter 1", placeholder="Contoh: Udin")
+                q_detail_a = st.text_area("Ciri Fisik & Baju (1)", height=100)
+            with col_b:
+                q_char_b = st.text_input("Nama Karakter 2", placeholder="Contoh: Tung")
+                q_detail_b = st.text_area("Ciri Fisik & Baju (2)", height=100)
 
-    # --- BAGIAN 3: DIALOG & MOOD (EXPANDER) ---
-    with st.expander("💬 DIALOG & ATMOSFER"):
-        pilihan_nama = [n for n in [q_char_a, q_char_b] if n]
-        
-        col_v1, col_v2 = st.columns(2)
-        with col_v1:
-            q_dialog = st.text_area("Dialog Sahutan", placeholder="Udin: Pergi dari sini!\nTung: Tidak akan!")
-            q_speaker = st.multiselect("Siapa yang Bicara?", options=pilihan_nama)
-        with col_v2:
-            q_vibe = st.selectbox("Vibe Visual", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D"])
-            q_weather = st.selectbox("Suasana", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"])
+        with sub_tab2:
+            st.markdown(" ")
+            c_loc, c_shot = st.columns([2, 1])
+            with c_loc:
+                q_lokasi = st.text_input("📍 Lokasi", placeholder="Gedung tua, sore hari...")
+            with c_shot:
+                q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Close Up"])
+            q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Sedang berbicara serius...")
 
-    st.divider() # Pemisah sebelum hasil mantra
+        with sub_tab3:
+            st.markdown(" ")
+            # Logika agar pilihan nama muncul otomatis
+            pilihan_nama = [n for n in [q_char_a, q_char_b] if n]
+            
+            col_v1, col_v2 = st.columns(2)
+            with col_v1:
+                q_dialog = st.text_area("Dialog Sahutan", placeholder="Tulis teks percakapan...")
+                q_speaker = st.multiselect("Siapa yang Bicara?", options=pilihan_nama)
+            with col_v2:
+                q_vibe = st.selectbox("Vibe Visual", ["Sinematik Film", "Vlog Santai", "Animasi 3D"])
+                q_weather = st.selectbox("Suasana", ["Cerah", "Berkabut", "Hujan"])
 
-    # --- HASIL GENERATE ---
+    # --- HASIL MANTRA (DI LUAR EXPANDER AGAR JELAS) ---
     if q_aksi and q_lokasi:
+        st.divider()
+        st.subheader("🚀 Hasil Optimasi Grok")
+        
+        tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
+        
+        # Logika Gabungan
         dna_combined = f"- {q_char_a}: {q_detail_a}\n- {q_char_b}: {q_detail_b}"
         mood_q = "bright, sharp" if "Cerah" in q_weather else f"{q_weather}, moody depth"
         speaker_str = " & ".join(q_speaker) if q_speaker else "None"
-        
-        st.subheader("🚀 Hasil Optimasi Grok")
-        tab_img, tab_vid = st.tabs(["📷 GAMBAR (TAJAM)", "🎥 VIDEO (LIPSYNC)"])
-        
+
         with tab_img:
-            grok_q_img = (
-                f"STYLE: {q_vibe}, {q_shot}.\n"
-                f"DNA:\n{dna_combined}\n\n"
-                f"ACTION: {q_aksi} at {q_lokasi}.\n"
-                f"LIGHT: {mood_q}.\n"
-                f"QUALITY: 8k raw, ultra-sharp.\n"
-                f"NEGATIVE: text, blur, lowres."
+            grok_img = (
+                f"STYLE: {q_vibe}, {q_shot}.\nDNA:\n{dna_combined}\n\n"
+                f"ACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\n"
+                f"QUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres."
             )
-            st.code(grok_q_img, language="text")
+            st.code(grok_img, language="text")
             
         with tab_vid:
-            grok_q_vid = (
-                f"VIDEO: {q_vibe}, cinematic motion.\n"
-                f"DNA:\n{dna_combined}\n\n"
-                f"SCENE: {q_aksi} at {q_lokasi}.\n"
-                f"SPEAKER: {speaker_str}\n"
-                f"AUDIO_SCRIPT: \"{q_dialog}\"\n"
-                f"PHYSICS: {q_weather}.\n"
-                f"NEGATIVE: static, morphing, blurry."
+            grok_vid = (
+                f"VIDEO: {q_vibe}, cinematic motion.\nDNA:\n{dna_combined}\n\n"
+                f"SCENE: {q_aksi} at {q_lokasi}.\nSPEAKER: {speaker_str}\n"
+                f"AUDIO_SCRIPT: \"{q_dialog}\"\nPHYSICS: {q_weather}.\n"
+                f"NEGATIVE: static, morphing, melting, blurry."
             )
-            st.code(grok_q_vid, language="text")
+            st.code(grok_vid, language="text")
         
         st.success("Sistem Multi-Karakter Aktif! Sekarang identitas dan suara sudah terbagi.")
             
@@ -1439,6 +1436,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
