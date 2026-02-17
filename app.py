@@ -1049,24 +1049,31 @@ def tampilkan_kendali_tim():
                         # Tombol untuk melihat slip resmi (HTML)
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
                             slip_html = f"""
-                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 5px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
                                     <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
+                                    <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
                                     <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
+                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
                                 </div>
                                 <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
-                                    <tr><td>Staf</td><td align="right"><b>{s['NAMA']}</b></td></tr>
-                                    <tr><td>Jabatan</td><td align="right">{s['JABATAN']}</td></tr>
+                                    <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
+                                    <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
+                                    <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {int(s['GAJI_POKOK']):,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {int(s['TUNJANGAN']):,}</td></tr>
-                                    <tr><td>Bonus Hadir ({ha}x)</td><td align="right">Rp {b_ha:,}</td></tr>
-                                    <tr><td>Bonus Video ({vi}x)</td><td align="right">Rp {b_vi:,}</td></tr>
+                                    <tr><td>Gaji Pokok</td><td align="right">Rp {int(gapok):,}</td></tr>
+                                    <tr><td>Tunjangan</td><td align="right">Rp {int(tunjangan):,}</td></tr>
+                                    <tr><td>Bonus Hadir ({jml_hadir}x)</td><td align="right">Rp {bonus_hadir:,}</td></tr>
+                                    <tr><td>Bonus Video ({jml_video}x)</td><td align="right">Rp {bonus_video:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TERIMA</td><td align="right">Rp {total_gaji:,}</td></tr>
+                                        <td>TOTAL TERIMA</td><td align="right">Rp {total_terima:,}</td></tr>
                                 </table>
+                                <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                                    <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
+                                    <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
+                                    <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
+                                </div>
                             </div>
                             """
                             st.components.v1.html(slip_html, height=480)
@@ -1295,6 +1302,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
