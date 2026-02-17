@@ -1412,13 +1412,17 @@ def tampilkan_ruang_produksi():
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            speaker_label = f"SPEAKING CHARACTER: {char_name}" if dialog_text != "-" else "NO DIALOGUE"
+                            # Ambil nama karakter langsung dari data adegan (sc)
+                            si_pembicara = sc.get('karakter', 'UNKNOWN') 
+                            
+                            # Identifikasi: Jika ada dialog, tandai siapa yang bicara
+                            speaker_label = f"SPEAKING CHARACTER: {si_pembicara}" if dialog_text != "-" else "NO DIALOGUE"
                             
                             grok_vid = (
                                 f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"SCENE: {aksi_master} at {sc['loc']}.\n"
-                                f"{speaker_label}\n" # Menegaskan siapa yang mulutnya harus gerak
+                                f"{speaker_label}\n"
                                 f"DIALOGUE: \"{dialog_text}\"\n"
                                 f"ATMOSPHERE: {mood}, realistic physics.\n"
                                 f"NEGATIVE: static, morphing, melting, text, blurry, characters speaking simultaneously."
@@ -1452,6 +1456,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
