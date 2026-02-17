@@ -604,49 +604,59 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (GROK OPTIMIZED)")
-    st.write("Tulis ide kilatmu, dan saya akan rakit mantra Grok yang tajam & anti-blur.")
+    st.write("Prompt Singkat dengan kontrol Identitas, Lokasi, Aksi, dan Dialog.")
 
-    # 1. INPUT SEDERHANA
+    # 1. INPUT DINAMIS
     with st.container(border=True):
         col1, col2 = st.columns(2)
         with col1:
-            q_aksi = st.text_area("Apa yang sedang terjadi?", placeholder="Contoh: Udin sedang termenung di bawah hujan...")
-            q_karakter = st.text_input("Siapa saja di sana?", placeholder="Udin, Tung")
+            q_identitas = st.text_area("Siapa & Pakai Baju Apa?", 
+                                     placeholder="Contoh: Udin (Kepala Jeruk) pakai Techwear, Tung (Kepala Kayu) pakai Jas.")
+            q_lokasi = st.text_input("Di Mana Kejadiannya?", placeholder="Contoh: Di teras rumah saat hujan")
+            q_aksi = st.text_area("Lagi Ngapain?", placeholder="Contoh: Udin sedang menjelaskan rencana rahasia.")
+            
         with col2:
-            q_vibe = st.selectbox("Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D"])
-            q_weather = st.selectbox("Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"])
+            # BAGIAN DIALOG (Kunci Lipsync)
+            q_speaker = st.text_input("Siapa yang Bicara?", placeholder="Contoh: Udin")
+            q_dialog = st.text_area("Apa yang Diucapkan?", placeholder="Contoh: Kita harus segera pergi dari sini sebelum terlambat!")
+            st.divider()
+            q_vibe = st.selectbox("Vibe Visual", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D"])
+            q_weather = st.selectbox("Suasana/Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"])
 
-    if q_aksi:
-        # 2. LOGIKA TRANSLATOR KILAT (Adopsi dari Ruang Produksi)
-        mood_q = "bright, no fog" if "Cerah" in q_weather else f"{q_weather}, moody atmosphere"
+    if q_aksi and q_lokasi:
+        # 2. LOGIKA MOOD & AUDIO
+        mood_q = "bright, clear visibility" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
+        audio_tag = f"AUDIO_SOURCE: {q_speaker} is speaking.\nAUDIO_SCRIPT: \"{q_dialog}\"" if q_dialog else "NO AUDIO/SILENT"
         
-        # 3. RAKITAN MANTRA
-        st.subheader("🚀 Hasil Optimasi Grok")
-        
+        st.subheader("🚀 Hasil Optimasi Prompt Singkat")
         tab_q_img, tab_q_vid = st.tabs(["📷 QUICK IMAGE", "🎥 QUICK VIDEO"])
         
         with tab_q_img:
+            # Gambar biasanya tidak perlu dialog, tapi emosi dari dialog bisa masuk ke ekspresi
             grok_q_img = (
-                f"STYLE: {q_vibe}, high-end photography.\n"
-                f"CHARACTERS: {q_karakter}.\n"
-                f"ACTION: {q_aksi}.\n"
-                f"ENVIRONMENT: {mood_q}.\n"
-                f"QUALITY: 8k raw, ultra-sharp, professional lighting.\n"
-                f"NEGATIVE: text, watermark, blur, lowres, distorted."
+                f"STYLE: {q_vibe}, professional photography.\n\n"
+                f"CHARACTERS & OUTFIT:\n{q_identitas}\n\n"
+                f"LOCATION: {q_lokasi}.\n"
+                f"ACTION: {q_aksi} (Emotion: reflecting the dialogue).\n"
+                f"ENVIRONMENT: {mood_q}.\n\n"
+                f"QUALITY: 8k raw, ultra-sharp focus, cinematic lighting.\n"
+                f"NEGATIVE: text, watermark, blur, lowres, distorted location."
             )
             st.code(grok_q_img, language="text")
             
         with tab_q_vid:
             grok_q_vid = (
-                f"VIDEO: {q_vibe}, cinematic motion, 24fps.\n"
-                f"SUBJECTS: {q_karakter}.\n"
-                f"SCENE: {q_aksi}.\n"
-                f"PHYSICS: Realistic textures, {q_weather} effects.\n"
-                f"NEGATIVE: static, morphing, melting, blurry."
+                f"VIDEO: {q_vibe}, cinematic motion, 24fps.\n\n"
+                f"IDENTITY LOCK:\n{q_identitas}\n\n"
+                f"SCENE: {q_aksi} at {q_lokasi}.\n\n"
+                f"{audio_tag}\n"
+                f"LIP-SYNC: Match mouth movement to AUDIO_SCRIPT for {q_speaker} only.\n\n"
+                f"PHYSICS: Realistic material textures, {q_weather} effects.\n"
+                f"NEGATIVE: static image, morphing, melting, blurry, floating objects, dual-voice."
             )
             st.code(grok_q_vid, language="text")
         
-        st.success("Tinggal copy-paste ke Grok/X!")
+        st.success("Silahkan copy paste di Grok/ Gemini/ VEO!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1411,5 +1421,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
