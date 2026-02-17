@@ -900,10 +900,17 @@ def tampilkan_tugas_kerja():
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    
+    # 1. PROTEKSI AKSES (Hanya Dian)
     if user_sekarang != "dian":
-        st.warning("🔒 **AREA TERBATAS**"); return
+        st.title("⚡ KENDALI TIM")
+        st.divider()
+        st.warning("🔒 **AREA TERBATAS**")
+        return
 
+    # 2. HALAMAN KHUSUS ADMIN
     st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
+    
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
@@ -914,56 +921,64 @@ def tampilkan_kendali_tim():
     bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
     tahun_dipilih = c_thn.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
 
+    st.divider()
+
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         sh = client.open_by_url(url_gsheet)
         
-        # --- 1. AMBIL DATA & NORMALISASI HEADER ---
-        def ambil_data_aman(nama_sheet):
+        # --- AMBIL DATA DASAR & NORMALISASI HEADER ---
+        def ambil_data(nama_sheet):
             data = sh.worksheet(nama_sheet).get_all_records()
             df = pd.DataFrame(data)
-            df.columns = [str(c).strip().upper() for c in df.columns] # Paksa Header Huruf Besar
+            df.columns = [str(c).strip().upper() for c in df.columns]
             return df
 
-        df_staff = ambil_data_aman("Staff")
-        df_absen = ambil_data_aman("Absensi")
-        df_kas = ambil_data_aman("Arus_Kas")
+        df_staff = ambil_data("Staff")
+        df_absen = ambil_data("Absensi")
+        df_kas = ambil_data("Arus_Kas")
         ws_tugas = sh.worksheet("Tugas")
 
-        # Proses Tugas (Manual Header untuk Hindari Error 'Status')
-        raw_tugas = ws_tugas.get_all_values()
-        if len(raw_tugas) > 1:
-            h_t = [str(h).strip().upper() for h in raw_tugas[0]]
-            df_t = pd.DataFrame(raw_tugas[1:], columns=h_t)
-            if len(df_t.columns) >= 5:
-                df_t.columns.values[4] = "STATUS" # Kunci posisi kolom ke-5 sebagai Status
+        # Ambil Data Tugas Manual (Cegah error 'Status' atau 'empty')
+        raw_t = ws_tugas.get_all_values()
+        if len(raw_t) > 1:
+            h_t = [str(h).strip().upper() for h in raw_t[0]]
+            df_tugas = pd.DataFrame(raw_t[1:], columns=h_t)
+            if len(df_tugas.columns) >= 5:
+                df_tugas.columns.values[4] = "STATUS"
         else:
-            df_t = pd.DataFrame()
+            df_tugas = pd.DataFrame(columns=['STAF', 'DEADLINE', 'INSTRUKSI', 'STATUS'])
 
-        # --- 2. FUNGSI FILTER TANGGAL (ANTI-CRASH) ---
+        # --- FUNGSI FILTER TANGGAL AMAN ---
         def saring_tgl(df, kolom, bln, thn):
-            if df.empty or kolom.upper() not in df.columns: return pd.DataFrame()
+            if df.empty or kolom.upper() not in df.columns: 
+                return pd.DataFrame()
             df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], dayfirst=True, errors='coerce')
-            return df[df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)].copy()
+            mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
+            return df[mask].copy()
 
-        df_t_bln = saring_tgl(df_t, 'DEADLINE', bulan_dipilih, tahun_dipilih)
+        df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
         # --- 3. RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
-        df_qc = df_t[df_t['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_t.empty else pd.DataFrame()
+        df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
         if not df_qc.empty:
             for i, r in df_qc.iterrows():
                 with st.container(border=True):
                     c1, c2, c3 = st.columns([3, 1, 1])
-                    c1.write(f"🎬 **{r.get('INSTRUKSI')}**"); c1.caption(f"Editor: {r.get('STAF')}")
+                    c1.write(f"🎬 **{r.get('INSTRUKSI')}**")
+                    c1.caption(f"Editor: {r.get('STAF')}")
                     idx = r.name + 2
-                    if c2.button("✅ ACC", key=f"acc_{idx}"): ws_tugas.update_cell(idx, 5, "FINISH"); st.rerun()
-                    if c3.button("❌ REV", key=f"rev_{idx}"): ws_tugas.update_cell(idx, 5, "REVISI"); st.rerun()
-        else: st.info("Antrean QC kosong. ✨")
+                    if c2.button("✅ ACC", key=f"acc_{idx}"):
+                        ws_tugas.update_cell(idx, 5, "FINISH"); st.rerun()
+                    if c3.button("❌ REV", key=f"rev_{idx}"):
+                        ws_tugas.update_cell(idx, 5, "REVISI"); st.rerun()
+        else:
+            st.info("Antrean QC kosong. ✨")
 
         # --- 4. JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI")
@@ -971,15 +986,18 @@ def tampilkan_kendali_tim():
             for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
                 ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['STATUS']).upper(), "⚪")
                 st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** - {t.get('INSTRUKSI')} ({t.get('STAF')})")
-        else: st.caption("Tidak ada jadwal untuk bulan ini.")
+        else:
+            st.caption("Tidak ada jadwal untuk periode ini.")
 
-        # --- 5. LAPORAN KEUANGAN ---
+        # --- 5. HITUNG KEUANGAN ---
         df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
-        rekap_a = df_a_f['NAMA'].str.upper().value_counts() if not df_a_f.empty else {}
-        rekap_f = df_f_f['STAF'].str.upper().value_counts() if not df_f_f.empty else {}
+        
+        # Perbaikan Logika Rekap (Gunakan kamus Python biasa)
+        rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
+        rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
         
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'].apply(lambda x: str(x).replace('.','')), errors='coerce').sum() if not df_k_f.empty else 0
+        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
         pay = 0
         for _, s in df_staff.iterrows():
@@ -994,10 +1012,12 @@ def tampilkan_kendali_tim():
         m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
         m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
 
-        # --- 6. GRAFIK & SLIP GAJI DETAIL ---
+        # --- 6. GRAFIK & SLIP GAJI (DETAIL LENGKAP) ---
         with st.expander("📊 Grafik Produktivitas"):
-            if not rekap_f.empty: st.bar_chart(rekap_f)
-            else: st.info("Belum ada data video selesai.")
+            if rekap_f: # Perbaikan cara cek dict kosong
+                st.bar_chart(pd.Series(rekap_f))
+            else:
+                st.info("Belum ada video selesai.")
 
         with st.expander("💰 RINCIAN GAJI & SLIP (FULL)", expanded=True):
             for _, s in df_staff.iterrows():
@@ -1008,11 +1028,13 @@ def tampilkan_kendali_tim():
                     tg = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{s['NAMA']}**"); c1.caption(f"💼 {s['JABATAN']}")
-                        c2.write(f"📅 {ha} Hadir"); c3.write(f"🎬 {vi} Video")
-                        if st.button(f"🧾 GENERATE SLIP {n_up}"):
+                        c1.write(f"👤 **{s['NAMA']}**")
+                        c1.caption(f"💼 {s['JABATAN']}")
+                        c2.write(f"📅 {ha} Hadir")
+                        c3.write(f"🎬 {vi} Video")
+                        if st.button(f"🧾 LIHAT SLIP {n_up}"):
                             slip_html = f"""<div style="background:white; color:black; padding:25px; border:5px solid #1d976c; border-radius:15px; width:300px; margin:auto; font-family:sans-serif;">
-                            <center><img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="100"><br><b style="font-size:18px; color:#1d976c;">SLIP GAJI RESMI</b><hr></center>
+                            <center><img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="100"><br><b style="font-size:20px; color:#1d976c;">SLIP GAJI</b><hr></center>
                             <table style="width:100%; font-size:13px;">
                             <tr><td>Staf</td><td align="right"><b>{s['NAMA']}</b></td></tr>
                             <tr><td>Jabatan</td><td align="right">{s['JABATAN']}</td></tr>
@@ -1022,11 +1044,13 @@ def tampilkan_kendali_tim():
                             <tr><td>Bonus Hadir ({ha}x)</td><td align="right">Rp {b_ha:,}</td></tr>
                             <tr><td>Bonus Video ({vi}x)</td><td align="right">Rp {b_vi:,}</td></tr>
                             <tr><td colspan="2"><br></td></tr>
-                            <tr style="background:#1d976c; color:white; font-weight:bold;"><td style="padding:5px;">TOTAL</td><td align="right" style="padding:5px;">Rp {tg:,}</td></tr>
+                            <tr style="background:#1d976c; color:white; font-weight:bold;">
+                            <td style="padding:5px;">TOTAL</td><td align="right" style="padding:5px;">Rp {tg:,}</td></tr>
                             </table></div>"""
                             st.components.v1.html(slip_html, height=450)
 
-    except Exception as e: st.error(f"⚠️ Kendala Data: {e}")
+    except Exception as e:
+        st.error(f"⚠️ Kendala Sistem: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1246,6 +1270,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
