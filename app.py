@@ -626,16 +626,16 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja", key="q_loc")
         q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...", key="q_act")
         
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4) # Tambah 1 kolom untuk Arah Kamera
         with c1:
-            # Sesuai dengan OPTS_SHOT di Ruang Produksi
-            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
+            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)"], key="q_ss")
         with c2:
-            # Sesuai dengan OPTS_VIBE
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
+            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam"], key="q_vb")
         with c3:
-            # Sesuai dengan OPTS_WEATHER
-            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"], key="q_wt")
+            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"], key="q_wt")
+        with c4:
+            # FITUR BARU: Arah Kamera dengan pilihan Otomatis
+            q_arah = st.selectbox("🎥 Arah Kamera", ["Otomatis", "Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas"], key="q_ar")
 
         st.divider()
 
@@ -1455,6 +1455,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
