@@ -947,8 +947,11 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
-            # FIX: Pastikan konversi tanggal dilakukan di awal
+            
+            # FIX ERROR .dt: Bersihkan data kosong dan paksa ke datetime
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
+            # Buang baris yang tanggalnya gagal dikonversi agar tidak error .dt
+            df_tugas = df_tugas.dropna(subset=['Deadline_DT'])
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status', 'Deadline_DT'])
 
@@ -983,14 +986,16 @@ def tampilkan_kendali_tim():
 
         # --- 4. JADWAL PRODUKSI (FILTER BULAN) ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
-        # Inisialisasi df_tugas_bln agar selalu ada meskipun kosong
-        df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
+        
+        # Filter aman setelah data dibersihkan
+        df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & 
+                                (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
         
         if not df_tugas_bln.empty:
             df_tugas_bln = df_tugas_bln.sort_values('Deadline_DT')
             for _, task in df_tugas_bln.iterrows():
                 ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(task['Status']).upper(), "⚪")
-                tgl_pajang = task['Deadline_DT'].strftime('%d %b') if pd.notnull(task['Deadline_DT']) else "TBA"
+                tgl_pajang = task['Deadline_DT'].strftime('%d %b')
                 st.write(f"{ikon} **{tgl_pajang}** - {task.get('Instruksi')} ({task.get('Staf')})")
         else:
             st.caption("Belum ada jadwal tugas bulan ini.")
@@ -999,15 +1004,15 @@ def tampilkan_kendali_tim():
 
         # --- 5. REKAP DATA DINAMIS ---
         rekap_finish = {}
-        df_f = pd.DataFrame() # Inisialisasi df_f
-        if not df_tugas_bln.empty:
-            df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
-            if not df_f.empty:
-                rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
+        df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
+        if not df_f.empty:
+            rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
 
         rekap_absen = {}
         if not df_absen.empty:
             df_absen['Tanggal_DT'] = pd.to_datetime(df_absen['Tanggal'], dayfirst=True, errors='coerce')
+            # Bersihkan data absen yang tanggalnya rusak
+            df_absen = df_absen.dropna(subset=['Tanggal_DT'])
             mask_a = (df_absen['Tanggal_DT'].dt.month == bulan_dipilih) & (df_absen['Tanggal_DT'].dt.year == tahun_dipilih)
             df_a_f = df_absen[mask_a].copy()
             if not df_a_f.empty:
@@ -1026,6 +1031,7 @@ def tampilkan_kendali_tim():
         total_operasional = 0
         if not df_kas.empty:
             df_kas['Tanggal_DT'] = pd.to_datetime(df_kas['Tanggal'], dayfirst=True, errors='coerce')
+            df_kas = df_kas.dropna(subset=['Tanggal_DT'])
             mask_k = (df_kas['Tanggal_DT'].dt.month == bulan_dipilih) & (df_kas['Tanggal_DT'].dt.year == tahun_dipilih)
             df_k_bln = df_kas[mask_k].copy()
             df_k_bln['Nominal'] = pd.to_numeric(df_k_bln['Nominal'], errors='coerce').fillna(0)
@@ -1063,7 +1069,7 @@ def tampilkan_kendali_tim():
                 s_up = row['Nama_Upper']
                 jab_final = dict_jabatan.get(s_up, row['Jabatan'])
                 jh = rekap_absen.get(s_up, 0)
-                jv = rekap_finish.get(st_up, 0)
+                jv = rekap_finish.get(s_up, 0)
                 if jh > 0 or jv > 0:
                     total_gaji = int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000)
                     with st.container(border=True):
@@ -1083,14 +1089,15 @@ def tampilkan_kendali_tim():
                                     <table style="width: 100%; font-size: 13px; margin-top: 15px;">
                                         <tr><td>Staf</td><td align="right"><b>{row['Nama']}</b></td></tr>
                                         <tr><td>Jabatan</td><td align="right">{jab_final}</td></tr>
-                                        <tr><td>Bonus</td><td align="right">Rp {(jh*50000 + jv*10000):,}</td></tr>
+                                        <tr><td>Total Bonus</td><td align="right">Rp {(jh*50000 + jv*10000):,}</td></tr>
                                         <tr style="font-weight: bold; color: #1d976c;"><td>TOTAL</td><td align="right">Rp {total_gaji:,}</td></tr>
                                     </table>
                                 </div>"""
                                 st.components.v1.html(slip_html, height=450)
 
     except Exception as e:
-        st.error(f"Sistem Mendeteksi Error: {e}")
+        st.error(f"Sistem Mendeteksi Error Data: {e}")
+        st.info("💡 Tips: Pastikan kolom tanggal di GSheet (Deadline/Tanggal) tidak ada yang kosong atau salah tulis.")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1310,6 +1317,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
