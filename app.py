@@ -1216,7 +1216,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC ---
+    # --- 3. GLOBAL COMPILER LOGIC (VERSI PENYATUAN KARAKTER) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1227,8 +1227,25 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: {c['fisik']}, organic macro-texture, maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
-            char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)" for c in data["karakter"] if c['nama']])
+            # --- PROSES PENYATUAN DATA KARAKTER (STRATEGI WEB LAMA) ---
+            karakter_compiled = []
+            char_profiles_video = []
+            
+            for c in data["karakter"]:
+                if c['nama']:
+                    # Format Gambar: Nama, Fisik, dan Baju menyatu
+                    blok = (
+                        f"[[ CHARACTER_{c['nama'].upper()}: \"si {c['nama'].lower()}\" "
+                        f"maintain 100% exact facial features, anatomy, and textures. "
+                        f"{c['fisik']}. Memakai {c['wear']}. ]]"
+                    )
+                    karakter_compiled.append(blok)
+                    
+                    # Format Video: Profil singkat
+                    char_profiles_video.append(f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)")
+
+            char_data_final = " AND ".join(karakter_compiled)
+            vid_profiles_final = ", ".join(char_profiles_video)
 
             no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
             negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
@@ -1236,7 +1253,7 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-            # --- SMART FILTER LOGIC ---
+                # --- SMART FILTER LOGIC ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
@@ -1247,21 +1264,22 @@ def tampilkan_ruang_produksi():
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (LIST MODE & DETAIL CAMERA) ---
+                    # --- MANTRA GAMBAR (MODULAR QUALITY - STRATEGI WEB LAMA) ---
                     img_p = (
-                        f"CHARACTER: {char_ids}\n\n"
-                        f"ACTION: {sc['aksi']}\n\n"
-                        f"ENV: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"STRICT VISUAL RULE: {no_text_strict}\n"
+                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n\n"
+                        f"CHARACTER DATA: {char_data_final}\n\n"
+                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n\n"
+                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n\n"
-                        f"TECH: {sc['style']}, {sc['light']}, {tech_base}\n\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}\n\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
                     # --- MANTRA VIDEO (LIST MODE & MOTION MASTERY) ---
                     vid_p = (
-                        f"PROFILES: {char_profiles}\n\n"
+                        f"PROFILES: {vid_profiles_final}\n\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n\n"
                         f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
                         f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
@@ -1303,6 +1321,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
