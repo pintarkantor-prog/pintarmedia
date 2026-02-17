@@ -1272,15 +1272,15 @@ def tampilkan_ruang_produksi():
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     # --- MANTRA GAMBAR (DENGAN DEEP FOCUS) ---
                     img_p = (
-                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Static shot only.\n\n"
                         f"CHARACTER DATA: {char_data_final}\n\n"
-                        f"VISUAL ACTION: {sc['aksi']}. {lipsync_instruction}.\n\n"
+                        f"VISUAL DESCRIPTION: A high-end still photography of {sc['aksi']}. Frozen in time, no motion blur, no movement.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
                         f"FOCUS RULE: DEEP FOCUS, APERTURE F/16, INFINITE DEPTH OF FIELD, EVERYTHING ULTRA-SHARP.\n\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}, extreme edge-enhancement, deep color saturation\n\n"
+                        f"TECHNICAL: Professional studio photography, {sc['light']}, {sc['style']}, extreme edge-enhancement, every pixel sharp, deep color saturation\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n\n"
-                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
+                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Still Image"
                     )
                     
                     # --- MANTRA VIDEO (24FPS & AUTO-MOTION) ---
@@ -1328,6 +1328,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
