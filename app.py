@@ -14,7 +14,7 @@ from google.oauth2.service_account import Credentials
 OPTS_STYLE = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
 OPTS_LIGHT = ["Golden Hour", "Studio", "Natural", "Cinematic Neon"]
 OPTS_ARAH  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
-OPTS_SHOT  = [""Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot", "Pemandangan Luas"]
+OPTS_SHOT  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot", "Pemandangan Luas"]
 OPTS_RATIO = ["9:16", "16:9", "1:1"] 
 OPTS_CAM   = ["Static", "Zoom In", "Tracking"]
 
@@ -1253,6 +1253,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
