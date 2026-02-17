@@ -1240,34 +1240,39 @@ def tampilkan_ruang_produksi():
                             "wear": c['wear']
                         })
 
-                # B. LOGIKA SS (ULTIMATE GHOST LOCK - KONSISTENSI TOTAL)
+                # B. LOGIKA IDENTITY SWAP (MENGUNCI WAJAH, MENGUBAH PAKAIAN)
                 if len(found) > 1:
-                    h_rule = "STRICT IDENTITY: Absolute biometric consistency required for ID #1 and #2."
+                    h_rule = "STRICT IDENTITY SWAP: Maintain face from photos, but change clothing as described."
                     dna_lock = " AND ".join([
-                        f"[[ {m['unique_token']}: (identical-face:1.7), refer to PHOTO #{m['id']}, "
-                        f"exact facial geometry, matching bone structure. "
-                        f"Wearing: {m['wear']}. Body: {m['fisik']}. ]]" for m in found
+                        f"[[ {m['unique_token']}: (Face-Lock:1.7), refer to PHOTO #{m['id']} ONLY for face. "
+                        f"Disregard original clothes in the photo. NEW CLOTHING TO WEAR: {m['wear']}. "
+                        f"Physical traits: {m['fisik']}. ]]" for m in found
                     ])
+                
                 elif len(found) == 1:
                     m = found[0]
-                    h_rule = f"STRICT IDENTITY: 100% face-match with PHOTO #{m['id']}. Zero deviation allowed."
+                    h_rule = f"STRICT FACE-LOCK: 100% facial match with PHOTO #{m['id']}. Ignore photo's outfit."
                     dna_lock = (
-                        f"[[ {m['unique_token']}: (identical-face:1.7), refer to PHOTO #{m['id']}, "
-                        f"biometric face lock, identical facial anatomy, focal point on face. "
-                        f"Wearing: {m['wear']}. Body: {m['fisik']}. ]]"
+                        f"[[ {m['unique_token']}: (Face-Lock:1.8), refer to PHOTO #{m['id']} ONLY for facial structure and biometric features. "
+                        f"STRICT RULE: Ignore any clothing shown in the original photo. "
+                        f"CURRENT OUTFIT: This character MUST be wearing {m['wear']}. "
+                        f"Face consistency is priority 1, clothes are priority 2. Body: {m['fisik']}. ]]"
                     )
+                
                 else:
-                    h_rule = "IDENTITY: Use Photo #1 reference."
-                    dna_lock = "[[ SKS_PERSON: (identical-face:1.5), refer to PHOTO #1. ]]"
+                    h_rule = "General face reference from Photo #1."
+                    c1 = data["karakter"][0]
+                    dna_lock = f"[[ SKS_PERSON: (Face-Lock:1.5), face from PHOTO #1, wearing {c1['wear']}. ]]"
 
-                # C. SMART FILTER (TETAP SAMA)
+                # C. SMART FILTER (OPTIMASI UNTUK GROK & IDENTITY SWAP)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                bumbu_final = "hyper-detailed grit, leaf veins" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
+                
+                # Bumbu visual agar tekstur baju baru terlihat nyata
+                bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (SUNTIKAN URUTAN PRIORITAS BARU) ---
-                    # Perhatikan: DNA LOCK sekarang ada di PALING ATAS
+                    # --- MANTRA GAMBAR (SUNTIKAN IDENTITY SWAP) ---
                     img_p = (
                         f"PRIORITY DNA: {dna_lock}\n"
                         f"RULE: {h_rule}\n\n"
@@ -1275,23 +1280,30 @@ def tampilkan_ruang_produksi():
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
                         f"TECHNICAL: {sc['style']}, {sc['light']}, extreme-edge-enhancement\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, improvising facial features\n"
+                        # NEGATIVE DITAMBAH AGAR BAJU LAMA NGGAK MUNCUL
+                        f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, original photo clothes, "
+                        f"improvising facial features, inconsistent identity\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
+                    # --- MANTRA VIDEO ---
                     vid_p = (
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
                         f"MOTION: {sc['cam']}, cinematic character-tracking, fluid movement.\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, wrong clothing\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
 
                     c_img, c_vid = st.columns(2)
-                    with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
-                    with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
+                    with c_img: 
+                        st.markdown("📷 **PROMPT GAMBAR**")
+                        st.code(img_p, language="text")
+                    with c_vid: 
+                        st.markdown("🎥 **PROMPT VIDEO**")
+                        st.code(vid_p, language="text")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1318,6 +1330,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
