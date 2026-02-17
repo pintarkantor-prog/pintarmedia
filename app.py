@@ -947,12 +947,13 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
+            # Tambahkan konversi tanggal untuk Kalender
+            df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
 
         # --- NORMALISASI DATA & JABATAN DINAMIS ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
-        # FIX JABATAN: Ambil langsung dari GSheet Staff (Inggi -> Uploader)
         dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
         # --- 3. FITUR RUANG QC ---
@@ -980,14 +981,26 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
+        # --- FITUR BARU: KALENDER KONTEN (JADWAL PRODUKSI) ---
+        st.subheader("📅 JADWAL PRODUKSI BULAN INI")
+        df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
+        
+        if not df_tugas_bln.empty:
+            df_tugas_bln = df_tugas_bln.sort_values('Deadline_DT')
+            for _, task in df_tugas_bln.iterrows():
+                # Tentukan warna ikon berdasarkan status
+                ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(task['Status']).upper(), "⚪")
+                tgl_pajang = task['Deadline_DT'].strftime('%d %b') if pd.notnull(task['Deadline_DT']) else "TBA"
+                st.write(f"{ikon} **{tgl_pajang}** - {task.get('Instruksi')} ({task.get('Staf')})")
+        else:
+            st.caption("Belum ada jadwal tugas yang diinput untuk bulan ini.")
+
+        st.divider()
+
         # --- 4. REKAP DATA DINAMIS (FILTER BULAN) ---
         rekap_finish = {}
-        if not df_tugas.empty:
-            df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
-            mask_f = (df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & \
-                     (df_tugas['Deadline_DT'].dt.year == tahun_dipilih) & \
-                     (df_tugas['Status'].astype(str).str.upper() == "FINISH")
-            df_f = df_tugas[mask_f].copy()
+        if not df_tugas_bln.empty:
+            df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
             if not df_f.empty:
                 rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts()
 
@@ -1005,7 +1018,6 @@ def tampilkan_kendali_tim():
             st_up = row_p['Nama_Upper']
             jh = rekap_absen.get(st_up, 0)
             jv = rekap_finish.get(st_up, 0)
-            # Gaji hanya dihitung jika ada catatan hadir atau video FINISH di bulan terpilih
             if jh > 0 or jv > 0:
                 total_payroll_bulanan += (int(row_p['Gaji_Pokok']) + int(row_p['Tunjangan']) + (jh * 50000) + (jv * 10000))
 
@@ -1303,6 +1315,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
