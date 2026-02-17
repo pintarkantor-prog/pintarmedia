@@ -536,11 +536,11 @@ Perhatikan struktur waktu dan elemen niche SECARA KETAT:
             with col_o2:
                 st.markdown("**⚙️ Konfigurasi Otomatis**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
-                adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
+                adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
 
             if st.button("🔥 GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
-                    with st.spinner("lagi ngetik naskah gila..."):
+                    with st.spinner("lagi ngetik naskah..."):
                         try:
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
@@ -1535,6 +1535,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
