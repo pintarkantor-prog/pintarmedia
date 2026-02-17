@@ -1268,23 +1268,23 @@ def tampilkan_ruang_produksi():
                     img_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n"
-                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n\n"
-                        f"CHARACTER DATA: {char_data_final}\n\n"
-                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n\n"
-                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n\n"
+                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
+                        f"CHARACTER DATA: {char_data_final}\n"
+                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n"
+                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
                     # --- MANTRA VIDEO (LIST MODE & MOTION MASTERY) ---
                     vid_p = (
                         f"PROFILES: {vid_profiles_final}\n\n"
-                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n\n"
-                        f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
-                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n\n"
+                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                        f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n"
+                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
                     )
 
@@ -1321,3 +1321,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
