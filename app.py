@@ -1224,36 +1224,41 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER
+                # A. SCAN KARAKTER (DENGAN UNIQUE ID HACK)
                 found = []
                 jml_c = data.get("jumlah_karakter", 2)
                 for i in range(jml_c):
                     c = data["karakter"][i]
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        found.append({"id": i+1, "nama": c['nama'].upper(), "fisik": c['fisik'], "wear": c['wear']})
+                        # Kita buatkan Unique ID (misal: SKS_1, SKS_2) agar AI tidak pakai imajinasi nama
+                        unique_id = f"SKS_{i+1}_PERSON" 
+                        found.append({
+                            "id": i + 1, 
+                            "nama_asli": c['nama'].upper(),
+                            "unique_token": unique_id,
+                            "fisik": c['fisik'], 
+                            "wear": c['wear']
+                        })
 
-                # B. LOGIKA SS (ULTIMATE BIOMETRIC LOCK - RE-ORDERED)
+                # B. LOGIKA SS (ULTIMATE GHOST LOCK - KONSISTENSI TOTAL)
                 if len(found) > 1:
-                    h_rule = "STRICT IDENTITY: REFER TO UPLOADED PHOTOS #1 AND #2. 100% face match required."
+                    h_rule = "STRICT IDENTITY: Absolute biometric consistency required for ID #1 and #2."
                     dna_lock = " AND ".join([
-                        f"[[ Character_{m['nama']}: (SKS person:1.6), biometric-identical-face-lock with PHOTO #{m['id']}, "
-                        f"exact bone structure, maintain 100% facial features from source. "
-                        f"Wear: {m['wear']}. Fisik: {m['fisik']}. ]]" 
-                        for m in found
+                        f"[[ {m['unique_token']}: (identical-face:1.7), refer to PHOTO #{m['id']}, "
+                        f"exact facial geometry, matching bone structure. "
+                        f"Wearing: {m['wear']}. Body: {m['fisik']}. ]]" for m in found
                     ])
-                
                 elif len(found) == 1:
                     m = found[0]
-                    h_rule = f"STRICT IDENTITY: REFER TO UPLOADED PHOTO #{m['id']}. Zero identity deviation."
+                    h_rule = f"STRICT IDENTITY: 100% face-match with PHOTO #{m['id']}. Zero deviation allowed."
                     dna_lock = (
-                        f"[[ Character_{m['nama']}: (SKS person:1.6), biometric-identical-face-lock with PHOTO #{m['id']}, "
-                        f"identical facial geometry, matching facial anatomy, 100% consistency. "
-                        f"Wear: {m['wear']}. Fisik: {m['fisik']}. ]]"
+                        f"[[ {m['unique_token']}: (identical-face:1.7), refer to PHOTO #{m['id']}, "
+                        f"biometric face lock, identical facial anatomy, focal point on face. "
+                        f"Wearing: {m['wear']}. Body: {m['fisik']}. ]]"
                     )
                 else:
-                    h_rule = "IDENTITY: Refer to Photo #1."
-                    c1 = data["karakter"][0]
-                    dna_lock = f"[[ Main_Character: (SKS person:1.5), biometric face match with PHOTO #1. ]]"
+                    h_rule = "IDENTITY: Use Photo #1 reference."
+                    dna_lock = "[[ SKS_PERSON: (identical-face:1.5), refer to PHOTO #1. ]]"
 
                 # C. SMART FILTER (TETAP SAMA)
                 loc_lower = sc['loc'].lower()
@@ -1313,6 +1318,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
