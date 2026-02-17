@@ -1247,12 +1247,13 @@ def tampilkan_ruang_produksi():
                     # --- MANTRA VIDEO (DENGAN SPASI GANDA) ---
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instr}. Fluid 24fps cinematic motion.\n\n"
-                        f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity, no face morphing.\n\n"
+                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instruction}.\n\n"
+                        f"TEXTURE PROTECTION: Keep the {nama_c} character's unique organic texture (orange skin/wood grain) 100% intact during mouth movement. STRICTLY NO human skin or human mouth textures.\n\n"
+                        f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity, NO face morphing, look exactly like reference at all times.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. High-fidelity textures.\n\n"
                         f"ACTING CUE & LIP-SYNC (NO TEXT ON SCREEN): {teks_dialog_final if teks_dialog_final else 'None'}.\n\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}\n\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n\n"
+                        f"NEGATIVE PROMPT: human skin textures on mouth, realistic human lips, {no_text_strict}, {negative_motion_strict}\n\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Render"
                     )
 
@@ -1288,6 +1289,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
