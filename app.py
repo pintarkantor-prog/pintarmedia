@@ -604,13 +604,17 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (OPTIMIZED)")
-    st.caption("Isi detail adegan di bawah ini. *INFO :*Data disini, tidak bisa di simpan / restore!")
+    st.caption("Isi detail adegan di bawah ini. *INFO :* Data disini, tidak bisa di simpan / restore!")
 
     # --- FUNGSI HAPUS PROMPT ---
     def hapus_semua():
         for key in st.session_state.keys():
             if key.startswith("q_"):
-                st.session_state[key] = "" if "name" in key or "det" in key or "loc" in key or "act" in key or "dial" in key else None
+                # Reset teks jadi kosong, reset selectbox jadi default
+                if isinstance(st.session_state[key], str):
+                    st.session_state[key] = ""
+                else:
+                    st.session_state[key] = None
         st.toast("Formulir berhasil dibersihkan! 🧹")
 
     # --- SATU EXPANDER UTAMA ---
@@ -633,12 +637,14 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja", key="q_loc")
         q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...", key="q_act")
         
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4) # Dibagi 4 kolom
         with c1:
             q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
         with c2:
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
+            q_arah = st.selectbox("🎥 Arah Kamera", ["Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas", "Dari Bawah"], key="q_ar")
         with c3:
+            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
+        with c4:
             q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"], key="q_wt")
 
         st.divider()
@@ -664,7 +670,7 @@ def tampilkan_quick_prompt():
         mood_q = "bright, sharp focus" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
         
         st.divider()
-        st.subheader("🚀 Hasil Optimasi Grok")
+        st.subheader("🚀 Hasil Optimasi Prompt Singkat")
         
         dna_combined = f"CHAR 1: {q_char_a} ({q_detail_a})\nCHAR 2: {q_char_b} ({q_detail_b})"
         speaker_str = " & ".join(q_speaker) if q_speaker else "None"
@@ -672,12 +678,12 @@ def tampilkan_quick_prompt():
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
-            # Di gambar, "Follow Cam" diterjemahkan sebagai Dynamic Action Shot
-            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, dynamic cinematic angle.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres.", language="text")
+            # Menggabungkan Arah Kamera ke dalam Shot Size untuk Gambar
+            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres.", language="text")
             
         with tab_vid:
-            # Di video, instruksi Follow-Cam sangat eksplisit
-            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi}.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
+            # Menambahkan instruksi Follow-Cam otomatis + Arah Kamera manual
+            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
         
         st.success("Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
             
@@ -1444,6 +1450,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
