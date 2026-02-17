@@ -1203,7 +1203,6 @@ def tampilkan_ruang_produksi():
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
             # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
-            st.markdown('<p class="small-label" style="margin-top:10px;">💬 NASKAH DIALOG (Sesuai Karakter)</p>', unsafe_allow_html=True)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
@@ -1357,6 +1356,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
