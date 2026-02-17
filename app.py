@@ -1308,23 +1308,40 @@ def tampilkan_ruang_produksi():
                     c1 = data["karakter"][0]
                     dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, material: {c1['fisik']}. ]]"
 
-                # C. SMART FILTER & MASTER COMPILER (PENYATUAN SEMUA MENU)
+                # C. SMART FILTER & MASTER COMPILER (VERSI UNIVERSAL)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
                 
-                # Mengambil data dari 3 menu baru (Ekspresi, Suasana, Vibe)
+                # Mengambil data dari 3 menu baru
                 eks_f = sc.get("ekspresi", "Datar/Netral")
                 weather_f = sc.get("cuaca", "Cerah Bersih")
                 vibe_f = sc.get("vibe", "Sinematik")
-                
-                # Menggabungkan Aksi utama dengan detail emosi dan suasana
-                # Ini rahasia agar AI tidak hanya fokus pada gerakan, tapi juga mood
-                aksi_lengkap = (
+
+                # --- LOGIKA SMART EXPRESSION UNIVERSAL ---
+                # Mengatur agar emosi karakter 1 dan 2 saling berlawanan (Dramatis)
+                if len(found) > 1:
+                    if eks_f == "Marah (Tegang)":
+                        detail_emosi = f"{found[0]['unique_token']} looks intense and angry, while {found[1]['unique_token']} remains calm and cold."
+                    elif eks_f == "Sedih/Galau":
+                        detail_emosi = f"{found[0]['unique_token']} shows deep sadness, while {found[1]['unique_token']} shows a smug or indifferent expression."
+                    elif eks_f == "Sinis/Sombong":
+                        detail_emosi = f"{found[0]['unique_token']} has a cynical smug look, while {found[1]['unique_token']} looks confused or intimidated."
+                    elif eks_f == "Tertawa":
+                        detail_emosi = f"{found[0]['unique_token']} is laughing out loud, while {found[1]['unique_token']} watches with a smile."
+                    else:
+                        detail_emosi = f"Both characters show a {eks_f} expression."
+                elif len(found) == 1:
+                    detail_emosi = f"{found[0]['unique_token']} shows a {eks_f} expression."
+                else:
+                    detail_emosi = f"General expression: {eks_f}."
+
+                # Gabungkan Aksi Utama dengan Emosi, Cuaca, dan Vibe
+                aksi_master = (
                     f"{sc['aksi']}. "
-                    f"Character Expression: {eks_f}. "
-                    f"Atmosphere/Weather: {weather_f}. "
-                    f"Cinematic Vibe: {vibe_f}."
+                    f"{detail_emosi} "
+                    f"Atmosphere: {weather_f}. "
+                    f"Overall Vibe: {vibe_f}."
                 )
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
@@ -1344,7 +1361,7 @@ def tampilkan_ruang_produksi():
                     img_p = (
                         f"PRIORITY DNA: {dna_lock}\n"
                         f"RULE: {h_rule}\n\n"
-                        f"ACTION: {aksi_lengkap}\n"
+                        f"ACTION: {aksi_master}\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
                         f"TECHNICAL: {sc['style']} cinematic practical effects, {sc['light']}, physically-based rendering (PBR), cinematic material shaders, extreme-edge-enhancement\n"
@@ -1352,11 +1369,11 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (SUNTIKAN AKSI LENGKAP & ANTI-ROBOT) ---
+                    # --- MANTRA VIDEO (SUNTIKAN AKSI MASTER & ANTI-ROBOT) ---
                     vid_p = (
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
-                        f"SCENE: {aksi_lengkap} at {sc['loc']}. {bumbu_final}.\n"
+                        f"SCENE: {aksi_master} at {sc['loc']}. {bumbu_final}.\n"
                         f"AUDIO-VISUAL SYNC: Only the character tagged [SPEAKING] moves their mouth. Match lip-sync to the specific dialogue text.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
                         f"MOTION: Organic human behavior, fluid secondary motion, natural head tilting, realistic breathing, micro-expressions. "
@@ -1396,6 +1413,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
