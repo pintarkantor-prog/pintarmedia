@@ -942,13 +942,12 @@ def tampilkan_kendali_tim():
         df_kas = ambil_data("Arus_Kas")
         ws_tugas = sh.worksheet("Tugas")
 
-        # Ambil Data Tugas Manual (Cegah error 'Status' atau 'empty')
+        # Ambil Data Tugas Manual
         raw_t = ws_tugas.get_all_values()
         if len(raw_t) > 1:
             h_t = [str(h).strip().upper() for h in raw_t[0]]
             df_tugas = pd.DataFrame(raw_t[1:], columns=h_t)
             if len(df_tugas.columns) >= 5:
-                # Kunci kolom ke-5 sebagai STATUS
                 df_tugas.columns.values[4] = "STATUS"
         else:
             df_tugas = pd.DataFrame(columns=['STAF', 'DEADLINE', 'INSTRUKSI', 'STATUS'])
@@ -957,19 +956,16 @@ def tampilkan_kendali_tim():
         def saring_tgl(df, kolom, bln, thn):
             if df.empty or kolom.upper() not in df.columns: 
                 return pd.DataFrame()
-            # Gunakan errors='coerce' agar sel kosong tidak bikin error merah
             df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], dayfirst=True, errors='coerce')
             mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
             return df[mask].copy()
 
-        # Data yang sudah disaring per bulan
         df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
         # --- 3. RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
-        # Saring WAITING QC dari seluruh data tugas (tidak terbatas bulan)
         df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
         
         if not df_qc.empty:
@@ -991,14 +987,12 @@ def tampilkan_kendali_tim():
         if not df_t_bln.empty:
             for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
                 ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['STATUS']).upper(), "⚪")
-                tgl_indo = t['TGL_TEMP'].strftime('%d %b')
-                st.write(f"{ikon} **{tgl_indo}** - {t.get('INSTRUKSI', 'No Title')} ({t.get('STAF', '?')})")
+                st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** - {t.get('INSTRUKSI')} ({t.get('STAF')})")
         else:
             st.caption("Tidak ada jadwal untuk periode ini.")
 
         # --- 5. HITUNG KEUANGAN ---
         df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
-        
         rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
         rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
         
@@ -1013,40 +1007,44 @@ def tampilkan_kendali_tim():
                 pay += (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + (ha*50000) + (vi*10000))
 
         st.divider()
-        # Dashboard Metric (Laporan Keuangan)
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
         m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
 
-        # --- 6. GRAFIK PRODUKTIVITAS ---
+        # --- 6. INPUT TRANSAKSI (DITAMBAHKAN KEMBALI) ---
+        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
+            with st.form("form_kas", clear_on_submit=True):
+                c_tipe, c_kat, c_nom = st.columns(3)
+                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
+                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
+                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
+                f_ket = st.text_input("Keterangan:")
+                if st.form_submit_button("Simpan Transaksi"):
+                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
+
+        # --- 7. GRAFIK PRODUKTIVITAS ---
         with st.expander("📊 Grafik Produktivitas"):
             if rekap_f:
                 st.bar_chart(pd.Series(rekap_f))
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- 7. SLIP GAJI (RINCIAN DETAIL UTUH) ---
+        # --- 8. SLIP GAJI (RINCIAN DETAIL UTUH) ---
         with st.expander("💰 RINCIAN GAJI & SLIP (FULL)", expanded=True):
-            # Tampilkan rincian hanya untuk staf yang bekerja bulan ini
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
                 ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
-                
                 if ha > 0 or vi > 0:
                     ada_kerja = True
                     b_ha, b_vi = ha*50000, vi*10000
-                    total_gaji = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
-                    
+                    tg = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{s['NAMA']}**")
-                        c1.caption(f"💼 {s['JABATAN']}")
-                        c2.write(f"📅 {ha} Hadir")
-                        c3.write(f"🎬 {vi} Video")
-                        
-                        # Tombol untuk melihat slip resmi (HTML)
+                        c1.write(f"👤 **{s['NAMA']}**"); c1.caption(f"💼 {s['JABATAN']}")
+                        c2.write(f"📅 {ha} Hadir"); c3.write(f"🎬 {vi} Video")
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
@@ -1302,6 +1300,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
