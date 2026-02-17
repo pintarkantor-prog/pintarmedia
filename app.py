@@ -1291,9 +1291,10 @@ def tampilkan_ruang_produksi():
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                        f"DIALOGUE CONTEXT: {dialog_text}\n"
                         f"MOTION: {sc['cam']}, cinematic character-tracking, fluid movement.\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, wrong clothing\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
 
@@ -1330,6 +1331,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
