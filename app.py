@@ -1388,68 +1388,39 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK (VERSI UNIVERSAL: GAMBAR & VIDEO) ---
+                    # --- OPTIMASI GROK MINIMALIS (ANTI-BLUR) ---
                     st.markdown("---")
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # 1. AMBIL DATA DARI MENU (Sesuai OPTS kamu)
-                        style_f = sc.get('style', 'Sangat Nyata')
-                        light_f = sc.get('light', 'Cahaya Alami')
-                        arah_f = sc.get('arah', 'Sejajar Mata')
-                        shot_f = sc.get('shot', 'Setengah Badan')
-                        weather_f = sc.get('cuaca', 'Cerah Bersih')
-                        vibe_f = sc.get('vibe', 'Sinematik Film')
-                        cam_f = sc.get('cam', 'Diam (Tetap Napas)')
-
-                        # 2. LOGIKA TRANSLATOR (Mapping agar Grok Paham)
-                        # Mapping Cuaca & Mood
-                        if "Cerah" in weather_f:
-                            mood_logic = "ENVIRONMENT: Clear sky, bright natural sunlight, high visibility. NO FOG, NO BLUR."
-                        elif "Berkabut" in weather_f:
-                            mood_logic = "ENVIRONMENT: Heavy thick fog, volumetric mist, hazy atmospheric depth."
-                        elif "Gerimis" in weather_f:
-                            mood_logic = "ENVIRONMENT: Rain droplets, wet surfaces, moody reflections, overcast sky."
-                        else:
-                            mood_logic = f"ENVIRONMENT: {weather_f}, specific atmospheric particles."
-
-                        # Mapping Posisi Kamera
-                        if arah_f == "Berhadapan":
-                            posisi_logic = "COMPOSITION: Two characters facing each other in profile view, intense eye contact."
-                        else:
-                            posisi_logic = f"COMPOSITION: {arah_f} angle, focusing on character silhouette."
-
-                        # Detail Boost (Anti-Blur khusus Close-up)
-                        detail_boost = "micro-detail enhancement, extreme sharp focus, 100MP clarity" if "Dekat" in shot_f else "cinematic sharp focus"
-
-                        # 3. PEMISAH TAB (Gambar & Video)
-                        tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
+                        # Ambil data esensial saja
+                        weather_f = sc.get('cuaca', 'Cerah')
+                        vibe_f = sc.get('vibe', 'Sinematik')
+                        
+                        # Translator kilat
+                        mood = "bright, no fog" if "Cerah" in weather_f else f"{weather_f}, moody"
+                        
+                        tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
 
                         with tab_img:
+                            # Prompt Gambar: Super Ringkas
                             grok_img = (
-                                f"STYLE: {vibe_f} Photography, {style_f} aesthetic.\n"
-                                f"{posisi_logic}\n"
-                                f"SHOT SIZE: {shot_f} framing.\n\n"
-                                f"DNA LOCK:\n{dna_lock}\n\n"
-                                f"SCENE CONTEXT: {aksi_master}\n"
-                                f"{mood_logic}\n"
-                                f"LIGHTING SOURCE: {light_f}.\n\n"
-                                f"TECHNICAL: {detail_boost}, 8k raw photo texture, no post-processing blur.\n"
-                                f"NEGATIVE PROMPT: {no_text_strict}, blurry subject, out of focus, distorted, lowres"
+                                f"{vibe_f}, {sc['style']}, {sc['shot']}, {sc['arah']}.\n"
+                                f"DNA: {dna_lock}\n"
+                                f"ACTION: {aksi_master} at {sc['loc']}.\n"
+                                f"LIGHT: {sc['light']}, {mood}.\n"
+                                f"QUALITY: 8k raw, ultra-sharp, high-contrast, professional photography.\n"
+                                f"NEGATIVE: text, watermark, blur, out of focus, distorted, lowres."
                             )
-                            st.markdown(f"### 🖼️ Image Mantra - Adegan {scene_id}")
                             st.code(grok_img, language="text")
 
                         with tab_vid:
+                            # Prompt Video: Fokus Gerakan
                             grok_vid = (
-                                f"VIDEO MOTION: {vibe_f} Cinematic Move, {style_f} look.\n"
-                                f"CAMERA MOVEMENT: {cam_f}, fluid organic motion, 24fps film cadence.\n\n"
-                                f"SCENE ACTION: {aksi_master} at {sc['loc']}.\n"
-                                f"DNA IDENTITY LOCK:\n{dna_lock}\n\n"
-                                f"PHYSICS: Realistic material textures in motion, {weather_f} particles interacting with subjects.\n"
-                                f"LIP-SYNC: Natural mouth movement for speaking characters, keep lips closed otherwise.\n\n"
-                                f"TECHNICAL: High bitrate, no frame-warping, no morphing, consistent character features.\n"
-                                f"NEGATIVE PROMPT: {no_text_strict}, static image, robotic movement, melting faces, glitch, morphing"
+                                f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
+                                f"DNA: {dna_lock}\n"
+                                f"SCENE: {aksi_master} at {sc['loc']}.\n"
+                                f"ATMOSPHERE: {mood}, realistic physics.\n"
+                                f"NEGATIVE: static, morphing, melting, text, blurry."
                             )
-                            st.markdown(f"### 🎬 Video Mantra - Adegan {scene_id}")
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
 
@@ -1479,6 +1450,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
