@@ -938,7 +938,6 @@ def tampilkan_kendali_tim():
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
-        # Ambil Data Tugas (Versi Anti-Error Status)
         data_tugas_raw = ws_tugas.get_all_values()
         if len(data_tugas_raw) > 1:
             header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
@@ -947,16 +946,15 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
-            # Tambahkan konversi tanggal untuk Kalender
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
         else:
             df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
 
-        # --- NORMALISASI DATA & JABATAN DINAMIS ---
+        # --- NORMALISASI DATA STAFF & JABATAN ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
         dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
-        # --- 3. FITUR RUANG QC ---
+        # --- 3. RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
         df_qc = df_tugas[df_tugas['Status'].astype(str).str.upper() == "WAITING QC"].copy()
         
@@ -971,33 +969,32 @@ def tampilkan_kendali_tim():
                         idx_gs = row_qc.name + 2
                         if st.button(f"✅ APPROVE", key=f"app_{i}_{idx_gs}", use_container_width=True):
                             ws_tugas.update_cell(idx_gs, 5, "FINISH")
-                            st.success("Approved!"); time.sleep(1.5); st.rerun()
+                            st.success("Approved!"); time.sleep(1); st.rerun()
                     with c3:
                         if st.button(f"❌ REVISI", key=f"rev_{i}_{idx_gs}", use_container_width=True):
                             ws_tugas.update_cell(idx_gs, 5, "REVISI")
-                            st.warning("Revisi dikirim!"); time.sleep(1.5); st.rerun()
+                            st.warning("Revisi!"); time.sleep(1); st.rerun()
         else:
             st.info("Antrean QC kosong. ✨")
 
         st.divider()
 
-        # --- FITUR BARU: KALENDER KONTEN (JADWAL PRODUKSI) ---
+        # --- 4. JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
         df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
         
         if not df_tugas_bln.empty:
             df_tugas_bln = df_tugas_bln.sort_values('Deadline_DT')
             for _, task in df_tugas_bln.iterrows():
-                # Tentukan warna ikon berdasarkan status
                 ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(task['Status']).upper(), "⚪")
                 tgl_pajang = task['Deadline_DT'].strftime('%d %b') if pd.notnull(task['Deadline_DT']) else "TBA"
                 st.write(f"{ikon} **{tgl_pajang}** - {task.get('Instruksi')} ({task.get('Staf')})")
         else:
-            st.caption("Belum ada jadwal tugas yang diinput untuk bulan ini.")
+            st.caption("Belum ada jadwal tugas bulan ini.")
 
         st.divider()
 
-        # --- 4. REKAP DATA DINAMIS (FILTER BULAN) ---
+        # --- 5. REKAP DATA DINAMIS ---
         rekap_finish = {}
         if not df_tugas_bln.empty:
             df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
@@ -1012,7 +1009,7 @@ def tampilkan_kendali_tim():
             if not df_a_f.empty:
                 rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts()
 
-        # --- 5. LOGIKA KEUANGAN DINAMIS ---
+        # --- 6. LOGIKA KEUANGAN ---
         total_payroll_bulanan = 0
         for _, row_p in df_staff.iterrows():
             st_up = row_p['Nama_Upper']
@@ -1031,15 +1028,20 @@ def tampilkan_kendali_tim():
             total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
             total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
-        net_profit = total_income - (total_payroll_bulanan + total_operasional)
-
-        # --- 6. METRIC ---
+        # --- 7. METRIC UTAMA ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bulanan + total_operasional):,}")
-        m3.metric("💎 PENDAPATAN BERSIH", f"Rp {net_profit:,}")
+        m3.metric("💎 PENDAPATAN BERSIH", f"Rp {total_income - (total_payroll_bulanan + total_operasional):,}")
 
-        # --- 7. INPUT TRANSAKSI ---
+        # --- 8. EXPANDER PRODUKTIVITAS (INI YANG TADI SEMPAT TERLEWAT) ---
+        with st.expander(f"📊 Grafik Produktivitas ({pilihan_nama})", expanded=True):
+            if not df_f.empty if 'df_f' in locals() else False:
+                st.bar_chart(rekap_finish)
+            else:
+                st.info("Belum ada video FINISH untuk grafik.")
+
+        # --- 9. INPUT KAS ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
             with st.form("form_kas", clear_on_submit=True):
                 c_tipe, c_kat, c_nom = st.columns(3)
@@ -1051,51 +1053,42 @@ def tampilkan_kendali_tim():
                     sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-        # --- 8. GAJI & SLIP HIJAU ---
+        # --- 10. SLIP GAJI HIJAU ---
         with st.expander(f"💰 Hitung Gaji & Slip ({pilihan_nama})"):
             for _, row in df_staff.iterrows():
                 s_up = row['Nama_Upper']
                 jab_final = dict_jabatan.get(s_up, row['Jabatan'])
                 jh = rekap_absen.get(s_up, 0)
                 jv = rekap_finish.get(s_up, 0)
-                
                 if jh > 0 or jv > 0:
                     total_gaji = int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000)
                     with st.container(border=True):
                         c1, c2, c3, c4 = st.columns([1.5, 1, 1, 1.5])
-                        with c1:
-                            st.write(f"👤 **{row['Nama']}**")
-                            st.caption(f"💼 {jab_final}")
+                        with c1: st.write(f"👤 **{row['Nama']}**"); st.caption(f"💼 {jab_final}")
                         with c2: st.caption("HADIR"); st.write(f"{jh} Hari")
                         with c3: st.caption("VIDEO"); st.write(f"{jv} Video")
                         with c4:
                             if st.button(f"🧾 SLIP {s_up}", key=f"btn_slip_{s_up}"):
                                 slip_html = f"""
-                                <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
-                                    <div style="text-align: center; margin-bottom: 15px;">
-                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
-                                        <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                        <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI RESMI</div>
+                                <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto;">
+                                    <div style="text-align: center;">
+                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
+                                        <hr style="border: 0.5px dashed #1d976c;">
+                                        <div style="background-color: #1d976c; color: white; padding: 5px; border-radius: 6px; font-weight: bold;">SLIP GAJI</div>
                                     </div>
-                                    <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
+                                    <table style="width: 100%; font-size: 13px; margin-top: 15px;">
                                         <tr><td>Staf</td><td align="right"><b>{row['Nama']}</b></td></tr>
                                         <tr><td>Jabatan</td><td align="right">{jab_final}</td></tr>
-                                        <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                        <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
+                                        <tr><td colspan="2"><hr></td></tr>
                                         <tr><td>Gaji Pokok</td><td align="right">Rp {int(row['Gaji_Pokok']):,}</td></tr>
-                                        <tr><td>Tunjangan</td><td align="right">Rp {int(row['Tunjangan']):,}</td></tr>
-                                        <tr><td>Bonus Hadir</td><td align="right">Rp {(jh * 50000):,}</td></tr>
-                                        <tr><td>Bonus Video</td><td align="right">Rp {(jv * 10000):,}</td></tr>
-                                        <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
-                                        <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                            <td>TOTAL TERIMA</td><td align="right">Rp {total_gaji:,}</td></tr>
+                                        <tr><td>Bonus</td><td align="right">Rp {(jh*50000 + jv*10000):,}</td></tr>
+                                        <tr style="font-weight: bold; color: #1d976c;"><td>TOTAL</td><td align="right">Rp {total_gaji:,}</td></tr>
                                     </table>
-                                </div>
-                                """
-                                st.components.v1.html(f"<body>{slip_html}</body>", height=480)
+                                </div>"""
+                                st.components.v1.html(slip_html, height=450)
 
     except Exception as e:
-        st.error(f"Gagal memuat data: {e}")
+        st.error(f"Error: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1315,6 +1308,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
