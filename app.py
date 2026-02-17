@@ -1388,49 +1388,49 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK MINIMALIS (ANTI-BLUR) ---
+                    # --- OPTIMASI GROK MINIMALIS (GENERAL & ANTI-BLUR) ---
                     st.markdown("---")
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # Ambil data esensial saja
+                        # 1. AMBIL DATA DASAR
                         weather_f = sc.get('cuaca', 'Cerah')
                         vibe_f = sc.get('vibe', 'Sinematik')
-                        
-                        # Translator kilat
                         mood = "bright, no fog" if "Cerah" in weather_f else f"{weather_f}, moody"
                         
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
 
                         with tab_img:
+                            # Mantra Gambar: Padat & Tajam
                             grok_img = (
-                                f"{vibe_f}, {sc['style']}, {sc['shot']}, {sc['arah']}.\n"
+                                f"STYLE: {vibe_f}, {sc['style']}.\n"
+                                f"SHOT: {sc['shot']}, {sc['arah']}.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"ACTION: {aksi_master} at {sc['loc']}.\n"
                                 f"LIGHT: {sc['light']}, {mood}.\n"
-                                f"QUALITY: 8k raw, ultra-sharp, high-contrast, professional photography.\n"
+                                f"QUALITY: 8k raw, ultra-sharp, high-contrast, photo.\n"
                                 f"NEGATIVE: text, watermark, blur, out of focus, distorted, lowres."
                             )
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            # Ambil nama karakter langsung dari data adegan (sc)
+                            # Mantra Video: Fokus Gerakan & Sinkronisasi Suara
                             si_pembicara = sc.get('karakter', 'UNKNOWN') 
-                            
-                            # Identifikasi: Jika ada dialog, tandai siapa yang bicara
-                            speaker_label = f"SPEAKING CHARACTER: {si_pembicara}" if dialog_text != "-" else "NO DIALOGUE"
+                            # Kita gunakan AUDIO_SCRIPT karena Grok lebih sensitif dengan kata ini
+                            speaker_label = f"AUDIO_SOURCE: {si_pembicara} is speaking." if dialog_text != "-" else "NO DIALOGUE"
                             
                             grok_vid = (
                                 f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"SCENE: {aksi_master} at {sc['loc']}.\n"
                                 f"{speaker_label}\n"
-                                f"DIALOGUE: \"{dialog_text}\"\n"
+                                f"AUDIO_SCRIPT: \"{dialog_text}\"\n"
+                                f"LIP-SYNC: Match mouth movement to AUDIO_SCRIPT for {si_pembicara}.\n"
                                 f"ATMOSPHERE: {mood}, realistic physics.\n"
                                 f"NEGATIVE: static, morphing, melting, text, blurry, characters speaking simultaneously."
                             )
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
 
-                # Penutup jarak antar expander adegan
+                # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
@@ -1456,10 +1456,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
