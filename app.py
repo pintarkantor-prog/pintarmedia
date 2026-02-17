@@ -444,7 +444,13 @@ def tampilkan_ai_lab():
     if 'memori_n' not in st.session_state: st.session_state.memori_n = {}
     if 'memori_s' not in st.session_state: st.session_state.memori_s = {}
     
-    opsi_pola = ["Viral Drama (Zero to Hero / Revenge)", "Lomba Konyol (Komedi Interaktif)", "Drama Plot Twist (Standard)", "Komedi Slapstick"]
+    # 4 NICHE UTAMA
+    opsi_pola = [
+        "Revenge (Direndahkan -> Balas Dendam)",
+        "Empathy (Iba -> Pesan Moral)",
+        "Absurd Race (Lomba Konyol -> Interaktif CTA)",
+        "Knowledge (Fakta Harian -> Edukasi)"
+    ]
     opsi_visual = ["Cinematic Realistic (Film Nyata)", "3D Pixar Style (Ceria)", "Anime / Manga Style", "Retro Cartoon"]
 
     try:
@@ -465,8 +471,6 @@ def tampilkan_ai_lab():
             st.rerun()
 
     list_karakter = []
-    
-    # DETAIL KARAKTER (Kontras Navy vs Hitam)
     with st.expander("👥 DETAIL KARAKTER", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
@@ -476,7 +480,6 @@ def tampilkan_ai_lab():
                 with st.container(border=True):
                     label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_k}**")
-                    # Input tetap hitam pekat
                     st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
                     st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Detail fisik/pakaian...", label_visibility="collapsed")
                     n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
@@ -487,7 +490,7 @@ def tampilkan_ai_lab():
     # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual", "⚡ Mode Otomatis"])
 
-    # MODE MANUAL
+    # MODE MANUAL (DENGAN ATURAN STRICT)
     with tab_manual:
         with st.expander("📝 KONFIGURASI MANUAL", expanded=True):
             col_m1, col_m2 = st.columns([2, 1])
@@ -503,23 +506,27 @@ def tampilkan_ai_lab():
             if st.button("✨ GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if topik_m:
                     str_k = "\n".join(list_karakter)
+                    # MANTRA MANUAL DENGAN ATURAN DETIK LENGKAP
                     mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
-Buatkan naskah YouTube Shorts dalam bentuk TABEL (Adegan, Visual Detail, Prompt Gambar Inggris, SFX).
+Buatkan naskah YouTube Shorts VIRAL dalam bentuk TABEL (Adegan, Visual Detail (Indo), Visual Prompt (English), Dialog).
 
-Karakter:
-{str_k}
-
+Karakter: {str_k}
 Topik: {topik_m}
-Pola: {pola_m}
-Gaya Visual: {visual_m}
+Pola Cerita: {pola_m}
+Visual Style: {visual_m}
 
-Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan."""
+ATURAN: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan.
+Perhatikan struktur waktu dan elemen niche SECARA KETAT:
+- Jika pola '{opsi_pola[0]}': 0-20 detik: Karakter 1 direndahkan oleh Karakter 2. 21-40 detik: Konflik puncak. 41-60+ detik: Karakter 1 membuktikan diri, Karakter 2 menyesal.
+- Jika pola '{opsi_pola[1]}': 0-20 detik: Hook masalah relateable/iba. 21-60+ detik: Konflik emosional mendalam, diakhiri pesan moral kuat.
+- Jika pola '{opsi_pola[2]}': 0-20 detik: Pengumuman lomba absurd. 21-40 detik: Eksekusi lomba yang kacau/lucu. 41-60+ detik: Hasil lomba (WAJIB minta penonton LIKE & SUBSCRIBE untuk tentukan pemenang).
+- Jika pola '{opsi_pola[3]}': 0-20 detik: Pengenalan fakta awal. 21-40 detik: Dampak jangka pendek (sehari/dua hari). 41-60+ detik: Dampak jangka panjang (setahun).
+"""
                     st.divider()
-                    st.success("✨ **Naskah ide cerita Siap!**")
+                    st.success("✨ **Mantra ide cerita Siap!**")
                     st.code(mantra_sakti, language="text")
-                    st.toast("Mantra sudah siap di-copy!", icon="🚀")
 
-    # MODE OTOMATIS
+    # MODE OTOMATIS (DENGAN ATURAN STRICT)
     with tab_otomatis:
         with st.expander("⚡ KONFIGURASI OTOMATIS", expanded=True):
             col_o1, col_o2 = st.columns([2, 1])
@@ -530,34 +537,48 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                 st.markdown("**⚙️ Konfigurasi Otomatis**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
                 adegan_o = st.number_input("Jumlah Adegan API", 3, 10, 5, key="o_adegan_api")
-                st.info("AI otomatis menyesuaikan ide cerita.")
 
             if st.button("🔥 GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
-                    st.toast("Sedang menghubungkan...", icon="🌐")
                     with st.spinner("lagi ngetik naskah gila..."):
                         try:
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
-                            prompt_otomatis = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+                            
+                            prompt_otomatis = f"""Kamu adalah Creative Director & Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN.
 
-Karakter:
+--- DAFTAR KARAKTER (WAJIB PAKAI NAMA INI) ---
 {str_k}
 
+KONSEP:
 Topik: {topik_o}
-Pola: {pola_o}
+Total Adegan: {adegan_o}
 
-STRUKTUR TABEL WAJIB:
-| Adegan | Visual Detail & Prompt (Indonesia) | Visual Detail & Prompt (Inggris) | Dialog (Bahasa Indonesia) |
+--- ATURAN MAIN (STRICT) ---
+1. Gunakan Bahasa Indonesia yang natural, santai, dan relatable dengan tren media sosial.
+2. Deskripsi Visual harus sinematik dan jelas untuk prompt AI Video.
+3. JANGAN menambah karakter di luar daftar di atas.
+4. Naskah harus {adegan_o} adegan.
+5. SESUAIKAN ALUR CERITA DENGAN POLA YANG DIPILIH SECARA KETAT:
+   - Jika pola '{opsi_pola[0]}':
+     - Adegan 1-2 (0-20 detik): Karakter utama (Karakter 1) direndahkan oleh Karakter 2.
+     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Konflik memuncak, Karakter 1 dihadapkan masalah besar.
+     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Karakter 1 membuktikan kemampuannya/balas dendam, Karakter 2 menunjukkan penyesalan.
+   - Jika pola '{opsi_pola[1]}':
+     - Adegan 1-2 (0-20 detik): Hook masalah relateable atau kondisi yang menimbulkan rasa iba.
+     - Adegan 3-akhir (21-60+ detik): Pengembangan konflik emosional, diakhiri dengan pesan moral kuat.
+   - Jika pola '{opsi_pola[2]}':
+     - Adegan 1-2 (0-20 detik): Pengumuman lomba yang absurd/konyol.
+     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Eksekusi lomba penuh kekacauan dan momen lucu.
+     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Hasil lomba, WAJIB MENDORONG penonton untuk LIKE dan SUBSCRIBE untuk menentukan pemenang.
+   - Jika pola '{opsi_pola[3]}':
+     - Adegan 1-2 (0-20 detik): Pengenalan fenomena/kebiasaan dan efek awal terlihat.
+     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Perbandingan dampak jangka pendek (1-2 hari/minggu).
+     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Perbandingan dampak jangka panjang (1 tahun/bulan), diakhiri edukasi.
 
-Aturan Main:
-1. Kolom "Visual Detail & Prompt (Inggris)" harus berisi terjemahan detail dari kolom Indonesia untuk digunakan sebagai Prompt AI Image.
-2. Dialog harus santai, viral, dan bikin penasaran.
-3. Naskah harus {adegan_o} adegan.
-4. JANGAN memberikan kata pembuka, LANGSUNG TABELNYA SAJA.
+6. Balas HANYA dengan tabel Markdown: | Adegan | Visual Detail (Indo) | Visual Prompt (English) | Dialog |
 """
-
                             payload = {
                                 "model": "llama-3.3-70b-versatile", 
                                 "messages": [{"role": "user", "content": prompt_otomatis}],
@@ -569,38 +590,23 @@ Aturan Main:
                         except Exception as e:
                             st.error(f"Error: {e}")
 
-        # HASIL NASKAH OTOMATIS: Versi 3 Tombol Sejajar
         if st.session_state.lab_hasil_otomatis:
-            st.write("") 
             with st.expander("🎬 NASKAH JADI (OTOMATIS)", expanded=True):
                 st.markdown(st.session_state.lab_hasil_otomatis)
-                
                 st.divider()
-                
-                # Kita bagi jadi 3 kolom agar rapi
                 btn_col1, btn_col2, btn_col3 = st.columns(3)
-                
                 with btn_col1:
-                    # LOGIKA KIRIM (TETAP ADA)
                     if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
+                        if 'data_produksi' not in st.session_state: st.session_state.data_produksi = {}
                         st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
                         st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
                         st.toast("Naskah sukses terkirim!", icon="🚀")
-                
                 with btn_col2:
-                    # LOGIKA BERSIHKAN (BARU)
                     if st.button("🗑️ BERSIHKAN NASKAH", use_container_width=True):
-                        st.session_state.naskah_siap_produksi = ""
-                        st.toast("Referensi dibersihkan!", icon="🗑️")
-                
+                        st.session_state.lab_hasil_otomatis = ""
+                        st.rerun()
                 with btn_col3:
-                    # LOGIKA DOWNLOAD (TETAP ADA)
-                    st.download_button(
-                        "📥 DOWNLOAD NASKAH (.txt)", 
-                        st.session_state.lab_hasil_otomatis, 
-                        file_name="naskah_pintar_media.txt", 
-                        use_container_width=True
-                    )
+                    st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT")
@@ -1529,6 +1535,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
