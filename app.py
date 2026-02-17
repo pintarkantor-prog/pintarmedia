@@ -603,41 +603,36 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT (OPTIMIZED)")
-    st.caption("Isi detail adegan di bawah ini. *INFO :* Data disini, tidak bisa di simpan / restore!")
+    st.title("⚡ QUICK PROMPT")
+    st.caption("Copy hasil prompt nya ke Grok/ Gemini/ Veo. *INFO :* Data disini, tidak bisa di simpan / restore!")
 
     # --- FUNGSI HAPUS PROMPT ---
     def hapus_semua():
         for key in st.session_state.keys():
             if key.startswith("q_"):
-                # Reset teks jadi kosong, reset selectbox jadi default
                 if isinstance(st.session_state[key], str):
                     st.session_state[key] = ""
                 else:
                     st.session_state[key] = None
-        st.toast("Formulir berhasil dibersihkan! 🧹")
+        st.toast("Formulir dibersihkan! 🧹")
 
-    # --- SATU EXPANDER UTAMA ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
-        
-        # 1. IDENTITAS
         st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", placeholder="Contoh: Udin", key="q_name_a")
-            q_detail_a = st.text_area("Ciri Fisik & Baju (1)", placeholder="Detail penampilan...", height=80, key="q_det_a")
+            q_char_a = st.text_input("Nama Karakter 1", key="q_name_a")
+            q_detail_a = st.text_area("Fisik & Baju (1)", height=80, key="q_det_a")
         with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", placeholder="Contoh: Tung", key="q_name_b")
-            q_detail_b = st.text_area("Ciri Fisik & Baju (2)", placeholder="Detail penampilan...", height=80, key="q_det_b")
+            q_char_b = st.text_input("Nama Karakter 2", key="q_name_b")
+            q_detail_b = st.text_area("Fisik & Baju (2)", height=80, key="q_det_b")
         
         st.divider() 
 
-        # 2. SKENARIO
         st.markdown("#### 🎬 SKENARIO & LOKASI")
-        q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja", key="q_loc")
-        q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...", key="q_act")
+        q_lokasi = st.text_input("📍 Lokasi", key="q_loc")
+        q_aksi = st.text_area("🏃 Apa yang terjadi?", key="q_act")
         
-        c1, c2, c3, c4 = st.columns(4) # Dibagi 4 kolom
+        c1, c2, c3, c4 = st.columns(4)
         with c1:
             q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
         with c2:
@@ -649,43 +644,44 @@ def tampilkan_quick_prompt():
 
         st.divider()
 
-        # 3. DIALOG
-        st.markdown("#### 💬 DIALOG & SUARA")
-        q_dialog = st.text_area("Tulis Percakapan", placeholder="Udin: Kita tersesat.\nTung: Tenang saja.", height=80, key="q_dial")
-        
+        st.markdown("#### 💬 DIALOG")
+        q_dialog = st.text_area("Tulis Percakapan", height=80, key="q_dial")
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
         q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, key="q_spk")
 
-        # TOMBOL HAPUS
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- LOGIKA OTOMATISASI GERAK KAMERA (FOLLOW CAM) ---
+    # --- LOGIKA SMART CAMERA (DI BALIK LAYAR) ---
     if q_aksi and q_lokasi:
-        # Otomatisasi: Kamera selalu mengikuti pergerakan karakter utama
-        if q_char_a:
-            follow_logic = f"Camera movement follows {q_char_a}'s actions, smooth tracking shot."
-        else:
-            follow_logic = "Cinematic slow pan tracking the subject."
+        # Analisis Keyword untuk Gerakan
+        aksi_low = q_aksi.lower()
+        dialog_low = q_dialog.lower()
+        
+        if len(q_dialog) > 5: # Jika ada dialog panjang
+            smart_move = "Slow cinematic zoom-in to capture emotional facial expression"
+        elif any(word in aksi_low for word in ["lari", "jalan", "kejar", "run", "walk"]):
+            smart_move = f"Dynamic tracking shot following {q_char_a if q_char_a else 'subject'} movement"
+        elif q_char_a and q_char_b: # Jika ada 2 orang tapi tidak lari
+            smart_move = "Dolly slide movement, keeping both characters in frame"
+        else: # Default cinematic
+            smart_move = "Smooth slow-pan across the environment"
 
-        mood_q = "bright, sharp focus" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
-        
-        st.divider()
-        st.subheader("🚀 Hasil Optimasi Prompt Singkat")
-        
+        mood_q = "bright, sharp" if "Cerah" in q_weather else f"{q_weather}, moody"
         dna_combined = f"CHAR 1: {q_char_a} ({q_detail_a})\nCHAR 2: {q_char_b} ({q_detail_b})"
         speaker_str = " & ".join(q_speaker) if q_speaker else "None"
 
+        st.divider()
+        st.subheader("🚀 Hasil Optimasi Prompt Singkat")
+        
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
-            # Menggabungkan Arah Kamera ke dalam Shot Size + Aspect Ratio 9:16
-            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nASPECT RATIO: 9:16 vertical --ar 9:16\nNEGATIVE: text, blur, lowres.", language="text")
+            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw.\nASPECT RATIO: 9:16 vertical --ar 9:16", language="text")
             
         with tab_vid:
-            # Menambahkan instruksi Vertical 9:16 dan Follow-Cam otomatis
-            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nFORMAT: Vertical 9:16 aspect ratio.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
-                
-        st.success("Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
+            st.code(f"VIDEO: {q_vibe}, {smart_move}, 24fps.\nFORMAT: Vertical 9:16.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: {q_weather}.", language="text")
+        
+        st.info(f"💡 **Smart Camera Detect:** {smart_move}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1450,6 +1446,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
