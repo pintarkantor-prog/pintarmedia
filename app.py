@@ -669,7 +669,7 @@ def tampilkan_quick_prompt():
                             prompt_ai = f"""Ubah aksi singkat ini jadi deskripsi visual sinematik buat prompt AI Video.
                             ATURAN MAIN:
                             1. Pakai bahasa deskriptif yang hidup tapi jangan terlalu kaku (nggak usah baku banget).
-                            2. Maksimal 3 kalimat pendek aja.
+                            2. Maksimal 2 kalimat pendek aja.
                             3. Fokus ke gerakan karakter sama detail lingkungan yang nempel (biar visualnya dapet).
                             4. JANGAN menceritakan perasaan atau elemen jauh yang nggak penting.
                             5. LANGSUNG ke deskripsi, tanpa kata pembuka.
@@ -1529,6 +1529,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
