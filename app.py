@@ -650,42 +650,50 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
         st.session_state.qp_data["loc"] = q_lokasi
         
-        # --- LOGIKA TOMBOL PINTAR AI (PINDAH KE ATAS) ---
+        # --- LOGIKA TOMBOL PINTAR AI (DENGAN RESET KEY) ---
+        if "act_version" not in st.session_state:
+            st.session_state.act_version = 0
+
         if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
-            # Ambil data terbaru dari session state widget sebelum dirun
-            current_act = st.session_state.get("q_act", "")
+            current_act = st.session_state.get(f"q_act_{st.session_state.act_version}", "")
             if current_act:
                 api_key = st.secrets.get("GROQ_API_KEY") or st.secrets.get("groq_api_key")
                 if not api_key:
-                    st.error("❌ API Key tidak ditemukan!.")
+                    st.error("❌ API Key tidak ditemukan!")
                 else:
                     with st.spinner("Pintar AI lagi memoles adegan..."):
                         try:
                             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik untuk AI Video. Padat, detail, dan emosional. JANGAN BERIKAN KATA PENGANTAR. Bahasa Indonesia: {current_act}"
+                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik yang sangat detail namun padat untuk AI Video. JANGAN BERIKAN KATA PENGANTAR. Bahasa Indonesia: {current_act}"
                             payload = {
                                 "model": "llama-3.3-70b-versatile",
                                 "messages": [{"role": "user", "content": prompt_ai}],
-                                "temperature": 0.7,
-                                "max_tokens": 500
+                                "temperature": 0.7
                             }
                             res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
                             if res.status_code == 200:
                                 hasil_ai = res.json()['choices'][0]['message']['content'].strip()
                                 hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
                                 
-                                # Simpan ke brankas, JANGAN sentuh st.session_state["q_act"]
+                                # 1. Update Brankas
                                 st.session_state.qp_data["act"] = hasil_bersih
-                                st.rerun() # Refresh agar value di text_area di bawah otomatis berubah
+                                # 2. GANTI VERSI KEY (Ini kuncinya agar kolom input berubah)
+                                st.session_state.act_version += 1
+                                st.rerun()
                             else:
                                 st.error(f"Gagal koneksi! Status: {res.status_code}")
                         except Exception as e:
-                            st.error(f"Terjadi kesalahan teknis: {str(e)}")
+                            st.error(f"Kesalahan: {str(e)}")
             else:
                 st.warning("Tulis dulu aksinya sedikit!")
 
-        # --- TEXT AREA SEKARANG DI BAWAH TOMBOL ---
-        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key="q_act")
+        # --- TEXT AREA DENGAN KEY DINAMIS ---
+        # Key akan berubah (misal: q_act_0 jadi q_act_1) saat AI selesai poles
+        q_aksi = st.text_area(
+            "🏃 Apa yang terjadi?", 
+            value=st.session_state.qp_data["act"], 
+            key=f"q_act_{st.session_state.act_version}"
+        )
         st.session_state.qp_data["act"] = q_aksi
 
         c1, c2, c3, c4 = st.columns(4)
@@ -1513,6 +1521,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
