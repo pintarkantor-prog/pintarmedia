@@ -1272,6 +1272,13 @@ def tampilkan_ruang_produksi():
                 bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                    list_dialog = []
+                    for i in range(data["jumlah_karakter"]):
+                        if sc["dialogs"][i].strip():
+                            nama_c = data["karakter"][i]["nama"] or f"Char_{i+1}"
+                            list_dialog.append(f"{nama_c}: '{sc['dialogs'][i]}'")
+                    
+                    dialog_text = " | ".join(list_dialog) if list_dialog else "No dialogue"
                     # --- MANTRA GAMBAR (SUNTIKAN IDENTITY SWAP) ---
                     img_p = (
                         f"PRIORITY DNA: {dna_lock}\n"
@@ -1331,6 +1338,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
