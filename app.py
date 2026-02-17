@@ -1177,7 +1177,7 @@ def tampilkan_ruang_produksi():
             col_text, col_set = st.columns([1.5, 1])
             with col_text:
                 st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}_{ver}", label_visibility="collapsed")
+                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=400, key=f"act_{scene_id}_{ver}", label_visibility="collapsed")
             
             with col_set:
                 sub1, sub2 = st.columns(2)
@@ -1396,6 +1396,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
