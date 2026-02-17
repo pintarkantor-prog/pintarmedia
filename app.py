@@ -666,13 +666,13 @@ def tampilkan_quick_prompt():
                             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
                             
                             # --- MODIFIKASI MANTRA DISINI ---
-                            prompt_ai = f"""Sempurnakan aksi singkat ini menjadi deskripsi visual sinematik untuk prompt AI Video.
-                            ATURAN KETAT:
-                            1. Hasil WAJIB maksimal 2 kalimat saja.
-                            2. Fokus HANYA pada gerakan karakter dan tekstur lingkungan terdekat.
-                            3. JANGAN deskripsikan elemen jauh seperti langit, burung, atau perasaan karakter.
-                            4. Bahasa Indonesia yang baku dan teknis.
-                            5. JANGAN BERIKAN KATA PENGANTAR.
+                            prompt_ai = f"""Ubah aksi singkat ini jadi deskripsi visual sinematik buat prompt AI Video.
+                            ATURAN MAIN:
+                            1. Pakai bahasa deskriptif yang hidup tapi jangan terlalu kaku (nggak usah baku banget).
+                            2. Maksimal 3 kalimat pendek aja.
+                            3. Fokus ke gerakan karakter sama detail lingkungan yang nempel (biar visualnya dapet).
+                            4. JANGAN menceritakan perasaan atau elemen jauh yang nggak penting.
+                            5. LANGSUNG ke deskripsi, tanpa kata pembuka.
 
                             Aksi: {current_act}"""
                             
@@ -1529,6 +1529,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
