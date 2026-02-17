@@ -938,11 +938,14 @@ def tampilkan_kendali_tim():
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
         ws_tugas = sh.worksheet("Tugas")
 
-        # --- PEMBERSIH TANGGAL (Pusat Solusi agar tidak Error) ---
-        def olah_tgl(df, kolom):
-            # Ubah ke datetime, yang bukan tanggal jadi NaT (Not a Time)
-            df[kolom] = pd.to_datetime(df[kolom], dayfirst=True, errors='coerce')
-            return df
+        # --- FUNGSI FILTER TANGGAL TANPA .DT (ANTI-ERROR) ---
+        def filter_data_bulan(df, kolom_tgl, bln, thn):
+            if df.empty: return pd.DataFrame()
+            # Ubah ke datetime secara paksa, yang aneh jadi NaT
+            df['TGL_TEMP'] = pd.to_datetime(df[kolom_tgl], dayfirst=True, errors='coerce')
+            # Filter manual tanpa .dt accessor
+            mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
+            return df[mask].copy()
 
         # Ambil Data Tugas
         data_tugas_raw = ws_tugas.get_all_values()
@@ -953,11 +956,10 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
-            df_tugas = olah_tgl(df_tugas, 'Deadline')
         else:
             df_tugas = pd.DataFrame(columns=['Staf', 'Deadline', 'Instruksi', 'Status'])
 
-        # Mapping Jabatan (Fix Inggi Uploader)
+        # Mapping Jabatan
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
         dict_jabatan = pd.Series(df_staff.Jabatan.values, index=df_staff.Nama_Upper).to_dict()
 
@@ -983,21 +985,14 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- 4. JADWAL PRODUKSI (ANTI ERROR .DT) ---
+        # --- 4. JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
-        # Buang baris yang tanggalnya rusak/kosong (NaT) agar tidak error saat filter bulan
-        df_tugas_bersih = df_tugas.dropna(subset=['Deadline'])
-        
-        # Gunakan kolom .dt hanya pada data yang sudah pasti isinya tanggal
-        df_tugas_bln = df_tugas_bersih[
-            (df_tugas_bersih['Deadline'].dt.month == bulan_dipilih) & 
-            (df_tugas_bersih['Deadline'].dt.year == tahun_dipilih)
-        ].copy()
+        df_tugas_bln = filter_data_bulan(df_tugas, 'Deadline', bulan_dipilih, tahun_dipilih)
         
         if not df_tugas_bln.empty:
-            for _, t in df_tugas_bln.sort_values('Deadline').iterrows():
+            for _, t in df_tugas_bln.sort_values('TGL_TEMP').iterrows():
                 ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['Status']).upper(), "⚪")
-                st.write(f"{ikon} **{t['Deadline'].strftime('%d %b')}** - {t['Instruksi']} ({t['Staf']})")
+                st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** - {t['Instruksi']} ({t['Staf']})")
         else:
             st.caption("Belum ada jadwal tugas bulan ini.")
 
@@ -1007,13 +1002,10 @@ def tampilkan_kendali_tim():
         df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
         rekap_finish = df_f['Staf'].astype(str).str.strip().str.upper().value_counts() if not df_f.empty else {}
 
-        # Olah Absen & Kas (Pembersihan NaT juga)
-        df_absen = olah_tgl(df_absen, 'Tanggal').dropna(subset=['Tanggal'])
-        df_a_f = df_absen[(df_absen['Tanggal'].dt.month == bulan_dipilih) & (df_absen['Tanggal'].dt.year == tahun_dipilih)].copy()
+        df_a_f = filter_data_bulan(df_absen, 'Tanggal', bulan_dipilih, tahun_dipilih)
         rekap_absen = df_a_f['Nama'].astype(str).str.strip().str.upper().value_counts() if not df_a_f.empty else {}
 
-        df_kas = olah_tgl(df_kas, 'Tanggal').dropna(subset=['Tanggal'])
-        df_k_bln = df_kas[(df_kas['Tanggal'].dt.month == bulan_dipilih) & (df_kas['Tanggal'].dt.year == tahun_dipilih)].copy()
+        df_k_bln = filter_data_bulan(df_kas, 'Tanggal', bulan_dipilih, tahun_dipilih)
         
         total_income = 0
         total_operasional = 0
@@ -1302,6 +1294,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
