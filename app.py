@@ -1086,7 +1086,7 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI ULTRA-QUALITY MASTERPIECE)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1100,16 +1100,16 @@ def tampilkan_ruang_produksi():
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
     # --- [SUNTIKAN MASTERPIECE] QUALITY BOOSTER ---
-    # Menggunakan f/11 & CPL Filter untuk ketajaman optik maksimal di Banana & SuperGrok
+    # Optimasi Gambar: Fokus pada Deep Focus APERTURE F/16 & CPL Filter
     QB_IMG = (
-        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
+        "hyper-realistic 8k RAW photo, DEEP FOCUS, APERTURE F/16, infinite depth of field, "
         "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
         "ultra-clear optical clarity, CPL filter, high local contrast, vivid naturalism"
     )
     
-    # Menggunakan Unreal 5.4 & 60fps untuk fluid motion maksimal di Veo
+    # Optimasi Video: Fokus pada Cinematic 24fps & Ray-Traced Reflections
     QB_VID = (
-        "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
+        "Unreal Engine 5.4, 24fps cinematic motion, ultra-clear motion, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
         "zero digital noise, clean pixels, smooth motion, professional cinematography"
     )
@@ -1197,12 +1197,12 @@ def tampilkan_ruang_produksi():
                     data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0]) # Memanggil OPTS_RATIO
+                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0])
                     idx_ratio = OPTS_RATIO.index(curr_ratio) if curr_ratio in OPTS_RATIO else 0
                     data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0]) # Memanggil OPTS_CAM
+                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0])
                     idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_CAM else 0
                     data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 
@@ -1216,7 +1216,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC (VERSI ULTRA-OPTIMIZED: AUTO-MOTION & LIP-SYNC) ---
+    # --- 3. GLOBAL COMPILER LOGIC (HYBRID HIERARCHY - PHOTO & VIDEO SEPARATION) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1227,11 +1227,10 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- PROSES PENYATUAN DATA KARAKTER ---
+            # --- PROSES PENYATUAN DATA KARAKTER (ANTI-MORPHING) ---
             karakter_compiled = []
             for c in data["karakter"]:
                 if c['nama']:
-                    # Input Cleaner: Menghapus tanda kutip ganda agar format prompt tidak pecah
                     nama_c = c['nama'].strip().replace('"', '').lower()
                     fisik_c = c['fisik'].strip().replace('"', '')
                     wear_c = c['wear'].strip().replace('"', '')
@@ -1251,18 +1250,14 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 aksi_lower = sc['aksi'].lower()
                 
-                # --- [OPTIMASI C] AUTO-MOTION WEIGHT LOGIC ---
-                # Mendeteksi kata kunci kecepatan dalam naskah aksi
+                # --- AUTO-MOTION WEIGHT LOGIC ---
                 is_fast_action = any(x in aksi_lower for x in ['lari', 'balap', 'ngebut', 'motor', 'ducati', 'cepat', 'fast', 'chase', 'run'])
-                motion_type = "fast motion with realistic motion blur, dynamic speed" if is_fast_action else "smooth cinematic motion, stable fluid movement"
+                motion_type = "fast motion with realistic motion blur, dynamic speed" if is_fast_action else "stable fluid movement, smooth flow"
                 
-                # --- [OPTIMASI A] LIP-SYNC & DIALOG LOGIC ---
-                list_dialog = []
-                for i in range(len(data['karakter'])):
-                    if data['karakter'][i]['nama'] and sc['dialogs'][i].strip():
-                        list_dialog.append(f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i].strip()}'")
+                # --- LIP-SYNC & DIALOG LOGIC ---
+                list_dialog = [f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i].strip()}'" for i in range(len(data['karakter'])) if data['karakter'][i]['nama'] and sc['dialogs'][i].strip()]
                 teks_dialog_gabung = " | ".join(list_dialog)
-                lipsync_instruction = "Mouth speaking with visible phonetic mouth shapes, talking to camera" if teks_dialog_gabung else "closed mouth, natural facial rest"
+                lipsync_instruction = "Mouth speaking with visible phonetic mouth shapes, talking to camera, visible jaw movement" if teks_dialog_gabung else "closed mouth, natural facial rest"
 
                 # --- SMART FILTER ENVIRONMENT ---
                 loc_lower = sc['loc'].lower()
@@ -1270,27 +1265,26 @@ def tampilkan_ruang_produksi():
                 bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, fabric textures, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (DENGAN DEEP FOCUS) ---
+                    # --- MANTRA GAMBAR (STRICT STILL PHOTOGRAPHY) ---
                     img_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Static shot only.\n\n"
                         f"CHARACTER DATA: {char_data_final}\n\n"
-                        f"VISUAL DESCRIPTION: A high-end still photography of {sc['aksi']}. Frozen in time, no motion blur, no movement.\n\n"
+                        f"VISUAL DESCRIPTION: A high-end still photography of {sc['aksi']}. {lipsync_instruction}. Frozen in time, no motion blur.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"FOCUS RULE: DEEP FOCUS, APERTURE F/16, INFINITE DEPTH OF FIELD, EVERYTHING ULTRA-SHARP.\n\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n\n"
-                        f"TECHNICAL: Professional studio photography, {sc['light']}, {sc['style']}, extreme edge-enhancement, every pixel sharp, deep color saturation\n\n"
+                        f"TECHNICAL: Professional studio photography, {sc['light']}, {sc['style']}, extreme edge-enhancement, every pixel sharp\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Still Image"
                     )
                     
-                    # --- MANTRA VIDEO (24FPS & AUTO-MOTION) ---
+                    # --- MANTRA VIDEO (CINEMATIC DYNAMIC MOTION) ---
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instruction}. Fluid 24fps cinematic motion.\n\n"
+                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instruction}. Fluid cinematic motion.\n\n"
                         f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity, no face morphing.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}.\n\n"
                         f"ACTING CUE & LIP-SYNC (NO TEXT ON SCREEN): {teks_dialog_gabung}.\n\n"
-                        f"TECHNICAL: {QB_VID.replace('60fps', '24fps')}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}, "
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}, "
                         f"{no_text_strict} {negative_motion_strict}\n\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
@@ -1328,6 +1322,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
