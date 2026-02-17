@@ -651,19 +651,16 @@ def tampilkan_quick_prompt():
 
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- LOGIKA SMART CAMERA (DI BALIK LAYAR) ---
+    # --- LOGIKA SMART CAMERA ---
     if q_aksi and q_lokasi:
-        # Analisis Keyword untuk Gerakan
         aksi_low = q_aksi.lower()
-        dialog_low = q_dialog.lower()
-        
-        if len(q_dialog) > 5: # Jika ada dialog panjang
+        if len(q_dialog) > 5:
             smart_move = "Slow cinematic zoom-in to capture emotional facial expression"
         elif any(word in aksi_low for word in ["lari", "jalan", "kejar", "run", "walk"]):
             smart_move = f"Dynamic tracking shot following {q_char_a if q_char_a else 'subject'} movement"
-        elif q_char_a and q_char_b: # Jika ada 2 orang tapi tidak lari
+        elif q_char_a and q_char_b:
             smart_move = "Dolly slide movement, keeping both characters in frame"
-        else: # Default cinematic
+        else:
             smart_move = "Smooth slow-pan across the environment"
 
         mood_q = "bright, sharp" if "Cerah" in q_weather else f"{q_weather}, moody"
@@ -673,15 +670,18 @@ def tampilkan_quick_prompt():
         st.divider()
         st.subheader("🚀 Hasil Optimasi Prompt Singkat")
         
-        tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
+        # --- MENGGUNAKAN COLUMNS SEBAGAI GANTI TABS ---
+        res_img, res_vid = st.columns(2)
 
-        with tab_img:
+        with res_img:
+            st.markdown("##### 📷 PROMPT GAMBAR")
             st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw.\nASPECT RATIO: 9:16 vertical --ar 9:16", language="text")
             
-        with tab_vid:
+        with res_vid:
+            st.markdown("##### 🎥 PROMPT VIDEO")
             st.code(f"VIDEO: {q_vibe}, {smart_move}, 24fps.\nFORMAT: Vertical 9:16.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: {q_weather}.", language="text")
         
-        st.info(f"💡 Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
+        st.info(f"💡 Prompt Siap! Silahkan langsung copy ke GROK, Gemini, Flow!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
