@@ -1216,7 +1216,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-# --- 3. GLOBAL COMPILER LOGIC (VERSI FINAL SUPER-CONSISTENCY) ---
+# --- 3. GLOBAL COMPILER LOGIC (VERSI OPTIMIZED - HYBRID HIERARCHY) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1227,66 +1227,74 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- PROSES PENYATUAN DATA KARAKTER (STRATEGI WEB LAMA) ---
+            # --- PROSES PENYATUAN DATA KARAKTER (ANTI-MORPHING STRATEGY) ---
             karakter_compiled = []
             for c in data["karakter"]:
                 if c['nama']:
-                    # Format Penyatuan: Nama, Fisik, dan Baju dalam satu blok identitas
+                    # Data Cleaning & Formatting
+                    nama_c = c['nama'].strip().lower()
+                    fisik_c = c['fisik'].strip()
+                    wear_c = c['wear'].strip()
+                    
+                    # Format Penyatuan Karakter (Prioritas Utama)
                     blok = (
-                        f"[[ CHARACTER_{c['nama'].upper()}: \"si {c['nama'].lower()}\" "
+                        f"[[ CHARACTER_{nama_c.upper()}: \"si {nama_c}\" "
                         f"maintain 100% exact facial features, anatomy, and textures. "
-                        f"{c['fisik']}. Memakai {c['wear']}. ]]"
+                        f"{fisik_c}. Memakai {wear_c}. ]]"
                     )
                     karakter_compiled.append(blok)
 
             char_data_final = " AND ".join(karakter_compiled)
 
+            # --- DEFINISI ATURAN NEGATIVE (UNTUK POSISI BAWAH) ---
             no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
-            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
+            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps."
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-                # Mengumpulkan Dialog untuk Acting Cue (Referensi Emosi & Lipsync)
-                list_dialog = [f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i]}'" for i in range(len(data['karakter'])) if data['karakter'][i]['nama'] and sc['dialogs'][i].strip() != ""]
+                # Mengumpulkan Dialog (Untuk Referensi Emosi & Lipsync)
+                list_dialog = []
+                for i in range(len(data['karakter'])):
+                    if data['karakter'][i]['nama'] and sc['dialogs'][i].strip():
+                        list_dialog.append(f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i].strip()}'")
                 teks_dialog_gabung = " | ".join(list_dialog)
                 
-                # --- SMART FILTER LOGIC ---
+                # --- SMART FILTER LOGIC (ENVIRONMENTAL TEXTURE) ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
-
+                
                 if is_outdoor:
-                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture, NO SOFTENING"
+                    bumbu_final = "hyper-detailed grit, leaf veins, micro-texture on leaves, razor-sharp horizons, cloud texture"
                 else:
-                    bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
+                    bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (MODULAR QUALITY - STRATEGI WEB LAMA) ---
+                    # --- MANTRA GAMBAR (HYBRID HIERARCHY) ---
+                    # Menaruh Karakter di atas, Aturan Ketat di bawah
                     img_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"STRICT VISUAL RULE: {no_text_strict}\n"
-                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n\n"
                         f"CHARACTER DATA: {char_data_final}\n\n"
                         f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n\n"
+                        f"FOCUS RULE: DEEP FOCUS, INFINITE DEPTH OF FIELD, EVERYTHING ULTRA-SHARP.\n\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, extreme edge-enhancement, every pixel sharp, deep color saturation\n\n"
+                        f"STRICT VISUAL RULE: {no_text_strict}\n\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (ADAPTASI TOTAL WEB LAMA - ANTI MORPHING) ---
+                    # --- MANTRA VIDEO (CINEMATIC FOCUS) ---
+                    # Menggunakan 24fps untuk motion yang lebih mahal/film-look
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"ACTION & MOTION: {sc['aksi']}. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
-                        f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity consistency, high-fidelity facial features, no face morphing, look exactly like the reference.\n\n"
+                        f"ACTION & MOTION: {sc['aksi']}. IMPORTANT: Sync mouth movement with DIALOG CONTEXT below. Fluid 24fps cinematic motion, no robotic stiffness.\n\n"
+                        f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity, no face morphing, look exactly like reference.\n\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}.\n\n"
-                        f"LIGHTING: {sc['light']}, vibrant naturalism, cinematic contrast, deep black levels.\n\n"
-                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): Use this dialogue for emotional reference and lip-sync only: '{teks_dialog_gabung}'.\n\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {QB_IMG}, "
-                        f"{no_text_strict} "
-                        f"{negative_motion_strict}\n\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
+                        f"ACTING CUE & LIP-SYNC (NO TEXT ON SCREEN): {teks_dialog_gabung}.\n\n"
+                        f"TECHNICAL: {QB_VID.replace('60fps', '24fps')}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}, "
+                        f"{no_text_strict} {negative_motion_strict}\n\n"
+                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
 
                     c_img, c_vid = st.columns(2)
@@ -1322,6 +1330,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
