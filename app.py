@@ -656,7 +656,6 @@ def tampilkan_quick_prompt():
         
         if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
             if q_aksi:
-                # Cek apakah API KEY ada di secrets (Coba huruf besar dulu, baru kecil)
                 api_key = st.secrets.get("GROQ_API_KEY") or st.secrets.get("groq_api_key")
                 
                 if not api_key:
@@ -668,8 +667,7 @@ def tampilkan_quick_prompt():
                                 "Authorization": f"Bearer {api_key}", 
                                 "Content-Type": "application/json"
                             }
-                            # Instruksi agar Grok tidak terlalu panjang (to the point)
-                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik untuk AI Video. Padat, detail, dan emosional. Bahasa Indonesia: {q_aksi}"
+                            prompt_ai = f"Sempurnakan aksi ini menjadi deskripsi visual sinematik untuk AI Video. Padat, detail, dan emosional. JANGAN BERIKAN KATA PENGANTAR. Bahasa Indonesia: {q_aksi}"
                             
                             payload = {
                                 "model": "llama-3.3-70b-versatile",
@@ -682,13 +680,15 @@ def tampilkan_quick_prompt():
                             
                             if res.status_code == 200:
                                 hasil_ai = res.json()['choices'][0]['message']['content'].strip()
-                                # Bersihkan jika AI memberikan kata pengantar (seperti "Ini hasilnya:")
                                 hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
                                 
-                                st.session_state.qp_data["act"] = hasil_bersih
-                                st.rerun()
+                                # --- INI KUNCI PERBAIKANNYA ---
+                                st.session_state.qp_data["act"] = hasil_bersih # Update brankas
+                                st.session_state["q_act"] = hasil_bersih      # Update widget secara paksa
+                                
+                                st.rerun() # Refresh halaman
                             else:
-                                st.error(f"Gagal koneksi Pintar AI! Status: {res.status_code}")
+                                st.error(f"Gagal koneksi! Status: {res.status_code}")
                         except Exception as e:
                             st.error(f"Terjadi kesalahan teknis: {str(e)}")
             else:
@@ -1519,6 +1519,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
