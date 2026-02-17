@@ -1270,7 +1270,7 @@ def tampilkan_ruang_produksi():
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
                         f"TECHNICAL: {sc['style']}, {sc['light']}, extreme-edge-enhancement\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, improvising facial features\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
@@ -1313,6 +1313,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
