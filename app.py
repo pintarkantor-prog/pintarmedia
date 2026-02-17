@@ -12,12 +12,14 @@ from google.oauth2.service_account import Credentials
 # ==============================================================================
 # BAGIAN 1: PUSAT KENDALI OPSI (SINKRONISASI GLOBAL)
 # ==============================================================================
-OPTS_STYLE = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
-OPTS_LIGHT = ["Golden Hour", "Studio", "Natural", "Cinematic Neon"]
-OPTS_ARAH  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
-OPTS_SHOT  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"]
-OPTS_RATIO = ["9:16", "16:9", "1:1"] 
-OPTS_CAM   = ["Static", "Zoom In", "Tracking"]
+OPTS_STYLE = ["Sangat Nyata", "Animasi 3D Pixar", "Gaya Cyberpunk", "Anime Jepang"]
+OPTS_LIGHT = ["Sinar Senja (Golden)", "Lampu Studio", "Cahaya Alami", "Neon Remang", "Cahaya Bulan"]
+OPTS_ARAH  = ["Sejajar Mata", "Dari Atas", "Dari Bawah", "Dari Samping", "Berhadapan"]
+OPTS_SHOT  = ["Sangat Dekat", "Wajah & Bahu", "Setengah Badan", "Seluruh Badan", "Drone (Jauh)"]
+OPTS_CAM   = ["Diam (Tetap Napas)", "Maju Perlahan", "Ikuti Karakter", "Memutar", "Goyang (Handheld)"]
+OPTS_EKSPRESI = ["Datar/Netral", "Senyum Tipis", "Marah/Tegang", "Tertawa", "Sedih/Galau", "Sinis/Sombong"]
+OPTS_CUACA = ["Cerah Bersih", "Berkabut Tipis", "Gerimis Halus", "Banyak Debu Terbang", "Angin Kencang"]
+OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -171,6 +173,12 @@ def muat_dari_gsheet():
             if "adegan" in data_termuat:
                 adegan_baru = {}
                 for k, v in data_termuat["adegan"].items():
+                    # --- LOGIKA PENGAMAN (SUNTIK DATA BARU KE NASKAH LAMA) ---
+                    # Jika kunci tidak ditemukan di data GSheet, isi dengan pilihan pertama (default)
+                    if "ekspresi" not in v: v["ekspresi"] = OPTS_EKSPRESI[0]
+                    if "cuaca" not in v: v["cuaca"] = OPTS_CUACA[0]
+                    if "vibe" not in v: v["vibe"] = OPTS_VIBE[0]
+                    
                     adegan_baru[int(k)] = v # Paksa jadi angka 1, 2, 3...
                 data_termuat["adegan"] = adegan_baru
             
@@ -1157,7 +1165,12 @@ def tampilkan_ruang_produksi():
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
         if scene_id not in data["adegan"]:
-            data["adegan"][scene_id] = {"aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4}
+            data["adegan"][scene_id] = {
+                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
+                "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
+                "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
+                "ekspresi": OPTS_EKSPRESI[0], "cuaca": OPTS_CUACA[0], "vibe": OPTS_VIBE[0]
+            }
 
         with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
             col_text, col_set = st.columns([1.5, 1])
@@ -1201,6 +1214,24 @@ def tampilkan_ruang_produksi():
                 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
+                
+                st.markdown('<div style="margin-top:15px;"></div>', unsafe_allow_html=True)
+                sub3 = st.columns(3)
+                with sub3[0]:
+                    st.markdown('<p class="small-label">🎭 EKSPRESI</p>', unsafe_allow_html=True)
+                    curr_eks = data["adegan"][scene_id].get("ekspresi", OPTS_EKSPRESI[0])
+                    idx_eks = OPTS_EKSPRESI.index(curr_eks) if curr_eks in OPTS_EKSPRESI else 0
+                    data["adegan"][scene_id]["ekspresi"] = st.selectbox(f"E_{scene_id}", OPTS_EKSPRESI, index=idx_eks, key=f"eks_{scene_id}_{ver}", label_visibility="collapsed")
+                with sub3[1]:
+                    st.markdown('<p class="small-label">☁️ SUASANA</p>', unsafe_allow_html=True)
+                    curr_weather = data["adegan"][scene_id].get("cuaca", OPTS_CUACA[0])
+                    idx_weather = OPTS_CUACA.index(curr_weather) if curr_weather in OPTS_CUACA else 0
+                    data["adegan"][scene_id]["cuaca"] = st.selectbox(f"W_{scene_id}", OPTS_CUACA, index=idx_weather, key=f"weather_{scene_id}_{ver}", label_visibility="collapsed")
+                with sub3[2]:
+                    st.markdown('<p class="small-label">🎬 VIBE</p>', unsafe_allow_html=True)
+                    curr_vibe = data["adegan"][scene_id].get("vibe", OPTS_VIBE[0])
+                    idx_vibe = OPTS_VIBE.index(curr_vibe) if curr_vibe in OPTS_VIBE else 0
+                    data["adegan"][scene_id]["vibe"] = st.selectbox(f"V_{scene_id}", OPTS_VIBE, index=idx_vibe, key=f"vibe_{scene_id}_{ver}", label_visibility="collapsed")
 
             # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
             cols_d = st.columns(data["jumlah_karakter"])
@@ -1276,35 +1307,43 @@ def tampilkan_ruang_produksi():
                     c1 = data["karakter"][0]
                     dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, material: {c1['fisik']}. ]]"
 
-                # C. SMART FILTER (OPTIMASI UNTUK GROK & IDENTITY SWAP)
+                # C. SMART FILTER & MASTER COMPILER (PENYATUAN SEMUA MENU)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
+                
+                # Mengambil data dari 3 menu baru (Ekspresi, Suasana, Vibe)
+                eks_f = sc.get("ekspresi", "Datar/Netral")
+                weather_f = sc.get("cuaca", "Cerah Bersih")
+                vibe_f = sc.get("vibe", "Sinematik")
+                
+                # Menggabungkan Aksi utama dengan detail emosi dan suasana
+                # Ini rahasia agar AI tidak hanya fokus pada gerakan, tapi juga mood
+                aksi_lengkap = (
+                    f"{sc['aksi']}. "
+                    f"Character Expression: {eks_f}. "
+                    f"Atmosphere/Weather: {weather_f}. "
+                    f"Cinematic Vibe: {vibe_f}."
+                )
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     # --- AUTO-SYNC DIALOGUE (VERSI ANTI-TUKAR) ---
                     list_dialog = []
-                    # Kita looping berdasarkan karakter yang VALID ditemukan di naskah aksi
                     for f_char in found:
-                        # f_char["id"] adalah 1, 2, dst. Index list adalah 0, 1, dst.
                         original_idx = f_char["id"] - 1
-                        
-                        # Ambil teks dari kolom input dialog yang sesuai
                         isi_dialog = sc["dialogs"][original_idx].strip()
                         
                         if isi_dialog:
-                            # Gunakan tag SPEAKING sebagai instruksi keras ke AI Video
                             tag_bicara = f"[{f_char['unique_token']} SPEAKING]"
                             list_dialog.append(f"{tag_bicara}: '{isi_dialog}'")
                     
-                    # Jika tidak ada dialog, beri konteks non-verbal agar AI tidak asal gerak bibir
                     dialog_text = " | ".join(list_dialog) if list_dialog else "Non-verbal scene, silent interaction."
 
-                    # --- MANTRA GAMBAR ---
+                    # --- MANTRA GAMBAR (SUNTIKAN AKSI LENGKAP) ---
                     img_p = (
                         f"PRIORITY DNA: {dna_lock}\n"
                         f"RULE: {h_rule}\n\n"
-                        f"ACTION: {sc['aksi']}\n"
+                        f"ACTION: {aksi_lengkap}\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
                         f"TECHNICAL: {sc['style']} cinematic practical effects, {sc['light']}, physically-based rendering (PBR), cinematic material shaders, extreme-edge-enhancement\n"
@@ -1312,11 +1351,11 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
-                    # --- MANTRA VIDEO (SUNTIKAN ANTI-ROBOT & LIP-SYNC LOCK) ---
+                    # --- MANTRA VIDEO (SUNTIKAN AKSI LENGKAP & ANTI-ROBOT) ---
                     vid_p = (
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
-                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                        f"SCENE: {aksi_lengkap} at {sc['loc']}. {bumbu_final}.\n"
                         f"AUDIO-VISUAL SYNC: Only the character tagged [SPEAKING] moves their mouth. Match lip-sync to the specific dialogue text.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
                         f"MOTION: Organic human behavior, fluid secondary motion, natural head tilting, realistic breathing, micro-expressions. "
@@ -1356,6 +1395,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
