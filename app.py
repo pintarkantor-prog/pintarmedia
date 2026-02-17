@@ -603,92 +603,50 @@ Aturan Main:
                     )
                 
 def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT")
-    
-    st.info("""
-    💡 **PINTAR MEDIA - INSTAN PROMPT:**
-    - Fokus pada ketajaman optik Ultra-Sharp & Infinite Depth.
-    - Karakter bersifat default (sesuaikan di naskah aksi).
-    """)
+    st.title("⚡ QUICK PROMPT (GROK OPTIMIZED)")
+    st.write("Tulis ide kilatmu, dan saya akan rakit mantra Grok yang tajam & anti-blur.")
 
-    # --- QUALITY BOOSTER (ULTRA-SHARP SETTINGS) ---
-    QB_IMG = (
-        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
-        "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
-        "ultra-clear optical clarity, CPL filter, high local contrast, physically-based rendering, hyper-detailed material textures"
-    )
-    
-    QB_VID = (
-        "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
-        "professional color grading, ray-traced reflections, hyper-detailed textures, "
-        "zero digital noise, clean pixels, smooth motion, professional cinematography"
-    )
+    # 1. INPUT SEDERHANA
+    with st.container(border=True):
+        col1, col2 = st.columns(2)
+        with col1:
+            q_aksi = st.text_area("Apa yang sedang terjadi?", placeholder="Contoh: Udin sedang termenung di bawah hujan...")
+            q_karakter = st.text_input("Siapa saja di sana?", placeholder="Udin, Tung")
+        with col2:
+            q_vibe = st.selectbox("Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D"])
+            q_weather = st.selectbox("Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"])
 
-    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
-    neg_vid_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
-
-    # --- WORKSPACE UTAMA ---
-    with st.expander("🚀 WORKSPACE PRODUKSI INSTAN", expanded=True):
-        col_naskah, col_settings = st.columns([1.5, 1])
+    if q_aksi:
+        # 2. LOGIKA TRANSLATOR KILAT (Adopsi dari Ruang Produksi)
+        mood_q = "bright, no fog" if "Cerah" in q_weather else f"{q_weather}, moody atmosphere"
         
-        with col_naskah:
-            st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-            aksi_q = st.text_area("Aksi Q", height=300, placeholder="KETIK DI SINI: Deskripsi aksi dan karakter...", key="q_aksi", label_visibility="collapsed")
+        # 3. RAKITAN MANTRA
+        st.subheader("🚀 Hasil Optimasi Grok")
         
-        with col_settings:
-            s1, s2 = st.columns(2)
-            with s1:
-                st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                style_q = st.selectbox("S_Q", OPTS_STYLE, key="q_style", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:20px;">🔍 UKURAN</p>', unsafe_allow_html=True)
-                shot_q = st.selectbox("Sh_Q", OPTS_SHOT, key="q_shot", label_visibility="collapsed")
-            with s2:
-                st.markdown('<p class="small-label">💡 LIGHTING</p>', unsafe_allow_html=True)
-                light_q = st.selectbox("L_Q", OPTS_LIGHT, key="q_light", label_visibility="collapsed")
-                st.markdown('<p class="small-label" style="margin-top:20px;">📐 ARAH</p>', unsafe_allow_html=True)
-                arah_q = st.selectbox("A_Q", OPTS_ARAH, key="q_arah", label_visibility="collapsed")
-
-        st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-        loc_q = st.text_input("Loc Q", placeholder="CONTOH: Sawah pedesaan...", key="q_loc", label_visibility="collapsed")
-
-    # --- GENERATE LOGIC ---
-    st.markdown("---")
-    if st.button("🔥 GENERATE MASTERPIECE PROMPT", use_container_width=True, type="primary"):
-        if aksi_q:
-            bumbu = "hyper-detailed grit, sand, leaf veins, tactile micro-textures" if any(x in loc_q.lower() for x in ['hutan', 'jalan', 'luar', 'sawah']) else "hyper-detailed wood grain, ray-traced reflections"
-            
-            # --- MANTRA GAMBAR (OPTIMAL & RAPI) ---
-            img_p = (
-                f"ACTION: {aksi_q}\n\n"
-                f"ENV: {loc_q}. {bumbu}. NO SOFTENING.\n\n"
-                f"RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                f"CAMERA: {shot_q}, {arah_q} view, full profile perspective, {QB_IMG}\n\n"
-                f"TECHNICAL: {style_q}, {light_q}, extreme edge-enhancement\n\n"
-                f"NEGATIVE PROMPT: {no_text_strict}\n\n"
-                f"FORMAT: Aspect Ratio {OPTS_RATIO[0]}, Ultra-HD Photorealistic RAW Output"
+        tab_q_img, tab_q_vid = st.tabs(["📷 QUICK IMAGE", "🎥 QUICK VIDEO"])
+        
+        with tab_q_img:
+            grok_q_img = (
+                f"STYLE: {q_vibe}, high-end photography.\n"
+                f"CHARACTERS: {q_karakter}.\n"
+                f"ACTION: {q_aksi}.\n"
+                f"ENVIRONMENT: {mood_q}.\n"
+                f"QUALITY: 8k raw, ultra-sharp, professional lighting.\n"
+                f"NEGATIVE: text, watermark, blur, lowres, distorted."
             )
-
-            # --- MANTRA VIDEO (OPTIMAL & RAPI) ---
-            vid_p = (
-                f"SCENE: {aksi_q} at {loc_q}\n\n"
-                f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
-                f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
-                f"TECHNICAL: {QB_VID}, {style_q}, {shot_q}, cinematic character-tracking motion\n\n"
-                f"NEGATIVE PROMPT: {no_text_strict}, {neg_vid_strict}\n\n"
-                f"FORMAT: 9:16 Vertical Aspect, 8k Ultra-HD Cinematic Motion Render, Zero Compression"
-            )
+            st.code(grok_q_img, language="text")
             
-            st.success("✅ Prompt Instan Berhasil Dirakit!")
-            with st.expander("📋 Hasil Prompt", expanded=True):
-                c_res1, c_res2 = st.columns(2)
-                with c_res1:
-                    st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
-                    st.code(img_p, language="text")
-                with c_res2:
-                    st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
-                    st.code(vid_p, language="text")
-        else:
-            st.warning("Mohon isi dulu aksinya!")
+        with tab_q_vid:
+            grok_q_vid = (
+                f"VIDEO: {q_vibe}, cinematic motion, 24fps.\n"
+                f"SUBJECTS: {q_karakter}.\n"
+                f"SCENE: {q_aksi}.\n"
+                f"PHYSICS: Realistic textures, {q_weather} effects.\n"
+                f"NEGATIVE: static, morphing, melting, blurry."
+            )
+            st.code(grok_q_vid, language="text")
+        
+        st.success("Tinggal copy-paste ke Grok/X!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1453,4 +1411,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
