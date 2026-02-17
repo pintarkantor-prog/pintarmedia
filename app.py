@@ -964,7 +964,43 @@ def tampilkan_kendali_tim():
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
-        # --- 3. RUANG QC ---
+        # --- LOGIKA HITUNG KEUANGAN (DIPINDAHKAN KE ATAS TAMPILAN) ---
+        df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
+        rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
+        rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
+        
+        inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
+        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
+        
+        pay = 0
+        for _, s in df_staff.iterrows():
+            n_up = str(s['NAMA']).upper()
+            ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
+            if ha > 0 or vi > 0:
+                pay += (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + (ha*50000) + (vi*10000))
+
+        # --- TAMPILAN 1: DASHBOARD KEUANGAN (POSISI PALING ATAS) ---
+        st.subheader("💰 LAPORAN KEUANGAN")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
+        m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
+        m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
+
+        # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
+        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=True):
+            with st.form("form_kas", clear_on_submit=True):
+                c_tipe, c_kat, c_nom = st.columns(3)
+                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
+                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
+                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
+                f_ket = st.text_input("Keterangan:")
+                if st.form_submit_button("Simpan Transaksi"):
+                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
+
+        st.divider()
+
+        # --- TAMPILAN 3: RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
         df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
         
@@ -982,7 +1018,7 @@ def tampilkan_kendali_tim():
         else:
             st.info("Antrean QC kosong. ✨")
 
-        # --- 4. JADWAL PRODUKSI ---
+        # --- TAMPILAN 4: JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI")
         if not df_t_bln.empty:
             for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
@@ -991,47 +1027,14 @@ def tampilkan_kendali_tim():
         else:
             st.caption("Tidak ada jadwal untuk periode ini.")
 
-        # --- 5. HITUNG KEUANGAN ---
-        df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
-        rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
-        rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
-        
-        inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        
-        pay = 0
-        for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).upper()
-            ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
-            if ha > 0 or vi > 0:
-                pay += (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + (ha*50000) + (vi*10000))
-
-        st.divider()
-        m1, m2, m3 = st.columns(3)
-        m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
-        m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
-        m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
-
-        # --- 6. INPUT TRANSAKSI (DITAMBAHKAN KEMBALI) ---
-        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
-            with st.form("form_kas", clear_on_submit=True):
-                c_tipe, c_kat, c_nom = st.columns(3)
-                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
-                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
-                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
-                f_ket = st.text_input("Keterangan:")
-                if st.form_submit_button("Simpan Transaksi"):
-                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
-
-        # --- 7. GRAFIK PRODUKTIVITAS ---
+        # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
         with st.expander("📊 Grafik Produktivitas"):
             if rekap_f:
                 st.bar_chart(pd.Series(rekap_f))
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- 8. SLIP GAJI (RINCIAN DETAIL UTUH) ---
+        # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
         with st.expander("💰 RINCIAN GAJI & SLIP (FULL)", expanded=True):
             ada_kerja = False
             for _, s in df_staff.iterrows():
@@ -1213,7 +1216,7 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC ---
+    # --- 3. GLOBAL COMPILER LOGIC (VERSI PENYATUAN KARAKTER) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1224,8 +1227,25 @@ def tampilkan_ruang_produksi():
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            char_ids = " AND ".join([f"[[ CHARACTER_{c['nama'].upper()}: {c['fisik']}, organic macro-texture, maintain 100% exact facial features. ]]" for c in data["karakter"] if c['nama']])
-            char_profiles = ", ".join([f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)" for c in data["karakter"] if c['nama']])
+            # --- PROSES PENYATUAN DATA KARAKTER (STRATEGI WEB LAMA) ---
+            karakter_compiled = []
+            char_profiles_video = []
+            
+            for c in data["karakter"]:
+                if c['nama']:
+                    # Format Gambar: Nama, Fisik, dan Baju menyatu
+                    blok = (
+                        f"[[ CHARACTER_{c['nama'].upper()}: \"si {c['nama'].lower()}\" "
+                        f"maintain 100% exact facial features, anatomy, and textures. "
+                        f"{c['fisik']}. Memakai {c['wear']}. ]]"
+                    )
+                    karakter_compiled.append(blok)
+                    
+                    # Format Video: Profil singkat
+                    char_profiles_video.append(f"{c['nama']} (pakaian: {c['wear']}, high-fidelity fabric texture)")
+
+            char_data_final = " AND ".join(karakter_compiled)
+            vid_profiles_final = ", ".join(char_profiles_video)
 
             no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
             negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
@@ -1233,7 +1253,7 @@ def tampilkan_ruang_produksi():
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 
-            # --- SMART FILTER LOGIC ---
+                # --- SMART FILTER LOGIC ---
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
                 tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
@@ -1244,21 +1264,22 @@ def tampilkan_ruang_produksi():
                     bumbu_final = "hyper-detailed wood grain, fabric textures, polished surfaces, ray-traced reflections, NO SOFTENING"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (LIST MODE & DETAIL CAMERA) ---
+                    # --- MANTRA GAMBAR (MODULAR QUALITY - STRATEGI WEB LAMA) ---
                     img_p = (
-                        f"CHARACTER: {char_ids}\n\n"
-                        f"ACTION: {sc['aksi']}\n\n"
-                        f"ENV: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                        f"STRICT VISUAL RULE: {no_text_strict}\n"
+                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n\n"
+                        f"CHARACTER DATA: {char_data_final}\n\n"
+                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n\n"
+                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n\n"
-                        f"TECH: {sc['style']}, {sc['light']}, {tech_base}\n\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}\n\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
                     )
                     
                     # --- MANTRA VIDEO (LIST MODE & MOTION MASTERY) ---
                     vid_p = (
-                        f"PROFILES: {char_profiles}\n\n"
+                        f"PROFILES: {vid_profiles_final}\n\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n\n"
                         f"RULE: Character Interaction Required. Consistency from uploaded photo reference.\n\n"
                         f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n\n"
