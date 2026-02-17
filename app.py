@@ -1299,9 +1299,13 @@ def tampilkan_ruang_produksi():
                         f"IDENTITY LOCK: {dna_lock}\n"
                         f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
-                        f"MOTION: {sc['cam']}, cinematic character-tracking, fluid movement.\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
+                        f"MOTION: {sc['cam']}, cinematic character-tracking, organic human movement, "
+                        f"natural micro-expressions, fluid joint rotation, realistic weight distribution, "
+                        f"shoulders and head swaying naturally while moving.\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, high frame-rate motion blur, "
+                        f"physically-based animation.\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, "
+                        f"robotic movement, stiff limbs, mannequin-like, jittery motion, frozen face.\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
                     )
 
@@ -1338,6 +1342,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
