@@ -1086,9 +1086,9 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI DETEKTIF KARAKTER & MANTRA LAMA)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI FIX BAJU & WAJAH PATUH)
 # ==============================================================================
-import re # Pastikan ada di paling atas file app.py kamu
+import re
 
 def tampilkan_ruang_produksi():
     # --- 1. SETTING WAKTU & DATA ---
@@ -1170,14 +1170,13 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_n}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"di_{scene_id}_{i}_{ver}", label_visibility="collapsed")
 
-    # --- 6. GENERATOR (TRANSPLANTASI DNA LAMA + DETEKTIF) ---
+    # --- 6. GENERATOR (TRANSPLANTASI DNA LAMA + DETEKTIF + FIX BAJU) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         if adegan_terisi:
             st.markdown(f"## 🎬 Hasil Prompt: {user_aktif.capitalize()} ❤️")
             
-            # MAP DNA LAMA
             map_shot = {"Dekat Wajah": "Close-Up shot", "Setengah Badan": "Medium Shot", "Seluruh Badan": "Full body shot", "Drone Shot": "Aerial Drone View", "Pemandangan Luas": "Wide landscape shot"}
             map_arah = {"Normal": "eye-level shot", "Sudut Tinggi": "high angle shot", "Samping": "side profile view", "Berhadapan": "face-to-face view"}
             map_cam = {"Static": "Static camera", "Zoom In": "Slow zoom-in", "Tracking": "Dynamic tracking shot"}
@@ -1187,35 +1186,34 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # --- LOGIKA DETEKTIF KARAKTER (OTAK LAMA) ---
+                # --- [LOGIKA FIX BAJU & DETEKTIF] ---
                 mentioned_chars = []
                 for c in data["karakter"]:
                     if c["nama"] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        mentioned_chars.append({"name": c["nama"].upper(), "desc": f"{c['fisik']} wearing {c['wear']}"})
+                        # Pakaian ditaruh paling depan agar AI patuh
+                        desc_sakti = f"STRICTLY WEARING {c['wear'].upper()}, {c['fisik']}"
+                        mentioned_chars.append({"name": c["nama"].upper(), "desc": desc_sakti})
 
                 if len(mentioned_chars) == 1:
                     target = mentioned_chars[0]['name']
-                    char_info = f"[[ CHARACTER_{target}: {mentioned_chars[0]['desc']} ]]"
-                    instr_header = f"IMAGE REFERENCE RULE: Use uploaded photo for {target}. STRICT LIMIT: ONLY feature {target}. NO other characters."
+                    char_info = f"[[ IDENTITY_LOCK_{target}: {mentioned_chars[0]['desc']} ]]"
+                    instr_header = (f"MANDATORY: Use reference photo for {target}. Maintain 100% exact facial identity. "
+                                    f"STRICT LIMIT: ONLY feature {target}. NO other characters.")
                 elif len(mentioned_chars) > 1:
-                    char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
-                    instr_header = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
+                    char_info = " AND ".join([f"[[ IDENTITY_LOCK_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
+                    instr_header = "MANDATORY: Use reference photos for each character. Preserve facial identities. Interaction required."
                 else:
-                    # Fallback ke Karakter 1 jika tidak ada nama disebut
-                    c1_n = data["karakter"][0]["nama"].upper() if data["karakter"][0]["nama"] else "MAIN"
-                    char_info = f"[[ CHARACTER_{c1_n}: {data['karakter'][0]['fisik']} wearing {data['karakter'][0]['wear']} ]]"
-                    instr_header = "IMAGE REFERENCE RULE: Use main character reference."
+                    # Fallback ke Karakter Utama
+                    c_main = data["karakter"][0]
+                    char_info = f"[[ IDENTITY_LOCK_MAIN: STRICTLY WEARING {c_main['wear'].upper()}, {c_main['fisik']} ]]"
+                    instr_header = "MANDATORY: Preserve identity from the reference photo."
 
-                # Lipsync & Dialog
+                # Lipsync & Terjemahan Mantra
                 who_talk = [m['name'] for m in mentioned_chars if any(sc["dialogs"][i].strip() for i, c in enumerate(data["karakter"]) if c['nama'].upper() == m['name'])]
                 lipsync = f"Mouth speaking movement for {', '.join(who_talk)}." if who_talk else "Closed mouth."
                 diag_txt = " | ".join([f"{data['karakter'][i]['nama']}: {sc['dialogs'][i]}" for i in range(data["jumlah_karakter"]) if sc["dialogs"][i].strip()])
 
-                # Terjemahan Mantra
-                e_shot = map_shot.get(sc["shot"], sc["shot"])
-                e_arah = map_arah.get(sc["arah"], sc["arah"])
-                e_cam = map_cam.get(sc["cam"], sc["cam"])
-                e_light = map_light.get(sc["light"], sc["light"])
+                e_shot, e_arah, e_cam, e_light = map_shot.get(sc["shot"], sc["shot"]), map_arah.get(sc["arah"], sc["arah"]), map_cam.get(sc["cam"], sc["cam"]), map_light.get(sc["light"], sc["light"])
 
                 with st.expander(f"💎 RESULT ADEGAN {scene_id}", expanded=True):
                     img_p = (f"{instr_header}\n\nCHARACTER DATA: {char_info}\n\nVISUAL: {sc['aksi']}. {lipsync}.\n\nENVIRONMENT: {sc['loc']}. Lighting: {e_light}.\n\n"
@@ -1253,6 +1251,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
