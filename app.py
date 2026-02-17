@@ -613,56 +613,74 @@ def tampilkan_quick_prompt():
         st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", placeholder="Contoh: Udin")
-            q_detail_a = st.text_area("Ciri Fisik & Baju (1)", placeholder="Detail penampilan...", height=80)
+            q_char_a = st.text_input("Nama Karakter 1", placeholder="Contoh: Udin", key="q_name_a")
+            q_detail_a = st.text_area("Ciri Fisik & Baju (1)", placeholder="Detail penampilan...", height=80, key="q_det_a")
         with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", placeholder="Contoh: Tung")
-            q_detail_b = st.text_area("Ciri Fisik & Baju (2)", placeholder="Detail penampilan...", height=80)
+            q_char_b = st.text_input("Nama Karakter 2", placeholder="Contoh: Tung", key="q_name_b")
+            q_detail_b = st.text_area("Ciri Fisik & Baju (2)", placeholder="Detail penampilan...", height=80, key="q_det_b")
         
-        st.divider() # Pemisah antar bagian dalam expander
+        st.divider() 
 
         # 2. SKENARIO
         st.markdown("#### 🎬 SKENARIO & LOKASI")
-        q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja")
-        q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...")
+        q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja", key="q_loc")
+        q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...", key="q_act")
         
         c1, c2, c3 = st.columns(3)
         with c1:
-            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Close Up"])
+            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Close Up"], key="q_ss")
         with c2:
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik", "Vlog", "Horor"])
+            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik", "Vlog", "Horor"], key="q_vb")
         with c3:
-            q_weather = st.selectbox("☁️ Cuaca", ["Cerah", "Berkabut", "Hujan"])
+            q_weather = st.selectbox("☁️ Cuaca", ["Cerah", "Berkabut", "Hujan"], key="q_wt")
 
         st.divider()
 
         # 3. DIALOG
         st.markdown("#### 💬 DIALOG & SUARA")
-        q_dialog = st.text_area("Tulis Percakapan", placeholder="Udin: Kita tersesat.\nTung: Tenang saja.", height=80)
+        q_dialog = st.text_area("Tulis Percakapan", placeholder="Udin: Kita tersesat.\nTung: Tenang saja.", height=80, key="q_dial")
         
         # Nama otomatis muncul jika diisi di atas
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
-        q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama)
+        q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, key="q_spk")
 
     # --- HASIL (DI LUAR EXPANDER) ---
     if q_aksi and q_lokasi:
         st.divider()
         st.subheader("🚀 Hasil Optimasi Grok")
         
-        # Logika Gabungan
-        dna_combined = f"- {q_char_a}: {q_detail_a}\n- {q_char_b}: {q_detail_b}"
-        mood_q = "bright, sharp" if "Cerah" in q_weather else f"{q_weather}, moody depth"
-        speaker_str = " & ".join(q_speaker) if q_speaker else "None"
+        # Logika Gabungan (Dibuat lebih rapi untuk Grok)
+        dna_combined = f"CHARACTER A: {q_char_a} ({q_detail_a})\nCHARACTER B: {q_char_b} ({q_detail_b})"
+        mood_q = "bright, sharp focus" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
+        speaker_str = " & ".join(q_speaker) if q_speaker else "None (Background Voice)"
 
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
-            st.code(f"STYLE: {q_vibe}, {q_shot}.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres.", language="text")
+            grok_img = (
+                f"STYLE: {q_vibe}, {q_shot}.\n"
+                f"DNA IDENTITY:\n{dna_combined}\n\n"
+                f"ACTION: {q_aksi} at {q_lokasi}.\n"
+                f"ENVIRONMENT: {mood_q}.\n"
+                f"QUALITY: 8k raw, ultra-sharp, professional photography.\n"
+                f"NEGATIVE: text, watermark, blur, lowres, distorted faces."
+            )
+            st.code(grok_img, language="text")
             
         with tab_vid:
-            st.code(f"VIDEO: {q_vibe}, cinematic motion.\nDNA:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi}.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nPHYSICS: {q_weather}.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
+            grok_vid = (
+                f"VIDEO: {q_vibe}, cinematic movement, 24fps.\n"
+                f"DNA IDENTITY:\n{dna_combined}\n\n"
+                f"SCENE: {q_aksi} at {q_lokasi}.\n"
+                f"SPEAKER: {speaker_str}\n"
+                f"AUDIO_SCRIPT: \"{q_dialog}\"\n"
+                f"LIP-SYNC: Match mouth movement for {speaker_str}.\n"
+                f"PHYSICS: {q_weather} effects, realistic textures.\n"
+                f"NEGATIVE: static, morphing, melting, blurry, messy background."
+            )
+            st.code(grok_vid, language="text")
         
-        st.success("Sistem Multi-Karakter Aktif! Sekarang identitas dan suara sudah terbagi.")
+        st.success("Mantra Berhasil Dirakit! Silakan copy ke Grok.")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1427,6 +1445,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
