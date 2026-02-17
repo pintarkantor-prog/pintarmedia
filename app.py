@@ -1232,55 +1232,51 @@ def tampilkan_ruang_produksi():
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "fisik": c['fisik'], "wear": c['wear']})
 
-                # B. LOGIKA SS (ULTIMATE IDENTITY LOCK - KONSISTENSI TOTAL)
+                # B. LOGIKA SS (BRUTAL IDENTITY & FACIAL LOCK)
                 if len(found) > 1:
-                    # Mode Interaksi (Multiple DNA Lock)
-                    h_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
+                    h_rule = "IMAGE REFERENCE RULE: Dual-character identity lock. Refer to uploaded photos for each ID. Interaction required."
                     dna_lock = " AND ".join([
                         f"[[ CHARACTER_{m['nama']}: (SKS person:1.5), maintain 100% exact facial geometry from PHOTO #{m['id']}. "
-                        f"High-fidelity skin pores, identical bone structure, (same eye shape:1.3). "
+                        f"Focal point on facial features, identical bone structure, high-fidelity skin textures. "
                         f"{m['fisik']}. Wearing {m['wear']}. ]]" 
                         for m in found
                     ])
                 
                 elif len(found) == 1:
-                    # Mode Solo (Single DNA Lock + Strict Limit)
                     m = found[0]
                     h_rule = (f"IMAGE REFERENCE RULE: Use the uploaded photo for {m['nama']}'s face and body.\n"
                               f"STRICT LIMIT: This scene MUST ONLY feature {m['nama']}. Do NOT add other characters.")
                     dna_lock = (
-                        f"[[ CHARACTER_{m['nama']}: (SKS person:1.5), refer to PHOTO #{m['id']}, 100% IDENTITY MATCH. "
-                        f"Consistent facial features, identical anatomy, no deviation from source image. "
-                        f"{m['fisik']}. Wearing {m['wear']}. ]]"
+                        f"[[ CHARACTER_{m['nama']}: (SKS person:1.5), 100% IDENTITY MATCH with PHOTO #{m['id']}. "
+                        f"Consistent facial structure, identical facial anatomy, zero deviation from source image. "
+                        f"Focal point on face. {m['fisik']}. Wearing {m['wear']}. ]]"
                     )
-                
                 else:
-                    # Mode Umum (Main DNA Lock)
                     h_rule = "IMAGE REFERENCE RULE: Use the main character reference."
                     c1 = data["karakter"][0]
-                    dna_lock = (
-                        f"[[ CHARACTER_MAIN: (SKS person:1.4), refer to PHOTO #1. "
-                        f"Maintain facial consistency, identical facial features. "
-                        f"{c1['fisik']}. Wearing {c1['wear']}. ]]"
-                    )
+                    dna_lock = f"[[ CHARACTER_MAIN: Refer to PHOTO #1. Facial identity lock enabled. {c1['fisik']}. Wearing {c1['wear']}. ]]"
 
-                # C. SMART FILTER LOKASI
+                # C. SMART FILTER LOKASI & FOCAL POINT (OPTIMASI OPTIK)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
-                bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
+                
+                # Kita tambahkan perintah Focal Point di sini
+                focus_rule = "FOCAL POINT: Character's face, ultra-detailed facial expression, sharp eyes focus."
+                tech_base = "extreme edge-enhancement, local contrast on face, cinematic lighting focus"
+                bumbu_final = "hyper-detailed grit, leaf veins" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                    # --- MANTRA GAMBAR (SUNTIKAN BRUTAL LOCK) ---
                     img_p = (
                         f"{h_rule}\n\n"
-                        f"STRICT VISUAL RULE: {no_text_strict}\n"
-                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
-                        f"CHARACTER DATA: {dna_lock}\n"
-                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n"
+                        f"IDENTITY LOCK: {dna_lock}\n"
+                        f"VISUAL FOCUS: {focus_rule}\n"
+                        f"ACTION: {sc['aksi']}\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n"
-                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}\n"
+                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
                     vid_p = (
@@ -1322,6 +1318,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
