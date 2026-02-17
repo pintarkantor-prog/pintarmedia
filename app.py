@@ -14,7 +14,7 @@ from google.oauth2.service_account import Credentials
 OPTS_STYLE = ["Realistis", "Pixar 3D", "Glossy Asphalt", "Naruto Anime"]
 OPTS_LIGHT = ["Golden Hour", "Studio", "Natural", "Cinematic Neon"]
 OPTS_ARAH  = ["Normal", "Sudut Tinggi", "Samping", "Berhadapan"]
-OPTS_SHOT  = ["Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot"]
+OPTS_SHOT  = [""Dekat Wajah", "Setengah Badan", "Seluruh Badan", "Drone Shot", "Pemandangan Luas"]
 OPTS_RATIO = ["9:16", "16:9", "1:1"] 
 OPTS_CAM   = ["Static", "Zoom In", "Tracking"]
 
@@ -1178,7 +1178,7 @@ def tampilkan_ruang_produksi():
             st.markdown(f"## 🎬 Hasil Prompt: {user_aktif.capitalize()} ❤️")
             
             # MAP DNA LAMA
-            map_shot = {"Dekat Wajah": "Close-Up shot", "Setengah Badan": "Medium Shot", "Seluruh Badan": "Full body shot", "Drone Shot": "Aerial Drone View"}
+            map_shot = {"Dekat Wajah": "Close-Up shot", "Setengah Badan": "Medium Shot", "Seluruh Badan": "Full body shot", "Drone Shot": "Aerial Drone View", "Pemandangan Luas": "Wide landscape shot"}
             map_arah = {"Normal": "eye-level shot", "Sudut Tinggi": "high angle shot", "Samping": "side profile view", "Berhadapan": "face-to-face view"}
             map_cam = {"Static": "Static camera", "Zoom In": "Slow zoom-in", "Tracking": "Dynamic tracking shot"}
             map_light = {"Golden Hour": "Warm golden hour sunlight", "Studio": "Professional studio lighting", "Natural": "Natural daylight", "Cinematic Neon": "Stylized cinematic neon lighting"}
@@ -1253,5 +1253,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
