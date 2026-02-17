@@ -537,7 +537,6 @@ Aturan: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah
                     st.toast("Sedang menghubungkan...", icon="🌐")
                     with st.spinner("lagi ngetik naskah gila..."):
                         try:
-                            import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
                             prompt_otomatis = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
@@ -691,8 +690,6 @@ def tampilkan_quick_prompt():
         else:
             st.warning("Mohon isi dulu aksinya!")
             
-import requests # Pastikan ini ada di baris paling atas app.py
-
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
     token = "f4CApLBAJDTPrVHHZCDF"
@@ -1456,3 +1453,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
