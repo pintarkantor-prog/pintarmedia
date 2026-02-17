@@ -1388,20 +1388,61 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK (VERSI GROK-FORCE SESUAI KEINGINANMU) ---
+                    # --- BAGIAN SINKRONISASI TOTAL UNTUK GROK ---
                     st.markdown("---")
+                    
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # Kita suntikkan instruksi pencahayaan yang super galak buat Grok
-                        grok_ready = (
-                            f"STYLE: Dark Cinematic Photography, High Local Contrast, Moody Atmosphere.\n\n"
-                            f"DNA LOCK (STRICT): \n{dna_lock}\n\n"
-                            f"LIGHTING & MOOD: {weather_f}, {sc['light']}, heavy fog, ominous shadows, low-key lighting, desaturated colors. NO SUNLIGHT.\n"
-                            f"SCENE: {aksi_master} at {sc['loc']}.\n"
-                            f"CAMERA: {sc['shot']}, f/1.8, sharp details on characters, background slightly lost in fog.\n"
-                            f"NEGATIVE PROMPT: sunny, bright day, blue sky, cheerful, vibrant colors, clear weather, {no_text_strict}"
+                        # 1. AMBIL DATA DARI MENU (Sesuai OPTS kamu)
+                        style_f = sc.get('style', 'Sangat Nyata')
+                        light_f = sc.get('light', 'Cahaya Alami')
+                        arah_f = sc.get('arah', 'Sejajar Mata')
+                        shot_f = sc.get('shot', 'Setengah Badan')
+                        weather_f = sc.get('cuaca', 'Cerah Bersih')
+                        vibe_f = sc.get('vibe', 'Sinematik Film')
+
+                        # 2. LOGIKA TRANSLATOR (Mapping agar Grok Paham)
+                        # Mapping Cuaca
+                        if "Cerah" in weather_f:
+                            mood_logic = "ENVIRONMENT: Clear sky, bright natural sunlight, high visibility. NO FOG, NO MIST."
+                        elif "Berkabut" in weather_f:
+                            mood_logic = "ENVIRONMENT: Heavy thick fog, volumetric mist, hazy atmosphere."
+                        elif "Gerimis" in weather_f:
+                            mood_logic = "ENVIRONMENT: Light rain droplets, wet surfaces, moody reflections."
+                        else:
+                            mood_logic = f"ENVIRONMENT: {weather_f}, specific atmospheric particles."
+
+                        # Mapping Vibe
+                        if "Vlog" in vibe_f:
+                            vibe_logic = "STYLE: Shot on smartphone, handheld jitter, natural ungraded colors."
+                        elif "Horor" in vibe_f:
+                            vibe_logic = "STYLE: Dark suspenseful cinematography, high shadows, eerie tint."
+                        elif "Aksi" in vibe_f:
+                            vibe_logic = "STYLE: High shutter speed, dynamic motion blur, intense energy."
+                        else:
+                            vibe_logic = f"STYLE: {vibe_f} aesthetics, professional production quality."
+
+                        # Mapping Arah Kamera
+                        if arah_f == "Berhadapan":
+                            posisi_logic = "COMPOSITION: Two characters facing each other in profile view, intense eye contact."
+                        else:
+                            posisi_logic = f"COMPOSITION: {arah_f} angle, focusing on character silhouette."
+
+                        # 3. RAKITAN MANTRA FINAL
+                        grok_final = (
+                            f"{vibe_logic}\n"
+                            f"VISUAL GENRE: {style_f}\n\n"
+                            f"{posisi_logic}\n"
+                            f"SHOT SIZE: {shot_f} view.\n\n"
+                            f"DNA LOCK:\n{dna_lock}\n\n"
+                            f"SCENE CONTEXT: {aksi_master}\n"
+                            f"{mood_logic}\n"
+                            f"LIGHTING SOURCE: {light_f}.\n\n"
+                            f"TECHNICAL: 8k resolution, cinematic sharpness, raw photo texture.\n"
+                            f"NEGATIVE PROMPT: {no_text_strict}, blurry, lowres, distorted"
                         )
-                        st.markdown(f"### 🚀 Grok Moody Fix - Adegan {scene_id}")
-                        st.code(grok_ready, language="text")
+
+                        st.markdown(f"### 🚀 Grok Full-Sync - Adegan {scene_id}")
+                        st.code(grok_final, language="text")
                         st.caption("Gunakan prompt ini khusus untuk Grok agar hasil tajam seperti Gemini/VEO.")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1429,4 +1470,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
