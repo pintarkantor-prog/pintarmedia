@@ -1401,7 +1401,6 @@ def tampilkan_ruang_produksi():
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
 
                         with tab_img:
-                            # Prompt Gambar: Super Ringkas
                             grok_img = (
                                 f"{vibe_f}, {sc['style']}, {sc['shot']}, {sc['arah']}.\n"
                                 f"DNA: {dna_lock}\n"
@@ -1413,14 +1412,16 @@ def tampilkan_ruang_produksi():
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            # Prompt Video: Fokus Gerakan + Dialog
+                            speaker_label = f"SPEAKING CHARACTER: {char_name}" if dialog_text != "-" else "NO DIALOGUE"
+                            
                             grok_vid = (
                                 f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"SCENE: {aksi_master} at {sc['loc']}.\n"
+                                f"{speaker_label}\n" # Menegaskan siapa yang mulutnya harus gerak
                                 f"DIALOGUE: \"{dialog_text}\"\n"
                                 f"ATMOSPHERE: {mood}, realistic physics.\n"
-                                f"NEGATIVE: static, morphing, melting, text, blurry."
+                                f"NEGATIVE: static, morphing, melting, text, blurry, characters speaking simultaneously."
                             )
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
@@ -1451,6 +1452,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
