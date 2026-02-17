@@ -1202,13 +1202,25 @@ def tampilkan_ruang_produksi():
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
-            # --- DIALOG SECTION ---
+            # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
+            st.markdown('<p class="small-label" style="margin-top:10px;">💬 NASKAH DIALOG (Sesuai Karakter)</p>', unsafe_allow_html=True)
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
                 with cols_d[i]:
-                    char_n = data["karakter"][i]["nama"] or f"K_{i+1}"
-                    st.markdown(f'<p class="small-label">Dialog {char_n}</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed")
+                    # Ambil nama dan paksa jadi Kapital agar sinkron dengan Scan Karakter
+                    raw_nama = data["karakter"][i]["nama"] or f"Karakter {i+1}"
+                    char_n = raw_nama.upper()
+                    
+                    # Beri label Token agar kamu tahu ini akan jadi ACTOR_1, ACTOR_2, dst.
+                    st.markdown(f'<p class="small-label" style="color:#FFA500;">🎭 {char_n} (ACTOR_{i+1})</p>', unsafe_allow_html=True)
+                    
+                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(
+                        f"D_{scene_id}_{i}", 
+                        value=data["adegan"][scene_id]["dialogs"][i], 
+                        key=f"d_{scene_id}_{i}_{ver}", 
+                        label_visibility="collapsed",
+                        placeholder=f"Ketik dialog {char_n}..."
+                    )
 
     # --- 4. GLOBAL COMPILER LOGIC (LOGIKA SS) ---
     st.markdown("---")
@@ -1224,7 +1236,7 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-# A. SCAN KARAKTER (DIRECTOR'S TRACKING - GENERAL)
+                # A. SCAN KARAKTER (DIRECTOR'S TRACKING - GENERAL)
                 found = []
                 jml_c = data.get("jumlah_karakter", 2)
                 for i in range(jml_c):
@@ -1241,12 +1253,14 @@ def tampilkan_ruang_produksi():
                             "wear": c['wear']
                         })
 
-                # B. LOGIKA IDENTITY SWAP (MENGUNCI WAJAH & DINAMIKA VISUAL)
+                # B. LOGIKA IDENTITY SWAP (ULTRA-ADAPTIVE & MATERIAL PHYSICS)
                 if len(found) > 1:
-                    h_rule = "STRICT IDENTITY SWAP: Maintain face from photos, but change clothing as described."
+                    h_rule = "STRICT IDENTITY SWAP: Maintain face from photos, but change clothing and preserve material textures."
                     dna_lock = " AND ".join([
-                        f"[[ {m['unique_token']}: (Face-Lock:1.7), refer to PHOTO #{m['id']} ONLY for facial structure. "
-                        f"Disregard original clothes. WEAR: {m['wear']}. PHYSICAL: {m['fisik']}. ]]" 
+                        f"[[ {m['unique_token']}: (Face-Lock:1.7), refer to PHOTO #{m['id']} ONLY for face. "
+                        f"Disregard original clothes. WEAR: {m['wear']}. "
+                        f"PHYSICAL/MATERIAL: {m['fisik']} with advanced sub-surface scattering, "
+                        f"physically-based textures, and organic micro-detail. ]]" 
                         for m in found
                     ])
                 elif len(found) == 1:
@@ -1254,12 +1268,14 @@ def tampilkan_ruang_produksi():
                     h_rule = f"STRICT FACE-LOCK: 100% facial match with PHOTO #{m['id']}. Ignore photo's outfit."
                     dna_lock = (
                         f"[[ {m['unique_token']}: (Face-Lock:1.8), refer to PHOTO #{m['id']} ONLY for biometric features. "
-                        f"Ignore photo clothing. NEW OUTFIT: {m['wear']}. Face is priority 1. Body/Fisik: {m['fisik']}. ]]"
+                        f"Ignore photo clothing. NEW OUTFIT: {m['wear']}. "
+                        f"Face is priority 1. MATERIAL FOCUS: {m['fisik']} with realistic subsurface light scattering (SSS) "
+                        f"and PBR material shading. ]]"
                     )
                 else:
                     h_rule = "General face reference from Photo #1."
                     c1 = data["karakter"][0]
-                    dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, wearing {c1['wear']}. ]]"
+                    dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, material: {c1['fisik']}. ]]"
 
                 # C. SMART FILTER (OPTIMASI UNTUK GROK & IDENTITY SWAP)
                 loc_lower = sc['loc'].lower()
@@ -1267,16 +1283,23 @@ def tampilkan_ruang_produksi():
                 bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- AUTO-SYNC DIALOGUE (SUNTIKAN TEKNIS AGAR TIDAK TERTUKAR) ---
+                    # --- AUTO-SYNC DIALOGUE (VERSI ANTI-TUKAR) ---
                     list_dialog = []
+                    # Kita looping berdasarkan karakter yang VALID ditemukan di naskah aksi
                     for f_char in found:
-                        idx = f_char["id"] - 1
-                        isi_d = sc["dialogs"][idx].strip()
-                        if isi_d:
-                            # Gunakan tag [SPEAKING] agar AI video tahu siapa yang harus gerak bibir
-                            list_dialog.append(f"[{f_char['unique_token']} SPEAKING]: '{isi_d}'")
+                        # f_char["id"] adalah 1, 2, dst. Index list adalah 0, 1, dst.
+                        original_idx = f_char["id"] - 1
+                        
+                        # Ambil teks dari kolom input dialog yang sesuai
+                        isi_dialog = sc["dialogs"][original_idx].strip()
+                        
+                        if isi_dialog:
+                            # Gunakan tag SPEAKING sebagai instruksi keras ke AI Video
+                            tag_bicara = f"[{f_char['unique_token']} SPEAKING]"
+                            list_dialog.append(f"{tag_bicara}: '{isi_dialog}'")
                     
-                    dialog_text = " | ".join(list_dialog) if list_dialog else "Non-verbal scene, focus on expressions."
+                    # Jika tidak ada dialog, beri konteks non-verbal agar AI tidak asal gerak bibir
+                    dialog_text = " | ".join(list_dialog) if list_dialog else "Non-verbal scene, silent interaction."
 
                     # --- MANTRA GAMBAR ---
                     img_p = (
@@ -1285,7 +1308,7 @@ def tampilkan_ruang_produksi():
                         f"ACTION: {sc['aksi']}\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
-                        f"TECHNICAL: {sc['style']} cinematic practical effects, {sc['light']}, extreme-edge-enhancement\n"
+                        f"TECHNICAL: {sc['style']} cinematic practical effects, {sc['light']}, physically-based rendering (PBR), cinematic material shaders, extreme-edge-enhancement\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, original photo clothes, improvising facial features\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
@@ -1299,7 +1322,7 @@ def tampilkan_ruang_produksi():
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
                         f"MOTION: Organic human behavior, fluid secondary motion, natural head tilting, realistic breathing, micro-expressions. "
                         f"STRICT: Eliminate all robotic stiffness, no static mannequin poses, fluid joint movement.\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']} motion-capture fidelity, {sc['shot']}, 60fps organic fluid motion.\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']} motion-capture fidelity, {sc['shot']}, organic fluid motion, subsurface material lighting.\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, "
                         f"static pose, robotic movement, stiff limbs, wrong character speaking, frozen eyes.\n"
                         f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD"
@@ -1334,6 +1357,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
