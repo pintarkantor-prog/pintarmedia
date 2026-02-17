@@ -604,22 +604,30 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT")
-    st.info(f"💡 **INFO :** Data disini, tidak bisa di simpan / restore! ")
-    
-    # --- FUNGSI HAPUS PROMPT ---
+    st.info(f"💡 **INFO :** Data tidak bisa di simpan atau di restore!")
+
+    # --- 1. INISIALISASI STATE (Agar data terkunci/tidak hilang saat pindah tab) ---
+    list_keys = ["q_name_a", "q_det_a", "q_name_b", "q_det_b", "q_loc", "q_act", "q_ss", "q_ar", "q_vb", "q_wt", "q_dial", "q_spk"]
+    for key in list_keys:
+        if key not in st.session_state:
+            # Sesuaikan default value: multiselect butuh list [], sisanya string ""
+            st.session_state[key] = [] if key == "q_spk" else ""
+
+    # --- 2. FUNGSI HAPUS PROMPT (Hanya hapus yang spesifik q_) ---
     def hapus_semua():
-        for key in st.session_state.keys():
-            if key.startswith("q_"):
-                if isinstance(st.session_state[key], str):
-                    st.session_state[key] = ""
-                else:
-                    st.session_state[key] = None
+        for key in list_keys:
+            if key == "q_spk":
+                st.session_state[key] = []
+            else:
+                st.session_state[key] = ""
         st.toast("Formulir dibersihkan! 🧹")
 
+    # --- 3. FORMULIR ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
         st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
+            # Gunakan st.session_state[key] sebagai value agar data "nyangkut"
             q_char_a = st.text_input("Nama Karakter 1", key="q_name_a")
             q_detail_a = st.text_area("Fisik & Baju (1)", height=80, key="q_det_a")
         with col_b:
@@ -651,7 +659,7 @@ def tampilkan_quick_prompt():
 
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- LOGIKA SMART CAMERA ---
+    # --- LOGIKA SMART CAMERA & OUTPUT (SAMA SEPERTI SEBELUMNYA) ---
     if q_aksi and q_lokasi:
         aksi_low = q_aksi.lower()
         if len(q_dialog) > 5:
@@ -670,13 +678,10 @@ def tampilkan_quick_prompt():
         st.divider()
         st.subheader("🚀 Hasil Optimasi Prompt Singkat")
         
-        # --- MENGGUNAKAN COLUMNS SEBAGAI GANTI TABS ---
         res_img, res_vid = st.columns(2)
-
         with res_img:
             st.markdown("##### 📷 PROMPT GAMBAR")
             st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw.\nASPECT RATIO: 9:16 vertical --ar 9:16", language="text")
-            
         with res_vid:
             st.markdown("##### 🎥 PROMPT VIDEO")
             st.code(f"VIDEO: {q_vibe}, {smart_move}, 24fps.\nFORMAT: Vertical 9:16.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: {q_weather}.", language="text")
@@ -1446,6 +1451,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
