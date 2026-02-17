@@ -964,7 +964,43 @@ def tampilkan_kendali_tim():
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
-        # --- 3. RUANG QC ---
+        # --- LOGIKA HITUNG KEUANGAN (DIPINDAHKAN KE ATAS TAMPILAN) ---
+        df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
+        rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
+        rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
+        
+        inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
+        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
+        
+        pay = 0
+        for _, s in df_staff.iterrows():
+            n_up = str(s['NAMA']).upper()
+            ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
+            if ha > 0 or vi > 0:
+                pay += (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + (ha*50000) + (vi*10000))
+
+        # --- TAMPILAN 1: DASHBOARD KEUANGAN (POSISI PALING ATAS) ---
+        st.subheader("💰 LAPORAN KEUANGAN")
+        m1, m2, m3 = st.columns(3)
+        m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
+        m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
+        m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
+
+        # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
+        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=True):
+            with st.form("form_kas", clear_on_submit=True):
+                c_tipe, c_kat, c_nom = st.columns(3)
+                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
+                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
+                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
+                f_ket = st.text_input("Keterangan:")
+                if st.form_submit_button("Simpan Transaksi"):
+                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
+
+        st.divider()
+
+        # --- TAMPILAN 3: RUANG QC ---
         st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
         df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
         
@@ -982,7 +1018,7 @@ def tampilkan_kendali_tim():
         else:
             st.info("Antrean QC kosong. ✨")
 
-        # --- 4. JADWAL PRODUKSI ---
+        # --- TAMPILAN 4: JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI")
         if not df_t_bln.empty:
             for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
@@ -991,47 +1027,14 @@ def tampilkan_kendali_tim():
         else:
             st.caption("Tidak ada jadwal untuk periode ini.")
 
-        # --- 5. HITUNG KEUANGAN ---
-        df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
-        rekap_a = df_a_f['NAMA'].str.upper().value_counts().to_dict() if not df_a_f.empty else {}
-        rekap_f = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
-        
-        inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        
-        pay = 0
-        for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).upper()
-            ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
-            if ha > 0 or vi > 0:
-                pay += (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + (ha*50000) + (vi*10000))
-
-        st.divider()
-        m1, m2, m3 = st.columns(3)
-        m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
-        m2.metric("💸 PENGELUARAN", f"Rp {(pay+ops):,}")
-        m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
-
-        # --- 6. INPUT TRANSAKSI (DITAMBAHKAN KEMBALI) ---
-        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
-            with st.form("form_kas", clear_on_submit=True):
-                c_tipe, c_kat, c_nom = st.columns(3)
-                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
-                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
-                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
-                f_ket = st.text_input("Keterangan:")
-                if st.form_submit_button("Simpan Transaksi"):
-                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
-
-        # --- 7. GRAFIK PRODUKTIVITAS ---
+        # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
         with st.expander("📊 Grafik Produktivitas"):
             if rekap_f:
                 st.bar_chart(pd.Series(rekap_f))
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- 8. SLIP GAJI (RINCIAN DETAIL UTUH) ---
+        # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
         with st.expander("💰 RINCIAN GAJI & SLIP (FULL)", expanded=True):
             ada_kerja = False
             for _, s in df_staff.iterrows():
@@ -1300,6 +1303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
