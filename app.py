@@ -1216,12 +1216,22 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC (VERSI PENYATUAN KARAKTER) ---
+    # --- 3. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
+        
+        # BARIS INI WAJIB ADA SEBELUM LOOP (Pemicu Error tadi)
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
-for scene_id in adegan_terisi:
+        if not adegan_terisi:
+            st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
+        else:
+            import re
+            user_nama = st.session_state.get("user_aktif", "User").capitalize()
+            st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
+
+            # SEKARANG BARU MASUK KE LOOP
+            for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
@@ -1324,5 +1334,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
