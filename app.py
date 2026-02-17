@@ -604,62 +604,98 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT")
-    st.info(f"💡 **INFO :** Data tidak bisa di simpan atau di restore!")
+    st.info(f"💡 **INFO :** Data tidak dapat disimpan atau direstore!")
 
-    # --- 1. INISIALISASI STATE (Agar data terkunci/tidak hilang saat pindah tab) ---
-    list_keys = ["q_name_a", "q_det_a", "q_name_b", "q_det_b", "q_loc", "q_act", "q_ss", "q_ar", "q_vb", "q_wt", "q_dial", "q_spk"]
-    for key in list_keys:
-        if key not in st.session_state:
-            # Sesuaikan default value: multiselect butuh list [], sisanya string ""
-            st.session_state[key] = [] if key == "q_spk" else ""
+    # --- 1. BRANKAS DATA (Inisialisasi agar tidak hilang saat pindah tab) ---
+    # Kita pakai dictionary agar lebih rapi
+    if "qp_data" not in st.session_state:
+        st.session_state.qp_data = {
+            "name_a": "", "det_a": "", 
+            "name_b": "", "det_b": "",
+            "loc": "", "act": "", "ss": "Setengah Badan",
+            "ar": "Sejajar Mata", "vb": "Sinematik Film",
+            "wt": "Cerah Bersih", "dial": "", "spk": []
+        }
 
-    # --- 2. FUNGSI HAPUS PROMPT (Hanya hapus yang spesifik q_) ---
+    # --- 2. FUNGSI HAPUS PROMPT ---
     def hapus_semua():
-        for key in list_keys:
-            if key == "q_spk":
-                st.session_state[key] = []
+        for key in st.session_state.qp_data:
+            if key == "spk":
+                st.session_state.qp_data[key] = []
+            elif key in ["ss", "ar", "vb", "wt"]:
+                # Reset ke default selectbox
+                defaults = {"ss": "Setengah Badan", "ar": "Sejajar Mata", "vb": "Sinematik Film", "wt": "Cerah Bersih"}
+                st.session_state.qp_data[key] = defaults[key]
             else:
-                st.session_state[key] = ""
+                st.session_state.qp_data[key] = ""
         st.toast("Formulir dibersihkan! 🧹")
 
-    # --- 3. FORMULIR ---
+    # --- 3. FORMULIR PROMPT ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
         st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
-            # Gunakan st.session_state[key] sebagai value agar data "nyangkut"
-            q_char_a = st.text_input("Nama Karakter 1", key="q_name_a")
-            q_detail_a = st.text_area("Fisik & Baju (1)", height=80, key="q_det_a")
+            # Gunakan value dari session_state.qp_data
+            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"], key="q_name_a")
+            st.session_state.qp_data["name_a"] = q_char_a # Simpan balik
+            
+            q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80, key="q_det_a")
+            st.session_state.qp_data["det_a"] = q_detail_a
+            
         with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", key="q_name_b")
-            q_detail_b = st.text_area("Fisik & Baju (2)", height=80, key="q_det_b")
+            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"], key="q_name_b")
+            st.session_state.qp_data["name_b"] = q_char_b
+            
+            q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80, key="q_det_b")
+            st.session_state.qp_data["det_b"] = q_detail_b
         
         st.divider() 
 
         st.markdown("#### 🎬 SKENARIO & LOKASI")
-        q_lokasi = st.text_input("📍 Lokasi", key="q_loc")
-        q_aksi = st.text_area("🏃 Apa yang terjadi?", key="q_act")
+        q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
+        st.session_state.qp_data["loc"] = q_lokasi
+        
+        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key="q_act")
+        st.session_state.qp_data["act"] = q_aksi
         
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
+            opts_ss = ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"]
+            idx_ss = opts_ss.index(st.session_state.qp_data["ss"])
+            q_shot = st.selectbox("📸 Shot Size", opts_ss, index=idx_ss, key="q_ss")
+            st.session_state.qp_data["ss"] = q_shot
+            
         with c2:
-            q_arah = st.selectbox("🎥 Arah Kamera", ["Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas", "Dari Bawah"], key="q_ar")
+            opts_ar = ["Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas", "Dari Bawah"]
+            idx_ar = opts_ar.index(st.session_state.qp_data["ar"])
+            q_arah = st.selectbox("🎥 Arah Kamera", opts_ar, index=idx_ar, key="q_ar")
+            st.session_state.qp_data["ar"] = q_arah
+            
         with c3:
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
+            opts_vb = ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"]
+            idx_vb = opts_vb.index(st.session_state.qp_data["vb"])
+            q_vibe = st.selectbox("🎨 Vibe", opts_vb, index=idx_vb, key="q_vb")
+            st.session_state.qp_data["vb"] = q_vibe
+            
         with c4:
-            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"], key="q_wt")
+            opts_wt = ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"]
+            idx_wt = opts_wt.index(st.session_state.qp_data["wt"])
+            q_weather = st.selectbox("☁️ Cuaca", opts_wt, index=idx_wt, key="q_wt")
+            st.session_state.qp_data["wt"] = q_weather
 
         st.divider()
 
         st.markdown("#### 💬 DIALOG")
-        q_dialog = st.text_area("Tulis Percakapan", height=80, key="q_dial")
+        q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80, key="q_dial")
+        st.session_state.qp_data["dial"] = q_dialog
+        
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
-        q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, key="q_spk")
+        q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, default=st.session_state.qp_data["spk"], key="q_spk")
+        st.session_state.qp_data["spk"] = q_speaker
 
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- LOGIKA SMART CAMERA & OUTPUT (SAMA SEPERTI SEBELUMNYA) ---
+    # --- LOGIKA SMART CAMERA & OUTPUT ---
     if q_aksi and q_lokasi:
         aksi_low = q_aksi.lower()
         if len(q_dialog) > 5:
@@ -1451,6 +1487,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
