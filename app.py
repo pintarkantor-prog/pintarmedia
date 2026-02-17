@@ -1086,7 +1086,7 @@ def tampilkan_kendali_tim():
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
 # ==============================================================================
-# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI ULTRA-QUALITY MASTERPIECE)
+# BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI SPACED PROMPT - CLEAN LAYOUT)
 # ==============================================================================
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1100,14 +1100,12 @@ def tampilkan_ruang_produksi():
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
     # --- [SUNTIKAN MASTERPIECE] QUALITY BOOSTER ---
-    # Optimasi Gambar: Fokus pada Deep Focus APERTURE F/16 & CPL Filter
     QB_IMG = (
         "hyper-realistic 8k RAW photo, DEEP FOCUS, APERTURE F/16, infinite depth of field, "
         "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
         "ultra-clear optical clarity, CPL filter, high local contrast, vivid naturalism"
     )
     
-    # Optimasi Video: Fokus pada Cinematic 24fps & Ray-Traced Reflections
     QB_VID = (
         "Unreal Engine 5.4, 24fps cinematic motion, ultra-clear motion, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
@@ -1150,62 +1148,34 @@ def tampilkan_ruang_produksi():
     # 2. GENERASI INPUT ADEGAN
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
-        
         if scene_id not in data["adegan"]:
             data["adegan"][scene_id] = {
-                "aksi": "", 
-                "style": OPTS_STYLE[0], 
-                "light": OPTS_LIGHT[0], 
-                "arah": OPTS_ARAH[0], 
-                "shot": OPTS_SHOT[0], 
-                "ratio": OPTS_RATIO[0],
-                "cam": OPTS_CAM[0],
-                "loc": "", 
-                "dialogs": [""]*4
+                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], "arah": OPTS_ARAH[0], 
+                "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4
             }
 
         with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
             col_text, col_set = st.columns([1.5, 1])
-            
             with col_text:
                 st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=345, key=f"act_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Tulis aksi visual di sini...")
             
             with col_set:
                 sub1, sub2 = st.columns(2)
-                
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    curr_style = data["adegan"][scene_id].get("style", OPTS_STYLE[0])
-                    idx_style = OPTS_STYLE.index(curr_style) if curr_style in OPTS_STYLE else 0
-                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", OPTS_STYLE, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
-                    
+                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", OPTS_STYLE, index=OPTS_STYLE.index(data["adegan"][scene_id]["style"]) if data["adegan"][scene_id]["style"] in OPTS_STYLE else 0, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
                     st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    curr_light = data["adegan"][scene_id].get("light", OPTS_LIGHT[0])
-                    idx_light = OPTS_LIGHT.index(curr_light) if curr_light in OPTS_LIGHT else 0
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=idx_light, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
-                    
+                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=OPTS_LIGHT.index(data["adegan"][scene_id]["light"]) if data["adegan"][scene_id]["light"] in OPTS_LIGHT else 0, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
                     st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                    curr_arah = data["adegan"][scene_id].get("arah", OPTS_ARAH[0])
-                    idx_arah = OPTS_ARAH.index(curr_arah) if curr_arah in OPTS_ARAH else 0
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=idx_arah, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
-
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=OPTS_ARAH.index(data["adegan"][scene_id]["arah"]) if data["adegan"][scene_id]["arah"] in OPTS_ARAH else 0, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    curr_shot = data["adegan"][scene_id].get("shot", OPTS_SHOT[0])
-                    idx_shot = OPTS_SHOT.index(curr_shot) if curr_shot in OPTS_SHOT else 0
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
-                    
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=OPTS_SHOT.index(data["adegan"][scene_id]["shot"]) if data["adegan"][scene_id]["shot"] in OPTS_SHOT else 0, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
                     st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0])
-                    idx_ratio = OPTS_RATIO.index(curr_ratio) if curr_ratio in OPTS_RATIO else 0
-                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
-                    
+                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=OPTS_RATIO.index(data["adegan"][scene_id]["ratio"]) if data["adegan"][scene_id]["ratio"] in OPTS_RATIO else 0, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
                     st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0])
-                    idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_CAM else 0
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
-                
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=OPTS_CAM.index(data["adegan"][scene_id]["cam"]) if data["adegan"][scene_id]["cam"] in OPTS_CAM else 0, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
                 data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
 
@@ -1214,79 +1184,76 @@ def tampilkan_ruang_produksi():
                 with cols_d[i]:
                     char_name = data["karakter"][i]["nama"] if data["karakter"][i]["nama"] else f"Karakter {i+1}"
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
+                    data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Ketik dialog...")
 
-    # --- 3. GLOBAL COMPILER LOGIC (HYBRID HIERARCHY - PHOTO & VIDEO SEPARATION) ---
+    # --- 3. GLOBAL COMPILER LOGIC (HYBRID HIERARCHY DENGAN SPASI) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
-        
         if not adegan_terisi:
             st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI' di adegan manapun.")
         else:
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
             
-            # --- PROSES PENYATUAN DATA KARAKTER (ANTI-MORPHING) ---
+            # --- PENYATUAN DATA KARAKTER ---
             karakter_compiled = []
             for c in data["karakter"]:
                 if c['nama']:
-                    nama_c = c['nama'].strip().replace('"', '').lower()
-                    fisik_c = c['fisik'].strip().replace('"', '')
-                    wear_c = c['wear'].strip().replace('"', '')
-                    
-                    blok = (
-                        f"[[ CHARACTER_{nama_c.upper()}: \"si {nama_c}\" "
-                        f"maintain 100% exact facial features, anatomy, and textures. "
-                        f"{fisik_c}. Memakai {wear_c}. ]]"
-                    )
+                    nama_clean = c['nama'].strip().replace('"', '').lower()
+                    blok = f"[[ CHARACTER_{nama_clean.upper()}: \"si {nama_clean}\" maintain 100% exact facial features, anatomy, and textures. {c['fisik'].strip()}. Memakai {c['wear'].strip()}. ]]"
                     karakter_compiled.append(blok)
-
             char_data_final = " AND ".join(karakter_compiled)
+
             no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
-            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures, NO sudden lighting jumps."
+            negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, NO flickering textures."
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
-                aksi_lower = sc['aksi'].lower()
                 
-                # --- AUTO-MOTION WEIGHT LOGIC ---
-                is_fast_action = any(x in aksi_lower for x in ['lari', 'balap', 'ngebut', 'motor', 'ducati', 'cepat', 'fast', 'chase', 'run'])
-                motion_type = "fast motion with realistic motion blur, dynamic speed" if is_fast_action else "stable fluid movement, smooth flow"
+                # --- LOGIKA DIALOG CERDAS ---
+                dialog_list = []
+                who_is_talking = []
+                for i in range(data["jumlah_karakter"]):
+                    nama_staf = data["karakter"][i]["nama"]
+                    teks_dialog = sc["dialogs"][i].strip()
+                    if nama_staf and teks_dialog:
+                        dialog_list.append(f"{nama_staf.upper()} says: '{teks_dialog}'")
+                        who_is_talking.append(nama_staf.upper())
                 
-                # --- LIP-SYNC & DIALOG LOGIC ---
-                list_dialog = [f"{data['karakter'][i]['nama']} says: '{sc['dialogs'][i].strip()}'" for i in range(len(data['karakter'])) if data['karakter'][i]['nama'] and sc['dialogs'][i].strip()]
-                teks_dialog_gabung = " | ".join(list_dialog)
-                lipsync_instruction = "Mouth speaking with visible phonetic mouth shapes, talking to camera, visible jaw movement" if teks_dialog_gabung else "closed mouth, natural facial rest"
+                teks_dialog_final = " | ".join(dialog_list)
+                
+                if who_is_talking:
+                    lipsync_instr = f"Mouth speaking movement for {', '.join(who_is_talking)}, visible phonetic jaw shapes. Others remain silent."
+                else:
+                    lipsync_instr = "Closed mouth, no speaking, natural facial rest."
 
-                # --- SMART FILTER ENVIRONMENT ---
-                loc_lower = sc['loc'].lower()
-                is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, fabric textures, ray-traced reflections"
+                # --- AUTO-MOTION ---
+                is_fast = any(x in sc['aksi'].lower() for x in ['lari', 'balap', 'ngebut', 'motor', 'cepat'])
+                motion_type = "fast motion with motion blur" if is_fast else "stable cinematic motion"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR (STRICT STILL PHOTOGRAPHY) ---
+                    # --- MANTRA GAMBAR (DENGAN SPASI GANDA) ---
                     img_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Static shot only.\n\n"
                         f"CHARACTER DATA: {char_data_final}\n\n"
-                        f"VISUAL DESCRIPTION: A high-end still photography of {sc['aksi']}. {lipsync_instruction}. Frozen in time, no motion blur.\n\n"
-                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n\n"
-                        f"TECHNICAL: Professional studio photography, {sc['light']}, {sc['style']}, extreme edge-enhancement, every pixel sharp\n\n"
+                        f"VISUAL DESCRIPTION: {sc['aksi']}. {lipsync_instr}. Frozen in time, no motion blur.\n\n"
+                        f"ENVIRONMENT: {sc['loc']}. NO SOFTENING.\n\n"
+                        f"FOCUS RULE: {QB_IMG}\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n\n"
-                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Still Image"
+                        f"FORMAT: Aspect Ratio {sc['ratio']}, RAW Still Image Output"
                     )
                     
-                    # --- MANTRA VIDEO (CINEMATIC DYNAMIC MOTION) ---
+                    # --- MANTRA VIDEO (DENGAN SPASI GANDA) ---
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instruction}. Fluid cinematic motion.\n\n"
+                        f"ACTION & MOTION: {sc['aksi']}. {motion_type}. IMPORTANT: {lipsync_instr}. Fluid 24fps cinematic motion.\n\n"
                         f"CHARACTER CONSISTENCY: {char_data_final}. Maintain 100% facial identity, no face morphing.\n\n"
-                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}.\n\n"
-                        f"ACTING CUE & LIP-SYNC (NO TEXT ON SCREEN): {teks_dialog_gabung}.\n\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}, "
-                        f"{no_text_strict} {negative_motion_strict}\n\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
+                        f"ENVIRONMENT: {sc['loc']}. High-fidelity textures.\n\n"
+                        f"ACTING CUE & LIP-SYNC (NO TEXT ON SCREEN): {teks_dialog_final if teks_dialog_final else 'None'}.\n\n"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, {sc['light']}\n\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n\n"
+                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Render"
                     )
 
                     c_img, c_vid = st.columns(2)
@@ -1296,7 +1263,6 @@ def tampilkan_ruang_produksi():
                     with c_vid:
                         st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
                         st.code(vid_p, language="text")
-                
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
@@ -1322,6 +1288,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
