@@ -938,6 +938,7 @@ def tampilkan_kendali_tim():
         df_absen = pd.DataFrame(sh.worksheet("Absensi").get_all_records())
         df_kas = pd.DataFrame(sh.worksheet("Arus_Kas").get_all_records())
 
+        # Ambil Data Tugas
         data_tugas_raw = ws_tugas.get_all_values()
         if len(data_tugas_raw) > 1:
             header_tugas = [str(h).strip().capitalize() for h in data_tugas_raw[0]]
@@ -946,9 +947,10 @@ def tampilkan_kendali_tim():
                 cols = list(df_tugas.columns)
                 cols[4] = 'Status'
                 df_tugas.columns = cols
+            # FIX: Pastikan konversi tanggal dilakukan di awal
             df_tugas['Deadline_DT'] = pd.to_datetime(df_tugas['Deadline'], dayfirst=True, errors='coerce')
         else:
-            df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status'])
+            df_tugas = pd.DataFrame(columns=['Id', 'Staf', 'Deadline', 'Instruksi', 'Status', 'Deadline_DT'])
 
         # --- NORMALISASI DATA STAFF & JABATAN ---
         df_staff['Nama_Upper'] = df_staff['Nama'].astype(str).str.strip().str.upper()
@@ -979,8 +981,9 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- 4. JADWAL PRODUKSI ---
+        # --- 4. JADWAL PRODUKSI (FILTER BULAN) ---
         st.subheader("📅 JADWAL PRODUKSI BULAN INI")
+        # Inisialisasi df_tugas_bln agar selalu ada meskipun kosong
         df_tugas_bln = df_tugas[(df_tugas['Deadline_DT'].dt.month == bulan_dipilih) & (df_tugas['Deadline_DT'].dt.year == tahun_dipilih)].copy()
         
         if not df_tugas_bln.empty:
@@ -996,6 +999,7 @@ def tampilkan_kendali_tim():
 
         # --- 5. REKAP DATA DINAMIS ---
         rekap_finish = {}
+        df_f = pd.DataFrame() # Inisialisasi df_f
         if not df_tugas_bln.empty:
             df_f = df_tugas_bln[df_tugas_bln['Status'].astype(str).str.upper() == "FINISH"].copy()
             if not df_f.empty:
@@ -1028,18 +1032,18 @@ def tampilkan_kendali_tim():
             total_income = df_k_bln[df_k_bln['Tipe'] == 'PENDAPATAN']['Nominal'].sum()
             total_operasional = df_k_bln[df_k_bln['Tipe'] == 'PENGELUARAN']['Nominal'].sum()
 
-        # --- 7. METRIC UTAMA ---
+        # --- 7. DASHBOARD METRIC ---
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 TOTAL PENDAPATAN", f"Rp {total_income:,}")
         m2.metric("💸 TOTAL PENGELUARAN", f"Rp {(total_payroll_bulanan + total_operasional):,}")
         m3.metric("💎 PENDAPATAN BERSIH", f"Rp {total_income - (total_payroll_bulanan + total_operasional):,}")
 
-        # --- 8. EXPANDER PRODUKTIVITAS (INI YANG TADI SEMPAT TERLEWAT) ---
+        # --- 8. GRAFIK PRODUKTIVITAS ---
         with st.expander(f"📊 Grafik Produktivitas ({pilihan_nama})", expanded=True):
-            if not df_f.empty if 'df_f' in locals() else False:
+            if not df_f.empty:
                 st.bar_chart(rekap_finish)
             else:
-                st.info("Belum ada video FINISH untuk grafik.")
+                st.info("Belum ada video FINISH bulan ini.")
 
         # --- 9. INPUT KAS ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**"):
@@ -1059,7 +1063,7 @@ def tampilkan_kendali_tim():
                 s_up = row['Nama_Upper']
                 jab_final = dict_jabatan.get(s_up, row['Jabatan'])
                 jh = rekap_absen.get(s_up, 0)
-                jv = rekap_finish.get(s_up, 0)
+                jv = rekap_finish.get(st_up, 0)
                 if jh > 0 or jv > 0:
                     total_gaji = int(row['Gaji_Pokok']) + int(row['Tunjangan']) + (jh * 50000) + (jv * 10000)
                     with st.container(border=True):
@@ -1079,8 +1083,6 @@ def tampilkan_kendali_tim():
                                     <table style="width: 100%; font-size: 13px; margin-top: 15px;">
                                         <tr><td>Staf</td><td align="right"><b>{row['Nama']}</b></td></tr>
                                         <tr><td>Jabatan</td><td align="right">{jab_final}</td></tr>
-                                        <tr><td colspan="2"><hr></td></tr>
-                                        <tr><td>Gaji Pokok</td><td align="right">Rp {int(row['Gaji_Pokok']):,}</td></tr>
                                         <tr><td>Bonus</td><td align="right">Rp {(jh*50000 + jv*10000):,}</td></tr>
                                         <tr style="font-weight: bold; color: #1d976c;"><td>TOTAL</td><td align="right">Rp {total_gaji:,}</td></tr>
                                     </table>
@@ -1088,7 +1090,7 @@ def tampilkan_kendali_tim():
                                 st.components.v1.html(slip_html, height=450)
 
     except Exception as e:
-        st.error(f"Error: {e}")
+        st.error(f"Sistem Mendeteksi Error: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MODULAR QUALITY)
@@ -1308,6 +1310,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
