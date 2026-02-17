@@ -1088,8 +1088,6 @@ def tampilkan_kendali_tim():
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI MANDATORY IDENTITY CLONE)
 # ==============================================================================
-import re
-
 def tampilkan_ruang_produksi():
     # --- 1. SETTING WAKTU & DATA ---
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1098,7 +1096,7 @@ def tampilkan_ruang_produksi():
                 "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
-    # --- 2. QUALITY MANTRA (DNA WEB LAMA - ULTRA SHARP) ---
+    # --- 2. MANTRA KUALITAS (TAJAM PORI-PORI) ---
     img_quality_stack = (
         "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
         "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
@@ -1110,7 +1108,10 @@ def tampilkan_ruang_produksi():
         "ray-traced reflections, hyper-detailed textures, zero digital noise, "
         "smooth motion, professional cinematography, masterpiece quality."
     )
-    no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, CLEAN cinematic shot."
+    no_text_strict = (
+        "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, "
+        "NO captions, NO speech bubbles, CLEAN cinematic shot."
+    )
 
     # --- 3. UI HEADER ---
     c1, c_kosong, c2 = st.columns([2, 0.5, 1.5]) 
@@ -1122,17 +1123,16 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # --- 4. IDENTITY LOCK (DIBERSIHKAN: FOKUS NAMA & BAJU) ---
-    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter Utama", expanded=True):
+    # --- 4. IDENTITY LOCK (FOKUS FOTO & BAJU) ---
+    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
         data["jumlah_karakter"] = st.number_input("Total Karakter", 1, 4, data["jumlah_karakter"], key=f"nc_{ver}")
         cols_char = st.columns(data["jumlah_karakter"])
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"##### 👤 Karakter {i+1}")
                 data["karakter"][i]["nama"] = st.text_input(f"N{i}", value=data["karakter"][i]["nama"], key=f"cn_{i}_{ver}", label_visibility="collapsed", placeholder="Nama...")
-                data["karakter"][i]["wear"] = st.text_input(f"W{i}", value=data["karakter"][i]["wear"], key=f"cw_{i}_{ver}", label_visibility="collapsed", placeholder="Pakaian (Warna & Jenis)...")
-                # Fisik tetap ada tapi opsional, AI akan lebih fokus ke foto
-                data["karakter"][i]["fisik"] = st.text_area(f"F{i}", value=data["karakter"][i]["fisik"], key=f"cf_{i}_{ver}", height=80, label_visibility="collapsed", placeholder="Ciri fisik tambahan (opsional)...")
+                data["karakter"][i]["wear"] = st.text_input(f"W{i}", value=data["karakter"][i]["wear"], key=f"cw_{i}_{ver}", label_visibility="collapsed", placeholder="Baju...")
+                data["karakter"][i]["fisik"] = st.text_area(f"F{i}", value=data["karakter"][i]["fisik"], key=f"cf_{i}_{ver}", height=80, label_visibility="collapsed", placeholder="Fisik (Opsional)...")
 
     # --- 5. INPUT ADEGAN ---
     for s in range(data["jumlah_adegan"]):
@@ -1144,25 +1144,25 @@ def tampilkan_ruang_produksi():
             col_v, col_ctrl = st.columns([6, 4])
             with col_v:
                 st.markdown('<p class="small-label">📸 VISUAL AKSI (CERITA)</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Act_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=265, key=f"vact_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Contoh: Udin sedang duduk sambil minum kopi...")
+                data["adegan"][scene_id]["aksi"] = st.text_area(f"Act_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=265, key=f"vact_{scene_id}_{ver}", label_visibility="collapsed")
             
             with col_ctrl:
                 r1 = st.columns(2)
                 with r1[0]:
                     st.markdown('<p class="small-label">💡 SUASANA</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=OPTS_LIGHT.index(data["adegan"][scene_id]["light"]) if data["adegan"][scene_id]["light"] in OPTS_LIGHT else 0, key=f"ls_{scene_id}_{ver}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, key=f"ls_{scene_id}_{ver}", label_visibility="collapsed")
                 with r1[1]:
                     st.markdown('<p class="small-label">📐 UKURAN</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"S_{scene_id}", OPTS_SHOT, index=OPTS_SHOT.index(data["adegan"][scene_id]["shot"]) if data["adegan"][scene_id]["shot"] in OPTS_SHOT else 0, key=f"ss_{scene_id}_{ver}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["shot"] = st.selectbox(f"S_{scene_id}", OPTS_SHOT, key=f"ss_{scene_id}_{ver}", label_visibility="collapsed")
                 r2 = st.columns(2)
                 with r2[0]:
                     st.markdown('<p class="small-label">✨ ARAH</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=OPTS_ARAH.index(data["adegan"][scene_id]["arah"]) if data["adegan"][scene_id]["arah"] in OPTS_ARAH else 0, key=f"as_{scene_id}_{ver}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, key=f"as_{scene_id}_{ver}", label_visibility="collapsed")
                 with r2[1]:
                     st.markdown('<p class="small-label">🎬 GERAK</p>', unsafe_allow_html=True)
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=OPTS_CAM.index(data["adegan"][scene_id]["cam"]) if data["adegan"][scene_id]["cam"] in OPTS_CAM else 0, key=f"cs_{scene_id}_{ver}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, key=f"cs_{scene_id}_{ver}", label_visibility="collapsed")
                 st.markdown('<p class="small-label" style="margin-top:10px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"li_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Ketik lokasi...")
+                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"li_{scene_id}_{ver}", label_visibility="collapsed")
 
             cols_d = st.columns(data["jumlah_karakter"])
             for i in range(data["jumlah_karakter"]):
@@ -1171,18 +1171,18 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_n}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"di_{scene_id}_{i}_{ver}", label_visibility="collapsed")
 
-    # --- 6. GLOBAL GENERATOR (MANDATORY CLONE LOGIC) ---
+    # --- 6. GENERATOR (THE ULTIMATE LENGKAP) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         if adegan_terisi:
             st.markdown(f"## 🎬 Hasil Prompt: {user_aktif.capitalize()} ❤️")
             
-            # MAP DNA LAMA
-            map_shot = {"Dekat Wajah": "Close-Up shot", "Setengah Badan": "Medium Shot", "Seluruh Badan": "Full body shot", "Drone Shot": "Aerial Drone View", "Pemandangan Luas": "Wide landscape shot"}
-            map_arah = {"Normal": "eye-level shot", "Sudut Tinggi": "high angle shot", "Samping": "side profile view", "Berhadapan": "face-to-face view"}
-            map_cam = {"Static": "Static camera", "Zoom In": "Slow zoom-in", "Tracking": "Dynamic tracking shot"}
-            map_light = {"Golden Hour": "Warm golden hour sunlight", "Studio": "Professional studio lighting", "Natural": "Natural daylight", "Cinematic Neon": "Stylized cinematic neon lighting"}
+            # KAMUS PENERJEMAH TEKNIS (DNA LAMA)
+            map_shot = {"Dekat Wajah": "Close-Up shot, focus on facial expressions", "Setengah Badan": "Medium Shot, waist-up framing", "Seluruh Badan": "Full body shot, head-to-toe", "Drone Shot": "Aerial Drone View", "Pemandangan Luas": "Wide landscape shot, expansive scenery"}
+            map_arah = {"Normal": "eye-level shot", "Sudut Tinggi": "high angle shot", "Samping": "side profile view, 90-degree side", "Berhadapan": "face-to-face view, symmetrical"}
+            map_cam = {"Static": "Static camera", "Zoom In": "Slow zoom-in", "Tracking": "Dynamic tracking shot following the subject"}
+            map_light = {"Golden Hour": "Warm golden hour sunlight, 4 PM", "Studio": "Professional studio lighting", "Natural": "Natural daylight", "Cinematic Neon": "Stylized cinematic neon lighting"}
 
             for scene_id in adegan_terisi:
                 sc = data["adegan"][scene_id]
@@ -1192,30 +1192,20 @@ def tampilkan_ruang_produksi():
                 mentioned_chars = []
                 for c in data["karakter"]:
                     if c["nama"] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        # Perintah: Pakai baju ini, tapi wajah harus 100% dari foto
-                        desc_sakti = f"STRICTLY WEARING {c['wear'].upper()}, preserve 100% facial features from photo."
+                        desc_sakti = f"STRICTLY WEARING {c['wear'].upper()}, maintain 100% face identity"
                         mentioned_chars.append({"name": c["nama"].upper(), "desc": desc_sakti})
 
                 if len(mentioned_chars) == 1:
                     target = mentioned_chars[0]['name']
-                    char_info = f"[[ CHARACTER_ID_{target}: {mentioned_chars[0]['desc']} ]]"
-                    instr_header = (
-                        f"MANDATORY: Use the uploaded reference photo for {target}. "
-                        f"Maintain 100% exact facial identity and structure. Zero improvisation. "
-                        f"STRICT LIMIT: ONLY feature {target}. NO other characters."
-                    )
+                    char_info = f"[[ CHARACTER_{target}: {mentioned_chars[0]['desc']} ]]"
+                    instr_header = f"MANDATORY: Clone 100% of facial features from the uploaded photo for {target}. ZERO improvisation. NO other people."
                 elif len(mentioned_chars) > 1:
-                    char_info = " AND ".join([f"[[ CHARACTER_ID_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
-                    instr_header = (
-                        "MANDATORY: Preserve 100% exact facial identity from each reference photo. "
-                        "Do not change faces. Interaction required between these specific characters."
-                    )
+                    char_info = " AND ".join([f"[[ CHARACTER_{m['name']}: {m['desc']} ]]" for m in mentioned_chars])
+                    instr_header = "MANDATORY: Interaction required. Preservation of 100% facial identity for each character from uploaded photos."
                 else:
-                    # Fallback
                     c1 = data["karakter"][0]
-                    target_n = c1['nama'].upper() if c1['nama'] else "MAIN"
-                    char_info = f"[[ CHARACTER_ID_{target_n}: STRICTLY WEARING {c1['wear'].upper()} ]]"
-                    instr_header = "MANDATORY: Clone 100% of the face and body from the uploaded reference photo."
+                    char_info = f"[[ CHARACTER_MAIN: STRICTLY WEARING {c1['wear'].upper()} ]]"
+                    instr_header = "MANDATORY: Use the uploaded photo as an exact blueprint for the face."
 
                 # Lipsync & Terjemahan Mantra
                 who_talk = [m['name'] for m in mentioned_chars if any(sc["dialogs"][i].strip() for i, c in enumerate(data["karakter"]) if c['nama'].upper() == m['name'])]
@@ -1225,11 +1215,11 @@ def tampilkan_ruang_produksi():
                 e_shot, e_arah, e_cam, e_light = map_shot.get(sc["shot"], sc["shot"]), map_arah.get(sc["arah"], sc["arah"]), map_cam.get(sc["cam"], sc["cam"]), map_light.get(sc["light"], sc["light"])
 
                 with st.expander(f"💎 RESULT ADEGAN {scene_id}", expanded=True):
-                    img_p = (f"{instr_header}\n\nCHARACTER DATA: {char_info}\n\nVISUAL: {sc['aksi']}. {lipsync}.\n\nENVIRONMENT: {sc['loc']}. Lighting: {e_light}.\n\n"
-                             f"CAMERA: {e_shot}, {e_arah}, {img_quality_stack}\n\nNEGATIVE: {no_text_strict}\n\nFORMAT: 8k RAW Still")
+                    img_p = (f"{instr_header}\n\nCHARACTER DATA: {char_info}\n\nVISUAL ACTION: {sc['aksi']}. {lipsync}.\n\nENVIRONMENT: {sc['loc']}. Lighting: {e_light}.\n\n"
+                             f"CAMERA: {e_shot}, {e_arah}, {img_quality_stack}\n\nNEGATIVE: {no_text_strict}\n\nFORMAT: 8k RAW Still Image")
                     
                     vid_p = (f"{instr_header}\n\nMOTION: {sc['aksi']}. {e_cam}. {lipsync}. Fluid cinematic motion.\n\n"
-                             f"TEXTURE PROTECTION: Keep character organic textures (No human skin). NO morphing.\n\n"
+                             f"TEXTURE PROTECTION: Keep character organic textures. NO human skin. NO morphing faces.\n\n"
                              f"CHARACTER: {char_info}.\n\nTECHNICAL: {vid_quality_stack}, {sc['style']}, {e_light}.\n\nACTING CUE: {diag_txt if diag_txt else 'None'}")
                     
                     ci, cv = st.columns(2)
@@ -1260,6 +1250,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
