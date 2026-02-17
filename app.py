@@ -604,9 +604,16 @@ Aturan Main:
                 
 def tampilkan_quick_prompt():
     st.title("⚡ QUICK PROMPT (OPTIMIZED)")
-    st.caption("Isi detail adegan di bawah ini untuk merakit mantra Grok secara instan.")
+    st.caption("Isi detail adegan di bawah ini. *INFO :*Data disini, tidak bisa di simpan / restore!")
 
-    # --- SATU EXPANDER UTAMA UNTUK SEMUA INPUT ---
+    # --- FUNGSI HAPUS PROMPT ---
+    def hapus_semua():
+        for key in st.session_state.keys():
+            if key.startswith("q_"):
+                st.session_state[key] = "" if "name" in key or "det" in key or "loc" in key or "act" in key or "dial" in key else None
+        st.toast("Formulir berhasil dibersihkan! 🧹")
+
+    # --- SATU EXPANDER UTAMA ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
         
         # 1. IDENTITAS
@@ -626,16 +633,13 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", placeholder="Contoh: Di hutan pinus saat senja", key="q_loc")
         q_aksi = st.text_area("🏃 Apa yang sedang terjadi?", placeholder="Contoh: Sedang mencari jalan keluar...", key="q_act")
         
-        c1, c2, c3, c4 = st.columns(4) # Tambah 1 kolom untuk Arah Kamera
+        c1, c2, c3 = st.columns(3)
         with c1:
-            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)"], key="q_ss")
+            q_shot = st.selectbox("📸 Shot Size", ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"], key="q_ss")
         with c2:
-            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam"], key="q_vb")
+            q_vibe = st.selectbox("🎨 Vibe", ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"], key="q_vb")
         with c3:
-            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Sangat Gelap"], key="q_wt")
-        with c4:
-            # FITUR BARU: Arah Kamera dengan pilihan Otomatis
-            q_arah = st.selectbox("🎥 Arah Kamera", ["Otomatis", "Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas"], key="q_ar")
+            q_weather = st.selectbox("☁️ Cuaca", ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"], key="q_wt")
 
         st.divider()
 
@@ -646,16 +650,18 @@ def tampilkan_quick_prompt():
         opsi_nama = [n for n in [q_char_a, q_char_b] if n]
         q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, key="q_spk")
 
-    # --- LOGIKA OTOMATIS (ARAH KAMERA & MOOD) ---
-    if q_aksi and q_lokasi:
-        # Arah Kamera Otomatis: Jika 2 karakter diisi, set ke Berhadapan. Jika 1, set Sejajar Mata.
-        if q_char_a and q_char_b:
-            arah_auto = "Berhadapan (Facing each other, profile view)"
-        else:
-            arah_auto = "Sejajar Mata (Eye level, direct cinematic shot)"
+        # TOMBOL HAPUS
+        st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-        # Mood/Weather Logic
-        mood_q = "bright, sharp focus, clear visibility" if "Cerah" in q_weather else f"{q_weather}, atmospheric moody depth"
+    # --- LOGIKA OTOMATISASI GERAK KAMERA (FOLLOW CAM) ---
+    if q_aksi and q_lokasi:
+        # Otomatisasi: Kamera selalu mengikuti pergerakan karakter utama
+        if q_char_a:
+            follow_logic = f"Camera movement follows {q_char_a}'s actions, smooth tracking shot."
+        else:
+            follow_logic = "Cinematic slow pan tracking the subject."
+
+        mood_q = "bright, sharp focus" if "Cerah" in q_weather else f"{q_weather}, atmospheric depth"
         
         st.divider()
         st.subheader("🚀 Hasil Optimasi Grok")
@@ -666,31 +672,14 @@ def tampilkan_quick_prompt():
         tab_img, tab_vid = st.tabs(["📷 PROMPT GAMBAR", "🎥 PROMPT VIDEO"])
 
         with tab_img:
-            grok_img = (
-                f"STYLE: {q_vibe}.\n"
-                f"COMPOSITION: {q_shot}, {arah_auto}.\n"
-                f"DNA IDENTITY:\n{dna_combined}\n\n"
-                f"ACTION: {q_aksi} at {q_lokasi}.\n"
-                f"ENVIRONMENT: {mood_q}.\n"
-                f"QUALITY: 8k raw, ultra-sharp, professional lighting.\n"
-                f"NEGATIVE: text, watermark, blur, lowres, distorted."
-            )
-            st.code(grok_img, language="text")
+            # Di gambar, "Follow Cam" diterjemahkan sebagai Dynamic Action Shot
+            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, dynamic cinematic angle.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw, ultra-sharp.\nNEGATIVE: text, blur, lowres.", language="text")
             
         with tab_vid:
-            grok_vid = (
-                f"VIDEO: {q_vibe}, cinematic movement, 24fps.\n"
-                f"DNA IDENTITY:\n{dna_combined}\n\n"
-                f"SCENE: {q_aksi} at {q_lokasi} with {arah_auto}.\n"
-                f"SPEAKER: {speaker_str}\n"
-                f"AUDIO_SCRIPT: \"{q_dialog}\"\n"
-                f"LIP-SYNC: Match mouth movement for {speaker_str}.\n"
-                f"PHYSICS: {q_weather} effects, realistic material physics.\n"
-                f"NEGATIVE: static, morphing, melting, blurry, messy background."
-            )
-            st.code(grok_vid, language="text")
+            # Di video, instruksi Follow-Cam sangat eksplisit
+            st.code(f"VIDEO: {q_vibe}, {follow_logic}, 24fps.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi}.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement for {speaker_str}.\nPHYSICS: {q_weather}, realistic textures.\nNEGATIVE: static, morphing, melting, blurry.", language="text")
         
-        st.success(f"Prompt Berhasil! Kamera otomatis diset ke: {arah_auto}")
+        st.success("Prompt Siap! Silahkan langsung copy ke GROK/ Gemini/ Flow!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1455,6 +1444,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
