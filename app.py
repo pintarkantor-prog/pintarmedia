@@ -1216,9 +1216,14 @@ def tampilkan_ruang_produksi():
                     st.markdown(f'<p class="small-label">Dialog {char_name}</p>', unsafe_allow_html=True)
                     data["adegan"][scene_id]["dialogs"][i] = st.text_input(f"D_{scene_id}_{i}", value=data["adegan"][scene_id]["dialogs"][i], key=f"d_{scene_id}_{i}_{ver}", label_visibility="collapsed", placeholder="Dialog...")
 
-    # --- 4. GLOBAL COMPILER LOGIC (PENERAPAN SS LOGIC) ---
+# --- 3. GLOBAL COMPILER LOGIC (SAMAKAN PERSIS DENGAN SS LOGIC) ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
+        import re
+        # Definisi variabel pencegah NameError
+        no_text_strict = "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars, CLEAN cinematic shot."
+        negative_motion_strict = "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO sudden lighting jumps."
+        
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         
         if not adegan_terisi:
@@ -1231,7 +1236,7 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER
+                # 1. SCAN KARAKTER (LOGIKA DETEKTIF)
                 mentioned_chars = []
                 for i in range(data["jumlah_karakter"]):
                     c = data["karakter"][i]
@@ -1243,7 +1248,7 @@ def tampilkan_ruang_produksi():
                             "wear": c['wear']
                         })
 
-                # B. PENENTU HEADER DINAMIS (LOGIKA SS)
+                # 2. PENENTU HEADER DINAMIS (LOGIKA SS)
                 if len(mentioned_chars) > 1:
                     header_rule = "IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required."
                     char_data_final = " AND ".join([f"[[ CHARACTER_{m['nama']}: REFER TO PHOTO #{m['id']}, {m['fisik']}. Memakai {m['wear']}. ]]" for m in mentioned_chars])
@@ -1257,44 +1262,35 @@ def tampilkan_ruang_produksi():
                     c1 = data["karakter"][0]
                     char_data_final = f"[[ CHARACTER_MAIN: {c1['fisik']}. Memakai {c1['wear']}. ]]"
 
-                # C. SMART FILTER LOKASI
+                # 3. FILTER LOKASI
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                tech_base = "extreme edge-enhancement, every pixel is sharp, deep color saturation"
-                bumbu_final = "hyper-detailed grit, leaf veins, micro-texture" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
+                bumbu_final = "hyper-detailed grit, leaf veins" if is_outdoor else "hyper-detailed wood grain, ray-traced reflections"
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- MANTRA GAMBAR ---
+                    # --- HASIL GAMBAR ---
                     img_p = (
                         f"{header_rule}\n\n"
                         f"STRICT VISUAL RULE: {no_text_strict}\n"
-                        f"FOCUS RULE: INFINITE DEPTH OF FIELD, EVERYTHING MUST BE ULTRA-SHARP FROM FOREGROUND TO BACKGROUND.\n"
                         f"CHARACTER DATA: {char_data_final}\n"
-                        f"VISUAL ACTION: {sc['aksi']}. Natural cinematic facial expression.\n"
-                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, full profile perspective, {QB_IMG}\n"
-                        f"TECHNICAL: {sc['style']}, {sc['light']}, {tech_base}, {QB_IMG}\n"
-                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD Photorealistic RAW Output"
+                        f"VISUAL ACTION: {sc['aksi']}\n"
+                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}.\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, {QB_IMG}"
                     )
                     
-                    # --- MANTRA VIDEO ---
+                    # --- HASIL VIDEO ---
                     vid_p = (
                         f"RULE: {header_rule}\n\n"
-                        f"SCENE: {sc['aksi']} at {sc['loc']}. {bumbu_final}.\n"
+                        f"SCENE: {sc['aksi']} at {sc['loc']}\n"
                         f"CHARACTER DATA: {char_data_final}\n"
-                        f"ACTION & MOTION: Character must move naturally with fluid cinematic motion, no robotic movement.\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}, cinematic character-tracking\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD Cinematic Render"
+                        f"TECHNICAL: {QB_VID}, {sc['style']}, {sc['shot']}, {sc['cam']}\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}"
                     )
 
                     c_img, c_vid = st.columns(2)
-                    with c_img:
-                        st.markdown('<p class="small-label">📷 PROMPT GAMBAR</p>', unsafe_allow_html=True)
-                        st.code(img_p, language="text")
-                    with c_vid:
-                        st.markdown('<p class="small-label">🎥 PROMPT VIDEO</p>', unsafe_allow_html=True)
-                        st.code(vid_p, language="text")
+                    with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
+                    with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1321,6 +1317,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
