@@ -1223,9 +1223,7 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-# --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR) ---
-    st.divider()
-    
+    # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             # 1. AMBIL DATA
@@ -1243,7 +1241,7 @@ def tampilkan_kendali_tim():
                     f_ai = c1.text_input("Nama AI")
                     f_mail = c2.text_input("Email")
                     f_pass = c1.text_input("Password")
-                    f_exp = c2.date_input("Expired Date")
+                    f_exp = c2.date_input("Tanggal Expired")
                     if st.form_submit_button("Simpan Ke Cloud"):
                         ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
                         st.success("Data Tersimpan!")
@@ -1261,7 +1259,6 @@ def tampilkan_kendali_tim():
                 for _, row in df_tampil.iterrows():
                     sisa = (row['EXPIRED'] - hari_ini).days
                     
-                    # Logika Label Status (Default Streamlit)
                     if sisa > 7:
                         label = "🟢 Aman"
                     elif 0 <= sisa <= 3:
@@ -1271,15 +1268,15 @@ def tampilkan_kendali_tim():
                     else:
                         label = "⚪ Standby"
 
-                    # Box Tiap Akun - PASSWORD SEJAJAR TANPA TOMBOL COPY
+                    # Box Tiap Akun - SEMUA SEJAJAR
                     with st.container(border=True):
-                        col1, col2 = st.columns([3, 1])
+                        col1, col2 = st.columns([2.5, 1.5])
                         with col1:
-                            # Password diletakkan sejajar setelah Email
+                            # Sisi Kiri: Nama AI, Email, dan Password sejajar
                             st.write(f"**{row['AI']}** — `{row['EMAIL']}` | Pass: `{row['PASSWORD']}`")
                         with col2:
-                            st.write(f"**{label}**")
-                            st.caption(f"Sampai: {row['EXPIRED'].strftime('%d %b %Y')}")
+                            # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
+                            st.write(f"**{label}** | {row['EXPIRED'].strftime('%d %b %Y')}")
             else:
                 st.caption("Belum ada data akun.")
 
@@ -1652,6 +1649,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
