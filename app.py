@@ -1223,14 +1223,14 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-    # --- TAMPILAN 7: DATABASE AKUN AI (ULTRA RINGKAS) ---    
+    # --- TAMPILAN 7: DATABASE AKUN AI (SEJAJAR & RINGKAS) ---    
     with st.expander("🔑 DATABASE AKUN AI", expanded=False):
         try:
             ws_akun = sh.worksheet("Akun_AI")
             data_akun_raw = ws_akun.get_all_records()
             df_ai = pd.DataFrame(data_akun_raw)
             
-            # Form Input Ringkas
+            # Popover untuk input biar tidak makan tempat
             with st.popover("➕ Tambah Akun"):
                 with st.form("form_ai_simple", clear_on_submit=True):
                     f_ai = st.text_input("Nama AI")
@@ -1246,26 +1246,36 @@ def tampilkan_kendali_tim():
             if not df_ai.empty:
                 df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
                 hari_ini = sekarang.date()
-                # Logika otomatis hilang H+1
+                # Logika H+1 otomatis hilang
                 df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
 
                 for _, row in df_tampil.iterrows():
                     sisa = (row['EXPIRED'] - hari_ini).days
                     
-                    # Indikator Status
-                    if sisa > 7: status = "🟢"
-                    elif 0 <= sisa <= 3: status = "🟠"
-                    elif sisa < 0: status = "🔴"
-                    else: status = "⚪"
+                    # Warna indikator
+                    if sisa > 7: st_color = "🟢"
+                    elif 0 <= sisa <= 3: st_color = "🟠"
+                    elif sisa < 0: st_color = "🔴"
+                    else: st_color = "⚪"
 
-                    # Baris Ringkas: NAMA AI - EMAIL + PASSWORD
+                    # Layout Sejajar
                     with st.container(border=True):
-                        col1, col2 = st.columns([3, 1.2])
-                        with col1:
-                            st.markdown(f"{status} **{row['AI'].upper()}** — `{row['EMAIL']}`")
+                        # Membagi kolom agar Email & Pass sejajar
+                        c1, c2, c3, c4 = st.columns([1.5, 3.5, 2.5, 1.5])
+                        
+                        with c1:
+                            st.markdown(f"{st_color} **{row['AI'].upper()}**")
+                        
+                        with c2:
+                            st.caption(f"📧 {row['EMAIL']}")
+                        
+                        with c3:
+                            # Password diletakkan di samping email dengan format code agar bisa dicopy
                             st.code(row['PASSWORD'], language="text")
-                        with col2:
-                            st.markdown(f"**Exp:** {row['EXPIRED'].strftime('%d/%m/%y')}")
+                            
+                        with c4:
+                            # Tanggal expired di pojok kanan
+                            st.markdown(f"**{row['EXPIRED'].strftime('%d/%m/%y')}**")
             else:
                 st.caption("Database kosong.")
 
@@ -1638,6 +1648,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
