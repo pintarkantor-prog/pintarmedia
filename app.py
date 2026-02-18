@@ -1166,15 +1166,28 @@ def tampilkan_kendali_tim():
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
                 ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
+                
                 if ha > 0 or vi > 0:
                     ada_kerja = True
-                    b_ha, b_vi = ha*50000, vi*10000
+                    # Hitung dulu di luar buat tampilan list
+                    b_ha, b_vi = ha * 50000, vi * 10000
                     tg = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
+                    
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
                         c1.write(f"👤 **{s['NAMA']}**"); c1.caption(f"💼 {s['JABATAN']}")
                         c2.write(f"📅 {ha} Hadir"); c3.write(f"🎬 {vi} Video")
+                        
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
+                            # --- WAJIB DEFINISIKAN VARIABLE SEBELUM MASUK HTML ---
+                            s_asli = n_up
+                            jabatan = str(s['JABATAN'])
+                            v_gapok = int(s['GAJI_POKOK'])
+                            v_tunjangan = int(s['TUNJANGAN'])
+                            v_bonus_hadir = ha * 50000
+                            v_bonus_video = vi * 10000
+                            v_total = v_gapok + v_tunjangan + v_bonus_hadir + v_bonus_video
+                            
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1188,13 +1201,13 @@ def tampilkan_kendali_tim():
                                     <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {int(gapok):,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {int(tunjangan):,}</td></tr>
-                                    <tr><td>Bonus Hadir ({jml_hadir}x)</td><td align="right">Rp {bonus_hadir:,}</td></tr>
-                                    <tr><td>Bonus Video ({jml_video}x)</td><td align="right">Rp {bonus_video:,}</td></tr>
+                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td>Bonus Hadir ({ha}x)</td><td align="right">Rp {v_bonus_hadir:,}</td></tr>
+                                    <tr><td>Bonus Video ({vi}x)</td><td align="right">Rp {v_bonus_video:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TERIMA</td><td align="right">Rp {total_terima:,}</td></tr>
+                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
@@ -1207,7 +1220,6 @@ def tampilkan_kendali_tim():
             
             if not ada_kerja:
                 st.info("Tidak ada aktivitas staf yang tercatat untuk periode ini.")
-
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
@@ -1577,4 +1589,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
