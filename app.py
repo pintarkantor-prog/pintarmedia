@@ -1447,46 +1447,59 @@ def tampilkan_ruang_produksi():
                 )
             
             with col_set:
-                # BARIS 1: STYLE & SHOT (Karakteristik Visual)
+                # --- LOGIKA PENGAMAN INDEX (Mencegah ValueError) ---
+                def get_index(option_list, current_val):
+                    try:
+                        return option_list.index(current_val)
+                    except ValueError:
+                        return 0 # Kembali ke pilihan pertama jika data lama tidak cocok
+
+                # BARIS 1: STYLE & SHOT
                 sub1, sub2 = st.columns(2)
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
+                    curr_s = data["adegan"][scene_id].get("style", OPTS_STYLE[0])
                     data["adegan"][scene_id]["style"] = st.selectbox(
                         f"S_{scene_id}", OPTS_STYLE, 
-                        index=OPTS_STYLE.index(data["adegan"][scene_id].get("style", OPTS_STYLE[0])), 
+                        index=get_index(OPTS_STYLE, curr_s), 
                         key=f"mood_{scene_id}_{ver}", label_visibility="collapsed"
                     )
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
+                    curr_sh = data["adegan"][scene_id].get("shot", OPTS_SHOT[0])
                     data["adegan"][scene_id]["shot"] = st.selectbox(
                         f"Sh_{scene_id}", OPTS_SHOT, 
-                        index=OPTS_SHOT.index(data["adegan"][scene_id].get("shot", OPTS_SHOT[0])), 
+                        index=get_index(OPTS_SHOT, curr_sh), 
                         key=f"shot_{scene_id}_{ver}", label_visibility="collapsed"
                     )
 
-                # BARIS 2: LIGHTING & ARAH KAMERA (Setting Teknis)
+                # BARIS 2: LIGHTING & ARAH KAMERA
                 sub3, sub4 = st.columns(2)
                 with sub3:
                     st.markdown('<p class="small-label">💡 LIGHTING & ATMOSPHERE</p>', unsafe_allow_html=True)
+                    curr_l = data["adegan"][scene_id].get("light", OPTS_LIGHT[0])
                     data["adegan"][scene_id]["light"] = st.selectbox(
                         f"L_{scene_id}", OPTS_LIGHT, 
-                        index=OPTS_LIGHT.index(data["adegan"][scene_id].get("light", OPTS_LIGHT[0])), 
+                        index=get_index(OPTS_LIGHT, curr_l), 
                         key=f"light_{scene_id}_{ver}", label_visibility="collapsed"
                     )
                 with sub4:
                     st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+                    curr_a = data["adegan"][scene_id].get("arah", OPTS_ARAH[0])
                     data["adegan"][scene_id]["arah"] = st.selectbox(
                         f"A_{scene_id}", OPTS_ARAH, 
-                        index=OPTS_ARAH.index(data["adegan"][scene_id].get("arah", OPTS_ARAH[0])), 
+                        index=get_index(OPTS_ARAH, curr_a), 
                         key=f"arah_{scene_id}_{ver}", label_visibility="collapsed"
                     )
 
+                # BARIS 3: GERAKAN & LOKASI
                 sub5, sub6 = st.columns([1, 1.5])
                 with sub5:
                     st.markdown('<p class="small-label">🎥 GERAKAN</p>', unsafe_allow_html=True)
+                    curr_c = data["adegan"][scene_id].get("cam", OPTS_CAM[0])
                     data["adegan"][scene_id]["cam"] = st.selectbox(
                         f"C_{scene_id}", OPTS_CAM, 
-                        index=OPTS_CAM.index(data["adegan"][scene_id].get("cam", OPTS_CAM[0])), 
+                        index=get_index(OPTS_CAM, curr_c), 
                         key=f"cam_{scene_id}_{ver}", label_visibility="collapsed"
                     )
                 with sub6:
@@ -1604,5 +1617,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
