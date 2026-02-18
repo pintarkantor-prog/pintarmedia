@@ -1223,6 +1223,73 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
+    # --- TAMPILAN 7: PENGELOLA AKUN AI (AUTO-DELETE & INDICATOR) ---
+    st.divider()
+    st.subheader("🔑 PUSAT DATA AKUN AI")
+    
+    try:
+        # 1. KONEKSI KE GSHEET (Sheet: Akun_AI)
+        # Pastikan di Google Sheet kamu sudah buat tab baru bernama "Akun_AI" 
+        # dengan header: AI, Email, Password, Expired
+        ws_akun = sh.worksheet("Akun_AI")
+        data_akun_raw = ws_akun.get_all_records()
+        df_ai = pd.DataFrame(data_akun_raw)
+        
+        # 2. FORM INPUT AKUN BARU
+        with st.expander("➕ INPUT AKUN BARU"):
+            with st.form("form_akun_baru", clear_on_submit=True):
+                c1, c2 = st.columns(2)
+                f_ai = c1.text_input("Nama AI (Grok/Gemini/dll):")
+                f_mail = c2.text_input("Email/Username:")
+                f_pass = c1.text_input("Password:")
+                f_exp = c2.date_input("Tanggal Expired:", value=sekarang.date() + timedelta(days=30))
+                
+                if st.form_submit_button("Simpan Akun ke Cloud"):
+                    if f_ai and f_mail:
+                        ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
+                        st.success("Akun tersimpan!"); time.sleep(1); st.rerun()
+
+        # 3. TAMPILAN DAFTAR AKUN (LOGIKA OTOMATIS)
+        if not df_ai.empty:
+            # Konversi tanggal agar bisa dihitung
+            df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
+            hari_ini = sekarang.date()
+            
+            # --- LOGIKA: H+1 SETELAH EXPIRED OTOMATIS HILANG ---
+            df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
+            
+            for _, row in df_tampil.iterrows():
+                sisa_hari = (row['EXPIRED'] - hari_ini).days
+                
+                # Penentuan Indikator (Sesuai Permintaanmu)
+                if sisa_hari > 7:
+                    c_bg, c_txt, status = "#d4edda", "#155724", "🟢 AMAN"
+                elif 0 <= sisa_hari <= 3:
+                    c_bg, c_txt, status = "#fff3cd", "#856404", "🟠 MENDEKATI EXPIRED"
+                elif sisa_hari < 0:
+                    c_bg, c_txt, status = "#f8d7da", "#721c24", "🔴 EXPIRED (H-1)"
+                else:
+                    c_bg, c_txt, status = "#e2e3e5", "#383d41", "⚪ STANDBY"
+
+                with st.container(border=True):
+                    col_info, col_stat = st.columns([3, 1.2])
+                    with col_info:
+                        st.markdown(f"### {row['AI']}")
+                        st.markdown(f"📧 `{row['EMAIL']}` | 🔑 `{row['PASSWORD']}`")
+                    with col_stat:
+                        st.markdown(f"""
+                            <div style="background:{c_bg}; color:{c_txt}; padding:10px; 
+                            border-radius:10px; text-align:center; border:1px solid {c_txt}33;">
+                                <small style="font-weight:bold;">{status}</small><br>
+                                <span style="font-size:18px; font-weight:bold;">{row['EXPIRED'].strftime('%d %b')}</span>
+                            </div>
+                        """, unsafe_allow_html=True)
+        else:
+            st.info("Belum ada data akun AI.")
+
+    except Exception as e:
+        st.info("💡 Tips: Buat tab 'Akun_AI' di Google Sheets kamu untuk mengaktifkan fitur ini.")
+        
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
 # ==============================================================================
@@ -1589,5 +1656,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
