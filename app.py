@@ -1643,13 +1643,13 @@ def tampilkan_ruang_produksi():
 
                     # --- MANTRA GAMBAR (OPTIMIZED & CLEAN) ---
                     img_p = (
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
-                        f"LOCATION: {sc['loc']}.\n"
-                        f"Style: {mantra_sakral}\n"
-                        f"Quality: {sc['shot']}, 8k raw photo.\n\n"
-                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
-                        f"{anti_human_filter}{no_text_strict}, blurry, distorted surface."
+                        f"ADVISORY: {h_rule}\n"
+                        f"IDENTITY: {dna_lock}\n"
+                        f"SCENE: {aksi_master} Location: {sc['loc']}.\n"
+                        f"VISUALS: {mantra_sakral} {bumbu_final}.\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n"
+                        f"NEGATIVE: {no_text_strict}, {anti_human_filter}blurry, low quality, distorted\n"
+                        f"FORMAT: {sc['ratio']} Aspect Ratio, RAW Photo Output"
                     )
                     
                     # --- MANTRA VIDEO (OPTIMIZED & CLEAN) ---
@@ -1738,6 +1738,6 @@ def utama():
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
         elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
-    # --- BAGIAN PALING BAWAH ---
-    if __name__ == "__main__":
-        utama()
+# --- BAGIAN PALING BAWAH ---
+if __name__ == "__main__":
+    utama()
