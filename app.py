@@ -1223,64 +1223,70 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-    # --- TAMPILAN 7: DATABASE AKUN AI (SEJAJAR & RINGKAS) ---    
-    with st.expander("🔑 DATABASE AKUN AI", expanded=False):
+# --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI RINGKAS & DEFAULT) ---
+    st.divider()
+    
+    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
+            # 1. AMBIL DATA
             ws_akun = sh.worksheet("Akun_AI")
             data_akun_raw = ws_akun.get_all_records()
             df_ai = pd.DataFrame(data_akun_raw)
             
-            # Popover untuk input biar tidak makan tempat
-            with st.popover("➕ Tambah Akun"):
+            # 2. TOMBOL TAMBAH DATA (Toggle Form)
+            if st.button("➕ Tambah Akun Baru", use_container_width=True):
+                st.session_state.buka_form = not st.session_state.get('buka_form', False)
+            
+            if st.session_state.get('buka_form', False):
                 with st.form("form_ai_simple", clear_on_submit=True):
-                    f_ai = st.text_input("Nama AI")
-                    f_mail = st.text_input("Email")
-                    f_pass = st.text_input("Password")
-                    f_exp = st.date_input("Expired")
-                    if st.form_submit_button("Simpan"):
+                    c1, c2 = st.columns(2)
+                    f_ai = c1.text_input("Nama AI")
+                    f_mail = c2.text_input("Email")
+                    f_pass = c1.text_input("Password")
+                    f_exp = c2.date_input("Expired Date")
+                    if st.form_submit_button("Simpan Ke Cloud"):
                         ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
+                        st.success("Data Tersimpan!")
+                        time.sleep(1)
                         st.rerun()
 
-            st.write("") 
+            st.write("") # Jarak
 
+            # 3. DAFTAR AKUN (LOGIKA AUTO-HIDE H+1)
             if not df_ai.empty:
                 df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
                 hari_ini = sekarang.date()
-                # Logika H+1 otomatis hilang
                 df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
 
                 for _, row in df_tampil.iterrows():
                     sisa = (row['EXPIRED'] - hari_ini).days
                     
-                    # Warna indikator
-                    if sisa > 7: st_color = "🟢"
-                    elif 0 <= sisa <= 3: st_color = "🟠"
-                    elif sisa < 0: st_color = "🔴"
-                    else: st_color = "⚪"
+                    # Logika Label Status (Default Streamlit)
+                    if sisa > 7:
+                        label = "🟢 Aman"
+                    elif 0 <= sisa <= 3:
+                        label = "🟠 Segera Habis"
+                    elif sisa < 0:
+                        label = "🔴 Expired"
+                    else:
+                        label = "⚪ Standby"
 
-                    # Layout Sejajar
+                    # Box Tiap Akun menggunakan container border default
                     with st.container(border=True):
-                        # Membagi kolom agar Email & Pass sejajar
-                        c1, c2, c3, c4 = st.columns([1.5, 3.5, 2.5, 1.5])
-                        
-                        with c1:
-                            st.markdown(f"{st_color} **{row['AI'].upper()}**")
-                        
-                        with c2:
-                            st.caption(f"📧 {row['EMAIL']}")
-                        
-                        with c3:
-                            # Password diletakkan di samping email dengan format code agar bisa dicopy
-                            st.code(row['PASSWORD'], language="text")
-                            
-                        with c4:
-                            # Tanggal expired di pojok kanan
-                            st.markdown(f"**{row['EXPIRED'].strftime('%d/%m/%y')}**")
+                        col1, col2 = st.columns([3, 1])
+                        with col1:
+                            st.write(f"**{row['AI']}** — `{row['EMAIL']}`")
+                            # Password ditaruh di dalam expander kecil supaya rapi
+                            with st.expander("Lihat Password"):
+                                st.code(row['PASSWORD'], language="text")
+                        with col2:
+                            st.write(f"**{label}**")
+                            st.caption(f"Sampai: {row['EXPIRED'].strftime('%d %b %Y')}")
             else:
-                st.caption("Database kosong.")
+                st.caption("Belum ada data akun.")
 
-        except Exception:
-            st.info("💡 Buat tab 'Akun_AI' di Google Sheets.")
+        except Exception as e:
+            st.info("💡 Pastikan tab 'Akun_AI' sudah ada di Google Sheets.")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -1648,6 +1654,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
