@@ -198,8 +198,11 @@ def simpan_ke_gsheet():
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
+        # --- PERBAIKAN: SET ZONA WAKTU KE WIB (GMT+7) ---
+        tz_wib = pytz.timezone('Asia/Jakarta')
+        waktu = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
+        
         user = st.session_state.get("user_aktif", "Staff")
-        waktu = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         data_json = json.dumps(st.session_state.data_produksi)
         
         sheet.append_row([user, waktu, data_json])
@@ -1710,5 +1713,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
