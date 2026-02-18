@@ -1669,51 +1669,52 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
-                # --- AMBIL DATA KARAKTER (FIX KEYERROR) ---
-                grok_identities = []
-                # Menggunakan found yang sudah divalidasi sistem sebelumnya
-                for i, f_char in enumerate(found):
-                    # Kita ambil nama karakter dari unique_token (misal: UDIN-1 jadi UDIN)
-                    # Atau dari key 'char' jika tersedia
-                    raw_name = f_char.get('char', f_char.get('unique_token', 'UNKNOWN')).split('-')[0].upper()
+                    # --- 5. OPTIMALISASI GROK (LOGIKA DINAMIS & POSISI DALAM) ---
+                    st.markdown("---")
                     
-                    # Ambil outfit dari MASTER_CHAR
-                    c_outfit = MASTER_CHAR.get(raw_name, {}).get('pakaian', "Standard outfit")
-                    
-                    actor_num = i + 1
-                    grok_identities.append(
-                        f"[[ ACTOR_{actor_num}_SKS ({raw_name}): refer to PHOTO #{actor_num} ONLY. WEAR: {c_outfit}. ]]"
-                    )
-                
-                grok_final_identity = " AND ".join(grok_identities) if grok_identities else "IDENTITY: [DNA_LOCK]"
-
-                # --- 5. OPTIMALISASI GROK ---
-                st.markdown("---")
-                with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                    tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
-                    
-                    with tab_img:
-                        grok_img = (
-                            f"{grok_final_identity}\n\n"
-                            f"SCENE: {aksi_master}\n\n"
-                            f"LOCATION: {sc['loc']}.\n"
-                            f"STYLE: {mantra_sakral}\n"
-                            f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
-                            f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
+                    grok_identities = []
+                    # Kita ambil data karakter dari 'found' agar sinkron dengan Ruang Produksi
+                    for i, f_char in enumerate(found):
+                        # Ambil nama bersih (contoh: UDIN-1 jadi UDIN)
+                        c_name = f_char.get('unique_token', 'UNKNOWN').split('-')[0].upper()
+                        
+                        # AMBIL PAKAIAN: Coba cari di 'pakaian', kalau tidak ada coba 'baju' atau 'outfit'
+                        char_data = MASTER_CHAR.get(c_name, {})
+                        c_outfit = char_data.get('pakaian') or char_data.get('baju') or char_data.get('outfit') or "Premium Custom Outfit"
+                        
+                        actor_num = i + 1
+                        grok_identities.append(
+                            f"[[ ACTOR_{actor_num}_SKS ({c_name}): refer to PHOTO #{actor_num} ONLY. WEAR: {c_outfit}. ]]"
                         )
-                        st.code(grok_img, language="text")
+                    
+                    grok_final_identity = " AND ".join(grok_identities) if grok_identities else "IDENTITY: [DNA_LOCK]"
 
-                    with tab_vid:
-                        grok_vid = (
-                            f"{grok_final_identity}\n\n"
-                            f"SCENE: {aksi_master}\n\n"
-                            f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
-                            f"AUDIO: {dialog_text}.\n"
-                            f"QUALITY: {sc['style']}, realistic physics.\n\n"
-                            f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
-                        )
-                        st.code(grok_vid, language="text")
-                        st.caption("Salin prompt video ini untuk mesin video Grok/X.")
+                    # Pastikan baris popover ini menjorok ke dalam sejajar dengan 'c_img' di atasnya
+                    with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
+                        tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
+                        
+                        with tab_img:
+                            grok_img = (
+                                f"{grok_final_identity}\n\n"
+                                f"SCENE: {aksi_master}\n\n"
+                                f"LOCATION: {sc['loc']}.\n"
+                                f"STYLE: {mantra_sakral}\n"
+                                f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
+                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
+                            )
+                            st.code(grok_img, language="text")
+
+                        with tab_vid:
+                            grok_vid = (
+                                f"{grok_final_identity}\n\n"
+                                f"SCENE: {aksi_master}\n\n"
+                                f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
+                                f"AUDIO: {dialog_text}.\n"
+                                f"QUALITY: {sc['style']}, realistic physics.\n\n"
+                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
+                            )
+                            st.code(grok_vid, language="text")
+                            st.caption("Salin prompt video ini untuk mesin video Grok/X.")
 
                 # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1741,6 +1742,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
