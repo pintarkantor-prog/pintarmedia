@@ -113,17 +113,22 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-    # INISIALISASI MASTER DATA (HANYA SEKALI SEUMUR HIDUP SESSION)
+# INISIALISASI MASTER DATA (VERSI CLEAN)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
             "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
             "jumlah_adegan": 5,
             "adegan": {i: {
-                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
-                "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
-                "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
-            } for i in range(1, 51)}, # Langsung siapkan slot sampai 50 adegan
+                "aksi": "", 
+                "style": OPTS_STYLE[0], 
+                "light": OPTS_LIGHT[0], 
+                "arah": OPTS_ARAH[0], 
+                "shot": OPTS_SHOT[0], 
+                "cam": OPTS_CAM[0], 
+                "loc": "", 
+                "dialogs": [""]*4
+            } for i in range(1, 51)}, 
             "form_version": 0
         }
 
@@ -1543,9 +1548,10 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER (Identitas SKS)
+                # A. SCAN KARAKTER (Identitas SKS - Fixed Typo)
                 found = []
-                for i in range(data["jumlah_carakter"] if "jumlah_carakter" in data else data.get("jumlah_karakter", 2)):
+                jml_kar = data.get("jumlah_karakter", 2)
+                for i in range(jml_kar):
                     c = data["karakter"][i]
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "wear": c['wear']})
@@ -1560,9 +1566,7 @@ def tampilkan_ruang_produksi():
                 # C. MASTER COMPILER (KLIMIS & UNIFIED)
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     # Memanggil Mantra Sakral baru (Langkah 1) tanpa variabel yang dibuang
-                    mantra_sakral = rakit_prompt_sakral(
-                        sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam']
-                    )
+                    mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
                     
                     # Dialog Sync
                     list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
@@ -1623,10 +1627,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
