@@ -1571,13 +1571,13 @@ def tampilkan_ruang_produksi():
                 list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
                 dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                # C. MASTER COMPILER (SINKRONISASI WEB LAMA + FORMAT ASLI)
+# C. MASTER COMPILER (SINKRONISASI TOTAL: MINIMALIS & SAKTI)
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     
-                    # 1. Mantra VIDEO (Dinamis - Suntikan f/11 & Tactile)
+                    # 1. Mantra VIDEO (Suntikan Brutal Sharpness f/11)
                     mantra_video = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
                     
-                    # 2. Mantra IMAGE (Sesuai Web Lama: Infinite Depth of Field)
+                    # 2. Mantra IMAGE (Infinte Depth of Field)
                     style_map_img = {
                         "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, tactile micro-textures, f/11 aperture, infinite depth of field.",
                         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
@@ -1587,16 +1587,16 @@ def tampilkan_ruang_produksi():
                     s_img = style_map_img.get(sc['style'], "Cinematic optical clarity.")
                     mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {sc['light']}."
 
-                    # 3. Logika Acting Cue Gaya Web Lama (Mengambil Dialog Asli)
+                    # 3. Logika Acting Cue Gaya Web Lama (HANYA SATU PINTU DIALOG)
                     raw_dialogs = [f"{data['karakter'][i]['nama'].upper()}: {sc['dialogs'][i]}" for i in range(data["jumlah_karakter"]) if sc['dialogs'][i].strip()]
                     emotional_ref = " | ".join(raw_dialogs) if raw_dialogs else "Neutral Interaction"
                     acting_cue_custom = f"Use this dialogue for emotional reference only: '{emotional_ref}'"
 
                     # RAKIT PROMPT GAMBAR
                     img_p = (
-                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n"
+                        f"{final_identity}\n"
+                        f"SCENE: {sc['aksi']}\n"
                         f"LOCATION: {sc['loc']}\n"
                         f"VISUAL: {mantra_statis} NO SOFTENING, extreme edge-enhancement.\n"
                         f"QUALITY: {QB_IMG}\n"
@@ -1604,25 +1604,24 @@ def tampilkan_ruang_produksi():
                         f"FORMAT: 9:16 Vertical Framing"
                     )
                     
-                    # RAKIT PROMPT VIDEO
+                    # RAKIT PROMPT VIDEO (DIBERSIHKAN DARI DIALOG DOBEL)
                     vid_p = (
-                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                        f"{final_identity}\n\n"
-                        f"SCENE & KINETICS: {sc['aksi']} with {sc['cam']} motion, fluid kinetics, realistic physics, no robotic movement, no stiffness.\n\n"
-                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_custom}\n"
-                        f"AUDIO / DIALOGUE: {dialog_text}\n"
-                        f"VISUAL: {mantra_video}\n"
-                        f"QUALITY: {QB_VID}, Maintain 100% facial identity consistency, look exactly like the reference, natural mouth movement matching audio cues\n"
+                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n"
+                        f"{final_identity}\n"
+                        f"SCENE & KINETICS: {sc['aksi']} with {sc['cam']} motion. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
+                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_custom}\n"            
+                        f"VISUAL: {mantra_video}\n\n"
+                        f"QUALITY: {QB_VID}, Maintain 100% facial identity consistency, look exactly like the reference, natural mouth movement\n"
                         f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
                         f"FORMAT: 9:16 Vertical Video"
                     )
 
                     c1, c2 = st.columns(2)
                     with c1: 
-                        st.markdown("📷 **PROMPT GAMBAR**")
+                        st.markdown("📷 **PROMPT GEMINI**")
                         st.code(img_p, language="text")
                     with c2: 
-                        st.markdown("🎥 **PROMPT VIDEO**")
+                        st.markdown("🎥 **PROMPT VEO**")
                         st.code(vid_p, language="text")
 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1650,6 +1649,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
