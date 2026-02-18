@@ -55,6 +55,10 @@ DAFTAR_USER = {
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
 }
 MASTER_CHAR = {
+    # 1. Custom taruh paling atas supaya jadi default
+    "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}, 
+    
+    # 2. Baru kemudian Udin
     "Udin": {
         "fisik": "Tall, athletic adult male human physique. Head is a large orange fruit, mature facial features, mischievous grin. Strictly NO baby-face, NO Pixar style.",
         "versi_pakaian": {
@@ -64,6 +68,8 @@ MASTER_CHAR = {
             "Anak Motor": "Black faux-leather vest over a plain white t-shirt, ripped black jeans, and rugged biker boots."
         }
     },
+    
+    # 3. Dan seterusnya
     "Tung": {
         "fisik": "Tall, lean, athletic adult male human physique. Head is a natural wooden log, mature wise features carved into wood. Strictly NO Pixar style.",
         "versi_pakaian": {
@@ -71,8 +77,7 @@ MASTER_CHAR = {
             "Orang Kaya": "Dark green velvet blazer, crisp white dress shirt, tailored black trousers, and polished brown leather boots.",
             "Orang Miskin": "Dirty, worn-out burlap shirt and ragged brown trousers with patches."
         }
-    },
-    "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}
+    }
 }
 
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
@@ -1369,8 +1374,8 @@ def tampilkan_ruang_produksi():
                 # --- FITUR AUTO-FILL START ---
                 nama_pilihan = st.selectbox("Pilih Karakter", list(MASTER_CHAR.keys()), key=f"sel_nama_{i}_{ver}", label_visibility="collapsed")
                 
-                # Kita inisialisasi pilih_versi dengan nilai aman (biar ngga UnboundLocalError)
-                pilih_versi = "Default" 
+                # Tambahkan baris ini sebagai pengaman agar tidak error saat pilih Custom
+                pilih_versi = "Manual" 
                 
                 current_char = MASTER_CHAR[nama_pilihan]
                 
@@ -1382,12 +1387,12 @@ def tampilkan_ruang_produksi():
                     def_fisik = current_char["fisik"]
                     nama_final = nama_pilihan
                 else:
-                    # Jika Custom, kosongkan semua agar bisa diketik manual
+                    # Jika Custom, kosongkan semua agar staf PT Pintar Digital Kreasi bisa isi manual
                     def_wear = ""
                     def_fisik = ""
                     nama_final = ""
 
-                # Simpan ke variabel data (Gunakan key dinamis agar teks otomatis berubah di layar)
+                # Tampilkan input dengan KEY DINAMIS agar otomatis refresh saat ganti karakter/versi
                 data["karakter"][i]["nama"] = st.text_input("Nama", value=nama_final, key=f"char_nama_{i}_{ver}_{nama_pilihan}", placeholder="Nama...", label_visibility="collapsed")
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=def_fisik, key=f"char_fix_{i}_{ver}_{nama_pilihan}", height=80, placeholder="Fisik...", label_visibility="collapsed")
@@ -1692,6 +1697,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
