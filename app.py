@@ -1345,7 +1345,8 @@ def tampilkan_ruang_produksi():
     QB_VID = (
         "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
-        "zero digital noise, clean pixels, smooth motion, high-fidelity physical interaction"
+        "temporal anti-aliasing, zero digital noise, clean pixels, "
+        "smooth motion interpolation, high-fidelity physical interaction"
     )
     
     no_text_strict = (
@@ -1626,4 +1627,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
