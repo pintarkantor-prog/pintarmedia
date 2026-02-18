@@ -121,14 +121,19 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
+    # INISIALISASI MASTER DATA (HANYA SEKALI SEUMUR HIDUP SESSION)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
             "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
             "jumlah_adegan": 5,
-            "adegan": {i: {"aksi": "", "loc": "", "dialogs": ["", "", "", ""]} for i in range(1, 6)},
-            "style": "Sangat Nyata",
-            "light": "Cahaya Alami"
+            "adegan": {i: {
+                "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
+                "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
+                "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
+                "ekspresi": OPTS_EKSPRESI[0], "cuaca": OPTS_CUACA[0], "vibe": OPTS_VIBE[0]
+            } for i in range(1, 51)}, # Langsung siapkan slot sampai 50 adegan
+            "form_version": 0
         }
 
     # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
@@ -1311,9 +1316,8 @@ def tampilkan_kendali_tim():
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
 # ==============================================================================
-def simpan_ke_memori():
-    st.session_state.data_produksi = st.session_state.data_produksi
 def tampilkan_ruang_produksi():
+    # 1. PENGATURAN WAKTU & USER
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
     bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
@@ -1323,6 +1327,11 @@ def tampilkan_ruang_produksi():
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
+
+    # 2. KUNCI DATA DARI SESSION STATE (SUMBER UTAMA)
+    # Kita ambil data di baris paling atas agar tidak tertimpa/reset
+    data = st.session_state.data_produksi
+    ver = st.session_state.get("form_version", 0)
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG ---
     QB_IMG = (
@@ -1384,12 +1393,9 @@ def tampilkan_ruang_produksi():
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
                 
-                # --- FITUR AUTO-FILL START ---
+                # --- LOGIKA AUTO-FILL ---
                 nama_pilihan = st.selectbox("Pilih Karakter", list(MASTER_CHAR.keys()), key=f"sel_nama_{i}_{ver}", label_visibility="collapsed")
-                
-                # Tambahkan baris ini sebagai pengaman agar tidak error saat pilih Custom
                 pilih_versi = "Manual" 
-                
                 current_char = MASTER_CHAR[nama_pilihan]
                 
                 if nama_pilihan != "Custom":
@@ -1400,47 +1406,29 @@ def tampilkan_ruang_produksi():
                     def_fisik = current_char["fisik"]
                     nama_final = nama_pilihan
                 else:
-                    # Jika Custom, kosongkan semua agar staf PT Pintar Digital Kreasi bisa isi manual
-                    def_wear = ""
-                    def_fisik = ""
-                    nama_final = ""
+                    def_wear = data["karakter"][i]["wear"]
+                    def_fisik = data["karakter"][i]["fisik"]
+                    nama_final = data["karakter"][i]["nama"]
 
-                # Tampilkan input dengan SYNC LANGSUNG ke Session State
-                # 1. Input Nama
+                # --- INPUT WIDGET DENGAN ON_CHANGE (PENGUNCI DATA) ---
                 data["karakter"][i]["nama"] = st.text_input(
-                    "Nama", 
-                    value=nama_final, 
+                    "Nama", value=nama_final, 
                     key=f"char_nama_{i}_{ver}_{nama_pilihan}", 
                     on_change=simpan_ke_memori,
-                    placeholder="Nama...", 
-                    label_visibility="collapsed"
+                    placeholder="Nama...", label_visibility="collapsed"
                 )
-                # Sinkronkan manual jika terpilih otomatis
-                st.session_state.data_produksi["karakter"][i]["nama"] = data["karakter"][i]["nama"]
-
-                # 2. Input Pakaian
                 data["karakter"][i]["wear"] = st.text_input(
-                    "Pakaian", 
-                    value=def_wear, 
+                    "Pakaian", value=def_wear, 
                     key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", 
                     on_change=simpan_ke_memori,
-                    placeholder="Pakaian...", 
-                    label_visibility="collapsed"
+                    placeholder="Pakaian...", label_visibility="collapsed"
                 )
-                st.session_state.data_produksi["karakter"][i]["wear"] = data["karakter"][i]["wear"]
-
-                # 3. Input Fisik
                 data["karakter"][i]["fisik"] = st.text_area(
-                    "Ciri Fisik", 
-                    value=def_fisik, 
+                    "Ciri Fisik", value=def_fisik, 
                     key=f"char_fix_{i}_{ver}_{nama_pilihan}", 
                     on_change=simpan_ke_memori,
-                    height=80, 
-                    placeholder="Fisik...", 
-                    label_visibility="collapsed"
+                    height=80, placeholder="Fisik...", label_visibility="collapsed"
                 )
-                st.session_state.data_produksi["karakter"][i]["fisik"] = data["karakter"][i]["fisik"]
-                # --- FITUR AUTO-FILL END ---
     # 3. INPUT ADEGAN (LENGKAP: LIGHTING, RATIO, DLL)
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
@@ -1740,6 +1728,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
