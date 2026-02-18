@@ -1702,11 +1702,12 @@ def tampilkan_ruang_produksi():
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         
                         with tab_img:
+                        with tab_img:
                             grok_img = (
                                 f"{grok_final_identity}\n\n"
                                 f"SCENE: {sc['aksi']}\n\n"
                                 f"LOCATION: {sc['loc']}.\n"
-                                f"STYLE: {mantra_sakral}\n"
+                                f"STYLE: {sc['style']}, {sc['light']}, {sc['vibe']}.\n" # <-- Pakai variabel murni
                                 f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
                                 f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
                             )
@@ -1718,7 +1719,8 @@ def tampilkan_ruang_produksi():
                                 f"SCENE: {sc['aksi']}\n\n"
                                 f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
                                 f"AUDIO: {dialog_text}.\n"
-                                f"QUALITY: {sc['style']}, realistic physics.\n\n"
+                                f"STYLE: {sc['style']}, {sc['vibe']}.\n" # <-- Pakai variabel murni
+                                f"QUALITY: realistic physics.\n\n"
                                 f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
                             )
                             st.code(grok_vid, language="text")
@@ -1750,6 +1752,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
