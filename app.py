@@ -531,7 +531,7 @@ def tampilkan_ai_lab():
             st.rerun()
 
     list_karakter = []
-    with st.expander("👥 DETAIL KARAKTER", expanded=False):
+    with st.expander("👥 DETAIL KARAKTER", expanded=True):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
             if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
@@ -1629,7 +1629,7 @@ def tampilkan_ruang_produksi():
                     f"Overall Vibe: {vibe_f}."
                 )
 
-                with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=False):
+                with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     # --- 1. PROSES MANTRA SAKRAL (SUNTIKAN DISINI) ---
                     mantra_sakral = rakit_prompt_sakral(
                         sc['aksi'], sc['style'], sc['light'], sc['arah'], 
@@ -1746,6 +1746,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
