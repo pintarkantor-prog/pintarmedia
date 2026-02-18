@@ -10,49 +10,40 @@ from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 # ==============================================================================
-# BAGIAN 1: PUSAT KENDALI OPSI (SINKRONISASI GLOBAL)
+# BAGIAN 1: PUSAT KENDALI OPSI (VERSI KLIMIS - NO REDUNDANCY)
 # ==============================================================================
 OPTS_STYLE = ["Sangat Nyata", "Animasi 3D Pixar", "Gaya Cyberpunk", "Anime Jepang"]
-OPTS_LIGHT = ["Sinar Senja (Golden)", "Lampu Studio", "Cahaya Alami", "Neon Remang", "Cahaya Bulan"]
+OPTS_LIGHT = ["Senja Cerah (Golden)", "Studio Bersih", "Neon Cyberpunk", "Malam Indigo", "Siang Alami"]
 OPTS_ARAH  = ["Sejajar Mata", "Dari Atas", "Dari Bawah", "Dari Samping", "Berhadapan"]
 OPTS_SHOT  = ["Sangat Dekat", "Wajah & Bahu", "Setengah Badan", "Seluruh Badan", "Drone (Jauh)"]
 OPTS_CAM   = ["Diam (Tetap Napas)", "Maju Perlahan", "Ikuti Karakter", "Memutar", "Goyang (Handheld)"]
-OPTS_EKSPRESI = ["Datar (Netral)", "Senyum Tipis", "Marah (Tegang)", "Tertawa Ceris", "Sedih/Galau", "Sinis/Sombong"]
-OPTS_CUACA = ["Cerah Bersih", "Berkabut Tipis", "Gerimis Halus", "Banyak Debu Terbang", "Angin Kencang"]
-OPTS_VIBE = ["Sinematik Film", "Horor Mencekam", "Retro Jadul", "Vlog Santai", "Aksi Cepat"]
 OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
-def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vibe):
-    light_map = {
-        "Sinar Senja (Golden)": "4 PM golden hour, warm saturated colors, dramatic long shadows, sharp amber highlights, high local contrast.",
-        "Lampu Studio": "Professional studio lighting setup, rim lighting for depth, clean shadows, high-end commercial photography look.",
-        "Cahaya Alami": "Natural daylight, balanced exposure, neutral color temperature, crystal clear atmosphere.",
-        "Neon Remang": "Cyberpunk neon aesthetic, vibrant pink and blue rim light, deep shadows, cinematic noir vibes.",
-        "Cahaya Bulan": "Cinematic night, realistic dim moonlight, natural ambient shadows, deep indigo tones, clean silhouettes."
-    }
-    
+def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
+    # Mapping teknis tinggi untuk ketajaman maksimal (Tanpa kata 'realistis/natural')
     style_map = {
-        "Sangat Nyata": "Cinematic RAW shot, macro-detail material fidelity, sharp textures, f/1.8 lens focus, realistic physical shading, PBR surfaces.",
-        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering.",
-        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic textures, neon reflections, volumetric fog.",
-        "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush nature aesthetic."
+        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus.",
+        "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
+        "Gaya Cyberpunk": "Futuristic neon aesthetic, volumetric fog, sharp reflections, high contrast.",
+        "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
+    }
+    
+    light_map = {
+        "Senja Cerah (Golden)": "4 PM golden hour, warm amber highlights, dramatic long shadows, high local contrast.",
+        "Studio Bersih": "Professional studio setup, rim lighting, clean shadows, commercial photography look.",
+        "Neon Cyberpunk": "Vibrant pink and blue rim light, deep noir shadows, cinematic volumetric lighting.",
+        "Malam Indigo": "Cinematic night, moonlight shading, deep indigo tones, clean silhouettes.",
+        "Siang Alami": "Daylight balanced exposure, neutral color temperature, crystal clear atmosphere."
     }
 
-    l_cmd = light_map.get(light, "Natural lighting.")
-    s_cmd = style_map.get(style, "Cinematic film look.")
+    s_cmd = style_map.get(style, "Cinematic optical clarity.")
+    l_cmd = light_map.get(light, "Balanced exposure.")
     
-    # --- PEMBERSIHAN TOTAL BIAS MANUSIA ---
-    # 1. Mengganti 'expression' yang bersifat otot wajah menjadi 'state' material.
-    character_logic = f"Subject displays {ekspresi} state, surface integrity matching the DNA material."
-    
-    # 2. Mengunci teknis kamera agar fokus pada optik, bukan portrait manusia.
-    camera_logic = f"Technical: {shot} framing, {arah} angle, {cam} motion, cinematic optical rendering."
-    
-    # 3. Menghilangkan kata 'organic' agar tidak memicu tekstur kulit manusia pada Udin.
-    env_logic = f"Atmosphere: {cuaca}, {vibe} aesthetic, PBR lighting."
+    # Fokus pada optik dan framing teknis
+    tech_logic = f"Technical: {shot} framing, {arah} angle, {cam} motion, cinematic optical rendering."
 
-    # Return dalam narasi yang lebih teknis dan objektif
-    return f"{s_cmd} {camera_logic} {character_logic} {l_cmd} {env_logic}"
+    # Return dalam narasi teknis murni
+    return f"{s_cmd} {tech_logic} {l_cmd}"
     
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -1456,66 +1447,55 @@ def tampilkan_ruang_produksi():
                 )
             
             with col_set:
+                # BARIS 1: STYLE & SHOT (Karakteristik Visual)
                 sub1, sub2 = st.columns(2)
                 with sub1:
                     st.markdown('<p class="small-label">✨ STYLE</p>', unsafe_allow_html=True)
-                    curr_style = data["adegan"][scene_id].get("style", OPTS_STYLE[0])
-                    idx_style = OPTS_STYLE.index(curr_style) if curr_style in OPTS_STYLE else 0
-                    data["adegan"][scene_id]["style"] = st.selectbox(f"S_{scene_id}", OPTS_STYLE, index=idx_style, key=f"mood_{scene_id}_{ver}", label_visibility="collapsed")
-                    
-                    st.markdown('<p class="small-label" style="margin-top:15px;">💡 LIGHTING</p>', unsafe_allow_html=True)
-                    curr_light = data["adegan"][scene_id].get("light", OPTS_LIGHT[0])
-                    idx_light = OPTS_LIGHT.index(curr_light) if curr_light in OPTS_LIGHT else 0
-                    data["adegan"][scene_id]["light"] = st.selectbox(f"L_{scene_id}", OPTS_LIGHT, index=idx_light, key=f"light_{scene_id}_{ver}", label_visibility="collapsed")
-                    
-                    st.markdown('<p class="small-label" style="margin-top:15px;">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
-                    curr_arah = data["adegan"][scene_id].get("arah", OPTS_ARAH[0])
-                    idx_arah = OPTS_ARAH.index(curr_arah) if curr_arah in OPTS_ARAH else 0
-                    data["adegan"][scene_id]["arah"] = st.selectbox(f"A_{scene_id}", OPTS_ARAH, index=idx_arah, key=f"arah_{scene_id}_{ver}", label_visibility="collapsed")
-                
+                    data["adegan"][scene_id]["style"] = st.selectbox(
+                        f"S_{scene_id}", OPTS_STYLE, 
+                        index=OPTS_STYLE.index(data["adegan"][scene_id].get("style", OPTS_STYLE[0])), 
+                        key=f"mood_{scene_id}_{ver}", label_visibility="collapsed"
+                    )
                 with sub2:
                     st.markdown('<p class="small-label">🔍 UKURAN GAMBAR</p>', unsafe_allow_html=True)
-                    curr_shot = data["adegan"][scene_id].get("shot", OPTS_SHOT[0])
-                    idx_shot = OPTS_SHOT.index(curr_shot) if curr_shot in OPTS_SHOT else 0
-                    data["adegan"][scene_id]["shot"] = st.selectbox(f"Sh_{scene_id}", OPTS_SHOT, index=idx_shot, key=f"shot_{scene_id}_{ver}", label_visibility="collapsed")
-                    
-                    st.markdown('<p class="small-label" style="margin-top:15px;">📺 ASPECT RATIO</p>', unsafe_allow_html=True)
-                    curr_ratio = data["adegan"][scene_id].get("ratio", OPTS_RATIO[0])
-                    idx_ratio = OPTS_RATIO.index(curr_ratio) if curr_ratio in OPTS_RATIO else 0
-                    data["adegan"][scene_id]["ratio"] = st.selectbox(f"R_{scene_id}", OPTS_RATIO, index=idx_ratio, key=f"ratio_{scene_id}_{ver}", label_visibility="collapsed")
-                    
-                    st.markdown('<p class="small-label" style="margin-top:15px;">🎥 GERAKAN</p>', unsafe_allow_html=True)
-                    curr_cam = data["adegan"][scene_id].get("cam", OPTS_CAM[0])
-                    idx_cam = OPTS_CAM.index(curr_cam) if curr_cam in OPTS_CAM else 0
-                    data["adegan"][scene_id]["cam"] = st.selectbox(f"C_{scene_id}", OPTS_CAM, index=idx_cam, key=f"cam_{scene_id}_{ver}", label_visibility="collapsed")
-                
-                st.markdown('<div style="margin-top:15px;"></div>', unsafe_allow_html=True)
-                sub3 = st.columns(3)
-                with sub3[0]:
-                    st.markdown('<p class="small-label">🎭 EKSPRESI</p>', unsafe_allow_html=True)
-                    curr_eks = data["adegan"][scene_id].get("ekspresi", OPTS_EKSPRESI[0])
-                    idx_eks = OPTS_EKSPRESI.index(curr_eks) if curr_eks in OPTS_EKSPRESI else 0
-                    data["adegan"][scene_id]["ekspresi"] = st.selectbox(f"E_{scene_id}", OPTS_EKSPRESI, index=idx_eks, key=f"eks_{scene_id}_{ver}", label_visibility="collapsed")
-                with sub3[1]:
-                    st.markdown('<p class="small-label">☁️ SUASANA</p>', unsafe_allow_html=True)
-                    curr_weather = data["adegan"][scene_id].get("cuaca", OPTS_CUACA[0])
-                    idx_weather = OPTS_CUACA.index(curr_weather) if curr_weather in OPTS_CUACA else 0
-                    data["adegan"][scene_id]["cuaca"] = st.selectbox(f"W_{scene_id}", OPTS_CUACA, index=idx_weather, key=f"weather_{scene_id}_{ver}", label_visibility="collapsed")
-                with sub3[2]:
-                    st.markdown('<p class="small-label">🎬 VIBE</p>', unsafe_allow_html=True)
-                    curr_vibe = data["adegan"][scene_id].get("vibe", OPTS_VIBE[0])
-                    idx_vibe = OPTS_VIBE.index(curr_vibe) if curr_vibe in OPTS_VIBE else 0
-                    data["adegan"][scene_id]["vibe"] = st.selectbox(f"V_{scene_id}", OPTS_VIBE, index=idx_vibe, key=f"vibe_{scene_id}_{ver}", label_visibility="collapsed")
+                    data["adegan"][scene_id]["shot"] = st.selectbox(
+                        f"Sh_{scene_id}", OPTS_SHOT, 
+                        index=OPTS_SHOT.index(data["adegan"][scene_id].get("shot", OPTS_SHOT[0])), 
+                        key=f"shot_{scene_id}_{ver}", label_visibility="collapsed"
+                    )
 
-                st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(
-                    f"Loc_{scene_id}", 
-                    value=data["adegan"][scene_id]["loc"], 
-                    key=f"loc_{scene_id}_{ver}", 
-                    label_visibility="collapsed", 
-                    placeholder="Lokasi adegan...",
-                    on_change=simpan_ke_memori  # <--- Tempel ini di sini
-                )
+                # BARIS 2: LIGHTING & ARAH KAMERA (Setting Teknis)
+                sub3, sub4 = st.columns(2)
+                with sub3:
+                    st.markdown('<p class="small-label">💡 LIGHTING & ATMOSPHERE</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["light"] = st.selectbox(
+                        f"L_{scene_id}", OPTS_LIGHT, 
+                        index=OPTS_LIGHT.index(data["adegan"][scene_id].get("light", OPTS_LIGHT[0])), 
+                        key=f"light_{scene_id}_{ver}", label_visibility="collapsed"
+                    )
+                with sub4:
+                    st.markdown('<p class="small-label">📐 ARAH KAMERA</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["arah"] = st.selectbox(
+                        f"A_{scene_id}", OPTS_ARAH, 
+                        index=OPTS_ARAH.index(data["adegan"][scene_id].get("arah", OPTS_ARAH[0])), 
+                        key=f"arah_{scene_id}_{ver}", label_visibility="collapsed"
+                    )
+
+                sub5, sub6 = st.columns([1, 1.5])
+                with sub5:
+                    st.markdown('<p class="small-label">🎥 GERAKAN</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["cam"] = st.selectbox(
+                        f"C_{scene_id}", OPTS_CAM, 
+                        index=OPTS_CAM.index(data["adegan"][scene_id].get("cam", OPTS_CAM[0])), 
+                        key=f"cam_{scene_id}_{ver}", label_visibility="collapsed"
+                    )
+                with sub6:
+                    st.markdown('<p class="small-label">📍 LOKASI</p>', unsafe_allow_html=True)
+                    data["adegan"][scene_id]["loc"] = st.text_input(
+                        f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], 
+                        key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", 
+                        placeholder="Lokasi...", on_change=simpan_ke_memori
+                    )
 
             # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
             cols_d = st.columns(data["jumlah_karakter"])
@@ -1624,4 +1604,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
