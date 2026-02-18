@@ -32,7 +32,7 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     }
     
     style_map = {
-        "Sangat Nyata": "Hyper-realistic photorealistic materials, 8k resolution, macro photography detail, shot on 35mm lens, f/1.8, cinematic realism.",
+        "Sangat Nyata": "Hyper-realistic photorealistic materials, 8k resolution, macro photography detail, f/1.8 cinematic realism.",
         "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering.",
         "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic textures, neon reflections, volumetric fog.",
         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush nature aesthetic."
@@ -41,13 +41,15 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     l_cmd = light_map.get(light, "Natural lighting.")
     s_cmd = style_map.get(style, "Cinematic film look.")
     
-    cam_logic = f"Camera {cam}, {shot} shot, {arah} angle, cinematic motion, realistic physics."
-    # Kita ganti "skin textures" menjadi "material textures"
-    face_logic = f"Character with {ekspresi} expression, highly detailed facial features integrated into material, micro-expressions."
-    env_logic = f"Environment: {cuaca}, {vibe} atmosphere, volumetric lighting, 8k resolution, physically-based textures."
+    # --- OPTIMASI LOGIKA (TANPA BRACKET BERLEBIHAN) ---
+    # Kita hapus "facial features" agar AI tidak mencari tekstur manusia
+    character_logic = f"Subject shows {ekspresi} expression, micro-details perfectly integrated into surface material textures."
+    camera_logic = f"Shot as {shot}, {arah} angle, {cam} motion, professional cinematography."
+    env_logic = f"Environment features {cuaca}, {vibe} atmosphere, volumetric lighting, physically-based rendering (PBR)."
 
-    return f"[STYLE: {s_cmd}] [CAMERA: {cam_logic}] [CHARACTER: {face_logic}] [LIGHTING: {l_cmd}] [VIBE: {env_logic}]"
-
+    # Return dalam bentuk narasi mengalir agar AI lebih fokus pada komposisi utuh
+    return f"Visual style: {s_cmd} {camera_logic} {character_logic} Lighting: {l_cmd} {env_logic}"
+    
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
@@ -1579,41 +1581,33 @@ def tampilkan_ruang_produksi():
                     c1 = data["karakter"][0]
                     dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, material: {c1['fisik']}. ]]"
 
-                # C. SMART FILTER & MASTER COMPILER (VERSI UNIVERSAL)
+                # C. SMART FILTER & MASTER COMPILER (VERSI UNIVERSAL - CLEAN)
                 loc_lower = sc['loc'].lower()
                 is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                bumbu_final = "hyper-detailed fabric texture, sharp grit" if is_outdoor else "high-fidelity cloth folds, ray-traced reflections"
+                bumbu_final = "hyper-detailed material textures" if is_outdoor else "ray-traced reflections, PBR materials"
                 
-                # Mengambil data dari 3 menu baru
+                # Mengambil data dari menu baru
                 eks_f = sc.get("ekspresi", "Datar/Netral")
                 weather_f = sc.get("cuaca", "Cerah Bersih")
                 vibe_f = sc.get("vibe", "Sinematik")
 
-                # --- LOGIKA SMART EXPRESSION UNIVERSAL ---
-                # Mengatur agar emosi karakter 1 dan 2 saling berlawanan (Dramatis)
+                # --- LOGIKA SMART EXPRESSION UNIVERSAL (Dramatis) ---
                 if len(found) > 1:
                     if eks_f == "Marah (Tegang)":
-                        detail_emosi = f"{found[0]['unique_token']} looks intense and angry, while {found[1]['unique_token']} remains calm and cold."
+                        detail_emosi = f"{found[0]['unique_token']} is furious, while {found[1]['unique_token']} stays calm."
                     elif eks_f == "Sedih/Galau":
-                        detail_emosi = f"{found[0]['unique_token']} shows deep sadness, while {found[1]['unique_token']} shows a smug or indifferent expression."
+                        detail_emosi = f"{found[0]['unique_token']} looks heartbroken, while {found[1]['unique_token']} looks indifferent."
                     elif eks_f == "Sinis/Sombong":
-                        detail_emosi = f"{found[0]['unique_token']} has a cynical smug look, while {found[1]['unique_token']} looks confused or intimidated."
-                    elif eks_f == "Tertawa":
-                        detail_emosi = f"{found[0]['unique_token']} is laughing out loud, while {found[1]['unique_token']} watches with a smile."
+                        detail_emosi = f"{found[0]['unique_token']} smirks cynically at {found[1]['unique_token']}."
                     else:
-                        detail_emosi = f"Both characters show a {eks_f} expression."
+                        detail_emosi = f"Characters show {eks_f} expressions."
                 elif len(found) == 1:
-                    detail_emosi = f"{found[0]['unique_token']} shows a {eks_f} expression."
+                    detail_emosi = f"{found[0]['unique_token']} shows {eks_f} expression."
                 else:
-                    detail_emosi = f"General expression: {eks_f}."
+                    detail_emosi = f"Expression: {eks_f}."
 
-                # Gabungkan Aksi Utama dengan Emosi, Cuaca, dan Vibe
-                aksi_master = (
-                    f"{sc['aksi']}. "
-                    f"{detail_emosi} "
-                    f"Atmosphere: {weather_f}. "
-                    f"Overall Vibe: {vibe_f}."
-                )
+                # Gabungkan menjadi narasi mengalir agar tidak "berat"
+                aksi_master = f"{sc['aksi']}. {detail_emosi} Atmosphere: {weather_f}, {vibe_f} vibe."
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     # --- 1. PROSES MANTRA SAKRAL (SUNTIKAN DISINI) ---
@@ -1621,94 +1615,71 @@ def tampilkan_ruang_produksi():
                         sc['aksi'], sc['style'], sc['light'], sc['arah'], 
                         sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe']
                     )
-                    # --- AUTO-SYNC DIALOGUE (VERSI ANTI-TUKAR) ---
+                    
+                    # --- AUTO-SYNC DIALOGUE ---
                     list_dialog = []
                     for f_char in found:
                         original_idx = f_char["id"] - 1
                         isi_dialog = sc["dialogs"][original_idx].strip()
-                        
                         if isi_dialog:
                             tag_bicara = f"[{f_char['unique_token']} SPEAKING]"
                             list_dialog.append(f"{tag_bicara}: '{isi_dialog}'")
-                    
-                    dialog_text = " | ".join(list_dialog) if list_dialog else "Non-verbal scene, silent interaction."
+                    dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
                     # --- SMART LOGIC: ANTI-HUMAN SKIN FILTER ---
-                    # Hanya aktif jika ada kata kunci Udin atau Tung di DNA agar karakter manusia tetap aman
                     target_dna = dna_lock.upper()
-                    anti_human_filter = ""
-                    if "UDIN" in target_dna or "TUNG" in target_dna:
-                        anti_human_filter = "human skin, real human face, "
+                    anti_human_filter = "human skin, real human face, " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
 
-                    # --- MANTRA GAMBAR (OPTIMIZED HIERARCHY) ---
+                    # --- MANTRA GAMBAR (OPTIMIZED & CLEAN) ---
                     img_p = (
-                        f"RULE: {h_rule}\n" 
-                        f"STRICT SUBJECT DNA: {dna_lock}\n" 
-                        f"ACTION & EMOTION: {aksi_master}\n"
-                        f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
-                        f"VISUAL_LOGIC: {mantra_sakral}\n" # Mencakup Style & Lighting
-                        f"CAMERA SETUP: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {anti_human_filter}different face, generic person, original photo clothes\n"
-                        f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
+                        f"ADVISORY: {h_rule}\n"
+                        f"IDENTITY: {dna_lock}\n"
+                        f"SCENE: {aksi_master} Location: {sc['loc']}.\n"
+                        f"VISUALS: {mantra_sakral} {bumbu_final}.\n"
+                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n"
+                        f"NEGATIVE: {no_text_strict}, {anti_human_filter}blurry, low quality, distorted\n"
+                        f"FORMAT: {sc['ratio']} Aspect Ratio, RAW Photo Output"
                     )
                     
-                    # --- MANTRA VIDEO (OPTIMIZED HIERARCHY) ---
+                    # --- MANTRA VIDEO (OPTIMIZED & CLEAN) ---
                     vid_p = (
                         f"RULE: {h_rule}\n"
-                        f"STRICT IDENTITY LOCK: {dna_lock}\n"
-                        f"SCENE: {aksi_master} at {sc['loc']}. {bumbu_final}.\n"
-                        f"DIALOGUE CONTEXT (STRICT): {dialog_text}\n"
-                        f"AUDIO-VISUAL SYNC: Only the character tagged [SPEAKING] moves their mouth. Match lip-sync to the specific dialogue text.\n"
-                        f"VISUAL_LOGIC: {mantra_sakral}\n"
-                        f"MOTION DYNAMICS: {sc['cam']}, Organic human behavior, fluid secondary motion, natural breathing, micro-expressions. "
-                        f"STRICT: Eliminate all robotic stiffness, no static mannequin poses, fluid joint movement.\n"
-                        f"TECHNICAL: {QB_VID}, {sc['style']} motion-capture fidelity, {sc['shot']}, organic fluid motion, subsurface material lighting.\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, {anti_human_filter}static pose, robotic movement, stiff limbs, wrong character speaking, frozen eyes.\n"
-                        f"FORMAT: {sc['ratio']} Vertical Aspect, 8k Ultra-HD"
+                        f"IDENTITY: {dna_lock}\n"
+                        f"SCENE: {aksi_master} at {sc['loc']}.\n"
+                        f"DIALOGUE: {dialog_text}\n"
+                        f"MOTION: {sc['cam']} movement, 24fps, organic human-like behavior.\n"
+                        f"VISUALS: {mantra_sakral}\n"
+                        f"TECHNICAL: {QB_VID}, {sc['shot']}, match lip-sync.\n"
+                        f"NEGATIVE: {no_text_strict}, {negative_motion_strict}, {anti_human_filter}static, robotic\n"
+                        f"FORMAT: {sc['ratio']} Vertical, 8k Ultra-HD"
                     )
 
                     c_img, c_vid = st.columns(2)
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK MINIMALIS (GENERAL & ANTI-BLUR) ---
+                    # --- OPTIMASI GROK (ULTRA-LEAN) ---
                     st.markdown("---")
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        weather_f = sc.get('cuaca', 'Cerah Bersih')
-                        vibe_f = sc.get('vibe', 'Sinematik Film')
-                        mood = "bright, no fog" if "Cerah" in weather_f else f"{weather_f}, moody"
-                        
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
-
                         with tab_img:
-                            # --- MANTRA GAMBAR GROK (REVISI HIRARKI) ---
                             grok_img = (
-                                f"RULE: {h_rule}\n" # Tetap amankan Rule di awal
-                                f"DNA: {dna_lock}\n" # Identitas Karakter naik ke baris 2
-                                f"ACTION: {aksi_master}.\n"
-                                f"STYLE: {vibe_f}. {mantra_sakral}\n" # Mantra jadi bumbu kualitas
-                                f"SHOT: {sc['shot']}, {sc['arah']}.\n"
-                                f"QUALITY: 8k raw, photo, ultra-sharp.\n"
-                                f"NEGATIVE: human skin, human face, text, watermark, blurry, distorted."
+                                f"{dna_lock}\n"
+                                f"{aksi_master} at {sc['loc']}.\n"
+                                f"Style: {mantra_sakral}.\n"
+                                f"Quality: {sc['shot']}, 8k raw photo.\n"
+                                f"Negative: {anti_human_filter}text, blurry."
                             )
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            si_pembicara = sc.get('karakter', 'UNKNOWN') 
-                            speaker_label = f"AUDIO_SOURCE: {si_pembicara} is speaking." if dialog_text != "Non-verbal scene, silent interaction." else "NO DIALOGUE"
-                            
-                            # --- MANTRA VIDEO GROK (REVISI HIRARKI) ---
                             grok_vid = (
-                                f"RULE: {h_rule}\n"
-                                f"DNA: {dna_lock}\n" # Kunci karakter dulu
-                                f"SCENE: {aksi_master} at {sc['loc']}.\n"
-                                f"VISUAL_LOGIC: {mantra_sakral}\n"
-                                f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
-                                f"{speaker_label}\n"
-                                f"AUDIO_SCRIPT: \"{dialog_text}\"\n"
-                                f"LIP-SYNC: Match mouth movement.\n"
-                                f"ATMOSPHERE: {mood}, realistic physics.\n"
-                                f"NEGATIVE: human skin, static, morphing, text, blurry."
+                                f"{dna_lock}\n"
+                                f"Scene: {aksi_master}.\n"
+                                f"Video: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
+                                f"Audio: {dialog_text}.\n"
+                                f"Quality: {sc['style']}, realistic physics.\n"
+                                f"Negative: {anti_human_filter}static, robotic."
                             )
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
@@ -1739,3 +1710,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
