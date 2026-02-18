@@ -1589,25 +1589,25 @@ def tampilkan_ruang_produksi():
 
                     # RAKIT PROMPT GAMBAR
                     img_p = (
-                        f"{final_identity}\n\n\n"
-                        f"**SCENE:**\n{sc['aksi']}\n\n"
-                        f"**LOCATION:**\n{sc['loc']}\n\n"
-                        f"**VISUAL:**\n{mantra_statis}\n\n"
-                        f"**QUALITY:**\n{QB_IMG}\n\n"
-                        f"**NEGATIVE:**\n{negative_base} {no_text_strict}\n\n"
-                        f"**FORMAT:**\n9:16 Vertical Framing"
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}\n"
+                        f"VISUAL: {mantra_statis}\n"
+                        f"QUALITY: {QB_IMG}\n"
+                        f"NEGATIVE: {negative_base} {no_text_strict}\n"
+                        f"FORMAT: 9:16 Vertical Framing"
                     )
                     
                     # RAKIT PROMPT VIDEO
                     vid_p = (
-                        f"{final_identity}\n\n\n"
-                        f"**SCENE & KINETICS:**\n{sc['aksi']} with {sc['cam']} motion, fluid kinetics, realistic physics.\n\n"
-                        f"**ACTING CUE (STRICTLY NO TEXT ON SCREEN):**\n{acting_cue_text}\n\n"
-                        f"**AUDIO / DIALOGUE:**\n{dialog_text}\n\n"
-                        f"**VISUAL:**\n{mantra_video}\n\n"
-                        f"**QUALITY:**\n{QB_VID}, natural mouth movement matching audio cues\n\n"
-                        f"**NEGATIVE:**\n{negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n\n"
-                        f"**FORMAT:**\n9:16 Vertical Video"
+                        f"{final_identity}\n\n"
+                        f"SCENE & KINETICS: {sc['aksi']} with {sc['cam']} motion, fluid kinetics, realistic physics.\n\n"
+                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_text}\n"
+                        f"AUDIO / DIALOGUE: {dialog_text}\n"
+                        f"VISUAL: {mantra_video}\n"
+                        f"QUALITY: {QB_VID}, natural mouth movement matching audio cues\n"
+                        f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
+                        f"FORMAT: 9:16 Vertical Video"
                     )
 
                     c1, c2 = st.columns(2)
@@ -1643,6 +1643,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
