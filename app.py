@@ -123,7 +123,6 @@ def inisialisasi_keamanan():
                 "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
                 "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
                 "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
-                "ekspresi": OPTS_EKSPRESI[0], "cuaca": OPTS_CUACA[0], "vibe": OPTS_VIBE[0]
             } for i in range(1, 51)}, # Langsung siapkan slot sampai 50 adegan
             "form_version": 0
         }
@@ -1624,6 +1623,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
