@@ -228,18 +228,18 @@ def muat_dari_gsheet():
             naskah_mentah = user_rows[-1]['Data_Naskah']
             data_termuat = json.loads(naskah_mentah)
             
-            # --- PROSES PERBAIKAN STRUKTUR (PENTING!) ---
-            # Mengubah kunci adegan dari "teks" kembali ke "angka"
+            # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
             if "adegan" in data_termuat:
                 adegan_baru = {}
                 for k, v in data_termuat["adegan"].items():
-                    # --- LOGIKA PENGAMAN (SUNTIK DATA BARU KE NASKAH LAMA) ---
-                    # Jika kunci tidak ditemukan di data GSheet, isi dengan pilihan pertama (default)
-                    if "ekspresi" not in v: v["ekspresi"] = OPTS_EKSPRESI[0]
-                    if "cuaca" not in v: v["cuaca"] = OPTS_CUACA[0]
-                    if "vibe" not in v: v["vibe"] = OPTS_VIBE[0]
+                    # Hapus sampah data lama agar tidak memenuhi memori
+                    v.pop("ekspresi", None)
+                    v.pop("cuaca", None)
+                    v.pop("vibe", None)
+                    v.pop("ratio", None)
                     
-                    adegan_baru[int(k)] = v # Paksa jadi angka 1, 2, 3...
+                    # Paksa kunci kembali jadi angka agar loop Streamlit tidak error
+                    adegan_baru[int(k)] = v 
                 data_termuat["adegan"] = adegan_baru
             
             # Masukkan ke laci utama
@@ -793,8 +793,7 @@ def tampilkan_quick_prompt():
     if q_aksi and q_lokasi:
         # Merakit Mantra Sakral (Otomatis mengambil data teknis web lama)
         mantra_sakral_qp = rakit_prompt_sakral(
-            q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, 
-            "Diam (Tetap Napas)", "Datar (Netral)", "Cerah Bersih", "Sinematik Film"
+            q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, "Diam (Tetap Napas)"
         )
 
         aksi_low = q_aksi.lower()
@@ -1337,10 +1336,10 @@ def tampilkan_ruang_produksi():
     # --- QUALITY BOOSTER & NEGATIVE CONFIG ---
     QB_IMG = (
         "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
-        "smooth out-of-focus background, razor-sharp focus on subject detail, "
-        "edge-enhancement, non-filtered, high-index lens glass look, "
-        "CPL filter, high local contrast, physically-based rendering, "
-        "hyper-detailed surface micro-textures"
+        "bokeh background, razor-sharp focus on subject detail, "
+        "high-index lens glass look, CPL filter, sub-surface scattering, "
+        "physically-based rendering, hyper-detailed surface micro-textures, "
+        "anisotropic filtering, ray-traced ambient occlusion"
     )
 
     QB_VID = (
@@ -1433,7 +1432,6 @@ def tampilkan_ruang_produksi():
                 "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
                 "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
                 "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
-                "ekspresi": OPTS_EKSPRESI[0], "cuaca": OPTS_CUACA[0], "vibe": OPTS_VIBE[0]
             }
 
         with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
@@ -1553,6 +1551,7 @@ def tampilkan_ruang_produksi():
                 jml_kar = data.get("jumlah_karakter", 2)
                 for i in range(jml_kar):
                     c = data["karakter"][i]
+                    # Logic: cari nama karakter di dalam teks aksi
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "wear": c['wear']})
 
@@ -1627,3 +1626,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
