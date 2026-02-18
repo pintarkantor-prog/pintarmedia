@@ -1537,7 +1537,7 @@ def tampilkan_ruang_produksi():
                         on_change=simpan_ke_memori
                     )
 
-    # --- 4. GLOBAL COMPILER LOGIC ---
+# --- 4. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1551,30 +1551,33 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER (Identitas SKS - Fixed Typo)
+                # A. SCAN KARAKTER
                 found = []
                 jml_kar = data.get("jumlah_karakter", 2)
                 for i in range(jml_kar):
                     c = data["karakter"][i]
-                    # Logic: cari nama karakter di dalam teks aksi
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "wear": c['wear']})
 
-                # B. RAKIT IDENTITAS KLIMIS
+                # B. RAKIT IDENTITAS & CUE (SOLUSI NAMEERROR)
                 clean_parts = [f"[[ ACTOR_{m['id']}_SKS ({m['nama']}): refer to PHOTO #{m['id']} ONLY. WEAR: {m['wear']} ]]" for m in found]
                 final_identity = " AND ".join(clean_parts) if clean_parts else "[[ IDENTITY: UNKNOWN ]]"
                 
-                target_names = [m['nama'] for m in found]
-                anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
+                # Logika Acting Cue Otomatis
+                cue_parts = [f"[{m['nama']}]: Memberikan ekspresi akting yang mendalam dan emosional sesuai narasi adegan." for m in found]
+                acting_cue_text = "\n".join(cue_parts) if cue_parts else "Neutral cinematic expression."
 
-                # --- MASTER COMPILER (REVISI: IMAGE TANPA GERAKAN) ---
+                # Dialog Sync
+                list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
+                dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
+
+                # C. MASTER COMPILER (BERSPASI & KLIMIS)
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     
-                    # 1. Mantra untuk VIDEO (Lengkap dengan Gerakan Kamera)
+                    # 1. Mantra VIDEO (Dinamis)
                     mantra_video = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
                     
-                    # 2. Mantra untuk IMAGE (Hapus bagian Gerakan Kamera agar Statis)
-                    # Kita rakit manual khusus Image agar tidak ada instruksi 'motion'
+                    # 2. Mantra IMAGE (Statis - Tanpa Cam Motion)
                     style_map_img = {
                         "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus, depth map rendering.",
                         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
@@ -1582,14 +1585,9 @@ def tampilkan_ruang_produksi():
                         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
                     }
                     s_img = style_map_img.get(sc['style'], "Cinematic optical clarity.")
-                    l_img = sc['light'] # Mengambil lighting dari pilihan dropdown
-                    
-                    # Mantra visual murni statis untuk Image
-                    mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {l_img}."
-                    
-                    # ... (Logika Acting Cue & Dialog tetap sama) ...
+                    mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {sc['light']}."
 
-                    # 1. Prompt Gemini (Image) - SEKARANG MURNI STATIS
+                    # RAKIT PROMPT GAMBAR
                     img_p = (
                         f"{final_identity}\n\n\n"
                         f"**SCENE:**\n{sc['aksi']}\n\n"
@@ -1600,7 +1598,7 @@ def tampilkan_ruang_produksi():
                         f"**FORMAT:**\n9:16 Vertical Framing"
                     )
                     
-                    # 2. Prompt Veo (Video) - TETAP DINAMIS
+                    # RAKIT PROMPT VIDEO
                     vid_p = (
                         f"{final_identity}\n\n\n"
                         f"**SCENE & KINETICS:**\n{sc['aksi']} with {sc['cam']} motion, fluid kinetics, realistic physics.\n\n"
@@ -1613,8 +1611,12 @@ def tampilkan_ruang_produksi():
                     )
 
                     c1, c2 = st.columns(2)
-                    with c1: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
-                    with c2: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
+                    with c1: 
+                        st.markdown("📷 **PROMPT GAMBAR**")
+                        st.code(img_p, language="text")
+                    with c2: 
+                        st.markdown("🎥 **PROMPT VIDEO**")
+                        st.code(vid_p, language="text")
 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1641,6 +1643,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
