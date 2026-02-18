@@ -1568,152 +1568,56 @@ def tampilkan_ruang_produksi():
                             "wear": c['wear']
                         })
 
-                # B. LOGIKA IDENTITY SWAP (ULTRA-ADAPTIVE & MATERIAL PHYSICS)
-                if len(found) > 1:
-                    h_rule = "STRICT IDENTITY SWAP: Maintain face from photos, but change clothing and preserve material textures."
-                    dna_lock = " AND ".join([
-                        f"[[ {m['unique_token']}: (Face-Lock:1.7), refer to PHOTO #{m['id']} ONLY for face. "
-                        f"Disregard original clothes. WEAR: {m['wear']}. "
-                        f"PHYSICAL/MATERIAL: {m['fisik']} with advanced sub-surface scattering, "
-                        f"physically-based textures, and organic micro-detail. ]]" 
-                        for m in found
-                    ])
-                elif len(found) == 1:
-                    m = found[0]
-                    h_rule = f"STRICT FACE-LOCK: 100% facial match with PHOTO #{m['id']}. Ignore photo's outfit."
-                    dna_lock = (
-                        f"[[ {m['unique_token']}: (Face-Lock:1.8), refer to PHOTO #{m['id']} ONLY for biometric features. "
-                        f"Ignore photo clothing. NEW OUTFIT: {m['wear']}. "
-                        f"Face is priority 1. MATERIAL FOCUS: {m['fisik']} with realistic subsurface light scattering (SSS) "
-                        f"and PBR material shading. ]]"
+                # --- B. RAKIT IDENTITAS KLIMIS (SERAGAM & MINIMALIS) ---
+                clean_parts = []
+                for i, m in enumerate(found):
+                    actor_num = i + 1
+                    # Format: [[ ACTOR_1_SKS (NAMA): refer to PHOTO #1 ONLY. WEAR: pakaian ]]
+                    clean_parts.append(
+                        f"[[ ACTOR_{actor_num}_SKS ({m['nama']}): refer to PHOTO #{actor_num} ONLY. WEAR: {m['wear']} ]]"
                     )
-                else:
-                    h_rule = "General face reference from Photo #1."
-                    c1 = data["karakter"][0]
-                    dna_lock = f"[[ ACTOR_1_SKS: (Face-Lock:1.5), face from PHOTO #1, material: {c1['fisik']}. ]]"
-
-                # C. SMART FILTER & MASTER COMPILER (VERSI UNIVERSAL - CLEAN)
-                loc_lower = sc['loc'].lower()
-                is_outdoor = any(x in loc_lower for x in ['hutan', 'jalan', 'taman', 'luar', 'pantai', 'desa', 'kebun', 'sawah', 'langit'])
-                bumbu_final = "hyper-detailed material textures" if is_outdoor else "ray-traced reflections, PBR materials"
                 
-                # Mengambil data dari menu baru
-                eks_f = sc.get("ekspresi", "Datar/Netral")
-                weather_f = sc.get("cuaca", "Cerah Bersih")
-                vibe_f = sc.get("vibe", "Sinematik")
+                # Variabel identitas tunggal untuk semua prompt
+                final_identity = " AND ".join(clean_parts) if clean_parts else "[[ IDENTITY: UNKNOWN ]]"
 
-                # --- LOGIKA SMART EXPRESSION UNIVERSAL (Dramatis) ---
-                if len(found) > 1:
-                    if eks_f == "Marah (Tegang)":
-                        detail_emosi = f"{found[0]['unique_token']} is furious, while {found[1]['unique_token']} stays calm."
-                    elif eks_f == "Sedih/Galau":
-                        detail_emosi = f"{found[0]['unique_token']} looks heartbroken, while {found[1]['unique_token']} looks indifferent."
-                    elif eks_f == "Sinis/Sombong":
-                        detail_emosi = f"{found[0]['unique_token']} smirks cynically at {found[1]['unique_token']}."
-                    else:
-                        detail_emosi = f"Characters show {eks_f} expressions."
-                elif len(found) == 1:
-                    detail_emosi = f"{found[0]['unique_token']} shows {eks_f} expression."
-                else:
-                    detail_emosi = f"Expression: {eks_f}."
-
-                # Gabungkan menjadi narasi mengalir agar tidak "berat"
-                aksi_master = f"{sc['aksi']}. {detail_emosi} Atmosphere: {weather_f}, {vibe_f} vibe."
-
+                # --- C. MASTER COMPILER (UNIFIED RESULT: GEMINI & VEO) ---
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # --- 1. PROSES MANTRA SAKRAL (SUNTIKAN DISINI) ---
+                    
+                    # 1. RAKIT MANTRA SAKRAL (Style Teknis)
                     mantra_sakral = rakit_prompt_sakral(
                         sc['aksi'], sc['style'], sc['light'], sc['arah'], 
                         sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe']
                     )
-                    
-                    # --- AUTO-SYNC DIALOGUE ---
-                    list_dialog = []
-                    for f_char in found:
-                        original_idx = f_char["id"] - 1
-                        isi_dialog = sc["dialogs"][original_idx].strip()
-                        if isi_dialog:
-                            tag_bicara = f"[{f_char['unique_token']} SPEAKING]"
-                            list_dialog.append(f"{tag_bicara}: '{isi_dialog}'")
-                    dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                    # --- SMART LOGIC: ANTI-HUMAN SKIN FILTER ---
-                    target_dna = dna_lock.upper()
-                    anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
-
-                    # --- MANTRA GAMBAR (OPTIMIZED & CLEAN) ---
+                    # --- 2. PROMPT GAMBAR (GEMINI) ---
                     img_p = (
-                        f"ADVISORY: {h_rule}\n"
-                        f"IDENTITY: {dna_lock}\n"
-                        f"SCENE: {aksi_master} Location: {sc['loc']}.\n"
-                        f"VISUALS: {mantra_sakral} {bumbu_final}.\n"
-                        f"CAMERA: {sc['shot']}, {sc['arah']} view, {QB_IMG}\n"
-                        f"NEGATIVE: {no_text_strict}, {anti_human_filter}blurry, low quality, distorted\n"
-                        f"FORMAT: {sc['ratio']} Aspect Ratio, RAW Photo Output"
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: {sc['shot']}, 8k raw photo.\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
                     )
                     
-                    # --- MANTRA VIDEO (OPTIMIZED & CLEAN) ---
+                    # --- 3. PROMPT VIDEO (VEO) ---
                     vid_p = (
-                        f"RULE: {h_rule}\n"
-                        f"IDENTITY: {dna_lock}\n"
-                        f"SCENE: {aksi_master} at {sc['loc']}.\n"
-                        f"DIALOGUE: {dialog_text}\n"
-                        f"MOTION: {sc['cam']}, 24fps, fluid kinetics, realistic physical interaction.\n"
-                        f"VISUALS: {mantra_sakral}\n"
-                        f"TECHNICAL: {QB_VID}, {sc['shot']}, match lip-sync.\n"
-                        f"NEGATIVE: {no_text_strict}, {negative_motion_strict}, {anti_human_filter}static, robotic, flesh, muscle, human anatomy\n"
-                        f"FORMAT: {sc['ratio']} Vertical, 8k Ultra-HD"
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: realistic physics, {sc['shot']}, 8k Ultra-HD, match lip-sync.\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
                     )
 
+                    # Tampilan Dashboard (Dua Kolom Sejajar)
                     c_img, c_vid = st.columns(2)
-                    with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
-                    with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
+                    with c_img: 
+                        st.markdown("📷 **PROMPT GEMINI**")
+                        st.code(img_p, language="text")
                         
-                    # --- 5. OPTIMALISASI GROK (FINAL VERSION: CLEAN & GENERAL) ---
-                    st.markdown("---")
-                    
-                    # Logika General: Bersihkan dna_lock tanpa sebut nama spesifik
-                    parts = dna_lock.split(" AND ")
-                    clean_parts = []
-                    for i, p in enumerate(parts):
-                        try:
-                            # Ambil Nama & WEAR secara otomatis
-                            c_name = p.split("(")[1].split(")")[0].strip() if "(" in p else "CHARACTER"
-                            wear_content = p.split("WEAR:")[1].split("..")[0].strip() if "WEAR:" in p else "Standard outfit"
-                            photo_num = i + 1
-                            clean_parts.append(f"[[ ACTOR_{photo_num}_SKS ({c_name}): refer to PHOTO #{photo_num} ONLY. WEAR: {wear_content} ]]")
-                        except:
-                            clean_parts.append(p)
-                    
-                    grok_final_identity = " AND ".join(clean_parts)
-
-                    with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
-                        
-                        with tab_img:
-                            # Pakai sc['aksi'] dan sc['style'] agar bersih
-                            grok_img = (
-                                f"{grok_final_identity}\n\n"
-                                f"SCENE: {sc['aksi']}\n\n"
-                                f"LOCATION: {sc['loc']}.\n"
-                                f"STYLE: {sc['style']}, {sc['light']}, {sc['vibe']}.\n"
-                                f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
-                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
-                            )
-                            st.code(grok_img, language="text")
-
-                        with tab_vid:
-                            grok_vid = (
-                                f"{grok_final_identity}\n\n"
-                                f"SCENE: {sc['aksi']}\n\n"
-                                f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
-                                f"AUDIO: {dialog_text}.\n"
-                                f"STYLE: {sc['style']}, {sc['vibe']}.\n"
-                                f"QUALITY: realistic physics.\n\n"
-                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
-                            )
-                            st.code(grok_vid, language="text")
-                            st.caption("Salin prompt video ini untuk mesin video Grok/X.")
+                    with c_vid: 
+                        st.markdown("🎥 **PROMPT VEO**")
+                        st.code(vid_p, language="text")
 
                 # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1741,3 +1645,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
