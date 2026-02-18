@@ -1223,7 +1223,7 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-# --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI RINGKAS & DEFAULT) ---
+# --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR) ---
     st.divider()
     
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
@@ -1271,14 +1271,12 @@ def tampilkan_kendali_tim():
                     else:
                         label = "⚪ Standby"
 
-                    # Box Tiap Akun menggunakan container border default
+                    # Box Tiap Akun - PASSWORD SEJAJAR TANPA TOMBOL COPY
                     with st.container(border=True):
                         col1, col2 = st.columns([3, 1])
                         with col1:
-                            st.write(f"**{row['AI']}** — `{row['EMAIL']}`")
-                            # Password ditaruh di dalam expander kecil supaya rapi
-                            with st.expander("Lihat Password"):
-                                st.code(row['PASSWORD'], language="text")
+                            # Password diletakkan sejajar setelah Email
+                            st.write(f"**{row['AI']}** — `{row['EMAIL']}` | Pass: `{row['PASSWORD']}`")
                         with col2:
                             st.write(f"**{label}**")
                             st.caption(f"Sampai: {row['EXPIRED'].strftime('%d %b %Y')}")
@@ -1654,6 +1652,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
