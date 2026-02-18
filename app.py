@@ -1440,7 +1440,7 @@ def tampilkan_ruang_produksi():
                 data["adegan"][scene_id]["aksi"] = st.text_area(
                     f"Aksi_{scene_id}", 
                     value=data["adegan"][scene_id]["aksi"], 
-                    height=300, 
+                    height=250, 
                     key=f"act_{scene_id}_{ver}", 
                     label_visibility="collapsed",
                     on_change=simpan_ke_memori # <--- Cukup tempel ini di akhir
@@ -1544,52 +1544,59 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER
+                # A. SCAN KARAKTER (Identitas SKS)
                 found = []
-                for i in range(data["jumlah_karakter"]):
+                for i in range(data["jumlah_carakter"] if "jumlah_carakter" in data else data.get("jumlah_karakter", 2)):
                     c = data["karakter"][i]
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
                         found.append({"id": i+1, "nama": c['nama'].upper(), "wear": c['wear']})
 
-                # B. RAKIT IDENTITAS & FILTER
+                # B. RAKIT IDENTITAS KLIMIS
                 clean_parts = [f"[[ ACTOR_{m['id']}_SKS ({m['nama']}): refer to PHOTO #{m['id']} ONLY. WEAR: {m['wear']} ]]" for m in found]
                 final_identity = " AND ".join(clean_parts) if clean_parts else "[[ IDENTITY: UNKNOWN ]]"
                 
                 target_names = [m['nama'] for m in found]
                 anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
 
-                # C. SMART CONTEXT
-                eks_f = sc.get("ekspresi", "Datar/Netral")
-                detail_emosi = f"Expression: {eks_f}."
-                if len(found) > 1:
-                    emosi_map = {
-                        "Marah (Tegang)": f"{found[0]['nama']} is furious, {found[1]['nama']} stays calm.",
-                        "Sedih/Galau": f"{found[0]['nama']} looks heartbroken, {found[1]['nama']} indifferent.",
-                        "Sinis/Sombong": f"{found[0]['nama']} smirks cynically at {found[1]['nama']}."
-                    }
-                    detail_emosi = emosi_map.get(eks_f, detail_emosi)
-                elif len(found) == 1:
-                    detail_emosi = f"{found[0]['nama']} shows {eks_f} expression."
-                
-                konteks_adegan = f"Atmosphere: {sc.get('cuaca', 'Cerah Bersih')}, {sc.get('vibe', 'Sinematik')} vibe. {detail_emosi}"
-
-                # D. MASTER COMPILER (UNIFIED)
+                # C. MASTER COMPILER (KLIMIS & UNIFIED)
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe'])
+                    # Memanggil Mantra Sakral baru (Langkah 1) tanpa variabel yang dibuang
+                    mantra_sakral = rakit_prompt_sakral(
+                        sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam']
+                    )
+                    
+                    # Dialog Sync
                     list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
                     dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                    img_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\nCONTEXT: {konteks_adegan}\n\nLOCATION: {sc['loc']}.\nStyle: {mantra_sakral}\n"
-                             f"Quality: {sc['shot']}, {QB_IMG}\n\n"
-                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface.")
+                    # 1. Prompt Gemini (Locked 9:16)
+                    img_p = (
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: {sc['shot']}, {QB_IMG}\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
+                        f"{anti_human_filter}{no_text_strict}, blurry, distorted surface.\n"
+                        f"FORMAT: 9:16 Vertical Framing"
+                    )
                     
-                    vid_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\nCONTEXT: {konteks_adegan}\n\nLOCATION: {sc['loc']}.\n"
-                             f"VIDEO: {sc['cam']} motion, 24fps, fluid kinetics, realistic physics.\nAUDIO/DIALOGUE: {dialog_text}\n"
-                             f"Style: {mantra_sakral}\nQuality: {sc['shot']}, {QB_VID}, match lip-sync.\n\n"
-                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic.")
+                    # 2. Prompt Veo (Locked 9:16)
+                    vid_p = (
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"VIDEO: {sc['cam']} motion, 24fps, fluid kinetics, realistic physics.\n"
+                        f"AUDIO/DIALOGUE: {dialog_text}\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: {sc['shot']}, {QB_VID}, match lip-sync.\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
+                        f"{anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic.\n"
+                        f"FORMAT: 9:16 Vertical Video"
+                    )
 
                     c1, c2 = st.columns(2)
-                    with c1: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
+                    with c1: st.markdown("📷 **PROMPT GEMINI**"); st.code(img_p, language="text")
                     with c2: st.markdown("🎥 **PROMPT VEO**"); st.code(vid_p, language="text")
 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1617,6 +1624,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
