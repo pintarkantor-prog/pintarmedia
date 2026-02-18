@@ -1276,7 +1276,7 @@ def tampilkan_kendali_tim():
                             st.write(f"**{row['AI']}** — `{row['EMAIL']}` | Password: `{row['PASSWORD']}`")
                         with col2:
                             # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
-                            st.write(f"**{label}** | Masa Aktif: {row['EXPIRED'].strftime('%d %b %Y')}")
+                            st.write(f"**{label}** | Masa Aktif: `{row['EXPIRED'].strftime('%d %b %Y')}`")
             else:
                 st.caption("Belum ada data akun.")
 
@@ -1649,6 +1649,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
