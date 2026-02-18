@@ -1669,44 +1669,43 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- 5. OPTIMASI GROK (SUNTIKAN DISINI) ---
+                    # --- 5. OPTIMALISASI GROK (SPASI RAPI) ---
                     st.markdown("---")
                     
-                    if any(x in target_dna for x in ["UDIN", "TUNG"]):
-                        grok_boost = (
-                            "Non-anthropomorphic material-based entity. "
-                            "STRICT MORPHOLOGY: No human musculature, no chest, no neck, no bodybuilder anatomy. "
-                            "The subject is a literal object with limbs attached. "
-                        )
-                        grok_neg = "(muscular, bodybuilder, shredded:1.5), "
-                    else:
-                        # Jika SITI atau karakter manusia lainnya
-                        grok_boost = "" 
-                        grok_neg = ""
+                    # 1. Rakit Blok Identitas (Gaya Minimalis Sukses)
+                    grok_identities = []
+                    if char1_name:
+                        grok_identities.append(f"[[ ACTOR_1_SKS ({char1_name}): refer to PHOTO #1 ONLY. WEAR: {char1_outfit}. ]]")
+                    if char2_name:
+                        grok_identities.append(f"[[ ACTOR_2_SKS ({char2_name}): refer to PHOTO #2 ONLY. WEAR: {char2_outfit}. ]]")
+                    
+                    grok_final_identity = " AND ".join(grok_identities)
 
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
+                        
                         with tab_img:
                             grok_img = (
-                                f"{grok_boost}{dna_lock}\n" 
-                                f"{aksi_master} at {sc['loc']}.\n"
-                                f"Style: {mantra_sakral}.\n"
-                                f"Quality: {sc['shot']}, 8k raw photo.\n"
-                                f"Negative: (muscular, bodybuilder:1.5), {anti_human_filter}text, blurry."
+                                f"{grok_final_identity}\n\n"
+                                f"SCENE: {aksi_master}\n\n"
+                                f"LOCATION: {sc['loc']}.\n"
+                                f"STYLE: {mantra_sakral}\n"
+                                f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
+                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
                             )
                             st.code(grok_img, language="text")
 
                         with tab_vid:
                             grok_vid = (
-                                f"{grok_boost}{dna_lock}\n"
-                                f"Scene: {aksi_master}.\n"
-                                f"Video: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
-                                f"Audio: {dialog_text}.\n"
-                                f"Quality: {sc['style']}, realistic physics.\n"
-                                f"Negative: (muscular, bodybuilder:1.5), {anti_human_filter}static, robotic."
+                                f"{grok_final_identity}\n\n"
+                                f"SCENE: {aksi_master}\n\n"
+                                f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
+                                f"AUDIO: {dialog_text}.\n"
+                                f"QUALITY: {sc['style']}, realistic physics.\n\n"
+                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
                             )
                             st.code(grok_vid, language="text")
-                            st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
+                            st.caption("Salin prompt video ini untuk mesin video Grok/X.")
 
                 # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1734,6 +1733,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
