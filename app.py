@@ -1354,13 +1354,13 @@ def tampilkan_ruang_produksi():
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
         
         if 'data_produksi' not in st.session_state:
-        # Proteksi jika entah kenapa session_state kosong
-        st.session_state.data_produksi = {
-            "jumlah_karakter": 2,
-            "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
-            "jumlah_adegan": 5,
-            "adegan": {i: {"aksi": "", "loc": "", "dialogs": ["", "", "", ""]} for i in range(1, 6)}
-        }
+            # Baris 1358: Ini harus menjorok masuk (pake TAB atau 4 SPASI)
+            st.session_state.data_produksi = {
+                "jumlah_karakter": 2,
+                "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
+                "jumlah_adegan": 5,
+                "adegan": {i: {"aksi": "", "loc": "", "dialogs": ["", "", "", ""]} for i in range(1, 6)}
+            }
     
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
@@ -1708,6 +1708,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
