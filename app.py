@@ -1738,6 +1738,6 @@ def utama():
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
         elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
-# --- BAGIAN PALING BAWAH ---
-if __name__ == "__main__":
-    utama()
+    # --- BAGIAN PALING BAWAH ---
+    if __name__ == "__main__":
+        utama()
