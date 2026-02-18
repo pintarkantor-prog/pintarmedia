@@ -1669,34 +1669,25 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
-                    # --- 5. OPTIMALISASI GROK (DI MASUKKAN KE DALAM EXPANDER) ---
-                    # Menjorok ke dalam agar masuk kotak MASTERPIECE
-                    st.markdown("---")
-                    
-                    # Ambil data pakaian dari MASTER_CHAR
-                    char1_name = sc.get('char1', "")
-                    char2_name = sc.get('char2', "")
-                    char1_outfit = MASTER_CHAR.get(char1_name, {}).get('pakaian', "Standard outfit")
-                    char2_outfit = MASTER_CHAR.get(char2_name, {}).get('pakaian', "Standard outfit")
-
-                # --- AMBIL DATA KARAKTER (LOGIKA ANTI-GAGAL) ---
+                # --- AMBIL DATA KARAKTER (FIX KEYERROR) ---
                 grok_identities = []
-                # Kita looping langsung dari list 'found' yang sudah divalidasi sistem
+                # Menggunakan found yang sudah divalidasi sistem sebelumnya
                 for i, f_char in enumerate(found):
-                    c_name = f_char['name']
-                    # Ambil outfit dari MASTER_CHAR menggunakan nama yang ditemukan
-                    c_outfit = MASTER_CHAR.get(c_name, {}).get('pakaian', "Standard outfit")
+                    # Kita ambil nama karakter dari unique_token (misal: UDIN-1 jadi UDIN)
+                    # Atau dari key 'char' jika tersedia
+                    raw_name = f_char.get('char', f_char.get('unique_token', 'UNKNOWN')).split('-')[0].upper()
                     
-                    # Tentukan nomor urut ACTOR dan PHOTO
+                    # Ambil outfit dari MASTER_CHAR
+                    c_outfit = MASTER_CHAR.get(raw_name, {}).get('pakaian', "Standard outfit")
+                    
                     actor_num = i + 1
                     grok_identities.append(
-                        f"[[ ACTOR_{actor_num}_SKS ({c_name}): refer to PHOTO #{actor_num} ONLY. WEAR: {c_outfit}. ]]"
+                        f"[[ ACTOR_{actor_num}_SKS ({raw_name}): refer to PHOTO #{actor_num} ONLY. WEAR: {c_outfit}. ]]"
                     )
                 
-                # Gabungkan semua identitas yang ditemukan
                 grok_final_identity = " AND ".join(grok_identities) if grok_identities else "IDENTITY: [DNA_LOCK]"
 
-                # --- 5. OPTIMALISASI GROK (SESUAI REQUEST HASIL TEST) ---
+                # --- 5. OPTIMALISASI GROK ---
                 st.markdown("---")
                 with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                     tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
@@ -1750,6 +1741,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
