@@ -1405,34 +1405,41 @@ def tampilkan_ruang_produksi():
                     def_fisik = ""
                     nama_final = ""
 
-                # Tampilkan input dengan KEY DINAMIS + ON_CHANGE agar tersimpan ke Session State
+                # Tampilkan input dengan SYNC LANGSUNG ke Session State
+                # 1. Input Nama
                 data["karakter"][i]["nama"] = st.text_input(
                     "Nama", 
                     value=nama_final, 
                     key=f"char_nama_{i}_{ver}_{nama_pilihan}", 
-                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    on_change=simpan_ke_memori,
                     placeholder="Nama...", 
                     label_visibility="collapsed"
                 )
-                
+                # Sinkronkan manual jika terpilih otomatis
+                st.session_state.data_produksi["karakter"][i]["nama"] = data["karakter"][i]["nama"]
+
+                # 2. Input Pakaian
                 data["karakter"][i]["wear"] = st.text_input(
                     "Pakaian", 
                     value=def_wear, 
                     key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", 
-                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    on_change=simpan_ke_memori,
                     placeholder="Pakaian...", 
                     label_visibility="collapsed"
                 )
-                
+                st.session_state.data_produksi["karakter"][i]["wear"] = data["karakter"][i]["wear"]
+
+                # 3. Input Fisik
                 data["karakter"][i]["fisik"] = st.text_area(
                     "Ciri Fisik", 
                     value=def_fisik, 
                     key=f"char_fix_{i}_{ver}_{nama_pilihan}", 
-                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    on_change=simpan_ke_memori,
                     height=80, 
                     placeholder="Fisik...", 
                     label_visibility="collapsed"
                 )
+                st.session_state.data_produksi["karakter"][i]["fisik"] = data["karakter"][i]["fisik"]
                 # --- FITUR AUTO-FILL END ---
     # 3. INPUT ADEGAN (LENGKAP: LIGHTING, RATIO, DLL)
     for s in range(data["jumlah_adegan"]):
@@ -1733,6 +1740,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
