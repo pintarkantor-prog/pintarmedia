@@ -1440,7 +1440,7 @@ def tampilkan_ruang_produksi():
                 data["adegan"][scene_id]["aksi"] = st.text_area(
                     f"Aksi_{scene_id}", 
                     value=data["adegan"][scene_id]["aksi"], 
-                    height=250, 
+                    height=230, 
                     key=f"act_{scene_id}_{ver}", 
                     label_visibility="collapsed",
                     on_change=simpan_ke_memori # <--- Cukup tempel ini di akhir
@@ -1624,6 +1624,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
