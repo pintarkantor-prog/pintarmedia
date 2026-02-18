@@ -1599,8 +1599,8 @@ def tampilkan_ruang_produksi():
                     )
 
                     c1, c2 = st.columns(2)
-                    with c1: st.markdown("📷 **PROMPT GEMINI**"); st.code(img_p, language="text")
-                    with c2: st.markdown("🎥 **PROMPT VEO**"); st.code(vid_p, language="text")
+                    with c1: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
+                    with c2: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1627,6 +1627,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
