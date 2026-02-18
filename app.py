@@ -1672,8 +1672,17 @@ def tampilkan_ruang_produksi():
                     # --- 5. OPTIMASI GROK (SUNTIKAN DISINI) ---
                     st.markdown("---")
                     
-                    # 1. Definisikan Boost-nya di sini agar dibaca oleh Tab Gambar & Video
-                    grok_boost = "Non-anthropomorphic material-based entity. " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
+                    if any(x in target_dna for x in ["UDIN", "TUNG"]):
+                        grok_boost = (
+                            "Non-anthropomorphic material-based entity. "
+                            "STRICT MORPHOLOGY: No human musculature, no chest, no neck, no bodybuilder anatomy. "
+                            "The subject is a literal object with limbs attached. "
+                        )
+                        grok_neg = "(muscular, bodybuilder, shredded:1.5), "
+                    else:
+                        # Jika SITI atau karakter manusia lainnya
+                        grok_boost = "" 
+                        grok_neg = ""
 
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
@@ -1725,6 +1734,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
