@@ -1109,49 +1109,47 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- TAMPILAN 3: RUANG QC ---
-        st.subheader("🔍 RUANG PEMERIKSAAN (QC)")
-        df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
-        
-        if not df_qc.empty:
-            for i, r in df_qc.iterrows():
-                # Menggunakan ID unik sebagai kunci utama pencarian baris
-                t_id_qc = str(r.get('ID', ''))
-                
-                with st.container(border=True):
-                    c1, c2, c3 = st.columns([3, 1, 1])
-                    c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
-                    c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
+        # --- TAMPILAN 3: RUANG QC (VERSI EXPANDER) ---
+        with st.expander("🔍 RUANG PEMERIKSAAN (QC)", expanded=False):
+            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
+            
+            if not df_qc.empty:
+                for i, r in df_qc.iterrows():
+                    t_id_qc = str(r.get('ID', ''))
                     
-                    if t_id_qc:
-                        # Tombol Validasi (ACC)
-                        if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
-                            cell = ws_tugas.find(t_id_qc)
-                            if cell:
-                                ws_tugas.update_cell(cell.row, 5, "FINISH") # Kolom 5 = Status
-                                st.toast(f"Tugas {t_id_qc} divalidasi FINISH!", icon="✅")
-                                time.sleep(1)
-                                st.rerun()
+                    with st.container(border=True):
+                        c1, c2, c3 = st.columns([3, 1, 1])
+                        c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
+                        c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
                         
-                        # Tombol Minta Revisi (REV)
-                        if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
-                            cell = ws_tugas.find(t_id_qc)
-                            if cell:
-                                ws_tugas.update_cell(cell.row, 5, "REVISI")
-                                st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
-                                time.sleep(1)
-                                st.rerun()
-        else:
-            st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
+                        if t_id_qc:
+                            if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
+                                cell = ws_tugas.find(t_id_qc)
+                                if cell:
+                                    ws_tugas.update_cell(cell.row, 5, "FINISH")
+                                    st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
+                                    time.sleep(1)
+                                    st.rerun()
+                            
+                            if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
+                                cell = ws_tugas.find(t_id_qc)
+                                if cell:
+                                    ws_tugas.update_cell(cell.row, 5, "REVISI")
+                                    st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
+                                    time.sleep(1)
+                                    st.rerun()
+            else:
+                st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
 
-        # --- TAMPILAN 4: JADWAL PRODUKSI ---
-        st.subheader("📅 JADWAL PRODUKSI")
-        if not df_t_bln.empty:
-            for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
-                ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['STATUS']).upper(), "⚪")
-                st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** - {t.get('INSTRUKSI')} ({t.get('STAF')})")
-        else:
-            st.caption("Tidak ada jadwal untuk periode ini.")
+        # --- TAMPILAN 4: JADWAL PRODUKSI (VERSI EXPANDER) ---
+        with st.expander("📅 JADWAL PRODUKSI", expanded=False):
+            if not df_t_bln.empty:
+                for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
+                    # Format tampilan lebih ringkas: Ikon - Tanggal - Instruksi - Staf
+                    ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['STATUS']).upper(), "⚪")
+                    st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** — {t.get('INSTRUKSI')} — `{t.get('STAF')}`")
+            else:
+                st.caption("Tidak ada jadwal untuk periode ini.")
 
         # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
         with st.expander("📊 Grafik Produktivitas"):
@@ -1161,7 +1159,7 @@ def tampilkan_kendali_tim():
                 st.info("Belum ada video selesai bulan ini.")
 
         # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
-        with st.expander("💰 RINCIAN GAJI & SLIP (FULL)", expanded=True):
+        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=True):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
@@ -1649,6 +1647,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
