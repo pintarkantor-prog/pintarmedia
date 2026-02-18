@@ -32,10 +32,10 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     }
     
     style_map = {
-        "Sangat Nyata": "Hyper-realistic photorealistic materials, 8k resolution, macro photography detail, f/1.8 cinematic bokeh, razor-sharp focus on subject.",
-        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, f/1.8 depth of field, ray-traced global illumination, premium subsurface scattering.",
-        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, f/1.8 lens, futuristic textures, neon reflections, volumetric fog.",
-        "Anime Jepang": "Studio Ghibli style, soft focus background, hand-painted watercolor textures, lush nature aesthetic."
+        "Sangat Nyata": "Cinematic RAW shot, macro-detail material fidelity, sharp textures, f/1.8 lens focus, realistic physical shading, PBR organic surfaces.",
+        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering.",
+        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic textures, neon reflections, volumetric fog.",
+        "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush nature aesthetic."
     }
 
     l_cmd = light_map.get(light, "Natural lighting.")
@@ -1713,6 +1713,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
