@@ -1669,32 +1669,13 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
-                    # --- 5. OPTIMALISASI GROK (CLEAN IDENTITY & OUTFIT SYNC) ---
+                    # --- 5. OPTIMALISASI GROK (AMBIL LANGSUNG DARI IDENTITY) ---
                     st.markdown("---")
                     
-                    grok_identities = []
-                    for i, f_char in enumerate(found):
-                        # 1. AMBIL NAMA MURNI (Membersihkan 'ACTOR_1_SKS (UDIN)' menjadi 'UDIN')
-                        raw_val = f_char.get('name', f_char.get('unique_token', 'UNKNOWN'))
-                        if "(" in raw_val:
-                            clean_name = raw_val.split("(")[-1].split(")")[0].strip().upper()
-                        else:
-                            clean_name = raw_val.split("-")[0].strip().upper()
-                        
-                        # 2. AMBIL PAKAIAN DARI MASTER_CHAR (UDIN / TUNG)
-                        # Pastikan 'pakaian' adalah key yang tepat di MASTER_CHAR kamu
-                        char_info = MASTER_CHAR.get(clean_name, {})
-                        c_outfit = char_info.get('pakaian') or char_info.get('baju') or "Premium Custom Outfit"
-                        
-                        # 3. RAKIT IDENTITAS (Hanya 1 lapis ACTOR_SKS)
-                        actor_num = i + 1
-                        grok_identities.append(
-                            f"[[ ACTOR_{actor_num}_SKS ({clean_name}): refer to PHOTO #{actor_num} ONLY. WEAR: {c_outfit}. ]]"
-                        )
+                    # Kita ambil dna_lock yang sudah berisi [[ ACTOR_SKS ... WEAR: ... ]]
+                    # Kita pastikan formatnya bersih untuk Grok
+                    grok_final_identity = dna_lock.replace(" refer to PHOTO #1 ONLY", "")
                     
-                    grok_final_identity = " AND ".join(grok_identities) if grok_identities else "IDENTITY: [DNA_LOCK]"
-
-                    # --- POSISI TETAP DI DALAM EXPANDER ---
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         
@@ -1747,6 +1728,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
