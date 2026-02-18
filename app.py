@@ -32,10 +32,10 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     }
     
     style_map = {
-        "Sangat Nyata": "Hyper-realistic photorealistic materials, 8k resolution, macro photography detail, f/1.8 cinematic realism.",
-        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering.",
-        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic textures, neon reflections, volumetric fog.",
-        "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush nature aesthetic."
+        "Sangat Nyata": "Hyper-realistic photorealistic materials, 8k resolution, macro photography detail, f/1.8 cinematic bokeh, razor-sharp focus on subject.",
+        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, f/1.8 depth of field, ray-traced global illumination, premium subsurface scattering.",
+        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, f/1.8 lens, futuristic textures, neon reflections, volumetric fog.",
+        "Anime Jepang": "Studio Ghibli style, soft focus background, hand-painted watercolor textures, lush nature aesthetic."
     }
 
     l_cmd = light_map.get(light, "Natural lighting.")
@@ -1337,8 +1337,8 @@ def tampilkan_ruang_produksi():
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG ---
     QB_IMG = (
-        "hyper-realistic 8k RAW photo, infinite depth of field, f/11 aperture, "
-        "zero bokeh, zero background blur, sharp edge-enhancement, non-filtered, "
+        "hyper-realistic 8k RAW photo, cinematic depth of field, f/1.8 aperture, " # Ganti f/11 jadi f/1.8
+        "soft natural bokeh, sharp focus on actor's face, edge-enhancement, non-filtered, " # Hapus 'zero bokeh'
         "ultra-clear optical clarity, CPL filter, high local contrast, physically-based rendering, hyper-detailed material textures"
     )
     QB_VID = (
@@ -1713,6 +1713,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
