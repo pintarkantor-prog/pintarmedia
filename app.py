@@ -22,6 +22,34 @@ OPTS_CUACA = ["Cerah Bersih", "Berkabut Tipis", "Gerimis Halus", "Banyak Debu Te
 OPTS_VIBE = ["Sinematik Film", "Horor Mencekam", "Retro Jadul", "Vlog Santai", "Aksi Cepat"]
 OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
+def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vibe):
+    # --- MAPPING MANTRA WEB LAMA (LIGHTING & STYLE) ---
+    light_map = {
+        "Sinar Senja (Golden)": "4 PM golden hour, warm saturated colors, long dramatic sharp shadows, sharp amber highlights, high local contrast, ultra-clear atmosphere.",
+        "Lampu Studio": "Professional studio lighting, 3-point lighting setup, soft key light, rim lighting for depth, clean shadows, high-end commercial look.",
+        "Cahaya Alami": "Natural daylight, balanced exposure, realistic environment shadows, neutral color temperature, crystal clear air.",
+        "Neon Remang": "Cyberpunk neon aesthetic, vibrant pink and blue rim light, deep shadows, cinematic atmosphere, high contrast noir vibes.",
+        "Cahaya Bulan": "Cinematic night, realistic dim moonlight, natural ambient shadows, deep indigo sky, clean silhouettes, professional night photography."
+    }
+    
+    style_map = {
+        "Sangat Nyata": "Hyper-realistic photography, 8k resolution, highly detailed skin textures, shot on 35mm lens, f/1.8, cinematic realism.",
+        "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering, soft tactile textures.",
+        "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic techwear textures, neon reflections on wet surfaces, volumetric fog, high-tech atmosphere.",
+        "Anime Jepang": "Studio Ghibli hand-painted style, watercolor textures, soft cel shading, lush nature aesthetic, whimsical lighting."
+    }
+
+    l_cmd = light_map.get(light, "Natural lighting, balanced exposure.")
+    s_cmd = style_map.get(style, "Cinematic film look.")
+    
+    # Mapping Kamera, Ekspresi & Environment (OPTS Baru)
+    cam_logic = f"Camera {cam}, shot at {shot} with {arah} angle, cinematic camera motion, realistic physics."
+    face_logic = f"Character with {ekspresi} expression, highly detailed facial features, micro-expressions, realistic eye contact."
+    env_logic = f"Environment: {cuaca}, {vibe} atmosphere, volumetric lighting, 8k resolution, hyper-detailed textures."
+
+    # Perakit Akhir (Prompt Khusus Mesin AI Video)
+    return f"[STYLE: {s_cmd}] [CAMERA: {cam_logic}] [CHARACTER: {face_logic}] [LIGHTING: {l_cmd}] [VIBE: {env_logic}]"
+
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
@@ -617,9 +645,11 @@ def tampilkan_quick_prompt():
         st.session_state.qp_data = {
             "name_a": "", "det_a": "", 
             "name_b": "", "det_b": "",
-            "loc": "", "act": "", "ss": "Setengah Badan",
-            "ar": "Sejajar Mata", "vb": "Sinematik Film",
-            "wt": "Cerah Bersih", "dial": "", "spk": []
+            "loc": "", "act": "", "ss": OPTS_SHOT[2], # Default: Setengah Badan
+            "ar": OPTS_ARAH[0], # Default: Sejajar Mata
+            "vb": OPTS_STYLE[0], # Default: Sangat Nyata
+            "wt": OPTS_LIGHT[0], # Default: Sinar Senja
+            "dial": "", "spk": []
         }
 
     # --- 2. FUNGSI HAPUS PROMPT ---
@@ -627,9 +657,10 @@ def tampilkan_quick_prompt():
         for key in st.session_state.qp_data:
             if key == "spk":
                 st.session_state.qp_data[key] = []
-            elif key in ["ss", "ar", "vb", "wt"]:
-                defaults = {"ss": "Setengah Badan", "ar": "Sejajar Mata", "vb": "Sinematik Film", "wt": "Cerah Bersih"}
-                st.session_state.qp_data[key] = defaults[key]
+            elif key == "ss": st.session_state.qp_data[key] = OPTS_SHOT[2]
+            elif key == "ar": st.session_state.qp_data[key] = OPTS_ARAH[0]
+            elif key == "vb": st.session_state.qp_data[key] = OPTS_STYLE[0]
+            elif key == "wt": st.session_state.qp_data[key] = OPTS_LIGHT[0]
             else:
                 st.session_state.qp_data[key] = ""
         st.toast("Formulir dibersihkan! 🧹")
@@ -656,7 +687,6 @@ def tampilkan_quick_prompt():
         q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
         st.session_state.qp_data["loc"] = q_lokasi
         
-        # --- LOGIKA TOMBOL PINTAR AI (VERSI PADAT & SINGKAT) ---
         if "act_version" not in st.session_state:
             st.session_state.act_version = 0
 
@@ -670,67 +700,52 @@ def tampilkan_quick_prompt():
                     with st.spinner("Pintar AI lagi memoles adegan..."):
                         try:
                             headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-                            
-                            # --- MODIFIKASI MANTRA DISINI ---
                             prompt_ai = f"""Ubah aksi singkat ini jadi deskripsi visual sinematik buat prompt AI Video.
-                            ATURAN MAIN:
-                            1. Pakai bahasa deskriptif yang hidup tapi jangan terlalu kaku (nggak usah baku banget).
-                            2. Maksimal 2 kalimat pendek aja.
-                            3. Fokus ke gerakan karakter sama detail lingkungan yang nempel (biar visualnya dapet).
-                            4. JANGAN menceritakan perasaan atau elemen jauh yang nggak penting.
-                            5. LANGSUNG ke deskripsi, tanpa kata pembuka.
-
+                            ATURAN MAIN: 1. Bahasa deskriptif hidup. 2. Maks 2 kalimat. 3. Fokus gerakan & detail. 4. Langsung ke deskripsi.
                             Aksi: {current_act}"""
                             
                             payload = {
                                 "model": "llama-3.3-70b-versatile",
                                 "messages": [{"role": "user", "content": prompt_ai}],
-                                "temperature": 0.5 # Temperature diturunkan agar AI tidak terlalu kreatif/ngaco
+                                "temperature": 0.5
                             }
                             res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
                             if res.status_code == 200:
                                 hasil_ai = res.json()['choices'][0]['message']['content'].strip()
                                 hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
-                                
                                 st.session_state.qp_data["act"] = hasil_bersih
                                 st.session_state.act_version += 1
                                 st.rerun()
-                            else:
-                                st.error(f"Gagal koneksi! Status: {res.status_code}")
                         except Exception as e:
                             st.error(f"Kesalahan: {str(e)}")
             else:
                 st.warning("Tulis dulu aksinya sedikit!")
 
-        # --- TEXT AREA DENGAN KEY DINAMIS ---
-        q_aksi = st.text_area(
-            "🏃 Apa yang terjadi?", 
-            value=st.session_state.qp_data["act"], 
-            key=f"q_act_{st.session_state.act_version}"
-        )
+        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key=f"q_act_{st.session_state.act_version}")
         st.session_state.qp_data["act"] = q_aksi
 
+        # --- KOLOM OPSI (SINKRON DENGAN GLOBAL OPTS) ---
         c1, c2, c3, c4 = st.columns(4)
         with c1:
-            opts_ss = ["Setengah Badan", "Seluruh Badan", "Dekat (Close Up)", "Sangat Dekat"]
-            idx_ss = opts_ss.index(st.session_state.qp_data["ss"])
-            q_shot = st.selectbox("📸 Shot Size", opts_ss, index=idx_ss, key="q_ss")
+            val_ss = st.session_state.qp_data["ss"]
+            idx_ss = OPTS_SHOT.index(val_ss) if val_ss in OPTS_SHOT else 2
+            q_shot = st.selectbox("📸 Shot Size", OPTS_SHOT, index=idx_ss, key="q_ss_new")
             st.session_state.qp_data["ss"] = q_shot
         with c2:
-            opts_ar = ["Sejajar Mata", "Samping (Profile)", "Dari Belakang", "Dari Atas", "Dari Bawah"]
-            idx_ar = opts_ar.index(st.session_state.qp_data["ar"])
-            q_arah = st.selectbox("🎥 Arah Kamera", opts_ar, index=idx_ar, key="q_ar")
+            val_ar = st.session_state.qp_data["ar"]
+            idx_ar = OPTS_ARAH.index(val_ar) if val_ar in OPTS_ARAH else 0
+            q_arah = st.selectbox("🎥 Arah Kamera", OPTS_ARAH, index=idx_ar, key="q_ar_new")
             st.session_state.qp_data["ar"] = q_arah
         with c3:
-            opts_vb = ["Sinematik Film", "Vlog Santai", "Horor Mencekam", "Animasi 3D", "Cyberpunk"]
-            idx_vb = opts_vb.index(st.session_state.qp_data["vb"])
-            q_vibe = st.selectbox("🎨 Vibe", opts_vb, index=idx_vb, key="q_vb")
-            st.session_state.qp_data["vb"] = q_vibe
+            val_vb = st.session_state.qp_data["vb"]
+            idx_vb = OPTS_STYLE.index(val_vb) if val_vb in OPTS_STYLE else 0
+            q_style_fix = st.selectbox("🎨 Visual Style", OPTS_STYLE, index=idx_vb, key="q_vb_new")
+            st.session_state.qp_data["vb"] = q_style_fix
         with c4:
-            opts_wt = ["Cerah Bersih", "Berkabut", "Gerimis", "Hujan Deras", "Sangat Gelap"]
-            idx_wt = opts_wt.index(st.session_state.qp_data["wt"])
-            q_weather = st.selectbox("☁️ Cuaca", opts_wt, index=idx_wt, key="q_wt")
-            st.session_state.qp_data["wt"] = q_weather
+            val_wt = st.session_state.qp_data["wt"]
+            idx_wt = OPTS_LIGHT.index(val_wt) if val_wt in OPTS_LIGHT else 0
+            q_light_fix = st.selectbox("💡 Lighting", OPTS_LIGHT, index=idx_wt, key="q_wt_new")
+            st.session_state.qp_data["wt"] = q_light_fix
 
         st.divider()
 
@@ -743,8 +758,14 @@ def tampilkan_quick_prompt():
 
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- LOGIKA SMART CAMERA & OUTPUT ---
+    # --- 4. LOGIKA SUNTIKAN MANTRA SAKRAL & OUTPUT ---
     if q_aksi and q_lokasi:
+        # Merakit Mantra Sakral (Otomatis mengambil data teknis web lama)
+        mantra_sakral_qp = rakit_prompt_sakral(
+            q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, 
+            "Diam (Tetap Napas)", "Datar (Netral)", "Cerah Bersih", "Sinematik Film"
+        )
+
         aksi_low = q_aksi.lower()
         if len(q_dialog) > 5:
             smart_move = "Slow cinematic zoom-in to capture emotional facial expression"
@@ -755,7 +776,6 @@ def tampilkan_quick_prompt():
         else:
             smart_move = "Smooth slow-pan across the environment"
 
-        mood_q = "bright, sharp" if "Cerah" in q_weather else f"{q_weather}, moody"
         dna_combined = f"CHAR 1: {q_char_a} ({q_detail_a})\nCHAR 2: {q_char_b} ({q_detail_b})"
         speaker_str = " & ".join(q_speaker) if q_speaker else "None"
 
@@ -765,12 +785,12 @@ def tampilkan_quick_prompt():
         res_img, res_vid = st.columns(2)
         with res_img:
             st.markdown("##### 📷 PROMPT GAMBAR")
-            st.code(f"STYLE: {q_vibe}.\nSHOT: {q_shot}, {q_arah} view.\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nLIGHT: {mood_q}.\nQUALITY: 8k raw.\nASPECT RATIO: 9:16 vertical --ar 9:16", language="text")
+            st.code(f"VISUAL_LOGIC: {mantra_sakral_qp}\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nQUALITY: 8k raw, ultra-sharp.\nASPECT RATIO: 9:16", language="text")
         with res_vid:
             st.markdown("##### 🎥 PROMPT VIDEO")
-            st.code(f"VIDEO: {q_vibe}, {smart_move}, 24fps.\nFORMAT: Vertical 9:16.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi} from {q_arah} angle.\nSPEAKER: {speaker_str}\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: {q_weather}.", language="text")
+            st.code(f"VISUAL_LOGIC: {mantra_sakral_qp}\nVIDEO_MOVE: {smart_move}.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi}.\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: High fidelity motion.", language="text")
         
-        st.info(f"💡 Prompt Siap! Silahkan langsung copy ke GROK, Gemini, Flow!")
+        st.info(f"💡 Prompt Siap! Visual sudah di-booster dengan Mantra Sakral.")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1095,17 +1115,34 @@ def tampilkan_kendali_tim():
         
         if not df_qc.empty:
             for i, r in df_qc.iterrows():
+                # Kita ambil ID unik tugasnya
+                t_id_qc = str(r.get('ID', ''))
+                
                 with st.container(border=True):
                     c1, c2, c3 = st.columns([3, 1, 1])
                     c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
-                    c1.caption(f"Editor: {r.get('STAF', 'Anonim')}")
-                    idx = r.name + 2
-                    if c2.button("✅ ACC", key=f"acc_{idx}", use_container_width=True):
-                        ws_tugas.update_cell(idx, 5, "FINISH"); st.rerun()
-                    if c3.button("❌ REV", key=f"rev_{idx}", use_container_width=True):
-                        ws_tugas.update_cell(idx, 5, "REVISI"); st.rerun()
+                    c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
+                    
+                    # Logika Pencarian Baris Berdasarkan ID (Sangat Aman)
+                    if t_id_qc:
+                        if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
+                            cell = ws_tugas.find(t_id_qc)
+                            if cell:
+                                # Kolom 5 adalah kolom STATUS
+                                ws_tugas.update_cell(cell.row, 5, "FINISH")
+                                st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
+                                time.sleep(1)
+                                st.rerun()
+                        
+                        if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
+                            cell = ws_tugas.find(t_id_qc)
+                            if cell:
+                                ws_tugas.update_cell(cell.row, 5, "REVISI")
+                                st.toast(f"Tugas {t_id_qc} diminta REVISI", icon="🔴")
+                                time.sleep(1)
+                                st.rerun()
         else:
-            st.info("Antrean QC kosong. ✨")
+            st.info("Antrean QC kosong. ✨ Semua tugas sudah diperiksa.")
 
         # --- TAMPILAN 4: JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI")
@@ -1424,6 +1461,11 @@ def tampilkan_ruang_produksi():
                 )
 
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                    # --- 1. PROSES MANTRA SAKRAL (SUNTIKAN DISINI) ---
+                    mantra_sakral = rakit_prompt_sakral(
+                        sc['aksi'], sc['style'], sc['light'], sc['arah'], 
+                        sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe']
+                    )
                     # --- AUTO-SYNC DIALOGUE (VERSI ANTI-TUKAR) ---
                     list_dialog = []
                     for f_char in found:
@@ -1439,12 +1481,13 @@ def tampilkan_ruang_produksi():
                     # --- MANTRA GAMBAR (SUNTIKAN AKSI LENGKAP) ---
                     img_p = (
                         f"PRIORITY DNA: {dna_lock}\n"
+                        f"VISUAL_LOGIC: {mantra_sakral}\n" # <--- SUNTIKAN MANTRA SAKRAL
                         f"RULE: {h_rule}\n\n"
                         f"ACTION: {aksi_master}\n"
                         f"ENVIRONMENT: {sc['loc']}. {bumbu_final}. NO SOFTENING.\n"
                         f"CAMERA: {sc['shot']}, {sc['arah']} view, focal-point-on-face, {QB_IMG}\n"
-                        f"TECHNICAL: {sc['style']} cinematic practical effects, {sc['light']}, physically-based rendering (PBR), cinematic material shaders, extreme-edge-enhancement\n"
-                        f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, original photo clothes, improvising facial features\n"
+                        f"TECHNICAL: {sc['style']}, {sc['light']}, PBR material, extreme-edge-enhancement\n"
+                        f"NEGATIVE PROMPT: {no_text_strict}, different face, generic person, original photo clothes\n"
                         f"FORMAT: Aspect Ratio {sc['ratio']}, Ultra-HD RAW Output"
                     )
                     
@@ -1452,10 +1495,11 @@ def tampilkan_ruang_produksi():
                     vid_p = (
                         f"RULE: {h_rule}\n\n"
                         f"IDENTITY LOCK: {dna_lock}\n"
+                        f"VISUAL_LOGIC: {mantra_sakral}\n" # <--- SUNTIKAN SAKRAL DISINI
                         f"SCENE: {aksi_master} at {sc['loc']}. {bumbu_final}.\n"
                         f"AUDIO-VISUAL SYNC: Only the character tagged [SPEAKING] moves their mouth. Match lip-sync to the specific dialogue text.\n"
                         f"DIALOGUE CONTEXT: {dialog_text}\n"
-                        f"MOTION: Organic human behavior, fluid secondary motion, natural head tilting, realistic breathing, micro-expressions. "
+                        f"MOTION: {sc['cam']}, Organic human behavior, fluid secondary motion, natural breathing, micro-expressions. "
                         f"STRICT: Eliminate all robotic stiffness, no static mannequin poses, fluid joint movement.\n"
                         f"TECHNICAL: {QB_VID}, {sc['style']} motion-capture fidelity, {sc['shot']}, organic fluid motion, subsurface material lighting.\n"
                         f"NEGATIVE PROMPT: {no_text_strict}, {negative_motion_strict}, "
@@ -1470,41 +1514,39 @@ def tampilkan_ruang_produksi():
                     # --- OPTIMASI GROK MINIMALIS (GENERAL & ANTI-BLUR) ---
                     st.markdown("---")
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        # 1. AMBIL DATA DASAR
-                        weather_f = sc.get('cuaca', 'Cerah')
-                        vibe_f = sc.get('vibe', 'Sinematik')
+                        weather_f = sc.get('cuaca', 'Cerah Bersih')
+                        vibe_f = sc.get('vibe', 'Sinematik Film')
                         mood = "bright, no fog" if "Cerah" in weather_f else f"{weather_f}, moody"
                         
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
 
                         with tab_img:
-                            # Mantra Gambar: Padat & Tajam
+                            # Mantra Gambar Grok: Padat tapi Sakral
                             grok_img = (
-                                f"STYLE: {vibe_f}, {sc['style']}.\n"
+                                f"STYLE: {vibe_f}. {mantra_sakral}\n" # <--- Suntikan Sakral di awal
                                 f"SHOT: {sc['shot']}, {sc['arah']}.\n"
                                 f"DNA: {dna_lock}\n"
-                                f"ACTION: {aksi_master} at {sc['loc']}.\n"
-                                f"LIGHT: {sc['light']}, {mood}.\n"
-                                f"QUALITY: 8k raw, ultra-sharp, high-contrast, photo.\n"
-                                f"NEGATIVE: text, watermark, blur, out of focus, distorted, lowres."
+                                f"ACTION: {aksi_master}.\n"
+                                f"QUALITY: 8k raw, photo, ultra-sharp.\n"
+                                f"NEGATIVE: text, watermark, blurry, distorted."
                             )
                             st.code(grok_img, language="text")
 
                         with tab_vid:
-                            # Mantra Video: Fokus Gerakan & Sinkronisasi Suara
                             si_pembicara = sc.get('karakter', 'UNKNOWN') 
-                            # Kita gunakan AUDIO_SCRIPT karena Grok lebih sensitif dengan kata ini
-                            speaker_label = f"AUDIO_SOURCE: {si_pembicara} is speaking." if dialog_text != "-" else "NO DIALOGUE"
+                            speaker_label = f"AUDIO_SOURCE: {si_pembicara} is speaking." if dialog_text != "Non-verbal scene, silent interaction." else "NO DIALOGUE"
                             
+                            # Mantra Video Grok: Fokus pada Visual Logic & Motion
                             grok_vid = (
+                                f"VISUAL_LOGIC: {mantra_sakral}\n" # <--- Suntikan Sakral
                                 f"VIDEO: {vibe_f}, {sc['cam']} movement, 24fps.\n"
                                 f"DNA: {dna_lock}\n"
                                 f"SCENE: {aksi_master} at {sc['loc']}.\n"
                                 f"{speaker_label}\n"
                                 f"AUDIO_SCRIPT: \"{dialog_text}\"\n"
-                                f"LIP-SYNC: Match mouth movement to AUDIO_SCRIPT for {si_pembicara}.\n"
+                                f"LIP-SYNC: Match mouth movement.\n"
                                 f"ATMOSPHERE: {mood}, realistic physics.\n"
-                                f"NEGATIVE: static, morphing, melting, text, blurry, characters speaking simultaneously."
+                                f"NEGATIVE: static, morphing, text, blurry."
                             )
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
@@ -1535,31 +1577,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
