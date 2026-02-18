@@ -126,7 +126,9 @@ def inisialisasi_keamanan():
             "jumlah_karakter": 2,
             "karakter": [ {"nama": "", "wear": "", "fisik": ""} for _ in range(4) ],
             "jumlah_adegan": 5,
-            "adegan": {} 
+            "adegan": {i: {"aksi": "", "loc": "", "dialogs": ["", "", "", ""]} for i in range(1, 6)},
+            "style": "Sangat Nyata",
+            "light": "Cahaya Alami"
         }
 
     # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
@@ -1697,6 +1699,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
