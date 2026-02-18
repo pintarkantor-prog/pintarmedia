@@ -1669,15 +1669,15 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
+                # --- AMBIL DATA KARAKTER UNTUK GROK ---
                 char1_name = sc.get('char1', "")
                 char2_name = sc.get('char2', "")
                 char1_outfit = MASTER_CHAR.get(char1_name, {}).get('pakaian', "Standard outfit")
                 char2_outfit = MASTER_CHAR.get(char2_name, {}).get('pakaian', "Standard outfit")
 
-                # --- 5. OPTIMALISASI GROK (SPASI RAPI) ---
+                # --- 5. OPTIMALISASI GROK (FORMAT MINIMALIS) ---
                 st.markdown("---")
                 
-                # 1. Rakit Blok Identitas (Gaya Minimalis Sukses)
                 grok_identities = []
                 if char1_name:
                     grok_identities.append(f"[[ ACTOR_1_SKS ({char1_name}): refer to PHOTO #1 ONLY. WEAR: {char1_outfit}. ]]")
@@ -1685,43 +1685,32 @@ def tampilkan_ruang_produksi():
                     grok_identities.append(f"[[ ACTOR_2_SKS ({char2_name}): refer to PHOTO #2 ONLY. WEAR: {char2_outfit}. ]]")
                 
                 grok_final_identity = " AND ".join(grok_identities)
-                    # --- 5. OPTIMALISASI GROK (SPASI RAPI) ---
-                    st.markdown("---")
-                    
-                    # 1. Rakit Blok Identitas (Gaya Minimalis Sukses)
-                    grok_identities = []
-                    if char1_name:
-                        grok_identities.append(f"[[ ACTOR_1_SKS ({char1_name}): refer to PHOTO #1 ONLY. WEAR: {char1_outfit}. ]]")
-                    if char2_name:
-                        grok_identities.append(f"[[ ACTOR_2_SKS ({char2_name}): refer to PHOTO #2 ONLY. WEAR: {char2_outfit}. ]]")
-                    
-                    grok_final_identity = " AND ".join(grok_identities)
 
-                    with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
-                        tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
-                        
-                        with tab_img:
-                            grok_img = (
-                                f"{grok_final_identity}\n\n"
-                                f"SCENE: {aksi_master}\n\n"
-                                f"LOCATION: {sc['loc']}.\n"
-                                f"STYLE: {mantra_sakral}\n"
-                                f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
-                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
-                            )
-                            st.code(grok_img, language="text")
+                with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
+                    tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
+                    
+                    with tab_img:
+                        grok_img = (
+                            f"{grok_final_identity}\n\n"
+                            f"SCENE: {aksi_master}\n\n"
+                            f"LOCATION: {sc['loc']}.\n"
+                            f"STYLE: {mantra_sakral}\n"
+                            f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
+                            f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
+                        )
+                        st.code(grok_img, language="text")
 
-                        with tab_vid:
-                            grok_vid = (
-                                f"{grok_final_identity}\n\n"
-                                f"SCENE: {aksi_master}\n\n"
-                                f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
-                                f"AUDIO: {dialog_text}.\n"
-                                f"QUALITY: {sc['style']}, realistic physics.\n\n"
-                                f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
-                            )
-                            st.code(grok_vid, language="text")
-                            st.caption("Salin prompt video ini untuk mesin video Grok/X.")
+                    with tab_vid:
+                        grok_vid = (
+                            f"{grok_final_identity}\n\n"
+                            f"SCENE: {aksi_master}\n\n"
+                            f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
+                            f"AUDIO: {dialog_text}.\n"
+                            f"QUALITY: {sc['style']}, realistic physics.\n\n"
+                            f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
+                        )
+                        st.code(grok_vid, language="text")
+                        st.caption("Salin prompt video ini untuk mesin video Grok/X.")
 
                 # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
@@ -1749,6 +1738,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
