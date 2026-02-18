@@ -1669,45 +1669,34 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
-                    # --- 5. OPTIMALISASI GROK (LOGIKA UNIVERSAL) ---
+                    # --- 5. OPTIMALISASI GROK (FINAL VERSION: CLEAN & GENERAL) ---
                     st.markdown("---")
                     
-                    # 1. Ambil data mentah dari dna_lock
+                    # Logika General: Bersihkan dna_lock tanpa sebut nama spesifik
                     parts = dna_lock.split(" AND ")
                     clean_parts = []
-                    
                     for i, p in enumerate(parts):
                         try:
-                            # Ambil Nama Karakter yang ada di dalam kurung ( )
-                            # Contoh: [[ ACTOR_1_SKS (UDIN): ... ]] -> ambil 'UDIN'
+                            # Ambil Nama & WEAR secara otomatis
                             c_name = p.split("(")[1].split(")")[0].strip() if "(" in p else "CHARACTER"
-                            
-                            # Ambil Pakaian (WEAR) - Ambil teks di antara 'WEAR:' dan '..'
-                            if "WEAR:" in p:
-                                wear_content = p.split("WEAR:")[1].split("..")[0].strip()
-                            else:
-                                wear_content = "Standard outfit"
-                                
-                            # Rakit ulang dengan format minimalis untuk Grok
+                            wear_content = p.split("WEAR:")[1].split("..")[0].strip() if "WEAR:" in p else "Standard outfit"
                             photo_num = i + 1
                             clean_parts.append(f"[[ ACTOR_{photo_num}_SKS ({c_name}): refer to PHOTO #{photo_num} ONLY. WEAR: {wear_content} ]]")
                         except:
-                            # Jika format dna_lock berantakan, pakai fallback safe
                             clean_parts.append(p)
-
+                    
                     grok_final_identity = " AND ".join(clean_parts)
 
-                    # --- TAMPILKAN DI POPOVER ---
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         
                         with tab_img:
-                        with tab_img:
+                            # Pakai sc['aksi'] dan sc['style'] agar bersih
                             grok_img = (
                                 f"{grok_final_identity}\n\n"
                                 f"SCENE: {sc['aksi']}\n\n"
                                 f"LOCATION: {sc['loc']}.\n"
-                                f"STYLE: {sc['style']}, {sc['light']}, {sc['vibe']}.\n" # <-- Pakai variabel murni
+                                f"STYLE: {sc['style']}, {sc['light']}, {sc['vibe']}.\n"
                                 f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
                                 f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
                             )
@@ -1719,7 +1708,7 @@ def tampilkan_ruang_produksi():
                                 f"SCENE: {sc['aksi']}\n\n"
                                 f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
                                 f"AUDIO: {dialog_text}.\n"
-                                f"STYLE: {sc['style']}, {sc['vibe']}.\n" # <-- Pakai variabel murni
+                                f"STYLE: {sc['style']}, {sc['vibe']}.\n"
                                 f"QUALITY: realistic physics.\n\n"
                                 f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
                             )
@@ -1752,26 +1741,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
