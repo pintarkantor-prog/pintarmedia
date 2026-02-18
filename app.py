@@ -1669,28 +1669,32 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
 
-                    # --- OPTIMASI GROK (ULTRA-LEAN) ---
+                    # --- 5. OPTIMASI GROK (SUNTIKAN DISINI) ---
                     st.markdown("---")
+                    
+                    # 1. Definisikan Boost-nya di sini agar dibaca oleh Tab Gambar & Video
+                    grok_boost = "Non-anthropomorphic material-based entity. " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
+
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         with tab_img:
                             grok_img = (
-                                f"{dna_lock}\n"
+                                f"{grok_boost}{dna_lock}\n" 
                                 f"{aksi_master} at {sc['loc']}.\n"
                                 f"Style: {mantra_sakral}.\n"
                                 f"Quality: {sc['shot']}, 8k raw photo.\n"
-                                f"Negative: {anti_human_filter}text, blurry."
+                                f"Negative: (muscular, bodybuilder:1.5), {anti_human_filter}text, blurry."
                             )
                             st.code(grok_img, language="text")
 
                         with tab_vid:
                             grok_vid = (
-                                f"{dna_lock}\n"
+                                f"{grok_boost}{dna_lock}\n"
                                 f"Scene: {aksi_master}.\n"
                                 f"Video: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
                                 f"Audio: {dialog_text}.\n"
                                 f"Quality: {sc['style']}, realistic physics.\n"
-                                f"Negative: {anti_human_filter}static, robotic."
+                                f"Negative: (muscular, bodybuilder:1.5), {anti_human_filter}static, robotic."
                             )
                             st.code(grok_vid, language="text")
                             st.caption("Salin prompt video ini untuk di-render di mesin video Grok/X.")
@@ -1721,6 +1725,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
