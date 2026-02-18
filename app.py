@@ -1567,35 +1567,49 @@ def tampilkan_ruang_produksi():
                 target_names = [m['nama'] for m in found]
                 anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
 
-                # --- MASTER COMPILER (KLIMIS & UNIFIED) ---
+                # --- MASTER COMPILER (REVISI: IMAGE TANPA GERAKAN) ---
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
                     
-                    list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
-                    dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
+                    # 1. Mantra untuk VIDEO (Lengkap dengan Gerakan Kamera)
+                    mantra_video = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
+                    
+                    # 2. Mantra untuk IMAGE (Hapus bagian Gerakan Kamera agar Statis)
+                    # Kita rakit manual khusus Image agar tidak ada instruksi 'motion'
+                    style_map_img = {
+                        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus, depth map rendering.",
+                        "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
+                        "Gaya Cyberpunk": "Futuristic neon aesthetic, volumetric fog, sharp reflections, high contrast.",
+                        "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
+                    }
+                    s_img = style_map_img.get(sc['style'], "Cinematic optical clarity.")
+                    l_img = sc['light'] # Mengambil lighting dari pilihan dropdown
+                    
+                    # Mantra visual murni statis untuk Image
+                    mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {l_img}."
+                    
+                    # ... (Logika Acting Cue & Dialog tetap sama) ...
 
-                    # 1. Prompt Gemini (Image) - Bersih dari label berlebih
+                    # 1. Prompt Gemini (Image) - SEKARANG MURNI STATIS
                     img_p = (
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n"
-                        f"LOCATION: {sc['loc']}\n\n"
-                        f"VISUAL: {mantra_sakral}\n"
-                        f"QUALITY: {QB_IMG}\n\n"
-                        f"NEGATIVE: {negative_base} {no_text_strict}\n"
-                        f"FORMAT: 9:16 Vertical Framing"
+                        f"{final_identity}\n\n\n"
+                        f"**SCENE:**\n{sc['aksi']}\n\n"
+                        f"**LOCATION:**\n{sc['loc']}\n\n"
+                        f"**VISUAL:**\n{mantra_statis}\n\n"
+                        f"**QUALITY:**\n{QB_IMG}\n\n"
+                        f"**NEGATIVE:**\n{negative_base} {no_text_strict}\n\n"
+                        f"**FORMAT:**\n9:16 Vertical Framing"
                     )
                     
-                    # 2. Prompt Veo (Video) - Kunci Gerakan dan Lip-sync
+                    # 2. Prompt Veo (Video) - TETAP DINAMIS
                     vid_p = (
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n"
-                        f"LOCATION: {sc['loc']}\n\n"
-                        f"MOTION: {sc['cam']} movement, fluid kinetics, realistic physics\n"
-                        f"AUDIO/DIALOGUE: {dialog_text}\n"
-                        f"VISUAL: {mantra_sakral}\n"
-                        f"QUALITY: {QB_VID}, match lip-sync\n\n"
-                        f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
-                        f"FORMAT: 9:16 Vertical Video"
+                        f"{final_identity}\n\n\n"
+                        f"**SCENE & KINETICS:**\n{sc['aksi']} with {sc['cam']} motion, fluid kinetics, realistic physics.\n\n"
+                        f"**ACTING CUE (STRICTLY NO TEXT ON SCREEN):**\n{acting_cue_text}\n\n"
+                        f"**AUDIO / DIALOGUE:**\n{dialog_text}\n\n"
+                        f"**VISUAL:**\n{mantra_video}\n\n"
+                        f"**QUALITY:**\n{QB_VID}, natural mouth movement matching audio cues\n\n"
+                        f"**NEGATIVE:**\n{negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n\n"
+                        f"**FORMAT:**\n9:16 Vertical Video"
                     )
 
                     c1, c2 = st.columns(2)
@@ -1627,6 +1641,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
