@@ -1537,12 +1537,12 @@ def tampilkan_ruang_produksi():
                         on_change=simpan_ke_memori
                     )
 
-    # --- 4. GLOBAL COMPILER LOGIC (LOGIKA SS) ---
+# --- 4. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
         if not adegan_terisi:
-            st.error("⚠️ Gagal: Kamu belum mengisi 'NASKAH VISUAL & AKSI'!")
+            st.error("⚠️ Isi NASKAH dulu!")
         else:
             user_nama = st.session_state.get("user_aktif", "User").capitalize()
             st.markdown(f"## 🎬 Hasil Prompt: {user_nama} ❤️")
@@ -1551,75 +1551,44 @@ def tampilkan_ruang_produksi():
                 sc = data["adegan"][scene_id]
                 v_text_low = sc["aksi"].lower()
                 
-                # A. SCAN KARAKTER (DIRECTOR'S TRACKING - GENERAL)
+                # A. SCAN KARAKTER
                 found = []
-                jml_c = data.get("jumlah_karakter", 2)
-                for i in range(jml_c):
+                for i in range(data["jumlah_karakter"]):
                     c = data["karakter"][i]
                     if c['nama'] and re.search(rf'\b{re.escape(c["nama"].lower())}\b', v_text_low):
-                        u_name = c['nama'].upper()
-                        # Gunakan Token General: ACTOR_SKS agar AI fokus pada fungsi, bukan nama
-                        unique_id = f"ACTOR_{i+1}_SKS ({u_name})" 
-                        found.append({
-                            "id": i + 1, 
-                            "nama": u_name,
-                            "unique_token": unique_id,
-                            "fisik": c['fisik'], 
-                            "wear": c['wear']
-                        })
+                        found.append({"id": i+1, "nama": c['nama'].upper(), "wear": c['wear']})
 
-                # --- B. RAKIT IDENTITAS KLIMIS (SERAGAM & MINIMALIS) ---
+                # --- B. RAKIT IDENTITAS KLIMIS (NAMEERROR FIX) ---
                 clean_parts = []
+                target_names = []
                 for i, m in enumerate(found):
-                    actor_num = i + 1
-                    # Format: [[ ACTOR_1_SKS (NAMA): refer to PHOTO #1 ONLY. WEAR: pakaian ]]
-                    clean_parts.append(
-                        f"[[ ACTOR_{actor_num}_SKS ({m['nama']}): refer to PHOTO #{actor_num} ONLY. WEAR: {m['wear']} ]]"
-                    )
+                    clean_parts.append(f"[[ ACTOR_{m['id']}_SKS ({m['nama']}): refer to PHOTO #{m['id']} ONLY. WEAR: {m['wear']} ]]")
+                    target_names.append(m['nama'])
                 
-                # Variabel identitas tunggal untuk semua prompt
                 final_identity = " AND ".join(clean_parts) if clean_parts else "[[ IDENTITY: UNKNOWN ]]"
+                anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
 
-                # --- C. MASTER COMPILER (UNIFIED RESULT: GEMINI & VEO) ---
+                # --- C. MASTER COMPILER (UNIFIED) ---
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                    mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe'])
                     
-                    # 1. RAKIT MANTRA SAKRAL (Style Teknis)
-                    mantra_sakral = rakit_prompt_sakral(
-                        sc['aksi'], sc['style'], sc['light'], sc['arah'], 
-                        sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe']
-                    )
+                    # Dialog Sync
+                    list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
+                    dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                    # --- 2. PROMPT GAMBAR (GEMINI) ---
-                    img_p = (
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
-                        f"LOCATION: {sc['loc']}.\n"
-                        f"Style: {mantra_sakral}\n"
-                        f"Quality: {sc['shot']}, 8k raw photo.\n\n"
-                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface."
-                    )
+                    # Prompt Gemini
+                    img_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\n\nLOCATION: {sc['loc']}.\nStyle: {mantra_sakral}\nQuality: {sc['shot']}, 8k raw photo.\n\n"
+                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface.")
                     
-                    # --- 3. PROMPT VIDEO (VEO) ---
-                    vid_p = (
-                        f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
-                        f"LOCATION: {sc['loc']}.\n"
-                        f"Style: {mantra_sakral}\n"
-                        f"Quality: realistic physics, {sc['shot']}, 8k Ultra-HD, match lip-sync.\n\n"
-                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
-                    )
+                    # Prompt Veo
+                    vid_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\n\nLOCATION: {sc['loc']}.\nStyle: {mantra_sakral}\n"
+                             f"Quality: realistic physics, {sc['shot']}, 8k Ultra-HD, match lip-sync.\n\n"
+                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic.")
 
-                    # Tampilan Dashboard (Dua Kolom Sejajar)
                     c_img, c_vid = st.columns(2)
-                    with c_img: 
-                        st.markdown("📷 **PROMPT GEMINI**")
-                        st.code(img_p, language="text")
-                        
-                    with c_vid: 
-                        st.markdown("🎥 **PROMPT VEO**")
-                        st.code(vid_p, language="text")
+                    with c_img: st.markdown("📷 **PROMPT GEMINI**"); st.code(img_p, language="text")
+                    with c_vid: st.markdown("🎥 **PROMPT VEO**"); st.code(vid_p, language="text")
 
-                # Penutup jarak antar adegan
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
@@ -1645,4 +1614,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
