@@ -32,7 +32,7 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     }
     
     style_map = {
-        "Sangat Nyata": "Cinematic RAW shot, macro-detail material fidelity, sharp textures, f/1.8 lens focus, realistic physical shading, PBR organic surfaces.",
+        "Sangat Nyata": "Cinematic RAW shot, macro-detail material fidelity, sharp textures, f/1.8 lens focus, realistic physical shading, PBR surfaces.",
         "Animasi 3D Pixar": "Disney Pixar style 3D animation, Octane render, ray-traced global illumination, premium subsurface scattering.",
         "Gaya Cyberpunk": "Cyberpunk 2077 aesthetic, futuristic textures, neon reflections, volumetric fog.",
         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush nature aesthetic."
@@ -41,14 +41,18 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     l_cmd = light_map.get(light, "Natural lighting.")
     s_cmd = style_map.get(style, "Cinematic film look.")
     
-    # --- OPTIMASI LOGIKA (TANPA BRACKET BERLEBIHAN) ---
-    # Kita hapus "facial features" agar AI tidak mencari tekstur manusia
-    character_logic = f"Subject shows {ekspresi} expression, micro-details perfectly integrated into surface material textures."
-    camera_logic = f"Shot as {shot}, {arah} angle, {cam} motion, high-end optical clarity, 8k resolution."
-    env_logic = f"Environment features {cuaca}, {vibe} atmosphere, volumetric lighting, physically-based rendering (PBR)."
+    # --- PEMBERSIHAN TOTAL BIAS MANUSIA ---
+    # 1. Mengganti 'expression' yang bersifat otot wajah menjadi 'state' material.
+    character_logic = f"Subject displays {ekspresi} state, surface integrity matching the DNA material."
+    
+    # 2. Mengunci teknis kamera agar fokus pada optik, bukan portrait manusia.
+    camera_logic = f"Technical: {shot} framing, {arah} angle, {cam} motion, cinematic optical rendering."
+    
+    # 3. Menghilangkan kata 'organic' agar tidak memicu tekstur kulit manusia pada Udin.
+    env_logic = f"Atmosphere: {cuaca}, {vibe} aesthetic, PBR lighting."
 
-    # Return dalam bentuk narasi mengalir agar AI lebih fokus pada komposisi utuh
-    return f"Visual style: {s_cmd} {camera_logic} {character_logic} Lighting: {l_cmd} {env_logic}"
+    # Return dalam narasi yang lebih teknis dan objektif
+    return f"{s_cmd} {camera_logic} {character_logic} {l_cmd} {env_logic}"
     
 DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
@@ -1635,7 +1639,7 @@ def tampilkan_ruang_produksi():
 
                     # --- SMART LOGIC: ANTI-HUMAN SKIN FILTER ---
                     target_dna = dna_lock.upper()
-                    anti_human_filter = "human skin, real human face, " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
+                    anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_dna for x in ["UDIN", "TUNG"]) else ""
 
                     # --- MANTRA GAMBAR (OPTIMIZED & CLEAN) ---
                     img_p = (
@@ -1654,10 +1658,10 @@ def tampilkan_ruang_produksi():
                         f"IDENTITY: {dna_lock}\n"
                         f"SCENE: {aksi_master} at {sc['loc']}.\n"
                         f"DIALOGUE: {dialog_text}\n"
-                        f"MOTION: {sc['cam']} movement, 24fps, organic human-like behavior.\n"
+                        f"MOTION: {sc['cam']}, 24fps, fluid kinetics, realistic physical interaction.\n"
                         f"VISUALS: {mantra_sakral}\n"
                         f"TECHNICAL: {QB_VID}, {sc['shot']}, match lip-sync.\n"
-                        f"NEGATIVE: {no_text_strict}, {negative_motion_strict}, {anti_human_filter}static, robotic\n"
+                        f"NEGATIVE: {no_text_strict}, {negative_motion_strict}, {anti_human_filter}static, robotic, flesh, muscle, human anatomy\n"
                         f"FORMAT: {sc['ratio']} Vertical, 8k Ultra-HD"
                     )
 
@@ -1717,6 +1721,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
