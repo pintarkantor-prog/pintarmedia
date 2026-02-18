@@ -44,7 +44,7 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam, ekspresi, cuaca, vi
     # --- OPTIMASI LOGIKA (TANPA BRACKET BERLEBIHAN) ---
     # Kita hapus "facial features" agar AI tidak mencari tekstur manusia
     character_logic = f"Subject shows {ekspresi} expression, micro-details perfectly integrated into surface material textures."
-    camera_logic = f"Shot as {shot}, {arah} angle, {cam} motion, professional cinematography."
+    camera_logic = f"Shot as {shot}, {arah} angle, {cam} motion, high-end optical clarity, 8k resolution."
     env_logic = f"Environment features {cuaca}, {vibe} atmosphere, volumetric lighting, physically-based rendering (PBR)."
 
     # Return dalam bentuk narasi mengalir agar AI lebih fokus pada komposisi utuh
@@ -1337,14 +1337,17 @@ def tampilkan_ruang_produksi():
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG ---
     QB_IMG = (
-        "hyper-realistic 8k RAW photo, cinematic depth of field, f/1.8 aperture, " # Ganti f/11 jadi f/1.8
-        "soft natural bokeh, sharp focus on actor's face, edge-enhancement, non-filtered, " # Hapus 'zero bokeh'
-        "ultra-clear optical clarity, CPL filter, high local contrast, physically-based rendering, hyper-detailed material textures"
+        "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
+        "smooth out-of-focus background, razor-sharp focus on subject detail, "
+        "edge-enhancement, non-filtered, high-index lens glass look, "
+        "CPL filter, high local contrast, physically-based rendering, "
+        "hyper-detailed surface micro-textures"
     )
+
     QB_VID = (
         "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
-        "zero digital noise, clean pixels, smooth motion, professional cinematography"
+        "zero digital noise, clean pixels, smooth motion, high-fidelity physical interaction"
     )
     
     no_text_strict = (
@@ -1353,6 +1356,7 @@ def tampilkan_ruang_produksi():
         "NO burned-in text, NO characters speaking with visible words, "
         "the image must be a CLEAN cinematic shot without any written characters."
     )
+    
     negative_motion_strict = (
         "STRICTLY NO morphing, NO extra limbs, NO distorted faces, NO teleporting objects, "
         "NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
@@ -1713,6 +1717,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
