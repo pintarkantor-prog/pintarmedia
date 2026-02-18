@@ -1311,6 +1311,8 @@ def tampilkan_kendali_tim():
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
 # ==============================================================================
+def simpan_ke_memori():
+    st.session_state.data_produksi = st.session_state.data_produksi
 def tampilkan_ruang_produksi():
     sekarang = datetime.utcnow() + timedelta(hours=7) 
     hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
@@ -1403,12 +1405,35 @@ def tampilkan_ruang_produksi():
                     def_fisik = ""
                     nama_final = ""
 
-                # Tampilkan input dengan KEY DINAMIS agar otomatis refresh saat ganti karakter/versi
-                data["karakter"][i]["nama"] = st.text_input("Nama", value=nama_final, key=f"char_nama_{i}_{ver}_{nama_pilihan}", placeholder="Nama...", label_visibility="collapsed")
-                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", placeholder="Pakaian...", label_visibility="collapsed")
-                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=def_fisik, key=f"char_fix_{i}_{ver}_{nama_pilihan}", height=80, placeholder="Fisik...", label_visibility="collapsed")
+                # Tampilkan input dengan KEY DINAMIS + ON_CHANGE agar tersimpan ke Session State
+                data["karakter"][i]["nama"] = st.text_input(
+                    "Nama", 
+                    value=nama_final, 
+                    key=f"char_nama_{i}_{ver}_{nama_pilihan}", 
+                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    placeholder="Nama...", 
+                    label_visibility="collapsed"
+                )
+                
+                data["karakter"][i]["wear"] = st.text_input(
+                    "Pakaian", 
+                    value=def_wear, 
+                    key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", 
+                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    placeholder="Pakaian...", 
+                    label_visibility="collapsed"
+                )
+                
+                data["karakter"][i]["fisik"] = st.text_area(
+                    "Ciri Fisik", 
+                    value=def_fisik, 
+                    key=f"char_fix_{i}_{ver}_{nama_pilihan}", 
+                    on_change=simpan_ke_memori, # <--- Tambahkan ini
+                    height=80, 
+                    placeholder="Fisik...", 
+                    label_visibility="collapsed"
+                )
                 # --- FITUR AUTO-FILL END ---
-
     # 3. INPUT ADEGAN (LENGKAP: LIGHTING, RATIO, DLL)
     for s in range(data["jumlah_adegan"]):
         scene_id = s + 1
@@ -1708,6 +1733,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
