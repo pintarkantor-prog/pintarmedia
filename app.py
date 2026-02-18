@@ -20,7 +20,6 @@ OPTS_CAM   = ["Diam (Tetap Napas)", "Maju Perlahan", "Ikuti Karakter", "Memutar"
 OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
 def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
-    # Mapping teknis tinggi untuk ketajaman maksimal (Tanpa kata 'realistis/natural')
     style_map = {
         "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus, depth map rendering.",
         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
@@ -39,10 +38,9 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
     s_cmd = style_map.get(style, "Cinematic optical clarity.")
     l_cmd = light_map.get(light, "Balanced exposure.")
     
-    # Fokus pada optik dan framing teknis
-    tech_logic = f"Technical: {shot} framing, {arah} angle, {cam} motion, cinematic optical rendering."
+    # --- PERBAIKAN: Hapus label "Technical:" agar lebih clean ---
+    tech_logic = f"{shot} framing, {arah} angle, {cam} motion, cinematic optical rendering."
 
-    # Return dalam narasi teknis murni
     return f"{s_cmd} {tech_logic} {l_cmd}"
     
 DAFTAR_USER = {
@@ -1333,7 +1331,7 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # --- QUALITY BOOSTER & NEGATIVE CONFIG ---
+    # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
     QB_IMG = (
         "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
         "bokeh background, razor-sharp focus on subject detail, "
@@ -1343,10 +1341,16 @@ def tampilkan_ruang_produksi():
     )
 
     QB_VID = (
-        "Unreal Engine 5.4, 60fps, ultra-clear motion, 8k UHD, high dynamic range, "
+        "Unreal Engine 5.4, 24fps cinematic motion, ultra-clear, 8k UHD, high dynamic range, "
         "professional color grading, ray-traced reflections, hyper-detailed textures, "
         "temporal anti-aliasing, zero digital noise, clean pixels, "
         "smooth motion interpolation, high-fidelity physical interaction"
+    )
+
+    # --- INI DIA YANG KURANG: NEGATIVE BASE ---
+    negative_base = (
+        "muscular, bodybuilder, shredded, male anatomy, human skin, human anatomy, "
+        "realistic flesh, skin pores, blurry, distorted surface, "
     )
     
     no_text_strict = (
@@ -1563,38 +1567,34 @@ def tampilkan_ruang_produksi():
                 target_names = [m['nama'] for m in found]
                 anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
 
-                # C. MASTER COMPILER (KLIMIS & UNIFIED)
+                # --- MASTER COMPILER (KLIMIS & UNIFIED) ---
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    # Memanggil Mantra Sakral baru (Langkah 1) tanpa variabel yang dibuang
                     mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'])
                     
-                    # Dialog Sync
                     list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
                     dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                    # 1. Prompt Gemini (Locked 9:16)
+                    # 1. Prompt Gemini (Image) - Bersih dari label berlebih
                     img_p = (
                         f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
-                        f"LOCATION: {sc['loc']}.\n"
-                        f"Style: {mantra_sakral}\n"
-                        f"Quality: {sc['shot']}, {QB_IMG}\n\n"
-                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
-                        f"{anti_human_filter}{no_text_strict}, blurry, distorted surface.\n"
+                        f"SCENE: {sc['aksi']}\n"
+                        f"LOCATION: {sc['loc']}\n\n"
+                        f"VISUAL: {mantra_sakral}\n"
+                        f"QUALITY: {QB_IMG}\n\n"
+                        f"NEGATIVE: {negative_base} {no_text_strict}\n"
                         f"FORMAT: 9:16 Vertical Framing"
                     )
                     
-                    # 2. Prompt Veo (Locked 9:16)
+                    # 2. Prompt Veo (Video) - Kunci Gerakan dan Lip-sync
                     vid_p = (
                         f"{final_identity}\n\n"
-                        f"SCENE: {sc['aksi']}\n\n"
-                        f"LOCATION: {sc['loc']}.\n"
-                        f"VIDEO: {sc['cam']} motion, 24fps, fluid kinetics, realistic physics.\n"
+                        f"SCENE: {sc['aksi']}\n"
+                        f"LOCATION: {sc['loc']}\n\n"
+                        f"MOTION: {sc['cam']} movement, fluid kinetics, realistic physics\n"
                         f"AUDIO/DIALOGUE: {dialog_text}\n"
-                        f"Style: {mantra_sakral}\n"
-                        f"Quality: {sc['shot']}, {QB_VID}, match lip-sync.\n\n"
-                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
-                        f"{anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic.\n"
+                        f"VISUAL: {mantra_sakral}\n"
+                        f"QUALITY: {QB_VID}, match lip-sync\n\n"
+                        f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
                         f"FORMAT: 9:16 Vertical Video"
                     )
 
@@ -1627,6 +1627,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
