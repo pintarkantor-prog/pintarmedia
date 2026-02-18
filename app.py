@@ -1367,28 +1367,27 @@ def tampilkan_ruang_produksi():
                 st.markdown(f"👤 **Karakter {i+1}**")
                 
                 # --- FITUR AUTO-FILL START ---
-                # Pakai selectbox biar nggak typo, atau text_input dengan autocomplete
                 nama_pilihan = st.selectbox("Pilih Karakter", list(MASTER_CHAR.keys()), key=f"sel_nama_{i}_{ver}", label_visibility="collapsed")
                 
-                # Logika Default Value
+                # Kita inisialisasi pilih_versi dengan nilai aman (biar ngga UnboundLocalError)
+                pilih_versi = "Default" 
+                
                 current_char = MASTER_CHAR[nama_pilihan]
                 
                 if nama_pilihan != "Custom":
-                    # Kalau pilih Udin/Tung, munculkan dropdown Versi Pakaian
                     list_versi = list(current_char["versi_pakaian"].keys())
                     pilih_versi = st.selectbox("Versi", list_versi, key=f"sel_ver_{i}_{ver}", label_visibility="collapsed")
                     
-                    # Isi data otomatis
                     def_wear = current_char["versi_pakaian"][pilih_versi]
                     def_fisik = current_char["fisik"]
                     nama_final = nama_pilihan
                 else:
-                    # Kalau pilih Custom, biarkan kosong/sesuai input manual sebelumnya
-                    def_wear = data["karakter"][i]["wear"]
-                    def_fisik = data["karakter"][i]["fisik"]
-                    nama_final = data["karakter"][i]["nama"]
+                    # Jika Custom, kosongkan semua agar bisa diketik manual
+                    def_wear = ""
+                    def_fisik = ""
+                    nama_final = ""
 
-                # Simpan ke variabel data (ini yang akan diproses ke prompt)
+                # Simpan ke variabel data (Gunakan key dinamis agar teks otomatis berubah di layar)
                 data["karakter"][i]["nama"] = st.text_input("Nama", value=nama_final, key=f"char_nama_{i}_{ver}_{nama_pilihan}", placeholder="Nama...", label_visibility="collapsed")
                 data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=def_fisik, key=f"char_fix_{i}_{ver}_{nama_pilihan}", height=80, placeholder="Fisik...", label_visibility="collapsed")
@@ -1693,6 +1692,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
