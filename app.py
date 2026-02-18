@@ -1568,26 +1568,52 @@ def tampilkan_ruang_produksi():
                 final_identity = " AND ".join(clean_parts) if clean_parts else "[[ IDENTITY: UNKNOWN ]]"
                 anti_human_filter = "human skin, human anatomy, realistic flesh, skin pores, " if any(x in target_names for x in ["UDIN", "TUNG"]) else ""
 
-                # --- C. MASTER COMPILER (UNIFIED) ---
+                # --- C. MASTER COMPILER (UNIFIED & READABLE) ---
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
-                    mantra_sakral = rakit_prompt_sakral(sc['aksi'], sc['style'], sc['light'], sc['arah'], sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe'])
+                    # 1. Rakit Mantra & Dialog
+                    mantra_sakral = rakit_prompt_sakral(
+                        sc['aksi'], sc['style'], sc['light'], sc['arah'], 
+                        sc['shot'], sc['cam'], sc['ekspresi'], sc['cuaca'], sc['vibe']
+                    )
                     
-                    # Dialog Sync
-                    list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
+                    list_dialog = [
+                        f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" 
+                        for f in found if sc["dialogs"][f['id']-1].strip()
+                    ]
                     dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-                    # Prompt Gemini
-                    img_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\n\nLOCATION: {sc['loc']}.\nStyle: {mantra_sakral}\nQuality: {sc['shot']}, 8k raw photo.\n\n"
-                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, blurry, distorted surface.")
+                    # 2. Susun Prompt Gambar (Gemini)
+                    img_p = (
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: {sc['shot']}, 8k raw photo.\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
+                        f"{anti_human_filter}{no_text_strict}, blurry, distorted surface."
+                    )
                     
-                    # Prompt Veo
-                    vid_p = (f"{final_identity}\n\nSCENE: {sc['aksi']}\n\nLOCATION: {sc['loc']}.\nStyle: {mantra_sakral}\n"
-                             f"Quality: realistic physics, {sc['shot']}, 8k Ultra-HD, match lip-sync.\n\n"
-                             f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), {anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic.")
+                    # 3. Susun Prompt Video (Veo)
+                    vid_p = (
+                        f"{final_identity}\n\n"
+                        f"SCENE: {sc['aksi']}\n\n"
+                        f"LOCATION: {sc['loc']}.\n"
+                        f"VIDEO: {sc['cam']} motion, 24fps, fluid kinetics, realistic physics.\n"
+                        f"AUDIO/DIALOGUE: {dialog_text}\n"
+                        f"Style: {mantra_sakral}\n"
+                        f"Quality: {sc['shot']}, 8k Ultra-HD, match lip-sync.\n\n"
+                        f"NEGATIVE: (muscular, bodybuilder, shredded, male anatomy:1.7), "
+                        f"{anti_human_filter}{no_text_strict}, {negative_motion_strict}, static, robotic."
+                    )
 
+                    # 4. Tampilkan Kolom
                     c_img, c_vid = st.columns(2)
-                    with c_img: st.markdown("📷 **PROMPT GEMINI**"); st.code(img_p, language="text")
-                    with c_vid: st.markdown("🎥 **PROMPT VEO**"); st.code(vid_p, language="text")
+                    with c_img: 
+                        st.markdown("📷 **PROMPT GEMINI**")
+                        st.code(img_p, language="text")
+                    with c_vid: 
+                        st.markdown("🎥 **PROMPT VEO**")
+                        st.code(vid_p, language="text")
 
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
@@ -1614,5 +1640,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
