@@ -1668,7 +1668,23 @@ def tampilkan_ruang_produksi():
                     c_img, c_vid = st.columns(2)
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
+                        
+                char1_name = sc.get('char1', "")
+                char2_name = sc.get('char2', "")
+                char1_outfit = MASTER_CHAR.get(char1_name, {}).get('pakaian', "Standard outfit")
+                char2_outfit = MASTER_CHAR.get(char2_name, {}).get('pakaian', "Standard outfit")
 
+                # --- 5. OPTIMALISASI GROK (SPASI RAPI) ---
+                st.markdown("---")
+                
+                # 1. Rakit Blok Identitas (Gaya Minimalis Sukses)
+                grok_identities = []
+                if char1_name:
+                    grok_identities.append(f"[[ ACTOR_1_SKS ({char1_name}): refer to PHOTO #1 ONLY. WEAR: {char1_outfit}. ]]")
+                if char2_name:
+                    grok_identities.append(f"[[ ACTOR_2_SKS ({char2_name}): refer to PHOTO #2 ONLY. WEAR: {char2_outfit}. ]]")
+                
+                grok_final_identity = " AND ".join(grok_identities)
                     # --- 5. OPTIMALISASI GROK (SPASI RAPI) ---
                     st.markdown("---")
                     
@@ -1733,6 +1749,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
