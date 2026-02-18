@@ -1691,8 +1691,9 @@ def tampilkan_ruang_produksi():
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         
                         with tab_img:
+                            # Rakit ulang agar label IDENTITY dan WEAR sangat jelas
                             grok_img = (
-                                f"{grok_final_identity}\n\n"
+                                f"IDENTITY & WEAR: {grok_final_identity}\n\n" # <-- Tambah label manual di sini
                                 f"SCENE: {aksi_master}\n\n"
                                 f"LOCATION: {sc['loc']}.\n"
                                 f"STYLE: {mantra_sakral}\n"
@@ -1703,7 +1704,7 @@ def tampilkan_ruang_produksi():
 
                         with tab_vid:
                             grok_vid = (
-                                f"{grok_final_identity}\n\n"
+                                f"IDENTITY & WEAR: {grok_final_identity}\n\n" # <-- Tambah label manual di sini
                                 f"SCENE: {aksi_master}\n\n"
                                 f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
                                 f"AUDIO: {dialog_text}.\n"
@@ -1739,6 +1740,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
