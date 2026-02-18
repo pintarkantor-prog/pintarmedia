@@ -531,7 +531,7 @@ def tampilkan_ai_lab():
             st.rerun()
 
     list_karakter = []
-    with st.expander("👥 DETAIL KARAKTER", expanded=True):
+    with st.expander("👥 DETAIL KARAKTER", expanded=False):
         char_cols = st.columns(2)
         for i in range(st.session_state.jumlah_karakter):
             if i not in st.session_state.memori_n: st.session_state.memori_n[i] = ""
@@ -1128,7 +1128,7 @@ def tampilkan_kendali_tim():
         m3.metric("💎 BERSIH", f"Rp {inc-(pay+ops):,}")
 
         # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
-        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=True):
+        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=False):
             with st.form("form_kas", clear_on_submit=True):
                 c_tipe, c_kat, c_nom = st.columns(3)
                 f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
@@ -1191,7 +1191,7 @@ def tampilkan_kendali_tim():
                 st.info("Belum ada video selesai bulan ini.")
 
         # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
-        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=True):
+        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
@@ -1387,7 +1387,7 @@ def tampilkan_ruang_produksi():
                 st.rerun()
 
     # 2. IDENTITY LOCK
-    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
+    with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=False):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         cols_char = st.columns(data["jumlah_karakter"])
         
@@ -1629,7 +1629,7 @@ def tampilkan_ruang_produksi():
                     f"Overall Vibe: {vibe_f}."
                 )
 
-                with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
+                with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=False):
                     # --- 1. PROSES MANTRA SAKRAL (SUNTIKAN DISINI) ---
                     mantra_sakral = rakit_prompt_sakral(
                         sc['aksi'], sc['style'], sc['light'], sc['arah'], 
@@ -1746,6 +1746,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
