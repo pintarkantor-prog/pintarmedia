@@ -1390,7 +1390,7 @@ def tampilkan_ruang_produksi():
 
                 # Simpan ke variabel data (ini yang akan diproses ke prompt)
                 data["karakter"][i]["nama"] = st.text_input("Nama", value=nama_final, key=f"char_nama_{i}_{ver}_{nama_pilihan}", placeholder="Nama...", label_visibility="collapsed")
-                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}_{nama_pilihan}", placeholder="Pakaian...", label_visibility="collapsed")
+                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}_{nama_pilihan}_{pilih_versi}", placeholder="Pakaian...", label_visibility="collapsed")
                 data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=def_fisik, key=f"char_fix_{i}_{ver}_{nama_pilihan}", height=80, placeholder="Fisik...", label_visibility="collapsed")
                 # --- FITUR AUTO-FILL END ---
 
@@ -1693,6 +1693,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
