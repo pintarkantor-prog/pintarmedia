@@ -60,7 +60,7 @@ MASTER_CHAR = {
     
     # 2. Baru kemudian Udin
     "Udin": {
-        "fisik": "Tall, athletic adult male human physique. Head is a large orange fruit, mature facial features, mischievous grin. Strictly NO baby-face, NO Pixar style.",
+        "fisik": "Surreal humanoid entity with a giant realistic orange fruit as a head. The orange head has mature, mischievous facial features naturally integrated into the peel texture. Athletic male body, high-fashion photography style, strictly NO human head, NO Pixar style.",
         "versi_pakaian": {
             "Keseharian": "White ribbed tank top, distressed denim shorts, and red-white-black high-top sneakers.",
             "Orang Kaya": "Premium navy blue polo shirt, beige chino shorts, a luxury gold watch, and clean white leather loafers.",
@@ -71,7 +71,7 @@ MASTER_CHAR = {
     
     # 3. Dan seterusnya
     "Tung": {
-        "fisik": "Tall, lean, athletic adult male human physique. Head is a natural wooden log, mature wise features carved into wood. Strictly NO Pixar style.",
+        "fisik": "Surreal humanoid entity with a tall natural wooden log as a head. The log head has wise, mature facial features deeply carved into the wood grain. Lean athletic male body, raw wood texture, strictly NO human head, NO Pixar style.",
         "versi_pakaian": {
             "Keseharian": "Fitted long-sleeve henley shirt in earthy tones and distressed blue denim jeans.",
             "Orang Kaya": "Dark green velvet blazer, crisp white dress shirt, tailored black trousers, and polished brown leather boots.",
@@ -1746,6 +1746,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
