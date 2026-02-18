@@ -1446,7 +1446,15 @@ def tampilkan_ruang_produksi():
             col_text, col_set = st.columns([1.5, 1])
             with col_text:
                 st.markdown('<p class="small-label">📸 NASKAH VISUAL & AKSI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["aksi"] = st.text_area(f"Aksi_{scene_id}", value=data["adegan"][scene_id]["aksi"], height=410, key=f"act_{scene_id}_{ver}", label_visibility="collapsed")
+                # Formatnya dibuat menurun supaya rapi dan tidak bingung
+                data["adegan"][scene_id]["aksi"] = st.text_area(
+                    f"Aksi_{scene_id}", 
+                    value=data["adegan"][scene_id]["aksi"], 
+                    height=410, 
+                    key=f"act_{scene_id}_{ver}", 
+                    label_visibility="collapsed",
+                    on_change=simpan_ke_memori # <--- Cukup tempel ini di akhir
+                )
             
             with col_set:
                 sub1, sub2 = st.columns(2)
@@ -1501,7 +1509,14 @@ def tampilkan_ruang_produksi():
                     data["adegan"][scene_id]["vibe"] = st.selectbox(f"V_{scene_id}", OPTS_VIBE, index=idx_vibe, key=f"vibe_{scene_id}_{ver}", label_visibility="collapsed")
 
                 st.markdown('<p class="small-label" style="margin-top:15px;">📍 LOKASI</p>', unsafe_allow_html=True)
-                data["adegan"][scene_id]["loc"] = st.text_input(f"Loc_{scene_id}", value=data["adegan"][scene_id]["loc"], key=f"loc_{scene_id}_{ver}", label_visibility="collapsed", placeholder="Lokasi adegan...")
+                data["adegan"][scene_id]["loc"] = st.text_input(
+                    f"Loc_{scene_id}", 
+                    value=data["adegan"][scene_id]["loc"], 
+                    key=f"loc_{scene_id}_{ver}", 
+                    label_visibility="collapsed", 
+                    placeholder="Lokasi adegan...",
+                    on_change=simpan_ke_memori  # <--- Tempel ini di sini
+                )
 
             # --- DIALOG SECTION (SINKRONISASI IDENTITAS) ---
             cols_d = st.columns(data["jumlah_karakter"])
@@ -1519,7 +1534,8 @@ def tampilkan_ruang_produksi():
                         value=data["adegan"][scene_id]["dialogs"][i], 
                         key=f"d_{scene_id}_{i}_{ver}", 
                         label_visibility="collapsed",
-                        placeholder=f"Ketik dialog {char_n}..."
+                        placeholder=f"Ketik dialog {char_n}...",
+                        on_change=simpan_ke_memori
                     )
 
     # --- 4. GLOBAL COMPILER LOGIC (LOGIKA SS) ---
@@ -1730,6 +1746,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
