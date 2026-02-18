@@ -58,7 +58,7 @@ MASTER_CHAR = {
     "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}, 
     
     "Udin": {
-        "fisik": "Surreal humanoid entity. The head is a large, realistic orange fruit with mature facial features naturally integrated into the orange peel texture. Anthropomorphic fruit-creature, strictly NO human head, NO skin textures, physically-based rendering.",
+        "fisik": "Head is a literal giant orange fruit. Skin is thick orange peel with visible pores and citrus texture. No human skin. No human face. Sharp organic details.",
         "versi_pakaian": {
             "Keseharian": "White ribbed tank top, distressed denim shorts, and red-white-black sneakers.",
             "Orang Kaya": "Premium navy blue polo shirt, beige chino shorts, luxury gold watch, and leather loafers.",
@@ -68,7 +68,7 @@ MASTER_CHAR = {
     },
     
     "Tung": {
-        "fisik": "Surreal humanoid entity. The head is a tall, natural wooden log with wise facial features deeply carved into the wood grain. Anthropomorphic wood-creature, raw wood texture, strictly NO human head, NO skin textures, high-fidelity material detail.",
+        "fisik": "Head is a solid natural wooden log. Surface has deep bark crevices and sharp wood grain splinters. No human features. Matte timber finish.",
         "versi_pakaian": {
             "Keseharian": "Fitted long-sleeve henley shirt in earthy tones and distressed blue denim jeans.",
             "Orang Kaya": "Dark green velvet blazer, crisp white dress shirt, tailored black trousers, and polished leather boots.",
@@ -1710,4 +1710,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
