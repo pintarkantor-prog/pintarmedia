@@ -54,6 +54,26 @@ DAFTAR_USER = {
     "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
     "inggi": "udin33", "lisa": "tung66", "tamu": "123"
 }
+MASTER_CHAR = {
+    "Udin": {
+        "fisik": "Tall, athletic adult male human physique. Head is a large orange fruit, mature facial features, mischievous grin. Strictly NO baby-face, NO Pixar style.",
+        "versi_pakaian": {
+            "Keseharian": "White ribbed tank top, distressed denim shorts, and red-white-black high-top sneakers.",
+            "Orang Kaya": "Premium navy blue polo shirt, beige chino shorts, a luxury gold watch, and clean white leather loafers.",
+            "Orang Miskin": "Oversized torn gray t-shirt, faded and patched-up sarong, and broken rubber flip-flops.",
+            "Anak Motor": "Black faux-leather vest over a plain white t-shirt, ripped black jeans, and rugged biker boots."
+        }
+    },
+    "Tung": {
+        "fisik": "Tall, lean, athletic adult male human physique. Head is a natural wooden log, mature wise features carved into wood. Strictly NO Pixar style.",
+        "versi_pakaian": {
+            "Keseharian": "Fitted long-sleeve henley shirt in earthy tones and distressed blue denim jeans.",
+            "Orang Kaya": "Dark green velvet blazer, crisp white dress shirt, tailored black trousers, and polished brown leather boots.",
+            "Orang Miskin": "Dirty, worn-out burlap shirt and ragged brown trousers with patches."
+        }
+    },
+    "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}
+}
 
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 
@@ -1341,12 +1361,38 @@ def tampilkan_ruang_produksi():
     with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=True):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
         cols_char = st.columns(data["jumlah_karakter"])
+        
         for i in range(data["jumlah_karakter"]):
             with cols_char[i]:
                 st.markdown(f"👤 **Karakter {i+1}**")
-                data["karakter"][i]["nama"] = st.text_input("Nama", value=data["karakter"][i]["nama"], key=f"char_nama_{i}_{ver}", placeholder="Nama...", label_visibility="collapsed")
-                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=data["karakter"][i]["wear"], key=f"char_wear_{i}_{ver}", placeholder="Pakaian...", label_visibility="collapsed")
-                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=data["karakter"][i]["fisik"], key=f"char_fix_{i}_{ver}", height=80, placeholder="Fisik...", label_visibility="collapsed")
+                
+                # --- FITUR AUTO-FILL START ---
+                # Pakai selectbox biar nggak typo, atau text_input dengan autocomplete
+                nama_pilihan = st.selectbox("Pilih Karakter", list(MASTER_CHAR.keys()), key=f"sel_nama_{i}_{ver}", label_visibility="collapsed")
+                
+                # Logika Default Value
+                current_char = MASTER_CHAR[nama_pilihan]
+                
+                if nama_pilihan != "Custom":
+                    # Kalau pilih Udin/Tung, munculkan dropdown Versi Pakaian
+                    list_versi = list(current_char["versi_pakaian"].keys())
+                    pilih_versi = st.selectbox("Versi", list_versi, key=f"sel_ver_{i}_{ver}", label_visibility="collapsed")
+                    
+                    # Isi data otomatis
+                    def_wear = current_char["versi_pakaian"][pilih_versi]
+                    def_fisik = current_char["fisik"]
+                    nama_final = nama_pilihan
+                else:
+                    # Kalau pilih Custom, biarkan kosong/sesuai input manual sebelumnya
+                    def_wear = data["karakter"][i]["wear"]
+                    def_fisik = data["karakter"][i]["fisik"]
+                    nama_final = data["karakter"][i]["nama"]
+
+                # Simpan ke variabel data (ini yang akan diproses ke prompt)
+                data["karakter"][i]["nama"] = st.text_input("Nama", value=nama_final, key=f"char_nama_{i}_{ver}", placeholder="Nama...", label_visibility="collapsed")
+                data["karakter"][i]["wear"] = st.text_input("Pakaian", value=def_wear, key=f"char_wear_{i}_{ver}", placeholder="Pakaian...", label_visibility="collapsed")
+                data["karakter"][i]["fisik"] = st.text_area("Ciri Fisik", value=def_fisik, key=f"char_fix_{i}_{ver}", height=80, placeholder="Fisik...", label_visibility="collapsed")
+                # --- FITUR AUTO-FILL END ---
 
     # 3. INPUT ADEGAN (LENGKAP: LIGHTING, RATIO, DLL)
     for s in range(data["jumlah_adegan"]):
@@ -1647,6 +1693,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
