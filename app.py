@@ -1115,7 +1115,7 @@ def tampilkan_kendali_tim():
         
         if not df_qc.empty:
             for i, r in df_qc.iterrows():
-                # Kita ambil ID unik tugasnya
+                # Menggunakan ID unik sebagai kunci utama pencarian baris
                 t_id_qc = str(r.get('ID', ''))
                 
                 with st.container(border=True):
@@ -1123,26 +1123,26 @@ def tampilkan_kendali_tim():
                     c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
                     c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
                     
-                    # Logika Pencarian Baris Berdasarkan ID (Sangat Aman)
                     if t_id_qc:
+                        # Tombol Validasi (ACC)
                         if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
                             cell = ws_tugas.find(t_id_qc)
                             if cell:
-                                # Kolom 5 adalah kolom STATUS
-                                ws_tugas.update_cell(cell.row, 5, "FINISH")
-                                st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
+                                ws_tugas.update_cell(cell.row, 5, "FINISH") # Kolom 5 = Status
+                                st.toast(f"Tugas {t_id_qc} divalidasi FINISH!", icon="✅")
                                 time.sleep(1)
                                 st.rerun()
                         
+                        # Tombol Minta Revisi (REV)
                         if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
                             cell = ws_tugas.find(t_id_qc)
                             if cell:
                                 ws_tugas.update_cell(cell.row, 5, "REVISI")
-                                st.toast(f"Tugas {t_id_qc} diminta REVISI", icon="🔴")
+                                st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
                                 time.sleep(1)
                                 st.rerun()
         else:
-            st.info("Antrean QC kosong. ✨ Semua tugas sudah diperiksa.")
+            st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
 
         # --- TAMPILAN 4: JADWAL PRODUKSI ---
         st.subheader("📅 JADWAL PRODUKSI")
@@ -1577,3 +1577,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
