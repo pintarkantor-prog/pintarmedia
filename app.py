@@ -1316,6 +1316,8 @@ def tampilkan_kendali_tim():
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
 # ==============================================================================
+def simpan_ke_memori():
+    st.session_state.data_produksi = st.session_state.data_produksi
 def tampilkan_ruang_produksi():
     # 1. PENGATURAN WAKTU & USER
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -1728,6 +1730,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
