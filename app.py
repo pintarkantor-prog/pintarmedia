@@ -1704,7 +1704,7 @@ def tampilkan_ruang_produksi():
                         with tab_img:
                             grok_img = (
                                 f"{grok_final_identity}\n\n"
-                                f"SCENE: {aksi_master}\n\n"
+                                f"SCENE: {sc['aksi']}\n\n"
                                 f"LOCATION: {sc['loc']}.\n"
                                 f"STYLE: {mantra_sakral}\n"
                                 f"QUALITY: {sc['shot']}, 8k raw photo.\n\n"
@@ -1715,7 +1715,7 @@ def tampilkan_ruang_produksi():
                         with tab_vid:
                             grok_vid = (
                                 f"{grok_final_identity}\n\n"
-                                f"SCENE: {aksi_master}\n\n"
+                                f"SCENE: {sc['aksi']}\n\n"
                                 f"VIDEO: {sc['cam']} motion, 24fps, lip-sync enabled.\n"
                                 f"AUDIO: {dialog_text}.\n"
                                 f"QUALITY: {sc['style']}, realistic physics.\n\n"
@@ -1750,6 +1750,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
