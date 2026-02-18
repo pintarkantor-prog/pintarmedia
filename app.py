@@ -1152,7 +1152,7 @@ def tampilkan_kendali_tim():
                 st.caption("Tidak ada jadwal untuk periode ini.")
 
         # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
-        with st.expander("📊 Grafik Produktivitas"):
+        with st.expander("📊 GRAFIK PRODUKTIVITAS"):
             if rekap_f:
                 st.bar_chart(pd.Series(rekap_f))
             else:
@@ -1647,6 +1647,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
