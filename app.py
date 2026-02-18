@@ -1669,13 +1669,35 @@ def tampilkan_ruang_produksi():
                     with c_img: st.markdown("📷 **PROMPT GAMBAR**"); st.code(img_p, language="text")
                     with c_vid: st.markdown("🎥 **PROMPT VIDEO**"); st.code(vid_p, language="text")
                         
-                    # --- 5. OPTIMALISASI GROK (AMBIL LANGSUNG DARI IDENTITY) ---
+                    # --- 5. OPTIMALISASI GROK (LOGIKA UNIVERSAL) ---
                     st.markdown("---")
                     
-                    # Kita ambil dna_lock yang sudah berisi [[ ACTOR_SKS ... WEAR: ... ]]
-                    # Kita pastikan formatnya bersih untuk Grok
-                    grok_final_identity = dna_lock.replace(" refer to PHOTO #1 ONLY", "")
+                    # 1. Ambil data mentah dari dna_lock
+                    parts = dna_lock.split(" AND ")
+                    clean_parts = []
                     
+                    for i, p in enumerate(parts):
+                        try:
+                            # Ambil Nama Karakter yang ada di dalam kurung ( )
+                            # Contoh: [[ ACTOR_1_SKS (UDIN): ... ]] -> ambil 'UDIN'
+                            c_name = p.split("(")[1].split(")")[0].strip() if "(" in p else "CHARACTER"
+                            
+                            # Ambil Pakaian (WEAR) - Ambil teks di antara 'WEAR:' dan '..'
+                            if "WEAR:" in p:
+                                wear_content = p.split("WEAR:")[1].split("..")[0].strip()
+                            else:
+                                wear_content = "Standard outfit"
+                                
+                            # Rakit ulang dengan format minimalis untuk Grok
+                            photo_num = i + 1
+                            clean_parts.append(f"[[ ACTOR_{photo_num}_SKS ({c_name}): refer to PHOTO #{photo_num} ONLY. WEAR: {wear_content} ]]")
+                        except:
+                            # Jika format dna_lock berantakan, pakai fallback safe
+                            clean_parts.append(p)
+
+                    grok_final_identity = " AND ".join(clean_parts)
+
+                    # --- TAMPILKAN DI POPOVER ---
                     with st.popover(f"🎯 OPTIMALKAN UNTUK GROK (ADEGAN {scene_id})", use_container_width=True):
                         tab_img, tab_vid = st.tabs(["📷 GAMBAR", "🎥 VIDEO"])
                         
@@ -1728,6 +1750,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
