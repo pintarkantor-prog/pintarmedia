@@ -22,7 +22,7 @@ OPTS_RATIO = ["9:16", "16:9", "1:1"]
 def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
     # Mapping teknis tinggi untuk ketajaman maksimal (Tanpa kata 'realistis/natural')
     style_map = {
-        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus.",
+        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus, depth map rendering.",
         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
         "Gaya Cyberpunk": "Futuristic neon aesthetic, volumetric fog, sharp reflections, high contrast.",
         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
@@ -963,7 +963,7 @@ def tampilkan_tugas_kerja():
                         l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
                         if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
                             cell = sheet_tugas.find(str(t['ID']).strip())
-                            sheet_tugas.update_cell(cell.row, 5, "SEDANG DI REVIEW")
+                            sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
                             catat_log(f"Menyetor tugas {t['ID']}")
@@ -1141,7 +1141,7 @@ def tampilkan_kendali_tim():
 
         # --- TAMPILAN 3: RUANG QC (VERSI EXPANDER) ---
         with st.expander("🔍 RUANG PEMERIKSAAN (QC)", expanded=False):
-            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy() if not df_tugas.empty else pd.DataFrame()
+            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
             
             if not df_qc.empty:
                 for i, r in df_qc.iterrows():
@@ -1432,7 +1432,7 @@ def tampilkan_ruang_produksi():
             data["adegan"][scene_id] = {
                 "aksi": "", "style": OPTS_STYLE[0], "light": OPTS_LIGHT[0], 
                 "arah": OPTS_ARAH[0], "shot": OPTS_SHOT[0], "ratio": OPTS_RATIO[0], 
-                "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4,
+                "cam": OPTS_CAM[0], "loc": "", "dialogs": [""]*4
             }
 
         with st.expander(f"🎬 ADEGAN {scene_id}", expanded=(scene_id == 1)):
@@ -1627,5 +1627,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
