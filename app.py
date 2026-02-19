@@ -766,23 +766,23 @@ def tampilkan_quick_prompt():
         "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars"
     )
 
-    # --- B. BRANKAS DATA ---
+    # --- B. BRANKAS DATA (DITAMBAH DIALOG A & B) ---
     if "qp_data" not in st.session_state:
         st.session_state.qp_data = {
             "name_a": "", "det_a": "", "name_b": "", "det_b": "",
-            "loc": "", "act": "", "dial": "", "spk": []
+            "loc": "", "act": "", "dial_a": "", "dial_b": "", "spk": []
         }
 
     # --- C. FORMULIR ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
         col_a, col_b = st.columns(2)
         with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"])
+            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"], placeholder="Contoh: Rumi")
             st.session_state.qp_data["name_a"] = q_char_a
             q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80)
             st.session_state.qp_data["det_a"] = q_detail_a
         with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"])
+            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"], placeholder="Contoh: Tung")
             st.session_state.qp_data["name_b"] = q_char_b
             q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80)
             st.session_state.qp_data["det_b"] = q_detail_b
@@ -816,43 +816,51 @@ def tampilkan_quick_prompt():
         with c4: q_light = st.selectbox("💡 Lighting", ["Sinar Senja", "Siang Alami", "Neon Cyberpunk", "Malam Indigo", "Malam Hari"], index=1)
 
         st.divider()
-        q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80)
-        st.session_state.qp_data["dial"] = q_dialog
+        st.markdown("💬 **DIALOG (Obrolan)**")
+        d_col1, d_col2 = st.columns(2)
+        with d_col1:
+            q_dial_a = st.text_area(f"Dialog {q_char_a if q_char_a else 'Karakter 1'}", value=st.session_state.qp_data["dial_a"], height=80)
+            st.session_state.qp_data["dial_a"] = q_dial_a
+        with d_col2:
+            q_dial_b = st.text_area(f"Dialog {q_char_b if q_char_b else 'Karakter 2'}", value=st.session_state.qp_data["dial_b"], height=80)
+            st.session_state.qp_data["dial_b"] = q_dial_b
 
-    # --- E. LOGIKA RAKIT PROMPT (SMART FILTER + PHYSICS + DIALOG) ---
+    # --- E. LOGIKA RAKIT PROMPT (SMART FILTER + PHYSICS + DIALOG REFORM) ---
     if q_aksi and q_lokasi:
-        # 1. SCANNER KARAKTER (Berdasarkan Teks Aksi)
         aksi_lower = q_aksi.lower()
         active_characters = []
         
-        # Cek apakah UDIN disebut
+        # 1. SCANNER IDENTITAS
         if q_char_a and q_char_a.lower() in aksi_lower:
             active_characters.append(f"[[ ACTOR_1_SKS ({q_char_a.upper()}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]]")
-        
-        # Cek apakah TUNG disebut
         if q_char_b and q_char_b.lower() in aksi_lower:
             active_characters.append(f"[[ ACTOR_2_SKS ({q_char_b.upper()}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]")
 
-        # 2. RAKIT RULE IDENTITAS (Hanya yang aktif)
         if active_characters:
             char_identity_string = " AND ".join(active_characters)
-            final_identity_rule = (
-                f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required. "
-                f"{char_identity_string}"
-            )
+            final_identity_rule = f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required. {char_identity_string}"
         else:
-            # Default jika tidak ada nama (panggil karakter 1)
             final_identity_rule = f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): {q_detail_a} ]]"
 
-        # 3. PHYSICS & ACTING CUE (DIALOG TETAP DI SINI)
-        physics_guard = (
-            "PHYSICS RULE: Strict object permanence. All handheld items must stay firmly attached to hands. "
-            "No clipping. Character must interact with furniture as solid surfaces."
-        )
-        
-        # Dialog tetap aman di variabel ini
-        acting_cue_final = f"Use dialogue for emotional reference only: '{q_dialog}'" if q_dialog else "Neutral Interaction"
+        # 2. DIALOG REFORMER (Sesuai Form Terpisah)
+        raw_dialogs = []
+        if q_dial_a.strip():
+            raw_dialogs.append(f"[{q_char_a.upper() if q_char_a else 'CHAR1'}_DIALOG]: '{q_dial_a.strip()}'")
+        if q_dial_b.strip():
+            raw_dialogs.append(f"[{q_char_b.upper() if q_char_b else 'CHAR2'}_DIALOG]: '{q_dial_b.strip()}'")
 
+        if raw_dialogs:
+            emotional_ref = " | ".join(raw_dialogs)
+            acting_cue_final = (
+                f"Use these individual dialogue cues for emotional reference only: {emotional_ref}. "
+                f"STRICTLY focus mouth movement and lip-sync ONLY on the active speaker. Others must remain silent."
+            )
+        else:
+            acting_cue_final = "Neutral Interaction"
+
+        # 3. PHYSICS & VISUAL
+        physics_guard = "PHYSICS RULE: Strict object permanence. All handheld items stay firmly attached. No clipping."
+        
         # 4. RAKIT OUTPUT FINAL
         p_img = (
             f"{final_identity_rule}\n\n"
@@ -864,9 +872,9 @@ def tampilkan_quick_prompt():
 
         p_vid = (
             f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
+            f"SCENE: {q_aksi} with {q_shot} framing at {q_lokasi}. {physics_guard}\n"
             f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_final}\n"
-            f"QUALITY: {QB_VID_LOKAL}\n"
+            f"QUALITY: {QB_VID_LOKAL}, natural mouth movement, facial consistency\n"
             f"NEGATIVE: {NEG_LOKAL}"
         )
 
@@ -880,7 +888,7 @@ def tampilkan_quick_prompt():
             st.markdown("##### 🎥 PROMPT VIDEO")
             st.code(p_vid, language="text")
                         
-        st.success("✅ Prompt Berhasil Dioptimasi! Silahkan Copy!")
+        st.success("✅ Quick Prompt Berhasil! Silahkan langsung copy ke grok atau gemini flow veo.")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1715,6 +1723,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
