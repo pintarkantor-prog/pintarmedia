@@ -753,7 +753,6 @@ def tampilkan_quick_prompt():
         q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key=f"q_act_{st.session_state.act_version}")
         st.session_state.qp_data["act"] = q_aksi
 
-        # --- KOLOM OPSI (SINKRON DENGAN GLOBAL OPTS) ---
         c1, c2, c3, c4 = st.columns(4)
         with c1:
             val_ss = st.session_state.qp_data["ss"]
@@ -787,38 +786,52 @@ def tampilkan_quick_prompt():
 
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- 4. LOGIKA SUNTIKAN MANTRA SAKRAL & OUTPUT ---
+    # --- 4. LOGIKA SUNTIKAN MANTRA SAKRAL & OUTPUT (DNA RUANG PRODUKSI) ---
     if q_aksi and q_lokasi:
-        # Merakit Mantra Sakral (Otomatis mengambil data teknis web lama)
-        mantra_sakral_qp = rakit_prompt_sakral(
-            q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, "Diam (Tetap Napas)"
+        # A. Identity Lock (SKS)
+        final_id_qp = (
+            f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]] AND "
+            f"[[ ACTOR_2_SKS ({q_char_b.upper() if q_char_b else 'CHAR2'}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]"
         )
 
-        aksi_low = q_aksi.lower()
-        if len(q_dialog) > 5:
-            smart_move = "Slow cinematic zoom-in to capture emotional facial expression"
-        elif any(word in aksi_low for word in ["lari", "jalan", "kejar", "run", "walk"]):
-            smart_move = f"Dynamic tracking shot following {q_char_a if q_char_a else 'subject'} movement"
-        elif q_char_a and q_char_b:
-            smart_move = "Dolly slide movement, keeping both characters in frame"
-        else:
-            smart_move = "Smooth slow-pan across the environment"
+        # B. Satu Pintu Dialog (Acting Cue)
+        acting_cue_qp = f"Use this dialogue for emotional reference only: '{q_dialog}'" if q_dialog else "Neutral Interaction"
 
-        dna_combined = f"CHAR 1: {q_char_a} ({q_detail_a})\nCHAR 2: {q_char_b} ({q_detail_b})"
-        speaker_str = " & ".join(q_speaker) if q_speaker else "None"
+        # C. Mantra Sakral (f/11 Brutal)
+        mantra_qp = rakit_prompt_sakral(q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, "Diam (Tetap Napas)")
 
         st.divider()
-        st.subheader("🚀 Hasil Optimasi Prompt Singkat")
+        st.subheader("🚀 HASIL OPTIMASI PROMPT")
         
         res_img, res_vid = st.columns(2)
         with res_img:
             st.markdown("##### 📷 PROMPT GAMBAR")
-            st.code(f"VISUAL_LOGIC: {mantra_sakral_qp}\nDNA:\n{dna_combined}\n\nACTION: {q_aksi} at {q_lokasi}.\nQUALITY: 8k raw, ultra-sharp.\nASPECT RATIO: 9:16", language="text")
+            p_img = (
+                f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                f"{final_id_qp}\n\n"
+                f"SCENE: {q_aksi} at {q_lokasi}.\n"
+                f"VISUAL: {mantra_qp} NO SOFTENING, f/11 aperture, extreme edge-enhancement.\n"
+                f"QUALITY: {QB_IMG}\n"
+                f"NEGATIVE: {negative_base} {no_text_strict}\n"
+                f"FORMAT: 9:16 Vertical Framing"
+            )
+            st.code(p_img, language="text")
+
         with res_vid:
             st.markdown("##### 🎥 PROMPT VIDEO")
-            st.code(f"VISUAL_LOGIC: {mantra_sakral_qp}\nVIDEO_MOVE: {smart_move}.\nDNA IDENTITY:\n{dna_combined}\n\nSCENE: {q_aksi} at {q_lokasi}.\nAUDIO_SCRIPT: \"{q_dialog}\"\nLIP-SYNC: Match mouth movement.\nPHYSICS: High fidelity motion.", language="text")
+            p_vid = (
+                f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
+                f"{final_id_qp}\n\n"
+                f"SCENE & KINETICS: {q_aksi} with {q_arah} angle, fluid kinetics, realistic physics, no robotic movement.\n\n"
+                f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_qp}\n\n"
+                f"VISUAL: {mantra_qp}\n"
+                f"QUALITY: {QB_VID}, Maintain 100% facial identity consistency, look exactly like the reference, natural mouth movement\n"
+                f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
+                f"FORMAT: 9:16 Vertical Video"
+            )
+            st.code(p_vid, language="text")
         
-        st.info(f"💡 Prompt Siap! Visual sudah di-booster dengan Mantra Sakral.")
+        st.success("✅ Quick Prompt berhasil dibuat!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1649,6 +1662,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
