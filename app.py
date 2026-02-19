@@ -773,7 +773,7 @@ def tampilkan_quick_prompt():
             "loc": "", "act": "", "dial_a": "", "dial_b": "", "spk": []
         }
     
-    # PENGAMAN TAMBAHAN: Jika kunci lama masih ada tapi kunci baru belum ada
+    # PENGAMAN TAMBAHAN: Mencegah KeyError
     if "dial_a" not in st.session_state.qp_data:
         st.session_state.qp_data["dial_a"] = ""
     if "dial_b" not in st.session_state.qp_data:
@@ -825,10 +825,10 @@ def tampilkan_quick_prompt():
         st.markdown("💬 **DIALOG (Obrolan)**")
         d_col1, d_col2 = st.columns(2)
         with d_col1:
-            q_dial_a = st.text_area(f"Dialog {q_char_a if q_char_a else 'Karakter 1'}", value=st.session_state.qp_data["dial_a"], height=80)
+            q_dial_a = st.text_area(f"Dialog {q_char_a if q_char_a else 'Karakter 1'}", value=st.session_state.qp_data["dial_a"], height=80, key="q_dial_a_input")
             st.session_state.qp_data["dial_a"] = q_dial_a
         with d_col2:
-            q_dial_b = st.text_area(f"Dialog {q_char_b if q_char_b else 'Karakter 2'}", value=st.session_state.qp_data["dial_b"], height=80)
+            q_dial_b = st.text_area(f"Dialog {q_char_b if q_char_b else 'Karakter 2'}", value=st.session_state.qp_data["dial_b"], height=80, key="q_dial_b_input")
             st.session_state.qp_data["dial_b"] = q_dial_b
 
     # --- E. LOGIKA RAKIT PROMPT (SMART FILTER + PHYSICS + DIALOG REFORM) ---
@@ -1729,6 +1729,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
