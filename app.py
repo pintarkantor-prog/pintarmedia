@@ -746,34 +746,40 @@ def tampilkan_quick_prompt():
         q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80)
         st.session_state.qp_data["dial"] = q_dialog
 
-    # --- E. LOGIKA RAKIT PROMPT ---
+    # --- E. LOGIKA RAKIT PROMPT (VERSI IDENTITY LOCK) ---
     if q_aksi and q_lokasi:
-        # 1. Rakit Identitas SKS
-        final_id = (
-            f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): {q_detail_a} ]] AND "
-            f"[[ ACTOR_2_SKS ({q_char_b.upper() if q_char_b else 'CHAR2'}): {q_detail_b} ]]"
+        # 1. Rakit Identitas SKS dengan Instruksi Foto Spesifik
+        # Memaksa nama jadi kapital dan menambahkan perintah referensi foto
+        char_1_tag = f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]]"
+        char_2_tag = f"[[ ACTOR_2_SKS ({q_char_b.upper() if q_char_b else 'CHAR2'}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]"
+        
+        # Menggabungkan rule utama
+        final_identity_rule = (
+            f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required. "
+            f"{char_1_tag} AND {char_2_tag}"
         )
         
         # 2. Rakit Acting Cue
         acting_cue = f"Use dialogue for emotion only: '{q_dialog}'" if q_dialog else "Neutral Interaction"
 
-        # 3. Definisi p_img dan p_vid (PENTING AGAR TIDAK NAMEERROR)
+        # 3. Definisi p_img
         p_img = (
-            f"IMAGE REFERENCE RULE: Use uploaded photos.\n\n"
-            f"{final_id}\n\n"
+            f"{final_identity_rule}\n\n"
             f"SCENE: {q_aksi} at {q_lokasi}.\n"
-            f"VISUAL: {q_style}, {q_shot}, {q_arah}, {q_light}.\n"
+            f"VISUAL: {q_style}, {q_shot} framing, {q_arah} angle, {q_light}.\n"
             f"QUALITY: {QB_IMG_LOKAL}\n"
-            f"NEGATIVE: {NEG_LOKAL}"
+            f"NEGATIVE: {NEG_LOKAL}\n"
+            f"FORMAT: 9:16 Vertical Framing"
         )
 
+        # 4. Definisi p_vid
         p_vid = (
-            f"IMAGE REFERENCE RULE: Use uploaded photos.\n\n"
-            f"{final_id}\n\n"
-            f"SCENE: {q_aksi} at {q_lokasi}. Cinematic motion.\n"
-            f"ACTING CUE: {acting_cue}\n"
+            f"{final_identity_rule}\n\n"
+            f"SCENE: {q_aksi} at {q_lokasi}. Cinematic motion, realistic physics.\n"
+            f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue}\n"
             f"QUALITY: {QB_VID_LOKAL}\n"
-            f"NEGATIVE: {NEG_LOKAL}"
+            f"NEGATIVE: {NEG_LOKAL}\n"
+            f"FORMAT: 9:16 Vertical Video"
         )
 
         # --- TAMPILKAN HASIL ---
@@ -786,7 +792,7 @@ def tampilkan_quick_prompt():
             st.markdown("##### 🎥 PROMPT VIDEO")
             st.code(p_vid, language="text")
             
-        st.success("✅ Prompt Berhasil Dioptimasi!")
+        st.success("✅ Prompt Berhasil Dioptimasi! Silahkan Copy!")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1617,6 +1623,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
