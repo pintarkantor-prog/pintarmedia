@@ -864,21 +864,29 @@ def tampilkan_quick_prompt():
         else:
             acting_cue_final = "Neutral Interaction"
 
-        # 3. PHYSICS & VISUAL
+        # 3. PHYSICS & VISUAL MAPPING (Tambahan Mapping ke Inggris Pro)
+        style_map = {"Sangat Nyata": "Photorealistic cinematic", "Animasi 3D Pixar": "Disney Pixar 3D style", "Gaya Cyberpunk": "Cyberpunk neon aesthetic", "Anime Jepang": "Studio Ghibli style"}
+        shot_map = {"Lanskap": "Wide cinematic shot", "Seluruh Badan": "Full body shot", "Setengah Badan": "Waist-up framing", "Close Up": "Close-up portrait", "Extreme Close Up": "Extreme macro detail"}
+        light_map = {"Sinar Senja": "Golden hour lighting", "Siang Alami": "Natural daylight", "Neon Cyberpunk": "Vibrant neon lighting", "Malam Indigo": "Indigo twilight", "Malam Hari": "Cinematic night lighting"}
+
+        v_style = style_map.get(q_style, q_style)
+        v_shot = shot_map.get(q_shot, q_shot)
+        v_light = light_map.get(q_light, q_light)
+
         physics_guard = "PHYSICS RULE: Strict object permanence. All handheld items stay firmly attached. No clipping."
         
-        # 4. RAKIT OUTPUT FINAL
+        # 4. RAKIT OUTPUT FINAL (Variabel VISUAL lebih kuat)
         p_img = (
             f"{final_identity_rule}\n\n"
             f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
-            f"VISUAL: {q_style}, {q_shot}, {q_arah}, {q_light}.\n"
+            f"VISUAL: {v_style}, {v_shot}, {q_arah}, {v_light}.\n"
             f"QUALITY: {QB_IMG_LOKAL}\n"
             f"NEGATIVE: {NEG_LOKAL}"
         )
 
         p_vid = (
             f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} with {q_shot} framing at {q_lokasi}. {physics_guard}\n"
+            f"SCENE: {q_aksi} with {v_shot} framing at {q_lokasi}. {physics_guard}\n"
             f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_final}\n"
             f"QUALITY: {QB_VID_LOKAL}, natural mouth movement, facial consistency\n"
             f"NEGATIVE: {NEG_LOKAL}"
@@ -1729,6 +1737,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
