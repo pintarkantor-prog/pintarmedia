@@ -864,51 +864,60 @@ def tampilkan_quick_prompt():
         else:
             acting_cue_final = "Neutral Interaction"
 
-# 3. PHYSICS & VISUAL MAPPING (Penerjemah Bahasa AI Pro)
+        # 3. PHYSICS & VISUAL MAPPING (Penerjemah Bahasa AI Pro)
         q_style_map = {
-            "Sangat Nyata": "Photorealistic cinematic, hyper-realistic, 8k resolution, highly detailed",
-            "Animasi 3D Pixar": "Disney Pixar 3D style, expressive character animation, high-end 3D render",
-            "Gaya Cyberpunk": "Cyberpunk neon aesthetic, futuristic atmosphere, vibrant lighting",
-            "Anime Jepang": "Studio Ghibli style, high-quality 2D anime, hand-drawn aesthetic"
+            "Sangat Nyata": "Cinematic RAW shot, high-fidelity textures, 8k UHD, ray-traced lighting",
+            "Animasi 3D Pixar": "Stylized 3D render, expressive character design, global illumination",
+            "Gaya Cyberpunk": "Cyberpunk aesthetic, neon-drenched atmosphere, futuristic noir",
+            "Anime Jepang": "High-quality 2D cel-shaded, Studio Ghibli aesthetic, hand-drawn textures"
         }
         
         q_shot_map = {
-            "Lanskap": "Wide cinematic shot",
-            "Seluruh Badan": "Full body shot",
-            "Setengah Badan": "Waist-up framing, medium shot",
-            "Close Up": "Close-up portrait",
-            "Extreme Close Up": "Extreme macro detail focus"
+            "Lanskap": "Wide-angle cinematic vista",
+            "Seluruh Badan": "Full-length portrait, wide framing",
+            "Setengah Badan": "Waist-up medium shot",
+            "Close Up": "Tight portrait, facial detail focus",
+            "Extreme Close Up": "Extreme macro lens focus"
+        }
+
+        q_arah_map = {
+            "Sejajar Mata": "Eye-level perspective, neutral camera angle",
+            "Dari Bawah": "Low-angle heroic shot, looking upward",
+            "Dari Atas": "High-angle perspective, bird's-eye view",
+            "Dari Samping": "Profile view, 90-degree lateral angle",
+            "Belakang Karakter": "Over-the-shoulder perspective, rear-view framing"
         }
         
         q_light_map = {
-            "Sinar Senja": "Golden hour lighting, warm amber highlights",
-            "Siang Alami": "Natural direct sunlight, bright outdoors",
-            "Neon Cyberpunk": "Vibrant neon lighting, purple and blue accents",
-            "Malam Indigo": "Indigo twilight, moody blue hour lighting",
-            "Malam Hari": "Cinematic night lighting, high contrast"
+            "Sinar Senja": "Golden hour glow, amber warmth, long shadows",
+            "Siang Alami": "Organic daylight, soft diffusion, bright atmosphere",
+            "Neon Cyberpunk": "Vivid neon highlights, purple and cyan color-grading",
+            "Malam Indigo": "Deep twilight tones, blue-hour ambiance",
+            "Malam Hari": "Low-light cinematic contrast, moody shadows"
         }
 
-        # Menjalankan Mapping Lokal (Mengambil variabel dari selectbox)
+        # Menjalankan Mapping Lokal
         v_style = q_style_map.get(q_style, q_style)
         v_shot = q_shot_map.get(q_shot, q_shot)
+        v_arah = q_arah_map.get(q_arah, q_arah)
         v_light = q_light_map.get(q_light, q_light)
 
         physics_guard = "PHYSICS RULE: Strict object permanence. All handheld items stay firmly attached. No clipping."
         
-        # 4. RAKIT OUTPUT FINAL (Variabel sudah terhubung semua)
+        # 4. RAKIT OUTPUT FINAL
         p_img = (
             f"{final_identity_rule}\n\n"
             f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
-            f"VISUAL: {v_style}, {v_shot}, {q_arah}, {v_light}.\n"
+            f"VISUAL: {v_style}, {v_shot}, {v_arah}, {v_light}.\n"
             f"QUALITY: {QB_IMG_LOKAL}\n"
             f"NEGATIVE: {NEG_LOKAL}"
         )
 
         p_vid = (
             f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} with {v_shot} framing at {q_lokasi}. {physics_guard}\n"
+            f"SCENE: {q_aksi} with {v_shot} framing at {v_arah} perspective at {q_lokasi}. {physics_guard}\n"
             f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_final}\n"
-            f"QUALITY: {QB_VID_LOKAL}, natural mouth movement, facial consistency\n"
+            f"QUALITY: {QB_VID_LOKAL}, fluid mouth movement, consistent facial features\n"
             f"NEGATIVE: {NEG_LOKAL}"
         )
 
@@ -1757,6 +1766,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
