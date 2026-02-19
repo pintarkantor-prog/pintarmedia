@@ -666,169 +666,100 @@ Total Adegan: {adegan_o}
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_quick_prompt():
+    import requests, re
     st.title("⚡ QUICK PROMPT")
-    st.info(f"💡 **INFO :** Data tidak dapat disimpan atau direstore!")
+    st.info(f"💡 **INFO :** Data dibagian ini tidak bisa di simpan atau restore!")
 
-    # --- 1. BRANKAS DATA ---
+    # --- A. SETTINGAN LOKAL (SAMA DENGAN RUANG PRODUKSI SEMALAM) ---
+    QB_IMG_LOKAL = (
+        "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
+        "bokeh background, razor-sharp focus on subject detail, "
+        "high-index lens glass look, CPL filter, sub-surface scattering, "
+        "physically-based rendering, hyper-detailed surface micro-textures, "
+        "anisotropic filtering, ray-traced ambient occlusion"
+    )
+
+    QB_VID_LOKAL = (
+        "Unreal Engine 5.4, 24fps cinematic motion, ultra-clear, 8k UHD, high dynamic range, "
+        "professional color grading, ray-traced reflections, hyper-detailed textures, "
+        "temporal anti-aliasing, zero digital noise, clean pixels, "
+        "smooth motion interpolation, high-fidelity physical interaction"
+    )
+
+    # --- B. NEGATIVE CONFIG ---
+    NEG_LOKAL = (
+        "muscular, bodybuilder, shredded, male anatomy, human skin, human anatomy, "
+        "realistic flesh, skin pores, blurry, distorted surface, "
+        "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, "
+        "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars"
+    )
+
+    # --- C. FUNGSI HAPUS ---
     if "qp_data" not in st.session_state:
         st.session_state.qp_data = {
-            "name_a": "", "det_a": "", 
-            "name_b": "", "det_b": "",
-            "loc": "", "act": "", "ss": OPTS_SHOT[2], # Default: Setengah Badan
-            "ar": OPTS_ARAH[0], # Default: Sejajar Mata
-            "vb": OPTS_STYLE[0], # Default: Sangat Nyata
-            "wt": OPTS_LIGHT[0], # Default: Sinar Senja
-            "dial": "", "spk": []
+            "name_a": "", "det_a": "", "name_b": "", "det_b": "",
+            "loc": "", "act": "", "ss": "Setengah Badan", "ar": "Sejajar Mata",
+            "vb": "Sangat Nyata", "wt": "Sinar Senja", "dial": "", "spk": []
         }
 
-    # --- 2. FUNGSI HAPUS PROMPT ---
     def hapus_semua():
         for key in st.session_state.qp_data:
-            if key == "spk":
-                st.session_state.qp_data[key] = []
-            elif key == "ss": st.session_state.qp_data[key] = OPTS_SHOT[2]
-            elif key == "ar": st.session_state.qp_data[key] = OPTS_ARAH[0]
-            elif key == "vb": st.session_state.qp_data[key] = OPTS_STYLE[0]
-            elif key == "wt": st.session_state.qp_data[key] = OPTS_LIGHT[0]
-            else:
-                st.session_state.qp_data[key] = ""
+            if key == "spk": st.session_state.qp_data[key] = []
+            elif key in ["ss", "ar", "vb", "wt"]: continue
+            else: st.session_state.qp_data[key] = ""
         st.toast("Formulir dibersihkan! 🧹")
 
-    # --- 3. FORMULIR PROMPT ---
+    # --- D. FORMULIR ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
-        st.markdown("#### 👥 IDENTITAS KARAKTER")
         col_a, col_b = st.columns(2)
         with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"], key="q_name_a")
-            st.session_state.qp_data["name_a"] = q_char_a
-            q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80, key="q_det_a")
-            st.session_state.qp_data["det_a"] = q_detail_a
-            
+            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"])
+            q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80)
         with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"], key="q_name_b")
-            st.session_state.qp_data["name_b"] = q_char_b
-            q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80, key="q_det_b")
-            st.session_state.qp_data["det_b"] = q_detail_b
+            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"])
+            q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80)
         
-        st.divider() 
-
-        st.markdown("#### 🎬 SKENARIO & LOKASI")
-        q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"], key="q_loc")
-        st.session_state.qp_data["loc"] = q_lokasi
+        q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"])
         
-        if "act_version" not in st.session_state:
-            st.session_state.act_version = 0
-
+        # Tombol Pintar AI
         if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
-            current_act = st.session_state.get(f"q_act_{st.session_state.act_version}", "")
-            if current_act:
-                api_key = st.secrets.get("GROQ_API_KEY") or st.secrets.get("groq_api_key")
-                if not api_key:
-                    st.error("❌ API Key tidak ditemukan!")
-                else:
-                    with st.spinner("Pintar AI lagi memoles adegan..."):
-                        try:
-                            headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-                            prompt_ai = f"""Ubah aksi singkat ini jadi deskripsi visual sinematik buat prompt AI Video.
-                            ATURAN MAIN: 1. Bahasa deskriptif hidup. 2. Maks 2 kalimat. 3. Fokus gerakan & detail. 4. Langsung ke deskripsi.
-                            Aksi: {current_act}"""
-                            
-                            payload = {
-                                "model": "llama-3.3-70b-versatile",
-                                "messages": [{"role": "user", "content": prompt_ai}],
-                                "temperature": 0.5
-                            }
-                            res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, json=payload, timeout=10)
-                            if res.status_code == 200:
-                                hasil_ai = res.json()['choices'][0]['message']['content'].strip()
-                                hasil_bersih = re.sub(r'^(Ini adalah|Berikut|Hasil).*?:', '', hasil_ai, flags=re.IGNORECASE).strip()
-                                st.session_state.qp_data["act"] = hasil_bersih
-                                st.session_state.act_version += 1
-                                st.rerun()
-                        except Exception as e:
-                            st.error(f"Kesalahan: {str(e)}")
-            else:
-                st.warning("Tulis dulu aksinya sedikit!")
+            api_key = st.secrets.get("GROQ_API_KEY")
+            if api_key and st.session_state.qp_data["act"]:
+                headers = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
+                prompt_ai = f"Ubah aksi ini jadi deskripsi visual sinematik 2 kalimat: {st.session_state.qp_data['act']}"
+                res = requests.post("https://api.groq.com/openai/v1/chat/completions", headers=headers, 
+                                    json={"model": "llama-3.3-70b-versatile", "messages": [{"role": "user", "content": prompt_ai}]})
+                if res.status_code == 200:
+                    st.session_state.qp_data["act"] = res.json()['choices'][0]['message']['content'].strip()
+                    st.rerun()
 
-        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"], key=f"q_act_{st.session_state.act_version}")
+        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"])
         st.session_state.qp_data["act"] = q_aksi
 
         c1, c2, c3, c4 = st.columns(4)
-        with c1:
-            val_ss = st.session_state.qp_data["ss"]
-            idx_ss = OPTS_SHOT.index(val_ss) if val_ss in OPTS_SHOT else 2
-            q_shot = st.selectbox("📸 Shot Size", OPTS_SHOT, index=idx_ss, key="q_ss_new")
-            st.session_state.qp_data["ss"] = q_shot
-        with c2:
-            val_ar = st.session_state.qp_data["ar"]
-            idx_ar = OPTS_ARAH.index(val_ar) if val_ar in OPTS_ARAH else 0
-            q_arah = st.selectbox("🎥 Arah Kamera", OPTS_ARAH, index=idx_ar, key="q_ar_new")
-            st.session_state.qp_data["ar"] = q_arah
-        with c3:
-            val_vb = st.session_state.qp_data["vb"]
-            idx_vb = OPTS_STYLE.index(val_vb) if val_vb in OPTS_STYLE else 0
-            q_style_fix = st.selectbox("🎨 Visual Style", OPTS_STYLE, index=idx_vb, key="q_vb_new")
-            st.session_state.qp_data["vb"] = q_style_fix
-        with c4:
-            val_wt = st.session_state.qp_data["wt"]
-            idx_wt = OPTS_LIGHT.index(val_wt) if val_wt in OPTS_LIGHT else 0
-            q_light_fix = st.selectbox("💡 Lighting", OPTS_LIGHT, index=idx_wt, key="q_wt_new")
-            st.session_state.qp_data["wt"] = q_light_fix
+        with c1: q_shot = st.selectbox("📸 Shot Size", ["Lanskap", "Seluruh Badan", "Setengah Badan", "Close Up", "Extreme Close Up"], index=2)
+        with c2: q_arah = st.selectbox("🎥 Arah Kamera", ["Sejajar Mata", "Dari Bawah", "Dari Atas", "Dari Samping", "Belakang Karakter"], index=0)
+        with c3: q_style = st.selectbox("🎨 Visual Style", ["Sangat Nyata", "Animasi 3D Pixar", "Gaya Cyberpunk", "Anime Jepang"], index=0)
+        with c4: q_light = st.selectbox("💡 Lighting", ["Sinar Senja", "Siang Alami", "Neon Cyberpunk", "Malam Indigo", "Malam Hari"], index=1)
 
         st.divider()
-
-        st.markdown("#### 💬 DIALOG")
-        q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80, key="q_dial")
+        q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80)
         st.session_state.qp_data["dial"] = q_dialog
-        opsi_nama = [n for n in [q_char_a, q_char_b] if n]
-        q_speaker = st.multiselect("Siapa yang berbicara?", options=opsi_nama, default=st.session_state.qp_data["spk"], key="q_spk")
-        st.session_state.qp_data["spk"] = q_speaker
-
         st.button("🧹 HAPUS SEMUA INPUT", on_click=hapus_semua, use_container_width=True)
 
-    # --- 4. LOGIKA SUNTIKAN MANTRA SAKRAL & OUTPUT (DNA RUANG PRODUKSI) ---
+    # --- E. OUTPUT ---
     if q_aksi and q_lokasi:
-        # A. Identity Lock (SKS)
-        final_id_qp = (
-            f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]] AND "
-            f"[[ ACTOR_2_SKS ({q_char_b.upper() if q_char_b else 'CHAR2'}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]"
-        )
-
-        # B. Satu Pintu Dialog (Acting Cue)
-        acting_cue_qp = f"Use this dialogue for emotional reference only: '{q_dialog}'" if q_dialog else "Neutral Interaction"
-
-        # C. Mantra Sakral (f/11 Brutal)
-        mantra_qp = rakit_prompt_sakral(q_aksi, q_style_fix, q_light_fix, q_arah, q_shot, "Diam (Tetap Napas)")
+        final_id = f"[[ ACTOR_1_SKS ({q_char_a.upper()}): {q_detail_a} ]] AND [[ ACTOR_2_SKS ({q_char_b.upper()}): {q_detail_b} ]]"
+        acting_cue = f"Use dialogue for emotion only: '{q_dialog}'" if q_dialog else "Neutral"
 
         st.divider()
-        st.subheader("🚀 HASIL OPTIMASI PROMPT")
-        
         res_img, res_vid = st.columns(2)
         with res_img:
             st.markdown("##### 📷 PROMPT GAMBAR")
-            p_img = (
-                f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                f"{final_id_qp}\n\n"
-                f"SCENE: {q_aksi} at {q_lokasi}.\n"
-                f"VISUAL: {mantra_qp} NO SOFTENING, f/11 aperture, extreme edge-enhancement.\n"
-                f"QUALITY: {QB_IMG}\n"
-                f"NEGATIVE: {negative_base} {no_text_strict}\n"
-                f"FORMAT: 9:16 Vertical Framing"
-            )
-            st.code(p_img, language="text")
-
+            st.code(f"IMAGE REFERENCE RULE: Use uploaded photos.\n\n{final_id}\n\nSCENE: {q_aksi} at {q_lokasi}.\nVISUAL: {q_style}, {q_shot}, {q_arah}, {q_light}.\nQUALITY: {QB_IMG_LOKAL}\nNEGATIVE: {NEG_LOKAL}", language="text")
         with res_vid:
             st.markdown("##### 🎥 PROMPT VIDEO")
-            p_vid = (
-                f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n\n"
-                f"{final_id_qp}\n\n"
-                f"SCENE & KINETICS: {q_aksi} with {q_arah} angle, fluid kinetics, realistic physics, no robotic movement.\n\n"
-                f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_qp}\n\n"
-                f"VISUAL: {mantra_qp}\n"
-                f"QUALITY: {QB_VID}, Maintain 100% facial identity consistency, look exactly like the reference, natural mouth movement\n"
-                f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
-                f"FORMAT: 9:16 Vertical Video"
-            )
+            st.code(f"IMAGE REFERENCE RULE: Use uploaded photos.\n\n{final_id}\n\nSCENE: {q_aksi} at {q_lokasi}.\nACTING CUE: {acting_cue}\nQUALITY: {QB_VID_LOKAL}\nNEGATIVE: {NEG_LOKAL}", language="text")
             st.code(p_vid, language="text")
         
         st.success("✅ Quick Prompt berhasil dibuat!")
@@ -1662,6 +1593,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
