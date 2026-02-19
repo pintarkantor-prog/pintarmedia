@@ -746,40 +746,43 @@ def tampilkan_quick_prompt():
         q_dialog = st.text_area("Tulis Percakapan", value=st.session_state.qp_data["dial"], height=80)
         st.session_state.qp_data["dial"] = q_dialog
 
-    # --- E. LOGIKA RAKIT PROMPT (VERSI IDENTITY LOCK) ---
+    # --- E. LOGIKA RAKIT PROMPT (SUNTIKAN FISIKA PADAT) ---
     if q_aksi and q_lokasi:
-        # 1. Rakit Identitas SKS dengan Instruksi Foto Spesifik
-        # Memaksa nama jadi kapital dan menambahkan perintah referensi foto
+        # 1. Identity Lock
         char_1_tag = f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]]"
         char_2_tag = f"[[ ACTOR_2_SKS ({q_char_b.upper() if q_char_b else 'CHAR2'}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]"
         
-        # Menggabungkan rule utama
         final_identity_rule = (
             f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required. "
             f"{char_1_tag} AND {char_2_tag}"
         )
+
+        # 2. Physics Guard (Solusi Tembus & Benda Hilang)
+        # Mantra ini memaksa AI menganggap benda itu nyata dan punya massa
+        physics_guard = (
+            "PHYSICS RULE: Strict object permanence. All handheld items must stay firmly attached to hands. "
+            "No clipping through environment. Character must interact with furniture as solid surfaces. "
+            "Realistic weight, gravity, and collision physics."
+        )
         
-        # 2. Rakit Acting Cue
+        # 3. Acting Cue
         acting_cue = f"Use dialogue for emotion only: '{q_dialog}'" if q_dialog else "Neutral Interaction"
 
-        # 3. Definisi p_img
+        # 4. Definisi Prompt (Suntikan ke SCENE)
         p_img = (
             f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} at {q_lokasi}.\n"
+            f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
             f"VISUAL: {q_style}, {q_shot} framing, {q_arah} angle, {q_light}.\n"
             f"QUALITY: {QB_IMG_LOKAL}\n"
-            f"NEGATIVE: {NEG_LOKAL}\n"
-            f"FORMAT: 9:16 Vertical Framing"
+            f"NEGATIVE: {NEG_LOKAL} clipping, ghosting, floating objects"
         )
 
-        # 4. Definisi p_vid
         p_vid = (
             f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} at {q_lokasi}. Cinematic motion, realistic physics.\n"
+            f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
             f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue}\n"
             f"QUALITY: {QB_VID_LOKAL}\n"
-            f"NEGATIVE: {NEG_LOKAL}\n"
-            f"FORMAT: 9:16 Vertical Video"
+            f"NEGATIVE: {NEG_LOKAL} distorted physics, disappearing items, body parts merging with objects"
         )
 
         # --- TAMPILKAN HASIL ---
@@ -1623,6 +1626,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
