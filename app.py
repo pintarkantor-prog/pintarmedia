@@ -1633,7 +1633,7 @@ def tampilkan_ruang_produksi():
                 list_dialog = [f"[ACTOR_{f['id']}_SKS ({f['nama']}) SPEAKING]: '{sc['dialogs'][f['id']-1]}'" for f in found if sc["dialogs"][f['id']-1].strip()]
                 dialog_text = " | ".join(list_dialog) if list_dialog else "Silent interaction."
 
-# C. MASTER COMPILER (SINKRONISASI TOTAL: MINIMALIS & SAKTI)
+                # C. MASTER COMPILER (SINKRONISASI TOTAL: MINIMALIS & SAKTI)
                 with st.expander(f"💎 MASTERPIECE RESULT | ADEGAN {scene_id}", expanded=True):
                     
                     # 1. Mantra VIDEO (Suntikan Brutal Sharpness f/11)
@@ -1649,10 +1649,13 @@ def tampilkan_ruang_produksi():
                     s_img = style_map_img.get(sc['style'], "Cinematic optical clarity.")
                     mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {sc['light']}."
 
-                    # 3. Logika Acting Cue Gaya Web Lama (HANYA SATU PINTU DIALOG)
-                    raw_dialogs = [f"{data['karakter'][i]['nama'].upper()}: {sc['dialogs'][i]}" for i in range(data["jumlah_karakter"]) if sc['dialogs'][i].strip()]
+                    # 3. Logika Acting Cue Gaya Web Lama (ANTI-DIALOG DOBEL)
+                    raw_dialogs = [f"[{data['karakter'][i]['nama'].upper()}_DIALOG]: '{sc['dialogs'][i].strip()}'" for i in range(data["jumlah_karakter"]) if sc['dialogs'][i].strip()]
+                    
                     emotional_ref = " | ".join(raw_dialogs) if raw_dialogs else "Neutral Interaction"
-                    acting_cue_custom = f"Use this dialogue for emotional reference only: '{emotional_ref}'"
+                    
+                    acting_cue_custom = f"Use these individual dialogue cues for emotional reference only: {emotional_ref}. FOCUS mouth movement and lip-sync ONLY on the active speaker. Others must remain silent."
+
 
                     # RAKIT PROMPT GAMBAR
                     img_p = (
@@ -1665,7 +1668,8 @@ def tampilkan_ruang_produksi():
                         f"NEGATIVE: {negative_base} {no_text_strict}\n"
                         f"FORMAT: 9:16 Vertical Framing"
                     )
-                    
+
+
                     # RAKIT PROMPT VIDEO (DIBERSIHKAN DARI DIALOG DOBEL)
                     vid_p = (
                         f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n"
@@ -1711,6 +1715,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
