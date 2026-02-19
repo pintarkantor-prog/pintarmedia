@@ -21,7 +21,7 @@ OPTS_RATIO = ["9:16", "16:9", "1:1"]
 
 def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
     style_map = {
-        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/1.8 lens focus, depth map rendering.",
+        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, tactile micro-textures, f/8.0 aperture, infinite depth of field.",
         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
         "Gaya Cyberpunk": "Futuristic neon aesthetic, volumetric fog, sharp reflections, high contrast.",
         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
@@ -745,8 +745,8 @@ def tampilkan_quick_prompt():
 
     # --- A. SETTINGAN LOKAL ---
     QB_IMG_LOKAL = (
-        "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
-        "bokeh background, razor-sharp focus on subject detail, "
+        "8k RAW optical clarity, deep depth of field, f/8.0 aperture, "
+        "solid sharp background, zero bokeh, edge-to-edge sharpness, "
         "high-index lens glass look, CPL filter, sub-surface scattering, "
         "physically-based rendering, hyper-detailed surface micro-textures, "
         "anisotropic filtering, ray-traced ambient occlusion"
@@ -866,7 +866,7 @@ def tampilkan_quick_prompt():
 
         # 3. PHYSICS & VISUAL MAPPING (Penerjemah Bahasa AI Pro)
         q_style_map = {
-            "Sangat Nyata": "Cinematic RAW shot, high-fidelity textures, 8k UHD, ray-traced lighting",
+            "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, tactile micro-textures, f/8.0 aperture, infinite depth of field.",
             "Animasi 3D Pixar": "Stylized 3D render, expressive character design, global illumination",
             "Gaya Cyberpunk": "Cyberpunk aesthetic, neon-drenched atmosphere, futuristic noir",
             "Anime Jepang": "High-quality 2D cel-shaded, Studio Ghibli aesthetic, hand-drawn textures"
@@ -1446,8 +1446,8 @@ def tampilkan_ruang_produksi():
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
     QB_IMG = (
-        "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
-        "bokeh background, razor-sharp focus on subject detail, "
+        "8k RAW optical clarity, deep depth of field, f/8.0 aperture, "
+        "solid sharp background, zero bokeh, edge-to-edge sharpness, "
         "high-index lens glass look, CPL filter, sub-surface scattering, "
         "physically-based rendering, hyper-detailed surface micro-textures, "
         "anisotropic filtering, ray-traced ambient occlusion"
@@ -1692,7 +1692,7 @@ def tampilkan_ruang_produksi():
                     
                     # 2. Mantra IMAGE (Infinte Depth of Field)
                     style_map_img = {
-                        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, tactile micro-textures, f/11 aperture, infinite depth of field.",
+                        "Sangat Nyata": "Cinematic RAW shot, PBR surfaces, 8k textures, macro-detail fidelity, f/8.0 aperture, deep focus rendering.",
                         "Animasi 3D Pixar": "Disney style 3D, Octane render, ray-traced global illumination, premium subsurface scattering.",
                         "Gaya Cyberpunk": "Futuristic neon aesthetic, volumetric fog, sharp reflections, high contrast.",
                         "Anime Jepang": "Studio Ghibli style, hand-painted watercolor textures, soft cel shading, lush aesthetic."
@@ -1766,6 +1766,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
