@@ -766,12 +766,18 @@ def tampilkan_quick_prompt():
         "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars"
     )
 
-    # --- B. BRANKAS DATA (DITAMBAH DIALOG A & B) ---
+    # --- B. BRANKAS DATA (DIPERBARUI) ---
     if "qp_data" not in st.session_state:
         st.session_state.qp_data = {
             "name_a": "", "det_a": "", "name_b": "", "det_b": "",
             "loc": "", "act": "", "dial_a": "", "dial_b": "", "spk": []
         }
+    
+    # PENGAMAN TAMBAHAN: Jika kunci lama masih ada tapi kunci baru belum ada
+    if "dial_a" not in st.session_state.qp_data:
+        st.session_state.qp_data["dial_a"] = ""
+    if "dial_b" not in st.session_state.qp_data:
+        st.session_state.qp_data["dial_b"] = ""
 
     # --- C. FORMULIR ---
     with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
@@ -1723,6 +1729,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
