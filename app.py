@@ -864,18 +864,36 @@ def tampilkan_quick_prompt():
         else:
             acting_cue_final = "Neutral Interaction"
 
-        # 3. PHYSICS & VISUAL MAPPING (Tambahan Mapping ke Inggris Pro)
-        style_map = {"Sangat Nyata": "Photorealistic cinematic", "Animasi 3D Pixar": "Disney Pixar 3D style", "Gaya Cyberpunk": "Cyberpunk neon aesthetic", "Anime Jepang": "Studio Ghibli style"}
-        shot_map = {"Lanskap": "Wide cinematic shot", "Seluruh Badan": "Full body shot", "Setengah Badan": "Waist-up framing", "Close Up": "Close-up portrait", "Extreme Close Up": "Extreme macro detail"}
-        light_map = {"Sinar Senja": "Golden hour lighting", "Siang Alami": "Natural daylight", "Neon Cyberpunk": "Vibrant neon lighting", "Malam Indigo": "Indigo twilight", "Malam Hari": "Cinematic night lighting"}
+        # 3. PHYSICS & VISUAL MAPPING (Gunakan q_ agar tidak bentrok dengan Ruang Produksi)
+        q_style_map = {
+            "Sangat Nyata": "Photorealistic cinematic, hyper-realistic, 8k resolution", 
+            "Animasi 3D Pixar": "Disney Pixar 3D style, expressive 3D animation", 
+            "Gaya Cyberpunk": "Cyberpunk neon aesthetic, futuristic vibe", 
+            "Anime Jepang": "Studio Ghibli style, high-quality 2D anime"
+        }
+        q_shot_map = {
+            "Lanskap": "Wide cinematic shot", 
+            "Seluruh Badan": "Full body shot", 
+            "Setengah Badan": "Waist-up framing, medium shot", 
+            "Close Up": "Close-up portrait", 
+            "Extreme Close Up": "Extreme macro detail"
+        }
+        q_light_map = {
+            "Sinar Senja": "Golden hour lighting, warm amber highlights", 
+            "Siang Alami": "Natural daylight, bright lighting", 
+            "Neon Cyberpunk": "Vibrant neon lighting, purple and blue accents", 
+            "Malam Indigo": "Indigo twilight, moody blue hour lighting", 
+            "Malam Hari": "Cinematic night lighting, high contrast"
+        }
 
-        v_style = style_map.get(q_style, q_style)
-        v_shot = shot_map.get(q_shot, q_shot)
-        v_light = light_map.get(q_light, q_light)
+        # Menjalankan Mapping Lokal Quick Prompt
+        v_style = q_style_map.get(q_style, q_style)
+        v_shot = q_shot_map.get(q_shot, q_shot)
+        v_light = q_light_map.get(q_light, q_light)
 
         physics_guard = "PHYSICS RULE: Strict object permanence. All handheld items stay firmly attached. No clipping."
         
-        # 4. RAKIT OUTPUT FINAL (Variabel VISUAL lebih kuat)
+        # 4. RAKIT OUTPUT FINAL
         p_img = (
             f"{final_identity_rule}\n\n"
             f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
@@ -1737,6 +1755,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
