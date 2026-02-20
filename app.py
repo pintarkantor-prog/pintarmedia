@@ -108,10 +108,9 @@ MASTER_CHAR = {
     "Bapak": {
         "fisik": "A middle-aged Indonesian man with a sturdy build and a slightly protruding belly (typical 'perut bapak-bapak'). Thin mustache, Southeast Asian brown skin (sawo matang), and a firm yet relaxed facial expression.",
         "versi_pakaian": {
-            "Keseharian": "Plain white undershirt (singlet), a checkered motif sarong wrapped around the waist or draped over the neck, and rubber flip-flops.",
+            "Keseharian": "Plain white t-shirt, loose ends not tucked in, covering the waist. Long checkered cotton sarong, red and calm colors, straight vertical curtains. Blue rubber flip flops.",
             "Versi Kades": "Formal khaki-colored PDH (Indonesian civil servant uniform) with shoulder epaulets. On the right chest, there is a clear black name tag with white text that reads: 'KADES KONOHA'. Wearing black leather shoes and a leather belt.",
             "Versi Pak RT": "Short-sleeved batik shirt tucked into black trousers. Reading glasses hanging around the neck and holding a clip-on folder (map jepit).",
-            "Versi Miskin": "Old white t-shirt with a stretched-out collar and visible stains, ragged short trousers, and a belt made of scrap fabric. Tired face with unkempt thin beard stubble.",
             "Versi Sultan": "Exclusive silk batik shirt with expensive intricate motifs. Wearing a large 'batu akik' gemstone ring, a gold watch, luxury sunglasses, and polished shiny leather shoes."
         }
     },
@@ -1800,6 +1799,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
