@@ -133,10 +133,8 @@ MASTER_CHAR = {
     "Dindin": {
         "fisik": "",
         "versi_pakaian": {
-            "Keseharian 1": "Oversized white kids' singlet, colorful patterned shorts, barefoot, holding a melting popsicle. Playful and messy look.",
-            "Keseharian 2": "Simple light-weight oversized white cotton t-shirt, comfortable orange striped leggings, and cute character-themed rubber sandals. Her orange head looks bright and shiny.",
-            "Casual": "A cute bright yellow t-shirt with a small orange fruit cartoon print, paired with comfortable blue denim overall shorts. Wears colorful sneakers with glowing LED lights.",
-            "Versi Miskin": "Absurdly oversized adult-sized campaign t-shirt (kaos partai) reaching his knees, smudged chocolate stains on the face, messy barefoot look.",
+            "Keseharian ": "Bright yellow cotton T-shirt, featuring a large colorful cartoon dinosaur print on the center chest. Short navy blue denim overalls, small metallic buckle fastenings. Wears colorful sneakers with glowing LED lights.",
+            "Versi Miskin": "The faded gray cotton T-shirt is oversized, the collar is stretchy, and the cartoon print is cracked and peeling. Worn brown corduroy shorts. black flip flops.",
             "Versi Gaul": "Mini cat-ear hoodie, denim jogger pants, glowing LED roller shoes, and bright neon plastic sunglasses.",
             "Versi Sultan": "Mini white silk tuxedo, tiny diamond-encrusted toy watch, holding a gold-plated smartphone, expensive designer sneakers.",
             "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
@@ -147,12 +145,11 @@ MASTER_CHAR = {
     "Tingting": {
         "fisik": "",
         "versi_pakaian": {
-            "Keseharian 1": "Denim overalls (baju kodok) over a red-and-white striped t-shirt, wearing a knitted beanie hat on his wooden head.",
-            "Keseharian 2": "A simple soft blue polo shirt, comfortable navy blue sweatpants, and brown velcro strap sneakers. The wood grain on his small head looks smooth and well-polished.",
-            "Casual": "A cool mini bomber jacket in olive green over a grey t-shirt, paired with khaki cargo jogger pants and small tactical boots. Looks like a tiny adventurer.",
+            "Keseharian ": "Blue polo shirt, dark blue sweatpants, and brown velcro strap sneakers.",
+            "Casual": "A cool mini bomber jacket in olive green over a grey t-shirt, paired with khaki cargo jogger pants and small tactical boots.",
             "Versi Miskin": "Tunic made from a tattered flour sack with visible branding (karung terigu), scrap cloth shorts, carrying an old inner tube (ban dalam) as a toy.",
-            "Versi Gaul": "Flannel shirt tied around the waist, multi-pocket cargo pants, backwards snapback hat, and large headphones around the wooden neck.",
-            "Versi Sultan": "Royal velvet cape in deep red, a tiny gold crown perched on the wooden head, premium leather boots, holding a solid gold toy car.",
+            "Versi Gaul": "Flannel shirt tied around the waist, multi-pocket cargo pants, backwards snapback hat, and large headphones around neck.",
+            "Versi Sultan": "A crimson royal velvet robe, a small gold crown perched on his head. premium leather boots, holding a solid gold toy car.",
             "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
             "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on chest pocket. Gray trousers, Slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
@@ -1800,6 +1797,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
