@@ -58,7 +58,7 @@ MASTER_CHAR = {
             "Casual": "High-end designer oversized white t-shirt in heavy-weight premium cotton, paired with luxury light-wash distressed denim jeans. Limited-edition hypebeast sneakers. Accessorized with a diamond-encrusted watch, a solid gold bracelet, and a thick gold link chain necklace.",
             "Versi Gaul": "Vibrant pink short-sleeve button-up shirt with large tropical floral patterns, open over a white premium cotton tank top. Tailored white linen shorts. Thick gold link chain, wide gold bracelet, diamond-encrusted watch. White luxury designer sneakers.",
             "Versi Kaya": "Premium navy blue polo shirt, beige chino shorts. Sleek luxury gold watch. Brown suede boat shoes with white rubber soles.",
-            "Versi Sultan": "Exclusive silk robe with intricate gold thread embroidery, multiple massive gemstone rings on fingers, gold-rimmed sunglasses, and a thick gold chain with a large dollar-sign pendant.",
+            "Versi Sultan": "Charcoal three-piece suit, metallic gold brocade patterns, fully buttoned. Black silk shirt, black bow tie. Thick gold link chain, large diamond-encrusted dollar pendant, gemstone rings. Black velvet loafers with shimmering micro-diamonds. Gold-rimmed sunglasses. No color bleeding; isolated gold and diamond textures.",
             "Versi Sultan 2": "Luxury designer logo t-shirt in crisp white, multiple massive gemstone rings on fingers, premium denim shorts, polished white leather loafers, and a highly reflective shiny gold necklace.",
             "Versi Miskin": "Thin, stretched-out crewneck t-shirt with a faded color, worn-out short trousers, and cheap rubber flip-flops. A dull, small towel is draped over the shoulder.",
             "Versi Gembel": "Yellowed sleeveless undershirt (singlet) filled with small holes and sweat stains, an old patched-up sarong tied messily around the waist, barefoot. Surface of the orange head looks dusty and dull.",
@@ -1811,6 +1811,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
