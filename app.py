@@ -1047,6 +1047,9 @@ def tampilkan_tugas_kerja():
                 isi_tugas = st.text_area("Instruksi Tugas", height=150)
             with c1:
                 staf_tujuan = st.selectbox("Pilih Editor", staf_options)
+                # --- TAMBAHAN DISKUSI: Checkbox agar tidak berisik ---
+                pake_wa = st.checkbox("Kirim Notif WA?", value=True) 
+
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
                     t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
@@ -1054,12 +1057,33 @@ def tampilkan_tugas_kerja():
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     catat_log(f"Kirim Tugas Baru {t_id} ke {staf_tujuan}")
                     
-                    # --- NOTIF WA ---
-                    kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
+                    # --- NOTIF WA (Hanya jika dicentang) ---
+                    if pake_wa:
+                        kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
     # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
+
+    # --- TAMBAHAN DISKUSI: FORM SETOR MANDIRI (KHUSUS STAFF) ---
+    if user_sekarang != "dian" and user_sekarang != "tamu":
+        with st.expander("➕ STAFF: SETOR TUGAS MANDIRI (Inisiatif)", expanded=False):
+            with st.form("form_mandiri", clear_on_submit=True):
+                st.info("Gunakan form ini jika ingin menyetor hasil kerja tanpa instruksi harian dari Admin.")
+                judul_m = st.text_input("Apa yang kamu kerjakan?", placeholder="Misal: Edit Konten Mandiri Udin")
+                link_m = st.text_input("Link GDrive Hasil:")
+                submit_m = st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True)
+                
+                if submit_m:
+                    if judul_m and link_m:
+                        t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                        tgl_m = datetime.now(tz_wib).strftime("%Y-%m-%d")
+                        waktu_m = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M")
+                        sheet_tugas.append_row([t_id_m, user_sekarang, tgl_m, judul_m, "WAITING QC", waktu_m, link_m, ""])
+                        catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
+                        kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}\n🔗 *Link:* {link_m}\n\n_Segera cek Ruang QC ya Bos!_ 🍿")
+                        st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
+
     tugas_terfilter = []
     if not df_all_tugas.empty:
         if user_sekarang == "dian":
@@ -1108,8 +1132,6 @@ def tampilkan_tugas_kerja():
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
                             catat_log(f"Menyetor tugas {t['ID']}")
-                            
-                            # --- NOTIF WA ---
                             kirim_notif_wa(f"📤 *UPDATE SETORAN TUGAS*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}\n\n_Tugas sudah dikirim ke sistem._ 🍿")
                             st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
                 elif user_sekarang == "dian" and status != "FINISH":
@@ -1120,8 +1142,6 @@ def tampilkan_tugas_kerja():
                             cell = sheet_tugas.find(str(t['ID']).strip())
                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
                             catat_log(f"Finish tugas {t['ID']}")
-                            
-                            # --- NOTIF WA ---
                             kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\nTugas Nama *{t['Staf'].upper()}* (ID: {t['ID']}) telah divalidasi.\n✨ Hasil kerja sudah masuk rekapan bulanan.")
                             st.success("✅ Validasi Selesai!"); time.sleep(1); st.rerun()
                     with col2:
@@ -1130,8 +1150,6 @@ def tampilkan_tugas_kerja():
                             sheet_tugas.update_cell(cell.row, 5, "REVISI")
                             sheet_tugas.update_cell(cell.row, 8, cat)
                             catat_log(f"Revisi tugas {t['ID']}")
-                            
-                            # --- NOTIF WA ---
                             kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat}\n\n_Mohon untuk diperbaiki kembali._ 🛠️")
                             st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
@@ -1796,6 +1814,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
