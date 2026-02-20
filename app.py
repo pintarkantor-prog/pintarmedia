@@ -1540,7 +1540,7 @@ def tampilkan_ruang_produksi():
                     "Ciri Fisik", value=def_fisik, 
                     key=f"char_fix_{i}_{ver}_{nama_pilihan}", 
                     on_change=simpan_ke_memori,
-                    height=80, placeholder="Fisik...", label_visibility="collapsed"
+                    height=80, placeholder="Diisi detail fisik, jika tidak ada referensi gambar...", label_visibility="collapsed"
                 )
     # 3. INPUT ADEGAN (LENGKAP: LIGHTING, RATIO, DLL)
     for s in range(data["jumlah_adegan"]):
@@ -1766,3 +1766,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
