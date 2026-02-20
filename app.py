@@ -1067,9 +1067,10 @@ def tampilkan_tugas_kerja():
 
     # --- TAMBAHAN DISKUSI: FORM SETOR MANDIRI (KHUSUS STAFF) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
+        st.info("💡 **Tips:** Kalau ada tugas di list 'On-Progress', sikat itu dulu! Kalau kosong, baru pakai 'SETOR MANDIRI' ya.")
         with st.expander("➕ STAFF: SETOR TUGAS MANDIRI (Inisiatif)", expanded=False):
             with st.form("form_mandiri", clear_on_submit=True):
-                st.info("Gunakan form ini jika ingin menyetor hasil kerja tanpa instruksi harian dari Admin.")
+                st.info("Gunakan form ini jika ingin menyetor hasil kerja tanpa instruksi tugas kerja harian.")
                 judul_m = st.text_input("Apa yang kamu kerjakan?", placeholder="Misal: Edit Konten Mandiri Udin")
                 link_m = st.text_input("Link GDrive Hasil:")
                 submit_m = st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True)
@@ -1081,7 +1082,7 @@ def tampilkan_tugas_kerja():
                         waktu_m = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M")
                         sheet_tugas.append_row([t_id_m, user_sekarang, tgl_m, judul_m, "WAITING QC", waktu_m, link_m, ""])
                         catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
-                        kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}\n🔗 *Link:* {link_m}\n\n_Segera cek Ruang QC ya Bos!_ 🍿")
+                        kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}\n🔗 *Link:* {link_m}\n\n_Segera cek Ruang QC ya!_ 🍿")
                         st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
 
     tugas_terfilter = []
@@ -1814,6 +1815,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
