@@ -73,6 +73,7 @@ MASTER_CHAR = {
             "Keseharian 1": "Forest green cotton T-shirt. Charcoal grey long trousers. Brown rubber flip-flops. zero accessories.",
             "Keseharian 2": "A worn blue polo shirt, worn gray sweatpants and rubber flip-flops.",            
             "Kemeja": "Open-buttoned blue and white plaid flannel shirt, plain white crewneck t-shirt underneath, long blue denim jeans, and brown leather boots. STRICTLY NO HAT, no headwear.",
+            "Casual": "dark gray polo shirt with honeycomb motif, dark gray twill shorts. shiny brown belt. shiny brown shoes.",
             "Versi Gaul": "Pink polo shirt, monogram pattern, silk-pique blend, shiny gold-rimmed buttons. Dark royal pink chino shorts, satin stitching, high-gloss finish. Chocolate brown crocodile leather belt, oversized gold 'T' logo buckle. Diamond-encrusted gold watch, heavy metallic link strap. White crocodile leather loafers, gold horsebit hardware. No sunglasses, zero headwear. Extravagant, high-contrast, and reflective material textures.",
             "Versi Kaya": "Electric orange silk-satin blazer, open front design, wide notched lapels. Matching orange silk waistcoat, tonal button details. Bright royal purple tailored long trousers, high-gloss satin finish. Chocolate brown crocodile-skin belt, oversized gold 'T' metallic buckle. Oversized gold-framed aviator sunglasses, dark gradient lenses. Solid gold wristwatch, fully iced diamond dial. Holographic silver leather footwear, translucent chunky soles. Multi-layered gold chain necklace with a small solid gold 'TUNG' pendant. Luminous, hyper-reflective, and extravagant material textures.",
             "Versi Sultan": "Iridescent silver silk textile, reflective glass-bead embroidery. Metallic gold-threaded denim fabric, deep indigo base, straight-cut long trousers. Chocolate brown crocodile-skin texture belt, oversized gold 'T' metallic buckle. Solid white-gold timekeeper, baguette-cut sapphire bezel, fully iced dial. High-gloss holographic leather footwear, translucent chunky soles. Horizontal solid 24k gold pendant spelling 'TUNG', high-mirror polish finish, encrusted with micro-diamond accents, attached to a fine gold micro-link chain. Hyper-reflective, multifaceted, and luminous material textures.",
@@ -96,7 +97,7 @@ MASTER_CHAR = {
     },
 
     "Emak": {
-        "fisik": "A middle-aged Indonesian woman with a realistic motherly posture, slightly plump and stout (typical 'emak-emak' silhouette). Natural Southeast Asian skin tone, warm facial expression with kind eyes. Human face, human skin. Very realistic and relatable.",
+        "fisik": "",
         "versi_pakaian": {
             "Keseharian": "Long negligee in loose rayon cotton fabric, bright brown and pink batik floral motif. Wide cut sleeve openings. Green rubber flip flops, thin soles, worn surface texture.",
             "Daster Kerudung": "Long negligee made from loose rayon cotton, bright blue and red floral batik motifs combined with 'Bergo' (instant jersey hijab with white foam edges). Green rubber flip flops, thin sole, worn surface texture.",
@@ -106,17 +107,17 @@ MASTER_CHAR = {
     },
 
     "Bapak": {
-        "fisik": "A middle-aged Indonesian man with a sturdy build and a slightly protruding belly (typical 'perut bapak-bapak'). Thin mustache, Southeast Asian brown skin (sawo matang), and a firm yet relaxed facial expression.",
+        "fisik": "",
         "versi_pakaian": {
             "Keseharian": "Plain white t-shirt, loose ends not tucked in, covering the waist. Long checkered cotton sarong, red and calm colors, straight vertical curtains. Blue rubber flip flops.",
             "Versi Kades": "Formal khaki-colored PDH (Indonesian civil servant uniform) with shoulder epaulets. On the right chest, there is a clear black name tag with white text that reads: 'KADES KONOHA'. Wearing black leather shoes and a leather belt.",
-            "Versi Pak RT": "Short-sleeved batik shirt tucked into black trousers. Reading glasses hanging around the neck and holding a clip-on folder (map jepit).",
-            "Versi Sultan": "Exclusive silk batik shirt with expensive intricate motifs. Wearing a large 'batu akik' gemstone ring, a gold watch, luxury sunglasses, and polished shiny leather shoes."
+            "Versi Pak RT": "Short-sleeved batik shirt tucked into black trousers. holding a clip-on folder.",
+            "Versi Batik": "Exclusive silk batik shirt with expensive intricate motifs. Wearing a large 'batu akik' gemstone ring, a gold watch, luxury sunglasses, and polished shiny leather shoes."
         }
     },
 
     "Rumi": {
-        "fisik": "A beautiful 21-year-old young Indonesian woman with a natural Asian face and youthful features. Normal-sized eyes and smooth natural skin texture. Her signature hairstyle is vibrant purple hair, styled in a high ponytail with a thick, large braid falling over one shoulder. She has a slender and trendy posture. 100% real human appearance.",
+        "fisik": "",
         "versi_pakaian": {
             "Keseharian": "Modern cotton Batik Daster (house dress) with a minimalist pattern. Her signature purple braided ponytail is tied slightly lower for a relaxed home vibe. Wearing rubber flip-flops.",
             "Casual": "A stylish oversized cream-colored knit sweater tucked into high-waisted light blue mom jeans. Wears clean white minimalist sneakers. Her hair is down in natural waves. No accessories other than a simple silver necklace.",
@@ -124,8 +125,8 @@ MASTER_CHAR = {
             "Versi Gaul": "Yellow cropped leather bomber jacket with floral embroidery, white crop top underneath, denim hot pants with a fuchsia pink belt, and high black boots. Signature purple braided ponytail is perfectly styled.",
             "Pakaian Kerja": "Professional office look: A sharp tailored white blazer over a soft silk nude-colored blouse, paired with matching charcoal grey slacks and black pointed-toe heels. Her hair is neatly tied in a low ponytail, giving a smart and elegant impression.",
             "Versi Sultan": "Elegant deep purple silk evening gown matching her hair color, simple luxury diamond necklace, and a small crystal-encrusted clutch.",
-            "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
-            "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on chest pocket. Gray trousers, Slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
+            "Anak SD": "Short-sleeved white button-up shirt, red embroidered school logo on chest pocket. Red skirt, elastic waist. Red and white striped tie. Low-cut black canvas sneakers, white rubber sole. High contrast red and white fabric texture.",
+            "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on the chest pocket. gray skirt, slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
     },
 
@@ -1799,6 +1800,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
