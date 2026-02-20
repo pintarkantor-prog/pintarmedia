@@ -1166,7 +1166,7 @@ def tampilkan_tugas_kerja():
                 row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
                 gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
                 tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
-                total_gaji = gapok + tunjangan + (jml_video * 10000) + (jml_hadir * 50000)
+                total_gaji = gapok + tunjangan + (jml_video * 25000) + (jml_hadir * 50000)
                 
                 st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
                 st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
@@ -1796,5 +1796,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
