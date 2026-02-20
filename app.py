@@ -1070,7 +1070,6 @@ def tampilkan_tugas_kerja():
         st.info("💡 **Tips:** Kalau ada tugas di list 'On-Progress' dari Admin, sikat itu dulu! Kalau kosong, baru pakai 'SETOR MANDIRI' ya.")
         with st.expander("➕ STAFF: SETOR TUGAS MANDIRI (Inisiatif)", expanded=False):
             with st.form("form_mandiri", clear_on_submit=True):
-                st.info("Gunakan form ini jika ingin menyetor hasil kerja tanpa instruksi tugas kerja harian.")
                 judul_m = st.text_input("Apa yang kamu kerjakan?", placeholder="Misal: Edit Konten Mandiri Udin")
                 link_m = st.text_input("Link GDrive Hasil:", placeholder="Contoh: link1, link2 (Gunakan koma untuk banyak link)")
                 submit_m = st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True)
@@ -1815,6 +1814,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
