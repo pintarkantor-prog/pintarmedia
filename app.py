@@ -53,11 +53,10 @@ MASTER_CHAR = {
     "Udin": {
         "fisik": "",
         "versi_pakaian": {
-            "Keseharian 1": "Loose-fit white ribbed cotton t-shirt, grey cotton lounge shorts, and rubber flip-flops.",
-            "Keseharian 2": "Premium silk-blend short-sleeve button-up shirt in a sophisticated pastel color, tailored white chino shorts, and luxury leather slip-on loafers. Sunglasses hanging from the collar. Even in daily life, he looks like a young billionaire on vacation.",
-            "Kemeja Santai": "Open-buttoned red and black plaid flannel shirt, plain white crewneck t-shirt underneath, black denim shorts, and white high-top sneakers. STRICTLY NO HAT, no headwear.",
+            "Keseharian 1": "Black cotton t-shirt with the word 'UDIN' printed in bold white letters in the center, premium branded short denim jeans, and black rubber flip-flops.",
+            "Kemeja": "Open-buttoned red and black plaid flannel shirt, plain white crewneck t-shirt underneath, black denim shorts, and white high-top sneakers. STRICTLY NO HAT, no headwear.",
             "Casual 1": "Denim jacket, plain white t-shirt, dark jeans, and sneakers.",
-            "Casual 2": "Luxury white designer oversized t-shirt from a high-end brand, premium light-wash denim jeans, and limited-edition hypebeast sneakers. Wearing a diamond-encrusted watch and a subtle but expensive gold bracelet. Looking very wealthy but relaxed.",
+            "Casual 2": "Luxury white designer oversized t-shirt from a high-end brand, premium light-wash denim jeans, and limited-edition hypebeast sneakers. Wearing a diamond-encrusted watch and a subtle but expensive gold bracelet.",
             "Olahraga": "Athletic running shorts, compression t-shirt, and high-tech running shoes.",
             "Versi Gaul": "High-contrast black and yellow varsity jacket, distressed denim jeans with stylish rips, high-top sneakers, and a snapback hat worn backwards.",
             "Versi Kaya": "Premium navy blue polo shirt, tailored beige chino shorts, slim luxury gold watch, and brown leather loafers.",
@@ -1814,6 +1813,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
