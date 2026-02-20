@@ -51,9 +51,14 @@ MASTER_CHAR = {
     "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}, 
     
     "Udin": {
-        "fisik": "Head is a literal giant orange fruit. Skin is thick orange peel with visible pores and citrus texture. No human skin. No human face. Sharp organic details.",
+        "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Loose-fit white ribbed cotton t-shirt, grey cotton lounge shorts, and rubber flip-flops.",
+            "Keseharian 1": "Loose-fit white ribbed cotton t-shirt, grey cotton lounge shorts, and rubber flip-flops.",
+            "Keseharian 2": "Premium silk-blend short-sleeve button-up shirt in a sophisticated pastel color, tailored white chino shorts, and luxury leather slip-on loafers. Sunglasses hanging from the collar. Even in daily life, he looks like a young billionaire on vacation.",
+            "Kemeja Santai": "Open-buttoned red and black plaid flannel shirt, plain white crewneck t-shirt underneath, black denim shorts, and white high-top sneakers. STRICTLY NO HAT, no headwear.",
+            "Casual 1": "Denim jacket, plain white t-shirt, dark jeans, and sneakers.",
+            "Casual 2": "Luxury white designer oversized t-shirt from a high-end brand, premium light-wash denim jeans, and limited-edition hypebeast sneakers. Wearing a diamond-encrusted watch and a subtle but expensive gold bracelet. Looking very wealthy but relaxed.",
+            "Olahraga": "Athletic running shorts, compression t-shirt, and high-tech running shoes.",
             "Versi Gaul": "High-contrast black and yellow varsity jacket, distressed denim jeans with stylish rips, high-top sneakers, and a snapback hat worn backwards.",
             "Versi Kaya": "Premium navy blue polo shirt, tailored beige chino shorts, slim luxury gold watch, and brown leather loafers.",
             "Versi Sultan": "Exclusive silk robe with intricate gold thread embroidery, multiple massive gemstone rings on fingers, gold-rimmed sunglasses, and a thick gold chain with a large dollar-sign pendant.",
@@ -70,9 +75,14 @@ MASTER_CHAR = {
     },
 
     "Tung": {
-        "fisik": "Head is a solid natural wooden log with deep bark crevices and organic wood grain textures. No human skin. No human face. Highly detailed wooden surface.",
+        "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Earth-toned oversized henley shirt, khaki cargo shorts, and brown leather sandals.",
+            "Keseharian 1": "Earth-toned oversized henley shirt, khaki cargo shorts, and brown leather sandals.",
+            "Keseharian 2": "A well-worn faded navy blue polo shirt, simple grey sweatpants, and local brand rubber flip-flops. Looks like an ordinary person going to a local grocery store, very humble and down-to-earth.",
+            "Kemeja Santai": "Open-buttoned blue and white plaid flannel shirt, plain white crewneck t-shirt underneath, long blue denim jeans, and brown leather boots. STRICTLY NO HAT, no headwear.",
+            "Casual 1": "Leather jacket, black t-shirt, grey cargo pants, and combat boots.",
+            "Casual 2": "Plain charcoal grey cotton t-shirt, comfortable olive green cargo pants with multiple pockets, and classic black canvas sneakers. Simple, practical, and unassuming.",
+            "Olahraga": "Basketball jersey, baggy shorts, and basketball shoes.",
             "Versi Gaul": "Olive green bomber jacket, black cargo joggers with straps, tactical boots, and a beanie hat.",
             "Versi Kaya": "Oxford button-down shirt in light blue, dark navy chino trousers, silver luxury watch, and suede desert boots.",
             "Versi Sultan": "Velvet smoking jacket in deep emerald green, gold-plated rings on wooden fingers, aviator sunglasses, and a heavy platinum chain.",
@@ -85,6 +95,20 @@ MASTER_CHAR = {
             "Pedagang Pasar": "Classic striped 'Lurik' shirt, black long trousers, a small towel wrapped around his wooden neck, and a black leather waist pouch.",
             "Anak SD": "Indonesian elementary school uniform: short-sleeve white shirt (logo OSIS), maroon shorts, no tie, and dusty black shoes.",
             "Anak SMA": "Indonesian high school uniform: white shirt with sleeves cut off, grey trousers with many pockets, and high-top canvas sneakers."
+        }
+    },
+    
+    "Balerina": {
+        "fisik": "",
+        "versi_pakaian": {
+            "Keseharian": "Modern casual: A soft pink wrap-around cardigan over a black leotard, paired with high-waisted leggings and simple flat shoes. Hair is in a relaxed bun.",
+            "Versi Panggung": "Classic professional white swan tutu with silver embroidery and shimmering sequins. Matching white pointe shoes with satin ribbons tied around her ankles.",
+            "Versi Latihan": "Black sleeveless leotard, sheer pink tights, and tattered leg warmers. Her pointe shoes look worn from practice. Slight sweat glistening on her skin.",
+            "Versi Gaul": "Luxury white cropped hoodie, high-fashion silk joggers, and designer chunky sneakers. Maintaining an elegant upright posture.",
+            "Versi Sultan": "Extravagant gold-themed tutu made of metallic silk and genuine Swarovski crystals. A small diamond tiara perched on her bun.",
+            "Versi Miskin": "Old, faded leotard with visible hand-stitched patches, torn tights, and dirty pointe shoes. Tired but proud facial expression.",
+            "Anak SD": "Indonesian elementary school uniform (white and red) with pink ballet flats and a school bag with a ballet shoe keychain.",
+            "Anak SMA": "Indonesian high school uniform (white and grey) with a slightly tailored skirt for movement. Carrying a professional dance bag."
         }
     },
 
@@ -114,8 +138,10 @@ MASTER_CHAR = {
         "fisik": "A beautiful 21-year-old young Indonesian woman with a natural Asian face and youthful features. Normal-sized eyes and smooth natural skin texture. Her signature hairstyle is vibrant purple hair, styled in a high ponytail with a thick, large braid falling over one shoulder. She has a slender and trendy posture. 100% real human appearance.",
         "versi_pakaian": {
             "Keseharian": "Modern cotton Batik Daster (house dress) with a minimalist pattern. Her signature purple braided ponytail is tied slightly lower for a relaxed home vibe. Wearing rubber flip-flops.",
+            "Casual": "A stylish oversized cream-colored knit sweater tucked into high-waisted light blue mom jeans. Wears clean white minimalist sneakers. Her hair is down in natural waves. No accessories other than a simple silver necklace.",
             "Versi Miskin": "Plain, slightly faded oversized t-shirt and worn-out fabric trousers. Her signature purple braid looks a bit messy. Barefoot or wearing old rubber sandals. Tired but youthful facial expression.",
             "Versi Gaul": "Yellow cropped leather bomber jacket with floral embroidery, white crop top underneath, denim hot pants with a fuchsia pink belt, and high black boots. Signature purple braided ponytail is perfectly styled.",
+            "Pakaian Kerja": "Professional office look: A sharp tailored white blazer over a soft silk nude-colored blouse, paired with matching charcoal grey slacks and black pointed-toe heels. Her hair is neatly tied in a low ponytail, giving a smart and elegant impression.",
             "Versi Sultan": "Elegant deep purple silk evening gown matching her hair color, simple luxury diamond necklace, and a small crystal-encrusted clutch.",
             "Anak SD": "Indonesian elementary school uniform: white shirt with red OSIS logo and maroon red shorts. Her long purple hair is styled into two braided ponytails with red ribbons.",
             "Anak SMA": "Indonesian high school uniform: slim-fit white shirt and grey skirt. Her signature purple hair is tied in a very high braided ponytail. Wearing white socks and sneakers."
@@ -123,9 +149,11 @@ MASTER_CHAR = {
     },
 
     "Dindin": {
-        "fisik": "Disney Pixar 3D style. Head is a small, shiny Mandarin Orange (Jeruk Santang). Bright vibrant orange skin with very smooth and glossy texture. Large expressive eyes, small chubby kid body. High-quality 3D render, cinematic lighting. No human face.",
+        "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Oversized white kids' singlet, colorful patterned shorts, barefoot, holding a melting popsicle. Playful and messy look.",
+            "Keseharian 1": "Oversized white kids' singlet, colorful patterned shorts, barefoot, holding a melting popsicle. Playful and messy look.",
+            "Keseharian 2": "Simple light-weight oversized white cotton t-shirt, comfortable orange striped leggings, and cute character-themed rubber sandals. Her orange head looks bright and shiny.",
+            "Casual": "A cute bright yellow t-shirt with a small orange fruit cartoon print, paired with comfortable blue denim overall shorts. Wears colorful sneakers with glowing LED lights.",
             "Versi Miskin": "Absurdly oversized adult-sized campaign t-shirt (kaos partai) reaching his knees, smudged chocolate stains on the face, messy barefoot look.",
             "Versi Gaul": "Mini cat-ear hoodie, denim jogger pants, glowing LED roller shoes, and bright neon plastic sunglasses.",
             "Versi Sultan": "Mini white silk tuxedo, tiny diamond-encrusted toy watch, holding a gold-plated smartphone, expensive designer sneakers."
@@ -133,9 +161,11 @@ MASTER_CHAR = {
     },
 
     "Tingting": {
-        "fisik": "Disney Pixar 3D style. Head is a small solid natural wooden log with deep bark crevices and organic wood grain textures. Small and cute kid-sized proportions. No human skin. No human face. Highly detailed wooden surface like his father (Tung). Expressive eyes on the wood grain.",
+        "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Denim overalls (baju kodok) over a red-and-white striped t-shirt, wearing a knitted beanie hat on his wooden head.",
+            "Keseharian 1": "Denim overalls (baju kodok) over a red-and-white striped t-shirt, wearing a knitted beanie hat on his wooden head.",
+            "Keseharian 2": "A simple soft blue polo shirt, comfortable navy blue sweatpants, and brown velcro strap sneakers. The wood grain on his small head looks smooth and well-polished.",
+            "Casual": "A cool mini bomber jacket in olive green over a grey t-shirt, paired with khaki cargo jogger pants and small tactical boots. Looks like a tiny adventurer.",
             "Versi Miskin": "Tunic made from a tattered flour sack with visible branding (karung terigu), scrap cloth shorts, carrying an old inner tube (ban dalam) as a toy.",
             "Versi Gaul": "Flannel shirt tied around the waist, multi-pocket cargo pants, backwards snapback hat, and large headphones around the wooden neck.",
             "Versi Sultan": "Royal velvet cape in deep red, a tiny gold crown perched on the wooden head, premium leather boots, holding a solid gold toy car."
@@ -1766,4 +1796,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
