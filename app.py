@@ -1151,7 +1151,7 @@ def tampilkan_tugas_kerja():
             else: st.write("Belum ada riwayat.")
 
     # --- 5. GAJIAN ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 1:
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
@@ -1797,6 +1797,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
