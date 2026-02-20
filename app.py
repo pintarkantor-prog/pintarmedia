@@ -119,12 +119,12 @@ MASTER_CHAR = {
     "Rumi": {
         "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Modern cotton Batik Daster (house dress) with a minimalist pattern. Her signature purple braided ponytail is tied slightly lower for a relaxed home vibe. Wearing rubber flip-flops.",
-            "Casual": "A stylish oversized cream-colored knit sweater tucked into high-waisted light blue mom jeans. Wears clean white minimalist sneakers. Her hair is down in natural waves. No accessories other than a simple silver necklace.",
-            "Versi Miskin": "Plain, slightly faded oversized t-shirt and worn-out fabric trousers. Her signature purple braid looks a bit messy. Barefoot or wearing old rubber sandals. Tired but youthful facial expression.",
-            "Versi Gaul": "Yellow cropped leather bomber jacket with floral embroidery, white crop top underneath, denim hot pants with a fuchsia pink belt, and high black boots. Signature purple braided ponytail is perfectly styled.",
-            "Pakaian Kerja": "Professional office look: A sharp tailored white blazer over a soft silk nude-colored blouse, paired with matching charcoal grey slacks and black pointed-toe heels. Her hair is neatly tied in a low ponytail, giving a smart and elegant impression.",
-            "Versi Sultan": "Elegant deep purple silk evening gown matching her hair color, simple luxury diamond necklace, and a small crystal-encrusted clutch.",
+            "Keseharian": "Modern Cotton Batik Daster (house dress) with minimalist motifs. Her signature purple braided ponytail was tied a little lower. Wearing pink rubber flip-flops.",
+            "Casual": "An oversized cream-colored knit sweater tucked into light blue high-waisted jeans. Wearing clean white minimalist sneakers.",
+            "Versi Miskin": "A worn pink t-shirt and worn gray long jeans. wearing black flip flops.",
+            "Versi Gaul": "Yellow cropped leather bomber jacket with floral embroidery, white crop top underneath, denim hot pants with a fuchsia pink belt, and high black boots.",
+            "Wanita Karir": "A sharply designed white blazer over a soft light brown silk blouse, paired with charcoal gray trousers and black pointy heels.",
+            "Versi Kaya": "Deep purple silk-satin midi dress, tailored wrap-around design, clean-cut V-neckline. A delicate string of brilliant-cut diamonds, set in white gold, resting on the fabric's neckline. Smooth high-luster textile. Black pointed-toe leather pumps, slim high heels, polished finish. Small structured gold metallic handbag, minimalist geometric shape.",
             "Anak SD": "Short-sleeved white button-up shirt, red embroidered school logo on chest pocket. Red skirt, elastic waist. Red and white striped tie. Low-cut black canvas sneakers, white rubber sole. High contrast red and white fabric texture.",
             "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on the chest pocket. gray skirt, slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
@@ -1800,6 +1800,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
