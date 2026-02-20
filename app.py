@@ -90,19 +90,18 @@ MASTER_CHAR = {
             "Versi Gaul": "Soft pink cotton t-shirt, bright floral pattern print. Dark brown cotton skirt, flared A-line cut, no ruffles. White platform leather sneakers, thick see-through sole, colorful lace details.",
             "Wanita Karir": "Tailored charcoal gray striped wool blazer, sharp padded shoulders. Striped slim-fit trousers with pressed pleats. Black silk sleeveless turtleneck inner lining. Gold layered necklace with geometric pendant. Shiny black pointed stiletto heels.",
             "Versi Miskin": "Oversized faded brown cotton dress, stretched neckline, visible coarse hand-stitched repairs. The texture of the fabric is piled and thinned. Worn rubber flip flops.",
-            "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
-            "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on chest pocket. Gray trousers, Slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
+            "Anak SD": "Short-sleeved white button-up shirt, red embroidered school logo on chest pocket. Red skirt, elastic waist. Red and white striped tie. Low-cut black canvas sneakers, white rubber sole. High contrast red and white fabric texture.",
+            "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on the chest pocket. gray skirt, slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
     },
 
     "Emak": {
         "fisik": "A middle-aged Indonesian woman with a realistic motherly posture, slightly plump and stout (typical 'emak-emak' silhouette). Natural Southeast Asian skin tone, warm facial expression with kind eyes. Human face, human skin. Very realistic and relatable.",
         "versi_pakaian": {
-            "Keseharian": "Classic Indonesian Batik Daster (house dress) with bright floral patterns, short-sleeved, no hijab. Wearing simple rubber flip-flops.",
-            "Versi Kerudung": "Comfortable floral Batik Daster paired with a simple 'Bergo' (instant jersey hijab with a foam brim). Looking like a typical neighborhood mother.",
-            "Versi Miskin": "Old, faded Batik Daster with thin fabric and some visible hand-stitched patches, worn-out rubber sandals, looking tired and weary.",
-            "Versi Sakit": "Plain thin daster, body wrapped in a thick traditional woven sarong as a blanket. A blue fever cooling patch (plester kompres) is clearly visible on her forehead.",
-            "Versi Sultan": "Premium Silk Kaftan with elegant gold embroidery, carrying a luxury designer handbag, wearing large diamond rings and gold jewelry, with oversized designer sunglasses."
+            "Keseharian": "Long negligee in loose rayon cotton fabric, bright brown and pink batik floral motif. Wide cut sleeve openings. Green rubber flip flops, thin soles, worn surface texture.",
+            "Daster Kerudung": "Long negligee made from loose rayon cotton, bright blue and red floral batik motifs combined with 'Bergo' (instant jersey hijab with white foam edges). Green rubber flip flops, thin sole, worn surface texture.",
+            "Versi Miskin": "Long negligee made from loose rayon cotton with floral batik motifs in faded pink and shabby green. Red rubber flip flops. Two small white medicine patches are attached symmetrically to the right and left sides of the forehead.",
+            "Versi Sultan": "remium Silk Kaftan with elegant gold embroidery, carrying a luxury designer handbag, wearing a large diamond ring and gold jewelry, with oversized designer sunglasses. shiny brown sandals, gold lines that look sharp and shiny."
         }
     },
 
@@ -1801,6 +1800,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
