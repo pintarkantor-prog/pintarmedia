@@ -73,12 +73,10 @@ MASTER_CHAR = {
             "Keseharian 1": "Forest green cotton T-shirt. Charcoal grey long trousers. Brown rubber flip-flops. zero accessories.",
             "Keseharian 2": "A worn blue polo shirt, worn gray sweatpants and rubber flip-flops.",            
             "Kemeja": "Open-buttoned blue and white plaid flannel shirt, plain white crewneck t-shirt underneath, long blue denim jeans, and brown leather boots. STRICTLY NO HAT, no headwear.",
-            "Casual": "Light gray cotton t-shirt, without collar. Dark indigo denim jeans, straight cut. Blue rubber flip flops. Minimalist setup, no accessories. Soft matte fabric texture, slight brushing effect on denim.",
-            "Versi Gaul": "Olive green bomber jacket, black cargo joggers with straps, tactical boots, and a beanie hat.",
-            "Versi Kaya": "Oxford button-down shirt in light blue, dark navy chino trousers, silver luxury watch, and suede desert boots.",
-            "Versi Sultan": "Velvet smoking jacket in deep emerald green, gold-plated rings on wooden fingers, aviator sunglasses, and a heavy platinum chain.",
-            "Versi Miskin": "Old, faded flannel shirt with missing buttons, long work trousers with holes at the knees, and a belt made of scrap cloth. Wears a broken straw hat.",
-            "Versi Gembel": "Top made from rough, tattered burlap sack material, filthy short trousers with loose threads, and a belt made of a piece of plastic rope. The wooden head texture looks dry and cracked.",
+            "Versi Gaul": "Pink polo shirt, monogram pattern, silk-pique blend, shiny gold-rimmed buttons. Dark royal pink chino shorts, satin stitching, high-gloss finish. Chocolate brown crocodile leather belt, oversized gold 'T' logo buckle. Diamond-encrusted gold watch, heavy metallic link strap. White crocodile leather loafers, gold horsebit hardware. No sunglasses, zero headwear. Extravagant, high-contrast, and reflective material textures.",
+            "Versi Kaya": "Electric orange silk-satin blazer, open front design, wide notched lapels. Matching orange silk waistcoat, tonal button details. Bright royal purple tailored long trousers, high-gloss satin finish. Chocolate brown crocodile-skin belt, oversized gold 'T' metallic buckle. Oversized gold-framed aviator sunglasses, dark gradient lenses. Solid gold wristwatch, fully iced diamond dial. Holographic silver leather footwear, translucent chunky soles. Multi-layered gold chain necklace with a small solid gold 'TUNG' pendant. Luminous, hyper-reflective, and extravagant material textures.",
+            "Versi Sultan": "Iridescent silver silk textile, reflective glass-bead embroidery. Metallic gold-threaded denim fabric, deep indigo base, straight-cut long trousers. Chocolate brown crocodile-skin texture belt, oversized gold 'T' metallic buckle. Solid white-gold timekeeper, baguette-cut sapphire bezel, fully iced dial. High-gloss holographic leather footwear, translucent chunky soles. Horizontal solid 24k gold pendant spelling 'TUNG', high-mirror polish finish, encrusted with micro-diamond accents, attached to a fine gold micro-link chain. Hyper-reflective, multifaceted, and luminous material textures.",
+            "Versi Miskin": "faded yellowish white t-shirt. The corduroy trousers are brown, the bottom edge is frayed, and there are sewn-on patches. Weathered rubber flip flops.",
             "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
             "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on chest pocket. Gray trousers, Slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
@@ -1804,6 +1802,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
