@@ -1067,12 +1067,12 @@ def tampilkan_tugas_kerja():
 
     # --- TAMBAHAN DISKUSI: FORM SETOR MANDIRI (KHUSUS STAFF) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        st.info("💡 **Tips:** Kalau ada tugas di list 'On-Progress', sikat itu dulu! Kalau kosong, baru pakai 'SETOR MANDIRI' ya.")
+        st.info("💡 **Tips:** Kalau ada tugas di list 'On-Progress' dari Admin, sikat itu dulu! Kalau kosong, baru pakai 'SETOR MANDIRI' ya.")
         with st.expander("➕ STAFF: SETOR TUGAS MANDIRI (Inisiatif)", expanded=False):
             with st.form("form_mandiri", clear_on_submit=True):
                 st.info("Gunakan form ini jika ingin menyetor hasil kerja tanpa instruksi tugas kerja harian.")
                 judul_m = st.text_input("Apa yang kamu kerjakan?", placeholder="Misal: Edit Konten Mandiri Udin")
-                link_m = st.text_input("Link GDrive Hasil:")
+                link_m = st.text_input("Link GDrive Hasil:", placeholder="Contoh: link1, link2 (Gunakan koma untuk banyak link)")
                 submit_m = st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True)
                 
                 if submit_m:
@@ -1126,7 +1126,7 @@ def tampilkan_tugas_kerja():
                 
                 if user_sekarang != "dian" and user_sekarang != "tamu":
                     if status in ["PROSES", "REVISI"]:
-                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}", placeholder="Contoh: link1, link2 (Pisahkan dengan koma)")
                         if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
                             cell = sheet_tugas.find(str(t['ID']).strip())
                             sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
@@ -1815,6 +1815,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
