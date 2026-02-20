@@ -85,12 +85,11 @@ MASTER_CHAR = {
     "Balerina": {
         "fisik": "",
         "versi_pakaian": {
-            "Keseharian": "Modern casual: A soft pink wrap-around cardigan over a black leotard, paired with high-waisted leggings and simple flat shoes. Hair is in a relaxed bun.",
-            "Versi Panggung": "Classic professional white swan tutu with silver embroidery and shimmering sequins. Matching white pointe shoes with satin ribbons tied around her ankles.",
-            "Versi Latihan": "Black sleeveless leotard, sheer pink tights, and tattered leg warmers. Her pointe shoes look worn from practice. Slight sweat glistening on her skin.",
-            "Versi Gaul": "Luxury white cropped hoodie, high-fashion silk joggers, and designer chunky sneakers. Maintaining an elegant upright posture.",
-            "Versi Sultan": "Extravagant gold-themed tutu made of metallic silk and genuine Swarovski crystals. A small diamond tiara perched on her bun.",
-            "Versi Miskin": "Old, faded leotard with visible hand-stitched patches, torn tights, and dirty pointe shoes. Tired but proud facial expression.",
+            "Keseharian": "Dark brown linen dress, straight cut, knee length. Textile with a simple matte finish. Plain black leather flat shoes, thin rubber soles. No accessories. The surface of the material is smooth and opaque.",
+            "Daster": "Loose-fit cotton rayon daster, vibrant purple and blue batik floral patterns. Wide-cut arm openings. Red rubber flip-flops, thinned soles, worn-out surface texture.",
+            "Versi Gaul": "Soft pink cotton t-shirt, bright floral pattern print. Dark brown cotton skirt, flared A-line cut, no ruffles. White platform leather sneakers, thick see-through sole, colorful lace details.",
+            "Wanita Karir": "Tailored charcoal gray striped wool blazer, sharp padded shoulders. Striped slim-fit trousers with pressed pleats. Black silk sleeveless turtleneck inner lining. Gold layered necklace with geometric pendant. Shiny black pointed stiletto heels.",
+            "Versi Miskin": "Oversized faded brown cotton dress, stretched neckline, visible coarse hand-stitched repairs. The texture of the fabric is piled and thinned. Worn rubber flip flops.",
             "Anak SD": "White short-sleeve button-up shirt, red embroidered school logo on the chest pocket. Red short trousers, elastic waistband. Red and white striped tie. Low-cut black canvas sneakers, white rubber soles. High-contrast red and white fabric textures.",
             "Anak SMA": "Short-sleeved white button-up shirt, embroidered school logo on chest pocket. Gray trousers, Slim black synthetic belt, silver buckle. Gray tie. Low-cut black canvas sneakers, white rubber sole. High contrast gray and white fabric texture."
         }
@@ -1802,6 +1801,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
