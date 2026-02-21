@@ -494,7 +494,7 @@ def pasang_css_kustom():
         @media (max-width: 1024px) {
             [data-testid="stAppViewContainer"], [data-testid="stSidebar"], .main { display: none !important; }
             body::before {
-                content: "⚠️ Gunakan PC untuk akses Pintar Media!";
+                content: "⚠️ Akses Diblokir!";
                 display: flex; justify-content: center; align-items: center;
                 height: 100vh; width: 100vw; background: #0e1117; color: white;
                 position: fixed; top: 0; left: 0; z-index: 9999; text-align: center; padding: 20px;
@@ -1797,6 +1797,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
