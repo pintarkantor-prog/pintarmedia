@@ -1045,6 +1045,53 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
+    ### --- 🟢 SISTEM GUDANG BLUEPRINT (YANG BARU) --- ###
+    st.subheader("📦 GUDANG IDE BLUEPRINT")
+    try:
+        data_gudang = sheet_gudang.get_all_records()
+        df_gudang = pd.DataFrame(data_gudang)
+        
+        if not df_gudang.empty:
+            # Hanya tampilkan baris pertama dari tiap ID_IDE yang statusnya 'Tersedia'
+            df_display = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA'].drop_duplicates('ID_IDE')
+            
+            if df_display.empty:
+                st.info("☕ Gudang ide kosong. Hubungi Dian untuk update!")
+            else:
+                for idx, row in df_display.iterrows():
+                    with st.container(border=True):
+                        col_t, col_b = st.columns([3, 1])
+                        col_t.markdown(f"🎬 **{row['JUDUL']}**")
+                        col_t.caption(f"ID: {row['ID_IDE']} | Status: {row['STATUS']}")
+                        
+                        if col_b.button("🚀 AMBIL IDE", key=f"btn_ide_{row['ID_IDE']}", use_container_width=True):
+                            # 1. Update status di GSheet (Semua baris dengan ID_IDE yang sama)
+                            cells = sheet_gudang.findall(str(row['ID_IDE']))
+                            for cell in cells:
+                                sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                            
+                            # 2. Tarik semua adegan untuk ID ini
+                            adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
+                            
+                            # 3. Inject ke Session State Ruang Produksi
+                            st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                            for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                                st.session_state.data_produksi["adegan"][i] = {
+                                    "aksi": a_row['NASKAH_VISUAL'],
+                                    "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                                    "style": a_row['STYLE'],
+                                    "shot": a_row['UKURAN_GAMBAR'],
+                                    "light": a_row['LIGHTING'],
+                                    "arah": a_row['ARAH_KAMERA'],
+                                    "cam": a_row['GERAKAN'],
+                                    "loc": a_row['LOKASI']
+                                }
+                            
+                            catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                            st.success("✅ Ide masuk ke Ruang Produksi!"); time.sleep(1); st.rerun()
+    except:
+        st.warning("⚠️ Gagal memuat database ide.")
+
     # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
 
@@ -1797,6 +1844,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
