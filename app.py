@@ -721,7 +721,7 @@ Total Adegan: {adegan_o} (WAJIB {adegan_o} ADEGAN)
 
 --- ATURAN MAIN (STRICT PRODUKSI) ---
 1. NASKAH_VISUAL: WAJIB DESKRIPTIF & PANJANG (Minimal 30-40 kata per adegan) Jelaskan aksi karakter, ekspresi wajah secara detail, dan interaksi dengan benda di sekitarnya.
-2. LOKASI: Harus Detail (Minimal 15 kata). Gambarkan suasana lingkungan, dan tumpukan benda/detail latar belakang agar terlihat nyata.
+2. LOKASI: Harus Detail (Minimal 15 kata) Gambarkan suasana lingkungan, dan tumpukan benda/detail latar belakang agar terlihat nyata.
 3. DIALOG: Buat dialog yang natural, emosional. Gunakan bahasa sehari-hari yang luwes.
 4. NO MORAL & NO TEXT: Tanpa pesan moral dan tanpa teks di layar.
 5. STRUKTUR: Bagi {adegan_o} adegan menjadi fase Awal (Konflik), Tengah (Puncak/CTA Like & Subs), dan Akhir (Pembalasan Savage/Anomali).
@@ -1855,6 +1855,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
