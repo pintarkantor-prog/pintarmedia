@@ -974,17 +974,25 @@ def tampilkan_tugas_kerja():
         "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
     }
     
-    try:
+try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
-        sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
-        sheet_log = client.open_by_url(url_gsheet).worksheet("Log_Aktivitas")
-        sheet_staff = client.open_by_url(url_gsheet).worksheet("Staff")
-        sheet_absensi = client.open_by_url(url_gsheet).worksheet("Absensi")
-        sheet_gudang = sh.worksheet("Gudang_Ide")
+        # --- PERBAIKAN DI SINI ---
+        # Buka file spreadsheet utama
+        sh = client.open_by_url(url_gsheet) 
         
+        # Hubungkan ke semua sheet yang dibutuhkan
+        sheet_tugas = sh.worksheet("Tugas")
+        sheet_log = sh.worksheet("Log_Aktivitas")
+        sheet_staff = sh.worksheet("Staff")
+        sheet_absensi = sh.worksheet("Absensi")
+        
+        # Sesuaikan dengan nama di spreadsheet kamu (Sheet7)
+        sheet_gudang = sh.worksheet("Sheet7") 
+        # -------------------------
+
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
         
@@ -999,6 +1007,7 @@ def tampilkan_tugas_kerja():
             sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
 
     except Exception as e:
+        # Tambahkan variabel e agar kamu tahu error pastinya apa jika gagal lagi
         st.error(f"❌ Database Offline: {e}")
         return
 
@@ -1845,6 +1854,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
