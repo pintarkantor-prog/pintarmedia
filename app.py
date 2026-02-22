@@ -720,20 +720,14 @@ Pola: {pola_o}
 Total Adegan: {adegan_o} (WAJIB {adegan_o} ADEGAN)
 
 --- ATURAN MAIN (STRICT PRODUKSI) ---
-1. LOKASI: Harus Deskriptif & Detail (Minimal 10-15 kata, gambarkan suasana lingkungan, benda sekitar, dan cuaca).
-2. NO MORAL & NO TEXT: Tanpa pesan moral dan tanpa teks di layar.
-3. BAHASA: Sehari-hari yang natural.
-4. ALUR: Sesuaikan dengan pola '{pola_o}'. Bagi {adegan_o} adegan menjadi fase Awal, Tengah (Sipkan CTA Like & Subs), dan Akhir.
+1. NASKAH_VISUAL: WAJIB DESKRIPTIF & PANJANG (Minimal 30-40 kata per adegan). Jelaskan aksi karakter, ekspresi wajah secara detail, dan interaksi dengan benda di sekitarnya.
+2. LOKASI: Harus Detail (Minimal 15 kata). Gambarkan suasana lingkungan, dan tumpukan benda/detail latar belakang agar terlihat nyata.
+3. DIALOG: Buat dialog yang natural, emosional. Gunakan bahasa sehari-hari yang luwes.
+4. NO MORAL & NO TEXT: Tanpa pesan moral dan tanpa teks di layar.
+5. STRUKTUR: Bagi {adegan_o} adegan menjadi fase Awal (Konflik), Tengah (Puncak/CTA Like & Subs), dan Akhir (Pembalasan Savage/Anomali).
 
 --- FORMAT TABEL (WAJIB 12 KOLOM) ---
-ID_IDE | JUDUL | STATUS | NASKAH_VISUAL | DIALOG_ACTOR_1 | DIALOG_ACTOR_2 | STYLE | UKURAN_GAMBAR | LIGHTING | ARAH_KAMERA | GERAKAN | LOKASI
-
---- DROPDOWN VALID ---
-- STYLE: [Sangat Nyata / Gaya Cyberpunk]
-- UKURAN_GAMBAR: [Seluruh Badan / Setengah Badan / Sangat Dekat / Wajah & Bahu]
-- LIGHTING: [Siang Alami / Malam Indigo / Senja Cerah / Neon Cyberpunk / Fajar]
-- ARAH_KAMERA: [Sejajar Mata / Dari Atas / Dari Bawah / Dari Samping / Dari Belakang]
-- GERAKAN: [Diam (Tetap Napas) / Maju Perlahan / Ikuti Karakter / Goyang (Handheld)]
+JUDUL | NASKAH_VISUAL | DIALOG_ACTOR_1 | DIALOG_ACTOR_2 | LOKASI
 
 Balas HANYA tabel Markdown tanpa penjelasan apa pun.
 """
@@ -1861,6 +1855,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
