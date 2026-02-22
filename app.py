@@ -624,7 +624,7 @@ def tampilkan_ai_lab():
                     label_k = "Karakter Utama" if i == 0 else f"Karakter {i+1}"
                     st.markdown(f"**{label_k}**")
                     st.session_state.memori_n[i] = st.text_input(f"N{i}", value=st.session_state.memori_n[i], key=f"inp_n_{i}", placeholder="Nama...", label_visibility="collapsed")
-                    st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Detail fisik/pakaian...", label_visibility="collapsed")
+                    st.session_state.memori_s[i] = st.text_input(f"S{i}", value=st.session_state.memori_s[i], key=f"inp_s_{i}", placeholder="Detail sifat/fisik...", label_visibility="collapsed")
                     n_f = st.session_state.memori_n[i] if st.session_state.memori_n[i] else label_k
                     list_karakter.append(f"{i+1}. {n_f.upper()}: {st.session_state.memori_s[i]}")
 
@@ -1056,7 +1056,7 @@ def tampilkan_tugas_kerja():
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
 ### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
-    st.subheader("📦 GUDANG IDE BLUEPRINT")
+    st.subheader("📦 GUDANG IDE PINTAR")
     try:
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
@@ -1106,7 +1106,7 @@ def tampilkan_tugas_kerja():
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                     catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
                     
-                    st.success("✅ Ide masuk ke Ruang Produksi!")
+                    st.success("✅ Ide Berhasil di Pindah! Cek Ruang Produksi Sekarang!")
                     time.sleep(1)
                     st.rerun()
     except Exception as e:
@@ -1855,6 +1855,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
