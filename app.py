@@ -1102,6 +1102,8 @@ def tampilkan_tugas_kerja():
                         st.success(f"✅ Berhasil! {jumlah_baru} Adegan masuk ke Ruang Produksi.")
                         time.sleep(1)
                         st.rerun()
+    except Exception as e:
+        st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
     # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
@@ -1846,6 +1848,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
