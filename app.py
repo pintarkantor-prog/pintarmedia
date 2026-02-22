@@ -1047,54 +1047,49 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
-### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI ANTI-SCROLL) --- ###
+### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
     st.subheader("📦 GUDANG IDE BLUEPRINT")
     try:
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
         
         if not df_gudang.empty:
-            # 1. Tambahkan Bar Pencarian & Filter
-            c_search, c_filter = st.columns([2, 1])
-            cari_ide = c_search.text_input("🔍 Cari Judul Ide...", placeholder="Ketik kata kunci...")
-            
-            # Filter hanya yang 'Tersedia' dan hilangkan duplikat judul
+            # Filter hanya yang 'Tersedia' dan ambil judul unik
             df_tersedia = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA'].drop_duplicates('ID_IDE')
             
-            # Logika Pencarian
-            if cari_ide:
-                df_tersedia = df_tersedia[df_tersedia['JUDUL'].str.contains(cari_ide, case=False)]
-
             if df_tersedia.empty:
-                st.info("☕ Tidak ada ide yang cocok. Coba kata kunci lain!")
+                st.info("☕ Gudang ide kosong. Hubungi Dian untuk update!")
             else:
-                # 2. Gunakan st.expander atau batasi jumlah yang tampil (misal 5 teratas)
-                with st.expander(f"📚 Lihat {len(df_tersedia)} Ide Tersedia", expanded=True):
-                    for idx, row in df_tersedia.iterrows():
-                        col_t, col_b = st.columns([3, 1])
-                        col_t.markdown(f"🎬 **{row['JUDUL']}**")
-                        col_t.caption(f"ID: {row['ID_IDE']}")
+                # 1. HANYA SATU KOTAK PILIHAN
+                list_judul = df_tersedia['JUDUL'].tolist()
+                pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
+
+                # 2. TAMPILKAN TOMBOL HANYA JIKA JUDUL DIPILIH
+                if pilihan_judul != "-- Pilih Judul Cerita --":
+                    row = df_tersedia[df_tersedia['JUDUL'] == pilihan_judul].iloc[0]
+                    
+                    st.success(f"Kamu memilih: **{row['JUDUL']}**")
+                    if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
+                        # --- Logika Ambil Ide (Sama seperti sebelumnya) ---
+                        cells = sheet_gudang.findall(str(row['ID_IDE']))
+                        for cell in cells:
+                            sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                         
-                        if col_b.button("🚀 AMBIL IDE", key=f"btn_ide_{row['ID_IDE']}", use_container_width=True):
-                            # ... (Logika ambil ide tetap sama seperti sebelumnya) ...
-                            cells = sheet_gudang.findall(str(row['ID_IDE']))
-                            for cell in cells:
-                                sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                            
-                            adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                            st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                            for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                                st.session_state.data_produksi["adegan"][i] = {
-                                    "aksi": a_row['NASKAH_VISUAL'],
-                                    "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                                    "style": a_row['STYLE'],
-                                    "shot": a_row['UKURAN_GAMBAR'],
-                                    "light": a_row['LIGHTING'],
-                                    "arah": a_row['ARAH_KAMERA'],
-                                    "cam": a_row['GERAKAN'],
-                                    "loc": a_row['LOKASI']
-                                }
-                            st.success(f"Ide '{row['JUDUL']}' sudah masuk Ruang Produksi!"); time.sleep(1); st.rerun()
+                        adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
+                        st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                        for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                            st.session_state.data_produksi["adegan"][i] = {
+                                "aksi": a_row['NASKAH_VISUAL'],
+                                "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                                "style": a_row['STYLE'],
+                                "shot": a_row['UKURAN_GAMBAR'],
+                                "light": a_row['LIGHTING'],
+                                "arah": a_row['ARAH_KAMERA'],
+                                "cam": a_row['GERAKAN'],
+                                "loc": a_row['LOKASI']
+                            }
+                        catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                        st.success("✅ Ide masuk ke Ruang Produksi!"); time.sleep(1); st.rerun()
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
 
@@ -1842,6 +1837,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
