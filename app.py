@@ -1097,7 +1097,6 @@ def tampilkan_tugas_kerja():
     st.subheader("📑 Tugas On-Progress")
 
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        st.info("💡 **Tips:** Selesaikan tugas dari Admin dulu ya!")
         with st.expander("➕ STAFF: SETOR TUGAS MANDIRI", expanded=False):
             with st.form("form_mandiri", clear_on_submit=True):
                 judul_m = st.text_input("Apa yang kamu kerjakan?")
@@ -1837,6 +1836,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
