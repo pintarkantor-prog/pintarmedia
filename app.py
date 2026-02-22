@@ -987,7 +987,7 @@ def tampilkan_tugas_kerja():
         sheet_log = sh.worksheet("Log_Aktivitas")
         sheet_staff = sh.worksheet("Staff")
         sheet_absensi = sh.worksheet("Absensi")
-        sheet_gudang = sh.worksheet("Sheet7") 
+        sheet_gudang = sh.worksheet("Gudang_Ide") 
         
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
@@ -1832,6 +1832,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
