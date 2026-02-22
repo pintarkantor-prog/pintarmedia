@@ -1069,14 +1069,20 @@ def tampilkan_tugas_kerja():
                     row = df_tersedia[df_tersedia['JUDUL'] == pilihan_judul].iloc[0]
                     
                     st.success(f"Kamu memilih: **{row['JUDUL']}**")
-                    if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                        # --- Logika Ambil Ide (Sama seperti sebelumnya) ---
+                if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
+                        # 1. Update status di Google Sheet
                         cells = sheet_gudang.findall(str(row['ID_IDE']))
                         for cell in cells:
                             sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                         
+                        # 2. Filter semua baris adegan untuk ID ini
                         adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                        st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                        
+                        # 3. SET JUMLAH ADEGAN SESUAI DATA (Otomatis Nambah!)
+                        jumlah_baru = len(adegan_rows)
+                        st.session_state.data_produksi["jumlah_adegan"] = jumlah_baru
+                        
+                        # 4. Masukkan data ke slot produksi
                         for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                             st.session_state.data_produksi["adegan"][i] = {
                                 "aksi": a_row['NASKAH_VISUAL'],
@@ -1088,11 +1094,15 @@ def tampilkan_tugas_kerja():
                                 "cam": a_row['GERAKAN'],
                                 "loc": a_row['LOKASI']
                             }
+                        
+                        # 5. TRIGGER REFRESH (Sangat Penting!)
+                        st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                        
                         catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
-                        st.success("✅ Ide masuk ke Ruang Produksi!"); time.sleep(1); st.rerun()
-    except Exception as e:
-        st.warning(f"⚠️ Gagal memuat database ide: {e}")
-
+                        st.success(f"✅ Berhasil! {jumlah_baru} Adegan masuk ke Ruang Produksi.")
+                        time.sleep(1)
+                        st.rerun()
+                    
     # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
 
@@ -1836,6 +1846,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
