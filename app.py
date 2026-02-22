@@ -594,7 +594,7 @@ def tampilkan_ai_lab():
         "Absurd Race (Lomba Konyol -> Interaktif CTA)",
         "Knowledge (Fakta Harian -> Edukasi)"
     ]
-    opsi_visual = ["Cinematic Realistic (Film Nyata)", "3D Pixar Style (Ceria)", "Anime / Manga Style", "Retro Cartoon"]
+    opsi_visual = ["Sangat Nyata", "Gaya Cyberpunk", "3D Pixar Style", "Anime Style"]
 
     try:
         api_key_groq = st.secrets["GROQ_API_KEY"]
@@ -633,7 +633,7 @@ def tampilkan_ai_lab():
     # --- 3. TAB MENU (MANUAL & OTOMATIS) ---
     tab_manual, tab_otomatis = st.tabs(["🛠️ Mode Manual", "⚡ Mode Otomatis"])
 
-    # MODE MANUAL (DENGAN ATURAN STRICT)
+    # MODE MANUAL
     with tab_manual:
         with st.expander("📝 KONFIGURASI MANUAL", expanded=True):
             col_m1, col_m2 = st.columns([2, 1])
@@ -644,13 +644,12 @@ def tampilkan_ai_lab():
                 st.markdown("**🎭 Pola & Style**")
                 pola_m = st.selectbox("Pola", opsi_pola, key="m_pola")
                 visual_m = st.selectbox("Visual", opsi_visual, key="m_visual")
-                adegan_m = st.number_input("Jumlah Adegan", 3, 10, 5, key="m_adegan")
+                adegan_m = st.number_input("Jumlah Adegan", 3, 15, 12, key="m_adegan")
 
             if st.button("✨ GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if topik_m:
                     str_k = "\n".join(list_karakter)
-                    # MANTRA MANUAL DENGAN ATURAN DETIK LENGKAP
-mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+                    mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
 Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN (Siap Copy-Paste ke GSheet).
 
 --- DAFTAR KARAKTER & DETAIL FISIK ---
@@ -662,14 +661,10 @@ Pola: {pola_m}
 Total Adegan: {adegan_m} (WAJIB {adegan_m} ADEGAN)
 
 --- LOGIKA ALUR PER POLA (DIBAGI DALAM {adegan_m} ADEGAN) ---
-{f'''
-- ALUR REVENGE: Adegan 1-5 (Protagonis dihina/hartanya dirusak Antagonis), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Balas Dendam Savage/Anomali secara realistis), Adegan 11-12 (Ending Kepuasan Penonton).''' if pola_m == opsi_pola[0] else ''}
-{f'''
-- ALUR EMPATHY: Adegan 1-5 (Hook masalah nyesek/iba), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Perjuangan emosional karakter), Adegan 11-12 (Ending Haru).''' if pola_m == opsi_pola[1] else ''}
-{f'''
-- ALUR ABSURD RACE: Adegan 1-4 (Lomba konyol dimulai), Adegan 5-8 (Lomba chaos/lucu), Adegan 9-10 (Momen kritis), Adegan 11-12 (Hasil lomba & WAJIB CTA penonton tentukan pemenang via Like/Subs).''' if pola_m == opsi_pola[2] else ''}
-{f'''
-- ALUR KNOWLEDGE: Adegan 1-3 (Fakta unik awal), Adegan 4-6 (Dampak jangka pendek), Adegan 7-10 (Dampak jangka panjang/1 tahun kemudian), Adegan 11-12 (Edukasi penutup).''' if pola_m == opsi_pola[3] else ''}
+{f''' - ALUR REVENGE: Adegan 1-5 (Protagonis dihina/hartanya dirusak Antagonis), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Balas Dendam Savage/Anomali secara realistis), Adegan 11-12 (Ending Kepuasan Penonton).''' if pola_m == opsi_pola[0] else ''}
+{f''' - ALUR EMPATHY: Adegan 1-5 (Hook masalah nyesek/iba), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Perjuangan emosional karakter), Adegan 11-12 (Ending Haru).''' if pola_m == opsi_pola[1] else ''}
+{f''' - ALUR ABSURD RACE: Adegan 1-4 (Lomba konyol dimulai), Adegan 5-8 (Lomba chaos/lucu), Adegan 9-10 (Momen kritis), Adegan 11-12 (Hasil lomba & WAJIB CTA penonton tentukan pemenang via Like/Subs).''' if pola_m == opsi_pola[2] else ''}
+{f''' - ALUR KNOWLEDGE: Adegan 1-3 (Fakta unik awal), Adegan 4-6 (Dampak jangka pendek), Adegan 7-10 (Dampak jangka panjang/1 tahun kemudian), Adegan 11-12 (Edukasi penutup).''' if pola_m == opsi_pola[3] else ''}
 
 --- STANDAR PRODUKSI (WAJIB PATUH) ---
 1. LOKASI: Wajib DESKRIPTIF & DETAIL (Minimal 10-15 kata, gambarkan suasana lingkungan, benda sekitar, dan cuaca).
@@ -678,11 +673,10 @@ Total Adegan: {adegan_m} (WAJIB {adegan_m} ADEGAN)
 4. BAHASA: Sehari hari (mudah dimengerti oleh penonton).
 
 --- FORMAT TABEL (KOLOM GSHEET) ---
-Wajib gunakan header ini agar bisa langsung saya paste:
 ID_IDE | JUDUL | STATUS | NASKAH_VISUAL | DIALOG_ACTOR_1 | DIALOG_ACTOR_2 | STYLE | UKURAN_GAMBAR | LIGHTING | ARAH_KAMERA | GERAKAN | LOKASI
 
---- DROPDOWN VALID (ISI HANYA DARI PILIHAN INI) ---
-- STYLE: [Sangat Nyata / Gaya Cyberpunk] (Gunakan: {visual_m})
+--- DROPDOWN VALID ---
+- STYLE: [{visual_m}]
 - UKURAN_GAMBAR: [Seluruh Badan / Setengah Badan / Sangat Dekat / Wajah & Bahu]
 - LIGHTING: [Siang Alami / Malam Indigo / Senja Cerah / Neon Cyberpunk / Fajar]
 - ARAH_KAMERA: [Sejajar Mata / Dari Atas / Dari Bawah / Dari Samping / Dari Belakang]
@@ -694,7 +688,7 @@ Balas HANYA tabel Markdown.
                     st.success("✨ **Mantra ide cerita Siap!**")
                     st.code(mantra_sakti, language="text")
 
-    # MODE OTOMATIS (DENGAN ATURAN STRICT)
+    # MODE OTOMATIS
     with tab_otomatis:
         with st.expander("⚡ KONFIGURASI OTOMATIS", expanded=True):
             col_o1, col_o2 = st.columns([2, 1])
@@ -704,48 +698,44 @@ Balas HANYA tabel Markdown.
             with col_o2:
                 st.markdown("**⚙️ Konfigurasi Otomatis**")
                 pola_o = st.selectbox("Pola Cerita", opsi_pola, key="o_pola")
-                adegan_o = st.number_input("Jumlah Adegan", 3, 10, 5, key="o_adegan_api")
+                adegan_o = st.number_input("Jumlah Adegan", 3, 15, 12, key="o_adegan_api")
 
             if st.button("🔥 GENERATE NASKAH CERITA", use_container_width=True, type="primary"):
                 if api_key_groq and topik_o:
                     with st.spinner("lagi ngetik naskah..."):
                         try:
+                            import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
                             
                             prompt_otomatis = f"""Kamu adalah Creative Director & Scriptwriter Pro Pintar Media. 
-Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN.
+Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN (Siap Copy-Paste ke GSheet).
 
---- DAFTAR KARAKTER (WAJIB PAKAI NAMA INI) ---
+--- DAFTAR KARAKTER & DETAIL FISIK ---
 {str_k}
 
 KONSEP:
 Topik: {topik_o}
-Total Adegan: {adegan_o}
+Pola: {pola_o}
+Total Adegan: {adegan_o} (WAJIB {adegan_o} ADEGAN)
 
---- ATURAN MAIN (STRICT) ---
-1. Gunakan Bahasa Indonesia yang natural, santai, dan relatable dengan tren media sosial.
-2. Deskripsi Visual harus sinematik dan jelas untuk prompt AI Video.
-3. JANGAN menambah karakter di luar daftar di atas.
-4. Naskah harus {adegan_o} adegan.
-5. SESUAIKAN ALUR CERITA DENGAN POLA YANG DIPILIH SECARA KETAT:
-   - Jika pola '{opsi_pola[0]}':
-     - Adegan 1-2 (0-20 detik): Karakter utama (Karakter 1) direndahkan oleh Karakter 2.
-     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Konflik memuncak, Karakter 1 dihadapkan masalah besar.
-     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Karakter 1 membuktikan kemampuannya/balas dendam, Karakter 2 menunjukkan penyesalan.
-   - Jika pola '{opsi_pola[1]}':
-     - Adegan 1-2 (0-20 detik): Hook masalah relateable atau kondisi yang menimbulkan rasa iba.
-     - Adegan 3-akhir (21-60+ detik): Pengembangan konflik emosional, diakhiri dengan pesan moral kuat.
-   - Jika pola '{opsi_pola[2]}':
-     - Adegan 1-2 (0-20 detik): Pengumuman lomba yang absurd/konyol.
-     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Eksekusi lomba penuh kekacauan dan momen lucu.
-     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Hasil lomba, WAJIB MENDORONG penonton untuk LIKE dan SUBSCRIBE untuk menentukan pemenang.
-   - Jika pola '{opsi_pola[3]}':
-     - Adegan 1-2 (0-20 detik): Pengenalan fenomena/kebiasaan dan efek awal terlihat.
-     - Adegan 3-{int(adegan_o/2)+1} (21-40 detik): Perbandingan dampak jangka pendek (1-2 hari/minggu).
-     - Adegan {int(adegan_o/2)+2}-akhir (41-60+ detik): Perbandingan dampak jangka panjang (1 tahun/bulan), diakhiri edukasi.
+--- ATURAN MAIN (STRICT PRODUKSI) ---
+1. LOKASI: Harus Deskriptif & Detail (Minimal 10-15 kata, gambarkan suasana lingkungan, benda sekitar, dan cuaca).
+2. NO MORAL & NO TEXT: Tanpa pesan moral dan tanpa teks di layar.
+3. BAHASA: Sehari-hari yang natural.
+4. ALUR: Sesuaikan dengan pola '{pola_o}'. Bagi {adegan_o} adegan menjadi fase Awal, Tengah (Sipkan CTA Like & Subs), dan Akhir.
 
-6. Balas HANYA dengan tabel Markdown: | Adegan | Visual Detail (Indo) | Visual Prompt (English) | Dialog |
+--- FORMAT TABEL (WAJIB 12 KOLOM) ---
+ID_IDE | JUDUL | STATUS | NASKAH_VISUAL | DIALOG_ACTOR_1 | DIALOG_ACTOR_2 | STYLE | UKURAN_GAMBAR | LIGHTING | ARAH_KAMERA | GERAKAN | LOKASI
+
+--- DROPDOWN VALID ---
+- STYLE: [Sangat Nyata / Gaya Cyberpunk]
+- UKURAN_GAMBAR: [Seluruh Badan / Setengah Badan / Sangat Dekat / Wajah & Bahu]
+- LIGHTING: [Siang Alami / Malam Indigo / Senja Cerah / Neon Cyberpunk / Fajar]
+- ARAH_KAMERA: [Sejajar Mata / Dari Atas / Dari Bawah / Dari Samping / Dari Belakang]
+- GERAKAN: [Diam (Tetap Napas) / Maju Perlahan / Ikuti Karakter / Goyang (Handheld)]
+
+Balas HANYA tabel Markdown tanpa penjelasan apa pun.
 """
                             payload = {
                                 "model": "llama-3.3-70b-versatile", 
@@ -767,7 +757,6 @@ Total Adegan: {adegan_o}
                     if st.button("🚀 KIRIM KE RUANG PRODUKSI", use_container_width=True):
                         if 'data_produksi' not in st.session_state: st.session_state.data_produksi = {}
                         st.session_state.naskah_siap_produksi = st.session_state.lab_hasil_otomatis
-                        st.session_state.data_produksi["jumlah_adegan"] = adegan_o 
                         st.toast("Naskah sukses terkirim!", icon="🚀")
                 with btn_col2:
                     if st.button("🗑️ BERSIHKAN NASKAH", use_container_width=True):
@@ -1872,6 +1861,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
