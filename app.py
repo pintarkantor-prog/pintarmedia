@@ -1054,34 +1054,31 @@ def tampilkan_tugas_kerja():
         df_gudang = pd.DataFrame(data_gudang)
         
         if not df_gudang.empty:
-            # 1. HANYA SATU KOTAK PILIHAN
+            # 1. Pastikan list judul unik dan tersedia
             list_judul = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA']['JUDUL'].unique().tolist()
             pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
 
-            # 2. SEMUA LOGIKA DI BAWAH INI HANYA JALAN JIKA JUDUL SUDAH DIPILIH
+            # 2. LOGIKA INI HANYA JALAN JIKA JUDUL SUDAH DIPILIH
             if pilihan_judul != "-- Pilih Judul Cerita --":
-                # Cari data row berdasarkan judul yang dipilih
+                # Definisi 'row' dilakukan di sini agar aman
                 row = df_gudang[df_gudang['JUDUL'] == pilihan_judul].iloc[0]
                 
                 st.success(f"Kamu memilih: **{row['JUDUL']}**")
                 
-                # Tombol muncul hanya jika 'row' sudah terdefinisi
-            if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                    # --- 1. Logika Proses Ambil Data ke GSheet ---
+                # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
+                if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
+                    # --- Logika Proses Ambil Data ---
                     cells = sheet_gudang.findall(str(row['ID_IDE']))
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # --- 2. Filter Baris Adegan ---
                     adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
-                    # --- 3. RAKIT RANGKUMAN UNTUK BAGIAN ATAS ---
-                    # Ini yang akan muncul di 'st.session_state.naskah_siap_produksi'
+                    # Rakit naskah referensi agar muncul di paling atas Ruang Produksi
                     rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
                     
                     for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                        # Masukkan ke data produksi (Sistem Adegan)
                         st.session_state.data_produksi["adegan"][i] = {
                             "aksi": a_row['NASKAH_VISUAL'],
                             "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
@@ -1092,15 +1089,15 @@ def tampilkan_tugas_kerja():
                             "cam": a_row['GERAKAN'],
                             "loc": a_row['LOKASI']
                         }
-                        # Tambahkan ke teks rangkuman
                         rangkuman_naskah += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # --- 4. KIRIM KE DISPLAY REFERENSI ---
+                    # Kirim rangkuman ke session state naskah referensi
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     
-                    # --- 5. FINISHING ---
+                    # Trigger refresh form
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                     catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                    
                     st.success("✅ Ide masuk ke Ruang Produksi!")
                     time.sleep(1)
                     st.rerun()
@@ -1850,6 +1847,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
