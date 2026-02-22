@@ -1054,54 +1054,44 @@ def tampilkan_tugas_kerja():
         df_gudang = pd.DataFrame(data_gudang)
         
         if not df_gudang.empty:
-            # Filter hanya yang 'Tersedia' dan ambil judul unik
-            df_tersedia = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA'].drop_duplicates('ID_IDE')
-            
-            if df_tersedia.empty:
-                st.info("☕ Gudang ide kosong. Hubungi Dian untuk update!")
-            else:
-                # 1. HANYA SATU KOTAK PILIHAN
-                list_judul = df_tersedia['JUDUL'].tolist()
-                pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
+            # 1. HANYA SATU KOTAK PILIHAN
+            list_judul = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA']['JUDUL'].unique().tolist()
+            pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
 
-                # 2. TAMPILKAN TOMBOL HANYA JIKA JUDUL DIPILIH
-                if pilihan_judul != "-- Pilih Judul Cerita --":
-                    row = df_tersedia[df_tersedia['JUDUL'] == pilihan_judul].iloc[0]
-                    
-                    st.success(f"Kamu memilih: **{row['JUDUL']}**")
+            # 2. SEMUA LOGIKA DI BAWAH INI HANYA JALAN JIKA JUDUL SUDAH DIPILIH
+            if pilihan_judul != "-- Pilih Judul Cerita --":
+                # Cari data row berdasarkan judul yang dipilih
+                row = df_gudang[df_gudang['JUDUL'] == pilihan_judul].iloc[0]
+                
+                st.success(f"Kamu memilih: **{row['JUDUL']}**")
+                
+                # Tombol muncul hanya jika 'row' sudah terdefinisi
                 if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                        # 1. Update status di Google Sheet
-                        cells = sheet_gudang.findall(str(row['ID_IDE']))
-                        for cell in cells:
-                            sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                        
-                        # 2. Filter semua baris adegan untuk ID ini
-                        adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                        
-                        # 3. SET JUMLAH ADEGAN SESUAI DATA (Otomatis Nambah!)
-                        jumlah_baru = len(adegan_rows)
-                        st.session_state.data_produksi["jumlah_adegan"] = jumlah_baru
-                        
-                        # 4. Masukkan data ke slot produksi
-                        for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                            st.session_state.data_produksi["adegan"][i] = {
-                                "aksi": a_row['NASKAH_VISUAL'],
-                                "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                                "style": a_row['STYLE'],
-                                "shot": a_row['UKURAN_GAMBAR'],
-                                "light": a_row['LIGHTING'],
-                                "arah": a_row['ARAH_KAMERA'],
-                                "cam": a_row['GERAKAN'],
-                                "loc": a_row['LOKASI']
-                            }
-                        
-                        # 5. TRIGGER REFRESH (Sangat Penting!)
-                        st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                        
-                        catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
-                        st.success(f"✅ Berhasil! {jumlah_baru} Adegan masuk ke Ruang Produksi.")
-                        time.sleep(1)
-                        st.rerun()
+                    # --- Logika Proses Ambil Data ---
+                    cells = sheet_gudang.findall(str(row['ID_IDE']))
+                    for cell in cells:
+                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                    
+                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
+                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                    
+                    for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                        st.session_state.data_produksi["adegan"][i] = {
+                            "aksi": a_row['NASKAH_VISUAL'],
+                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                            "style": a_row['STYLE'],
+                            "shot": a_row['UKURAN_GAMBAR'],
+                            "light": a_row['LIGHTING'],
+                            "arah": a_row['ARAH_KAMERA'],
+                            "cam": a_row['GERAKAN'],
+                            "loc": a_row['LOKASI']
+                        }
+                    
+                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                    catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                    st.success("✅ Ide masuk ke Ruang Produksi!")
+                    time.sleep(1)
+                    st.rerun()
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
@@ -1848,6 +1838,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
