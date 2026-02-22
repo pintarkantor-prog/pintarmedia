@@ -650,20 +650,45 @@ def tampilkan_ai_lab():
                 if topik_m:
                     str_k = "\n".join(list_karakter)
                     # MANTRA MANUAL DENGAN ATURAN DETIK LENGKAP
-                    mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
-Buatkan naskah YouTube Shorts VIRAL dalam bentuk TABEL (Adegan, Visual Detail (Indo), Visual Prompt (English), Dialog).
+mantra_sakti = f"""Kamu adalah Scriptwriter Pro Pintar Media. 
+Buatkan naskah YouTube Shorts VIRAL dalam format TABEL MARKDOWN (Siap Copy-Paste ke GSheet).
 
-Karakter: {str_k}
+--- DAFTAR KARAKTER & DETAIL FISIK ---
+{str_k}
+
+--- KONSEP UTAMA ---
 Topik: {topik_m}
-Pola Cerita: {pola_m}
-Visual Style: {visual_m}
+Pola: {pola_m}
+Total Adegan: {adegan_m} (WAJIB {adegan_m} ADEGAN)
 
-ATURAN: Gunakan bahasa Indonesia yang viral, santai, dan bikin penasaran. Naskah harus {adegan_m} adegan.
-Perhatikan struktur waktu dan elemen niche SECARA KETAT:
-- Jika pola '{opsi_pola[0]}': 0-20 detik: Karakter 1 direndahkan oleh Karakter 2. 21-40 detik: Konflik puncak. 41-60+ detik: Karakter 1 membuktikan diri, Karakter 2 menyesal.
-- Jika pola '{opsi_pola[1]}': 0-20 detik: Hook masalah relateable/iba. 21-60+ detik: Konflik emosional mendalam, diakhiri pesan moral kuat.
-- Jika pola '{opsi_pola[2]}': 0-20 detik: Pengumuman lomba absurd. 21-40 detik: Eksekusi lomba yang kacau/lucu. 41-60+ detik: Hasil lomba (WAJIB minta penonton LIKE & SUBSCRIBE untuk tentukan pemenang).
-- Jika pola '{opsi_pola[3]}': 0-20 detik: Pengenalan fakta awal. 21-40 detik: Dampak jangka pendek (sehari/dua hari). 41-60+ detik: Dampak jangka panjang (setahun).
+--- LOGIKA ALUR PER POLA (DIBAGI DALAM {adegan_m} ADEGAN) ---
+{f'''
+- ALUR REVENGE: Adegan 1-5 (Protagonis dihina/hartanya dirusak Antagonis), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Balas Dendam Savage/Anomali secara realistis), Adegan 11-12 (Ending Kepuasan Penonton).''' if pola_m == opsi_pola[0] else ''}
+{f'''
+- ALUR EMPATHY: Adegan 1-5 (Hook masalah nyesek/iba), Adegan 6 (CTA Like/Subs via Dialog), Adegan 7-10 (Perjuangan emosional karakter), Adegan 11-12 (Ending Haru).''' if pola_m == opsi_pola[1] else ''}
+{f'''
+- ALUR ABSURD RACE: Adegan 1-4 (Lomba konyol dimulai), Adegan 5-8 (Lomba chaos/lucu), Adegan 9-10 (Momen kritis), Adegan 11-12 (Hasil lomba & WAJIB CTA penonton tentukan pemenang via Like/Subs).''' if pola_m == opsi_pola[2] else ''}
+{f'''
+- ALUR KNOWLEDGE: Adegan 1-3 (Fakta unik awal), Adegan 4-6 (Dampak jangka pendek), Adegan 7-10 (Dampak jangka panjang/1 tahun kemudian), Adegan 11-12 (Edukasi penutup).''' if pola_m == opsi_pola[3] else ''}
+
+--- STANDAR PRODUKSI (WAJIB PATUH) ---
+1. LOKASI: Wajib DESKRIPTIF & DETAIL (Minimal 10-15 kata, gambarkan suasana lingkungan, benda sekitar, dan cuaca).
+2. NO MORAL: Jangan ada pesan moral atau nasihat bijak di akhir cerita.
+3. NO TEXT: Tanpa teks di layar, semua pesan disampaikan lewat visual dan dialog.
+4. BAHASA: Sehari hari (mudah dimengerti oleh penonton).
+
+--- FORMAT TABEL (KOLOM GSHEET) ---
+Wajib gunakan header ini agar bisa langsung saya paste:
+ID_IDE | JUDUL | STATUS | NASKAH_VISUAL | DIALOG_ACTOR_1 | DIALOG_ACTOR_2 | STYLE | UKURAN_GAMBAR | LIGHTING | ARAH_KAMERA | GERAKAN | LOKASI
+
+--- DROPDOWN VALID (ISI HANYA DARI PILIHAN INI) ---
+- STYLE: [Sangat Nyata / Gaya Cyberpunk] (Gunakan: {visual_m})
+- UKURAN_GAMBAR: [Seluruh Badan / Setengah Badan / Sangat Dekat / Wajah & Bahu]
+- LIGHTING: [Siang Alami / Malam Indigo / Senja Cerah / Neon Cyberpunk / Fajar]
+- ARAH_KAMERA: [Sejajar Mata / Dari Atas / Dari Bawah / Dari Samping / Dari Belakang]
+- GERAKAN: [Diam (Tetap Napas) / Maju Perlahan / Ikuti Karakter / Goyang (Handheld)]
+
+Balas HANYA tabel Markdown.
 """
                     st.divider()
                     st.success("✨ **Mantra ide cerita Siap!**")
@@ -1847,6 +1872,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
