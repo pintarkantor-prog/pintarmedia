@@ -1497,7 +1497,7 @@ def tampilkan_kendali_tim():
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                         <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
-                                {'<div style="margin-top: 15px; text-align: center; font-size: 10px; color: #ff4b4b; font-weight: bold; border: 1px solid #ff4b4b; padding: 5px; border-radius: 5px;">⚠️ PERFORMA 3 HARI TERAKHIR RENDAH!</div>' if is_bermasalah else ''}
+                                {'<div style="margin-top: 15px; text-align: center; font-size: 10px; color: #ff4b4b; font-weight: bold; border: 1px solid #ff4b4b; padding: 5px; border-radius: 5px;">⚠️ PERFORMA VIDEO HARIAN RENDAH!</div>' if is_bermasalah else ''}
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
@@ -1916,6 +1916,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
