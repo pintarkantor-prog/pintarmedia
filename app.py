@@ -1538,7 +1538,7 @@ def tampilkan_kendali_tim():
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).upper().strip()
+            n_up = str(s['NAMA']).strip().upper()
             
             # 1. Bonus Harian
             u_absen, b_lembur = 0, 0
@@ -2168,6 +2168,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
