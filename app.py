@@ -359,7 +359,7 @@ def muat_dari_gsheet():
                 st.session_state.form_version = 0
             st.session_state.form_version += 1
             
-            st.success(f"🔄 Naskah {user_sekarang} Berhasil Dipulihkan!")
+            st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
             st.rerun()
         else:
             st.warning("⚠️ Data tidak ditemukan di Cloud.")
@@ -2143,6 +2143,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
