@@ -10,10 +10,12 @@ from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 def bersihkan_data(df):
+    """Fungsi sakral agar gajian tidak eror: Paksa Header & Data jadi UPPERCASE"""
     if df.empty: return df
+    # 1. Header jadi huruf besar semua (NAMA, STATUS, TANGGAL)
     df.columns = [str(c).strip().upper() for c in df.columns]
-    # Tambahkan TANGGAL dan WAKTU_KIRIM ke daftar kolom yang dibersihkan
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'WAKTU_KIRIM']
+    # 2. Isi kolom penting jadi huruf besar semua
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME']
     for col in kolom_krusial:
         if col in df.columns:
             df[col] = df[col].astype(str).str.strip().str.upper()
@@ -213,7 +215,7 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-    # INISIALISASI MASTER DATA (VERSI CLEAN)
+# INISIALISASI MASTER DATA (VERSI CLEAN)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
@@ -232,17 +234,18 @@ def inisialisasi_keamanan():
             "form_version": 0
         }
 
+    # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
-            st.session_state.user_aktif = params.get("user", "User").lower()
+            st.session_state.user_aktif = params.get("user", "User")
             st.session_state.waktu_login = datetime.now()
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
         st.session_state.sudah_login = True
-        st.session_state.user_aktif = user.lower()
+        st.session_state.user_aktif = user
         st.session_state.waktu_login = datetime.now()
         
         # AKTIVASI ABSEN
@@ -285,21 +288,22 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-# FUNGSI BACKUP (SINKRON UPPERCASE)
+# FUNGSI BACKUP (Fokus GSheet lewat Secrets)
 def simpan_ke_gsheet():
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        # Pakai st.secrets (tidak pakai file kunci.json)
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
+        # --- PERBAIKAN: SET ZONA WAKTU KE WIB (GMT+7) ---
         tz_wib = pytz.timezone('Asia/Jakarta')
         waktu = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
         
-        # PENTING: Paksa User jadi UPPER agar sinkron dengan Restore
-        user = st.session_state.get("user_aktif", "STAFF").upper()
+        user = st.session_state.get("user_aktif", "Staff")
         data_json = json.dumps(st.session_state.data_produksi)
         
         sheet.append_row([user, waktu, data_json])
@@ -307,7 +311,6 @@ def simpan_ke_gsheet():
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
-# FUNGSI RESTORE (SINKRON HEADER & USER)
 def muat_dari_gsheet():
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -317,7 +320,7 @@ def muat_dari_gsheet():
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # 1. Ambil data dan paksa UPPERCASE lewat bersihkan_data
+        # 1. Ambil data dan bersihkan lewat helper
         semua_data = sheet.get_all_records()
         df_temp = pd.DataFrame(semua_data)
         df_temp = bersihkan_data(df_temp) 
@@ -325,46 +328,41 @@ def muat_dari_gsheet():
         # 2. Ambil username aktif dan paksa ke UPPERCASE
         user_up = st.session_state.get("user_aktif", "").upper()
         
-        # 3. Bersihkan kolom USERNAME agar pencarian akurat
-        if 'USERNAME' in df_temp.columns:
-            df_temp['USERNAME'] = df_temp['USERNAME'].astype(str).str.strip().str.upper()
-        
+        # 3. Cari baris di df_temp (bukan semua_data) pada kolom USERNAME
+        # Karena bersihkan_data sudah mengubah header menjadi UPPERCASE
         user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
         
         if user_rows:
-            # PENTING: Cari kolom naskah secara fleksibel (karena bersihkan_data merubah ke UPPER)
-            target_col = 'DATA_NASKAH' if 'DATA_NASKAH' in user_rows[-1] else 'Data_Naskah'
-            naskah_mentah = user_rows[-1].get(target_col)
+            # Ambil data JSON mentah
+            naskah_mentah = user_rows[-1]['Data_Naskah']
+            data_termuat = json.loads(naskah_mentah)
             
-            if naskah_mentah:
-                data_termuat = json.loads(naskah_mentah)
-                
-                # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
-                if "adegan" in data_termuat:
-                    adegan_baru = {}
-                    for k, v in data_termuat["adegan"].items():
-                        # Buang sampah & Bersihkan spasi dropdown (Agar Bug UI Poin 3 hilang)
-                        for field in ["style", "shot", "light", "arah", "cam"]:
-                            if field in v:
-                                v[field] = str(v[field]).strip()
-                        
-                        v.pop("ekspresi", None)
-                        v.pop("cuaca", None)
-                        v.pop("vibe", None)
-                        v.pop("ratio", None)
-                        
-                        adegan_baru[int(k)] = v 
-                    data_termuat["adegan"] = adegan_baru
-                
-                st.session_state.data_produksi = data_termuat
-                st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                
-                st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
-                st.rerun()
-            else:
-                st.error("⚠️ Kolom data naskah tidak ditemukan!")
+            # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
+            if "adegan" in data_termuat:
+                adegan_baru = {}
+                for k, v in data_termuat["adegan"].items():
+                    # Hapus sampah data lama agar tidak memenuhi memori
+                    v.pop("ekspresi", None)
+                    v.pop("cuaca", None)
+                    v.pop("vibe", None)
+                    v.pop("ratio", None)
+                    
+                    # Paksa kunci kembali jadi angka agar loop Streamlit tidak error
+                    adegan_baru[int(k)] = v 
+                data_termuat["adegan"] = adegan_baru
+            
+            # Masukkan ke laci utama
+            st.session_state.data_produksi = data_termuat
+            
+            # Update versi form agar layar dipaksa gambar ulang
+            if 'form_version' not in st.session_state:
+                st.session_state.form_version = 0
+            st.session_state.form_version += 1
+            
+            st.success(f"🔄 Naskah {user_sekarang} Berhasil Dipulihkan!")
+            st.rerun()
         else:
-            st.warning(f"⚠️ Data untuk {user_up} tidak ditemukan di Cloud.")
+            st.warning("⚠️ Data tidak ditemukan di Cloud.")
     except Exception as e:
         st.error(f"Gagal memuat: {e}")
         
@@ -993,10 +991,10 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
-    # 1. Pastikan Header Konsisten (UPPERCASE)
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
 
+    # Ambil info tanggal hari ini (WIB)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
@@ -1005,45 +1003,52 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     pot_sp = 0
     level_sp = "NORMAL"
 
-    # --- A. HITUNG UANG ABSEN DARI DATA GSHEET ABSENSI ---
-    # Ini kuncinya biar Inggi ngga 0 lagi
-    if not df_absen_user.empty:
-        # Bersihkan spasi di kolom NAMA dan TANGGAL sebelum dihitung
-        df_absen_user['NAMA'] = df_absen_user['NAMA'].astype(str).str.strip()
-        total_hari_hadir = len(df_absen_user['TANGGAL'].unique())
-        uang_absen_total = total_hari_hadir * 30000
-    else:
-        uang_absen_total = 0
-
-    # --- B. JIKA BELUM ADA VIDEO SELESAI ---
+    # --- JIKA DATA KOSONG ---
     if df_arsip_user.empty:
+        # Jika sudah lewat tanggal 7 tapi video masih 0, kena SP 1
         if sekarang.day >= 7:
-            return 0, uang_absen_total, 300000, "SP 1 (BELUM ADA KARYA)"
+            return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
         else:
-            return 0, uang_absen_total, 0, "NORMAL (MASA PENILAIAN)"
+            return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
 
-    # --- C. HITUNG BONUS VIDEO & HARI MALAS ---
-    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['WAKTU_KIRIM'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
+    # 1. Normalisasi Tanggal Setoran
+    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
     rekap_harian = df_arsip_user['Tgl_Setor'].value_counts().to_dict()
+    total_video_bulan_ini = len(df_arsip_user)
     
-    total_hari_malas = 0
-    for tgl, jml in rekap_harian.items():
-        if jml >= 4:
-            bonus_video_total += (jml - 3) * 25000 # Bonus mulai video ke-4
-        if jml <= 1:
-            total_hari_malas += 1
+    # 2. Hitung Uang Absen (Cair jika setor min 3 video)
+    if not df_absen_user.empty:
+        for tgl_absen in df_absen_user['TANGGAL'].unique():
+            # Pastikan format tgl_absen sinkron dengan rekap_harian
+            tgl_key = str(tgl_absen).strip()
+            jml_video_hari_ini = rekap_harian.get(tgl_key, 0)
+            
+            if jml_video_hari_ini >= 3:
+                uang_absen_total += 30000
 
-    # --- D. LOGIKA POTONGAN SP ---
+    # 3. Hitung Bonus (Mulai video ke-4)
+    if total_video_bulan_ini >= 4:
+        bonus_video_total = (total_video_bulan_ini - 3) * 25000
+
+    # 4. Logika Penalti Mingguan (Dihitung dari hari dengan setoran <= 1 video)
+    # Ini menghitung berapa hari staf malas (setoran cuma 0 atau 1)
+    hari_malas = [tgl for tgl, jml in rekap_harian.items() if jml <= 1]
+    total_hari_malas = len(hari_malas)
+
+    # --- LOGIKA PROTEKSI & SP ---
     if sekarang.day < 7:
         level_sp = "NORMAL (MASA PENILAIAN)"
         pot_sp = 0
     else:
         if total_hari_malas >= 21:
-            level_sp = "SP 3 (CUT OFF)"; pot_sp = 1000000
+            level_sp = "SP 3 (CUT OFF)"
+            pot_sp = 1000000
         elif total_hari_malas >= 14:
-            level_sp = "SP 2 (PERINGATAN KERAS)"; pot_sp = 700000
+            level_sp = "SP 2 (PERINGATAN KERAS)"
+            pot_sp = 700000
         elif total_hari_malas >= 7:
-            level_sp = "SP 1 (PERFORMA BURUK)"; pot_sp = 300000
+            level_sp = "SP 1 (PERFORMA BURUK)"
+            pot_sp = 300000
         
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -1157,47 +1162,40 @@ def tampilkan_tugas_kerja():
                 
                 # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
                 if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                    with st.spinner("⏳ Menyinkronkan Blueprint ke Ruang Produksi..."):
-                        # 1. Gunakan Batch Update agar tidak terkena Rate Limit
-                        cells = sheet_gudang.findall(str(row['ID_IDE']))
-                        if cells:
-                            # Ambil baris pertama dan terakhir untuk range update
-                            min_row = min(cell.row for cell in cells)
-                            max_row = max(cell.row for cell in cells)
-                            
-                            # Update status untuk seluruh adegan sekaligus dalam satu perintah
-                            # Kita asumsikan Kolom 3 adalah kolom STATUS di GSheet Gudang Ide
-                            status_baru = [[f"DIAMBIL ({user_sekarang.upper()})"]] * (max_row - min_row + 1)
-                            sheet_gudang.update(f'C{min_row}:C{max_row}', status_baru)
-                        
-                        # 2. Filter data adegan dari dataframe yang sudah ada (lebih cepat drpd panggil GSheet lagi)
-                        adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                        st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                        
-                        # 3. Reset & Isi Adegan Baru
-                        rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
-                        
-                        for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                            st.session_state.data_produksi["adegan"][i] = {
-                                "aksi": a_row.get('NASKAH_VISUAL', ''),
-                                "dialogs": [a_row.get('DIALOG_ACTOR_1', ''), a_row.get('DIALOG_ACTOR_2', ''), "", ""],
-                                "style": a_row.get('STYLE', OPTS_STYLE[0]),
-                                "shot": a_row.get('UKURAN_GAMBAR', OPTS_SHOT[0]),
-                                "light": a_row.get('LIGHTING', OPTS_LIGHT[0]),
-                                "arah": a_row.get('ARAH_KAMERA', OPTS_ARAH[0]),
-                                "cam": a_row.get('GERAKAN', OPTS_CAM[0]),
-                                "loc": a_row.get('LOKASI', '')
-                            }
-                            rangkuman_naskah += f"**Adegan {i}:** {a_row.get('NASKAH_VISUAL', '')}\n\n"
-                        
-                        # 4. Finalisasi
-                        st.session_state.naskah_siap_produksi = rangkuman_naskah
-                        st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                        catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
-                        
-                        st.toast("✅ Ide Berhasil Dipindahkan!", icon="🚀")
-                        time.sleep(1)
-                        st.rerun()
+                    # --- Logika Proses Ambil Data ---
+                    cells = sheet_gudang.findall(str(row['ID_IDE']))
+                    for cell in cells:
+                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                    
+                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
+                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                    
+                    # Rakit naskah referensi agar muncul di paling atas Ruang Produksi
+                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
+                    
+                    for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                        st.session_state.data_produksi["adegan"][i] = {
+                            "aksi": a_row['NASKAH_VISUAL'],
+                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                            "style": a_row['STYLE'],
+                            "shot": a_row['UKURAN_GAMBAR'],
+                            "light": a_row['LIGHTING'],
+                            "arah": a_row['ARAH_KAMERA'],
+                            "cam": a_row['GERAKAN'],
+                            "loc": a_row['LOKASI']
+                        }
+                        rangkuman_naskah += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
+                    
+                    # Kirim rangkuman ke session state naskah referensi
+                    st.session_state.naskah_siap_produksi = rangkuman_naskah
+                    
+                    # Trigger refresh form
+                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                    catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                    
+                    st.success("✅ Ide Berhasil di Pindah! Cek Ruang Produksi Sekarang!")
+                    time.sleep(1)
+                    st.rerun()
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
@@ -1313,31 +1311,25 @@ def tampilkan_tugas_kerja():
                 
     # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        # A. AMBIL DATA ABSENSI DULU (VERSI FIX ANTI-NOL)
+        # A. AMBIL DATA ABSENSI DULU (Agar bisa dipakai untuk Radar & Slip)
         try:
             data_absensi = sheet_absensi.get_all_records()
             df_absensi = pd.DataFrame(data_absensi)
-            
             if not df_absensi.empty:
-                df_absensi = bersihkan_data(df_absensi) # Paksa Header & Isi jadi UPPER
-                
-                # Gunakan strip() untuk buang spasi di belakang nama "INGGI "
-                user_up = user_sekarang.upper().strip()
-                mask_ab = (df_absensi['NAMA'].astype(str).str.strip() == user_up)
+                mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper())
                 df_absen_user = df_absensi[mask_ab].copy()
             else:
                 df_absen_user = pd.DataFrame()
-        except Exception as e:
-            st.error(f"Error Absensi: {e}")
+        except:
             df_absen_user = pd.DataFrame()
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        b_video, b_absen, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
 
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            #### 📢 Aturan Main Pintar Media ( Berlaku per 1 Maret 2026 )
+            #### 📢 Aturan Main Pintar Media
             
             Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
             
@@ -1350,11 +1342,11 @@ def tampilkan_tugas_kerja():
 
             #### ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
-            * ***Setor 1 Video:*** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
-            * ***Setor 2 Video:*** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
-            * ***Setor 3 Video:*** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
-            * ***Setor 4 Video:*** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
-            * ***Setor 5 Video:*** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
+            * **Setor 1 Video:** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
+            * **Setor 2 Video:** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
+            * **Setor 3 Video:** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
+            * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
+            * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
 
             ---          
 
@@ -1364,7 +1356,7 @@ def tampilkan_tugas_kerja():
             ---
 
             #### 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
-            *JIKA Gaji Pokok Rp 2.000.000*
+            *Gaji Pokok Rp 2.000.000*
 
             **1. Simulasi Super Rajin (5 Video/Hari)**
             * Bonus Absen: 25 hari x 30rb = Rp 750.000
@@ -1416,68 +1408,41 @@ def tampilkan_tugas_kerja():
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 28:
-            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**", expanded=True):
+            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
-                    # 1. Ambil Data Gaji Pokok dari GSheet (Sheet Staff)
-                    # Pastikan nama kolom di GSheet adalah 'Nama' dan 'GAJI_POKOK'
-                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang.lower()]
+                    # Ambil Data Pokok Staff
+                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
+                    gapok = int(row_s['GAJI_POKOK'].values[0]) if not row_s.empty else 0
+                    tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
                     
-                    if not row_s.empty:
-                        gapok = int(row_s['GAJI_POKOK'].values[0])
-                    else:
-                        gapok = 2000000  # Default jika data tidak ditemukan
+                    # Kalkulasi Akhir
+                    total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
                     
-                    # 2. Kalkulasi Total Akhir
-                    total_gaji = (gapok + b_video + b_absen) - pot_sp
+                    st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
                     
-                    st.markdown(f"### 📄 Rincian Slip Gaji: {sekarang.strftime('%B %Y')}")
-                    st.caption(f"Nama Staf: {user_sekarang.upper()}")
-                    
-                    # 3. Tampilan Metric (Ringkasan Cepat)
                     col_m1, col_m2, col_m3 = st.columns(3)
-                    col_m1.metric("GAJI BERSIH", f"Rp {total_gaji:,}")
-                    col_m2.metric("BONUS ABSEN", f"Rp {b_absen:,}")
-                    col_m3.metric("BONUS VIDEO", f"Rp {b_video:,}")
+                    col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                    col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
+                    col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
 
-                    st.divider()
-
-                    # 4. Tabel Rincian Detail
-                    data_rincian = {
-                        "Deskripsi": ["Gaji Pokok", "Total Bonus Absen", "Total Bonus Video", "Potongan Penalti (SP)"],
-                        "Jumlah": [
-                            f"Rp {gapok:,}",
-                            f"Rp {b_absen:,}",
-                            f"Rp {b_video:,}",
-                            f"- Rp {pot_sp:,}" if pot_sp > 0 else "Rp 0"
-                        ]
-                    }
-                    df_rincian = pd.DataFrame(data_rincian)
-                    st.table(df_rincian)
-
-                    # 5. Tombol Konfirmasi Final
-                    if st.button("🧧 KONFIRMASI & TERIMA GAJI", use_container_width=True):
-                        # Catat ke Log Aktivitas
-                        catat_log(f"Klaim Gaji: Rp {total_gaji:,} (SP: {level_sp})")
-                        
-                        # Kirim Laporan ke WA Grup
+                    if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                        catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
                         pesan_wa = (
-                            f"🧧 *KONFIRMASI PENERIMAAN GAJI*\n\n"
-                            f"👤 *Nama Staf:* {user_sekarang.upper()}\n"
-                            f"💰 *Total Gaji:* Rp {total_gaji:,}\n"
-                            f"--- \n"
-                            f"📅 *Bonus Absen:* Rp {b_absen:,} ({int(b_absen/30000)} hari tembus)\n"
-                            f"🎬 *Bonus Video:* Rp {b_video:,}\n"
-                            f"⚠️ *Status Akhir:* {level_sp}\n\n"
-                            f"_Laporan otomatis sistem Pintar Media._ ✅"
+                            f"🧧 *KONFIRMASI GAJI*\n\n"
+                            f"👤 *Nama:* {user_sekarang.upper()}\n"
+                            f"💰 *Total:* Rp {total_gaji:,}\n"
+                            f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
+                            f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
+                            f"⚠️ *Status:* {level_sp}\n\n"
+                            f"_Data telah terekam otomatis di sistem._ ✅"
                         )
                         kirim_notif_wa(pesan_wa)
-                        st.success("✅ Konfirmasi gaji berhasil dikirim ke Admin!")
-                        st.balloons()
+                        st.success("Konfirmasi Berhasil dikirim ke pusat!")
                         
                 except Exception as e: 
-                    st.error(f"❌ Gagal memproses rincian slip: {e}")
+                    st.warning(f"Gagal memproses rincian slip: {e}")
         else:
-            # Tampilan jika belum tanggal 28
+            # Notif ini muncul jika belum tanggal 28, tapi Radar Performa (Poin C) tetap terlihat di atasnya.
             st.info(f"🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 (Sisa {28 - sekarang.day} hari lagi).")
                 
 def tampilkan_kendali_tim():
@@ -1538,13 +1503,10 @@ def tampilkan_kendali_tim():
         def saring_tgl(df, kolom, bln, thn):
             if df.empty or kolom.upper() not in df.columns: 
                 return pd.DataFrame()
-            # Gunakan errors='coerce' dan pastikan konversi ke format YYYY-MM-DD
-            df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], errors='coerce')
-            # Buang data yang gagal dikonversi (NaT)
-            df = df.dropna(subset=['TGL_TEMP'])
-            mask = (df['TGL_TEMP'].dt.month == bln) & (df['TGL_TEMP'].dt.year == thn)
+            df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], dayfirst=True, errors='coerce')
+            mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
             return df[mask].copy()
-    
+
         df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
@@ -1566,39 +1528,28 @@ def tampilkan_kendali_tim():
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
-                for _, s in df_staff.iterrows():
-                    n_up = str(s['NAMA']).upper().strip()
-                    
-                    # LOGIKA SINKRON: Inggi dapet Rp 0 kalau Video 0
-                    b_absen_view = 0
-                    hari_malas_view = 0
-                    b_video_view = 0
-                    
-                    if n_up in rekap_harian_tim:
-                        for tgl, jml in rekap_harian_tim[n_up].items():
-                            if jml >= 3:
-                                b_absen_view += 30000
-                            elif jml <= 1:
-                                hari_malas_view += 1
-                            
-                            if jml >= 4:
-                                b_video_view += (jml - 3) * 25000
-                    
-                    pot_sp_view = 0
-                    if hari_malas_view >= 21: pot_sp_view = 1000000
-                    elif hari_malas_view >= 14: pot_sp_view = 700000
-                    elif hari_malas_view >= 7: pot_sp_view = 300000
-                    
-                    level_sp_view = "NORMAL"
-                    if pot_sp_view > 0: level_sp_view = f"SP ({hari_malas_view} Hari Malas)"
-
-                    jml_v_total = rekap_total_video.get(n_up, 0)
-                    
-                    # HITUNG HADIR ASLI (Tanpa kurung double di ujung)
-                    absen_hadir_asli = 0
-                    if not df_absen.empty:
-                        df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
-                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
+        total_pengeluaran_gaji = 0
+        for _, s in df_staff.iterrows():
+            n_up = str(s['NAMA']).upper()
+            
+            # 1. Hitung Uang Absen (30rb jika hari itu setor >= 3 video)
+            uang_absen_staff = 0
+            if n_up in rekap_harian_tim:
+                for tgl, jml in rekap_harian_tim[n_up].items():
+                    if jml >= 3:
+                        uang_absen_staff += 30000
+            
+            # 2. Hitung Bonus Video (25rb per video mulai dari ke-4)
+            jml_v = rekap_total_video.get(n_up, 0)
+            bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
+            
+            # 3. Hitung Potongan SP (Estimasi SP 1: 300rb jika video < 10 dalam sebulan)
+            # Catatan: Ini simulasi admin, SP sebenarnya dihitung real-time di dashboard staff
+            pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+            
+            # Kalkulasi Gaji per Orang untuk laporan kas
+            gaji_orang_ini = (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + uang_absen_staff + bonus_v) - pot_sp_admin
+            total_pengeluaran_gaji += max(0, gaji_orang_ini) # Pastikan tidak minus di laporan kas
 
         # Update tampilan metrik
         st.subheader("💰 LAPORAN KEUANGAN")
@@ -1615,59 +1566,41 @@ def tampilkan_kendali_tim():
                 f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
                 f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
                 f_ket = st.text_input("Keterangan:")
-                
                 if st.form_submit_button("Simpan Transaksi"):
-                    # AMBIL USER AKTIF (Dian atau Admin lain yang login)
-                    pencatat = st.session_state.get("user_aktif", "UNKNOWN").upper()
-                    
-                    # Simpan ke GSheet dengan nama pencatat yang dinamis
-                    sh.worksheet("Arus_Kas").append_row([
-                        sekarang.strftime('%Y-%m-%d'), 
-                        f_tipe, 
-                        f_kat, 
-                        int(f_nom), 
-                        f_ket, 
-                        pencatat # <--- Ganti "Dian" jadi variabel pencatat
-                    ])
-                    
-                    st.success(f"Tersimpan oleh {pencatat}!"); time.sleep(1); st.rerun()
+                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
         st.divider()
 
-        # --- TAMPILAN 3: RUANG QC (VERSI AMAN & CEPAT) ---
+        # --- TAMPILAN 3: RUANG QC (VERSI EXPANDER) ---
         with st.expander("🔍 RUANG PEMERIKSAAN (QC)", expanded=False):
-            # 1. Ambil data mentah dengan index agar tahu nomor baris asli
-            # Header di baris 1, data mulai baris 2. Jadi index df + 2 = baris GSheet.
-            df_qc_raw = df_tugas.copy()
-            df_qc_raw['BARIS_GSHEET'] = df_qc_raw.index + 2 
-            
-            df_qc = df_qc_raw[df_qc_raw['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
+            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
             
             if not df_qc.empty:
                 for i, r in df_qc.iterrows():
                     t_id_qc = str(r.get('ID', ''))
-                    no_baris = int(r.get('BARIS_GSHEET')) # Alamat langsung ke GSheet
                     
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([3, 1, 1])
                         c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
                         c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
                         
-                        # Tombol ACC - Langsung tembak nomor baris
-                        if c2.button("✅ ACC", key=f"acc_safe_{t_id_qc}", use_container_width=True):
-                            # Update kolom 5 (Status) di baris spesifik
-                            ws_tugas.update_cell(no_baris, 5, "FINISH")
-                            st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
-                            time.sleep(0.5)
-                            st.rerun()
+                        if t_id_qc:
+                            if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
+                                cell = ws_tugas.find(t_id_qc)
+                                if cell:
+                                    ws_tugas.update_cell(cell.row, 5, "FINISH")
+                                    st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
+                                    time.sleep(1)
+                                    st.rerun()
                             
-                        # Tombol REV - Langsung tembak nomor baris
-                        if c3.button("❌ REV", key=f"rev_safe_{t_id_qc}", use_container_width=True):
-                            # Update kolom 5 (Status) di baris spesifik
-                            ws_tugas.update_cell(no_baris, 5, "REVISI")
-                            st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
-                            time.sleep(0.5)
-                            st.rerun()
+                            if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
+                                cell = ws_tugas.find(t_id_qc)
+                                if cell:
+                                    ws_tugas.update_cell(cell.row, 5, "REVISI")
+                                    st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
+                                    time.sleep(1)
+                                    st.rerun()
             else:
                 st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
 
@@ -1688,52 +1621,39 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
+        # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL - TANPA HAPUS FOOTER) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
-            try:
-                # --- TAMBAHKAN BARIS INI UNTUK FIX ERROR ---
-                # Ambil data tugas yang sudah FINISH dari GSheet
-                sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
-                data_tugas = sheet_tugas.get_all_records()
-                df_tugas_all = bersihkan_data(pd.DataFrame(data_tugas))
-                df_arsip = df_tugas_all[df_tugas_all['STATUS'] == 'FINISH'] # Ini dia df_arsip-nya!
+            ada_kerja = False
+            for _, s in df_staff.iterrows():
+                n_up = str(s['NAMA']).upper()
                 
-                # Pastikan df_absen juga sudah siap
-                sheet_absensi = client.open_by_url(url_gsheet).worksheet("Absensi")
-                df_absen = bersihkan_data(pd.DataFrame(sheet_absensi.get_all_records()))
-                # --------------------------------------------
-
-                for _, s in df_staff.iterrows():
-                    n_up = str(s['NAMA']).upper().strip()
-                    
-                    # Sekarang df_arsip sudah ada, hitungan ini nggak akan error lagi
-                    absen_hadir_asli = 0
-                    df_absen_staf = pd.DataFrame()
-                    if not df_absen.empty:
-                        df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
-                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
-
-                    b_video_view, b_absen_view, pot_sp_view, level_sp_view = hitung_logika_performa_dan_bonus(df_arsip, df_absen_staf)
+                # 1. Logika Uang Absen (30rb jika hari itu setor >= 3 video)
+                uang_absen_staff = 0
+                if n_up in rekap_harian_tim:
+                    for tgl, jml in rekap_harian_tim[n_up].items():
+                        if jml >= 3:
+                            uang_absen_staff += 30000
                 
-                    jml_v_total = rekap_total_video.get(n_up, 0)
-
-                    # 4. TAMPILKAN SEMUA (Tanpa filter 'if jml_v_total > 0')
+                # 2. Logika Bonus Video (25rb mulai dari video ke-4)
+                jml_v = rekap_total_video.get(n_up, 0)
+                bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
+                
+                # 3. Logika Potongan SP (Estimasi SP 1: 300rb jika video < 10)
+                pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+                
+                if jml_v > 0 or uang_absen_staff > 0: 
+                    ada_kerja = True
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{n_up}**")
-                        c1.caption(f"💼 {s.get('JABATAN', 'Editor')} | {level_sp_view}")
+                        c1.write(f"👤 **{n_up}**"); c1.caption(f"💼 {s['JABATAN']}")
+                        c2.write(f"📅 {int(uang_absen_staff/30000)} Hari Cair")
+                        c3.write(f"🎬 {jml_v} Video")
                         
-                        c2.write(f"📅 Hadir: {absen_hadir_asli} Hari")
-                        c2.caption(f"✨ Cair: {int(b_absen_view/30000)} Hari")
-                        
-                        c3.write(f"🎬 {jml_v_total} Video")
-                        
-                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_final_{n_up}"):
+                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
                             v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-                            v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-                            v_total = (v_gapok + v_tunj + b_absen_view + b_video_view) - pot_sp_view
+                            v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                            v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v) - pot_sp_admin
                             
-                            # VERSI LENGKAP TANPA RINGKASAN - Indentasi sudah diperbaiki
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1747,13 +1667,15 @@ def tampilkan_kendali_tim():
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {b_absen_view:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_video_view:,}</td></tr>
-                                    <tr style="color: #ff4b4b;"><td>Potongan SP ({hari_malas_view if 'hari_malas_view' in locals() else 0} Hari Malas)</td><td align="right">- Rp {pot_sp_view:,}</td></tr>
+                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
+                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v:,}</td></tr>
+                                    <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TRANSFER</td><td align="right">Rp {max(0, v_total):,}</td></tr>
+                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
+                                
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
@@ -1761,73 +1683,72 @@ def tampilkan_kendali_tim():
                                 </div>
                             </div>
                             """
-                            st.components.v1.html(slip_html, height=520)
-
-            except Exception as e:
-                st.error(f"⚠️ Terjadi Kendala Sistem Gaji: {e}")
-
-        # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
-        with st.expander("🔐 DATABASE AKUN AI", expanded=False):
-            try:
-                # 1. AMBIL DATA
-                ws_akun = sh.worksheet("Akun_AI")
-                data_akun_raw = ws_akun.get_all_records()
-                df_ai = pd.DataFrame(data_akun_raw)
-                
-                # 2. TOMBOL TAMBAH DATA (Toggle Form)
-                if st.button("➕ Tambah Akun Baru", use_container_width=True):
-                    st.session_state.buka_form = not st.session_state.get('buka_form', False)
-                
-                if st.session_state.get('buka_form', False):
-                    with st.form("form_ai_simple", clear_on_submit=True):
-                        c1, c2 = st.columns(2)
-                        f_ai = c1.text_input("Nama AI")
-                        f_mail = c2.text_input("Email")
-                        f_pass = c1.text_input("Password")
-                        f_exp = c2.date_input("Tanggal Expired")
-                        if st.form_submit_button("Simpan Ke Cloud"):
-                            ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
-                            st.success("Data Tersimpan!")
-                            time.sleep(1)
-                            st.rerun()
-
-                st.write("") # Jarak
-
-                # 3. DAFTAR AKUN (LOGIKA AUTO-HIDE H+1)
-                if not df_ai.empty:
-                    df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
-                    hari_ini = sekarang.date()
-                    df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
-
-                    for _, row in df_tampil.iterrows():
-                        sisa = (row['EXPIRED'] - hari_ini).days
-                        
-                        if sisa > 7:
-                            label = "🟢 Aman"
-                        elif 0 <= sisa <= 3:
-                            label = "🟠 Segera Habis"
-                        elif sisa < 0:
-                            label = "🔴 Expired"
-                        else:
-                            label = "⚪ Standby"
-
-                        # Box Tiap Akun - SEMUA SEJAJAR
-                        with st.container(border=True):
-                            col1, col2 = st.columns([2.5, 1.5])
-                            with col1:
-                                # Sisi Kiri: Nama AI, Email, dan Password sejajar
-                                st.write(f"**{row['AI']}** — `{row['EMAIL']}` — Pass: `{row['PASSWORD']}`")
-                            with col2:
-                                # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
-                                st.write(f"**{label}** — `{row['EXPIRED'].strftime('%d %b %Y')}`")
-                else:
-                    st.caption("Belum ada data akun.")
-
-            except Exception as e:
-                st.info("💡 Pastikan tab 'Akun_AI' sudah ada di Google Sheets.")
-
+                            st.components.v1.html(slip_html, height=500)
+            
+            if not ada_kerja:
+                st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
     except Exception as e:
-        st.error(f"⚠️ Terjadi Kendala Sistem Utama: {e}")
+        st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
+        
+    # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
+    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
+        try:
+            # 1. AMBIL DATA
+            ws_akun = sh.worksheet("Akun_AI")
+            data_akun_raw = ws_akun.get_all_records()
+            df_ai = pd.DataFrame(data_akun_raw)
+            
+            # 2. TOMBOL TAMBAH DATA (Toggle Form)
+            if st.button("➕ Tambah Akun Baru", use_container_width=True):
+                st.session_state.buka_form = not st.session_state.get('buka_form', False)
+            
+            if st.session_state.get('buka_form', False):
+                with st.form("form_ai_simple", clear_on_submit=True):
+                    c1, c2 = st.columns(2)
+                    f_ai = c1.text_input("Nama AI")
+                    f_mail = c2.text_input("Email")
+                    f_pass = c1.text_input("Password")
+                    f_exp = c2.date_input("Tanggal Expired")
+                    if st.form_submit_button("Simpan Ke Cloud"):
+                        ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
+                        st.success("Data Tersimpan!")
+                        time.sleep(1)
+                        st.rerun()
+
+            st.write("") # Jarak
+
+            # 3. DAFTAR AKUN (LOGIKA AUTO-HIDE H+1)
+            if not df_ai.empty:
+                df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
+                hari_ini = sekarang.date()
+                df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
+
+                for _, row in df_tampil.iterrows():
+                    sisa = (row['EXPIRED'] - hari_ini).days
+                    
+                    if sisa > 7:
+                        label = "🟢 Aman"
+                    elif 0 <= sisa <= 3:
+                        label = "🟠 Segera Habis"
+                    elif sisa < 0:
+                        label = "🔴 Expired"
+                    else:
+                        label = "⚪ Standby"
+
+                    # Box Tiap Akun - SEMUA SEJAJAR
+                    with st.container(border=True):
+                        col1, col2 = st.columns([2.5, 1.5])
+                        with col1:
+                            # Sisi Kiri: Nama AI, Email, dan Password sejajar
+                            st.write(f"**{row['AI']}** — `{row['EMAIL']}` — Pass: `{row['PASSWORD']}`")
+                        with col2:
+                            # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
+                            st.write(f"**{label}** — `{row['EXPIRED'].strftime('%d %b %Y')}`")
+            else:
+                st.caption("Belum ada data akun.")
+
+        except Exception as e:
+            st.info("💡 Pastikan tab 'Akun_AI' sudah ada di Google Sheets.")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -1896,16 +1817,14 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # 1. INTEGRASI REFERENSI NASKAH (KLIMIS - TANPA TOMBOL TANAM)
+    # 1. INTEGRASI REFERENSI NASKAH
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
         with st.expander("📖 NASKAH REFERENSI PINTAR AI LAB", expanded=True):
             st.markdown(st.session_state.naskah_siap_produksi)
-            
-            # Cukup tombol bersihkan saja, karena proses tanam sudah otomatis di Gudang Ide
             if st.button("🗑️ Bersihkan Naskah Referensi", use_container_width=True):
                 st.session_state.naskah_siap_produksi = ""
                 st.rerun()
-                
+
     # 2. IDENTITY LOCK
     with st.expander("🛡️ IDENTITY LOCK - Detail Karakter", expanded=False):
         data["jumlah_karakter"] = st.number_input("Jumlah Karakter", 1, 4, data["jumlah_karakter"], label_visibility="collapsed", key=f"num_char_{ver}")
@@ -2175,16 +2094,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
