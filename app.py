@@ -966,6 +966,41 @@ def kirim_notif_wa(pesan):
     except:
         pass
 
+def hitung_logika_performa_dan_bonus(df_target):
+    """Fungsi menghitung bonus >2 video/hari & peringatan 3 hari rendah"""
+    bonus_total = 0
+    status_peringatan = False
+    
+    if df_target.empty:
+        return 0, True # Peringatan aktif jika tidak ada aktivitas sama sekali
+
+    try:
+        # 1. Pastikan kolom Deadline jadi format tanggal
+        df_target['Tgl_Hanya'] = pd.to_datetime(df_target['Deadline'], errors='coerce').dt.date
+        
+        # 2. Logika Bonus: Per hari hitung jumlah video finish
+        rekap_harian = df_target.groupby('Tgl_Hanya').size()
+        for tanggal, jumlah in rekap_harian.items():
+            if jumlah > 2:
+                bonus_total += (jumlah - 2) * 25000 # Bonus 25rb per video ke-3 dst
+        
+        # 3. Logika Peringatan: Cek 3 hari terakhir (H, H-1, H-2)
+        hari_ini = pd.Timestamp.now().date()
+        tiga_hari_terakhir = [hari_ini - pd.Timedelta(days=i) for i in range(3)]
+        
+        cek_rendah = []
+        for tgl in tiga_hari_terakhir:
+            jml = rekap_harian.get(tgl, 0)
+            cek_rendah.append(True if jml <= 1 else False)
+        
+        # Jika semua (3 hari) bernilai True (<= 1 video), maka peringatan aktif
+        if all(cek_rendah):
+            status_peringatan = True
+            
+        return bonus_total, status_peringatan
+    except:
+        return 0, False
+
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
@@ -1390,55 +1425,65 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
+        # --- TAMPILAN 6: SLIP GAJI (VERSI FULL: BONUS HARIAN + PERINGATAN + FOOTER) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
-                ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
+                
+                # 1. Filter data FINISH khusus staff ini saja
+                df_f_staff = df_f_f[df_f_f['STAF'].str.upper() == n_up]
+                
+                # 2. Panggil mesin logika bonus dan peringatan
+                bonus_video_v, is_bermasalah = hitung_logika_performa_dan_bonus(df_f_staff)
+                
+                ha = rekap_a.get(n_up, 0) # Absensi
+                vi = len(df_f_staff)      # Total Video
                 
                 if ha > 0 or vi > 0:
                     ada_kerja = True
-                    # Hitung dulu di luar buat tampilan list
-                    b_ha, b_vi = ha * 50000, vi * 10000
-                    tg = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
+                    v_gapok = int(s['GAJI_POKOK'])
+                    v_tunjangan = int(s['TUNJANGAN'])
+                    v_bonus_hadir = ha * 50000
+                    # Rumus gaji: Pokok + Tunjangan + Absen + Bonus Harian (>2)
+                    v_total = v_gapok + v_tunjangan + v_bonus_hadir + bonus_video_v
                     
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{s['NAMA']}**"); c1.caption(f"💼 {s['JABATAN']}")
-                        c2.write(f"📅 {ha} Hadir"); c3.write(f"🎬 {vi} Video")
+                        
+                        # Label Nama: Jadi merah jika performa 3 hari rendah
+                        status_nama = f"🔴 {n_up} (PERFORMA RENDAH)" if is_bermasalah else f"👤 **{n_up}**"
+                        c1.write(status_nama)
+                        c1.caption(f"💼 {s['JABATAN']}")
+                        c2.write(f"📅 {ha} Hadir")
+                        c3.write(f"🎬 {vi} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
-                            # --- WAJIB DEFINISIKAN VARIABLE SEBELUM MASUK HTML ---
-                            s_asli = n_up
-                            jabatan = str(s['JABATAN'])
-                            v_gapok = int(s['GAJI_POKOK'])
-                            v_tunjangan = int(s['TUNJANGAN'])
-                            v_bonus_hadir = ha * 50000
-                            v_bonus_video = vi * 10000
-                            v_total = v_gapok + v_tunjangan + v_bonus_hadir + v_bonus_video
-                            
+                            # --- RAKIT SLIP HTML (FOOTER TETAP TERJAGA) ---
                             slip_html = f"""
-                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid {'#ff4b4b' if is_bermasalah else '#1d976c'}; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
                                     <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
                                     <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
                                     <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
+                                    <div style="background-color: {'#ff4b4b' if is_bermasalah else '#1d976c'}; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
                                 </div>
                                 <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
-                                    <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
-                                    <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
+                                    <tr><td>Staf</td><td align="right"><b>{n_up}</b></td></tr>
+                                    <tr><td>Jabatan</td><td align="right">{s['JABATAN']}</td></tr>
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
                                     <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
                                     <tr><td>Bonus Hadir ({ha}x)</td><td align="right">Rp {v_bonus_hadir:,}</td></tr>
-                                    <tr><td>Bonus Video ({vi}x)</td><td align="right">Rp {v_bonus_video:,}</td></tr>
+                                    <tr><td>Bonus Video Harian</td><td align="right">Rp {bonus_video_v:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                         <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
+
+                                {'<div style="margin-top: 15px; text-align: center; font-size: 10px; color: #ff4b4b; font-weight: bold; border: 1px solid #ff4b4b; padding: 5px; border-radius: 5px;">⚠️ PERFORMA 3 HARI TERAKHIR RENDAH!</div>' if is_bermasalah else ''}
+
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
@@ -1446,7 +1491,7 @@ def tampilkan_kendali_tim():
                                 </div>
                             </div>
                             """
-                            st.components.v1.html(slip_html, height=480)
+                            st.components.v1.html(slip_html, height=520)
             
             if not ada_kerja:
                 st.info("Tidak ada aktivitas staf yang tercatat untuk periode ini.")
@@ -1857,6 +1902,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
