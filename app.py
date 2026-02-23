@@ -1395,26 +1395,32 @@ def tampilkan_tugas_kerja():
 
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 23:
+        if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
-                    # Ambil Data Pokok Staff
-                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                    gapok = int(row_s['GAJI_POKOK'].values[0]) if not row_s.empty else 0
-                    tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+                    # Ambil Data Pokok Staff & Pastikan Clean
+                    df_staff_clean = bersihkan_data(df_staff_raw)
+                    user_up = user_sekarang.upper().strip()
                     
-                    # Kalkulasi Akhir
-                    total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
+                    row_s = df_staff_clean[df_staff_clean['NAMA'] == user_up]
                     
-                    st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
-                    
-                    col_m1, col_m2, col_m3 = st.columns(3)
-                    col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
-                    col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
-                    col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
+                    if not row_s.empty:
+                        # Pakai .get() agar jika kolom tidak ada, aplikasi tidak crash (default 0)
+                        gapok = int(row_s.iloc[0].get('GAJI_POKOK', 0))
+                        tunjangan = int(row_s.iloc[0].get('TUNJANGAN', 0))
+                        
+                        # Kalkulasi Akhir
+                        total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
+                        
+                        st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+                        
+                        col_m1, col_m2, col_m3 = st.columns(3)
+                        col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                        col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
+                        col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
 
-                    if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                        catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
+                        if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                            catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
                         pesan_wa = (
                             f"🧧 *KONFIRMASI GAJI*\n\n"
                             f"👤 *Nama:* {user_sekarang.upper()}\n"
@@ -2129,6 +2135,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
