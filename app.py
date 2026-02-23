@@ -13,7 +13,7 @@ def bersihkan_data(df):
     if df.empty: return df
     df.columns = [str(c).strip().upper() for c in df.columns]
     # Tambahkan TANGGAL dan WAKTU_KIRIM ke daftar kolom yang dibersihkan
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'WAKTU_KIRIM']
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'JAM_MASUK']
     for col in kolom_krusial:
         if col in df.columns:
             df[col] = df[col].astype(str).str.strip().str.upper()
@@ -2192,6 +2192,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
