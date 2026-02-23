@@ -1537,10 +1537,11 @@ def tampilkan_kendali_tim():
         def saring_tgl(df, kolom, bln, thn):
             if df.empty or kolom.upper() not in df.columns: 
                 return pd.DataFrame()
-            df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], dayfirst=True, errors='coerce')
-            mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
+            # Paksa baca tanggal tanpa dayfirst agar format YYYY-MM-DD aman
+            df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], errors='coerce')
+            mask = (df['TGL_TEMP'].dt.month == bln) & (df['TGL_TEMP'].dt.year == thn)
             return df[mask].copy()
-
+    
         df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
@@ -2178,6 +2179,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
