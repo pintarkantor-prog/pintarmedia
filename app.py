@@ -1282,16 +1282,16 @@ def tampilkan_tugas_kerja():
         st.divider()
         if pot_sp > 0:
             st.error(f"⚠️ **STATUS KEDISIPLINAN: {level_sp}**")
-            st.write(f"Sistem mendeteksi setoran video kamu sering di bawah standar (≤ 1 video/hari).")
-            st.write(f"**Denda Akumulasi saat ini:** Rp {pot_sp:,}")
+            st.write(f"Sistem mendeteksi setoran video kamu di bawah standar (≤ 1 video/hari).")
+            # Baris denda sudah dihapus dari sini sesuai permintaanmu
             if level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning("❗ **SISA 7 HARI LAGI** sebelum masuk SP 3 (Pecat). Segera kejar setoran 3 video/hari!")
-        else:
+                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (Pecat)!")
+        else:             
             st.info("🌟 **STATUS PERFORMA: TERJAGA**")
             st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
 
 
-# D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
+        # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 28:
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
@@ -1979,8 +1979,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
