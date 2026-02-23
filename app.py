@@ -1004,19 +1004,31 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
+    # Bersihkan data di awal untuk memastikan header UPPERCASE
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
     
-    # Pastikan kolom tanggal absen berformat YYYY-MM-DD
-    df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.strftime('%Y-%m-%d')
-    
-    # Ambil kolom tanggal kirim/deadline dan standarisasi
-    kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
-    df_arsip_user['STATUS'] = df_arsip_user['STATUS'].astype(str).str.upper()
+    # --- PROTEKSI KEYERROR ---
+    if 'TANGGAL' not in df_absen_user.columns:
+        # Jika kolom TANGGAL tidak ada, coba cari kolom NAMA (biasanya kolom 2 di GSheet Absensi)
+        # atau kembalikan nilai default agar aplikasi tidak crash
+        return 0, 0, 0, "NORMAL"
+
+    # Pastikan kolom tanggal absen berformat YYYY-MM-DD secara aman
     df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date.astype(str)
     
-    # Hitung video FINISH per hari
-    rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
+    # Penanganan kolom status dan tanggal simple untuk rekap
+    if 'STATUS' in df_arsip_user.columns:
+        df_arsip_user['STATUS'] = df_arsip_user['STATUS'].astype(str).str.upper()
+    
+    # Rekap harian (Gunakan kolom yang pasti ada, misal DEADLINE atau WAKTU_KIRIM)
+    # Anda perlu memastikan kolom TGL_SIMPLE sudah dibuat sebelumnya
+    rekap_harian = {}
+    if 'TGL_SIMPLE' in df_arsip_user.columns:
+        rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
+    
+    # ... sisa kode hitung bonus ...
+    return bonus_video_total, uang_absen_total, pot_sp, level_sp
     
     uang_absen_total = 0
     bonus_video_total = 0
@@ -1309,16 +1321,25 @@ def tampilkan_tugas_kerja():
         try:
             data_absensi = sheet_absensi.get_all_records()
             df_absensi = pd.DataFrame(data_absensi)
+            
+            # --- TAMBAHKAN INI: Bersihkan data sebelum di-filter ---
+            df_absensi = bersihkan_data(df_absensi) 
+            
             if not df_absensi.empty:
-                mask_ab = (df_absensi['NAMA'].astype(str).str.upper() == user_sekarang.upper())
+                # Pastikan kolom NAMA sudah menjadi UPPERCASE karena bersihkan_data
+                user_up = user_sekarang.upper().strip()
+                mask_ab = (df_absensi['NAMA'] == user_up)
                 df_absen_user = df_absensi[mask_ab].copy()
             else:
-                df_absen_user = pd.DataFrame()
-        except:
-            df_absen_user = pd.DataFrame()
+                # Beri kolom default agar fungsi hitung_logika tidak KeyError TANGGAL
+                df_absen_user = pd.DataFrame(columns=['NAMA', 'TANGGAL', 'JAM', 'STATUS'])
+        except Exception as e:
+            # Jika gagal, buat DataFrame kosong dengan struktur kolom yang benar
+            df_absen_user = pd.DataFrame(columns=['NAMA', 'TANGGAL', 'JAM', 'STATUS'])
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+        # Sekarang df_arsip dan df_absen_user dijamin punya kolom UPPERCASE
+        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user))
 
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
@@ -2198,6 +2219,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
