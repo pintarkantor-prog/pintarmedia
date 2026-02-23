@@ -995,10 +995,10 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
+    # 1. Pastikan Header Konsisten (UPPERCASE)
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
 
-    # Ambil info tanggal hari ini (WIB)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
@@ -1007,51 +1007,44 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     pot_sp = 0
     level_sp = "NORMAL"
 
-    # --- JIKA DATA KOSONG ---
+    # --- A. HITUNG UANG ABSEN DARI DATA GSHEET ABSENSI ---
+    # Ini kuncinya biar Inggi ngga 0 lagi
+    if not df_absen_user.empty:
+        # Hitung berapa hari unik staf hadir di kolom TANGGAL
+        total_hari_hadir = len(df_absen_user['TANGGAL'].unique())
+        uang_absen_total = total_hari_hadir * 30000 
+    else:
+        uang_absen_total = 0
+
+    # --- B. JIKA BELUM ADA VIDEO SELESAI ---
     if df_arsip_user.empty:
         if sekarang.day >= 7:
-            return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
+            return 0, uang_absen_total, 300000, "SP 1 (BELUM ADA KARYA)"
         else:
-            return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
+            return 0, uang_absen_total, 0, "NORMAL (MASA PENILAIAN)"
 
-    # 1. Normalisasi Tanggal Setoran
-    # Gunakan 'WAKTU_KIRIM' atau 'TANGGAL' sesuai kolom di sheet Tugas
-    # Kita pastikan formatnya YYYY-MM-DD untuk key rekap
+    # --- C. HITUNG BONUS VIDEO & HARI MALAS ---
     df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['WAKTU_KIRIM'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
     rekap_harian = df_arsip_user['Tgl_Setor'].value_counts().to_dict()
     
-    # 2. Hitung Uang Absen & Bonus Video SECARA HARIAN (SINKRON ADMIN)
     total_hari_malas = 0
-    
-    # Loop melalui setiap hari yang ada setoran videonya
     for tgl, jml in rekap_harian.items():
-        # A. Cek Uang Absen (Min 3 Video/Hari)
-        if jml >= 3:
-            uang_absen_total += 30000
-        
-        # B. Cek Bonus Video (Mulai Video ke-4 per hari)
-        # Contoh: Setor 5 video -> Bonus = (5-3) * 25rb = 50rb
         if jml >= 4:
-            bonus_video_total += (jml - 3) * 25000
-            
-        # C. Cek Hari Malas (Hanya setor 0 atau 1 video)
+            bonus_video_total += (jml - 3) * 25000 # Bonus mulai video ke-4
         if jml <= 1:
             total_hari_malas += 1
 
-    # 3. Logika Proteksi & SP (Berdasarkan akumulasi hari malas)
+    # --- D. LOGIKA POTONGAN SP ---
     if sekarang.day < 7:
         level_sp = "NORMAL (MASA PENILAIAN)"
         pot_sp = 0
     else:
         if total_hari_malas >= 21:
-            level_sp = "SP 3 (CUT OFF)"
-            pot_sp = 1000000
+            level_sp = "SP 3 (CUT OFF)"; pot_sp = 1000000
         elif total_hari_malas >= 14:
-            level_sp = "SP 2 (PERINGATAN KERAS)"
-            pot_sp = 700000
+            level_sp = "SP 2 (PERINGATAN KERAS)"; pot_sp = 700000
         elif total_hari_malas >= 7:
-            level_sp = "SP 1 (PERFORMA BURUK)"
-            pot_sp = 300000
+            level_sp = "SP 1 (PERFORMA BURUK)"; pot_sp = 300000
         
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -1327,16 +1320,16 @@ def tampilkan_tugas_kerja():
             df_absensi = pd.DataFrame(data_absensi)
             
             if not df_absensi.empty:
-                # PAKSA SEMUA HEADER JADI HURUF BESAR
-                df_absensi.columns = [c.upper() for c in df_absensi.columns]
+                df_absensi = bersihkan_data(df_absensi) # Paksa Header & Isi jadi UPPER
                 
-                # Gunakan kolom 'NAMA' (huruf besar) karena sudah dipaksa di atas
-                mask_ab = (df_absensi['NAMA'].astype(str).str.upper() == user_sekarang.upper())
+                # Gunakan strip() untuk buang spasi di belakang nama "INGGI "
+                user_up = user_sekarang.upper().strip()
+                mask_ab = (df_absensi['NAMA'].astype(str).str.strip() == user_up)
                 df_absen_user = df_absensi[mask_ab].copy()
             else:
                 df_absen_user = pd.DataFrame()
         except Exception as e:
-            st.error(f"Error Absensi: {e}") # Munculkan error agar kamu tahu masalahnya
+            st.error(f"Error Absensi: {e}")
             df_absen_user = pd.DataFrame()
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
@@ -2187,6 +2180,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
