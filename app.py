@@ -334,7 +334,7 @@ def muat_dari_gsheet():
         
         if user_rows:
             # Ambil data JSON mentah
-            naskah_mentah = user_rows[-1]['Data_Naskah']
+            naskah_mentah = user_rows[-1].get('DATA_NASKAH')
             data_termuat = json.loads(naskah_mentah)
             
             # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
@@ -1432,7 +1432,7 @@ def tampilkan_tugas_kerja():
                             f"🧧 *KONFIRMASI GAJI*\n\n"
                             f"👤 *Nama:* {user_sekarang.upper()}\n"
                             f"💰 *Total:* Rp {total_gaji:,}\n"
-                            f"📅 *Absen Aktif:* {total_hadir_harian} hari\n"
+                            f"📅 *Hadir Aktif:* {total_hadir_harian} hari\n"
                             f"📅 *Bonus Absen:* {int(u_hadir/30000)} hari\n"
                             f"🎬 *Total Video Finish:* {len(df_arsip)} clips\n"
                             f"⚠️ *Status:* {level_sp}\n\n"
@@ -2143,6 +2143,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
