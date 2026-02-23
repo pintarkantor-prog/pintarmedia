@@ -1590,11 +1590,17 @@ def tampilkan_kendali_tim():
         
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
-        for _, s in df_staff.iterrows():
-            # Gunakan penanganan string yang lebih agresif
-            n_up = str(s.get('NAMA', '')).strip().upper()
-            
-            if n_up == "" or n_up == "NAN": continue
+        
+        # CEK: Jika user milih bulan di masa depan, jangan hitung gaji dulu
+        is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
+        
+        if is_masa_depan:
+            total_pengeluaran_gaji = 0
+        else:
+            # Jalankan loop staff hanya jika bukan masa depan
+            for _, s in df_staff.iterrows():
+                n_up = str(s.get('NAMA', '')).strip().upper()
+                if n_up == "" or n_up == "NAN": continue
             
             # 1. Bonus Harian
             u_absen, b_lembur = 0, 0
@@ -1628,7 +1634,7 @@ def tampilkan_kendali_tim():
                 p_sp = 0
             
             # 3. Hitung Gaji Bersih
-            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or s.get('GAJI POKOK', 0))
+            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
             t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
             bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
             total_pengeluaran_gaji += max(0, bersih_orang)
@@ -2237,6 +2243,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
