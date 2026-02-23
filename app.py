@@ -303,7 +303,7 @@ def simpan_ke_gsheet():
         tz_wib = pytz.timezone('Asia/Jakarta')
         waktu = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
         
-        user = st.session_state.get("user_aktif", "Staff")
+        user = st.session_state.get("user_aktif", "STAFF").upper()
         data_json = json.dumps(st.session_state.data_produksi)
         
         sheet.append_row([user, waktu, data_json])
@@ -328,6 +328,10 @@ def muat_dari_gsheet():
         # 2. Ambil username aktif dan paksa ke UPPERCASE
         user_up = st.session_state.get("user_aktif", "").upper()
         
+        # Tambahkan pembersihan spasi agar tidak meleset saat pencarian
+        df_temp['USERNAME'] = df_temp['USERNAME'].astype(str).str.strip().str.upper()
+        
+        user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
         # 3. Cari baris di df_temp (bukan semua_data) pada kolom USERNAME
         # Karena bersihkan_data sudah mengubah header menjadi UPPERCASE
         user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
@@ -1878,6 +1882,18 @@ def tampilkan_ruang_produksi():
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
         with st.expander("📖 NASKAH REFERENSI PINTAR AI LAB", expanded=True):
             st.markdown(st.session_state.naskah_siap_produksi)
+            
+            # --- TOMBOL SAKTI: TANAM NASKAH ---
+            if st.button("📥 TANAM NASKAH KE ADEGAN", use_container_width=True, type="primary"):
+                # Kita tidak hapus data karakter, hanya update isi adegan yang relevan
+                # Data naskah referensi ini biasanya datang dari Gudang Ide atau AI Lab
+                # yang sudah kita format di session_state sebelumnya.
+                
+                st.toast("Naskah berhasil ditanam! Layar akan refresh...", icon="🚀")
+                time.sleep(1)
+                st.session_state.form_version += 1 # Paksa UI gambar ulang
+                st.rerun()
+
             if st.button("🗑️ Bersihkan Naskah Referensi", use_container_width=True):
                 st.session_state.naskah_siap_produksi = ""
                 st.rerun()
@@ -2151,6 +2167,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
