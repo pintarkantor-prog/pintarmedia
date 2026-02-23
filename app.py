@@ -10,12 +10,10 @@ from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 def bersihkan_data(df):
-    """Fungsi sakral agar gajian tidak eror: Paksa Header & Data jadi UPPERCASE"""
     if df.empty: return df
-    # 1. Header jadi huruf besar semua (NAMA, STATUS, TANGGAL)
     df.columns = [str(c).strip().upper() for c in df.columns]
-    # 2. Isi kolom penting jadi huruf besar semua
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME']
+    # Tambahkan TANGGAL dan WAKTU_KIRIM ke daftar kolom yang dibersihkan
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'WAKTU_KIRIM']
     for col in kolom_krusial:
         if col in df.columns:
             df[col] = df[col].astype(str).str.strip().str.upper()
@@ -2180,6 +2178,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
