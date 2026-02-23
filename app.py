@@ -2097,12 +2097,16 @@ def tampilkan_ruang_produksi():
                     s_img = style_map_img.get(sc['style'], "Cinematic optical clarity.")
                     mantra_statis = f"{s_img} {sc['shot']} framing, {sc['arah']} angle, razor-sharp optical focus, {sc['light']}."
 
-                    # 3. Logika Acting Cue Gaya Web Lama (ANTI-DIALOG DOBEL)
-                    raw_dialogs = [f"[{data['karakter'][i]['nama'].upper()}_DIALOG]: '{sc['dialogs'][i].strip()}'" for i in range(data["jumlah_karakter"]) if sc['dialogs'][i].strip()]
+                    # Logika Acting Cue Gaya Baru (ANTI-DIALOG DOBEL & LEBIH EKSPRESIF)
+                    raw_dialogs = [f"[{data['karakter'][i]['nama'].upper()}]: '{sc['dialogs'][i].strip()}'" for i in range(data["jumlah_karakter"]) if sc['dialogs'][i].strip()]
                     
-                    emotional_ref = " | ".join(raw_dialogs) if raw_dialogs else "Neutral Interaction"
+                    emotional_ref = " | ".join(raw_dialogs) if raw_dialogs else "No dialogue, focus on cinematic body language."
                     
-                    acting_cue_custom = f"Use these individual dialogue cues for emotional reference only: {emotional_ref}. FOCUS mouth movement and lip-sync ONLY on the active speaker. Others must remain silent."
+                    acting_cue_custom = (
+                        f"ACTING RULE: {emotional_ref}. "
+                        "Identify the speaker by name and sync lip movement perfectly. "
+                        "Non-speaking characters must maintain natural idle facial expressions (blinking, slight head tilts)."
+                    )
 
 
                     # RAKIT PROMPT GAMBAR
@@ -2120,13 +2124,13 @@ def tampilkan_ruang_produksi():
 
                     # RAKIT PROMPT VIDEO (DIBERSIHKAN DARI DIALOG DOBEL)
                     vid_p = (
-                        f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required.\n"
+                        f"IMAGE REFERENCE RULE: Refer to PHOTO #1 for ACTOR_1, PHOTO #2 for ACTOR_2, etc.\n"
                         f"{final_identity}\n"
-                        f"SCENE & KINETICS: {sc['aksi']} with {sc['cam']} motion. Character must move naturally with fluid cinematic motion, no robotic movement, no stiffness.\n"
-                        f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_custom}\n"            
-                        f"VISUAL: {mantra_video}\n\n"
-                        f"QUALITY: {QB_VID}, Maintain 100% facial identity consistency, look exactly like the reference, natural mouth movement\n"
-                        f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}, static, robotic\n"
+                        f"SCENE: {sc['aksi']} in {sc['loc']}. Motion: {sc['cam']}.\n"
+                        f"PHYSICS: High-fidelity clothing simulation, natural hair physics, no clipping.\n"
+                        f"ACTING: {acting_cue_custom}\n"            
+                        f"VISUAL: {mantra_video} 8k UHD, clean textures.\n"
+                        f"NEGATIVE: {negative_base} {no_text_strict} {negative_motion_strict}\n"
                         f"FORMAT: 9:16 Vertical Video"
                     )
 
@@ -2163,6 +2167,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
