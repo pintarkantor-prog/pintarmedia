@@ -1432,18 +1432,22 @@ def tampilkan_tugas_kerja():
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
-                        pesan_wa = (
-                            f"🧧 *KONFIRMASI GAJI*\n\n"
-                            f"👤 *Nama:* {user_sekarang.upper()}\n"
-                            f"💰 *Total:* Rp {total_gaji:,}\n"
-                            f"📅 *Hadir Aktif:* {total_hadir_harian} hari\n"
-                            f"📅 *Bonus Absen:* {int(u_hadir/30000)} hari\n"
-                            f"🎬 *Total Video Finish:* {len(df_arsip)} clips\n"
-                            f"⚠️ *Status:* {level_sp}\n\n"
-                            f"_Data telah terekam otomatis di sistem._ ✅"
-                        )
-                        kirim_notif_wa(pesan_wa)
-                        st.success("Konfirmasi Berhasil dikirim ke pusat!")
+                            
+                            # PESAN WA SEKARANG TERKUNCI DI DALAM TOMBOL
+                            pesan_wa = (
+                                f"🧧 *KONFIRMASI GAJI*\n\n"
+                                f"👤 *Nama:* {user_sekarang.upper()}\n"
+                                f"💰 *Total:* Rp {total_gaji:,}\n"
+                                f"📅 *Hadir Aktif:* {total_hadir_harian} hari\n"
+                                f"📅 *Bonus Absen:* {int(u_hadir/30000)} hari\n"
+                                f"🎬 *Total Video Finish:* {len(df_arsip)} clips\n"
+                                f"⚠️ *Status:* {level_sp}\n\n"
+                                f"_Data telah terekam otomatis di sistem._ ✅"
+                            )
+                            
+                            # FUNGSI WA HANYA JALAN JIKA TOMBOL DIKLIK
+                            kirim_notif_wa(pesan_wa)
+                            st.success("Konfirmasi Berhasil dikirim ke pusat!")
                         
                 except Exception as e: 
                     st.warning(f"Gagal memproses rincian slip: {e}")
@@ -2167,6 +2171,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
