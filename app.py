@@ -1772,7 +1772,7 @@ def tampilkan_kendali_tim():
                             st.components.v1.html(slip_html, height=520)
 
             except Exception as e:
-                st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
+                st.error(f"⚠️ Terjadi Kendala Sistem Gaji: {e}")
 
         # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
         with st.expander("🔐 DATABASE AKUN AI", expanded=False):
@@ -1833,6 +1833,9 @@ def tampilkan_kendali_tim():
 
             except Exception as e:
                 st.info("💡 Pastikan tab 'Akun_AI' sudah ada di Google Sheets.")
+
+    except Exception as e:
+        st.error(f"⚠️ Terjadi Kendala Sistem Utama: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -2180,6 +2183,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
