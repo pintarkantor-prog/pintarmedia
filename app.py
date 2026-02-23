@@ -1673,30 +1673,25 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-        # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL) ---
+        # --- TAMPILAN 6: SLIP GAJI (DESAIN ASLI SINKRON HARIAN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper().strip()
                 
-                # 1. Hitung Uang Absen & Bonus Video Harian (LOGIKA SINKRON)
+                # 1. Logika Uang Absen & Bonus (SINKRON HARIAN - ANTI EROR)
                 uang_absen_staff = 0
                 bonus_v_harian = 0
                 
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        # Uang Absen 30rb (Jika setor minimal 3 video hari itu)
                         if jml >= 3:
                             uang_absen_staff += 30000
-                        
-                        # Bonus Lembur 25rb (Untuk video ke-4, ke-5, dst per hari)
                         if jml >= 4:
                             bonus_v_harian += (jml - 3) * 25000
-
-                # 2. Hitung Potongan SP (Berdasarkan Total Video Bulanan)
-                jml_v = rekap_total_video.get(n_up, 0)
                 
-                # Aturan: Aman jika >= 15 video, SP1 jika 10-14, SP2/3 jika < 10
+                # 2. Logika Potongan SP
+                jml_v = rekap_total_video.get(n_up, 0)
                 if jml_v >= 15 or jml_v == 0: 
                     pot_sp_admin = 0
                 elif 10 <= jml_v < 15:
@@ -1713,11 +1708,12 @@ def tampilkan_kendali_tim():
                         c3.write(f"🎬 {jml_v} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
+                            # Kalkulasi angka pokok
                             v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                             v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-                            # Gunakan bonus_v_harian yang sudah dihitung per hari tadi
-                            v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
+                            v_total_terima = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
                             
+                            # DESAIN SLIP ASLI DIAN (TIDAK DISEDERHANAKAN)
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1733,11 +1729,11 @@ def tampilkan_kendali_tim():
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
                                     <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
                                     <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v:,}</td></tr>
+                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v_harian:,}</td></tr>
                                     <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
+                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total_terima:,}</td></tr>
                                 </table>
                                 
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
@@ -1747,7 +1743,7 @@ def tampilkan_kendali_tim():
                                 </div>
                             </div>
                             """
-                            st.components.v1.html(slip_html, height=500)
+                            st.components.v1.html(slip_html, height=520)
             
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
@@ -2158,6 +2154,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
