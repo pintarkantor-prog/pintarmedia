@@ -1405,19 +1405,26 @@ def tampilkan_tugas_kerja():
                     row_s = df_staff_clean[df_staff_clean['NAMA'] == user_up]
                     
                     if not row_s.empty:
-                        # Pakai .get() agar jika kolom tidak ada, aplikasi tidak crash (default 0)
+                        # 1. Ambil data pokok
                         gapok = int(row_s.iloc[0].get('GAJI_POKOK', 0))
                         tunjangan = int(row_s.iloc[0].get('TUNJANGAN', 0))
                         
-                        # Kalkulasi Akhir
+                        # 2. Hitung total kehadiran harian (Absen murni)
+                        # Variabel df_absen_user sudah didefinisikan di atas bagian gajian
+                        total_hadir_harian = len(df_absen_user) if not df_absen_user.empty else 0
+                        
+                        # 3. Kalkulasi Akhir
                         total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
                         
                         st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
                         
-                        col_m1, col_m2, col_m3 = st.columns(3)
+                        # PECAH JADI 4 KOLOM
+                        col_m1, col_m2, col_m3, col_m4 = st.columns(4)
+                        
                         col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
-                        col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
-                        col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
+                        col_m2.metric("ABSEN AKTIF", f"{total_hadir_harian} Hari") # TOTAL MASUK
+                        col_m3.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari") # MASUK + SETOR 3 VIDEO
+                        col_m4.metric("BONUS (4+)", f"Rp {b_video:,}") # VIDEO KE-4 DST
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
@@ -1425,6 +1432,7 @@ def tampilkan_tugas_kerja():
                             f"🧧 *KONFIRMASI GAJI*\n\n"
                             f"👤 *Nama:* {user_sekarang.upper()}\n"
                             f"💰 *Total:* Rp {total_gaji:,}\n"
+                            f"📅 *Hadir Aktif:* {total_hadir_harian} hari\n"
                             f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
                             f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
                             f"⚠️ *Status:* {level_sp}\n\n"
@@ -2135,6 +2143,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
