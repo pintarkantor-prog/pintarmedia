@@ -320,10 +320,17 @@ def muat_dari_gsheet():
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
+        # 1. Ambil data dan bersihkan lewat helper
         semua_data = sheet.get_all_records()
-        user_sekarang = st.session_state.get("user_aktif", "").lower()
+        df_temp = pd.DataFrame(semua_data)
+        df_temp = bersihkan_data(df_temp) 
         
-        user_rows = [row for row in semua_data if str(row.get('Username', '')).lower() == user_sekarang]
+        # 2. Ambil username aktif dan paksa ke UPPERCASE
+        user_up = st.session_state.get("user_aktif", "").upper()
+        
+        # 3. Cari baris di df_temp (bukan semua_data) pada kolom USERNAME
+        # Karena bersihkan_data sudah mengubah header menjadi UPPERCASE
+        user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
         
         if user_rows:
             # Ambil data JSON mentah
@@ -1017,11 +1024,11 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     
     # 2. Hitung Uang Absen (Cair jika setor min 3 video)
     if not df_absen_user.empty:
-        # Gunakan 'TANGGAL' jika kamu pakai .upper() atau 'Tanggal' jika tidak. 
-        # Di sini saya asumsikan sudah sinkron.
-        kolom_tgl_absen = 'TANGGAL' if 'TANGGAL' in df_absen_user.columns else 'Tanggal'
-        for tgl_absen in df_absen_user[kolom_tgl_absen].unique():
-            jml_video_hari_ini = rekap_harian.get(str(tgl_absen), 0)
+        for tgl_absen in df_absen_user['TANGGAL'].unique():
+            # Pastikan format tgl_absen sinkron dengan rekap_harian
+            tgl_key = str(tgl_absen).strip()
+            jml_video_hari_ini = rekap_harian.get(tgl_key, 0)
+            
             if jml_video_hari_ini >= 3:
                 uang_absen_total += 30000
 
@@ -1291,13 +1298,23 @@ def tampilkan_tugas_kerja():
     df_arsip = pd.DataFrame()
     with st.expander("📜 Riwayat Tugas Selesai"):
         if not df_all_tugas.empty:
-            mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
-                     (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
-            if user_sekarang != "dian": mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
+            # 1. Gunakan filter UPPERCASE untuk Status dan Staf
+            mask_s = (df_all_tugas['STATUS'] == "FINISH")
+            if user_sekarang != "dian": 
+                mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
+            
             df_arsip = df_all_tugas[mask_s].copy()
+            
             if not df_arsip.empty: 
-                st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True, use_container_width=True)
-            else: st.write("Belum ada riwayat.")
+                # 2. Pastikan pemanggilan kolom menggunakan HURUF BESAR
+                kolom_tampil = ['ID', 'STAF', 'DEADLINE', 'STATUS']
+                # Filter hanya kolom yang benar-benar ada untuk menghindari error
+                kolom_ada = [c for c in kolom_tampil if c in df_arsip.columns]
+                
+                st.dataframe(df_arsip[kolom_ada], hide_index=True, use_container_width=True)
+            else: 
+                st.write("Belum ada riwayat.")write("Belum ada riwayat.")
+                
     # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         # A. AMBIL DATA ABSENSI DULU (Agar bisa dipakai untuk Radar & Slip)
@@ -2016,4 +2033,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
