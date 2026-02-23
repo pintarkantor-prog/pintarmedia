@@ -1109,13 +1109,13 @@ def tampilkan_tugas_kerja():
 
     # --- 1. LEADERBOARD ---
     if not df_all_tugas.empty:
-        mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
-                 (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
-                 (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+        mask_l = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
+                 (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year) & \
+                 (df_all_tugas['STATUS'] == "FINISH")
         
         df_finish_l = df_all_tugas[mask_l].copy()
         if not df_finish_l.empty:
-            skor = df_finish_l['Staf'].astype(str).str.strip().str.upper().value_counts().reset_index()
+            skor = df_finish_l['STAF'].astype(str).str.strip().str.upper().value_counts().reset_index()
             skor.columns = ['Nama', 'Video']
             ranks = skor.values.tolist()
             c1, c2, c3 = st.columns(3)
@@ -2033,6 +2033,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
