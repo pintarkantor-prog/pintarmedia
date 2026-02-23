@@ -1621,6 +1621,53 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
+        # --- TAMPILAN 5.5: REKAP ABSENSI & HARI CAIR (SINKRON GSHEET) ---
+        with st.expander("📅 REKAP ABSENSI & MONITORING CAIR", expanded=False):
+            try:
+                # 1. Ambil data absen asli dari GSheet
+                df_absen_raw = df_a_f.copy() # Ini dari hasil saring_tgl di atas
+                
+                # 2. Buat tabel monitoring per staff
+                rekap_absen_data = []
+                for _, s in df_staff.iterrows():
+                    n_up = str(s['NAMA']).upper().strip()
+                    
+                    # Hitung Total Hadir (Ada di sheet Absensi)
+                    total_hadir = 0
+                    if not df_absen_raw.empty:
+                        total_hadir = len(df_absen_raw[df_absen_raw['NAMA'] == n_up]['TANGGAL'].unique())
+                    
+                    # Hitung Hari Cair (Minimal 3 Video Finish)
+                    hari_cair = 0
+                    if n_up in rekap_harian_tim:
+                        for tgl, jml in rekap_harian_tim[n_up].items():
+                            if jml >= 3:
+                                hari_cair += 1
+                                
+                    # Hitung Hari Malas (Cuma 0-1 Video)
+                    hari_malas = 0
+                    if n_up in rekap_harian_tim:
+                        for tgl, jml in rekap_harian_tim[n_up].items():
+                            if jml <= 1:
+                                hari_malas += 1
+                    
+                    rekap_absen_data.append({
+                        "NAMA": n_up,
+                        "TOTAL HADIR": f"{total_hadir} Hari",
+                        "HARI CAIR ✨": f"{hari_cair} Hari",
+                        "HARI MALAS ⚠️": f"{hari_malas} Hari",
+                        "STATUS": "RAJIN" if hari_cair > hari_malas else "PERLU EVALUASI"
+                    })
+                
+                # Tampilkan dalam bentuk tabel yang bersih
+                if rekap_absen_data:
+                    st.table(pd.DataFrame(rekap_absen_data))
+                else:
+                    st.info("Belum ada data absensi bulan ini.")
+                    
+            except Exception as e:
+                st.error(f"Gagal memuat rekap absensi: {e}")
+
         # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL - TANPA HAPUS FOOTER) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
@@ -2094,3 +2141,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
