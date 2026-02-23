@@ -1165,40 +1165,47 @@ def tampilkan_tugas_kerja():
                 
                 # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
                 if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                    # --- Logika Proses Ambil Data ---
-                    cells = sheet_gudang.findall(str(row['ID_IDE']))
-                    for cell in cells:
-                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                    
-                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                    
-                    # Rakit naskah referensi agar muncul di paling atas Ruang Produksi
-                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
-                    
-                    for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                        st.session_state.data_produksi["adegan"][i] = {
-                            "aksi": a_row['NASKAH_VISUAL'],
-                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                            "style": a_row['STYLE'],
-                            "shot": a_row['UKURAN_GAMBAR'],
-                            "light": a_row['LIGHTING'],
-                            "arah": a_row['ARAH_KAMERA'],
-                            "cam": a_row['GERAKAN'],
-                            "loc": a_row['LOKASI']
-                        }
-                        rangkuman_naskah += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
-                    
-                    # Kirim rangkuman ke session state naskah referensi
-                    st.session_state.naskah_siap_produksi = rangkuman_naskah
-                    
-                    # Trigger refresh form
-                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
-                    
-                    st.success("✅ Ide Berhasil di Pindah! Cek Ruang Produksi Sekarang!")
-                    time.sleep(1)
-                    st.rerun()
+                    with st.spinner("⏳ Menyinkronkan Blueprint ke Ruang Produksi..."):
+                        # 1. Gunakan Batch Update agar tidak terkena Rate Limit
+                        cells = sheet_gudang.findall(str(row['ID_IDE']))
+                        if cells:
+                            # Ambil baris pertama dan terakhir untuk range update
+                            min_row = min(cell.row for cell in cells)
+                            max_row = max(cell.row for cell in cells)
+                            
+                            # Update status untuk seluruh adegan sekaligus dalam satu perintah
+                            # Kita asumsikan Kolom 3 adalah kolom STATUS di GSheet Gudang Ide
+                            status_baru = [[f"DIAMBIL ({user_sekarang.upper()})"]] * (max_row - min_row + 1)
+                            sheet_gudang.update(f'C{min_row}:C{max_row}', status_baru)
+                        
+                        # 2. Filter data adegan dari dataframe yang sudah ada (lebih cepat drpd panggil GSheet lagi)
+                        adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
+                        st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                        
+                        # 3. Reset & Isi Adegan Baru
+                        rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
+                        
+                        for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                            st.session_state.data_produksi["adegan"][i] = {
+                                "aksi": a_row.get('NASKAH_VISUAL', ''),
+                                "dialogs": [a_row.get('DIALOG_ACTOR_1', ''), a_row.get('DIALOG_ACTOR_2', ''), "", ""],
+                                "style": a_row.get('STYLE', OPTS_STYLE[0]),
+                                "shot": a_row.get('UKURAN_GAMBAR', OPTS_SHOT[0]),
+                                "light": a_row.get('LIGHTING', OPTS_LIGHT[0]),
+                                "arah": a_row.get('ARAH_KAMERA', OPTS_ARAH[0]),
+                                "cam": a_row.get('GERAKAN', OPTS_CAM[0]),
+                                "loc": a_row.get('LOKASI', '')
+                            }
+                            rangkuman_naskah += f"**Adegan {i}:** {a_row.get('NASKAH_VISUAL', '')}\n\n"
+                        
+                        # 4. Finalisasi
+                        st.session_state.naskah_siap_produksi = rangkuman_naskah
+                        st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                        catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                        
+                        st.toast("✅ Ide Berhasil Dipindahkan!", icon="🚀")
+                        time.sleep(1)
+                        st.rerun()
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
@@ -2210,4 +2217,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
