@@ -1696,52 +1696,42 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
+# --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
-            ada_kerja = False
+            # 1. Loop SEMUA staf dari data induk (df_staff), bukan cuma yang kerja
             for _, s in df_staff.iterrows():
-                n_up = str(s['NAMA']).upper()
+                n_up = str(s['NAMA']).upper().strip()
                 
-                # 1. Logika Bonus Absen & Hari Malas (Sinkron 100%)
-                b_absen_view = 0
-                hari_malas_view = 0
-                if n_up in rekap_harian_tim:
-                    for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3:
-                            b_absen_view += 30000
-                        elif jml <= 1:
-                            hari_malas_view += 1
-                
-                # 2. Logika Bonus Video (25rb mulai dari video ke-4 per hari)
-                b_video_view = 0
-                if n_up in rekap_harian_tim:
-                    for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 4:
-                            b_video_view += (jml - 3) * 25000
-                
-                # 3. Logika Potongan SP (Sesuai Aturan Hari Malas)
-                pot_sp_view = 0
-                if hari_malas_view >= 21:
-                    pot_sp_view = 1000000
-                elif hari_malas_view >= 14:
-                    pot_sp_view = 700000
-                elif hari_malas_view >= 7:
-                    pot_sp_view = 300000
+                # 2. Hitung Absen Hadir Asli (Berapa kali namanya ada di Sheet Absensi)
+                absen_hadir_asli = 0
+                if not df_absen.empty:
+                    # Filter data absen berdasarkan nama staf
+                    df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
+                    absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
+
+                # 3. Hitung Logika Performa (Bonus & Video)
+                # Inggi akan dapet 0 kalau videonya belum ada yang FINISH
+                b_video_view, b_absen_view, pot_sp_view, level_sp_view = hitung_logika_performa_dan_bonus(df_arsip, df_absen_staf if not df_absen.empty else pd.DataFrame())
                 
                 jml_v_total = rekap_total_video.get(n_up, 0)
 
-                if jml_v_total > 0 or b_absen_view > 0: 
-                    ada_kerja = True
-                    with st.container(border=True):
-                        c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{n_up}**"); c1.caption(f"💼 {s.get('JABATAN', 'Editor')}")
-                        c2.write(f"📅 {int(b_absen_view/30000)} Hari Cair")
-                        c3.write(f"🎬 {jml_v_total} Video")
-                        
-                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_final_{n_up}"):
-                            v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-                            v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-                            v_total = (v_gapok + v_tunj + b_absen_view + b_video_view) - pot_sp_view
+                # 4. TAMPILKAN SEMUA STAF (Tanpa Satpam 'if jml_v_total > 0')
+                with st.container(border=True):
+                    c1, c2, c3 = st.columns([2, 1, 1])
+                    c1.write(f"👤 **{n_up}**")
+                    c1.caption(f"💼 {s.get('JABATAN', 'Editor')} | Status: {level_sp_view}")
+                    
+                    # Tampilkan data kehadiran nyata vs hari yang cair bonusnya
+                    c2.write(f"📅 Hadir: {absen_hadir_asli} Hari")
+                    c2.caption(f"✨ Cair: {int(b_absen_view/30000)} Hari")
+                    
+                    c3.write(f"🎬 {jml_v_total} Video")
+                    
+                    # Tombol Slip tetap bisa dibuka buat ngecek rinciannya
+                    if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_final_{n_up}"):
+                        v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+                        v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                        v_total = (v_gapok + v_tunj + b_absen_view + b_video_view) - pot_sp_view
                             
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
@@ -2182,3 +2172,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
