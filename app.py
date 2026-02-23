@@ -991,10 +991,10 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
+    # Paksa semua data ke Upper & Clean
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
 
-    # Ambil info tanggal hari ini (WIB)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
@@ -1003,52 +1003,40 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     pot_sp = 0
     level_sp = "NORMAL"
 
-    # --- JIKA DATA KOSONG ---
     if df_arsip_user.empty:
-        # Jika sudah lewat tanggal 7 tapi video masih 0, kena SP 1
-        if sekarang.day >= 7:
-            return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
-        else:
-            return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
+        if sekarang.day >= 7: return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
+        else: return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
 
-    # 1. Normalisasi Tanggal Setoran
-    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
+    # 1. Hitung Rekap Setoran per Hari (Hanya yang status FINISH)
+    # Pastikan kolom WAKTU_KIRIM ada, jika tidak pakai DEADLINE sebagai cadangan
+    kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
+    
+    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user[kolom_tgl], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
     rekap_harian = df_arsip_user['Tgl_Setor'].value_counts().to_dict()
     total_video_bulan_ini = len(df_arsip_user)
     
-    # 2. Hitung Uang Absen (Cair jika setor min 3 video)
+    # 2. Logika Uang Absen 30rb (WAJIB: Tercatat Absen & Setor >= 3 Video)
     if not df_absen_user.empty:
-        for tgl_absen in df_absen_user['TANGGAL'].unique():
-            # Pastikan format tgl_absen sinkron dengan rekap_harian
-            tgl_key = str(tgl_absen).strip()
-            jml_video_hari_ini = rekap_harian.get(tgl_key, 0)
-            
-            if jml_video_hari_ini >= 3:
+        # Ambil daftar tanggal staf klik login/absen
+        tanggal_absen_masuk = df_absen_user['TANGGAL'].astype(str).unique()
+        for tgl in tanggal_absen_masuk:
+            if rekap_harian.get(tgl, 0) >= 3:
                 uang_absen_total += 30000
 
-    # 3. Hitung Bonus (Mulai video ke-4)
-    if total_video_bulan_ini >= 4:
-        bonus_video_total = (total_video_bulan_ini - 3) * 25000
+    # 3. Hitung Bonus Video (Dihitung per hari, bukan total bulanan agar adil)
+    # Aturan: Video ke-4, ke-5 dst di HARI YANG SAMA dapet 25rb
+    for tgl, jml in rekap_harian.items():
+        if jml >= 4:
+            bonus_video_total += (jml - 3) * 25000
 
-    # 4. Logika Penalti Mingguan (Dihitung dari hari dengan setoran <= 1 video)
-    # Ini menghitung berapa hari staf malas (setoran cuma 0 atau 1)
+    # 4. Hitung Hari Malas untuk SP
     hari_malas = [tgl for tgl, jml in rekap_harian.items() if jml <= 1]
     total_hari_malas = len(hari_malas)
 
-    # --- LOGIKA PROTEKSI & SP ---
-    if sekarang.day < 7:
-        level_sp = "NORMAL (MASA PENILAIAN)"
-        pot_sp = 0
-    else:
-        if total_hari_malas >= 21:
-            level_sp = "SP 3 (CUT OFF)"
-            pot_sp = 1000000
-        elif total_hari_malas >= 14:
-            level_sp = "SP 2 (PERINGATAN KERAS)"
-            pot_sp = 700000
-        elif total_hari_malas >= 7:
-            level_sp = "SP 1 (PERFORMA BURUK)"
-            pot_sp = 300000
+    if sekarang.day >= 7:
+        if total_hari_malas >= 21: level_sp, pot_sp = "SP 3 (CUT OFF)", 1000000
+        elif total_hari_malas >= 14: level_sp, pot_sp = "SP 2 (PERINGATAN KERAS)", 700000
+        elif total_hari_malas >= 7: level_sp, pot_sp = "SP 1 (PERFORMA BURUK)", 300000
         
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -2141,4 +2129,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
