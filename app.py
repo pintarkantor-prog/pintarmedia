@@ -1902,48 +1902,12 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # 1. INTEGRASI REFERENSI NASKAH (FIX 100% SINKRON)
+    # 1. INTEGRASI REFERENSI NASKAH (KLIMIS - TANPA TOMBOL TANAM)
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
         with st.expander("📖 NASKAH REFERENSI PINTAR AI LAB", expanded=True):
             st.markdown(st.session_state.naskah_siap_produksi)
             
-            # --- TOMBOL SAKTI: TANAM NASKAH (DENGAN LOGIKA PARSING) ---
-            if st.button("📥 TANAM NASKAH KE ADEGAN", use_container_width=True, type="primary"):
-                naskah_teks = st.session_state.naskah_siap_produksi
-                
-                # Pola 1: Mencari format "Adegan X: Isi Naskah"
-                pola_adegan = re.findall(r"(?:Adegan\s*\d+[:\s]*|\|)\s*(.*?)(?=\nAdegan|\n\||$)", naskah_teks, re.DOTALL)
-                
-                # Pola 2: Jika naskah berupa tabel Markdown (JUDUL | VISUAL | DIALOG...)
-                baris_tabel = [line for line in naskah_teks.split('\n') if '|' in line and '---' not in line]
-                
-                # Pilih sumber data (Tabel lebih diprioritaskan jika ada)
-                data_sumber = []
-                if len(baris_tabel) > 1: # Header biasanya baris 0
-                    for b in baris_tabel[1:]: # Mulai dari baris data
-                        kolom = [k.strip() for k in b.split('|')]
-                        if len(kolom) > 2:
-                            # Ambil kolom NASKAH_VISUAL (biasanya index 1 atau 2 tergantung AI-nya)
-                            data_sumber.append(kolom[1] if len(kolom[1]) > 5 else kolom[2])
-                else:
-                    data_sumber = pola_adegan
-
-                if data_sumber:
-                    # Tanam data ke session state adegan
-                    limit = min(len(data_sumber), st.session_state.data_produksi["jumlah_adegan"])
-                    for i in range(limit):
-                        idx = i + 1
-                        isi_bersih = data_sumber[i].strip()
-                        if idx in st.session_state.data_produksi["adegan"]:
-                            st.session_state.data_produksi["adegan"][idx]["aksi"] = isi_bersih
-                    
-                    st.toast(f"✅ {limit} Adegan berhasil ditanam!", icon="🚀")
-                    time.sleep(1)
-                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    st.rerun()
-                else:
-                    st.error("⚠️ Gagal membedah naskah. Pastikan formatnya benar (Adegan 1: ... atau Tabel).")
-
+            # Cukup tombol bersihkan saja, karena proses tanam sudah otomatis di Gudang Ide
             if st.button("🗑️ Bersihkan Naskah Referensi", use_container_width=True):
                 st.session_state.naskah_siap_produksi = ""
                 st.rerun()
@@ -2217,5 +2181,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
