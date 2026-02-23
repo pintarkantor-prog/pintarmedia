@@ -1342,11 +1342,11 @@ def tampilkan_tugas_kerja():
 
             #### ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
-            * *Setor 1 Video:* Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
-            * *Setor 2 Video:* Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
-            * *Setor 3 Video:* Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
-            * *Setor 4 Video:* Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
-            * *Setor 5 Video:* Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
+            * ***Setor 1 Video:*** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
+            * ***Setor 2 Video:*** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
+            * ***Setor 3 Video:*** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
+            * ***Setor 4 Video:*** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
+            * ***Setor 5 Video:*** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
 
             ---          
 
@@ -2094,6 +2094,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
