@@ -1329,43 +1329,70 @@ def tampilkan_tugas_kerja():
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            ### 📢 Aturan Main Pintar Media
+            ## 📢 Aturan Main Pintar Media
             
             Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
             
             * 🛡️ Masa Proteksi: Tanggal 1 sampai 6 tiap bulan aman dari potongan (Masa Penilaian).
-            * ⏰ Uang Absen (Rp 30.000): Bakal cair kalau kamu setor minimal 3 video di hari yang sama.
+            * ⏰ Bonus Absen (Rp 30.000): Bakal cair kalau kamu setor minimal 3 video di hari yang sama.
             * 🎬 Bonus Video: Mulai video ke-4 dan seterusnya di hari yang sama, kamu dapet tambahan +Rp 25.000/video.
-            * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Kalau numpuk sampai 7, 14, atau 21 hari bakal kena SP.
+            * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Jika akumulasi mencapai 7, 14, atau 21 hari, maka akan dikenakan SP 1, SP 2, atau SP 3.
             
             ---
-            
-            ### 🧮 Cara Hitung Gaji Kamu:
-            
-            Sistem bakal otomatis ngitung gaji kamu pake rumus ini:
-            
-            [ Gaji Pokok ] + [ Total Uang Absen ] (Jumlah hari tembus min. 3 video x 30rb)  
-            + [ Total Bonus Video ] (Akumulasi bonus dari video ke-4 dst setiap harinya x 25rb)  
-            - [ Potongan SP ] (Jika performa buruk/malas)  
-            = 💰 TOTAL GAJI BERSIH
-            
-            ---
-            
-            ### ⚠️ CATATAN PENTING (WAJIB TAHU):
-            
-            Semua hitungan di atas (Uang Absen & Bonus) hanya berlaku jika video sudah berstatus "FINISH". 
-            
-            Artinya:
-            1. Video sudah kamu setor.
-            2. Sudah melalui proses Review/QC oleh Admin.
-            3. Jika ada revisi, wajib diperbaiki sampai Admin mengubah statusnya menjadi FINISH. 
-            
-            Video yang masih berstatus PROSES, WAITING QC, atau REVISI tidak akan dihitung masuk ke dalam bonus maupun syarat uang absen harian.
-            
-            ---
-            *Yuk, pastikan editannya rapi biar sekali setor langsung FINISH! Semangat!* 🚀
-            """)
 
+            ## ❓ Gimana Kalau Hasil Per Hari Beda-beda?
+            
+            * **Setor 1 Video:** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
+            * **Setor 2 Video:** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
+            * **Setor 3 Video:** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
+            * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
+            * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
+            
+            ---
+
+            ## 🧮 Rumus Gaji:
+            [ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH
+
+            ---
+
+            ## 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
+            *Gaji Pokok Rp 2.000.000*
+
+            **1. Simulasi Super Rajin (5 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: 50 video x 25rb = Rp 1.250.000
+            * **Total Gaji: Rp 4.000.000**
+
+            **2. Simulasi Rajin (4 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: 25 video x 25rb = Rp 625.000
+            * **Total Gaji: Rp 3.375.000**
+
+            **3. Simulasi Target (3 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: Rp 0
+            * **Total Gaji: Rp 2.750.000**
+
+            **4. Simulasi Pas-pasan (2 Video/Hari)**
+            * Bonus Absen: Rp 0
+            * Bonus Video: Rp 0
+            * **Total Gaji: Rp 2.000.000** (Hanya Gaji Pokok)
+
+            **5. Simulasi Malas (1 Video/Hari)**
+            * Bonus Absen: Rp 0
+            * Bonus Video: Rp 0
+            * Potongan: Dikenakan SP 1 = Rp 300.000 | SP 2 = Rp 700.000 | SP 3 = Rp 1.000.000 + CUT OFF
+            * **Total Gaji: Terpotong sesuai ketentuan SP** *(Misal SP 1: Gaji Pokok + Bonus - 300.000)*
+
+            ---
+
+            ## ⚠️ CATATAN PENTING:
+            Semua hitungan hanya berlaku jika video sudah berstatus "FINISH" (Lolos QC Admin). Video berstatus PROSES, WAITING QC, atau REVISI tidak masuk hitungan harian.
+            
+            ---
+            *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
+            """)
+    
         # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
         st.divider()
         if pot_sp > 0:
@@ -1484,7 +1511,7 @@ def tampilkan_kendali_tim():
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
-    # --- LOGIKA HITUNG KEUANGAN (SINKRON DENGAN ATURAN BARU) ---
+        # --- LOGIKA HITUNG KEUANGAN (SINKRON DENGAN ATURAN BARU) ---
         df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
         
         # Rekap Video per Nama per Tanggal (untuk hitung uang absen)
@@ -2067,6 +2094,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
