@@ -1566,7 +1566,7 @@ def tampilkan_kendali_tim():
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
-for _, s in df_staff.iterrows():
+                for _, s in df_staff.iterrows():
                     n_up = str(s['NAMA']).upper().strip()
                     
                     # --- LOGIKA SINKRON AGAR TIDAK TEKOR ---
@@ -2178,6 +2178,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
