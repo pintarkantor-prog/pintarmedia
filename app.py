@@ -1313,7 +1313,7 @@ def tampilkan_tugas_kerja():
                 
                 st.dataframe(df_arsip[kolom_ada], hide_index=True, use_container_width=True)
             else: 
-                st.write("Belum ada riwayat.")write("Belum ada riwayat.")
+                st.write("Belum ada riwayat.")
                 
     # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2033,5 +2033,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
