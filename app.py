@@ -1569,12 +1569,11 @@ def tampilkan_kendali_tim():
                 for _, s in df_staff.iterrows():
                     n_up = str(s['NAMA']).upper().strip()
                     
-                    # --- LOGIKA SINKRON AGAR TIDAK TEKOR ---
+                    # LOGIKA SINKRON: Inggi dapet Rp 0 kalau Video 0
                     b_absen_view = 0
                     hari_malas_view = 0
                     b_video_view = 0
                     
-                    # Ambil performa dari rekap harian yang sudah dihitung di atas
                     if n_up in rekap_harian_tim:
                         for tgl, jml in rekap_harian_tim[n_up].items():
                             if jml >= 3:
@@ -1585,7 +1584,6 @@ def tampilkan_kendali_tim():
                             if jml >= 4:
                                 b_video_view += (jml - 3) * 25000
                     
-                    # Hitung Potongan SP sesuai hari malas
                     pot_sp_view = 0
                     if hari_malas_view >= 21: pot_sp_view = 1000000
                     elif hari_malas_view >= 14: pot_sp_view = 700000
@@ -1593,15 +1591,14 @@ def tampilkan_kendali_tim():
                     
                     level_sp_view = "NORMAL"
                     if pot_sp_view > 0: level_sp_view = f"SP ({hari_malas_view} Hari Malas)"
-                    # ---------------------------------------
 
                     jml_v_total = rekap_total_video.get(n_up, 0)
                     
-                    # Hadir asli cuma buat perbandingan di Dashboard
+                    # HITUNG HADIR ASLI (Tanpa kurung double di ujung)
                     absen_hadir_asli = 0
                     if not df_absen.empty:
                         df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
-                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique()))
+                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
 
         # Update tampilan metrik
         st.subheader("💰 LAPORAN KEUANGAN")
@@ -2178,6 +2175,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
