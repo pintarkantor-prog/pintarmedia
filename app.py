@@ -1329,7 +1329,7 @@ def tampilkan_tugas_kerja():
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            # 📢 Aturan Main Pintar Media
+            #### 📢 Aturan Main Pintar Media
             
             Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
             
@@ -1338,7 +1338,6 @@ def tampilkan_tugas_kerja():
             * 🎬 Bonus Video: Mulai video ke-4 dan seterusnya di hari yang sama, kamu dapet tambahan +Rp 25.000/video.
             * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Jika akumulasi mencapai 7, 14, atau 21 hari, maka akan dikenakan SP 1, SP 2, atau SP 3.
             
-            --
 
             # ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
@@ -2094,6 +2093,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
