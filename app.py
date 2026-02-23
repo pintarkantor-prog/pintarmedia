@@ -1444,7 +1444,7 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (VERSI FULL: BONUS HARIAN + PERINGATAN + FOOTER) ---
+# --- TAMPILAN 6: SLIP GAJI (VERSI FIX INDENTASI) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
@@ -1464,21 +1464,18 @@ def tampilkan_kendali_tim():
                     v_gapok = int(s['GAJI_POKOK'])
                     v_tunjangan = int(s['TUNJANGAN'])
                     v_bonus_hadir = ha * 50000
-                    # Rumus gaji: Pokok + Tunjangan + Absen + Bonus Harian (>2)
                     v_total = v_gapok + v_tunjangan + v_bonus_hadir + bonus_video_v
                     
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        
-                        # Label Nama: Jadi merah jika performa 3 hari rendah
                         status_nama = f"🔴 {n_up} (PERFORMA RENDAH)" if is_bermasalah else f"👤 **{n_up}**"
                         c1.write(status_nama)
                         c1.caption(f"💼 {s['JABATAN']}")
                         c2.write(f"📅 {ha} Hadir")
                         c3.write(f"🎬 {vi} Video")
                         
-if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
-                            # --- RAKIT SLIP HTML (VERSI BERSIH & SINKRON) ---
+                        # PERHATIKAN BARIS DI BAWAH INI (Harus sejajar di dalam with st.container)
+                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid {'#ff4b4b' if is_bermasalah else '#1d976c'}; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1500,9 +1497,7 @@ if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                         <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
-
                                 {'<div style="margin-top: 15px; text-align: center; font-size: 10px; color: #ff4b4b; font-weight: bold; border: 1px solid #ff4b4b; padding: 5px; border-radius: 5px;">⚠️ PERFORMA 3 HARI TERAKHIR RENDAH!</div>' if is_bermasalah else ''}
-
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
@@ -1921,6 +1916,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
