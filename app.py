@@ -1329,7 +1329,7 @@ def tampilkan_tugas_kerja():
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            ## 📢 Aturan Main Pintar Media
+            # 📢 Aturan Main Pintar Media
             
             Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
             
@@ -1338,9 +1338,9 @@ def tampilkan_tugas_kerja():
             * 🎬 Bonus Video: Mulai video ke-4 dan seterusnya di hari yang sama, kamu dapet tambahan +Rp 25.000/video.
             * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Jika akumulasi mencapai 7, 14, atau 21 hari, maka akan dikenakan SP 1, SP 2, atau SP 3.
             
-            ---
+            --
 
-            ## ❓ Gimana Kalau Hasil Per Hari Beda-beda?
+            # ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
             * **Setor 1 Video:** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
             * **Setor 2 Video:** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
@@ -1348,14 +1348,14 @@ def tampilkan_tugas_kerja():
             * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
             * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
             
-            ---
+            --
 
-            ## 🧮 Rumus Gaji:
+            # 🧮 Rumus Gaji:
             [ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH
 
-            ---
+            --
 
-            ## 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
+            # 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
             *Gaji Pokok Rp 2.000.000*
 
             **1. Simulasi Super Rajin (5 Video/Hari)**
@@ -1384,12 +1384,12 @@ def tampilkan_tugas_kerja():
             * Potongan: Dikenakan SP 1 = Rp 300.000 | SP 2 = Rp 700.000 | SP 3 = Rp 1.000.000 + CUT OFF
             * **Total Gaji: Terpotong sesuai ketentuan SP** *(Misal SP 1: Gaji Pokok + Bonus - 300.000)*
 
-            ---
+            --
 
-            ## ⚠️ CATATAN PENTING:
+            # ⚠️ CATATAN PENTING:
             Semua hitungan hanya berlaku jika video sudah berstatus "FINISH" (Lolos QC Admin). Video berstatus PROSES, WAITING QC, atau REVISI tidak masuk hitungan harian.
             
-            ---
+            --
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
@@ -2094,6 +2094,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
