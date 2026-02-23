@@ -1774,8 +1774,8 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
 
-        # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
-        with st.expander("🔐 DATABASE AKUN AI", expanded=False):
+    # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
+    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             # 1. AMBIL DATA
             ws_akun = sh.worksheet("Akun_AI")
@@ -1823,10 +1823,8 @@ def tampilkan_kendali_tim():
                     with st.container(border=True):
                         col1, col2 = st.columns([2.5, 1.5])
                         with col1:
-                            # Sisi Kiri: Nama AI, Email, dan Password sejajar
                             st.write(f"**{row['AI']}** — `{row['EMAIL']}` — Pass: `{row['PASSWORD']}`")
                         with col2:
-                            # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
                             st.write(f"**{label}** — `{row['EXPIRED'].strftime('%d %b %Y')}`")
             else:
                 st.caption("Belum ada data akun.")
@@ -2180,6 +2178,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
