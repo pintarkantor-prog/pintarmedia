@@ -1291,40 +1291,44 @@ def tampilkan_tugas_kerja():
             st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
 
 
-        # D. --- SLIP GAJI (DI DALAM EXPANDER) ---
-        with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
-            try:
-                # Ambil Data Pokok Staff
-                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
-                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
-                
-                # Kalkulasi Akhir
-                total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
-                
-                st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
-                
-                col_m1, col_m2, col_m3 = st.columns(3)
-                col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
-                col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
-                col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
-
-                if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
-                    pesan_wa = (
-                        f"🧧 *KONFIRMASI GAJI*\n\n"
-                        f"👤 *Nama:* {user_sekarang.upper()}\n"
-                        f"💰 *Total:* Rp {total_gaji:,}\n"
-                        f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
-                        f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
-                        f"⚠️ *Status:* {level_sp}\n\n"
-                        f"_Data telah terekam otomatis di sistem._ ✅"
-                    )
-                    kirim_notif_wa(pesan_wa)
-                    st.success("Konfirmasi Berhasil dikirim ke pusat!")
+# D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
+        if sekarang.day >= 28:
+            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
+                try:
+                    # Ambil Data Pokok Staff
+                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
+                    gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
+                    tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
                     
-            except Exception as e: 
-                st.warning(f"Gagal memproses rincian slip: {e}")
+                    # Kalkulasi Akhir
+                    total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
+                    
+                    st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+                    
+                    col_m1, col_m2, col_m3 = st.columns(3)
+                    col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                    col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
+                    col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
+
+                    if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                        catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
+                        pesan_wa = (
+                            f"🧧 *KONFIRMASI GAJI*\n\n"
+                            f"👤 *Nama:* {user_sekarang.upper()}\n"
+                            f"💰 *Total:* Rp {total_gaji:,}\n"
+                            f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
+                            f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
+                            f"⚠️ *Status:* {level_sp}\n\n"
+                            f"_Data telah terekam otomatis di sistem._ ✅"
+                        )
+                        kirim_notif_wa(pesan_wa)
+                        st.success("Konfirmasi Berhasil dikirim ke pusat!")
+                        
+                except Exception as e: 
+                    st.warning(f"Gagal memproses rincian slip: {e}")
+        else:
+            # Notif ini muncul jika belum tanggal 28, tapi Radar Performa (Poin C) tetap terlihat di atasnya.
+            st.info(f"🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 (Sisa {28 - sekarang.day} hari lagi).")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1975,6 +1979,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
