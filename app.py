@@ -1057,7 +1057,7 @@ def tampilkan_tugas_kerja():
 
         # Tampilkan Peringatan di atas dashboard jika performa rendah (kecuali Dian/Tamu)
         if is_low and user_sekarang not in ["dian", "tamu"]:
-            st.error(f"⚠️ **PERINGATAN PERFORMA {user_sekarang.upper()}!** Dalam 3 hari terakhir setoran video kamu rendah (<= 1 video/hari). Yuk semangat lagi agar target tercapai!")
+            st.error(f"⚠️ **PERINGATAN PERFORMA {user_sekarang.upper()}!** Dalam 3 hari terakhir setoran video kamu rendah (kurang dari 2 video/hari). Yuk semangat lagi agar target tercapai!")
 
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
@@ -1916,6 +1916,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
