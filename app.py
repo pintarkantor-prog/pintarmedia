@@ -1008,9 +1008,10 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     # --- A. HITUNG UANG ABSEN DARI DATA GSHEET ABSENSI ---
     # Ini kuncinya biar Inggi ngga 0 lagi
     if not df_absen_user.empty:
-        # Hitung berapa hari unik staf hadir di kolom TANGGAL
+        # Bersihkan spasi di kolom NAMA dan TANGGAL sebelum dihitung
+        df_absen_user['NAMA'] = df_absen_user['NAMA'].astype(str).str.strip()
         total_hari_hadir = len(df_absen_user['TANGGAL'].unique())
-        uang_absen_total = total_hari_hadir * 30000 
+        uang_absen_total = total_hari_hadir * 30000
     else:
         uang_absen_total = 0
 
@@ -1537,8 +1538,10 @@ def tampilkan_kendali_tim():
         def saring_tgl(df, kolom, bln, thn):
             if df.empty or kolom.upper() not in df.columns: 
                 return pd.DataFrame()
-            # Paksa baca tanggal tanpa dayfirst agar format YYYY-MM-DD aman
+            # Gunakan errors='coerce' dan pastikan konversi ke format YYYY-MM-DD
             df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], errors='coerce')
+            # Buang data yang gagal dikonversi (NaT)
+            df = df.dropna(subset=['TGL_TEMP'])
             mask = (df['TGL_TEMP'].dt.month == bln) & (df['TGL_TEMP'].dt.year == thn)
             return df[mask].copy()
     
@@ -2179,6 +2182,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
