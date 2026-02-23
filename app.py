@@ -359,7 +359,7 @@ def muat_dari_gsheet():
                 st.session_state.form_version = 0
             st.session_state.form_version += 1
             
-            st.success(f"🔄 Naskah {user_sekarang} Berhasil Dipulihkan!")
+            st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
             st.rerun()
         else:
             st.warning("⚠️ Data tidak ditemukan di Cloud.")
@@ -1324,7 +1324,7 @@ def tampilkan_tugas_kerja():
             df_absen_user = pd.DataFrame()
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+        b_video, b_absen, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
 
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
@@ -1408,41 +1408,68 @@ def tampilkan_tugas_kerja():
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 28:
-            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
+            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**", expanded=True):
                 try:
-                    # Ambil Data Pokok Staff
-                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                    gapok = int(row_s['GAJI_POKOK'].values[0]) if not row_s.empty else 0
-                    tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+                    # 1. Ambil Data Gaji Pokok dari GSheet (Sheet Staff)
+                    # Pastikan nama kolom di GSheet adalah 'Nama' dan 'GAJI_POKOK'
+                    row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang.lower()]
                     
-                    # Kalkulasi Akhir
-                    total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
+                    if not row_s.empty:
+                        gapok = int(row_s['GAJI_POKOK'].values[0])
+                    else:
+                        gapok = 2000000  # Default jika data tidak ditemukan
                     
-                    st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+                    # 2. Kalkulasi Total Akhir
+                    total_gaji = (gapok + b_video + b_absen) - pot_sp
                     
+                    st.markdown(f"### 📄 Rincian Slip Gaji: {sekarang.strftime('%B %Y')}")
+                    st.caption(f"Nama Staf: {user_sekarang.upper()}")
+                    
+                    # 3. Tampilan Metric (Ringkasan Cepat)
                     col_m1, col_m2, col_m3 = st.columns(3)
-                    col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
-                    col_m2.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari")
-                    col_m3.metric("BONUS (4+)", f"Rp {b_video:,}")
+                    col_m1.metric("GAJI BERSIH", f"Rp {total_gaji:,}")
+                    col_m2.metric("BONUS ABSEN", f"Rp {b_absen:,}")
+                    col_m3.metric("BONUS VIDEO", f"Rp {b_video:,}")
 
-                    if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                        catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
+                    st.divider()
+
+                    # 4. Tabel Rincian Detail
+                    data_rincian = {
+                        "Deskripsi": ["Gaji Pokok", "Total Bonus Absen", "Total Bonus Video", "Potongan Penalti (SP)"],
+                        "Jumlah": [
+                            f"Rp {gapok:,}",
+                            f"Rp {b_absen:,}",
+                            f"Rp {b_video:,}",
+                            f"- Rp {pot_sp:,}" if pot_sp > 0 else "Rp 0"
+                        ]
+                    }
+                    df_rincian = pd.DataFrame(data_rincian)
+                    st.table(df_rincian)
+
+                    # 5. Tombol Konfirmasi Final
+                    if st.button("🧧 KONFIRMASI & TERIMA GAJI", use_container_width=True):
+                        # Catat ke Log Aktivitas
+                        catat_log(f"Klaim Gaji: Rp {total_gaji:,} (SP: {level_sp})")
+                        
+                        # Kirim Laporan ke WA Grup
                         pesan_wa = (
-                            f"🧧 *KONFIRMASI GAJI*\n\n"
-                            f"👤 *Nama:* {user_sekarang.upper()}\n"
-                            f"💰 *Total:* Rp {total_gaji:,}\n"
-                            f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
-                            f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
-                            f"⚠️ *Status:* {level_sp}\n\n"
-                            f"_Data telah terekam otomatis di sistem._ ✅"
+                            f"🧧 *KONFIRMASI PENERIMAAN GAJI*\n\n"
+                            f"👤 *Nama Staf:* {user_sekarang.upper()}\n"
+                            f"💰 *Total Gaji:* Rp {total_gaji:,}\n"
+                            f"--- \n"
+                            f"📅 *Bonus Absen:* Rp {b_absen:,} ({int(b_absen/30000)} hari tembus)\n"
+                            f"🎬 *Bonus Video:* Rp {b_video:,}\n"
+                            f"⚠️ *Status Akhir:* {level_sp}\n\n"
+                            f"_Laporan otomatis sistem Pintar Media._ ✅"
                         )
                         kirim_notif_wa(pesan_wa)
-                        st.success("Konfirmasi Berhasil dikirim ke pusat!")
+                        st.success("✅ Konfirmasi gaji berhasil dikirim ke Admin!")
+                        st.balloons()
                         
                 except Exception as e: 
-                    st.warning(f"Gagal memproses rincian slip: {e}")
+                    st.error(f"❌ Gagal memproses rincian slip: {e}")
         else:
-            # Notif ini muncul jika belum tanggal 28, tapi Radar Performa (Poin C) tetap terlihat di atasnya.
+            # Tampilan jika belum tanggal 28
             st.info(f"🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 (Sisa {28 - sekarang.day} hari lagi).")
                 
 def tampilkan_kendali_tim():
@@ -1528,28 +1555,47 @@ def tampilkan_kendali_tim():
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
+        # --- LOGIKA HITUNG KEUANGAN (SINKRON TOTAL) ---
         total_pengeluaran_gaji = 0
         for _, s in df_staff.iterrows():
             n_up = str(s['NAMA']).upper()
             
-            # 1. Hitung Uang Absen (30rb jika hari itu setor >= 3 video)
-            uang_absen_staff = 0
+            # 1. Hitung Bonus Absen (30rb jika hari itu setor >= 3 video)
+            b_absen_admin = 0
+            hari_malas_admin = 0
+            
             if n_up in rekap_harian_tim:
                 for tgl, jml in rekap_harian_tim[n_up].items():
                     if jml >= 3:
-                        uang_absen_staff += 30000
+                        b_absen_admin += 30000
+                    elif jml <= 1:
+                        hari_malas_admin += 1
             
-            # 2. Hitung Bonus Video (25rb per video mulai dari ke-4)
-            jml_v = rekap_total_video.get(n_up, 0)
-            bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
+            # 2. Hitung Bonus Video (25rb mulai dari video ke-4 per hari)
+            # Di sini kita hitung akumulasi bonus video harian
+            b_video_admin = 0
+            if n_up in rekap_harian_tim:
+                for tgl, jml in rekap_harian_tim[n_up].items():
+                    if jml >= 4:
+                        b_video_admin += (jml - 3) * 25000
+
+            # 3. Logika Potongan SP (Sesuai Aturan Hari Malas)
+            pot_sp_admin = 0
+            # Proteksi: Anggap admin melihat setelah lewat masa proteksi (tgl 7+)
+            if hari_malas_admin >= 21:
+                pot_sp_admin = 1000000
+            elif hari_malas_admin >= 14:
+                pot_sp_admin = 700000
+            elif hari_malas_admin >= 7:
+                pot_sp_admin = 300000
             
-            # 3. Hitung Potongan SP (Estimasi SP 1: 300rb jika video < 10 dalam sebulan)
-            # Catatan: Ini simulasi admin, SP sebenarnya dihitung real-time di dashboard staff
-            pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+            # 4. Ambil Gaji Pokok & Tunjangan (Nihilkan tunjangan jika memang kosong)
+            v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+            v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
             
-            # Kalkulasi Gaji per Orang untuk laporan kas
-            gaji_orang_ini = (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + uang_absen_staff + bonus_v) - pot_sp_admin
-            total_pengeluaran_gaji += max(0, gaji_orang_ini) # Pastikan tidak minus di laporan kas
+            # Kalkulasi Gaji per Orang (Sinkron dengan Slip Gaji Staf)
+            gaji_orang_ini = (v_gapok + v_tunj + b_absen_admin + b_video_admin) - pot_sp_admin
+            total_pengeluaran_gaji += max(0, gaji_orang_ini)
 
         # Update tampilan metrik
         st.subheader("💰 LAPORAN KEUANGAN")
@@ -1621,38 +1667,52 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL - TANPA HAPUS FOOTER) ---
+        # --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
                 
-                # 1. Logika Uang Absen (30rb jika hari itu setor >= 3 video)
-                uang_absen_staff = 0
+                # 1. Logika Bonus Absen & Hari Malas (Sinkron 100%)
+                b_absen_view = 0
+                hari_malas_view = 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
                         if jml >= 3:
-                            uang_absen_staff += 30000
+                            b_absen_view += 30000
+                        elif jml <= 1:
+                            hari_malas_view += 1
                 
-                # 2. Logika Bonus Video (25rb mulai dari video ke-4)
-                jml_v = rekap_total_video.get(n_up, 0)
-                bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
+                # 2. Logika Bonus Video (25rb mulai dari video ke-4 per hari)
+                b_video_view = 0
+                if n_up in rekap_harian_tim:
+                    for tgl, jml in rekap_harian_tim[n_up].items():
+                        if jml >= 4:
+                            b_video_view += (jml - 3) * 25000
                 
-                # 3. Logika Potongan SP (Estimasi SP 1: 300rb jika video < 10)
-                pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+                # 3. Logika Potongan SP (Sesuai Aturan Hari Malas)
+                pot_sp_view = 0
+                if hari_malas_view >= 21:
+                    pot_sp_view = 1000000
+                elif hari_malas_view >= 14:
+                    pot_sp_view = 700000
+                elif hari_malas_view >= 7:
+                    pot_sp_view = 300000
                 
-                if jml_v > 0 or uang_absen_staff > 0: 
+                jml_v_total = rekap_total_video.get(n_up, 0)
+
+                if jml_v_total > 0 or b_absen_view > 0: 
                     ada_kerja = True
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{n_up}**"); c1.caption(f"💼 {s['JABATAN']}")
-                        c2.write(f"📅 {int(uang_absen_staff/30000)} Hari Cair")
-                        c3.write(f"🎬 {jml_v} Video")
+                        c1.write(f"👤 **{n_up}**"); c1.caption(f"💼 {s.get('JABATAN', 'Editor')}")
+                        c2.write(f"📅 {int(b_absen_view/30000)} Hari Cair")
+                        c3.write(f"🎬 {jml_v_total} Video")
                         
-                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
+                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_final_{n_up}"):
                             v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-                            v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-                            v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v) - pot_sp_admin
+                            v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                            v_total = (v_gapok + v_tunj + b_absen_view + b_video_view) - pot_sp_view
                             
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
@@ -1667,23 +1727,20 @@ def tampilkan_kendali_tim():
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v:,}</td></tr>
-                                    <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
+                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {b_absen_view:,}</td></tr>
+                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_video_view:,}</td></tr>
+                                    <tr style="color: #ff4b4b;"><td>Potongan SP ({hari_malas_view} Hari Malas)</td><td align="right">- Rp {pot_sp_view:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
+                                        <td>TOTAL TRANSFER</td><td align="right">Rp {max(0, v_total):,}</td></tr>
                                 </table>
-                                
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
-                                    <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
                                     <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
                                 </div>
                             </div>
                             """
-                            st.components.v1.html(slip_html, height=500)
+                            st.components.v1.html(slip_html, height=520)
             
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
@@ -2094,6 +2151,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
