@@ -1773,9 +1773,9 @@ def tampilkan_kendali_tim():
 
             except Exception as e:
                 st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
-        
-    # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
-    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
+
+        # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
+        with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             # 1. AMBIL DATA
             ws_akun = sh.worksheet("Akun_AI")
@@ -2180,6 +2180,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
