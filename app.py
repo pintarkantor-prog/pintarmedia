@@ -10,15 +10,14 @@ from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 def bersihkan_data(df):
-    """Fungsi sakral agar gajian tidak eror: Paksa Header & Data jadi UPPERCASE"""
     if df.empty: return df
-    # 1. Header jadi huruf besar semua (NAMA, STATUS, TANGGAL)
+    # Header jadi UPPERCASE
     df.columns = [str(c).strip().upper() for c in df.columns]
-    # 2. Isi kolom penting jadi huruf besar semua
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME']
-    for col in kolom_krusial:
-        if col in df.columns:
-            df[col] = df[col].astype(str).str.strip().str.upper()
+    # Isi kolom krusial jadi UPPERCASE
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE']
+    for col in df.columns:
+        if col in kolom_krusial:
+            df[col] = df[col].astype(str).str.strip().upper()
     return df
 
 # ==============================================================================
@@ -999,45 +998,41 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
-    # Paksa semua data ke Upper & Clean agar tidak ada mismatch
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
-
-    tz_wib = pytz.timezone('Asia/Jakarta')
-    sekarang = datetime.now(tz_wib)
+    
+    # Pastikan kolom tanggal absen berformat YYYY-MM-DD
+    df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.strftime('%Y-%m-%d')
+    
+    # Ambil kolom tanggal kirim/deadline dan standarisasi
+    kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
+    df_arsip_user['TGL_SIMPLE'] = pd.to_datetime(df_arsip_user[kolom_tgl], errors='coerce').dt.date.astype(str)
+    df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date.astype(str)
+    
+    # Hitung video FINISH per hari
+    rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
     
     uang_absen_total = 0
     bonus_video_total = 0
     
-    # 1. Hitung Rekap Harian (Hanya status FINISH)
-    # Gunakan 'WAKTU_KIRIM' sesuai kolom GSheet kamu
-    kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
-    df_arsip_user['Tgl_Only'] = pd.to_datetime(df_arsip_user[kolom_tgl], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
-    rekap_harian = df_arsip_user['Tgl_Only'].value_counts().to_dict()
-    
-    # 2. Logika Uang Absen & Bonus Harian
-    if not df_absen_user.empty:
-        tanggal_hadir = df_absen_user['TANGGAL'].astype(str).unique()
-        for tgl in tanggal_hadir:
-            jml_v = rekap_harian.get(tgl, 0)
-            if jml_v >= 3: uang_absen_total += 30000 
-            if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000 
+    # Cek tiap tanggal kehadiran
+    for tgl in df_absen_user['TANGGAL'].dropna().unique():
+        jml_v = rekap_harian.get(tgl, 0)
+        if jml_v >= 3: uang_absen_total += 30000 
+        if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000 
 
-    # 3. LOGIKA POTONGAN SP (LOCK TOTAL)
-    total_v_bulan = len(df_arsip_user)
-    if sekarang.day <= 6: 
-        pot_sp = 0
-        level_sp = "NORMAL (MASA PENILAIAN)"
+    # Logika SP
+    total_v_bulan = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
+    hari_ini = datetime.now(pytz.timezone('Asia/Jakarta')).day
+    
+    if hari_ini <= 6:
+        pot_sp, level_sp = 0, "NORMAL (PROTEKSI)"
+    elif total_v_bulan >= 15:
+        pot_sp, level_sp = 0, "NORMAL"
+    elif 10 <= total_v_bulan < 15:
+        pot_sp, level_sp = 300000, "SP 1"
     else:
-        if total_v_bulan >= 15:
-            pot_sp = 0
-            level_sp = "NORMAL"
-        elif 10 <= total_v_bulan < 15:
-            pot_sp = 300000
-            level_sp = "SP 1 (KURANG PRODUKTIF)"
-        else: # < 10 Video
-            pot_sp = 700000
-            level_sp = "SP 2 (PERINGATAN KERAS)"
+        pot_sp, level_sp = 700000, "SP 2"
             
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -1309,7 +1304,7 @@ def tampilkan_tugas_kerja():
             data_absensi = sheet_absensi.get_all_records()
             df_absensi = pd.DataFrame(data_absensi)
             if not df_absensi.empty:
-                mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper())
+                mask_ab = (df_absensi['NAMA'].astype(str).str.upper() == user_sekarang.upper())
                 df_absen_user = df_absensi[mask_ab].copy()
             else:
                 df_absen_user = pd.DataFrame()
@@ -1496,6 +1491,7 @@ def tampilkan_kendali_tim():
             return df
 
         df_staff = ambil_data("Staff")
+        df_staff = bersihkan_data(df_staff)
         df_absen = ambil_data("Absensi")
         df_kas = ambil_data("Arus_Kas")
         ws_tugas = sh.worksheet("Tugas")
@@ -1563,7 +1559,7 @@ def tampilkan_kendali_tim():
                 p_sp = 700000
             
             # 3. Hitung Gaji Bersih
-            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or s.get('GAJI POKOK', 0))
             t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
             bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
             total_pengeluaran_gaji += max(0, bersih_orang)
@@ -2172,6 +2168,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
