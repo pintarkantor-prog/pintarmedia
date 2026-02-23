@@ -1060,6 +1060,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
+    st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba dulu hehe ")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1604,14 +1605,27 @@ def tampilkan_kendali_tim():
             
             # 2. LOGIKA SP (WAJIB SAMA DENGAN STAFF)
             tot_v = rekap_total_video.get(n_up, 0)
-            if sekarang.day <= 6:
+            p_sp = 0
+            
+            # CEK APAKAH BULAN YANG DIPILIH SUDAH LEWAT/SEDANG BERJALAN?
+            # Jika bulan dipilih adalah bulan depan, p_sp harus tetap 0.
+            if tahun_dipilih < sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih < sekarang.month):
+                # LOGIKA UNTUK BULAN YANG SUDAH SELESAI (Arsip)
+                if tot_v >= 15: p_sp = 0
+                elif 10 <= tot_v < 15: p_sp = 300000
+                else: p_sp = 700000
+            
+            elif tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
+                # LOGIKA UNTUK BULAN YANG SEDANG BERJALAN
+                if sekarang.day <= 6:
+                    p_sp = 0 # Masa Proteksi
+                else:
+                    if tot_v >= 15: p_sp = 0
+                    elif 10 <= tot_v < 15: p_sp = 300000
+                    else: p_sp = 700000
+            else:
+                # UNTUK BULAN DEPAN (Data masih 0)
                 p_sp = 0
-            elif tot_v >= 15:
-                p_sp = 0
-            elif 10 <= tot_v < 15:
-                p_sp = 300000
-            else: # 0-9 Video
-                p_sp = 700000
             
             # 3. Hitung Gaji Bersih
             g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or s.get('GAJI POKOK', 0))
@@ -2223,6 +2237,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
