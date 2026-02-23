@@ -1650,12 +1650,7 @@ def tampilkan_kendali_tim():
         saldo_bersih = inc - (total_pengeluaran_gaji + ops)
         
         # Tampilkan bersih dengan warna otomatis
-        m3.metric(
-            label="💎 BERSIH", 
-            value=f"Rp {saldo_bersih:,}",
-            delta=f"Rp {saldo_bersih:,}",
-            delta_color="normal" if saldo_bersih >= 0 else "inverse"
-        ),}")
+        m3.metric("💎 BERSIH", f"Rp {inc - (total_pengeluaran_gaji + ops):,}")
 
         # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=False):
@@ -2254,6 +2249,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
