@@ -215,7 +215,7 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-# INISIALISASI MASTER DATA (VERSI CLEAN)
+    # INISIALISASI MASTER DATA (VERSI CLEAN)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
@@ -234,18 +234,17 @@ def inisialisasi_keamanan():
             "form_version": 0
         }
 
-    # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
     params = st.query_params
     if "auth" in params and params["auth"] == "true":
         if not st.session_state.sudah_login:
             st.session_state.sudah_login = True
-            st.session_state.user_aktif = params.get("user", "User")
+            st.session_state.user_aktif = params.get("user", "User").lower()
             st.session_state.waktu_login = datetime.now()
 
 def proses_login(user, pwd):
     if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
         st.session_state.sudah_login = True
-        st.session_state.user_aktif = user
+        st.session_state.user_aktif = user.lower()
         st.session_state.waktu_login = datetime.now()
         
         # AKTIVASI ABSEN
@@ -288,21 +287,20 @@ def proses_logout():
     st.query_params.clear()
     st.rerun()
 
-# FUNGSI BACKUP (Fokus GSheet lewat Secrets)
+# FUNGSI BACKUP (SINKRON UPPERCASE)
 def simpan_ke_gsheet():
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        # Pakai st.secrets (tidak pakai file kunci.json)
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # --- PERBAIKAN: SET ZONA WAKTU KE WIB (GMT+7) ---
         tz_wib = pytz.timezone('Asia/Jakarta')
         waktu = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
         
+        # PENTING: Paksa User jadi UPPER agar sinkron dengan Restore
         user = st.session_state.get("user_aktif", "STAFF").upper()
         data_json = json.dumps(st.session_state.data_produksi)
         
@@ -311,6 +309,7 @@ def simpan_ke_gsheet():
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
+# FUNGSI RESTORE (SINKRON HEADER & USER)
 def muat_dari_gsheet():
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -320,7 +319,7 @@ def muat_dari_gsheet():
         url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
         sheet = client.open_by_url(url_gsheet).sheet1
         
-        # 1. Ambil data dan bersihkan lewat helper
+        # 1. Ambil data dan paksa UPPERCASE lewat bersihkan_data
         semua_data = sheet.get_all_records()
         df_temp = pd.DataFrame(semua_data)
         df_temp = bersihkan_data(df_temp) 
@@ -328,45 +327,46 @@ def muat_dari_gsheet():
         # 2. Ambil username aktif dan paksa ke UPPERCASE
         user_up = st.session_state.get("user_aktif", "").upper()
         
-        # Tambahkan pembersihan spasi agar tidak meleset saat pencarian
-        df_temp['USERNAME'] = df_temp['USERNAME'].astype(str).str.strip().str.upper()
+        # 3. Bersihkan kolom USERNAME agar pencarian akurat
+        if 'USERNAME' in df_temp.columns:
+            df_temp['USERNAME'] = df_temp['USERNAME'].astype(str).str.strip().str.upper()
         
-        user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
-        # 3. Cari baris di df_temp (bukan semua_data) pada kolom USERNAME
-        # Karena bersihkan_data sudah mengubah header menjadi UPPERCASE
         user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
         
         if user_rows:
-            # Ambil data JSON mentah
-            naskah_mentah = user_rows[-1]['Data_Naskah']
-            data_termuat = json.loads(naskah_mentah)
+            # PENTING: Cari kolom naskah secara fleksibel (karena bersihkan_data merubah ke UPPER)
+            target_col = 'DATA_NASKAH' if 'DATA_NASKAH' in user_rows[-1] else 'Data_Naskah'
+            naskah_mentah = user_rows[-1].get(target_col)
             
-            # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
-            if "adegan" in data_termuat:
-                adegan_baru = {}
-                for k, v in data_termuat["adegan"].items():
-                    # Hapus sampah data lama agar tidak memenuhi memori
-                    v.pop("ekspresi", None)
-                    v.pop("cuaca", None)
-                    v.pop("vibe", None)
-                    v.pop("ratio", None)
-                    
-                    # Paksa kunci kembali jadi angka agar loop Streamlit tidak error
-                    adegan_baru[int(k)] = v 
-                data_termuat["adegan"] = adegan_baru
-            
-            # Masukkan ke laci utama
-            st.session_state.data_produksi = data_termuat
-            
-            # Update versi form agar layar dipaksa gambar ulang
-            if 'form_version' not in st.session_state:
-                st.session_state.form_version = 0
-            st.session_state.form_version += 1
-            
-            st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
-            st.rerun()
+            if naskah_mentah:
+                data_termuat = json.loads(naskah_mentah)
+                
+                # --- PROSES PERBAIKAN STRUKTUR (VERSI KLIMIS) ---
+                if "adegan" in data_termuat:
+                    adegan_baru = {}
+                    for k, v in data_termuat["adegan"].items():
+                        # Buang sampah & Bersihkan spasi dropdown (Agar Bug UI Poin 3 hilang)
+                        for field in ["style", "shot", "light", "arah", "cam"]:
+                            if field in v:
+                                v[field] = str(v[field]).strip()
+                        
+                        v.pop("ekspresi", None)
+                        v.pop("cuaca", None)
+                        v.pop("vibe", None)
+                        v.pop("ratio", None)
+                        
+                        adegan_baru[int(k)] = v 
+                    data_termuat["adegan"] = adegan_baru
+                
+                st.session_state.data_produksi = data_termuat
+                st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                
+                st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
+                st.rerun()
+            else:
+                st.error("⚠️ Kolom data naskah tidak ditemukan!")
         else:
-            st.warning("⚠️ Data tidak ditemukan di Cloud.")
+            st.warning(f"⚠️ Data untuk {user_up} tidak ditemukan di Cloud.")
     except Exception as e:
         st.error(f"Gagal memuat: {e}")
         
@@ -2167,6 +2167,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
