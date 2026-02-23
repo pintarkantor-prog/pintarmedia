@@ -1351,6 +1351,7 @@ def tampilkan_tugas_kerja():
             #### 🧮 Rumus Gaji:
             [ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH
 
+            ---
 
             #### 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
             *Gaji Pokok Rp 2.000.000*
@@ -1381,12 +1382,12 @@ def tampilkan_tugas_kerja():
             * Potongan: Dikenakan SP 1 = Rp 300.000 | SP 2 = Rp 700.000 | SP 3 = Rp 1.000.000 + CUT OFF
             * **Total Gaji: Terpotong sesuai ketentuan SP** *(Misal SP 1: Gaji Pokok + Bonus - 300.000)*
 
-            --
+            ---
 
             #### ⚠️ CATATAN PENTING:
             Semua hitungan hanya berlaku jika video sudah berstatus "FINISH" (Lolos QC Admin). Video berstatus PROSES, WAITING QC, atau REVISI tidak masuk hitungan harian.
             
-            --
+            ---
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
@@ -2091,6 +2092,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
