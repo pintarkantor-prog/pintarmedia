@@ -1083,7 +1083,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
-### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
+    ### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
     st.subheader("📦 GUDANG IDE PINTAR")
     try:
         data_gudang = sheet_gudang.get_all_records()
@@ -1230,15 +1230,17 @@ def tampilkan_tugas_kerja():
 
     # --- 4. LACI ARSIP ---
     st.divider()
+    df_arsip = pd.DataFrame()
     with st.expander("📜 Riwayat Tugas Selesai"):
         if not df_all_tugas.empty:
             mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
             if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
             df_arsip = df_all_tugas[mask_s].copy()
-            if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
+            if not df_arsip.empty: 
+                st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True, use_container_width=True)
             else: st.write("Belum ada riwayat.")
-# --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
+    # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
@@ -1916,4 +1918,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
