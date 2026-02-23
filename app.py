@@ -1009,37 +1009,36 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
 
     # --- JIKA DATA KOSONG ---
     if df_arsip_user.empty:
-        # Jika sudah lewat tanggal 7 tapi video masih 0, kena SP 1
         if sekarang.day >= 7:
             return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
         else:
             return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
 
     # 1. Normalisasi Tanggal Setoran
-    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
+    # Gunakan 'WAKTU_KIRIM' atau 'TANGGAL' sesuai kolom di sheet Tugas
+    # Kita pastikan formatnya YYYY-MM-DD untuk key rekap
+    df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['WAKTU_KIRIM'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
     rekap_harian = df_arsip_user['Tgl_Setor'].value_counts().to_dict()
-    total_video_bulan_ini = len(df_arsip_user)
     
-    # 2. Hitung Uang Absen (Cair jika setor min 3 video)
-    if not df_absen_user.empty:
-        for tgl_absen in df_absen_user['TANGGAL'].unique():
-            # Pastikan format tgl_absen sinkron dengan rekap_harian
-            tgl_key = str(tgl_absen).strip()
-            jml_video_hari_ini = rekap_harian.get(tgl_key, 0)
+    # 2. Hitung Uang Absen & Bonus Video SECARA HARIAN (SINKRON ADMIN)
+    total_hari_malas = 0
+    
+    # Loop melalui setiap hari yang ada setoran videonya
+    for tgl, jml in rekap_harian.items():
+        # A. Cek Uang Absen (Min 3 Video/Hari)
+        if jml >= 3:
+            uang_absen_total += 30000
+        
+        # B. Cek Bonus Video (Mulai Video ke-4 per hari)
+        # Contoh: Setor 5 video -> Bonus = (5-3) * 25rb = 50rb
+        if jml >= 4:
+            bonus_video_total += (jml - 3) * 25000
             
-            if jml_video_hari_ini >= 3:
-                uang_absen_total += 30000
+        # C. Cek Hari Malas (Hanya setor 0 atau 1 video)
+        if jml <= 1:
+            total_hari_malas += 1
 
-    # 3. Hitung Bonus (Mulai video ke-4)
-    if total_video_bulan_ini >= 4:
-        bonus_video_total = (total_video_bulan_ini - 3) * 25000
-
-    # 4. Logika Penalti Mingguan (Dihitung dari hari dengan setoran <= 1 video)
-    # Ini menghitung berapa hari staf malas (setoran cuma 0 atau 1)
-    hari_malas = [tgl for tgl, jml in rekap_harian.items() if jml <= 1]
-    total_hari_malas = len(hari_malas)
-
-    # --- LOGIKA PROTEKSI & SP ---
+    # 3. Logika Proteksi & SP (Berdasarkan akumulasi hari malas)
     if sekarang.day < 7:
         level_sp = "NORMAL (MASA PENILAIAN)"
         pot_sp = 0
@@ -1333,7 +1332,7 @@ def tampilkan_tugas_kerja():
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            #### 📢 Aturan Main Pintar Media
+            #### 📢 Aturan Main Pintar Media ( Berlaku per 1 Maret 2026 )
             
             Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
             
@@ -1616,41 +1615,59 @@ def tampilkan_kendali_tim():
                 f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
                 f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
                 f_ket = st.text_input("Keterangan:")
+                
                 if st.form_submit_button("Simpan Transaksi"):
-                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
+                    # AMBIL USER AKTIF (Dian atau Admin lain yang login)
+                    pencatat = st.session_state.get("user_aktif", "UNKNOWN").upper()
+                    
+                    # Simpan ke GSheet dengan nama pencatat yang dinamis
+                    sh.worksheet("Arus_Kas").append_row([
+                        sekarang.strftime('%Y-%m-%d'), 
+                        f_tipe, 
+                        f_kat, 
+                        int(f_nom), 
+                        f_ket, 
+                        pencatat # <--- Ganti "Dian" jadi variabel pencatat
+                    ])
+                    
+                    st.success(f"Tersimpan oleh {pencatat}!"); time.sleep(1); st.rerun()
 
         st.divider()
 
-        # --- TAMPILAN 3: RUANG QC (VERSI EXPANDER) ---
+        # --- TAMPILAN 3: RUANG QC (VERSI AMAN & CEPAT) ---
         with st.expander("🔍 RUANG PEMERIKSAAN (QC)", expanded=False):
-            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
+            # 1. Ambil data mentah dengan index agar tahu nomor baris asli
+            # Header di baris 1, data mulai baris 2. Jadi index df + 2 = baris GSheet.
+            df_qc_raw = df_tugas.copy()
+            df_qc_raw['BARIS_GSHEET'] = df_qc_raw.index + 2 
+            
+            df_qc = df_qc_raw[df_qc_raw['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
             
             if not df_qc.empty:
                 for i, r in df_qc.iterrows():
                     t_id_qc = str(r.get('ID', ''))
+                    no_baris = int(r.get('BARIS_GSHEET')) # Alamat langsung ke GSheet
                     
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([3, 1, 1])
                         c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
                         c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
                         
-                        if t_id_qc:
-                            if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
-                                cell = ws_tugas.find(t_id_qc)
-                                if cell:
-                                    ws_tugas.update_cell(cell.row, 5, "FINISH")
-                                    st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
-                                    time.sleep(1)
-                                    st.rerun()
+                        # Tombol ACC - Langsung tembak nomor baris
+                        if c2.button("✅ ACC", key=f"acc_safe_{t_id_qc}", use_container_width=True):
+                            # Update kolom 5 (Status) di baris spesifik
+                            ws_tugas.update_cell(no_baris, 5, "FINISH")
+                            st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
+                            time.sleep(0.5)
+                            st.rerun()
                             
-                            if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
-                                cell = ws_tugas.find(t_id_qc)
-                                if cell:
-                                    ws_tugas.update_cell(cell.row, 5, "REVISI")
-                                    st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
-                                    time.sleep(1)
-                                    st.rerun()
+                        # Tombol REV - Langsung tembak nomor baris
+                        if c3.button("❌ REV", key=f"rev_safe_{t_id_qc}", use_container_width=True):
+                            # Update kolom 5 (Status) di baris spesifik
+                            ws_tugas.update_cell(no_baris, 5, "REVISI")
+                            st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
+                            time.sleep(0.5)
+                            st.rerun()
             else:
                 st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
 
@@ -2167,20 +2184,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
