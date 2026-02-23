@@ -1326,13 +1326,44 @@ def tampilkan_tugas_kerja():
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
         b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
 
-        with st.expander("ℹ️ LIHAT ATURAN GAJI & SP"):
+        # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
+        with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
             st.markdown("""
-            **LOGIKA FINAL PINTAR MEDIA (SINKRON):**
-            1. **Masa Proteksi:** Tanggal 1-6 status "MASA PENILAIAN" (Potongan 0).
-            2. **Uang Absen 30rb:** Setor MIN 3 video (Finish) hari itu.
-            3. **Bonus Video:** Mulai video ke-4 (+25rb/video).
-            4. **Penalti SP:** Jika hari malas (setor <= 1 video) mencapai 7, 14, 21 hari.
+            ### 📢 Aturan Main Pintar Media
+            
+            Biar gajian kamu lancar dan nggak bingung, perhatikan poin-poin di bawah ini:
+            
+            * 🛡️ Masa Proteksi: Tanggal 1 sampai 6 tiap bulan aman dari potongan (Masa Penilaian).
+            * ⏰ Uang Absen (Rp 30.000): Bakal cair kalau kamu setor minimal 3 video di hari yang sama.
+            * 🎬 Bonus Video: Mulai video ke-4 dan seterusnya di hari yang sama, kamu dapet tambahan +Rp 25.000/video.
+            * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Kalau numpuk sampai 7, 14, atau 21 hari bakal kena SP.
+            
+            ---
+            
+            ### 🧮 Cara Hitung Gaji Kamu:
+            
+            Sistem bakal otomatis ngitung gaji kamu pake rumus ini:
+            
+            [ Gaji Pokok ] + [ Total Uang Absen ] (Jumlah hari tembus min. 3 video x 30rb)  
+            + [ Total Bonus Video ] (Akumulasi bonus dari video ke-4 dst setiap harinya x 25rb)  
+            - [ Potongan SP ] (Jika performa buruk/malas)  
+            = 💰 TOTAL GAJI BERSIH
+            
+            ---
+            
+            ### ⚠️ CATATAN PENTING (WAJIB TAHU):
+            
+            Semua hitungan di atas (Uang Absen & Bonus) hanya berlaku jika video sudah berstatus "FINISH". 
+            
+            Artinya:
+            1. Video sudah kamu setor.
+            2. Sudah melalui proses Review/QC oleh Admin.
+            3. Jika ada revisi, wajib diperbaiki sampai Admin mengubah statusnya menjadi FINISH. 
+            
+            Video yang masih berstatus PROSES, WAITING QC, atau REVISI tidak akan dihitung masuk ke dalam bonus maupun syarat uang absen harian.
+            
+            ---
+            *Yuk, pastikan editannya rapi biar sekali setor langsung FINISH! Semangat!* 🚀
             """)
 
         # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
@@ -2036,6 +2067,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
