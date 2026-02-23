@@ -967,39 +967,67 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_target):
-    """Fungsi menghitung bonus >2 video/hari & peringatan 3 hari rendah"""
-    bonus_total = 0
-    status_peringatan = False
+    """
+    LOGIKA SAKTI PINTAR MEDIA:
+    - Gaji Pokok: 2.000.000
+    - Uang Absen: 30.000 (Syarat: Minimal 2 video FINISH di tanggal tersebut)
+    - Bonus: Video ke-4 dst (+25.000)
+    - SP & Potongan: Berdasarkan streak setoran <= 1 video
+    """
+    total_bonus_video = 0
+    total_uang_absen = 0
+    potongan_sp = 0
+    status_sp = "NORMAL"
     
     if df_target.empty:
-        return 0, True # Peringatan aktif jika tidak ada aktivitas sama sekali
+        return 0, 0, 0, "BELUM ADA AKTIVASI"
 
     try:
-        # 1. Pastikan kolom Deadline jadi format tanggal
-        df_target['Tgl_Hanya'] = pd.to_datetime(df_target['Deadline'], errors='coerce').dt.date
+        # 1. Normalisasi Tanggal Setor (Gunakan Waktu_Kirim sebagai acuan hari kerja)
+        # Kita ambil tanggal saja dari kolom 'Waktu_Kirim' (Format: 23/02/2026 22:15)
+        df_target['Tgl_Setor'] = pd.to_datetime(df_target['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.date
         
-        # 2. Logika Bonus: Per hari hitung jumlah video finish
-        rekap_harian = df_target.groupby('Tgl_Hanya').size()
-        for tanggal, jumlah in rekap_harian.items():
-            if jumlah > 2:
-                bonus_total += (jumlah - 2) * 25000 # Bonus 25rb per video ke-3 dst
+        # 2. Hitung Produktivitas Per Hari
+        rekap_harian = df_target.groupby('Tgl_Setor').size()
         
-        # 3. Logika Peringatan: Cek 3 hari terakhir (H, H-1, H-2)
-        hari_ini = pd.Timestamp.now().date()
-        tiga_hari_terakhir = [hari_ini - pd.Timedelta(days=i) for i in range(3)]
-        
-        cek_rendah = []
-        for tgl in tiga_hari_terakhir:
-            jml = rekap_harian.get(tgl, 0)
-            cek_rendah.append(True if jml <= 1 else False)
-        
-        # Jika semua (3 hari) bernilai True (<= 1 video), maka peringatan aktif
-        if all(cek_rendah):
-            status_peringatan = True
+        # Hitung Uang Absen & Bonus Video
+        for tgl, jml in rekap_harian.items():
+            if jml >= 2:
+                total_uang_absen += 30000 # Cair jika minimal 2 video finish
             
-        return bonus_total, status_peringatan
+            if jml >= 4:
+                total_bonus_video += (jml - 3) * 25000 # Video ke-4, 5, dst dapat 25rb
+
+        # 3. Logika STREAK untuk SP (Mengecek urutan hari secara mundur)
+        # Kita urutkan tanggal unik untuk melihat streak
+        tanggal_unik = sorted(rekap_harian.index.tolist(), reverse=True)
+        
+        streak_buruk = 0
+        for tgl in tanggal_unik:
+            if rekap_harian[tgl] <= 1:
+                streak_buruk += 1
+            else:
+                break # Streak terputus karena performa membaik
+
+        # 4. Tentukan Level SP & Potongan
+        if streak_buruk >= 21:
+            status_sp = "SP 3 - PECAT"
+            potongan_sp = 1000000
+        elif streak_buruk >= 14:
+            status_sp = "SP 2"
+            potongan_sp = 700000
+        elif streak_buruk >= 7:
+            status_sp = "SP 1"
+            potongan_sp = 300000
+        elif streak_buruk >= 3:
+            status_sp = "NOTIF: PERFORMA RENDAH"
+        
+        # Logika Pemulihan (Jika 3 hari terakhir >= 2 video, SP dianggap Reset dalam tampilan)
+        # (Status ini bisa kamu sesuaikan jika ingin lebih ketat)
+
+        return total_bonus_video, total_uang_absen, potongan_sp, status_sp
     except:
-        return 0, False
+        return 0, 0, 0, "ERROR LOGIC"
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
@@ -1259,39 +1287,31 @@ def tampilkan_tugas_kerja():
             df_arsip = df_all_tugas[mask_s].copy()
             if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
             else: st.write("Belum ada riwayat.")
-    # --- 5. GAJIAN ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 25:
+                
+    # --- 5. GAJIAN (SLIP DIGITAL) ---
+    if user_sekarang not in ["dian", "tamu"]:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
-                # Hitung kehadiran dari sheet absensi
-                data_absensi = sheet_absensi.get_all_records()
-                df_absensi = pd.DataFrame(data_absensi)
-                if not df_absensi.empty:
-                    df_absensi['Tgl_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
-                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & (df_absensi['Tgl_DT'].dt.month == sekarang.month)
-                    jml_hadir = len(df_absensi[mask_ab])
-                else: 
-                    jml_hadir = 0
+                gapok = 2000000 
+                total_terima = gapok + uang_hadir + bonus_v - pot_sp
                 
-                # Ambil data finansial staff
-                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
-                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+                st.write(f"### Slip Gaji Digital: {user_sekarang.upper()}")
+                if pot_sp > 0:
+                    st.error(f"⚠️ STATUS: {level_sp} | Potongan: -Rp {pot_sp:,}")
                 
-                # RUMUS BARU: Menggunakan bonus_v dari mesin logika di atas
-                total_gaji = gapok + tunjangan + bonus_v + (jml_hadir * 50000)
-                
-                st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
-                st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
-                st.caption(f"ℹ️ Bonus Video Harian (>2 video/hari): Rp {bonus_v:,}")
-                
+                col_g1, col_g2 = st.columns(2)
+                col_g1.metric("GAJI POKOK", f"Rp {gapok:,}")
+                col_g1.metric("UANG ABSEN (Min 2 Vid)", f"Rp {uang_hadir:,}")
+                col_g2.metric("BONUS PRODUKSI", f"Rp {bonus_v:,}")
+                col_g2.metric("TOTAL DITERIMA", f"Rp {total_terima:,}")
+
                 if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,}")
-                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Bonus Video:* Rp {bonus_v:,}\n\n_Data telah terekam secara otomatis._ ✅")
-                    st.success("Konfirmasi Berhasil!")
-            except: 
-                st.warning("Sedang memproses data gaji...")
+                    catat_log(f"Konfirmasi Gaji: Rp {total_terima} ({level_sp})")
+                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_terima:,}\n✅ Data terekam.")
+                    st.success("Berhasil dikonfirmasi!")
+            except:
+                st.warning("Kalkulasi gaji...")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1444,7 +1464,7 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-# --- TAMPILAN 6: SLIP GAJI (VERSI FIX INDENTASI) ---
+        # --- TAMPILAN 6: SLIP GAJI (VERSI FIX INDENTASI) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
@@ -1800,7 +1820,7 @@ def tampilkan_ruang_produksi():
                         on_change=simpan_ke_memori
                     )
 
-# --- 4. GLOBAL COMPILER LOGIC ---
+    # --- 4. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1916,3 +1936,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
