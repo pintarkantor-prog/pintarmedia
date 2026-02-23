@@ -1337,7 +1337,8 @@ def tampilkan_tugas_kerja():
             * ⏰ Bonus Absen (Rp 30.000): Bakal cair kalau kamu setor minimal 3 video di hari yang sama.
             * 🎬 Bonus Video: Mulai video ke-4 dan seterusnya di hari yang sama, kamu dapet tambahan +Rp 25.000/video.
             * ⚠️ Penalti SP: Setor <= 1 video sehari dihitung "Hari Malas". Jika akumulasi mencapai 7, 14, atau 21 hari, maka akan dikenakan SP 1, SP 2, atau SP 3.
-            
+
+            ---
 
             #### ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
@@ -1346,7 +1347,8 @@ def tampilkan_tugas_kerja():
             * **Setor 3 Video:** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
             * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
             * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
-            
+
+            ---          
 
             #### 🧮 Rumus Gaji:
             [ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH
@@ -2092,6 +2094,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
