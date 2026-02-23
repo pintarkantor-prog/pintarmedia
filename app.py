@@ -303,9 +303,11 @@ def simpan_ke_gsheet():
         tz_wib = pytz.timezone('Asia/Jakarta')
         waktu = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
         
-        user = st.session_state.get("user_aktif", "Staff")
+        # PERBAIKAN: Paksa nama user jadi huruf BESAR
+        user = st.session_state.get("user_aktif", "STAFF").upper() 
         data_json = json.dumps(st.session_state.data_produksi)
         
+        # Urutan kolom: USERNAME, WAKTU, DATA_NASKAH
         sheet.append_row([user, waktu, data_json])
         st.toast("🚀 Berhasil disimpan ke Cloud!", icon="☁️")
     except Exception as e:
@@ -1200,7 +1202,7 @@ def tampilkan_tugas_kerja():
                     t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_m = datetime.now(tz_wib).strftime("%Y-%m-%d")
                     waktu_m = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M")
-                    sheet_tugas.append_row([t_id_m, user_sekarang, tgl_m, judul_m, "WAITING QC", waktu_m, link_m, ""])
+                    sheet_tugas.append_row([t_id_m, user_sekarang.upper(), tgl_m, judul_m, "WAITING QC", waktu_m, link_m, ""])
                     catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
                     kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}\n🔗 *Link:* {link_m}")
                     st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
@@ -1530,28 +1532,29 @@ def tampilkan_kendali_tim():
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
+        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).upper()
+            n_up = str(s['NAMA']).upper().strip()
             
-            # 1. Hitung Uang Absen (30rb jika hari itu setor >= 3 video)
-            uang_absen_staff = 0
+            # Hitung variabel harian
+            u_absen = 0
+            b_lembur = 0
             if n_up in rekap_harian_tim:
                 for tgl, jml in rekap_harian_tim[n_up].items():
-                    if jml >= 3:
-                        uang_absen_staff += 30000
+                    if jml >= 3: u_absen += 30000
+                    if jml >= 4: b_lembur += (jml - 3) * 25000
             
-            # 2. Hitung Bonus Video (25rb per video mulai dari ke-4)
-            jml_v = rekap_total_video.get(n_up, 0)
-            bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
+            # Hitung SP Bulanan
+            tot_v = rekap_total_video.get(n_up, 0)
+            p_sp = 700000 if 0 < tot_v < 10 else (300000 if 10 <= tot_v < 15 else 0)
             
-            # 3. Hitung Potongan SP (Estimasi SP 1: 300rb jika video < 10 dalam sebulan)
-            # Catatan: Ini simulasi admin, SP sebenarnya dihitung real-time di dashboard staff
-            pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+            t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
             
-            # Kalkulasi Gaji per Orang untuk laporan kas
-            gaji_orang_ini = (int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + uang_absen_staff + bonus_v) - pot_sp_admin
-            total_pengeluaran_gaji += max(0, gaji_orang_ini) # Pastikan tidak minus di laporan kas
+            # Gaji bersih orang ini
+            bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
+            total_pengeluaran_gaji += max(0, bersih_orang)
 
         # Update tampilan metrik
         st.subheader("💰 LAPORAN KEUANGAN")
@@ -1670,25 +1673,36 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-        # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL - TANPA HAPUS FOOTER) ---
+        # --- TAMPILAN 6: SLIP GAJI (VERSI SINKRON TOTAL) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
-                n_up = str(s['NAMA']).upper()
+                n_up = str(s['NAMA']).upper().strip()
                 
-                # 1. Logika Uang Absen (30rb jika hari itu setor >= 3 video)
+                # 1. Hitung Uang Absen & Bonus Video Harian (LOGIKA SINKRON)
                 uang_absen_staff = 0
+                bonus_v_harian = 0
+                
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
+                        # Uang Absen 30rb (Jika setor minimal 3 video hari itu)
                         if jml >= 3:
                             uang_absen_staff += 30000
-                
-                # 2. Logika Bonus Video (25rb mulai dari video ke-4)
+                        
+                        # Bonus Lembur 25rb (Untuk video ke-4, ke-5, dst per hari)
+                        if jml >= 4:
+                            bonus_v_harian += (jml - 3) * 25000
+
+                # 2. Hitung Potongan SP (Berdasarkan Total Video Bulanan)
                 jml_v = rekap_total_video.get(n_up, 0)
-                bonus_v = (jml_v - 3) * 25000 if jml_v >= 4 else 0
                 
-                # 3. Logika Potongan SP (Estimasi SP 1: 300rb jika video < 10)
-                pot_sp_admin = 300000 if jml_v < 10 and jml_v > 0 else 0
+                # Aturan: Aman jika >= 15 video, SP1 jika 10-14, SP2/3 jika < 10
+                if jml_v >= 15 or jml_v == 0: 
+                    pot_sp_admin = 0
+                elif 10 <= jml_v < 15:
+                    pot_sp_admin = 300000
+                else:
+                    pot_sp_admin = 700000
                 
                 if jml_v > 0 or uang_absen_staff > 0: 
                     ada_kerja = True
@@ -1701,7 +1715,8 @@ def tampilkan_kendali_tim():
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
                             v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                             v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-                            v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v) - pot_sp_admin
+                            # Gunakan bonus_v_harian yang sudah dihitung per hari tadi
+                            v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
                             
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
@@ -2143,6 +2158,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
