@@ -1392,7 +1392,7 @@ def tampilkan_tugas_kerja():
             st.write(f"Sistem mendeteksi setoran video kamu di bawah standar (≤ 1 video/hari).")
             # Baris denda sudah dihapus dari sini sesuai permintaanmu
             if level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (Pecat)!")
+                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (CUT OFF)!")
         else:             
             st.info("🌟 **STATUS PERFORMA: TERJAGA**")
             st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
@@ -2163,6 +2163,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
