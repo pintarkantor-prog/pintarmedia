@@ -966,69 +966,6 @@ def kirim_notif_wa(pesan):
     except:
         pass
 
-def hitung_logika_performa_dan_bonus(df_target):
-    """
-    LOGIKA SAKTI PINTAR MEDIA:
-    - Gaji Pokok: 2.000.000
-    - Uang Absen: 30.000 (Syarat: Minimal 2 video FINISH di tanggal tersebut)
-    - Bonus: Video ke-4 dst (+25.000)
-    - SP & Potongan: Berdasarkan streak setoran <= 1 video
-    """
-    total_bonus_video = 0
-    total_uang_absen = 0
-    potongan_sp = 0
-    status_sp = "NORMAL"
-    
-    if df_target.empty:
-        return 0, 0, 0, "BELUM ADA AKTIVASI"
-
-    try:
-        # 1. Normalisasi Tanggal Setor (Gunakan Waktu_Kirim sebagai acuan hari kerja)
-        # Kita ambil tanggal saja dari kolom 'Waktu_Kirim' (Format: 23/02/2026 22:15)
-        df_target['Tgl_Setor'] = pd.to_datetime(df_target['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.date
-        
-        # 2. Hitung Produktivitas Per Hari
-        rekap_harian = df_target.groupby('Tgl_Setor').size()
-        
-        # Hitung Uang Absen & Bonus Video
-        for tgl, jml in rekap_harian.items():
-            if jml >= 2:
-                total_uang_absen += 30000 # Cair jika minimal 2 video finish
-            
-            if jml >= 4:
-                total_bonus_video += (jml - 3) * 25000 # Video ke-4, 5, dst dapat 25rb
-
-        # 3. Logika STREAK untuk SP (Mengecek urutan hari secara mundur)
-        # Kita urutkan tanggal unik untuk melihat streak
-        tanggal_unik = sorted(rekap_harian.index.tolist(), reverse=True)
-        
-        streak_buruk = 0
-        for tgl in tanggal_unik:
-            if rekap_harian[tgl] <= 1:
-                streak_buruk += 1
-            else:
-                break # Streak terputus karena performa membaik
-
-        # 4. Tentukan Level SP & Potongan
-        if streak_buruk >= 21:
-            status_sp = "SP 3 - PECAT"
-            potongan_sp = 1000000
-        elif streak_buruk >= 14:
-            status_sp = "SP 2"
-            potongan_sp = 700000
-        elif streak_buruk >= 7:
-            status_sp = "SP 1"
-            potongan_sp = 300000
-        elif streak_buruk >= 3:
-            status_sp = "NOTIF: PERFORMA RENDAH"
-        
-        # Logika Pemulihan (Jika 3 hari terakhir >= 2 video, SP dianggap Reset dalam tampilan)
-        # (Status ini bisa kamu sesuaikan jika ingin lebih ketat)
-
-        return total_bonus_video, total_uang_absen, potongan_sp, status_sp
-    except:
-        return 0, 0, 0, "ERROR LOGIC"
-
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
@@ -1049,11 +986,15 @@ def tampilkan_tugas_kerja():
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
+        
+        # Buka file utama
         sh = client.open_by_url(url_gsheet) 
         
+        # Hubungkan ke semua sheet
         sheet_tugas = sh.worksheet("Tugas")
         sheet_log = sh.worksheet("Log_Aktivitas")
         sheet_staff = sh.worksheet("Staff")
+        sheet_absensi = sh.worksheet("Absensi")
         sheet_gudang = sh.worksheet("Gudang_Ide") 
         
         data_tugas = sheet_tugas.get_all_records()
@@ -1069,20 +1010,6 @@ def tampilkan_tugas_kerja():
             waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
             sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
 
-        # --- FIX VARIABEL GAJI (SINKRON 4 NILAI) ---
-        mask_arsip_user = (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang) & \
-                          (df_all_tugas['Status'].astype(str).str.upper() == "FINISH") & \
-                          (df_all_tugas['Deadline_DT'].dt.month == sekarang.month)
-        
-        df_arsip_user = df_all_tugas[mask_arsip_user].copy()
-        
-        # SINKRONISASI DISINI: Harus 4 variabel
-        bonus_v, uang_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip_user)
-
-        # Tampilkan Peringatan jika performa rendah
-        if "PERFORMA RENDAH" in str(level_sp) and user_sekarang not in ["dian", "tamu"]:
-            st.error(f"⚠️ **PERINGATAN PERFORMA {user_sekarang.upper()}!** Dalam 3 hari terakhir setoran video kamu rendah (kurang dari 2 video/hari).")
-
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
@@ -1092,6 +1019,7 @@ def tampilkan_tugas_kerja():
         mask_l = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                  (df_all_tugas['Deadline_DT'].dt.year == sekarang.year) & \
                  (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+        
         df_finish_l = df_all_tugas[mask_l].copy()
         if not df_finish_l.empty:
             skor = df_finish_l['Staf'].astype(str).str.strip().str.upper().value_counts().reset_index()
@@ -1111,9 +1039,11 @@ def tampilkan_tugas_kerja():
     if user_sekarang == "dian":
         with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
-            isi_tugas = c2.text_area("Instruksi Tugas", height=150)
-            staf_tujuan = c1.selectbox("Pilih Editor", staf_options)
-            pake_wa = c1.checkbox("Kirim Notif WA?", value=True) 
+            with c2:
+                isi_tugas = st.text_area("Instruksi Tugas", height=150)
+            with c1:
+                staf_tujuan = st.selectbox("Pilih Editor", staf_options)
+                pake_wa = st.checkbox("Kirim Notif WA?", value=True) 
 
             if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
                 if isi_tugas:
@@ -1122,104 +1052,192 @@ def tampilkan_tugas_kerja():
                     sheet_tugas.append_row([t_id, staf_tujuan, tgl_deploy, isi_tugas, "PROSES", "-", "", ""])
                     catat_log(f"Kirim Tugas Baru {t_id} ke {staf_tujuan}")
                     if pake_wa:
-                        kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}")
+                        kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
-    # --- 3. GUDANG BLUEPRINT (SINKRON DENGAN PRODUKSI) ---
+### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
     st.subheader("📦 GUDANG IDE PINTAR")
     try:
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
+        
         if not df_gudang.empty:
+            # 1. Pastikan list judul unik dan tersedia
             list_judul = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA']['JUDUL'].unique().tolist()
             pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
 
+            # 2. LOGIKA INI HANYA JALAN JIKA JUDUL SUDAH DIPILIH
             if pilihan_judul != "-- Pilih Judul Cerita --":
-                row_g = df_gudang[df_gudang['JUDUL'] == pilihan_judul].iloc[0]
-                st.success(f"Kamu memilih: **{row_g['JUDUL']}**")
-                if st.button(f"🚀 AMBIL IDE: {row_g['ID_IDE']}", use_container_width=True):
-                    cells = sheet_gudang.findall(str(row_g['ID_IDE']))
+                # Definisi 'row' dilakukan di sini agar aman
+                row = df_gudang[df_gudang['JUDUL'] == pilihan_judul].iloc[0]
+                
+                st.success(f"Kamu memilih: **{row['JUDUL']}**")
+                
+                # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
+                if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
+                    # --- Logika Proses Ambil Data ---
+                    cells = sheet_gudang.findall(str(row['ID_IDE']))
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row_g['ID_IDE']]
+                    
+                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                    rangkuman = f"### 🎬 ALUR CERITA: {row_g['JUDUL']}\n\n"
+                    
+                    # Rakit naskah referensi agar muncul di paling atas Ruang Produksi
+                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
+                    
                     for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                         st.session_state.data_produksi["adegan"][i] = {
-                            "aksi": a_row['NASKAH_VISUAL'], "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'], "light": a_row['LIGHTING'],
-                            "arah": a_row['ARAH_KAMERA'], "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
+                            "aksi": a_row['NASKAH_VISUAL'],
+                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                            "style": a_row['STYLE'],
+                            "shot": a_row['UKURAN_GAMBAR'],
+                            "light": a_row['LIGHTING'],
+                            "arah": a_row['ARAH_KAMERA'],
+                            "cam": a_row['GERAKAN'],
+                            "loc": a_row['LOKASI']
                         }
-                        rangkuman += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
-                    st.session_state.naskah_siap_produksi = rangkuman
+                        rangkuman_naskah += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
+                    
+                    # Kirim rangkuman ke session state naskah referensi
+                    st.session_state.naskah_siap_produksi = rangkuman_naskah
+                    
+                    # Trigger refresh form
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    catat_log(f"Ambil Blueprint {row_g['ID_IDE']}")
-                    st.success("✅ Ide dipindah! Cek Ruang Produksi."); time.sleep(1); st.rerun()
-    except: st.warning("⚠️ Gudang Ide tidak terdeteksi.")
-
-    # --- 4. TUGAS AKTIF & QC ---
+                    catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
+                    
+                    st.success("✅ Ide Berhasil di Pindah! Cek Ruang Produksi Sekarang!")
+                    time.sleep(1)
+                    st.rerun()
+    except Exception as e:
+        st.warning(f"⚠️ Gagal memuat database ide: {e}")
+                    
+    # --- 3. DAFTAR TUGAS AKTIF ---
     st.subheader("📑 Tugas On-Progress")
-    if user_sekarang not in ["dian", "tamu"]:
+
+    if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.expander("➕ STAFF: SETOR TUGAS MANDIRI", expanded=False):
             with st.form("form_mandiri", clear_on_submit=True):
-                judul_m = st.text_input("Pekerjaan")
-                link_m = st.text_input("Link GDrive")
-                if st.form_submit_button("🚀 SETOR SEKARANG") and judul_m and link_m:
+                judul_m = st.text_input("Apa yang kamu kerjakan?")
+                link_m = st.text_input("Link GDrive Hasil:")
+                submit_m = st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True)
+                if submit_m and judul_m and link_m:
                     t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                    sheet_tugas.append_row([t_id_m, user_sekarang, sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
-                    kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n👤 {user_sekarang.upper()}\n🆔 {t_id_m}")
-                    st.success("Disetor!"); st.rerun()
+                    tgl_m = datetime.now(tz_wib).strftime("%Y-%m-%d")
+                    waktu_m = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M")
+                    sheet_tugas.append_row([t_id_m, user_sekarang, tgl_m, judul_m, "WAITING QC", waktu_m, link_m, ""])
+                    catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
+                    kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}\n🔗 *Link:* {link_m}")
+                    st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
 
-    tugas_terfilter = [t for t in data_tugas if (user_sekarang == "dian" or t["Staf"].lower() == user_sekarang) and t["Status"].upper() != "FINISH"]
-    for t in reversed(tugas_terfilter):
-        status = str(t["Status"]).upper()
-        nama_key = str(t["Staf"]).lower()
-        url_foto = foto_staff.get(nama_key, foto_staff_default)
-        st.markdown(f'<div style="padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1);">', unsafe_allow_html=True)
-        c1, c2, c3, c4 = st.columns([0.8, 2, 1, 2])
-        c1.image(url_foto, width=70)
-        c2.write(f"**{t['Staf'].upper()}**\n{status}")
-        c3.write(f"🆔 {t['ID']}")
-        with st.expander("🔍 AKSI"):
-            st.code(t["Instruksi"])
-            if user_sekarang == "dian":
-                col_acc, col_rev = st.columns(2)
-                if col_acc.button("🟢 ACC", key=f"acc_{t['ID']}", use_container_width=True):
-                    cell = sheet_tugas.find(str(t['ID']))
-                    sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                    kirim_notif_wa(f"✅ *TUGAS FINISH*\n👤 {t['Staf'].upper()} (ID: {t['ID']})")
-                    st.rerun()
-                if col_rev.button("🔴 REV", key=f"rev_{t['ID']}", use_container_width=True):
-                    cell = sheet_tugas.find(str(t['ID']))
-                    sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                    st.rerun()
-            elif status in ["PROSES", "REVISI"]:
-                l_in = st.text_input("Link GDrive", key=f"l_{t['ID']}")
-                if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}"):
-                    cell = sheet_tugas.find(str(t['ID']))
-                    sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
-                    sheet_tugas.update_cell(cell.row, 7, l_in)
-                    sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
-                    st.success("Terkirim!"); st.rerun()
-        st.markdown("</div>", unsafe_allow_html=True)
+    tugas_terfilter = []
+    if not df_all_tugas.empty:
+        if user_sekarang == "dian":
+            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
+        else:
+            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
 
-    # --- 5. SLIP GAJI (SINKRON VARIABEL) ---
-    if user_sekarang not in ["dian", "tamu"]:
+    if not tugas_terfilter:
+        st.info(f"☕ Belum ada tugas aktif.")
+    else:
+        for t in reversed(tugas_terfilter):
+            status = str(t["Status"]).upper()
+            nama_key = str(t["Staf"]).lower()
+            url_foto = foto_staff.get(nama_key, foto_staff_default)
+            
+            try: selisih = (sekarang.date() - pd.to_datetime(t['Deadline']).date()).days
+            except: selisih = 0
+            is_telat = status in ["PROSES", "REVISI"] and selisih >= 2
+            
+            st.markdown(f'<div style="border: 2px solid {"#ff4b4b" if is_telat else "rgba(255,255,255,0.1)"}; padding: 15px; border-radius: 12px; margin-bottom: 15px; background-color: rgba(255,255,255,0.02);">', unsafe_allow_html=True)
+            c1, c2, c3, c4, c5 = st.columns([0.8, 1.5, 1.5, 1.5, 2])
+            with c1: st.image(url_foto, width=90)
+            with c2: 
+                st.write(f"**{str(t['Staf']).upper()}**")
+                st.caption(f"{status} {'⚠️ DEADLINE!' if is_telat else ''}")
+            with c3: st.caption("🆔 ID"); st.write(t['ID'])
+            with c4: st.caption("📅 DEADLINE"); st.write(t['Deadline'])
+            with c5: st.caption("⏰ SETOR"); st.write(t['Waktu_Kirim'])
+
+            with st.expander("🔍 CEK TUGAS KERJA HARIAN"):
+                st.code(t["Instruksi"])
+                if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                    links = str(t["Link_Hasil"]).split(",")
+                    for i, link in enumerate(links):
+                        if "http" in link: st.write(f"🔗 [LINK {i+1}]({link.strip()})")
+                
+                if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
+                st.divider()
+                
+                if user_sekarang != "dian" and user_sekarang != "tamu":
+                    if status in ["PROSES", "REVISI"]:
+                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                        if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                            sheet_tugas.update_cell(cell.row, 7, l_in)
+                            sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
+                            catat_log(f"Menyetor tugas {t['ID']}")
+                            kirim_notif_wa(f"📤 *UPDATE SETORAN TUGAS*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}")
+                            st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
+                elif user_sekarang == "dian" and status != "FINISH":
+                    cat = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        if st.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                            catat_log(f"Finish tugas {t['ID']}")
+                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\nTugas Nama *{t['Staf'].upper()}* (ID: {t['ID']}) telah divalidasi.\n✨ Hasil kerja sudah masuk rekapan bulanan.")
+                            st.success("✅ Validasi Selesai!"); time.sleep(1); st.rerun()
+                    with col2:
+                        if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
+                            cell = sheet_tugas.find(str(t['ID']).strip())
+                            sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                            sheet_tugas.update_cell(cell.row, 8, cat)
+                            catat_log(f"Revisi tugas {t['ID']}")
+                            kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat}\n\n_Mohon untuk diperbaiki kembali._ 🛠️")
+                            st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
+            st.markdown("</div>", unsafe_allow_html=True)
+
+    # --- 4. LACI ARSIP ---
+    st.divider()
+    with st.expander("📜 Riwayat Tugas Selesai"):
+        if not df_all_tugas.empty:
+            mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
+                     (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
+            if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
+            df_arsip = df_all_tugas[mask_s].copy()
+            if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
+            else: st.write("Belum ada riwayat.")
+    # --- 5. GAJIAN ---
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
-            gapok = 2000000 
-            total = gapok + uang_hadir + bonus_v - pot_sp
-            st.write(f"### Slip Gaji: {user_sekarang.upper()}")
-            if pot_sp > 0: st.error(f"⚠️ {level_sp} | Potongan: -Rp {pot_sp:,}")
-            cg1, cg2 = st.columns(2)
-            cg1.metric("GAJI POKOK", f"Rp {gapok:,}")
-            cg1.metric("ABSEN (2 Vid/Hr)", f"Rp {uang_hadir:,}")
-            cg2.metric("BONUS PRODUKSI", f"Rp {bonus_v:,}")
-            cg2.metric("TOTAL TERIMA", f"Rp {total:,}")
-            if st.button("🧧 KONFIRMASI TERIMA", use_container_width=True):
-                catat_log(f"Terima Gaji Rp {total}")
-                kirim_notif_wa(f"🧧 *GAJI DITERIMA*\n👤 {user_sekarang.upper()}\n💰 Rp {total:,}")
-                st.success("✅ Berhasil!")
+            try:
+                jml_video = len(df_arsip)
+                data_absensi = sheet_absensi.get_all_records()
+                df_absensi = pd.DataFrame(data_absensi)
+                if not df_absensi.empty:
+                    df_absensi['Tgl_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
+                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & (df_absensi['Tgl_DT'].dt.month == sekarang.month)
+                    jml_hadir = len(df_absensi[mask_ab])
+                else: jml_hadir = 0
+                
+                row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
+                gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
+                tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
+                total_gaji = gapok + tunjangan + (jml_video * 25000) + (jml_hadir * 50000)
+                
+                st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
+                st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
+                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,}")
+                    
+                    # --- NOTIF WA ---
+                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
+                    st.success("Konfirmasi Berhasil!")
+            except: st.warning("Sedang memproses data...")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1372,60 +1390,55 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-        # --- TAMPILAN 6: SLIP GAJI (VERSI FIX INDENTASI) ---
+        # --- TAMPILAN 6: SLIP GAJI (RINCIAN DETAIL UTUH) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).upper()
-                
-                # 1. Filter data FINISH khusus staff ini saja
-                df_f_staff = df_f_f[df_f_f['STAF'].str.upper() == n_up]
-                
-                # 2. Panggil mesin logika bonus dan peringatan
-                bonus_video_v, is_bermasalah = hitung_logika_performa_dan_bonus(df_f_staff)
-                
-                ha = rekap_a.get(n_up, 0) # Absensi
-                vi = len(df_f_staff)      # Total Video
+                ha, vi = rekap_a.get(n_up, 0), rekap_f.get(n_up, 0)
                 
                 if ha > 0 or vi > 0:
                     ada_kerja = True
-                    v_gapok = int(s['GAJI_POKOK'])
-                    v_tunjangan = int(s['TUNJANGAN'])
-                    v_bonus_hadir = ha * 50000
-                    v_total = v_gapok + v_tunjangan + v_bonus_hadir + bonus_video_v
+                    # Hitung dulu di luar buat tampilan list
+                    b_ha, b_vi = ha * 50000, vi * 10000
+                    tg = int(s['GAJI_POKOK']) + int(s['TUNJANGAN']) + b_ha + b_vi
                     
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        status_nama = f"🔴 {n_up} (PERFORMA RENDAH)" if is_bermasalah else f"👤 **{n_up}**"
-                        c1.write(status_nama)
-                        c1.caption(f"💼 {s['JABATAN']}")
-                        c2.write(f"📅 {ha} Hadir")
-                        c3.write(f"🎬 {vi} Video")
+                        c1.write(f"👤 **{s['NAMA']}**"); c1.caption(f"💼 {s['JABATAN']}")
+                        c2.write(f"📅 {ha} Hadir"); c3.write(f"🎬 {vi} Video")
                         
-                        # PERHATIKAN BARIS DI BAWAH INI (Harus sejajar di dalam with st.container)
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
+                            # --- WAJIB DEFINISIKAN VARIABLE SEBELUM MASUK HTML ---
+                            s_asli = n_up
+                            jabatan = str(s['JABATAN'])
+                            v_gapok = int(s['GAJI_POKOK'])
+                            v_tunjangan = int(s['TUNJANGAN'])
+                            v_bonus_hadir = ha * 50000
+                            v_bonus_video = vi * 10000
+                            v_total = v_gapok + v_tunjangan + v_bonus_hadir + v_bonus_video
+                            
                             slip_html = f"""
-                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid {'#ff4b4b' if is_bermasalah else '#1d976c'}; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
                                     <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
                                     <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
                                     <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: {'#ff4b4b' if is_bermasalah else '#1d976c'}; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
+                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI</div>
                                 </div>
                                 <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
-                                    <tr><td>Staf</td><td align="right"><b>{n_up}</b></td></tr>
-                                    <tr><td>Jabatan</td><td align="right">{s['JABATAN']}</td></tr>
+                                    <tr><td>Staf</td><td align="right"><b>{s_asli}</b></td></tr>
+                                    <tr><td>Jabatan</td><td align="right">{jabatan}</td></tr>
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
                                     <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
                                     <tr><td>Bonus Hadir ({ha}x)</td><td align="right">Rp {v_bonus_hadir:,}</td></tr>
-                                    <tr><td>Bonus Video Harian</td><td align="right">Rp {bonus_video_v:,}</td></tr>
+                                    <tr><td>Bonus Video ({vi}x)</td><td align="right">Rp {v_bonus_video:,}</td></tr>
                                     <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                         <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td></tr>
                                 </table>
-                                {'<div style="margin-top: 15px; text-align: center; font-size: 10px; color: #ff4b4b; font-weight: bold; border: 1px solid #ff4b4b; padding: 5px; border-radius: 5px;">⚠️ PERFORMA VIDEO HARIAN RENDAH!</div>' if is_bermasalah else ''}
                                 <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
                                     <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
                                     <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
@@ -1433,7 +1446,7 @@ def tampilkan_kendali_tim():
                                 </div>
                             </div>
                             """
-                            st.components.v1.html(slip_html, height=520)
+                            st.components.v1.html(slip_html, height=480)
             
             if not ada_kerja:
                 st.info("Tidak ada aktivitas staf yang tercatat untuk periode ini.")
@@ -1728,7 +1741,7 @@ def tampilkan_ruang_produksi():
                         on_change=simpan_ke_memori
                     )
 
-    # --- 4. GLOBAL COMPILER LOGIC ---
+# --- 4. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -1844,5 +1857,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
