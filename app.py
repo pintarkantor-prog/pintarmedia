@@ -1395,7 +1395,7 @@ def tampilkan_tugas_kerja():
 
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 28:
+        if sekarang.day >= 23:
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
                     # Ambil Data Pokok Staff
@@ -1431,7 +1431,7 @@ def tampilkan_tugas_kerja():
                     st.warning(f"Gagal memproses rincian slip: {e}")
         else:
             # Notif ini muncul jika belum tanggal 28, tapi Radar Performa (Poin C) tetap terlihat di atasnya.
-            st.info(f"🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 1 (Sisa {28 - sekarang.day} hari lagi).")
+            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -2129,6 +2129,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
