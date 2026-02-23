@@ -9,6 +9,18 @@ import re
 from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
+def bersihkan_data(df):
+    """Fungsi sakral agar gajian tidak eror: Paksa Header & Data jadi UPPERCASE"""
+    if df.empty: return df
+    # 1. Header jadi huruf besar semua (NAMA, STATUS, TANGGAL)
+    df.columns = [str(c).strip().upper() for c in df.columns]
+    # 2. Isi kolom penting jadi huruf besar semua
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME']
+    for col in kolom_krusial:
+        if col in df.columns:
+            df[col] = df[col].astype(str).str.strip().str.upper()
+    return df
+
 # ==============================================================================
 # BAGIAN 1: PUSAT KENDALI OPSI (VERSI KLIMIS - NO REDUNDANCY)
 # ==============================================================================
@@ -162,8 +174,7 @@ st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN)
 # ==============================================================================
 def log_absen_otomatis(nama_user):
-    if nama_user.lower() in ["dian", "tamu"]:
-        return
+    if nama_user.lower() in ["dian", "tamu"]: return
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -173,19 +184,26 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    # Syarat: Hanya mencatat jika login antara jam 08:00 - 10:00 WIB
-    if 8 <= jam < 10: # Kembalikan ke False/True kalau mau tes malam
+    if 8 <= jam < 10: 
         try:
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
             client = gspread.authorize(creds)
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             
-            data_absen = sheet_absen.get_all_records()
-            sudah_absen = any(str(row.get('Tanggal')) == tgl_skrg and str(row.get('Nama')).upper() == nama_user.upper() for row in data_absen)
+            # AMBIL DATA & BERSIHKAN
+            data_mentah = sheet_absen.get_all_records()
+            df_absen = bersihkan_data(pd.DataFrame(data_mentah))
+            
+            nama_up = nama_user.upper()
+            
+            # CEK APAKAH SUDAH ADA (Tanpa bingung Huruf Besar/Kecil)
+            sudah_absen = False
+            if not df_absen.empty:
+                sudah_absen = any((df_absen['TANGGAL'].astype(str) == tgl_skrg) & (df_absen['NAMA'] == nama_up))
             
             if not sudah_absen:
-                sheet_absen.append_row([nama_user.upper(), tgl_skrg, jam_skrg, "HADIR"])
+                sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, "HADIR"])
                 st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
         except:
             pass
@@ -760,7 +778,6 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_quick_prompt():
-    import requests, re
     st.title("⚡ QUICK PROMPT")
     st.info(f"💡 **INFO :** Pada bagian ini, tidak bisa simpan atau restore data.")
 
@@ -967,21 +984,31 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
+    df_arsip_user = bersihkan_data(df_arsip_user)
+    df_absen_user = bersihkan_data(df_absen_user)
     """
-    LOGIKA FINAL PINTAR MEDIA:
-    1. Uang Absen 30rb: Cair jika setor MINIMAL 3 video (Finish) di hari tersebut.
-    2. Bonus Video: Video 1-3 (Wajib), Video 4+ (Bonus 25rb/video).
-    3. Tanggal Hitung: Berdasarkan 'Waktu_Kirim'.
-    4. Penalti Mingguan: SP 1 (7 hari), SP 2 (14 hari), SP 3 (21 hari) jika <= 1 video/hari.
+    LOGIKA FINAL PINTAR MEDIA (SINKRON):
+    1. Masa Proteksi: Tanggal 1-6 status "MASA PENILAIAN" (Potongan 0).
+    2. Uang Absen 30rb: Setor MIN 3 video (Finish) hari itu.
+    3. Bonus Video: Mulai video ke-4 (+25rb/video).
+    4. Penalti SP: Jika hari malas (setor <= 1 video) mencapai 7, 14, 21 hari.
     """
+    # Ambil info tanggal hari ini (WIB)
+    tz_wib = pytz.timezone('Asia/Jakarta')
+    sekarang = datetime.now(tz_wib)
+    
     uang_absen_total = 0
     bonus_video_total = 0
     pot_sp = 0
     level_sp = "NORMAL"
 
+    # --- JIKA DATA KOSONG ---
     if df_arsip_user.empty:
-        # Jika belum ada video sama sekali, langsung anggap performa buruk
-        return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
+        # Jika sudah lewat tanggal 7 tapi video masih 0, kena SP 1
+        if sekarang.day >= 7:
+            return 0, 0, 300000, "SP 1 (BELUM ADA KARYA)"
+        else:
+            return 0, 0, 0, "NORMAL (MASA PENILAIAN)"
 
     # 1. Normalisasi Tanggal Setoran
     df_arsip_user['Tgl_Setor'] = pd.to_datetime(df_arsip_user['Waktu_Kirim'], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
@@ -990,7 +1017,10 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     
     # 2. Hitung Uang Absen (Cair jika setor min 3 video)
     if not df_absen_user.empty:
-        for tgl_absen in df_absen_user['Tanggal'].unique():
+        # Gunakan 'TANGGAL' jika kamu pakai .upper() atau 'Tanggal' jika tidak. 
+        # Di sini saya asumsikan sudah sinkron.
+        kolom_tgl_absen = 'TANGGAL' if 'TANGGAL' in df_absen_user.columns else 'Tanggal'
+        for tgl_absen in df_absen_user[kolom_tgl_absen].unique():
             jml_video_hari_ini = rekap_harian.get(str(tgl_absen), 0)
             if jml_video_hari_ini >= 3:
                 uang_absen_total += 30000
@@ -1000,18 +1030,24 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
         bonus_video_total = (total_video_bulan_ini - 3) * 25000
 
     # 4. Logika Penalti Mingguan (Dihitung dari hari dengan setoran <= 1 video)
+    # Ini menghitung berapa hari staf malas (setoran cuma 0 atau 1)
     hari_malas = [tgl for tgl, jml in rekap_harian.items() if jml <= 1]
     total_hari_malas = len(hari_malas)
 
-    if total_hari_malas >= 21:
-        level_sp = "SP 3 (PECAT)"
-        pot_sp = 1000000
-    elif total_hari_malas >= 14:
-        level_sp = "SP 2 (PERINGATAN KERAS)"
-        pot_sp = 700000
-    elif total_hari_malas >= 7:
-        level_sp = "SP 1 (PERFORMA BURUK)"
-        pot_sp = 300000
+    # --- LOGIKA PROTEKSI & SP ---
+    if sekarang.day < 7:
+        level_sp = "NORMAL (MASA PENILAIAN)"
+        pot_sp = 0
+    else:
+        if total_hari_malas >= 21:
+            level_sp = "SP 3 (CUT OFF)"
+            pot_sp = 1000000
+        elif total_hari_malas >= 14:
+            level_sp = "SP 2 (PERINGATAN KERAS)"
+            pot_sp = 700000
+        elif total_hari_malas >= 7:
+            level_sp = "SP 1 (PERFORMA BURUK)"
+            pot_sp = 300000
         
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -1048,9 +1084,10 @@ def tampilkan_tugas_kerja():
         
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
+        df_all_tugas = bersihkan_data(df_all_tugas)
         
         if not df_all_tugas.empty:
-            df_all_tugas['Deadline_DT'] = pd.to_datetime(df_all_tugas['Deadline'], errors='coerce')
+            df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
         df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
         staf_options = df_staff_raw['Nama'].unique().tolist()
@@ -1256,7 +1293,7 @@ def tampilkan_tugas_kerja():
         if not df_all_tugas.empty:
             mask_s = (df_all_tugas['Deadline_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['Status'].astype(str).str.upper() == "FINISH")
-            if user_sekarang != "dian": mask_s &= (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang)
+            if user_sekarang != "dian": mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
             df_arsip = df_all_tugas[mask_s].copy()
             if not df_arsip.empty: 
                 st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True, use_container_width=True)
@@ -1297,7 +1334,7 @@ def tampilkan_tugas_kerja():
                 try:
                     # Ambil Data Pokok Staff
                     row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
-                    gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
+                    gapok = int(row_s['GAJI_POKOK'].values[0]) if not row_s.empty else 0
                     tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
                     
                     # Kalkulasi Akhir
@@ -1501,8 +1538,8 @@ def tampilkan_kendali_tim():
 
         # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
         with st.expander("📊 GRAFIK PRODUKTIVITAS"):
-            if rekap_f:
-                st.bar_chart(pd.Series(rekap_f))
+            if rekap_total_video:
+                st.bar_chart(pd.Series(rekap_total_video))
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
@@ -1535,8 +1572,8 @@ def tampilkan_kendali_tim():
                         c3.write(f"🎬 {jml_v} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
-                            v_gapok = int(s['GAJI_POKOK'])
-                            v_tunjangan = int(s['TUNJANGAN'])
+                            v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+                            v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                             v_total = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v) - pot_sp_admin
                             
                             slip_html = f"""
@@ -1979,3 +2016,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
