@@ -1321,16 +1321,22 @@ def tampilkan_tugas_kerja():
                 
     # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        # A. AMBIL DATA ABSENSI DULU (Agar bisa dipakai untuk Radar & Slip)
+        # A. AMBIL DATA ABSENSI DULU (VERSI FIX ANTI-NOL)
         try:
             data_absensi = sheet_absensi.get_all_records()
             df_absensi = pd.DataFrame(data_absensi)
+            
             if not df_absensi.empty:
-                mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper())
+                # PAKSA SEMUA HEADER JADI HURUF BESAR
+                df_absensi.columns = [c.upper() for c in df_absensi.columns]
+                
+                # Gunakan kolom 'NAMA' (huruf besar) karena sudah dipaksa di atas
+                mask_ab = (df_absensi['NAMA'].astype(str).str.upper() == user_sekarang.upper())
                 df_absen_user = df_absensi[mask_ab].copy()
             else:
                 df_absen_user = pd.DataFrame()
-        except:
+        except Exception as e:
+            st.error(f"Error Absensi: {e}") # Munculkan error agar kamu tahu masalahnya
             df_absen_user = pd.DataFrame()
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
@@ -2181,6 +2187,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
