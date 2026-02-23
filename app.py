@@ -1566,47 +1566,42 @@ def tampilkan_kendali_tim():
         inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
         
-        # --- LOGIKA HITUNG KEUANGAN (SINKRON TOTAL) ---
-        total_pengeluaran_gaji = 0
-        for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).upper()
-            
-            # 1. Hitung Bonus Absen (30rb jika hari itu setor >= 3 video)
-            b_absen_admin = 0
-            hari_malas_admin = 0
-            
-            if n_up in rekap_harian_tim:
-                for tgl, jml in rekap_harian_tim[n_up].items():
-                    if jml >= 3:
-                        b_absen_admin += 30000
-                    elif jml <= 1:
-                        hari_malas_admin += 1
-            
-            # 2. Hitung Bonus Video (25rb mulai dari video ke-4 per hari)
-            # Di sini kita hitung akumulasi bonus video harian
-            b_video_admin = 0
-            if n_up in rekap_harian_tim:
-                for tgl, jml in rekap_harian_tim[n_up].items():
-                    if jml >= 4:
-                        b_video_admin += (jml - 3) * 25000
+for _, s in df_staff.iterrows():
+                    n_up = str(s['NAMA']).upper().strip()
+                    
+                    # --- LOGIKA SINKRON AGAR TIDAK TEKOR ---
+                    b_absen_view = 0
+                    hari_malas_view = 0
+                    b_video_view = 0
+                    
+                    # Ambil performa dari rekap harian yang sudah dihitung di atas
+                    if n_up in rekap_harian_tim:
+                        for tgl, jml in rekap_harian_tim[n_up].items():
+                            if jml >= 3:
+                                b_absen_view += 30000
+                            elif jml <= 1:
+                                hari_malas_view += 1
+                            
+                            if jml >= 4:
+                                b_video_view += (jml - 3) * 25000
+                    
+                    # Hitung Potongan SP sesuai hari malas
+                    pot_sp_view = 0
+                    if hari_malas_view >= 21: pot_sp_view = 1000000
+                    elif hari_malas_view >= 14: pot_sp_view = 700000
+                    elif hari_malas_view >= 7: pot_sp_view = 300000
+                    
+                    level_sp_view = "NORMAL"
+                    if pot_sp_view > 0: level_sp_view = f"SP ({hari_malas_view} Hari Malas)"
+                    # ---------------------------------------
 
-            # 3. Logika Potongan SP (Sesuai Aturan Hari Malas)
-            pot_sp_admin = 0
-            # Proteksi: Anggap admin melihat setelah lewat masa proteksi (tgl 7+)
-            if hari_malas_admin >= 21:
-                pot_sp_admin = 1000000
-            elif hari_malas_admin >= 14:
-                pot_sp_admin = 700000
-            elif hari_malas_admin >= 7:
-                pot_sp_admin = 300000
-            
-            # 4. Ambil Gaji Pokok & Tunjangan (Nihilkan tunjangan jika memang kosong)
-            v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-            v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-            
-            # Kalkulasi Gaji per Orang (Sinkron dengan Slip Gaji Staf)
-            gaji_orang_ini = (v_gapok + v_tunj + b_absen_admin + b_video_admin) - pot_sp_admin
-            total_pengeluaran_gaji += max(0, gaji_orang_ini)
+                    jml_v_total = rekap_total_video.get(n_up, 0)
+                    
+                    # Hadir asli cuma buat perbandingan di Dashboard
+                    absen_hadir_asli = 0
+                    if not df_absen.empty:
+                        df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
+                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique()))
 
         # Update tampilan metrik
         st.subheader("💰 LAPORAN KEUANGAN")
@@ -2183,6 +2178,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
