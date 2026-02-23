@@ -1699,44 +1699,38 @@ def tampilkan_kendali_tim():
 # --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
-                # 1. Ambil data dasar dulu agar df_arsip dan df_absen tersedia
+                # 1. Tarik bahan baku data
                 sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
-                data_tugas = sheet_tugas.get_all_records()
-                df_tugas_all = bersihkan_data(pd.DataFrame(data_tugas))
+                df_tugas_all = bersihkan_data(pd.DataFrame(sheet_tugas.get_all_records()))
                 df_arsip = df_tugas_all[df_tugas_all['STATUS'] == 'FINISH'] 
                 
                 sheet_absensi = client.open_by_url(url_gsheet).worksheet("Absensi")
                 df_absen = bersihkan_data(pd.DataFrame(sheet_absensi.get_all_records()))
                 
-                ada_kerja = False
+                ada_data_staf = False
 
-                # 2. MULAI LOOP STAFF (Ini yang bikin Inggi Muncul)
+                # 2. Loop SEMUA staf biar Inggi gak ghaib
                 for _, s in df_staff.iterrows():
                     n_up = str(s['NAMA']).upper().strip()
                     
-                    # Hitung Absen Hadir Asli dari GSheet
+                    # Hitung Absen Hadir
                     absen_hadir_asli = 0
                     df_absen_staf = pd.DataFrame()
                     if not df_absen.empty:
                         df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
                         absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
 
-                    # Hitung Logika Bonus & Video
+                    # Hitung Bonus & Video
                     b_video_view, b_absen_view, pot_sp_view, level_sp_view = hitung_logika_performa_dan_bonus(df_arsip, df_absen_staf)
                     
-                    # Ambil total video finish
                     jml_v_total = rekap_total_video.get(n_up, 0)
-                    ada_kerja = True
+                    ada_data_staf = True
 
-                    # 3. TAMPILKAN CONTAINER (Sekarang di dalam Loop Staff)
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
                         c1.write(f"👤 **{n_up}**")
                         c1.caption(f"💼 {s.get('JABATAN', 'Editor')} | {level_sp_view}")
-                        
                         c2.write(f"📅 Hadir: {absen_hadir_asli} Hari")
-                        c2.caption(f"✨ Cair: {int(b_absen_view/30000)} Hari")
-                        
                         c3.write(f"🎬 {jml_v_total} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_final_{n_up}"):
@@ -1744,7 +1738,7 @@ def tampilkan_kendali_tim():
                             v_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                             v_total = (v_gapok + v_tunj + b_absen_view + b_video_view) - pot_sp_view
                             
-                            # SLIP HTML ASLI (Sesuai permintaan lo: TANPA DIHAPUS/SEDERHANAKAN)
+                            # SLIP HTML ASLI (SESUAI REQUEST: GAK DIHAPUS/RINGKAS)
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1773,10 +1767,9 @@ def tampilkan_kendali_tim():
                             </div>
                             """
                             st.components.v1.html(slip_html, height=520)
-                
-                # 4. Tutup Blok Try dengan Except yang Benar
-                if not ada_kerja:
-                    st.info("Belum ada aktivitas tim untuk periode ini.")
+
+                if not ada_data_staf:
+                    st.info("Belum ada aktivitas tim.")
 
             except Exception as e:
                 st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
@@ -2187,6 +2180,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
