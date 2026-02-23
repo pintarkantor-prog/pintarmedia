@@ -1423,8 +1423,8 @@ def tampilkan_tugas_kerja():
                         
                         col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
                         col_m2.metric("ABSEN AKTIF", f"{total_hadir_harian} Hari") # TOTAL MASUK
-                        col_m3.metric("ABSEN CAIR", f"{int(u_hadir/30000)} Hari") # MASUK + SETOR 3 VIDEO
-                        col_m4.metric("BONUS (4+)", f"Rp {b_video:,}") # VIDEO KE-4 DST
+                        col_m3.metric("BONUS ABSEN", f"{int(u_hadir/30000)} Hari") # MASUK + SETOR 3 VIDEO
+                        col_m4.metric("BONUS VIDEO (4+)", f"Rp {b_video:,}") # VIDEO KE-4 DST
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
@@ -1432,9 +1432,9 @@ def tampilkan_tugas_kerja():
                             f"🧧 *KONFIRMASI GAJI*\n\n"
                             f"👤 *Nama:* {user_sekarang.upper()}\n"
                             f"💰 *Total:* Rp {total_gaji:,}\n"
-                            f"📅 *Hadir Aktif:* {total_hadir_harian} hari\n"
-                            f"📅 *Hadir Cair:* {int(u_hadir/30000)} hari\n"
-                            f"🎬 *Video Finish:* {len(df_arsip)} clips\n"
+                            f"📅 *Absen Aktif:* {total_hadir_harian} hari\n"
+                            f"📅 *Bonus Absen:* {int(u_hadir/30000)} hari\n"
+                            f"🎬 *Total Video Finish:* {len(df_arsip)} clips\n"
                             f"⚠️ *Status:* {level_sp}\n\n"
                             f"_Data telah terekam otomatis di sistem._ ✅"
                         )
@@ -2143,6 +2143,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
