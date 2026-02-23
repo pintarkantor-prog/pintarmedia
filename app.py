@@ -1339,7 +1339,7 @@ def tampilkan_tugas_kerja():
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
         # Sekarang df_arsip dan df_absen_user dijamin punya kolom UPPERCASE
-        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user))
+        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
 
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
@@ -2219,6 +2219,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
