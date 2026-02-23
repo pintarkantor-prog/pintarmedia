@@ -1006,7 +1006,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     
     # Ambil kolom tanggal kirim/deadline dan standarisasi
     kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
-    df_arsip_user['TGL_SIMPLE'] = pd.to_datetime(df_arsip_user[kolom_tgl], errors='coerce').dt.date.astype(str)
+    df_arsip_user['STATUS'] = df_arsip_user['STATUS'].astype(str).str.upper()
     df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date.astype(str)
     
     # Hitung video FINISH per hari
@@ -1406,7 +1406,7 @@ def tampilkan_tugas_kerja():
                     
                     if not row_s.empty:
                         # 1. Ambil data pokok
-                        gapok = int(row_s.iloc[0].get('GAJI_POKOK', 0))
+                        gapok = int(row_s.iloc[0].get('GAJI_POKOK', 0)) 
                         tunjangan = int(row_s.iloc[0].get('TUNJANGAN', 0))
                         
                         # 2. Hitung total kehadiran harian (Absen murni)
@@ -2168,6 +2168,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
