@@ -999,7 +999,7 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
-    # Paksa semua data ke Upper & Clean
+    # Paksa semua data ke Upper & Clean agar tidak ada mismatch
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
 
@@ -1010,25 +1010,22 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     bonus_video_total = 0
     
     # 1. Hitung Rekap Harian (Hanya status FINISH)
+    # Gunakan 'WAKTU_KIRIM' sesuai kolom GSheet kamu
     kolom_tgl = 'WAKTU_KIRIM' if 'WAKTU_KIRIM' in df_arsip_user.columns else 'DEADLINE'
-    # Ambil tanggal saja dari format DD/MM/YYYY HH:MM
     df_arsip_user['Tgl_Only'] = pd.to_datetime(df_arsip_user[kolom_tgl], dayfirst=True, errors='coerce').dt.strftime('%Y-%m-%d')
     rekap_harian = df_arsip_user['Tgl_Only'].value_counts().to_dict()
     
-    # 2. Logika Uang Absen & Bonus Harian (SINKRON ADMIN)
+    # 2. Logika Uang Absen & Bonus Harian
     if not df_absen_user.empty:
-        # Staff dianggap hadir jika ada di record Absensi
         tanggal_hadir = df_absen_user['TANGGAL'].astype(str).unique()
         for tgl in tanggal_hadir:
             jml_v = rekap_harian.get(tgl, 0)
-            if jml_v >= 3:
-                uang_absen_total += 30000 # Bonus Cair
-            if jml_v >= 4:
-                bonus_video_total += (jml_v - 3) * 25000 # Lembur Cair
+            if jml_v >= 3: uang_absen_total += 30000 
+            if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000 
 
-    # 3. Logika Potongan SP (SINKRON TOTAL BULANAN - ANTI DEBAT)
+    # 3. LOGIKA POTONGAN SP (LOCK TOTAL)
     total_v_bulan = len(df_arsip_user)
-    if sekarang.day <= 6: # Masa Proteksi s/d Tanggal 6
+    if sekarang.day <= 6: 
         pot_sp = 0
         level_sp = "NORMAL (MASA PENILAIAN)"
     else:
@@ -1038,7 +1035,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
         elif 10 <= total_v_bulan < 15:
             pot_sp = 300000
             level_sp = "SP 1 (KURANG PRODUKTIF)"
-        else: # Ini akan menangkap 0 sampai 9 video
+        else: # < 10 Video
             pot_sp = 700000
             level_sp = "SP 2 (PERINGATAN KERAS)"
             
@@ -1139,6 +1136,7 @@ def tampilkan_tugas_kerja():
     try:
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
+        df_gudang = bersihkan_data(df_gudang)
         
         if not df_gudang.empty:
             # 1. Pastikan list judul unik dan tersedia
@@ -1154,9 +1152,12 @@ def tampilkan_tugas_kerja():
                 
                 # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
                 if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                    # --- Logika Proses Ambil Data ---
-                    cells = sheet_gudang.findall(str(row['ID_IDE']))
+                    # Paksa ID jadi String dan hapus spasi gaib
+                    target_id = str(row['ID_IDE']).strip()
+                    cells = sheet_gudang.findall(target_id)
+                    
                     for cell in cells:
+                        # Update kolom status (kolom ke-3) di GSheet
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
                     adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
@@ -1543,17 +1544,16 @@ def tampilkan_kendali_tim():
         for _, s in df_staff.iterrows():
             n_up = str(s['NAMA']).upper().strip()
             
-            # Hitung variabel harian
-            u_absen = 0
-            b_lembur = 0
+            # 1. Bonus Harian
+            u_absen, b_lembur = 0, 0
             if n_up in rekap_harian_tim:
                 for tgl, jml in rekap_harian_tim[n_up].items():
                     if jml >= 3: u_absen += 30000
                     if jml >= 4: b_lembur += (jml - 3) * 25000
             
-            # SINKRONISASI SP ADMIN
+            # 2. LOGIKA SP (WAJIB SAMA DENGAN STAFF)
             tot_v = rekap_total_video.get(n_up, 0)
-            if sekarang.day <= 6: # Proteksi tanggal muda
+            if sekarang.day <= 6:
                 p_sp = 0
             elif tot_v >= 15:
                 p_sp = 0
@@ -1562,10 +1562,9 @@ def tampilkan_kendali_tim():
             else: # 0-9 Video
                 p_sp = 700000
             
+            # 3. Hitung Gaji Bersih
             g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
             t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-            
-            # Gaji bersih
             bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
             total_pengeluaran_gaji += max(0, bersih_orang)
 
@@ -1703,13 +1702,15 @@ def tampilkan_kendali_tim():
                         if jml >= 4:
                             bonus_v_harian += (jml - 3) * 25000
                 
-                # 2. Logika Potongan SP
+                # LOGIKA POTONGAN SP ADMIN (SINKRON 100% DENGAN STAFF)
                 jml_v = rekap_total_video.get(n_up, 0)
-                if jml_v >= 15 or jml_v == 0: 
+                if sekarang.day <= 6:
+                    pot_sp_admin = 0
+                elif jml_v >= 15:
                     pot_sp_admin = 0
                 elif 10 <= jml_v < 15:
                     pot_sp_admin = 300000
-                else:
+                else: # < 10 Video
                     pot_sp_admin = 700000
                 
                 if jml_v > 0 or uang_absen_staff > 0: 
@@ -2171,6 +2172,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
