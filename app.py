@@ -1045,6 +1045,20 @@ def tampilkan_tugas_kerja():
             waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
             sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
 
+        # Filter data FINISH khusus staff yang login bulan ini
+        mask_arsip_user = (df_all_tugas['Staf'].astype(str).str.lower() == user_sekarang) & \
+                          (df_all_tugas['Status'].astype(str).str.upper() == "FINISH") & \
+                          (df_all_tugas['Deadline_DT'].dt.month == sekarang.month)
+        
+        df_arsip_user = df_all_tugas[mask_arsip_user].copy()
+        
+        # Hitung bonus harian dan cek status peringatan
+        bonus_v, is_low = hitung_logika_performa_dan_bonus(df_arsip_user)
+
+        # Tampilkan Peringatan di atas dashboard jika performa rendah (kecuali Dian/Tamu)
+        if is_low and user_sekarang not in ["dian", "tamu"]:
+            st.error(f"⚠️ **PERINGATAN PERFORMA {user_sekarang.upper()}!** Dalam 3 hari terakhir setoran video kamu rendah (<= 1 video/hari). Yuk semangat lagi agar target tercapai!")
+
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
@@ -1090,7 +1104,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
 
-### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
+    ### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
     st.subheader("📦 GUDANG IDE PINTAR")
     try:
         data_gudang = sheet_gudang.get_all_records()
@@ -1246,33 +1260,38 @@ def tampilkan_tugas_kerja():
             if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
             else: st.write("Belum ada riwayat.")
     # --- 5. GAJIAN ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
+    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 25:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
-                jml_video = len(df_arsip)
+                # Hitung kehadiran dari sheet absensi
                 data_absensi = sheet_absensi.get_all_records()
                 df_absensi = pd.DataFrame(data_absensi)
                 if not df_absensi.empty:
                     df_absensi['Tgl_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
                     mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & (df_absensi['Tgl_DT'].dt.month == sekarang.month)
                     jml_hadir = len(df_absensi[mask_ab])
-                else: jml_hadir = 0
+                else: 
+                    jml_hadir = 0
                 
+                # Ambil data finansial staff
                 row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
                 gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
                 tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
-                total_gaji = gapok + tunjangan + (jml_video * 25000) + (jml_hadir * 50000)
+                
+                # RUMUS BARU: Menggunakan bonus_v dari mesin logika di atas
+                total_gaji = gapok + tunjangan + bonus_v + (jml_hadir * 50000)
                 
                 st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
                 st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                st.caption(f"ℹ️ Bonus Video Harian (>2 video/hari): Rp {bonus_v:,}")
+                
                 if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                     catat_log(f"Konfirmasi gaji Rp {total_gaji:,}")
-                    
-                    # --- NOTIF WA ---
-                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
+                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Bonus Video:* Rp {bonus_v:,}\n\n_Data telah terekam secara otomatis._ ✅")
                     st.success("Konfirmasi Berhasil!")
-            except: st.warning("Sedang memproses data...")
+            except: 
+                st.warning("Sedang memproses data gaji...")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1458,8 +1477,8 @@ def tampilkan_kendali_tim():
                         c2.write(f"📅 {ha} Hadir")
                         c3.write(f"🎬 {vi} Video")
                         
-                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
-                            # --- RAKIT SLIP HTML (FOOTER TETAP TERJAGA) ---
+if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_{n_up}"):
+                            # --- RAKIT SLIP HTML (VERSI BERSIH & SINKRON) ---
                             slip_html = f"""
                             <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid {'#ff4b4b' if is_bermasalah else '#1d976c'}; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
                                 <div style="text-align: center; margin-bottom: 15px;">
@@ -1902,6 +1921,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
