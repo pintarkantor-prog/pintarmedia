@@ -1004,53 +1004,57 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
-    # Bersihkan data di awal untuk memastikan header UPPERCASE
+    # --- 1. INISIALISASI AWAL (WAJIB agar tidak UnboundLocalError) ---
+    bonus_video_total = 0
+    uang_absen_total = 0
+    pot_sp = 0
+    level_sp = "NORMAL"
+    
+    # Proteksi jika data kosong
+    if df_arsip_user.empty and df_absen_user.empty:
+        return bonus_video_total, uang_absen_total, pot_sp, level_sp
+
+    # Bersihkan data
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
     
-    # --- PROTEKSI KEYERROR ---
-    if 'TANGGAL' not in df_absen_user.columns:
-        # Jika kolom TANGGAL tidak ada, coba cari kolom NAMA (biasanya kolom 2 di GSheet Absensi)
-        # atau kembalikan nilai default agar aplikasi tidak crash
-        return 0, 0, 0, "NORMAL"
+    # --- 2. LOGIKA HITUNG BONUS ---
+    # Pastikan kolom yang dibutuhkan ada
+    if 'TANGGAL' in df_absen_user.columns and 'STATUS' in df_arsip_user.columns:
+        df_absen_user['TANGGAL_DT'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date
+        
+        # Buat rekap harian dari df_arsip
+        # Asumsi TGL_SIMPLE sudah dibuat di fungsi saring_tgl atau bersihkan_data
+        if 'TGL_SIMPLE' in df_arsip_user.columns:
+            rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
+            
+            # Cek tiap tanggal absen
+            for tgl in df_absen_user['TANGGAL_DT'].dropna().unique():
+                tgl_str = str(tgl)
+                jml_v = rekap_harian.get(tgl_str, 0)
+                if jml_v >= 3: uang_absen_total += 30000 
+                if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000
 
-    # Pastikan kolom tanggal absen berformat YYYY-MM-DD secara aman
-    df_absen_user['TANGGAL'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date.astype(str)
-    
-    # Penanganan kolom status dan tanggal simple untuk rekap
-    if 'STATUS' in df_arsip_user.columns:
-        df_arsip_user['STATUS'] = df_arsip_user['STATUS'].astype(str).str.upper()
-    
-    # Rekap harian (Gunakan kolom yang pasti ada, misal DEADLINE atau WAKTU_KIRIM)
-    # Anda perlu memastikan kolom TGL_SIMPLE sudah dibuat sebelumnya
-    rekap_harian = {}
-    if 'TGL_SIMPLE' in df_arsip_user.columns:
-        rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
-    
-    # ... sisa kode hitung bonus ...
-    return bonus_video_total, uang_absen_total, pot_sp, level_sp
-    
-    uang_absen_total = 0
-    bonus_video_total = 0
-    
-    # Cek tiap tanggal kehadiran
-    for tgl in df_absen_user['TANGGAL'].dropna().unique():
-        jml_v = rekap_harian.get(tgl, 0)
-        if jml_v >= 3: uang_absen_total += 30000 
-        if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000 
-
-    # Logika SP
+    # --- 3. LOGIKA POTONGAN SP (SINKRON TOTAL BULANAN) ---
     total_v_bulan = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
-    hari_ini = datetime.now(pytz.timezone('Asia/Jakarta')).day
+    
+    # Ambil tanggal hari ini dari zona waktu Jakarta
+    tz_wib = pytz.timezone('Asia/Jakarta')
+    hari_ini = datetime.now(tz_wib).day
     
     if hari_ini <= 6:
-        pot_sp, level_sp = 0, "NORMAL (PROTEKSI)"
-    elif total_v_bulan >= 15:
-        pot_sp, level_sp = 0, "NORMAL"
-    elif 10 <= total_v_bulan < 15:
-        pot_sp, level_sp = 300000, "SP 1"
+        pot_sp = 0
+        level_sp = "NORMAL (MASA PENILAIAN)"
     else:
-        pot_sp, level_sp = 700000, "SP 2"
+        if total_v_bulan >= 15:
+            pot_sp = 0
+            level_sp = "NORMAL"
+        elif 10 <= total_v_bulan < 15:
+            pot_sp = 300000
+            level_sp = "SP 1 (KURANG PRODUKTIF)"
+        else:
+            pot_sp = 700000
+            level_sp = "SP 2 (PERINGATAN KERAS)"
             
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -2219,6 +2223,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
