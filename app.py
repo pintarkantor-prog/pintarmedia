@@ -1188,6 +1188,7 @@ def tampilkan_tugas_kerja():
                             cell = sheet_tugas.find(str(t['ID']).strip())
                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
                             catat_log(f"Finish tugas {t['ID']}")
+                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\nTugas Nama *{t['Staf'].upper()}* (ID: {t['ID']}) telah divalidasi.\n✨ Hasil kerja sudah masuk rekapan bulanan.")
                             st.success("✅ Validasi Selesai!"); time.sleep(1); st.rerun()
                     with col2:
                         if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
@@ -1195,6 +1196,7 @@ def tampilkan_tugas_kerja():
                             sheet_tugas.update_cell(cell.row, 5, "REVISI")
                             sheet_tugas.update_cell(cell.row, 8, cat)
                             catat_log(f"Revisi tugas {t['ID']}")
+                            kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat}\n\n_Mohon untuk diperbaiki kembali._ 🛠️")
                             st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
 
@@ -1855,6 +1857,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
