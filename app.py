@@ -1241,7 +1241,7 @@ def tampilkan_tugas_kerja():
                 st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True, use_container_width=True)
             else: st.write("Belum ada riwayat.")
     # --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
-    if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
+    if user_sekarang != "dian" and user_sekarang != "tamu":
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
@@ -1918,5 +1918,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
