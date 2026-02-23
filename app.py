@@ -1522,18 +1522,28 @@ def tampilkan_kendali_tim():
         df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
         
         # Rekap Video per Nama per Tanggal (untuk hitung uang absen)
-        # Kita pakai 'TGL_TEMP' yang sudah di-saring di fungsi saring_tgl
         rekap_harian_tim = {}
         if not df_f_f.empty:
+            # Pastikan kolom STAF bersih dan seragam (Uppercase) sebelum di-group
+            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
+            
             df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
             # Grouping: Nama -> Tanggal -> Jumlah Video
             rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
 
         # Total Video per Nama (untuk bonus 4+)
-        rekap_total_video = df_f_f['STAF'].str.upper().value_counts().to_dict() if not df_f_f.empty else {}
+        # Gunakan kolom STAF yang sudah dibersihkan di atas
+        if not df_f_f.empty:
+            rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
+        else:
+            rekap_total_video = {}
         
-        inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
-        ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').sum() if not df_k_f.empty else 0
+        # Kalkulasi Pendapatan & Pengeluaran dengan penanganan error yang lebih baik
+        inc = 0
+        ops = 0
+        if not df_k_f.empty:
+            inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
+            ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
@@ -1643,7 +1653,7 @@ def tampilkan_kendali_tim():
                 # 2. Buat tabel monitoring per staff
                 rekap_absen_data = []
                 for _, s in df_staff.iterrows():
-                    n_up = str(s['NAMA']).upper().strip()
+                    n_up = str(s['NAMA']).strip().upper()
                     
                     # Hitung Total Hadir (Ada di sheet Absensi)
                     total_hadir = 0
@@ -1685,7 +1695,7 @@ def tampilkan_kendali_tim():
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             for _, s in df_staff.iterrows():
-                n_up = str(s['NAMA']).upper().strip()
+                n_up = str(s['NAMA']).strip().upper()
                 
                 # 1. Logika Uang Absen & Bonus (SINKRON HARIAN - ANTI EROR)
                 uang_absen_staff = 0
@@ -2168,6 +2178,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
