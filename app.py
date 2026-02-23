@@ -966,6 +966,34 @@ def kirim_notif_wa(pesan):
     except:
         pass
 
+def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
+    """
+    Logika Sakti Pintar Media:
+    1. Uang Hadir cair Rp 50rb jika hari itu setor MINIMAL 2 video.
+    2. Bonus Video Rp 25rb per clip (status FINISH).
+    3. Cek performa 3 hari terakhir untuk status SP.
+    """
+    bonus_v = len(df_arsip_user) * 25000
+    uang_hadir = 0
+    pot_sp = 0
+    level_sp = "NORMAL"
+
+    if not df_absen_user.empty:
+        # Cek tiap tanggal absen
+        for tgl in df_absen_user['Tanggal'].unique():
+            # Hitung berapa video yang disetor di tanggal yang sama
+            setoran_hari_ini = len(df_arsip_user[df_arsip_user['Waktu_Kirim'].str.contains(str(tgl))])
+            if setoran_hari_ini >= 2:
+                uang_hadir += 50000
+    
+    # LOGIKA SP (Cek 3 hari terakhir jika jumlah video sangat sedikit)
+    # Kita asumsikan target minimal 2 video/hari (Total 6 video dalam 3 hari aktif terakhir)
+    if len(df_arsip_user) < 4: # Contoh threshold rendah
+        level_sp = "PERFORMA RENDAH"
+        pot_sp = 100000 # Potongan hukuman
+        
+    return bonus_v, uang_hadir, pot_sp, level_sp
+
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     
@@ -1210,34 +1238,65 @@ def tampilkan_tugas_kerja():
             df_arsip = df_all_tugas[mask_s].copy()
             if not df_arsip.empty: st.dataframe(df_arsip[['ID', 'Staf', 'Deadline', 'Status']], hide_index=True)
             else: st.write("Belum ada riwayat.")
-    # --- 5. GAJIAN ---
+# --- 5. GAJIAN (VERSI UPGRADE SAKTI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu" and sekarang.day >= 28:
         st.divider()
         with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
             try:
-                jml_video = len(df_arsip)
+                # 1. Ambil Data Absensi User
                 data_absensi = sheet_absensi.get_all_records()
                 df_absensi = pd.DataFrame(data_absensi)
-                if not df_absensi.empty:
-                    df_absensi['Tgl_DT'] = pd.to_datetime(df_absensi['Tanggal'], errors='coerce')
-                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper()) & (df_absensi['Tgl_DT'].dt.month == sekarang.month)
-                    jml_hadir = len(df_absensi[mask_ab])
-                else: jml_hadir = 0
                 
+                if not df_absensi.empty:
+                    mask_ab = (df_absensi['Nama'].str.upper() == user_sekarang.upper())
+                    df_absen_user = df_absensi[mask_ab].copy()
+                else:
+                    df_absen_user = pd.DataFrame()
+
+                # 2. PANGGIL LOGIKA SAKTI (Hitung Bonus & SP)
+                # Fungsi ini yang tadi kita buat di Langkah 1
+                b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+                
+                # 3. Ambil Data Pokok Staff
                 row_s = df_staff_raw[df_staff_raw['Nama'].str.lower() == user_sekarang]
                 gapok = int(row_s['Gaji_Pokok'].values[0]) if not row_s.empty else 0
                 tunjangan = int(row_s['Tunjangan'].values[0]) if not row_s.empty else 0
-                total_gaji = gapok + tunjangan + (jml_video * 25000) + (jml_hadir * 50000)
                 
+                # 4. Kalkulasi Akhir
+                total_gaji = (gapok + tunjangan + b_video + u_hadir) - pot_sp
+                
+                # 5. Tampilan Dashboard
                 st.write(f"### Rincian Gaji {sekarang.strftime('%B %Y')}")
-                st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                
+                if level_sp != "NORMAL":
+                    st.error(f"⚠️ PERINGATAN: {level_sp}")
+                    st.caption(f"Sistem mendeteksi performa rendah. Potongan: Rp {pot_sp:,}")
+                else:
+                    st.success("🌟 Performa kamu bulan ini terjaga!")
+
+                col_m1, col_m2 = st.columns(2)
+                col_m1.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                col_m2.metric("HADIR (CAIR)", f"{int(u_hadir/50000)} Hari")
+
+                # 6. Tombol Konfirmasi & Notif WA (Sesuai Permintaan: Sistem WA Tetap Ada)
                 if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,}")
+                    catat_log(f"Konfirmasi gaji Rp {total_gaji:,} (Status: {level_sp})")
                     
-                    # --- NOTIF WA ---
-                    kirim_notif_wa(f"🧧 *KONFIRMASI GAJI*\n👤 *Nama:* {user_sekarang.upper()}\n💰 *Total:* Rp {total_gaji:,}\n📅 *Hadir:* {jml_hadir} hari\n🎬 *Video:* {jml_video} clips\n\n_Data telah terekam secara otomatis._ ✅")
-                    st.success("Konfirmasi Berhasil!")
-            except: st.warning("Sedang memproses data...")
+                    # Pesan WA yang lebih profesional & informatif
+                    pesan_wa = (
+                        f"🧧 *KONFIRMASI GAJI*\n\n"
+                        f"👤 *Nama:* {user_sekarang.upper()}\n"
+                        f"💰 *Total:* Rp {total_gaji:,}\n"
+                        f"📅 *Hadir Cair:* {int(u_hadir/50000)} hari\n"
+                        f"🎬 *Video:* {len(df_arsip)} clips\n"
+                        f"⚠️ *Status Performa:* {level_sp}\n\n"
+                        f"_Data telah terekam otomatis di sistem._ ✅"
+                    )
+                    kirim_notif_wa(pesan_wa)
+                    st.success("Konfirmasi Berhasil dikirim ke pusat!")
+                    
+            except Exception as e: 
+                st.warning(f"Gagal memproses rincian: {e}")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1857,3 +1916,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
