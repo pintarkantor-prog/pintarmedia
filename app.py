@@ -13,7 +13,7 @@ def bersihkan_data(df):
     if df.empty: return df
     df.columns = [str(c).strip().upper() for c in df.columns]
     # Tambahkan TANGGAL dan WAKTU_KIRIM ke daftar kolom yang dibersihkan
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'JAM_MASUK']
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'WAKTU_KIRIM']
     for col in kolom_krusial:
         if col in df.columns:
             df[col] = df[col].astype(str).str.strip().str.upper()
@@ -193,26 +193,16 @@ def log_absen_otomatis(nama_user):
             data_mentah = sheet_absen.get_all_records()
             df_absen = bersihkan_data(pd.DataFrame(data_mentah))
             
-            # 1. Pastikan nama_user bersih dari spasi luar
-            nama_up = nama_user.upper().strip()
+            nama_up = nama_user.upper()
             
+            # CEK APAKAH SUDAH ADA (Tanpa bingung Huruf Besar/Kecil)
             sudah_absen = False
             if not df_absen.empty:
-                # 2. PENTING: Tambahkan .str.strip() pada kolom NAMA di dataframe
-                # Supaya "INGGI " di GSheet ketemu dengan "INGGI" di sistem
-                kondisi_tanggal = df_absen['TANGGAL'].astype(str) == tgl_skrg
-                kondisi_nama = df_absen['NAMA'].astype(str).str.strip() == nama_up
-                
-                sudah_absen = any(kondisi_tanggal & kondisi_nama)
+                sudah_absen = any((df_absen['TANGGAL'].astype(str) == tgl_skrg) & (df_absen['NAMA'] == nama_up))
             
             if not sudah_absen:
                 sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, "HADIR"])
                 st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
-            else:
-                st.toast(f"Sudah absen hari ini, {nama_up}!", icon="ℹ️")
-        except Exception as e:
-            # 3. JANGAN pake 'pass' doang, minimal munculin error di console biar kita tau kalau GSheet nolak
-            print(f"Error Absen: {e}")
         except:
             pass
 
@@ -2192,13 +2182,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
