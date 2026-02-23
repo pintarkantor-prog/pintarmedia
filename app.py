@@ -11,13 +11,19 @@ from google.oauth2.service_account import Credentials
 
 def bersihkan_data(df):
     if df.empty: return df
-    # Header jadi UPPERCASE
+    # Header jadi UPPERCASE secara aman
     df.columns = [str(c).strip().upper() for c in df.columns]
-    # Isi kolom krusial jadi UPPERCASE
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE']
+    
+    # Daftar kolom yang ingin dipastikan menjadi String Uppercase
+    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE', 'TIPE']
+    
     for col in df.columns:
         if col in kolom_krusial:
-            df[col] = df[col].astype(str).str.strip().upper()
+            # PERBAIKAN: Gunakan .astype(str) dan .str aksesor
+            df[col] = df[col].astype(str).str.strip().str.upper()
+            
+            # Opsional: Ubah 'NAN' string (dari data kosong) kembali menjadi string kosong
+            df[col] = df[col].replace('NAN', '')
     return df
 
 # ==============================================================================
@@ -1519,36 +1525,50 @@ def tampilkan_kendali_tim():
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
         # --- LOGIKA HITUNG KEUANGAN (SINKRON DENGAN ATURAN BARU) ---
-        df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"] if not df_t_bln.empty else pd.DataFrame()
+        if not df_t_bln.empty:
+            # Tambahkan .copy() di akhir filter untuk memutus hubungan dengan dataframe asli
+            df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"].copy()
+        else:
+            df_f_f = pd.DataFrame()
         
-        # Rekap Video per Nama per Tanggal (untuk hitung uang absen)
+        # Rekap Video per Nama per Tanggal
         rekap_harian_tim = {}
         if not df_f_f.empty:
-            # Pastikan kolom STAF bersih dan seragam (Uppercase) sebelum di-group
+            # Gunakan .str.upper() (DENGAN TITIK SETELAH .str)
             df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
             
+            # Pastikan TGL_TEMP adalah datetime agar tidak error saat .dt
+            df_f_f['TGL_TEMP'] = pd.to_datetime(df_f_f['TGL_TEMP'], errors='coerce')
             df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
-            # Grouping: Nama -> Tanggal -> Jumlah Video
+            
+            # Grouping
             rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
 
-        # Total Video per Nama (untuk bonus 4+)
-        # Gunakan kolom STAF yang sudah dibersihkan di atas
+        # Total Video per Nama
         if not df_f_f.empty:
+            # Karena STAF sudah di-upper di atas, langsung value_counts saja
             rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
         else:
             rekap_total_video = {}
         
-        # Kalkulasi Pendapatan & Pengeluaran dengan penanganan error yang lebih baik
+        # Kalkulasi Pendapatan & Pengeluaran
         inc = 0
         ops = 0
         if not df_k_f.empty:
+            # Pastikan kolom NOMINAL dibersihkan dari karakter non-angka (seperti Rp atau titik ribuan manual)
+            for col_num in ['NOMINAL']:
+                df_k_f[col_num] = df_k_f[col_num].astype(str).replace(r'[^\d.]', '', regex=True)
+            
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         for _, s in df_staff.iterrows():
-            n_up = str(s['NAMA']).strip().upper()
+            # Gunakan penanganan string yang lebih agresif
+            n_up = str(s.get('NAMA', '')).strip().upper()
+            
+            if n_up == "" or n_up == "NAN": continue
             
             # 1. Bonus Harian
             u_absen, b_lembur = 0, 0
@@ -2178,6 +2198,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
