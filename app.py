@@ -1591,65 +1591,71 @@ def tampilkan_kendali_tim():
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
-        # CEK: Jika user milih bulan di masa depan, jangan hitung gaji dulu
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
         if is_masa_depan:
             total_pengeluaran_gaji = 0
         else:
-            # Jalankan loop staff hanya jika bukan masa depan
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
-            
-            # 1. Bonus Harian
-            u_absen, b_lembur = 0, 0
-            if n_up in rekap_harian_tim:
-                for tgl, jml in rekap_harian_tim[n_up].items():
-                    if jml >= 3: u_absen += 30000
-                    if jml >= 4: b_lembur += (jml - 3) * 25000
-            
-            # 2. LOGIKA SP (WAJIB SAMA DENGAN STAFF)
-            tot_v = rekap_total_video.get(n_up, 0)
-            p_sp = 0
-            
-            # CEK APAKAH BULAN YANG DIPILIH SUDAH LEWAT/SEDANG BERJALAN?
-            # Jika bulan dipilih adalah bulan depan, p_sp harus tetap 0.
-            if tahun_dipilih < sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih < sekarang.month):
-                # LOGIKA UNTUK BULAN YANG SUDAH SELESAI (Arsip)
-                if tot_v >= 15: p_sp = 0
-                elif 10 <= tot_v < 15: p_sp = 300000
-                else: p_sp = 700000
-            
-            elif tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
-                # LOGIKA UNTUK BULAN YANG SEDANG BERJALAN
-                if sekarang.day <= 6:
-                    p_sp = 0 # Masa Proteksi
-                else:
+                
+                # --- MULAI DARI SINI SEMUA HARUS MENJOROK KE DALAM (TAB) ---
+                # 1. Bonus Harian
+                u_absen, b_lembur = 0, 0
+                if n_up in rekap_harian_tim:
+                    for tgl, jml in rekap_harian_tim[n_up].items():
+                        if jml >= 3: u_absen += 30000
+                        if jml >= 4: b_lembur += (jml - 3) * 25000
+                
+                # 2. LOGIKA SP
+                tot_v = rekap_total_video.get(n_up, 0)
+                p_sp = 0
+                
+                if tahun_dipilih < sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih < sekarang.month):
                     if tot_v >= 15: p_sp = 0
                     elif 10 <= tot_v < 15: p_sp = 300000
                     else: p_sp = 700000
-            else:
-                # UNTUK BULAN DEPAN (Data masih 0)
-                p_sp = 0
-            
-            # 3. Hitung Gaji Bersih
-            g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-            t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
-            bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
-            total_pengeluaran_gaji += max(0, bersih_orang)
+                elif tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
+                    if sekarang.day <= 6: p_sp = 0 
+                    else:
+                        if tot_v >= 15: p_sp = 0
+                        elif 10 <= tot_v < 15: p_sp = 300000
+                        else: p_sp = 700000
+                else:
+                    p_sp = 0
+                
+                # 3. Hitung Gaji Bersih
+                g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
+                t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
+                
+                # Akumulasi (Dijumlahkan semua staff)
+                total_pengeluaran_gaji += max(0, bersih_orang)
+                # --- AKHIR DARI BAGIAN DALAM LOOP ---
 
-        # Update tampilan metrik
+        # Update tampilan metrik (Kembali sejajar dengan if utama)
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
         
         # Jika bulan depan, paksa semua jadi nol agar tidak membingungkan
         if is_masa_depan:
             inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
+        # Metrik dengan indikator warna (Delta)
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
-        m3.metric("💎 BERSIH", f"Rp {inc - (total_pengeluaran_gaji + ops):,}")
+        
+        # Hitung saldo bersih
+        saldo_bersih = inc - (total_pengeluaran_gaji + ops)
+        
+        # Tampilkan bersih dengan warna otomatis
+        m3.metric(
+            label="💎 BERSIH", 
+            value=f"Rp {saldo_bersih:,}",
+            delta=f"Rp {saldo_bersih:,}",
+            delta_color="normal" if saldo_bersih >= 0 else "inverse"
+        ),}")
 
         # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=False):
@@ -2248,6 +2254,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
