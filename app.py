@@ -1696,22 +1696,32 @@ def tampilkan_kendali_tim():
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
-# --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
+        # --- TAMPILAN 6: SLIP GAJI (SINKRON TOTAL) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
-            # 1. Loop SEMUA staf dari data induk (df_staff)
-            for _, s in df_staff.iterrows():
-                n_up = str(s['NAMA']).upper().strip()
+            try:
+                # --- TAMBAHKAN BARIS INI UNTUK FIX ERROR ---
+                # Ambil data tugas yang sudah FINISH dari GSheet
+                sheet_tugas = client.open_by_url(url_gsheet).worksheet("Tugas")
+                data_tugas = sheet_tugas.get_all_records()
+                df_tugas_all = bersihkan_data(pd.DataFrame(data_tugas))
+                df_arsip = df_tugas_all[df_tugas_all['STATUS'] == 'FINISH'] # Ini dia df_arsip-nya!
                 
-                # 2. Ambil data absen asli dari GSheet Absensi
-                absen_hadir_asli = 0
-                df_absen_staf = pd.DataFrame()
-                if not df_absen.empty:
-                    df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
-                    absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
+                # Pastikan df_absen juga sudah siap
+                sheet_absensi = client.open_by_url(url_gsheet).worksheet("Absensi")
+                df_absen = bersihkan_data(pd.DataFrame(sheet_absensi.get_all_records()))
+                # --------------------------------------------
 
-                # 3. Hitung Logika Performa (Video & Bonus)
-                # PENTING: Inggi akan dapet 0 kalau videonya belum ada yang FINISH
-                b_video_view, b_absen_view, pot_sp_view, level_sp_view = hitung_logika_performa_dan_bonus(df_arsip, df_absen_staf)
+                for _, s in df_staff.iterrows():
+                    n_up = str(s['NAMA']).upper().strip()
+                    
+                    # Sekarang df_arsip sudah ada, hitungan ini nggak akan error lagi
+                    absen_hadir_asli = 0
+                    df_absen_staf = pd.DataFrame()
+                    if not df_absen.empty:
+                        df_absen_staf = df_absen[df_absen['NAMA'].astype(str).str.strip() == n_up]
+                        absen_hadir_asli = len(df_absen_staf['TANGGAL'].unique())
+
+                    b_video_view, b_absen_view, pot_sp_view, level_sp_view = hitung_logika_performa_dan_bonus(df_arsip, df_absen_staf)
                 
                 jml_v_total = rekap_total_video.get(n_up, 0)
 
@@ -2172,5 +2182,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
