@@ -993,13 +993,7 @@ def kirim_notif_wa(pesan):
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
-    """
-    LOGIKA FINAL PINTAR MEDIA (SINKRON):
-    1. Masa Proteksi: Tanggal 1-6 status "MASA PENILAIAN" (Potongan 0).
-    2. Uang Absen 30rb: Setor MIN 3 video (Finish) hari itu.
-    3. Bonus Video: Mulai video ke-4 (+25rb/video).
-    4. Penalti SP: Jika hari malas (setor <= 1 video) mencapai 7, 14, 21 hari.
-    """
+
     # Ambil info tanggal hari ini (WIB)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
@@ -1331,6 +1325,15 @@ def tampilkan_tugas_kerja():
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
         b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+
+        with st.expander("ℹ️ LIHAT ATURAN GAJI & SP"):
+            st.markdown("""
+            **LOGIKA FINAL PINTAR MEDIA (SINKRON):**
+            1. **Masa Proteksi:** Tanggal 1-6 status "MASA PENILAIAN" (Potongan 0).
+            2. **Uang Absen 30rb:** Setor MIN 3 video (Finish) hari itu.
+            3. **Bonus Video:** Mulai video ke-4 (+25rb/video).
+            4. **Penalti SP:** Jika hari malas (setor <= 1 video) mencapai 7, 14, 21 hari.
+            """)
 
         # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
         st.divider()
@@ -2033,6 +2036,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
