@@ -1640,7 +1640,12 @@ def tampilkan_kendali_tim():
             total_pengeluaran_gaji += max(0, bersih_orang)
 
         # Update tampilan metrik
-        st.subheader("💰 LAPORAN KEUANGAN")
+        st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
+        
+        # Jika bulan depan, paksa semua jadi nol agar tidak membingungkan
+        if is_masa_depan:
+            inc, total_pengeluaran_gaji, ops = 0, 0, 0
+            
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
@@ -2243,6 +2248,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
