@@ -558,7 +558,7 @@ def tampilkan_navigasi_sidebar():
         """, unsafe_allow_html=True)
         
         # 2. MENU RADIO
-        # Kita tidak perlu menampung ke variabel 'pilihan' karena kita pakai 'key'
+        # Gunakan 'key' agar tersimpan di session_state secara otomatis
         st.radio(
             "COMMAND_MENU_LABEL", 
             [
@@ -569,10 +569,10 @@ def tampilkan_navigasi_sidebar():
                 "⚡ KENDALI TIM"
             ],
             label_visibility="collapsed",
-            key="COMMAND_MENU"  # <--- Ini alamat kunci untuk pindah halaman otomatis
+            key="COMMAND_MENU" 
         )
         
-        # 3. GARIS PEMISAH & SPASI KE BAWAH
+        # 3. GARIS PEMISAH
         st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         
         # 1. KOTAK DURASI FILM
@@ -2279,5 +2279,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
