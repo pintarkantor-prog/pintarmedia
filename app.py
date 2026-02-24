@@ -882,6 +882,7 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
         else:
+            # --- RENDER GRID KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -891,8 +892,13 @@ def tampilkan_gudang_ide():
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
                         with st.container(border=True):
+                            # Header Strip
                             st.markdown(f'<div style="height: 5px; background-color: {"#444" if is_loading else "#1d976c"}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
+                            
+                            # Judul & ID (Ini yang lo mau Cok!)
                             st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='text-align: center; color: #555; font-size: 11px; margin-top: 5px;'>🆔 ID IDE: {id_ini}</p>", unsafe_allow_html=True)
+                            
                             st.write("")
                             if st.button(f"🚀 AMBIL TUGAS", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
@@ -1018,7 +1024,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
 def tampilkan_tugas_kerja():
-    st.title("🚀 PINTAR INTEGRATED SYSTEM")
+    st.title("📋 TUGAS KERJA")
     wadah_radar = st.empty()
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -2254,6 +2260,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
