@@ -1076,7 +1076,7 @@ def tampilkan_tugas_kerja():
             elif "Level 3" in level_sp_r:
                 status_ikon, instruksi = "🚨 BAHAYA", "EVALUASI KERJA"
             elif pot_sp_r > 0:
-                status_ikon, instruksi = "⚠️ WARNING", "KEJAR SETORAN"
+                status_ikon, instruksi = "⚠️ WARNING", "KEJAR TARGET"
             elif v_finish >= target_h_ini:
                 status_ikon, instruksi = "✨ AMAN", "LANJUTKAN!"
             else:
@@ -1289,27 +1289,44 @@ def tampilkan_tugas_kerja():
                                             sheet_tugas.update_cell(cell.row, 7, l_in)
                                             st.success("Sent!"); time.sleep(1); st.rerun()
                                     
-    # --- 4. LACI ARSIP ---
+    # --- 4. LACI ARSIP (GAYA MODERN) ---
     st.divider()
     df_arsip = pd.DataFrame()
-    with st.expander("📜 Riwayat Tugas Selesai"):
+    with st.expander("📜 RIWAYAT TUGAS SELESAI", expanded=False):
         if not df_all_tugas.empty:
-            # 1. Gunakan filter UPPERCASE untuk Status dan Staf
+            # 1. Filter Tetap Sama (Logika Gak Berubah)
             mask_s = (df_all_tugas['STATUS'] == "FINISH")
             if user_sekarang != "dian": 
                 mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
             
             df_arsip = df_all_tugas[mask_s].copy()
             
-            if not df_arsip.empty: 
-                # 2. Pastikan pemanggilan kolom menggunakan HURUF BESAR
-                kolom_tampil = ['ID', 'STAF', 'DEADLINE', 'STATUS']
-                # Filter hanya kolom yang benar-benar ada untuk menghindari error
+            if not df_arsip.empty:
+                # Tambah statistik kecil biar keren
+                total_vid = len(df_arsip)
+                st.markdown(f"✅ **{total_vid} Video** telah berhasil diselesaikan.")
+                
+                # 2. Styling Kolom (Biar Gak Kayak Excel)
+                kolom_tampil = ['ID', 'STAF', 'DEADLINE', 'KETERANGAN', 'STATUS']
                 kolom_ada = [c for c in kolom_tampil if c in df_arsip.columns]
                 
-                st.dataframe(df_arsip[kolom_ada], hide_index=True, use_container_width=True)
+                # Sortir terbaru di atas
+                df_arsip = df_arsip.sort_values(by='DEADLINE', ascending=False)
+                
+                st.dataframe(
+                    df_arsip[kolom_ada],
+                    column_config={
+                        "ID": st.column_config.TextColumn("🆔 ID"),
+                        "STAF": st.column_config.TextColumn("👤 STAF"),
+                        "DEADLINE": st.column_config.TextColumn("📅 TANGGAL"),
+                        "KETERANGAN": st.column_config.TextColumn("📝 DETAIL TUGAS"),
+                        "STATUS": st.column_config.CheckboxColumn("✅ DONE") # Bisa diganti teks biasa kalau gak mau checkbox
+                    },
+                    hide_index=True, 
+                    use_container_width=True
+                )
             else: 
-                st.write("Belum ada riwayat.")
+                st.info("📭 Belum ada riwayat tugas.")
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2275,6 +2292,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
