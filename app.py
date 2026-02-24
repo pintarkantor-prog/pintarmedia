@@ -1600,73 +1600,47 @@ def tampilkan_kendali_tim():
         # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
-        # Cek apakah bulan yang dipilih adalah masa depan
+        # Penentu apakah bulan masa depan
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
-        
-        if is_masa_depan:
-            total_pengeluaran_gaji = 0
-        else:
+
+        if not is_masa_depan:
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
-                if n_up == "" or n_up == "NAN": 
-                    continue
+                if n_up == "" or n_up == "NAN": continue
                 
-                # 1. Bonus Harian
-                u_absen, b_lembur = 0, 0
+                # A. Bonus & Absen
+                u_absen_staf, b_lembur_staf = 0, 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen += 30000
-                        if jml >= 4: b_lembur += (jml - 3) * 25000
+                        if jml >= 3: u_absen_staf += 30000
+                        if jml >= 4: b_lembur_staf += (jml - 3) * 25000
                 
-                # --- LOGIKA SP PROPORSIAL (SINKRON & SMART SWITCH) ---
+                # B. Logika SP Smart Switch
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
-
-                # 1. Tentukan Standar Berdasarkan Bulan (Smart Switch)
                 if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    t_normal, t_sp1, t_sp2 = 10, 7, 4
+                    t_norm, t_s1, t_s2 = 10, 7, 4
                 else:
-                    t_normal, t_sp1, t_sp2 = 40, 30, 20
+                    t_norm, t_s1, t_s2 = 40, 30, 20
                 
-                # 2. Definisikan status bulan
-                is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
-                is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
-
-                if is_masa_depan:
-                    p_sp = 0
-                    
-                elif is_bulan_ini:
-                    # LOGIKA PROGRES DINAMIS (Mengikuti t_normal bulan tersebut)
-                    progres_hari = min(sekarang.day, 25)
-                    # Rumus: (Target Bulan Ini / 25 Hari) * Hari Berjalan
-                    ambang_aman = (t_normal / 25) * progres_hari
-                    ambang_sp1  = (t_sp1 / 25) * progres_hari
-                    ambang_sp2  = (t_sp2 / 25) * progres_hari
-                    
-                    if sekarang.day <= 6:
-                        p_sp = 0 
-                    elif tot_v >= ambang_aman:
-                        p_sp = 0 
-                    else:
-                        # Vonis SP berdasarkan standar bulan yang aktif
-                        if tot_v >= t_normal: p_sp = 0
-                        elif t_sp1 <= tot_v < t_normal: p_sp = 300000
-                        elif t_sp2 <= tot_v < t_sp1: p_sp = 700000
-                        else: p_sp = 1000000
-                        
-                else:
-                    # 3. BULAN LALU (ARSIP) - Pakai angka mutlak bulan tersebut
-                    if tot_v >= t_normal: p_sp = 0
-                    elif t_sp1 <= tot_v < t_normal: p_sp = 300000
-                    elif t_sp2 <= tot_v < t_sp1: p_sp = 700000
+                # Hitung potongan (Hanya jika bukan masa depan)
+                progres_h = min(sekarang.day, 25)
+                threshold = (t_norm / 25) * progres_h
+                
+                if sekarang.day > 6 and tot_v < threshold:
+                    if tot_v >= t_norm: p_sp = 0
+                    elif t_s1 <= tot_v < t_norm: p_sp = 300000
+                    elif t_s2 <= tot_v < t_s1: p_sp = 700000
                     else: p_sp = 1000000
                 
-                # 3. Hitung Gaji Bersih
+                # C. Hitung Gaji Bersih
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                 
-                bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
+                bersih_orang = (g_pokok + t_tunj + u_absen_staf + b_lembur_staf) - p_sp
                 total_pengeluaran_gaji += max(0, bersih_orang)
+        else:
+            total_pengeluaran_gaji = 0)
 
         # TAMPILAN HEADER (Sejajar dengan 'if is_masa_depan')
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
@@ -2340,6 +2314,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
