@@ -1072,36 +1072,37 @@ def tampilkan_tugas_kerja():
             
             # --- 4. LOGIKA BAHASA INSTRUKSI (PILIHAN KAMU) ---
             if sekarang.day <= 6:
-                status_ikon, instruksi = "🛡️ PROTEKSI", "🛡️ MASIH AMAN"
+                status_ikon, instruksi = "🛡️ PROTEKSI", "MASIH AMAN"
             elif "Level 3" in level_sp_r:
-                status_ikon, instruksi = "🚨 BAHAYA", "⚠️ EVALUASI KERJA"
+                status_ikon, instruksi = "🚨 BAHAYA", "EVALUASI KERJA"
             elif pot_sp_r > 0:
-                status_ikon, instruksi = "⚠️ WARNING", "🚀 BURUAN KEJAR"
+                status_ikon, instruksi = "⚠️ WARNING", "KEJAR SETORAN"
             elif v_finish >= target_h_ini:
-                status_ikon, instruksi = "✨ AMAN", "✅ LANJUTKAN!"
+                status_ikon, instruksi = "✨ AMAN", "LANJUTKAN!"
             else:
-                status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
+                status_ikon, instruksi = "⚡ PANTAU", "TINGKATKAN"
 
-            # 5. VISUAL RADAR (GAYA STUDIO PREMIUM - SELISIH DI SAMPING)
+            # 5. VISUAL RADAR (FIX LOGIKA + TAMPILAN PREMIUM)
             with wadah_radar.container(border=True):
-                # CSS khusus lokal biar teks instruksi & angka punya gaya "mahal"
                 st.markdown("""
                     <style>
-                    .metric-label { color: #8b949e; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; }
-                    .metric-value { color: #ffffff; font-size: 24px; font-weight: 800; line-height: 1; }
-                    .metric-sub { font-size: 14px; font-weight: normal; margin-left: 8px; }
-                    .instruksi-text { color: #1d976c; font-weight: bold; text-shadow: 0 0 10px rgba(29, 151, 108, 0.3); }
+                    .metric-label { color: #8b949e; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase; }
+                    .metric-value { color: #ffffff; font-size: 22px; font-weight: 800; line-height: 1.2; }
+                    .metric-sub { font-size: 14px; font-weight: normal; margin-left: 8px; font-family: monospace; }
+                    .instruksi-glow { color: #1d976c; font-weight: bold; text-shadow: 0 0 10px rgba(29, 151, 108, 0.4); }
+                    .warning-glow { color: #f1c40f; font-weight: bold; text-shadow: 0 0 10px rgba(241, 196, 15, 0.4); }
                     </style>
                 """, unsafe_allow_html=True)
 
                 c1, c2, c3, c4 = st.columns(4)
                 
                 with c1:
-                    st.markdown(f"<p class='metric-label'>📊 STATUS</p>", unsafe_allow_html=True)
-                    st.markdown(f"<p class='metric-value'>{status_ikon.split()[-1]}</p>", unsafe_allow_html=True)
+                    st.markdown("<p class='metric-label'>📊 STATUS</p>", unsafe_allow_html=True)
+                    # Pakai status_ikon asli lo
+                    st.markdown(f"<p class='metric-value'>{status_ikon}</p>", unsafe_allow_html=True)
                 
                 with c2:
-                    st.markdown(f"<p class='metric-label'>🎬 FINISH</p>", unsafe_allow_html=True)
+                    st.markdown("<p class='metric-label'>🎬 VIDEO FINISH</p>", unsafe_allow_html=True)
                     warna_selisih = "#1d976c" if selisih >= 0 else "#ff4b4b"
                     simbol = "+" if selisih >= 0 else ""
                     st.markdown(f"""
@@ -1111,13 +1112,14 @@ def tampilkan_tugas_kerja():
                     """, unsafe_allow_html=True)
                 
                 with c3:
-                    st.markdown(f"<p class='metric-label'>🎯 TARGET AMAN</p>", unsafe_allow_html=True)
+                    st.markdown("<p class='metric-label'>🎯 TARGET AMAN</p>", unsafe_allow_html=True)
                     st.markdown(f"<p class='metric-value'>{target_h_ini}<span class='metric-sub' style='color: #444;'>Vid</span></p>", unsafe_allow_html=True)
                 
                 with c4:
-                    st.markdown(f"<p class='metric-label'>📢 INSTRUKSI</p>", unsafe_allow_html=True)
-                    # Instruksi dibuat menyala (Glowing)
-                    st.markdown(f"<p class='metric-value instruksi-text' style='font-size: 18px;'>{instruksi}</p>", unsafe_allow_html=True)
+                    st.markdown("<p class='metric-label'>📢 INSTRUKSI</p>", unsafe_allow_html=True)
+                    # Warna instruksi adaptif: kalau bahaya/warning jadi kuning, kalau aman jadi hijau
+                    kelas_warna = "warning-glow" if "BURUAN" in instruksi or "EVALUASI" in instruksi else "instruksi-glow"
+                    st.markdown(f"<p class='metric-value {kelas_warna}' style='font-size: 16px;'>{instruksi}</p>", unsafe_allow_html=True)
             
             st.divider()
 
@@ -2273,6 +2275,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
