@@ -1120,7 +1120,7 @@ def tampilkan_tugas_kerja():
 
     # ================= TAB 1: TUGAS AKTIF =================
     with tab_tugas:
-        # --- RADAR PERFORMA (Hanya Staff) ---
+        # --- 1. RADAR PERFORMA (Hanya Staff) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
@@ -1128,29 +1128,33 @@ def tampilkan_tugas_kerja():
             
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             v_finish = len(df_all_tugas[mask_user & (df_all_tugas['STATUS'].str.strip() == 'FINISH')])
+            selisih = v_finish - target_h_ini
             
-            # Visual Ringkas Radar
-            c1, c2, c3 = st.columns(3)
-            c1.metric("SELESAI", f"{v_finish} Vid")
-            c2.metric("TARGET", f"{target_h_ini} Vid")
-            c3.metric("STATUS", "✨ AMAN" if v_finish >= target_h_ini else "⚡ PANTAU")
-            st.divider()
+            # Visual 4 Kolom Radar (Pake metric biar josh)
+            with st.container(border=True):
+                c1, c2, c3, c4 = st.columns(4)
+                c1.metric("STATUS", "✨ AMAN" if v_finish >= target_h_ini else "⚡ PANTAU")
+                c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
+                c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
+                # Instruksi dinamis
+                ins_teks = "✅ LANJUTKAN!" if v_finish >= target_h_ini else "📈 TINGKATKAN"
+                c4.metric("INSTRUKSI", ins_teks)
 
-        # --- KIRIM TUGAS BARU (Hanya Dian) ---
-        if user_sekarang == "dian":
-            with st.expander("✨ KIRIM TUGAS BARU", expanded=False):
-                df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-                staf_options = df_staff_raw['Nama'].unique().tolist()
-                c_ins, c_opt = st.columns([2, 1])
-                isi_tugas = c_ins.text_area("Instruksi")
-                staf_tujuan = c_opt.selectbox("Editor", staf_options)
-                if st.button("🚀 KIRIM", use_container_width=True):
-                    t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                    sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
-                    kirim_notif_wa(f"✨ *TUGAS BARU*\n👤 Untuk: {staf_tujuan.upper()}\n🆔 ID: {t_id}")
-                    st.success("Terkirim!"); time.sleep(1); st.rerun()
+        # --- 2. SETOR TUGAS MANDIRI (Hanya Staff) ---
+        if user_sekarang != "dian" and user_sekarang != "tamu":
+            with st.expander("➕ STAFF: SETOR TUGAS MANDIRI", expanded=False):
+                with st.form("form_mandiri", clear_on_submit=True):
+                    judul_m = st.text_input("Apa yang kamu kerjakan?")
+                    link_m = st.text_input("Link GDrive Hasil:")
+                    if st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True):
+                        if judul_m and link_m:
+                            t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                            sheet_tugas.append_row([t_id_m, user_sekarang.upper(), sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
+                            catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
+                            st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
 
-        # --- LIST CARD TUGAS (Logika Asli) ---
+        # --- 3. DAFTAR TUGAS AKTIF (CARD MODE) ---
+        st.write("### 📑 Tugas On-Progress")
         tugas_terfilter = []
         if not df_all_tugas.empty:
             if user_sekarang == "dian":
@@ -1165,47 +1169,70 @@ def tampilkan_tugas_kerja():
                 status = str(t["Status"]).upper()
                 url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
                 
-                try: selisih = (sekarang.date() - pd.to_datetime(t['Deadline']).date()).days
-                except: selisih = 0
-                is_telat = status in ["PROSES", "REVISI"] and selisih >= 2
-
                 with st.container(border=True):
-                    col_f, col_txt, col_st = st.columns([0.7, 3, 1.2])
-                    col_f.image(url_foto, width=65)
-                    col_txt.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
-                    col_txt.caption(f"📅 Deadline: {t['Deadline']} {'⚠️ TELAT' if is_telat else ''}")
+                    c1, c2, c3 = st.columns([0.8, 3, 1.2])
+                    with c1: st.image(url_foto, width=70)
+                    with c2:
+                        st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
+                        st.caption(f"📅 Deadline: {t['Deadline']}")
+                    with c3:
+                        warna = "orange" if status == "REVISI" else "green" if status == "WAITING QC" else "#00CCFF"
+                        st.markdown(f"<div style='text-align:right; color:{warna}; font-weight:bold;'>{status}</div>", unsafe_allow_html=True)
                     
-                    warna_st = "#ff4b4b" if is_telat else ("orange" if status == "REVISI" else "#00FFCC")
-                    col_st.markdown(f"<p style='text-align:right; color:{warna_st}; font-weight:bold;'>{status}</p>", unsafe_allow_html=True)
-                    
-                    with st.expander("🔍 DETAIL & SETOR HASIL"):
+                    with st.expander("🔍 DETAIL & OLAH TUGAS"):
                         st.code(t["Instruksi"])
                         if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
                         
-                        # Form Setor (Staff)
-                        if user_sekarang not in ["dian", "tamu"] and status in ["PROSES", "REVISI"]:
-                            l_in = st.text_input("Link GDrive", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
-                            if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
-                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
-                                sheet_tugas.update_cell(cell.row, 7, l_in)
-                                sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
-                                kirim_notif_wa(f"📤 *SETORAN*\n👤 {user_sekarang.upper()}\n🆔 {t['ID']}")
-                                st.success("Berhasil!"); time.sleep(1); st.rerun()
+                        st.divider()
                         
-                        # Validasi (Dian)
-                        elif user_sekarang == "dian":
-                            cat_admin = st.text_area("Catatan", key=f"cat_{t['ID']}")
+                        # --- LOGIKA AKSI STAFF (SETOR) ---
+                        if user_sekarang != "dian" and user_sekarang != "tamu":
+                            if status in ["PROSES", "REVISI"]:
+                                ki, ka = st.columns([3, 1])
+                                l_in = ki.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                                if ka.button("🚩 SETOR", key=f"b_{t['ID']}", use_container_width=True):
+                                    cell = sheet_tugas.find(str(t['ID']).strip())
+                                    sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                                    sheet_tugas.update_cell(cell.row, 7, l_in)
+                                    sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
+                                    catat_log(f"Menyetor tugas {t['ID']}")
+                                    kirim_notif_wa(f"📤 *UPDATE SETORAN TUGAS*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {l_in}")
+                                    st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
+
+                        # --- LOGIKA AKSI DIAN (VALIDASI/REVISI) ---
+                        elif user_sekarang == "dian" and status != "FINISH":
+                            cat_admin = st.text_area("Catatan Revisi (Opsional):", key=f"cat_{t['ID']}")
                             c_val, c_rev = st.columns(2)
-                            if c_val.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
-                                sheet_tugas.update_cell(sheet_tugas.find(str(t['ID']).strip()).row, 5, "FINISH")
-                                st.success("Selesai!"); time.sleep(1); st.rerun()
-                            if c_rev.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
+                            
+                            if c_val.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
+                                cell = sheet_tugas.find(str(t['ID']).strip())
+                                sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                                catat_log(f"Finish tugas {t['ID']}")
+                                kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\nTugas Nama *{t['Staf'].upper()}* (ID: {t['ID']}) telah divalidasi.")
+                                st.success("✅ Validasi Selesai!"); time.sleep(1); st.rerun()
+                                
+                            if c_rev.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                 sheet_tugas.update_cell(cell.row, 5, "REVISI")
                                 sheet_tugas.update_cell(cell.row, 8, cat_admin)
-                                st.success("Revisi Dikirim!"); time.sleep(1); st.rerun()
+                                catat_log(f"Revisi tugas {t['ID']}")
+                                kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat_admin}")
+                                st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
 
+        # --- 4. LACI ARSIP (Ditaruh paling bawah di Tab Tugas) ---
+        st.divider()
+        with st.expander("📜 LACI ARSIP: TUGAS SELESAI"):
+            if not df_all_tugas.empty:
+                mask_s = (df_all_tugas['STATUS'] == "FINISH")
+                if user_sekarang != "dian": 
+                    mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
+                
+                df_arsip = df_all_tugas[mask_s].copy()
+                if not df_arsip.empty: 
+                    st.dataframe(df_arsip[['ID', 'JUDUL', 'WAKTU_KIRIM', 'STATUS']], hide_index=True, use_container_width=True)
+                else: 
+                    st.write("Belum ada riwayat tugas selesai.")
+                    
     # ================= TAB 2: GUDANG IDE =================
     with tab_gudang:
         st.subheader("📦 Blueprint Produksi")
@@ -2054,6 +2081,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
