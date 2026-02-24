@@ -563,7 +563,7 @@ def tampilkan_navigasi_sidebar():
             [
                 "🚀 RUANG PRODUKSI", 
                 "🧠 PINTAR AI LAB", 
-                "⚡ QUICK PROMPT", 
+                "💡 GUDANG IDE", 
                 "📋 TUGAS KERJA", 
                 "⚡ KENDALI TIM"
             ],
@@ -797,199 +797,94 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                 with btn_col3:
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
-def tampilkan_quick_prompt():
-    st.title("⚡ QUICK PROMPT")
-    st.info(f"💡 **INFO :** Pada bagian ini, tidak bisa simpan atau restore data.")
+def tampilkan_gudang_ide():
+    st.title("💡 GUDANG IDE KONTEN")
+    st.info("Pilih ide blueprint di bawah. Sekali klik, semua instruksi otomatis masuk ke Ruang Produksi!")
 
-    # --- A. SETTINGAN LOKAL ---
-    QB_IMG_LOKAL = (
-        "8k RAW optical clarity, cinematic depth of field, f/1.8 aperture, "
-        "bokeh background, razor-sharp focus on subject detail, "
-        "high-index lens glass look, CPL filter, sub-surface scattering, "
-        "physically-based rendering, hyper-detailed surface micro-textures, "
-        "anisotropic filtering, ray-traced ambient occlusion"
-    )
+    url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    tz_wib = pytz.timezone('Asia/Jakarta')
 
-    QB_VID_LOKAL = (
-        "Unreal Engine 5.4, 24fps cinematic motion, ultra-clear, 8k UHD, high dynamic range, "
-        "professional color grading, ray-traced reflections, hyper-detailed textures, "
-        "temporal anti-aliasing, zero digital noise, clean pixels, "
-        "smooth motion interpolation, high-fidelity physical interaction"
-    )
-
-    NEG_LOKAL = (
-        "muscular, bodybuilder, shredded, male anatomy, human skin, human anatomy, "
-        "realistic flesh, skin pores, blurry, distorted surface, "
-        "STRICTLY NO text, NO typography, NO watermark, NO letters, NO subtitles, "
-        "NO captions, NO speech bubbles, NO dialogue boxes, NO labels, NO black bars"
-    )
-
-    # --- B. BRANKAS DATA (DIPERBARUI) ---
-    if "qp_data" not in st.session_state:
-        st.session_state.qp_data = {
-            "name_a": "", "det_a": "", "name_b": "", "det_b": "",
-            "loc": "", "act": "", "dial_a": "", "dial_b": "", "spk": []
-        }
-    
-    # PENGAMAN TAMBAHAN: Mencegah KeyError
-    if "dial_a" not in st.session_state.qp_data:
-        st.session_state.qp_data["dial_a"] = ""
-    if "dial_b" not in st.session_state.qp_data:
-        st.session_state.qp_data["dial_b"] = ""
-
-    # --- C. FORMULIR ---
-    with st.expander("📝 FORMULIR PROMPT SINGKAT", expanded=True):
-        col_a, col_b = st.columns(2)
-        with col_a:
-            q_char_a = st.text_input("Nama Karakter 1", value=st.session_state.qp_data["name_a"], placeholder="Contoh: Rumi")
-            st.session_state.qp_data["name_a"] = q_char_a
-            q_detail_a = st.text_area("Fisik & Baju (1)", value=st.session_state.qp_data["det_a"], height=80)
-            st.session_state.qp_data["det_a"] = q_detail_a
-        with col_b:
-            q_char_b = st.text_input("Nama Karakter 2", value=st.session_state.qp_data["name_b"], placeholder="Contoh: Tung")
-            st.session_state.qp_data["name_b"] = q_char_b
-            q_detail_b = st.text_area("Fisik & Baju (2)", value=st.session_state.qp_data["det_b"], height=80)
-            st.session_state.qp_data["det_b"] = q_detail_b
+    try:
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
+        client = gspread.authorize(creds)
+        sh = client.open_by_url(url_gsheet)
         
-        q_lokasi = st.text_input("📍 Lokasi", value=st.session_state.qp_data["loc"])
-        st.session_state.qp_data["loc"] = q_lokasi
+        sheet_gudang = sh.worksheet("Gudang_Ide")
+        sheet_tugas = sh.worksheet("Tugas")
         
-        # Pintar AI Logic
-        if st.button("🪄 Pintar AI (Perjelas Adegan)", use_container_width=True):
-            api_key = st.secrets.get("GROQ_API_KEY")
-            if api_key and st.session_state.qp_data["act"]:
-                with st.spinner("Memoles adegan..."):
-                    try:
-                        headers = {"Authorization": f"Bearer {api_key}"}
-                        p_ai = f"Ubah aksi ini jadi deskripsi visual sinematik 2 kalimat: {st.session_state.qp_data['act']}"
-                        res = requests.post("https://api.groq.com/openai/v1/chat/completions", 
-                                            headers=headers, 
-                                            json={"model": "llama-3.3-70b-versatile", "messages": [{"role": "user", "content": p_ai}]})
-                        if res.status_code == 200:
-                            st.session_state.qp_data["act"] = res.json()['choices'][0]['message']['content'].strip()
-                            st.rerun()
-                    except: st.error("AI Error")
-
-        q_aksi = st.text_area("🏃 Apa yang terjadi?", value=st.session_state.qp_data["act"])
-        st.session_state.qp_data["act"] = q_aksi
-
-        c1, c2, c3, c4 = st.columns(4)
-        with c1: q_shot = st.selectbox("📸 Shot Size", ["Lanskap", "Seluruh Badan", "Setengah Badan", "Close Up", "Extreme Close Up"], index=2)
-        with c2: q_arah = st.selectbox("🎥 Arah Kamera", ["Sejajar Mata", "Dari Bawah", "Dari Atas", "Dari Samping", "Belakang Karakter"], index=0)
-        with c3: q_style = st.selectbox("🎨 Visual Style", ["Sangat Nyata", "Animasi 3D Pixar", "Gaya Cyberpunk", "Anime Jepang"], index=0)
-        with c4: q_light = st.selectbox("💡 Lighting", ["Sinar Senja", "Siang Alami", "Neon Cyberpunk", "Malam Indigo", "Malam Hari"], index=1)
-
-        st.divider()
-        st.markdown("💬 **DIALOG (Obrolan)**")
-        d_col1, d_col2 = st.columns(2)
-        with d_col1:
-            q_dial_a = st.text_area(f"Dialog {q_char_a if q_char_a else 'Karakter 1'}", value=st.session_state.qp_data["dial_a"], height=80, key="q_dial_a_input")
-            st.session_state.qp_data["dial_a"] = q_dial_a
-        with d_col2:
-            q_dial_b = st.text_area(f"Dialog {q_char_b if q_char_b else 'Karakter 2'}", value=st.session_state.qp_data["dial_b"], height=80, key="q_dial_b_input")
-            st.session_state.qp_data["dial_b"] = q_dial_b
-
-    # --- E. LOGIKA RAKIT PROMPT (SMART FILTER + PHYSICS + DIALOG REFORM) ---
-    if q_aksi and q_lokasi:
-        aksi_lower = q_aksi.lower()
-        active_characters = []
+        data_gudang = sheet_gudang.get_all_records()
+        df_gudang = pd.DataFrame(data_gudang)
+        df_gudang = bersihkan_data(df_gudang)
         
-        # 1. SCANNER IDENTITAS
-        if q_char_a and q_char_a.lower() in aksi_lower:
-            active_characters.append(f"[[ ACTOR_1_SKS ({q_char_a.upper()}): refer to PHOTO #1 ONLY. WEAR: {q_detail_a} ]]")
-        if q_char_b and q_char_b.lower() in aksi_lower:
-            active_characters.append(f"[[ ACTOR_2_SKS ({q_char_b.upper()}): refer to PHOTO #2 ONLY. WEAR: {q_detail_b} ]]")
+        # Ambil list ide yang STATUS-nya 'TERSEDIA'
+        df_tersedia = df_gudang[df_gudang['STATUS'] == 'TERSEDIA'].copy()
+        # Ambil judul unik untuk grouping kartu
+        list_judul_unik = df_tersedia['JUDUL'].unique()
 
-        if active_characters:
-            char_identity_string = " AND ".join(active_characters)
-            final_identity_rule = f"IMAGE REFERENCE RULE: Use uploaded photos for each character. Interaction required. {char_identity_string}"
+        if len(list_judul_unik) == 0:
+            st.warning("📭 Gudang ide sedang kosong. Belum ada blueprint baru!")
         else:
-            final_identity_rule = f"[[ ACTOR_1_SKS ({q_char_a.upper() if q_char_a else 'CHAR1'}): {q_detail_a} ]]"
-
-        # 2. DIALOG REFORMER (Sesuai Form Terpisah)
-        raw_dialogs = []
-        if q_dial_a.strip():
-            raw_dialogs.append(f"[{q_char_a.upper() if q_char_a else 'CHAR1'}_DIALOG]: '{q_dial_a.strip()}'")
-        if q_dial_b.strip():
-            raw_dialogs.append(f"[{q_char_b.upper() if q_char_b else 'CHAR2'}_DIALOG]: '{q_dial_b.strip()}'")
-
-        if raw_dialogs:
-            emotional_ref = " | ".join(raw_dialogs)
-            acting_cue_final = (
-                f"Use these individual dialogue cues for emotional reference only: {emotional_ref}. "
-                f"STRICTLY focus mouth movement and lip-sync ONLY on the active speaker. Others must remain silent."
-            )
-        else:
-            acting_cue_final = "Neutral Interaction"
-
-        # 3. PHYSICS & VISUAL MAPPING (Penerjemah Bahasa AI Pro)
-        q_style_map = {
-            "Sangat Nyata": "Cinematic RAW shot, high-fidelity textures, 8k UHD, ray-traced lighting",
-            "Animasi 3D Pixar": "Stylized 3D render, expressive character design, global illumination",
-            "Gaya Cyberpunk": "Cyberpunk aesthetic, neon-drenched atmosphere, futuristic noir",
-            "Anime Jepang": "High-quality 2D cel-shaded, Studio Ghibli aesthetic, hand-drawn textures"
-        }
-        
-        q_shot_map = {
-            "Lanskap": "Wide-angle cinematic vista",
-            "Seluruh Badan": "Full-length portrait, wide framing",
-            "Setengah Badan": "Waist-up medium shot",
-            "Close Up": "Tight portrait, facial detail focus",
-            "Extreme Close Up": "Extreme macro lens focus"
-        }
-
-        q_arah_map = {
-            "Sejajar Mata": "Eye-level perspective, neutral camera angle",
-            "Dari Bawah": "Low-angle heroic shot, looking upward",
-            "Dari Atas": "High-angle perspective, bird's-eye view",
-            "Dari Samping": "Profile view, 90-degree lateral angle",
-            "Belakang Karakter": "Over-the-shoulder perspective, rear-view framing"
-        }
-        
-        q_light_map = {
-            "Sinar Senja": "Golden hour glow, amber warmth, long shadows",
-            "Siang Alami": "Organic daylight, soft diffusion, bright atmosphere",
-            "Neon Cyberpunk": "Vivid neon highlights, purple and cyan color-grading",
-            "Malam Indigo": "Deep twilight tones, blue-hour ambiance",
-            "Malam Hari": "Low-light cinematic contrast, moody shadows"
-        }
-
-        # Menjalankan Mapping Lokal
-        v_style = q_style_map.get(q_style, q_style)
-        v_shot = q_shot_map.get(q_shot, q_shot)
-        v_arah = q_arah_map.get(q_arah, q_arah)
-        v_light = q_light_map.get(q_light, q_light)
-
-        physics_guard = "PHYSICS RULE: Strict object permanence. All handheld items stay firmly attached. No clipping."
-        
-        # 4. RAKIT OUTPUT FINAL
-        p_img = (
-            f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} at {q_lokasi}. {physics_guard}\n"
-            f"VISUAL: {v_style}, {v_shot}, {v_arah}, {v_light}.\n"
-            f"QUALITY: {QB_IMG_LOKAL}\n"
-            f"NEGATIVE: {NEG_LOKAL}"
-        )
-
-        p_vid = (
-            f"{final_identity_rule}\n\n"
-            f"SCENE: {q_aksi} with {v_shot} framing at {v_arah} perspective at {q_lokasi}. {physics_guard}\n"
-            f"ACTING CUE (STRICTLY NO TEXT ON SCREEN): {acting_cue_final}\n"
-            f"QUALITY: {QB_VID_LOKAL}, fluid mouth movement, consistent facial features\n"
-            f"NEGATIVE: {NEG_LOKAL}"
-        )
-
-        # --- TAMPILKAN HASIL ---
-        st.divider()
-        res_img, res_vid = st.columns(2)
-        with res_img:
-            st.markdown("##### 📷 PROMPT GAMBAR")
-            st.code(p_img, language="text")
-        with res_vid:
-            st.markdown("##### 🎥 PROMPT VIDEO")
-            st.code(p_vid, language="text")
+            # --- DISPLAY GRID 3 KOLOM ---
+            for i in range(0, len(list_judul_unik), 3):
+                cols = st.columns(3)
+                batch_judul = list_judul_unik[i:i+3]
+                
+                for j, judul in enumerate(batch_judul):
+                    with cols[j]:
+                        # Ambil data satu baris aja buat info di kartu
+                        row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         
-        st.success("✅ Quick Prompt Berhasil! Silahkan langsung copy ke grok atau gemini flow veo.")
+                        with st.container(border=True):
+                            st.markdown(f"### 🎬 {judul}")
+                            st.markdown(f"🆔 `ID: {row_info['ID_IDE']}`")
+                            st.caption(f"📂 Kategori: {row_info.get('KATEGORI', 'Viral Content')}")
+                            
+                            st.write("") 
+
+                            if st.button(f"🚀 AMBIL & PROSES", key=f"btn_{row_info['ID_IDE']}", use_container_width=True):
+                                with st.spinner("Menyiapkan Blueprint..."):
+                                    # 1. Update Status di GSheet Gudang_Ide
+                                    target_id = str(row_info['ID_IDE']).strip()
+                                    cells = sheet_gudang.findall(target_id)
+                                    for cell in cells:
+                                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                                    
+                                    # 2. Ambil Semua Adegan untuk Blueprint ini
+                                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row_info['ID_IDE']]
+                                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                                    
+                                    # 3. Inject ke Ruang Produksi (Logika Sakti Lo)
+                                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul}\n\n"
+                                    for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                                        st.session_state.data_produksi["adegan"][idx] = {
+                                            "aksi": a_row['NASKAH_VISUAL'],
+                                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                                            "style": a_row['STYLE'],
+                                            "shot": a_row['UKURAN_GAMBAR'],
+                                            "light": a_row['LIGHTING'],
+                                            "arah": a_row['ARAH_KAMERA'],
+                                            "cam": a_row['GERAKAN'],
+                                            "loc": a_row['LOKASI']
+                                        }
+                                        rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
+                                    
+                                    # 4. Kirim ke Sheet Tugas (Biar masuk antrean)
+                                    t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                                    tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
+                                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul}", "PROSES", "-", "", ""])
+
+                                    # 5. Finalisasi Session
+                                    st.session_state.naskah_siap_produksi = rangkuman_naskah
+                                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                                    
+                                    st.success("✅ Blueprint Terpasang! Cek Ruang Produksi.")
+                                    time.sleep(1)
+                                    st.rerun()
+
+    except Exception as e:
+        st.error(f"⚠️ Error Gudang: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -1098,7 +993,7 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-# --- VERSI BAHASA LUGAS (PASTI PAHAM) ---
+        # --- VERSI BAHASA LUGAS (PASTI PAHAM) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             # 1. SETUP TARGET & DATA
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
@@ -1181,67 +1076,6 @@ def tampilkan_tugas_kerja():
                     if pake_wa:
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...\n\n_Silakan cek dashboard untuk pengerjaan._ 🚀")
                     st.success("✅ Berhasil terkirim!"); time.sleep(1); st.rerun()
-
-    ### --- 🟢 SISTEM GUDANG BLUEPRINT (VERSI DROPDOWN MASTER) --- ###
-    st.subheader("📦 GUDANG IDE PINTAR")
-    try:
-        data_gudang = sheet_gudang.get_all_records()
-        df_gudang = pd.DataFrame(data_gudang)
-        df_gudang = bersihkan_data(df_gudang)
-        
-        if not df_gudang.empty:
-            # 1. Pastikan list judul unik dan tersedia
-            list_judul = df_gudang[df_gudang['STATUS'].astype(str).str.upper() == 'TERSEDIA']['JUDUL'].unique().tolist()
-            pilihan_judul = st.selectbox("🎯 Pilih Ide Konten Hari Ini:", ["-- Pilih Judul Cerita --"] + list_judul)
-
-            # 2. LOGIKA INI HANYA JALAN JIKA JUDUL SUDAH DIPILIH
-            if pilihan_judul != "-- Pilih Judul Cerita --":
-                # Definisi 'row' dilakukan di sini agar aman
-                row = df_gudang[df_gudang['JUDUL'] == pilihan_judul].iloc[0]
-                
-                st.success(f"Kamu memilih: **{row['JUDUL']}**")
-                
-                # Sekarang Python tahu siapa itu 'row', jadi tombol tidak akan error lagi
-                if st.button(f"🚀 AMBIL IDE: {row['ID_IDE']}", use_container_width=True):
-                    # Paksa ID jadi String dan hapus spasi gaib
-                    target_id = str(row['ID_IDE']).strip()
-                    cells = sheet_gudang.findall(target_id)
-                    
-                    for cell in cells:
-                        # Update kolom status (kolom ke-3) di GSheet
-                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                    
-                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row['ID_IDE']]
-                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                    
-                    # Rakit naskah referensi agar muncul di paling atas Ruang Produksi
-                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row['JUDUL']}\n\n"
-                    
-                    for i, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                        st.session_state.data_produksi["adegan"][i] = {
-                            "aksi": a_row['NASKAH_VISUAL'],
-                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                            "style": a_row['STYLE'],
-                            "shot": a_row['UKURAN_GAMBAR'],
-                            "light": a_row['LIGHTING'],
-                            "arah": a_row['ARAH_KAMERA'],
-                            "cam": a_row['GERAKAN'],
-                            "loc": a_row['LOKASI']
-                        }
-                        rangkuman_naskah += f"**Adegan {i}:** {a_row['NASKAH_VISUAL']}\n\n"
-                    
-                    # Kirim rangkuman ke session state naskah referensi
-                    st.session_state.naskah_siap_produksi = rangkuman_naskah
-                    
-                    # Trigger refresh form
-                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    catat_log(f"Mengambil Blueprint {row['ID_IDE']}")
-                    
-                    st.success("✅ Ide Berhasil di Pindah! Cek Ruang Produksi Sekarang!")
-                    time.sleep(1)
-                    st.rerun()
-    except Exception as e:
-        st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
     # --- 3. SETOR TUGAS MANDIRI (MODERN CARD) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2353,13 +2187,14 @@ def utama():
         # Logika Menu
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
         elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
-        elif menu == "⚡ QUICK PROMPT": tampilkan_quick_prompt()
+        elif menu == "💡 GUDANG IDE": tampilkan_quick_prompt()
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
         elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
