@@ -1925,9 +1925,6 @@ def tampilkan_kendali_tim():
 
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
-            
-            if not ada_kerja:
-                st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
@@ -2339,3 +2336,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
