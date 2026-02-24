@@ -1279,23 +1279,33 @@ def tampilkan_tugas_kerja():
                     url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
                     
                     with cols[j]:
+                        # CSS tipis buat bikin border berwarna sesuai status
+                        border_color = "#ff4b4b" if status == "REVISI" else "#faca2b" if status == "WAITING QC" else "#00c853"
+                        
                         with st.container(border=True):
-                            # HEADER SLIM
+                            # Header dengan layout yang lebih lega
                             c1, c2 = st.columns([0.8, 3])
                             with c1: 
-                                st.image(url_foto, width=50) # Ukuran foto dikecilin dikit
+                                st.image(url_foto, width=55)
                             with c2:
-                                # Nama & ID dalam baris yang sama biar ringkas
-                                st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
-                                # Badge Status tipis
-                                color_ball = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
-                                st.markdown(f"{color_ball} `{status}`")
-                            olah = st.toggle("🔍 Detail Tugas", key=f"tgl_{t['ID']}")
+                                # Nama tebal & ID dalam badge hijau
+                                st.markdown(f"### {str(t['Staf']).upper()}")
+                                ball = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
+                                st.markdown(f"{ball} `{status}` | `ID: {t['ID']}`")
+                            
+                            st.write("") # Spasi pemanis
+                            
+                            # Toggle dengan label yang lebih bersih
+                            olah = st.toggle("🔍 Buka Detail Tugas", key=f"tgl_{t['ID']}")
                             
                             if olah:
                                 st.divider()
-                                if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
+                                # Bagian instruksi tetep pake Quote biar rapi
+                                if t.get("Catatan_Revisi"): 
+                                    st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
+                                
+                                # ... sisa kode QC / Staff lo yang lama ...
                                 
                                 # --- TAMPILAN KHUSUS ADMIN DIAN (QC) ---
                                 if user_sekarang == "dian":
@@ -2324,6 +2334,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
