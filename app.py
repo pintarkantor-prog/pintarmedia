@@ -844,41 +844,32 @@ def tampilkan_gudang_ide():
     if "status_sukses" not in st.session_state:
         st.session_state.status_sukses = False
 
-    # --- 2. LOGIKA TAMPILAN OVERLAY (LOADING / SUKSES) ---
+# --- 2. LOGIKA TAMPILAN OVERLAY (DARK STUDIO STYLE) ---
     if st.session_state.sedang_proses_id:
         if st.session_state.status_sukses:
-            with st.container():
-                st.markdown(f"""
-                    <div class="loading-overlay">
-                        <div class="success-card">
-                            <h1 style="font-size: 80px; margin-bottom: 10px;">✅</h1>
-                            <h1 class="text-neon" style="font-size: 40px;">BERHASIL!</h1>
-                            <h3 style="color: white; margin-top: 10px;">NASKAH PRODUKSI TELAH TERPASANG</h3>
-                            <p style="color: #8b949e; font-size: 14px; margin-bottom: 30px;">
-                                Data cerita sudah masuk ke antrean.<br>
-                                Silahkan buka menu <b>🚀 RUANG PRODUKSI</b> untuk proses prompt.
-                            </p>
-                        </div>
+            # TAMPILAN SUKSES (SAMA DENGAN GAYA PROSES AI LAB)
+            st.markdown(f"""
+                <div class="loading-overlay">
+                    <div style="background: rgba(26, 28, 36, 0.95); padding: 50px; border-radius: 20px; border: 2px solid #1d976c; text-align: center; box-shadow: 0 0 30px rgba(29, 151, 108, 0.2);">
+                        <h1 style="font-size: 60px; margin-bottom: 20px;">✅</h1>
+                        <h2 style="color: #1d976c; margin-bottom: 10px; font-weight: bold; letter-spacing: 2px;">BERHASIL!</h2>
+                        <h4 style="color: white; font-weight: normal;">DATA NASKAH TELAH TERPASANG</h4>
+                        <p style="color: #8b949e; font-size: 14px; margin-top: 15px;">
+                            Silahkan cek menu <b>🚀 RUANG PRODUKSI</b><br>untuk mulai pengerjaan.
+                        </p>
                     </div>
-                """, unsafe_allow_html=True)
-                
-                # Tombol Manual buat nutup
-                col_b1, col_b2, col_b3 = st.columns([1, 1, 1])
-                with col_b2:
-                    st.write("<div style='height: 420px;'></div>", unsafe_allow_html=True)
-                    if st.button("KEMBALI KE DASHBOARD", use_container_width=True):
-                        st.session_state.sedang_proses_id = None
-                        st.session_state.status_sukses = False
-                        st.rerun()
+                </div>
+            """, unsafe_allow_html=True)
         else:
+            # TAMPILAN LOADING (SPINNER)
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="spinner"></div>
-                    <h2 class="text-neon">MENGAMBIL DATA NASKAH...</h2>
+                    <h2 style='color: white; letter-spacing: 2px;'>MENGAMBIL DATA...</h2>
                     <p style='color: #8b949e;'>Sinkronisasi ke Cloud Database PINTAR</p>
                 </div>
             """, unsafe_allow_html=True)
-
+            
     # --- 3. KONFIGURASI GSHEET ---
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -2261,6 +2252,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
