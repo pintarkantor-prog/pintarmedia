@@ -1725,10 +1725,38 @@ def tampilkan_kendali_tim():
             else:
                 st.caption("Tidak ada jadwal untuk periode ini.")
 
-        # --- TAMPILAN 5: GRAFIK PRODUKTIVITAS ---
-        with st.expander("📊 GRAFIK PRODUKTIVITAS"):
+        # --- TAMPILAN 5: MONITORING & GRAFIK PRODUKTIVITAS (UPGRADE) ---
+        with st.expander("📊 MONITORING PRODUKTIVITAS TIM", expanded=True):
             if rekap_total_video:
+                # 1. Hitung Target Berjalan (Base on Tgl 24 hari ini)
+                progres_hari = min(sekarang.day, 25)
+                target_aman = round((40 / 25) * progres_hari, 1)
+                
+                # 2. Siapkan Data untuk Tabel Ringkas
+                data_monitor = []
+                for nama, jml in rekap_total_video.items():
+                    selisih = jml - target_aman
+                    if jml >= target_aman:
+                        status = "🟢 ON TRACK"
+                    elif jml >= (20 / 25) * progres_hari: # Batas SP2
+                        status = "🟡 WASPADA"
+                    else:
+                        status = "🔴 BAHAYA (SP3)"
+                    
+                    data_monitor.append({
+                        "STAF": nama,
+                        "HASIL": jml,
+                        "TARGET": target_aman,
+                        "SELISIH": round(selisih, 1),
+                        "STATUS": status
+                    })
+                
+                # 3. Tampilkan Tabel Ringkas (Lebih berguna dari grafik biasa)
+                st.table(pd.DataFrame(data_monitor))
+                
+                # 4. Tampilkan Grafik Batas (Opsional tetap pakai grafik tapi lebih informatif)
                 st.bar_chart(pd.Series(rekap_total_video))
+                st.caption(f"💡 Target minimal hari ini (Tgl {sekarang.day}) adalah {target_aman} video.")
             else:
                 st.info("Belum ada video selesai bulan ini.")
 
@@ -2286,6 +2314,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
