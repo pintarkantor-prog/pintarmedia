@@ -1427,19 +1427,29 @@ def tampilkan_tugas_kerja():
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
-        # C. --- MONITORING PROGRES GAJI ---
+        # C. --- MONITORING PROGRES GAJI (VERSI SINKRON RADAR) ---
         st.divider()
-        if pot_sp > 0:
-            st.error(f"⚠️ **STATUS SEMENTARA: {level_sp}**")
-            if level_sp == "SP 1":
-                st.info(f"✨ **Sedikit lagi!** Halo {user_sekarang.capitalize()}, konsisten hari ini biar status kembali Normal.")
-            elif level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning(f"💪 **Ayo Kejar!** Target 3 video/hari bisa jadi kunci penyelamat gajimu, {user_sekarang.capitalize()}.")
+        
+        # Ambil nama panggilan agar otomatis (Icha, Lisa, Nissa, dll)
+        panggilan = user_sekarang.capitalize()
+        
+        # LOGIKA SAKTI: Status merah jika kena SP ATAU video masih di bawah target radar (selisih < 0)
+        if pot_sp > 0 or selisih < 0:
+            # Jika di bawah target radar tapi masih tanggal 1-6 (Masa Proteksi)
+            if sekarang.day <= 6:
+                st.warning(f"🛡️ **MASA PROTEKSI:** Halo {panggilan}, meskipun gajimu aman sampai tanggal 6, tapi progresmu masih di bawah target radar. Yuk mulai cicil!")
+            # Jika sudah lewat tanggal 6 tapi belum kena SP (Hanya kurang setoran harian)
+            elif pot_sp == 0:
+                st.info(f"💪 **KEJAR TARGET, {panggilan}!** Radarmu merah karena kurang {abs(selisih):.1f} video dari target aman hari ini. Semangat!")
+            # Jika sudah resmi kena SP
             else:
-                st.warning(f"🔥 **JANGAN MENYERAH!** Status ini belum final. Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {user_sekarang.capitalize()}! 🚀")
+                st.error(f"⚠️ **STATUS: {level_sp}**")
+                st.warning(f"🔥 **JANGAN MENYERAH!** Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {panggilan}! 🚀")
+        
+        # Status Hijau hanya jika pot_sp == 0 DAN selisih >= 0
         else:              
-            st.success(f"🌟 **PERFORMA MANTAP, {user_sekarang.capitalize()}!**")
-            st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
+            st.success(f"🌟 **PERFORMA MANTAP, {panggilan}!**")
+            st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). Pertahankan prestasimu! 🔥")}). Pertahankan prestasimu! 🔥")
 
         # D. --- SLIP GAJI PREMIUM (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 24: 
@@ -1461,43 +1471,47 @@ def tampilkan_tugas_kerja():
                         # 3. Kalkulasi Akhir
                         v_total_terima = (v_gapok + v_tunjangan + b_video + u_hadir) - pot_sp
                         
-                        # --- DESAIN SLIP GAJI PREMIUM HTML ---
+                        # --- DESAIN SLIP GAJI PREMIUM DENGAN LOGO ---
                         slip_staff_html = f"""
-                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: sans-serif; width: 340px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                             <div style="text-align: center; margin-bottom: 20px;">
-                                <h2 style="margin: 0; color: #1d976c; letter-spacing: 2px;">PINTAR MEDIA</h2>
-                                <p style="margin: 0; font-size: 10px; color: #888; text-transform: uppercase;">Official Salary Statement</p>
-                                <div style="height: 2px; background: linear-gradient(to right, #1d976c, #11998e); margin: 15px auto; width: 50%;"></div>
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="140" style="margin-bottom: 5px;">
+                                <p style="margin: 0; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Slip Gaji Resmi - {sekarang.strftime('%B %Y')}</p>
+                                <div style="height: 2px; background: linear-gradient(to right, #1d976c, #11998e); margin: 15px auto; width: 60%;"></div>
                             </div>
                             
                             <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
-                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{user_up}</b></td></tr>
-                                <tr><td style="color: #888;">PERIODE</td><td align="right">{sekarang.strftime('%B %Y')}</td></tr>
-                                <tr><td style="color: #888;">STATUS</td><td align="right"><span style="color:#1d976c;">{level_sp}</span></td></tr>
+                                <tr><td style="color: #888;">NAMA STAFF</td><td align="right"><b>{user_up}</b></td></tr>
+                                <tr><td style="color: #888;">HASIL VIDEO (ACC)</td><td align="right"><b>{v_finish} Clips</b></td></tr>
+                                <tr><td style="color: #888;">STATUS PERFORMA</td><td align="right"><span style="color:{'#1d976c' if pot_sp == 0 else '#e74c3c'}; font-weight: bold;">{level_sp}</span></td></tr>
                             </table>
 
-                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee;">
                                 <table style="width: 100%; font-size: 13px; line-height: 2;">
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {u_hadir:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_video:,}</td></tr>
-                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp:,}</td></tr>
+                                    <tr><td style="color: #555;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                    <tr><td style="color: #555;">Tunjangan Jabatan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td style="color: #555;">Bonus Absen (3+)</td><td align="right" style="color: #1d976c;">+ Rp {u_hadir:,}</td></tr>
+                                    <tr><td style="color: #555;">Bonus Over-Target</td><td align="right" style="color: #1d976c;">+ Rp {b_video:,}</td></tr>
+                                    <tr style="color: #e74c3c;"><td>Potongan Penalti (SP)</td><td align="right">- Rp {pot_sp:,}</td></tr>
                                 </table>
                             </div>
 
                             <div style="border-top: 2px dashed #eeeeee; padding-top: 15px; text-align: center;">
-                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL DITERIMA</p>
-                                <h2 style="margin: 5px 0; color: #1d976c;">Rp {v_total_terima:,}</h2>
+                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL GAJI BERSIH</p>
+                                <h2 style="margin: 5px 0; color: #1d976c; font-size: 28px;">Rp {v_total_terima:,}</h2>
                             </div>
 
-                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #bbb;">
-                                Diterbitkan digital oleh Sistem Produksi PINTAR MEDIA<br>
-                                {sekarang.strftime('%d/%m/%Y %H:%M:%S')} WIB
+                            <div style="margin-top: 20px; padding: 10px; border-radius: 8px; background: #fff8e1; border: 1px solid #ffe082; font-size: 10px; color: #795548; text-align: center;">
+                                💡 <i>Data ini bersifat sementara hingga tanggal gajian tiba. Pastikan semua video sudah di-ACC Admin agar masuk hitungan.</i>
+                            </div>
+
+                            <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #bbb;">
+                                Diterbitkan digital oleh PINTAR MEDIA HR SYSTEM<br>
+                                ID: {datetime.now(tz_wib).strftime('%Y%m%d%H%M%S')}
                             </div>
                         </div>
                         """
-                        st.components.v1.html(slip_staff_html, height=550)
+                        st.components.v1.html(slip_staff_html, height=580)
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {v_total_terima:,} (Status: {level_sp})")
@@ -2333,4 +2347,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
