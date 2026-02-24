@@ -1284,48 +1284,43 @@ def tampilkan_tugas_kerja():
                 
                 if olah:
                     st.divider()
-                    if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                    
+                    # 1. NOTIF REVISI (Jika Ada)
+                    if t.get("Catatan_Revisi"): 
+                        st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                    
+                    # 2. INSTRUKSI
                     st.markdown("**INSTRUKSI:**")
                     st.code(t["Instruksi"])
-                    
-                    # --- 1. BAGIAN TOMBOL HASIL (HANYA TOMBOL) ---
-                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                        st.markdown("**HASIL KERJA:**")
-                        links = str(t["Link_Hasil"]).split(",")
-                        cols_link = st.columns(len(links))
-                        for i, link in enumerate(links):
-                            url = link.strip()
-                            if "http" in url:
-                                with cols_link[i]:
-                                    st.link_button(f"🔗 BUKA HASIL {i+1}", url, use_container_width=True)
-                    
                     st.divider()
 
-                    # --- 2. BAGIAN INPUT (HANYA UNTUK STAFF SAAT PROSES/REVISI) ---
+                    # --- 3. LOGIKA TAMPILAN STAFF ---
                     if user_sekarang != "dian" and user_sekarang != "tamu":
-                        # Staff bisa input link baru kalau statusnya belum Finish
+                        # TAMPILIN TOMBOL HASIL (Biar staff bisa cek link mereka sendiri)
+                        if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                            st.markdown("**HASIL KERJA KAMU:**")
+                            links = str(t["Link_Hasil"]).split(",")
+                            cols_link = st.columns(len(links))
+                            for i, link in enumerate(links):
+                                with cols_link[i]:
+                                    st.link_button(f"🔗 BUKA HASIL {i+1}", link.strip(), use_container_width=True)
+                        
+                        # INPUT UNTUK UPDATE
                         with st.expander("📝 Update / Input Link GDrive"):
-                            l_in = st.text_area("Tempel link di sini (pisahkan dengan koma):", 
+                            l_in = st.text_area("Tempel link baru di sini (pisahkan koma):", 
                                                value=t.get("Link_Hasil", ""), 
-                                               help="Link yang kamu masukkan di sini akan berubah jadi tombol di atas setelah disetor.",
                                                key=f"l_{t['ID']}")
-                            
-                            if st.button("🚩 SETOR HASIL KE QC", key=f"b_{t['ID']}", use_container_width=True):
-                                if l_in:
-                                    cell = sheet_tugas.find(str(t['ID']).strip())
-                                    sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
-                                    sheet_tugas.update_cell(cell.row, 7, l_in)
-                                    sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
-                                    st.success("✅ Terkirim ke QC!"); time.sleep(1); st.rerun()
-                                else:
-                                    st.error("Linknya mana Cok?")
+                            if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
+                                cell = sheet_tugas.find(str(t['ID']).strip())
+                                sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                                sheet_tugas.update_cell(cell.row, 7, l_in)
+                                st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
-                    # --- 3. MENU KHUSUS ADMIN DIAN (MODUL QC) ---
+                    # --- 4. LOGIKA TAMPILAN ADMIN (DIAN) ---
                     elif user_sekarang == "dian":
-                        st.markdown("---")
                         st.markdown("🔍 **PANEL QUALITY CONTROL**")
                         
-                        # TAMPILIN HASIL KERJA STAFF (BIAR TINGGAL KLIK)
+                        # TAMPILIN TOMBOL HASIL
                         if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
                             links = str(t["Link_Hasil"]).split(",")
                             cols_link = st.columns(len(links))
@@ -1333,37 +1328,36 @@ def tampilkan_tugas_kerja():
                                 with cols_link[i]:
                                     st.link_button(f"🔗 CEK HASIL {i+1}", link.strip(), use_container_width=True)
                         else:
-                            st.warning("⚠️ Staff belum menyetorkan link hasil.")
+                            st.info("Staff belum menyetor link.")
 
-                        st.write("") # Kasih spasi dikit
+                        cat_r = st.text_area("Catatan Koreksi (Kosongkan jika ACC):", key=f"cat_{t['ID']}")
                         
-                        # INPUT CATATAN REVISI
-                        cat_r = st.text_area("Catatan Koreksi (Kosongkan jika ACC):", 
-                                            placeholder="Tulis apa yang perlu diperbaiki...",
-                                            key=f"cat_{t['ID']}")
-                        
-                        col_acc, col_rev = st.columns(2)
-                        with col_acc:
+                        c1, c2 = st.columns(2)
+                        with c1:
                             if st.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                 sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                # Catat ke Log & Kirim WA
+                                
+                                # --- NOTIFIKASI WA & LOG ---
                                 catat_log(f"ACC Tugas {t['ID']}")
                                 kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n\n*Kerja bagus! Bonus video sudah masuk hitungan.*")
-                                st.success("✅ Tugas berhasil di-ACC!"); time.sleep(1); st.rerun()
-                        
-                        with col_rev:
+                                
+                                st.success("✅ Done!"); time.sleep(1); st.rerun()
+                                
+                        with c2:
                             if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
                                 if not cat_r:
-                                    st.error("Kasih alasan revisinya dulu dong Bos!")
+                                    st.error("Isi alasan revisinya dulu, Bos!")
                                 else:
                                     cell = sheet_tugas.find(str(t['ID']).strip())
                                     sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                                    sheet_tugas.update_cell(cell.row, 8, cat_r) # Masuk ke kolom Catatan_Revisi
-                                    # Catat ke Log & Kirim WA
+                                    sheet_tugas.update_cell(cell.row, 8, cat_r)
+                                    
+                                    # --- NOTIFIKASI WA & LOG ---
                                     catat_log(f"Minta Revisi {t['ID']}")
                                     kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Pesan:* {cat_r}")
-                                    st.warning("⚠️ Status berubah jadi REVISI!"); time.sleep(1); st.rerun()
+                                    
+                                    st.warning("⚠️ Status: REVISI"); time.sleep(1); st.rerun()
                                     
     # --- 4. LACI ARSIP ---
     st.divider()
@@ -2383,6 +2377,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
