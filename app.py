@@ -1347,8 +1347,13 @@ def tampilkan_tugas_kerja():
             df_absen_user = pd.DataFrame(columns=['NAMA', 'TANGGAL', 'JAM', 'STATUS'])
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        # Sekarang df_arsip dan df_absen_user dijamin punya kolom UPPERCASE
-        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(df_arsip, df_absen_user)
+        # Sekarang menyertakan bulan dan tahun agar sinkron dengan logika target berjalan
+        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(
+            df_arsip, 
+            df_absen_user, 
+            sekarang.month, 
+            sekarang.year
+        )
 
         # --- TAMPILAN ATURAN GAJI (VERSI RAPI) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & CARA HITUNG GAJI"):
@@ -2281,6 +2286,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
