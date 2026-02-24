@@ -1,4 +1,4 @@
-import streamlit as st
+    import streamlit as st
 import requests  
 import pandas as pd
 import gspread 
@@ -1594,7 +1594,7 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Penentu apakah bulan masa depan
@@ -1842,32 +1842,7 @@ def tampilkan_kendali_tim():
                     c1.caption(f"💼 {s.get('JABATAN', 'STAFF')}")
                     c2.write(f"📅 Rp {u_absen_staf:,}")
                     c3.write(f"🎬 {jml_v} Video")
-                    
-                    if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_slip_{n_up}"):
-                        v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
-                        v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                        v_total = (v_gapok + v_tunjangan + u_absen_staf + b_video_staf) - p_sp
-                        
-                        # --- DESAIN SLIP HTML (SPASI SUDAH DIRAPIKAN) ---
-                        slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 20px; border-radius: 10px; border: 3px solid #1d976c; font-family: sans-serif; width: 300px; margin: auto;">
-                            <h3 style="text-align: center; color: #1d976c; margin: 0;">PINTAR MEDIA</h3>
-                            <hr style="border: 0.5px dashed #ccc;">
-                            <table style="width: 100%; font-size: 12px; color: black;">
-                                <tr><td>Penerima</td><td align="right"><b>{n_up}</b></td></tr>
-                                <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                <tr><td>Bonus Absen</td><td align="right">Rp {u_absen_staf:,}</td></tr>
-                                <tr><td>Bonus Video</td><td align="right">Rp {b_video_staf:,}</td></tr>
-                                <tr style="color: red;"><td>Potongan SP</td><td align="right">- Rp {p_sp:,}</td></tr>
-                                <tr><td colspan="2"><hr></td></tr>
-                                <tr style="font-size: 14px; font-weight: bold; color: #1d976c;">
-                                    <td>TOTAL TERIMA</td><td align="right">Rp {v_total:,}</td>
-                                </tr>
-                            </table>
-                        </div>
-                        """
-                        st.components.v1.html(slip_html, height=350)
+
 
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang ditemukan untuk periode ini.")
@@ -2321,6 +2296,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
