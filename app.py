@@ -1098,7 +1098,7 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI 4 KOLOM: STATUS TERDEPAN (RINGKAS & ELEGAN) ---
+# --- VERSI ULTIMATE: 4 KOLOM SIMETRIS & ELEGAN ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             # 1. Logika Hitung (Dasar Kode Kamu)
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
@@ -1117,47 +1117,41 @@ def tampilkan_tugas_kerja():
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # --- LOGIKA KETERANGAN SINGKAT ---
-            if "Level 3" in level_sp_r:
-                ket_singkat = "🚨 Evaluasi"
+            # --- LOGIKA STATUS & KETERANGAN ---
+            if sekarang.day <= 6:
+                status_ikon, ket_singkat = "🛡️ PROTEKSI", "Masa Adaptasi"
+            elif "Level 3" in level_sp_r:
+                status_ikon, ket_singkat = "🚨 PERHATIAN", "Evaluasi Kontrak"
             elif pot_sp_r > 0:
-                ket_singkat = "🚀 Kejar Target"
+                status_ikon, ket_singkat = "⚠️ PERHATIAN", "Kejar Target"
             elif v_finish >= (round((40 / 25) * min(sekarang.day, 25), 1)):
-                ket_singkat = "✨ Pertahankan"
+                status_ikon, ket_singkat = "✨ AMAN", "Pertahankan!"
             else:
-                ket_singkat = "⚡ Tingkatkan"
+                status_ikon, ket_singkat = "⚡ PANTAU", "Tingkatkan Lagi"
 
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
             selisih = v_finish - target_h_ini
 
-            # 5. Visual 4 Kolom (Status di Paling Kiri)
+            # 5. Visual 4 Kolom (Semua Pakai Metric Biar Senada)
             with wadah_radar.container():
                 c1, c2, c3, c4 = st.columns(4)
                 
-                # Kolom 1: Indikator Visual (Paling Kiri)
-                with c1:
-                    if sekarang.day <= 6:
-                        st.info("🛡️ Proteksi")
-                    elif pot_sp_r > 0:
-                        st.error("⚠️ Perhatian")
-                    elif v_finish >= target_h_ini:
-                        st.success("✅ Aman")
-                    else:
-                        st.warning("🧐 Pantau")
-
+                # Kolom 1: Status Visual (Sekarang Senada!)
+                c1.metric("STATUS", status_ikon)
+                
                 # Kolom 2: Hasil
                 c2.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
                 
                 # Kolom 3: Target
-                c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Hari Ini")
+                c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
                 
-                # Kolom 4: Kondisi/Action (Ganti Level SP jadi Kata Semangat)
-                c4.metric("KETERANGAN", ket_singkat)
+                # Kolom 4: Keterangan
+                c4.metric("KONDISI", ket_singkat)
             
             st.divider()
 
-        # --- LANJUTAN KODE ASLI ---
+        # --- LANJUTAN KODE (WAJIB ADA) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1171,6 +1165,7 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.error(f"❌ Sistem Offline: {e}")
         return
+        
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
         with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
@@ -2360,6 +2355,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
