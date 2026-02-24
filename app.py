@@ -1195,7 +1195,7 @@ def tampilkan_tugas_kerja():
                                         sheet_tugas.update_cell(cell.row, 5, "WAITING QC"); sheet_tugas.update_cell(cell.row, 7, l_in)
                                         st.success("Sent!"); time.sleep(1); st.rerun()
 
-    # --- 6. LACI ARSIP ---
+    # --- 6. LACI ARSIP (SINKRON DENGAN DATA ASLI) ---
     st.divider()
     with st.expander("📜 LACI RIWAYAT TUGAS"):
         if not df_all_tugas.empty:
@@ -1204,20 +1204,32 @@ def tampilkan_tugas_kerja():
                 mask_laci &= (df_all_tugas['STAF'] == user_sekarang.upper())
             
             df_laci_final = df_all_tugas[mask_laci].copy()
+            
             total_f = len(df_laci_final[df_laci_final['STATUS'] == "FINISH"])
             total_c = len(df_laci_final[df_laci_final['STATUS'] == "CANCELED"])
             
+            # Statistik Ringkas
             c_arsip1, c_arsip2 = st.columns(2)
             c_arsip1.metric("✅ TOTAL FINISH", f"{total_f} Vid")
             c_arsip2.metric("🚫 TOTAL BATAL", f"{total_c} Vid")
             
             tab_f, tab_c = st.tabs(["✨ RIWAYAT FINISH", "🗑️ RIWAYAT BATAL"])
+            
             with tab_f:
                 df_f = df_laci_final[df_laci_final['STATUS'] == "FINISH"]
-                st.dataframe(df_f[['ID', 'STAF', 'DEADLINE', 'STATUS']], hide_index=True, use_container_width=True)
+                # Cek kolom yang tersedia (Deadline di GSheet lo tulisannya 'Deadline')
+                kolom_f = [c for c in ['ID', 'Staf', 'Deadline', 'Status'] if c in df_f.columns]
+                st.dataframe(df_f[kolom_f], hide_index=True, use_container_width=True)
+            
             with tab_c:
                 df_c = df_laci_final[df_laci_final['STATUS'] == "CANCELED"]
-                st.dataframe(df_c[['ID', 'STAF', 'STATUS', 'CATATAN']], hide_index=True, use_container_width=True)
+                # SINKRONISASI: Pakai 'Catatan_Revisi' sesuai gambar GSheet lo
+                kolom_c = [c for c in ['ID', 'Staf', 'Status', 'Catatan_Revisi'] if c in df_c.columns]
+                
+                if 'Catatan_Revisi' not in df_c.columns:
+                    st.info("💡 Kolom 'Catatan_Revisi' belum ada data batal.")
+                
+                st.dataframe(df_c[kolom_c], hide_index=True, use_container_width=True)
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2183,6 +2195,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
