@@ -950,63 +950,55 @@ def kirim_notif_wa(pesan):
         pass
 
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
-    # --- 1. INISIALISASI ---
     bonus_video_total = 0
     uang_absen_total = 0
+    hari_lemah = 0  
     pot_sp = 0
     level_sp = "NORMAL"
     
-    # Ambil waktu sekarang (WIB)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
-    tgl_skrg = sekarang.day
-    bln_skrg = sekarang.month
-    thn_skrg = sekarang.year
 
-    # Proteksi data kosong
     if df_arsip_user.empty and df_absen_user.empty:
-        return 0, 0, 0, "BELUM ADA DATA"
+        return 0, 0, 0, "BELUM ADA DATA", 0
 
-    # --- 2. HITUNG BONUS (Sama seperti sebelumnya) ---
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
     
-    if 'TANGGAL' in df_absen_user.columns and 'STATUS' in df_arsip_user.columns:
-        df_absen_user['TANGGAL_DT'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date
+    if 'TANGGAL' in df_absen_user.columns:
+        df_absen_user['TANGGAL_DT'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce')
+        # FILTER RESET OTOMATIS: Hanya hitung absen bulan terpilih
+        mask_absen = (df_absen_user['TANGGAL_DT'].dt.month == bulan_pilih) & \
+                     (df_absen_user['TANGGAL_DT'].dt.year == tahun_pilih)
+        df_absen_pilih = df_absen_user[mask_absen].copy()
+
         if 'TGL_SIMPLE' in df_arsip_user.columns:
             rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
-            for tgl in df_absen_user['TANGGAL_DT'].dropna().unique():
-                jml_v = rekap_harian.get(str(tgl), 0)
-                if jml_v >= 3: uang_absen_total += 30000 
-                if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000
+            for tgl in df_absen_pilih['TANGGAL_DT'].dt.date.dropna().unique():
+                tgl_str = str(tgl)
+                jml_v = rekap_harian.get(tgl_str, 0)
+                
+                if jml_v < 3: hari_lemah += 1 # Nyawa berkurang
+                if jml_v >= 3: uang_absen_total += 30000 # Bonus absen
+                if jml_v >= 5:
+                    bonus_video_total += (jml_v - 4) * 30000 # Bonus video ke-5 dst
 
-    # --- 3. LOGIKA SP CERDAS (SUDAH DENGAN SP 3) ---
-    total_v_bulan = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
-    
-    # A. CEK APAKAH INI BULAN DEPAN?
-    if tahun_pilih > thn_skrg or (tahun_pilih == thn_skrg and bulan_pilih > bln_skrg):
-        pot_sp = 0
-        level_sp = "MASA DEPAN (BELUM MULAI)"
-        
-    # B. CEK APAKAH INI BULAN SEKARANG?
-    elif tahun_pilih == thn_skrg and bulan_pilih == bln_skrg:
-        if tgl_skrg <= 6:
-            pot_sp = 0
-            level_sp = "NORMAL (MASA PROTEKSI)"
-        else:
-            if total_v_bulan >= 15: pot_sp = 0; level_sp = "NORMAL"
-            elif 10 <= total_v_bulan < 15: pot_sp = 300000; level_sp = "SP 1"
-            elif 5 <= total_v_bulan < 10: pot_sp = 700000; level_sp = "SP 2"
-            else: pot_sp = 1000000; level_sp = "SP 3 (SANKSI BERAT / CUT OFF)"
-            
-    # C. CEK APAKAH INI BULAN LALU (ARSIP)?
+    # Logika SP berdasarkan Akumulasi Hari Lemah
+    if bulan_pilih == sekarang.month and tahun_pilih == sekarang.year and sekarang.day <= 6:
+        pot_sp = 0; level_sp = "NORMAL (MASA PROTEKSI)"
     else:
-        if total_v_bulan >= 15: pot_sp = 0; level_sp = "NORMAL"
-        elif 10 <= total_v_bulan < 15: pot_sp = 300000; level_sp = "SP 1"
-        elif 5 <= total_v_bulan < 10: pot_sp = 700000; level_sp = "SP 2"
-        else: pot_sp = 1000000; level_sp = "SP 3 (SANKSI BERAT / CUT OFF)"
-            
-    return bonus_video_total, uang_absen_total, pot_sp, level_sp
+        if hari_lemah >= 21: pot_sp = 1000000; level_sp = "SP 3 (CUT OFF)"
+        elif hari_lemah >= 14: pot_sp = 700000; level_sp = "SP 2"
+        elif hari_lemah >= 7: pot_sp = 300000; level_sp = "SP 1"
+        else: pot_sp = 0; level_sp = "NORMAL"
+
+    # BONUS SULTAN 100 VIDEO
+    total_v_finish = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
+    if total_v_finish >= 100:
+        bonus_video_total += 500000
+        level_sp += " + 👑 BONUS 100V"
+
+    return bonus_video_total, uang_absen_total, pot_sp, level_sp, hari_lemah
 
 def tampilkan_tugas_kerja():
     st.title("📋 TUGAS KERJA & MONITORING")
@@ -1070,31 +1062,48 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
+            # Ambil 5 data dari fungsi baru
+            b_vid, u_abs, pot_sp_r, level_sp_r, h_kurang = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            if sekarang.day <= 6:
-                status_ikon, instruksi = "🛡️ PROTEKSI", "MASIH AMAN"
-            elif "Level 3" in level_sp_r:
-                status_ikon, instruksi = "🚨 BAHAYA", "EVALUASI KERJA"
-            elif pot_sp_r > 0:
-                status_ikon, instruksi = "⚠️ WARNING", "KEJAR TARGET"
-            elif v_finish >= target_h_ini:
-                status_ikon, instruksi = "✨ AMAN", "LANJUTKAN!"
-            else:
-                status_ikon, instruksi = "⚡ PANTAU", "TINGKATKAN"
+            # --- PENENTU PESAN RADAR (SINKRON DENGAN LOGIKA SP) ---
+            if h_kurang >= 21: 
+                status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
+            elif h_kurang >= 14: 
+                status_ikon, msg = "🔴 EMERGENCY", f"Status: {level_sp_r}. Performa kritis!"
+            elif h_kurang >= 7: 
+                status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo setor video!"
+            elif h_kurang >= 4: 
+                status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
+            else: 
+                status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
 
+            # --- TAMPILAN RADAR ---
             with wadah_radar.container(border=True):
-                st.markdown("<style>.metric-label { color: #8b949e; font-size: 11px; font-weight: bold; text-transform: uppercase; } .metric-value { color: #ffffff; font-size: 22px; font-weight: 800; } .metric-sub { font-size: 14px; margin-left: 8px; }</style>", unsafe_allow_html=True)
-                c1, c2, c3, c4 = st.columns(4)
-                with c1: st.markdown(f"<p class='metric-label'>📊 STATUS</p><p class='metric-value'>{status_ikon}</p>", unsafe_allow_html=True)
+                c1, c2, c3, c4 = st.columns([1, 1, 1, 1.5]) # c4 agak lebar buat teks info
+                
+                with c1: 
+                    st.metric("📊 STATUS", status_ikon)
+                
                 with c2: 
-                    w_sel = "#1d976c" if selisih >= 0 else "#ff4b4b"
-                    st.markdown(f"<p class='metric-label'>🎬 VIDEO FINISH</p><p class='metric-value'>{v_finish}<span class='metric-sub' style='color: {w_sel};'>{selisih:+.1f}</span></p>", unsafe_allow_html=True)
-                with c3: st.markdown(f"<p class='metric-label'>🎯 TARGET AMAN</p><p class='metric-value'>{target_h_ini}</p>", unsafe_allow_html=True)
-                with c4: st.markdown(f"<p class='metric-label'>📢 INSTRUKSI</p><p class='metric-value' style='font-size: 16px;'>{instruksi}</p>", unsafe_allow_html=True)
-            st.divider()
+                    # Pakai delta_color="inverse" agar angka merah jika hari kurang bertambah
+                    st.metric(
+                        "💀 HARI KURANG", 
+                        f"{h_kurang} / 21", 
+                        delta=f"{h_kurang} hari" if h_kurang > 0 else None,
+                        delta_color="inverse"
+                    )
+                
+                with c3: 
+                    # Menampilkan total bonus (Uang Absen + Bonus Video ke-5)
+                    total_semua_bonus = b_vid + u_abs
+                    st.metric("💰 TOTAL BONUS", f"Rp {total_semua_bonus:,}")
+                
+                with c4: 
+                    # Tambahkan spasi sedikit agar sejajar dengan metrik
+                    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+                    st.write(f"📢 **INFO:** \n\n {msg}")
 
         df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
         staf_options = df_staff_raw['Nama'].unique().tolist()
@@ -1280,7 +1289,7 @@ def tampilkan_tugas_kerja():
             df_absen_user = pd.DataFrame(columns=['NAMA', 'TANGGAL', 'JAM', 'STATUS'])
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(
+        b_video, u_hadir, pot_sp, level_sp, h_kurang_total = hitung_logika_performa_dan_bonus(
             df_arsip_user,
             df_absen_user, 
             sekarang.month, 
@@ -1420,7 +1429,11 @@ def tampilkan_tugas_kerja():
                             </div>
                         </div>
                         """
+                        # ... baris HTML slip lo di atas ...
                         st.components.v1.html(slip_staff_html, height=650)
+
+                        # --- TARUH DI SINI ---
+                        panggilan_fix = S_VAR_NAMA.split()[0].capitalize() 
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {S_VAR_TOTAL:,} oleh {S_VAR_NAMA}")
@@ -2221,6 +2234,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
