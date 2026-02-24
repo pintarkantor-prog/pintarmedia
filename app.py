@@ -1446,19 +1446,18 @@ def tampilkan_tugas_kerja():
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
-        # C. --- MONITORING PROGRES GAJI ---
+        # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
         st.divider()
         if pot_sp > 0:
-            st.error(f"⚠️ **STATUS SEMENTARA: {level_sp}**")
-            if level_sp == "SP 1":
-                st.info(f"✨ **Sedikit lagi!** Halo {user_sekarang.capitalize()}, konsisten hari ini biar status kembali Normal.")
-            elif level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning(f"💪 **Ayo Kejar!** Target 3 video/hari bisa jadi kunci penyelamat gajimu, {user_sekarang.capitalize()}.")
-            else:
-                st.warning(f"🔥 **JANGAN MENYERAH!** Status ini belum final. Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {user_sekarang.capitalize()}! 🚀")
-        else:              
-            st.success(f"🌟 **PERFORMA MANTAP, {user_sekarang.capitalize()}!**")
-            st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
+            st.error(f"⚠️ **STATUS KEDISIPLINAN: {level_sp}**")
+            st.write(f"Sistem mendeteksi setoran video kamu di bawah standar (≤ 1 video/hari).")
+            # Baris denda sudah dihapus dari sini sesuai permintaanmu
+            if level_sp == "SP 2 (PERINGATAN KERAS)":
+                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (CUT OFF)!")
+        else:             
+            st.info("🌟 **STATUS PERFORMA: TERJAGA**")
+            st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
+
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
@@ -1622,7 +1621,7 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+    # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Penentu apakah bulan masa depan
@@ -2344,4 +2343,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
