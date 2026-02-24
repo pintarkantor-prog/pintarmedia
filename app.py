@@ -189,27 +189,33 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    if 8 <= jam < 10: 
+    # Jendela absen diperlebar (Jam 8 pagi sampai Jam 10 malam)
+    if 8 <= jam < 22: 
         try:
             scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
             creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
             client = gspread.authorize(creds)
             sheet_absen = client.open_by_url(url_gsheet).worksheet("Absensi")
             
-            # AMBIL DATA & BERSIHKAN
             data_mentah = sheet_absen.get_all_records()
             df_absen = bersihkan_data(pd.DataFrame(data_mentah))
             
             nama_up = nama_user.upper()
-            
-            # CEK APAKAH SUDAH ADA (Tanpa bingung Huruf Besar/Kecil)
             sudah_absen = False
             if not df_absen.empty:
+                # Cek apakah tanggal dan nama sudah ada
                 sudah_absen = any((df_absen['TANGGAL'].astype(str) == tgl_skrg) & (df_absen['NAMA'] == nama_up))
             
             if not sudah_absen:
-                sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, "HADIR"])
-                st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
+                # LOGIKA STATUS: Jam 8-10 HADIR, lewat jam 10 TELAT
+                status_final = "HADIR" if jam < 10 else f"TELAT ({jam_skrg})"
+                
+                sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, status_final])
+                
+                if jam < 10:
+                    st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
+                else:
+                    st.toast(f"⚠️ Tercatat Telat (Jam {jam_skrg})", icon="ℹ️")
         except:
             pass
 
@@ -1304,9 +1310,9 @@ def tampilkan_tugas_kerja():
                 st.markdown("""
                 Selamat bekerja! Agar penghasilan kamu maksimal, mohon perhatikan aturan berikut:
                 
-                * ⏰ **Bonus Kehadiran:** Tambahan **Rp 30.000** diberikan setiap hari jika kamu menyelesaikan minimal **3 video** dengan status **Finish**.
-                * 🎬 **Apresiasi Produksi:** Untuk video ke-4 (berlaku kelipatan) di hari yang sama, ada tambahan **Rp 25.000** per video.
-                * ⚠️ **Batas Minimal Bonus:** Jika hanya menyelesaikan **2 video** dalam sehari, status kamu **Aman** (tidak tercatat SP), namun kamu **tidak mendapatkan** Bonus Kehadiran maupun Bonus Produksi pada hari tersebut.
+                * ⏰ **Bonus Kehadiran:** Tambahan **Rp 30.000** diberikan setiap hari jika kamu menyelesaikan minimal **3 video** (FINISH).
+                * 🎬 **Apresiasi Produksi (Lembur):** Bonus tambahan **Rp 30.000** per video baru mulai diberikan pada **video ke-5** dan seterusnya dalam satu hari.
+                * ⚠️ **Batas Minimal Bonus:** Jika hanya menyelesaikan **2 video** sehari, status **Aman**, namun Bonus Kehadiran & Lembur **TIDAK CAIR**.
                 * 📌 **Penting:** Perhitungan bonus dilakukan secara harian. Mari jaga konsistensi setiap hari agar bonus tidak terlewat.
                 
                 ---
@@ -2232,6 +2238,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
