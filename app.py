@@ -1284,12 +1284,15 @@ def tampilkan_tugas_kerja():
                 
                 if olah:
                     st.divider()
-                    if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                    if t.get("Catatan_Revisi"): 
+                        st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                    
                     st.markdown("**INSTRUKSI:**")
                     st.code(t["Instruksi"])
                     
                     if user_sekarang != "dian" and user_sekarang != "tamu":
-                        if status in ["PROSES", "REVISI"]:
+                        # Gue tambahin "WAITING QC" di sini biar link tetep muncul
+                        if status in ["PROSES", "REVISI", "WAITING QC"]:
                             l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
                             if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
                                 cell = sheet_tugas.find(str(t['ID']).strip())
@@ -1301,6 +1304,7 @@ def tampilkan_tugas_kerja():
                                 st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
                     
                     elif user_sekarang == "dian" and status != "FINISH":
+                        # Kalau lo (Dian) yang buka, munculnya tombol Validasi
                         cat_r = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
                         col1, col2 = st.columns(2)
                         with col1:
@@ -2337,4 +2341,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
