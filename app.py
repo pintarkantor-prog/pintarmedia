@@ -846,6 +846,7 @@ def tampilkan_gudang_ide():
                 <div class="loading-overlay">
                     <div class="spinner"></div>
                     <h2 style='color: white; letter-spacing: 2px;'>MENGAMBIL DATA...</h2>
+                    <p style='color: #8b949e;'>Sinkronisasi ke Cloud Database PINTAR</p>
                 </div>
             """, unsafe_allow_html=True)
             
@@ -2244,6 +2245,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
