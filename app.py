@@ -1064,8 +1064,6 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
-    st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba sistem! Lapor ke WA kalau ada eror di menu web, terutama prompt video dialognya")
-
     wadah_radar = st.empty()
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -1135,27 +1133,6 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
-
-    # --- 1. LEADERBOARD ---
-    if not df_all_tugas.empty:
-        mask_l = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
-                 (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year) & \
-                 (df_all_tugas['STATUS'] == "FINISH")
-        
-        df_finish_l = df_all_tugas[mask_l].copy()
-        if not df_finish_l.empty:
-            skor = df_finish_l['STAF'].astype(str).str.strip().str.upper().value_counts().reset_index()
-            skor.columns = ['Nama', 'Video']
-            ranks = skor.values.tolist()
-            c1, c2, c3 = st.columns(3)
-            with c1: 
-                if len(ranks) > 0: st.metric("🥇 JUARA 1", ranks[0][0], f"{ranks[0][1]} Video")
-            with c2: 
-                if len(ranks) > 1: st.metric("🥈 JUARA 2", ranks[1][0], f"{ranks[1][1]} Video")
-            with c3: 
-                if len(ranks) > 2: st.metric("🥉 JUARA 3", ranks[2][0], f"{ranks[2][1]} Video")
-
-    st.divider()
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
@@ -1461,7 +1438,7 @@ def tampilkan_tugas_kerja():
             st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
+        if sekarang.day >= 28: # Ganti ke 28 setelah selesai tes
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
                     # Ambil Data Pokok Staff & Pastikan Clean
@@ -2344,4 +2321,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
