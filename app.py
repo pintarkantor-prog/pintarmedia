@@ -1621,6 +1621,14 @@ def tampilkan_kendali_tim():
                 # --- LOGIKA SP PROPORSIAL (ANTI-PANIK & ANTI-VONIS BULAN DEPAN) ---
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
+
+                # Tentukan Standar Berdasarkan Bulan
+                if tahun_dipilih == 2026 and bulan_dipilih == 2:
+                    # KHUSUS FEBRUARI (Masa Transisi)
+                    t_normal, t_sp1, t_sp2 = 10, 7, 4
+                else:
+                    # MARET & SETERUSNYA (Standar Resmi)
+                    t_normal, t_sp1, t_sp2 = 40, 30, 20
                 
                 # Definisikan status bulan
                 is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
@@ -1846,10 +1854,13 @@ def tampilkan_kendali_tim():
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
                 
-                # Standar Target (Acuan 2 Video/Hari)
-                target_normal = 40
-                target_sp1 = 30
-                target_sp2 = 20
+                # --- SISTEM SMART SWITCH TARGET ---
+                if tahun_dipilih == 2026 and bulan_dipilih == 2:
+                    # KHUSUS FEBRUARI (Transisi)
+                    t_normal, t_sp1, t_sp2 = 10, 7, 4
+                else:
+                    # MARET & SETERUSNYA (Standar Resmi)
+                    t_normal, t_sp1, t_sp2 = 40, 30, 20
 
                 # Penentu Status Bulan
                 is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
@@ -2340,6 +2351,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
