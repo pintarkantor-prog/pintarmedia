@@ -1602,7 +1602,7 @@ def tampilkan_kendali_tim():
         
         # Penentu apakah bulan masa depan
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
-
+        
         if not is_masa_depan:
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
@@ -1639,8 +1639,9 @@ def tampilkan_kendali_tim():
                 
                 bersih_orang = (g_pokok + t_tunj + u_absen_staf + b_lembur_staf) - p_sp
                 total_pengeluaran_gaji += max(0, bersih_orang)
+        if is_masa_depan:
+            total_pengeluaran_gaji = 0
         else:
-            total_pengeluaran_gaji = 0)
 
         # TAMPILAN HEADER (Sejajar dengan 'if is_masa_depan')
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
@@ -2314,6 +2315,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
