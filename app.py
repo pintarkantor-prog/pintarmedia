@@ -1287,7 +1287,7 @@ def tampilkan_tugas_kerja():
                                 st.markdown(f"**{str(t['Staf']).upper()}**")
                                 st.caption(f"🆔 {t['ID']} | 📌 {status}")
                             
-                            olah = st.button("📋 DETAIL TUGAS", key=f"btn_{t['ID']}", use_container_width=True)
+                            olah = st.toggle("Detail Tugas", key=f"tgl_{t['ID']}")
                             
                             if olah:
                                 st.divider()
@@ -2353,6 +2353,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
