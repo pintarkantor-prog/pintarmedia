@@ -949,15 +949,14 @@ def tampilkan_gudang_ide():
 
             # --- 5. REDIRECT OTOMATIS (SETELAH 3 DETIK) ---
             if st.session_state.status_sukses:
-                time.sleep(3) # Staff baca notif BERHASIL
-                
-                # Reset status gudang agar bisa dipakai lagi nanti
+                time.sleep(2) 
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
                 
-                # PAKSA PINDAH HALAMAN
-                # Pastikan teksnya sama persis dengan yang ada di sidebar lo
-                st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI" 
+                # TEMBAK DUA-DUANYA BIAR GAK ADA CELAH
+                st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI"
+                st.session_state["COMMAND_MENU_WIDGET"] = "🚀 RUANG PRODUKSI" 
+                
                 st.rerun()
 
     except Exception as e:
@@ -2249,7 +2248,7 @@ def tampilkan_ruang_produksi():
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
-# BAGIAN 7: PENGENDALI UTAMA (VERSI SINKRONISASI OTOMATIS)
+# BAGIAN 7: PENGENDALI UTAMA (VERSI ANTI-MACET)
 # ==============================================================================
 def utama():
     inisialisasi_keamanan() 
@@ -2258,18 +2257,17 @@ def utama():
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
-        # 1. Jalankan Navigasi Sidebar (Input akan otomatis masuk ke session_state via 'key')
+        # Panggil sidebar (Fungsi ini sekarang butuh akses ke session state secara aktif)
         tampilkan_navigasi_sidebar()
         
-        # 2. Ambil nilai menu dari session_state. 
-        # Jika baru login, arahkan default ke '🚀 RUANG PRODUKSI'
+        # Ambil menu dari session_state
         menu_aktif = st.session_state.get("COMMAND_MENU", "🚀 RUANG PRODUKSI")
         
-        # 3. Logika Penampilan Halaman berdasarkan menu_aktif
+        # Logika Penampilan Halaman
         if menu_aktif == "🚀 RUANG PRODUKSI": 
             tampilkan_ruang_produksi()
         elif menu_aktif == "🧠 PINTAR AI LAB": 
-            tampilkan_ai_lab() # Pastikan nama fungsi ini sama di kode lo (tampilkan_ai_lab atau tampilkan_pintar_ai)
+            tampilkan_ai_lab() 
         elif menu_aktif == "💡 GUDANG IDE": 
             tampilkan_gudang_ide()
         elif menu_aktif == "📋 TUGAS KERJA": 
@@ -2280,4 +2278,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
