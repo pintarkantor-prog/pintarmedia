@@ -799,9 +799,10 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                 
 def tampilkan_gudang_ide():
     st.title("💡 GUDANG IDE KONTEN")
+    st.markdown("---")
     
-    # --- 1. SEARCH BAR (DI ATAS) ---
-    search_query = st.text_input("🔍 Cari Judul Ide...", placeholder="Ketik kata kunci ide di sini...").upper()
+    # Keterangan buat staff
+    st.info("📌 **SISTEM ANTREAN:** Di bawah ini adalah 12 ide terbaru yang siap diproduksi. Jika ide sudah diambil, sistem akan otomatis menampilkan ide baru lainnya.")
 
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -816,31 +817,28 @@ def tampilkan_gudang_ide():
         sheet_gudang = sh.worksheet("Gudang_Ide")
         sheet_tugas = sh.worksheet("Tugas")
         
+        # Ambil data terbaru
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
         df_gudang = bersihkan_data(df_gudang)
         
-        # 2. FILTER DATA: Hanya TERSEDIA & Sesuai Search
+        # Filter hanya yang STATUS-nya 'TERSEDIA'
         df_tersedia = df_gudang[df_gudang['STATUS'] == 'TERSEDIA'].copy()
         
-        if search_query:
-            df_tersedia = df_tersedia[df_tersedia['JUDUL'].str.contains(search_query, na=False)]
-
-        # 3. LIMIT 12 KARTU (Ambil 12 baris pertama)
+        # AMBIL MAKSIMAL 12 IDE (Limit)
         list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
 
         if len(list_judul_unik) == 0:
-            st.warning("📭 Ide yang kamu cari tidak ada atau gudang sedang kosong.")
+            st.warning("📭 Gudang ide sedang kosong. Hubungi Admin untuk input ide baru!")
         else:
-            st.caption(f"Menampilkan {len(list_judul_unik)} ide terbaru untukmu.")
-            
-            # --- DISPLAY GRID 3 KOLOM ---
+            # Layout Grid 3 Kolom
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
                 batch_judul = list_judul_unik[i:i+3]
                 
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
+                        # Ambil data detail ide
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         
                         with st.container(border=True):
@@ -851,40 +849,47 @@ def tampilkan_gudang_ide():
                             st.write("") 
 
                             if st.button(f"🚀 AMBIL & PROSES", key=f"btn_{row_info['ID_IDE']}", use_container_width=True):
-                                with st.spinner("Menyiapkan Blueprint..."):
-                                    # LOGIKA AMBIL (Sama seperti sebelumnya)
+                                with st.spinner("Sinkronisasi Blueprint..."):
+                                    # 1. Update Status di Google Sheet Gudang_Ide
                                     target_id = str(row_info['ID_IDE']).strip()
                                     cells = sheet_gudang.findall(target_id)
                                     for cell in cells:
                                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                                     
+                                    # 2. Ambil Semua Adegan untuk Blueprint ini
                                     adegan_rows = df_gudang[df_gudang['ID_IDE'] == row_info['ID_IDE']]
                                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                                     
+                                    # 3. Inject ke Ruang Produksi
                                     rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul}\n\n"
                                     for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                                         st.session_state.data_produksi["adegan"][idx] = {
                                             "aksi": a_row['NASKAH_VISUAL'],
                                             "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
-                                            "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
-                                            "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
+                                            "style": a_row['STYLE'],
+                                            "shot": a_row['UKURAN_GAMBAR'],
+                                            "light": a_row['LIGHTING'],
+                                            "arah": a_row['ARAH_KAMERA'],
+                                            "cam": a_row['GERAKAN'],
+                                            "loc": a_row['LOKASI']
                                         }
                                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                                     
+                                    # 4. Tambah baris baru di Sheet Tugas
                                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul}", "PROSES", "-", "", ""])
 
+                                    # 5. Finalisasi & RERUN
                                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                                     
-                                    st.success("✅ Ide Terpasang! Antrean baru otomatis muncul.")
+                                    st.success("✅ Berhasil! Ide baru akan muncul di daftar.")
                                     time.sleep(1)
-                                    st.rerun() # Pas rerun, list_judul_unik bakal ambil ide urutan ke-13 buat ngisi slot yang kosong
+                                    st.rerun() # <--- Memaksa sistem ambil 12 data terbaru lagi
 
     except Exception as e:
-        st.error(f"⚠️ Error Gudang: {e}")
+        st.error(f"⚠️ Koneksi Gudang Terputus: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2194,3 +2199,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
