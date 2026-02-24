@@ -1725,40 +1725,42 @@ def tampilkan_kendali_tim():
             else:
                 st.caption("Tidak ada jadwal untuk periode ini.")
 
-        # --- TAMPILAN 5: MONITORING & GRAFIK PRODUKTIVITAS (UPGRADE) ---
-        with st.expander("📊 MONITORING PRODUKTIVITAS TIM", expanded=True):
+        # --- TAMPILAN 5: MONITORING PROGRES PRODUKSI (PENGGANTI GRAFIK) ---
+        with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=True):
             if rekap_total_video:
-                # 1. Hitung Target Berjalan (Base on Tgl 24 hari ini)
+                # 1. Hitung Target Berjalan (Acuan 40 video/bulan)
+                # Rumus: (Target 40 / 25 hari kerja) * Hari ke-X
                 progres_hari = min(sekarang.day, 25)
                 target_aman = round((40 / 25) * progres_hari, 1)
                 
-                # 2. Siapkan Data untuk Tabel Ringkas
+                # 2. Olah Data Monitoring
                 data_monitor = []
                 for nama, jml in rekap_total_video.items():
                     selisih = jml - target_aman
+                    
+                    # Logika Status Berdasarkan Target Berjalan (Sederhana tanpa CSS)
                     if jml >= target_aman:
-                        status = "🟢 ON TRACK"
-                    elif jml >= (20 / 25) * progres_hari: # Batas SP2
-                        status = "🟡 WASPADA"
+                        status = "AMAN (ON TRACK)"
+                    elif jml >= (20 / 25) * progres_hari:
+                        status = "WASPADA (HAMPIR SP)"
                     else:
-                        status = "🔴 BAHAYA (SP3)"
+                        status = "BAHAYA (SP 3)"
                     
                     data_monitor.append({
-                        "STAF": nama,
-                        "HASIL": jml,
-                        "TARGET": target_aman,
-                        "SELISIH": round(selisih, 1),
+                        "NAMA STAF": nama,
+                        "HASIL": int(jml),
+                        "TARGET MINIMAL": target_aman,
+                        "SELISIH": f"{selisih:+.1f}",
                         "STATUS": status
                     })
                 
-                # 3. Tampilkan Tabel Ringkas (Lebih berguna dari grafik biasa)
+                # 3. Tampilkan Tabel Standar
                 st.table(pd.DataFrame(data_monitor))
                 
-                # 4. Tampilkan Grafik Batas (Opsional tetap pakai grafik tapi lebih informatif)
-                st.bar_chart(pd.Series(rekap_total_video))
-                st.caption(f"💡 Target minimal hari ini (Tgl {sekarang.day}) adalah {target_aman} video.")
+                # 4. Info Tambahan
+                st.info(f"💡 Target minimal hari ini (Tanggal {sekarang.day}) adalah {target_aman} video untuk status AMAN.")
             else:
-                st.info("Belum ada video selesai bulan ini.")
+                st.info("Belum ada aktivitas produksi yang tercatat 'FINISH' bulan ini.")
 
         # --- TAMPILAN 5.5: REKAP ABSENSI & HARI CAIR (SINKRON GSHEET) ---
         with st.expander("📅 REKAP ABSENSI & MONITORING CAIR", expanded=False):
@@ -1807,7 +1809,7 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-# --- TAMPILAN 6: SLIP GAJI (DESAIN ASLI SINKRON HARIAN) ---
+        # --- TAMPILAN 6: SLIP GAJI (DESAIN ASLI SINKRON HARIAN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             
@@ -2314,6 +2316,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
