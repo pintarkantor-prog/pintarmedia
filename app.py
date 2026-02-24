@@ -1338,11 +1338,17 @@ def tampilkan_tugas_kerja():
                     key="slider_final_v4"
                 )
                 
-                # Logika Hitung (Asumsi 25 Hari Kerja)
+                # --- LOGIKA HITUNG SIMULASI (SINKRON ATURAN 2026) ---
                 gapok_sim = 2000000
+                
                 if t_hari >= 3:
-                    b_absen_bln = 30000 * 25
-                    b_video_bln = (t_hari - 3) * 25000 * 25
+                    # 1. Uang Absen: 30rb per hari
+                    b_absen_bln = 30000 * 25 
+                    
+                    # 2. Bonus Video: Dimulai dari video ke-5 (t_hari - 4) x 30rb
+                    # Jika input 5 video, maka (5-4) = 1 video bonus per hari
+                    b_video_bln = max(0, (t_hari - 4)) * 30000 * 25
+                    
                     p_sp = 0
                     status = "🌟 Performa Sangat Baik" if t_hari >= 5 else "✅ Performa Standar"
                 elif t_hari == 2:
@@ -1364,15 +1370,17 @@ def tampilkan_tugas_kerja():
                     st.metric("POTENSI BONUS", f"Rp {b_absen_bln + b_video_bln:,}", 
                               delta=f"Cair Rp {(b_absen_bln + b_video_bln)//25 if t_hari >=3 else 0:,} / hari")
 
-                if t_hari == 2:
-                    st.error("Pada level ini, kamu hanya menerima Gaji Pokok karena Bonus Kehadiran baru aktif di angka 3 video/hari.")
+                # --- PESAN DINAMIS ---
+                if t_hari == 4:
+                    st.info("💡 **Info:** Di level 4 video, kamu mendapatkan Full Bonus Absen, tapi Bonus Lembur baru akan aktif jika kamu mencapai 5 video atau lebih.")
+                elif t_hari == 2:
+                    st.warning("Pada level ini, kamu hanya menerima Gaji Pokok karena Bonus Kehadiran baru aktif di angka 3 video/hari.")
                 elif t_hari < 2:
                     st.error("Risiko potongan SP tinggi dan tidak ada bonus yang cair.")
-                else:
-                    st.success(f"Mantap! Dengan {t_hari} video/hari, rezeki bonus kamu lancar setiap hari.")
+                elif t_hari >= 5:
+                    st.success(f"Mantap! Dengan {t_hari} video/hari, kamu mendapatkan Bonus Absen + Bonus Lembur {t_hari-4} video setiap hari.")
 
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
-
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
         if sekarang.day >= 28: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
@@ -1415,8 +1423,8 @@ def tampilkan_tugas_kerja():
                                 <table style="width: 100%; font-size: 12px; line-height: 2; border-collapse: collapse;">
                                     <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {S_VAR_GAPOK:,}</td></tr>
                                     <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {S_VAR_TUNJ:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Hadir</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_hadir:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Video</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_video:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Hadir (Min 3)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_hadir:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Lembur (Video 5+)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_video:,}</td></tr>
                                     <tr style="border-top: 1px solid #f0f0f0;"><td style="color: #e74c3c; font-weight: 600; padding-top: 4px;">Potongan SP</td><td align="right" style="color: #e74c3c; font-weight: 700; padding-top: 4px;">- {pot_sp:,}</td></tr>
                                 </table>
                             </div>
@@ -1566,31 +1574,52 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # A. Bonus & Absen
+                # A. Bonus & Absen (SINKRONISASI ATURAN BARU)
                 u_absen_staf, b_lembur_staf = 0, 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen_staf += 30000
-                        if jml >= 4: b_lembur_staf += (jml - 3) * 25000
+                        # Minimal 3 video dapat Uang Absen 30rb
+                        if jml >= 3: 
+                            u_absen_staf += 30000 
+                        
+                        # Bonus Video dimulai dari video ke-5 (jml - 4)
+                        # Contoh: 5 video -> (5-4) * 30rb = 30rb
+                        if jml >= 5: 
+                            b_lembur_staf += (jml - 4) * 30000
                 
-                # B. Logika SP Smart Switch (Februari 10, Maret 40)
+                # --- B. LOGIKA SP SMART SWITCH (SINKRON 2026) ---
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
+                
+                # Penentuan Target (Februari vs Bulan Lain)
                 if tahun_dipilih == 2026 and bulan_dipilih == 2:
                     t_norm, t_s1, t_s2 = 10, 7, 4
                 else:
                     t_norm, t_s1, t_s2 = 40, 30, 20
                 
-                # Hitung ambang batas berjalan
-                progres_h = min(sekarang.day, 25)
-                threshold = (t_norm / 25) * progres_h
+                # Cek apakah Admin sedang melihat bulan aktif sekarang
+                is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
                 
-                # Eksekusi Potongan
-                if sekarang.day > 6 and tot_v < threshold:
-                    if tot_v >= t_norm: p_sp = 0
-                    elif t_s1 <= tot_v < t_norm: p_sp = 300000
-                    elif t_s2 <= tot_v < t_s1: p_sp = 700000
-                    else: p_sp = 1000000
+                if is_bulan_ini:
+                    # ALUR 1: BULAN BERJALAN (Gunakan Ambang Batas Harian)
+                    progres_h = min(sekarang.day, 25)
+                    threshold_skrg = (t_norm / 25) * progres_h
+                    
+                    # Proteksi Masa Adaptasi (Tgl 1-6 Aman)
+                    if sekarang.day > 6 and tot_v < threshold_skrg:
+                        if t_s1 <= tot_v < t_norm: p_sp = 300000
+                        elif t_s2 <= tot_v < t_s1: p_sp = 700000
+                        else: p_sp = 1000000
+                else:
+                    # ALUR 2: BULAN SUDAH LEWAT (Gunakan Target Final)
+                    if tot_v >= t_norm: 
+                        p_sp = 0
+                    elif t_s1 <= tot_v < t_norm: 
+                        p_sp = 300000
+                    elif t_s2 <= tot_v < t_s1: 
+                        p_sp = 700000
+                    else: 
+                        p_sp = 1000000
                 
                 # C. Hitung Gaji Bersih per Orang
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
@@ -1741,13 +1770,15 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # 1. HITUNG LOGIKA KEUANGAN PER ORANG
+                # 1. HITUNG LOGIKA KEUANGAN PER ORANG (SINKRONISASI SLIP)
                 u_absen_staf = 0
                 b_lembur_staf = 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen_staf += 30000
-                        if jml >= 4: b_lembur_staf += (jml - 3) * 25000
+                        if jml >= 3: 
+                            u_absen_staf += 30000
+                        if jml >= 5: 
+                            b_lembur_staf += (jml - 4) * 30000
                 
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
@@ -1775,7 +1806,7 @@ def tampilkan_kendali_tim():
                         # Parsing Angka GSheet (Menghilangkan titik/koma jika ada)
                         v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                        v_total_terima = (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin
+                        v_total_terima = max(0, (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin)
                         
                         # --- DESAIN SLIP GAJI PREMIUM HTML (VERSI KENDALI TIM - RAMPING & GAHAR) ---
                         slip_html = f"""
@@ -1804,8 +1835,8 @@ def tampilkan_kendali_tim():
                                 <table style="width: 100%; font-size: 12px; line-height: 2; border-collapse: collapse;">
                                     <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
                                     <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Absen</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_absen_staf:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Video</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_lembur_staf:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Absen (Min 3)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_absen_staf:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Video (Video 5+)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_lembur_staf:,}</td></tr>
                                     <tr style="border-top: 1px solid #f0f0f0;"><td style="color: #e74c3c; font-weight: 600; padding-top: 4px;">Potongan SP</td><td align="right" style="color: #e74c3c; font-weight: 700; padding-top: 4px;">- {pot_sp_admin:,}</td></tr>
                                 </table>
                             </div>
@@ -2238,6 +2269,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
