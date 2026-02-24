@@ -1292,7 +1292,7 @@ def tampilkan_tugas_kerja():
                                 st.markdown(f"{color_ball} `{status}`")
                             
                             # Toggle ditaruh mepet biar gak boros tempat
-                            olah = st.toggle("🔍 Detail", key=f"tgl_{t['ID']}")
+                            olah = st.toggle("🔍 Buka Detail Tugas", key=f"tgl_{t['ID']}")
                             
                             if olah:
                                 st.divider()
@@ -2330,4 +2330,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
