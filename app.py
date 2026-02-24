@@ -1098,7 +1098,7 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-# --- VERSI ULTIMATE: 4 KOLOM SIMETRIS & ELEGAN ---
+        # --- VERSI ULTIMATE: 4 KOLOM SIMETRIS & ELEGAN ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             # 1. Logika Hitung (Dasar Kode Kamu)
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
@@ -1117,37 +1117,26 @@ def tampilkan_tugas_kerja():
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # --- LOGIKA STATUS & KETERANGAN ---
+            # --- LOGIKA STATUS & KETERANGAN (DENGAN EMOJI CAKEP) ---
             if sekarang.day <= 6:
                 status_ikon, ket_singkat = "🛡️ PROTEKSI", "Masa Adaptasi"
             elif "Level 3" in level_sp_r:
-                status_ikon, ket_singkat = "🚨 PERHATIAN", "Evaluasi Kontrak"
+                status_ikon, ket_singkat = "🚨 PERHATIAN", "⚠️ Evaluasi Kontrak"
             elif pot_sp_r > 0:
-                status_ikon, ket_singkat = "⚠️ PERHATIAN", "Kejar Target"
+                # BAGIAN INI YANG KITA KASIH EMOJI ROKET BIAR SEMANGAT
+                status_ikon, ket_singkat = "⚠️ PERHATIAN", "🚀 Kejar Target"
             elif v_finish >= (round((40 / 25) * min(sekarang.day, 25), 1)):
-                status_ikon, ket_singkat = "✨ AMAN", "Pertahankan!"
+                status_ikon, ket_singkat = "✨ AMAN", "✅ Pertahankan!"
             else:
-                status_ikon, ket_singkat = "⚡ PANTAU", "Tingkatkan Lagi"
+                status_ikon, ket_singkat = "⚡ PANTAU", "📈 Tingkatkan Lagi"
 
-            t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
-            selisih = v_finish - target_h_ini
-
-            # 5. Visual 4 Kolom (Semua Pakai Metric Biar Senada)
+            # Render 4 Kolom Metrik
             with wadah_radar.container():
                 c1, c2, c3, c4 = st.columns(4)
-                
-                # Kolom 1: Status Visual (Sekarang Senada!)
                 c1.metric("STATUS", status_ikon)
-                
-                # Kolom 2: Hasil
                 c2.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
-                
-                # Kolom 3: Target
                 c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
-                
-                # Kolom 4: Keterangan
-                c4.metric("KONDISI", ket_singkat)
+                c4.metric("KONDISI", ket_singkat) # Emoji bakal muncul di sini
             
             st.divider()
 
@@ -2355,6 +2344,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
