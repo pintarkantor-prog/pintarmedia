@@ -1375,33 +1375,55 @@ def tampilkan_tugas_kerja():
 
             #### ❓ Gimana Kalau Hasil Per Hari Beda-beda?
             
-            * **Setor 1 Video:** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair.
-            * **Setor 2 Video:** Status kamu "Aman", tapi Bonus Absen Rp 30rb BELUM cair.
+            * **Setor 1 Video:** Dihitung "Hari Malas". Bonus Absen Rp 30rb TIDAK cair. (Akumulasi hari malas memicu potongan SP).
+            * **Setor 2 Video:** Status kamu "Aman" (nggak dihitung hari malas), tapi Bonus Absen Rp 30rb BELUM cair.
             * **Setor 3 Video:** Bonus Absen Rp 30.000 CAIR. (Ini target minimal harian kamu).
-            * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000.
-            * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb).
+            * **Setor 4 Video:** Bonus Absen Rp 30.000 CAIR + Bonus Video ke-4 Rp 25.000. Total tambahan hari itu = Rp 55.000.
+            * **Setor 5 Video:** Bonus Absen Rp 30.000 CAIR + Bonus 2 Video (2 x 25rb). Total tambahan hari itu = Rp 80.000.
 
             ---          
 
             #### 🧮 Rumus Gaji:
-            `[ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH`
+            [ Gaji Pokok ] + [ Total Bonus Absen ] + [ Total Bonus Video ] - [ Potongan SP ] = 💰 TOTAL GAJI BERSIH
 
             ---
 
-            #### 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
-            **1. Simulasi Super Rajin (5 Video/Hari)** -> **Total Gaji: Rp 4.000.000**
-            **2. Simulasi Rajin (4 Video/Hari)** -> **Total Gaji: Rp 3.375.000**
-            **3. Simulasi Target (3 Video/Hari)** -> **Total Gaji: Rp 2.750.000**
-            **4. Simulasi Pas-pasan (2 Video/Hari)** -> **Total Gaji: Rp 2.000.000**
-            **5. Simulasi Malas (1 Video/Hari)** -> **Total Gaji: Terpotong sesuai SP**
+            #### 💡 PERBANDINGAN SIMULASI (25 Hari Kerja, Konsisten)
+            *Gaji Pokok Rp 2.000.000*
+
+            **1. Simulasi Super Rajin (5 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: 50 video x 25rb = Rp 1.250.000
+            * **Total Gaji: Rp 4.000.000**
+
+            **2. Simulasi Rajin (4 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: 25 video x 25rb = Rp 625.000
+            * **Total Gaji: Rp 3.375.000**
+
+            **3. Simulasi Target (3 Video/Hari)**
+            * Bonus Absen: 25 hari x 30rb = Rp 750.000
+            * Bonus Video: Rp 0
+            * **Total Gaji: Rp 2.750.000**
+
+            **4. Simulasi Pas-pasan (2 Video/Hari)**
+            * Bonus Absen: Rp 0
+            * Bonus Video: Rp 0
+            * **Total Gaji: Rp 2.000.000** (Hanya Gaji Pokok)
+
+            **5. Simulasi Malas (1 Video/Hari)**
+            * Bonus Absen: Rp 0
+            * Bonus Video: Rp 0
+            * Potongan: Dikenakan SP 1 = Rp 300.000 | SP 2 = Rp 700.000 | SP 3 = Rp 1.000.000 + CUT OFF
+            * **Total Gaji: Terpotong sesuai ketentuan SP** *(Misal SP 1: Gaji Pokok + Bonus - 300.000)*
 
             ---
 
             #### ⚠️ CATATAN PENTING:
-            Semua hitungan hanya berlaku jika video sudah berstatus "FINISH" (Lolos QC Admin). 
+            Semua hitungan hanya berlaku jika video sudah berstatus "FINISH" (Lolos QC Admin). Video berstatus PROSES, WAITING QC, atau REVISI tidak masuk hitungan harian.
             
             ---
-            *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu.* 🚀
+            *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
         # C. --- MONITORING PROGRES GAJI (VERSI SINKRON RADAR) ---
@@ -2315,6 +2337,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
