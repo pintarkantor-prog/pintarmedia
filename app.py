@@ -1098,44 +1098,53 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI TO-THE-POINT (PASTI JALAN & RAPI) ---
+        # --- PERBAIKAN RADAR PERFORMA + LOGIKA SP TERPADU (VERSI FINAL) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
+            # 1. Hitung Hasil Finish
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
-            v_finish = len(df_all_tugas[mask_user & (df_all_tugas['STATUS'].str.strip() == 'FINISH')])
+            mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
+            v_finish = len(df_all_tugas[mask_user & mask_finish])
             
-            # Ambil data absen cepat
+            # 2. Siapkan Data untuk Hitung SP agar Sinkron ke Radar
+            df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
-                df_absen_user = pd.DataFrame(sheet_absensi.get_all_records())
-                df_absen_user = df_absen_user[df_absen_user['NAMA'] == user_sekarang.upper()]
+                # Mengambil data absen user untuk hitungan SP Live di Radar
+                data_absen_raw = sheet_absensi.get_all_records()
+                df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
+                df_absen_user = df_absen_all[df_absen_all['NAMA'] == user_sekarang.upper()].copy()
             except:
                 df_absen_user = pd.DataFrame()
 
-            # Hitung SP & Target
-            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(df_all_tugas[mask_user].copy(), df_absen_user, sekarang.month, sekarang.year)
+            # 3. Panggil Mesin Hitung SP (Untuk diletakkan di Radar)
+            b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
+                df_arsip_user, df_absen_user, sekarang.month, sekarang.year
+            )
+            
+            # 4. Kalkulasi Target Radar
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
+            progres_h = min(sekarang.day, 25)
+            target_h_ini = round((t_norm / 25) * progres_h, 1)
             selisih = v_finish - target_h_ini
 
-            # --- TAMPILAN RADAR ---
-            with st.container():
-                # Status bar tunggal yang akurat
-                if "BELUM ADA" in level_sp_r:
-                    st.info("⏳ Menunggu data...")
+            # 5. Render Visual Radar (Tampilan Paling Atas)
+            with wadah_radar.container(border=True):
+                c1, c2, c3 = st.columns([1.5, 1, 1])
+                
+                # Logika Pesan Radar (Status SP Otomatis Muncul di Sini)
+                if sekarang.day <= 6:
+                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nStatus: {level_sp_r}\nTarget bulan ini: {t_norm} Video.")
                 elif pot_sp_r > 0:
-                    st.error(f"⚠️ {level_sp_r} | Potongan: Rp {pot_sp_r:,}")
-                elif v_finish < target_h_ini and sekarang.day > 6:
-                    st.warning(f"🟡 Kurang {abs(selisih):.1f} video untuk aman.")
+                    # Kalau kena SP, box Radar langsung berubah Merah (Error)
+                    c1.error(f"⚠️ **STATUS: {level_sp_r}**\n\nPotongan: Rp {pot_sp_r:,}\nKejar {abs(selisih):.1f} video lagi!")
+                elif v_finish >= target_h_ini:
+                    c1.success(f"🟢 **PERFORMA AMAN**\n\nStatus: {level_sp_r}\nGaji aman dari potongan.")
                 else:
-                    st.success(f"🟢 Performa: {level_sp_r}")
+                    c1.warning(f"🟡 **DI BAWAH TARGET**\n\nStatus: {level_sp_r}\nKurang {abs(selisih):.1f} video!")
 
-                # Angka utama
-                c1, c2, c3 = st.columns(3)
-                c1.metric("HASIL", f"{v_finish} Vid", f"{selisih:.1f}")
-                c2.metric("TARGET", f"{target_h_ini} Vid")
-                c3.metric("STATUS", level_sp_r.split('(')[0])
-            st.divider()
-
-        # --- LANJUTAN KODE (WAJIB ADA AGAR TIDAK SYNTAX ERROR) ---
+                c2.metric("HASIL SAYA", f"{v_finish} Video", f"{selisih:.1f}")
+                c3.metric("TARGET AMAN", f"{target_h_ini} Video")
+        
+        # --- LANJUTAN KODE ASLI KAMU (JANGAN DIHAPUS) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1143,10 +1152,11 @@ def tampilkan_tugas_kerja():
         staf_options = df_staff_raw['Nama'].unique().tolist()
 
         def catat_log(aksi):
-            sheet_log.append_row([datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S"), user_sekarang.upper(), aksi])
+            waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
+            sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
 
     except Exception as e:
-        st.error(f"❌ Ada kendala: {e}")
+        st.error(f"❌ Database Offline: {e}")
         return
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
@@ -2338,6 +2348,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
