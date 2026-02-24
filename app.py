@@ -1082,28 +1082,29 @@ def tampilkan_tugas_kerja():
             else:
                 status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
 
-            # 5. VISUAL 4 KOLOM (DEFAULT RAPI - PAKE BORDER BAWAAN)
-            with wadah_radar.container():
-                c1, c2, c3, c4 = st.columns(4)                
+            # 5. VISUAL RADAR (1 CONTAINER, RAPI, SELISIH DI SAMPING)
+            with wadah_radar.container(border=True):
+                # Kita pake columns di dalam container biar jaraknya rata
+                c1, c2, c3, c4 = st.columns(4)
+                
                 with c1:
-                    with st.container(border=True):
-                        st.metric("STATUS", status_ikon)
+                    st.write("📊 **STATUS**")
+                    st.write(status_ikon)
                 
                 with c2:
-                    with st.container(border=True):
-                        st.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
+                    st.write("🎬 **FINISH**")
+                    # Logika warna selisih: Hijau kalau plus, Merah kalau minus
+                    warna_teks = "#1d976c" if selisih >= 0 else "#ff4b4b"
+                    simbol = "+" if selisih >= 0 else ""
+                    st.markdown(f"### {v_finish} <span style='font-size: 15px; color: {warna_teks};'>({simbol}{selisih:.1f})</span>", unsafe_allow_html=True)
                 
                 with c3:
-                    with st.container(border=True):
-                        st.metric("TARGET AMAN", f"{target_h_ini} Vid")
+                    st.write("🎯 **TARGET**")
+                    st.markdown(f"### {target_h_ini} <span style='font-size: 12px; color: gray;'>Vid</span>", unsafe_allow_html=True)
                 
                 with c4:
-                    with st.container(border=True):
-                        # Pake info dikit biar instruksi yang panjang tetep rapi
-                        st.markdown(f"<p style='font-size: 13px; color: gray; margin-bottom: -5px;'>INSTRUKSI</p>", unsafe_allow_html=True)
-                        st.subheader(instruksi)
-            
-            st.divider()
+                    st.write("📢 **INSTRUKSI**")
+                    st.write(instruksi)
 
         # --- LANJUTAN KODE (WAJIB ADA) ---
         if not df_all_tugas.empty:
@@ -2257,6 +2258,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
