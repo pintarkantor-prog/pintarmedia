@@ -1724,38 +1724,6 @@ def tampilkan_kendali_tim():
 
         st.divider()
 
-        # --- TAMPILAN 3: RUANG QC (VERSI EXPANDER) ---
-        with st.expander("🔍 RUANG PEMERIKSAAN (QC)", expanded=False):
-            df_qc = df_tugas[df_tugas['STATUS'].astype(str).str.upper() == "WAITING QC"].copy()
-            
-            if not df_qc.empty:
-                for i, r in df_qc.iterrows():
-                    t_id_qc = str(r.get('ID', ''))
-                    
-                    with st.container(border=True):
-                        c1, c2, c3 = st.columns([3, 1, 1])
-                        c1.write(f"🎬 **{r.get('INSTRUKSI', 'Tanpa Judul')}**")
-                        c1.caption(f"Editor: {r.get('STAF', 'Anonim')} | 🆔 ID: {t_id_qc}")
-                        
-                        if t_id_qc:
-                            if c2.button("✅ ACC", key=f"acc_{t_id_qc}", use_container_width=True):
-                                cell = ws_tugas.find(t_id_qc)
-                                if cell:
-                                    ws_tugas.update_cell(cell.row, 5, "FINISH")
-                                    st.toast(f"Tugas {t_id_qc} FINISH!", icon="✅")
-                                    time.sleep(1)
-                                    st.rerun()
-                            
-                            if c3.button("❌ REV", key=f"rev_{t_id_qc}", use_container_width=True):
-                                cell = ws_tugas.find(t_id_qc)
-                                if cell:
-                                    ws_tugas.update_cell(cell.row, 5, "REVISI")
-                                    st.toast(f"Tugas {t_id_qc} dikirim ke REVISI", icon="🔴")
-                                    time.sleep(1)
-                                    st.rerun()
-            else:
-                st.info("Antrean QC kosong. ✨ Semua tugas tim sudah diperiksa.")
-
         # --- TAMPILAN 4: JADWAL PRODUKSI (VERSI EXPANDER) ---
         with st.expander("📅 JADWAL PRODUKSI", expanded=False):
             if not df_t_bln.empty:
@@ -2356,6 +2324,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
