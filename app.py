@@ -1098,9 +1098,9 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI MODERN & HUMANIS (DASAR KODE ASLI) ---
+# --- VERSI 4 KOLOM MODERN (SINGKAT & ELEGAN) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. Logika Hitung (Tetap Pakai Dasar Kode Kamu)
+            # 1. Logika Hitung (Dasar Kode Kamu)
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
@@ -1113,35 +1113,40 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
+            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # --- POLES BAHASA AGAR LEBIH KEREN ---
+            # --- PENYEDERHANAAN STATUS ---
             display_sp = level_sp_r.replace("SANKSI BERAT / CUT OFF", "Evaluasi").replace("SP", "Level")
-            
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            progres_h = min(sekarang.day, 25)
-            target_h_ini = round((t_norm / 25) * progres_h, 1)
+            target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
             selisih = v_finish - target_h_ini
 
-            # 5. Visual Utama (Lebih Clean & Mewah)
+            # 5. Visual 4 Kolom
             with wadah_radar.container():
-                # Baris Atas: Indikator Status
-                if sekarang.day <= 6:
-                    st.info(f"🛡️ **Masa Proteksi Aktif** | Status: {display_sp} | Target Bulan Ini: {t_norm} Vid")
-                elif pot_sp_r > 0:
-                    st.error(f"⚠️ **Perlu Perhatian** | Status: {display_sp} | Estimasi Penyesuaian: Rp {pot_sp_r:,}")
-                elif v_finish >= target_h_ini:
-                    st.success(f"✨ **Performa Mantap!** | Status: {display_sp} | Gaji Aman & Konsisten")
-                else:
-                    st.warning(f"🚀 **Sedikit Lagi!** | Status: {display_sp} | Kurang {abs(selisih):.1f} vid untuk target hari ini")
-
-                # Baris Bawah: Angka Utama (3 Kolom Tanpa Border Kaku)
-                c1, c2, c3 = st.columns(3)
-                c1.metric("KARYA SELESAI", f"{v_finish} Vid", f"{selisih:.1f} vs Target")
+                c1, c2, c3, c4 = st.columns(4)
+                
+                # Kolom 1: Hasil
+                c1.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
+                
+                # Kolom 2: Target
                 c2.metric("TARGET AMAN", f"{target_h_ini} Vid", "Hari Ini")
-                c3.metric("KONDISI AKHIR", display_sp.split('(')[0].strip())
+                
+                # Kolom 3: Status Performa
+                status_singkat = display_sp.split('(')[0].strip()
+                c3.metric("KONDISI", status_singkat)
+                
+                # Kolom 4: Indikator & Tindakan (Tanpa Nominal)
+                with c4:
+                    if sekarang.day <= 6:
+                        st.info("🛡️ Proteksi")
+                    elif pot_sp_r > 0:
+                        st.error("⚠️ Perhatian")
+                    elif v_finish >= target_h_ini:
+                        st.success("✨ Aman")
+                    else:
+                        st.warning("🚀 Kejar Target")
             
             st.divider()
 
@@ -1157,9 +1162,8 @@ def tampilkan_tugas_kerja():
             sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
 
     except Exception as e:
-        st.error(f"❌ Sistem sedang pemeliharaan: {e}")
+        st.error(f"❌ Terjadi kesalahan sistem: {e}")
         return
-
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
         with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
@@ -2349,6 +2353,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
