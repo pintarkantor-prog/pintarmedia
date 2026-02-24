@@ -910,39 +910,55 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
+            # --- 4. EKSEKUSI DATA (LOGIKA PINDAH DATA) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
-                cells = sheet_gudang.findall(target_id)
-                for cell in cells:
-                    sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                
-                adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
-                st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                
-                rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
-                for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                    st.session_state.data_produksi["adegan"][idx] = {
-                        "aksi": a_row['NASKAH_VISUAL'],
-                        "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                        "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
-                        "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
-                        "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
-                    }
-                    rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
-                
-                t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                sheet_tugas.append_row([t_id, user_sekarang.upper(), datetime.now(tz_wib).strftime("%Y-%m-%d"), f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
+                try:
+                    # A. Update Status di GSheet
+                    cells = sheet_gudang.findall(target_id)
+                    for cell in cells:
+                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                    
+                    # B. Inject ke Session Produksi
+                    adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
+                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                    
+                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
+                    for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                        st.session_state.data_produksi["adegan"][idx] = {
+                            "aksi": a_row['NASKAH_VISUAL'],
+                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
+                            "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
+                            "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
+                        }
+                        rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
+                    
+                    # C. Tambah ke Sheet Tugas
+                    t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
+                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                st.session_state.naskah_siap_produksi = rangkuman_naskah
-                st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                st.session_state.status_sukses = True 
-                st.rerun()
+                    # D. Sinyal Sukses & Refresh untuk munculin Overlay
+                    st.session_state.naskah_siap_produksi = rangkuman_naskah
+                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                    st.session_state.status_sukses = True 
+                    st.rerun()
 
-    except Exception as e:
-        st.error(f"⚠️ Gagal Sinkronisasi: {e}")
+                except Exception as e:
+                    st.error(f"⚠️ Gagal Sinkronisasi: {e}")
+                    st.session_state.sedang_proses_id = None
+                    st.rerun()
+
+    # --- 5. LOGIKA AUTO-HIDE (DI LUAR TRY-EXCEPT GSHEET) ---
+    if st.session_state.status_sukses:
+        time.sleep(3) # Notif muncul 3 detik
+        st.session_state.sedang_proses_id = None
+        st.session_state.status_sukses = False
+        st.rerun() # Balik normal
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2252,6 +2268,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
