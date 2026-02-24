@@ -1421,8 +1421,8 @@ def tampilkan_tugas_kerja():
             st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). 🔥")
 
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
-        if sekarang.day >= 24: 
-            with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=True):
+        if sekarang.day >= 28: 
+            with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
                 try:
                     # 1. KUNCI DATA STAFF (Anti-Tertukar)
                     S_VAR_NAMA = user_sekarang.upper().strip()
@@ -1490,7 +1490,7 @@ def tampilkan_tugas_kerja():
                 except Exception as e: 
                     st.warning(f"Gagal memproses slip: {e}")
         else:
-            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 24 setiap bulannya.")
+            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -2315,6 +2315,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
