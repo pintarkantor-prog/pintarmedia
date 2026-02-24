@@ -1581,9 +1581,9 @@ def tampilkan_kendali_tim():
             # Grouping
             rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
 
-        # Total Video per Nama
         if not df_f_f.empty:
-            # Karena STAF sudah di-upper di atas, langsung value_counts saja
+            # Kita paksa kolom STAF jadi string, hapus spasi, dan jadikan UPPERCASE
+            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
             rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
         else:
             rekap_total_video = {}
@@ -2321,6 +2321,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
