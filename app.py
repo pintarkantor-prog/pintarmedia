@@ -1181,8 +1181,13 @@ def tampilkan_tugas_kerja():
                     
                     with st.expander("🔍 DETAIL & OLAH TUGAS"):
                         st.code(t["Instruksi"])
+                        if t.get("Link_Hasil") and str(t["Link_Hasil"]).strip() != "-":
+                            st.markdown("🔗 **Link Hasil Kerja:**")
+                            links = str(t["Link_Hasil"]).split(",")
+                            for i, link in enumerate(links):
+                                if "http" in link:
+                                st.write(f"👉 [KLIK LINK HASIL {i+1}]({link.strip()})")
                         if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
-                        
                         st.divider()
                         
                         # --- LOGIKA AKSI STAFF (SETOR) ---
@@ -1219,19 +1224,53 @@ def tampilkan_tugas_kerja():
                                 kirim_notif_wa(f"⚠️ *NOTIFIKASI REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat_admin}")
                                 st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
 
-        # --- 4. LACI ARSIP (Ditaruh paling bawah di Tab Tugas) ---
+        # --- 4. LACI ARSIP (Versi Lengkap & Rapih) ---
+        st.write("") # Spasi napas
+        st.write("") 
         st.divider()
-        with st.expander("📜 LACI ARSIP: TUGAS SELESAI"):
+        
+        # Gunakan heading agar jarak spasi otomatis lebih enak dilihat
+        st.markdown("### 📜 Laci Arsip: Tugas Selesai")
+        st.caption("Riwayat pekerjaan yang sudah divalidasi dan masuk gudang data.")
+
+        with st.expander("Buka riwayat tugas selesai", expanded=False):
+            st.write("") # Spasi di dalam expander
+            
             if not df_all_tugas.empty:
-                mask_s = (df_all_tugas['STATUS'] == "FINISH")
-                if user_sekarang != "dian": 
-                    mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
+                # Filter hanya yang statusnya FINISH
+                mask_arsip = (df_all_tugas['STATUS'].str.strip().str.upper() == "FINISH")
                 
-                df_arsip = df_all_tugas[mask_s].copy()
-                if not df_arsip.empty: 
-                    st.dataframe(df_arsip[['ID', 'INSTRUKSI', 'WAKTU_KIRIM', 'STATUS']], hide_index=True, use_container_width=True)
-                else: 
-                    st.write("Belum ada riwayat tugas selesai.")
+                # Jika bukan Dian, hanya tampilkan milik staf tersebut
+                if user_sekarang != "dian":
+                    mask_arsip &= (df_all_tugas['STAF'].str.strip().str.upper() == user_sekarang.upper())
+                
+                df_arsip = df_all_tugas[mask_arsip].copy()
+
+                if not df_arsip.empty:
+                    # Mengurutkan dari yang terbaru selesai
+                    df_arsip = df_arsip.iloc[::-1] 
+                    
+                    # Memilih dan menata kolom agar lengkap
+                    # Sesuaikan 'INSTRUKSI' atau 'JUDUL' sesuai nama kolom di Sheet lo
+                    kolom_tampil = ['ID', 'STAF', 'INSTRUKSI', 'WAKTU_KIRIM', 'LINK_HASIL']
+                    kolom_fix = [c for c in kolom_tampil if c in df_arsip.columns]
+
+                    st.dataframe(
+                        df_arsip[kolom_fix],
+                        column_config={
+                            "ID": st.column_config.TextColumn("ID", width="small"),
+                            "STAF": st.column_config.TextColumn("Editor", width="small"),
+                            "INSTRUKSI": st.column_config.TextColumn("Detail Tugas", width="medium"),
+                            "WAKTU_KIRIM": st.column_config.TextColumn("Tgl Selesai", width="medium"),
+                            "LINK_HASIL": st.column_config.LinkColumn("🔗 Link Hasil", display_text="Buka Link"),
+                        },
+                        hide_index=True,
+                        use_container_width=True
+                    )
+                else:
+                    st.info("Belum ada riwayat tugas selesai yang tercatat.")
+            else:
+                st.warning("Database kosong, belum ada data untuk ditampilkan.")
                     
     # ================= TAB 2: GUDANG IDE =================
     with tab_gudang:
@@ -2081,6 +2120,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
