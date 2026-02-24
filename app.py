@@ -1098,49 +1098,46 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI ULTRA-CLEAN: SIMPEL & ELEGAN (FULL BLOCK) ---
+        # --- VERSI RINGKAS & ELEGAN (FULL BLOCK ANTI-ERROR) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             # 1. LOGIKA DATA
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
-            mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
-            v_finish = len(df_all_tugas[mask_user & mask_finish])
+            v_finish = len(df_all_tugas[mask_user & (df_all_tugas['STATUS'].str.strip() == 'FINISH')])
             
-            df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
                 data_absen_raw = sheet_absensi.get_all_records()
-                df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
-                df_absen_user = df_absen_all[df_absen_all['NAMA'] == user_sekarang.upper()].copy()
+                df_absen_user = pd.DataFrame(data_absen_raw)
+                df_absen_user = df_absen_user[df_absen_user['NAMA'] == user_sekarang.upper()]
             except:
                 df_absen_user = pd.DataFrame()
 
-            b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
-                df_arsip_user, df_absen_user, sekarang.month, sekarang.year
+            # Hitung SP
+            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
+                df_all_tugas[mask_user].copy(), df_absen_user, sekarang.month, sekarang.year
             )
             
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            progres_h = min(sekarang.day, 25)
-            target_h_ini = round((t_norm / 25) * progres_h, 1)
+            target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
             selisih = v_finish - target_h_ini
 
-            # --- RENDER UI: SIMPEL & ELEGAN ---
+            # --- TAMPILAN RADAR (SIMPLE ONE-LINER) ---
             with st.container():
+                # Baris Status Tunggal
                 if sekarang.day <= 6:
-                    st.info(f"🛡️ **MASA PROTEKSI** | {level_sp_r} | Target Bulan Ini: {t_norm} Video")
+                    st.info(f"🛡️ **MASA PROTEKSI** | {level_sp_r} | Target: {t_norm} Vid")
                 elif pot_sp_r > 0:
-                    st.error(f"⚠️ **STATUS: {level_sp_r}** | Potongan Terdeteksi: Rp {pot_sp_r:,}")
-                elif v_finish >= target_h_ini:
-                    st.success(f"🟢 **PERFORMA AMAN** | {level_sp_r} | Gaji kamu aman bulan ini.")
+                    st.error(f"⚠️ **STATUS: {level_sp_r}** | Potongan: Rp {pot_sp_r:,}")
                 else:
-                    st.warning(f"🟡 **DI BAWAH TARGET** | {level_sp_r} | Ayo kejar setoran hari ini!")
+                    st.success(f"🟢 **PERFORMA AMAN** | {level_sp_r}")
 
-                m1, m2, m3 = st.columns(3)
-                m1.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
-                m2.metric("TARGET AMAN", f"{target_h_ini} Vid")
-                m3.metric("STATUS AKHIR", level_sp_r.split('(')[0].strip())
-
+                # Baris Angka
+                c1, c2, c3 = st.columns(3)
+                c1.metric("HASIL", f"{v_finish} Vid", f"{selisih:.1f}")
+                c2.metric("TARGET", f"{target_h_ini} Vid")
+                c3.metric("STATUS", level_sp_r.split('(')[0])
             st.divider()
 
-        # --- LANJUTAN KODE SISTEM ---
+        # --- LANJUTAN KODE (WAJIB ADA & SEJAJAR) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1148,11 +1145,10 @@ def tampilkan_tugas_kerja():
         staf_options = df_staff_raw['Nama'].unique().tolist()
 
         def catat_log(aksi):
-            waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
-            sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
+            sheet_log.append_row([datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S"), user_sekarang.upper(), aksi])
 
     except Exception as e:
-        st.error(f"❌ Database Offline: {e}")
+        st.error(f"❌ Database Error: {e}")
         return
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
@@ -2344,6 +2340,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
