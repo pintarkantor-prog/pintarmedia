@@ -1098,32 +1098,53 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- PERBAIKAN RADAR PERFORMA ---
+# --- PERBAIKAN RADAR PERFORMA + LOGIKA SP TERPADU (VERSI FINAL) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # Gunakan .str.strip() agar spasi gaib di GSheet hilang
+            # 1. Hitung Hasil Finish
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
-            
             v_finish = len(df_all_tugas[mask_user & mask_finish])
             
+            # 2. Siapkan Data untuk Hitung SP agar Sinkron ke Radar
+            df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
+            try:
+                # Mengambil data absen user untuk hitungan SP Live di Radar
+                data_absen_raw = sheet_absensi.get_all_records()
+                df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
+                df_absen_user = df_absen_all[df_absen_all['NAMA'] == user_sekarang.upper()].copy()
+            except:
+                df_absen_user = pd.DataFrame()
+
+            # 3. Panggil Mesin Hitung SP (Untuk diletakkan di Radar)
+            b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
+                df_arsip_user, df_absen_user, sekarang.month, sekarang.year
+            )
+            
+            # 4. Kalkulasi Target Radar
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             selisih = v_finish - target_h_ini
 
+            # 5. Render Visual Radar (Tampilan Paling Atas)
             with wadah_radar.container(border=True):
                 c1, c2, c3 = st.columns([1.5, 1, 1])
-                # Logika: Jika masih tanggal 1-6 bulan berjalan
+                
+                # Logika Pesan Radar (Status SP Otomatis Muncul di Sini)
                 if sekarang.day <= 6:
-                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nTarget bulan ini: {t_norm} Video.")
+                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nStatus: {level_sp_r}\nTarget bulan ini: {t_norm} Video.")
+                elif pot_sp_r > 0:
+                    # Kalau kena SP, box Radar langsung berubah Merah (Error)
+                    c1.error(f"⚠️ **STATUS: {level_sp_r}**\n\nPotongan: Rp {pot_sp_r:,}\nKejar {abs(selisih):.1f} video lagi!")
                 elif v_finish >= target_h_ini:
-                    c1.success(f"🟢 **PERFORMA AMAN**\n\nGaji kamu aman dari potongan SP.")
+                    c1.success(f"🟢 **PERFORMA AMAN**\n\nStatus: {level_sp_r}\nGaji aman dari potongan.")
                 else:
-                    c1.error(f"⚠️ **DIBAWAH TARGET**\n\nKejar {abs(selisih):.1f} video lagi!")
+                    c1.warning(f"🟡 **DI BAWAH TARGET**\n\nStatus: {level_sp_r}\nKurang {abs(selisih):.1f} video!")
 
                 c2.metric("HASIL SAYA", f"{v_finish} Video", f"{selisih:.1f}")
                 c3.metric("TARGET AMAN", f"{target_h_ini} Video")
         
+        # --- LANJUTAN KODE ASLI KAMU (JANGAN DIHAPUS) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1431,22 +1452,6 @@ def tampilkan_tugas_kerja():
                     st.success(f"Mantap! Dengan {t_hari} video/hari, rezeki bonus kamu lancar setiap hari.")
 
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
-    
-        # C. --- MONITORING PROGRES GAJI (VERSI SINKRON RADAR) ---
-        st.divider()
-        panggilan_fix = user_sekarang.capitalize()
-        
-        if pot_sp > 0 or selisih < 0:
-            if sekarang.day <= 6:
-                st.warning(f"🛡️ **MASA PROTEKSI:** Halo {panggilan_fix}, meskipun gajimu aman sampai tanggal 6, tapi progresmu masih di bawah target radar.")
-            elif pot_sp == 0:
-                st.info(f"💪 **KEJAR TARGET, {panggilan_fix.upper()}!** Radarmu merah karena kurang {abs(selisih):.1f} video hari ini.")
-            else:
-                st.error(f"⚠️ **STATUS: {level_sp}**")
-                st.warning(f"🔥 **JANGAN MENYERAH!** Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {panggilan_fix}! 🚀")
-        else:              
-            st.success(f"🌟 **PERFORMA MANTAP, {panggilan_fix}!**")
-            st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). 🔥")
 
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
         if sekarang.day >= 28: 
@@ -2343,6 +2348,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
