@@ -1804,54 +1804,57 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-# --- TAMPILAN 6: SLIP GAJI (STRUKTUR ANTI-ERROR) ---
+        # --- TAMPILAN 6: SLIP GAJI (STRUKTUR ANTI-ERROR) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             # Normalisasi kamus data agar nama dari GSheet cocok dengan Master Staff
             rekap_bersih = {str(k).strip().upper(): v for k, v in rekap_total_video.items()}
             
-            for _, s in df_staff.iterrows():
+            for _, s in df_staff_raw_slip.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
-                if n_up == "" or n_up == "NAN": continue
+                if n_up == "" or n_up == "NAN": 
+                    continue
                 
-                jml_v = rekap_bersih.get(n_up, 0)
-                ada_kerja = True 
+                # Ambil jumlah video
+                jml_v = rekap_total_video.get(n_up, 0)
                 
-                # --- HITUNG ABSEN & BONUS MANDIRI ---
-                u_absen_staf = 0
-                b_video_staf = 0
+                # --- HITUNG BONUS MANDIRI (Agar tidak error) ---
+                u_absen_view = 0
+                b_video_view = 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen_staf += 30000
-                        if jml >= 4: b_video_staf += (jml - 3) * 25000
+                        if jml >= 3: u_absen_view += 30000
+                        if jml >= 4: b_video_view += (jml - 3) * 25000
 
                 # --- SISTEM SMART SWITCH TARGET ---
-                t_norm = 10 if (bulan_dipilih == 2 and tahun_dipilih == 2026) else 40
-                t_s1, t_s2 = (7, 4) if t_norm == 10 else (30, 20)
-                
-                p_sp = 0
-                if sekarang.day > 6:
-                    if jml_v >= t_norm: p_sp = 0
-                    elif t_s1 <= jml_v < t_norm: p_sp = 300000
-                    elif t_s2 <= jml_v < t_s1: p_sp = 700000
-                    else: p_sp = 1000000
+                t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
+                t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
 
+                # Hitung Potongan SP
+                pot_sp_admin = 0
+                if sekarang.day > 6:
+                    if jml_v >= t_normal: pot_sp_admin = 0
+                    elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
+                    elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
+                    else: pot_sp_admin = 1000000
+
+                # --- BAGIAN TAMPILAN (LURUSKAN SPASI DI SINI) ---
+                ada_kerja = True
                 with st.container(border=True):
                     c1, c2, c3 = st.columns([2, 1, 1])
                     c1.write(f"👤 **{n_up}**")
                     c1.caption(f"💼 {s.get('JABATAN', 'STAFF')}")
-                    c2.write(f"📅 Rp {u_absen_staf:,}")
+                    c2.write(f"📅 Rp {u_absen_view:,}")
                     c3.write(f"🎬 {jml_v} Video")
-
-
-            if not ada_kerja:
-                st.info("Belum ada aktivitas tim yang ditemukan untuk periode ini.")
+                    
+                    # Baris di bawah ini harus sejajar lurus dengan c1, c2, c3
+                    if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
+                        v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
+                        v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
+                        v_total_terima = (v_gapok + v_tunjangan + u_absen_view + b_video_view) - pot_sp_admin
                         
-                        if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
-                            # Bersihkan angka pokok dari titik/karakter aneh
-                            v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
-                            v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                            v_total_terima = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
+                        st.info(f"**Total Gaji Bersih: Rp {v_total_terima:,}**")
+                        st.caption(f"Rincian: Pokok {v_gapok:,} + Tunj {v_tunjangan:,} + Absen {u_absen_view:,} + Bonus V {b_video_view:,} - SP {pot_sp_admin:,}")
                             
                             # DESAIN SLIP GAJI HTML
                             slip_html = f"""
@@ -2296,6 +2299,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
