@@ -1255,7 +1255,7 @@ def tampilkan_tugas_kerja():
 
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
         b_video, u_hadir, pot_sp, level_sp = hitung_logika_performa_dan_bonus(
-            df_arsip, 
+            df_arsip_user,
             df_absen_user, 
             sekarang.month, 
             sekarang.year
@@ -2195,34 +2195,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
