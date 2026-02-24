@@ -1592,7 +1592,7 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Cek apakah bulan yang dipilih adalah masa depan
@@ -1603,7 +1603,8 @@ def tampilkan_kendali_tim():
         else:
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
-                if n_up == "" or n_up == "NAN": continue
+                if n_up == "" or n_up == "NAN": 
+                    continue
                 
                 # 1. Bonus Harian
                 u_absen, b_lembur = 0, 0
@@ -1616,70 +1617,53 @@ def tampilkan_kendali_tim():
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
                 
-                # 1. Tentukan ambang batas aman untuk HARI INI
-                # Jika target 40 video sebulan, maka per hari ~1.6 video.
+                # Ambang batas berjalan
                 ambang_aman_hari_ini = sekarang.day * 1.6
                 ambang_sp1_hari_ini = sekarang.day * 1.2
                 ambang_sp2_hari_ini = sekarang.day * 0.8
 
                 if tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
-                    # BULAN BERJALAN (Gunakan Target Berjalan)
                     if sekarang.day <= 6:
-                        p_sp = 0 # Proteksi awal bulan
+                        p_sp = 0 
                     elif tot_v >= ambang_aman_hari_ini:
-                        p_sp = 0 # On Track (Normal)
+                        p_sp = 0 
                     else:
-                        # Jika di bawah track, baru cek kategori SP berdasarkan progres hari
-                        if tot_v >= ambang_sp1_hari_ini: p_sp = 300000; level_sp = "SP 1 (Warning)"
-                        elif tot_v >= ambang_sp2_hari_ini: p_sp = 700000; level_sp = "SP 2 (Kritis)"
-                        else: p_sp = 1000000; level_sp = "SP 3 (Danger)"
-                
+                        if tot_v >= ambang_sp1_hari_ini: p_sp = 300000
+                        elif tot_v >= ambang_sp2_hari_ini: p_sp = 700000
+                        else: p_sp = 1000000
                 else:
-                    # BULAN LALU (Gunakan Target Mutlak 40, 30, 20)
                     if tot_v >= 40: p_sp = 0
                     elif 30 <= tot_v < 40: p_sp = 300000
                     elif 20 <= tot_v < 30: p_sp = 700000
                     else: p_sp = 1000000
                 
                 # 3. Hitung Gaji Bersih
-                # Ambil Gaji Pokok & Tunjangan secara aman dari dataframe staff
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                 
-                # Rumus Akhir Gaji per Orang
                 bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
-                
-                # Akumulasi ke total pengeluaran (Staff tidak dibayar negatif)
                 total_pengeluaran_gaji += max(0, bersih_orang)
-                
-        # Update tampilan metrik (Kembali sejajar dengan if utama)
+
+        # TAMPILAN HEADER (Sejajar dengan 'if is_masa_depan')
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
         
-        # Jika bulan depan, paksa semua jadi nol agar tidak membingungkan
         if is_masa_depan:
             inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
-        # Metrik dengan indikator warna (Delta)
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
         
-        # Hitung saldo bersih
         saldo_bersih = inc - (total_pengeluaran_gaji + ops)
-        
-        # Tentukan simbol (+/-) dan format teks agar warna otomatis bekerja
         simbol = "+" if saldo_bersih >= 0 else "-"
-        abs_saldo = abs(saldo_bersih) # Ambil angka positifnya untuk diformat
+        abs_saldo = abs(saldo_bersih)
 
-        # Tampilkan bersih dengan warna otomatis & ada Rp-nya
         m3.metric(
             label="💎 BERSIH", 
             value=f"Rp {saldo_bersih:,}",
-            # Trik: Tambahkan simbol matematika di depan teks "Rp"
             delta=f"{simbol} Rp {abs_saldo:,}",
             delta_color="normal" 
         )
-
         # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
         with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=False):
             with st.form("form_kas", clear_on_submit=True):
@@ -2279,6 +2263,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
