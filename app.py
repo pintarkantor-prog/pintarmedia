@@ -1470,7 +1470,6 @@ def tampilkan_tugas_kerja():
                             </div>
                         </div>
                         """
-                        """
                         st.components.v1.html(slip_staff_html, height=550)
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
@@ -2301,6 +2300,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
