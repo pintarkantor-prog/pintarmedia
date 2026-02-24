@@ -1250,20 +1250,16 @@ def tampilkan_tugas_kerja():
             st.caption("Gunakan form ini jika kamu mengerjakan sesuatu di luar list tugas utama.")
 
             with st.form("form_mandiri", clear_on_submit=True):
-            # Kita tetep pake 2 kolom sampingan
-            c1, c2 = st.columns([1.5, 2.5]) 
+            # Baris di bawah ini HARUS lebih menjorok ke kanan dibanding baris 'with'
+                c1, c2 = st.columns([1.5, 2.5]) 
             
-            with c1:
-                # Pake text_area tapi tingginya disetel pendek biar kelihatan gemuk
-                judul_m = st.text_area("📝 Judul Pekerjaan:", 
-                                       placeholder="Nama Video/Tugas", 
-                                       height=70) 
-            with c2:
-                link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", 
-                                      placeholder="Link1, Link2, Link3...", 
-                                      height=70)
+                with c1:
+                    judul_m = st.text_area("📝 Judul Pekerjaan:", placeholder="Nama Video/Tugas", height=70)
             
-            submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
+                with c2:
+                    link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", placeholder="Link1, Link2, Link3...", height=70)
+            
+                submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
                 
                 if submit_m:
                     if judul_m and link_m:
@@ -2364,6 +2360,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
