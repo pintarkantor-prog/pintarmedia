@@ -900,19 +900,19 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. EKSEKUSI DATA ---
+            # --- 4. EKSEKUSI DATA (LOGIKA PINDAH DATA) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
                 try:
-                    # Update Status di GSheet Gudang_Ide
+                    # A. Update Status di GSheet
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # Inject Data Naskah ke Ruang Produksi
+                    # B. Ambil Blueprint & Inject ke Session
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
@@ -927,29 +927,34 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # Tambah baris ke Sheet Tugas
+                    # C. Tambah ke Sheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                    # Ubah status ke sukses
+                    # --- D. PROSES PINDAH MENU (SEBELUM RERUN) ---
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    st.session_state.status_sukses = True 
+                    
+                    # TANDAI SUKSES
+                    st.session_state.status_sukses = True
                     st.rerun()
 
                 except Exception as ex:
-                    st.error(f"Gagal: {ex}")
+                    st.error(f"Gagal Proses: {ex}")
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
-            # --- 5. PINDAH HALAMAN OTOMATIS (SETELAH NOTIF SUKSES) ---
+            # --- 5. CLEANUP & AUTO REDIRECT (PENYELESAIAN) ---
             if st.session_state.status_sukses:
-                time.sleep(3) 
+                # TAMPILIN NOTIF SUKSES DULU 2 DETIK
+                time.sleep(2) 
+                
+                # RESET SEMUA STATE GUDANG
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
                 
-                # Memaksa navigasi sidebar pindah menu
+                # PAKSA PINDAH HALAMAN
                 st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI" 
                 st.rerun()
 
@@ -2264,3 +2269,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
