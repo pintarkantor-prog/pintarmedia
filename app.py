@@ -1804,7 +1804,7 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-# --- TAMPILAN 6: SLIP GAJI (DESAIN MEWAH - FIX INDENTASI) ---
+        # --- TAMPILAN 6: SLIP GAJI (DESAIN MEWAH - FIX INDENTASI) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             rekap_bersih = {str(k).strip().upper(): v for k, v in rekap_total_video.items()}
@@ -1849,7 +1849,7 @@ def tampilkan_kendali_tim():
                         
                         # --- DESAIN SLIP HTML MEWAH ---
                         slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 25px; border-radius: 15px; border: 4px solid #1d976c; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 320px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                        <div style="background-color: white; color: black; padding: 25px; border-radius: 15px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
                             <div style="text-align: center; margin-bottom: 20px;">
                                 <h2 style="margin:0; color: #1d976c; letter-spacing: 2px;">PINTAR MEDIA</h2>
                                 <div style="font-size: 10px; color: #666; text-transform: uppercase;">Creative AI Studio Production</div>
@@ -2295,6 +2295,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
