@@ -1064,7 +1064,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
-    wadah_radar = st.empty()
+    st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba sistem! Lapor ke WA kalau ada eror di menu web, terutama prompt video dialognya")
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1098,28 +1098,6 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- ISI TEMPAT TADI DENGAN RADAR PERFORMA ---
-        if user_sekarang != "dian" and user_sekarang != "tamu":
-            v_finish = len(df_all_tugas[(df_all_tugas['STAF'] == user_sekarang.upper()) & (df_all_tugas['STATUS'] == 'FINISH')])
-            
-            t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            progres_h = min(sekarang.day, 25)
-            target_h_ini = round((t_norm / 25) * progres_h, 1)
-            selisih = v_finish - target_h_ini
-
-            # Mengisi wadah_radar yang dipesan di atas tadi
-            with wadah_radar.container(border=True):
-                c1, c2, c3 = st.columns([1.5, 1, 1])
-                if sekarang.day <= 6:
-                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nTarget bulan ini: {t_norm} Video.")
-                elif v_finish >= target_h_ini:
-                    c1.success(f"🟢 **PERFORMA AMAN**\n\nGaji kamu aman dari potongan SP.")
-                else:
-                    c1.error(f"⚠️ **DIBAWAH TARGET**\n\nKejar {abs(selisih):.1f} video lagi!")
-
-                c2.metric("HASIL SAYA", f"{v_finish} Video", f"{selisih:.1f}")
-                c3.metric("TARGET AMAN", f"{target_h_ini} Video")
-        
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1133,6 +1111,27 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
+
+    # --- 1. LEADERBOARD ---
+    if not df_all_tugas.empty:
+        mask_l = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
+                 (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year) & \
+                 (df_all_tugas['STATUS'] == "FINISH")
+        
+        df_finish_l = df_all_tugas[mask_l].copy()
+        if not df_finish_l.empty:
+            skor = df_finish_l['STAF'].astype(str).str.strip().str.upper().value_counts().reset_index()
+            skor.columns = ['Nama', 'Video']
+            ranks = skor.values.tolist()
+            c1, c2, c3 = st.columns(3)
+            with c1: 
+                if len(ranks) > 0: st.metric("🥇 JUARA 1", ranks[0][0], f"{ranks[0][1]} Video")
+            with c2: 
+                if len(ranks) > 1: st.metric("🥈 JUARA 2", ranks[1][0], f"{ranks[1][1]} Video")
+            with c3: 
+                if len(ranks) > 2: st.metric("🥉 JUARA 3", ranks[2][0], f"{ranks[2][1]} Video")
+
+    st.divider()
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
@@ -1423,22 +1422,21 @@ def tampilkan_tugas_kerja():
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
-        # C. --- MONITORING PROGRES GAJI ---
+        # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
         st.divider()
         if pot_sp > 0:
-            st.error(f"⚠️ **STATUS SEMENTARA: {level_sp}**")
-            if level_sp == "SP 1":
-                st.info(f"✨ **Sedikit lagi!** Halo {user_sekarang.capitalize()}, konsisten hari ini biar status kembali Normal.")
-            elif level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning(f"💪 **Ayo Kejar!** Target 3 video/hari bisa jadi kunci penyelamat gajimu, {user_sekarang.capitalize()}.")
-            else:
-                st.warning(f"🔥 **JANGAN MENYERAH!** Status ini belum final. Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {user_sekarang.capitalize()}! 🚀")
-        else:              
-            st.success(f"🌟 **PERFORMA MANTAP, {user_sekarang.capitalize()}!**")
-            st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
+            st.error(f"⚠️ **STATUS KEDISIPLINAN: {level_sp}**")
+            st.write(f"Sistem mendeteksi setoran video kamu di bawah standar (≤ 1 video/hari).")
+            # Baris denda sudah dihapus dari sini sesuai permintaanmu
+            if level_sp == "SP 2 (PERINGATAN KERAS)":
+                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (CUT OFF)!")
+        else:             
+            st.info("🌟 **STATUS PERFORMA: TERJAGA**")
+            st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
+
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 28: # Ganti ke 28 setelah selesai tes
+        if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
                     # Ambil Data Pokok Staff & Pastikan Clean
@@ -1599,62 +1597,74 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
-        # Penentu apakah bulan masa depan
+        # Cek apakah bulan yang dipilih adalah masa depan
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
-        # Jika bukan masa depan, jalankan perhitungan
-        if not is_masa_depan:
+        if is_masa_depan:
+            total_pengeluaran_gaji = 0
+        else:
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
-                if n_up == "" or n_up == "NAN": continue
+                if n_up == "" or n_up == "NAN": 
+                    continue
                 
-                # A. Bonus & Absen
-                u_absen_staf, b_lembur_staf = 0, 0
+                # 1. Bonus Harian
+                u_absen, b_lembur = 0, 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen_staf += 30000
-                        if jml >= 4: b_lembur_staf += (jml - 3) * 25000
+                        if jml >= 3: u_absen += 30000
+                        if jml >= 4: b_lembur += (jml - 3) * 25000
                 
-                # B. Logika SP Smart Switch (Februari 10, Maret 40)
+                # --- LOGIKA SP PROPORSIAL (ANTI-PANIK & ANTI-VONIS BULAN DEPAN) ---
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
-                if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    t_norm, t_s1, t_s2 = 10, 7, 4
+                
+                # Definisikan status bulan
+                is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
+                is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
+
+                if is_masa_depan:
+                    # 1. BULAN DEPAN: Potongan selalu 0 karena kerjaan belum mulai
+                    p_sp = 0
+                    
+                elif is_bulan_ini:
+                    # 2. BULAN BERJALAN: Pakai ambang batas harian agar tidak kaget
+                    ambang_aman_hari_ini = sekarang.day * 1.6
+                    ambang_sp1_hari_ini = sekarang.day * 1.2
+                    ambang_sp2_hari_ini = sekarang.day * 0.8
+                    
+                    if sekarang.day <= 6:
+                        p_sp = 0 
+                    elif tot_v >= ambang_aman_hari_ini:
+                        p_sp = 0 
+                    else:
+                        if tot_v >= ambang_sp1_hari_ini: p_sp = 300000
+                        elif tot_v >= ambang_sp2_hari_ini: p_sp = 700000
+                        else: p_sp = 1000000
+                        
                 else:
-                    t_norm, t_s1, t_s2 = 40, 30, 20
+                    # 3. BULAN LALU (ARSIP): Pakai target mutlak (40, 30, 20)
+                    if tot_v >= 40: p_sp = 0
+                    elif 30 <= tot_v < 40: p_sp = 300000
+                    elif 20 <= tot_v < 30: p_sp = 700000
+                    else: p_sp = 1000000 # SP 3 Mutlak karena bulan sudah habis
                 
-                # Hitung ambang batas berjalan
-                progres_h = min(sekarang.day, 25)
-                threshold = (t_norm / 25) * progres_h
-                
-                # Eksekusi Potongan
-                if sekarang.day > 6 and tot_v < threshold:
-                    if tot_v >= t_norm: p_sp = 0
-                    elif t_s1 <= tot_v < t_norm: p_sp = 300000
-                    elif t_s2 <= tot_v < t_s1: p_sp = 700000
-                    else: p_sp = 1000000
-                
-                # C. Hitung Gaji Bersih per Orang
+                # 3. Hitung Gaji Bersih
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                 
-                bersih_orang = (g_pokok + t_tunj + u_absen_staf + b_lembur_staf) - p_sp
+                bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
                 total_pengeluaran_gaji += max(0, bersih_orang)
-        else:
-            # Jika masa depan, pengeluaran dipaksa 0
-            total_pengeluaran_gaji = 0
 
-        # --- TAMPILAN HEADER (Pindahkan ke luar blok IF di atas) ---
+        # TAMPILAN HEADER (Sejajar dengan 'if is_masa_depan')
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
         
-        # Reset variabel metrik jika masa depan
         if is_masa_depan:
             inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
-        # Tampilkan Metrik
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
@@ -1727,38 +1737,41 @@ def tampilkan_kendali_tim():
 
         # --- TAMPILAN 5: MONITORING PROGRES PRODUKSI (PENGGANTI GRAFIK) ---
         with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=True):
-            if rekap_total_video is not None:
-                # --- LOGIKA TARGET SMART SWITCH ---
-                if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    t_normal = 10
-                else:
-                    t_normal = 40
-                
+            if rekap_total_video:
+                # 1. Hitung Target Berjalan (Acuan 40 video/bulan)
+                # Rumus: (Target 40 / 25 hari kerja) * Hari ke-X
                 progres_hari = min(sekarang.day, 25)
-                target_aman = round((t_normal / 25) * progres_hari, 1)
+                target_aman = round((40 / 25) * progres_hari, 1)
                 
+                # 2. Olah Data Monitoring (PASTIKAN SEMUA MUNCUL)
                 data_monitor = []
                 for _, s in df_staff.iterrows():
                     n_up = str(s.get('NAMA', '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    jml_v = rekap_total_video.get(n_up, 0)
+                    jml_v = rekap_total_video.get(n_up, 0) # Kalau tidak ada, otomatis 0
                     selisih = jml_v - target_aman
                     
-                    if jml_v >= target_aman: status = "🟢 AMAN"
-                    elif jml_v >= (t_normal * 0.5 / 25) * progres_hari: status = "🟡 WASPADA"
-                    else: status = "🔴 BAHAYA (SP 3)"
+                    if jml_v >= target_aman:
+                        status = "AMAN (ON TRACK)"
+                    elif jml_v >= (20 / 25) * progres_hari:
+                        status = "WASPADA (HAMPIR SP)"
+                    else:
+                        status = "BAHAYA (SP 3)"
                     
                     data_monitor.append({
                         "NAMA STAF": n_up,
                         "HASIL": int(jml_v),
                         "TARGET MINIMAL": target_aman,
-                        "SELISIH": round(selisih, 1),
+                        "SELISIH": f"{selisih:+.1f}",
                         "STATUS": status
                     })
                 
+                # 3. Tampilkan Tabel Standar
                 st.table(pd.DataFrame(data_monitor))
-                st.info(f"💡 Target minimal hari ini (Tgl {sekarang.day}) adalah {target_aman} video (Standar {t_normal} video/bulan).")
+                
+                # 4. Info Tambahan
+                st.info(f"💡 Target minimal hari ini (Tanggal {sekarang.day}) adalah {target_aman} video untuk status AMAN.")
             else:
                 st.info("Belum ada aktivitas produksi yang tercatat 'FINISH' bulan ini.")
 
@@ -1821,46 +1834,52 @@ def tampilkan_kendali_tim():
                 if n_up == "" or n_up == "NAN": 
                     continue
                 
-                # 2. LOGIKA SP PROPORSIAL (SMART SWITCH - ANTI ERROR)
+                # 1. Hitung Bonus (SINKRON HARIAN)
+                uang_absen_staff = 0
+                bonus_v_harian = 0
+                if n_up in rekap_harian_tim:
+                    for tgl, jml in rekap_harian_tim[n_up].items():
+                        if jml >= 3: uang_absen_staff += 30000
+                        if jml >= 4: bonus_v_harian += (jml - 3) * 25000
+                
+                # 2. LOGIKA SP PROPORSIAL (SINKRON 100% ADMIN & STAFF)
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
                 
-                # --- SISTEM SMART SWITCH TARGET ---
-                if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    # KHUSUS FEBRUARI (Transisi)
-                    t_normal, t_sp1, t_sp2 = 10, 7, 4
-                else:
-                    # MARET & SETERUSNYA (Standar Resmi)
-                    t_normal, t_sp1, t_sp2 = 40, 30, 20
+                # Standar Target (Acuan 2 Video/Hari)
+                target_normal = 40
+                target_sp1 = 30
+                target_sp2 = 20
 
                 # Penentu Status Bulan
                 is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
                 is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
                 
                 if is_masa_depan:
+                    # JIKA LIHAT BULAN DEPAN: Potongan selalu 0
                     pot_sp_admin = 0
                 
                 elif is_bulan_ini:
-                    # Logika Progres Hari ini (Dinamis mengikuti t_normal)
+                    # JIKA BULAN BERJALAN: Pakai ambang batas progres hari
                     progres_hari = min(sekarang.day, 25)
-                    threshold_aman = (t_normal / 25) * progres_hari
+                    threshold_aman = (target_normal / 25) * progres_hari
                     
                     if sekarang.day <= 6:
                         pot_sp_admin = 0
                     elif jml_v >= threshold_aman:
                         pot_sp_admin = 0
                     else:
-                        # Vonis SP berdasarkan standar bulan yang aktif
-                        if jml_v >= t_normal: pot_sp_admin = 0
-                        elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
-                        elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
+                        # Cek kategori SP berdasarkan target mutlak
+                        if jml_v >= 40: pot_sp_admin = 0
+                        elif 30 <= jml_v < 40: pot_sp_admin = 300000
+                        elif 20 <= jml_v < 30: pot_sp_admin = 700000
                         else: pot_sp_admin = 1000000
                 
                 else:
-                    # ARSIP BULAN LALU (Pakai angka mutlak bulan tersebut)
-                    if jml_v >= t_normal: pot_sp_admin = 0
-                    elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
-                    elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
+                    # JIKA LIHAT BULAN LALU (ARSIP): Pakai target mutlak langsung
+                    if jml_v >= 40: pot_sp_admin = 0
+                    elif 30 <= jml_v < 40: pot_sp_admin = 300000
+                    elif 20 <= jml_v < 30: pot_sp_admin = 700000
                     else: pot_sp_admin = 1000000
 
                 # 3. FILTER TAMPILAN (Hanya yang ada aktivitas)
@@ -2321,4 +2340,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
