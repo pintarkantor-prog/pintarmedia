@@ -1561,32 +1561,27 @@ def tampilkan_kendali_tim():
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
-        # --- LOGIKA HITUNG KEUANGAN (SINKRON DENGAN ATURAN BARU) ---
-        if not df_t_bln.empty:
-            # Tambahkan .copy() di akhir filter untuk memutus hubungan dengan dataframe asli
-            df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"].copy()
-        else:
-            df_f_f = pd.DataFrame()
-        
-        # Rekap Video per Nama per Tanggal
+        # --- LOGIKA HITUNG VIDEO & BONUS (VERSI FIX) ---
         rekap_harian_tim = {}
-        if not df_f_f.empty:
-            # Gunakan .str.upper() (DENGAN TITIK SETELAH .str)
-            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
-            
-            # Pastikan TGL_TEMP adalah datetime agar tidak error saat .dt
-            df_f_f['TGL_TEMP'] = pd.to_datetime(df_f_f['TGL_TEMP'], errors='coerce')
-            df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
-            
-            # Grouping
-            rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
+        rekap_total_video = {}
 
-        # Total Video per Nama
-        if not df_f_f.empty:
-            # Karena STAF sudah di-upper di atas, langsung value_counts saja
-            rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
-        else:
-            rekap_total_video = {}
+        if not df_t_bln.empty:
+            # 1. Filter yang statusnya FINISH
+            df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"].copy()
+            
+            if not df_f_f.empty:
+                # 2. Normalisasi Nama Staf (Sangat Penting!)
+                df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
+                
+                # 3. PERBAIKAN: Ambil tanggal dari kolom DEADLINE, bukan TGL_TEMP
+                df_f_f['TGL_PROSES'] = pd.to_datetime(df_f_f['DEADLINE'], dayfirst=True, errors='coerce')
+                df_f_f['TGL_STR'] = df_f_f['TGL_PROSES'].dt.strftime('%Y-%m-%d')
+                
+                # 4. Grouping Harian (Untuk hitung bonus absen 3 video)
+                rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
+                
+                # 5. Total Video Keseluruhan (Untuk Slip Gaji)
+                rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
         
         # Kalkulasi Pendapatan & Pengeluaran
         inc = 0
@@ -2326,6 +2321,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
