@@ -1257,7 +1257,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}")
                         st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
 
-    # --- FILTER DATA ---
+# --- FILTER DATA ---
     tugas_terfilter = []
     if not df_all_tugas.empty:
         if user_sekarang == "dian":
@@ -1268,96 +1268,73 @@ def tampilkan_tugas_kerja():
     if not tugas_terfilter:
         st.info(f"☕ Belum ada tugas aktif.")
     else:
-        for t in reversed(tugas_terfilter):
-            status = str(t["Status"]).upper()
-            url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
-            
-            # --- MULAI CARD JOSH (MODERN LOOK) ---
-            with st.container(border=True):
-                c1, c2, c3 = st.columns([0.8, 3, 1])
-                with c1: st.image(url_foto, width=70)
-                with c2:
-                    st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
-                    st.caption(f"📌 {status} | 📅 Deadline: {t['Deadline']}")
-                with c3:
-                    olah = st.toggle("Olah", key=f"tgl_{t['ID']}")
-                
-                if olah:
-                    st.divider()
+        # --- MODE 2 KOLOM (GRID) ---
+        tugas_list = list(reversed(tugas_terfilter))
+        for i in range(0, len(tugas_list), 2):
+            cols = st.columns(2)
+            for j in range(2):
+                if i + j < len(tugas_list):
+                    t = tugas_list[i + j]
+                    status = str(t["Status"]).upper()
+                    url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
                     
-                    # 1. NOTIF REVISI (Jika Ada)
-                    if t.get("Catatan_Revisi"): 
-                        st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
-                    
-                    # 2. INSTRUKSI
-                    st.markdown("**INSTRUKSI:**")
-                    st.code(t["Instruksi"])
-                    st.divider()
-
-                    # --- 3. LOGIKA TAMPILAN STAFF ---
-                    if user_sekarang != "dian" and user_sekarang != "tamu":
-                        # TAMPILIN TOMBOL HASIL (Biar staff bisa cek link mereka sendiri)
-                        if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                            st.markdown("**HASIL KERJA KAMU:**")
-                            links = str(t["Link_Hasil"]).split(",")
-                            cols_link = st.columns(len(links))
-                            for i, link in enumerate(links):
-                                with cols_link[i]:
-                                    st.link_button(f"🔗 BUKA HASIL {i+1}", link.strip(), use_container_width=True)
-                        
-                        # INPUT UNTUK UPDATE
-                        with st.expander("📝 Update / Input Link GDrive"):
-                            l_in = st.text_area("Tempel link baru di sini (pisahkan koma):", 
-                                               value=t.get("Link_Hasil", ""), 
-                                               key=f"l_{t['ID']}")
-                            if st.button("🚩 SETOR HASIL", key=f"b_{t['ID']}", use_container_width=True):
-                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
-                                sheet_tugas.update_cell(cell.row, 7, l_in)
-                                st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
-
-                    # --- 4. LOGIKA TAMPILAN ADMIN (DIAN) ---
-                    elif user_sekarang == "dian":
-                        st.markdown("🔍 **PANEL QUALITY CONTROL**")
-                        
-                        # TAMPILIN TOMBOL HASIL
-                        if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                            links = str(t["Link_Hasil"]).split(",")
-                            cols_link = st.columns(len(links))
-                            for i, link in enumerate(links):
-                                with cols_link[i]:
-                                    st.link_button(f"🔗 CEK HASIL {i+1}", link.strip(), use_container_width=True)
-                        else:
-                            st.info("Staff belum menyetor link.")
-
-                        cat_r = st.text_area("Catatan Koreksi (Kosongkan jika ACC):", key=f"cat_{t['ID']}")
-                        
-                        c1, c2 = st.columns(2)
-                        with c1:
-                            if st.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
-                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                    with cols[j]:
+                        with st.container(border=True):
+                            # Header Card
+                            c1, c2 = st.columns([1, 2.5])
+                            with c1: st.image(url_foto, width=65)
+                            with c2:
+                                st.markdown(f"**{str(t['Staf']).upper()}**")
+                                st.caption(f"🆔 {t['ID']} | 📌 {status}")
+                            
+                            olah = st.toggle("Olah", key=f"tgl_{t['ID']}")
+                            
+                            if olah:
+                                st.divider()
+                                if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
+                                st.markdown("**INSTRUKSI:**")
+                                st.code(t["Instruksi"])
                                 
-                                # --- NOTIFIKASI WA & LOG ---
-                                catat_log(f"ACC Tugas {t['ID']}")
-                                kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n\n*Kerja bagus! Bonus video sudah masuk hitungan.*")
-                                
-                                st.success("✅ Done!"); time.sleep(1); st.rerun()
-                                
-                        with c2:
-                            if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
-                                if not cat_r:
-                                    st.error("Isi alasan revisinya dulu, Bos!")
-                                else:
-                                    cell = sheet_tugas.find(str(t['ID']).strip())
-                                    sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                                    sheet_tugas.update_cell(cell.row, 8, cat_r)
+                                # --- TAMPILAN KHUSUS ADMIN DIAN (QC) ---
+                                if user_sekarang == "dian":
+                                    st.markdown("---")
+                                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                                        links = str(t["Link_Hasil"]).split(",")
+                                        for idx, l in enumerate(links):
+                                            st.link_button(f"🔗 CEK HASIL {idx+1}", l.strip(), use_container_width=True)
                                     
-                                    # --- NOTIFIKASI WA & LOG ---
-                                    catat_log(f"Minta Revisi {t['ID']}")
-                                    kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Pesan:* {cat_r}")
+                                    cat_r = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
+                                    b1, b2 = st.columns(2)
+                                    with b1:
+                                        if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
+                                            cell = sheet_tugas.find(str(t['ID']).strip())
+                                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                                            catat_log(f"ACC {t['ID']}")
+                                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n\n*Kerja bagus!*")
+                                            st.success("ACC!"); time.sleep(1); st.rerun()
+                                    with b2:
+                                        if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
+                                            if cat_r:
+                                                cell = sheet_tugas.find(str(t['ID']).strip())
+                                                sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                                                sheet_tugas.update_cell(cell.row, 8, cat_r)
+                                                catat_log(f"Revisi {t['ID']}")
+                                                kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n📝 *Pesan:* {cat_r}")
+                                                st.warning("Revisi!"); time.sleep(1); st.rerun()
+                                            else: st.error("Isi alasan revisi!")
+
+                                # --- TAMPILAN STAFF (SETOR) ---
+                                elif user_sekarang != "tamu":
+                                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                                        st.link_button("🔗 LIHAT HASIL SAYA", t["Link_Hasil"].split(",")[0].strip(), use_container_width=True)
                                     
-                                    st.warning("⚠️ Status: REVISI"); time.sleep(1); st.rerun()
+                                    with st.expander("📝 Update Link"):
+                                        l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                                        if st.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
+                                            cell = sheet_tugas.find(str(t['ID']).strip())
+                                            sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                                            sheet_tugas.update_cell(cell.row, 7, l_in)
+                                            st.success("Sent!"); time.sleep(1); st.rerun()
                                     
     # --- 4. LACI ARSIP ---
     st.divider()
@@ -2377,6 +2354,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
