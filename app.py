@@ -801,8 +801,7 @@ def tampilkan_gudang_ide():
     st.title("💡 GUDANG IDE KONTEN")
     st.markdown("---")
     
-    # Keterangan buat staff
-    st.info("📌 **SISTEM ANTREAN:** Di bawah ini adalah 12 ide terbaru yang siap diproduksi. Jika ide sudah diambil, sistem akan otomatis menampilkan ide baru lainnya.")
+    st.info("📌 **ANTREAN PRODUKSI:** Pilih 1 dari 12 ide blueprint di bawah ini. Begitu diambil, ide baru akan otomatis mengisi slot yang kosong.")
 
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -817,79 +816,73 @@ def tampilkan_gudang_ide():
         sheet_gudang = sh.worksheet("Gudang_Ide")
         sheet_tugas = sh.worksheet("Tugas")
         
-        # Ambil data terbaru
         data_gudang = sheet_gudang.get_all_records()
         df_gudang = pd.DataFrame(data_gudang)
         df_gudang = bersihkan_data(df_gudang)
         
-        # Filter hanya yang STATUS-nya 'TERSEDIA'
         df_tersedia = df_gudang[df_gudang['STATUS'] == 'TERSEDIA'].copy()
-        
-        # AMBIL MAKSIMAL 12 IDE (Limit)
         list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
 
         if len(list_judul_unik) == 0:
-            st.warning("📭 Gudang ide sedang kosong. Hubungi Admin untuk input ide baru!")
+            st.warning("📭 Belum ada ide baru di gudang.")
         else:
-            # Layout Grid 3 Kolom
+            # Grid 3 Kolom
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
                 batch_judul = list_judul_unik[i:i+3]
                 
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
-                        # Ambil data detail ide
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         
+                        # --- TAMPILAN KARTU MEWAH ---
                         with st.container(border=True):
-                            st.markdown(f"### 🎬 {judul}")
-                            st.markdown(f"🆔 `ID: {row_info['ID_IDE']}`")
-                            st.caption(f"📂 Kategori: {row_info.get('KATEGORI', 'Trending')}")
+                            # Garis warna tipis di atas (Status Strip)
+                            st.markdown('<div style="height: 5px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
+                            
+                            # Konten Tengah
+                            st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 12px;'>🆔 ID: {row_info['ID_IDE']}</p>", unsafe_allow_html=True)
                             
                             st.write("") 
 
-                            if st.button(f"🚀 AMBIL & PROSES", key=f"btn_{row_info['ID_IDE']}", use_container_width=True):
-                                with st.spinner("Sinkronisasi Blueprint..."):
-                                    # 1. Update Status di Google Sheet Gudang_Ide
+                            if st.button(f"🚀 AMBIL IDE", key=f"btn_{row_info['ID_IDE']}", use_container_width=True):
+                                with st.spinner("Mengambil Data..."):
+                                    # 1. Update GSheet
                                     target_id = str(row_info['ID_IDE']).strip()
                                     cells = sheet_gudang.findall(target_id)
                                     for cell in cells:
                                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                                     
-                                    # 2. Ambil Semua Adegan untuk Blueprint ini
+                                    # 2. Ambil Blueprint
                                     adegan_rows = df_gudang[df_gudang['ID_IDE'] == row_info['ID_IDE']]
                                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                                     
-                                    # 3. Inject ke Ruang Produksi
                                     rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul}\n\n"
                                     for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                                         st.session_state.data_produksi["adegan"][idx] = {
                                             "aksi": a_row['NASKAH_VISUAL'],
                                             "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                                            "style": a_row['STYLE'],
-                                            "shot": a_row['UKURAN_GAMBAR'],
-                                            "light": a_row['LIGHTING'],
-                                            "arah": a_row['ARAH_KAMERA'],
-                                            "cam": a_row['GERAKAN'],
-                                            "loc": a_row['LOKASI']
+                                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
+                                            "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
+                                            "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
                                         }
                                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                                     
-                                    # 4. Tambah baris baru di Sheet Tugas
+                                    # 3. Catat di Tugas
                                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul}", "PROSES", "-", "", ""])
 
-                                    # 5. Finalisasi & RERUN
                                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                                     
-                                    st.success("✅ Berhasil! Ide baru akan muncul di daftar.")
+                                    st.success("✅ Ide Terpasang!")
                                     time.sleep(1)
-                                    st.rerun() # <--- Memaksa sistem ambil 12 data terbaru lagi
+                                    st.rerun()
 
     except Exception as e:
-        st.error(f"⚠️ Koneksi Gudang Terputus: {e}")
+        st.error(f"⚠️ Gagal Memuat: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2199,4 +2192,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
