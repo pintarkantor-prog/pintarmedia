@@ -1077,16 +1077,44 @@ def tampilkan_tugas_kerja():
         "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
     }
 
-    # CSS Khusus Tab & Card
+    # --- 2. CSS CUSTOM: MIDNIGHT ELEGANCE (Hanya aktif di menu ini) ---
     st.markdown("""
         <style>
+        /* Desain Tab Minimalis */
         .stTabs [data-baseweb="tab-list"] { gap: 10px; }
         .stTabs [data-baseweb="tab"] {
-            background-color: rgba(255,255,255,0.05);
+            background-color: rgba(255, 255, 255, 0.03);
             border-radius: 10px 10px 0px 0px;
             padding: 10px 20px;
+            color: #888;
+            border: none;
         }
-        .stTabs [aria-selected="true"] { background-color: #007BFF !important; color: white !important; }
+        .stTabs [aria-selected="true"] { 
+            background-color: rgba(0, 255, 204, 0.1) !important; 
+            color: #00FFCC !important; 
+            border-bottom: 2px solid #00FFCC !important;
+        }
+
+        /* Card Glassmorphism Style */
+        .stElementContainer div[data-testid="stVerticalBlock"] > div[style*="border: 1px solid"] {
+            background-color: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 15px !important;
+            transition: 0.3s;
+        }
+        .stElementContainer div[data-testid="stVerticalBlock"] > div[style*="border: 1px solid"]:hover {
+            border: 1px solid rgba(0, 255, 204, 0.3) !important;
+            background-color: rgba(255, 255, 255, 0.04) !important;
+        }
+
+        /* Badge Status */
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -1114,12 +1142,11 @@ def tampilkan_tugas_kerja():
 
     st.title("🚀 PINTAR Dashboard")
 
-    # --- LANGKAH 1: BIKIN TAB MENU ---
     tab_tugas, tab_gudang, tab_gaji = st.tabs(["📑 TUGAS AKTIF", "📦 GUDANG IDE", "💰 INFO GAJI"])
 
     # ================= TAB 1: TUGAS AKTIF =================
     with tab_tugas:
-        # --- 0. PANEL ADMIN: KIRIM TUGAS (KHUSUS DIAN) ---
+        # --- 0. PANEL ADMIN: KIRIM TUGAS ---
         if user_sekarang == "dian":
             with st.expander("✨ **TAMBAH TUGAS BARU**", expanded=False):
                 with st.form("form_tugas_baru", clear_on_submit=True):
@@ -1140,16 +1167,15 @@ def tampilkan_tugas_kerja():
                     if st.form_submit_button("🚀 DEPLOY TUGAS", use_container_width=True):
                         if isi_tugas:
                             t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                            tgl_deploy = sekarang.strftime("%Y-%m-%d")
                             deadline_str = deadline_t.strftime("%Y-%m-%d")
-                            sheet_tugas.append_row([t_id, staf_tujuan.upper(), tgl_deploy, isi_tugas, "PROSES", deadline_str, "-", ""])
+                            sheet_tugas.append_row([t_id, staf_tujuan.upper(), sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", deadline_str, "-", ""])
                             catat_log(f"Kirim Tugas {t_id} ke {staf_tujuan}")
                             if pake_wa:
                                 kirim_notif_wa(f"✨ *TUGAS BARU*\n👤 Untuk: {staf_tujuan.upper()}\n🆔 ID: {t_id}")
                             st.success(f"✅ Terkirim ke {staf_tujuan}!"); time.sleep(1); st.rerun()
             st.divider()
 
-        # --- 1. RADAR PERFORMA (Hanya Staff) ---
+        # --- 1. RADAR PERFORMA ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
@@ -1164,22 +1190,9 @@ def tampilkan_tugas_kerja():
                 c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
                 c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
                 c4.metric("INSTRUKSI", "✅ LANJUTKAN!" if v_finish >= target_h_ini else "📈 TINGKATKAN")
-            st.write("")
 
-        # --- 2. SETOR TUGAS MANDIRI (Hanya Staff) ---
-        if user_sekarang != "dian" and user_sekarang != "tamu":
-            with st.expander("➕ STAFF: SETOR TUGAS MANDIRI", expanded=False):
-                with st.form("form_mandiri", clear_on_submit=True):
-                    judul_m = st.text_input("Apa yang kamu kerjakan?")
-                    link_m = st.text_input("Link GDrive Hasil:")
-                    if st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True):
-                        if judul_m and link_m:
-                            t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                            sheet_tugas.append_row([t_id_m, user_sekarang.upper(), sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
-                            catat_log(f"Setor Mandiri {t_id_m}")
-                            st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
-
-        # --- 3. DAFTAR TUGAS AKTIF (CARD MODE) ---
+        # --- 3. DAFTAR TUGAS AKTIF ---
+        st.write("")
         st.write("### 📑 Tugas On-Progress")
         tugas_terfilter = [t for t in data_tugas if (str(t["Staf"]).lower() == user_sekarang if user_sekarang != "dian" else True) and str(t["Status"]).upper() != "FINISH"]
 
@@ -1189,16 +1202,21 @@ def tampilkan_tugas_kerja():
             for t in reversed(tugas_terfilter):
                 status = str(t["Status"]).upper()
                 url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
+                warna_st = "orange" if status == "REVISI" else "#00FFCC"
+                bg_st = "rgba(255, 165, 0, 0.1)" if status == "REVISI" else "rgba(0, 255, 204, 0.1)"
+
                 with st.container(border=True):
-                    c1, c2, c3 = st.columns([0.8, 3, 1.2])
-                    with c1: st.image(url_foto, width=70)
+                    c1, c2, c3 = st.columns([0.7, 3, 1.2])
+                    with c1: 
+                        st.markdown(f'<img src="{url_foto}" style="width:60px; border-radius:50%; border:2px solid rgba(255,255,255,0.1)">', unsafe_allow_html=True)
                     with c2:
-                        st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
+                        st.markdown(f"**{str(t['Staf']).upper()}**")
+                        st.markdown(f"<code style='color:#888; background:transparent;'>ID: {t['ID']}</code>", unsafe_allow_html=True)
                         st.caption(f"📅 Deadline: {t['Deadline']}")
                     with c3:
-                        warna = "orange" if status == "REVISI" else "green" if status == "WAITING QC" else "#00CCFF"
-                        st.markdown(f"<div style='text-align:right; color:{warna}; font-weight:bold;'>{status}</div>", unsafe_allow_html=True)
+                        st.markdown(f"""<div style="text-align:right;"><span class="status-badge" style="background:{bg_st}; color:{warna_st};">{status}</span></div>""", unsafe_allow_html=True)
                     
+                    st.write("")
                     with st.expander("🔍 DETAIL & OLAH TUGAS"):
                         st.code(t["Instruksi"])
                         if t.get("Link_Hasil") and str(t["Link_Hasil"]).strip() != "-":
@@ -1229,30 +1247,30 @@ def tampilkan_tugas_kerja():
                                 sheet_tugas.update_cell(cell.row, 5, "REVISI")
                                 sheet_tugas.update_cell(cell.row, 8, cat_admin)
                                 st.success("✅ Revisi!"); time.sleep(1); st.rerun()
-            st.markdown("<div style='margin-bottom: 20px;'></div>", unsafe_allow_html=True)
 
         # --- 4. LACI ARSIP ---
+        st.write("")
+        st.write("")
         st.divider()
-        st.markdown("### 📜 LACI ARSIP: TUGAS SELESAI")
-        with st.expander("Klik untuk melihat riwayat", expanded=False):
+        st.markdown("### 📜 LACI ARSIP")
+        with st.expander("Buka riwayat tugas selesai", expanded=False):
+            st.write("")
             df_arsip = df_all_tugas[df_all_tugas['STATUS'].str.upper() == "FINISH"].copy()
             if user_sekarang != "dian": df_arsip = df_arsip[df_arsip['STAF'].str.upper() == user_sekarang.upper()]
             if not df_arsip.empty:
                 st.dataframe(df_arsip[['ID', 'STAF', 'INSTRUKSI', 'WAKTU_KIRIM', 'LINK_HASIL']],
-                    column_config={"LINK_HASIL": st.column_config.LinkColumn("Hasil", display_text="🔗 Buka")},
+                    column_config={
+                        "LINK_HASIL": st.column_config.LinkColumn("Hasil", display_text="🔗 Buka Link"),
+                        "INSTRUKSI": st.column_config.TextColumn("Tugas", width="large")
+                    },
                     hide_index=True, use_container_width=True)
             else: st.write("Belum ada riwayat.")
 
-    # ================= TAB 2: GUDANG IDE =================
+    # ================= TAB 2 & 3 =================
     with tab_gudang:
         st.subheader("📦 Blueprint Produksi")
-        # (Isi logika Gudang Ide lo di sini)
-
-    # ================= TAB 3: INFO GAJI =================
     with tab_gaji:
-        if user_sekarang not in ["dian", "tamu"]:
-            st.subheader(f"💰 Slip Gaji: {user_sekarang.upper()}")
-            # (Isi logika Slip Gaji Premium lo di sini)
+        st.subheader("💰 Informasi Keuangan")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -2075,6 +2093,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
