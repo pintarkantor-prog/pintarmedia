@@ -798,20 +798,74 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
+    # --- 1. CSS UNTUK OVERLAY TENGAH (LOADING & SUKSES) ---
+    st.markdown("""
+        <style>
+        .loading-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 999999;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .success-box {
+            background: white; 
+            padding: 40px; 
+            border-radius: 20px; 
+            text-align: center; 
+            border: 4px solid #1d976c;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            max-width: 450px;
+        }
+        .spinner {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #1d976c;
+            border-radius: 50%;
+            width: 70px; height: 70px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 25px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        </style>
+    """, unsafe_allow_html=True)
+
     st.title("💡 GUDANG IDE KONTEN")
     
-    # --- 1. PLACEHOLDER NOTIFIKASI (DI ATAS) ---
-    notif_container = st.empty()
-
+    # Inisialisasi state proses
     if "sedang_proses_id" not in st.session_state:
         st.session_state.sedang_proses_id = None
+    if "status_sukses" not in st.session_state:
+        st.session_state.status_sukses = False
 
-    # Flag Lockdown
-    is_loading = st.session_state.sedang_proses_id is not None
-
-    # Jika sedang loading, pasang notifikasi di layar atas
-    if is_loading:
-        notif_container.warning(f"⚠️ **SISTEM SEDANG BEKERJA:** Menyiapkan data untuk ID {st.session_state.sedang_proses_id}. Mohon tunggu...")
+    # --- 2. LOGIKA TAMPILAN OVERLAY (LOADING / SUKSES) ---
+    if st.session_state.sedang_proses_id:
+        if st.session_state.status_sukses:
+            # Tampilan BOX SUKSES setelah GSheet beres
+            st.markdown(f"""
+                <div class="loading-overlay">
+                    <div class="success-box">
+                        <h1 style="color: #1d976c; margin-bottom: 10px;">✅ BERHASIL!</h1>
+                        <h3 style="color: #333; margin-bottom: 15px;">Ide Berhasil Diambil</h3>
+                        <p style="color: #555; font-size: 16px; line-height: 1.5;">
+                            Blueprint sudah terpasang otomatis.<br>
+                            Silahkan cek di menu <b>🚀 RUANG PRODUKSI</b>
+                        </p>
+                        <hr style="border-top: 1px solid #eee; margin: 20px 0;">
+                        <small style="color: #999;">Halaman akan otomatis dialihkan...</small>
+                    </div>
+                </div>
+            """, unsafe_allow_html=True)
+        else:
+            # Tampilan SPINNER saat masih proses
+            st.markdown(f"""
+                <div class="loading-overlay">
+                    <div class="spinner"></div>
+                    <h2 style='color: white;'>MENGAMBIL BLUEPRINT...</h2>
+                    <p style='color: #ccc;'>Menghubungkan ke Cloud Database, mohon tunggu.</p>
+                </div>
+            """, unsafe_allow_html=True)
 
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -822,7 +876,6 @@ def tampilkan_gudang_ide():
         creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
         client = gspread.authorize(creds)
         sh = client.open_by_url(url_gsheet)
-        
         sheet_gudang = sh.worksheet("Gudang_Ide")
         sheet_tugas = sh.worksheet("Tugas")
         
@@ -834,48 +887,46 @@ def tampilkan_gudang_ide():
         list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
 
         if len(list_judul_unik) == 0:
-            st.warning("📭 Belum ada ide baru di gudang.")
+            st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
         else:
-            # Layout Grid
+            # --- 3. LAYOUT GRID 12 KARTU ---
+            is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
                 batch_judul = list_judul_unik[i:i+3]
-                
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
-                        
                         with st.container(border=True):
-                            strip_color = "#444" if is_loading else "#1d976c"
-                            st.markdown(f'<div style="height: 5px; background-color: {strip_color}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
-                            
+                            # Status Strip
+                            st.markdown(f'<div style="height: 5px; background-color: {"#444" if is_loading else "#1d976c"}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
-                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 12px;'>🆔 ID: {id_ini}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 11px;'>🆔 ID: {id_ini}</p>", unsafe_allow_html=True)
                             
-                            st.write("") 
-
-                            # Tombol dengan kondisi Lockdown
+                            st.write("")
                             if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
+                                st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 2. EKSEKUSI DATA (LOGIKA DI BALIK LAYAR) ---
-            if st.session_state.sedang_proses_id:
+            # --- 4. EKSEKUSI DATA (LOGIKA PINDAH DATA) ---
+            if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
+                judul_proses = row_proses['JUDUL']
                 
                 try:
-                    # Proses ke Google Sheet
+                    # A. Update Status di GSheet Gudang_Ide
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # Update Session Produksi
+                    # B. Ambil Blueprint & Inject ke Session Produksi
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
-                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row_proses['JUDUL']}\n\n"
+                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
                     for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                         st.session_state.data_produksi["adegan"][idx] = {
                             "aksi": a_row['NASKAH_VISUAL'],
@@ -886,28 +937,31 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # Catat Tugas
+                    # C. Tambah ke Sheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
-                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {row_proses['JUDUL']}", "PROSES", "-", "", ""])
+                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul_proses}", "PROSES", "-", "", ""])
 
-                    # Sukses!
+                    # D. Ubah Status ke Sukses & Tunggu Sebentar
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    st.session_state.sedang_proses_id = None 
-                    
-                    # Notif Sukses Melayang (Toast)
-                    st.toast(f"✅ Ide {row_proses['JUDUL']} Berhasil Diambil!", icon='🚀')
-                    time.sleep(2)
-                    st.rerun()
+                    st.session_state.status_sukses = True 
+                    st.rerun() # Refresh untuk nampilin Box Sukses
 
                 except Exception as ex:
-                    st.error(f"Gagal: {ex}")
+                    st.error(f"Gagal Proses: {ex}")
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
+            # --- 5. CLEANUP SETELAH SUKSES ---
+            if st.session_state.status_sukses:
+                time.sleep(3) # Staff baca notif sukses selama 3 detik
+                st.session_state.sedang_proses_id = None
+                st.session_state.status_sukses = False
+                st.rerun()
+
     except Exception as e:
-        st.error(f"⚠️ Gagal Memuat: {e}")
+        st.error(f"⚠️ Gagal Memuat Gudang: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2217,3 +2271,8 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
+
+
+
+
