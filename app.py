@@ -798,29 +798,29 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS UNTUK OVERLAY TENGAH (LOADING & SUKSES) ---
+    # --- 1. CSS UNTUK OVERLAY TENGAH (VIBE STUDIO DARK) ---
     st.markdown("""
         <style>
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: rgba(11, 14, 20, 0.9);
             z-index: 999999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: white; font-family: 'Segoe UI', sans-serif;
         }
         .success-box {
-            background: white; 
+            background: #1a1c24; 
             padding: 40px; 
-            border-radius: 20px; 
+            border-radius: 25px; 
             text-align: center; 
-            border: 4px solid #1d976c;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            border: 2px solid #1d976c;
+            box-shadow: 0 0 30px rgba(29, 151, 108, 0.4);
             max-width: 450px;
         }
         .spinner {
-            border: 6px solid #f3f3f3;
+            border: 6px solid #333;
             border-top: 6px solid #1d976c;
             border-radius: 50%;
             width: 70px; height: 70px;
@@ -833,7 +833,7 @@ def tampilkan_gudang_ide():
 
     st.title("💡 GUDANG IDE KONTEN")
     
-    # Inisialisasi state proses
+    # Inisialisasi state
     if "sedang_proses_id" not in st.session_state:
         st.session_state.sedang_proses_id = None
     if "status_sukses" not in st.session_state:
@@ -842,28 +842,28 @@ def tampilkan_gudang_ide():
     # --- 2. LOGIKA TAMPILAN OVERLAY (LOADING / SUKSES) ---
     if st.session_state.sedang_proses_id:
         if st.session_state.status_sukses:
-            # Tampilan BOX SUKSES setelah GSheet beres
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="success-box">
-                        <h1 style="color: #1d976c; margin-bottom: 10px;">✅ BERHASIL!</h1>
-                        <h3 style="color: #333; margin-bottom: 15px;">Ide Berhasil Diambil</h3>
-                        <p style="color: #555; font-size: 16px; line-height: 1.5;">
-                            Blueprint sudah terpasang otomatis.<br>
-                            Silahkan cek di menu <b>🚀 RUANG PRODUKSI</b>
+                        <h1 style="font-size: 60px; margin-bottom: 10px;">🚀</h1>
+                        <h1 style="color: #ffffff; margin-bottom: 10px; letter-spacing: 2px;">MISSION START!</h1>
+                        <h3 style="color: #1d976c; margin-bottom: 20px;">Data Naskah Berhasil Diambil</h3>
+                        <p style="color: #a0a0a0; font-size: 16px; line-height: 1.5;">
+                            Semua instruksi sudah masuk ke sistem.<br>
+                            Halaman akan otomatis pindah ke <b>RUANG PRODUKSI</b>.
                         </p>
-                        <hr style="border-top: 1px solid #eee; margin: 20px 0;">
-                        <small style="color: #999;">Halaman akan otomatis dialihkan...</small>
+                        <div style="margin-top: 25px; padding: 10px; background: rgba(29, 151, 108, 0.1); border-radius: 10px;">
+                            <small style="color: #1d976c; font-weight: bold; font-family: monospace;">MENGALIHKAN HALAMAN...</small>
+                        </div>
                     </div>
                 </div>
             """, unsafe_allow_html=True)
         else:
-            # Tampilan SPINNER saat masih proses
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="spinner"></div>
-                    <h2 style='color: white;'>MENGAMBIL BLUEPRINT...</h2>
-                    <p style='color: #ccc;'>Menghubungkan ke Cloud Database, mohon tunggu.</p>
+                    <h2 style='color: white;'>MENGAMBIL DATA NASKAH...</h2>
+                    <p style='color: #888;'>Sabar ya, sistem lagi nyiapin tugas buat kamu.</p>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -889,7 +889,6 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
         else:
-            # --- 3. LAYOUT GRID 12 KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -899,13 +898,12 @@ def tampilkan_gudang_ide():
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
                         with st.container(border=True):
-                            # Status Strip
                             st.markdown(f'<div style="height: 5px; background-color: {"#444" if is_loading else "#1d976c"}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
                             st.markdown(f"<p style='text-align: center; color: #888; font-size: 11px;'>🆔 ID: {id_ini}</p>", unsafe_allow_html=True)
                             
                             st.write("")
-                            if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
+                            if st.button(f"🚀 AMBIL TUGAS", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
@@ -917,12 +915,10 @@ def tampilkan_gudang_ide():
                 judul_proses = row_proses['JUDUL']
                 
                 try:
-                    # A. Update Status di GSheet Gudang_Ide
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # B. Ambil Blueprint & Inject ke Session Produksi
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
@@ -937,27 +933,29 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # C. Tambah ke Sheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
-                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul_proses}", "PROSES", "-", "", ""])
+                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                    # D. Ubah Status ke Sukses & Tunggu Sebentar
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                     st.session_state.status_sukses = True 
-                    st.rerun() # Refresh untuk nampilin Box Sukses
+                    st.rerun()
 
                 except Exception as ex:
                     st.error(f"Gagal Proses: {ex}")
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
-            # --- 5. CLEANUP SETELAH SUKSES ---
+            # --- 5. REDIRECT OTOMATIS KE RUANG PRODUKSI ---
             if st.session_state.status_sukses:
-                time.sleep(3) # Staff baca notif sukses selama 3 detik
+                time.sleep(3) # Kasih waktu baca notif sukses
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
+                
+                # --- TRIK PINDAH MENU OTOMATIS ---
+                # Mengubah state radio menu secara manual (Key-nya harus sama dengan key radio di sidebar)
+                st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI" 
                 st.rerun()
 
     except Exception as e:
@@ -2271,6 +2269,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
