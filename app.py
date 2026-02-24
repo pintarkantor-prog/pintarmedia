@@ -1359,70 +1359,75 @@ def tampilkan_tugas_kerja():
             sekarang.year
         )
 
-# --- TAMPILAN ATURAN GAJI (VERSI NATIVE STREAMLIT - NO CSS) ---
+        # --- TAMPILAN ATURAN GAJI (VERSI SOPAN & SEDERHANA) ---
         with st.expander("ℹ️ INFO PENTING: ATURAN & SIMULASI GAJI", expanded=True):
-            st.write("### 📢 Aturan Main & Simulasi Cuan")
+            st.write("### 📢 Panduan Kerja & Simulasi Penghasilan")
             
-            # Pakai Tab Bawaan Streamlit
-            tab_info, tab_simulasi = st.tabs(["📜 Aturan Dasar", "💸 Simulasi Nasib (25 Hari)"])
+            tab_info, tab_simulasi = st.tabs(["📜 Aturan Dasar", "💸 Simulasi Harian"])
             
             with tab_info:
                 st.markdown("""
-                * 🛡️ **Masa Proteksi:** Tanggal 1-6 aman dari potongan (Masa Penilaian).
-                * ⏰ **Bonus Absen (Rp 30.000):** Cair jika setor minimal **3 video** per hari.
-                * 🎬 **Bonus Video:** Mulai video ke-4 dst, dapet tambahan **+Rp 25.000/video**.
-                * ⚠️ **Hari Malas:** Setor <= 1 video sehari. Akumulasi 7/14/21 hari memicu **SP 1/2/3**.
+                Selamat bekerja! Agar penghasilan kamu maksimal, mohon perhatikan aturan berikut:
+                
+                * 🛡️ **Masa Penilaian:** Tanggal 1 sampai 6 tiap bulan adalah masa adaptasi (bebas potongan).
+                * ⏰ **Bonus Kehadiran:** Tambahan **Rp 30.000** diberikan setiap hari jika kamu menyelesaikan minimal **3 video**.
+                * 🎬 **Apresiasi Produksi:** Untuk video ke-4 hingga maksimal video ke-10 di hari yang sama, ada tambahan **Rp 25.000** per video.
+                * ⚠️ **Penting:** Perhitungan bonus dilakukan secara harian. Mari jaga konsistensi setiap hari agar bonus tidak terlewat.
                 """)
-                st.info("Bonus dihitung harian. Jika hari ini kurang 1 video, bonus Rp 30.000 hari ini HANGUS selamanya.")
 
             with tab_simulasi:
-                st.write("**Geser Slider untuk Lihat Perubahan Gaji Kamu:**")
+                st.info("💡 **Simulasi:** Geser slider untuk melihat potensi penghasilan jika kamu bekerja konsisten.")
                 
-                # Slider Murni Streamlit
-                target_harian = st.select_slider(
-                    "Target Setoran Video Per Hari:",
-                    options=[1, 2, 3, 4, 5],
+                # Slider 1-10 dengan penekanan harian
+                t_hari = st.select_slider(
+                    "Target setoran video kamu per hari:",
+                    options=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
                     value=3,
-                    key="slider_simulasi_gaji"
+                    key="slider_10_v_sopan"
                 )
                 
-                # Logika Hitung Sederhana
+                # Logika Hitung (Asumsi 25 Hari Kerja)
                 gapok_sim = 2000000
-                if target_harian == 5:
-                    label, b_absen, b_video, p_sp, delta_msg = "SUPER RAJIN (SULTAN)", 750000, 1250000, 0, "Full Bonus!"
-                elif target_harian == 4:
-                    label, b_absen, b_video, p_sp, delta_msg = "AMAN RAJIN", 750000, 625000, 0, "+ Bonus Lembur"
-                elif target_harian == 3:
-                    label, b_absen, b_video, p_sp, delta_msg = "TARGET PAS", 750000, 0, 0, "Bonus Absen Cair"
-                elif target_harian == 2:
-                    label, b_absen, b_video, p_sp, delta_msg = "PAS-PASAN", 0, 0, 0, "RUGI! Bonus Hangus"
+                if t_hari >= 3:
+                    b_absen_bln = 30000 * 25
+                    b_video_bln = (t_hari - 3) * 25000 * 25
+                    p_sp = 0
+                    status = "🌟 Performa Sangat Baik" if t_hari >= 5 else "✅ Performa Standar"
+                elif t_hari == 2:
+                    b_absen_bln, b_video_bln, p_sp = 0, 0, 0
+                    status = "⚠️ Performa Cukup"
                 else:
-                    label, b_absen, b_video, p_sp, delta_msg = "MALAS", 0, 0, 1000000, "BAHAYA SP 3"
-                
-                total_gaji = (gapok_sim + b_absen + b_video) - p_sp
-                
-                # Tampilan Metric (Komponen Mewah Streamlit)
-                st.divider()
-                st.subheader(label)
-                
-                col_sim1, col_sim2 = st.columns(2)
-                col_sim1.metric("ESTIMASI GAJI BERSIH", f"Rp {total_gaji:,}", delta=delta_msg, delta_color="normal" if target_harian >= 3 else "inverse")
-                col_sim2.metric("TOTAL VIDEO/BULAN", f"{target_harian * 25} Video")
-                
-                # Tampilkan rincian pakai list biasa (Native)
-                st.write(f"**Rincian Estimasi:**")
-                st.write(f"- Bonus Absen: Rp {b_absen:,}")
-                st.write(f"- Bonus Video: Rp {b_video:,}")
-                if p_sp > 0:
-                    st.write(f"- :red[Potongan SP: Rp {p_sp:,}]")
-                
-                st.divider()
-                if target_harian < 3:
-                    st.error(f"⚠️ Sayang banget! Cuma kurang {3-target_harian} video lagi, kamu bisa dapet tambahan Rp 750.000!")
-                else:
-                    st.success("🔥 Pertahankan! Dengan target ini, dompet kamu bakal makin tebal.")
+                    b_absen_bln, b_video_bln, p_sp = 0, 0, 1000000
+                    status = "❗ Performa Kurang"
 
-            st.caption("Semua hitungan di atas berasumsi kamu konsisten selama 25 hari kerja.")
+                total_gaji = (gapok_sim + b_absen_bln + b_video_bln) - p_sp
+                
+                st.divider()
+                st.markdown(f"**Status: {status}**")
+                
+                # Menampilkan rincian dengan bahasa yang halus
+                st.write(f"Jika kamu konsisten setor **{t_hari} video setiap hari**, berikut estimasi yang kamu terima:")
+                
+                col_total, col_detail = st.columns(2)
+                with col_total:
+                    st.metric("ESTIMASI TOTAL", f"Rp {total_gaji:,}")
+                with col_detail:
+                    st.metric("POTENSI BONUS", f"Rp {b_absen_bln + b_video_bln:,}", 
+                              delta=f"Cair Rp {(b_absen_bln + b_video_bln)//25 if t_hari >=3 else 0:,} / hari")
+
+                # Penjelasan santun mengenai konsistensi
+                if t_hari >= 3:
+                    st.success(f"Bagus! Dengan menjaga ritme **{t_hari} video/hari**, kamu berhak mendapatkan total bonus **Rp {b_absen_bln + b_video_bln:,}** di akhir bulan.")
+                else:
+                    st.warning(f"Sedikit lagi! Cukup nambah jadi **3 video/hari**, kamu bisa mengaktifkan Bonus Kehadiran harian kamu.")
+
+                st.markdown(f"""
+                ---
+                📌 **Catatan:** Estimasi ini hanya tercapai jika jumlah setoran stabil **{t_hari} video setiap harinya**. 
+                Mari semangat berkarya dan jaga konsistensi untuk hasil yang maksimal!
+                """)
+
+            st.caption("Sistem Produksi PINTAR MEDIA - Kerja Cerdas, Hasil Maksimal.")
     
         # C. --- MONITORING PROGRES GAJI (VERSI SINKRON RADAR) ---
         st.divider()
@@ -2335,6 +2340,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
