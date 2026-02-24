@@ -1852,42 +1852,52 @@ def tampilkan_kendali_tim():
                         v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                         v_total_terima = (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin
                         
-                        # --- DESAIN SLIP GAJI PREMIUM HTML ---
+                        # --- DESAIN SLIP GAJI PREMIUM HTML (VERSI KENDALI TIM - RAMPING & GAHAR) ---
                         slip_html = f"""
-                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                            <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
-                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">Official Salary Statement</p>
-                            </div>
+                        <div style="background: #ffffff; color: #1a1a1a; padding: 25px; border-radius: 20px; border: 1px solid #eef2f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; width: 300px; margin: auto; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
                             
-                            <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
-                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{n_up}</b></td></tr>
-                                <tr><td style="color: #888;">JABATAN</td><td align="right">{s.get('JABATAN', 'STAFF')}</td></tr>
-                                <tr><td style="color: #888;">PERIODE</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                            </table>
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" 
+                                     style="width: 220px; max-width: 100%; height: auto; margin-bottom: 5px;">
+                                <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px;">
+                                    <div style="height: 1px; background: #eee; flex: 1;"></div>
+                                    <div style="height: 3px; background: #1d976c; width: 35px; border-radius: 10px;"></div>
+                                    <div style="height: 1px; background: #eee; flex: 1;"></div>
+                                </div>
+                                <p style="margin: 0; font-size: 8px; color: #1d976c; letter-spacing: 3px; text-transform: uppercase; font-weight: 800;">Slip Gaji Resmi</p>
+                            </div>
 
-                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                                <table style="width: 100%; font-size: 13px; line-height: 2;">
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {u_absen_staf:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_lembur_staf:,}</td></tr>
-                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
+                            <div style="background: #fcfcfc; padding: 12px; border-radius: 12px; border: 1px solid #f0f0f0; margin-bottom: 15px;">
+                                <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                    <tr><td style="color: #999; padding-bottom: 4px; font-weight: 600; font-size: 8px; text-transform: uppercase;">Nama</td><td align="right" style="padding-bottom: 4px;"><b>{n_up}</b></td></tr>
+                                    <tr><td style="color: #999; padding-bottom: 4px; font-weight: 600; font-size: 8px; text-transform: uppercase;">Jabatan</td><td align="right" style="padding-bottom: 4px;"><b>{s.get('JABATAN', 'STAFF')}</b></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; font-size: 8px; text-transform: uppercase;">Periode</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                 </table>
                             </div>
 
-                            <div style="border-top: 2px dashed #eeeeee; padding-top: 15px; text-align: center;">
-                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL DITERIMA</p>
-                                <h2 style="margin: 5px 0; color: #1d976c;">Rp {v_total_terima:,}</h2>
+                            <div style="margin-bottom: 20px; padding: 0 2px;">
+                                <table style="width: 100%; font-size: 12px; line-height: 2; border-collapse: collapse;">
+                                    <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
+                                    <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Absen</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_absen_staf:,}</td></tr>
+                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Video</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_lembur_staf:,}</td></tr>
+                                    <tr style="border-top: 1px solid #f0f0f0;"><td style="color: #e74c3c; font-weight: 600; padding-top: 4px;">Potongan SP</td><td align="right" style="color: #e74c3c; font-weight: 700; padding-top: 4px;">- {pot_sp_admin:,}</td></tr>
+                                </table>
                             </div>
 
-                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #bbb;">
-                                Diterbitkan secara digital oleh Sistem Produksi PINTAR MEDIA<br>
-                                {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
+                            <div style="background: #1a1a1a; color: white; padding: 10px 15px; border-radius: 12px; text-align: center;">
+                                <p style="margin: 0; font-size: 8px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Total Diterima</p>
+                                <h2 style="margin: 2px 0 0; font-size: 22px; color: #55efc4; font-weight: 800; letter-spacing: -1px;">Rp {v_total_terima:,}</h2>
+                            </div>
+
+                            <div style="margin-top: 30px; text-align: center; font-size: 8px; color: #ccc; line-height: 1.5; padding-top: 15px; border-top: 1px solid #f0f0f0;">
+                                <b style="color: #888;">Diterbitkan secara digital oleh Sistem Produksi PINTAR MEDIA</b><br>
+                                Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB<br>
+                                <span style="background: #f9f9f9; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-top: 6px; color: #bbb; font-family: monospace;">REF: PM-{datetime.now(tz_wib).strftime('%y%m%d%H%M')}</span>
                             </div>
                         </div>
                         """
-                        st.components.v1.html(slip_html, height=550)
+                        st.components.v1.html(slip_html, height=650)
 
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
@@ -2305,6 +2315,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
