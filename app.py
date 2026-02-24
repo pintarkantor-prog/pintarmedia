@@ -611,8 +611,6 @@ def tampilkan_navigasi_sidebar():
             </div>
         ''', unsafe_allow_html=True)
         
-    return pilihan
-
 # ==============================================================================
 # BAGIAN 5: PINTAR AI LAB - PRO EDITION (SYNCHRONIZED MANTRA)
 # ==============================================================================
@@ -2279,6 +2277,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
