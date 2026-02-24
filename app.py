@@ -1792,12 +1792,6 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-        # --- TAMPILAN 6: SLIP GAJI (DESAIN ASLI SINKRON HARIAN) ---
-        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
-            ada_kerja = False
-            for _, s in df_staff.iterrows():
-                n_up = str(s['NAMA']).strip().upper()
-                
                 # --- LOGIKA POTONGAN SP ADMIN (SINKRON 100% DENGAN STAFF & TARGET BERJALAN) ---
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
@@ -1808,40 +1802,38 @@ def tampilkan_kendali_tim():
                 target_sp2 = 20
 
                 # Hitung Target Proposional (Berdasarkan Progres Hari)
-                # Rumus: (Target / 25 hari kerja) * Hari Sekarang
-                # Kita pakai pembagi 25 agar lebih fair
                 progres_hari = min(sekarang.day, 25) 
-                
                 threshold_aman = (target_normal / 25) * progres_hari
-                threshold_sp1 = (target_sp1 / 25) * progres_hari
-                threshold_sp2 = (target_sp2 / 25) * progres_hari
 
+                # --- BAGIAN CEK INDENTASI ---
                 if sekarang.day <= 6:
                     pot_sp_admin = 0
                 elif jml_v >= threshold_aman:
                     pot_sp_admin = 0
                 else:
-                    # Jika di bawah progres, cek kategori berdasarkan target mutlak 
-                    # agar tidak memotong terlalu sadis di tengah bulan
-                    if jml_v >= 40: pot_sp_admin = 0
-                    elif 30 <= jml_v < 40: pot_sp_admin = 300000
-                    elif 20 <= jml_v < 30: pot_sp_admin = 700000
-                    else: pot_sp_admin = 1000000 # SP 3
+                    # Logika SP berdasarkan target mutlak
+                    if jml_v >= 40: 
+                        pot_sp_admin = 0
+                    elif 30 <= jml_v < 40: 
+                        pot_sp_admin = 300000
+                    elif 20 <= jml_v < 30: 
+                        pot_sp_admin = 700000
+                    else: 
+                        pot_sp_admin = 1000000 # SP 3
 
+                # Lanjut ke Tampilan (Pastikan sejajar dengan 'if sekarang.day <= 6')
                 if jml_v > 0 or uang_absen_staff > 0: 
                     ada_kerja = True
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
-                        c1.write(f"👤 **{n_up}**"); c1.caption(f"💼 {s['JABATAN']}")
+                        c1.write(f"👤 **{n_up}**")
+                        c1.caption(f"💼 {s.get('JABATAN', 'STAFF')}")
                         c2.write(f"📅 {int(uang_absen_staff/30000)} Hari Cair")
                         c3.write(f"🎬 {jml_v} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
-                            # Kalkulasi angka pokok (Sudah aman dari titik ribuan)
                             v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                             v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                            
-                            # TOTAL TERIMA SINKRON
                             v_total_terima = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
                             
                             # DESAIN SLIP ASLI DIAN (TIDAK DISEDERHANAKAN)
@@ -2289,6 +2281,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
