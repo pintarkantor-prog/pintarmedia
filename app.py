@@ -1429,39 +1429,42 @@ def tampilkan_tugas_kerja():
                     row_s = df_staff_clean[df_staff_clean['NAMA'] == user_up_fix]
                     
                     if not row_s.empty:
-                        v_gapok = int(pd.to_numeric(str(row_s.iloc[0].get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
-                        v_tunjangan = int(pd.to_numeric(str(row_s.iloc[0].get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                        total_hadir_harian = len(df_absen_user) if not df_absen_user.empty else 0
+                        # Ambil data dari baris staff yang ditemukan
+                        s_data = row_s.iloc[0]
+                        v_gapok = int(pd.to_numeric(str(s_data.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
+                        v_tunjangan = int(pd.to_numeric(str(s_data.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
+                        v_jabatan = s_data.get('JABATAN', 'STAFF')
                         
+                        # Kalkulasi Total
                         v_total_terima = max(0, (v_gapok + v_tunjangan + b_video + u_hadir) - pot_sp)
                         
-                        # --- TEMPLATE SLIP GAJI HTML ---
+                        # --- TEMPLATE SLIP GAJI HTML (FIXED VARIABLES) ---
                         slip_staff_html = f"""
                         <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                             <div style="text-align: center; margin-bottom: 20px;">
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
-                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">masih berupa estimasi</p>
+                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">Slip Gaji Resmi - {sekarang.strftime('%B %Y')}</p>
                             </div>
                             
                             <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
-                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{n_up}</b></td></tr>
-                                <tr><td style="color: #888;">JABATAN</td><td align="right">{s.get('JABATAN', 'STAFF')}</td></tr>
-                                <tr><td style="color: #888;">PERIODE</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{user_up_fix}</b></td></tr>
+                                <tr><td style="color: #888;">JABATAN</td><td align="right">{v_jabatan}</td></tr>
+                                <tr><td style="color: #888;">STATUS</td><td align="right"><b>{level_sp}</b></td></tr>
                             </table>
 
                             <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                                 <table style="width: 100%; font-size: 13px; line-height: 2;">
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {u_absen_staf:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_lembur_staf:,}</td></tr>
-                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
+                                    <tr><td style="color: #555;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                    <tr><td style="color: #555;">Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td style="color: #555;">Bonus Absen (3+)</td><td align="right" style="color: #1d976c;">+ Rp {u_hadir:,}</td></tr>
+                                    <tr><td style="color: #555;">Bonus Video (4+)</td><td align="right" style="color: #1d976c;">+ Rp {b_video:,}</td></tr>
+                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp:,}</td></tr>
                                 </table>
                             </div>
 
                             <div style="border-top: 2px dashed #eeeeee; padding-top: 15px; text-align: center;">
                                 <p style="margin: 0; font-size: 11px; color: #888;">TOTAL DITERIMA</p>
-                                <h2 style="margin: 5px 0; color: #1d976c;">Rp {v_total_terima:,}</h2>
+                                <h2 style="margin: 5px 0; color: #1d976c; font-size: 26px;">Rp {v_total_terima:,}</h2>
                             </div>
 
                             <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #bbb;">
@@ -1470,22 +1473,17 @@ def tampilkan_tugas_kerja():
                             </div>
                         </div>
                         """
-                        st.components.v1.html(slip_staff_html, height=550)
+                        st.components.v1.html(slip_staff_html, height=580)
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {v_total_terima:,} (Status: {level_sp})")
-                            pesan_wa = (
-                                f"🧧 *KONFIRMASI GAJI*\n\n"
-                                f"👤 *Nama:* {user_up_fix}\n"
-                                f"💰 *Total:* Rp {v_total_terima:,}\n"
-                                f"⚠️ *Status:* {level_sp}"
-                            )
-                            kirim_notif_wa(pesan_wa)
-                            st.success(f"Berhasil dikirim, {panggilan_fix}!")
+                            st.success(f"Berhasil dikonfirmasi, {panggilan_fix}! Data tersimpan.")
+                    else:
+                        st.error("Data staff tidak ditemukan.")
                 except Exception as e: 
                     st.warning(f"Gagal memproses rincian slip: {e}")
         else:
-            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
+            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 24 setiap bulannya.")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -2300,6 +2298,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
