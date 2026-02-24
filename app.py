@@ -1597,12 +1597,13 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Penentu apakah bulan masa depan
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
+        # Jika bukan masa depan, jalankan perhitungan
         if not is_masa_depan:
             for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
@@ -1615,7 +1616,7 @@ def tampilkan_kendali_tim():
                         if jml >= 3: u_absen_staf += 30000
                         if jml >= 4: b_lembur_staf += (jml - 3) * 25000
                 
-                # B. Logika SP Smart Switch
+                # B. Logika SP Smart Switch (Februari 10, Maret 40)
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
                 if tahun_dipilih == 2026 and bulan_dipilih == 2:
@@ -1623,32 +1624,35 @@ def tampilkan_kendali_tim():
                 else:
                     t_norm, t_s1, t_s2 = 40, 30, 20
                 
-                # Hitung potongan (Hanya jika bukan masa depan)
+                # Hitung ambang batas berjalan
                 progres_h = min(sekarang.day, 25)
                 threshold = (t_norm / 25) * progres_h
                 
+                # Eksekusi Potongan
                 if sekarang.day > 6 and tot_v < threshold:
                     if tot_v >= t_norm: p_sp = 0
                     elif t_s1 <= tot_v < t_norm: p_sp = 300000
                     elif t_s2 <= tot_v < t_s1: p_sp = 700000
                     else: p_sp = 1000000
                 
-                # C. Hitung Gaji Bersih
+                # C. Hitung Gaji Bersih per Orang
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
                 
                 bersih_orang = (g_pokok + t_tunj + u_absen_staf + b_lembur_staf) - p_sp
                 total_pengeluaran_gaji += max(0, bersih_orang)
-        if is_masa_depan:
-            total_pengeluaran_gaji = 0
         else:
+            # Jika masa depan, pengeluaran dipaksa 0
+            total_pengeluaran_gaji = 0
 
-        # TAMPILAN HEADER (Sejajar dengan 'if is_masa_depan')
+        # --- TAMPILAN HEADER (Pindahkan ke luar blok IF di atas) ---
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
         
+        # Reset variabel metrik jika masa depan
         if is_masa_depan:
             inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
+        # Tampilkan Metrik
         m1, m2, m3 = st.columns(3)
         m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
         m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
@@ -2315,6 +2319,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
