@@ -798,7 +798,7 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS CUSTOM (HIJAU KEMBALI & ID PREMIUM) ---
+    # --- 1. CSS OVERLAY (TETEP ADA UNTUK PROSES) ---
     st.markdown("""
         <style>
         .loading-overlay {
@@ -820,26 +820,12 @@ def tampilkan_gudang_ide():
             margin-bottom: 25px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        /* Gaya ID Badge yang Cantik */
-        .id-badge {
-            background-color: rgba(29, 151, 108, 0.1);
-            color: #1d976c;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            border: 1px solid #1d976c;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
         </style>
     """, unsafe_allow_html=True)
 
     st.title("💡 GUDANG IDE KONTEN")
     st.info("⚡ Pilih ide konten di bawah. Sekali klik, Otomatis masuk ke Ruang Produksi!")
     
-    # Inisialisasi state
     if "sedang_proses_id" not in st.session_state:
         st.session_state.sedang_proses_id = None
     if "status_sukses" not in st.session_state:
@@ -863,7 +849,7 @@ def tampilkan_gudang_ide():
                 </div>
             """, unsafe_allow_html=True)
             
-    # --- 3. LOGIKA DATA & GRID ---
+    # --- 3. DATA & GRID RENDER ---
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -886,7 +872,6 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang.")
         else:
-            # --- RENDER GRID 12 KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -897,17 +882,14 @@ def tampilkan_gudang_ide():
                         id_ini = str(row_info['ID_IDE'])
                         
                         with st.container(border=True):
-                            # 1. Garis Hijau di Atas (Balikin Ijonya!)
-                            st.markdown(f'<div style="height: 4px; background-color: #1d976c; border-radius: 10px; margin-bottom: 15px;"></div>', unsafe_allow_html=True)
+                            # Aksen Hijau PINTAR (Garis Tipis Tetap Ada di Atas)
+                            st.markdown(f'<div style="height: 3px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             
-                            # 2. Judul & ID Badge
-                            # Tampilannya: ID kecil di tengah, baru Judul Bold
-                            st.markdown(f"""
-                                <div style="text-align: center;">
-                                    <div class="id-badge">ID: {id_ini}</div>
-                                    <h3 style="margin-top: 0px; line-height: 1.2;">{judul}</h3>
-                                </div>
-                            """, unsafe_allow_html=True)
+                            # ID Polos (Warna Abu-abu Netral)
+                            st.markdown(f"<p style='color: #888; font-size: 10px; margin-bottom: -10px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
+                            
+                            # Judul Konten
+                            st.markdown(f"### {judul}")
                             
                             st.write("") 
                             if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
@@ -915,7 +897,7 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. EKSEKUSI DATA ---
+            # --- 4. PROSES DATA ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
@@ -939,7 +921,6 @@ def tampilkan_gudang_ide():
                 sheet_tugas.append_row([t_id, user_sekarang.upper(), datetime.now(tz_wib).strftime("%Y-%m-%d"), f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
                 st.session_state.naskah_siap_produksi = f"🎬 **ALUR CERITA:** {judul_proses}"
-                st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                 st.session_state.status_sukses = True 
                 st.rerun()
 
@@ -948,13 +929,13 @@ def tampilkan_gudang_ide():
         st.session_state.sedang_proses_id = None
         st.rerun()
 
-    # --- 5. AUTO-HIDE ---
+    # --- 5. CLEANUP ---
     if st.session_state.status_sukses:
         time.sleep(3) 
         st.session_state.sedang_proses_id = None
         st.session_state.status_sukses = False
         st.rerun()
-            
+        
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
     token = "f4CApLBAJDTPrVHHZCDF"
@@ -2263,6 +2244,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
