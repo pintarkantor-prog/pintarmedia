@@ -1640,8 +1640,6 @@ def tampilkan_kendali_tim():
                     elif 30 <= tot_v < 40: p_sp = 300000
                     elif 20 <= tot_v < 30: p_sp = 700000
                     else: p_sp = 1000000
-                else:
-                    p_sp = 0
                 
                 # 3. Hitung Gaji Bersih
                 # Ambil Gaji Pokok & Tunjangan secara aman dari dataframe staff
@@ -2281,6 +2279,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
