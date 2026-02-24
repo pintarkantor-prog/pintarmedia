@@ -1098,52 +1098,44 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI RINGKAS & ELEGAN (FULL BLOCK ANTI-ERROR) ---
+        # --- VERSI TO-THE-POINT (PASTI JALAN & RAPI) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. LOGIKA DATA
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             v_finish = len(df_all_tugas[mask_user & (df_all_tugas['STATUS'].str.strip() == 'FINISH')])
             
+            # Ambil data absen cepat
             try:
-                data_absen_raw = sheet_absensi.get_all_records()
-                df_absen_user = pd.DataFrame(data_absen_raw)
+                df_absen_user = pd.DataFrame(sheet_absensi.get_all_records())
                 df_absen_user = df_absen_user[df_absen_user['NAMA'] == user_sekarang.upper()]
             except:
                 df_absen_user = pd.DataFrame()
 
-            # Hitung SP
-            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
-                df_all_tugas[mask_user].copy(), df_absen_user, sekarang.month, sekarang.year
-            )
-            
+            # Hitung SP & Target
+            _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(df_all_tugas[mask_user].copy(), df_absen_user, sekarang.month, sekarang.year)
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             target_h_ini = round((t_norm / 25) * min(sekarang.day, 25), 1)
             selisih = v_finish - target_h_ini
 
-            # --- TAMPILAN RADAR (REVISI ANTI-NGAKO) ---
+            # --- TAMPILAN RADAR ---
             with st.container():
-                # Cek dulu apakah datanya beneran ada
-                if "BELUM ADA DATA" in level_sp_r or not df_absen_user.any().any():
-                    st.info(f"⏳ **SINKRONISASI DATA** | Mohon tunggu atau pastikan data absen sudah terisi.")
-                
-                # Baru masuk ke logika performa
-                elif sekarang.day <= 6:
-                    st.info(f"🛡️ **MASA PROTEKSI** | {level_sp_r} | Target: {t_norm} Vid")
+                # Status bar tunggal yang akurat
+                if "BELUM ADA" in level_sp_r:
+                    st.info("⏳ Menunggu data...")
                 elif pot_sp_r > 0:
-                    st.error(f"⚠️ **STATUS: {level_sp_r}** | Potongan: Rp {pot_sp_r:,}")
-                elif v_finish >= target_h_ini:
-                    st.success(f"🟢 **PERFORMA AMAN** | {level_sp_r}")
+                    st.error(f"⚠️ {level_sp_r} | Potongan: Rp {pot_sp_r:,}")
+                elif v_finish < target_h_ini and sekarang.day > 6:
+                    st.warning(f"🟡 Kurang {abs(selisih):.1f} video untuk aman.")
                 else:
-                    st.warning(f"🟡 **DI BAWAH TARGET** | {level_sp_r} | Kurang {abs(selisih):.1f} video!")
+                    st.success(f"🟢 Performa: {level_sp_r}")
 
-                # Baris Angka tetap elegan
+                # Angka utama
                 c1, c2, c3 = st.columns(3)
                 c1.metric("HASIL", f"{v_finish} Vid", f"{selisih:.1f}")
                 c2.metric("TARGET", f"{target_h_ini} Vid")
-                c3.metric("STATUS", level_sp_r.split('(')[0] if "BELUM" not in level_sp_r else "-")
+                c3.metric("STATUS", level_sp_r.split('(')[0])
             st.divider()
 
-        # --- LANJUTAN KODE (WAJIB ADA & SEJAJAR) ---
+        # --- LANJUTAN KODE (WAJIB ADA AGAR TIDAK SYNTAX ERROR) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -1154,7 +1146,7 @@ def tampilkan_tugas_kerja():
             sheet_log.append_row([datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S"), user_sekarang.upper(), aksi])
 
     except Exception as e:
-        st.error(f"❌ Database Error: {e}")
+        st.error(f"❌ Ada kendala: {e}")
         return
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
@@ -2346,6 +2338,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
