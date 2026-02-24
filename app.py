@@ -1618,47 +1618,48 @@ def tampilkan_kendali_tim():
                         if jml >= 3: u_absen += 30000
                         if jml >= 4: b_lembur += (jml - 3) * 25000
                 
-                # --- LOGIKA SP PROPORSIAL (ANTI-PANIK & ANTI-VONIS BULAN DEPAN) ---
+                # --- LOGIKA SP PROPORSIAL (SINKRON & SMART SWITCH) ---
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
 
-                # Tentukan Standar Berdasarkan Bulan
+                # 1. Tentukan Standar Berdasarkan Bulan (Smart Switch)
                 if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    # KHUSUS FEBRUARI (Masa Transisi)
                     t_normal, t_sp1, t_sp2 = 10, 7, 4
                 else:
-                    # MARET & SETERUSNYA (Standar Resmi)
                     t_normal, t_sp1, t_sp2 = 40, 30, 20
                 
-                # Definisikan status bulan
+                # 2. Definisikan status bulan
                 is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
                 is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
 
                 if is_masa_depan:
-                    # 1. BULAN DEPAN: Potongan selalu 0 karena kerjaan belum mulai
                     p_sp = 0
                     
                 elif is_bulan_ini:
-                    # 2. BULAN BERJALAN: Pakai ambang batas harian agar tidak kaget
-                    ambang_aman_hari_ini = sekarang.day * 1.6
-                    ambang_sp1_hari_ini = sekarang.day * 1.2
-                    ambang_sp2_hari_ini = sekarang.day * 0.8
+                    # LOGIKA PROGRES DINAMIS (Mengikuti t_normal bulan tersebut)
+                    progres_hari = min(sekarang.day, 25)
+                    # Rumus: (Target Bulan Ini / 25 Hari) * Hari Berjalan
+                    ambang_aman = (t_normal / 25) * progres_hari
+                    ambang_sp1  = (t_sp1 / 25) * progres_hari
+                    ambang_sp2  = (t_sp2 / 25) * progres_hari
                     
                     if sekarang.day <= 6:
                         p_sp = 0 
-                    elif tot_v >= ambang_aman_hari_ini:
+                    elif tot_v >= ambang_aman:
                         p_sp = 0 
                     else:
-                        if tot_v >= ambang_sp1_hari_ini: p_sp = 300000
-                        elif tot_v >= ambang_sp2_hari_ini: p_sp = 700000
+                        # Vonis SP berdasarkan standar bulan yang aktif
+                        if tot_v >= t_normal: p_sp = 0
+                        elif t_sp1 <= tot_v < t_normal: p_sp = 300000
+                        elif t_sp2 <= tot_v < t_sp1: p_sp = 700000
                         else: p_sp = 1000000
                         
                 else:
-                    # 3. BULAN LALU (ARSIP): Pakai target mutlak (40, 30, 20)
-                    if tot_v >= 40: p_sp = 0
-                    elif 30 <= tot_v < 40: p_sp = 300000
-                    elif 20 <= tot_v < 30: p_sp = 700000
-                    else: p_sp = 1000000 # SP 3 Mutlak karena bulan sudah habis
+                    # 3. BULAN LALU (ARSIP) - Pakai angka mutlak bulan tersebut
+                    if tot_v >= t_normal: p_sp = 0
+                    elif t_sp1 <= tot_v < t_normal: p_sp = 300000
+                    elif t_sp2 <= tot_v < t_sp1: p_sp = 700000
+                    else: p_sp = 1000000
                 
                 # 3. Hitung Gaji Bersih
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
@@ -1842,15 +1843,7 @@ def tampilkan_kendali_tim():
                 if n_up == "" or n_up == "NAN": 
                     continue
                 
-                # 1. Hitung Bonus (SINKRON HARIAN)
-                uang_absen_staff = 0
-                bonus_v_harian = 0
-                if n_up in rekap_harian_tim:
-                    for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: uang_absen_staff += 30000
-                        if jml >= 4: bonus_v_harian += (jml - 3) * 25000
-                
-                # 2. LOGIKA SP PROPORSIAL (SINKRON 100% ADMIN & STAFF)
+                # 2. LOGIKA SP PROPORSIAL (SMART SWITCH - ANTI ERROR)
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
                 
@@ -1867,30 +1860,29 @@ def tampilkan_kendali_tim():
                 is_bulan_ini = (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month)
                 
                 if is_masa_depan:
-                    # JIKA LIHAT BULAN DEPAN: Potongan selalu 0
                     pot_sp_admin = 0
                 
                 elif is_bulan_ini:
-                    # JIKA BULAN BERJALAN: Pakai ambang batas progres hari
+                    # Logika Progres Hari ini (Dinamis mengikuti t_normal)
                     progres_hari = min(sekarang.day, 25)
-                    threshold_aman = (target_normal / 25) * progres_hari
+                    threshold_aman = (t_normal / 25) * progres_hari
                     
                     if sekarang.day <= 6:
                         pot_sp_admin = 0
                     elif jml_v >= threshold_aman:
                         pot_sp_admin = 0
                     else:
-                        # Cek kategori SP berdasarkan target mutlak
-                        if jml_v >= 40: pot_sp_admin = 0
-                        elif 30 <= jml_v < 40: pot_sp_admin = 300000
-                        elif 20 <= jml_v < 30: pot_sp_admin = 700000
+                        # Vonis SP berdasarkan standar bulan yang aktif
+                        if jml_v >= t_normal: pot_sp_admin = 0
+                        elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
+                        elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
                         else: pot_sp_admin = 1000000
                 
                 else:
-                    # JIKA LIHAT BULAN LALU (ARSIP): Pakai target mutlak langsung
-                    if jml_v >= 40: pot_sp_admin = 0
-                    elif 30 <= jml_v < 40: pot_sp_admin = 300000
-                    elif 20 <= jml_v < 30: pot_sp_admin = 700000
+                    # ARSIP BULAN LALU (Pakai angka mutlak bulan tersebut)
+                    if jml_v >= t_normal: pot_sp_admin = 0
+                    elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
+                    elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
                     else: pot_sp_admin = 1000000
 
                 # 3. FILTER TAMPILAN (Hanya yang ada aktivitas)
@@ -2351,6 +2343,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
