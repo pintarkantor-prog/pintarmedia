@@ -830,6 +830,7 @@ def tampilkan_gudang_ide():
     """, unsafe_allow_html=True)
 
     st.title("💡 GUDANG IDE KONTEN")
+    st.info("Pilih ide konten di bawah. Sekali klik, Otomatis masuk ke Ruang Produksi!")
     
     # Inisialisasi state
     if "sedang_proses_id" not in st.session_state:
@@ -2253,6 +2254,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
