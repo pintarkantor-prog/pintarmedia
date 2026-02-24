@@ -1307,7 +1307,7 @@ def tampilkan_tugas_kerja():
                             st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
 
-    # --- 4. LACI ARSIP ---
+# --- 4. LACI ARSIP ---
     st.divider()
     df_arsip = pd.DataFrame()
     with st.expander("📜 Riwayat Tugas Selesai"):
@@ -1389,11 +1389,11 @@ def tampilkan_tugas_kerja():
             ---
 
             #### 💡 PERBANDINGAN SIMULASI (25 Hari Kerja)
-            *Gaji Pokok Rp 2.000.000*
-
             **1. Simulasi Super Rajin (5 Video/Hari)** -> **Total Gaji: Rp 4.000.000**
             **2. Simulasi Rajin (4 Video/Hari)** -> **Total Gaji: Rp 3.375.000**
             **3. Simulasi Target (3 Video/Hari)** -> **Total Gaji: Rp 2.750.000**
+            **4. Simulasi Pas-pasan (2 Video/Hari)** -> **Total Gaji: Rp 2.000.000**
+            **5. Simulasi Malas (1 Video/Hari)** -> **Total Gaji: Terpotong sesuai SP**
 
             ---
 
@@ -1437,41 +1437,46 @@ def tampilkan_tugas_kerja():
                         
                         # --- TEMPLATE SLIP GAJI HTML ---
                         slip_staff_html = f"""
-                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                             <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="140" style="margin-bottom: 5px;">
-                                <p style="margin: 0; font-size: 10px; color: #888; text-transform: uppercase; letter-spacing: 1px;">Slip Gaji Resmi - {sekarang.strftime('%B %Y')}</p>
-                                <div style="height: 2px; background: linear-gradient(to right, #1d976c, #11998e); margin: 15px auto; width: 60%;"></div>
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
+                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">masih berupa estimasi</p>
                             </div>
                             
                             <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
-                                <tr><td style="color: #888;">NAMA STAFF</td><td align="right"><b>{user_up_fix}</b></td></tr>
-                                <tr><td style="color: #888;">HASIL VIDEO (ACC)</td><td align="right"><b>{v_finish} Clips</b></td></tr>
-                                <tr><td style="color: #888;">STATUS PERFORMA</td><td align="right"><span style="color:{'#1d976c' if pot_sp == 0 else '#e74c3c'}; font-weight: bold;">{level_sp}</span></td></tr>
+                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{n_up}</b></td></tr>
+                                <tr><td style="color: #888;">JABATAN</td><td align="right">{s.get('JABATAN', 'STAFF')}</td></tr>
+                                <tr><td style="color: #888;">PERIODE</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                             </table>
 
-                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #eee;">
+                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
                                 <table style="width: 100%; font-size: 13px; line-height: 2;">
-                                    <tr><td style="color: #555;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td style="color: #555;">Tunjangan Jabatan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td style="color: #555;">Bonus Absen (3+)</td><td align="right" style="color: #1d976c;">+ Rp {u_hadir:,}</td></tr>
-                                    <tr><td style="color: #555;">Bonus Over-Target</td><td align="right" style="color: #1d976c;">+ Rp {b_video:,}</td></tr>
-                                    <tr style="color: #e74c3c;"><td>Potongan Penalti (SP)</td><td align="right">- Rp {pot_sp:,}</td></tr>
+                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                    <tr><td>Bonus Absen (3+)</td><td align="right">Rp {u_absen_staf:,}</td></tr>
+                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {b_lembur_staf:,}</td></tr>
+                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
                                 </table>
                             </div>
 
                             <div style="border-top: 2px dashed #eeeeee; padding-top: 15px; text-align: center;">
-                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL GAJI BERSIH</p>
-                                <h2 style="margin: 5px 0; color: #1d976c; font-size: 28px;">Rp {v_total_terima:,}</h2>
+                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL DITERIMA</p>
+                                <h2 style="margin: 5px 0; color: #1d976c;">Rp {v_total_terima:,}</h2>
+                            </div>
+
+                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #bbb;">
+                                Diterbitkan secara digital oleh Sistem Produksi PINTAR MEDIA<br>
+                                {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
                             </div>
                         </div>
+                        """
                         """
                         st.components.v1.html(slip_staff_html, height=550)
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {v_total_terima:,} (Status: {level_sp})")
                             pesan_wa = (
-                                f"🧧 *KONFIRMASI GAJI STAFF*\n\n"
+                                f"🧧 *KONFIRMASI GAJI*\n\n"
                                 f"👤 *Nama:* {user_up_fix}\n"
                                 f"💰 *Total:* Rp {v_total_terima:,}\n"
                                 f"⚠️ *Status:* {level_sp}"
@@ -1481,7 +1486,7 @@ def tampilkan_tugas_kerja():
                 except Exception as e: 
                     st.warning(f"Gagal memproses rincian slip: {e}")
         else:
-            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 24 setiap bulannya.")
+            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
                 
 def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1847,9 +1852,8 @@ def tampilkan_kendali_tim():
                         slip_html = f"""
                         <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
                             <div style="text-align: center; margin-bottom: 20px;">
-                                <h2 style="margin: 0; color: #1d976c; letter-spacing: 2px;">PINTAR MEDIA</h2>
-                                <p style="margin: 0; font-size: 10px; color: #888; text-transform: uppercase;">Official Salary Statement</p>
-                                <div style="height: 2px; background: linear-gradient(to right, #1d976c, #11998e); margin: 15px auto; width: 50%;"></div>
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
+                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">Official Salary Statement</p>
                             </div>
                             
                             <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
@@ -2297,6 +2301,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
