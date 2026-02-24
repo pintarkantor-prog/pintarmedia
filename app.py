@@ -1114,6 +1114,7 @@ def tampilkan_tugas_kerja():
     # --- 4. TAB MENU ---
     tab_tugas, tab_gudang, tab_gaji = st.tabs(["TUGAS AKTIF", "GUDANG IDE", "INFO GAJI"])
 
+# ================= TAB 1: TUGAS AKTIF =================
     with tab_tugas:
         # --- ADMIN PANEL ---
         if user_sekarang == "dian":
@@ -1133,7 +1134,6 @@ def tampilkan_tugas_kerja():
                         st.success("Berhasil!"); time.sleep(1); st.rerun()
 
         # --- TAMPILAN TUGAS (CARD) ---
-        # Filter berdasarkan user (kecuali Dian liat semua)
         if user_sekarang == "dian":
             df_tampil = df_all_tugas[df_all_tugas['STATUS'] != "FINISH"]
         else:
@@ -1157,7 +1157,14 @@ def tampilkan_tugas_kerja():
                     
                     with st.expander("🔍 Detail & Aksi"):
                         st.code(t['INSTRUKSI'])
+                        
+                        # --- MODUL LINK HASIL (BIAR BISA DIKLIK) ---
+                        link_hasil = str(t.get('LINK_HASIL', '-')).strip()
+                        if link_hasil not in ["", "-", "nan"]:
+                            st.markdown(f"🔗 **Link Hasil:** [BUKA HASIL KERJA]({link_hasil})")
+                        
                         st.divider()
+                        
                         if user_sekarang == "dian":
                             c_v, c_r = st.columns(2)
                             if c_v.button("🟢 VALIDASI", key=f"v_{t['ID']}", use_container_width=True):
@@ -1167,7 +1174,7 @@ def tampilkan_tugas_kerja():
                                 sheet_tugas.update_cell(sheet_tugas.find(str(t['ID'])).row, 5, "REVISI")
                                 st.rerun()
                         else:
-                            l_in = st.text_input("Link GDrive", key=f"l_{t['ID']}")
+                            l_in = st.text_input("Link GDrive", value=link_hasil if link_hasil != "-" else "", key=f"l_{t['ID']}")
                             if st.button("🚩 SETOR", key=f"s_{t['ID']}", use_container_width=True):
                                 row = sheet_tugas.find(str(t['ID'])).row
                                 sheet_tugas.update_cell(row, 5, "WAITING QC")
@@ -2018,6 +2025,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
