@@ -1123,7 +1123,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...")
                     st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
-    # --- 4. SETOR MANDIRI ---
+    # --- 4. SETOR MANDIRI (FIXED INDENTATION) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
@@ -1131,12 +1131,29 @@ def tampilkan_tugas_kerja():
                 c1, c2 = st.columns([1.5, 2.5]) 
                 with c1: judul_m = st.text_area("📝 Judul Pekerjaan:", height=70)
                 with c2: link_m = st.text_area("🔗 Link GDrive:", height=70)
+                
                 submit_m = st.form_submit_button("🔥 KIRIM SEKARANG", use_container_width=True)
-                    if judul_m and link_m:
+                
+                if submit_m:
+                    # Baris ini HARUS lebih masuk ke kanan (4 spasi dari if di atasnya)
+                    if judul_m and link_m: 
                         t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                        sheet_tugas.append_row([t_id_m, user_sekarang.upper(), sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
+                        sheet_tugas.append_row([
+                            t_id_m, 
+                            user_sekarang.upper(), 
+                            sekarang.strftime("%Y-%m-%d"), 
+                            judul_m, 
+                            "WAITING QC", 
+                            sekarang.strftime("%d/%m/%Y %H:%M"), 
+                            link_m, 
+                            ""
+                        ])
                         kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
-                        st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
+                        st.success("✅ Terkirim!")
+                        time.sleep(1)
+                        st.rerun()
+                    else:
+                        st.warning("⚠️ Isi dulu Judul dan Link-nya!")
 
     # --- 5. RENDER KARTU TUGAS ---
     tugas_terfilter = []
@@ -2204,3 +2221,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
