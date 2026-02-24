@@ -1082,28 +1082,14 @@ def tampilkan_tugas_kerja():
             else:
                 status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
 
-            # 5. VISUAL 4 KOLOM (GAYA VCARD - AMAN & ISOLASI)
+            # 5. VISUAL 4 KOLOM (DEFAULT STREAMLIT - AMAN & BERSIH)
             with wadah_radar.container():
-                st.markdown(f"""
-                <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 5px;">
-                    <div style="flex: 1; min-width: 140px; background: #161922; padding: 15px; border-radius: 12px; border-top: 3px solid #1d976c; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center;">
-                        <div style="color: #8b949e; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">Status</div>
-                        <div style="color: white; font-size: 15px; font-weight: bold;">{status_ikon}</div>
-                    </div>
-                    <div style="flex: 1; min-width: 140px; background: #161922; padding: 15px; border-radius: 12px; border-top: 3px solid #1d976c; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center;">
-                        <div style="color: #8b949e; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">Video Finish</div>
-                        <div style="color: white; font-size: 18px; font-weight: bold;">{v_finish} <span style="font-size: 11px; color: #1d976c; font-family: monospace;">({selisih:+.1f})</span></div>
-                    </div>
-                    <div style="flex: 1; min-width: 140px; background: #161922; padding: 15px; border-radius: 12px; border-top: 3px solid #1d976c; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center;">
-                        <div style="color: #8b949e; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">Target Aman</div>
-                        <div style="color: white; font-size: 18px; font-weight: bold;">{target_h_ini} <span style="font-size: 11px; color: #8b949e;">Vid</span></div>
-                    </div>
-                    <div style="flex: 1; min-width: 140px; background: #161922; padding: 15px; border-radius: 12px; border-top: 3px solid #1d976c; box-shadow: 0 4px 10px rgba(0,0,0,0.3); text-align: center;">
-                        <div style="color: #8b949e; font-size: 10px; font-weight: bold; text-transform: uppercase; margin-bottom: 5px;">Instruksi</div>
-                        <div style="color: white; font-size: 15px; font-weight: bold;">{instruksi}</div>
-                    </div>
-                </div>
-                """, unsafe_allow_html=True)
+                c1, c2, c3, c4 = st.columns(4)
+                
+                c1.metric("STATUS", status_ikon)
+                c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
+                c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
+                c4.metric("INSTRUKSI", instruksi)
             
             st.divider()
 
@@ -2259,6 +2245,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
