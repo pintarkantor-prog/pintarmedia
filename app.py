@@ -567,7 +567,8 @@ def tampilkan_navigasi_sidebar():
                 "📋 TUGAS KERJA", 
                 "⚡ KENDALI TIM"
             ],
-            label_visibility="collapsed"
+            label_visibility="collapsed",
+            key="COMMAND_MENU"
         )
         
         # 3. GARIS PEMISAH & SPASI KE BAWAH
@@ -798,26 +799,18 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS UNTUK OVERLAY TENGAH (VIBE STUDIO DARK) ---
+    # --- 1. CSS OVERLAY TOTAL (LOADING & SUKSES GAYA STUDIO) ---
     st.markdown("""
         <style>
         .loading-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
-            background-color: rgba(11, 14, 20, 0.9);
+            background-color: rgba(0, 0, 0, 0.85);
             z-index: 999999;
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             color: white; font-family: 'Segoe UI', sans-serif;
-        }
-        .success-box {
-            background: #1a1c24; 
-            padding: 40px; 
-            border-radius: 25px; 
-            text-align: center; 
-            border: 2px solid #1d976c;
-            box-shadow: 0 0 30px rgba(29, 151, 108, 0.4);
-            max-width: 450px;
+            text-align: center;
         }
         .spinner {
             border: 6px solid #333;
@@ -828,12 +821,17 @@ def tampilkan_gudang_ide():
             margin-bottom: 25px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .text-neon {
+            color: #1d976c;
+            text-shadow: 0 0 10px rgba(29, 151, 108, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
         </style>
     """, unsafe_allow_html=True)
 
     st.title("💡 GUDANG IDE KONTEN")
     
-    # Inisialisasi state
     if "sedang_proses_id" not in st.session_state:
         st.session_state.sedang_proses_id = None
     if "status_sukses" not in st.session_state:
@@ -842,28 +840,21 @@ def tampilkan_gudang_ide():
     # --- 2. LOGIKA TAMPILAN OVERLAY (LOADING / SUKSES) ---
     if st.session_state.sedang_proses_id:
         if st.session_state.status_sukses:
+            # TAMPILAN SUKSES (MINIMALIS & KEREN)
             st.markdown(f"""
                 <div class="loading-overlay">
-                    <div class="success-box">
-                        <h1 style="font-size: 60px; margin-bottom: 10px;">🚀</h1>
-                        <h1 style="color: #ffffff; margin-bottom: 10px; letter-spacing: 2px;">MISSION START!</h1>
-                        <h3 style="color: #1d976c; margin-bottom: 20px;">Data Naskah Berhasil Diambil</h3>
-                        <p style="color: #a0a0a0; font-size: 16px; line-height: 1.5;">
-                            Semua instruksi sudah masuk ke sistem.<br>
-                            Halaman akan otomatis pindah ke <b>RUANG PRODUKSI</b>.
-                        </p>
-                        <div style="margin-top: 25px; padding: 10px; background: rgba(29, 151, 108, 0.1); border-radius: 10px;">
-                            <small style="color: #1d976c; font-weight: bold; font-family: monospace;">MENGALIHKAN HALAMAN...</small>
-                        </div>
-                    </div>
+                    <h1 style="font-size: 100px; margin-bottom: 20px;">✅</h1>
+                    <h1 class="text-neon" style="font-size: 50px;">BERHASIL!</h1>
+                    <h3 style="color: white; margin-top: 10px;">KAMU DIALIHKAN KE RUANG PRODUKSI...</h3>
                 </div>
             """, unsafe_allow_html=True)
         else:
+            # TAMPILAN LOADING
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="spinner"></div>
                     <h2 style='color: white;'>MENGAMBIL DATA NASKAH...</h2>
-                    <p style='color: #888;'>Sabar ya, sistem lagi nyiapin tugas buat kamu.</p>
+                    <p style='color: #888;'>Sistem sedang menyiapkan tugas baru untukmu.</p>
                 </div>
             """, unsafe_allow_html=True)
 
@@ -889,6 +880,7 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
         else:
+            # --- 3. LAYOUT GRID 12 KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -908,17 +900,19 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. EKSEKUSI DATA (LOGIKA PINDAH DATA) ---
+            # --- 4. EKSEKUSI DATA ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
                 try:
+                    # Update Status di GSheet Gudang_Ide
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
+                    # Inject Data Naskah ke Ruang Produksi
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
@@ -933,33 +927,34 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
+                    # Tambah baris ke Sheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
+                    # Ubah status ke sukses
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                     st.session_state.status_sukses = True 
                     st.rerun()
 
                 except Exception as ex:
-                    st.error(f"Gagal Proses: {ex}")
+                    st.error(f"Gagal: {ex}")
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
-            # --- 5. REDIRECT OTOMATIS KE RUANG PRODUKSI ---
+            # --- 5. PINDAH HALAMAN OTOMATIS (SETELAH NOTIF SUKSES) ---
             if st.session_state.status_sukses:
-                time.sleep(3) # Kasih waktu baca notif sukses
+                time.sleep(3) 
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
                 
-                # --- TRIK PINDAH MENU OTOMATIS ---
-                # Mengubah state radio menu secara manual (Key-nya harus sama dengan key radio di sidebar)
+                # Memaksa navigasi sidebar pindah menu
                 st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI" 
                 st.rerun()
 
     except Exception as e:
-        st.error(f"⚠️ Gagal Memuat Gudang: {e}")
+        st.error(f"⚠️ Gagal Memuat: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2269,10 +2264,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
