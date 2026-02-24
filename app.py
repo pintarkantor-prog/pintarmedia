@@ -1082,29 +1082,44 @@ def tampilkan_tugas_kerja():
             else:
                 status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
 
-            # 5. VISUAL RADAR (1 CONTAINER, RAPI, SELISIH DI SAMPING)
+            # 5. VISUAL RADAR (GAYA STUDIO PREMIUM - SELISIH DI SAMPING)
             with wadah_radar.container(border=True):
-                # Kita pake columns di dalam container biar jaraknya rata
+                # CSS khusus lokal biar teks instruksi & angka punya gaya "mahal"
+                st.markdown("""
+                    <style>
+                    .metric-label { color: #8b949e; font-size: 11px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; }
+                    .metric-value { color: #ffffff; font-size: 24px; font-weight: 800; line-height: 1; }
+                    .metric-sub { font-size: 14px; font-weight: normal; margin-left: 8px; }
+                    .instruksi-text { color: #1d976c; font-weight: bold; text-shadow: 0 0 10px rgba(29, 151, 108, 0.3); }
+                    </style>
+                """, unsafe_allow_html=True)
+
                 c1, c2, c3, c4 = st.columns(4)
                 
                 with c1:
-                    st.write("📊 **STATUS**")
-                    st.write(status_ikon)
+                    st.markdown(f"<p class='metric-label'>📊 STATUS</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p class='metric-value'>{status_ikon.split()[-1]}</p>", unsafe_allow_html=True)
                 
                 with c2:
-                    st.write("🎬 **FINISH**")
-                    # Logika warna selisih: Hijau kalau plus, Merah kalau minus
-                    warna_teks = "#1d976c" if selisih >= 0 else "#ff4b4b"
+                    st.markdown(f"<p class='metric-label'>🎬 FINISH</p>", unsafe_allow_html=True)
+                    warna_selisih = "#1d976c" if selisih >= 0 else "#ff4b4b"
                     simbol = "+" if selisih >= 0 else ""
-                    st.markdown(f"### {v_finish} <span style='font-size: 15px; color: {warna_teks};'>({simbol}{selisih:.1f})</span>", unsafe_allow_html=True)
+                    st.markdown(f"""
+                        <div class='metric-value'>
+                            {v_finish}<span class='metric-sub' style='color: {warna_selisih};'>{simbol}{selisih:.1f}</span>
+                        </div>
+                    """, unsafe_allow_html=True)
                 
                 with c3:
-                    st.write("🎯 **TARGET**")
-                    st.markdown(f"### {target_h_ini} <span style='font-size: 12px; color: gray;'>Vid</span>", unsafe_allow_html=True)
+                    st.markdown(f"<p class='metric-label'>🎯 TARGET AMAN</p>", unsafe_allow_html=True)
+                    st.markdown(f"<p class='metric-value'>{target_h_ini}<span class='metric-sub' style='color: #444;'>Vid</span></p>", unsafe_allow_html=True)
                 
                 with c4:
-                    st.write("📢 **INSTRUKSI**")
-                    st.write(instruksi)
+                    st.markdown(f"<p class='metric-label'>📢 INSTRUKSI</p>", unsafe_allow_html=True)
+                    # Instruksi dibuat menyala (Glowing)
+                    st.markdown(f"<p class='metric-value instruksi-text' style='font-size: 18px;'>{instruksi}</p>", unsafe_allow_html=True)
+            
+            st.divider()
 
         # --- LANJUTAN KODE (WAJIB ADA) ---
         if not df_all_tugas.empty:
@@ -2258,6 +2273,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
