@@ -1098,20 +1098,19 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI FIX TOTAL: ANTI-ERROR & SIMETRIS ---
+# --- VERSI BAHASA LUGAS (PASTI PAHAM) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. SETUP AWAL (Hitung Target Dulu biar variabelnya lahir)
+            # 1. SETUP TARGET & DATA
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             
-            # 2. HITUNG DATA FINISH
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
-            selisih = v_finish - target_h_ini # SEKARANG SELISIH PASTI ADA NILAINYA
+            selisih = v_finish - target_h_ini
 
-            # 3. AMBIL DATA ABSEN UNTUK SP
+            # 2. AMBIL DATA ABSEN
             df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
                 data_absen_raw = sheet_absensi.get_all_records()
@@ -1120,34 +1119,35 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            # 4. PANGGIL MESIN HITUNG SP
+            # 3. HITUNG SP
             _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # 5. LOGIKA STATUS & KETERANGAN (EMOJI VERSION)
+            # --- 4. LOGIKA BAHASA INSTRUKSI (PILIHAN KAMU) ---
             if sekarang.day <= 6:
-                status_ikon, ket_singkat = "🛡️ PROTEKSI", "Masa Adaptasi"
+                status_ikon, instruksi = "🛡️ PROTEKSI", "🛡️ MASIH AMAN"
             elif "Level 3" in level_sp_r:
-                status_ikon, ket_singkat = "🚨 PERHATIAN", "⚠️ Evaluasi"
+                status_ikon, instruksi = "🚨 BAHAYA", "⚠️ EVALUASI KERJA"
             elif pot_sp_r > 0:
-                status_ikon, ket_singkat = "⚠️ PERHATIAN", "🚀 Kejar Target"
+                status_ikon, instruksi = "⚠️ WARNING", "🚀 BURUAN KEJAR"
             elif v_finish >= target_h_ini:
-                status_ikon, ket_singkat = "✨ AMAN", "✅ Pertahankan"
+                status_ikon, instruksi = "✨ AMAN", "✅ LANJUTKAN!"
             else:
-                status_ikon, ket_singkat = "⚡ PANTAU", "📈 Tingkatkan"
+                status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
 
-            # 6. VISUAL 4 KOLOM SIMETRIS
+            # 5. VISUAL 4 KOLOM
             with wadah_radar.container():
                 c1, c2, c3, c4 = st.columns(4)
+                
                 c1.metric("STATUS", status_ikon)
-                c2.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
+                c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
                 c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
-                c4.metric("KONDISI", ket_singkat)
+                c4.metric("INSTRUKSI", instruksi)
             
             st.divider()
 
-        # --- LANJUTAN KODE (WAJIB SEJAJAR) ---
+        # --- LANJUTAN KODE (WAJIB ADA) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -2351,6 +2351,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
