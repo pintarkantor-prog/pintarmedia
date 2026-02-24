@@ -1098,71 +1098,49 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- MODERN UI: HEADER, LOGO & RADAR PERFORMA TERPADU (FULL BLOCK) ---
+        # --- VERSI ULTRA-CLEAN: SIMPEL & ELEGAN ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. HITUNG HASIL FINISH
+            # 1. LOGIKA DATA (Tetap Sama agar Akurat)
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
             
-            # 2. AMBIL DATA ABSEN UNTUK LOGIKA SP
             df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
-                # Mengambil data absen user untuk hitungan SP Live di Radar
                 data_absen_raw = sheet_absensi.get_all_records()
                 df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
                 df_absen_user = df_absen_all[df_absen_all['NAMA'] == user_sekarang.upper()].copy()
             except:
                 df_absen_user = pd.DataFrame()
 
-            # 3. PANGGIL MESIN HITUNG SP (Untuk diletakkan di Radar)
             b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # 4. KALKULASI TARGET RADAR
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             selisih = v_finish - target_h_ini
 
-            # --- RENDER UI: LOGO & RADAR BOX ---
-            # Menampilkan Logo Official dari GitHub
-            st.image("https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png", width=200)
-            
-            # Radar Box Modern 3 Kolom
-            with st.container(border=True):
-                c_status, c_hasil, c_target = st.columns([1.5, 1, 1])
-                
-                with c_status:
-                    if sekarang.day <= 6:
-                        st.info(f"🛡️ **MASA PROTEKSI**\n\nStatus: {level_sp_r}\nTarget: {t_norm} Video.")
-                    elif pot_sp_r > 0:
-                        st.error(f"⚠️ **{level_sp_r}**\n\nPotongan: Rp {pot_sp_r:,}\nKejar {abs(selisih):.1f} video!")
-                    elif v_finish >= target_h_ini:
-                        st.success(f"🟢 **PERFORMA AMAN**\n\nStatus: {level_sp_r}\nGaji aman dari potongan.")
-                    else:
-                        st.warning(f"🟡 **DI BAWAH TARGET**\n\nStatus: {level_sp_r}\nKurang {abs(selisih):.1f} video!")
+            # --- RENDER UI: SIMPEL & ELEGAN (TANPA LOGO) ---
+            with st.container():
+                # Baris 1: Status Utama (Full Width biar plong)
+                if sekarang.day <= 6:
+                    st.info(f"🛡️ **MASA PROTEKSI** | {level_sp_r} | Target Bulan Ini: {t_norm} Video")
+                elif pot_sp_r > 0:
+                    st.error(f"⚠️ **STATUS: {level_sp_r}** | Potongan Terdeteksi: Rp {pot_sp_r:,}")
+                elif v_finish >= target_h_ini:
+                    st.success(f"🟢 **PERFORMA AMAN** | {level_sp_r} | Gaji kamu aman bulan ini.")
+                else:
+                    st.warning(f"🟡 **DI BAWAH TARGET** | {level_sp_r} | Ayo kejar setoran hari ini!")
 
-                c_hasil.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
-                c_target.metric("TARGET AMAN", f"{target_h_ini} Vid")
+                # Baris 2: Metrics (Dibuat berjajar 3 kolom tanpa border container)
+                m1, m2, m3 = st.columns(3)
+                m1.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
+                m2.metric("TARGET AMAN", f"{target_h_ini} Vid")
+                m3.metric("STATUS AKHIR", level_sp_r.split('(')[0].strip()) # Ambil nama SP-nya aja biar bersih
 
-            st.divider()
-
-        # --- LANJUTAN KODE SISTEM (JANGAN DIHAPUS) ---
-        if not df_all_tugas.empty:
-            df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
-        
-        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-        staf_options = df_staff_raw['Nama'].unique().tolist()
-
-        def catat_log(aksi):
-            waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
-            sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
-
-    except Exception as e:
-        st.error(f"❌ Database Offline: {e}")
-        return
+            st.divider() # Satu garis tipis sebagai pemisah ke bagian tugas
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
@@ -1333,7 +1311,7 @@ def tampilkan_tugas_kerja():
                             st.success("✅ Permintaan revisi dikirim!"); time.sleep(1); st.rerun()
             st.markdown("</div>", unsafe_allow_html=True)
 
-# --- 4. LACI ARSIP ---
+    # --- 4. LACI ARSIP ---
     st.divider()
     df_arsip = pd.DataFrame()
     with st.expander("📜 Riwayat Tugas Selesai"):
@@ -2353,6 +2331,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
