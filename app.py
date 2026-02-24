@@ -1420,7 +1420,7 @@ def tampilkan_tugas_kerja():
             st.success(f"🌟 **PERFORMA MANTAP, {panggilan_fix}!**")
             st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). 🔥")
 
-# D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
+        # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
         if sekarang.day >= 24: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=True):
                 try:
@@ -1480,7 +1480,7 @@ def tampilkan_tugas_kerja():
                         </div>
                         """
                         # Karena card-nya makin pendek, height di Streamlit juga bisa dikurangi
-                        st.components.v1.html(slip_staff_html, height=680)
+                        st.components.v1.html(slip_staff_html, height=600)
 
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
                             catat_log(f"Konfirmasi gaji Rp {S_VAR_TOTAL:,} oleh {S_VAR_NAMA}")
@@ -1597,7 +1597,7 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Penentu apakah bulan masa depan
@@ -2305,6 +2305,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
