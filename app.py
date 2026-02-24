@@ -1449,7 +1449,7 @@ def tampilkan_tugas_kerja():
         # Status Hijau hanya jika pot_sp == 0 DAN selisih >= 0
         else:              
             st.success(f"🌟 **PERFORMA MANTAP, {panggilan}!**")
-            st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). Pertahankan prestasimu! 🔥")}). Pertahankan prestasimu! 🔥")
+            st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). Pertahankan prestasimu! 🔥")
 
         # D. --- SLIP GAJI PREMIUM (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 24: 
@@ -2347,5 +2347,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
