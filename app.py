@@ -1453,7 +1453,7 @@ def tampilkan_tugas_kerja():
 
         # D. --- SLIP GAJI PREMIUM (DIKUNCI TANGGAL 28) ---
         if sekarang.day >= 24: 
-            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**", expanded=True):
+            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**", expanded=False):
                 try:
                     # Ambil Data Pokok Staff & Pastikan Clean
                     df_staff_clean = bersihkan_data(df_staff_raw)
@@ -2347,6 +2347,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
