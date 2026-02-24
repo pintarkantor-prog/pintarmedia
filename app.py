@@ -1082,14 +1082,26 @@ def tampilkan_tugas_kerja():
             else:
                 status_ikon, instruksi = "⚡ PANTAU", "📈 TINGKATKAN"
 
-            # 5. VISUAL 4 KOLOM (DEFAULT STREAMLIT - AMAN & BERSIH)
+            # 5. VISUAL 4 KOLOM (DEFAULT RAPI - PAKE BORDER BAWAAN)
             with wadah_radar.container():
-                c1, c2, c3, c4 = st.columns(4)
+                c1, c2, c3, c4 = st.columns(4)                
+                with c1:
+                    with st.container(border=True):
+                        st.metric("STATUS", status_ikon)
                 
-                c1.metric("STATUS", status_ikon)
-                c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
-                c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
-                c4.metric("INSTRUKSI", instruksi)
+                with c2:
+                    with st.container(border=True):
+                        st.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
+                
+                with c3:
+                    with st.container(border=True):
+                        st.metric("TARGET AMAN", f"{target_h_ini} Vid")
+                
+                with c4:
+                    with st.container(border=True):
+                        # Pake info dikit biar instruksi yang panjang tetep rapi
+                        st.markdown(f"<p style='font-size: 13px; color: gray; margin-bottom: -5px;'>INSTRUKSI</p>", unsafe_allow_html=True)
+                        st.subheader(instruksi)
             
             st.divider()
 
@@ -2245,6 +2257,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
