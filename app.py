@@ -1655,7 +1655,7 @@ def tampilkan_kendali_tim():
         m3.metric(
             label="💎 BERSIH", 
             value=f"Rp {saldo_bersih:,}",
-            delta=f"Rp {saldo_bersih:,}",
+            delta=saldo_bersih,
             delta_color="normal" 
         )
 
@@ -2256,6 +2256,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
