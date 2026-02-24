@@ -1063,6 +1063,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
 def tampilkan_tugas_kerja():
+    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     # --- CSS KHUSUS BIAR TAB & CARD RAPI (TIDAK MERUSAK MENU LAIN) ---
     st.markdown("""
         <style>
@@ -2003,4 +2004,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
