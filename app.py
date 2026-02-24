@@ -1804,88 +1804,84 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-        # --- TAMPILAN 6: SLIP GAJI (STRUKTUR ANTI-ERROR) ---
+# --- TAMPILAN 6: SLIP GAJI (DESAIN MEWAH - FIX INDENTASI) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
-            # Normalisasi kamus data agar nama dari GSheet cocok dengan Master Staff
             rekap_bersih = {str(k).strip().upper(): v for k, v in rekap_total_video.items()}
             
-            for _, s in df_staff_raw_slip.iterrows():
+            for _, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
-                if n_up == "" or n_up == "NAN": 
-                    continue
+                if n_up == "" or n_up == "NAN": continue
                 
-                # Ambil jumlah video
-                jml_v = rekap_total_video.get(n_up, 0)
+                jml_v = rekap_bersih.get(n_up, 0)
+                ada_kerja = True 
                 
-                # --- HITUNG BONUS MANDIRI (Agar tidak error) ---
-                u_absen_view = 0
-                b_video_view = 0
+                # --- HITUNG ABSEN & BONUS ---
+                u_absen_staf = 0
+                b_video_staf = 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: u_absen_view += 30000
-                        if jml >= 4: b_video_view += (jml - 3) * 25000
+                        if jml >= 3: u_absen_staf += 30000
+                        if jml >= 4: b_video_staf += (jml - 3) * 25000
 
-                # --- SISTEM SMART SWITCH TARGET ---
-                t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-                t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
-
-                # Hitung Potongan SP
-                pot_sp_admin = 0
+                # --- POTONGAN SP FEBRUARI (Target 10) ---
+                t_norm = 10 if (bulan_dipilih == 2 and tahun_dipilih == 2026) else 40
+                t_s1, t_s2 = (7, 4) if t_norm == 10 else (30, 20)
+                
+                p_sp = 0
                 if sekarang.day > 6:
-                    if jml_v >= t_normal: pot_sp_admin = 0
-                    elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
-                    elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
-                    else: pot_sp_admin = 1000000
+                    if jml_v >= t_norm: p_sp = 0
+                    elif t_s1 <= jml_v < t_norm: p_sp = 300000
+                    elif t_s2 <= jml_v < t_s1: p_sp = 700000
+                    else: p_sp = 1000000
 
-                # --- BAGIAN TAMPILAN (LURUSKAN SPASI DI SINI) ---
-                ada_kerja = True
                 with st.container(border=True):
                     c1, c2, c3 = st.columns([2, 1, 1])
                     c1.write(f"👤 **{n_up}**")
                     c1.caption(f"💼 {s.get('JABATAN', 'STAFF')}")
-                    c2.write(f"📅 Rp {u_absen_view:,}")
+                    c2.write(f"📅 Rp {u_absen_staf:,}")
                     c3.write(f"🎬 {jml_v} Video")
                     
-                    # Baris di bawah ini harus sejajar lurus dengan c1, c2, c3
-                    if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
+                    if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_slip_{n_up}"):
                         v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                        v_total_terima = (v_gapok + v_tunjangan + u_absen_view + b_video_view) - pot_sp_admin
+                        v_total = (v_gapok + v_tunjangan + u_absen_staf + b_video_staf) - p_sp
                         
-                        st.info(f"**Total Gaji Bersih: Rp {v_total_terima:,}**")
-                        st.caption(f"Rincian: Pokok {v_gapok:,} + Tunj {v_tunjangan:,} + Absen {u_absen_view:,} + Bonus V {b_video_view:,} - SP {pot_sp_admin:,}")
-                            
-                            # DESAIN SLIP GAJI HTML
-                            slip_html = f"""
-                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto;">
-                                <div style="text-align: center; margin-bottom: 15px;">
-                                    <h2 style="margin:0; color: #1d976c;">PINTAR MEDIA</h2>
-                                    <div style="font-size: 10px; color: #666;">Creative AI Studio Production</div>
-                                    <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI BULANAN</div>
-                                </div>
-                                <table style="width: 100%; font-size: 13px; color: black;">
-                                    <tr><td>Penerima</td><td align="right"><b>{n_up}</b></td></tr>
-                                    <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                    <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
-                                    <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
-                                    <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v_harian:,}</td></tr>
-                                    <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
-                                    <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 10px 0;"></td></tr>
-                                    <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                        <td>TOTAL TERIMA</td><td align="right">Rp {v_total_terima:,}</td></tr>
-                                </table>
-                                <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #999;">
-                                    Diterbitkan otomatis oleh PINTAR SYSTEM<br>
-                                    {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB
-                                </div>
+                        # --- DESAIN SLIP HTML MEWAH ---
+                        slip_html = f"""
+                        <div style="background-color: white; color: black; padding: 25px; border-radius: 15px; border: 4px solid #1d976c; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 320px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                            <div style="text-align: center; margin-bottom: 20px;">
+                                <h2 style="margin:0; color: #1d976c; letter-spacing: 2px;">PINTAR MEDIA</h2>
+                                <div style="font-size: 10px; color: #666; text-transform: uppercase;">Creative AI Studio Production</div>
+                                <hr style="border: 0.5px dashed #1d976c; margin: 15px 0;">
+                                <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 11px;">OFFICIAL SALARY SLIP</div>
                             </div>
-                            """
-                            st.components.v1.html(slip_html, height=520)
-            
+                            <table style="width: 100%; font-size: 13px; color: #333; border-collapse: collapse;">
+                                <tr><td style="padding: 4px 0;">Penerima</td><td align="right"><b>{n_up}</b></td></tr>
+                                <tr><td style="padding: 4px 0;">Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 10px 0;"></td></tr>
+                                <tr><td style="padding: 4px 0;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                <tr><td style="padding: 4px 0;">Tunjangan Jabatan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                <tr><td style="padding: 4px 0;">Uang Absen (3+)</td><td align="right">Rp {u_absen_staf:,}</td></tr>
+                                <tr><td style="padding: 4px 0;">Bonus Video (4+)</td><td align="right">Rp {b_video_staf:,}</td></tr>
+                                <tr style="color: #d9534f;">
+                                    <td style="padding: 4px 0;">Potongan Penalti (SP)</td>
+                                    <td align="right">- Rp {p_sp:,}</td>
+                                </tr>
+                                <tr><td colspan="2" style="padding: 10px 0;"><div style="border-top: 2px solid #333;"></div></td></tr>
+                                <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
+                                    <td>TOTAL TERIMA</td>
+                                    <td align="right">Rp {v_total:,}</td>
+                                </tr>
+                            </table>
+                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #999; font-style: italic;">
+                                Diterbitkan secara digital oleh PINTAR SYSTEM<br>
+                                {datetime.now().strftime('%d/%m/%Y %H:%M')} WIB
+                            </div>
+                        </div>
+                        """
+                        st.components.v1.html(slip_html, height=520)
+
             if not ada_kerja:
                 st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
     except Exception as e:
@@ -2299,6 +2295,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
