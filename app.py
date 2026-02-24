@@ -1250,13 +1250,14 @@ def tampilkan_tugas_kerja():
             st.caption("Gunakan form ini jika kamu mengerjakan sesuatu di luar list tugas utama.")
             
             with st.form("form_mandiri", clear_on_submit=True):
-                c1, c2 = st.columns(2)
+                c1, c2 = st.columns([1.5, 2.5]) 
                 with c1:
-                    judul_m = st.text_input("📝 Nama / Judul Pekerjaan:", placeholder="Misal: Edit Video TikTok Bonus")
+                    judul_m = st.text_input("📝 Judul Pekerjaan:", placeholder="Nama Video/Tugas")
                 with c2:
-                    link_m = st.text_input("🔗 Link GDrive Hasil:", placeholder="Tempel link folder/file di sini")
+                    # Tambahin instruksi pemisah koma di placeholder
+                    link_m = st.text_input("🔗 Link GDrive (Bisa lebih dari 1):", 
+                                          placeholder="Link1, Link2, Link3 (Pisahkan dengan koma)")
                 
-                # Tombol Setor yang lebih mencolok
                 submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
                 
                 if submit_m:
@@ -1282,7 +1283,7 @@ def tampilkan_tugas_kerja():
                         time.sleep(1)
                         st.rerun()
                     else:
-                        st.warning("⚠️ Isi dulu Judul dan Link-nya, Cok!")
+                        st.warning("⚠️ Isi dulu Judul dan Link-nya!")
         st.write("") # Spasi pemisah ke daftar kartu di bawah
 
 # --- FILTER DATA ---
@@ -2358,6 +2359,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
