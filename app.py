@@ -1098,9 +1098,9 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI ULTRA-CLEAN: SIMPEL & ELEGAN ---
+        # --- VERSI ULTRA-CLEAN: SIMPEL & ELEGAN (FULL BLOCK) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. LOGIKA DATA (Tetap Sama agar Akurat)
+            # 1. LOGIKA DATA
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
@@ -1122,9 +1122,8 @@ def tampilkan_tugas_kerja():
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             selisih = v_finish - target_h_ini
 
-            # --- RENDER UI: SIMPEL & ELEGAN (TANPA LOGO) ---
+            # --- RENDER UI: SIMPEL & ELEGAN ---
             with st.container():
-                # Baris 1: Status Utama (Full Width biar plong)
                 if sekarang.day <= 6:
                     st.info(f"🛡️ **MASA PROTEKSI** | {level_sp_r} | Target Bulan Ini: {t_norm} Video")
                 elif pot_sp_r > 0:
@@ -1134,13 +1133,27 @@ def tampilkan_tugas_kerja():
                 else:
                     st.warning(f"🟡 **DI BAWAH TARGET** | {level_sp_r} | Ayo kejar setoran hari ini!")
 
-                # Baris 2: Metrics (Dibuat berjajar 3 kolom tanpa border container)
                 m1, m2, m3 = st.columns(3)
                 m1.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
                 m2.metric("TARGET AMAN", f"{target_h_ini} Vid")
-                m3.metric("STATUS AKHIR", level_sp_r.split('(')[0].strip()) # Ambil nama SP-nya aja biar bersih
+                m3.metric("STATUS AKHIR", level_sp_r.split('(')[0].strip())
 
-            st.divider() # Satu garis tipis sebagai pemisah ke bagian tugas
+            st.divider()
+
+        # --- LANJUTAN KODE SISTEM ---
+        if not df_all_tugas.empty:
+            df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
+        
+        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
+        staf_options = df_staff_raw['Nama'].unique().tolist()
+
+        def catat_log(aksi):
+            waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
+            sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
+
+    except Exception as e:
+        st.error(f"❌ Database Offline: {e}")
+        return
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
@@ -2331,6 +2344,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
