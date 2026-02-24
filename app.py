@@ -1254,12 +1254,12 @@ def tampilkan_tugas_kerja():
                 c1, c2 = st.columns([1.5, 2.5]) 
             
                 with c1:
-                    judul_m = st.text_area("📝 Judul Pekerjaan:", placeholder="Nama Video/Tugas", height=70)
+                    judul_m = st.text_area("📝 Judul Pekerjaan:", placeholder="contoh: edit cerita tung udin rumi", height=70)
             
                 with c2:
-                    link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", placeholder="Link1, Link2, Link3...", height=70)
+                    link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", placeholder="Link1, Link2, Link3 (Pisahkan dengan koma)", height=70)
             
-                submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
+                submit_m = st.form_submit_button("🔥 KIRIM TUGAS SEKARANG", use_container_width=True)
                 
                 if submit_m:
                     if judul_m and link_m:
@@ -2360,6 +2360,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
