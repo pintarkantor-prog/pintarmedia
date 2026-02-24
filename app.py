@@ -1733,22 +1733,25 @@ def tampilkan_kendali_tim():
                 progres_hari = min(sekarang.day, 25)
                 target_aman = round((40 / 25) * progres_hari, 1)
                 
-                # 2. Olah Data Monitoring
+                # 2. Olah Data Monitoring (PASTIKAN SEMUA MUNCUL)
                 data_monitor = []
-                for nama, jml in rekap_total_video.items():
-                    selisih = jml - target_aman
+                for _, s in df_staff.iterrows():
+                    n_up = str(s.get('NAMA', '')).strip().upper()
+                    if n_up == "" or n_up == "NAN": continue
                     
-                    # Logika Status Berdasarkan Target Berjalan (Sederhana tanpa CSS)
-                    if jml >= target_aman:
+                    jml_v = rekap_total_video.get(n_up, 0) # Kalau tidak ada, otomatis 0
+                    selisih = jml_v - target_aman
+                    
+                    if jml_v >= target_aman:
                         status = "AMAN (ON TRACK)"
-                    elif jml >= (20 / 25) * progres_hari:
+                    elif jml_v >= (20 / 25) * progres_hari:
                         status = "WASPADA (HAMPIR SP)"
                     else:
                         status = "BAHAYA (SP 3)"
                     
                     data_monitor.append({
-                        "NAMA STAF": nama,
-                        "HASIL": int(jml),
+                        "NAMA STAF": n_up,
+                        "HASIL": int(jml_v),
                         "TARGET MINIMAL": target_aman,
                         "SELISIH": f"{selisih:+.1f}",
                         "STATUS": status
@@ -1858,7 +1861,6 @@ def tampilkan_kendali_tim():
                         pot_sp_admin = 1000000 # SP 3
 
                 # 3. FILTER TAMPILAN (Hanya yang ada aktivitas)
-                if jml_v > 0 or uang_absen_staff > 0: 
                     ada_kerja = True
                     with st.container(border=True):
                         c1, c2, c3 = st.columns([2, 1, 1])
@@ -2316,6 +2318,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
