@@ -798,7 +798,7 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS OVERLAY KHUSUS (GAYA STUDIO) ---
+    # --- 1. CSS CUSTOM (HIJAU KEMBALI & ID PREMIUM) ---
     st.markdown("""
         <style>
         .loading-overlay {
@@ -820,17 +820,24 @@ def tampilkan_gudang_ide():
             margin-bottom: 25px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .text-neon {
+        
+        /* Gaya ID Badge yang Cantik */
+        .id-badge {
+            background-color: rgba(29, 151, 108, 0.1);
             color: #1d976c;
-            text-shadow: 0 0 10px rgba(29, 151, 108, 0.5);
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 10px;
             font-weight: bold;
-            letter-spacing: 2px;
+            border: 1px solid #1d976c;
+            display: inline-block;
+            margin-bottom: 10px;
         }
         </style>
     """, unsafe_allow_html=True)
 
     st.title("💡 GUDANG IDE KONTEN")
-    st.info("⚡Pilih ide konten di bawah. Sekali klik, Otomatis masuk ke Ruang Produksi!")
+    st.info("⚡ Pilih ide konten di bawah. Sekali klik, Otomatis masuk ke Ruang Produksi!")
     
     # Inisialisasi state
     if "sedang_proses_id" not in st.session_state:
@@ -838,28 +845,25 @@ def tampilkan_gudang_ide():
     if "status_sukses" not in st.session_state:
         st.session_state.status_sukses = False
 
-    # --- 2. LOGIKA TAMPILAN OVERLAY (DARK STUDIO STYLE) ---
+    # --- 2. LOGIKA TAMPILAN OVERLAY ---
     if st.session_state.sedang_proses_id:
         if st.session_state.status_sukses:
-            # TAMPILAN SUKSES
             st.markdown(f"""
                 <div class="loading-overlay">
                     <h1 style="font-size: 60px; margin-bottom: 10px;">✅</h1>
                     <h2 style='color: white; letter-spacing: 2px;'>BERHASIL TERPASANG</h2>
-                    <p style='color: #8b949e;'>Silahkan cek menu <b>🚀 RUANG PRODUKSI</b><br>untuk mulai pengerjaan.</p>
+                    <p style='color: #1d976c; font-weight: bold;'>CEK RUANG PRODUKSI SEKARANG</p>
                 </div>
             """, unsafe_allow_html=True)
         else:
-            # TAMPILAN LOADING
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="spinner"></div>
                     <h2 style='color: white; letter-spacing: 2px;'>MENGAMBIL DATA...</h2>
-                    <p style='color: #8b949e;'>Sinkronisasi ke Cloud Database PINTAR</p>
                 </div>
             """, unsafe_allow_html=True)
             
-    # --- 3. KONFIGURASI GSHEET ---
+    # --- 3. LOGIKA DATA & GRID ---
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -882,7 +886,7 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang.")
         else:
-            # --- RENDER GRID KARTU ---
+            # --- RENDER GRID 12 KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -892,60 +896,59 @@ def tampilkan_gudang_ide():
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
                         
-                        # KARTU MINIMALIS TANPA CSS RIBET
                         with st.container(border=True):
-                            # Judul Bold & Center
-                            st.markdown(f"### <p style='text-align: center;'>{judul}</p>", unsafe_allow_html=True)
-                            # ID pake st.caption biar miring & abu-abu otomatis
-                            st.markdown(f"<p style='text-align: center; color: gray; font-size: 12px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
+                            # 1. Garis Hijau di Atas (Balikin Ijonya!)
+                            st.markdown(f'<div style="height: 4px; background-color: #1d976c; border-radius: 10px; margin-bottom: 15px;"></div>', unsafe_allow_html=True)
                             
-                            st.write("") # Spacer
+                            # 2. Judul & ID Badge
+                            # Tampilannya: ID kecil di tengah, baru Judul Bold
+                            st.markdown(f"""
+                                <div style="text-align: center;">
+                                    <div class="id-badge">ID: {id_ini}</div>
+                                    <h3 style="margin-top: 0px; line-height: 1.2;">{judul}</h3>
+                                </div>
+                            """, unsafe_allow_html=True)
+                            
+                            st.write("") 
                             if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. EKSEKUSI DATA (LOGIKA GSHEET) ---
+            # --- 4. EKSEKUSI DATA ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
-                # A. Update Status di GSheet
                 cells = sheet_gudang.findall(target_id)
                 for cell in cells:
                     sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                 
-                # B. Inject ke Session Produksi
                 adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                 st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                 
-                rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
                 for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                     st.session_state.data_produksi["adegan"][idx] = {
-                        "aksi": a_row['NASKAH_VISUAL'],
-                        "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                        "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
-                        "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
-                        "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
+                        "aksi": a_row['NASKAH_VISUAL'], "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                        "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'], "light": a_row['LIGHTING'], 
+                        "arah": a_row['ARAH_KAMERA'], "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
                     }
-                    rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                 
-                # C. Tambah ke Sheet Tugas
                 t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                 sheet_tugas.append_row([t_id, user_sekarang.upper(), datetime.now(tz_wib).strftime("%Y-%m-%d"), f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                st.session_state.naskah_siap_produksi = rangkuman_naskah
+                st.session_state.naskah_siap_produksi = f"🎬 **ALUR CERITA:** {judul_proses}"
                 st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                 st.session_state.status_sukses = True 
                 st.rerun()
 
     except Exception as e:
-        st.error(f"⚠️ Gagal Sinkronisasi: {e}")
+        st.error(f"⚠️ Gagal: {e}")
         st.session_state.sedang_proses_id = None
         st.rerun()
 
-    # --- 5. LOGIKA AUTO-HIDE (SOPAN & SMOOTH) ---
+    # --- 5. AUTO-HIDE ---
     if st.session_state.status_sukses:
         time.sleep(3) 
         st.session_state.sedang_proses_id = None
@@ -2260,6 +2263,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
