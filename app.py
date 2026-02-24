@@ -1212,7 +1212,7 @@ def tampilkan_tugas_kerja():
                                         sheet_tugas.update_cell(cell.row, 5, "WAITING QC"); sheet_tugas.update_cell(cell.row, 7, l_in)
                                         st.success("Sent!"); time.sleep(1); st.rerun()
 
-# --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
+    # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
     st.divider()
     with st.expander("📜 RIWAYAT TUGAS (BULAN INI)", expanded=False):
         if not df_all_tugas.empty:
@@ -1361,7 +1361,7 @@ def tampilkan_tugas_kerja():
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
 
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
-        if sekarang.day >= 28: 
+        if sekarang.day >= 24: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
                 try:
                     # 1. KUNCI DATA STAFF (Anti-Tertukar)
@@ -2221,4 +2221,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
