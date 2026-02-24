@@ -1243,24 +1243,20 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
-    # --- 3. SETOR TUGAS MANDIRI (COMPACT & BOLD) ---
+    # --- 3. SETOR TUGAS MANDIRI (MODERN CARD) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
-            
-            # Suntik CSS khusus buat ngurangin jarak antar elemen di form ini
-            st.markdown("""
-                <style>
-                [data-testid="stForm"] {border: none; padding: 0;}
-                div[data-testid="stVerticalBlock"] > div {margin-top: -10px;} 
-                </style>
-            """, unsafe_allow_html=True)
+            st.caption("Gunakan form ini jika kamu mengerjakan sesuatu di luar list tugas utama.")
 
             with st.form("form_mandiri", clear_on_submit=True):
-                # Height 68-70 itu angka sakti buat bikin kotak kelihatan "gemuk" tapi nggak "raksasa"
-                judul_m = st.text_area("📝 Pekerjaan:", placeholder="contoh: edit video tung, rumi, udin", height=70)
+                # Kita set perbandingan kolom: 1 untuk judul, 2 untuk link (lebih luas)
+                c1, c2 = st.columns([1.5, 2.5]) 
                 
-                link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", placeholder="Link1, Link2, Link3", height=80)
+                with c1:
+                    judul_m = st.text_input("📝 Judul Pekerjaan:", placeholder="contoh: edit cerita tung udin rumi")
+                with c2:
+                    link_m = st.text_input("🔗 Link GDrive:", placeholder="https://drive.google.com/...")
                 
                 submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
                 
@@ -2363,6 +2359,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
