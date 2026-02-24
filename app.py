@@ -903,23 +903,25 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. PROSES PINDAH DATA ---
+# --- 4. EKSEKUSI DATA (LOGIKA AMBIL TUGAS) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
                 try:
-                    # Update status di GSheet
+                    # A. Update GSheet (Biar statusnya berubah jadi DIAMBIL)
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # Ambil semua adegan untuk ide ini
+                    # B. AMBIL SEMUA ADEGAN (Blueprint)
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
-                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                     
-                    # Inject ke data produksi
+                    # C. INJEKSI DATA KE SESSION PRODUKSI (BIAR GAK KOSONG)
+                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                    st.session_state.data_produksi["adegan"] = {} # Reset dulu biar bersih
+                    
                     rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
                     for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
                         st.session_state.data_produksi["adegan"][idx] = {
@@ -931,12 +933,12 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # Tambah ke log tugas
+                    # D. Catat di GSheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                    # Tandai Berhasil
+                    # E. KUNCI STATE & BERI SINYAL SUKSES
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                     st.session_state.status_sukses = True 
@@ -947,18 +949,20 @@ def tampilkan_gudang_ide():
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
-            # --- 5. REDIRECT OTOMATIS (SETELAH 3 DETIK) ---
+            # --- 5. REDIRECT (SETELAH NOTIF SUKSES) ---
             if st.session_state.status_sukses:
-                time.sleep(2) 
+                time.sleep(2.5) # Biar notif BERHASIL kebaca
+                
+                # RESET FLAG PROSES
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
                 
-                # TEMBAK DUA-DUANYA BIAR GAK ADA CELAH
+                # PINDAH MENU
                 st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI"
-                st.session_state["COMMAND_MENU_WIDGET"] = "🚀 RUANG PRODUKSI" 
+                st.session_state["COMMAND_MENU_WIDGET"] = "🚀 RUANG PRODUKSI"
                 
                 st.rerun()
-
+                
     except Exception as e:
         st.error(f"⚠️ Gagal Memuat Data: {e}")
             
@@ -2278,5 +2282,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
