@@ -1229,7 +1229,7 @@ def tampilkan_tugas_kerja():
                 
                 df_arsip = df_all_tugas[mask_s].copy()
                 if not df_arsip.empty: 
-                    st.dataframe(df_arsip[['ID', 'JUDUL', 'WAKTU_KIRIM', 'STATUS']], hide_index=True, use_container_width=True)
+                    st.dataframe(df_arsip[['ID', 'INSTRUKSI', 'WAKTU_KIRIM', 'STATUS']], hide_index=True, use_container_width=True)
                 else: 
                     st.write("Belum ada riwayat tugas selesai.")
                     
@@ -2081,6 +2081,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
