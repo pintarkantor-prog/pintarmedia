@@ -1649,13 +1649,16 @@ def tampilkan_kendali_tim():
         # Hitung saldo bersih
         saldo_bersih = inc - (total_pengeluaran_gaji + ops)
         
-        # Tampilkan bersih dengan warna otomatis
-        # delta_color="normal" -> Hijau kalau positif, Merah kalau negatif
-        # delta_color="inverse" -> Kebalikannya (biasanya untuk biaya)
+        # Tentukan simbol (+/-) dan format teks agar warna otomatis bekerja
+        simbol = "+" if saldo_bersih >= 0 else "-"
+        abs_saldo = abs(saldo_bersih) # Ambil angka positifnya untuk diformat
+
+        # Tampilkan bersih dengan warna otomatis & ada Rp-nya
         m3.metric(
             label="💎 BERSIH", 
             value=f"Rp {saldo_bersih:,}",
-            delta=saldo_bersih,
+            # Trik: Tambahkan simbol matematika di depan teks "Rp"
+            delta=f"{simbol} Rp {abs_saldo:,}",
             delta_color="normal" 
         )
 
@@ -2256,6 +2259,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
