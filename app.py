@@ -1275,58 +1275,45 @@ def tampilkan_tugas_kerja():
             status = str(t["Status"]).upper()
             url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
             
-            # --- MULAI SLIM CARD ---
             with st.container(border=True):
-                # Baris 1: Foto, Info Utama & Deadline (Sejajar)
-                c1, c2, c3 = st.columns([0.6, 2.5, 1.2])
-                with c1: 
-                    st.image(url_foto, width=60)
-                with c2:
-                    st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
-                    st.caption(f"📅 Deadline: {t['Deadline']} | ⏰ {t.get('Waktu_Kirim', '-')}")
-                with c3:
-                    # Tampilan status yang lebih eye-catching
-                    color = "orange" if status == "REVISI" else "green" if status == "WAITING QC" else "gray"
-                    st.markdown(f"<div style='text-align:right; color:{color}; font-weight:bold; font-size:12px;'>{status}</div>", unsafe_allow_html=True)
-
-                st.divider()
+                # HEADER: Foto, Nama, ID, Status (Sejajar dalam 1 baris)
+                c1, c2, c3, c4 = st.columns([0.6, 2, 1.5, 1])
+                c1.image(url_foto, width=45) # Ukuran foto diperkecil
+                c2.markdown(f"**{t['Staf'].upper()}**")
+                c3.caption(f"🆔 {t['ID']}")
                 
-                # Baris 2: Instruksi & Catatan Revisi
+                # Warna status biar ringkas tapi jelas
+                warna = "orange" if status == "REVISI" else "#00FF00" if status == "WAITING QC" else "#00CCFF"
+                c4.markdown(f"<p style='color:{warna}; font-size:12px; font-weight:bold; margin:0;'>{status}</p>", unsafe_allow_html=True)
+                
+                # BODY: Instruksi dibikin ringkas (Tanpa Divider Gede)
+                st.markdown(f"<p style='font-size:13px; margin-bottom:0;'>📝 <b>Instruksi:</b> {t['Instruksi']}</p>", unsafe_allow_html=True)
+                
                 if t.get("Catatan_Revisi") and t["Catatan_Revisi"] != "-": 
-                    st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                    st.caption(f"⚠️ Revisi: {t['Catatan_Revisi']}")
                 
-                st.markdown(f"📝 **Instruksi:** {t['Instruksi']}")
-                
-                # Baris 3: Menu Aksi (Menu Langsung Standby)
+                # FOOTER: Menu Aksi (Bikin Sejajar Horizontal)
                 if user_sekarang != "dian" and user_sekarang != "tamu":
                     if status in ["PROSES", "REVISI"]:
-                        # Input link & tombol setor sejajar biar hemat tempat
+                        # Input & Tombol SEJAJAR (Ini kunci hemat tempat)
                         ki, ka = st.columns([3, 1])
-                        l_in = ki.text_input("Link GDrive", placeholder="Tempel link GDrive di sini...", label_visibility="collapsed", key=f"l_{t['ID']}")
-                        if ka.button("🚩 SETOR", key=f"b_{t['ID']}", use_container_width=True):
+                        l_in = ki.text_input("Link", placeholder="Paste link...", label_visibility="collapsed", key=f"l_{t['ID']}")
+                        if ka.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
                             cell = sheet_tugas.find(str(t['ID']).strip())
                             sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
                             sheet_tugas.update_cell(cell.row, 7, l_in)
                             sheet_tugas.update_cell(cell.row, 6, sekarang.strftime("%d/%m/%Y %H:%M"))
-                            catat_log(f"Menyetor tugas {t['ID']}")
-                            kirim_notif_wa(f"📤 *UPDATE SETORAN TUGAS*\n👤 {user_sekarang.upper()} | 🆔 {t['ID']}")
-                            st.success("✅ Berhasil!"); time.sleep(1); st.rerun()
+                            st.success("Selesai!"); time.sleep(0.5); st.rerun()
                 
                 elif user_sekarang == "dian":
-                    # Menu Admin Dian: Input Revisi + Tombol Aksi sejajar
-                    c_rev, c_val, c_rej = st.columns([2, 1, 1])
-                    cat_r = c_rev.text_input("Catatan Revisi", placeholder="Alasan revisi...", label_visibility="collapsed", key=f"cat_{t['ID']}")
-                    if c_val.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
+                    # Menu Admin Dian juga dibikin ramping
+                    cad, cfi, cre = st.columns([2, 1, 1])
+                    cat_r = cad.text_input("Revisi", placeholder="Alasan...", label_visibility="collapsed", key=f"c_{t['ID']}")
+                    if cfi.button("🟢 FINISH", key=f"f_{t['ID']}", use_container_width=True):
+                        sheet_tugas.update_cell(sheet_tugas.find(str(t['ID']).strip()).row, 5, "FINISH"); st.rerun()
+                    if cre.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
                         cell = sheet_tugas.find(str(t['ID']).strip())
-                        sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                        catat_log(f"Finish tugas {t['ID']}")
-                        st.success("✅ Selesai!"); time.sleep(1); st.rerun()
-                    if c_rej.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
-                        cell = sheet_tugas.find(str(t['ID']).strip())
-                        sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                        sheet_tugas.update_cell(cell.row, 8, cat_r)
-                        catat_log(f"Revisi tugas {t['ID']}")
-                        st.success("✅ Dikirim!"); time.sleep(1); st.rerun()
+                        sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, cat_r); st.rerun()
 
     # --- 4. LACI ARSIP ---
     st.divider()
@@ -2345,5 +2332,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
