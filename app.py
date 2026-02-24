@@ -1292,7 +1292,7 @@ def tampilkan_tugas_kerja():
                             if olah:
                                 st.divider()
                                 if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
-                                st.markdown(f"```\n{t['Instruksi']}\n```")
+                                st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
                                 
                                 # --- TAMPILAN KHUSUS ADMIN DIAN (QC) ---
                                 if user_sekarang == "dian":
@@ -2353,6 +2353,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
