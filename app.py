@@ -1243,22 +1243,25 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
-    # --- 3. SETOR TUGAS MANDIRI (MODERN CARD) ---
+    # --- 3. SETOR TUGAS MANDIRI (COMPACT & BOLD) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
-            st.caption("Gunakan form ini jika kamu mengerjakan sesuatu di luar list tugas utama.")
             
+            # Suntik CSS khusus buat ngurangin jarak antar elemen di form ini
+            st.markdown("""
+                <style>
+                [data-testid="stForm"] {border: none; padding: 0;}
+                div[data-testid="stVerticalBlock"] > div {margin-top: -10px;} 
+                </style>
+            """, unsafe_allow_html=True)
+
             with st.form("form_mandiri", clear_on_submit=True):
-                # Langsung tumpuk atas bawah biar panjangnya maksimal (Full Width)
-                judul_m = st.text_input("📝 Judul Pekerjaan:", placeholder="Nama Video/Tugas")
+                # Height 68-70 itu angka sakti buat bikin kotak kelihatan "gemuk" tapi nggak "raksasa"
+                judul_m = st.text_area("📝 Pekerjaan:", placeholder="contoh: edit video tung, rumi, udin", height=70)
                 
-                st.write("") # Kasih jarak dikit
+                link_m = st.text_area("🔗 Link GDrive (Bisa lebih dari 1):", placeholder="Link1, Link2, Link3", height=80)
                 
-                link_m = st.text_input("🔗 Link GDrive (Bisa lebih dari 1):", 
-                                      placeholder="Link1, Link2, Link3 (Pisahkan dengan koma)")
-                
-                st.write("") 
                 submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
                 
                 if submit_m:
@@ -2360,6 +2363,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
