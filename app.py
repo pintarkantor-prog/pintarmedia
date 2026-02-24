@@ -1320,23 +1320,51 @@ def tampilkan_tugas_kerja():
                                 else:
                                     st.error("Linknya mana Cok?")
 
-                    # --- 3. BAGIAN QC (HANYA UNTUK DIAN) ---
+                    # --- 3. MENU KHUSUS ADMIN DIAN (MODUL QC) ---
                     elif user_sekarang == "dian":
-                        st.markdown("### 🛠️ Menu QC Admin")
-                        cat_r = st.text_area("Catatan untuk Staff (Jika Revisi):", key=f"cat_{t['ID']}")
-                        c1, c2 = st.columns(2)
-                        with c1:
+                        st.markdown("---")
+                        st.markdown("🔍 **PANEL QUALITY CONTROL**")
+                        
+                        # TAMPILIN HASIL KERJA STAFF (BIAR TINGGAL KLIK)
+                        if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
+                            links = str(t["Link_Hasil"]).split(",")
+                            cols_link = st.columns(len(links))
+                            for i, link in enumerate(links):
+                                with cols_link[i]:
+                                    st.link_button(f"🔗 CEK HASIL {i+1}", link.strip(), use_container_width=True)
+                        else:
+                            st.warning("⚠️ Staff belum menyetorkan link hasil.")
+
+                        st.write("") # Kasih spasi dikit
+                        
+                        # INPUT CATATAN REVISI
+                        cat_r = st.text_area("Catatan Koreksi (Kosongkan jika ACC):", 
+                                            placeholder="Tulis apa yang perlu diperbaiki...",
+                                            key=f"cat_{t['ID']}")
+                        
+                        col_acc, col_rev = st.columns(2)
+                        with col_acc:
                             if st.button("🟢 VALIDASI (FINISH)", key=f"f_{t['ID']}", use_container_width=True):
                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                 sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                st.success("✅ Done!"); time.sleep(1); st.rerun()
-                        with c2:
+                                # Catat ke Log & Kirim WA
+                                catat_log(f"ACC Tugas {t['ID']}")
+                                kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n\n*Kerja bagus! Bonus video sudah masuk hitungan.*")
+                                st.success("✅ Tugas berhasil di-ACC!"); time.sleep(1); st.rerun()
+                        
+                        with col_rev:
                             if st.button("🔴 MINTA REVISI", key=f"r_{t['ID']}", use_container_width=True):
-                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                                sheet_tugas.update_cell(cell.row, 8, cat_r)
-                                st.success("⚠️ Status: REVISI!"); time.sleep(1); st.rerun()
-
+                                if not cat_r:
+                                    st.error("Kasih alasan revisinya dulu dong Bos!")
+                                else:
+                                    cell = sheet_tugas.find(str(t['ID']).strip())
+                                    sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                                    sheet_tugas.update_cell(cell.row, 8, cat_r) # Masuk ke kolom Catatan_Revisi
+                                    # Catat ke Log & Kirim WA
+                                    catat_log(f"Minta Revisi {t['ID']}")
+                                    kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 *Nama:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Pesan:* {cat_r}")
+                                    st.warning("⚠️ Status berubah jadi REVISI!"); time.sleep(1); st.rerun()
+                                    
     # --- 4. LACI ARSIP ---
     st.divider()
     df_arsip = pd.DataFrame()
@@ -2355,6 +2383,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
