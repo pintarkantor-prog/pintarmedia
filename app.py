@@ -1195,55 +1195,50 @@ def tampilkan_tugas_kerja():
                                         sheet_tugas.update_cell(cell.row, 5, "WAITING QC"); sheet_tugas.update_cell(cell.row, 7, l_in)
                                         st.success("Sent!"); time.sleep(1); st.rerun()
 
-    # --- 4. LACI ARSIP (GAYA MODERN & AMAN) ---
+# --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
     st.divider()
-    with st.expander("📜 LACI RIWAYAT TUGAS", expanded=False):
+    with st.expander("📜 RIWAYAT TUGAS (BULAN INI)", expanded=False):
         if not df_all_tugas.empty:
-            # 1. Filter Data Berdasarkan Bulan Ini (mask_bulan sudah ada di atas)
+            # 1. Filter Dasar (Bulan ini & User)
             mask_base = mask_bulan
             if user_sekarang != "dian":
                 mask_base &= (df_all_tugas['STAF'] == user_sekarang.upper())
             
-            df_laci = df_all_tugas[mask_base].copy()
+            # 2. Ambil yang statusnya FINISH atau CANCELED saja
+            df_laci = df_all_tugas[mask_base & (df_all_tugas['STATUS'].isin(['FINISH', 'CANCELED']))].copy()
 
-            # 2. Hitung Statistik Sederhana
-            total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
-            total_c = len(df_laci[df_laci['STATUS'] == "CANCELED"])
-            
-            # Tampilan Teks di Sampingan
-            st.markdown(f"✅ **{total_f} Selesai** | 🚫 **{total_c} Dibatalkan** (Bulan Ini)")
-            
-            # 3. Tab Buat Misahin Biar Gak Kepanjangan
-            tab_finish, tab_batal = st.tabs(["✨ SELESAI", "🗑️ BATAL"])
-            
-            with tab_finish:
-                df_f = df_laci[df_laci['STATUS'] == "FINISH"].sort_values(by='DEADLINE', ascending=False)
-                if not df_f.empty:
-                    kolom_f = [c for c in ['ID', 'STAF', 'DEADLINE', 'STATUS'] if c in df_f.columns]
-                    st.dataframe(
-                        df_f[kolom_f],
-                        column_config={
-                            "ID": "🆔 ID", "STAF": "👤 STAF", "DEADLINE": "📅 TGL"
-                        },
-                        hide_index=True, use_container_width=True
-                    )
-                else:
-                    st.info("Belum ada video selesai.")
-
-            with tab_batal:
-                df_c = df_laci[df_laci['STATUS'] == "CANCELED"].sort_values(by='DEADLINE', ascending=False)
-                if not df_c.empty:
-                    # Sesuai nama kolom di GSheet lo: Catatan_Revisi
-                    kolom_c = [c for c in ['ID', 'STAF', 'STATUS', 'Catatan_Revisi'] if c in df_c.columns]
-                    st.dataframe(
-                        df_c[kolom_c],
-                        column_config={
-                            "ID": "🆔 ID", "STAF": "👤 STAF", "Catatan_Revisi": "📝 ALASAN"
-                        },
-                        hide_index=True, use_container_width=True
-                    )
-                else:
-                    st.info("Tidak ada riwayat pembatalan.")
+            if not df_laci.empty:
+                # Hitung Statistik buat ditaruh di atas tabel
+                total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
+                total_c = len(df_laci[df_laci['STATUS'] == "CANCELED"])
+                
+                # Teks Laporan Singkat
+                st.markdown(f"📊 **Statistik:** ✅ {total_f} Selesai | 🚫 {total_c} Dibatalkan")
+                
+                # Sortir: Yang terbaru (Deadline/ID) di paling atas
+                df_laci = df_laci.sort_values(by='ID', ascending=False)
+                
+                # 3. Tampilkan Tabel Tunggal
+                # Kita masukkan 'Catatan_Revisi' biar kalau ada yang batal, alasannya kelihatan
+                kolom_laci = ['ID', 'STAF', 'DEADLINE', 'STATUS', 'Catatan_Revisi']
+                kolom_fix = [c for c in kolom_laci if c in df_laci.columns]
+                
+                st.dataframe(
+                    df_laci[kolom_fix],
+                    column_config={
+                        "ID": "🆔 ID",
+                        "STAF": "👤 STAF",
+                        "DEADLINE": "📅 TGL",
+                        "STATUS": "🚩 STATUS",
+                        "Catatan_Revisi": "📝 KETERANGAN/ALASAN"
+                    },
+                    hide_index=True,
+                    use_container_width=True
+                )
+            else:
+                st.info("📭 Belum ada riwayat tugas (Selesai/Batal) untuk bulan ini.")
+        else:
+            st.write("Belum ada data tugas.")
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2209,5 +2204,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
