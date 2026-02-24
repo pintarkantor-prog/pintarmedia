@@ -2187,13 +2187,14 @@ def utama():
         # Logika Menu
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
         elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
-        elif menu == "💡 GUDANG IDE": tampilkan_quick_prompt()
+        elif menu == "💡 GUDANG IDE": tampilkan_gudang_ide()
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
         elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
