@@ -1746,7 +1746,7 @@ def tampilkan_kendali_tim():
                 st.caption("Tidak ada jadwal untuk periode ini.")
 
         # --- TAMPILAN 5: MONITORING PROGRES PRODUKSI (PENGGANTI GRAFIK) ---
-        with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=True):
+        with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=False):
             if rekap_total_video is not None:
                 # --- LOGIKA TARGET SMART SWITCH ---
                 if tahun_dipilih == 2026 and bulan_dipilih == 2:
@@ -2337,6 +2337,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
