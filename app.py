@@ -1280,14 +1280,23 @@ def tampilkan_tugas_kerja():
                     
                     with cols[j]:
                         with st.container(border=True):
-                            # Header Card
+                            # --- HEADER CARD GLOW UP ---
+                            # Tentukan warna emoji berdasarkan status
+                            if status == "REVISI": icon = "🔴"
+                            elif status == "WAITING QC": icon = "🟡"
+                            else: icon = "🟢"
+
                             c1, c2 = st.columns([1, 2.5])
-                            with c1: st.image(url_foto, width=65)
+                            with c1: 
+                                st.image(url_foto, width=65)
                             with c2:
-                                st.markdown(f"**{str(t['Staf']).upper()}**")
-                                st.caption(f"🆔 {t['ID']} | 📌 {status}")
+                                # Nama Staff dibuat Bold dan lebih besar
+                                st.markdown(f"### {str(t['Staf']).upper()}")
+                                # Status pake format Badge (teks di dalam kotak abu-abu)
+                                st.markdown(f"{icon} `{status}` | `ID: {t['ID']}`")
                             
-                            olah = st.toggle("Detail Tugas", key=f"tgl_{t['ID']}")
+                            st.write("") # Spasi dikit biar nggak nempel
+                            olah = st.toggle("🔍 Detail Tugas", key=f"tgl_{t['ID']}")
                             
                             if olah:
                                 st.divider()
@@ -2353,6 +2362,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
