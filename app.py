@@ -1360,7 +1360,7 @@ def tampilkan_tugas_kerja():
         )
 
         # --- TAMPILAN ATURAN GAJI (VERSI REVISI FINAL - KONSISTENSI) ---
-        with st.expander("ℹ️ INFO PENTING: ATURAN & SIMULASI GAJI", expanded=True):
+        with st.expander("ℹ️ INFO PENTING: ATURAN & SIMULASI GAJI", expanded=False):
             st.write("### 📢 Panduan Kerja & Simulasi Penghasilan")
             
             tab_info, tab_simulasi = st.tabs(["📜 Aturan Dasar & SP", "💸 Simulasi Harian"])
@@ -1383,7 +1383,7 @@ def tampilkan_tugas_kerja():
                 3. **Akumulasi SP:**
                     * **SP 1 (7 Hari):** Jika dalam sebulan terdapat 7 hari kurang produktif (Potongan Rp 300.000).
                     * **SP 2 (14 Hari):** Jika mencapai 14 hari kurang produktif (Potongan Rp 700.000).
-                    * **SP 3 (21 Hari):** Jika mencapai 21 hari kurang produktif (Potongan Rp 1.000.000 + Peninjauan Kontrak).
+                    * **SP 3 (21 Hari):** Jika mencapai 21 hari kurang produktif (Potongan Rp 1.000.000 + Pemutusan Kerja).
                 """)
                 st.info("💡 *Tips: Setor minimal 3 video setiap hari untuk mengaktifkan semua bonus kamu!*")
 
@@ -2343,6 +2343,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
