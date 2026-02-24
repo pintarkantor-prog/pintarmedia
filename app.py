@@ -1131,7 +1131,7 @@ def tampilkan_tugas_kerja():
                 c1, c2 = st.columns([1.5, 2.5]) 
                 with c1: judul_m = st.text_area("📝 Judul Pekerjaan:", height=70)
                 with c2: link_m = st.text_area("🔗 Link GDrive:", height=70)
-                if st.form_submit_button("🔥 KIRIM SEKARANG"):
+                submit_m = st.form_submit_button("🔥 KIRIM SEKARANG", use_container_width=True)
                     if judul_m and link_m:
                         t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                         sheet_tugas.append_row([t_id_m, user_sekarang.upper(), sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
@@ -2204,6 +2204,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
