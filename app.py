@@ -1064,8 +1064,6 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
-    st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba sistem! Lapor ke WA kalau ada eror di menu web, terutama prompt video dialognya")
-
     wadah_radar = st.empty()
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -2344,5 +2342,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
