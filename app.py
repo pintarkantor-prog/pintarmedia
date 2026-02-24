@@ -1438,7 +1438,7 @@ def tampilkan_tugas_kerja():
             st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
+        if sekarang.day >= 28: # Ganti ke 28 setelah selesai tes
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
                     # Ambil Data Pokok Staff & Pastikan Clean
@@ -2321,6 +2321,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
