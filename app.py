@@ -1003,58 +1003,62 @@ def kirim_notif_wa(pesan):
     except:
         pass
 
-def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user):
-    # --- 1. INISIALISASI AWAL (WAJIB agar tidak UnboundLocalError) ---
+def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
+    # --- 1. INISIALISASI ---
     bonus_video_total = 0
     uang_absen_total = 0
     pot_sp = 0
     level_sp = "NORMAL"
     
-    # Proteksi jika data kosong
-    if df_arsip_user.empty and df_absen_user.empty:
-        return bonus_video_total, uang_absen_total, pot_sp, level_sp
+    # Ambil waktu sekarang (WIB)
+    tz_wib = pytz.timezone('Asia/Jakarta')
+    sekarang = datetime.now(tz_wib)
+    tgl_skrg = sekarang.day
+    bln_skrg = sekarang.month
+    thn_skrg = sekarang.year
 
-    # Bersihkan data
+    # Proteksi data kosong
+    if df_arsip_user.empty and df_absen_user.empty:
+        return 0, 0, 0, "BELUM ADA DATA"
+
+    # --- 2. HITUNG BONUS (Sama seperti sebelumnya) ---
     df_arsip_user = bersihkan_data(df_arsip_user)
     df_absen_user = bersihkan_data(df_absen_user)
     
-    # --- 2. LOGIKA HITUNG BONUS ---
-    # Pastikan kolom yang dibutuhkan ada
     if 'TANGGAL' in df_absen_user.columns and 'STATUS' in df_arsip_user.columns:
         df_absen_user['TANGGAL_DT'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce').dt.date
-        
-        # Buat rekap harian dari df_arsip
-        # Asumsi TGL_SIMPLE sudah dibuat di fungsi saring_tgl atau bersihkan_data
         if 'TGL_SIMPLE' in df_arsip_user.columns:
             rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
-            
-            # Cek tiap tanggal absen
             for tgl in df_absen_user['TANGGAL_DT'].dropna().unique():
-                tgl_str = str(tgl)
-                jml_v = rekap_harian.get(tgl_str, 0)
+                jml_v = rekap_harian.get(str(tgl), 0)
                 if jml_v >= 3: uang_absen_total += 30000 
                 if jml_v >= 4: bonus_video_total += (jml_v - 3) * 25000
 
-    # --- 3. LOGIKA POTONGAN SP (SINKRON TOTAL BULANAN) ---
+    # --- 3. LOGIKA SP CERDAS (SUDAH DENGAN SP 3) ---
     total_v_bulan = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
     
-    # Ambil tanggal hari ini dari zona waktu Jakarta
-    tz_wib = pytz.timezone('Asia/Jakarta')
-    hari_ini = datetime.now(tz_wib).day
-    
-    if hari_ini <= 6:
+    # A. CEK APAKAH INI BULAN DEPAN?
+    if tahun_pilih > thn_skrg or (tahun_pilih == thn_skrg and bulan_pilih > bln_skrg):
         pot_sp = 0
-        level_sp = "NORMAL (MASA PENILAIAN)"
-    else:
-        if total_v_bulan >= 15:
+        level_sp = "MASA DEPAN (BELUM MULAI)"
+        
+    # B. CEK APAKAH INI BULAN SEKARANG?
+    elif tahun_pilih == thn_skrg and bulan_pilih == bln_skrg:
+        if tgl_skrg <= 6:
             pot_sp = 0
-            level_sp = "NORMAL"
-        elif 10 <= total_v_bulan < 15:
-            pot_sp = 300000
-            level_sp = "SP 1 (KURANG PRODUKTIF)"
+            level_sp = "NORMAL (MASA PROTEKSI)"
         else:
-            pot_sp = 700000
-            level_sp = "SP 2 (PERINGATAN KERAS)"
+            if total_v_bulan >= 15: pot_sp = 0; level_sp = "NORMAL"
+            elif 10 <= total_v_bulan < 15: pot_sp = 300000; level_sp = "SP 1"
+            elif 5 <= total_v_bulan < 10: pot_sp = 700000; level_sp = "SP 2"
+            else: pot_sp = 1000000; level_sp = "SP 3 (SANKSI BERAT / CUT OFF)"
+            
+    # C. CEK APAKAH INI BULAN LALU (ARSIP)?
+    else:
+        if total_v_bulan >= 15: pot_sp = 0; level_sp = "NORMAL"
+        elif 10 <= total_v_bulan < 15: pot_sp = 300000; level_sp = "SP 1"
+        elif 5 <= total_v_bulan < 10: pot_sp = 700000; level_sp = "SP 2"
+        else: pot_sp = 1000000; level_sp = "SP 3 (SANKSI BERAT / CUT OFF)"
             
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
@@ -1588,9 +1592,10 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-        # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
+        # Cek apakah bulan yang dipilih adalah masa depan
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
         if is_masa_depan:
@@ -1600,7 +1605,6 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # --- MULAI DARI SINI SEMUA HARUS MENJOROK KE DALAM (TAB) ---
                 # 1. Bonus Harian
                 u_absen, b_lembur = 0, 0
                 if n_up in rekap_harian_tim:
@@ -1608,32 +1612,48 @@ def tampilkan_kendali_tim():
                         if jml >= 3: u_absen += 30000
                         if jml >= 4: b_lembur += (jml - 3) * 25000
                 
-                # 2. LOGIKA SP
+                # --- LOGIKA SP PROPORSIAL (ANTI-PANIK) ---
                 tot_v = rekap_total_video.get(n_up, 0)
                 p_sp = 0
                 
-                if tahun_dipilih < sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih < sekarang.month):
-                    if tot_v >= 15: p_sp = 0
-                    elif 10 <= tot_v < 15: p_sp = 300000
-                    else: p_sp = 700000
-                elif tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
-                    if sekarang.day <= 6: p_sp = 0 
+                # 1. Tentukan ambang batas aman untuk HARI INI
+                # Jika target 40 video sebulan, maka per hari ~1.6 video.
+                ambang_aman_hari_ini = sekarang.day * 1.6
+                ambang_sp1_hari_ini = sekarang.day * 1.2
+                ambang_sp2_hari_ini = sekarang.day * 0.8
+
+                if tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month:
+                    # BULAN BERJALAN (Gunakan Target Berjalan)
+                    if sekarang.day <= 6:
+                        p_sp = 0 # Proteksi awal bulan
+                    elif tot_v >= ambang_aman_hari_ini:
+                        p_sp = 0 # On Track (Normal)
                     else:
-                        if tot_v >= 15: p_sp = 0
-                        elif 10 <= tot_v < 15: p_sp = 300000
-                        else: p_sp = 700000
+                        # Jika di bawah track, baru cek kategori SP berdasarkan progres hari
+                        if tot_v >= ambang_sp1_hari_ini: p_sp = 300000; level_sp = "SP 1 (Warning)"
+                        elif tot_v >= ambang_sp2_hari_ini: p_sp = 700000; level_sp = "SP 2 (Kritis)"
+                        else: p_sp = 1000000; level_sp = "SP 3 (Danger)"
+                
+                else:
+                    # BULAN LALU (Gunakan Target Mutlak 40, 30, 20)
+                    if tot_v >= 40: p_sp = 0
+                    elif 30 <= tot_v < 40: p_sp = 300000
+                    elif 20 <= tot_v < 30: p_sp = 700000
+                    else: p_sp = 1000000
                 else:
                     p_sp = 0
                 
                 # 3. Hitung Gaji Bersih
+                # Ambil Gaji Pokok & Tunjangan secara aman dari dataframe staff
                 g_pokok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                
+                # Rumus Akhir Gaji per Orang
                 bersih_orang = (g_pokok + t_tunj + u_absen + b_lembur) - p_sp
                 
-                # Akumulasi (Dijumlahkan semua staff)
+                # Akumulasi ke total pengeluaran (Staff tidak dibayar negatif)
                 total_pengeluaran_gaji += max(0, bersih_orang)
-                # --- AKHIR DARI BAGIAN DALAM LOOP ---
-
+                
         # Update tampilan metrik (Kembali sejajar dengan if utama)
         st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
         
@@ -1778,28 +1798,36 @@ def tampilkan_kendali_tim():
             for _, s in df_staff.iterrows():
                 n_up = str(s['NAMA']).strip().upper()
                 
-                # 1. Logika Uang Absen & Bonus (SINKRON HARIAN - ANTI EROR)
-                uang_absen_staff = 0
-                bonus_v_harian = 0
-                
-                if n_up in rekap_harian_tim:
-                    for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3:
-                            uang_absen_staff += 30000
-                        if jml >= 4:
-                            bonus_v_harian += (jml - 3) * 25000
-                
-                # LOGIKA POTONGAN SP ADMIN (SINKRON 100% DENGAN STAFF)
+                # --- LOGIKA POTONGAN SP ADMIN (SINKRON 100% DENGAN STAFF & TARGET BERJALAN) ---
                 jml_v = rekap_total_video.get(n_up, 0)
+                pot_sp_admin = 0
+                
+                # Standar Target Akhir Bulan
+                target_normal = 40
+                target_sp1 = 30
+                target_sp2 = 20
+
+                # Hitung Target Proposional (Berdasarkan Progres Hari)
+                # Rumus: (Target / 25 hari kerja) * Hari Sekarang
+                # Kita pakai pembagi 25 agar lebih fair
+                progres_hari = min(sekarang.day, 25) 
+                
+                threshold_aman = (target_normal / 25) * progres_hari
+                threshold_sp1 = (target_sp1 / 25) * progres_hari
+                threshold_sp2 = (target_sp2 / 25) * progres_hari
+
                 if sekarang.day <= 6:
                     pot_sp_admin = 0
-                elif jml_v >= 15:
+                elif jml_v >= threshold_aman:
                     pot_sp_admin = 0
-                elif 10 <= jml_v < 15:
-                    pot_sp_admin = 300000
-                else: # < 10 Video
-                    pot_sp_admin = 700000
-                
+                else:
+                    # Jika di bawah progres, cek kategori berdasarkan target mutlak 
+                    # agar tidak memotong terlalu sadis di tengah bulan
+                    if jml_v >= 40: pot_sp_admin = 0
+                    elif 30 <= jml_v < 40: pot_sp_admin = 300000
+                    elif 20 <= jml_v < 30: pot_sp_admin = 700000
+                    else: pot_sp_admin = 1000000 # SP 3
+
                 if jml_v > 0 or uang_absen_staff > 0: 
                     ada_kerja = True
                     with st.container(border=True):
@@ -1809,9 +1837,11 @@ def tampilkan_kendali_tim():
                         c3.write(f"🎬 {jml_v} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
-                            # Kalkulasi angka pokok
-                            v_gapok = int(pd.to_numeric(s.get('GAJI_POKOK'), errors='coerce') or 0)
-                            v_tunjangan = int(pd.to_numeric(s.get('TUNJANGAN'), errors='coerce') or 0)
+                            # Kalkulasi angka pokok (Sudah aman dari titik ribuan)
+                            v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
+                            v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
+                            
+                            # TOTAL TERIMA SINKRON
                             v_total_terima = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
                             
                             # DESAIN SLIP ASLI DIAN (TIDAK DISEDERHANAKAN)
@@ -2259,6 +2289,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
