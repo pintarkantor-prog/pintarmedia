@@ -1065,6 +1065,8 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
     st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba sistem! Lapor ke WA kalau ada eror di menu web, terutama prompt video dialognya")
+
+    wadah_radar = st.empty()
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1097,6 +1099,28 @@ def tampilkan_tugas_kerja():
         data_tugas = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
+        
+        # --- ISI TEMPAT TADI DENGAN RADAR PERFORMA ---
+        if user_sekarang != "dian" and user_sekarang != "tamu":
+            v_finish = len(df_all_tugas[(df_all_tugas['STAF'] == user_sekarang.upper()) & (df_all_tugas['STATUS'] == 'FINISH')])
+            
+            t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
+            progres_h = min(sekarang.day, 25)
+            target_h_ini = round((t_norm / 25) * progres_h, 1)
+            selisih = v_finish - target_h_ini
+
+            # Mengisi wadah_radar yang dipesan di atas tadi
+            with wadah_radar.container(border=True):
+                c1, c2, c3 = st.columns([1.5, 1, 1])
+                if sekarang.day <= 6:
+                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nTarget bulan ini: {t_norm} Video.")
+                elif v_finish >= target_h_ini:
+                    c1.success(f"🟢 **PERFORMA AMAN**\n\nGaji kamu aman dari potongan SP.")
+                else:
+                    c1.error(f"⚠️ **DIBAWAH TARGET**\n\nKejar {abs(selisih):.1f} video lagi!")
+
+                c2.metric("HASIL SAYA", f"{v_finish} Video", f"{selisih:.1f}")
+                c3.metric("TARGET AMAN", f"{target_h_ini} Video")
         
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
@@ -2319,3 +2343,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
