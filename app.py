@@ -1064,8 +1064,6 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
 
 def tampilkan_tugas_kerja():
     st.title("🚀 PINTAR INTEGRATED SYSTEM")
-    st.warning("❗ **INFO GUYS:** Abaikan sistem soal gaji, lagi ujicoba sistem! Lapor ke WA kalau ada eror di menu web, terutama prompt video dialognya")
-
     wadah_radar = st.empty()
     
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
@@ -1135,27 +1133,6 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.error(f"❌ Database Offline: {e}")
         return
-
-    # --- 1. LEADERBOARD ---
-    if not df_all_tugas.empty:
-        mask_l = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
-                 (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year) & \
-                 (df_all_tugas['STATUS'] == "FINISH")
-        
-        df_finish_l = df_all_tugas[mask_l].copy()
-        if not df_finish_l.empty:
-            skor = df_finish_l['STAF'].astype(str).str.strip().str.upper().value_counts().reset_index()
-            skor.columns = ['Nama', 'Video']
-            ranks = skor.values.tolist()
-            c1, c2, c3 = st.columns(3)
-            with c1: 
-                if len(ranks) > 0: st.metric("🥇 JUARA 1", ranks[0][0], f"{ranks[0][1]} Video")
-            with c2: 
-                if len(ranks) > 1: st.metric("🥈 JUARA 2", ranks[1][0], f"{ranks[1][1]} Video")
-            with c3: 
-                if len(ranks) > 2: st.metric("🥉 JUARA 3", ranks[2][0], f"{ranks[2][1]} Video")
-
-    st.divider()
 
     # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
     if user_sekarang == "dian":
@@ -1446,21 +1423,22 @@ def tampilkan_tugas_kerja():
             *Cuma beda 1 video per hari bisa ngefek ratusan ribu ke gaji kamu. Yuk, maksimalin hasilnya!* 🚀
             """)
     
-        # C. --- RADAR PERFORMA (DI LUAR SLIP) ---
+        # C. --- MONITORING PROGRES GAJI ---
         st.divider()
         if pot_sp > 0:
-            st.error(f"⚠️ **STATUS KEDISIPLINAN: {level_sp}**")
-            st.write(f"Sistem mendeteksi setoran video kamu di bawah standar (≤ 1 video/hari).")
-            # Baris denda sudah dihapus dari sini sesuai permintaanmu
-            if level_sp == "SP 2 (PERINGATAN KERAS)":
-                st.warning("❗ **PERINGATAN:** Segera kejar setoran 3 video/hari sebelum masuk ke SP 3 (CUT OFF)!")
-        else:             
-            st.info("🌟 **STATUS PERFORMA: TERJAGA**")
-            st.write("Pertahankan ritme kerja kamu untuk mendapatkan uang absen penuh dan bonus video!")
-
+            st.error(f"⚠️ **STATUS SEMENTARA: {level_sp}**")
+            if level_sp == "SP 1":
+                st.info(f"✨ **Sedikit lagi!** Halo {user_sekarang.capitalize()}, konsisten hari ini biar status kembali Normal.")
+            elif level_sp == "SP 2 (PERINGATAN KERAS)":
+                st.warning(f"💪 **Ayo Kejar!** Target 3 video/hari bisa jadi kunci penyelamat gajimu, {user_sekarang.capitalize()}.")
+            else:
+                st.warning(f"🔥 **JANGAN MENYERAH!** Status ini belum final. Yuk kejar setoran video sebelum gajian agar gajimu kembali utuh, {user_sekarang.capitalize()}! 🚀")
+        else:              
+            st.success(f"🌟 **PERFORMA MANTAP, {user_sekarang.capitalize()}!**")
+            st.write("Progres aman dan terjaga. Pertahankan sampai hari gajian tiba! 🔥")
 
         # D. --- SLIP GAJI (DIKUNCI TANGGAL 28) ---
-        if sekarang.day >= 24: # Ganti ke 28 setelah selesai tes
+        if sekarang.day >= 28: # Ganti ke 28 setelah selesai tes
             with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**"):
                 try:
                     # Ambil Data Pokok Staff & Pastikan Clean
@@ -1621,7 +1599,7 @@ def tampilkan_kendali_tim():
             inc = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL'], errors='coerce').fillna(0).sum()
             ops = pd.to_numeric(df_k_f[df_k_f['TIPE'] == 'PENGELUARAN']['NOMINAL'], errors='coerce').fillna(0).sum()
         
-    # --- LOGIKA HITUNG KEUANGAN GLOBAL ---
+# --- LOGIKA HITUNG KEUANGAN GLOBAL ---
         total_pengeluaran_gaji = 0
         
         # Penentu apakah bulan masa depan
@@ -2343,3 +2321,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
