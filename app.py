@@ -803,6 +803,10 @@ def tampilkan_gudang_ide():
     
     st.info("📌 **ANTREAN PRODUKSI:** Pilih 1 dari 12 ide blueprint di bawah ini. Begitu diambil, ide baru akan otomatis mengisi slot yang kosong.")
 
+    # Inisialisasi state untuk melacak tombol yang sedang diproses
+    if "sedang_proses_id" not in st.session_state:
+        st.session_state.sedang_proses_id = None
+
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -826,7 +830,6 @@ def tampilkan_gudang_ide():
         if len(list_judul_unik) == 0:
             st.warning("📭 Belum ada ide baru di gudang.")
         else:
-            # Grid 3 Kolom
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
                 batch_judul = list_judul_unik[i:i+3]
@@ -834,52 +837,70 @@ def tampilkan_gudang_ide():
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
+                        id_ini = str(row_info['ID_IDE'])
                         
-                        # --- TAMPILAN KARTU MEWAH ---
                         with st.container(border=True):
-                            # Garis warna tipis di atas (Status Strip)
                             st.markdown('<div style="height: 5px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
-                            
-                            # Konten Tengah
                             st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
-                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 12px;'>🆔 ID: {row_info['ID_IDE']}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 12px;'>🆔 ID: {id_ini}</p>", unsafe_allow_html=True)
                             
                             st.write("") 
 
-                            if st.button(f"🚀 AMBIL IDE", key=f"btn_{row_info['ID_IDE']}", use_container_width=True):
-                                with st.spinner("Mengambil Data..."):
-                                    # 1. Update GSheet
-                                    target_id = str(row_info['ID_IDE']).strip()
-                                    cells = sheet_gudang.findall(target_id)
-                                    for cell in cells:
-                                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                                    
-                                    # 2. Ambil Blueprint
-                                    adegan_rows = df_gudang[df_gudang['ID_IDE'] == row_info['ID_IDE']]
-                                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                                    
-                                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul}\n\n"
-                                    for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                                        st.session_state.data_produksi["adegan"][idx] = {
-                                            "aksi": a_row['NASKAH_VISUAL'],
-                                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
-                                            "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
-                                            "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
-                                        }
-                                        rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
-                                    
-                                    # 3. Catat di Tugas
-                                    t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                                    tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
-                                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {judul}", "PROSES", "-", "", ""])
+                            # --- LOGIKA TOMBOL ANTI DOUBLE CLICK ---
+                            if st.session_state.sedang_proses_id == id_ini:
+                                # Jika ID ini sedang diproses, tampilkan info saja (tombol hilang)
+                                st.warning("⌛ SEDANG DIPROSES...")
+                            else:
+                                # Tampilkan tombol normal
+                                if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True):
+                                    # Set state bahwa ID ini mulai diproses
+                                    st.session_state.sedang_proses_id = id_ini
+                                    st.rerun() # Refresh biar tombol berubah jadi tulisan "Sedang Diproses"
 
-                                    st.session_state.naskah_siap_produksi = rangkuman_naskah
-                                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                                    
-                                    st.success("✅ Ide Terpasang!")
-                                    time.sleep(1)
-                                    st.rerun()
+            # --- EKSEKUSI DATA (Hanya jalan jika ada ID yang masuk antrean proses) ---
+            if st.session_state.sedang_proses_id:
+                target_id = st.session_state.sedang_proses_id
+                
+                # Cari data row_info berdasarkan ID yang sedang diproses
+                row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
+                
+                try:
+                    # 1. Update GSheet
+                    cells = sheet_gudang.findall(target_id)
+                    for cell in cells:
+                        sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
+                    
+                    # 2. Ambil Blueprint
+                    adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
+                    st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
+                    
+                    rangkuman_naskah = f"### 🎬 ALUR CERITA: {row_proses['JUDUL']}\n\n"
+                    for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                        st.session_state.data_produksi["adegan"][idx] = {
+                            "aksi": a_row['NASKAH_VISUAL'],
+                            "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
+                            "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'],
+                            "light": a_row['LIGHTING'], "arah": a_row['ARAH_KAMERA'],
+                            "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
+                        }
+                        rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
+                    
+                    # 3. Catat di Tugas
+                    t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
+                    sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"BLUEPRINT: {row_proses['JUDUL']}", "PROSES", "-", "", ""])
+
+                    # Reset state proses dan finalisasi
+                    st.session_state.naskah_siap_produksi = rangkuman_naskah
+                    st.session_state.form_version = st.session_state.get("form_version", 0) + 1
+                    st.session_state.sedang_proses_id = None # Reset agar tombol lain bisa diklik nanti
+                    
+                    st.success("✅ Berhasil! Silahkan cek Ruang Produksi.")
+                    time.sleep(1)
+                    st.rerun()
+                except Exception as ex:
+                    st.error(f"Terjadi kesalahan: {ex}")
+                    st.session_state.sedang_proses_id = None # Reset jika gagal
 
     except Exception as e:
         st.error(f"⚠️ Gagal Memuat: {e}")
@@ -2192,5 +2213,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
