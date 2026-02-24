@@ -1098,13 +1098,20 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI ULTIMATE: 4 KOLOM SIMETRIS & ELEGAN ---
+        # --- VERSI FIX TOTAL: ANTI-ERROR & SIMETRIS ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. Logika Hitung (Dasar Kode Kamu)
+            # 1. SETUP AWAL (Hitung Target Dulu biar variabelnya lahir)
+            t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
+            progres_h = min(sekarang.day, 25)
+            target_h_ini = round((t_norm / 25) * progres_h, 1)
+            
+            # 2. HITUNG DATA FINISH
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
-            
+            selisih = v_finish - target_h_ini # SEKARANG SELISIH PASTI ADA NILAINYA
+
+            # 3. AMBIL DATA ABSEN UNTUK SP
             df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
                 data_absen_raw = sheet_absensi.get_all_records()
@@ -1113,34 +1120,34 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
+            # 4. PANGGIL MESIN HITUNG SP
             _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # --- LOGIKA STATUS & KETERANGAN (DENGAN EMOJI CAKEP) ---
+            # 5. LOGIKA STATUS & KETERANGAN (EMOJI VERSION)
             if sekarang.day <= 6:
                 status_ikon, ket_singkat = "🛡️ PROTEKSI", "Masa Adaptasi"
             elif "Level 3" in level_sp_r:
-                status_ikon, ket_singkat = "🚨 PERHATIAN", "⚠️ Evaluasi Kontrak"
+                status_ikon, ket_singkat = "🚨 PERHATIAN", "⚠️ Evaluasi"
             elif pot_sp_r > 0:
-                # BAGIAN INI YANG KITA KASIH EMOJI ROKET BIAR SEMANGAT
                 status_ikon, ket_singkat = "⚠️ PERHATIAN", "🚀 Kejar Target"
-            elif v_finish >= (round((40 / 25) * min(sekarang.day, 25), 1)):
-                status_ikon, ket_singkat = "✨ AMAN", "✅ Pertahankan!"
+            elif v_finish >= target_h_ini:
+                status_ikon, ket_singkat = "✨ AMAN", "✅ Pertahankan"
             else:
-                status_ikon, ket_singkat = "⚡ PANTAU", "📈 Tingkatkan Lagi"
+                status_ikon, ket_singkat = "⚡ PANTAU", "📈 Tingkatkan"
 
-            # Render 4 Kolom Metrik
+            # 6. VISUAL 4 KOLOM SIMETRIS
             with wadah_radar.container():
                 c1, c2, c3, c4 = st.columns(4)
                 c1.metric("STATUS", status_ikon)
                 c2.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
                 c3.metric("TARGET AMAN", f"{target_h_ini} Vid", "Bulan Ini")
-                c4.metric("KONDISI", ket_singkat) # Emoji bakal muncul di sini
+                c4.metric("KONDISI", ket_singkat)
             
             st.divider()
 
-        # --- LANJUTAN KODE (WAJIB ADA) ---
+        # --- LANJUTAN KODE (WAJIB SEJAJAR) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -2344,6 +2351,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
