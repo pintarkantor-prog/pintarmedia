@@ -886,7 +886,7 @@ def tampilkan_gudang_ide():
                             st.markdown(f'<div style="height: 3px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             
                             # ID Polos (Warna Abu-abu Netral)
-                            st.markdown(f"<p style='color: #888; font-size: 10px; margin-bottom: -10px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='color: #888; font-size: 15px; margin-bottom: -10px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
                             
                             # Judul Konten
                             st.markdown(f"### {judul}")
@@ -2244,6 +2244,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
