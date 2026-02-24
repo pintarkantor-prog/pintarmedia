@@ -1549,45 +1549,48 @@ def tampilkan_kendali_tim():
         else:
             df_tugas = pd.DataFrame(columns=['STAF', 'DEADLINE', 'INSTRUKSI', 'STATUS'])
 
-        # --- FUNGSI FILTER TANGGAL AMAN ---
+        # --- PERBAIKAN FILTER TANGGAL (VERSI ANTI-GAGAL) ---
         def saring_tgl(df, kolom, bln, thn):
-            if df.empty or kolom.upper() not in df.columns: 
-                return pd.DataFrame()
-            df['TGL_TEMP'] = pd.to_datetime(df[kolom.upper()], dayfirst=True, errors='coerce')
-            mask = df['TGL_TEMP'].apply(lambda x: x.month == bln and x.year == thn if pd.notnull(x) else False)
+            if df.empty: return pd.DataFrame()
+            k_up = kolom.upper()
+            if k_up not in df.columns: return pd.DataFrame()
+            
+            # Konversi tanggal dengan paksa
+            df['TGL_TEMP'] = pd.to_datetime(df[k_up], dayfirst=True, errors='coerce')
+            
+            # Filter bulan & tahun
+            mask = (df['TGL_TEMP'].dt.month == bln) & (df['TGL_TEMP'].dt.year == thn)
             return df[mask].copy()
 
         df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
         df_a_f = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
 
-        # --- LOGIKA HITUNG KEUANGAN (SINKRON DENGAN ATURAN BARU) ---
-        if not df_t_bln.empty:
-            # Tambahkan .copy() di akhir filter untuk memutus hubungan dengan dataframe asli
-            df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"].copy()
-        else:
-            df_f_f = pd.DataFrame()
-        
-        # Rekap Video per Nama per Tanggal
+        # --- LOGIKA HITUNG VIDEO (DIROMBAK TOTAL) ---
+        rekap_total_video = {}
         rekap_harian_tim = {}
-        if not df_f_f.empty:
-            # Gunakan .str.upper() (DENGAN TITIK SETELAH .str)
-            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
-            
-            # Pastikan TGL_TEMP adalah datetime agar tidak error saat .dt
-            df_f_f['TGL_TEMP'] = pd.to_datetime(df_f_f['TGL_TEMP'], errors='coerce')
-            df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
-            
-            # Grouping
-            rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
-
-        if not df_f_f.empty:
-            # Kita paksa kolom STAF jadi string, hapus spasi, dan jadikan UPPERCASE
-            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
-            rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
-        else:
-            rekap_total_video = {}
         
+        if not df_t_bln.empty:
+            # 1. Pastikan kolom STATUS ada dan bersih
+            df_t_bln.columns = [c.upper() for c in df_t_bln.columns]
+            
+            # 2. Ambil yang berstatus FINISH (Toleran terhadap huruf kecil/besar)
+            mask_finish = df_t_bln['STATUS'].astype(str).str.upper().str.strip() == "FINISH"
+            df_f_f = df_t_bln[mask_finish].copy()
+            
+            if not df_f_f.empty:
+                # 3. Normalisasi Nama Staf & Tanggal
+                df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
+                df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
+                
+                # 4. Hitung Rekap
+                rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
+                
+                # 5. Hitung Rekap Harian (Untuk Bonus Absen)
+                try:
+                    rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
+                except:
+                    rekap_harian_tim = {}
         # Kalkulasi Pendapatan & Pengeluaran
         inc = 0
         ops = 0
@@ -2321,6 +2324,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
