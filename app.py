@@ -1420,68 +1420,69 @@ def tampilkan_tugas_kerja():
             st.success(f"🌟 **PERFORMA MANTAP, {panggilan_fix}!**")
             st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). 🔥")
 
-        # D. --- SLIP GAJI PREMIUM (KUNCI TANGGAL 24) ---
+        # D. --- SLIP GAJI PREMIUM (MARKDOWN + LOGO - NO CSS) ---
         if sekarang.day >= 24: 
-            with st.expander("💰 **KLAIM SLIP GAJI BULAN INI**", expanded=False):
+            with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=True):
                 try:
                     df_staff_clean = bersihkan_data(df_staff_raw)
                     user_up_fix = user_sekarang.upper().strip()
                     row_s = df_staff_clean[df_staff_clean['NAMA'] == user_up_fix]
                     
                     if not row_s.empty:
-                        # Ambil data dari baris staff yang ditemukan
                         s_data = row_s.iloc[0]
                         v_gapok = int(pd.to_numeric(str(s_data.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         v_tunjangan = int(pd.to_numeric(str(s_data.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                        v_jabatan = s_data.get('JABATAN', 'STAFF')
-                        
-                        # Kalkulasi Total
                         v_total_terima = max(0, (v_gapok + v_tunjangan + b_video + u_hadir) - pot_sp)
                         
-                        # --- TEMPLATE SLIP GAJI HTML (FIXED VARIABLES) ---
-                        slip_staff_html = f"""
-                        <div style="background: white; color: #1a1a1a; padding: 30px; border-radius: 15px; border: 2px solid #eeeeee; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; width: 350px; margin: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
-                            <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130">
-                                <p style="margin: 5px 0 0; font-size: 9px; color: #aaa; text-transform: uppercase;">Slip Gaji Resmi - {sekarang.strftime('%B %Y')}</p>
-                            </div>
-                            
-                            <table style="width: 100%; font-size: 13px; margin-bottom: 20px;">
-                                <tr><td style="color: #888;">NAMA</td><td align="right"><b>{user_up_fix}</b></td></tr>
-                                <tr><td style="color: #888;">JABATAN</td><td align="right">{v_jabatan}</td></tr>
-                                <tr><td style="color: #888;">STATUS</td><td align="right"><b>{level_sp}</b></td></tr>
-                            </table>
-
-                            <div style="background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 20px;">
-                                <table style="width: 100%; font-size: 13px; line-height: 2;">
-                                    <tr><td style="color: #555;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                    <tr><td style="color: #555;">Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                    <tr><td style="color: #555;">Bonus Absen (3+)</td><td align="right" style="color: #1d976c;">+ Rp {u_hadir:,}</td></tr>
-                                    <tr><td style="color: #555;">Bonus Video (4+)</td><td align="right" style="color: #1d976c;">+ Rp {b_video:,}</td></tr>
-                                    <tr style="color: #e74c3c;"><td>Potongan SP</td><td align="right">- Rp {pot_sp:,}</td></tr>
-                                </table>
-                            </div>
-
-                            <div style="border-top: 2px dashed #eeeeee; padding-top: 15px; text-align: center;">
-                                <p style="margin: 0; font-size: 11px; color: #888;">TOTAL DITERIMA</p>
-                                <h2 style="margin: 5px 0; color: #1d976c; font-size: 26px;">Rp {v_total_terima:,}</h2>
-                            </div>
-
-                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #bbb;">
-                                Diterbitkan secara digital oleh Sistem Produksi PINTAR MEDIA<br>
-                                {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
-                            </div>
-                        </div>
-                        """
-                        st.components.v1.html(slip_staff_html, height=580)
-
+                        # 1. TAMPILKAN LOGO (Ukurannya bisa kita atur di sini)
+                        st.image("https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png", width=200)
+                        
+                        st.title("Slip Gaji Resmi")
+                        st.write(f"**Periode:** {sekarang.strftime('%B %Y')}")
+                        
+                        # 2. PENGATURAN KOLOM AGAR RAPI
+                        col1, col2 = st.columns(2)
+                        with col1:
+                            st.write(f"**Nama Staff:**\n{user_up_fix}")
+                        with col2:
+                            st.write(f"**Status Performa:**\n{level_sp}")
+                        
+                        st.divider()
+                        
+                        # 3. RINCIAN GAJI PAKAI TABEL MARKDOWN
+                        st.subheader("📥 Rincian Penghasilan")
+                        st.markdown(f"""
+                        | Keterangan | Nominal |
+                        | :--- | :--- |
+                        | Gaji Pokok | Rp {v_gapok:,} |
+                        | Tunjangan Jabatan | Rp {v_tunjangan:,} |
+                        | Bonus Absen (3+) | Rp {u_hadir:,} |
+                        | Bonus Video (4+) | Rp {b_video:,} |
+                        | **Total Bruto** | **Rp {v_gapok + v_tunjangan + u_hadir + b_video:,}** |
+                        """)
+                        
+                        st.subheader("📤 Potongan")
+                        st.markdown(f"""
+                        | Keterangan | Nominal |
+                        | :--- | :--- |
+                        | Penalti Performa (SP) | :red[- Rp {pot_sp:,}] |
+                        """)
+                        
+                        st.divider()
+                        
+                        # 4. TOTAL AKHIR (DIBIKIN GEDE)
+                        st.metric(label="TOTAL GAJI BERSIH (TAKE HOME PAY)", value=f"Rp {v_total_terima:,}")
+                        
+                        st.caption(f"Diterbitkan otomatis oleh Sistem Produksi PINTAR MEDIA pada {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB")
+                        
+                        # 5. TOMBOL KONFIRMASI
                         if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                            catat_log(f"Konfirmasi gaji Rp {v_total_terima:,} (Status: {level_sp})")
-                            st.success(f"Berhasil dikonfirmasi, {panggilan_fix}! Data tersimpan.")
+                            catat_log(f"Konfirmasi gaji Rp {v_total_terima:,}")
+                            st.success(f"Berhasil dikonfirmasi, {panggilan_fix}!")
                     else:
-                        st.error("Data staff tidak ditemukan.")
+                        st.error("Data staff tidak ditemukan di database.")
                 except Exception as e: 
-                    st.warning(f"Gagal memproses rincian slip: {e}")
+                    st.warning(f"Gagal memproses slip: {e}")
         else:
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 24 setiap bulannya.")
                 
@@ -2298,6 +2299,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
