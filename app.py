@@ -1024,6 +1024,11 @@ def tampilkan_tugas_kerja():
         "inggi": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
         "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
     }
+
+    # --- INISIALISASI (PENTING BIAR GAK NAME ERROR) ---
+    df_arsip_user = pd.DataFrame()
+    df_absen_user = pd.DataFrame()
+    # -------------------------------------------------
     
     try:
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
@@ -1040,16 +1045,13 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
 
-        # =========================================================
-        # --- 1. SETUP FILTER BULAN (DI LUAR IF - WAJIB DI SINI) ---
-        # =========================================================
+        # 1. SETUP FILTER BULAN (DI LUAR IF)
         df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         mask_bulan = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
-        # =========================================================
 
+        # 2. LOGIKA RADAR (KHUSUS STAF)
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # LOGIKA TARGET OTOMATIS
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
@@ -1057,12 +1059,10 @@ def tampilkan_tugas_kerja():
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             
-            # Data Murni Bulan Ini
             df_arsip_user = df_all_tugas[mask_user & mask_finish & mask_bulan].copy()
             v_finish = len(df_arsip_user)
             selisih = v_finish - target_h_ini
 
-            # AMBIL DATA ABSEN
             try:
                 data_absen_raw = sheet_absensi.get_all_records()
                 df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
@@ -1070,12 +1070,10 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            # HITUNG SP
             _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # LOGIKA INSTRUKSI
             if sekarang.day <= 6:
                 status_ikon, instruksi = "🛡️ PROTEKSI", "MASIH AMAN"
             elif "Level 3" in level_sp_r:
@@ -1087,7 +1085,6 @@ def tampilkan_tugas_kerja():
             else:
                 status_ikon, instruksi = "⚡ PANTAU", "TINGKATKAN"
 
-            # TAMPILAN RADAR
             with wadah_radar.container(border=True):
                 st.markdown("<style>.metric-label { color: #8b949e; font-size: 11px; font-weight: bold; text-transform: uppercase; } .metric-value { color: #ffffff; font-size: 22px; font-weight: 800; } .metric-sub { font-size: 14px; margin-left: 8px; }</style>", unsafe_allow_html=True)
                 c1, c2, c3, c4 = st.columns(4)
@@ -1109,7 +1106,7 @@ def tampilkan_tugas_kerja():
         st.error(f"❌ Sistem Offline: {e}")
         return
         
-    # --- 2. PANEL ADMIN (DEPLOY TUGAS) ---
+    # --- 3. PANEL ADMIN ---
     if user_sekarang == "dian":
         with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
             c2, c1 = st.columns([2, 1]) 
@@ -1126,7 +1123,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...")
                     st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
-    # --- 3. SETOR TUGAS MANDIRI ---
+    # --- 4. SETOR MANDIRI ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
@@ -1141,7 +1138,7 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
                         st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
-    # --- RENDER KARTU TUGAS AKTIF ---
+    # --- 5. RENDER KARTU TUGAS ---
     tugas_terfilter = []
     if not df_all_tugas.empty:
         if user_sekarang == "dian":
@@ -1166,7 +1163,6 @@ def tampilkan_tugas_kerja():
                                 st.divider()
                                 if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
-                                
                                 if user_sekarang == "dian":
                                     if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
                                         st.link_button("🔗 CEK HASIL", t["Link_Hasil"].split(",")[0].strip(), use_container_width=True)
@@ -1176,7 +1172,7 @@ def tampilkan_tugas_kerja():
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n*Kerja bagus!*")
+                                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
                                             st.success("ACC!"); time.sleep(1); st.rerun()
                                     with b2:
                                         if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
@@ -1190,7 +1186,7 @@ def tampilkan_tugas_kerja():
                                             if cat_r:
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "CANCELED"); sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
-                                                kirim_notif_wa(f"🚫 *TUGAS DIBATALKAN*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n📝 *Alasan:* {cat_r}")
+                                                kirim_notif_wa(f"🚫 *TUGAS DIBATALKAN*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
                                                 st.error("BATAL!"); time.sleep(1); st.rerun()
                                 elif user_sekarang != "tamu":
                                     l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
@@ -1199,75 +1195,29 @@ def tampilkan_tugas_kerja():
                                         sheet_tugas.update_cell(cell.row, 5, "WAITING QC"); sheet_tugas.update_cell(cell.row, 7, l_in)
                                         st.success("Sent!"); time.sleep(1); st.rerun()
 
-    # --- 4. LACI ARSIP PREMIUM (SINKRON & DETAIL) ---
+    # --- 6. LACI ARSIP ---
     st.divider()
     with st.expander("📜 LACI RIWAYAT TUGAS"):
         if not df_all_tugas.empty:
-            # Gunakan filter bulan yang sudah kita buat di atas tadi
             mask_laci = mask_bulan 
             if user_sekarang != "dian":
                 mask_laci &= (df_all_tugas['STAF'] == user_sekarang.upper())
             
             df_laci_final = df_all_tugas[mask_laci].copy()
-
-            # --- HEADER STATISTIK CEPAT ---
             total_f = len(df_laci_final[df_laci_final['STATUS'] == "FINISH"])
             total_c = len(df_laci_final[df_laci_final['STATUS'] == "CANCELED"])
             
             c_arsip1, c_arsip2 = st.columns(2)
-            c_arsip1.markdown(f"""
-                <div style='background:rgba(29,151,108,0.1); padding:10px; border-radius:10px; border-left:5px solid #1d976c;'>
-                    <p style='margin:0; font-size:12px; color:#1d976c;'>TOTAL FINISH</p>
-                    <h3 style='margin:0;'>✅ {total_f} <span style='font-size:14px; color:#888;'>Video</span></h3>
-                </div>
-            """, unsafe_allow_html=True)
-            c_arsip2.markdown(f"""
-                <div style='background:rgba(255,75,75,0.1); padding:10px; border-radius:10px; border-left:5px solid #ff4b4b;'>
-                    <p style='margin:0; font-size:12px; color:#ff4b4b;'>TOTAL BATAL</p>
-                    <h3 style='margin:0;'>🚫 {total_c} <span style='font-size:14px; color:#888;'>Video</span></h3>
-                </div>
-            """, unsafe_allow_html=True)
+            c_arsip1.metric("✅ TOTAL FINISH", f"{total_f} Vid")
+            c_arsip2.metric("🚫 TOTAL BATAL", f"{total_c} Vid")
             
-            st.write("") # Spasi
-
-            # --- TAB SISTEM ---
             tab_f, tab_c = st.tabs(["✨ RIWAYAT FINISH", "🗑️ RIWAYAT BATAL"])
-            
             with tab_f:
                 df_f = df_laci_final[df_laci_final['STATUS'] == "FINISH"]
-                if not df_f.empty:
-                    st.dataframe(
-                        df_f[['ID', 'STAF', 'DEADLINE', 'STATUS']], 
-                        hide_index=True, 
-                        use_container_width=True,
-                        column_config={
-                            "ID": st.column_config.TextColumn("🆔 ID"),
-                            "STAF": st.column_config.TextColumn("👤 EDITOR"),
-                            "DEADLINE": st.column_config.TextColumn("📅 TANGGAL"),
-                            "STATUS": st.column_config.TextColumn("🚩 STATUS")
-                        }
-                    )
-                else:
-                    st.info("Belum ada video selesai bulan ini.")
-
+                st.dataframe(df_f[['ID', 'STAF', 'DEADLINE', 'STATUS']], hide_index=True, use_container_width=True)
             with tab_c:
                 df_c = df_laci_final[df_laci_final['STATUS'] == "CANCELED"]
-                if not df_c.empty:
-                    st.dataframe(
-                        df_c[['ID', 'STAF', 'STATUS', 'CATATAN']], 
-                        hide_index=True, 
-                        use_container_width=True,
-                        column_config={
-                            "ID": st.column_config.TextColumn("🆔 ID"),
-                            "STAF": st.column_config.TextColumn("👤 EDITOR"),
-                            "STATUS": st.column_config.TextColumn("🚫 STATUS"),
-                            "CATATAN": st.column_config.TextColumn("📝 ALASAN BATAL")
-                        }
-                    )
-                else:
-                    st.info("Tidak ada pembatalan bulan ini.")
-        else:
-            st.warning("⚠️ Data GSheet tidak terbaca.")
+                st.dataframe(df_c[['ID', 'STAF', 'STATUS', 'CATATAN']], hide_index=True, use_container_width=True)
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2233,6 +2183,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
