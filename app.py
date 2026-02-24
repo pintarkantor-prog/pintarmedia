@@ -1044,20 +1044,27 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-        # --- VERSI BAHASA LUGAS (PASTI PAHAM) ---
+        # --- VERSI BAHASA LUGAS (SINKRON BULAN BERJALAN) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. SETUP TARGET & DATA
+            # 1. SETUP TARGET & FILTER WAKTU
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             
+            # --- TAMBAHAN: Filter agar data lama gak ikut kehitung ---
+            df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
+            mask_bulan = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
+                         (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
+            
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
-            v_finish = len(df_all_tugas[mask_user & mask_finish])
+            
+            # Sekarang v_finish MURNI bulan ini (Otomatis reset tgl 1)
+            df_arsip_user = df_all_tugas[mask_user & mask_finish & mask_bulan].copy()
+            v_finish = len(df_arsip_user)
             selisih = v_finish - target_h_ini
 
-            # 2. AMBIL DATA ABSEN
-            df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
+            # 2. AMBIL DATA ABSEN (Tetap sama)
             try:
                 data_absen_raw = sheet_absensi.get_all_records()
                 df_absen_all = bersihkan_data(pd.DataFrame(data_absen_raw))
@@ -1065,12 +1072,12 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            # 3. HITUNG SP
+            # 3. HITUNG SP (Pake data yang sudah bersih bulan ini)
             _, _, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # --- 4. LOGIKA BAHASA INSTRUKSI (PILIHAN KAMU) ---
+            # --- 4. LOGIKA BAHASA INSTRUKSI ---
             if sekarang.day <= 6:
                 status_ikon, instruksi = "🛡️ PROTEKSI", "MASIH AMAN"
             elif "Level 3" in level_sp_r:
@@ -1202,13 +1209,13 @@ def tampilkan_tugas_kerja():
                         st.warning("⚠️ Isi dulu Judul dan Link-nya!")
         st.write("") # Spasi pemisah ke daftar kartu di bawah
 
-# --- FILTER DATA ---
+    # --- FILTER DATA ---
     tugas_terfilter = []
     if not df_all_tugas.empty:
         if user_sekarang == "dian":
-            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
+            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
         else:
-            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
+            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
 
     if not tugas_terfilter:
         st.info(f"☕ Belum ada tugas aktif.")
@@ -1245,9 +1252,7 @@ def tampilkan_tugas_kerja():
                                 if t.get("Catatan_Revisi"): 
                                     st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
-                                
-                                # ... sisa kode QC / Staff lo yang lama ...
-                                
+                                                                
                                 # --- TAMPILAN KHUSUS ADMIN DIAN (QC) ---
                                 if user_sekarang == "dian":
                                     st.markdown("---")
@@ -1256,8 +1261,10 @@ def tampilkan_tugas_kerja():
                                         for idx, l in enumerate(links):
                                             st.link_button(f"🔗 CEK HASIL {idx+1}", l.strip(), use_container_width=True)
                                     
-                                    cat_r = st.text_area("Catatan Revisi:", key=f"cat_{t['ID']}")
-                                    b1, b2 = st.columns(2)
+                                    cat_r = st.text_area("Catatan:", key=f"cat_{t['ID']}", placeholder="Isi alasan jika Revisi atau Batal...")
+                                    
+                                    # BAGI JADI 3 KOLOM BIAR SEJAJAR
+                                    b1, b2, b3 = st.columns(3)
                                     with b1:
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
                                             cell = sheet_tugas.find(str(t['ID']).strip())
@@ -1275,6 +1282,17 @@ def tampilkan_tugas_kerja():
                                                 kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n📝 *Pesan:* {cat_r}")
                                                 st.warning("Revisi!"); time.sleep(1); st.rerun()
                                             else: st.error("Isi alasan revisi!")
+                                    with b3:
+                                        # TOMBOL BARU: BATAL
+                                        if st.button("🚫 BATAL", key=f"c_{t['ID']}", use_container_width=True):
+                                            if cat_r:
+                                                cell = sheet_tugas.find(str(t['ID']).strip())
+                                                sheet_tugas.update_cell(cell.row, 5, "CANCELED")
+                                                sheet_tugas.update_cell(cell.row, 8, f"DIBATALKAN: {cat_r}")
+                                                catat_log(f"Batal {t['ID']}")
+                                                kirim_notif_wa(f"🚫 *TUGAS DIBATALKAN*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n📝 *Alasan:* {cat_r}")
+                                                st.error("Batal!"); time.sleep(1); st.rerun()
+                                            else: st.error("Isi alasan batal!")
 
                                 # --- TAMPILAN STAFF (SETOR) ---
                                 elif user_sekarang != "tamu":
@@ -1289,44 +1307,57 @@ def tampilkan_tugas_kerja():
                                             sheet_tugas.update_cell(cell.row, 7, l_in)
                                             st.success("Sent!"); time.sleep(1); st.rerun()
                                     
-    # --- 4. LACI ARSIP (GAYA MODERN) ---
+    # --- 4. LACI ARSIP (SINKRON DENGAN RADAR & BULAN BERJALAN) ---
     st.divider()
-    df_arsip = pd.DataFrame()
-    with st.expander("📜 RIWAYAT TUGAS SELESAI", expanded=False):
+    with st.expander("📜 LACI RIWAYAT TUGAS"):
+        # Kita gunakan data yang sudah difilter mask_bulan di bagian Radar tadi
+        # Agar Admin Dian bisa liat semua, Staf cuma liat miliknya
         if not df_all_tugas.empty:
-            # 1. Filter Tetap Sama (Logika Gak Berubah)
-            mask_s = (df_all_tugas['STATUS'] == "FINISH")
-            if user_sekarang != "dian": 
-                mask_s &= (df_all_tugas['STAF'] == user_sekarang.upper())
+            # Filter Data untuk Laci (Hanya Bulan Ini)
+            mask_laci = mask_bulan 
+            if user_sekarang != "dian":
+                mask_laci &= (df_all_tugas['STAF'] == user_sekarang.upper())
             
-            df_arsip = df_all_tugas[mask_s].copy()
+            df_laci_bulan_ini = df_all_tugas[mask_laci].copy()
+
+            # Hitung Ringkasan Singkat
+            total_f = len(df_laci_bulan_ini[df_laci_bulan_ini['STATUS'] == "FINISH"])
+            total_c = len(df_laci_bulan_ini[df_laci_bulan_ini['STATUS'] == "CANCELED"])
             
-            if not df_arsip.empty:
-                # Tambah statistik kecil biar keren
-                total_vid = len(df_arsip)
-                st.markdown(f"✅ **{total_vid} Video** telah berhasil diselesaikan.")
-                
-                # 2. Styling Kolom (Biar Gak Kayak Excel)
-                kolom_tampil = ['ID', 'STAF', 'DEADLINE', 'KETERANGAN', 'STATUS']
-                kolom_ada = [c for c in kolom_tampil if c in df_arsip.columns]
-                
-                # Sortir terbaru di atas
-                df_arsip = df_arsip.sort_values(by='DEADLINE', ascending=False)
-                
-                st.dataframe(
-                    df_arsip[kolom_ada],
-                    column_config={
-                        "ID": st.column_config.TextColumn("🆔 ID"),
-                        "STAF": st.column_config.TextColumn("👤 STAF"),
-                        "DEADLINE": st.column_config.TextColumn("📅 TANGGAL"),
-                        "KETERANGAN": st.column_config.TextColumn("📝 DETAIL TUGAS"),
-                        "STATUS": st.column_config.CheckboxColumn("✅ DONE") # Bisa diganti teks biasa kalau gak mau checkbox
-                    },
-                    hide_index=True, 
-                    use_container_width=True
-                )
-            else: 
-                st.info("📭 Belum ada riwayat tugas.")
+            st.markdown(f"📊 **Statistik Bulan Ini:** ✅ {total_f} Selesai | 🚫 {total_c} Batal")
+
+            # Buat Tab untuk memisahkan Selesai dan Batal
+            tab_f, tab_c = st.tabs(["✅ SELESAI", "🚫 DIBATALKAN"])
+            
+            with tab_f:
+                df_f = df_laci_bulan_ini[df_laci_bulan_ini['STATUS'] == "FINISH"]
+                if not df_f.empty:
+                    st.dataframe(
+                        df_f[['ID', 'STAF', 'DEADLINE', 'STATUS']], 
+                        hide_index=True, 
+                        use_container_width=True,
+                        column_config={
+                            "ID": "🆔 ID", "STAF": "👤 STAF", "DEADLINE": "📅 TGL", "STATUS": "🚩 STATUS"
+                        }
+                    )
+                else:
+                    st.info("Belum ada tugas selesai bulan ini.")
+
+            with tab_c:
+                df_c = df_laci_bulan_ini[df_laci_bulan_ini['STATUS'] == "CANCELED"]
+                if not df_c.empty:
+                    st.dataframe(
+                        df_c[['ID', 'STAF', 'STATUS', 'CATATAN']], 
+                        hide_index=True, 
+                        use_container_width=True,
+                        column_config={
+                            "ID": "🆔 ID", "STAF": "👤 STAF", "STATUS": "🚫 STATUS", "CATATAN": "📝 ALASAN"
+                        }
+                    )
+                else:
+                    st.info("Tidak ada pembatalan bulan ini.")
+        else:
+            st.write("Belum ada data.")
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -2292,6 +2323,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
