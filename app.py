@@ -1063,7 +1063,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     return bonus_video_total, uang_absen_total, pot_sp, level_sp
 
 def tampilkan_tugas_kerja():
-    # --- 1. SETUP DATA ---
+    # --- 1. SETUP DATA & IDENTITAS ---
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
@@ -1076,7 +1076,7 @@ def tampilkan_tugas_kerja():
         "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
     }
 
-    # --- 2. CSS LUXURY CARD (YANG TADI SORE) ---
+    # --- 2. CSS LUXURY CARD (SQUIRCLE + GLASSMORPHISM) ---
     st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
@@ -1099,6 +1099,7 @@ def tampilkan_tugas_kerja():
             border: 1px solid rgba(255, 255, 255, 0.05);
             font-size: 13px;
             line-height: 1.6;
+            min-height: 100px;
         }
         
         /* Avatar Squircle ala Apple */
@@ -1121,80 +1122,136 @@ def tampilkan_tugas_kerja():
         </style>
     """, unsafe_allow_html=True)
 
-    # --- 3. AMBIL DATA ---
+    # --- 3. KONEKSI DATA & NORMALISASI ---
     try:
-        # (Koneksi GSheet & Absensi lo di sini)
+        scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+        creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
+        client = gspread.authorize(creds)
+        sh = client.open_by_url(url_gsheet) 
+        sheet_tugas = sh.worksheet("Tugas")
+        sheet_staff = sh.worksheet("Staff")
+        sheet_absensi = sh.worksheet("Absensi")
+        
         data_raw = sheet_tugas.get_all_records()
         df_all_tugas = pd.DataFrame(data_raw)
         df_all_tugas.columns = [str(c).upper().strip() for c in df_all_tugas.columns]
-    except: return
+    except Exception as e:
+        st.error(f"❌ Layar gelap karena koneksi gagal: {e}")
+        return
 
     st.title("🚀 PINTAR Workspace")
 
-    # --- 4. RADAR PERFORMA LUGAS ---
+    # --- 4. RADAR PERFORMA LUGAS (VERSI 4 KOLOM) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        # (Gunakan logika Radar 4 kolom lo yang tadi)
+        t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
+        progres_h = min(sekarang.day, 25)
+        target_h_ini = round((t_norm / 25) * progres_h, 1)
+        
+        mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
+        v_finish = len(df_all_tugas[mask_user & (df_all_tugas['STATUS'] == 'FINISH')])
+        selisih = v_finish - target_h_ini
+
+        # Visual Radar
         with st.container(border=True):
             c1, c2, c3, c4 = st.columns(4)
-            c1.metric("STATUS", "✨ AMAN")
-            c2.metric("VIDEO FINISH", "12 Vid")
-            c3.metric("TARGET AMAN", "15 Vid")
-            c4.metric("INSTRUKSI", "✅ LANJUTKAN")
+            c1.metric("STATUS", "✨ AMAN" if v_finish >= target_h_ini else "⚡ PANTAU")
+            c2.metric("VIDEO FINISH", f"{v_finish} Vid", f"{selisih:.1f}")
+            c3.metric("TARGET AMAN", f"{target_h_ini} Vid")
+            c4.metric("INSTRUKSI", "✅ LANJUTKAN!" if v_finish >= target_h_ini else "📈 TINGKATKAN")
+        st.write("")
 
-    tab_tugas, tab_gudang, tab_gaji = st.tabs(["Tugas Aktif", "Gudang", "Gaji"])
+    # --- 5. TABS MENU ---
+    tab_tugas, tab_gudang, tab_gaji = st.tabs(["Tugas Aktif", "Gudang Ide", "Info Gaji"])
 
     with tab_tugas:
-        # TAMPILAN CARD (YANG TADI SORE)
+        # PANEL ADMIN & MANDIRI
+        col_in_a, col_in_b = st.columns(2)
+        with col_in_a:
+            if user_sekarang == "dian":
+                with st.expander("✨ DEPLOY TUGAS BARU"):
+                    with st.form("f_deploy"):
+                        inst_new = st.text_area("Instruksi")
+                        staf_new = st.selectbox("Editor", ["ICHA", "INGGI", "NISSA", "LISA"])
+                        if st.form_submit_button("🚀 KIRIM"):
+                            # Logika simpan GSheet lo di sini
+                            st.rerun()
+        with col_in_b:
+            if user_sekarang != "dian" and user_sekarang != "tamu":
+                with st.expander("➕ SETOR MANDIRI"):
+                    with st.form("f_mandiri"):
+                        judul_m = st.text_input("Judul Konten")
+                        link_m = st.text_input("Link Drive")
+                        if st.form_submit_button("🚀 SETOR"):
+                            # Logika simpan GSheet lo di sini
+                            st.rerun()
+
+        # --- LIST CARD LUXURY (3 KOLOM TERBUKA) ---
         df_tampil = df_all_tugas[df_all_tugas['STATUS'] != "FINISH"]
         if user_sekarang != "dian":
             df_tampil = df_tampil[df_tampil['STAF'].str.lower() == user_sekarang]
 
-        for _, t in df_tampil.iloc[::-1].iterrows():
-            status = str(t['STATUS']).upper()
-            warna_st = "#FF4B4B" if status == "REVISI" else "#00FFCC" if status == "WAITING QC" else "#FFD600"
-            bg_st = "rgba(255, 75, 75, 0.1)" if status == "REVISI" else "rgba(0, 255, 204, 0.1)" if status == "WAITING QC" else "rgba(255, 214, 0, 0.1)"
+        if df_tampil.empty:
+            st.info("☕ Belum ada tugas aktif.")
+        else:
+            for _, t in df_tampil.iloc[::-1].iterrows():
+                status = str(t['STATUS']).upper()
+                warna_st = "#FF4B4B" if status == "REVISI" else "#00FFCC" if status == "WAITING QC" else "#FFD600"
+                bg_st = "rgba(255, 75, 75, 0.1)" if status == "REVISI" else "rgba(0, 255, 204, 0.1)" if status == "WAITING QC" else "rgba(255, 214, 0, 0.1)"
 
-            with st.container(border=True):
-                # Baris 1: Identitas
-                h1, h2, h3 = st.columns([0.7, 3, 1.2])
-                with h1:
-                    st.markdown(f'<img src="{foto_staff.get(str(t["STAF"]).lower())}" class="avatar-squircle">', unsafe_allow_html=True)
-                with h2:
-                    st.markdown(f"**{t['STAF']}**")
-                    st.caption(f"ID: {t['ID']} • Deadline: {t['DEADLINE']}")
-                with h3:
-                    st.markdown(f"<div style='text-align:right;'><span class='status-pill' style='background:{bg_st}; color:{warna_st}; border:1px solid {warna_st}44;'>{status}</span></div>", unsafe_allow_html=True)
-                
-                st.write("")
-                
-                # Baris 2: 3 Kolom Detail (Terbuka)
-                d1, d2, d3 = st.columns(3)
-                with d1:
-                    st.markdown("📑 **Instruksi**")
-                    st.markdown(f"<div class='box-luxury'>{t['INSTRUKSI']}</div>", unsafe_allow_html=True)
-                with d2:
-                    st.markdown("⚠️ **Revisi**")
-                    c_rev = str(t.get('CATATAN_REVISI', '-')).strip()
-                    st.markdown(f"<div class='box-luxury' style='color:{'#FFB347' if c_rev != '-' else '#444'};'>{c_rev}</div>", unsafe_allow_html=True)
-                with d3:
-                    st.markdown("🔗 **Hasil GDrive**")
-                    l_raw = str(t.get('LINK_HASIL', '-')).strip()
-                    if "http" in l_raw:
-                        for i, link in enumerate(l_raw.split(",")):
-                            st.markdown(f"👉 [Hasil {i+1}]({link.strip()})")
-                    else: st.caption("Belum ada link")
+                with st.container(border=True):
+                    # Header: Foto, Nama, Status
+                    h1, h2, h3 = st.columns([0.7, 3, 1.2])
+                    with h1:
+                        url_foto = foto_staff.get(str(t['STAF']).lower(), "https://cdn-icons-png.flaticon.com/512/847/847969.png")
+                        st.markdown(f'<img src="{url_foto}" class="avatar-squircle">', unsafe_allow_html=True)
+                    with h2:
+                        st.markdown(f"**{t['STAF']}**")
+                        st.caption(f"ID: {t['ID']} | Deadline: {t['DEADLINE']}")
+                    with h3:
+                        st.markdown(f"<div style='text-align:right;'><span class='status-pill' style='background:{bg_st}; color:{warna_st}; border:1px solid {warna_st}44;'>{status}</span></div>", unsafe_allow_html=True)
+                    
+                    st.divider()
 
-                # Baris 3: Input Panjang / Aksi Admin
-                st.write("")
-                if user_sekarang == "dian":
-                    # Tombol Admin Dian
-                    pass
-                elif status in ["PROSES", "REVISI"]:
-                    c_in, c_bt = st.columns([4, 1])
-                    l_setor = c_in.text_input("Gdrive Link", key=f"l_{t['ID']}", value=l_raw if "http" in l_raw else "", label_visibility="collapsed")
-                    if c_bt.button("SETOR", key=f"s_{t['ID']}", use_container_width=True):
-                        # Simpan...
-                        st.rerun()
+                    # Body: 3 KOLOM TERBUKA
+                    d1, d2, d3 = st.columns(3)
+                    with d1:
+                        st.markdown("📑 **Instruksi**")
+                        st.markdown(f"<div class='box-luxury'>{t['INSTRUKSI']}</div>", unsafe_allow_html=True)
+                    with d2:
+                        st.markdown("⚠️ **Revisi**")
+                        c_rev = str(t.get('CATATAN_REVISI', '-')).strip()
+                        st.markdown(f"<div class='box-luxury' style='color:{'#FFB347' if c_rev != '-' else '#444'};'>{c_rev}</div>", unsafe_allow_html=True)
+                    with d3:
+                        st.markdown("🔗 **Hasil GDrive**")
+                        l_raw = str(t.get('LINK_HASIL', '-')).strip()
+                        if "http" in l_raw:
+                            for i, link in enumerate(l_raw.split(",")):
+                                if "http" in link:
+                                    st.markdown(f"👉 [Hasil {i+1}]({link.strip()})")
+                        else:
+                            st.markdown("<div class='box-luxury' style='opacity:0.3;'>Menunggu...</div>", unsafe_allow_html=True)
+
+                    # Footer: Input Panjang (Staff) / Aksi (Dian)
+                    st.write("")
+                    if user_sekarang == "dian":
+                        c_v, c_ri, c_rb = st.columns([1, 2.5, 1])
+                        if c_v.button("🟢 VALIDASI", key=f"v_{t['ID']}", use_container_width=True):
+                            sheet_tugas.update_cell(sheet_tugas.find(str(t['ID'])).row, 5, "FINISH")
+                            st.rerun()
+                        r_in = c_ri.text_input("Alasan revisi...", key=f"cr_{t['ID']}", label_visibility="collapsed")
+                        if c_rb.button("🔴 REVISI", key=f"r_{t['ID']}", use_container_width=True):
+                            row = sheet_tugas.find(str(t['ID'])).row
+                            sheet_tugas.update_cell(row, 5, "REVISI")
+                            sheet_tugas.update_cell(row, 8, r_in)
+                            st.rerun()
+                    elif status in ["PROSES", "REVISI"]:
+                        c_in, c_bt = st.columns([4, 1])
+                        new_l = c_in.text_input("Update Link GDrive (Pisahkan dengan koma)", key=f"up_{t['ID']}", value=l_raw if "http" in l_raw else "", label_visibility="collapsed")
+                        if c_bt.button("🚀 SETOR", key=f"st_{t['ID']}", use_container_width=True):
+                            row = sheet_tugas.find(str(t['ID'])).row
+                            sheet_tugas.update_cell(row, 5, "WAITING QC")
+                            sheet_tugas.update_cell(row, 7, new_l)
+                            st.rerun()
 
     # --- 5. LACI ARSIP ---
     with st.expander("📂 LACI ARSIP: TUGAS SELESAI"):
@@ -2034,6 +2091,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
