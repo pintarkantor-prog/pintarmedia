@@ -1420,7 +1420,7 @@ def tampilkan_tugas_kerja():
             st.success(f"🌟 **PERFORMA MANTAP, {panggilan_fix}!**")
             st.write(f"Progres kamu ({v_finish} video) sudah di atas target aman ({target_h_ini}). 🔥")
 
-        # D. --- SLIP GAJI PREMIUM V5 (STREAMLIT NATIVE - NO CSS) ---
+# D. --- SLIP GAJI PREMIUM V5 (STREAMLIT NATIVE - FIX COMMAND) ---
         if sekarang.day >= 24: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=True):
                 try:
@@ -1437,47 +1437,45 @@ def tampilkan_tugas_kerja():
                         
                         # --- HEADER LOGO ---
                         st.image("https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png", width=250)
-                        st.title("Slip Gaji Digital")
-                        st.caption(f"Periode Laporan: {sekarang.strftime('%B %Y')}")
+                        st.subheader("Slip Gaji Digital")
+                        st.caption(f"Periode: {sekarang.strftime('%B %Y')}")
                         
                         st.divider()
 
-                        # --- INFO UTAMA (PAKAI COLUMNS) ---
+                        # --- INFO UTAMA (PAKAI COLUMNS - FIX COMMAND) ---
                         c1, c2, c3 = st.columns(3)
-                        c1.label("NAMA STAFF")
-                        c1.subheader(S_NAMA)
-                        
-                        c2.label("STATUS")
-                        c2.subheader(level_sp)
-                        
-                        c3.label("ID TRANSAKSI")
-                        c3.code(datetime.now(tz_wib).strftime('PM-%Y%m%d%H%M'))
+                        with c1:
+                            st.write("**NAMA STAFF**")
+                            st.write(S_NAMA)
+                        with c2:
+                            st.write("**STATUS**")
+                            st.write(level_sp)
+                        with c3:
+                            st.write("**REF-ID**")
+                            st.code(datetime.now(tz_wib).strftime('%y%m%d%H%M'))
 
                         st.divider()
 
-                        # --- TABEL RINCIAN (PAKAI DATAFRAME BIAR RAPI TANPA CSS) ---
-                        st.write("### 📥 Rincian Pendapatan & Potongan")
+                        # --- TABEL RINCIAN ---
+                        st.write("### 📥 Rincian Gaji")
                         
                         data_slip = {
                             "Keterangan": ["Gaji Pokok", "Tunjangan Jabatan", "Bonus Kehadiran (3+)", "Bonus Produksi Video", "Potongan Sanksi (SP)"],
                             "Nominal": [f"Rp {S_GAPOK:,}", f"Rp {S_TUNJ:,}", f"Rp {u_hadir:,}", f"Rp {b_video:,}", f"- Rp {pot_sp:,}"]
                         }
-                        st.table(data_slip) # Tabel statis yang rapi dan bersih
+                        st.table(data_slip) 
 
-                        # --- TOTAL AKHIR (PAKAI METRIC) ---
+                        # --- TOTAL AKHIR (METRIC) ---
                         st.divider()
                         st.metric(
                             label="TOTAL GAJI BERSIH (TAKE HOME PAY)", 
-                            value=f"Rp {S_TOTAL:,}",
-                            delta=f"{len(df_arsip)} Video Selesai",
-                            delta_color="normal"
+                            value=f"Rp {S_TOTAL:,}"
                         )
 
                         # --- FOOTER ---
                         st.write("") 
-                        st.write("") 
                         st.caption("---")
-                        st.caption(f"Diterbitkan secara digital oleh Sistem Produksi PINTAR MEDIA")
+                        st.caption("Diterbitkan secara digital oleh **Sistem Produksi PINTAR MEDIA**")
                         st.caption(f"Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB")
 
                         # --- TOMBOL KONFIRMASI ---
@@ -2304,6 +2302,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
