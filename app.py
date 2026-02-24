@@ -1243,19 +1243,47 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.warning(f"⚠️ Gagal memuat database ide: {e}")
                     
-# --- 3. DAFTAR TUGAS AKTIF (MODEL CARD MODERN) ---
+    # --- 3. SETOR TUGAS MANDIRI (MODERN CARD) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
-        with st.expander("➕ STAFF: SETOR TUGAS MANDIRI", expanded=False):
+        with st.container(border=True):
+            st.markdown("### 🚀 SETOR TUGAS MANDIRI")
+            st.caption("Gunakan form ini jika kamu mengerjakan sesuatu di luar list tugas utama.")
+            
             with st.form("form_mandiri", clear_on_submit=True):
-                judul_m = st.text_input("Apa yang kamu kerjakan?")
-                link_m = st.text_input("Link GDrive Hasil:")
-                if st.form_submit_button("🚀 SETOR SEKARANG", use_container_width=True):
+                c1, c2 = st.columns(2)
+                with c1:
+                    judul_m = st.text_input("📝 Nama / Judul Pekerjaan:", placeholder="Misal: Edit Video TikTok Bonus")
+                with c2:
+                    link_m = st.text_input("🔗 Link GDrive Hasil:", placeholder="Tempel link folder/file di sini")
+                
+                # Tombol Setor yang lebih mencolok
+                submit_m = st.form_submit_button("🔥 KIRIM KE QC SEKARANG", use_container_width=True)
+                
+                if submit_m:
                     if judul_m and link_m:
                         t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                        sheet_tugas.append_row([t_id_m, user_sekarang.upper(), sekarang.strftime("%Y-%m-%d"), judul_m, "WAITING QC", sekarang.strftime("%d/%m/%Y %H:%M"), link_m, ""])
-                        catat_log(f"Menyetor Tugas Mandiri {t_id_m}")
-                        kirim_notif_wa(f"⚡ *SETORAN TUGAS MANDIRI*\n\n👤 *Nama:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Pekerjaan:* {judul_m}")
-                        st.success("✅ Berhasil disetor!"); time.sleep(1); st.rerun()
+                        # Simpan ke GSheet
+                        sheet_tugas.append_row([
+                            t_id_m, 
+                            user_sekarang.upper(), 
+                            sekarang.strftime("%Y-%m-%d"), 
+                            judul_m, 
+                            "WAITING QC", 
+                            sekarang.strftime("%d/%m/%Y %H:%M"), 
+                            link_m, 
+                            ""
+                        ])
+                        
+                        # Log & Notif
+                        catat_log(f"Setor Mandiri {t_id_m}")
+                        kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
+                        
+                        st.success(f"✅ Mantap! Tugas {t_id_m} sudah masuk antrean QC.")
+                        time.sleep(1)
+                        st.rerun()
+                    else:
+                        st.warning("⚠️ Isi dulu Judul dan Link-nya, Cok!")
+        st.write("") # Spasi pemisah ke daftar kartu di bawah
 
 # --- FILTER DATA ---
     tugas_terfilter = []
@@ -2330,6 +2358,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
