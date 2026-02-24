@@ -1,4 +1,4 @@
-    import streamlit as st
+import streamlit as st
 import requests  
 import pandas as pd
 import gspread 
@@ -2296,6 +2296,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
