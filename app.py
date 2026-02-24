@@ -1318,7 +1318,6 @@ def tampilkan_tugas_kerja():
                                 catat_log(f"Revisi tugas {t['ID']}")
                                 kirim_notif_wa(f"⚠️ *REVISI*\n\n👤 {t['Staf'].upper()} | 🆔 {t['ID']}")
                                 st.success("✅ Revisi dikirim!"); time.sleep(1); st.rerun()
-            st.markdown("</div>", unsafe_allow_html=True)
 
     # --- 4. LACI ARSIP ---
     st.divider()
@@ -2338,3 +2337,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
