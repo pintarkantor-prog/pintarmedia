@@ -543,11 +543,11 @@ def pasang_css_kustom():
     """, unsafe_allow_html=True)
 
 # ==============================================================================
-# BAGIAN 4: NAVIGASI SIDEBAR (VERSI CLOUD ONLY - FIXED)
+# BAGIAN 4: NAVIGASI SIDEBAR (VERSI CLOUD ONLY)
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
     with st.sidebar:
-        # 1. JUDUL DENGAN IKON
+        # 1. JUDUL DENGAN IKON (Sesuai Gambar)
         st.markdown("""
             <div style='display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;'>
                 <span style='font-size: 20px; margin-right: 10px;'>🖥️</span>
@@ -557,25 +557,21 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # 2. MENU RADIO (VERSI ANTI-MACET)
-        list_menu = ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "💡 GUDANG IDE", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
-        
-        # Cari tahu menu mana yang lagi aktif di session state buat nentuin posisi kursor radio
-        if "COMMAND_MENU" not in st.session_state:
-            st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI"
-            
-        index_aktif = list_menu.index(st.session_state["COMMAND_MENU"])
-
-        st.radio(
-            "Pilih Menu",
-            list_menu,
-            index=index_aktif, # <--- Paksa kursor pindah ke sini
+        # 2. MENU RADIO (Daftar Pilihan)
+        pilihan = st.radio(
+            "COMMAND_MENU",
+            [
+                "🚀 RUANG PRODUKSI", 
+                "🧠 PINTAR AI LAB", 
+                "💡 GUDANG IDE", 
+                "📋 TUGAS KERJA", 
+                "⚡ KENDALI TIM"
+            ],
             label_visibility="collapsed",
-            key="COMMAND_MENU_WIDGET", # <--- Ganti nama key-nya dikit biar gak bentrok
-            on_change=lambda: st.session_state.update({"COMMAND_MENU": st.session_state["COMMAND_MENU_WIDGET"]})
+            key="COMMAND_MENU"
         )
         
-        # 3. GARIS PEMISAH
+        # 3. GARIS PEMISAH & SPASI KE BAWAH
         st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         
         # 1. KOTAK DURASI FILM
@@ -614,6 +610,8 @@ def tampilkan_navigasi_sidebar():
             </div>
         ''', unsafe_allow_html=True)
         
+    return pilihan
+
 # ==============================================================================
 # BAGIAN 5: PINTAR AI LAB - PRO EDITION (SYNCHRONIZED MANTRA)
 # ==============================================================================
@@ -801,7 +799,7 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS UNTUK OVERLAY (LOADING & SUKSES) ---
+    # --- 1. CSS OVERLAY TOTAL (LOADING & SUKSES GAYA STUDIO) ---
     st.markdown("""
         <style>
         .loading-overlay {
@@ -823,46 +821,43 @@ def tampilkan_gudang_ide():
             margin-bottom: 25px;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .text-sukses {
+        .text-neon {
             color: #1d976c;
+            text-shadow: 0 0 10px rgba(29, 151, 108, 0.5);
             font-weight: bold;
             letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(29, 151, 108, 0.5);
         }
         </style>
     """, unsafe_allow_html=True)
 
     st.title("💡 GUDANG IDE KONTEN")
     
-    # Inisialisasi state agar tidak error
     if "sedang_proses_id" not in st.session_state:
         st.session_state.sedang_proses_id = None
     if "status_sukses" not in st.session_state:
         st.session_state.status_sukses = False
 
-    # --- 2. LOGIKA TAMPILAN OVERLAY ---
+    # --- 2. LOGIKA TAMPILAN OVERLAY (LOADING / SUKSES) ---
     if st.session_state.sedang_proses_id:
         if st.session_state.status_sukses:
-            # TAMPILAN SUKSES MINIMALIS (Sesuai Request)
+            # TAMPILAN SUKSES (MINIMALIS & KEREN)
             st.markdown(f"""
                 <div class="loading-overlay">
                     <h1 style="font-size: 100px; margin-bottom: 20px;">✅</h1>
-                    <h1 class="text-sukses" style="font-size: 50px;">BERHASIL!</h1>
-                    <h3 style="color: white; margin-top: 10px;">DATA NASKAH BERHASIL DIAMBIL</h3>
-                    <p style="color: #888;">Kamu akan dialihkan ke RUANG PRODUKSI...</p>
+                    <h1 class="text-neon" style="font-size: 50px;">BERHASIL!</h1>
+                    <h3 style="color: white; margin-top: 10px;">KAMU DIALIHKAN KE RUANG PRODUKSI...</h3>
                 </div>
             """, unsafe_allow_html=True)
         else:
-            # TAMPILAN LOADING SAAT PROSES
+            # TAMPILAN LOADING
             st.markdown(f"""
                 <div class="loading-overlay">
                     <div class="spinner"></div>
                     <h2 style='color: white;'>MENGAMBIL DATA NASKAH...</h2>
-                    <p style='color: #888;'>Sabar, sistem lagi nyiapin tugas buat kamu.</p>
+                    <p style='color: #888;'>Sistem sedang menyiapkan tugas baru untukmu.</p>
                 </div>
             """, unsafe_allow_html=True)
 
-    # Konfigurasi GSheet
     url_gsheet = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -883,9 +878,9 @@ def tampilkan_gudang_ide():
         list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
 
         if len(list_judul_unik) == 0:
-            st.warning("📭 Belum ada ide baru di gudang.")
+            st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
         else:
-            # --- 3. TAMPILAN GRID KARTU ---
+            # --- 3. LAYOUT GRID 12 KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
             for i in range(0, len(list_judul_unik), 3):
                 cols = st.columns(3)
@@ -896,31 +891,30 @@ def tampilkan_gudang_ide():
                         id_ini = str(row_info['ID_IDE'])
                         with st.container(border=True):
                             st.markdown(f'<div style="height: 5px; background-color: {"#444" if is_loading else "#1d976c"}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
-                            st.markdown(f"<h3 style='text-align: center; margin-bottom: 5px;'>{judul}</h3>", unsafe_allow_html=True)
+                            st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='text-align: center; color: #888; font-size: 11px;'>🆔 ID: {id_ini}</p>", unsafe_allow_html=True)
+                            
                             st.write("")
                             if st.button(f"🚀 AMBIL TUGAS", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-# --- 4. EKSEKUSI DATA (LOGIKA AMBIL TUGAS) ---
+            # --- 4. EKSEKUSI DATA (LOGIKA PINDAH DATA) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
                 try:
-                    # A. Update GSheet (Biar statusnya berubah jadi DIAMBIL)
+                    # A. Update Status di GSheet
                     cells = sheet_gudang.findall(target_id)
                     for cell in cells:
                         sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                     
-                    # B. AMBIL SEMUA ADEGAN (Blueprint)
+                    # B. Ambil Blueprint & Inject ke Session
                     adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
-                    
-                    # C. INJEKSI DATA KE SESSION PRODUKSI (BIAR GAK KOSONG)
                     st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
-                    st.session_state.data_produksi["adegan"] = {} # Reset dulu biar bersih
                     
                     rangkuman_naskah = f"### 🎬 ALUR CERITA: {judul_proses}\n\n"
                     for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
@@ -933,38 +927,39 @@ def tampilkan_gudang_ide():
                         }
                         rangkuman_naskah += f"**Adegan {idx}:** {a_row['NASKAH_VISUAL']}\n\n"
                     
-                    # D. Catat di GSheet Tugas
+                    # C. Tambah ke Sheet Tugas
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     tgl_skrg = datetime.now(tz_wib).strftime("%Y-%m-%d")
                     sheet_tugas.append_row([t_id, user_sekarang.upper(), tgl_skrg, f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                    # E. KUNCI STATE & BERI SINYAL SUKSES
+                    # --- D. PROSES PINDAH MENU (SEBELUM RERUN) ---
                     st.session_state.naskah_siap_produksi = rangkuman_naskah
                     st.session_state.form_version = st.session_state.get("form_version", 0) + 1
-                    st.session_state.status_sukses = True 
+                    
+                    # TANDAI SUKSES
+                    st.session_state.status_sukses = True
                     st.rerun()
 
                 except Exception as ex:
-                    st.error(f"Gagal: {ex}")
+                    st.error(f"Gagal Proses: {ex}")
                     st.session_state.sedang_proses_id = None
                     st.rerun()
 
-            # --- 5. REDIRECT (SETELAH NOTIF SUKSES) ---
+            # --- 5. CLEANUP & AUTO REDIRECT (PENYELESAIAN) ---
             if st.session_state.status_sukses:
-                time.sleep(2.5) # Biar notif BERHASIL kebaca
+                # TAMPILIN NOTIF SUKSES DULU 2 DETIK
+                time.sleep(2) 
                 
-                # RESET FLAG PROSES
+                # RESET SEMUA STATE GUDANG
                 st.session_state.sedang_proses_id = None
                 st.session_state.status_sukses = False
                 
-                # PINDAH MENU
-                st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI"
-                st.session_state["COMMAND_MENU_WIDGET"] = "🚀 RUANG PRODUKSI"
-                
+                # PAKSA PINDAH HALAMAN
+                st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI" 
                 st.rerun()
-                
+
     except Exception as e:
-        st.error(f"⚠️ Gagal Memuat Data: {e}")
+        st.error(f"⚠️ Gagal Memuat: {e}")
             
 def kirim_notif_wa(pesan):
     """Fungsi otomatis untuk kirim laporan ke Grup WA YT YT 🔥"""
@@ -2252,36 +2247,25 @@ def tampilkan_ruang_produksi():
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
-# BAGIAN 7: PENGENDALI UTAMA (VERSI ANTI-MACET)
+# BAGIAN 7: PENGENDALI UTAMA
 # ==============================================================================
 def utama():
     inisialisasi_keamanan() 
-    pasang_css_kustom() 
+    pasang_css_kustom() # Tambahkan ini agar CSS kamu langsung aktif saat login
     
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
-        # Panggil sidebar (Fungsi ini sekarang butuh akses ke session state secara aktif)
-        tampilkan_navigasi_sidebar()
+        # Panggil Sidebar & Menu setelah login berhasil
+        menu = tampilkan_navigasi_sidebar()
         
-        # Ambil menu dari session_state
-        menu_aktif = st.session_state.get("COMMAND_MENU", "🚀 RUANG PRODUKSI")
-        
-        # Logika Penampilan Halaman
-        if menu_aktif == "🚀 RUANG PRODUKSI": 
-            tampilkan_ruang_produksi()
-        elif menu_aktif == "🧠 PINTAR AI LAB": 
-            tampilkan_ai_lab() 
-        elif menu_aktif == "💡 GUDANG IDE": 
-            tampilkan_gudang_ide()
-        elif menu_aktif == "📋 TUGAS KERJA": 
-            tampilkan_tugas_kerja()
-        elif menu_aktif == "⚡ KENDALI TIM": 
-            tampilkan_kendali_tim()
+        # Logika Menu
+        if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
+        elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
+        elif menu == "💡 GUDANG IDE": tampilkan_gudang_ide()
+        elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
+        elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
 
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
