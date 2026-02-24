@@ -880,7 +880,7 @@ def tampilkan_gudang_ide():
         list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
 
         if len(list_judul_unik) == 0:
-            st.warning("📭 Belum ada ide baru di gudang. Hubungi Admin!")
+            st.warning("📭 Belum ada ide baru di gudang.")
         else:
             # --- RENDER GRID KARTU ---
             is_loading = st.session_state.sedang_proses_id is not None
@@ -891,16 +891,16 @@ def tampilkan_gudang_ide():
                     with cols[j]:
                         row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
+                        
+                        # KARTU MINIMALIS TANPA CSS RIBET
                         with st.container(border=True):
-                            # Header Strip
-                            st.markdown(f'<div style="height: 5px; background-color: {"#444" if is_loading else "#1d976c"}; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
+                            # Judul Bold & Center
+                            st.markdown(f"### <p style='text-align: center;'>{judul}</p>", unsafe_allow_html=True)
+                            # ID pake st.caption biar miring & abu-abu otomatis
+                            st.markdown(f"<p style='text-align: center; color: gray; font-size: 12px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
                             
-                            # Judul & ID (Ini yang lo mau Cok!)
-                            st.markdown(f"<h3 style='text-align: center; margin-bottom: 0px;'>{judul}</h3>", unsafe_allow_html=True)
-                            st.markdown(f"<p style='text-align: center; color: #555; font-size: 11px; margin-top: 5px;'>🆔 ID IDE: {id_ini}</p>", unsafe_allow_html=True)
-                            
-                            st.write("")
-                            if st.button(f"🚀 AMBIL TUGAS", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
+                            st.write("") # Spacer
+                            if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
@@ -2260,6 +2260,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
