@@ -1774,26 +1774,45 @@ def tampilkan_kendali_tim():
             except Exception as e:
                 st.error(f"Gagal memuat rekap absensi: {e}")
 
-                # --- LOGIKA POTONGAN SP ADMIN (SINKRON 100% DENGAN STAFF & TARGET BERJALAN) ---
+# --- TAMPILAN 6: SLIP GAJI (DESAIN ASLI SINKRON HARIAN) ---
+        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
+            ada_kerja = False
+            
+            # Ambil data pokok staff
+            df_staff_raw_slip = df_staff.copy()
+            
+            for _, s in df_staff_raw_slip.iterrows():
+                n_up = str(s.get('NAMA', '')).strip().upper()
+                if n_up == "" or n_up == "NAN": 
+                    continue
+                
+                # 1. Hitung Bonus (SINKRON HARIAN)
+                uang_absen_staff = 0
+                bonus_v_harian = 0
+                if n_up in rekap_harian_tim:
+                    for tgl, jml in rekap_harian_tim[n_up].items():
+                        if jml >= 3: uang_absen_staff += 30000
+                        if jml >= 4: bonus_v_harian += (jml - 3) * 25000
+                
+                # 2. LOGIKA SP PROPORSIAL (SINKRON 100% ADMIN & STAFF)
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
                 
-                # Standar Target Akhir Bulan
+                # Standar Target (Acuan 2 Video/Hari)
                 target_normal = 40
                 target_sp1 = 30
                 target_sp2 = 20
-
-                # Hitung Target Proposional (Berdasarkan Progres Hari)
-                progres_hari = min(sekarang.day, 25) 
+                
+                # Hitung ambang batas progres hari ini (Asumsi 25 hari kerja)
+                progres_hari = min(sekarang.day, 25)
                 threshold_aman = (target_normal / 25) * progres_hari
-
-                # --- BAGIAN CEK INDENTASI ---
+                
                 if sekarang.day <= 6:
                     pot_sp_admin = 0
                 elif jml_v >= threshold_aman:
                     pot_sp_admin = 0
                 else:
-                    # Logika SP berdasarkan target mutlak
+                    # Cek berdasarkan target mutlak agar adil di akhir bulan
                     if jml_v >= 40: 
                         pot_sp_admin = 0
                     elif 30 <= jml_v < 40: 
@@ -1803,7 +1822,7 @@ def tampilkan_kendali_tim():
                     else: 
                         pot_sp_admin = 1000000 # SP 3
 
-                # Lanjut ke Tampilan (Pastikan sejajar dengan 'if sekarang.day <= 6')
+                # 3. FILTER TAMPILAN (Hanya yang ada aktivitas)
                 if jml_v > 0 or uang_absen_staff > 0: 
                     ada_kerja = True
                     with st.container(border=True):
@@ -1814,37 +1833,36 @@ def tampilkan_kendali_tim():
                         c3.write(f"🎬 {jml_v} Video")
                         
                         if st.button(f"🧾 LIHAT SLIP {n_up}", key=f"btn_adm_{n_up}"):
+                            # Bersihkan angka pokok dari titik/karakter aneh
                             v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                             v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                             v_total_terima = (v_gapok + v_tunjangan + uang_absen_staff + bonus_v_harian) - pot_sp_admin
                             
-                            # DESAIN SLIP ASLI DIAN (TIDAK DISEDERHANAKAN)
+                            # DESAIN SLIP GAJI HTML
                             slip_html = f"""
-                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                            <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto;">
                                 <div style="text-align: center; margin-bottom: 15px;">
-                                    <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
-                                    <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
+                                    <h2 style="margin:0; color: #1d976c;">PINTAR MEDIA</h2>
+                                    <div style="font-size: 10px; color: #666;">Creative AI Studio Production</div>
                                     <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
-                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI (ADMIN VIEW)</div>
+                                    <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI BULANAN</div>
                                 </div>
-                                <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
-                                    <tr><td>Staf</td><td align="right"><b>{n_up}</b></td></tr>
+                                <table style="width: 100%; font-size: 13px; color: black;">
+                                    <tr><td>Penerima</td><td align="right"><b>{n_up}</b></td></tr>
                                     <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                    <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
+                                    <tr><td colspan="2"><hr style="border: 0.5px solid #eee;"></td></tr>
                                     <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
                                     <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
                                     <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
                                     <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v_harian:,}</td></tr>
                                     <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
-                                    <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
+                                    <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 10px 0;"></td></tr>
                                     <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
                                         <td>TOTAL TERIMA</td><td align="right">Rp {v_total_terima:,}</td></tr>
                                 </table>
-                                
-                                <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
-                                    <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
-                                    <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
-                                    <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
+                                <div style="margin-top: 20px; text-align: center; font-size: 9px; color: #999;">
+                                    Diterbitkan otomatis oleh PINTAR SYSTEM<br>
+                                    {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB
                                 </div>
                             </div>
                             """
@@ -2263,6 +2281,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
