@@ -1746,41 +1746,38 @@ def tampilkan_kendali_tim():
 
         # --- TAMPILAN 5: MONITORING PROGRES PRODUKSI (PENGGANTI GRAFIK) ---
         with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=True):
-            if rekap_total_video:
-                # 1. Hitung Target Berjalan (Acuan 40 video/bulan)
-                # Rumus: (Target 40 / 25 hari kerja) * Hari ke-X
-                progres_hari = min(sekarang.day, 25)
-                target_aman = round((40 / 25) * progres_hari, 1)
+            if rekap_total_video is not None:
+                # --- LOGIKA TARGET SMART SWITCH ---
+                if tahun_dipilih == 2026 and bulan_dipilih == 2:
+                    t_normal = 10
+                else:
+                    t_normal = 40
                 
-                # 2. Olah Data Monitoring (PASTIKAN SEMUA MUNCUL)
+                progres_hari = min(sekarang.day, 25)
+                target_aman = round((t_normal / 25) * progres_hari, 1)
+                
                 data_monitor = []
                 for _, s in df_staff.iterrows():
                     n_up = str(s.get('NAMA', '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    jml_v = rekap_total_video.get(n_up, 0) # Kalau tidak ada, otomatis 0
+                    jml_v = rekap_total_video.get(n_up, 0)
                     selisih = jml_v - target_aman
                     
-                    if jml_v >= target_aman:
-                        status = "AMAN (ON TRACK)"
-                    elif jml_v >= (20 / 25) * progres_hari:
-                        status = "WASPADA (HAMPIR SP)"
-                    else:
-                        status = "BAHAYA (SP 3)"
+                    if jml_v >= target_aman: status = "🟢 AMAN"
+                    elif jml_v >= (t_normal * 0.5 / 25) * progres_hari: status = "🟡 WASPADA"
+                    else: status = "🔴 BAHAYA (SP 3)"
                     
                     data_monitor.append({
                         "NAMA STAF": n_up,
                         "HASIL": int(jml_v),
                         "TARGET MINIMAL": target_aman,
-                        "SELISIH": f"{selisih:+.1f}",
+                        "SELISIH": round(selisih, 1),
                         "STATUS": status
                     })
                 
-                # 3. Tampilkan Tabel Standar
                 st.table(pd.DataFrame(data_monitor))
-                
-                # 4. Info Tambahan
-                st.info(f"💡 Target minimal hari ini (Tanggal {sekarang.day}) adalah {target_aman} video untuk status AMAN.")
+                st.info(f"💡 Target minimal hari ini (Tgl {sekarang.day}) adalah {target_aman} video (Standar {t_normal} video/bulan).")
             else:
                 st.info("Belum ada aktivitas produksi yang tercatat 'FINISH' bulan ini.")
 
@@ -2343,6 +2340,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
