@@ -1849,34 +1849,31 @@ def tampilkan_kendali_tim():
                         
                         # --- DESAIN SLIP HTML MEWAH ---
                         slip_html = f"""
-                        <div style="background-color: white; color: black; padding: 25px; border-radius: 15px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                            <div style="text-align: center; margin-bottom: 20px;">
-                                <h2 style="margin:0; color: #1d976c; letter-spacing: 2px;">PINTAR MEDIA</h2>
-                                <div style="font-size: 10px; color: #666; text-transform: uppercase;">Creative AI Studio Production</div>
-                                <hr style="border: 0.5px dashed #1d976c; margin: 15px 0;">
-                                <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-weight: bold; font-size: 11px;">OFFICIAL SALARY SLIP</div>
+                        <div style="background-color: white; color: black; padding: 25px; border-radius: 12px; border: 4px solid #1d976c; font-family: sans-serif; width: 320px; margin: auto; box-shadow: 0px 4px 10px rgba(0,0,0,0.1);">
+                            <div style="text-align: center; margin-bottom: 15px;">
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="130" style="margin-bottom: 5px;">
+                                <div style="font-size: 10px; color: #666;">Creative AI Studio & Production</div>
+                                <hr style="border: 0.5px dashed #1d976c; margin: 12px 0;">
+                                <div style="background-color: #1d976c; color: white; display: inline-block; padding: 5px 15px; border-radius: 6px; font-weight: bold; font-size: 12px;">SLIP GAJI (ADMIN VIEW)</div>
                             </div>
-                            <table style="width: 100%; font-size: 13px; color: #333; border-collapse: collapse;">
-                                <tr><td style="padding: 4px 0;">Penerima</td><td align="right"><b>{n_up}</b></td></tr>
-                                <tr><td style="padding: 4px 0;">Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
-                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 10px 0;"></td></tr>
-                                <tr><td style="padding: 4px 0;">Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
-                                <tr><td style="padding: 4px 0;">Tunjangan Jabatan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
-                                <tr><td style="padding: 4px 0;">Uang Absen (3+)</td><td align="right">Rp {u_absen_staf:,}</td></tr>
-                                <tr><td style="padding: 4px 0;">Bonus Video (4+)</td><td align="right">Rp {b_video_staf:,}</td></tr>
-                                <tr style="color: #d9534f;">
-                                    <td style="padding: 4px 0;">Potongan Penalti (SP)</td>
-                                    <td align="right">- Rp {p_sp:,}</td>
-                                </tr>
-                                <tr><td colspan="2" style="padding: 10px 0;"><div style="border-top: 2px solid #333;"></div></td></tr>
+                            <table style="width: 100%; font-size: 13px; border-collapse: collapse; color: black;">
+                                <tr><td>Staf</td><td align="right"><b>{n_up}</b></td></tr>
+                                <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 0.5px solid #eee; margin: 8px 0;"></td></tr>
+                                <tr><td>Gaji Pokok</td><td align="right">Rp {v_gapok:,}</td></tr>
+                                <tr><td>Tunjangan</td><td align="right">Rp {v_tunjangan:,}</td></tr>
+                                <tr><td>Uang Absen (3+)</td><td align="right">Rp {uang_absen_staff:,}</td></tr>
+                                <tr><td>Bonus Video (4+)</td><td align="right">Rp {bonus_v_harian:,}</td></tr>
+                                <tr style="color: #ff4b4b;"><td>Potongan SP</td><td align="right">- Rp {pot_sp_admin:,}</td></tr>
+                                <tr><td colspan="2"><hr style="border: 1px dashed black; margin: 15px 0;"></td></tr>
                                 <tr style="font-weight: bold; font-size: 16px; color: #1d976c;">
-                                    <td>TOTAL TERIMA</td>
-                                    <td align="right">Rp {v_total:,}</td>
-                                </tr>
+                                    <td>TOTAL TERIMA</td><td align="right">Rp {v_total_terima:,}</td></tr>
                             </table>
-                            <div style="margin-top: 25px; text-align: center; font-size: 9px; color: #999; font-style: italic;">
-                                Diterbitkan secara digital oleh PINTAR SYSTEM<br>
-                                {datetime.now().strftime('%d/%m/%Y %H:%M')} WIB
+                            
+                            <div style="margin-top: 25px; text-align: center; border-top: 1px solid #eee; padding-top: 10px;">
+                                <div style="font-size: 9px; color: #999;">Diterbitkan otomatis oleh</div>
+                                <div style="font-size: 11px; font-weight: bold; color: #1d976c;">PINTAR MEDIA SYSTEM</div>
+                                <div style="font-size: 8px; color: #ccc; margin-top: 5px;">{datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M')} WIB</div>
                             </div>
                         </div>
                         """
@@ -2295,6 +2292,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
