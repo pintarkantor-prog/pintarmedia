@@ -1181,13 +1181,19 @@ def tampilkan_tugas_kerja():
                     
                     with st.expander("🔍 DETAIL & OLAH TUGAS"):
                         st.code(t["Instruksi"])
+                        
+                        # --- Perbaikan Spasi di Sini ---
                         if t.get("Link_Hasil") and str(t["Link_Hasil"]).strip() != "-":
                             st.markdown("🔗 **Link Hasil Kerja:**")
                             links = str(t["Link_Hasil"]).split(",")
                             for i, link in enumerate(links):
                                 if "http" in link:
-                                st.write(f"👉 [KLIK LINK HASIL {i+1}]({link.strip()})")
-                        if t.get("Catatan_Revisi"): st.warning(f"⚠️ {t['Catatan_Revisi']}")
+                                    # Baris ini harus menjorok ke dalam (1 tab/4 spasi) dari 'if' di atasnya
+                                    st.write(f"👉 [KLIK LINK HASIL {i+1}]({link.strip()})")
+                        
+                        if t.get("Catatan_Revisi"): 
+                            st.warning(f"⚠️ {t['Catatan_Revisi']}")
+                            
                         st.divider()
                         
                         # --- LOGIKA AKSI STAFF (SETOR) ---
@@ -2120,6 +2126,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
