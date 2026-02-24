@@ -953,50 +953,48 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     bonus_video_total = 0
     uang_absen_total = 0
     hari_lemah = 0  
-    pot_sp = 0
-    level_sp = "NORMAL"
     
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
-
-    if df_arsip_user.empty and df_absen_user.empty:
-        return 0, 0, 0, "BELUM ADA DATA", 0
-
-    df_arsip_user = bersihkan_data(df_arsip_user)
-    df_absen_user = bersihkan_data(df_absen_user)
     
-    if 'TANGGAL' in df_absen_user.columns:
-        df_absen_user['TANGGAL_DT'] = pd.to_datetime(df_absen_user['TANGGAL'], errors='coerce')
-        # FILTER RESET OTOMATIS: Hanya hitung absen bulan terpilih
-        mask_absen = (df_absen_user['TANGGAL_DT'].dt.month == bulan_pilih) & \
-                     (df_absen_user['TANGGAL_DT'].dt.year == tahun_pilih)
-        df_absen_pilih = df_absen_user[mask_absen].copy()
-
-        if 'TGL_SIMPLE' in df_arsip_user.columns:
-            rekap_harian = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].groupby('TGL_SIMPLE').size().to_dict()
-            for tgl in df_absen_pilih['TANGGAL_DT'].dt.date.dropna().unique():
-                tgl_str = str(tgl)
-                jml_v = rekap_harian.get(tgl_str, 0)
-                
-                if jml_v < 3: hari_lemah += 1 # Nyawa berkurang
-                if jml_v >= 3: uang_absen_total += 30000 # Bonus absen
-                if jml_v >= 5:
-                    bonus_video_total += (jml_v - 4) * 30000 # Bonus video ke-5 dst
-
-    # Logika SP berdasarkan Akumulasi Hari Lemah
-    if bulan_pilih == sekarang.month and tahun_pilih == sekarang.year and sekarang.day <= 6:
-        pot_sp = 0; level_sp = "NORMAL (MASA PROTEKSI)"
+    # 1. TENTUKAN BATAS TANGGAL (Sampai kemarin saja agar hari ini tidak kena SP prematur)
+    if bulan_pilih == sekarang.month:
+        batas_tgl_cek = sekarang.day - 1
     else:
-        if hari_lemah >= 21: pot_sp = 1000000; level_sp = "SP 3 (CUT OFF)"
+        # Jika ngecek bulan lalu, cek sampai tgl 30/31
+        import calendar
+        batas_tgl_cek = calendar.monthrange(tahun_pilih, bulan_pilih)[1]
+
+    # 2. REKAP HARIAN (Hanya yang FINISH)
+    df_finish = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].copy()
+    rekap_harian = {}
+    if not df_finish.empty:
+        # Gunakan kolom DEADLINE sebagai acuan tgl
+        df_finish['TGL_ONLY'] = pd.to_datetime(df_finish['DEADLINE']).dt.day
+        rekap_harian = df_finish.groupby('TGL_ONLY').size().to_dict()
+
+    # 3. LOOPING SETIAP TANGGAL (WAJIB CEK SEMUA HARI)
+    for tgl in range(1, batas_tgl_cek + 1):
+        jml_v = rekap_harian.get(tgl, 0)
+        
+        if jml_v < 3: 
+            hari_lemah += 1 # Nambah nyawa berkurang kalo < 3 video
+        
+        if jml_v >= 3: 
+            uang_absen_total += 30000 # Bonus absen cair
+            
+        if jml_v >= 5:
+            bonus_video_total += (jml_v - 4) * 30000 # Bonus lembur
+
+    # 4. LOGIKA SP (Sama seperti sebelumnya)
+    pot_sp = 0
+    if bulan_pilih == sekarang.month and sekarang.day <= 6:
+        level_sp = "NORMAL (PROTEKSI)"
+    else:
+        if hari_lemah >= 21: pot_sp = 1000000; level_sp = "SP 3"
         elif hari_lemah >= 14: pot_sp = 700000; level_sp = "SP 2"
         elif hari_lemah >= 7: pot_sp = 300000; level_sp = "SP 1"
         else: pot_sp = 0; level_sp = "NORMAL"
-
-    # BONUS SULTAN 100 VIDEO
-    total_v_finish = len(df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'])
-    if total_v_finish >= 100:
-        bonus_video_total += 500000
-        level_sp += " + 👑 BONUS 100V"
 
     return bonus_video_total, uang_absen_total, pot_sp, level_sp, hari_lemah
 
@@ -2234,6 +2232,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
