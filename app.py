@@ -1098,14 +1098,14 @@ def tampilkan_tugas_kerja():
         df_all_tugas = pd.DataFrame(data_tugas)
         df_all_tugas = bersihkan_data(df_all_tugas)
         
-# --- PERBAIKAN RADAR PERFORMA + LOGIKA SP TERPADU (VERSI FINAL) ---
+        # --- MODERN UI: HEADER, LOGO & RADAR PERFORMA TERPADU (FULL BLOCK) ---
         if user_sekarang != "dian" and user_sekarang != "tamu":
-            # 1. Hitung Hasil Finish
+            # 1. HITUNG HASIL FINISH
             mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             v_finish = len(df_all_tugas[mask_user & mask_finish])
             
-            # 2. Siapkan Data untuk Hitung SP agar Sinkron ke Radar
+            # 2. AMBIL DATA ABSEN UNTUK LOGIKA SP
             df_arsip_user = df_all_tugas[mask_user & mask_finish].copy()
             try:
                 # Mengambil data absen user untuk hitungan SP Live di Radar
@@ -1115,36 +1115,41 @@ def tampilkan_tugas_kerja():
             except:
                 df_absen_user = pd.DataFrame()
 
-            # 3. Panggil Mesin Hitung SP (Untuk diletakkan di Radar)
+            # 3. PANGGIL MESIN HITUNG SP (Untuk diletakkan di Radar)
             b_vid_r, u_hadir_r, pot_sp_r, level_sp_r = hitung_logika_performa_dan_bonus(
                 df_arsip_user, df_absen_user, sekarang.month, sekarang.year
             )
             
-            # 4. Kalkulasi Target Radar
+            # 4. KALKULASI TARGET RADAR
             t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
             progres_h = min(sekarang.day, 25)
             target_h_ini = round((t_norm / 25) * progres_h, 1)
             selisih = v_finish - target_h_ini
 
-            # 5. Render Visual Radar (Tampilan Paling Atas)
-            with wadah_radar.container(border=True):
-                c1, c2, c3 = st.columns([1.5, 1, 1])
+            # --- RENDER UI: LOGO & RADAR BOX ---
+            # Menampilkan Logo Official dari GitHub
+            st.image("https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png", width=200)
+            
+            # Radar Box Modern 3 Kolom
+            with st.container(border=True):
+                c_status, c_hasil, c_target = st.columns([1.5, 1, 1])
                 
-                # Logika Pesan Radar (Status SP Otomatis Muncul di Sini)
-                if sekarang.day <= 6:
-                    c1.info(f"🛡️ **MASA PROTEKSI**\n\nStatus: {level_sp_r}\nTarget bulan ini: {t_norm} Video.")
-                elif pot_sp_r > 0:
-                    # Kalau kena SP, box Radar langsung berubah Merah (Error)
-                    c1.error(f"⚠️ **STATUS: {level_sp_r}**\n\nPotongan: Rp {pot_sp_r:,}\nKejar {abs(selisih):.1f} video lagi!")
-                elif v_finish >= target_h_ini:
-                    c1.success(f"🟢 **PERFORMA AMAN**\n\nStatus: {level_sp_r}\nGaji aman dari potongan.")
-                else:
-                    c1.warning(f"🟡 **DI BAWAH TARGET**\n\nStatus: {level_sp_r}\nKurang {abs(selisih):.1f} video!")
+                with c_status:
+                    if sekarang.day <= 6:
+                        st.info(f"🛡️ **MASA PROTEKSI**\n\nStatus: {level_sp_r}\nTarget: {t_norm} Video.")
+                    elif pot_sp_r > 0:
+                        st.error(f"⚠️ **{level_sp_r}**\n\nPotongan: Rp {pot_sp_r:,}\nKejar {abs(selisih):.1f} video!")
+                    elif v_finish >= target_h_ini:
+                        st.success(f"🟢 **PERFORMA AMAN**\n\nStatus: {level_sp_r}\nGaji aman dari potongan.")
+                    else:
+                        st.warning(f"🟡 **DI BAWAH TARGET**\n\nStatus: {level_sp_r}\nKurang {abs(selisih):.1f} video!")
 
-                c2.metric("HASIL SAYA", f"{v_finish} Video", f"{selisih:.1f}")
-                c3.metric("TARGET AMAN", f"{target_h_ini} Video")
-        
-        # --- LANJUTAN KODE ASLI KAMU (JANGAN DIHAPUS) ---
+                c_hasil.metric("HASIL SAYA", f"{v_finish} Vid", f"{selisih:.1f}")
+                c_target.metric("TARGET AMAN", f"{target_h_ini} Vid")
+
+            st.divider()
+
+        # --- LANJUTAN KODE SISTEM (JANGAN DIHAPUS) ---
         if not df_all_tugas.empty:
             df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         
@@ -2348,6 +2353,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
