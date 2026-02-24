@@ -557,19 +557,22 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # 2. MENU RADIO
-        # Gunakan 'key' agar tersimpan di session_state secara otomatis
+        # 2. MENU RADIO (VERSI ANTI-MACET)
+        list_menu = ["🚀 RUANG PRODUKSI", "🧠 PINTAR AI LAB", "💡 GUDANG IDE", "📋 TUGAS KERJA", "⚡ KENDALI TIM"]
+        
+        # Cari tahu menu mana yang lagi aktif di session state buat nentuin posisi kursor radio
+        if "COMMAND_MENU" not in st.session_state:
+            st.session_state["COMMAND_MENU"] = "🚀 RUANG PRODUKSI"
+            
+        index_aktif = list_menu.index(st.session_state["COMMAND_MENU"])
+
         st.radio(
-            "COMMAND_MENU_LABEL", 
-            [
-                "🚀 RUANG PRODUKSI", 
-                "🧠 PINTAR AI LAB", 
-                "💡 GUDANG IDE", 
-                "📋 TUGAS KERJA", 
-                "⚡ KENDALI TIM"
-            ],
+            "Pilih Menu",
+            list_menu,
+            index=index_aktif, # <--- Paksa kursor pindah ke sini
             label_visibility="collapsed",
-            key="COMMAND_MENU" 
+            key="COMMAND_MENU_WIDGET", # <--- Ganti nama key-nya dikit biar gak bentrok
+            on_change=lambda: st.session_state.update({"COMMAND_MENU": st.session_state["COMMAND_MENU_WIDGET"]})
         )
         
         # 3. GARIS PEMISAH
@@ -2277,3 +2280,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
