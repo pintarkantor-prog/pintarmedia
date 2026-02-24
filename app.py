@@ -844,8 +844,8 @@ def tampilkan_gudang_ide():
             st.markdown(f"""
                 <div class="loading-overlay">
                     <h1 style="font-size: 60px; margin-bottom: 10px;">✅</h1>
-                    <h2 style='color: white; letter-spacing: 2px;'>BERHASIL!</h2>
-                    <p style='color: #8b949e; font-size: 13px;'>Silahkan cek menu <b>🚀 RUANG PRODUKSI</b><br>untuk mulai pengerjaan.</p>
+                    <h2 style='color: white; letter-spacing: 2px;'>BERHASIL TERPASANG</h2>
+                    <p style='color: #8b949e;'>Silahkan cek menu <b>🚀 RUANG PRODUKSI</b><br>untuk mulai pengerjaan.</p>
                 </div>
             """, unsafe_allow_html=True)
         else:
@@ -2253,6 +2253,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
