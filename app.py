@@ -1262,50 +1262,57 @@ def tampilkan_tugas_kerja():
                                     b1, b2, b3 = st.columns(3)
                                     with b1:
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
-                                            # 1. IDENTIFIKASI DATA
-                                            staf_nama = str(t['STAF']).upper().strip()
-                                            id_tugas = str(t['ID']).strip()
-                                            tgl_tugas = t['DEADLINE'] # Tanggal setoran
+                                            try:
+                                                # 1. IDENTIFIKASI DATA
+                                                staf_nama = str(t['STAF']).upper().strip()
+                                                id_tugas = str(t['ID']).strip()
+                                                tgl_tugas = str(t['DEADLINE'])
 
-                                            # 2. UPDATE STATUS TUGAS DI GSHEET
-                                            cell = sheet_tugas.find(id_tugas)
-                                            sheet_tugas.update_cell(cell.row, 5, "FINISH")
+                                                # 2. UPDATE STATUS TUGAS DI GSHEET
+                                                cell = sheet_tugas.find(id_tugas)
+                                                sheet_tugas.update_cell(cell.row, 5, "FINISH")
 
-                                            # 3. HITUNG JUMLAH FINISH HARI INI (UNTUK BONUS)
-                                            df_cek = ambil_data_segar("Tugas")
-                                            df_hari_ini = df_cek[(df_cek['STAF'] == staf_nama) & 
-                                                                 (df_cek['DEADLINE'] == tgl_tugas) & 
-                                                                 (df_cek['STATUS'] == 'FINISH')]
-                                            
-                                            jml_video = len(df_hari_ini) + 1 # +1 karena yang baru di-ACC belum masuk df_cek
+                                                # 3. HITUNG JUMLAH VIDEO SELESAI HARI INI
+                                                df_cek = ambil_data_segar("Tugas")
+                                                df_cek.columns = [str(c).strip().upper() for c in df_cek.columns]
+                                                
+                                                df_hari_ini = df_cek[(df_cek['STAF'] == staf_nama) & 
+                                                                     (df_cek['DEADLINE'] == tgl_tugas) & 
+                                                                     (df_cek['STATUS'] == 'FINISH')]
+                                                
+                                                jml_video = len(df_hari_ini) + 1
 
-                                            # 4. KONEKSI KE ARUS KAS
-                                            ws_kas = sh.worksheet("Arus_Kas")
-                                            data_kas_raw = ws_kas.get_all_records()
-                                            df_kas_cek = pd.DataFrame(data_kas_raw)
+                                                # 4. CATAT BONUS KE ARUS_KAS
+                                                ws_kas = sh.worksheet("Arus_Kas")
+                                                data_kas_raw = ws_kas.get_all_records()
+                                                df_kas_cek = pd.DataFrame(data_kas_raw)
+                                                if not df_kas_cek.empty:
+                                                    df_kas_cek.columns = [str(c).strip().upper() for c in df_kas_cek.columns]
 
-                                            if not df_kas_cek.empty:
-                                                df_kas_cek.columns = [str(c).strip().upper() for c in df_kas_cek.columns]
+                                                msg_bonus = "" # Buat nambahin info di WA nanti
 
-                                            # --- A. CEK BONUS ABSEN (Video ke-3) ---
-                                            if jml_video == 3:
-                                                mask_absen = (df_kas_cek['TANGGAL'] == tgl_tugas) & \
-                                                             (df_kas_cek['KETERANGAN'].str.contains(f"Bonus Absen: {staf_nama}"))
-                                                if not any(mask_absen):
+                                                # --- LOGIKA BONUS ---
+                                                if jml_video == 3:
                                                     ws_kas.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Absen: {staf_nama}", "SISTEM (AUTO-ACC)"])
+                                                    msg_bonus = "\n💰 *BONUS ABSEN:* Rp 30,000"
                                                     st.toast(f"💰 Bonus Absen {staf_nama} dicatat!", icon="💸")
 
-                                            # --- B. CEK BONUS LEMBUR (Video ke-5 keatas) ---
-                                            if jml_video >= 5:
-                                                mask_lembur = (df_kas_cek['KETERANGAN'].str.contains(id_tugas))
-                                                if not any(mask_lembur):
+                                                elif jml_video >= 5:
                                                     ws_kas.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Lembur: {staf_nama} ({id_tugas})", "SISTEM (AUTO-ACC)"])
+                                                    msg_bonus = f"\n🔥 *BONUS LEMBUR:* Rp 30,000 (ID: {id_tugas})"
                                                     st.toast(f"🔥 Bonus Lembur {staf_nama} dicatat!", icon="🚀")
 
-                                            # 5. NOTIFIKASI & SELESAI
-                                            catat_log(f"ACC Tugas {id_tugas} - Staf: {staf_nama}")
-                                            kirim_notif_wa(f"✅ *SELESAI*\n👤 *Editor:* {staf_nama}\n🆔 *ID:* {id_tugas}\n✨ Hasil kerja sudah di-ACC & Kas Terupdate.")
-                                            st.success("ACC!"); time.sleep(1); st.rerun()
+                                                # 5. KIRIM NOTIF WA (PASTIKAN FUNGSI INI ADA)
+                                                pesan_wa = f"✅ *TUGAS SELESAI (ACC)*\n\n👤 *Editor:* {staf_nama}\n🆔 *ID Tugas:* {id_tugas}\n📅 *Tanggal:* {tgl_tugas}{msg_bonus}\n\n✨ _Hasil kerja sudah masuk ke laporan keuangan._"
+                                                kirim_notif_wa(pesan_wa) 
+
+                                                # 6. REFRESH
+                                                st.success(f"Tugas {id_tugas} Selesai!")
+                                                time.sleep(1)
+                                                st.rerun()
+
+                                            except Exception as e:
+                                                st.error(f"Gagal ACC: {e}")
 
                                     with b2:
                                         if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
@@ -1721,7 +1728,8 @@ def tampilkan_kendali_tim():
         df_staff = bersihkan_data(df_staff)
         df_absen = ambil_data_lokal("Absensi")
         ws_kas_live = sh.worksheet("Arus_Kas")
-        df_kas = pd.DataFrame(ws_kas_live.get_all_records())
+        data_kas_raw = ws_kas_live.get_all_records()
+        df_kas = pd.DataFrame(data_kas_raw)
         df_kas.columns = [str(c).strip().upper() for c in df_kas.columns]
         ws_tugas = sh.worksheet("Tugas")
 
@@ -2430,6 +2438,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
