@@ -1682,7 +1682,7 @@ def tampilkan_tugas_kerja():
         else:
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
                 
-def tampilkan_kendali_tim():
+def tampilkan_kendali_tim():    
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
     # 1. PROTEKSI AKSES (Hanya Dian)
@@ -1694,6 +1694,7 @@ def tampilkan_kendali_tim():
 
     # 2. HALAMAN KHUSUS ADMIN
     st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
+    st.cache_data.clear()
     
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
@@ -1719,7 +1720,9 @@ def tampilkan_kendali_tim():
         df_staff = ambil_data_lokal("Staff")
         df_staff = bersihkan_data(df_staff)
         df_absen = ambil_data_lokal("Absensi")
-        df_kas = ambil_data_lokal("Arus_Kas")
+        ws_kas_live = sh.worksheet("Arus_Kas")
+        df_kas = pd.DataFrame(ws_kas_live.get_all_records())
+        df_kas.columns = [str(c).strip().upper() for c in df_kas.columns]
         ws_tugas = sh.worksheet("Tugas")
 
         # Ambil Data Tugas
@@ -2427,6 +2430,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
