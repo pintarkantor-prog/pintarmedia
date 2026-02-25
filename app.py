@@ -1701,91 +1701,100 @@ def tampilkan_kendali_tim():
 
         st.divider()
                 
-# --- TAMPILAN 4: MASTER MONITORING & RADAR TIM (DIRECT VIEW) ---
-st.markdown("### 🚀 MASTER MONITORING & RADAR TIM")
+# ======================================================================
+        # --- 4. MASTER MONITORING & RADAR TIM (DIRECT VIEW) ---
+        # ======================================================================
+        st.markdown("### 🚀 MASTER MONITORING & RADAR TIM")
 
-# Kalkulasi Target Global
-t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-progres_h = min(sekarang.day, 25)
-target_aman = round((t_normal / 25) * progres_h, 1)
+        # Kalkulasi Target Global
+        t_normal_global = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
+        progres_h_global = min(sekarang.day, 25)
+        target_aman_global = round((t_normal_global / 25) * progres_h_global, 1)
 
-# --- GRID 4 KOLOM UNTUK TIAP STAF ---
-kolom_card = st.columns(4)
+        # Container untuk Grid Card
+        kolom_card = st.columns(4)
 
-total_video_tim = 0
-total_hadir_tim = 0
-total_malas_tim = 0
+        # Inisialisasi variabel untuk Rangkuman (Summary Bar)
+        total_video_tim = 0
+        total_hadir_tim = 0
+        total_malas_tim = 0
 
-for idx, s in df_staff.iterrows():
-    n_up = str(s.get('NAMA', '')).strip().upper()
-    if n_up == "" or n_up == "NAN": continue
-    
-    # Logika Data Dasar
-    jml_v = rekap_total_video.get(n_up, 0)
-    total_video_tim += jml_v # Hitung total buat rangkuman
-    
-    h_cair, h_malas = 0, 0
-    if n_up in rekap_harian_tim:
-        for tgl_idx, qty in rekap_harian_tim[n_up].items():
-            if qty >= 3: h_cair += 1
-            if qty <= 1: h_malas += 1
-    total_malas_tim += h_malas
-    
-    t_hadir = 0
-    if not df_a_f.empty:
-        t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
-    total_hadir_tim += t_hadir
+        # Loop Staf untuk membuat Card
+        for idx, s in df_staff.iterrows():
+            n_up = str(s.get('NAMA', '')).strip().upper()
+            if n_up == "" or n_up == "NAN": continue
+            
+            # A. Ambil Data Video & Absensi
+            jml_v = rekap_total_video.get(n_up, 0)
+            total_video_tim += jml_v 
+            
+            h_cair, h_malas = 0, 0
+            if n_up in rekap_harian_tim:
+                for tgl_idx, qty in rekap_harian_tim[n_up].items():
+                    if qty >= 3: h_cair += 1
+                    if qty <= 1: h_malas += 1
+            total_malas_tim += h_malas
+            
+            t_hadir = 0
+            if not df_a_f.empty:
+                t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
+            total_hadir_tim += t_hadir
 
-    # Warna Radar
-    if jml_v >= target_aman: warna, stat_msg = "#1d976c", "AMAN"
-    elif jml_v >= (target_aman * 0.6): warna, stat_msg = "#f39c12", "WASPADA"
-    else: warna, stat_msg = "#e74c3c", "KRITIS"
+            # B. Tentukan Warna Radar
+            if jml_v >= target_aman_global: 
+                warna_bg, stat_txt = "#1d976c", "AMAN"
+            elif jml_v >= (target_aman_global * 0.6): 
+                warna_bg, stat_txt = "#f39c12", "WASPADA"
+            else: 
+                warna_bg, stat_txt = "#e74c3c", "KRITIS"
 
-    with kolom_card[idx % 4]:
+            # C. Render Card ke Grid
+            with kolom_card[idx % 4]:
+                with st.container(border=True):
+                    st.markdown(f"""
+                        <div style="text-align: center; padding: 5px; background: {warna_bg}; border-radius: 8px 8px 0 0; margin: -15px -15px 10px -15px;">
+                            <b style="color: white; font-size: 13px;">{n_up}</b><br>
+                            <small style="color: white; font-size: 10px;">{stat_txt}</small>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    
+                    c1, c2 = st.columns(2)
+                    c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>FINISH</p><b style='font-size:16px;'>{int(jml_v)}</b>", unsafe_allow_html=True)
+                    c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>HADIR</p><b style='font-size:16px;'>{t_hadir}</b>", unsafe_allow_html=True)
+                    
+                    st.divider()
+                    
+                    st.markdown(f"""
+                        <div style="font-size: 11px; margin-bottom: 5px;">
+                            ✨ Cair: <b>{h_cair} HR</b> | ⚠️ Malas: <b style="color:{'#e74c3c' if h_malas >= 7 else '#888'};">{h_malas} HR</b>
+                        </div>
+                    """, unsafe_allow_html=True)
+                    
+                    prog_val = min(jml_v / t_normal_global, 1.0)
+                    st.progress(prog_val)
+
+        # --- SUMMARY BAR (RANGKUMAN TOTAL DI BAWAH) ---
+        st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown(f"""
-                <div style="text-align: center; padding: 5px; background: {warna}; border-radius: 8px 8px 0 0; margin: -15px -15px 10px -15px;">
-                    <b style="color: white; font-size: 13px;">{n_up}</b><br>
-                    <small style="color: white; font-size: 10px;">{stat_msg}</small>
-                </div>
-            """, unsafe_allow_html=True)
+            st.markdown("<p class='small-label'>📊 RANGKUMAN LAPORAN KOLEKTIF</p>", unsafe_allow_html=True)
+            col_sum1, col_sum2, col_sum3, col_sum4 = st.columns(4)
             
-            c1, c2 = st.columns(2)
-            c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>FINISH</p><b style='font-size:16px;'>{int(jml_v)}</b>", unsafe_allow_html=True)
-            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>HADIR</p><b style='font-size:16px;'>{t_hadir}</b>", unsafe_allow_html=True)
+            # 1. Total Produksi
+            col_sum1.metric("Total Video Tim", f"{int(total_video_tim)} Vid")
             
-            st.divider()
+            # 2. Keuangan (Saldo Bersih dari variabel inc dan ops)
+            pengeluaran_total = total_pengeluaran_gaji + ops
+            saldo_akhir = inc - pengeluaran_total
+            col_sum2.metric("Saldo Bersih", f"Rp {saldo_akhir:,.0f}")
             
-            st.markdown(f"""
-                <div style="font-size: 11px; margin-bottom: 5px;">
-                    ✨ Cair: <b>{h_cair} HR</b> | ⚠️ Malas: <b style="color:{'#e74c3c' if h_malas >= 7 else '#888'};">{h_malas} HR</b>
-                </div>
-            """, unsafe_allow_html=True)
-            prog_val = min(jml_v / t_normal, 1.0)
-            st.progress(prog_val)
+            # 3. Keaktifan
+            avg_hadir = total_hadir_tim / len(df_staff) if len(df_staff) > 0 else 0
+            col_sum3.metric("Rerata Kehadiran", f"{avg_hadir:.1f} Hari")
+            
+            # 4. Total Pelanggaran
+            col_sum4.metric("Total Hari Malas", f"{total_malas_tim} Hari", delta=f"-{total_malas_tim}", delta_color="inverse")
 
-# --- KOLOM PANJANG RANGKUMAN TOTAL (SUMMARY BAR) ---
-st.markdown("<br>", unsafe_allow_html=True)
-with st.container(border=True):
-    st.markdown("#### 📊 RANGKUMAN LAPORAN BULAN INI")
-    col_sum1, col_sum2, col_sum3, col_sum4 = st.columns(4)
-    
-    # 1. Total Produksi Tim
-    col_sum1.metric("Total Video Tim", f"{int(total_video_tim)} Vid")
-    
-    # 2. Keuangan (Saldo Bersih)
-    # Ini otomatis ngambil dari logika keuanganmu
-    saldo_bersih = total_pemasukan - total_pengeluaran
-    col_sum2.metric("Saldo Bersih", f"Rp {saldo_bersih:,.0f}", delta=f"{saldo_bersih:,.0f}")
-    
-    # 3. Efisiensi Tim
-    avg_hadir = total_hadir_tim / len(df_staff) if len(df_staff) > 0 else 0
-    col_sum3.metric("Rata-rata Hadir", f"{avg_hadir:.1f} Hari")
-    
-    # 4. Total Pelanggaran
-    col_sum4.metric("Total Hari Malas", f"{total_malas_tim} Hari", delta=f"-{total_malas_tim}", delta_color="inverse")
-
-st.info(f"💡 **Target Operasional:** Untuk mencapai profit maksimal, tim harus menyelesaikan total **{t_normal * len(df_staff)}** video bulan ini.")
+        st.info(f"💡 **Target Operasional:** Untuk mencapai profit maksimal, tim harus menyelesaikan total **{t_normal_global * len(df_staff)}** video bulan ini.")
         
         # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -2295,6 +2304,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
