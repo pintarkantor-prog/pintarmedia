@@ -1440,32 +1440,12 @@ def tampilkan_tugas_kerja():
                         S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + b_video + u_hadir) - pot_sp)
                         
                         # --- TEMPLATE HTML PREMIUM (Variabel disinkronkan) ---
-                        slip_staff_html = f"""
-                        <html>
-                        <head>
-                        <style>
-                            @page {{ size: A4 portrait; margin: 0; }}
-                            @media print {{
-                                body {{ background: white !important; margin: 0; padding: 0; }}
-                                .no-print {{ display: none !important; }}
-                                #slip-container {{ 
-                                    box-shadow: none !important; border: none !important; 
-                                    margin: 0 auto !important; width: 100% !important; 
-                                }}
-                            }}
-                            body {{ background: #f4f7f6; display: flex; justify-content: center; padding: 20px; font-family: sans-serif; }}
-                            #slip-container {{ 
-                                background: white; padding: 20mm; width: 148mm; min-height: 210mm; 
-                                color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border-radius: 20px; 
-                            }}
-                        </style>
-                        </head>
-                        <body>
-                        <div id="slip-container">
+                        slip_html = f"""
+                        <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                             <center>
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
                                 <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin-bottom: 5px;"></div>
-                                <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
+                                <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Draft Slip Gaji</p>
                             </center>
                                     
                             <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
@@ -1493,13 +1473,11 @@ def tampilkan_tugas_kerja():
                                 <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
                                 Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
                             </div>
-                            
-                            <center class="no-print">
-                                <button onclick="window.print()" style="margin-top: 20px; padding: 12px 25px; background: #1d976c; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🖨️ SIMPAN SEBAGAI PDF</button>
-                            </center>
                         </div>
-                        </body>
-                        </html>
+                                
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="window.print()" style="padding: 12px 25px; background: #1a1a1a; color: #55efc4; border: 2px solid #55efc4; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">🖨️ SIMPAN SEBAGAI PDF</button>
+                        </div>
                         """
                         st.components.v1.html(slip_staff_html, height=800)
 
@@ -2330,6 +2308,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
