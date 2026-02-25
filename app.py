@@ -1788,21 +1788,42 @@ def tampilkan_kendali_tim():
             # Bonus Terbayar adalah yang sudah masuk ke Arus Kas via tombol ACC
             bonus_terbayar_kas = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'Gaji Tim')]['NOMINAL'].sum()
 
-        # Hitung Gaji Pokok Kumulatif (Estimasi berdasarkan hari berjalan)
+        # --- HITUNG ESTIMASI GAJI POKOK REAL (SINKRON DENGAN SP) ---
         total_gaji_pokok_tim = 0
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
         if not is_masa_depan:
             for _, s in df_staff.iterrows():
+                n_up = str(s.get('NAMA', '')).strip().upper()
+                if n_up == "" or n_up == "NAN": continue
+                
+                # 1. Ambil Gaji Pokok & Tunjangan asli
                 g_pokok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
-                # Estimasi harian jika bulan berjalan
-                if bulan_dipilih == sekarang.month:
-                    total_gaji_pokok_tim += ((g_pokok + t_tunj) / 25) * min(sekarang.day, 25)
-                else:
-                    total_gaji_pokok_tim += (g_pokok + t_tunj)
+                
+                # 2. HITUNG POTONGAN SP (Biar sinkron sama slip)
+                jml_v = rekap_total_video.get(n_up, 0)
+                pot_sp = 0
+                t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
+                t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
 
-        # TOTAL OUTCOME = Gaji Pokok + Bonus Riil di Kas + Operasional
+                # Syarat SP Aktif (Setelah tanggal 6)
+                if sekarang.day > 6:
+                    if jml_v >= t_normal: pot_sp = 0
+                    elif t_sp1 <= jml_v < t_normal: pot_sp = 300000
+                    elif t_sp2 <= jml_v < t_sp1: pot_sp = 700000
+                    else: pot_sp = 1000000
+                
+                # 3. Gaji Dasar Setelah Kena SP
+                gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp)
+                
+                # 4. Estimasi harian (pake gaji yang sudah dipotong SP)
+                if bulan_dipilih == sekarang.month:
+                    total_gaji_pokok_tim += (gaji_nett / 25) * min(sekarang.day, 25)
+                else:
+                    total_gaji_pokok_tim += gaji_nett
+
+        # TOTAL OUTCOME SINKRON
         total_pengeluaran_gaji = total_gaji_pokok_tim + bonus_terbayar_kas
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
@@ -2494,6 +2515,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
