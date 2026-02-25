@@ -1882,65 +1882,81 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-    # --- TAMPILAN 7: PENGELOLA AKUN AI (VERSI SEJAJAR SEMPURNA) ---    
+    # --- DATABASE AKUN AI (VERSI KLIMIS 4 KOLOM & AUTO-HIDE) ---    
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
-            # 1. AMBIL DATA
+            # 1. AMBIL DATA DARI GSHEET
             ws_akun = sh.worksheet("Akun_AI")
             data_akun_raw = ws_akun.get_all_records()
             df_ai = pd.DataFrame(data_akun_raw)
             
-            # 2. TOMBOL TAMBAH DATA (Toggle Form)
-            if st.button("➕ Tambah Akun Baru", use_container_width=True):
-                st.session_state.buka_form = not st.session_state.get('buka_form', False)
+            # 2. HEADER & TOMBOL TAMBAH
+            c_header, c_tambah = st.columns([3, 1])
+            c_header.markdown("#### 🛠️ KONTROL AKSES TOOL AI")
+            if c_tambah.button("➕ AKUN BARU", use_container_width=True):
+                st.session_state.form_ai = not st.session_state.get('form_ai', False)
             
-            if st.session_state.get('buka_form', False):
-                with st.form("form_ai_simple", clear_on_submit=True):
-                    c1, c2 = st.columns(2)
-                    f_ai = c1.text_input("Nama AI")
-                    f_mail = c2.text_input("Email")
-                    f_pass = c1.text_input("Password")
-                    f_exp = c2.date_input("Tanggal Expired")
-                    if st.form_submit_button("Simpan Ke Cloud"):
-                        ws_akun.append_row([f_ai, f_mail, f_pass, str(f_exp)])
-                        st.success("Data Tersimpan!")
-                        time.sleep(1)
-                        st.rerun()
+            # Form Input (Muncul jika tombol diklik)
+            if st.session_state.get('form_ai', False):
+                with st.form("input_ai_baru", clear_on_submit=True):
+                    f1, f2, f3 = st.columns(3)
+                    v_ai = f1.text_input("Nama Tool (ChatGPT/Midjourney)")
+                    v_mail = f2.text_input("Email Login")
+                    v_pass = f3.text_input("Password")
+                    v_exp = st.date_input("Tanggal Expired")
+                    if st.form_submit_button("🚀 SIMPAN KE CLOUD"):
+                        ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
+                        st.success("Data Tersimpan!"); time.sleep(1); st.rerun()
 
-            st.write("") # Jarak
+            st.divider()
 
-            # 3. DAFTAR AKUN (LOGIKA AUTO-HIDE H+1)
             if not df_ai.empty:
+                # 3. LOGIKA FILTER & TAMPILAN
                 df_ai['EXPIRED'] = pd.to_datetime(df_ai['EXPIRED']).dt.date
-                hari_ini = sekarang.date()
-                df_tampil = df_ai[df_ai['EXPIRED'] + timedelta(days=1) >= hari_ini]
-
-                for _, row in df_tampil.iterrows():
-                    sisa = (row['EXPIRED'] - hari_ini).days
+                h_ini = sekarang.date()
+                
+                # --- FITUR AUTO-HIDE: Hanya tampilkan yang belum lewat tanggal expired ---
+                df_ai = df_ai[df_ai['EXPIRED'] >= h_ini]
+                
+                if not df_ai.empty:
+                    # Grid 4 Kolom
+                    kolom_ai = st.columns(4)
                     
-                    if sisa > 7:
-                        label = "🟢 Aman"
-                    elif 0 <= sisa <= 3:
-                        label = "🟠 Segera Habis"
-                    elif sisa < 0:
-                        label = "🔴 Expired"
-                    else:
-                        label = "⚪ Standby"
+                    for idx, r in df_ai.reset_index().iterrows():
+                        sisa_hari = (r['EXPIRED'] - h_ini).days
+                        
+                        # Penentu Warna Berdasarkan Sisa Hari
+                        if sisa_hari > 7: color, tag = "#1d976c", "🟢 AMAN"
+                        else: color, tag = "#f39c12", "🟠 LIMIT"
 
-                    # Box Tiap Akun - SEMUA SEJAJAR
-                    with st.container(border=True):
-                        col1, col2 = st.columns([2.5, 1.5])
-                        with col1:
-                            # Sisi Kiri: Nama AI, Email, dan Password sejajar
-                            st.write(f"**{row['AI']}** — `{row['EMAIL']}` — Pass: `{row['PASSWORD']}`")
-                        with col2:
-                            # Sisi Kanan: Label Status dan Tanggal sejajar dalam satu baris
-                            st.write(f"**{label}** — `{row['EXPIRED'].strftime('%d %b %Y')}`")
+                        with kolom_ai[idx % 4]:
+                            with st.container(border=True):
+                                # Header Card
+                                st.markdown(f"""
+                                    <div style="text-align:center; padding:5px; background:{color}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                        <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
+                                    </div>
+                                """, unsafe_allow_html=True)
+                                
+                                # Body Akun
+                                st.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>📧 EMAIL</p><code style='font-size:11px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='margin:8px 0 0 0; font-size:9px; color:#888;'>🔑 PASSWORD</p><code style='font-size:11px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                
+                                st.divider()
+                                
+                                # Footer Info
+                                det_a, det_b = st.columns(2)
+                                det_a.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>STATUS</p><b style='font-size:10px;'>{tag}</b>", unsafe_allow_html=True)
+                                det_b.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>EXPIRED</p><b style='font-size:10px;'>{r['EXPIRED'].strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                
+                                st.caption(f"⌛ {sisa_hari} Hari lagi")
+                else:
+                    st.info("Semua akun sudah expired (Auto-Hidden). Silakan update di GSheet untuk memunculkan kembali.")
             else:
-                st.caption("Belum ada data akun.")
+                st.info("Belum ada data langganan tool AI di database.")
 
         except Exception as e:
-            st.info("💡 Pastikan tab 'Akun_AI' sudah ada di Google Sheets.")
+            st.error(f"Gagal memuat Akun AI: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -2290,6 +2306,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
