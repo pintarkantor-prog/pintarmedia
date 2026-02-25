@@ -1440,7 +1440,7 @@ def tampilkan_tugas_kerja():
                         S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + b_video + u_hadir) - pot_sp)
                         
                         # --- TEMPLATE HTML PREMIUM (Variabel disinkronkan) ---
-                        slip_html = f"""
+                        slip_staff_html = f"""
                         <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                             <center>
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
@@ -2308,6 +2308,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
