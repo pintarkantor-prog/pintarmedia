@@ -1150,7 +1150,7 @@ def tampilkan_tugas_kerja():
                     sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
                     catat_log(f"Kirim Tugas Baru {t_id}")
                     if pake_wa:
-                        kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...")
+                        kirim_notif_wa(f"✨ *INFO TUGAS*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:30]}...")
                     st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
     # --- 4. SETOR MANDIRI (VERSI SUPER LOCK) ---
@@ -1258,7 +1258,7 @@ def tampilkan_tugas_kerja():
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            kirim_notif_wa(f"✅ *VIDEO ACC*\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
+                                            kirim_notif_wa(f"✅ *SELESAI*\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t_id_m}\n🎬 *Video:* {judul_m}\n\n✨ Hasil kerja sudah masuk rekapan bulanan.")
                                             st.success("ACC!"); time.sleep(1); st.rerun()
                                     with b2:
                                         if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
@@ -1266,7 +1266,7 @@ def tampilkan_tugas_kerja():
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "REVISI")
                                                 sheet_tugas.update_cell(cell.row, 8, cat_r)
-                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 {t['Staf'].upper()}\n📝 {cat_r}")
+                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t_id_m}\n🎬 *Video:* {judul_m}\n\n📝 Mohon untuk diperbaiki kembali.")
                                                 st.warning("REVISI!"); time.sleep(1); st.rerun()
                                     with b3:
                                         if st.button("🚫 BATAL", key=f"c_{t['ID']}", use_container_width=True):
@@ -1274,6 +1274,7 @@ def tampilkan_tugas_kerja():
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "CANCELED")
                                                 sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
+                                                kirim_notif_wa(f"🚫 *DIBATALKAN*\n\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n🎬 *Video:* {judul_m}\n📝 *Alasan:* {cat_r}")
                                                 st.error("BATAL!"); time.sleep(1); st.rerun()
 
                                 # --- BAGIAN KHUSUS STAFF (SETOR) ---
@@ -2384,7 +2385,7 @@ def tampilkan_ruang_produksi():
                         on_change=simpan_ke_memori
                     )
 
-# --- 4. GLOBAL COMPILER LOGIC ---
+    # --- 4. GLOBAL COMPILER LOGIC ---
     st.markdown("---")
     if st.button("🚀 GENERATE SEMUA PROMPT", use_container_width=True, type="primary"):
         adegan_terisi = [s_id for s_id, isi in data["adegan"].items() if isi["aksi"].strip() != ""]
@@ -2504,6 +2505,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
