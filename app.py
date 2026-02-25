@@ -1782,7 +1782,7 @@ def tampilkan_kendali_tim():
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
-        # ======================================================================
+# ======================================================================
         # --- 6. RINCIAN GAJI & SLIP (VERSI VCARD LUXURY + PDF PRINT) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -1877,74 +1877,76 @@ def tampilkan_kendali_tim():
                 if not ada_kerja:
                     st.info("Belum ada data.")
             except Exception as e:
-                st.error(f"Error: {e}")
-        
-# --- DATABASE AKUN AI (VERSI FULL - KOTAK CODE RAKSASA) ---    
-    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
-        try:
-            # 1. Ambil Data
-            ws_akun = sh.worksheet("Akun_AI")
-            data_akun_raw = ws_akun.get_all_records()
-            df_ai = pd.DataFrame(data_akun_raw)
-            
-            # 2. Tombol Tambah Akun
-            if st.button("➕ TAMBAH AKUN BARU", use_container_width=True):
-                st.session_state.form_ai = not st.session_state.get('form_ai', False)
-            
-            if st.session_state.get('form_ai', False):
-                with st.form("input_ai_simple", clear_on_submit=True):
-                    f1, f2, f3 = st.columns(3)
-                    v_ai = f1.text_input("Nama Tool (ChatGPT/Midjourney)")
-                    v_mail = f2.text_input("Email Login")
-                    v_pass = f3.text_input("Password")
-                    v_exp = st.date_input("Tanggal Expired")
-                    if st.form_submit_button("🚀 SIMPAN KE GSHEET"):
-                        ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
-                        st.success("Berhasil Tersimpan!"); time.sleep(1); st.rerun()
+                st.error(f"Error Slip: {e}")
 
-            st.divider()
+        # ======================================================================
+        # --- 7. DATABASE AKUN AI (SUDAH DIKUNCI SPASINYA) ---
+        # ======================================================================
+        with st.expander("🔐 DATABASE AKUN AI", expanded=False):
+            try:
+                # 1. Ambil Data
+                ws_akun = sh.worksheet("Akun_AI")
+                data_akun_raw = ws_akun.get_all_records()
+                df_ai = pd.DataFrame(data_akun_raw)
+                
+                # 2. Tombol Tambah Akun
+                if st.button("➕ TAMBAH AKUN BARU", use_container_width=True):
+                    st.session_state.form_ai = not st.session_state.get('form_ai', False)
+                
+                if st.session_state.get('form_ai', False):
+                    with st.form("input_ai_simple", clear_on_submit=True):
+                        f1, f2, f3 = st.columns(3)
+                        v_ai = f1.text_input("Nama Tool (ChatGPT/Midjourney)")
+                        v_mail = f2.text_input("Email Login")
+                        v_pass = f3.text_input("Password")
+                        v_exp = st.date_input("Tanggal Expired")
+                        if st.form_submit_button("🚀 SIMPAN KE GSHEET"):
+                            ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
+                            st.success("Berhasil Tersimpan!"); time.sleep(1); st.rerun()
 
-            if not df_ai.empty:
-                # 3. Logika Tampilan 2 Kolom
-                kolom_ai = st.columns(2)
-                h_ini = sekarang.date()
+                st.divider()
 
-                for idx, r in df_ai.iterrows():
-                    # Parsing Tanggal
-                    tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                    sisa = (tgl_exp - h_ini).days
-                    
-                    # Penentu Warna Header & Status
-                    if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
-                    elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
-                    else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
+                if not df_ai.empty:
+                    # 3. Logika Tampilan 2 Kolom
+                    kolom_ai = st.columns(2)
+                    h_ini = sekarang.date()
 
-                    with kolom_ai[idx % 2]:
-                        with st.container(border=True):
-                            # HEADER SLIM BERWARNA
-                            st.markdown(f"""
-                                <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
-                                    <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
-                                </div>
-                            """, unsafe_allow_html=True)
-                            
-                            # BARIS 1: EMAIL & PASSWORD (2 KOLOM - KOTAK CODE 15PX)
-                            c1, c2 = st.columns(2)
-                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
-                            
-                            st.divider()
-                            
-                            # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
-                            b1, b2, b3 = st.columns(3)
-                            b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                            b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                            b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
-            else:
-                st.info("Belum ada data akun AI.")
+                    for idx, r in df_ai.iterrows():
+                        # Parsing Tanggal
+                        tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                        sisa = (tgl_exp - h_ini).days
+                        
+                        # Penentu Warna Header & Status
+                        if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
+                        elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
+                        else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
 
-        except Exception as e:
-            st.error(f"Gagal memuat Database Akun AI: {e}")
+                        with kolom_ai[idx % 2]:
+                            with st.container(border=True):
+                                # HEADER SLIM BERWARNA
+                                st.markdown(f"""
+                                    <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                        <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
+                                    </div>
+                                """, unsafe_allow_html=True)
+                                
+                                # BARIS 1: EMAIL & PASSWORD (2 KOLOM - KOTAK CODE 15PX)
+                                c1, c2 = st.columns(2)
+                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                
+                                st.divider()
+                                
+                                # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
+                                b1, b2, b3 = st.columns(3)
+                                b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                                b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                else:
+                    st.info("Belum ada data akun AI.")
+
+            except Exception as e:
+                st.error(f"Gagal memuat Database Akun AI: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -2294,6 +2296,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
