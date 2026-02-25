@@ -1265,7 +1265,7 @@ def tampilkan_tugas_kerja():
                                             # 1. IDENTIFIKASI DATA
                                             staf_nama = str(t['STAF']).upper().strip()
                                             id_tugas = str(t['ID']).strip()
-                                            tgl_tugas = t['Deadline'] # Tanggal setoran
+                                            tgl_tugas = t['DEADLINE'] # Tanggal setoran
 
                                             # 2. UPDATE STATUS TUGAS DI GSHEET
                                             cell = sheet_tugas.find(id_tugas)
@@ -2423,6 +2423,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
