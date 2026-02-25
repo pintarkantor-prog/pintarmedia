@@ -904,30 +904,47 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-            # --- 4. PROSES DATA ---
+            # --- 4. PROSES DATA (VERSI MINIMALIS: HANYA LIST ADEGAN) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
                 row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
                 judul_proses = row_proses['JUDUL']
                 
+                # A. Tandai di GSheet Gudang
                 cells = sheet_gudang.findall(target_id)
                 for cell in cells:
                     sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
                 
+                # B. Ambil semua baris adegan
                 adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
                 st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                 
-                for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                    st.session_state.data_produksi["adegan"][idx] = {
-                        "aksi": a_row['NASKAH_VISUAL'], "dialogs": [a_row['DIALOG_ACTOR_1'], a_row['DIALOG_ACTOR_2'], "", ""],
-                        "style": a_row['STYLE'], "shot": a_row['UKURAN_GAMBAR'], "light": a_row['LIGHTING'], 
-                        "arah": a_row['ARAH_KAMERA'], "cam": a_row['GERAKAN'], "loc": a_row['LOKASI']
-                    }
+                # C. Wadah untuk teks minimalis di expander
+                naskah_bersih = ""
                 
+                for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
+                    # --- 1. OTOMATIS MASUK KE INPUT PRODUKSI ---
+                    st.session_state.data_produksi["adegan"][idx] = {
+                        "aksi": a_row['NASKAH_VISUAL'], 
+                        "dialogs": [str(a_row.get('DIALOG_ACTOR_1','')), str(a_row.get('DIALOG_ACTOR_2','')), "", ""],
+                        "style": a_row.get('STYLE', OPTS_STYLE[0]), 
+                        "shot": a_row.get('UKURAN_GAMBAR', OPTS_SHOT[0]), 
+                        "light": a_row.get('LIGHTING', OPTS_LIGHT[0]), 
+                        "arah": a_row.get('ARAH_KAMERA', OPTS_ARAH[0]), 
+                        "cam": a_row.get('GERAKAN', OPTS_CAM[0]), 
+                        "loc": a_row.get('LOKASI', '')
+                    }
+                    
+                    # --- 2. RAKIT TEKS MINIMALIS (Hanya Adegan & Visual) ---
+                    naskah_bersih += f"**{idx}.** {a_row['NASKAH_VISUAL']}\n\n"
+
+                # D. Simpan ke naskah_siap_produksi
+                st.session_state.naskah_siap_produksi = naskah_bersih
+                
+                # E. Log Tugas
                 t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                 sheet_tugas.append_row([t_id, user_sekarang.upper(), datetime.now(tz_wib).strftime("%Y-%m-%d"), f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
 
-                st.session_state.naskah_siap_produksi = f"🎬 **ALUR CERITA:** {judul_proses}"
                 st.session_state.status_sukses = True 
                 st.rerun()
 
@@ -2487,6 +2504,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
