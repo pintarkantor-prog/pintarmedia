@@ -1442,14 +1442,14 @@ def tampilkan_tugas_kerja():
                                     
                             <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
                                 <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
-                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Nama</td><td align="right"><b>{n_up}</b></td></tr>
-                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Jabatan</td><td align="right"><b>{s.get('JABATAN', 'STAFF')}</b></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Nama</td><td align="right"><b>{S_VAR_NAMA}</b></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Jabatan</td><td align="right"><b>{res = row_staff.iloc[0]}</b></td></tr>
                                     <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Periode</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                 </table>
                             </div>
 
                             <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
-                                <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
+                                <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {S_VAR_GAPOK:,}</td></tr>
                                 <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
@@ -2302,5 +2302,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
