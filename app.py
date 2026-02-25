@@ -1339,8 +1339,6 @@ def tampilkan_tugas_kerja():
                     ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
                     st.balloons(); st.success("Klaim Berhasil!"); time.sleep(1); st.rerun()
 
-                st.caption(pesan_status)
-
                 # --- DAFTAR KOLEKSI (TANPA JUDUL TEKS - LANGSUNG KARTU) ---
                 if akun_aktif_user:
                     st.write("") # Pengganti divider biar lebih bersih
@@ -2492,6 +2490,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
