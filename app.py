@@ -1134,7 +1134,7 @@ def tampilkan_tugas_kerja():
                     
                     # Gabungin teks Bonus Vid dan Bonus Absen dalam satu baris delta
                     txt_delta = []
-                    if b_vid > 0: txt_delta.append(f"Video: Rp {b_vid:,}")
+                    if b_vid > 0: txt_delta.append(f"Vid: Rp {b_vid:,}")
                     if u_abs > 0: txt_delta.append(f"Absen: Rp {u_abs:,}")
                     
                     # Satukan dengan pemisah |
@@ -2519,6 +2519,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
