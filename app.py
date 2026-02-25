@@ -2123,10 +2123,9 @@ def tampilkan_kendali_tim():
                                 c1, c2, c3 = st.columns(3)
                                 c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
                                 c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
-                                c3.markdown(f"""
-                                    <p style='margin:10px 0 0 0; font-size:11px; color:#888;'>👤 PEMAKAI</p>
-                                    <div style='background:{warna_p}; color:white; padding:4px; border-radius:5px; text-align:center; font-size:12px; font-weight:bold; margin-top:5px;'>
-                                        {pemakai_txt}
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>👤 PEMAKAI</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PEMAKAI']}</code>", unsafe_allow_html=True)
+
+
                                 st.divider()
                                 
                                 # STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
@@ -2492,3 +2491,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
