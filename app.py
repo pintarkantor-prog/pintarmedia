@@ -1811,21 +1811,24 @@ def tampilkan_kendali_tim():
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
-            # --- METRIK UTAMA DENGAN WARNA OTOMATIS ---
+            # --- METRIK UTAMA DENGAN WARNA DEFISIT YANG BENER ---
             m1, m2, m3, m4 = st.columns(4)
             
             m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
             
-            # Outcome kasih warna merah kalau ada pengeluaran (inverse)
+            # Outcome: Kasih warna 'normal' (merah) karena pengeluaran itu negatif buat kas
             m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", 
                       delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None, 
-                      delta_color="inverse")
+                      delta_color="normal") # Biar merah kalau ada angka keluar
             
-            # Saldo Bersih: Hijau kalau Plus, Merah kalau Minus
-            warna_saldo = "normal" if saldo_bersih >= 0 else "inverse"
+            # Saldo Bersih: Ini yang tadi kebalik. 
+            # Kita pake logika: Kalau saldo >= 0 warnanya hijau (normal), kalau < 0 warnanya merah (inverse)
+            status_saldo = "SURPLUS" if saldo_bersih >= 0 else "DEFISIT"
+            warna_delta = "normal" if saldo_bersih >= 0 else "inverse"
+            
             m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}", 
-                      delta="SURPLUS" if saldo_bersih >= 0 else "DEFISIT",
-                      delta_color=warna_saldo)
+                      delta=status_saldo,
+                      delta_color=warna_delta)
             
             margin_val = (saldo_bersih / inc * 100) if inc > 0 else 0
             m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
@@ -2491,6 +2494,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
