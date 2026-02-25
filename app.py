@@ -11,20 +11,21 @@ from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 # ==============================================================================
-# KONFIGURASI DASAR & KONEKSI (OPTIMIZED CACHE)
+# KONFIGURASI DASAR & KONEKSI (STABIL & HEMAT KUOTA)
 # ==============================================================================
 URL_MASTER = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
 
 @st.cache_resource
 def get_gspread_sh():
-    """Membuka koneksi GSheet satu kali dan disimpan di RAM."""
+    """Koneksi Google Sheets yang disimpan di RAM."""
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
     client = gspread.authorize(creds)
     return client.open_by_url(URL_MASTER)
 
-def ambil_data_segar(nama_sheet):
-    """Ambil data real-time dengan proteksi error."""
+@st.cache_data(ttl=10) # Mantranya di sini (Data tahan 30 detik di RAM)
+def ambil_data_lokal(nama_sheet):
+    """Ambil data untuk tampilan Dashboard (Hemat API)."""
     try:
         sh = get_gspread_sh()
         ws = sh.worksheet(nama_sheet)
@@ -35,9 +36,23 @@ def ambil_data_segar(nama_sheet):
         st.error(f"Gagal narik data {nama_sheet}: {e}")
         return pd.DataFrame()
 
+def ambil_data_beneran_segar(nama_sheet):
+    """Tanpa Cache: Khusus dipake di dalam tombol ACC buat hitung bonus."""
+    try:
+        sh = get_gspread_sh()
+        ws = sh.worksheet(nama_sheet)
+        data = ws.get_all_records()
+        return bersihkan_data(pd.DataFrame(data))
+    except:
+        return pd.DataFrame()
+
 def bersihkan_data(df):
+    """Standardisasi data biar Python gak pusing."""
     if df.empty: return df
+    # Buang baris yang isinya cuma spasi atau kosong
+    df = df.dropna(how='all')
     df.columns = [str(c).strip().upper() for c in df.columns]
+    
     kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE', 'TIPE']
     for col in df.columns:
         if col in kolom_krusial:
@@ -2438,6 +2453,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
