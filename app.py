@@ -1433,51 +1433,43 @@ def tampilkan_tugas_kerja():
                         
                         # --- TEMPLATE HTML PREMIUM INDONESIA (LOGO GEDE - KONTEN RAMPING) ---
                         slip_staff_html = f"""
-                        <div style="background: #ffffff; color: #1a1a1a; padding: 25px; border-radius: 20px; border: 1px solid #eef2f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; width: 300px; margin: auto; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
-                            
-                            <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" 
-                                     style="width: 220px; max-width: 100%; height: auto; margin-bottom: 5px;">
-                                <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px;">
-                                    <div style="height: 1px; background: #eee; flex: 1;"></div>
-                                    <div style="height: 3px; background: #1d976c; width: 35px; border-radius: 10px;"></div>
-                                    <div style="height: 1px; background: #eee; flex: 1;"></div>
-                                </div>
-                                <p style="margin: 0; font-size: 8px; color: #1d976c; letter-spacing: 3px; text-transform: uppercase; font-weight: 800;">Slip Gaji Resmi</p>
-                            </div>
-
-                            <div style="background: #fcfcfc; padding: 12px; border-radius: 12px; border: 1px solid #f0f0f0; margin-bottom: 15px;">
+                        <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                            <center>
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
+                                <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin-bottom: 5px;"></div>
+                                <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
+                            </center>
+                                    
+                            <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
                                 <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
-                                    <tr><td style="color: #999; padding-bottom: 4px; font-weight: 600; font-size: 8px; text-transform: uppercase;">Staff</td><td align="right" style="padding-bottom: 4px;"><b>{S_VAR_NAMA}</b></td></tr>
-                                    <tr><td style="color: #999; padding-bottom: 4px; font-weight: 600; font-size: 8px; text-transform: uppercase;">Periode</td><td align="right" style="padding-bottom: 4px;"><b>{sekarang.strftime('%B %Y')}</b></td></tr>
-                                    <tr><td style="color: #999; font-weight: 600; font-size: 8px; text-transform: uppercase;">Status</td><td align="right"><span style="color: {'#1d976c' if pot_sp == 0 else '#e74c3c'}; font-weight: 800;">{level_sp}</span></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Nama</td><td align="right"><b>{n_up}</b></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Jabatan</td><td align="right"><b>{s.get('JABATAN', 'STAFF')}</b></td></tr>
+                                    <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Periode</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                 </table>
                             </div>
 
-                            <div style="margin-bottom: 20px; padding: 0 2px;">
-                                <table style="width: 100%; font-size: 12px; line-height: 2; border-collapse: collapse;">
-                                    <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {S_VAR_GAPOK:,}</td></tr>
-                                    <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {S_VAR_TUNJ:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Hadir (Min 3)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {u_hadir:,}</td></tr>
-                                    <tr><td style="color: #1d976c; font-weight: 600;">Bonus Lembur (Video 5+)</td><td align="right" style="color: #1d976c; font-weight: 700;">+ {b_video:,}</td></tr>
-                                    <tr style="border-top: 1px solid #f0f0f0;"><td style="color: #e74c3c; font-weight: 600; padding-top: 4px;">Potongan SP</td><td align="right" style="color: #e74c3c; font-weight: 700; padding-top: 4px;">- {pot_sp:,}</td></tr>
-                                </table>
+                            <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
+                                <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
+                                <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
+                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
+                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
+                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
+                            </table>
+
+                            <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
+                                <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Total Diterima</p>
+                                <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4; font-weight: 800;">Rp {v_total_terima:,}</h2>
                             </div>
 
-                            <div style="background: #1a1a1a; color: white; padding: 10px 15px; border-radius: 12px; text-align: center;">
-                                <p style="margin: 0; font-size: 8px; color: #55efc4; text-transform: uppercase; letter-spacing: 1px; font-weight: 700;">Total Diterima</p>
-                                <h2 style="margin: 2px 0 0; font-size: 22px; color: #55efc4; font-weight: 800; letter-spacing: -1px;">Rp {S_VAR_TOTAL:,}</h2>
-                            </div>
-
-                            <div style="margin-top: 30px; text-align: center; font-size: 8px; color: #ccc; line-height: 1.5; padding-top: 12px; border-top: 1px solid #f0f0f0;">
-                                <b style="color: #888;">Diterbitkan Digital: Sistem PINTAR MEDIA</b><br>
-                                Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB<br>
-                                <span style="background: #f9f9f9; padding: 1px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; color: #bbb;">REF: {datetime.now(tz_wib).strftime('%y%m%d%H%M')}</span>
+                            <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #bbb; border-top: 1px solid #f5f5f5; padding-top: 15px;">
+                                <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
+                                Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
                             </div>
                         </div>
+                                
                         <div style="text-align: center; margin-top: 20px;">
                             <button onclick="window.print()" style="padding: 12px 25px; background: #1a1a1a; color: #55efc4; border: 2px solid #55efc4; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">🖨️ SIMPAN SEBAGAI PDF</button>
-                        </div>                        
+                        </div>                  
                         """
                         # ... baris HTML slip lo di atas ...
                         st.components.v1.html(slip_staff_html, height=650)
@@ -2310,4 +2302,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
