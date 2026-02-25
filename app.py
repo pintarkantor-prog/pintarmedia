@@ -1664,11 +1664,11 @@ def tampilkan_kendali_tim():
             total_pengeluaran_gaji = 0
 
         # ======================================================================
-        # --- 5. FINANCIAL COMMAND CENTER (ULTIMATE CLEAN VERSION) ---
+        # --- 5. FINANCIAL COMMAND CENTER (FINAL REFINEMENT) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             
-            # --- BAGIAN ATAS: METRIK (PERTAHANKAN) ---
+            # --- BAGIAN ATAS: METRIK (LOGIKA WARNA FIX) ---
             if is_masa_depan:
                 inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
@@ -1677,8 +1677,11 @@ def tampilkan_kendali_tim():
             
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc:,}")
+            
+            # Outcome dipaksa Merah karena ini pengeluaran
             m2.metric("💸 OUTCOME", f"Rp {total_out:,}", delta=f"-{total_out:,}", delta_color="inverse")
             
+            # Status Otomatis: Jika saldo > 0 Untung (Hijau), Jika < 0 Rugi (Merah)
             status_label = "📈 UNTUNG" if saldo_bersih >= 0 else "📉 RUGI"
             m3.metric(status_label, f"Rp {saldo_bersih:,}", delta=f"{saldo_bersih:,}")
             
@@ -1688,69 +1691,75 @@ def tampilkan_kendali_tim():
             st.write("")
             st.divider()
 
-            # --- BAGIAN BAWAH: TRIPLE COLUMNS (CLEAN DESIGN) ---
+            # --- BAGIAN BAWAH: TRIPLE COLUMNS ---
             col_input, col_viz, col_logs = st.columns([1, 1.3, 1])
 
-            # --- KOLOM 1: FLOATING INPUT (MURNI FUNGSI) ---
+            # --- KOLOM 1: CLEAN INPUT (TANPA BOX/BORDER) ---
             with col_input:
-                # Tanpa Container/Title Tambahan agar tidak numpuk
-                with st.form("form_kas_clean", clear_on_submit=True):
-                    f_tipe = st.pills("Aksi", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
+                # Menggunakan form tanpa container tambahan agar transparan
+                with st.form("form_kas_minimalist", clear_on_submit=True):
+                    f_tipe = st.pills("Pilih Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
                     f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
                     f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000, format="%d")
-                    f_ket = st.text_area("Keterangan Singkat", placeholder="Catatan transaksi...", height=80)
+                    f_ket = st.text_area("Keterangan", placeholder="Tulis catatan di sini...", height=100)
                     
-                    if st.form_submit_button("✅ SIMPAN TRANSAKSI", use_container_width=True):
+                    if st.form_submit_button("🚀 SIMPAN DATA", use_container_width=True):
                         sh.worksheet("Arus_Kas").append_row([
                             sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"
                         ])
-                        st.toast("Tersimpan!", icon="🚀")
+                        st.toast("Berhasil Disimpan!", icon="✅")
                         time.sleep(1)
                         st.rerun()
 
-            # --- KOLOM 2: GRAFIK TRANSPARAN (CENTERPIECE) ---
+            # --- KOLOM 2: GRAFIK 3 BAGIAN (TRANSPARAN + JARAK LEGENDA) ---
             with col_viz:
-                if total_out > 0:
-                    df_viz_data = pd.DataFrame({
-                        "Sektor": ["Gaji Staff", "Operasional"],
-                        "Nominal": [total_pengeluaran_gaji, ops]
-                    })
+                # Gabungkan Data Income, Gaji, dan Ops untuk Donat
+                data_donut = pd.DataFrame({
+                    "Kategori": ["Income", "Gaji Staff", "Operasional"],
+                    "Nilai": [inc, total_pengeluaran_gaji, ops]
+                })
+                
+                # Hanya tampilkan jika ada angka (biar gak error)
+                if (inc + total_out) > 0:
+                    fig_final = px.pie(data_donut, values='Nilai', names='Kategori', hole=0.78,
+                                      color_discrete_map={
+                                          "Income": "#00CC96",      # Hijau
+                                          "Gaji Staff": "#EF553B",  # Merah
+                                          "Operasional": "#FFA15A"  # Oranye
+                                      })
                     
-                    fig_donut = px.pie(df_viz_data, values='Nominal', names='Sektor', hole=0.78,
-                                      color_discrete_sequence=['#1d976c', '#e74c3c'])
-                    
-                    # Mantra Transparansi & Bersih
-                    fig_donut.update_layout(
+                    fig_final.update_layout(
                         showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5),
-                        margin=dict(t=0, b=0, l=0, r=0),
-                        height=280,
-                        paper_bgcolor='rgba(0,0,0,0)', # Full Transparan
-                        plot_bgcolor='rgba(0,0,0,0)',  # Full Transparan
-                        annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#888")]
+                        # legend y diturunkan ke -0.2 agar ada jarak
+                        legend=dict(orientation="h", yanchor="top", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=0, b=50, l=0, r=0), # margin bawah ditambah untuk spasi
+                        height=300,
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        annotations=[dict(text='FINANCE', x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#888")]
                     )
-                    st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
+                    st.plotly_chart(fig_final, use_container_width=True, config={'displayModeBar': False})
                 else:
-                    st.markdown("<br><center style='color:#666;'>Data pengeluaran kosong.</center>", unsafe_allow_html=True)
+                    st.markdown("<br><center style='color:#666;'>Data belum tersedia.</center>", unsafe_allow_html=True)
 
-            # --- KOLOM 3: LOG TERAKHIR (SCROLLABLE AREA) ---
+            # --- KOLOM 3: SCROLLABLE LOGS (KANAN) ---
             with col_logs:
                 st.markdown("##### 📜 LOG TRANSAKSI")
-                # Menggunakan Container dengan height tetap agar otomatis ada scrollbar jika data banyak
-                with st.container(height=280, border=False):
+                with st.container(height=300, border=False):
                     if not df_k_f.empty:
                         df_sorted = df_k_f.sort_values(by='TANGGAL', ascending=False)
                         for _, r_kas in df_sorted.iterrows():
-                            warna_duit = "#1d976c" if r_kas['TIPE'] == "PENDAPATAN" else "#e74c3c"
+                            warna_duit = "#00CC96" if r_kas['TIPE'] == "PENDAPATAN" else "#EF553B"
                             tanda_duit = "+" if r_kas['TIPE'] == "PENDAPATAN" else "-"
                             
                             st.markdown(f"""
-                            <div style="border-bottom: 1px solid rgba(128,128,128,0.1); padding: 5px 0; margin-bottom: 2px;">
-                                <div style="display: flex; justify-content: space-between;">
+                            <div style="border-bottom: 1px solid rgba(128,128,128,0.1); padding: 8px 0;">
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
                                     <span style="font-size: 10px; color: #888;">{r_kas['TANGGAL']}</span>
-                                    <span style="font-size: 11px; font-weight: bold; color: {warna_duit};">{tanda_duit}{r_kas['NOMINAL']:,}</span>
+                                    <span style="font-size: 12px; font-weight: bold; color: {warna_duit};">{tanda_duit}{r_kas['NOMINAL']:,}</span>
                                 </div>
-                                <div style="font-size: 12px; font-weight: 500;">{r_kas['KATEGORI']}</div>
+                                <div style="font-size: 13px; font-weight: 500;">{r_kas['KATEGORI']}</div>
+                                <div style="font-size: 10px; color: #555; font-style: italic;">{r_kas['KETERANGAN']}</div>
                             </div>
                             """, unsafe_allow_html=True)
                     else:
@@ -2361,6 +2370,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
