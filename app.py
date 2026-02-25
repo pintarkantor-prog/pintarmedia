@@ -1662,39 +1662,96 @@ def tampilkan_kendali_tim():
             # Jika masa depan, pengeluaran dipaksa 0
             total_pengeluaran_gaji = 0
 
-        # --- TAMPILAN HEADER (Pindahkan ke luar blok IF di atas) ---
-        st.subheader(f"💰 LAPORAN KEUANGAN - {pilihan_nama} {tahun_dipilih}")
-        
-        # Reset variabel metrik jika masa depan
-        if is_masa_depan:
-            inc, total_pengeluaran_gaji, ops = 0, 0, 0
+        # ======================================================================
+        # --- 5. FINANCIAL COMMAND CENTER (INTEGRATED & LUXURY) ---
+        # ======================================================================
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+            # --- A. METRIK UTAMA (Gaya Glassmorphism) ---
+            m1, m2, m3 = st.columns(3)
             
-        # Tampilkan Metrik
-        m1, m2, m3 = st.columns(3)
-        m1.metric("💰 PENDAPATAN", f"Rp {inc:,}")
-        m2.metric("💸 PENGELUARAN", f"Rp {(total_pengeluaran_gaji + ops):,}")
-        
-        saldo_bersih = inc - (total_pengeluaran_gaji + ops)
-        simbol = "+" if saldo_bersih >= 0 else "-"
-        abs_saldo = abs(saldo_bersih)
+            # Reset variabel jika masa depan
+            if is_masa_depan:
+                inc, total_pengeluaran_gaji, ops = 0, 0, 0
+            
+            total_out = total_pengeluaran_gaji + ops
+            saldo_bersih = inc - total_out
+            
+            with m1:
+                st.markdown(f"""
+                    <div style="background: rgba(29, 151, 108, 0.1); padding: 15px; border-radius: 15px; border-left: 5px solid #1d976c; height: 90px;">
+                        <p style="margin:0; font-size:11px; color:#1d976c; font-weight:bold; text-transform:uppercase;">Pendapatan</p>
+                        <h2 style="margin:0; font-size:22px;">Rp {inc:,}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
 
-        m3.metric(
-            label="💎 BERSIH", 
-            value=f"Rp {saldo_bersih:,}",
-            delta=f"{simbol} Rp {abs_saldo:,}",
-            delta_color="normal" 
-        )
-        # --- TAMPILAN 2: INPUT TRANSAKSI (POSISI KEDUA) ---
-        with st.expander("📝 **INPUT TRANSAKSI KEUANGAN**", expanded=False):
-            with st.form("form_kas", clear_on_submit=True):
-                c_tipe, c_kat, c_nom = st.columns(3)
-                f_tipe = c_tipe.selectbox("Jenis:", ["PENDAPATAN", "PENGELUARAN"])
-                f_kat = c_kat.selectbox("Kategori:", ["YouTube", "Brand Deal", "Tool AI", "Internet", "Listrik", "Lainnya"])
-                f_nom = c_nom.number_input("Nominal (Rp):", min_value=0, step=10000)
-                f_ket = st.text_input("Keterangan:")
-                if st.form_submit_button("Simpan Transaksi"):
-                    sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
-                    st.success("Tersimpan!"); time.sleep(1); st.rerun()
+            with m2:
+                st.markdown(f"""
+                    <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 15px; border-left: 5px solid #e74c3c; height: 90px;">
+                        <p style="margin:0; font-size:11px; color:#e74c3c; font-weight:bold; text-transform:uppercase;">Pengeluaran</p>
+                        <h2 style="margin:0; font-size:22px;">Rp {total_out:,}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
+
+            with m3:
+                warna_net = "#1d976c" if saldo_bersih >= 0 else "#e74c3c"
+                st.markdown(f"""
+                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 5px solid {warna_net}; height: 90px;">
+                        <p style="margin:0; font-size:11px; color:{warna_net}; font-weight:bold; text-transform:uppercase;">Laba / Rugi</p>
+                        <h2 style="margin:0; font-size:22px; color:{warna_net};">Rp {saldo_bersih:,}</h2>
+                    </div>
+                """, unsafe_allow_html=True)
+
+            st.write("")
+            
+            # --- B. INPUT & VISUALISASI (2 KOLOM SEJAJAR) ---
+            col_input, col_visual = st.columns([1, 1.2])
+
+            with col_input:
+                st.markdown("#### ➕ Catat Transaksi")
+                with st.form("form_kas_integrated", clear_on_submit=True):
+                    f_tipe = st.selectbox("Jenis", ["PENDAPATAN", "PENGELUARAN"])
+                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Internet/Listrik", "AI Tools", "Lainnya"])
+                    f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000)
+                    f_ket = st.text_input("Keterangan")
+                    if st.form_submit_button("🚀 SIMPAN KE GSHEET", use_container_width=True):
+                        sh.worksheet("Arus_Kas").append_row([
+                            sekarang.strftime('%Y-%m-%d'), 
+                            f_tipe, 
+                            f_kat, 
+                            int(f_nom), 
+                            f_ket, 
+                            "Dian"
+                        ])
+                        st.success("Tersimpan!"); time.sleep(1); st.rerun()
+
+            with col_visual:
+                st.markdown("#### 📉 Alokasi Biaya")
+                if total_out > 0:
+                    labels = ['Gaji Tim', 'Operasional']
+                    values = [total_pengeluaran_gaji, ops]
+                    fig = px.pie(names=labels, values=values, hole=0.6, 
+                                color_discrete_sequence=['#1d976c', '#f39c12'])
+                    fig.update_layout(margin=dict(t=0, b=0, l=0, r=0), height=230, 
+                                     paper_bgcolor='rgba(0,0,0,0)',
+                                     legend=dict(orientation="h", y=-0.1))
+                    st.plotly_chart(fig, use_container_width=True)
+                else:
+                    st.info("Belum ada pengeluaran.")
+
+            st.divider()
+            
+            # --- C. TABEL RIWAYAT TRANSAKSI ---
+            st.markdown("#### 📜 Riwayat Transaksi")
+            if not df_k_f.empty:
+                df_view = df_k_f[['TANGGAL', 'TIPE', 'KATEGORI', 'NOMINAL', 'KETERANGAN']].copy()
+                st.dataframe(
+                    df_view.sort_values(by='TANGGAL', ascending=False), 
+                    use_container_width=True, 
+                    height=250, 
+                    hide_index=True
+                )
+            else:
+                st.caption("Belum ada riwayat transaksi bulan ini.")
 
         st.divider()
         
@@ -2303,6 +2360,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
