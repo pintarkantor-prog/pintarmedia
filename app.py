@@ -1280,7 +1280,7 @@ def tampilkan_tugas_kerja():
                                                                      (df_cek['DEADLINE'] == tgl_tugas) & 
                                                                      (df_cek['STATUS'] == 'FINISH')]
                                                 
-                                                jml_video = len(df_hari_ini) + 1
+                                                jml_video = len(df_hari_ini)
 
                                                 # 4. CATAT BONUS KE ARUS_KAS
                                                 ws_kas = sh.worksheet("Arus_Kas")
@@ -2438,6 +2438,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
