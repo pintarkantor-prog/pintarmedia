@@ -1417,7 +1417,7 @@ def tampilkan_tugas_kerja():
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
                 
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
-        if sekarang.day >= 28: 
+        if sekarang.day >= 25: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
                 try:
                     # 1. KUNCI DATA STAFF (Anti-Tertukar)
@@ -1475,6 +1475,9 @@ def tampilkan_tugas_kerja():
                                 <span style="background: #f9f9f9; padding: 1px 8px; border-radius: 4px; display: inline-block; margin-top: 4px; color: #bbb;">REF: {datetime.now(tz_wib).strftime('%y%m%d%H%M')}</span>
                             </div>
                         </div>
+                        <div style="text-align: center; margin-top: 20px;">
+                            <button onclick="window.print()" style="padding: 12px 25px; background: #1a1a1a; color: #55efc4; border: 2px solid #55efc4; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">🖨️ SIMPAN SEBAGAI PDF</button>
+                        </div>                        
                         """
                         # ... baris HTML slip lo di atas ...
                         st.components.v1.html(slip_staff_html, height=650)
@@ -2307,3 +2310,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
