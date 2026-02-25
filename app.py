@@ -1937,7 +1937,7 @@ def tampilkan_kendali_tim():
                     n_up = str(s.get('NAMA', '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    # --- LOGIKA HITUNG (Full Detail) ---
+                    # --- LOGIKA HITUNG (FIXED VERSION) ---
                     u_absen_staf, b_lembur_staf = 0, 0
                     if n_up in rekap_harian_tim:
                         for tgl, jml in rekap_harian_tim[n_up].items():
@@ -1946,18 +1946,27 @@ def tampilkan_kendali_tim():
                     
                     jml_v = rekap_total_video.get(n_up, 0)
                     pot_sp_admin = 0
+                    
+                    # Definisi Target (Jangan sampe typo lagi!)
                     t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
                     t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
 
                     if not is_masa_depan:
                         if sekarang.day > 6:
-                            if jml_v >= t_normal: pot_sp_admin = 0
-                            elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
-                            elif t_sp2 <= jml_v < t_s1: pot_sp_admin = 700000
-                            else: pot_sp_admin = 1000000
+                            if jml_v >= t_normal: 
+                                pot_sp_admin = 0
+                            elif t_sp1 <= jml_v < t_normal: 
+                                pot_sp_admin = 300000
+                            elif t_sp2 <= jml_v < t_sp1: # <--- TADI TYPO DI SINI (t_s1 diganti t_sp1)
+                                pot_sp_admin = 700000
+                            else: 
+                                pot_sp_admin = 1000000
 
+                    # Ambil angka bersih dari GSheet
                     v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                     v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
+                    
+                    # Rumus Final
                     v_total_terima = max(0, (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin)
                     ada_kerja = True
 
@@ -2448,6 +2457,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
