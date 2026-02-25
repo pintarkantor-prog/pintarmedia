@@ -1807,8 +1807,8 @@ def tampilkan_kendali_tim():
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
 
-        # ======================================================================
-        # --- UI: FINANCIAL COMMAND CENTER ---
+    # ======================================================================
+        # --- UI: FINANCIAL COMMAND CENTER (ULTRA CLEAN & TIGHT) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             m1, m2, m3, m4 = st.columns(4)
@@ -1818,35 +1818,56 @@ def tampilkan_kendali_tim():
             margin_val = (saldo_bersih / inc * 100) if inc > 0 else 0
             m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
 
+            # Hilangkan st.divider() kalau mau lebih rapet lagi ke atas
             st.divider()
-            col_input, col_viz, col_logs = st.columns([1, 1.3, 1])
+            
+            # PAKAI GAP SMALL BIAR GAK JAUH JARAKNYA
+            col_input, col_viz, col_logs = st.columns([1, 1.2, 1], gap="small")
 
             with col_input:
-                st.markdown("##### 📥 INPUT MANUAL")
+                # Judul Dihapus, Form Tanpa Label (Collapsed)
                 with st.form("form_kas_new", clear_on_submit=True):
-                    f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN")
-                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
-                    f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000)
-                    f_ket = st.text_area("Keterangan", height=100)
+                    f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
+                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Lainnya"], label_visibility="collapsed")
+                    f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed", placeholder="Nominal Rp...")
+                    f_ket = st.text_area("Keterangan", height=65, label_visibility="collapsed", placeholder="Catatan...")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
                         sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
                         st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
             with col_viz:
-                df_donut = pd.DataFrame({"Kat": ["Income", "Gaji Tim", "Ops"], "Val": [inc, total_pengeluaran_gaji, ops]})
+                # DATA DONAT: CUMA INCOME VS OUTCOME
+                df_donut = pd.DataFrame({"Kat": ["INCOME", "OUTCOME"], "Val": [inc, total_out]})
                 if (inc + total_out) > 0:
-                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.7, color_discrete_sequence=["#00ba69", "#ff4b4b", "#f39c12"])
-                    fig.update_layout(showlegend=False, height=250, margin=dict(t=0, b=0, l=0, r=0))
-                    st.plotly_chart(fig, use_container_width=True)
+                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.75, 
+                                 color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                    
+                    fig.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5, font=dict(size=10)),
+                        height=220, # Ketinggian dikurangin biar rapet
+                        margin=dict(t=0, b=0, l=0, r=0),
+                        paper_bgcolor='rgba(0,0,0,0)', # BACKGROUND TRANSPARAN
+                        plot_bgcolor='rgba(0,0,0,0)'    # BACKGROUND TRANSPARAN
+                    )
+                    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+                else:
+                    st.write("<center style='color:#666; font-size:12px; padding-top:50px;'>Belum ada data</center>", unsafe_allow_html=True)
 
             with col_logs:
-                st.markdown("##### 📜 LOG TERAKHIR")
-                with st.container(height=250):
+                # Judul Dihapus, Container Log Lebih Pendek & Rapet
+                with st.container(height=230):
                     if not df_k_f.empty:
-                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).iterrows():
+                        # Urutkan berdasarkan tanggal terbaru, ambil 10 saja
+                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(10).iterrows():
                             color = "#00ba69" if r['TIPE'] == "PENDAPATAN" else "#ff4b4b"
-                            st.markdown(f"<div style='font-size:11px; border-bottom:1px solid #333; padding:5px;'><b>{r['KATEGORI']}</b> <span style='float:right; color:{color};'>Rp {r['NOMINAL']:,.0f}</span><br><i style='color:#666;'>{r['KETERANGAN']}</i></div>", unsafe_allow_html=True)
-
+                            st.markdown(f"""
+                            <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
+                                <b style='color:#ccc;'>{r['KATEGORI']}</b> 
+                                <span style='float:right; color:{color}; font-weight:bold;'>Rp {r['NOMINAL']:,.0f}</span><br>
+                                <span style='color:#666; font-style:italic;'>{r['KETERANGAN']}</span>
+                            </div>
+                            """, unsafe_allow_html=True)
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO - SYNCED) ---
         # ======================================================================
@@ -2457,6 +2478,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
