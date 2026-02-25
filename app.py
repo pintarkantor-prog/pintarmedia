@@ -1700,101 +1700,109 @@ def tampilkan_kendali_tim():
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
         st.divider()
-                
-# ======================================================================
-        # --- 4. MASTER MONITORING & RADAR TIM (DIRECT VIEW) ---
+        
+        # ======================================================================
+        # --- 4. MASTER MONITORING & RADAR TIM (VERSI CARD LENGKAP) ---
         # ======================================================================
         st.markdown("### 🚀 MASTER MONITORING & RADAR TIM")
 
-        # Kalkulasi Target Global
-        t_normal_global = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-        progres_h_global = min(sekarang.day, 25)
-        target_aman_global = round((t_normal_global / 25) * progres_h_global, 1)
+        # Menggunakan variabel target yang sudah kamu buat di logika SP (t_norm)
+        # Kita ambil t_norm dari pengecekan Februari vs Bulan lain di kodemu
+        if tahun_dipilih == 2026 and bulan_dipilih == 2:
+            t_target_display = 10
+        else:
+            t_target_display = 40
 
-        # Container untuk Grid Card
+        # Hitung ambang batas aman harian untuk warna radar
+        progres_h_skrg = min(sekarang.day, 25)
+        target_aman_hari_ini = (t_target_display / 25) * progres_h_skrg
+
         kolom_card = st.columns(4)
 
-        # Inisialisasi variabel untuk Rangkuman (Summary Bar)
-        total_video_tim = 0
-        total_hadir_tim = 0
-        total_malas_tim = 0
+        # Inisialisasi untuk Summary Bar (Tanpa Keuangan)
+        total_video_kolektif = 0
+        total_hadir_kolektif = 0
+        total_malas_kolektif = 0
 
-        # Loop Staf untuk membuat Card
         for idx, s in df_staff.iterrows():
             n_up = str(s.get('NAMA', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
             
-            # A. Ambil Data Video & Absensi
+            # --- AMBIL DATA DARI LOGIKA YANG SUDAH ADA DI ATAS ---
             jml_v = rekap_total_video.get(n_up, 0)
-            total_video_tim += jml_v 
+            total_video_kolektif += jml_v
             
+            # Hitung Hari Cair, Malas, dan Bonus (Gunakan logika yang sama dengan slip gaji)
             h_cair, h_malas = 0, 0
-            if n_up in rekap_harian_tim:
-                for tgl_idx, qty in rekap_harian_tim[n_up].items():
-                    if qty >= 3: h_cair += 1
-                    if qty <= 1: h_malas += 1
-            total_malas_tim += h_malas
+            b_lembur_staf = 0
+            u_absen_staf = 0
             
+            if n_up in rekap_harian_tim:
+                for tgl, jml in rekap_harian_tim[n_up].items():
+                    if jml >= 3: 
+                        h_cair += 1
+                        u_absen_staf += 30000
+                    if jml >= 5: 
+                        b_lembur_staf += (jml - 4) * 30000
+                    if jml <= 1: 
+                        h_malas += 1
+            
+            total_malas_kolektif += h_malas
+            total_bonus_staf = u_absen_staf + b_lembur_staf
+            
+            # Ambil Data Absensi
             t_hadir = 0
             if not df_a_f.empty:
                 t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
-            total_hadir_tim += t_hadir
+            total_hadir_kolektif += t_hadir
 
-            # B. Tentukan Warna Radar
-            if jml_v >= target_aman_global: 
-                warna_bg, stat_txt = "#1d976c", "AMAN"
-            elif jml_v >= (target_aman_global * 0.6): 
-                warna_bg, stat_txt = "#f39c12", "WASPADA"
-            else: 
-                warna_bg, stat_txt = "#e74c3c", "KRITIS"
+            # Penentu Warna Radar
+            if jml_v >= target_aman_hari_ini: warna_bg, stat_txt = "#1d976c", "PERFORMA AMAN"
+            elif jml_v >= (target_aman_hari_ini * 0.6): warna_bg, stat_txt = "#f39c12", "WASPADA"
+            else: warna_bg, stat_txt = "#e74c3c", "KRITIS (BAHAYA)"
 
-            # C. Render Card ke Grid
+            # --- TAMPILAN CARD ---
             with kolom_card[idx % 4]:
                 with st.container(border=True):
                     st.markdown(f"""
                         <div style="text-align: center; padding: 5px; background: {warna_bg}; border-radius: 8px 8px 0 0; margin: -15px -15px 10px -15px;">
-                            <b style="color: white; font-size: 13px;">{n_up}</b><br>
+                            <b style="color: white; font-size: 14px;">{n_up}</b><br>
                             <small style="color: white; font-size: 10px;">{stat_txt}</small>
                         </div>
                     """, unsafe_allow_html=True)
                     
                     c1, c2 = st.columns(2)
-                    c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>FINISH</p><b style='font-size:16px;'>{int(jml_v)}</b>", unsafe_allow_html=True)
-                    c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>HADIR</p><b style='font-size:16px;'>{t_hadir}</b>", unsafe_allow_html=True)
+                    c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>VIDEO FINISH</p><b style='font-size:18px;'>{int(jml_v)}</b>", unsafe_allow_html=True)
+                    c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>TOTAL ABSEN</p><b style='font-size:18px;'>{t_hadir} HR</b>", unsafe_allow_html=True)
                     
+                    st.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#1d976c;'>💰 BONUS: <b>Rp {total_bonus_staf:,}</b></p>", unsafe_allow_html=True)
                     st.divider()
                     
                     st.markdown(f"""
-                        <div style="font-size: 11px; margin-bottom: 5px;">
-                            ✨ Cair: <b>{h_cair} HR</b> | ⚠️ Malas: <b style="color:{'#e74c3c' if h_malas >= 7 else '#888'};">{h_malas} HR</b>
+                        <div style="font-size: 12px; line-height: 1.6;">
+                            ✨ <b>Hari Cair:</b> {h_cair} Hr<br>
+                            ⚠️ <b>Hari Malas:</b> <span style="color:{'#e74c3c' if h_malas >= 7 else '#888'};">{h_malas} Hr</span><br>
+                            📊 <b>Selisih:</b> {round(jml_v - target_aman_hari_ini, 1)} Vid
                         </div>
                     """, unsafe_allow_html=True)
                     
-                    prog_val = min(jml_v / t_normal_global, 1.0)
+                    prog_val = min(jml_v / t_target_display, 1.0)
                     st.progress(prog_val)
 
-        # --- SUMMARY BAR (RANGKUMAN TOTAL DI BAWAH) ---
+        # --- SUMMARY BAR (MURNI KINERJA TANPA KEUANGAN) ---
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
-            st.markdown("<p class='small-label'>📊 RANGKUMAN LAPORAN KOLEKTIF</p>", unsafe_allow_html=True)
-            col_sum1, col_sum2, col_sum3, col_sum4 = st.columns(4)
+            st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:10px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
+            col_s1, col_s2, col_s3 = st.columns(3)
             
-            # 1. Total Produksi
-            col_sum1.metric("Total Video Tim", f"{int(total_video_tim)} Vid")
+            col_s1.metric("Total Video Tim", f"{int(total_video_kolektif)} Vid")
             
-            # 2. Keuangan (Saldo Bersih dari variabel inc dan ops)
-            pengeluaran_total = total_pengeluaran_gaji + ops
-            saldo_akhir = inc - pengeluaran_total
-            col_sum2.metric("Saldo Bersih", f"Rp {saldo_akhir:,.0f}")
+            avg_hadir = total_hadir_kolektif / len(df_staff) if len(df_staff) > 0 else 0
+            col_s2.metric("Rerata Hadir", f"{avg_hadir:.1f} Hari")
             
-            # 3. Keaktifan
-            avg_hadir = total_hadir_tim / len(df_staff) if len(df_staff) > 0 else 0
-            col_sum3.metric("Rerata Kehadiran", f"{avg_hadir:.1f} Hari")
-            
-            # 4. Total Pelanggaran
-            col_sum4.metric("Total Hari Malas", f"{total_malas_tim} Hari", delta=f"-{total_malas_tim}", delta_color="inverse")
+            col_s3.metric("Total Pelanggaran (Malas)", f"{total_malas_kolektif} Hari", delta=f"-{total_malas_kolektif}", delta_color="inverse")
 
-        st.info(f"💡 **Target Operasional:** Untuk mencapai profit maksimal, tim harus menyelesaikan total **{t_normal_global * len(df_staff)}** video bulan ini.")
+        st.info(f"💡 **Info:** Status AMAN hari ini minimal **{target_aman_hari_ini:.1f} video**. Total target tim bulan ini: **{t_target_display * len(df_staff)} video**.")
         
         # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -2304,6 +2312,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
