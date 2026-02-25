@@ -1188,25 +1188,48 @@ def tampilkan_tugas_kerja():
             # Staff melihat miliknya yang belum selesai
             tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
 
-    if tugas_terfilter:
+# --- FILTER DATA ---
+    tugas_terfilter = []
+    if not df_all_tugas.empty:
+        if user_sekarang == "dian":
+            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
+        else:
+            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
+
+    if not tugas_terfilter:
+        st.info(f"☕ Belum ada tugas aktif.")
+    else:
+        # --- MODE 2 KOLOM (GRID) ---
         tugas_list = list(reversed(tugas_terfilter))
         for i in range(0, len(tugas_list), 2):
             cols = st.columns(2)
             for j in range(2):
                 if i + j < len(tugas_list):
                     t = tugas_list[i + j]
+                    status = str(t["Status"]).upper()
+                    url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
+                    
                     with cols[j]:
                         with st.container(border=True):
-                            st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
-                            status = str(t["Status"]).upper()
-                            cb = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
-                            st.markdown(f"{cb} `{status}`")
+                            # HEADER SLIM
+                            c1, c2 = st.columns([0.8, 3])
+                            with c1: 
+                                st.image(url_foto, width=50) # Ukuran foto dikecilin dikit
+                            with c2:
+                                # Nama & ID dalam baris yang sama biar ringkas
+                                st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
+                                # Badge Status tipis
+                                color_ball = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
+                                st.markdown(f"{color_ball} `{status}`")
                             
-                            if st.toggle("🔍 Buka Detail", key=f"tgl_{t['ID']}"):
+                            # Toggle ditaruh mepet biar gak boros tempat
+                            olah = st.toggle("🔍 Buka Detail", key=f"tgl_{t['ID']}")
+                            
+                            if olah:
                                 st.divider()
+                                # Bagian instruksi tetep pake Quote biar rapi
                                 if t.get("Catatan_Revisi"): 
                                     st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
-                                
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
                                 
                                 # --- BAGIAN KHUSUS ADMIN DIAN ---
@@ -2370,6 +2393,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
