@@ -1280,16 +1280,15 @@ def tampilkan_tugas_kerja():
                                             st.warning("Isi link dulu!")
 
 
-# =========================================================
-    # --- 4.5. SISTEM KLAIM AI (VERSI EXPANDER & VCARD DIAN) ---
+    # =========================================================
+    # --- 4.5. SISTEM KLAIM AI (VERSI MINIMALIS & LOGIKA BARU) ---
     # =========================================================
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         
-        # PAKAI EXPANDER BIAR BISA DIBUKA TUTUP SEPERTI DATABASE
         with st.expander("🤖 PINTAR AI STATION", expanded=True):
             try:
-                # 1. Koneksi & Ambil Data
+                # --- KONEKSI & DATA ---
                 sekarang_dt = datetime.now()
                 h_ini = sekarang_dt.date()
                 
@@ -1302,11 +1301,10 @@ def tampilkan_tugas_kerja():
                 data_akun_raw = ws_akun.get_all_records()
                 df_ai = pd.DataFrame(data_akun_raw)
 
-                # 2. Logika Filter Akun User
+                # --- FILTER AKUN ---
                 user_up = user_sekarang.upper()
-                df_user = df_ai[df_ai['PEMAKAI'].str.upper() == user_up].copy()
+                df_user = df_ai[df_ai['PEMAKAI'].astype(str).str.upper() == user_up].copy()
                 
-                # Filter akun aktif (Sisa hari >= 0)
                 akun_aktif_user = []
                 if not df_user.empty:
                     for idx, r in df_user.iterrows():
@@ -1316,80 +1314,69 @@ def tampilkan_tugas_kerja():
                                 akun_aktif_user.append(r)
                         except: akun_aktif_user.append(r)
 
-                # 3. Form Klaim (Satu Baris: Dropdown & Tombol)
-                st.markdown("##### 🛒 Klaim Senjata AI")
-                df_stok = df_ai[df_ai['PEMAKAI'].str.strip() == ""].copy()
+                # --- BAGIAN KLAIM (TANPA JUDUL TEKS) ---
+                df_stok = df_ai[df_ai['PEMAKAI'].astype(str).str.strip() == ""].copy()
                 list_opsi = sorted(df_stok['AI'].unique().tolist()) if not df_stok.empty else []
                 
                 c_sel, c_btn = st.columns([2, 1])
-                pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed")
+                pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
-                # Cek Syarat Klaim
+                # REVISI LOGIKA: Bisa klaim selama akun aktif < 2
                 bisa_klaim = True
-                pesan_error = ""
+                pesan_status = "💡 Kamu bisa memiliki maksimal 2 akun aktif."
+                
                 if not list_opsi:
-                    bisa_klaim = False
-                    pesan_error = "😭 Stok kosong."
+                    bisa_klaim, pesan_status = False, "😭 Stok akun sedang habis."
                 elif len(akun_aktif_user) >= 2:
-                    bisa_klaim = False
-                    pesan_error = "🚫 Limit 2 akun aktif."
-                elif not df_user.empty:
-                    last_claim = pd.to_datetime(df_user['TANGGAL_KLAIM'].iloc[-1]).date()
-                    selisih = (h_ini - last_claim).days
-                    if selisih < 4:
-                        bisa_klaim = False
-                        pesan_error = f"⏳ Tunggu {4-selisih} hari lagi."
+                    bisa_klaim, pesan_status = False, "🚫 Limit 2 akun aktif tercapai. Tunggu expired."
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
-                    target_stok = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
-                    email_target = target_stok.iloc[0]['EMAIL']
+                    target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
+                    email_target = target.iloc[0]['EMAIL']
                     cell = ws_akun.find(email_target)
                     ws_akun.update_cell(cell.row, 5, user_up)
                     ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
-                    st.balloons(); st.success("Berhasil!"); time.sleep(1); st.rerun()
+                    st.balloons(); st.success("Klaim Berhasil!"); time.sleep(1); st.rerun()
 
-                if not bisa_klaim and list_opsi:
-                    st.warning(pesan_error)
+                st.caption(pesan_status)
 
-                # 4. Tampilan Akun (2 Kolom Gaya Dian)
+                # --- DAFTAR KOLEKSI (TANPA JUDUL TEKS - LANGSUNG KARTU) ---
                 if akun_aktif_user:
-                    st.divider()
-                    st.markdown("##### 🔑 KOLEKSI AKUN AKTIF")
-                    kolom_user = st.columns(2)
-                    
+                    st.write("") # Pengganti divider biar lebih bersih
+                    kolom_vcard = st.columns(2)
                     for idx, r in enumerate(reversed(akun_aktif_user)):
-                        tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                        sisa = (tgl_exp - h_ini).days
+                        try:
+                            tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                            sisa = (tgl_exp - h_ini).days
+                        except:
+                            tgl_exp, sisa = h_ini, 0
                         
-                        # Warna Header Gaya Dian
-                        if sisa > 7: warna_h, stat_txt = "#1d976c", "🟢 AMAN"
-                        elif 0 <= sisa <= 7: warna_h, stat_txt = "#f39c12", "🟠 LIMIT"
-                        else: warna_h, stat_txt = "#e74c3c", "🔴 MATI"
+                        if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
+                        elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
+                        else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
 
-                        with kolom_user[idx % 2]:
+                        with kolom_vcard[idx % 2]:
                             with st.container(border=True):
-                                # HEADER
                                 st.markdown(f"""
                                     <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
                                         <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                # ISI KARTU
                                 st.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:14px; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
                                 st.markdown(f"<p style='margin:5px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:14px; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                                 
                                 st.divider()
                                 
-                                # FOOTER KARTU
-                                b1, b2 = st.columns(2)
-                                b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:11px;'>{stat_txt}</b>", unsafe_allow_html=True)
-                                b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:11px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                                b1, b2, b3 = st.columns(3)
+                                b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:10px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                                b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXP</p><b style='font-size:10px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:10px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
 
-                st.caption("🆘 **Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
+                st.caption("🆘 Hubungi Dian jika ada kendala.")
 
-            except Exception as e:
-                st.error(f"Gagal memuat Station: {e}")
+            except Exception as e_station:
+                st.error(f"Gagal memuat AI Station: {e_station}")
                 
     # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
     st.divider()
@@ -2501,6 +2488,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
