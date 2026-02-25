@@ -1321,13 +1321,15 @@ def tampilkan_tugas_kerja():
                 c_sel, c_btn = st.columns([2, 1])
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
-                # REVISI LOGIKA: Bisa klaim selama akun aktif < 2
-                bisa_klaim = True
-                pesan_status = "✅ Jatah klaim tersedia."
+                # REVISI LOGIKA: Tetap hitung tapi jangan ditampilin teksnya
+                bisa_klaim = True 
+                
                 if not list_opsi:
-                    bisa_klaim, pesan_status = False, "😭 Stok akun sedang habis."
+                    bisa_klaim = False
+                    st.warning("😭 Stok akun sedang habis.") # Muncul cuma pas darurat aja
                 elif len(akun_aktif_user) >= 2:
-                    bisa_klaim, pesan_status = False, "🚫 Limit 2 akun aktif tercapai. Tunggu expired."
+                    bisa_klaim = False
+                    st.warning("🚫 Limit 2 akun aktif tercapai.") # Muncul cuma pas limit
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
                     target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
@@ -2490,6 +2492,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
