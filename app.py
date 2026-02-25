@@ -1318,11 +1318,25 @@ def tampilkan_tugas_kerja():
 
                 # 2. UI PEMILIHAN JENIS AI
                 st.markdown("##### 🛒 Pilih Senjata AI Kamu:")
-                # Ambil daftar unik Nama AI yang tersedia di stok (PEMAKAI-nya kosong)
-                list_stok = [str(a.get("AI", "")).upper() for a in data_ai if not str(a.get("PEMAKAI", "")).strip()]
-                opsi_ai = sorted(list(set(list_stok))) if list_stok else ["STOK KOSONG"]
                 
-                pilihan_ai = st.selectbox("Mau klaim akun apa?", opsi_ai, label_visibility="collapsed")
+                # Kita ambil kolom 'AI' (bukan NAMA_AI) sesuai image_b5b8ba
+                # Dan kita pastikan datanya bersih
+                list_stok = []
+                for a in data_ai:
+                    nama_ai = str(a.get("AI", "")).strip().upper() # Sesuaikan dengan header GSheet
+                    pemakai = str(a.get("PEMAKAI", "")).strip()
+                    
+                    if nama_ai and not pemakai:
+                        list_stok.append(nama_ai)
+                
+                # Jika stok benar-benar kosong di GSheet
+                if not list_stok:
+                    opsi_ai = ["STOK KOSONG"]
+                else:
+                    opsi_ai = sorted(list(set(list_stok)))
+                
+                # Tambahkan key unik agar tidak bentrok dengan widget lain
+                pilihan_ai = st.selectbox("Cari AI:", opsi_ai, label_visibility="collapsed", key="sb_ai_claim")
 
                 # 3. LOGIKA VALIDASI
                 bisa_klaim = True
@@ -2493,6 +2507,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
