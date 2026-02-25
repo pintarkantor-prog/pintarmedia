@@ -1063,7 +1063,7 @@ def tampilkan_tugas_kerja():
     sekarang = datetime.now(tz_wib)
     
     try:
-        # --- 1. AMBIL DATA (Pake Mesin Baru/Cache) ---
+        # --- 1. AMBIL DATA (Mesin Baru & Sinkron) ---
         df_all_tugas = ambil_data_segar("Tugas")
         df_absen_all = ambil_data_segar("Absensi")
         
@@ -1071,15 +1071,17 @@ def tampilkan_tugas_kerja():
             st.warning("Data tugas tidak ditemukan.")
             return
 
-        # Standarisasi Header
+        # Standarisasi Header & Bikin Variabel biar GAK NAME ERROR
         df_all_tugas.columns = [str(c).strip().upper() for c in df_all_tugas.columns]
+        data_tugas = df_all_tugas.to_dict('records') # <-- Penawar Error baris 1216
+        status_buang = ["ARSIP", "DONE", "BATAL"]
 
         # 2. SETUP FILTER BULAN
         df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         mask_bulan = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
 
-        # 3. LOGIKA RADAR (KHUSUS STAF / ADMIN VIEW)
+        # 3. LOGIKA RADAR (Tampilan Mewah Kode Lama)
         target_user = user_sekarang.upper()
         
         # Jika Admin Dian, kita kasih pilihan intip staf (Biar lo bisa liat radar mereka)
@@ -2506,6 +2508,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
