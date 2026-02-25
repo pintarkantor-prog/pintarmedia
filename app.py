@@ -1286,7 +1286,7 @@ def tampilkan_tugas_kerja():
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         
-        with st.expander("🤖 Klaim Akun AI", expanded=False):
+        with st.expander("⚡ Klaim Akun AI", expanded=False):
             try:
                 # --- KONEKSI & DATA ---
                 sekarang_dt = datetime.now()
@@ -1322,7 +1322,8 @@ def tampilkan_tugas_kerja():
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
                 # REVISI LOGIKA: Bisa klaim selama akun aktif < 2
-                bisa_klaim = True                
+                bisa_klaim = True
+                pesan_status = "✅ Jatah klaim tersedia."
                 if not list_opsi:
                     bisa_klaim, pesan_status = False, "😭 Stok akun sedang habis."
                 elif len(akun_aktif_user) >= 2:
@@ -2489,6 +2490,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
