@@ -1664,12 +1664,16 @@ def tampilkan_tugas_kerja():
                     # --- 1. KUNCI DATA STAFF & PERIODE ---
                     S_VAR_NAMA = user_sekarang.upper().strip()
                     
+                    # --- AMBIL & BERSIHKAN DATA (URUTAN WAJIB) ---
+                    df_staff_raw = ambil_data_segar("Staff")
+                    df_staff_fix = bersihkan_data(df_staff_raw) # <-- Ini kuncinya, biar ga error lagi!
+                    
                     # Daftar bulan untuk tampilan teks
                     daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
                     pilihan_nama = daftar_bulan[sekarang.month] 
                     tahun_dipilih = sekarang.year 
                     
-                    df_staff_raw = ambil_data_segar("Staff")
+                    # Cari data spesifik staf yang login
                     row_staff = df_staff_fix[df_staff_fix['NAMA'] == S_VAR_NAMA]
                     
                     if not row_staff.empty:
@@ -1677,8 +1681,15 @@ def tampilkan_tugas_kerja():
                         S_VAR_GAPOK = int(pd.to_numeric(str(res.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         S_VAR_TUNJ = int(pd.to_numeric(str(res.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                         
-                        # Rumus Final (Menggunakan pot_sp, u_hadir, b_video yang dihitung mesin di atas)
-                        S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + b_video + u_hadir) - pot_sp)
+                        # --- PASTIKAN VARIABEL BERIKUT SUDAH ADA (DIHITUNG DI RADAR ATAS) ---
+                        # Jika karena suatu hal tidak terdefinisi, kita kasih default 0 agar tidak crash
+                        v_b_video = b_video if 'b_video' in locals() else 0
+                        v_u_hadir = u_hadir if 'u_hadir' in locals() else 0
+                        v_pot_sp = pot_sp if 'pot_sp' in locals() else 0
+                        v_hari_lemah = hari_lemah if 'hari_lemah' in locals() else 0
+
+                        # Rumus Final
+                        S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + v_b_video + v_u_hadir) - v_pot_sp)
                         
                         # --- TEMPLATE HTML PREMIUM (Variabel KUNCI: hari_lemah) ---
                         slip_staff_html = f"""
@@ -2538,6 +2549,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
