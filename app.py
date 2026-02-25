@@ -1882,7 +1882,7 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-# --- DATABASE AKUN AI (VERSI HEADER WARNA + 3 KOLOM BAWAH) ---    
+# --- DATABASE AKUN AI (VERSI COMPACT & TEGAS) ---    
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             ws_akun = sh.worksheet("Akun_AI")
@@ -1912,30 +1912,32 @@ def tampilkan_kendali_tim():
                     tgl_exp = pd.to_datetime(r['EXPIRED']).date()
                     sisa = (tgl_exp - h_ini).days
                     
-                    # Penentu Warna Header
-                    if sisa > 7: warna_head, stat_ai = "#1d976c", "🟢 AMAN"
-                    elif 0 <= sisa <= 7: warna_head, stat_ai = "#f39c12", "🟠 LIMIT"
-                    else: warna_head, stat_ai = "#e74c3c", "🔴 MATI"
+                    if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
+                    elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
+                    else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
 
                     with kolom_ai[idx % 2]:
                         with st.container(border=True):
-                            # HEADER BERWARNA (Kaya yang tadi)
+                            # HEADER
                             st.markdown(f"""
-                                <div style="text-align:center; padding:5px; background:{warna_head}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
-                                    <b style="color:white; font-size:14px;">🤖 {r['AI'].upper()}</b>
+                                <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                    <b style="color:white; font-size:12px;">{r['AI'].upper()}</b>
                                 </div>
                             """, unsafe_allow_html=True)
                             
-                            st.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                            st.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>🔑 PASSWORD</p><code>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                            # BARIS 1: EMAIL & PASSWORD (2 KOLOM)
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:9px; color:#888;'>📧 EMAIL</p><code style='font-size:10px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:9px; color:#888;'>🔑 PASSWORD</p><code style='font-size:10px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                             
                             st.divider()
                             
-                            # 3 KOLOM BAWAH SEJAJAR
+                            # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM - TEKS LEBIH GEDE)
                             b1, b2, b3 = st.columns(3)
-                            b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:11px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                            b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXPIRED</p><b style='font-size:11px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                            b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:11px;'>{sisa} Hari</b>", unsafe_allow_html=True)
+                            # font-size: 13px buat angka/status biar lebih "nendang"
+                            b1.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                            b2.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                            b3.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>SISA</p><b style='font-size:13px; color:{warna_h};'>{sisa} Hari</b>", unsafe_allow_html=True)
             else:
                 st.caption("Belum ada data.")
 
@@ -2290,6 +2292,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
