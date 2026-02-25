@@ -1136,44 +1136,55 @@ def tampilkan_tugas_kerja():
                         kirim_notif_wa(f"✨ *INFO TUGAS BARU*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:100]}...")
                     st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
 
-    # --- 4. SETOR MANDIRI (FIXED INDENTATION) ---
+    # --- 4. SETOR MANDIRI (VERSI SUPER LOCK) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
+            st.info("💡 **Tips Bonus:** Setor 1 video per 1 kiriman agar bonus lembur & target bulanan terhitung otomatis oleh sistem.")
+            
             with st.form("form_mandiri", clear_on_submit=True):
-                c1, c2 = st.columns([1.5, 2.5]) 
-                with c1: judul_m = st.text_area("📝 Judul Pekerjaan:", height=70)
-                with c2: link_m = st.text_area("🔗 Link GDrive:", height=70)
+                judul_m = st.text_input("📝 Judul Video/Pekerjaan:", placeholder="Contoh: Video Konten A Part 1")
+                link_m = st.text_input("🔗 Link GDrive:", placeholder="https://drive.google.com/...")
                 
-                submit_m = st.form_submit_button("🔥 KIRIM SEKARANG", use_container_width=True)
+                submit_m = st.form_submit_button("🔥 KIRIM SETORAN", use_container_width=True)
                 
                 if submit_m:
-                    # Baris ini HARUS lebih masuk ke kanan (4 spasi dari if di atasnya)
-                    if judul_m and link_m: 
-                        t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                        sheet_tugas.append_row([
-                            t_id_m, 
-                            user_sekarang.upper(), 
-                            sekarang.strftime("%Y-%m-%d"), 
-                            judul_m, 
-                            "WAITING QC", 
-                            sekarang.strftime("%d/%m/%Y %H:%M"), 
-                            link_m, 
-                            ""
-                        ])
-                        kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
-                        st.success("✅ Terkirim!")
-                        time.sleep(1)
-                        st.rerun()
+                    if judul_m and link_m:
+                        # VALIDASI GANDA: Cek koma DAN cek jumlah protokol https
+                        is_multiple = "," in link_m or link_m.lower().count("https://") > 1
+                        
+                        if is_multiple:
+                            st.error("❌ **TERDETEKSI GANDA!** Dilarang mengirim lebih dari 1 link dalam satu setoran. Silakan kirim satu per satu agar bonusmu tidak rugi.")
+                        elif "drive.google.com" not in link_m.lower():
+                            st.warning("⚠️ **LINK TIDAK VALID!** Pastikan kamu memasukkan link Google Drive yang benar.")
+                        else:
+                            # PROSES SIMPAN KE GSHEET
+                            t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                            sheet_tugas.append_row([
+                                t_id_m, 
+                                user_sekarang.upper(), 
+                                sekarang.strftime("%Y-%m-%d"), 
+                                judul_m, 
+                                "WAITING QC", 
+                                sekarang.strftime("%d/%m/%Y %H:%M"), 
+                                link_m, 
+                                "" # Catatan Kosong
+                            ])
+                            kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n🎬 *Video:* {judul_m}")
+                            st.success(f"✅ Video '{judul_m}' berhasil disetor! Silakan setor video lainnya jika ada.")
+                            time.sleep(1)
+                            st.rerun()
                     else:
-                        st.warning("⚠️ Isi dulu Judul dan Link-nya!")
-
-    # --- 5. RENDER KARTU TUGAS ---
+                        st.warning("⚠️ Mohon isi Judul dan Link terlebih dahulu!")
+                        
+# --- 5. RENDER KARTU TUGAS (SINKRON 1 VIDEO 1 LINK) ---
     tugas_terfilter = []
     if not df_all_tugas.empty:
         if user_sekarang == "dian":
+            # Admin melihat semua yang belum selesai
             tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
         else:
+            # Staff melihat miliknya yang belum selesai
             tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
 
     if tugas_terfilter:
@@ -1189,41 +1200,64 @@ def tampilkan_tugas_kerja():
                             status = str(t["Status"]).upper()
                             cb = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
                             st.markdown(f"{cb} `{status}`")
+                            
                             if st.toggle("🔍 Buka Detail", key=f"tgl_{t['ID']}"):
                                 st.divider()
-                                if t.get("Catatan_Revisi"): st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                                if t.get("Catatan_Revisi"): 
+                                    st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
+                                
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
+                                
+                                # --- BAGIAN KHUSUS ADMIN DIAN ---
                                 if user_sekarang == "dian":
                                     if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                                        st.link_button("🔗 CEK HASIL", t["Link_Hasil"].split(",")[0].strip(), use_container_width=True)
-                                    cat_r = st.text_area("Catatan:", key=f"cat_{t['ID']}")
+                                        # Ambil link utuh (Tanpa split agar link panjang tidak terpotong)
+                                        link_qc = str(t["Link_Hasil"]).strip()
+                                        st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
+                                    
+                                    cat_r = st.text_area("Catatan Admin:", key=f"cat_{t['ID']}", placeholder="Alasan Revisi/Batal...")
+                                    
                                     b1, b2, b3 = st.columns(3)
                                     with b1:
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
                                             cell = sheet_tugas.find(str(t['ID']).strip())
                                             sheet_tugas.update_cell(cell.row, 5, "FINISH")
-                                            kirim_notif_wa(f"✅ *TUGAS SELESAI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
+                                            kirim_notif_wa(f"✅ *VIDEO ACC*\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
                                             st.success("ACC!"); time.sleep(1); st.rerun()
                                     with b2:
                                         if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
                                             if cat_r:
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
-                                                sheet_tugas.update_cell(cell.row, 5, "REVISI"); sheet_tugas.update_cell(cell.row, 8, cat_r)
-                                                kirim_notif_wa(f"⚠️ *BUTUH REVISI*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}\n📝 *Pesan:* {cat_r}")
+                                                sheet_tugas.update_cell(cell.row, 5, "REVISI")
+                                                sheet_tugas.update_cell(cell.row, 8, cat_r)
+                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 {t['Staf'].upper()}\n📝 {cat_r}")
                                                 st.warning("REVISI!"); time.sleep(1); st.rerun()
                                     with b3:
                                         if st.button("🚫 BATAL", key=f"c_{t['ID']}", use_container_width=True):
                                             if cat_r:
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
-                                                sheet_tugas.update_cell(cell.row, 5, "CANCELED"); sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
-                                                kirim_notif_wa(f"🚫 *TUGAS DIBATALKAN*\n\n👤 {t['Staf'].upper()}\n🆔 {t['ID']}")
+                                                sheet_tugas.update_cell(cell.row, 5, "CANCELED")
+                                                sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
                                                 st.error("BATAL!"); time.sleep(1); st.rerun()
+
+                                # --- BAGIAN KHUSUS STAFF (SETOR) ---
                                 elif user_sekarang != "tamu":
-                                    l_in = st.text_input("Link GDrive:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                                    st.markdown('<p class="small-label">🔗 LINK GDRIVE (1 VIDEO = 1 LINK)</p>', unsafe_allow_html=True)
+                                    # Gunakan text_input agar ringkas tapi pastikan logika split dihapus
+                                    l_in = st.text_input("Paste Link di sini:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                                    
                                     if st.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
-                                        cell = sheet_tugas.find(str(t['ID']).strip())
-                                        sheet_tugas.update_cell(cell.row, 5, "WAITING QC"); sheet_tugas.update_cell(cell.row, 7, l_in)
-                                        st.success("Sent!"); time.sleep(1); st.rerun()
+                                        if l_in.strip():
+                                            # Proteksi agar tidak kirim banyak link pake koma
+                                            if "," in l_in or l_in.lower().count("https://") > 1:
+                                                st.error("❌ Hanya boleh 1 link! Gunakan Setor Mandiri untuk video lainnya.")
+                                            else:
+                                                cell = sheet_tugas.find(str(t['ID']).strip())
+                                                sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                                                sheet_tugas.update_cell(cell.row, 7, l_in)
+                                                st.success("Terkirim!"); time.sleep(1); st.rerun()
+                                        else:
+                                            st.warning("Isi link dulu!")
 
     # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
     st.divider()
@@ -2269,10 +2303,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
