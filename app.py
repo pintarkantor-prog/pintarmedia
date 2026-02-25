@@ -983,21 +983,6 @@ def tampilkan_gudang_ide():
         st.session_state.status_sukses = False
         st.rerun()
         
-# ==============================================================================
-# NOTIFIKASI & LOGGING
-# ==============================================================================
-def kirim_notif_wa(pesan):
-    token = "f4CApLBAJDTPrVHHZCDF"
-    target = "120363407726656878@g.us"
-    url = "https://api.fonnte.com/send"
-    payload = {'target': target, 'message': pesan, 'countryCode': '62'}
-    headers = {'Authorization': token}
-    try: requests.post(url, data=payload, headers=headers, timeout=5)
-    except: pass
-
-# ==============================================================================
-# LOGIKA PERHITUNGAN (SP & BONUS 2026)
-# ==============================================================================
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
     bonus_video_total = 0
     uang_absen_total = 0
@@ -1005,48 +990,65 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
-    # 1. Tentukan Batas Hari (SP vs Bonus)
+    # 1. Tentukan Batas Hari
     import calendar
     if bulan_pilih == sekarang.month and tahun_pilih == sekarang.year:
-        batas_sp = sekarang.day - 1 # SP cuma hitung hari yang sudah LEWAT
-        batas_bonus = sekarang.day  # Bonus hitung sampai DETIK INI
+        batas_sp = sekarang.day - 1 # SP hanya hitung hari yang sudah lewat
+        batas_bonus = sekarang.day  # Bonus hitung sampai hari ini
     else:
         batas_sp = calendar.monthrange(tahun_pilih, bulan_pilih)[1]
         batas_bonus = batas_sp
 
-    # 2. Rekap Harian (Fixing pd.to_datetime error)
+    # 2. Rekap Harian (Hanya yang FINISH, Poin ditarik ke tanggal di kolom DEADLINE)
     df_finish = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].copy()
     rekap_harian = {}
+    
     if not df_finish.empty:
-        # Gunakan Deadline sebagai acuan tanggal kerja
-        df_finish['TGL_ONLY'] = pd.to_datetime(df_finish['DEADLINE']).dt.day
-        rekap_harian = df_finish.groupby('TGL_ONLY').size().to_dict()
+        # Menghindari error jika ada data tanggal yang korup
+        df_finish['TGL_SETOR'] = pd.to_datetime(df_finish['DEADLINE'], errors='coerce').dt.day
+        # Hapus data yang gagal diconvert jadi tanggal (NaT)
+        df_finish = df_finish.dropna(subset=['TGL_SETOR'])
+        rekap_harian = df_finish.groupby('TGL_SETOR').size().to_dict()
 
-    # 3. Looping Perhitungan
-    # Kita cek sampai tanggal terakhir di bulan itu/hari ini
+    # 3. Looping Perhitungan (Logika Kesepakatan: SP vs Bonus)
     for tgl in range(1, 32):
+        try:
+            # Sensor Hari Minggu (Libur SP tapi Bonus tetap jalan)
+            tgl_objek = datetime(tahun_pilih, bulan_pilih, tgl)
+            is_minggu = tgl_objek.weekday() == 6
+        except:
+            continue
+
+        # Ambil jumlah video yang statusnya sudah FINISH di tanggal setor tersebut
         jml_v = rekap_harian.get(tgl, 0)
         
-        # LOGIKA BONUS: Cek sampai batas_bonus (Hari ini)
+        # --- LOGIKA BONUS (Tetap cair meski hari Minggu) ---
         if tgl <= batas_bonus:
-            if jml_v >= 3: uang_absen_total += 30000 
-            if jml_v >= 5: bonus_video_total += (jml_v - 4) * 30000
+            # 3 video ke atas = Bonus Absen 30rb
+            if jml_v >= 3: 
+                uang_absen_total += 30000 
             
-        # LOGIKA SP: Cek cuma sampai batas_sp (Kemarin)
-        if tgl <= batas_sp:
-            if jml_v < 3: hari_lemah += 1
+            # 5 video ke atas = Bonus Video (30rb/video mulai video ke-5)
+            if jml_v >= 5: 
+                bonus_video_total += (jml_v - 4) * 30000
+            
+        # --- LOGIKA SP (Sensor Minggu Aktif) ---
+        if tgl <= batas_sp and not is_minggu:
+            # 0-1 video FINISH = Hari Lemah (Kena hitung SP)
+            # 2 video FINISH = AMAN (Tidak dapet bonus, tapi tidak kena SP)
+            if jml_v <= 1: 
+                hari_lemah += 1
 
-    # 4. Logika Potongan SP (Smart Switch)
+    # 4. Penentuan Level SP & Potongan
     pot_sp = 0
-    # Cek fitur PEMUTIHAN (Nanti kita ambil dari sheet Staff)
-    # Untuk sekarang kita buat default False
-    is_pemutihan = False 
+    is_pemutihan = False # Bisa lo hubungkan ke sistem pemutihan nanti
 
     if is_pemutihan:
         level_sp = "PEMUTIHAN (AKTIF)"
     elif bulan_pilih == sekarang.month and sekarang.day <= 6:
         level_sp = "MASA PROTEKSI"
     else:
+        # Akumulasi Hari Lemah dalam sebulan
         if hari_lemah >= 21: pot_sp = 1000000; level_sp = "SP 3"
         elif hari_lemah >= 14: pot_sp = 700000; level_sp = "SP 2"
         elif hari_lemah >= 7: pot_sp = 300000; level_sp = "SP 1"
@@ -1987,52 +1989,40 @@ def tampilkan_kendali_tim():
             c_r7.metric("📉 LOW STAF", staf_low)
         
         # ======================================================================
-        # --- 6. RINCIAN GAJI & SLIP (FULL VERSION - NO COMPROMISE) ---
+        # --- 6. RINCIAN GAJI & SLIP (FULL VERSION - SINKRON HARIAN) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
                 ada_kerja = False
                 df_staff_raw_slip = df_staff.copy()
-                kol_v = st.columns(2) # Tampilan VCard 2 Kolom Sejajar
+                kol_v = st.columns(2) 
                 
                 for idx, s in df_staff_raw_slip.iterrows():
                     n_up = str(s.get('NAMA', '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    # --- LOGIKA HITUNG (FIXED VERSION) ---
-                    u_absen_staf, b_lembur_staf = 0, 0
-                    if n_up in rekap_harian_tim:
-                        for tgl, jml in rekap_harian_tim[n_up].items():
-                            if jml >= 3: u_absen_staf += 30000
-                            if jml >= 5: b_lembur_staf += (jml - 4) * 30000
+                    # --- 1. DATA FILTERING SPESIFIK STAF ---
+                    df_absen_staf_slip = df_a_f[df_a_f['NAMA'] == n_up].copy()
+                    df_arsip_staf_slip = df_f_f[df_f_f['STAF'] == n_up].copy()
                     
-                    jml_v = rekap_total_video.get(n_up, 0)
-                    pot_sp_admin = 0
-                    
-                    # Definisi Target (Jangan sampe typo lagi!)
-                    t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-                    t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
+                    # --- 2. PANGGIL MESIN UTAMA (SINKRONISASI TOTAL) ---
+                    # Di sini kita panggil fungsi yang sama persis dengan yang dilihat staf di dashboard mereka
+                    b_lembur_staf, u_absen_staf, pot_sp_admin, level_sp_admin, h_lemah_staf = hitung_logika_performa_dan_bonus(
+                        df_arsip_staf_slip, 
+                        df_absen_staf_slip, 
+                        bulan_dipilih, 
+                        tahun_dipilih
+                    )
 
-                    if not is_masa_depan:
-                        if sekarang.day > 6:
-                            if jml_v >= t_normal: 
-                                pot_sp_admin = 0
-                            elif t_sp1 <= jml_v < t_normal: 
-                                pot_sp_admin = 300000
-                            elif t_sp2 <= jml_v < t_sp1: # <--- TADI TYPO DI SINI (t_s1 diganti t_sp1)
-                                pot_sp_admin = 700000
-                            else: 
-                                pot_sp_admin = 1000000
-
-                    # Ambil angka bersih dari GSheet
+                    # --- 3. AMBIL DATA FINANSIAL DARI GSHEET ---
                     v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                     v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                     
-                    # Rumus Final
+                    # --- 4. RUMUS FINAL (Sesuai Kitab Suci) ---
                     v_total_terima = max(0, (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin)
                     ada_kerja = True
 
-                    # --- TAMPILAN VCARD (ADMIN VIEW) ---
+                    # --- 5. TAMPILAN VCARD ADMIN ---
                     with kol_v[idx % 2]:
                         with st.container(border=True):
                             st.markdown(f"""
@@ -2045,14 +2035,14 @@ def tampilkan_kendali_tim():
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Info Gaji di VCard
-                            st.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI GAJI</p><h3 style='margin:0; color:#1d976c;'>Rp {v_total_terima:,}</h3>", unsafe_allow_html=True)
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</p><h3 style='margin:0; color:#1d976c;'>Rp {v_total_terima:,}</h3>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS SP</p><b style='font-size:14px; color:{'#e74c3c' if pot_sp_admin > 0 else '#1d976c'};'>{level_sp_admin}</b>", unsafe_allow_html=True)
                             
                             st.divider()
 
-                            # Tombol Preview & Cetak
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"vcard_{n_up}", use_container_width=True):
-                                # INI SLIP ASLI DIAN (FULL DETAIL - GAK ADA YANG DIPOTONG)
+                                # HTML SLIP (Tetap pakai gaya premium lo)
                                 slip_html = f"""
                                 <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                                     <center>
@@ -2074,7 +2064,7 @@ def tampilkan_kendali_tim():
                                         <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
                                         <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
                                         <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
-                                        <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
+                                        <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({h_lemah_staf} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
                                     </table>
 
                                     <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
@@ -2098,7 +2088,7 @@ def tampilkan_kendali_tim():
                     st.info("Belum ada data gaji untuk periode ini.")
 
             except Exception as e_slip:
-                st.error(f"Gagal memuat Rincian Gaji: {e_slip}")
+                st.error(f"Gagal memuat Rincian Gaji Sinkron: {e_slip}")
         
         # ======================================================================
         # --- 7. DATABASE AKUN AI (VERSI ASLI DIAN - INDENTASI TERKUNCI) ---
@@ -2519,3 +2509,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
