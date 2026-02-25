@@ -1064,6 +1064,12 @@ def tampilkan_tugas_kerja():
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
+    # --- TAMBAHKAN INI BIAR GAK ERROR PAS ACC/REV ---
+    sh = get_gspread_sh() # Panggil koneksi filenya
+    sheet_tugas = sh.worksheet("Tugas")
+    sheet_absensi = sh.worksheet("Absensi")
+    # ------------------------------------------------
+    
     try:
         # --- 1. AMBIL DATA (Mesin Baru & Sinkron) ---
         df_all_tugas = ambil_data_segar("Tugas")
@@ -1159,22 +1165,35 @@ def tampilkan_tugas_kerja():
     except Exception as e:
         st.error(f"❌ Error Tampilan: {e}")
         
-    # --- 3. PANEL ADMIN ---
-    if user_sekarang == "dian":
-        with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
-            c2, c1 = st.columns([2, 1]) 
-            with c2: isi_tugas = st.text_area("Instruksi Tugas", height=150)
-            with c1: 
-                staf_tujuan = st.selectbox("Pilih Editor", staf_options)
-                pake_wa = st.checkbox("Kirim Notif WA?", value=True)
-            if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
-                if isi_tugas:
-                    t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                    sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
-                    catat_log(f"Kirim Tugas Baru {t_id}")
-                    if pake_wa:
-                        kirim_notif_wa(f"✨ *INFO TUGAS*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:30]}...")
-                    st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
+        st.divider() # Pemisah antara Radar dan Panel Admin
+
+        # --- 3. PANEL ADMIN (Taruh di Sini!) ---
+        if user_sekarang == "dian":
+            # Pastikan variabel st_raw (data staf) sudah lo panggil di atas
+            # Biar staf_options nggak error
+            staf_options = st_raw['NAMA'].unique().tolist() if 'st_raw' in locals() else []
+            
+            with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
+                c2, c1 = st.columns([2, 1]) 
+                with c2: 
+                    isi_tugas = st.text_area("Instruksi Tugas", height=150, placeholder="Tulis instruksi video di sini...")
+                with c1: 
+                    staf_tujuan = st.selectbox("Pilih Editor", staf_options)
+                    pake_wa = st.checkbox("Kirim Notif WA?", value=True)
+                
+                if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
+                    if isi_tugas:
+                        t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                        # Pastikan variabel sheet_tugas sudah lo definisikan (sh.worksheet("Tugas"))
+                        sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
+                        catat_log(f"Kirim Tugas Baru {t_id}")
+                        
+                        if pake_wa:
+                            kirim_notif_wa(f"✨ *INFO TUGAS*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:30]}...")
+                        
+                        st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
+                    else:
+                        st.error("Isi dulu instruksinya, Bos!")
 
     # --- 4. SETOR MANDIRI (VERSI SUPER LOCK) ---
     if user_sekarang != "dian" and user_sekarang != "tamu":
@@ -1366,7 +1385,6 @@ def tampilkan_tugas_kerja():
                                         else:
                                             st.warning("Isi link dulu!")
 
-
     # =========================================================
     # --- 4.5. SISTEM KLAIM AI (VERSI MINIMALIS & LOGIKA BARU) ---
     # =========================================================
@@ -1543,8 +1561,15 @@ def tampilkan_tugas_kerja():
             # Jika gagal, buat DataFrame kosong dengan struktur kolom yang benar
             df_absen_user = pd.DataFrame(columns=['NAMA', 'TANGGAL', 'JAM', 'STATUS'])
 
+        # --- PENYARINGAN DATA TUGAS (AGAR TIDAK NAME ERROR) ---
+        # Saring data tugas milik staf ini yang statusnya FINISH di bulan ini
+        mask_user_arsip = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
+        mask_finish_arsip = df_all_tugas['STATUS'].str.strip() == 'FINISH'
+        df_arsip_user = df_all_tugas[mask_user_arsip & mask_finish_arsip & mask_bulan].copy()
+
         # B. HITUNG LOGIKA (Bonus, Hadir, SP)
-        b_video, u_hadir, pot_sp, level_sp, h_kurang_total = hitung_logika_performa_dan_bonus(
+        # Sekarang df_arsip_user sudah terisi dan siap dihitung mesin
+        b_video, u_hadir, pot_sp, level_sp, hari_lemah = hitung_logika_performa_dan_bonus(
             df_arsip_user,
             df_absen_user, 
             sekarang.month, 
@@ -1597,7 +1622,6 @@ def tampilkan_tugas_kerja():
                     b_absen_bln = 30000 * 25 
                     
                     # 2. Bonus Video: Dimulai dari video ke-5 (t_hari - 4) x 30rb
-                    # Jika input 5 video, maka (5-4) = 1 video bonus per hari
                     b_video_bln = max(0, (t_hari - 4)) * 30000 * 25
                     
                     p_sp = 0
@@ -1640,10 +1664,10 @@ def tampilkan_tugas_kerja():
                     # --- 1. KUNCI DATA STAFF & PERIODE ---
                     S_VAR_NAMA = user_sekarang.upper().strip()
                     
-                    # TAMBAHKAN INI BIAR PILIHAN_NAMA DKK TIDAK ERROR
+                    # Daftar bulan untuk tampilan teks
                     daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
-                    pilihan_nama = daftar_bulan[sekarang.month] # Mengambil nama bulan sekarang
-                    tahun_dipilih = sekarang.year # Mengambil tahun sekarang
+                    pilihan_nama = daftar_bulan[sekarang.month] 
+                    tahun_dipilih = sekarang.year 
                     
                     df_staff_fix = bersihkan_data(df_staff_raw)
                     row_staff = df_staff_fix[df_staff_fix['NAMA'] == S_VAR_NAMA]
@@ -1653,10 +1677,10 @@ def tampilkan_tugas_kerja():
                         S_VAR_GAPOK = int(pd.to_numeric(str(res.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         S_VAR_TUNJ = int(pd.to_numeric(str(res.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                         
-                        # Pastikan variabel b_video, u_hadir, dan pot_sp sudah dihitung di atas sebelum baris ini
+                        # Rumus Final (Menggunakan pot_sp, u_hadir, b_video yang dihitung mesin di atas)
                         S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + b_video + u_hadir) - pot_sp)
                         
-                        # --- TEMPLATE HTML PREMIUM (Variabel disinkronkan) ---
+                        # --- TEMPLATE HTML PREMIUM (Variabel KUNCI: hari_lemah) ---
                         slip_staff_html = f"""
                         <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                             <center>
@@ -1678,7 +1702,7 @@ def tampilkan_tugas_kerja():
                                 <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {S_VAR_TUNJ:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_hadir:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_video:,}</td></tr>
-                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP</td><td align="right" style="padding-top: 5px;">- {pot_sp:,}</td></tr>
+                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({hari_lemah} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp:,}</td></tr>
                             </table>
 
                             <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
@@ -1703,7 +1727,7 @@ def tampilkan_tugas_kerja():
                 except Exception as e: 
                     st.warning(f"Gagal memproses slip: {e}")
         else:
-            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 28 setiap bulannya.")
+            st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 26 setiap bulannya.")
                 
 def tampilkan_kendali_tim():    
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
@@ -1794,7 +1818,7 @@ def tampilkan_kendali_tim():
             # Bonus Terbayar adalah yang sudah masuk ke Arus Kas via tombol ACC
             bonus_terbayar_kas = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'Gaji Tim')]['NOMINAL'].sum()
 
-        # --- HITUNG ESTIMASI GAJI POKOK REAL (SINKRON DENGAN SP) ---
+        # --- HITUNG ESTIMASI GAJI POKOK REAL (SINKRONISASI HARIAN) ---
         total_gaji_pokok_tim = 0
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
@@ -1803,37 +1827,33 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # 1. Ambil Gaji Pokok & Tunjangan asli
+                # --- SINKRON: Panggil Mesin Hitung Harian ---
+                df_a_staf = df_a_f[df_a_f['NAMA'] == n_up].copy()
+                df_t_staf = df_f_f[df_f_f['STAF'] == n_up].copy()
+
+                # Kita panggil mesin utama cuma buat ambil pot_sp-nya saja
+                _, _, pot_sp_real, _, _ = hitung_logika_performa_dan_bonus(
+                    df_t_staf, df_a_staf, bulan_dipilih, tahun_dipilih
+                )
+                
                 g_pokok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                 
-                # 2. HITUNG POTONGAN SP (Biar sinkron sama slip)
-                jml_v = rekap_total_video.get(n_up, 0)
-                pot_sp = 0
-                t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-                t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
-
-                # Syarat SP Aktif (Setelah tanggal 6)
-                if sekarang.day > 6:
-                    if jml_v >= t_normal: pot_sp = 0
-                    elif t_sp1 <= jml_v < t_normal: pot_sp = 300000
-                    elif t_sp2 <= jml_v < t_sp1: pot_sp = 700000
-                    else: pot_sp = 1000000
+                # Gaji nett yang sudah dipotong SP (Berdasarkan Hari Lemah)
+                gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp_real)
                 
-                # 3. Gaji Dasar Setelah Kena SP
-                gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp)
-                
-                # 4. Estimasi harian (pake gaji yang sudah dipotong SP)
                 if bulan_dipilih == sekarang.month:
+                    # Estimasi pengeluaran gaji tim sampai hari ini
                     total_gaji_pokok_tim += (gaji_nett / 25) * min(sekarang.day, 25)
                 else:
+                    # Laporan bulan lalu (Full sebulan)
                     total_gaji_pokok_tim += gaji_nett
 
-        # TOTAL OUTCOME SINKRON
+        # TOTAL OUTCOME SINKRON (Uang Keluar Real)
         total_pengeluaran_gaji = total_gaji_pokok_tim + bonus_terbayar_kas
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
-
+        
         # ======================================================================
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
@@ -1915,10 +1935,7 @@ def tampilkan_kendali_tim():
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO - SYNCED) ---
         # ======================================================================
         st.write(""); st.markdown("### 📡 RADAR PERFORMA TIM")
-        t_target_display = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
-        progres_h = min(sekarang.day, 25)
-        target_aman_hari_ini = round((t_target_display / 25) * progres_h, 1)
-
+        
         kolom_card = st.columns(4)
         rekap_v_total, rekap_b_cair, rekap_b_absen, rekap_h_malas = 0, 0, 0, 0
         performa_staf = {}
@@ -1927,30 +1944,38 @@ def tampilkan_kendali_tim():
             n_up = str(s.get('NAMA', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
             
-            jml_v = rekap_total_video.get(n_up, 0)
+            # --- AMBIL DATA SPESIFIK STAF ---
+            df_a_staf_r = df_a_f[df_a_f['NAMA'] == n_up].copy()
+            df_t_staf_r = df_f_f[df_f_f['STAF'] == n_up].copy()
+
+            # --- LOGIKA SINKRON (KITAB SUCI) ---
+            b_lembur_staf, u_absen_staf, pot_sp_r, level_sp_r, h_lemah_staf = hitung_logika_performa_dan_bonus(
+                df_t_staf_r, df_a_staf_r, bulan_dipilih, tahun_dipilih
+            )
+            
+            jml_v = len(df_t_staf_r)
             rekap_v_total += jml_v
             performa_staf[n_up] = jml_v
             jml_cancel = len(df_t_bln[(df_t_bln['STAF'] == n_up) & (df_t_bln['STATUS'].astype(str).str.upper() == 'CANCELED')])
             
-            h_cair, h_malas, u_absen_staf, b_lembur_staf = 0, 0, 0, 0
+            # Hitung Hari Cair (Minimal 3 Video)
+            h_cair = 0
             if n_up in rekap_harian_tim:
-                for tgl, qty in rekap_harian_tim[n_up].items():
-                    if qty >= 3: h_cair += 1; u_absen_staf += 30000
-                    if qty >= 5: b_lembur_staf += (qty - 4) * 30000
-                    if qty < 3: h_malas += 1 # Mengikuti logika SP harian
+                h_cair = sum(1 for qty in rekap_harian_tim[n_up].values() if qty >= 3)
             
-            rekap_b_cair += b_lembur_staf; rekap_b_absen += u_absen_staf; rekap_h_malas += h_malas
+            rekap_b_cair += b_lembur_staf; rekap_b_absen += u_absen_staf; rekap_h_malas += h_lemah_staf
 
             t_hadir = 0
             if not df_a_f.empty:
                 t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
 
-            # Warna Radar (Gaya Pro lo)
-            warna_bg = "#1d976c" if jml_v >= target_aman_hari_ini else "#f39c12" if jml_v >= (target_aman_hari_ini * 0.6) else "#e74c3c"
+            # Warna Header VCard (Tetap Gaya Pro lo)
+            # Hijau kalau Normal, Kuning kalau SP 1, Merah kalau SP 2/3
+            warna_bg = "#1d976c" if level_sp_r == "NORMAL" or "PROTEKSI" in level_sp_r else "#f39c12" if level_sp_r == "SP 1" else "#e74c3c"
 
             with kolom_card[idx % 4]:
                 with st.container(border=True):
-                    # Header Kartu lo yang paten
+                    # TAMPILAN TETAP SAMA - CUMA ISI BERUBAH
                     st.markdown(f'<div style="text-align:center; padding:5px; background:{warna_bg}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;"><b style="color:white; font-size:14px;">{n_up}</b></div>', unsafe_allow_html=True)
                     
                     m1, m2, m3 = st.columns(3)
@@ -1961,17 +1986,19 @@ def tampilkan_kendali_tim():
                     st.divider()
                     
                     det1, det2 = st.columns(2)
-                    sisa_t = max(0, t_target_display - jml_v)
-                    det1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>🎯 SISA TARGET</p><b style='font-size:12px; color:#e74c3c;'>{int(sisa_t)} Vid</b>", unsafe_allow_html=True)
-                    det2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⚠️ HARI MALAS</p><b style='font-size:12px;'>{h_malas} Hari</b>", unsafe_allow_html=True)
+                    # SISA TARGET gue ganti jadi STATUS biar sinkron
+                    det1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>🚩 STATUS</p><b style='font-size:11px;'>{level_sp_r}</b>", unsafe_allow_html=True)
+                    det2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⚠️ HARI LEMAH</p><b style='font-size:12px; color:#e74c3c;'>{h_lemah_staf} Hari</b>", unsafe_allow_html=True)
                     
                     det1.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>✨ HARI CAIR</p><b style='font-size:12px;'>{h_cair} Hari</b>", unsafe_allow_html=True)
                     det2.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>💰 TOTAL BONUS</p><b style='font-size:12px; color:#1d976c;'>Rp {(u_absen_staf + b_lembur_staf):,}</b>", unsafe_allow_html=True)
                     
-                    st.progress(min(jml_v / t_target_display, 1.0))
+                    # Progress bar mengacu pada ambang batas SP 1 (7 hari)
+                    # Kalau bar penuh, berarti siap-siap kena SP 1
+                    st.progress(min(h_lemah_staf / 7, 1.0))
 
         # ======================================================================
-        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI 7 KOLOM - SUPER CLEAN) ---
+        # --- 5. RANGKUMAN KOLEKTIF TIM (SINKRON HARIAN) ---
         # ======================================================================
         with st.container(border=True):
             st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
@@ -1980,11 +2007,13 @@ def tampilkan_kendali_tim():
             staf_low = min(performa_staf, key=performa_staf.get) if performa_staf else "-"
             
             c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
-            c_r1.metric("🎯 TARGET/STAF", f"{t_target_display} Vid")
+            # c_r1 kita ganti jadi info target bulanan (sebagai benchmark aja)
+            c_r1.metric("🎯 TARGET IDEAL", f"{t_target_display} Vid") 
             c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}")
-            c_r3.metric("🔥 BONUS CAIR", f"Rp {rekap_b_cair:,}")
+            c_r3.metric("🔥 BONUS LEMBUR", f"Rp {rekap_b_cair:,}")
             c_r4.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
-            c_r5.metric("⚠️ TOTAL MALAS", f"{rekap_h_malas} HR")
+            # c_r5 sekarang nampilin akumulasi hari lemah seluruh tim
+            c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR")
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
@@ -2006,8 +2035,8 @@ def tampilkan_kendali_tim():
                     df_arsip_staf_slip = df_f_f[df_f_f['STAF'] == n_up].copy()
                     
                     # --- 2. PANGGIL MESIN UTAMA (SINKRONISASI TOTAL) ---
-                    # Di sini kita panggil fungsi yang sama persis dengan yang dilihat staf di dashboard mereka
-                    b_lembur_staf, u_absen_staf, pot_sp_admin, level_sp_admin, h_lemah_staf = hitung_logika_performa_dan_bonus(
+                    # Variabel ke-5 diganti menjadi hari_lemah agar sinkron
+                    b_lembur_staf, u_absen_staf, pot_sp_admin, level_sp_admin, hari_lemah = hitung_logika_performa_dan_bonus(
                         df_arsip_staf_slip, 
                         df_absen_staf_slip, 
                         bulan_dipilih, 
@@ -2042,7 +2071,7 @@ def tampilkan_kendali_tim():
                             st.divider()
 
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"vcard_{n_up}", use_container_width=True):
-                                # HTML SLIP (Tetap pakai gaya premium lo)
+                                # HTML SLIP (Gaya Premium dengan variabel hari_lemah)
                                 slip_html = f"""
                                 <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                                     <center>
@@ -2064,7 +2093,7 @@ def tampilkan_kendali_tim():
                                         <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
                                         <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
                                         <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
-                                        <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({h_lemah_staf} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
+                                        <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({hari_lemah} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
                                     </table>
 
                                     <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
@@ -2509,4 +2538,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
