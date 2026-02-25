@@ -1874,7 +1874,7 @@ def tampilkan_kendali_tim():
                 with st.container(height=230):
                     if not df_k_f.empty:
                         # Ambil hanya 5 baris terbaru
-                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(5).iterrows():
+                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(6).iterrows():
                             color = "#00ba69" if r['TIPE'] == "PENDAPATAN" else "#ff4b4b"
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
@@ -2515,6 +2515,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
