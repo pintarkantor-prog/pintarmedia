@@ -1669,7 +1669,7 @@ def tampilkan_tugas_kerja():
                     pilihan_nama = daftar_bulan[sekarang.month] 
                     tahun_dipilih = sekarang.year 
                     
-                    df_staff_fix = bersihkan_data(df_staff_raw)
+                    df_staff_raw = ambil_data_segar("Staff")
                     row_staff = df_staff_fix[df_staff_fix['NAMA'] == S_VAR_NAMA]
                     
                     if not row_staff.empty:
@@ -2538,5 +2538,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
