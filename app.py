@@ -1280,117 +1280,126 @@ def tampilkan_tugas_kerja():
                                             st.warning("Isi link dulu!")
 
 
-# =========================================================
-    # --- 4.5. SISTEM KLAIM AI (V4: VCARD LOOK - DEFAULT) ---
+    # =========================================================
+    # --- 4.5. SISTEM KLAIM AI (VERSI DIAN - ELEGANCE) ---
     # =========================================================
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         st.divider()
         
-        # Header Box
         with st.container(border=True):
-            st.subheader("🤖 PINTAR AI STATION")
+            st.markdown("### 🤖 PINTAR AI STATION")
+            st.caption("Jeda klaim: 4 hari | Maksimal koleksi: 2 akun aktif")
             
-        try:
-            sekarang = datetime.now()
-            scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-            creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
-            client_ai = gspread.authorize(creds)
-            url_master = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
-            sheet_akun_ai = client_ai.open_by_url(url_master).worksheet("Akun_AI")
-            
-            data_ai = sheet_akun_ai.get_all_records()
-            tgl_skrg = pd.to_datetime(datetime.now().date())
-            
-            semua_klaim_user = [a for a in data_ai if str(a.get("PEMAKAI", "")).upper() == user_sekarang.upper()]
-            
-            akun_aktif_user = []
-            for a in semua_klaim_user:
-                exp_val = str(a.get("EXPIRED", "")).strip()
-                if not exp_val: 
-                    akun_aktif_user.append(a)
-                else:
-                    try:
-                        if pd.to_datetime(exp_val) >= tgl_skrg:
-                            akun_aktif_user.append(a)
-                    except: akun_aktif_user.append(a)
+            try:
+                # 1. Koneksi & Ambil Data
+                sekarang_dt = datetime.now()
+                h_ini = sekarang_dt.date()
+                
+                scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
+                creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
+                client_ai = gspread.authorize(creds)
+                
+                url_master = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
+                ws_akun = client_ai.open_by_url(url_master).worksheet("Akun_AI")
+                data_akun_raw = ws_akun.get_all_records()
+                df_ai = pd.DataFrame(data_akun_raw)
 
-            # --- UI PEMILIHAN AI ---
-            st.write("")
-            st.markdown("##### 🛒 Pilih Senjata AI Kamu:")
-            list_stok = [str(a.get("AI", "")).strip().upper() for a in data_ai if not str(a.get("PEMAKAI", "")).strip()]
-            opsi_ai = sorted(list(set(list_stok))) if list_stok else ["STOK KOSONG"]
-            pilihan_ai = st.selectbox("Cari AI:", opsi_ai, label_visibility="collapsed", key="sb_ai_claim")
+                # 2. Logika Filter Akun User
+                user_up = user_sekarang.upper()
+                df_user = df_ai[df_ai['PEMAKAI'].str.upper() == user_up].copy()
+                
+                # Filter akun aktif (Sisa hari >= 0)
+                akun_aktif_user = []
+                if not df_user.empty:
+                    for idx, r in df_user.iterrows():
+                        try:
+                            tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                            if (tgl_exp - h_ini).days >= 0:
+                                akun_aktif_user.append(r)
+                        except: akun_aktif_user.append(r)
 
-            # --- VALIDASI ---
-            bisa_klaim = True
-            pesan_status = ""
-            if pilihan_ai == "STOK KOSONG":
-                bisa_klaim = False
-                pesan_status = "😭 Maaf, stok habis."
-            elif len(akun_aktif_user) >= 2:
-                bisa_klaim = False
-                pesan_status = f"🚫 Limit 2 akun aktif tercapai."
-            elif semua_klaim_user:
-                last_tgl = str(semua_klaim_user[-1].get("TANGGAL_KLAIM", ""))
-                try:
-                    selisih = (datetime.now() - pd.to_datetime(last_tgl)).days
+                # 3. Form Klaim (Dropdown & Tombol)
+                st.write("")
+                st.markdown("##### 🛒 Klaim Senjata AI")
+                
+                # Cari stok yang belum ada pemakainya
+                df_stok = df_ai[df_ai['PEMAKAI'].str.strip() == ""].copy()
+                list_opsi = sorted(df_stok['AI'].unique().tolist()) if not df_stok.empty else []
+                
+                c_sel, c_btn = st.columns([2, 1])
+                pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed")
+                
+                # Cek Syarat Klaim
+                bisa_klaim = True
+                pesan_error = ""
+                
+                if not list_opsi:
+                    bisa_klaim = False
+                    pesan_error = "😭 Stok semua akun sedang kosong."
+                elif len(akun_aktif_user) >= 2:
+                    bisa_klaim = False
+                    pesan_error = "🚫 Limit 2 akun aktif tercapai."
+                elif not df_user.empty:
+                    last_claim = pd.to_datetime(df_user['TANGGAL_KLAIM'].iloc[-1]).date()
+                    selisih = (h_ini - last_claim).days
                     if selisih < 4:
                         bisa_klaim = False
-                        pesan_status = f"⏳ Tunggu {4 - selisih} hari lagi."
-                except: pass
+                        pesan_error = f"⏳ Tunggu {4-selisih} hari lagi ya."
 
-            if bisa_klaim:
-                st.success(f"✅ Jatah tersedia! Stok {pilihan_ai} masih ada.")
-            else:
-                st.warning(pesan_status)
+                if c_btn.button("🔓 KLAIM SEKARANG", use_container_width=True, disabled=not bisa_klaim):
+                    # Ambil satu akun acak dari stok yang dipilih
+                    target_stok = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
+                    email_target = target_stok.iloc[0]['EMAIL']
+                    
+                    # Update GSheet
+                    cell = ws_akun.find(email_target)
+                    ws_akun.update_cell(cell.row, 5, user_up)
+                    ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
+                    
+                    st.balloons(); st.success("Klaim Berhasil!"); time.sleep(1); st.rerun()
 
-            # --- TOMBOL KLAIM ---
-            if st.button(f"🔓 KLAIM {pilihan_ai}", use_container_width=True, disabled=not bisa_klaim):
-                data_ai_fresh = sheet_akun_ai.get_all_records()
-                stok_spesifik = []
-                for row_idx, row_data in enumerate(data_ai_fresh, start=2): 
-                    if str(row_data.get("AI", "")).strip().upper() == pilihan_ai and not str(row_data.get("PEMAKAI", "")).strip():
-                        row_data['row_number'] = row_idx
-                        stok_spesifik.append(row_data)
-                
-                if stok_spesifik:
-                    import random
-                    pilihan = random.choice(stok_spesifik)
-                    baris_target = pilihan['row_number']
-                    sheet_akun_ai.update_cell(baris_target, 5, user_sekarang.upper())
-                    sheet_akun_ai.update_cell(baris_target, 6, sekarang.strftime("%Y-%m-%d"))
-                    st.balloons(); st.success(f"Berhasil!"); time.sleep(1); st.rerun()
-                else:
-                    st.error(f"Stok {pilihan_ai} habis!")
+                if not bisa_klaim and list_opsi:
+                    st.warning(pesan_error)
 
-            # --- DAFTAR KOLEKSI MODEL VCARD ---
-            if akun_aktif_user:
-                st.write("")
-                with st.expander("🔑 KOLEKSI AKUN AKTIF SAYA", expanded=True):
-                    # Kita looping untuk buat baris kartu
-                    for idx, acc in enumerate(reversed(akun_aktif_user)):
-                        with st.container(border=True): # Ini pembungkus kartu (VCard)
-                            c_icon, c_detail = st.columns([1, 4])
-                            
-                            # Kolom Icon
-                            with c_icon:
-                                nama_ai = str(acc.get('AI','')).upper()
-                                icon = "🧠" if "GROK" in nama_ai else "♊" if "GEMINI" in nama_ai else "🤖"
-                                st.markdown(f"<h1 style='text-align: center; margin:0;'>{icon}</h1>", unsafe_allow_html=True)
-                            
-                            # Kolom Detail Akun
-                            with c_detail:
-                                st.markdown(f"**{nama_ai} STATION**")
-                                st.code(f"U: {acc['EMAIL']}\nP: {acc['PASSWORD']}")
+                # 4. Tampilan Akun (2 Kolom Gaya Dian)
+                if akun_aktif_user:
+                    st.divider()
+                    st.markdown("##### 🔑 KOLEKSI AKUN AKTIF")
+                    kolom_user = st.columns(2)
+                    
+                    for idx, r in enumerate(reversed(akun_aktif_user)):
+                        tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                        sisa = (tgl_exp - h_ini).days
+                        
+                        # Penentu Warna Header (Gaya Dian)
+                        if sisa > 7: warna_h, stat_txt = "#1d976c", "🟢 AMAN"
+                        elif 0 <= sisa <= 7: warna_h, stat_txt = "#f39c12", "🟠 LIMIT"
+                        else: warna_h, stat_txt = "#e74c3c", "🔴 MATI"
+
+                        with kolom_user[idx % 2]:
+                            with st.container(border=True):
+                                # HEADER VCARD
+                                st.markdown(f"""
+                                    <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                        <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
+                                    </div>
+                                """, unsafe_allow_html=True)
                                 
-                                # Info Expired di pojok bawah kartu
-                                st.caption(f"🗓️ Expired: {acc.get('EXPIRED','') if acc.get('EXPIRED','') else 'Unlimited'}")
+                                # EMAIL & PASSWORD
+                                st.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:14px; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='margin:5px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:14px; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                
+                                st.divider()
+                                
+                                # INFO BAWAH
+                                b1, b2 = st.columns(2)
+                                b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:12px;'>{stat_txt}</b>", unsafe_allow_html=True)
+                                b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:12px; color:{warna_h};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
-            st.caption("🆘 Darurat? Akun suspend? Hubungi Dian.")
-
-        except Exception as e:
-            st.error(f"Sistem AI Station Error: {e}")
+                st.caption("**Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
+            except Exception as e_station:
+                st.error(f"Gagal memuat Station: {e_station}")
                 
     # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
     st.divider()
@@ -2502,6 +2511,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
