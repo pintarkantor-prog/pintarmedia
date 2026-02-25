@@ -1381,7 +1381,6 @@ def tampilkan_tugas_kerja():
                 st.error(f"Gagal memuat AI Station: {e_station}")
                 
     # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
-    st.divider()
     with st.expander("📜 RIWAYAT TUGAS (BULAN INI)", expanded=False):
         if not df_all_tugas.empty:
             # 1. Filter Dasar (Bulan ini & User)
@@ -2490,6 +2489,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
