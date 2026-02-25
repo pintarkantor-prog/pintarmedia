@@ -1319,7 +1319,7 @@ def tampilkan_tugas_kerja():
                 # 2. UI PEMILIHAN JENIS AI
                 st.markdown("##### 🛒 Pilih Senjata AI Kamu:")
                 # Ambil daftar unik Nama AI yang tersedia di stok (PEMAKAI-nya kosong)
-                list_stok = [str(a.get("NAMA_AI", "")).upper() for a in data_ai if not str(a.get("PEMAKAI", "")).strip()]
+                list_stok = [str(a.get("AI", "")).upper() for a in data_ai if not str(a.get("PEMAKAI", "")).strip()]
                 opsi_ai = sorted(list(set(list_stok))) if list_stok else ["STOK KOSONG"]
                 
                 pilihan_ai = st.selectbox("Mau klaim akun apa?", opsi_ai, label_visibility="collapsed")
@@ -2493,6 +2493,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
