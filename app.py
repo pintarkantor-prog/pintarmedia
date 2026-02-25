@@ -1226,7 +1226,7 @@ def tampilkan_tugas_kerja():
                 if i + j < len(tugas_list):
                     t = tugas_list[i + j]
                     status = str(t["STATUS"]).upper()
-                    url_foto = foto_staff.get(str(t["STAFF"]).lower(), foto_staff_default)
+                    url_foto = foto_staff.get(str(t.get("STAF", "")).lower(), foto_staff_default)
                     
                     with cols[j]:
                         with st.container(border=True):
@@ -2423,6 +2423,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
