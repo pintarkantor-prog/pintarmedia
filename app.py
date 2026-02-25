@@ -1437,7 +1437,7 @@ def tampilkan_tugas_kerja():
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
                 
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
-        if sekarang.day >= 25: 
+        if sekarang.day >= 28: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
                 try:
                     # --- 1. KUNCI DATA STAFF & PERIODE ---
@@ -2389,6 +2389,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
