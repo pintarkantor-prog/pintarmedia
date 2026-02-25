@@ -1080,15 +1080,14 @@ def tampilkan_tugas_kerja():
             st.warning("Data tugas tidak ditemukan.")
             return
 
-        # Ambil data staff untuk keperluan dropdown Admin
+        # PAKSA SEMUA HEADER TUGAS JADI HURUF BESAR
+        df_all_tugas.columns = [str(c).strip().upper() for c in df_all_tugas.columns]
+        data_tugas = df_all_tugas.to_dict('records')
+
+        # Ambil data staff & Paksa jadi HURUF BESAR
         df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-        
-        # --- SOLUSI FIX ERROR 'NAMA' ---
         if not df_staff_raw.empty:
-            # Kode di bawah ini akan menghapus spasi dan mengubah semua judul kolom jadi HURUF BESAR
             df_staff_raw.columns = [str(c).strip().upper() for c in df_staff_raw.columns]
-            
-            # Sekarang kamu bisa memanggil 'NAMA' dengan aman meskipun di sheet tertulis 'Nama'
             staf_options = df_staff_raw['NAMA'].unique().tolist()
         else:
             staf_options = []
@@ -1205,15 +1204,15 @@ def tampilkan_tugas_kerja():
     # --- 5. RENDER KARTU TUGAS (FIXED LOGIC) ---
     tugas_terfilter = []
     
-    # 1. Kumpulkan data dulu
+    # 1. Kumpulkan data dulu (Gunakan Huruf Besar sesuai hasil standarisasi di atas)
     if not df_all_tugas.empty:
         status_buang = ["FINISH", "CANCELED"]
         if user_sekarang == "dian":
             # Admin melihat semua yang bukan FINISH/CANCELED
-            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() not in status_buang]
+            tugas_terfilter = [t for t in data_tugas if str(t.get("STATUS")).upper() not in status_buang]
         else:
-            # Staff melihat miliknya yang bukan FINISH/CANCELED
-            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in status_buang]
+            # Staff melihat miliknya
+            tugas_terfilter = [t for t in data_tugas if str(t.get("STAF")).lower() == user_sekarang and str(t.get("STATUS")).upper() not in status_buang]
 
     # 2. CEK HASIL FILTER (Logika yang bener: kalau kosong kasih info, kalau ada gambar kartu)
     if not tugas_terfilter:
@@ -1226,8 +1225,8 @@ def tampilkan_tugas_kerja():
             for j in range(2):
                 if i + j < len(tugas_list):
                     t = tugas_list[i + j]
-                    status = str(t["Status"]).upper()
-                    url_foto = foto_staff.get(str(t["Staf"]).lower(), foto_staff_default)
+                    status = str(t["STATUS"]).upper()
+                    url_foto = foto_staff.get(str(t["STAFF"]).lower(), foto_staff_default)
                     
                     with cols[j]:
                         with st.container(border=True):
@@ -1248,14 +1247,14 @@ def tampilkan_tugas_kerja():
                             if olah:
                                 st.divider()
                                 # Bagian instruksi tetep pake Quote biar rapi
-                                if t.get("Catatan_Revisi"): 
-                                    st.warning(f"⚠️ **REVISI:** {t['Catatan_Revisi']}")
-                                st.markdown(f"> **INSTRUKSI:** \n> {t['Instruksi']}")
+                                if t.get("CATATAN_REVISI"): 
+                                    st.warning(f"⚠️ **REVISI:** {t['CATATAN_REVISI']}")
+                                st.markdown(f"> **INSTRUKSI:** \n> {t['INSTRUKSI']}")
                                 
                                 # --- BAGIAN KHUSUS ADMIN DIAN (DENGAN AUTO-BONUS) ---
                                 if user_sekarang == "dian":
-                                    if t.get("Link_Hasil") and t["Link_Hasil"] != "-":
-                                        link_qc = str(t["Link_Hasil"]).strip()
+                                    if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
+                                        link_qc = str(t["LINK_HASIL"]).strip()
                                         st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
                                     
                                     cat_r = st.text_area("Catatan Admin:", key=f"cat_{t['ID']}", placeholder="Alasan Revisi/Batal...")
@@ -1264,7 +1263,7 @@ def tampilkan_tugas_kerja():
                                     with b1:
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
                                             # 1. IDENTIFIKASI DATA
-                                            staf_nama = str(t['Staf']).upper().strip()
+                                            staf_nama = str(t['STAF']).upper().strip()
                                             id_tugas = str(t['ID']).strip()
                                             tgl_tugas = t['Deadline'] # Tanggal setoran
 
@@ -1310,7 +1309,7 @@ def tampilkan_tugas_kerja():
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "REVISI")
                                                 sheet_tugas.update_cell(cell.row, 8, cat_r)
-                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 Alasan: {cat_r}")
+                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 Alasan: {cat_r}")
                                                 st.warning("REVISI!"); time.sleep(1); st.rerun()
                                     with b3:
                                         if st.button("🚫 BATAL", key=f"c_{t['ID']}", use_container_width=True):
@@ -1318,14 +1317,14 @@ def tampilkan_tugas_kerja():
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "CANCELED")
                                                 sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
-                                                kirim_notif_wa(f"🚫 *DIBATALKAN*\n\n👤 *Editor:* {t['Staf'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Alasan:* {cat_r}")
+                                                kirim_notif_wa(f"🚫 *DIBATALKAN*\n\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Alasan:* {cat_r}")
                                                 st.error("BATAL!"); time.sleep(1); st.rerun()
 
                                 # --- BAGIAN KHUSUS STAFF (SETOR) ---
                                 elif user_sekarang != "tamu":
                                     st.markdown('<p class="small-label">🔗 LINK GDRIVE (1 VIDEO = 1 LINK)</p>', unsafe_allow_html=True)
                                     # Gunakan text_input agar ringkas tapi pastikan logika split dihapus
-                                    l_in = st.text_input("Paste Link di sini:", value=t.get("Link_Hasil", ""), key=f"l_{t['ID']}")
+                                    l_in = st.text_input("Paste Link di sini:", value=t.get("LINK_HASIL", ""), key=f"l_{t['ID']}")
                                     
                                     if st.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
                                         if l_in.strip():
@@ -1475,7 +1474,7 @@ def tampilkan_tugas_kerja():
                 
                 # 3. Tampilkan Tabel Tunggal
                 # Kita masukkan 'Catatan_Revisi' biar kalau ada yang batal, alasannya kelihatan
-                kolom_laci = ['ID', 'STAF', 'DEADLINE', 'STATUS', 'Catatan_Revisi']
+                kolom_laci = ['ID', 'STAF', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
                 kolom_fix = [c for c in kolom_laci if c in df_laci.columns]
                 
                 st.dataframe(
@@ -1485,7 +1484,7 @@ def tampilkan_tugas_kerja():
                         "STAF": "👤 STAF",
                         "DEADLINE": "📅 TGL",
                         "STATUS": "🚩 STATUS",
-                        "Catatan_Revisi": "📝 KETERANGAN/ALASAN"
+                        "CATATAN_REVISI": "📝 KETERANGAN/ALASAN"
                     },
                     hide_index=True,
                     use_container_width=True
@@ -2424,6 +2423,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
