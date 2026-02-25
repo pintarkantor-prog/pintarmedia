@@ -1286,7 +1286,7 @@ def tampilkan_tugas_kerja():
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         
-        with st.expander("🤖 PINTAR AI STATION", expanded=True):
+        with st.expander("🤖 Klaim Akun AI", expanded=False):
             try:
                 # --- KONEKSI & DATA ---
                 sekarang_dt = datetime.now()
@@ -1322,9 +1322,7 @@ def tampilkan_tugas_kerja():
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
                 # REVISI LOGIKA: Bisa klaim selama akun aktif < 2
-                bisa_klaim = True
-                pesan_status = "💡 Kamu bisa memiliki maksimal 2 akun aktif."
-                
+                bisa_klaim = True                
                 if not list_opsi:
                     bisa_klaim, pesan_status = False, "😭 Stok akun sedang habis."
                 elif len(akun_aktif_user) >= 2:
@@ -1363,17 +1361,20 @@ def tampilkan_tugas_kerja():
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                st.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:14px; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                st.markdown(f"<p style='margin:5px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:14px; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                # EMAIL & PASSWORD (2 KOLOM - FONT 15PX)
+                                c1, c2 = st.columns(2)
+                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                                 
                                 st.divider()
                                 
+                                # STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
                                 b1, b2, b3 = st.columns(3)
-                                b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:10px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                                b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXP</p><b style='font-size:10px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                                b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:10px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                                b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                                b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
 
-                st.caption("🆘 Hubungi Dian jika ada kendala.")
+                st.caption("🆘 **Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
 
             except Exception as e_station:
                 st.error(f"Gagal memuat AI Station: {e_station}")
@@ -2488,6 +2489,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
