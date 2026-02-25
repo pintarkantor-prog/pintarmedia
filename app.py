@@ -1420,8 +1420,14 @@ def tampilkan_tugas_kerja():
         if sekarang.day >= 25: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
                 try:
-                    # 1. KUNCI DATA STAFF (Anti-Tertukar)
+                    # --- 1. KUNCI DATA STAFF & PERIODE ---
                     S_VAR_NAMA = user_sekarang.upper().strip()
+                    
+                    # TAMBAHKAN INI BIAR PILIHAN_NAMA DKK TIDAK ERROR
+                    daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
+                    pilihan_nama = daftar_bulan[sekarang.month] # Mengambil nama bulan sekarang
+                    tahun_dipilih = sekarang.year # Mengambil tahun sekarang
+                    
                     df_staff_fix = bersihkan_data(df_staff_raw)
                     row_staff = df_staff_fix[df_staff_fix['NAMA'] == S_VAR_NAMA]
                     
@@ -1799,7 +1805,7 @@ def tampilkan_kendali_tim():
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
-# ======================================================================
+        # ======================================================================
         # --- 6. RINCIAN GAJI & SLIP (FULL VERSION - NO COMPROMISE) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -2324,6 +2330,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
