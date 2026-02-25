@@ -1373,7 +1373,7 @@ def tampilkan_tugas_kerja():
                 )
                 
                 # --- LOGIKA HITUNG SIMULASI (SINKRON ATURAN 2026) ---
-                gapok_sim = 2000000
+                gapok_sim = 1500000
                 
                 if t_hari >= 3:
                     # 1. Uang Absen: 30rb per hari
@@ -2303,3 +2303,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
