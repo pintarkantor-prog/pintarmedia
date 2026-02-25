@@ -1701,58 +1701,72 @@ def tampilkan_kendali_tim():
 
         st.divider()
                 
-        # --- MASTER MONITORING PERFORMA TIM (GABUNGAN SEMUA MENU) ---
+        # --- MASTER MONITORING VERSI CARD PRO ---
         with st.expander("🚀 MASTER MONITORING & RADAR TIM", expanded=True):
-            # 1. Penentuan Target
             t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
             progres_h = min(sekarang.day, 25)
             target_aman = round((t_normal / 25) * progres_h, 1)
 
-            master_data = []
-            for _, s in df_staff.iterrows():
+            # Buat Grid Kolom (Misal 3 card per baris)
+            kolom_card = st.columns(3)
+            
+            for idx, s in df_staff.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # A. Hitung Video Finish & Selisih
+                # Logika Data (Sama seperti sebelumnya)
                 jml_v = rekap_total_video.get(n_up, 0)
-                selisih = round(jml_v - target_aman, 1)
-                
-                # B. Hitung Hari Cair & Hari Malas
                 h_cair, h_malas = 0, 0
                 if n_up in rekap_harian_tim:
                     for tgl_idx, qty in rekap_harian_tim[n_up].items():
                         if qty >= 3: h_cair += 1
                         if qty <= 1: h_malas += 1
                 
-                # C. Ambil Total Hadir dari Absensi
                 t_hadir = 0
                 if not df_a_f.empty:
-                    # Filter data absen berdasarkan nama staf yang sedang di-loop
                     t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
 
-                # D. Tentukan Status Radar
+                # Penentu Warna & Status
                 if jml_v >= target_aman: 
-                    stat_radar = "🟢 AMAN"
+                    warna, icon, stat_msg = "#1d976c", "🟢", "PERFORMA AMAN"
                 elif jml_v >= (target_aman * 0.6): 
-                    stat_radar = "🟡 WASPADA"
+                    warna, icon, stat_msg = "#f39c12", "🟡", "BUTUH PENGEJARAN"
                 else: 
-                    stat_radar = "🔴 BAHAYA (SP)"
+                    warna, icon, stat_msg = "#e74c3c", "🔴", "RESIKO SP/KRITIS"
 
-                master_data.append({
-                    "STAF": n_up,
-                    "ABSEN": f"{t_hadir} HR",
-                    "FINISH": int(jml_v),
-                    "CAIR ✨": f"{h_cair} HR",
-                    "MALAS ⚠️": f"{h_malas} HR",
-                    "RADAR": stat_radar
-                })
+                # Render Card ke kolom (berputar idx % 3)
+                with kolom_card[idx % 3]:
+                    with st.container(border=True):
+                        # Header Card
+                        st.markdown(f"""
+                            <div style="text-align: center; padding: 10px; background: {warna}; border-radius: 10px 10px 0 0; margin: -15px -15px 15px -15px;">
+                                <h3 style="color: white; margin: 0; font-size: 16px;">{n_up}</h3>
+                                <small style="color: white; opacity: 0.8;">{stat_msg}</small>
+                            </div>
+                        """, unsafe_allow_html=True)
+                        
+                        # Body Card (Metrik Utama)
+                        c_a, c_b = st.columns(2)
+                        c_a.metric("🎬 FINISH", f"{int(jml_v)} Vid")
+                        c_b.metric("📅 HADIR", f"{t_hadir} Hr")
+                        
+                        st.divider()
+                        
+                        # Info Detail
+                        st.markdown(f"""
+                            <div style="font-size: 13px; line-height: 1.8;">
+                                ✨ <b>Hari Cair:</b> {h_cair} Hari<br>
+                                ⚠️ <b>Hari Malas:</b> <span style="color: {'#e74c3c' if h_malas >= 7 else '#888'}; font-weight: bold;">{h_malas} Hari</span><br>
+                                📊 <b>Selisih Target:</b> {round(jml_v - target_aman, 1)} Video
+                            </div>
+                        """, unsafe_allow_html=True)
+                        
+                        # Progress Bar Sederhana
+                        prog_val = min(jml_v / t_normal, 1.0)
+                        st.progress(prog_val, text=f"Progres Bulanan: {int(prog_val*100)}%")
 
-            if master_data:
-                # Tampilkan Tabel Master
-                st.table(pd.DataFrame(master_data))
-                st.info(f"💡 **Target Aman Hari Ini (Tgl {sekarang.day}):** {target_aman} Video Finish.")
-            else:
-                st.info("Belum ada data aktivitas tim.")
+            st.markdown(f"---")
+            st.info(f"💡 **Info Target {pilihan_nama}:** Minimal **{target_aman} video** per hari ini untuk status Aman.")
         
         # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -2262,5 +2276,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
