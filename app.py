@@ -1365,21 +1365,37 @@ def tampilkan_tugas_kerja():
                     st.warning(pesan_status)
 
                 if st.button(f"🔓 KLAIM {pilihan_ai}", use_container_width=True, disabled=not bisa_klaim):
-                    # Cari stok yang sesuai Nama AI pilihan & PEMAKAI-nya kosong
-                    stok_spesifik = [a for a in data_ai if str(a.get("NAMA_AI", "")).upper() == pilihan_ai and not str(a.get("PEMAKAI", "")).strip()]
+                    # 1. Ambil data paling fresh lagi biar nggak 'tabrakan'
+                    data_ai_fresh = sheet_akun_ai.get_all_records()
+                    
+                    # 2. Cari stok yang AI-nya cocok DAN pemakainya kosong
+                    # PENTING: Pastikan 'AI' di sini sama dengan header di GSheet kamu
+                    stok_spesifik = []
+                    for row_idx, row_data in enumerate(data_ai_fresh, start=2): # start=2 karena header di baris 1
+                        nama_di_sheet = str(row_data.get("AI", "")).strip().upper()
+                        pemakai_di_sheet = str(row_data.get("PEMAKAI", "")).strip()
+                        
+                        if nama_di_sheet == pilihan_ai and not pemakai_di_sheet:
+                            # Simpan datanya + info barisnya buat update nanti
+                            row_data['row_number'] = row_idx
+                            stok_spesifik.append(row_data)
                     
                     if stok_spesifik:
                         import random
                         pilihan = random.choice(stok_spesifik)
-                        email_target = pilihan['EMAIL']
-                        cell_target = sheet_akun_ai.find(email_target)
+                        baris_target = pilihan['row_number']
                         
-                        sheet_akun_ai.update_cell(cell_target.row, 5, user_sekarang.upper()) # Kolom E
-                        sheet_akun_ai.update_cell(cell_target.row, 6, datetime.now().strftime("%Y-%m-%d")) # Kolom F
+                        # UPDATE GOOGLE SHEET
+                        # Kolom 5 = PEMAKAI (E), Kolom 6 = TANGGAL_KLAIM (F)
+                        sheet_akun_ai.update_cell(baris_target, 5, user_sekarang.upper())
+                        sheet_akun_ai.update_cell(baris_target, 6, sekarang.strftime("%Y-%m-%d"))
                         
-                        st.balloons(); st.success(f"Berhasil klaim {pilihan_ai}!"); time.sleep(1); st.rerun()
+                        st.balloons()
+                        st.success(f"Mantap! Akun {pilihan_ai} berhasil diamankan.")
+                        time.sleep(1)
+                        st.rerun()
                     else:
-                        st.error(f"Waduh, stok {pilihan_ai} baru saja habis!")
+                        st.error(f"Waduh, stok {pilihan_ai} baru saja habis atau diambil orang lain!")
 
                 # 5. DAFTAR KOLEKSI (HANYA TAMPIL YANG AKTIF)
                 if akun_aktif_user:
@@ -2507,6 +2523,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
