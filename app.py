@@ -1481,11 +1481,6 @@ def tampilkan_tugas_kerja():
                         """
                         st.components.v1.html(slip_staff_html, height=800)
 
-                        panggilan_fix = S_VAR_NAMA.split()[0].capitalize() 
-
-                        if st.button("🧧 KONFIRMASI TERIMA GAJI", use_container_width=True):
-                            catat_log(f"Konfirmasi gaji Rp {S_VAR_TOTAL:,} oleh {S_VAR_NAMA}")
-                            st.success(f"Berhasil Dikonfirmasi, {panggilan_fix}!")
                     else:
                         st.error("Data staff tidak ditemukan.")
                 except Exception as e: 
@@ -2308,6 +2303,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
