@@ -1286,7 +1286,7 @@ def tampilkan_tugas_kerja():
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         
-        with st.expander("⚡ Klaim Akun AI", expanded=False):
+        with st.expander("⚡ KLAIM AKUN AI DISINI", expanded=False):
             try:
                 # --- KONEKSI & DATA ---
                 sekarang_dt = datetime.now()
@@ -2490,6 +2490,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
