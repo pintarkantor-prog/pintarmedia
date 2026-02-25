@@ -1807,14 +1807,26 @@ def tampilkan_kendali_tim():
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
 
-# ======================================================================
+        # ======================================================================
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+            # --- METRIK UTAMA DENGAN WARNA OTOMATIS ---
             m1, m2, m3, m4 = st.columns(4)
+            
             m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", delta_color="inverse")
-            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}")
+            
+            # Outcome kasih warna merah kalau ada pengeluaran (inverse)
+            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", 
+                      delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None, 
+                      delta_color="inverse")
+            
+            # Saldo Bersih: Hijau kalau Plus, Merah kalau Minus
+            warna_saldo = "normal" if saldo_bersih >= 0 else "inverse"
+            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}", 
+                      delta="SURPLUS" if saldo_bersih >= 0 else "DEFISIT",
+                      delta_color=warna_saldo)
+            
             margin_val = (saldo_bersih / inc * 100) if inc > 0 else 0
             m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
 
@@ -2479,6 +2491,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
