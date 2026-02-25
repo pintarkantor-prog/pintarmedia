@@ -1807,8 +1807,8 @@ def tampilkan_kendali_tim():
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
 
-    # ======================================================================
-        # --- UI: FINANCIAL COMMAND CENTER (ULTRA CLEAN & TIGHT) ---
+# ======================================================================
+        # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             m1, m2, m3, m4 = st.columns(4)
@@ -1818,14 +1818,12 @@ def tampilkan_kendali_tim():
             margin_val = (saldo_bersih / inc * 100) if inc > 0 else 0
             m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
 
-            # Hilangkan st.divider() kalau mau lebih rapet lagi ke atas
             st.divider()
             
-            # PAKAI GAP SMALL BIAR GAK JAUH JARAKNYA
-            col_input, col_viz, col_logs = st.columns([1, 1.2, 1], gap="small")
+            # Formasi Baru: Input (1) - Logs (1.2) - Viz (1)
+            col_input, col_logs, col_viz = st.columns([1, 1.2, 1], gap="small")
 
             with col_input:
-                # Judul Dihapus, Form Tanpa Label (Collapsed)
                 with st.form("form_kas_new", clear_on_submit=True):
                     f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
                     f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Lainnya"], label_visibility="collapsed")
@@ -1835,31 +1833,12 @@ def tampilkan_kendali_tim():
                         sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
                         st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
-            with col_viz:
-                # DATA DONAT: CUMA INCOME VS OUTCOME
-                df_donut = pd.DataFrame({"Kat": ["INCOME", "OUTCOME"], "Val": [inc, total_out]})
-                if (inc + total_out) > 0:
-                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.75, 
-                                 color_discrete_sequence=["#00ba69", "#ff4b4b"])
-                    
-                    fig.update_layout(
-                        showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5, font=dict(size=10)),
-                        height=220, # Ketinggian dikurangin biar rapet
-                        margin=dict(t=0, b=0, l=0, r=0),
-                        paper_bgcolor='rgba(0,0,0,0)', # BACKGROUND TRANSPARAN
-                        plot_bgcolor='rgba(0,0,0,0)'    # BACKGROUND TRANSPARAN
-                    )
-                    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-                else:
-                    st.write("<center style='color:#666; font-size:12px; padding-top:50px;'>Belum ada data</center>", unsafe_allow_html=True)
-
             with col_logs:
-                # Judul Dihapus, Container Log Lebih Pendek & Rapet
+                # Log Terakhir: Batasi 5 Transaksi Saja
                 with st.container(height=230):
                     if not df_k_f.empty:
-                        # Urutkan berdasarkan tanggal terbaru, ambil 10 saja
-                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(10).iterrows():
+                        # Ambil hanya 5 baris terbaru
+                        for _, r in df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(5).iterrows():
                             color = "#00ba69" if r['TIPE'] == "PENDAPATAN" else "#ff4b4b"
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
@@ -1868,6 +1847,28 @@ def tampilkan_kendali_tim():
                                 <span style='color:#666; font-style:italic;'>{r['KETERANGAN']}</span>
                             </div>
                             """, unsafe_allow_html=True)
+                    else:
+                        st.caption("Belum ada data transaksi.")
+
+            with col_viz:
+                # Kasih spasi dikit biar grafik gak nempel ke divider atas
+                st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+                
+                df_donut = pd.DataFrame({"Kat": ["INCOME", "OUTCOME"], "Val": [inc, total_out]})
+                if (inc + total_out) > 0:
+                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.75, 
+                                 color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                    
+                    fig.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, font=dict(size=10)),
+                        height=200, 
+                        margin=dict(t=0, b=0, l=0, r=0),
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        plot_bgcolor='rgba(0,0,0,0)'
+                    )
+                    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+                    
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO - SYNCED) ---
         # ======================================================================
@@ -2478,6 +2479,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
