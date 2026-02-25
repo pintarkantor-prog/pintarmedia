@@ -1415,6 +1415,7 @@ def tampilkan_tugas_kerja():
                     st.success(f"Mantap! Dengan {t_hari} video/hari, kamu mendapatkan Bonus Absen + Bonus Lembur {t_hari-4} video setiap hari.")
 
                 st.caption(f"Catatan: Estimasi berdasarkan setoran stabil {t_hari} video/hari selama 25 hari kerja.")
+                
         # D. --- SLIP GAJI PREMIUM V3 TURBO (BAHASA INDONESIA - FINAL) ---
         if sekarang.day >= 28: 
             with st.expander("💰 KLAIM SLIP GAJI BULAN INI", expanded=False):
@@ -1763,7 +1764,6 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI 7 KOLOM - SUPER CLEAN) ---
         # ======================================================================
-        st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
             st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
             
@@ -2290,6 +2290,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
