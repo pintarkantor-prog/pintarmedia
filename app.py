@@ -1137,14 +1137,6 @@ def tampilkan_tugas_kerja():
                         "💰 TOTAL BONUS", 
                         f"Rp {total_semua_bonus:,}"
                     )
-                    
-                    # Tambahin rincian di bawah metric biar gak numpuk
-                    if b_vid > 0:
-                        st.write(f"🟢 <small>Bonus Video: Rp {b_vid:,}</small>", unsafe_allow_html=True)
-                    if u_abs > 0:
-                        st.write(f"🔵 <small>Bonus Absen: Rp {u_abs:,}</small>", unsafe_allow_html=True)
-                    if b_vid == 0 and u_abs == 0:
-                        st.caption("Belum ada bonus cair.")
                 
                 with c4:
                     st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
@@ -2518,6 +2510,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
