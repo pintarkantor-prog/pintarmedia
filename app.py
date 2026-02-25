@@ -1128,14 +1128,23 @@ def tampilkan_tugas_kerja():
                         delta_color="inverse"
                     )
                 
-                with c3: 
-                    # --- VARIABEL GABUNGAN BONUS ---
+                with c3:
+                    # Hitung total dan rincian teks delta
                     total_semua_bonus = b_vid + u_abs
                     
-                    # TAMPILAN METRIC DENGAN DOUBLE DELTA (Via Markdown)
+                    # Gabungin teks Bonus Vid dan Bonus Absen dalam satu baris delta
+                    txt_delta = []
+                    if b_vid > 0: txt_delta.append(f"Vid: Rp {b_vid:,}")
+                    if u_abs > 0: txt_delta.append(f"Abs: Rp {u_abs:,}")
+                    
+                    # Satukan dengan pemisah |
+                    gabungan_delta = " | ".join(txt_delta) if txt_delta else None
+                    
                     st.metric(
                         "💰 TOTAL BONUS", 
-                        f"Rp {total_semua_bonus:,}"
+                        f"Rp {total_semua_bonus:,}", 
+                        delta=gabungan_delta,
+                        delta_color="normal" # normal biar warnanya ijo seger
                     )
                 
                 with c4:
@@ -2510,6 +2519,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
