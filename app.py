@@ -749,7 +749,6 @@ Balas HANYA tabel Markdown.
                 if api_key_groq and topik_o:
                     with st.spinner("lagi ngetik naskah..."):
                         try:
-                            import requests
                             headers = {"Authorization": f"Bearer {api_key_groq}", "Content-Type": "application/json"}
                             str_k = "\n".join(list_karakter)
                             
@@ -2206,9 +2205,6 @@ def tampilkan_ruang_produksi():
     with c2:
         st.markdown("<br>", unsafe_allow_html=True)
         st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
-    
-    data = st.session_state.data_produksi
-    ver = st.session_state.get("form_version", 0)
 
     # 1. INTEGRASI REFERENSI NASKAH
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
@@ -2491,6 +2487,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
