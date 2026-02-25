@@ -2121,9 +2121,9 @@ def tampilkan_kendali_tim():
                                 
                                 # EMAIL & PASSWORD (2 KOLOM - FONT 15PX)
                                 c1, c2, c3 = st.columns(3)
-                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
-                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>👤 PEMAKAI</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PEMAKAI']}</code>", unsafe_allow_html=True)
+                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:13px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:13px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>👤 PEMAKAI</p><code style='font-size:13px !important; display:block; padding:5px;'>{r['PEMAKAI']}</code>", unsafe_allow_html=True)
 
 
                                 st.divider()
@@ -2491,4 +2491,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
