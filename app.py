@@ -2110,7 +2110,7 @@ def tampilkan_kendali_tim():
                         elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
                         else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
 
-                        with kolom_ai[idx % 3]:
+                        with kolom_ai[idx % 2]:
                             with st.container(border=True):
                                 # HEADER
                                 st.markdown(f"""
@@ -2491,6 +2491,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
