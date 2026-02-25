@@ -1882,20 +1882,19 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-# --- DATABASE AKUN AI (VERSI 2 KOLOM - BARIS BAWAH SEJAJAR) ---    
+# --- DATABASE AKUN AI (VERSI HEADER WARNA + 3 KOLOM BAWAH) ---    
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             ws_akun = sh.worksheet("Akun_AI")
             df_ai = pd.DataFrame(ws_akun.get_all_records())
             
-            # Tombol Tambah
             if st.button("➕ TAMBAH AKUN", use_container_width=True):
                 st.session_state.form_ai = not st.session_state.get('form_ai', False)
             
             if st.session_state.get('form_ai', False):
                 with st.form("input_ai_simple"):
                     f1, f2, f3 = st.columns(3)
-                    v_ai = f1.text_input("Nama AI")
+                    v_ai = f1.text_input("Nama Tool")
                     v_mail = f2.text_input("Email")
                     v_pass = f3.text_input("Password")
                     v_exp = st.date_input("Expired")
@@ -1906,29 +1905,33 @@ def tampilkan_kendali_tim():
             st.divider()
 
             if not df_ai.empty:
-                # 2 Kolom Card Utama
                 kolom_ai = st.columns(2)
                 h_ini = sekarang.date()
 
                 for idx, r in df_ai.iterrows():
-                    # Kalkulasi Sisa Hari
                     tgl_exp = pd.to_datetime(r['EXPIRED']).date()
                     sisa = (tgl_exp - h_ini).days
                     
-                    # Penentu Status
-                    if sisa > 7: stat_ai = "🟢 AMAN"
-                    elif 0 <= sisa <= 7: stat_ai = "🟠 LIMIT"
-                    else: stat_ai = "🔴 MATI"
+                    # Penentu Warna Header
+                    if sisa > 7: warna_head, stat_ai = "#1d976c", "🟢 AMAN"
+                    elif 0 <= sisa <= 7: warna_head, stat_ai = "#f39c12", "🟠 LIMIT"
+                    else: warna_head, stat_ai = "#e74c3c", "🔴 MATI"
 
                     with kolom_ai[idx % 2]:
                         with st.container(border=True):
-                            st.markdown(f"#### 🤖 {r['AI'].upper()}")
-                            st.markdown(f"📧 **Email:** `{r['EMAIL']}`")
-                            st.markdown(f"🔑 **Pass:** `{r['PASSWORD']}`")
+                            # HEADER BERWARNA (Kaya yang tadi)
+                            st.markdown(f"""
+                                <div style="text-align:center; padding:5px; background:{warna_head}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                    <b style="color:white; font-size:14px;">🤖 {r['AI'].upper()}</b>
+                                </div>
+                            """, unsafe_allow_html=True)
+                            
+                            st.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                            st.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>🔑 PASSWORD</p><code>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                             
                             st.divider()
                             
-                            # --- 3 KOLOM SEJAJAR DI BAGIAN BAWAH ---
+                            # 3 KOLOM BAWAH SEJAJAR
                             b1, b2, b3 = st.columns(3)
                             b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:11px;'>{stat_ai}</b>", unsafe_allow_html=True)
                             b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXPIRED</p><b style='font-size:11px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
@@ -2287,6 +2290,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
