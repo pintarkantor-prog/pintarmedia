@@ -1882,7 +1882,7 @@ def tampilkan_kendali_tim():
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
         
-# --- DATABASE AKUN AI (VERSI MATA SEHAT - FONT GEDE) ---    
+# --- DATABASE AKUN AI (VERSI MATA SEHAT + WARNA KLIMIS) ---    
     with st.expander("🔐 DATABASE AKUN AI", expanded=False):
         try:
             ws_akun = sh.worksheet("Akun_AI")
@@ -1918,26 +1918,26 @@ def tampilkan_kendali_tim():
 
                     with kolom_ai[idx % 2]:
                         with st.container(border=True):
-                            # HEADER SLIM
+                            # HEADER
                             st.markdown(f"""
                                 <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
                                     <b style="color:white; font-size:12px;">{r['AI'].upper()}</b>
                                 </div>
                             """, unsafe_allow_html=True)
                             
-                            # BARIS 1: EMAIL & PASSWORD (2 KOLOM - FONT GEDE & TEGAS)
+                            # BARIS 1: EMAIL & PASSWORD (FONT GEDE & WARNA TEGAS)
                             c1, c2 = st.columns(2)
-                            # font-size saya naikin ke 14px dan pakai <b> biar "Jreng"
-                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><b style='font-size:14px;'>{r['EMAIL']}</b>", unsafe_allow_html=True)
-                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>🔑 PASSWORD</p><b style='font-size:14px;'>{r['PASSWORD']}</b>", unsafe_allow_html=True)
+                            # Warna #1E3A8A itu Biru Tua yang elegan & Gampang dibaca
+                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><b style='font-size:15px; color:#1E3A8A;'>{r['EMAIL']}</b>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>🔑 PASSWORD</p><b style='font-size:15px; color:#1E3A8A;'>{r['PASSWORD']}</b>", unsafe_allow_html=True)
                             
                             st.divider()
                             
-                            # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM)
+                            # BARIS 2: STATUS, EXPIRED, SISA
                             b1, b2, b3 = st.columns(3)
                             b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
                             b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                            b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                            b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:16px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
             else:
                 st.caption("Belum ada data.")
 
@@ -2292,6 +2292,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
