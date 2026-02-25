@@ -1663,99 +1663,99 @@ def tampilkan_kendali_tim():
             # Jika masa depan, pengeluaran dipaksa 0
             total_pengeluaran_gaji = 0
 
-# ======================================================================
-        # --- 5. FINANCIAL COMMAND CENTER (LUXURY TURBO) ---
         # ======================================================================
-        with st.expander("💎 DASHBOARD KEUANGAN STRATEGIS", expanded=True):
+        # --- 5. FINANCIAL COMMAND CENTER (ULTIMATE LUXURY VERSION) ---
+        # ======================================================================
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             
+            # --- BAGIAN ATAS: METRIK (PERTAHANKAN SESUAI PERMINTAAN) ---
             if is_masa_depan:
                 inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
             total_out = total_pengeluaran_gaji + ops
             saldo_bersih = inc - total_out
             
-            # --- ROW 1: METRIK MEWAH ---
-            # Kita pakai kolom kecil di pinggir biar metriknya gak kepanjangan
-            st.markdown("### 💠 Ringkasan Performa")
-            m1, m2, m3, m4 = st.columns([1, 1, 1, 1])
-            
+            m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc:,}")
             m2.metric("💸 OUTCOME", f"Rp {total_out:,}", delta=f"-{total_out:,}", delta_color="inverse")
             
-            # Profit dengan delta otomatis
-            status_cuan = "UNTUNG" if saldo_bersih >= 0 else "RUGI"
-            m3.metric(f"📈 {status_cuan}", f"Rp {saldo_bersih:,}", delta=f"{saldo_bersih:,}")
+            status_label = "📈 UNTUNG" if saldo_bersih >= 0 else "📉 RUGI"
+            m3.metric(status_label, f"Rp {saldo_bersih:,}", delta=f"{saldo_bersih:,}")
             
-            # Metrik tambahan: Margin Profit (Biar gaya dikit)
-            margin = (saldo_bersih / inc * 100) if inc > 0 else 0
-            m4.metric("📊 MARGIN", f"{margin:.1f}%")
+            margin_val = (saldo_bersih / inc * 100) if inc > 0 else 0
+            m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
 
             st.write("")
             st.divider()
 
-            # --- ROW 2: VISUALISASI & INPUT (SIDE BY SIDE) ---
-            col_left, col_right = st.columns([1.2, 1])
+            # --- BAGIAN BAWAH: TRIPLE COLUMNS (INPUT | GRAFIK | RIWAYAT) ---
+            col_input, col_viz, col_logs = st.columns([1.1, 1.2, 1])
 
-            with col_left:
-                st.markdown("#### 💹 Analisis Pengeluaran")
-                if total_out > 0:
-                    df_viz = pd.DataFrame({
-                        "Sektor": ["Gaji Staff", "Operasional Kantor"],
-                        "Nominal": [total_pengeluaran_gaji, ops]
-                    })
-                    
-                    # Kita ganti warnanya biar lebih premium (Emerald & Rose)
-                    fig = px.pie(df_viz, values='Nominal', names='Sektor', hole=0.7,
-                                color_discrete_sequence=['#00ba69', '#ff4b4b'])
-                    
-                    # Hilangkan legend biar bersih, ganti ke tulisan di tengah
-                    fig.update_layout(
-                        showlegend=True,
-                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
-                        margin=dict(t=10, b=10, l=10, r=10),
-                        height=300,
-                        annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=20, showarrow=False, font_family="Sans Serif")]
-                    )
-                    st.plotly_chart(fig, use_container_width=True)
-                else:
-                    st.info("Belum ada aliran dana keluar.")
-
-            with col_right:
-                st.markdown("#### 🖊️ Catat Kas")
+            # --- KOLOM 1: INPUT TRANSAKSI (KIRI) ---
+            with col_input:
                 with st.container(border=True):
-                    with st.form("form_kas_luxury", clear_on_submit=True):
-                        f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN")
+                    st.markdown("#### 🖊️ CATAT KAS")
+                    with st.form("form_kas_luxury_final", clear_on_submit=True):
+                        f_tipe = st.pills("Tipe Transaksi", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN")
                         f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
                         f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000, format="%d")
-                        f_ket = st.text_input("Catatan Singkat")
+                        f_ket = st.text_area("Catatan Singkat", placeholder="Contoh: Bayar Listrik Studio", height=70)
                         
                         if st.form_submit_button("✅ SIMPAN TRANSAKSI", use_container_width=True):
                             sh.worksheet("Arus_Kas").append_row([
                                 sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"
                             ])
                             st.toast("Data Berhasil Disimpan!", icon="🚀")
-                            time.sleep(1); st.rerun()
+                            time.sleep(1)
+                            st.rerun()
 
-            st.divider()
+            # --- KOLOM 2: GRAFIK DONAT (TENGAH) ---
+            with col_viz:
+                with st.container(border=True):
+                    st.markdown("<h4 style='text-align: center;'>💹 ALOKASI BIAYA</h4>", unsafe_allow_html=True)
+                    if total_out > 0:
+                        df_viz_data = pd.DataFrame({
+                            "Sektor": ["Gaji Staff", "Operasional"],
+                            "Nominal": [total_pengeluaran_gaji, ops]
+                        })
+                        
+                        fig_donut = px.pie(df_viz_data, values='Nominal', names='Sektor', hole=0.75,
+                                          color_discrete_sequence=['#1d976c', '#e74c3c'])
+                        
+                        fig_donut.update_layout(
+                            showlegend=True,
+                            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5),
+                            margin=dict(t=0, b=0, l=10, r=10),
+                            height=300,
+                            annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#888")]
+                        )
+                        st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
+                    else:
+                        st.info("Belum ada aliran dana keluar bulan ini.")
 
-            # --- ROW 3: TABEL TRANSAKSI (DARK MODE STYLE) ---
-            st.markdown("#### 🧾 Log Transaksi Terakhir")
-            if not df_k_f.empty:
-                df_view = df_k_f[['TANGGAL', 'TIPE', 'KATEGORI', 'NOMINAL', 'KETERANGAN']].copy()
-                
-                # Gunakan st.column_config biar tabelnya gak kaku (ada ikonnya)
-                st.dataframe(
-                    df_view.sort_values(by='TANGGAL', ascending=False),
-                    use_container_width=True,
-                    hide_index=True,
-                    column_config={
-                        "TIPE": st.column_config.SelectboxColumn("JENIS", options=["PENDAPATAN", "PENGELUARAN"]),
-                        "NOMINAL": st.column_config.NumberColumn("JUMLAH", format="Rp %d"),
-                        "TANGGAL": st.column_config.DateColumn("TANGGAL"),
-                    }
-                )
-            else:
-                st.caption("Belum ada pergerakan kas.")
+            # --- KOLOM 3: LOG RIWAYAT VCARD (KANAN) ---
+            with col_logs:
+                with st.container(border=True):
+                    st.markdown("#### 📜 LOG TERAKHIR")
+                    if not df_k_f.empty:
+                        # Ambil 5 transaksi terbaru
+                        df_mini_logs = df_k_f.sort_values(by='TANGGAL', ascending=False).head(5)
+                        for _, r_kas in df_mini_logs.iterrows():
+                            warna_duit = "#1d976c" if r_kas['TIPE'] == "PENDAPATAN" else "#e74c3c"
+                            tanda_duit = "+" if r_kas['TIPE'] == "PENDAPATAN" else "-"
+                            
+                            st.markdown(f"""
+                            <div style="border-bottom: 1px solid rgba(128,128,128,0.2); padding: 5px 0; margin-bottom: 5px;">
+                                <div style="display: flex; justify-content: space-between;">
+                                    <span style="font-size: 11px; color: #888;">{r_kas['TANGGAL']}</span>
+                                    <span style="font-size: 11px; font-weight: bold; color: {warna_duit};">{tanda_duit} Rp {r_kas['NOMINAL']:,}</span>
+                                </div>
+                                <div style="font-size: 13px; font-weight: 600;">{r_kas['KATEGORI']}</div>
+                                <div style="font-size: 10px; color: #666; font-style: italic;">{r_kas['KETERANGAN']}</div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    else:
+                        st.caption("Belum ada riwayat kas.")
         
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO) ---
@@ -2362,6 +2362,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
