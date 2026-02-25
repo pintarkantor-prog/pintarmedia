@@ -1666,7 +1666,7 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 5. FINANCIAL COMMAND CENTER (THE CEO DASHBOARD FINAL) ---
         # ======================================================================
-        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=False):
             
             # --- ROW 1: METRIK (LOGIKA WARNA & STATUS OTOMATIS) ---
             if is_masa_depan:
@@ -2370,6 +2370,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
