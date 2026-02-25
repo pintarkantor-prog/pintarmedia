@@ -1933,16 +1933,16 @@ def tampilkan_kendali_tim():
                             
                             # BARIS 1: EMAIL & PASSWORD (2 KOLOM - KOTAK CODE 15PX)
                             c1, c2 = st.columns(2)
-                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>🔑 PASSWORD</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                             
                             st.divider()
                             
                             # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
                             b1, b2, b3 = st.columns(3)
-                            b1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:12px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                            b2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>EXPIRED</p><b style='font-size:12px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                            b3.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                            b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                            b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                            b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
             else:
                 st.info("Belum ada data akun AI.")
 
@@ -2297,6 +2297,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
