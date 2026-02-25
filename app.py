@@ -1282,6 +1282,8 @@ def tampilkan_tugas_kerja():
                                             # 4. KONEKSI KE ARUS KAS
                                             ws_kas = sh.worksheet("Arus_Kas")
                                             df_kas_cek = ambil_data_segar("Arus_Kas")
+                                            if not df_kas_cek.empty:
+                                                df_kas_cek.columns = [str(c).strip().upper() for c in df_kas_cek.columns]
 
                                             # --- A. CEK BONUS ABSEN (Video ke-3) ---
                                             if jml_video == 3:
@@ -2423,6 +2425,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
