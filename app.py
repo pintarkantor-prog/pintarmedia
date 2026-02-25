@@ -23,36 +23,31 @@ def get_gspread_sh():
     client = gspread.authorize(creds)
     return client.open_by_url(URL_MASTER)
 
-@st.cache_data(ttl=10) # Mantranya di sini (Data tahan 30 detik di RAM)
+@st.cache_data(ttl=10) # Data tampilan dashboard tahan 10 detik
 def ambil_data_lokal(nama_sheet):
-    """Ambil data untuk tampilan Dashboard (Hemat API)."""
-    try:
-        sh = get_gspread_sh()
-        ws = sh.worksheet(nama_sheet)
-        data = ws.get_all_records()
-        if not data: return pd.DataFrame() 
-        return bersihkan_data(pd.DataFrame(data))
-    except Exception as e:
-        st.error(f"Gagal narik data {nama_sheet}: {e}")
-        return pd.DataFrame()
+    """Gunakan ini di bagian DASHBOARD / TABEL biar hemat kuota."""
+    return ambil_data_beneran_segar(nama_sheet)
 
 def ambil_data_beneran_segar(nama_sheet):
-    """Tanpa Cache: Khusus dipake di dalam tombol ACC buat hitung bonus."""
+    """Fungsi asli narik data langsung ke GSheet."""
     try:
         sh = get_gspread_sh()
         ws = sh.worksheet(nama_sheet)
         data = ws.get_all_records()
         return bersihkan_data(pd.DataFrame(data))
-    except:
+    except Exception as e:
         return pd.DataFrame()
+
+# INI KUNCINYA: Menghubungkan nama lama ke fungsi baru
+def ambil_data_segar(nama_sheet):
+    """Alias biar kode lama lo gak error 'Not Defined'."""
+    return ambil_data_beneran_segar(nama_sheet)
 
 def bersihkan_data(df):
     """Standardisasi data biar Python gak pusing."""
     if df.empty: return df
-    # Buang baris yang isinya cuma spasi atau kosong
     df = df.dropna(how='all')
     df.columns = [str(c).strip().upper() for c in df.columns]
-    
     kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE', 'TIPE']
     for col in df.columns:
         if col in kolom_krusial:
@@ -2453,6 +2448,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
