@@ -1117,9 +1117,14 @@ def tampilkan_tugas_kerja():
                     )
                 
                 with c3: 
-                    # Menampilkan total bonus (Uang Absen + Bonus Video ke-5)
+                    # --- VARIABEL BARU: GABUNGAN BONUS ---
                     total_semua_bonus = b_vid + u_abs
-                    st.metric("💰 TOTAL BONUS", f"Rp {total_semua_bonus:,}")
+                    
+                    st.metric(
+                        "💰 TOTAL BONUS", 
+                        f"Rp {total_semua_bonus:,}",
+                        delta=f"Bonus Video: Rp {b_vid:,}" if b_vid > 0 else None
+                    )
                 
                 with c4: 
                     # Tambahkan spasi sedikit agar sejajar dengan metrik
@@ -2505,6 +2510,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
