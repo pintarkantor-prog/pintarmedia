@@ -1178,24 +1178,20 @@ def tampilkan_tugas_kerja():
                     else:
                         st.warning("⚠️ Mohon isi Judul dan Link terlebih dahulu!")
                         
-# --- 5. RENDER KARTU TUGAS (SINKRON 1 VIDEO 1 LINK) ---
+    # --- 5. RENDER KARTU TUGAS (FIXED LOGIC) ---
     tugas_terfilter = []
+    
+    # 1. Kumpulkan data dulu
     if not df_all_tugas.empty:
+        status_buang = ["FINISH", "CANCELED"]
         if user_sekarang == "dian":
-            # Admin melihat semua yang belum selesai
-            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
+            # Admin melihat semua yang bukan FINISH/CANCELED
+            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() not in status_buang]
         else:
-            # Staff melihat miliknya yang belum selesai
-            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in ["FINISH", "CANCELED"]]
+            # Staff melihat miliknya yang bukan FINISH/CANCELED
+            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() not in status_buang]
 
-# --- FILTER DATA ---
-    tugas_terfilter = []
-    if not df_all_tugas.empty:
-        if user_sekarang == "dian":
-            tugas_terfilter = [t for t in data_tugas if str(t["Status"]).upper() != "FINISH"]
-        else:
-            tugas_terfilter = [t for t in data_tugas if str(t["Staf"]).lower() == user_sekarang and str(t["Status"]).upper() != "FINISH"]
-
+    # 2. CEK HASIL FILTER (Logika yang bener: kalau kosong kasih info, kalau ada gambar kartu)
     if not tugas_terfilter:
         st.info(f"☕ Belum ada tugas aktif.")
     else:
@@ -2393,6 +2389,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
