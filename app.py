@@ -1082,7 +1082,16 @@ def tampilkan_tugas_kerja():
 
         # Ambil data staff untuk keperluan dropdown Admin
         df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-        staf_options = df_staff_raw['NAMA'].unique().tolist() if not df_staff_raw.empty else []
+        
+        # --- SOLUSI FIX ERROR 'NAMA' ---
+        if not df_staff_raw.empty:
+            # Kode di bawah ini akan menghapus spasi dan mengubah semua judul kolom jadi HURUF BESAR
+            df_staff_raw.columns = [str(c).strip().upper() for c in df_staff_raw.columns]
+            
+            # Sekarang kamu bisa memanggil 'NAMA' dengan aman meskipun di sheet tertulis 'Nama'
+            staf_options = df_staff_raw['NAMA'].unique().tolist()
+        else:
+            staf_options = []
 
         # PENTING: Definisi data_tugas untuk render kartu di bawah
         data_tugas = df_all_tugas.to_dict('records')
@@ -2415,6 +2424,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
