@@ -1782,7 +1782,7 @@ def tampilkan_kendali_tim():
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
-# ======================================================================
+        # ======================================================================
         # --- 6. RINCIAN GAJI & SLIP (VCARD LUXURY + SMART PRINT PDF) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -1837,55 +1837,66 @@ def tampilkan_kendali_tim():
 
                             # Tombol Preview & Cetak
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"vcard_{n_up}", use_container_width=True):
-                                # SLIP HTML DENGAN PERBAIKAN PRINT AREA
+                                # SLIP HTML DENGAN FIX PRINT AREA
                                 slip_html = f"""
+                                <html>
+                                <head>
                                 <style>
+                                    @page {{ size: A4; margin: 0; }}
                                     @media print {{
-                                        body * {{ visibility: hidden; }}
-                                        #slip-gaji-full, #slip-gaji-full * {{ visibility: visible; }}
-                                        #slip-gaji-full {{ 
-                                            position: absolute; left: 0; top: 0; width: 100%; 
-                                            border: none !important; box-shadow: none !important; 
+                                        body {{ background: white !important; }}
+                                        #printable-slip {{ 
+                                            position: absolute; left: 0; top: 0; width: 100% !important; 
+                                            border: none !important; box-shadow: none !important; margin: 0 !important;
                                         }}
                                         .no-print {{ display: none !important; }}
                                     }}
+                                    body {{ background: #f4f7f6; display: flex; justify-content: center; padding: 20px; font-family: sans-serif; }}
+                                    #printable-slip {{ 
+                                        background: white; padding: 40px; border-radius: 20px; border: 1px solid #eee; 
+                                        width: 380px; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+                                    }}
                                 </style>
-                                <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
-                                    <center>
-                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
-                                        <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin-bottom: 5px;"></div>
-                                        <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
-                                    </center>
-                                    
-                                    <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
-                                        <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
-                                            <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Nama</td><td align="right"><b>{n_up}</b></td></tr>
-                                            <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Jabatan</td><td align="right"><b>{s.get('JABATAN', 'STAFF')}</b></td></tr>
-                                            <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Periode</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
+                                </head>
+                                <body>
+                                    <div id="printable-slip">
+                                        <center>
+                                            <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
+                                            <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin-bottom: 5px;"></div>
+                                            <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
+                                        </center>
+                                        
+                                        <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
+                                            <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                                <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Nama</td><td align="right"><b>{n_up}</b></td></tr>
+                                                <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Jabatan</td><td align="right"><b>{s.get('JABATAN', 'STAFF')}</b></td></tr>
+                                                <tr><td style="color: #999; font-weight: 600; text-transform: uppercase;">Periode</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
+                                            </table>
+                                        </div>
+
+                                        <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
+                                            <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
+                                            <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
+                                            <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
+                                            <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
+                                            <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
                                         </table>
-                                    </div>
 
-                                    <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
-                                        <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
-                                        <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
-                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_absen_staf:,}</td></tr>
-                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_lembur_staf:,}</td></tr>
-                                        <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP</td><td align="right" style="padding-top: 5px;">- {pot_sp_admin:,}</td></tr>
-                                    </table>
+                                        <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
+                                            <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Total Diterima</p>
+                                            <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4; font-weight: 800;">Rp {v_total_terima:,}</h2>
+                                        </div>
 
-                                    <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
-                                        <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Total Diterima</p>
-                                        <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4; font-weight: 800;">Rp {v_total_terima:,}</h2>
+                                        <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #bbb; border-top: 1px solid #f5f5f5; padding-top: 15px;">
+                                            <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
+                                            Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
+                                        </div>
+                                        <center class="no-print">
+                                            <button onclick="window.print()" style="margin-top: 20px; padding: 12px 25px; background: #1d976c; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🖨️ CETAK SEBAGAI PDF</button>
+                                        </center>
                                     </div>
-
-                                    <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #bbb; border-top: 1px solid #f5f5f5; padding-top: 15px;">
-                                        <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
-                                        Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
-                                    </div>
-                                </div>
-                                <div class="no-print" style="text-align: center; margin-top: 20px;">
-                                    <button onclick="window.print()" style="padding: 12px 25px; background: #1d976c; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🖨️ SIMPAN SEBAGAI PDF</button>
-                                </div>
+                                </body>
+                                </html>
                                 """
                                 st.components.v1.html(slip_html, height=800)
 
@@ -2315,6 +2326,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
