@@ -1664,11 +1664,11 @@ def tampilkan_kendali_tim():
             total_pengeluaran_gaji = 0
 
         # ======================================================================
-        # --- 5. FINANCIAL COMMAND CENTER (ULTIMATE LUXURY VERSION) ---
+        # --- 5. FINANCIAL COMMAND CENTER (ULTIMATE CLEAN VERSION) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             
-            # --- BAGIAN ATAS: METRIK (PERTAHANKAN SESUAI PERMINTAAN) ---
+            # --- BAGIAN ATAS: METRIK (PERTAHANKAN) ---
             if is_masa_depan:
                 inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
@@ -1688,74 +1688,73 @@ def tampilkan_kendali_tim():
             st.write("")
             st.divider()
 
-            # --- BAGIAN BAWAH: TRIPLE COLUMNS (INPUT | GRAFIK | RIWAYAT) ---
-            col_input, col_viz, col_logs = st.columns([1.1, 1.2, 1])
+            # --- BAGIAN BAWAH: TRIPLE COLUMNS (CLEAN DESIGN) ---
+            col_input, col_viz, col_logs = st.columns([1, 1.3, 1])
 
-            # --- KOLOM 1: INPUT TRANSAKSI (KIRI) ---
+            # --- KOLOM 1: FLOATING INPUT (MURNI FUNGSI) ---
             with col_input:
-                with st.container(border=True):
-                    st.markdown("#### 🖊️ CATAT KAS")
-                    with st.form("form_kas_luxury_final", clear_on_submit=True):
-                        f_tipe = st.pills("Tipe Transaksi", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN")
-                        f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
-                        f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000, format="%d")
-                        f_ket = st.text_area("Catatan Singkat", placeholder="Contoh: Bayar Listrik Studio", height=70)
-                        
-                        if st.form_submit_button("✅ SIMPAN TRANSAKSI", use_container_width=True):
-                            sh.worksheet("Arus_Kas").append_row([
-                                sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"
-                            ])
-                            st.toast("Data Berhasil Disimpan!", icon="🚀")
-                            time.sleep(1)
-                            st.rerun()
+                # Tanpa Container/Title Tambahan agar tidak numpuk
+                with st.form("form_kas_clean", clear_on_submit=True):
+                    f_tipe = st.pills("Aksi", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
+                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
+                    f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000, format="%d")
+                    f_ket = st.text_area("Keterangan Singkat", placeholder="Catatan transaksi...", height=80)
+                    
+                    if st.form_submit_button("✅ SIMPAN TRANSAKSI", use_container_width=True):
+                        sh.worksheet("Arus_Kas").append_row([
+                            sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"
+                        ])
+                        st.toast("Tersimpan!", icon="🚀")
+                        time.sleep(1)
+                        st.rerun()
 
-            # --- KOLOM 2: GRAFIK DONAT (TENGAH) ---
+            # --- KOLOM 2: GRAFIK TRANSPARAN (CENTERPIECE) ---
             with col_viz:
-                with st.container(border=True):
-                    st.markdown("<h4 style='text-align: center;'>💹 ALOKASI BIAYA</h4>", unsafe_allow_html=True)
-                    if total_out > 0:
-                        df_viz_data = pd.DataFrame({
-                            "Sektor": ["Gaji Staff", "Operasional"],
-                            "Nominal": [total_pengeluaran_gaji, ops]
-                        })
-                        
-                        fig_donut = px.pie(df_viz_data, values='Nominal', names='Sektor', hole=0.75,
-                                          color_discrete_sequence=['#1d976c', '#e74c3c'])
-                        
-                        fig_donut.update_layout(
-                            showlegend=True,
-                            legend=dict(orientation="h", yanchor="bottom", y=-0.15, xanchor="center", x=0.5),
-                            margin=dict(t=0, b=0, l=10, r=10),
-                            height=300,
-                            annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#888")]
-                        )
-                        st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
-                    else:
-                        st.info("Belum ada aliran dana keluar bulan ini.")
+                if total_out > 0:
+                    df_viz_data = pd.DataFrame({
+                        "Sektor": ["Gaji Staff", "Operasional"],
+                        "Nominal": [total_pengeluaran_gaji, ops]
+                    })
+                    
+                    fig_donut = px.pie(df_viz_data, values='Nominal', names='Sektor', hole=0.78,
+                                      color_discrete_sequence=['#1d976c', '#e74c3c'])
+                    
+                    # Mantra Transparansi & Bersih
+                    fig_donut.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.1, xanchor="center", x=0.5),
+                        margin=dict(t=0, b=0, l=0, r=0),
+                        height=280,
+                        paper_bgcolor='rgba(0,0,0,0)', # Full Transparan
+                        plot_bgcolor='rgba(0,0,0,0)',  # Full Transparan
+                        annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=14, showarrow=False, font_color="#888")]
+                    )
+                    st.plotly_chart(fig_donut, use_container_width=True, config={'displayModeBar': False})
+                else:
+                    st.markdown("<br><center style='color:#666;'>Data pengeluaran kosong.</center>", unsafe_allow_html=True)
 
-            # --- KOLOM 3: LOG RIWAYAT VCARD (KANAN) ---
+            # --- KOLOM 3: LOG TERAKHIR (SCROLLABLE AREA) ---
             with col_logs:
-                with st.container(border=True):
-                    st.markdown("#### 📜 LOG TERAKHIR")
+                st.markdown("##### 📜 LOG TRANSAKSI")
+                # Menggunakan Container dengan height tetap agar otomatis ada scrollbar jika data banyak
+                with st.container(height=280, border=False):
                     if not df_k_f.empty:
-                        # Ambil 5 transaksi terbaru
-                        df_mini_logs = df_k_f.sort_values(by='TANGGAL', ascending=False).head(5)
-                        for _, r_kas in df_mini_logs.iterrows():
+                        df_sorted = df_k_f.sort_values(by='TANGGAL', ascending=False)
+                        for _, r_kas in df_sorted.iterrows():
                             warna_duit = "#1d976c" if r_kas['TIPE'] == "PENDAPATAN" else "#e74c3c"
                             tanda_duit = "+" if r_kas['TIPE'] == "PENDAPATAN" else "-"
                             
                             st.markdown(f"""
-                            <div style="border-bottom: 1px solid rgba(128,128,128,0.2); padding: 5px 0; margin-bottom: 5px;">
+                            <div style="border-bottom: 1px solid rgba(128,128,128,0.1); padding: 5px 0; margin-bottom: 2px;">
                                 <div style="display: flex; justify-content: space-between;">
-                                    <span style="font-size: 11px; color: #888;">{r_kas['TANGGAL']}</span>
-                                    <span style="font-size: 11px; font-weight: bold; color: {warna_duit};">{tanda_duit} Rp {r_kas['NOMINAL']:,}</span>
+                                    <span style="font-size: 10px; color: #888;">{r_kas['TANGGAL']}</span>
+                                    <span style="font-size: 11px; font-weight: bold; color: {warna_duit};">{tanda_duit}{r_kas['NOMINAL']:,}</span>
                                 </div>
-                                <div style="font-size: 13px; font-weight: 600;">{r_kas['KATEGORI']}</div>
-                                <div style="font-size: 10px; color: #666; font-style: italic;">{r_kas['KETERANGAN']}</div>
+                                <div style="font-size: 12px; font-weight: 500;">{r_kas['KATEGORI']}</div>
                             </div>
                             """, unsafe_allow_html=True)
                     else:
-                        st.caption("Belum ada riwayat kas.")
+                        st.caption("Belum ada riwayat.")
         
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO) ---
@@ -2362,6 +2361,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
