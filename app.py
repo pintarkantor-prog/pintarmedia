@@ -1062,96 +1062,87 @@ def tampilkan_tugas_kerja():
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
-    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/847/847969.png"
-    foto_staff = {
-        "icha": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png", 
-        "nissa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png",
-        "inggi": "https://cdn-icons-png.flaticon.com/512/6997/6997662.png",
-        "lisa": "https://cdn-icons-png.flaticon.com/512/6997/6997674.png"
-    }
-
-    df_arsip_user = pd.DataFrame()
-    df_absen_user = pd.DataFrame()
-    
     try:
-        # --- 1. SINKRONISASI KONEKSI CACHE ---
-        sh = get_gspread_sh() 
-        sheet_tugas = sh.worksheet("Tugas")
-        sheet_staff = sh.worksheet("Staff")
-        sheet_absensi = sh.worksheet("Absensi")
-        # Tambahkan ini kalau lo pake logging aktivitas
-        try: sheet_log = sh.worksheet("Log_Aktivitas")
-        except: sheet_log = None 
-        
-        # --- 2. AMBIL DATA TUGAS ---
+        # --- 1. AMBIL DATA (Pake Mesin Baru/Cache) ---
         df_all_tugas = ambil_data_segar("Tugas")
+        df_absen_all = ambil_data_segar("Absensi")
         
         if df_all_tugas.empty:
             st.warning("Data tugas tidak ditemukan.")
             return
 
-        # PAKSA SEMUA HEADER TUGAS JADI HURUF BESAR
+        # Standarisasi Header
         df_all_tugas.columns = [str(c).strip().upper() for c in df_all_tugas.columns]
-        data_tugas = df_all_tugas.to_dict('records')
 
-        # Ambil data staff & Paksa jadi HURUF BESAR
-        df_staff_raw = pd.DataFrame(sheet_staff.get_all_records())
-        if not df_staff_raw.empty:
-            df_staff_raw.columns = [str(c).strip().upper() for c in df_staff_raw.columns]
-            staf_options = df_staff_raw['NAMA'].unique().tolist()
-        else:
-            staf_options = []
-
-        # PENTING: Definisi data_tugas untuk render kartu di bawah
-        data_tugas = df_all_tugas.to_dict('records')
-
-        # 3. SETUP FILTER BULAN
+        # 2. SETUP FILTER BULAN
         df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
         mask_bulan = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
 
-        # 4. LOGIKA RADAR (KHUSUS STAF)
-        if user_sekarang != "dian" and user_sekarang != "tamu":
-            t_norm = 10 if (sekarang.month == 2 and sekarang.year == 2026) else 40
-            progres_h = min(sekarang.day, 25)
-            target_h_ini = round((t_norm / 25) * progres_h, 1)
-            
-            mask_user = df_all_tugas['STAF'].str.strip() == user_sekarang.upper()
+        # 3. LOGIKA RADAR (KHUSUS STAF / ADMIN VIEW)
+        target_user = user_sekarang.upper()
+        
+        # Jika Admin Dian, kita kasih pilihan intip staf (Biar lo bisa liat radar mereka)
+        if user_sekarang == "dian":
+            st_raw = ambil_data_segar("Staff")
+            st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
+            list_staf = st_raw['NAMA'].unique().tolist()
+            target_user = st.selectbox("🎯 Intip Radar Staf:", list_staf).upper()
+
+        if target_user != "TAMU":
+            mask_user = df_all_tugas['STAF'].str.strip() == target_user
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
-            
             df_arsip_user = df_all_tugas[mask_user & mask_finish & mask_bulan].copy()
             
-            # Tarik data Absensi
-            df_absen_all = ambil_data_segar("Absensi")
+            df_u_absen = pd.DataFrame()
             if not df_absen_all.empty:
-                df_absen_user = df_absen_all[df_absen_all['NAMA'] == user_sekarang.upper()].copy()
+                df_absen_all.columns = [str(c).strip().upper() for c in df_absen_all.columns]
+                df_u_absen = df_absen_all[df_absen_all['NAMA'] == target_user].copy()
 
-            # Hitung Performa via fungsi logika lo
+            # HITUNG LOGIKA (Sinkron dengan mesin bonus lo)
             b_vid, u_abs, pot_sp_r, level_sp_r, h_kurang = hitung_logika_performa_dan_bonus(
-                df_arsip_user, df_absen_user, sekarang.month, sekarang.year
+                df_arsip_user, df_u_absen, sekarang.month, sekarang.year
             )
             
-            # --- PENENTU PESAN RADAR ---
-            if h_kurang >= 7: status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}."
-            else: status_ikon, msg = "✨ AMAN", "Performa mantap!"
+            # --- PENENTU PESAN (Gaya Kode Lama) ---
+            if h_kurang >= 21:   status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
+            elif h_kurang >= 7:   status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo kejar target!"
+            elif h_kurang >= 4:   status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
+            else:                status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
 
-            # --- RENDER RADAR UI ---
+            # --- RENDER RADAR UI (PERSIS TAMPILAN LAMA) ---
             with wadah_radar.container(border=True):
                 c1, c2, c3, c4 = st.columns([1, 1, 1, 1.5])
-                c1.metric("📊 STATUS", status_ikon)
-                c2.metric("💀 HARI KURANG", f"{h_kurang} / 21", delta_color="inverse")
-                c3.metric("💰 TOTAL BONUS", f"Rp {b_vid + u_abs:,}")
-                st.write(f"📢 **INFO:** \n\n {msg}")
+                
+                with c1:
+                    st.metric("📊 STATUS", status_ikon)
+                
+                with c2:
+                    # Pake delta_color inverse biar kalau angka naik jadi merah
+                    st.metric(
+                        "💀 HARI KURANG", 
+                        f"{h_kurang} / 21", 
+                        delta=f"{h_kurang} hari" if h_kurang > 0 else None,
+                        delta_color="inverse"
+                    )
+                
+                with c3:
+                    total_semua_bonus = b_vid + u_abs
+                    st.metric(
+                        "💰 TOTAL BONUS", 
+                        f"Rp {total_semua_bonus:,}",
+                        delta=f"Bonus Video: Rp {b_vid:,}" if b_vid > 0 else None
+                    )
+                
+                with c4:
+                    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+                    st.write(f"📢 **INFO {target_user}:** \n\n {msg}")
 
-        # --- FUNGSI HELPER LOG (Opsional) ---
-        def catat_log(aksi):
-            if sheet_log:
-                waktu_log = datetime.now(tz_wib).strftime("%d/%m/%Y %H:%M:%S")
-                sheet_log.append_row([waktu_log, user_sekarang.upper(), aksi])
+        st.divider()
+        # ... Lanjutkan ke bagian render kartu tugas di bawahnya ...
 
     except Exception as e:
-        st.error(f"❌ Sistem Offline atau Error: {e}")
-        return
+        st.error(f"❌ Error Tampilan: {e}")
         
     # --- 3. PANEL ADMIN ---
     if user_sekarang == "dian":
@@ -2515,6 +2506,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
