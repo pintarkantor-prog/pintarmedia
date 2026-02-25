@@ -1496,7 +1496,7 @@ def tampilkan_tugas_kerja():
                     * **SP 2 (14 Hari):** Jika mencapai 14 hari kurang produktif (Potongan Rp 700.000).
                     * **SP 3 (21 Hari):** Jika mencapai 21 hari kurang produktif (Potongan Rp 1.000.000 + Pemutusan Kerja).
                 """)
-                st.info("💡 *Tips: Setor minimal 3 video setiap hari untuk mengaktifkan semua bonus kamu!*")
+                st.info("💡 *Tips: Setor minimal 3 video setiap hari untuk mengaktifkan semua bonus Absensi!*")
 
             with tab_simulasi:
                 st.write("**Geser slider untuk melihat potensi penghasilan jika kamu bekerja konsisten:**")
@@ -2504,6 +2504,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
