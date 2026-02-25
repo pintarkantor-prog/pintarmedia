@@ -1060,6 +1060,16 @@ def tampilkan_tugas_kerja():
     st.title("📋 TUGAS KERJA & MONITORING")
     wadah_radar = st.empty()
     
+    # --- 1. DATABASE FOTO STAFF (WAJIB ADA BIAR GAK NAMEERROR) ---
+    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    foto_staff = {
+        "icha": "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/ICHA.png",
+        "nissa": "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/NISSA.png",
+        "inggi": "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/INGGI.png",
+        "lisa": "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/LISA.png",
+        "dian": "https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/DIAN.png"
+    }
+    
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
@@ -2549,6 +2559,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
