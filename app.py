@@ -1663,98 +1663,99 @@ def tampilkan_kendali_tim():
             # Jika masa depan, pengeluaran dipaksa 0
             total_pengeluaran_gaji = 0
 
+# ======================================================================
+        # --- 5. FINANCIAL COMMAND CENTER (LUXURY TURBO) ---
         # ======================================================================
-        # --- 5. FINANCIAL COMMAND CENTER (INTEGRATED & LUXURY) ---
-        # ======================================================================
-        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
-            # --- A. METRIK UTAMA (Gaya Glassmorphism) ---
-            m1, m2, m3 = st.columns(3)
+        with st.expander("💎 DASHBOARD KEUANGAN STRATEGIS", expanded=True):
             
-            # Reset variabel jika masa depan
             if is_masa_depan:
                 inc, total_pengeluaran_gaji, ops = 0, 0, 0
             
             total_out = total_pengeluaran_gaji + ops
             saldo_bersih = inc - total_out
             
-            with m1:
-                st.markdown(f"""
-                    <div style="background: rgba(29, 151, 108, 0.1); padding: 15px; border-radius: 15px; border-left: 5px solid #1d976c; height: 90px;">
-                        <p style="margin:0; font-size:11px; color:#1d976c; font-weight:bold; text-transform:uppercase;">Pendapatan</p>
-                        <h2 style="margin:0; font-size:22px;">Rp {inc:,}</h2>
-                    </div>
-                """, unsafe_allow_html=True)
-
-            with m2:
-                st.markdown(f"""
-                    <div style="background: rgba(231, 76, 60, 0.1); padding: 15px; border-radius: 15px; border-left: 5px solid #e74c3c; height: 90px;">
-                        <p style="margin:0; font-size:11px; color:#e74c3c; font-weight:bold; text-transform:uppercase;">Pengeluaran</p>
-                        <h2 style="margin:0; font-size:22px;">Rp {total_out:,}</h2>
-                    </div>
-                """, unsafe_allow_html=True)
-
-            with m3:
-                warna_net = "#1d976c" if saldo_bersih >= 0 else "#e74c3c"
-                st.markdown(f"""
-                    <div style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border-left: 5px solid {warna_net}; height: 90px;">
-                        <p style="margin:0; font-size:11px; color:{warna_net}; font-weight:bold; text-transform:uppercase;">Laba / Rugi</p>
-                        <h2 style="margin:0; font-size:22px; color:{warna_net};">Rp {saldo_bersih:,}</h2>
-                    </div>
-                """, unsafe_allow_html=True)
+            # --- ROW 1: METRIK MEWAH ---
+            # Kita pakai kolom kecil di pinggir biar metriknya gak kepanjangan
+            st.markdown("### 💠 Ringkasan Performa")
+            m1, m2, m3, m4 = st.columns([1, 1, 1, 1])
+            
+            m1.metric("💰 INCOME", f"Rp {inc:,}")
+            m2.metric("💸 OUTCOME", f"Rp {total_out:,}", delta=f"-{total_out:,}", delta_color="inverse")
+            
+            # Profit dengan delta otomatis
+            status_cuan = "UNTUNG" if saldo_bersih >= 0 else "RUGI"
+            m3.metric(f"📈 {status_cuan}", f"Rp {saldo_bersih:,}", delta=f"{saldo_bersih:,}")
+            
+            # Metrik tambahan: Margin Profit (Biar gaya dikit)
+            margin = (saldo_bersih / inc * 100) if inc > 0 else 0
+            m4.metric("📊 MARGIN", f"{margin:.1f}%")
 
             st.write("")
-            
-            # --- B. INPUT & VISUALISASI (2 KOLOM SEJAJAR) ---
-            col_input, col_visual = st.columns([1, 1.2])
+            st.divider()
 
-            with col_input:
-                st.markdown("#### ➕ Catat Transaksi")
-                with st.form("form_kas_integrated", clear_on_submit=True):
-                    f_tipe = st.selectbox("Jenis", ["PENDAPATAN", "PENGELUARAN"])
-                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Internet/Listrik", "AI Tools", "Lainnya"])
-                    f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000)
-                    f_ket = st.text_input("Keterangan")
-                    if st.form_submit_button("🚀 SIMPAN KE GSHEET", use_container_width=True):
-                        sh.worksheet("Arus_Kas").append_row([
-                            sekarang.strftime('%Y-%m-%d'), 
-                            f_tipe, 
-                            f_kat, 
-                            int(f_nom), 
-                            f_ket, 
-                            "Dian"
-                        ])
-                        st.success("Tersimpan!"); time.sleep(1); st.rerun()
+            # --- ROW 2: VISUALISASI & INPUT (SIDE BY SIDE) ---
+            col_left, col_right = st.columns([1.2, 1])
 
-            with col_visual:
-                st.markdown("#### 📉 Alokasi Biaya")
+            with col_left:
+                st.markdown("#### 💹 Analisis Pengeluaran")
                 if total_out > 0:
-                    labels = ['Gaji Tim', 'Operasional']
-                    values = [total_pengeluaran_gaji, ops]
-                    fig = px.pie(names=labels, values=values, hole=0.6, 
-                                color_discrete_sequence=['#1d976c', '#f39c12'])
-                    fig.update_layout(margin=dict(t=0, b=0, l=0, r=0), height=230, 
-                                     paper_bgcolor='rgba(0,0,0,0)',
-                                     legend=dict(orientation="h", y=-0.1))
+                    df_viz = pd.DataFrame({
+                        "Sektor": ["Gaji Staff", "Operasional Kantor"],
+                        "Nominal": [total_pengeluaran_gaji, ops]
+                    })
+                    
+                    # Kita ganti warnanya biar lebih premium (Emerald & Rose)
+                    fig = px.pie(df_viz, values='Nominal', names='Sektor', hole=0.7,
+                                color_discrete_sequence=['#00ba69', '#ff4b4b'])
+                    
+                    # Hilangkan legend biar bersih, ganti ke tulisan di tengah
+                    fig.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5),
+                        margin=dict(t=10, b=10, l=10, r=10),
+                        height=300,
+                        annotations=[dict(text='CASHFLOW', x=0.5, y=0.5, font_size=20, showarrow=False, font_family="Sans Serif")]
+                    )
                     st.plotly_chart(fig, use_container_width=True)
                 else:
-                    st.info("Belum ada pengeluaran.")
+                    st.info("Belum ada aliran dana keluar.")
+
+            with col_right:
+                st.markdown("#### 🖊️ Catat Kas")
+                with st.container(border=True):
+                    with st.form("form_kas_luxury", clear_on_submit=True):
+                        f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN")
+                        f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Internet/Listrik", "Lainnya"])
+                        f_nom = st.number_input("Nominal (Rp)", min_value=0, step=50000, format="%d")
+                        f_ket = st.text_input("Catatan Singkat")
+                        
+                        if st.form_submit_button("✅ SIMPAN TRANSAKSI", use_container_width=True):
+                            sh.worksheet("Arus_Kas").append_row([
+                                sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"
+                            ])
+                            st.toast("Data Berhasil Disimpan!", icon="🚀")
+                            time.sleep(1); st.rerun()
 
             st.divider()
-            
-            # --- C. TABEL RIWAYAT TRANSAKSI ---
-            st.markdown("#### 📜 Riwayat Transaksi")
+
+            # --- ROW 3: TABEL TRANSAKSI (DARK MODE STYLE) ---
+            st.markdown("#### 🧾 Log Transaksi Terakhir")
             if not df_k_f.empty:
                 df_view = df_k_f[['TANGGAL', 'TIPE', 'KATEGORI', 'NOMINAL', 'KETERANGAN']].copy()
+                
+                # Gunakan st.column_config biar tabelnya gak kaku (ada ikonnya)
                 st.dataframe(
-                    df_view.sort_values(by='TANGGAL', ascending=False), 
-                    use_container_width=True, 
-                    height=250, 
-                    hide_index=True
+                    df_view.sort_values(by='TANGGAL', ascending=False),
+                    use_container_width=True,
+                    hide_index=True,
+                    column_config={
+                        "TIPE": st.column_config.SelectboxColumn("JENIS", options=["PENDAPATAN", "PENGELUARAN"]),
+                        "NOMINAL": st.column_config.NumberColumn("JUMLAH", format="Rp %d"),
+                        "TANGGAL": st.column_config.DateColumn("TANGGAL"),
+                    }
                 )
             else:
-                st.caption("Belum ada riwayat transaksi bulan ini.")
-
-        st.divider()
+                st.caption("Belum ada pergerakan kas.")
         
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO) ---
@@ -2361,6 +2362,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
