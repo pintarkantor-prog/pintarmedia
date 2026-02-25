@@ -1236,7 +1236,7 @@ def tampilkan_tugas_kerja():
                                 st.image(url_foto, width=50) # Ukuran foto dikecilin dikit
                             with c2:
                                 # Nama & ID dalam baris yang sama biar ringkas
-                                st.markdown(f"**{str(t['Staf']).upper()}** | `ID: {t['ID']}`")
+                                st.markdown(f"**{str(t.get('STAF', '')).upper()}** | `ID: {t.get('ID', '')}`")
                                 # Badge Status tipis
                                 color_ball = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
                                 st.markdown(f"{color_ball} `{status}`")
@@ -2423,6 +2423,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
