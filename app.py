@@ -1700,101 +1700,60 @@ def tampilkan_kendali_tim():
                     st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
         st.divider()
+                
+        # --- MASTER MONITORING PERFORMA TIM (GABUNGAN SEMUA MENU) ---
+        with st.expander("🚀 MASTER MONITORING & RADAR TIM", expanded=True):
+            # 1. Penentuan Target
+            t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
+            progres_h = min(sekarang.day, 25)
+            target_aman = round((t_normal / 25) * progres_h, 1)
 
-        # --- TAMPILAN 4: JADWAL PRODUKSI (VERSI EXPANDER) ---
-        with st.expander("📅 JADWAL PRODUKSI", expanded=False):
-            if not df_t_bln.empty:
-                for _, t in df_t_bln.sort_values('TGL_TEMP').iterrows():
-                    # Format tampilan lebih ringkas: Ikon - Tanggal - Instruksi - Staf
-                    ikon = {"FINISH": "🟢", "WAITING QC": "🔵", "PROSES": "🟡", "REVISI": "🔴"}.get(str(t['STATUS']).upper(), "⚪")
-                    st.write(f"{ikon} **{t['TGL_TEMP'].strftime('%d %b')}** — {t.get('INSTRUKSI')} — `{t.get('STAF')}`")
+            master_data = []
+            for _, s in df_staff.iterrows():
+                n_up = str(s.get('NAMA', '')).strip().upper()
+                if n_up == "" or n_up == "NAN": continue
+                
+                # A. Hitung Video Finish & Selisih
+                jml_v = rekap_total_video.get(n_up, 0)
+                selisih = round(jml_v - target_aman, 1)
+                
+                # B. Hitung Hari Cair & Hari Malas
+                h_cair, h_malas = 0, 0
+                if n_up in rekap_harian_tim:
+                    for tgl_idx, qty in rekap_harian_tim[n_up].items():
+                        if qty >= 3: h_cair += 1
+                        if qty <= 1: h_malas += 1
+                
+                # C. Ambil Total Hadir dari Absensi
+                t_hadir = 0
+                if not df_a_f.empty:
+                    # Filter data absen berdasarkan nama staf yang sedang di-loop
+                    t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
+
+                # D. Tentukan Status Radar
+                if jml_v >= target_aman: 
+                    stat_radar = "🟢 AMAN"
+                elif jml_v >= (target_aman * 0.6): 
+                    stat_radar = "🟡 WASPADA"
+                else: 
+                    stat_radar = "🔴 BAHAYA (SP)"
+
+                master_data.append({
+                    "STAF": n_up,
+                    "ABSEN": f"{t_hadir} HR",
+                    "FINISH": int(jml_v),
+                    "CAIR ✨": f"{h_cair} HR",
+                    "MALAS ⚠️": f"{h_malas} HR",
+                    "RADAR": stat_radar
+                })
+
+            if master_data:
+                # Tampilkan Tabel Master
+                st.table(pd.DataFrame(master_data))
+                st.info(f"💡 **Target Aman Hari Ini (Tgl {sekarang.day}):** {target_aman} Video Finish.")
             else:
-                st.caption("Tidak ada jadwal untuk periode ini.")
-
-        # --- TAMPILAN 5: MONITORING PROGRES PRODUKSI (PENGGANTI GRAFIK) ---
-        with st.expander("📊 MONITORING PROGRES PRODUKSI TIM", expanded=False):
-            if rekap_total_video is not None:
-                # --- LOGIKA TARGET SMART SWITCH ---
-                if tahun_dipilih == 2026 and bulan_dipilih == 2:
-                    t_normal = 10
-                else:
-                    t_normal = 40
-                
-                progres_hari = min(sekarang.day, 25)
-                target_aman = round((t_normal / 25) * progres_hari, 1)
-                
-                data_monitor = []
-                for _, s in df_staff.iterrows():
-                    n_up = str(s.get('NAMA', '')).strip().upper()
-                    if n_up == "" or n_up == "NAN": continue
-                    
-                    jml_v = rekap_total_video.get(n_up, 0)
-                    selisih = jml_v - target_aman
-                    
-                    if jml_v >= target_aman: status = "🟢 AMAN"
-                    elif jml_v >= (t_normal * 0.5 / 25) * progres_hari: status = "🟡 WASPADA"
-                    else: status = "🔴 BAHAYA (SP 3)"
-                    
-                    data_monitor.append({
-                        "NAMA STAF": n_up,
-                        "HASIL": int(jml_v),
-                        "TARGET MINIMAL": target_aman,
-                        "SELISIH": round(selisih, 1),
-                        "STATUS": status
-                    })
-                
-                st.table(pd.DataFrame(data_monitor))
-                st.info(f"💡 Target minimal hari ini (Tgl {sekarang.day}) adalah {target_aman} video (Standar {t_normal} video/bulan).")
-            else:
-                st.info("Belum ada aktivitas produksi yang tercatat 'FINISH' bulan ini.")
-
-        # --- TAMPILAN 5.5: REKAP ABSENSI & HARI CAIR (SINKRON GSHEET) ---
-        with st.expander("📅 REKAP ABSENSI & MONITORING CAIR", expanded=False):
-            try:
-                # 1. Ambil data absen asli dari GSheet
-                df_absen_raw = df_a_f.copy() # Ini dari hasil saring_tgl di atas
-                
-                # 2. Buat tabel monitoring per staff
-                rekap_absen_data = []
-                for _, s in df_staff.iterrows():
-                    n_up = str(s['NAMA']).strip().upper()
-                    
-                    # Hitung Total Hadir (Ada di sheet Absensi)
-                    total_hadir = 0
-                    if not df_absen_raw.empty:
-                        total_hadir = len(df_absen_raw[df_absen_raw['NAMA'] == n_up]['TANGGAL'].unique())
-                    
-                    # Hitung Hari Cair (Minimal 3 Video Finish)
-                    hari_cair = 0
-                    if n_up in rekap_harian_tim:
-                        for tgl, jml in rekap_harian_tim[n_up].items():
-                            if jml >= 3:
-                                hari_cair += 1
-                                
-                    # Hitung Hari Malas (Cuma 0-1 Video)
-                    hari_malas = 0
-                    if n_up in rekap_harian_tim:
-                        for tgl, jml in rekap_harian_tim[n_up].items():
-                            if jml <= 1:
-                                hari_malas += 1
-                    
-                    rekap_absen_data.append({
-                        "NAMA": n_up,
-                        "TOTAL HADIR": f"{total_hadir} Hari",
-                        "HARI CAIR ✨": f"{hari_cair} Hari",
-                        "HARI MALAS ⚠️": f"{hari_malas} Hari",
-                        "STATUS": "RAJIN" if hari_cair > hari_malas else "PERLU EVALUASI"
-                    })
-                
-                # Tampilkan dalam bentuk tabel yang bersih
-                if rekap_absen_data:
-                    st.table(pd.DataFrame(rekap_absen_data))
-                else:
-                    st.info("Belum ada data absensi bulan ini.")
-                    
-            except Exception as e:
-                st.error(f"Gagal memuat rekap absensi: {e}")
-
+                st.info("Belum ada data aktivitas tim.")
+        
         # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
@@ -2303,4 +2262,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
