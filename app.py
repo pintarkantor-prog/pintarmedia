@@ -1783,7 +1783,7 @@ def tampilkan_kendali_tim():
             c_r7.metric("📉 LOW STAF", staf_low)
         
 # ======================================================================
-        # --- 6. RINCIAN GAJI & SLIP (FULL VERSION - NO COMPROMISE) ---
+        # --- 6. RINCIAN GAJI & SLIP (VCARD LUXURY + SMART PRINT PDF) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
@@ -1795,7 +1795,7 @@ def tampilkan_kendali_tim():
                     n_up = str(s.get('NAMA', '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    # --- LOGIKA HITUNG (Full Detail) ---
+                    # --- LOGIKA HITUNG (Full Detail Sesuai Kodemu) ---
                     u_absen_staf, b_lembur_staf = 0, 0
                     if n_up in rekap_harian_tim:
                         for tgl, jml in rekap_harian_tim[n_up].items():
@@ -1811,7 +1811,7 @@ def tampilkan_kendali_tim():
                         if sekarang.day > 6:
                             if jml_v >= t_normal: pot_sp_admin = 0
                             elif t_sp1 <= jml_v < t_normal: pot_sp_admin = 300000
-                            elif t_sp2 <= jml_v < t_s1: pot_sp_admin = 700000
+                            elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
                             else: pot_sp_admin = 1000000
 
                     v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
@@ -1832,15 +1832,24 @@ def tampilkan_kendali_tim():
                             </div>
                             """, unsafe_allow_html=True)
                             
-                            # Info Gaji di VCard
                             st.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI GAJI</p><h3 style='margin:0; color:#1d976c;'>Rp {v_total_terima:,}</h3>", unsafe_allow_html=True)
-                            
                             st.divider()
 
                             # Tombol Preview & Cetak
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"vcard_{n_up}", use_container_width=True):
-                                # INI SLIP ASLI DIAN (FULL DETAIL - GAK ADA YANG DIPOTONG)
+                                # SLIP HTML DENGAN PERBAIKAN PRINT AREA
                                 slip_html = f"""
+                                <style>
+                                    @media print {{
+                                        body * {{ visibility: hidden; }}
+                                        #slip-gaji-full, #slip-gaji-full * {{ visibility: visible; }}
+                                        #slip-gaji-full {{ 
+                                            position: absolute; left: 0; top: 0; width: 100%; 
+                                            border: none !important; box-shadow: none !important; 
+                                        }}
+                                        .no-print {{ display: none !important; }}
+                                    }}
+                                </style>
                                 <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                                     <center>
                                         <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
@@ -1874,9 +1883,8 @@ def tampilkan_kendali_tim():
                                         Waktu Cetak: {datetime.now(tz_wib).strftime('%d/%m/%Y %H:%M:%S')} WIB
                                     </div>
                                 </div>
-                                
-                                <div style="text-align: center; margin-top: 20px;">
-                                    <button onclick="window.print()" style="padding: 12px 25px; background: #1a1a1a; color: #55efc4; border: 2px solid #55efc4; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">🖨️ SIMPAN SEBAGAI PDF</button>
+                                <div class="no-print" style="text-align: center; margin-top: 20px;">
+                                    <button onclick="window.print()" style="padding: 12px 25px; background: #1d976c; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">🖨️ SIMPAN SEBAGAI PDF</button>
                                 </div>
                                 """
                                 st.components.v1.html(slip_html, height=800)
@@ -2307,6 +2315,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
