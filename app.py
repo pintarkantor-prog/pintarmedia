@@ -1782,7 +1782,9 @@ def tampilkan_kendali_tim():
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
-        # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
+        # ======================================================================
+        # --- 6. RINCIAN GAJI & SLIP (VERSI SLIP ORIGINAL DIAN) ---
+        # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             ada_kerja = False
             df_staff_raw_slip = df_staff.copy()
@@ -1791,22 +1793,19 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # 1. HITUNG LOGIKA KEUANGAN PER ORANG (SINKRONISASI SLIP)
+                # 1. LOGIKA HITUNG (SINKRON SLIP)
                 u_absen_staf = 0
                 b_lembur_staf = 0
                 if n_up in rekap_harian_tim:
                     for tgl, jml in rekap_harian_tim[n_up].items():
-                        if jml >= 3: 
-                            u_absen_staf += 30000
-                        if jml >= 5: 
-                            b_lembur_staf += (jml - 4) * 30000
+                        if jml >= 3: u_absen_staf += 30000
+                        if jml >= 5: b_lembur_staf += (jml - 4) * 30000
                 
                 jml_v = rekap_total_video.get(n_up, 0)
                 pot_sp_admin = 0
                 t_normal = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
                 t_sp1, t_sp2 = (7, 4) if t_normal == 10 else (30, 20)
 
-                # Logika Potongan SP
                 if not (tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)):
                     if not (tahun_dipilih == sekarang.year and bulan_dipilih == sekarang.month and sekarang.day <= 6):
                         if jml_v >= t_normal: pot_sp_admin = 0
@@ -1814,7 +1813,7 @@ def tampilkan_kendali_tim():
                         elif t_sp2 <= jml_v < t_sp1: pot_sp_admin = 700000
                         else: pot_sp_admin = 1000000
 
-                # 2. EKSEKUSI TAMPILAN
+                # 2. TAMPILAN DAFTAR
                 ada_kerja = True
                 with st.container(border=True):
                     c1, c2, c3 = st.columns([2, 1, 1])
@@ -1824,18 +1823,15 @@ def tampilkan_kendali_tim():
                     c3.write(f"🎬 {jml_v} Video")
                     
                     if st.button(f"📑 CETAK SLIP {n_up}", key=f"btn_slip_{n_up}"):
-                        # Parsing Angka GSheet (Menghilangkan titik/koma jika ada)
                         v_gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         v_tunjangan = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                         v_total_terima = max(0, (v_gapok + v_tunjangan + u_absen_staf + b_lembur_staf) - pot_sp_admin)
                         
-                        # --- DESAIN SLIP GAJI PREMIUM HTML (VERSI KENDALI TIM - RAMPING & GAHAR) ---
+                        # --- INI SLIP ASLI DIAN (FULL VERSION) ---
                         slip_html = f"""
                         <div style="background: #ffffff; color: #1a1a1a; padding: 25px; border-radius: 20px; border: 1px solid #eef2f3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; width: 300px; margin: auto; box-shadow: 0 15px 40px rgba(0,0,0,0.05);">
-                            
                             <div style="text-align: center; margin-bottom: 20px;">
-                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" 
-                                     style="width: 220px; max-width: 100%; height: auto; margin-bottom: 5px;">
+                                <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; max-width: 100%; height: auto; margin-bottom: 5px;">
                                 <div style="display: flex; align-items: center; justify-content: center; gap: 6px; margin-bottom: 8px;">
                                     <div style="height: 1px; background: #eee; flex: 1;"></div>
                                     <div style="height: 3px; background: #1d976c; width: 35px; border-radius: 10px;"></div>
@@ -1877,77 +1873,52 @@ def tampilkan_kendali_tim():
                         st.components.v1.html(slip_html, height=650)
 
             if not ada_kerja:
-                st.info("Belum ada aktivitas tim yang divalidasi 'FINISH' untuk periode ini.")
-            
+                st.info("Belum ada aktivitas tim.")
+
+        # ======================================================================
+        # --- 7. DATABASE AKUN AI ---
+        # ======================================================================
+        with st.expander("🔐 DATABASE AKUN AI", expanded=False):
+            try:
+                ws_akun = sh.worksheet("Akun_AI")
+                df_ai = pd.DataFrame(ws_akun.get_all_records())
+                
+                if st.button("➕ TAMBAH AKUN BARU", use_container_width=True):
+                    st.session_state.form_ai = not st.session_state.get('form_ai', False)
+                
+                if st.session_state.get('form_ai', False):
+                    with st.form("input_ai_simple", clear_on_submit=True):
+                        f1, f2, f3 = st.columns(3)
+                        v_ai = f1.text_input("Nama Tool")
+                        v_mail = f2.text_input("Email")
+                        v_pass = f3.text_input("Password")
+                        v_exp = st.date_input("Expired")
+                        if st.form_submit_button("🚀 SIMPAN"):
+                            ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
+                            st.success("Tersimpan!"); time.sleep(1); st.rerun()
+
+                st.divider()
+
+                if not df_ai.empty:
+                    kol_ai = st.columns(2)
+                    h_ini = sekarang.date()
+                    for i_ai, r_ai in df_ai.iterrows():
+                        t_exp_ai = pd.to_datetime(r_ai['EXPIRED']).date()
+                        s_ai = (t_exp_ai - h_ini).days
+                        w_ai = "#1d976c" if s_ai > 7 else "#f39c12" if s_ai >= 0 else "#e74c3c"
+                        
+                        with kol_ai[i_ai % 2]:
+                            with st.container(border=True):
+                                st.markdown(f'<div style="text-align:center; padding:3px; background:{w_ai}; border-radius:8px; margin-bottom:10px;"><b style="color:white;">{str(r_ai["AI"]).upper()}</b></div>', unsafe_allow_html=True)
+                                st.markdown(f"<code style='font-size:15px !important; display:block;'>📧 {r_ai['EMAIL']}</code>", unsafe_allow_html=True)
+                                st.markdown(f"<code style='font-size:15px !important; display:block;'>🔑 {r_ai['PASSWORD']}</code>", unsafe_allow_html=True)
+                                st.caption(f"📅 Exp: {t_exp_ai.strftime('%d %b')} ({s_ai} Hr lagi)")
+            except Exception as e_ai:
+                st.error(f"Gagal memuat Akun AI: {e_ai}")
+
+    # --- PENUTUP TRY UTAMA DEF tampilkan_kendali_tim ---
     except Exception as e:
         st.error(f"⚠️ Terjadi Kendala Sistem: {e}")
-        
-# --- DATABASE AKUN AI (VERSI FULL - KOTAK CODE RAKSASA) ---    
-    with st.expander("🔐 DATABASE AKUN AI", expanded=False):
-        try:
-            # 1. Ambil Data
-            ws_akun = sh.worksheet("Akun_AI")
-            data_akun_raw = ws_akun.get_all_records()
-            df_ai = pd.DataFrame(data_akun_raw)
-            
-            # 2. Tombol Tambah Akun
-            if st.button("➕ TAMBAH AKUN BARU", use_container_width=True):
-                st.session_state.form_ai = not st.session_state.get('form_ai', False)
-            
-            if st.session_state.get('form_ai', False):
-                with st.form("input_ai_simple", clear_on_submit=True):
-                    f1, f2, f3 = st.columns(3)
-                    v_ai = f1.text_input("Nama Tool (ChatGPT/Midjourney)")
-                    v_mail = f2.text_input("Email Login")
-                    v_pass = f3.text_input("Password")
-                    v_exp = st.date_input("Tanggal Expired")
-                    if st.form_submit_button("🚀 SIMPAN KE GSHEET"):
-                        ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
-                        st.success("Berhasil Tersimpan!"); time.sleep(1); st.rerun()
-
-            st.divider()
-
-            if not df_ai.empty:
-                # 3. Logika Tampilan 2 Kolom
-                kolom_ai = st.columns(2)
-                h_ini = sekarang.date()
-
-                for idx, r in df_ai.iterrows():
-                    # Parsing Tanggal
-                    tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                    sisa = (tgl_exp - h_ini).days
-                    
-                    # Penentu Warna Header & Status
-                    if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
-                    elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
-                    else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
-
-                    with kolom_ai[idx % 2]:
-                        with st.container(border=True):
-                            # HEADER SLIM BERWARNA
-                            st.markdown(f"""
-                                <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
-                                    <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
-                                </div>
-                            """, unsafe_allow_html=True)
-                            
-                            # BARIS 1: EMAIL & PASSWORD (2 KOLOM - KOTAK CODE 15PX)
-                            c1, c2 = st.columns(2)
-                            c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                            c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:16px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
-                            
-                            st.divider()
-                            
-                            # BARIS 2: STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
-                            b1, b2, b3 = st.columns(3)
-                            b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                            b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                            b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
-            else:
-                st.info("Belum ada data akun AI.")
-
-        except Exception as e:
-            st.error(f"Gagal memuat Database Akun AI: {e}")
         
 # ==============================================================================
 # BAGIAN 6: MODUL UTAMA - RUANG PRODUKSI (VERSI TOTAL FULL - NO CUT)
@@ -2297,6 +2268,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
