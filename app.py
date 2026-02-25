@@ -1704,8 +1704,6 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO) ---
         # ======================================================================
-        st.markdown("### 🚀 MASTER MONITORING & RADAR TIM")
-
         # Logika Target Otomatis (Ganti bulan = Ganti Target)
         t_target_display = 10 if (tahun_dipilih == 2026 and bulan_dipilih == 2) else 40
         progres_h = min(sekarang.day, 25)
@@ -1763,26 +1761,26 @@ def tampilkan_kendali_tim():
                     st.progress(min(jml_v / t_target_display, 1.0))
 
         # ======================================================================
-        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI ICON CANTIK) ---
+        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI 7 KOLOM - SUPER CLEAN) ---
         # ======================================================================
         st.markdown("<br>", unsafe_allow_html=True)
         with st.container(border=True):
             st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
             
+            # Cari Staf Terbaik & Terlemah
             staf_top = max(performa_staf, key=performa_staf.get) if performa_staf else "-"
             staf_low = min(performa_staf, key=performa_staf.get) if performa_staf else "-"
             
-            c_r1, c_r2, c_r3, c_r4, c_r5, c_r6 = st.columns(6)
+            # Buat 7 Kolom Sejajar
+            c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
             
-            # Pakai Label & Nilai yang Seragam Cantiknya
-            c_r1.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}")
-            c_r2.metric("🔥 BONUS CAIR", f"Rp {rekap_b_cair:,}")
-            c_r3.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
-            c_r4.metric("⚠️ TOTAL MALAS", f"{rekap_h_malas} HR")
-            c_r5.metric("👑 MVP STAF", staf_top)
-            c_r6.metric("📉 LOW STAF", staf_low)
-
-        st.info(f"💡 **Info:** Target {pilihan_nama} adalah {t_target_display} video. Radar aman hari ini di angka {target_aman_hari_ini} video.")
+            c_r1.metric("🎯 TARGET/STAF", f"{t_target_display} Vid")
+            c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}")
+            c_r3.metric("🔥 BONUS CAIR", f"Rp {rekap_b_cair:,}")
+            c_r4.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
+            c_r5.metric("⚠️ TOTAL MALAS", f"{rekap_h_malas} HR")
+            c_r6.metric("👑 MVP STAF", staf_top)
+            c_r7.metric("📉 LOW STAF", staf_low)
         
         # --- REVISI TAMPILAN SLIP GAJI PREMIUM (ADMIN) ---
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -2292,6 +2290,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
