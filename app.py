@@ -1678,8 +1678,7 @@ def tampilkan_kendali_tim():
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc:,}")
             
-            # FIX WARNA: Outcome sekarang dipaksa MERAH pakai delta_color="inverse"
-            m2.metric("💸 OUTCOME", f"Rp {total_out:,}", delta=f"-{total_out:,}", delta_color="inverse")
+            m2.metric("💸 OUTCOME", f"Rp {total_out:,}", delta=f"{total_out:,}", delta_color="inverse")
             
             # STATUS OTOMATIS: Ganti label & warna berdasarkan Saldo Bersih
             status_finansial = "📈 UNTUNG" if saldo_bersih >= 0 else "📉 RUGI"
@@ -2371,6 +2370,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
