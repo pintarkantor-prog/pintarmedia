@@ -221,7 +221,7 @@ def log_absen_otomatis(nama_user):
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
     # 3. RANGE JAM KERJA (8 Pagi - 11 Malam)
-    if 8 <= jam < 22: 
+    if 8 <= jam < 23: 
         try:
             sh = get_gspread_sh() 
             sheet_absen = sh.worksheet("Absensi")
@@ -2766,6 +2766,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
