@@ -1841,14 +1841,12 @@ def tampilkan_tugas_kerja():
                         v_hari_lemah = hari_lemah if 'hari_lemah' in locals() else 0
 
                         # --- SISIRAN: KASTA PROTECTION DI TEMPLATE ---
-                        # Kita ambil level user yang sedang login/dilihat
                         user_level_ini = st.session_state.get("user_level", "STAFF")
                         
-                        # Jika dia OWNER atau ADMIN, kita paksa visual potongannya jadi 0
                         if user_level_ini in ["OWNER", "ADMIN"]:
                             display_pot_sp = 0
                             display_hari_lemah = 0
-                            label_vip = " (VIP PROTECTED)"
+                            label_vip = " <span style='color: #1d976c;'>(VIP PROTECTED)</span>"
                         else:
                             display_pot_sp = v_pot_sp
                             display_hari_lemah = v_hari_lemah
@@ -1856,15 +1854,14 @@ def tampilkan_tugas_kerja():
 
                         # Hitung ulang S_VAR_TOTAL menggunakan display_pot_sp agar sinkron
                         S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + v_b_video + v_u_hadir) - display_pot_sp)
-                        # ======================================================
                         
-                        # --- TEMPLATE HTML PREMIUM (Variabel KUNCI: hari_lemah) ---
+                        # --- TEMPLATE HTML PREMIUM ---
                         slip_staff_html = f"""
                         <div id="slip-gaji-full" style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                             <center>
                                 <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 220px; margin-bottom: 10px;">
                                 <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin-bottom: 5px;"></div>
-                                <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">MASIH UJICOBA SISTEM</p>
+                                <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">SISTEM PINTAR MEDIA</p>
                             </center>
                                     
                             <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
@@ -1878,9 +1875,13 @@ def tampilkan_tugas_kerja():
                             <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
                                 <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {S_VAR_GAPOK:,}</td></tr>
                                 <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {S_VAR_TUNJ:,}</td></tr>
-                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_hadir:,}</td></tr>
-                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_video:,}</td></tr>
-                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({display_hari_lemah} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp:,}</td></tr>
+                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen</td><td align="right">+ {v_u_hadir:,}</td></tr>
+                                <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video</td><td align="right">+ {v_b_video:,}</td></tr>
+                                
+                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;">
+                                    <td style="padding-top: 5px;">Potongan SP ({display_hari_lemah} Hari){label_vip}</td>
+                                    <td align="right" style="padding-top: 5px;">- {display_pot_sp:,}</td>
+                                </tr>
                             </table>
 
                             <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
@@ -2822,6 +2823,7 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
 
