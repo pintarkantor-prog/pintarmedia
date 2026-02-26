@@ -1752,10 +1752,7 @@ def tampilkan_kendali_tim():
         return 
 
     # 2. HEADER HALAMAN
-    st.title("⚡ PUSAT KENDALI TIM")
-    st.info(f"Halo **{user_sekarang.capitalize()}**! Selamat bekerja memantau tim.")
-    
-    # Clear cache biar data yang ditarik Lisa & Dian selalu paling baru
+    st.title("⚡ PUSAT KENDALI TIM")    
     st.cache_data.clear()
     
     # 3. SETUP WAKTU & FILTER
@@ -2578,6 +2575,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
