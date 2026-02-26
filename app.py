@@ -2433,7 +2433,7 @@ def tampilkan_ruang_produksi():
             jam_v = sekarang.strftime('%H:%M')
             st.markdown(f"<p style='color: #00ba69; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>🟢 <b>Secure Connection Established</b> (Verified: {jam_v} WIB)</p>", unsafe_allow_html=True)
         
-        elif 8 <= sekarang.hour < 23:
+        elif 8 <= sekarang.hour < 22:
             # Status saat sistem lagi kerja (loading)
             st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>📡 <b>Synchronizing session data...</b></p>", unsafe_allow_html=True)
         
@@ -2765,6 +2765,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
