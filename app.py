@@ -1840,11 +1840,11 @@ def tampilkan_tugas_kerja():
                         v_pot_sp = pot_sp if 'pot_sp' in locals() else 0
                         v_hari_lemah = hari_lemah if 'hari_lemah' in locals() else 0
 
-                        # ======================================================
-                        # TARUH KODE SISIRAN DI SINI (SEBELUM SLIP HTML)
-                        # ======================================================
+                        # --- SISIRAN: KASTA PROTECTION DI TEMPLATE ---
+                        # Kita ambil level user yang sedang login/dilihat
                         user_level_ini = st.session_state.get("user_level", "STAFF")
                         
+                        # Jika dia OWNER atau ADMIN, kita paksa visual potongannya jadi 0
                         if user_level_ini in ["OWNER", "ADMIN"]:
                             display_pot_sp = 0
                             display_hari_lemah = 0
@@ -1854,7 +1854,7 @@ def tampilkan_tugas_kerja():
                             display_hari_lemah = v_hari_lemah
                             label_vip = ""
 
-                        # Rumus Final menggunakan variabel display
+                        # Hitung ulang S_VAR_TOTAL menggunakan display_pot_sp agar sinkron
                         S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + v_b_video + v_u_hadir) - display_pot_sp)
                         # ======================================================
                         
@@ -2822,6 +2822,7 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
 
