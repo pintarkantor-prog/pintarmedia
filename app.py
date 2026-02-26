@@ -2467,14 +2467,6 @@ def tampilkan_ruang_produksi():
         "NO flickering textures, NO sudden lighting jumps, NO floating hair artifacts."
     )
 
-    # HEADER UI
-    c1, c_kosong, c2 = st.columns([2, 0.5, 1.5]) 
-    with c1:
-        st.markdown("# 🚀 RUANG PRODUKSI")
-    with c2:
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.success(f"🛰️ {nama_hari}, {tgl} {nama_bulan} | Staf: {user_aktif}")
-
     # 1. INTEGRASI REFERENSI NASKAH
     if 'naskah_siap_produksi' in st.session_state and st.session_state.naskah_siap_produksi:
         with st.expander("📖 NASKAH REFERENSI PINTAR AI LAB", expanded=True):
@@ -2765,4 +2757,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
