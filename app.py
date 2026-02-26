@@ -2412,26 +2412,29 @@ def tampilkan_ruang_produksi():
     nama_hari = hari_id[sekarang.weekday()]
     tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
+    
     user_aktif = st.session_state.get("user_aktif", "User").upper()
+    level_aktif = st.session_state.get("user_level", "STAFF")
 
-    log_absen_otomatis(user_aktif) 
+    # 2. EKSEKUSI MESIN ABSEN
+    log_absen_otomatis(user_aktif)
 
-    # 2. KUNCI DATA DARI SESSION STATE (SUMBER UTAMA)
+    # 3. KUNCI DATA DARI SESSION STATE
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
-    
-    # 3. HEADER UI RUANG PRODUKSI
+
+    # 4. HEADER UI RUANG PRODUKSI (TANPA DIVIDER)
     st.title(f"🚀 RUANG PRODUKSI")
     st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {sekarang.year}")
     
-    # --- STATUS ABSENSI (Feedback Instant buat Staf) ---
+    # --- BADGE STATUS (DENGAN SPASI HALUS) ---
     with st.container():
-        if st.session_state.get('absen_done_today'):
-            st.caption("✅ Kehadiran hari ini telah tercatat otomatis.")
+        if level_aktif == "ADMIN":
+            st.markdown("<p style='color: #7f8c8d; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⚡ <b>Mode Admin:</b> Absensi tidak dicatat sistem.</p>", unsafe_allow_html=True)
+        elif st.session_state.get('absen_done_today', False):
+            st.markdown("<p style='color: #00ba69; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>✅ <b>Status:</b> Kehadiran hari ini telah tercatat otomatis.</p>", unsafe_allow_html=True)
         else:
-            st.caption("⏳ Menghubungkan ke sistem absensi...")
-            
-    st.divider()
+            st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⏳ <b>Status:</b> Sedang menyinkronkan data kehadiran...</p>", unsafe_allow_html=True)
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
     QB_IMG = (
@@ -2757,5 +2760,6 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
