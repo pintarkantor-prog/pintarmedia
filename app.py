@@ -1747,7 +1747,7 @@ def tampilkan_kendali_tim():
     
     # 1. PROTEKSI AKSES (Satpam Admin)
     # Sekarang Lisa sudah resmi jadi Co-Admin
-    if user_sekarang not in ["dian", "lisa"]:
+    if user_sekarang not in ["dian"]:
         st.error("🚫 Maaf, Area ini hanya untuk Admin.")
         return 
 
@@ -2578,6 +2578,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
