@@ -1834,15 +1834,29 @@ def tampilkan_tugas_kerja():
                         S_VAR_GAPOK = int(pd.to_numeric(str(res.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                         S_VAR_TUNJ = int(pd.to_numeric(str(res.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                         
-                        # --- PASTIKAN VARIABEL BERIKUT SUDAH ADA (DIHITUNG DI RADAR ATAS) ---
-                        # Jika karena suatu hal tidak terdefinisi, kita kasih default 0 agar tidak crash
+                        # --- PASTIKAN VARIABEL BERIKUT SUDAH ADA ---
                         v_b_video = b_video if 'b_video' in locals() else 0
                         v_u_hadir = u_hadir if 'u_hadir' in locals() else 0
                         v_pot_sp = pot_sp if 'pot_sp' in locals() else 0
                         v_hari_lemah = hari_lemah if 'hari_lemah' in locals() else 0
 
-                        # Rumus Final
-                        S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + v_b_video + v_u_hadir) - v_pot_sp)
+                        # ======================================================
+                        # TARUH KODE SISIRAN DI SINI (SEBELUM SLIP HTML)
+                        # ======================================================
+                        user_level_ini = st.session_state.get("user_level", "STAFF")
+                        
+                        if user_level_ini in ["OWNER", "ADMIN"]:
+                            display_pot_sp = 0
+                            display_hari_lemah = 0
+                            label_vip = " (VIP PROTECTED)"
+                        else:
+                            display_pot_sp = v_pot_sp
+                            display_hari_lemah = v_hari_lemah
+                            label_vip = ""
+
+                        # Rumus Final menggunakan variabel display
+                        S_VAR_TOTAL = max(0, (S_VAR_GAPOK + S_VAR_TUNJ + v_b_video + v_u_hadir) - display_pot_sp)
+                        # ======================================================
                         
                         # --- TEMPLATE HTML PREMIUM (Variabel KUNCI: hari_lemah) ---
                         slip_staff_html = f"""
@@ -1866,7 +1880,7 @@ def tampilkan_tugas_kerja():
                                 <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {S_VAR_TUNJ:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Absen (Min 3)</td><td align="right">+ {u_hadir:,}</td></tr>
                                 <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Video (Video 5+)</td><td align="right">+ {b_video:,}</td></tr>
-                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({hari_lemah} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp:,}</td></tr>
+                                <tr style="border-top: 1px solid #f0f0f0; color: #e74c3c; font-weight: 600;"><td style="padding-top: 5px;">Potongan SP ({display_hari_lemah} Hari)</td><td align="right" style="padding-top: 5px;">- {pot_sp:,}</td></tr>
                             </table>
 
                             <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
@@ -2808,6 +2822,7 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
 
