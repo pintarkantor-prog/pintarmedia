@@ -203,13 +203,14 @@ st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN) - VERSI OPTIMASI
 # ==============================================================================
 def log_absen_otomatis(nama_user):
-    # 1. CEK SESSION STATE (Biar gak kerja dua kali)
-    # Ini rem supaya fungsi gak jalan terus tiap refresh
+    # 1. REM SESSION (Biar gak kerja berkali-kali dalam satu sesi browser)
     if st.session_state.get('absen_done_today', False):
         return
 
+    # 2. FILTER ADMIN (Lo gak perlu absen, Bos!)
     user_level = st.session_state.get("user_level", "STAFF")
-    if user_level == "ADMIN" or nama_user.lower() == "tamu": 
+    if user_level == "ADMIN" or nama_user.lower() == "tamu":
+        st.session_state.absen_done_today = True # Set True biar UI Admin gak nunggu
         return
     
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -219,44 +220,46 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    # Absensi hanya berlaku jam 8 pagi sampai 10 malam
+    # 3. RANGE JAM KERJA (8 Pagi - 10 Malam)
     if 8 <= jam < 22: 
         try:
             sh = get_gspread_sh() 
             sheet_absen = sh.worksheet("Absensi")
             
-            # Ambil data terbaru (Filter nama user & tanggal hari ini saja)
+            # AMBIL DATA SEGAR (Tanpa Cache biar akurat cek double absennya)
             df_absen = ambil_data_segar("Absensi")
             
-            nama_up = nama_user.upper().strip()
+            # STANDARISASI INPUT (Hapus spasi, paksa huruf besar)
+            nama_up = str(nama_user).upper().strip()
             
-            # Cek di memori GSheet apakah emang beneran udah ada
             sudah_absen = False
             if not df_absen.empty:
-                df_absen['TANGGAL'] = df_absen['TANGGAL'].astype(str)
-                sudah_absen = not df_absen[(df_absen['TANGGAL'] == tgl_skrg) & 
-                                          (df_absen['NAMA'] == nama_up)].empty
+                # STANDARISASI DATABASE (Biar gak jebol karena beda huruf besar/kecil)
+                df_absen['NAMA'] = df_absen['NAMA'].astype(str).str.upper().str.strip()
+                df_absen['TANGGAL'] = df_absen['TANGGAL'].astype(str).str.strip()
+                
+                # CEK APAKAH SUDAH ADA DI TANGGAL YANG SAMA
+                mask = (df_absen['TANGGAL'] == tgl_skrg) & (df_absen['NAMA'] == nama_up)
+                sudah_absen = not df_absen[mask].empty
             
             if not sudah_absen:
-                # Penentuan status yang lebih tegas
+                # JIKA BELUM ADA -> BARU TULIS KE GSHEET
                 status_final = "HADIR" if jam < 10 else f"TELAT ({jam_skrg})"
-                
-                # Kirim ke GSheet
                 sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, status_final])
                 
-                # Tandai di Session State (Berhasil Absen)
                 st.session_state.absen_done_today = True
-                
-                if jam < 10:
-                    st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
-                else:
-                    st.toast(f"⚠️ Tercatat Telat (Jam {jam_skrg})", icon="ℹ️")
+                st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
+                st.rerun() # Refresh sekali biar UI langsung Ijo
             else:
-                # Kalau sudah ada di GSheet, tandai juga di session state biar gak ngecek lagi
+                # JIKA SUDAH ADA (Kasus Inggi Login Lagi) -> Cukup tandai Session
                 st.session_state.absen_done_today = True
+                # Gak perlu rerun biar gak looping
 
         except Exception as e:
             print(f"Error Absen: {e}")
+    else:
+        # Jika di luar jam kerja, anggap aja 'beres' biar UI gak nyangkut
+        st.session_state.absen_done_today = True
             
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
@@ -2423,16 +2426,21 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # 4. HEADER UI RUANG PRODUKSI (TANPA DIVIDER)
+    # 4. HEADER UI RUANG PRODUKSI
     st.title(f"🚀 RUANG PRODUKSI")
     st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {sekarang.year}")
     
-    # --- BADGE STATUS (DENGAN SPASI HALUS) ---
+    # --- STATUS BADGE TANPA DIVIDER (FIX TOTAL) ---
     with st.container():
+        # Cek level dulu
         if level_aktif == "ADMIN":
             st.markdown("<p style='color: #7f8c8d; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⚡ <b>Mode Admin:</b> Absensi tidak dicatat sistem.</p>", unsafe_allow_html=True)
+        
+        # Cek apakah mesin absen sudah kasih sinyal 'Beres'
         elif st.session_state.get('absen_done_today', False):
             st.markdown("<p style='color: #00ba69; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>✅ <b>Status:</b> Kehadiran hari ini telah tercatat otomatis.</p>", unsafe_allow_html=True)
+        
+        # Kondisi transisi (hanya muncul sepersekian detik)
         else:
             st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⏳ <b>Status:</b> Sedang menyinkronkan data kehadiran...</p>", unsafe_allow_html=True)
 
@@ -2760,6 +2768,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
