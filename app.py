@@ -1396,7 +1396,7 @@ def tampilkan_tugas_kerja():
                                             st.warning("Isi link dulu!")
 
     # =========================================================
-    # --- 4.5. SISTEM KLAIM AI (FINAL 3-COLUMN VERSION) ---
+    # --- 4.5. SISTEM KLAIM AI (FIXED INDENTATION) ---
     # =========================================================
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
@@ -1412,7 +1412,7 @@ def tampilkan_tugas_kerja():
                 data_akun_raw = ws_akun.get_all_records()
                 df_ai = pd.DataFrame(data_akun_raw)
 
-                # 2. FILTER AKUN AKTIF MILIK USER (Otomatis Sembunyi Jika Expired)
+                # 2. FILTER AKUN AKTIF MILIK USER
                 user_up = user_sekarang.upper()
                 df_user_raw = df_ai[df_ai['PEMAKAI'].astype(str).str.upper() == user_up].copy()
                 
@@ -1421,11 +1421,9 @@ def tampilkan_tugas_kerja():
                     for idx, r in df_user_raw.iterrows():
                         try:
                             tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                            # Syarat tampil: Sisa hari harus >= 0
                             if (tgl_exp - h_ini).days >= 0:
                                 akun_aktif_user.append(r)
                         except:
-                            # Jika format tanggal error, asumsikan masih aktif
                             akun_aktif_user.append(r)
 
                 # 3. LOGIKA STOK & TOMBOL KLAIM
@@ -1435,41 +1433,31 @@ def tampilkan_tugas_kerja():
                 c_sel, c_btn = st.columns([2, 1])
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
-                # Batasan Klaim: Limit 3 Akun
                 bisa_klaim = True 
                 if not list_opsi:
                     bisa_klaim = False
                     st.warning("😭 Stok akun sedang habis.")
                 elif len(akun_aktif_user) >= 3:
                     bisa_klaim = False
-                    st.warning("🚫 Limit 3 akun aktif tercapai. Tunggu akun lama expired.")
+                    st.warning("🚫 Limit 3 akun aktif tercapai.")
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
                     target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
                     email_target = target.iloc[0]['EMAIL']
                     
                     try:
-                        # MENCARI SEL (Pastikan in_column=2 karena email biasanya di kolom B)
                         cell = ws_akun.find(email_target, in_column=2)
-                        
-                        # UPDATE KE GSHEET (Kolom 5=Pemakai, Kolom 6=Tgl Klaim)
                         ws_akun.update_cell(cell.row, 5, user_up) 
                         ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
-                        
                         st.success(f"Akun {pilihan_ai} Berhasil Diklaim!")
-                        time.sleep(1)
-                        st.rerun()
-                    
+                        time.sleep(1); st.rerun()
                     except Exception as e:
-                        if "CellNotFound" in str(e) or "not found" in str(e).lower():
-                            st.error("Email tidak ditemukan di database. Hubungi Dian.")
-                        else:
-                            st.error(f"Gagal Update GSheet: {e}")
+                        st.error(f"Gagal Update GSheet: {e}")
 
-                # 4. DAFTAR KOLEKSI (TAMPILAN 3 KOLOM)
+                # 4. DAFTAR KOLEKSI (SUDAH DILURUSKAN INDENTASINYA)
                 if akun_aktif_user:
                     st.divider()
-                    kolom_vcard = st.columns(3) # <-- Inisialisasi 3 kolom utama
+                    kolom_vcard = st.columns(3) 
                     
                     for idx, r in enumerate(reversed(akun_aktif_user)):
                         try:
@@ -1478,34 +1466,32 @@ def tampilkan_tugas_kerja():
                         except:
                             tgl_exp, sisa = h_ini, 0
                         
-                        # Penentu Warna Header
-                        if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
-                        elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
-                        else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
+                        warna_h = "#1d976c" if sisa > 7 else "#f39c12" if sisa >= 0 else "#e74c3c"
+                        stat_ai = "🟢 AMAN" if sisa > 7 else "🟠 LIMIT" if sisa >= 0 else "🔴 MATI"
 
-                        with kolom_vcard[idx % 3]: # <-- Penempatan kartu (Modulo 3)
+                        with kolom_vcard[idx % 3]:
                             with st.container(border=True):
-                                # --- HEADER ---
+                                # HEADER
                                 st.markdown(f"""
                                     <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
                                         <b style="color:white; font-size:11px;">{str(r['AI']).upper()}</b>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                # --- LOGIN INFO (Dibuat vertikal agar tidak sesak) ---
-                                st.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code style='font-size:11px; display:block; overflow:hidden;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                st.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>🔑 PASS</p><code style='font-size:11px; display:block;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                # BARIS 1: EMAIL & PASS
+                                e1, e2 = st.columns(2)
+                                e1.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code style='font-size:10px; display:block; overflow:hidden; text-overflow:ellipsis;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                e2.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>🔑 PASS</p><code style='font-size:10px; display:block;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                                 
                                 st.divider()
                                 
-                                # --- STATUS INFO ---
-                                st.markdown(f"""
-                                    <p style='margin:0; font-size:10px; color:#888;'>STATUS: <b>{stat_ai}</b></p>
-                                    <p style='margin:0; font-size:10px; color:#888;'>EXP: <b>{tgl_exp.strftime('%d %b')}</b></p>
-                                    <p style='margin:0; font-size:11px; color:#888;'>SISA: <b style='color:{warna_h}; font-size:13px;'>{sisa} Hr</b></p>
-                                """, unsafe_allow_html=True)
+                                # BARIS 2: STATUS, EXP, SISA
+                                s1, s2, s3 = st.columns(3)
+                                s1.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>STATUS</p><b style='font-size:10px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                                s2.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>EXP</p><b style='font-size:10px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                s3.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>SISA</p><b style='font-size:11px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
 
-                st.caption("🆘 **Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
+                st.caption("🆘 **Darurat?** Jika akun suspend, hubungi Admin (Dian).")
 
             except Exception as e_station:
                 st.error(f"Gagal memuat AI Station: {e_station}")
@@ -2588,6 +2574,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
