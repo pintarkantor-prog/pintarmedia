@@ -1396,7 +1396,7 @@ def tampilkan_tugas_kerja():
                                             st.warning("Isi link dulu!")
 
     # =========================================================
-    # --- 4.5. SISTEM KLAIM AI (FIXED VERSION 2026) ---
+    # --- 4.5. SISTEM KLAIM AI (FINAL 3-COLUMN VERSION) ---
     # =========================================================
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
@@ -1425,7 +1425,7 @@ def tampilkan_tugas_kerja():
                             if (tgl_exp - h_ini).days >= 0:
                                 akun_aktif_user.append(r)
                         except:
-                            # Jika format tanggal error, kita asumsikan masih aktif dulu
+                            # Jika format tanggal error, asumsikan masih aktif
                             akun_aktif_user.append(r)
 
                 # 3. LOGIKA STOK & TOMBOL KLAIM
@@ -1435,23 +1435,24 @@ def tampilkan_tugas_kerja():
                 c_sel, c_btn = st.columns([2, 1])
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
+                # Batasan Klaim: Limit 3 Akun
                 bisa_klaim = True 
                 if not list_opsi:
                     bisa_klaim = False
                     st.warning("😭 Stok akun sedang habis.")
-                elif len(akun_aktif_user) >= 2:
+                elif len(akun_aktif_user) >= 3:
                     bisa_klaim = False
-                    st.warning("🚫 Limit 2 akun aktif tercapai. Tunggu akun lama expired.")
+                    st.warning("🚫 Limit 3 akun aktif tercapai. Tunggu akun lama expired.")
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
                     target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
                     email_target = target.iloc[0]['EMAIL']
                     
                     try:
-                        # MENCARI SEL (Fix gspread.exceptions bug)
+                        # MENCARI SEL (Pastikan in_column=2 karena email biasanya di kolom B)
                         cell = ws_akun.find(email_target, in_column=2)
                         
-                        # UPDATE KE GSHEET
+                        # UPDATE KE GSHEET (Kolom 5=Pemakai, Kolom 6=Tgl Klaim)
                         ws_akun.update_cell(cell.row, 5, user_up) 
                         ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
                         
@@ -1459,43 +1460,50 @@ def tampilkan_tugas_kerja():
                         time.sleep(1)
                         st.rerun()
                     
-                    # CATCH ERROR SECARA DINAMIS
                     except Exception as e:
                         if "CellNotFound" in str(e) or "not found" in str(e).lower():
                             st.error("Email tidak ditemukan di database. Hubungi Dian.")
                         else:
                             st.error(f"Gagal Update GSheet: {e}")
 
-                # 4. DAFTAR KOLEKSI (HANYA TAMPIL YANG AKTIF)
+                # 4. DAFTAR KOLEKSI (TAMPILAN 3 KOLOM)
                 if akun_aktif_user:
                     st.divider()
-                    kolom_vcard = st.columns(2)
+                    kolom_vcard = st.columns(3) # <-- Inisialisasi 3 kolom utama
+                    
                     for idx, r in enumerate(reversed(akun_aktif_user)):
-                        tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                        sisa = (tgl_exp - h_ini).days
+                        try:
+                            tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                            sisa = (tgl_exp - h_ini).days
+                        except:
+                            tgl_exp, sisa = h_ini, 0
                         
-                        # Warna Header Berdasarkan Sisa Hari
+                        # Penentu Warna Header
                         if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
                         elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
                         else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
 
-                        with kolom_vcard[idx % 2]:
+                        with kolom_vcard[idx % 3]: # <-- Penempatan kartu (Modulo 3)
                             with st.container(border=True):
+                                # --- HEADER ---
                                 st.markdown(f"""
                                     <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
-                                        <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
+                                        <b style="color:white; font-size:11px;">{str(r['AI']).upper()}</b>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                c1, c2 = st.columns(2)
-                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:12px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASS</p><code style='font-size:12px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                # --- LOGIN INFO (Dibuat vertikal agar tidak sesak) ---
+                                st.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code style='font-size:11px; display:block; overflow:hidden;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                st.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>🔑 PASS</p><code style='font-size:11px; display:block;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                                 
                                 st.divider()
-                                b1, b2, b3 = st.columns(3)
-                                b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:12px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                                b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXP</p><b style='font-size:12px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                                b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:14px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                                
+                                # --- STATUS INFO ---
+                                st.markdown(f"""
+                                    <p style='margin:0; font-size:10px; color:#888;'>STATUS: <b>{stat_ai}</b></p>
+                                    <p style='margin:0; font-size:10px; color:#888;'>EXP: <b>{tgl_exp.strftime('%d %b')}</b></p>
+                                    <p style='margin:0; font-size:11px; color:#888;'>SISA: <b style='color:{warna_h}; font-size:13px;'>{sisa} Hr</b></p>
+                                """, unsafe_allow_html=True)
 
                 st.caption("🆘 **Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
 
@@ -2580,6 +2588,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
