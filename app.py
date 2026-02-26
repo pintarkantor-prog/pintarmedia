@@ -1523,35 +1523,36 @@ def tampilkan_tugas_kerja():
 
             df_laci = df_all_tugas[mask_arsip].copy()
 
-            if not df_laci.empty:
-                # Statistik Singkat
+if not df_laci.empty:
+                # 1. Hitung Statistik
                 total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
                 total_c = len(df_laci[df_laci['STATUS'] == "CANCELED"])
                 st.markdown(f"📊 **Laporan {bln_arsip_nama}:** ✅ {total_f} Selesai | 🚫 {total_c} Dibatalkan")
                 
+                # 2. Urutkan Data
                 df_laci = df_laci.sort_values(by='ID', ascending=False)
-                
-                # --- C. TAMPILAN TABEL BERWARNA ---
-                # --- A. FUNGSI LOGIKA WARNA TEKS (TANPA CSS) ---
+
+                # 3. Tentukan Kolom yang akan ditampilkan (INI KUNCINYA)
+                kolom_laci = ['ID', 'STAF', 'INSTRUKSI', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
+                kolom_fix = [c for c in kolom_laci if c in df_laci.columns]
+
+                # 4. Fungsi Warna Aesthetic (Request Dana: Teks Aja, Gak Blok Warna)
                 def style_riwayat(row):
-                    # Default style
                     styles = [''] * len(row)
+                    # Cari posisi kolom STATUS biar warnanya gak nyasar
                     status_idx = row.index.get_loc('STATUS')
                     
                     if row['STATUS'] == "FINISH":
-                        # Teks Hijau buat Finish
-                        styles[status_idx] = 'color: #1d976c; font-weight: bold;'
+                        styles[status_idx] = 'color: #1d976c; font-weight: bold;' # Teks Hijau
                     elif row['STATUS'] == "CANCELED":
-                        # Teks Abu-abu buat Cancel (Biar kalem)
-                        styles[status_idx] = 'color: #888888; font-style: italic;'
+                        styles[status_idx] = 'color: #888888; font-style: italic;' # Teks Abu-abu (Calem)
                     
                     return styles
 
-                # --- B. TERAPKAN STYLE ---
-                # Menggunakan axis=1 karena kita ngecek nilai dalam satu baris
+                # 5. Terapkan Style ke Dataframe
                 df_clean = df_laci[kolom_fix].style.apply(style_riwayat, axis=1)
-                
-                # --- C. RENDER TABEL ---
+
+                # 6. Render Tabel dengan Lebar Kolom Medium (Biar Seimbang)
                 st.dataframe(
                     df_clean,
                     column_config={
@@ -1559,14 +1560,14 @@ def tampilkan_tugas_kerja():
                         "STAF": st.column_config.TextColumn("👤 STAF", width="small"),
                         "INSTRUKSI": st.column_config.TextColumn(
                             "📝 JUDUL KONTEN", 
-                            width="medium", # Dibuat Medium sesuai request
+                            width="medium", # Medium biar gak sempit
                             help="💡 Hover untuk baca lengkap"
                         ),
                         "DEADLINE": st.column_config.TextColumn("📅 TGL", width="small"),
                         "STATUS": st.column_config.TextColumn("🚩 STATUS", width="small"),
                         "CATATAN_REVISI": st.column_config.TextColumn(
                             "📋 KETERANGAN", 
-                            width="medium", # Dibuat Medium juga biar seimbang
+                            width="medium", # Medium juga biar adil
                             help="💡 Hover untuk baca lengkap"
                         )
                     },
@@ -2613,6 +2614,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
