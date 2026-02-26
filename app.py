@@ -1878,7 +1878,7 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
-        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=False):
             # --- METRIK UTAMA DENGAN WARNA DEFISIT YANG BENER ---
             m1, m2, m3, m4 = st.columns(4)
             
@@ -2580,3 +2580,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
