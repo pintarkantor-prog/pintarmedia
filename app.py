@@ -6,53 +6,69 @@ import time
 import pytz
 import json
 import re
+import random
 import plotly.express as px
 from datetime import datetime, timedelta
 from google.oauth2.service_account import Credentials
 
 # ==============================================================================
-# KONFIGURASI DASAR & KONEKSI (STABIL & HEMAT KUOTA)
+# KONFIGURASI DASAR & KONEKSI (ANTI-MACET & RECOVERY OTOMATIS)
 # ==============================================================================
 URL_MASTER = "https://docs.google.com/spreadsheets/d/16xcIqG2z78yH_OxY5RC2oQmLwcJpTs637kPY-hewTTY/edit?usp=sharing"
 
 @st.cache_resource
-def get_gspread_sh():
-    """Koneksi Google Sheets yang disimpan di RAM."""
+def get_gspread_client():
+    """Koneksi Client Google (Hanya login sekali)."""
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
     creds = Credentials.from_service_account_info(st.secrets["service_account"], scopes=scope)
-    client = gspread.authorize(creds)
-    return client.open_by_url(URL_MASTER)
-
-@st.cache_data(ttl=10) # Data tampilan dashboard tahan 10 detik
-def ambil_data_lokal(nama_sheet):
-    """Gunakan ini di bagian DASHBOARD / TABEL biar hemat kuota."""
-    return ambil_data_beneran_segar(nama_sheet)
+    return gspread.authorize(creds)
 
 def ambil_data_beneran_segar(nama_sheet):
-    """Fungsi asli narik data langsung ke GSheet."""
-    try:
-        sh = get_gspread_sh()
-        ws = sh.worksheet(nama_sheet)
-        data = ws.get_all_records()
-        return bersihkan_data(pd.DataFrame(data))
-    except Exception as e:
-        return pd.DataFrame()
+    """Fungsi narik data dengan sistem ANTRIAN (Retry Logic)."""
+    client = get_gspread_client()
+    
+    # Coba sampai 3 kali jika gagal karena limit API
+    for percobaan in range(3):
+        try:
+            sh = client.open_by_url(URL_MASTER)
+            ws = sh.worksheet(nama_sheet)
+            data = ws.get_all_records()
+            return bersihkan_data(pd.DataFrame(data))
+            
+        except Exception as e:
+            if "429" in str(e): # Jika kena Limit Google
+                waktu_tunggu = (percobaan + 1) * random.uniform(1, 2)
+                st.warning(f"Sistem Sibuk (Limit API). Menunggu {waktu_tunggu:.1f} detik...")
+                time.sleep(waktu_tunggu)
+            else:
+                st.error(f"Error di Sheet {nama_sheet}: {e}")
+                break
+    return pd.DataFrame()
 
-# INI KUNCINYA: Menghubungkan nama lama ke fungsi baru
-def ambil_data_segar(nama_sheet):
-    """Alias biar kode lama lo gak error 'Not Defined'."""
+@st.cache_data(ttl=30) # Dinaikkan ke 30 detik agar lebih lega pas sore hari
+def ambil_data_lokal(nama_sheet):
+    """Gunakan ini khusus untuk Dashboard Tampilan."""
     return ambil_data_beneran_segar(nama_sheet)
 
 def bersihkan_data(df):
-    """Standardisasi data biar Python gak pusing."""
+    """Pembersihan data super cepat (Vectorized)."""
     if df.empty: return df
+    
+    # Hapus baris yang benar-benar kosong
     df = df.dropna(how='all')
+    
+    # Nama kolom jadi UPPER case
     df.columns = [str(c).strip().upper() for c in df.columns]
-    kolom_krusial = ['NAMA', 'STAF', 'STATUS', 'USERNAME', 'TANGGAL', 'DEADLINE', 'TIPE']
-    for col in df.columns:
-        if col in kolom_krusial:
-            df[col] = df[col].astype(str).str.strip().str.upper().replace('NAN', '')
+    
+    # Bersihkan spasi dan konversi ke UPPER hanya untuk kolom teks
+    # Ini jauh lebih cepat daripada loop manual
+    df = df.apply(lambda x: x.str.strip().str.upper() if x.dtype == "object" else x)
+    
     return df
+
+# Alias untuk kompatibilitas kode lama
+def ambil_data_segar(nama_sheet):
+    return ambil_data_beneran_segar(nama_sheet)
 
 # ==============================================================================
 # BAGIAN 1: PUSAT KENDALI OPSI (VERSI KLIMIS - NO REDUNDANCY)
@@ -390,29 +406,32 @@ def simpan_ke_gsheet():
         # Langsung tembak ke GSheet
         sheet.append_row([user, waktu, data_json])
         
-        st.toast("🚀 Berhasil disimpan ke Cloud!", icon="☁️")
+        st.toast("🚀 Berhasil disimpan!", icon="☁️")
     except Exception as e:
         st.error(f"Gagal Simpan Cloud: {e}")
 
 def muat_dari_gsheet():
     try:
-        # --- PERBAIKAN: GUNAKAN CACHE RESOURCE (GANTI DI SINI) ---
-        sh = get_gspread_sh() # Ambil koneksi dari RAM (INSTAN)
-        sheet = sh.sheet1 # Langsung buka sheet utama
+        sh = get_gspread_sh() 
+        # Gunakan nama sheet yang spesifik, misal "Backup_Naskah"
+        # Kalau pakai sheet1, pastikan sheet1 memang khusus buat backup
+        sheet = sh.sheet1 
         
-        # Ambil semua data
+        # --- OPTIMASI: Jangan ambil semua, ambil 100-200 baris terakhir saja ---
+        # Ini biar aplikasi nggak lemot kalau backup sudah ribuan baris
         semua_data = sheet.get_all_records()
-        df_temp = pd.DataFrame(semua_data)
-        df_temp = bersihkan_data(df_temp)
+        df_temp = pd.DataFrame(semua_data).tail(100) # Ambil 100 baris terbaru
         
+        df_temp = bersihkan_data(df_temp)
         user_up = st.session_state.get("user_aktif", "").upper()
 
-        # Filter baris milik user
+        # Filter baris milik user di data yang sudah dipotong tadi
         user_rows = df_temp[df_temp['USERNAME'] == user_up].to_dict('records')
         
         if user_rows:
+            # Ambil data terbaru (paling bawah)
+            # Karena sudah di-reversed, data terakhir yang masuk akan diambil duluan
             naskah_mentah = None
-            # Ambil data terbaru (paling bawah di GSheet)
             for row in reversed(user_rows):
                 if row.get('DATA_NASKAH'):
                     naskah_mentah = row.get('DATA_NASKAH')
@@ -421,34 +440,29 @@ def muat_dari_gsheet():
             if naskah_mentah:
                 data_termuat = json.loads(naskah_mentah)
                 
-                # --- PROSES PERBAIKAN STRUKTUR (Sama seperti logika lo) ---
+                # --- PROSES PERBAIKAN STRUKTUR ---
                 if "adegan" in data_termuat:
                     adegan_baru = {}
                     for k, v in data_termuat["adegan"].items():
-                        # Buang sampah data lama agar memori lega
                         v.pop("ekspresi", None)
                         v.pop("cuaca", None)
                         v.pop("vibe", None)
                         v.pop("ratio", None)
-                        
-                        # Paksa kunci kembali jadi angka (int) agar loop Streamlit lancar
+                        # Paksa kunci jadi int (karena JSON sering mengubahnya jadi string)
                         adegan_baru[int(k)] = v 
                     data_termuat["adegan"] = adegan_baru
                 
-                # Masukkan ke laci utama session_state
                 st.session_state.data_produksi = data_termuat
                 
-                # Update versi form agar UI dipaksa render ulang dengan data baru
-                if 'form_version' not in st.session_state:
-                    st.session_state.form_version = 0
-                st.session_state.form_version += 1
+                # Update versi form agar UI refresh
+                st.session_state.form_version = st.session_state.get("form_version", 0) + 1
                 
                 st.success(f"🔄 Naskah {user_up} Berhasil Dipulihkan!")
                 st.rerun()
             else:
                 st.warning("⚠️ Data naskah ditemukan tapi isinya kosong.")
         else:
-            st.warning("⚠️ Kamu belum pernah melakukan backup di Cloud.")
+            st.warning("⚠️ Data backup kamu tidak ditemukan (mungkin sudah terlalu lama).")
             
     except Exception as e:
         st.error(f"Gagal memuat dari Cloud: {e}")
@@ -938,13 +952,14 @@ def tampilkan_gudang_ide():
     tz_wib = pytz.timezone('Asia/Jakarta')
 
     try:
-        # --- PERBAIKAN: GUNAKAN CACHE RESOURCE ---
-        sh = get_gspread_sh() # INSTAN! Ambil dari RAM
+        # 1. Koneksi Instan
+        sh = get_gspread_sh() 
         
-        # Gunakan fungsi ambil_data_segar agar sinkron & efisien
-        df_gudang = ambil_data_segar("Gudang_Ide")
+        # 2. Ambil Data (PERBAIKAN TYPO: Gunakan df_gudang agar konsisten)
+        # Gunakan tail(200) saja supaya GSheet nggak narik ribuan baris masa lalu
+        raw_data = ambil_data_beneran_segar("Gudang_Ide") 
+        df_gudang = raw_data.tail(200) 
         
-        # Kita tetep butuh objek worksheet buat proses 'update_cell' nanti
         sheet_gudang = sh.worksheet("Gudang_Ide")
         sheet_tugas = sh.worksheet("Tugas")
         
@@ -952,11 +967,14 @@ def tampilkan_gudang_ide():
             st.warning("📭 Belum ada data di gudang ide.")
             return
 
+        # 3. FILTER & DISPLAY (Hanya yang masih FRESH/TERSEDIA)
         df_tersedia = df_gudang[df_gudang['STATUS'] == 'TERSEDIA'].copy()
-        list_judul_unik = df_tersedia['JUDUL'].unique()[:12]
-
-        if len(list_judul_unik) == 0:
-            st.warning("📭 Belum ada ide baru yang tersedia.")
+        
+        # Ambil 50 data terbaru untuk dipajang di dashboard
+        df_display = df_tersedia.tail(50).iloc[::-1] 
+        
+        list_judul_unik = df_display['JUDUL'].unique()
+    
         else:
             is_loading = st.session_state.sedang_proses_id is not None
             
@@ -967,11 +985,12 @@ def tampilkan_gudang_ide():
                 
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
-                        row_info = df_tersedia[df_tersedia['JUDUL'] == judul].iloc[0]
+                        # Cari data pendukung berdasarkan judul
+                        row_info = df_display[df_display['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
                         
                         with st.container(border=True):
-                            # UI Styling tetap sama (Aksen Hijau)
+                            # UI Styling
                             st.markdown(f'<div style="height: 3px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             st.markdown(f"<p style='color: #888; font-size: 15px; margin-bottom: -10px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
                             st.markdown(f"### {judul}")
@@ -981,7 +1000,6 @@ def tampilkan_gudang_ide():
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
-
                             if user_level == "OWNER":
                                 if st.button(f"🗑️ HAPUS IDE", key=f"del_{id_ini}", use_container_width=True):
                                     # Logika hapus baris di GSheet
@@ -991,26 +1009,27 @@ def tampilkan_gudang_ide():
                                     time.sleep(1)
                                     st.rerun()
                                 
-            # --- 4. PROSES DATA (VERSI MINIMALIS: HANYA LIST ADEGAN) ---
+            # --- 4. PROSES DATA (VERSI ANTI-LIMIT: BATCH UPDATE) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
                 target_id = st.session_state.sedang_proses_id
-                row_proses = df_tersedia[df_tersedia['ID_IDE'].astype(str) == target_id].iloc[0]
-                judul_proses = row_proses['JUDUL']
-                
-                # A. Tandai di GSheet Gudang
-                cells = sheet_gudang.findall(target_id)
-                for cell in cells:
-                    sheet_gudang.update_cell(cell.row, 3, f"DIAMBIL ({user_sekarang.upper()})")
-                
-                # B. Ambil semua baris adegan
+                # Gunakan df_gudang (hasil perbaikan typo di atas)
                 adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
+                
+                # A. UPDATE STATUS SEKALIGUS (GROSIR)
+                cells_to_update = sheet_gudang.findall(target_id)
+                for cell in cells_to_update:
+                    cell.value = f"DIAMBIL ({user_sekarang.upper()})"
+                
+                # SATU KALI TEMBAK API
+                sheet_gudang.update_cells(cells_to_update)
+                
+                # B. PINDAHKAN KE MEMORI PRODUKSI
                 st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                 
-                # C. Wadah untuk teks minimalis di expander
+                # C. Wadah untuk teks minimalis & Mapping ke Session State
                 naskah_bersih = ""
-                
                 for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                    # --- 1. OTOMATIS MASUK KE INPUT PRODUKSI ---
+                    # Inject data ke sistem produksi
                     st.session_state.data_produksi["adegan"][idx] = {
                         "aksi": a_row['NASKAH_VISUAL'], 
                         "dialogs": [str(a_row.get('DIALOG_ACTOR_1','')), str(a_row.get('DIALOG_ACTOR_2','')), "", ""],
@@ -1021,14 +1040,12 @@ def tampilkan_gudang_ide():
                         "cam": a_row.get('GERAKAN', OPTS_CAM[0]), 
                         "loc": a_row.get('LOKASI', '')
                     }
-                    
-                    # --- 2. RAKIT TEKS MINIMALIS (Hanya Adegan & Visual) ---
                     naskah_bersih += f"**{idx}.** {a_row['NASKAH_VISUAL']}\n\n"
 
-                # D. Simpan ke naskah_siap_produksi
+                # D. Simpan hasil rakitan
                 st.session_state.naskah_siap_produksi = naskah_bersih
                 
-                # E. Log Tugas (MANTRA GHOST: OWNER TIDAK DICATAT)
+                # E. Log Tugas (Hanya 1 kali append_row - Ini masih aman)
                 if user_level != "OWNER":
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     sheet_tugas.append_row([
@@ -1328,26 +1345,39 @@ def tampilkan_tugas_kerja():
                         elif "drive.google.com" not in link_m.lower():
                             st.warning("⚠️ **LINK TIDAK VALID!** Pastikan kamu memasukkan link Google Drive yang benar.")
                         else:
-                            t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                            sheet_tugas.append_row([
-                                t_id_m, 
-                                user_sekarang.upper(), 
-                                sekarang.strftime("%Y-%m-%d"), 
-                                judul_m, 
-                                "WAITING QC", 
-                                sekarang.strftime("%d/%m/%Y %H:%M"), 
-                                link_m, 
-                                "" 
-                            ])
-                            
-                            # --- NOTIF WA SIMPEL (MANDIRI) ---
-                            kirim_notif_wa(f"📤 *SETORAN MANDIRI*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
-                            
-                            st.success("✅ Setoran Mandiri Berhasil Terkirim!")
-                            time.sleep(1)
-                            st.rerun()
-                    else:
-                        st.warning("⚠️ Mohon isi Judul dan Link terlebih dahulu!")
+                            # --- KUNCI ANTI-LIMIT DIMULAI ---
+                            with st.spinner("⏳ Menghubungkan ke Server (Antri)..."):
+                                # 1. JEDA ACAK (Antrean agar tidak tabrakan di sore hari)
+                                time.sleep(random.uniform(0.8, 2.5)) 
+                                
+                                try:
+                                    t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                                    
+                                    # 2. PROSES APPEND ROW (Ngetuk pintu GSheet)
+                                    sheet_tugas.append_row([
+                                        t_id_m, 
+                                        user_sekarang.upper(), 
+                                        sekarang.strftime("%Y-%m-%d"), 
+                                        judul_m, 
+                                        "WAITING QC", 
+                                        sekarang.strftime("%d/%m/%Y %H:%M"), 
+                                        link_m, 
+                                        "" 
+                                    ])
+                                    
+                                    # 3. NOTIF WA SIMPEL
+                                    kirim_notif_wa(f"📤 *SETORAN MANDIRI*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
+                                    
+                                    st.success("✅ Setoran Mandiri Berhasil Terkirim!")
+                                    time.sleep(1)
+                                    st.rerun()
+                                    
+                                except Exception as e:
+                                    # Jika tetap gagal karena limit, minta staf coba lagi sebentar
+                                    if "429" in str(e):
+                                        st.error("⚠️ Server sedang sangat sibuk. Tunggu 5 detik lalu klik KIRIM kembali.")
+                                    else:
+                                        st.error(f"⚠️ Terjadi gangguan: {e}")
                         
     # --- 5. RENDER KARTU TUGAS (FIXED LOGIC) ---
     tugas_terfilter = []
@@ -1381,133 +1411,132 @@ def tampilkan_tugas_kerja():
                             # HEADER SLIM
                             c1, c2 = st.columns([0.8, 3])
                             with c1: 
-                                st.image(url_foto, width=50) # Ukuran foto dikecilin dikit
+                                st.image(url_foto, width=50)
                             with c2:
-                                # Nama & ID dalam baris yang sama biar ringkas
                                 st.markdown(f"**{str(t.get('STAF', '')).upper()}** | `ID: {t.get('ID', '')}`")
-                                # Badge Status tipis
                                 color_ball = "🔴" if status == "REVISI" else "🟡" if status == "WAITING QC" else "🟢"
                                 st.markdown(f"{color_ball} `{status}`")
                             
-                            # Toggle ditaruh mepet biar gak boros tempat
+                            st.write("") # Spasi pemisah toggle
                             olah = st.toggle("🔍 Buka Detail", key=f"tgl_{t['ID']}")
                             
                             if olah:
                                 st.divider()
-                                # Bagian instruksi tetep pake Quote biar rapi
                                 if t.get("CATATAN_REVISI"): 
                                     st.warning(f"⚠️ **REVISI:** {t['CATATAN_REVISI']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['INSTRUKSI']}")
                                 
-                                # --- BAGIAN MONITORING & EKSEKUSI ---
-                                
-                                # 1. LINK QC (Bisa dilihat OWNER & ADMIN biar bisa bantu cek)
+                                # --- MONITORING & EKSEKUSI ---
                                 if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
                                     link_qc = str(t["LINK_HASIL"]).strip()
+                                    st.write("")
                                     st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
 
-                                # 2. PANEL VETO (KHUSUS OWNER: Tombol Duit & Status)
+                                # --- PANEL VETO (KHUSUS OWNER) ---
                                 if user_level == "OWNER":
-                                    st.write("---")
+                                    st.markdown("<br>", unsafe_allow_html=True)
+                                    st.divider()
+                                    st.markdown("### 🛠️ PANEL KONTROL ADMIN")
                                     cat_r = st.text_area("Catatan Admin:", key=f"cat_{t['ID']}", placeholder="Alasan Revisi/Batal...")
                                     
+                                    st.write("") 
                                     b1, b2, b3 = st.columns(3)
+                                    
                                     with b1:
                                         if st.button("🟢 ACC", key=f"f_{t['ID']}", use_container_width=True):
-                                            try:
-                                                # 1. IDENTIFIKASI DATA
-                                                staf_nama = str(t['STAF']).upper().strip()
-                                                id_tugas = str(t['ID']).strip()
-                                                tgl_tugas = str(t['DEADLINE'])
-
-                                                # 2. UPDATE STATUS TUGAS DI GSHEET
-                                                cell = sheet_tugas.find(id_tugas)
-                                                sheet_tugas.update_cell(cell.row, 5, "FINISH")
-
-                                                # 3. HITUNG JUMLAH VIDEO SELESAI HARI INI
-                                                df_cek = ambil_data_segar("Tugas")
-                                                df_cek.columns = [str(c).strip().upper() for c in df_cek.columns]
+                                            with st.spinner("⏳ Memproses..."):
+                                                # 1. JEDA ANTI-LIMIT (Wajib ada di awal!)
+                                                time.sleep(random.uniform(1.0, 2.0))
                                                 
-                                                df_hari_ini = df_cek[(df_cek['STAF'] == staf_nama) & 
-                                                                     (df_cek['DEADLINE'] == tgl_tugas) & 
-                                                                     (df_cek['STATUS'] == 'FINISH')]
-                                                
-                                                jml_video = len(df_hari_ini)
+                                                try:
+                                                    # 2. REFRESH KONEKSI (Biar nggak timeout)
+                                                    sh_now = get_gspread_sh()
+                                                    ws_tugas_now = sh_now.worksheet("Tugas")
+                                                    ws_kas_now = sh_now.worksheet("Arus_Kas")
+                                                    
+                                                    staf_nama = str(t['STAF']).upper().strip()
+                                                    id_tugas = str(t['ID']).strip()
+                                                    tgl_tugas = str(t['DEADLINE'])
+                                                    
+                                                    # 3. CARI & UPDATE BARIS
+                                                    cell = ws_tugas_now.find(id_tugas)
+                                                    ws_tugas_now.update_cell(cell.row, 5, "FINISH")
+                                                    
+                                                    # 4. HITUNG BONUS (Ambil data segar)
+                                                    df_cek = ambil_data_beneran_segar("Tugas")
+                                                    df_cek.columns = [str(c).strip().upper() for c in df_cek.columns]
+                                                    
+                                                    mask_hari = (df_cek['STAF'] == staf_nama) & \
+                                                                (df_cek['DEADLINE'] == tgl_tugas) & \
+                                                                (df_cek['STATUS'] == 'FINISH')
+                                                    jml_video = len(df_cek[mask_hari])
+                                                    
+                                                    msg_bonus = ""
+                                                    if jml_video == 3:
+                                                        ws_kas_now.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Absen: {staf_nama}", "SISTEM"])
+                                                        msg_bonus = "\n💰 *BONUS ABSEN:* Rp 30,000"
+                                                    elif jml_video >= 5:
+                                                        ws_kas_now.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Lembur: {staf_nama}", "SISTEM"])
+                                                        msg_bonus = "\n🔥 *BONUS LEMBUR:* Rp 30,000"
 
-                                                # 4. CATAT BONUS KE ARUS_KAS
-                                                ws_kas = sh.worksheet("Arus_Kas")
-                                                data_kas_raw = ws_kas.get_all_records()
-                                                df_kas_cek = pd.DataFrame(data_kas_raw)
-                                                if not df_kas_cek.empty:
-                                                    df_kas_cek.columns = [str(c).strip().upper() for c in df_kas_cek.columns]
-
-                                                msg_bonus = "" # Buat nambahin info di WA nanti
-
-                                                # --- LOGIKA BONUS ---
-                                                if jml_video == 3:
-                                                    ws_kas.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Absen: {staf_nama}", "SISTEM (AUTO-ACC)"])
-                                                    msg_bonus = "\n💰 *BONUS ABSEN:* Rp 30,000"
-                                                    st.toast(f"💰 Bonus Absen {staf_nama} dicatat!", icon="💸")
-
-                                                elif jml_video >= 5:
-                                                    ws_kas.append_row([tgl_tugas, "PENGELUARAN", "Gaji Tim", 30000, f"Bonus Lembur: {staf_nama} ({id_tugas})", "SISTEM (AUTO-ACC)"])
-                                                    msg_bonus = f"\n🔥 *BONUS LEMBUR:* Rp 30,000 (ID: {id_tugas})"
-                                                    st.toast(f"🔥 Bonus Lembur {staf_nama} dicatat!", icon="🚀")
-
-                                                # 5. KIRIM NOTIF WA
-                                                pesan_wa = f"✅ *TUGAS SELESAI (ACC)*\n\n👤 *Editor:* {staf_nama}\n🆔 *ID Tugas:* {id_tugas}\n📅 *Tanggal:* {tgl_tugas}{msg_bonus}\n\n✨ _Hasil kerja sudah masuk ke laporan keuangan._"
-                                                kirim_notif_wa(pesan_wa) 
-
-                                                # 6. REFRESH
-                                                st.success(f"Tugas {id_tugas} Selesai!")
-                                                time.sleep(1)
-                                                st.rerun()
-
-                                            except Exception as e:
-                                                st.error(f"Gagal ACC: {e}")
+                                                    kirim_notif_wa(f"✅ *TUGAS SELESAI (ACC)*\n👤 *Editor:* {staf_nama}\n🆔 *ID:* {id_tugas}{msg_bonus}")
+                                                    st.success("ACC Sukses!")
+                                                    time.sleep(1)
+                                                    st.rerun()
+                                                except Exception as e:
+                                                    st.error(f"Gagal: {e}")
 
                                     with b2:
                                         if st.button("🔴 REV", key=f"r_{t['ID']}", use_container_width=True):
                                             if cat_r:
-                                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                                sheet_tugas.update_cell(cell.row, 5, "REVISI")
-                                                sheet_tugas.update_cell(cell.row, 8, cat_r)
-                                                kirim_notif_wa(f"⚠️ *REVISI*\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 Alasan: {cat_r}")
-                                                st.warning("REVISI!"); time.sleep(1); st.rerun()
+                                                with st.spinner("Antri..."):
+                                                    time.sleep(random.uniform(0.5, 1.2))
+                                                    sh_now = get_gspread_sh()
+                                                    ws_tugas_rev = sh_now.worksheet("Tugas")
+                                                    cell = ws_tugas_rev.find(str(t['ID']).strip())
+                                                    ws_tugas_rev.update_cell(cell.row, 5, "REVISI")
+                                                    ws_tugas_rev.update_cell(cell.row, 8, cat_r)
+                                                    kirim_notif_wa(f"⚠️ *REVISI*\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 Alasan: {cat_r}")
+                                                    st.warning("REVISI!"); time.sleep(1); st.rerun()
+                                            else: st.warning("Isi catatan!")
+
                                     with b3:
                                         if st.button("🚫 BATAL", key=f"c_{t['ID']}", use_container_width=True):
                                             if cat_r:
-                                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                                sheet_tugas.update_cell(cell.row, 5, "CANCELED")
-                                                sheet_tugas.update_cell(cell.row, 8, f"BATAL: {cat_r}")
-                                                kirim_notif_wa(f"🚫 *DIBATALKAN*\n\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 *Alasan:* {cat_r}")
-                                                st.error("BATAL!"); time.sleep(1); st.rerun()
+                                                with st.spinner("Antri..."):
+                                                    time.sleep(random.uniform(0.5, 1.2))
+                                                    sh_now = get_gspread_sh()
+                                                    ws_tugas_cancel = sh_now.worksheet("Tugas")
+                                                    cell = ws_tugas_cancel.find(str(t['ID']).strip())
+                                                    ws_tugas_cancel.update_cell(cell.row, 5, "CANCELED")
+                                                    ws_tugas_cancel.update_cell(cell.row, 8, f"BATAL: {cat_r}")
+                                                    kirim_notif_wa(f"🚫 *BATAL*\n👤 *Editor:* {t['STAF'].upper()}\n🆔 *ID:* {t['ID']}\n📝 Alasan: {cat_r}")
+                                                    st.error("BATAL!"); time.sleep(1); st.rerun()
+                                            else: st.warning("Isi alasan!")
 
                                 # --- BAGIAN KHUSUS STAFF (SETOR) ---
                                 elif user_level == "STAFF": 
+                                    st.write(""); st.markdown("---")
                                     st.markdown('<p class="small-label">🔗 LINK GDRIVE (1 VIDEO = 1 LINK)</p>', unsafe_allow_html=True)
-                                    l_in = st.text_input("Paste Link di sini:", value=t.get("LINK_HASIL", ""), key=f"l_{t['ID']}")
-                                    
+                                    l_in = st.text_input("Paste Link:", value=t.get("LINK_HASIL", ""), key=f"l_{t['ID']}")
+                                    st.write("")
                                     if st.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
                                         if l_in.strip():
-                                            # Proteksi agar tidak kirim banyak link pake koma
-                                            if "," in l_in or l_in.lower().count("https://") > 1:
-                                                st.error("❌ Hanya boleh 1 link! Gunakan Setor Mandiri untuk video lainnya.")
+                                            if "," in l_in or l_in.lower().count("https://") > 1: st.error("❌ Hanya boleh 1 link!")
                                             else:
-                                                cell = sheet_tugas.find(str(t['ID']).strip())
-                                                sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
-                                                sheet_tugas.update_cell(cell.row, 7, l_in)
-                                                
-                                                # --- NOTIF SIMPEL PAKAI INSTRUKSI ---
-                                                txt_tugas = t.get('INSTRUKSI', '-')[:20]
-                                                kirim_notif_wa(f"📤 *SETORAN TUGAS*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n📝 *Tugas:* {txt_tugas}...")
-                                                
-                                                st.success("Terkirim!"); time.sleep(1); st.rerun()
-                                        else:
-                                            st.warning("Isi link dulu!")
-
+                                                with st.spinner("⏳ Mengirim..."):
+                                                    time.sleep(random.uniform(0.5, 1.5)) 
+                                                    try:
+                                                        cell = sheet_tugas.find(str(t['ID']).strip())
+                                                        sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
+                                                        sheet_tugas.update_cell(cell.row, 7, l_in)
+                                                        kirim_notif_wa(f"📤 *SETORAN TUGAS*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}")
+                                                        st.success("Terkirim!"); time.sleep(1); st.rerun()
+                                                    except Exception as e: st.error(f"Gagal: {e}")
+                                        else: st.warning("Isi link dulu!")
+                                            
     # =========================================================
-    # --- 4.5. SISTEM KLAIM AI (FIXED INDENTATION) ---
+    # --- 4.5. SISTEM KLAIM AI (ANTI-LIMIT & ANTI-REBUTAN) ---
     # =========================================================
     if user_level in ["STAFF", "ADMIN"]:
         st.write("")
@@ -1518,13 +1547,14 @@ def tampilkan_tugas_kerja():
                 tz_jakarta = pytz.timezone('Asia/Jakarta')
                 h_ini = datetime.now(tz_jakarta).date()
 
-                sh_ai = get_gspread_sh() 
+                # Gunakan fungsi irit API kita
+                df_ai = ambil_data_segar("Akun_AI") 
+                sh_ai = get_gspread_sh()
                 ws_akun = sh_ai.worksheet("Akun_AI")
-                data_akun_raw = ws_akun.get_all_records()
-                df_ai = pd.DataFrame(data_akun_raw)
 
                 # 2. FILTER AKUN AKTIF MILIK USER
                 user_up = user_sekarang.upper()
+                # Pastikan kolom sesuai dengan header GSheet lo
                 df_user_raw = df_ai[df_ai['PEMAKAI'].astype(str).str.upper() == user_up].copy()
                 
                 akun_aktif_user = []
@@ -1550,34 +1580,37 @@ def tampilkan_tugas_kerja():
                     st.warning("😭 Stok akun sedang habis.")
                 elif len(akun_aktif_user) >= 3:
                     bisa_klaim = False
-                    st.warning("🚫 Limit 3 akun aktif tercapai.")
+                    st.warning("🚫 Limit 3 akun aktif tercapai. Selesaikan tugasmu dulu!")
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
-                    # Ambil 1 akun random dari stok yang tersedia
-                    target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
-                    email_target = str(target.iloc[0]['EMAIL']).strip()
-                    
-                    try:
-                        # Gunakan koneksi 'sh' yang sudah ada di atas
-                        ws_akun = sh.worksheet("Akun_AI") 
-                        cell = ws_akun.find(email_target, in_column=2)
+                    with st.spinner("⏳ Mengambil Kunci Akun..."):
+                        # JEDA ANTI-REBUTAN: Biar gak dapet akun ganda kalo klik barengan
+                        time.sleep(random.uniform(1.0, 3.0)) 
                         
-                        # Update Kolom PEMAKAI (5) dan TANGGAL KLAIM (6)
-                        ws_akun.update_cell(cell.row, 5, user_up) 
-                        ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
+                        # Ambil 1 akun random dari stok
+                        target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
+                        email_target = str(target.iloc[0]['EMAIL']).strip()
                         
-                        # Kirim notif WA
-                        kirim_notif_wa(f"🔑 *KLAIM AKUN AI*\n\n👤 *User:* {user_up}\n🛠️ *Tool:* {pilihan_ai}\n📧 *Email:* {email_target}")
-                        
-                        st.success(f"Akun {pilihan_ai} Berhasil Diklaim!")
-                        time.sleep(1)
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Gagal Update GSheet: {e}")
+                        try:
+                            # Cari baris berdasarkan Email (Kolom 2)
+                            cell = ws_akun.find(email_target, in_column=2)
+                            
+                            # UPDATE GROSIR (Irit API)
+                            ws_akun.update_cell(cell.row, 5, user_up) 
+                            ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
+                            
+                            kirim_notif_wa(f"🔑 *KLAIM AKUN AI*\n👤 *User:* {user_up}\n🛠️ *Tool:* {pilihan_ai}\n📧 *Email:* {email_target}")
+                            
+                            st.success(f"Berhasil! Silahkan cek koleksi akunmu di bawah.")
+                            time.sleep(1.5)
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"Gagal Klaim: {e}")
 
-                # 4. DAFTAR KOLEKSI
+                # 4. DAFTAR KOLEKSI (Visual Card)
                 if akun_aktif_user:
                     st.divider()
+                    st.markdown("#### 🗃️ KOLEKSI AKUN AKTIFMU")
                     kolom_vcard = st.columns(3) 
                     
                     for idx, r in enumerate(reversed(akun_aktif_user)):
@@ -1592,30 +1625,28 @@ def tampilkan_tugas_kerja():
 
                         with kolom_vcard[idx % 3]:
                             with st.container(border=True):
-                                # HEADER
+                                # HEADER CARD
                                 st.markdown(f"""
-                                    <div style="text-align:center; padding:3px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
-                                        <b style="color:white; font-size:11px;">{str(r['AI']).upper()}</b>
+                                    <div style="text-align:center; padding:5px; background:{warna_h}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;">
+                                        <b style="color:white; font-size:12px;">{str(r['AI']).upper()}</b>
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                # BARIS 1: EMAIL & PASS
-                                e1, e2 = st.columns(2)
-                                e1.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>📧 EMAIL</p><code style='font-size:13px; display:block; overflow:hidden; text-overflow:ellipsis;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                e2.markdown(f"<p style='margin:10px 0 0 0; font-size:10px; color:#888;'>🔑 PASS</p><code style='font-size:13px; display:block;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                st.markdown(f"📧 **EMAIL**")
+                                st.code(r['EMAIL'], language="text")
+                                st.markdown(f"🔑 **PASS**")
+                                st.code(r['PASSWORD'], language="text")
                                 
                                 st.write("")
-                            
-                                # BARIS 2: STATUS, EXP, SISA
-                                s1, s2, s3 = st.columns(3)
-                                s1.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>STATUS</p><b style='font-size:11px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                                s2.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>EXP</p><b style='font-size:11px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                                s3.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>SISA</p><b style='font-size:12px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                                s1, s2 = st.columns(2)
+                                s1.markdown(f"<p style='font-size:10px; color:#888; margin:0;'>EXP</p><b>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                s2.markdown(f"<p style='font-size:10px; color:#888; margin:0;'>SISA</p><b style='color:{warna_h};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
-                st.caption("🆘 **Darurat?** Jika akun suspend, hubungi Admin (Dian).")
+                st.write("")
+                st.caption("🆘 **Akun Suspend?** Segera lapor ke Bos Dian.")
 
             except Exception as e_station:
-                st.error(f"Gagal memuat AI Station: {e_station}")
+                st.error(f"⚠️ Gagal memuat AI Station: {e_station}")
                 
     # --- 4. LACI ARSIP (DENGAN FILTER BULAN) ---
     with st.expander("📜 RIWAYAT & ARSIP TUGAS", expanded=False):
@@ -2831,4 +2862,10 @@ def utama():
 
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
+    # 1. Inisialisasi awal
+    inisialisasi_keamanan()
+    # 2. Pasang baju (CSS)
+    pasang_css_kustom() 
+    # 3. Jalankan mesin utama
     utama()
+
