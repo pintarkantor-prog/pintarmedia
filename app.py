@@ -983,6 +983,21 @@ def tampilkan_gudang_ide():
         st.session_state.status_sukses = False
         st.rerun()
         
+# ==============================================================================
+# NOTIFIKASI & LOGGING
+# ==============================================================================
+def kirim_notif_wa(pesan):
+    token = "f4CApLBAJDTPrVHHZCDF"
+    target = "120363407726656878@g.us"
+    url = "https://api.fonnte.com/send"
+    payload = {'target': target, 'message': pesan, 'countryCode': '62'}
+    headers = {'Authorization': token}
+    try: requests.post(url, data=payload, headers=headers, timeout=5)
+    except: pass
+
+# ==============================================================================
+# LOGIKA PERHITUNGAN (SP & BONUS 2026)
+# ==============================================================================
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
     bonus_video_total = 0
     uang_absen_total = 0
@@ -2615,6 +2630,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
