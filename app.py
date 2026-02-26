@@ -1523,7 +1523,7 @@ def tampilkan_tugas_kerja():
 
             df_laci = df_all_tugas[mask_arsip].copy()
 
-if not df_laci.empty:
+            if not df_laci.empty:
                 # 1. Hitung Statistik
                 total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
                 total_c = len(df_laci[df_laci['STATUS'] == "CANCELED"])
@@ -2614,6 +2614,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
