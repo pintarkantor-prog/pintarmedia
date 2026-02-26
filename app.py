@@ -1012,30 +1012,32 @@ def tampilkan_gudang_ide():
 
     except Exception as e:
         st.error(f"⚠️ Gagal memuat Gudang Ide: {e}")
-                                
-            # --- 4. PROSES DATA (VERSI ANTI-LIMIT: BATCH UPDATE) ---
-            if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
-                target_id = st.session_state.sedang_proses_id
-                # Gunakan df_gudang (hasil perbaikan typo di atas)
-                adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
+
+    # --- 4. PROSES DATA (VERSI ANTI-LIMIT: BATCH UPDATE) ---
+    # Bagian ini HARUS sejajar dengan blok 'try' di atas, bukan di dalam 'except'
+    if st.session_state.get('sedang_proses_id') and not st.session_state.get('status_sukses'):
+        try:
+            target_id = st.session_state.sedang_proses_id
+            # Ambil detail ide dari dataframe yang sudah ada
+            adegan_rows = df_gudang[df_gudang['ID_IDE'].astype(str) == target_id]
+            
+            if not adegan_rows.empty:
+                judul_proses = adegan_rows.iloc[0]['JUDUL']
                 
                 # A. UPDATE STATUS SEKALIGUS (GROSIR)
                 cells_to_update = sheet_gudang.findall(target_id)
                 for cell in cells_to_update:
                     cell.value = f"DIAMBIL ({user_sekarang.upper()})"
-                
-                # SATU KALI TEMBAK API
                 sheet_gudang.update_cells(cells_to_update)
                 
                 # B. PINDAHKAN KE MEMORI PRODUKSI
                 st.session_state.data_produksi["jumlah_adegan"] = len(adegan_rows)
                 
-                # C. Wadah untuk teks minimalis & Mapping ke Session State
+                # C. Mapping ke Session State
                 naskah_bersih = ""
                 for idx, (_, a_row) in enumerate(adegan_rows.iterrows(), 1):
-                    # Inject data ke sistem produksi
                     st.session_state.data_produksi["adegan"][idx] = {
-                        "aksi": a_row['NASKAH_VISUAL'], 
+                        "aksi": a_row.get('NASKAH_VISUAL', ''), 
                         "dialogs": [str(a_row.get('DIALOG_ACTOR_1','')), str(a_row.get('DIALOG_ACTOR_2','')), "", ""],
                         "style": a_row.get('STYLE', OPTS_STYLE[0]), 
                         "shot": a_row.get('UKURAN_GAMBAR', OPTS_SHOT[0]), 
@@ -1044,40 +1046,35 @@ def tampilkan_gudang_ide():
                         "cam": a_row.get('GERAKAN', OPTS_CAM[0]), 
                         "loc": a_row.get('LOKASI', '')
                     }
-                    naskah_bersih += f"**{idx}.** {a_row['NASKAH_VISUAL']}\n\n"
+                    naskah_bersih += f"**{idx}.** {a_row.get('NASKAH_VISUAL', '')}\n\n"
 
-                # D. Simpan hasil rakitan
                 st.session_state.naskah_siap_produksi = naskah_bersih
                 
-                # E. Log Tugas (Hanya 1 kali append_row - Ini masih aman)
+                # E. Log Tugas
                 if user_level != "OWNER":
                     t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                     sheet_tugas.append_row([
-                        t_id, 
-                        user_sekarang.upper(), 
+                        t_id, user_sekarang.upper(), 
                         datetime.now(tz_wib).strftime("%Y-%m-%d"), 
-                        f"TUGAS: {judul_proses}", 
-                        "PROSES", 
-                        "-", "", ""
+                        f"TUGAS: {judul_proses}", "PROSES", "-", "", ""
                     ])
 
                 st.session_state.status_sukses = True 
                 st.rerun()
-
-    except Exception as e:
-        st.error(f"⚠️ Gagal: {e}")
-        st.session_state.sedang_proses_id = None
-        st.rerun()
+        
+        except Exception as e_proc:
+            st.error(f"⚠️ Gagal Proses: {e_proc}")
+            st.session_state.sedang_proses_id = None
 
     # --- 5. CLEANUP ---
-    if st.session_state.status_sukses:
+    if st.session_state.get('status_sukses'):
         time.sleep(3) 
         st.session_state.sedang_proses_id = None
         st.session_state.status_sukses = False
         st.rerun()
-        
+
 # ==============================================================================
-# NOTIFIKASI & LOGGING
+# NOTIFIKASI & LOGGING (DI LUAR FUNGSI)
 # ==============================================================================
 def kirim_notif_wa(pesan):
     token = "f4CApLBAJDTPrVHHZCDF"
@@ -1087,7 +1084,7 @@ def kirim_notif_wa(pesan):
     headers = {'Authorization': token}
     try: requests.post(url, data=payload, headers=headers, timeout=5)
     except: pass
-
+        
 # ==============================================================================
 # LOGIKA PERHITUNGAN (SP & BONUS 2026) - VERSI KASTA VIP
 # ==============================================================================
@@ -2872,5 +2869,6 @@ if __name__ == "__main__":
     pasang_css_kustom() 
     # 3. Jalankan mesin utama
     utama()
+
 
 
