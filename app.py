@@ -1532,25 +1532,43 @@ def tampilkan_tugas_kerja():
                 df_laci = df_laci.sort_values(by='ID', ascending=False)
                 
                 # --- C. TAMPILAN TABEL BERWARNA ---
-                kolom_laci = ['ID', 'STAF', 'INSTRUKSI', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
-                kolom_fix = [c for c in kolom_laci if c in df_laci.columns]
+                # --- A. FUNGSI LOGIKA WARNA TEKS (TANPA CSS) ---
+                def style_riwayat(row):
+                    # Default style
+                    styles = [''] * len(row)
+                    status_idx = row.index.get_loc('STATUS')
+                    
+                    if row['STATUS'] == "FINISH":
+                        # Teks Hijau buat Finish
+                        styles[status_idx] = 'color: #1d976c; font-weight: bold;'
+                    elif row['STATUS'] == "CANCELED":
+                        # Teks Abu-abu buat Cancel (Biar kalem)
+                        styles[status_idx] = 'color: #888888; font-style: italic;'
+                    
+                    return styles
 
-                def beri_warna_status(s):
-                    if s == "FINISH": return "background-color: #1d976c; color: white;"
-                    elif s == "CANCELED": return "background-color: #e74c3c; color: white;"
-                    return ""
-
-                df_berwarna = df_laci[kolom_fix].style.applymap(beri_warna_status, subset=['STATUS'])
+                # --- B. TERAPKAN STYLE ---
+                # Menggunakan axis=1 karena kita ngecek nilai dalam satu baris
+                df_clean = df_laci[kolom_fix].style.apply(style_riwayat, axis=1)
                 
+                # --- C. RENDER TABEL ---
                 st.dataframe(
-                    df_berwarna,
+                    df_clean,
                     column_config={
                         "ID": st.column_config.TextColumn("🆔 ID", width="small"),
                         "STAF": st.column_config.TextColumn("👤 STAF", width="small"),
-                        "INSTRUKSI": st.column_config.TextColumn("📝 JUDUL KONTEN", width="large"),
+                        "INSTRUKSI": st.column_config.TextColumn(
+                            "📝 JUDUL KONTEN", 
+                            width="medium", # Dibuat Medium sesuai request
+                            help="💡 Hover untuk baca lengkap"
+                        ),
                         "DEADLINE": st.column_config.TextColumn("📅 TGL", width="small"),
                         "STATUS": st.column_config.TextColumn("🚩 STATUS", width="small"),
-                        "CATATAN_REVISI": "📋 KETERANGAN"
+                        "CATATAN_REVISI": st.column_config.TextColumn(
+                            "📋 KETERANGAN", 
+                            width="medium", # Dibuat Medium juga biar seimbang
+                            help="💡 Hover untuk baca lengkap"
+                        )
                     },
                     hide_index=True,
                     use_container_width=True
@@ -2595,6 +2613,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
