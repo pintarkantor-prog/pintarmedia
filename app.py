@@ -2160,35 +2160,34 @@ def tampilkan_kendali_tim():
                     st.progress(min(h_lemah_staf / 7, 1.0))
 
         # ======================================================================
-        # --- 5. RANGKUMAN KOLEKTIF TIM (SINKRON HARIAN) ---
+        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI CLEAN TOTAL) ---
         # ======================================================================
         with st.container(border=True):
             st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
             
+            # 1. Pastikan MVP & LOW cuma dari Staff
             staf_top = max(performa_staf, key=performa_staf.get) if performa_staf else "-"
             staf_low = min(performa_staf, key=performa_staf.get) if performa_staf else "-"
             
             c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
             
-            # --- HITUNG PERSENTASE CAPAIAN ---
-            persen_capaian = (rekap_v_total / t_target_display * 100) if t_target_display > 0 else 0
+            # 2. Target Ideal harus dinamis (Jumlah Staff x 40)
+            # Tadi lo 200 karena (4 Staff + 1 Admin) * 40. Sekarang kita kunci di Staff aja.
+            jml_staff_asli = len(df_staff[df_staff['LEVEL'] == 'STAFF'])
+            target_fix = jml_staff_asli * 40
             
-            # c_r1: Target Bulanan
-            c_r1.metric("🎯 TARGET IDEAL", f"{t_target_display} Vid") 
+            c_r1.metric("🎯 TARGET IDEAL", f"{target_fix} Vid") 
             
-            # c_r2: Total Video + Delta Persentase
-            c_r2.metric(
-                "🎬 TOTAL VIDEO", 
-                f"{int(rekap_v_total)}", 
-                delta=f"{persen_capaian:.1f}% Capaian",
-                delta_color="normal" if persen_capaian >= 100 else "inverse" # Hijau kalau > 80%
-            )
+            # 3. Total Video & Persentase
+            persen_capaian = (rekap_v_total / target_fix * 100) if target_fix > 0 else 0
+            c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}", delta=f"{persen_capaian:.1f}% Capaian")
             
             c_r3.metric("🔥 BONUS LEMBUR", f"Rp {rekap_b_cair:,}")
             c_r4.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
             
-            # c_r5: Akumulasi hari lemah seluruh tim (Pake delta_color inverse biar merah kalau naik)
-            c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR", delta="Total Tim", delta_color="inverse")
+            # 4. Total Hari Lemah (Ini yang tadi bikin angka 102 HR)
+            # Sekarang dia cuma akan nampilin akumulasi h_lemah_staf dari loop STAFF tadi.
+            c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR", delta="Staff Only", delta_color="inverse")
             
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
@@ -2771,4 +2770,5 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
