@@ -1742,19 +1742,23 @@ def tampilkan_tugas_kerja():
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 26 setiap bulannya.")
                 
 def tampilkan_kendali_tim():    
+    # Ambil nama user aktif
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
-    # 1. PROTEKSI AKSES (Hanya Dian)
-    if user_sekarang == "dian":
-        st.title("⚡ KENDALI TIM")
-        st.divider()
-        st.warning("🔒 **AREA TERBATAS**")
-        return
+    # 1. PROTEKSI AKSES (Satpam Admin)
+    # Sekarang Lisa sudah resmi jadi Co-Admin
+    if user_sekarang not in ["dian", "lisa"]:
+        st.error("🚫 Maaf, Area ini hanya untuk Admin.")
+        return 
 
-    # 2. HALAMAN KHUSUS ADMIN
-    st.title("⚡ PUSAT KENDALI TIM (ADMIN)")
+    # 2. HEADER HALAMAN
+    st.title("⚡ PUSAT KENDALI TIM")
+    st.info(f"Halo **{user_sekarang.capitalize()}**! Selamat bekerja memantau tim.")
+    
+    # Clear cache biar data yang ditarik Lisa & Dian selalu paling baru
     st.cache_data.clear()
     
+    # 3. SETUP WAKTU & FILTER
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
@@ -2574,6 +2578,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
