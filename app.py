@@ -2097,7 +2097,11 @@ def tampilkan_kendali_tim():
         rekap_v_total, rekap_b_cair, rekap_b_absen, rekap_h_malas = 0, 0, 0, 0
         performa_staf = {}
 
-        for idx, s in df_staff.iterrows():
+        # --- FILTER LEVEL: HANYA PROSES STAFF ---
+        df_staff_filtered = df_staff[df_staff['LEVEL'] == 'STAFF']
+
+        # Loop menggunakan dataframe yang sudah difilter
+        for idx, s in df_staff_filtered.reset_index().iterrows():
             n_up = str(s.get('NAMA', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
             
@@ -2125,7 +2129,7 @@ def tampilkan_kendali_tim():
             t_hadir = 0
             if not df_a_f.empty:
                 t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
-
+                
             # Warna Header VCard (Tetap Gaya Pro lo)
             # Hijau kalau Normal, Kuning kalau SP 1, Merah kalau SP 2/3
             warna_bg = "#1d976c" if level_sp_r == "NORMAL" or "PROTEKSI" in level_sp_r else "#f39c12" if level_sp_r == "SP 1" else "#e74c3c"
@@ -2766,14 +2770,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
