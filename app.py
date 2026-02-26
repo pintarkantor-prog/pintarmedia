@@ -2043,7 +2043,7 @@ def tampilkan_kendali_tim():
                 "🎬 TOTAL VIDEO", 
                 f"{int(rekap_v_total)}", 
                 delta=f"{persen_capaian:.1f}% Capaian",
-                delta_color="normal" if persen_capaian >= 80 else "inverse" # Hijau kalau > 80%
+                delta_color="normal" if persen_capaian >= 100 else "inverse" # Hijau kalau > 80%
             )
             
             c_r3.metric("🔥 BONUS LEMBUR", f"Rp {rekap_b_cair:,}")
@@ -2576,6 +2576,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
