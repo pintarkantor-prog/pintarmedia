@@ -249,9 +249,10 @@ def log_absen_otomatis(nama_user):
         except Exception as e:
             print(f"Error Absen: {e}")
     else:
-        # LOGIKA ELSE YANG LO MAU (Jika login jam 1 pagi misalnya)
+        # Jika di luar jam (misal jam 22:47), jangan pake st.warning
         st.session_state.absen_done_today = False 
-        st.warning(f"Sistem Absen Tutup (Jam {jam_skrg}). Silakan hubungi Admin.")
+        # Pake toast aja biar gak ngerusak layout utama
+        st.toast(f"Sistem Absen Tutup (Jam {jam_skrg}). Akses Terbatas.", icon="🚫")
             
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
@@ -2765,6 +2766,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
