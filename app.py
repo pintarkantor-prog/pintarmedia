@@ -221,7 +221,7 @@ def log_absen_otomatis(nama_user):
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
     # 3. RANGE JAM KERJA (8 Pagi - 11 Malam)
-    if 8 <= jam < 23: 
+    if 8 <= jam < 22: 
         try:
             sh = get_gspread_sh() 
             sheet_absen = sh.worksheet("Absensi")
@@ -2418,27 +2418,28 @@ def tampilkan_ruang_produksi():
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
 
-    # 4. HEADER UI RUANG PRODUKSI
+    # 4. HEADER UI RUANG PRODUKSI (VERSI CYBER TECH)
     st.title(f"🚀 RUANG PRODUKSI")
-    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {sekarang.year}")
+    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {sekarang.strftime('%d %B %Y')}")
     
-    # --- STATUS BADGE TANPA DIVIDER (VERSI INFORMATIF) ---
+    # --- STATUS BADGE (CYBER SECURITY STYLE) ---
     with st.container():
         if level_aktif == "ADMIN":
-            st.markdown("<p style='color: #7f8c8d; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⚡ <b>Mode Admin:</b> System Administrator Override</p>", unsafe_allow_html=True)
+            # Pesan khusus buat lo sebagai Owner
+            st.markdown("<p style='color: #7f8c8d; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⚡ <b>System Administrator Override</b></p>", unsafe_allow_html=True)
         
         elif st.session_state.get('absen_done_today'):
-            # Ambil jam sinkronisasi biar kelihatan canggih
-            jam_sinkron = sekarang.strftime("%H:%M")
-            st.markdown(f"<p style='color: #00ba69; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>✅ <b>Status:</b> Secure Connection Established (Verified) (Sinkron: {jam_sinkron} WIB)</p>", unsafe_allow_html=True)
+            # Menunjukkan data sudah masuk & terverifikasi sistem
+            jam_v = sekarang.strftime('%H:%M')
+            st.markdown(f"<p style='color: #00ba69; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>🟢 <b>Secure Connection Established</b> (Verified: {jam_v} WIB)</p>", unsafe_allow_html=True)
         
-        elif 8 <= sekarang.hour < 22:
-            # Sedang proses (hanya muncul sekilas)
-            st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⏳ <b>Status:</b> Synchronizing session data...</p>", unsafe_allow_html=True)
+        elif 8 <= sekarang.hour < 23:
+            # Status saat sistem lagi kerja (loading)
+            st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>📡 <b>Synchronizing session data...</b></p>", unsafe_allow_html=True)
         
         else:
-            # Jika di luar jam operasional
-            st.markdown("<p style='color: #ff4b4b; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>🚫 <b>Status:</b> Access Denied: Operational Window Closed</p>", unsafe_allow_html=True)
+            # Status jika login lewat jam 11 malam
+            st.markdown("<p style='color: #ff4b4b; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>🚫 <b>Access Denied:</b> Operational Window Closed</p>", unsafe_allow_html=True)
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
     QB_IMG = (
@@ -2764,6 +2765,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
