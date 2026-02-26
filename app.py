@@ -2005,23 +2005,27 @@ def tampilkan_kendali_tim():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
-                # --- SINKRON: Panggil Mesin Hitung Harian ---
+                # --- 1. IDENTIFIKASI LEVEL TARGET (KUNCI UTAMA) ---
+                lv_asli = str(s.get('LEVEL', 'STAFF')).strip().upper()
+                
+                # --- 2. SINKRON: Ambil Data Harian ---
                 df_a_staf = df_a_f[df_a_f['NAMA'] == n_up].copy()
                 df_t_staf = df_f_f[df_f_f['STAF'] == n_up].copy()
 
-                # Kita panggil mesin utama (Sudah aman karena ada Mantra Kebal buat Admin)
+                # --- 3. PANGGIL MESIN (Suntik lv_asli agar Kebal SP aktif) ---
                 _, _, pot_sp_real, _, _ = hitung_logika_performa_dan_bonus(
-                    df_t_staf, df_a_staf, bulan_dipilih, tahun_dipilih
+                    df_t_staf, df_a_staf, bulan_dipilih, tahun_dipilih,
+                    level_target=lv_asli # <--- LISA SEKARANG AMAN (KEBAL)
                 )
                 
+                # --- 4. HITUNG GAJI NETT ---
                 g_pokok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                 
-                # Gaji nett: Admin pasti pot_sp_real-nya 0 karena Mantra Kebal tadi
+                # Admin pasti pot_sp_real = 0 karena level_target="ADMIN" sudah dikirim ke mesin
                 gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp_real)
                 
                 if bulan_dipilih == sekarang.month:
-                    # Hitung proporsional hari berjalan
                     total_gaji_pokok_tim += (gaji_nett / 25) * min(sekarang.day, 25)
                 else:
                     total_gaji_pokok_tim += gaji_nett
@@ -2030,6 +2034,16 @@ def tampilkan_kendali_tim():
         total_pengeluaran_gaji = total_gaji_pokok_tim + bonus_terbayar_kas
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
+        
+        # --- TARUH DISINI (DI ATAS RADAR PERFORMA) ---
+        with st.expander("💰 RINCIAN PENGELUARAN REAL-TIME", expanded=False):
+            c1, c2, c3 = st.columns(3)
+            c1.metric("📋 Estimasi Gaji Pokok", f"Rp {total_gaji_pokok_tim:,.0f}", help="Total Gapok + Tunjangan (Sudah potong SP) untuk Staff & Admin")
+            c2.metric("🎁 Bonus Terbayar (ACC)", f"Rp {bonus_terbayar_kas:,.0f}", help="Total bonus absen & lembur yang sudah di-klik ACC")
+            c3.metric("⚙️ Operasional", f"Rp {ops:,.0f}", help="Biaya luar gaji yang diinput manual di Arus Kas")
+            
+            st.divider()
+            st.markdown(f"### Total Kewajiban Keluar: **Rp {total_out:,.0f}**")
         
         # ======================================================================
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
@@ -2801,4 +2815,5 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
