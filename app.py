@@ -297,44 +297,50 @@ def proses_login(user, pwd):
             st.error("Database Staff tidak terbaca.")
             return
 
-        # --- OPSI 1: PAKSA SEMUA KOLOM JADI UPPERCASE (SINKRONISASI) ---
         df_staff.columns = [str(c).strip().upper() for c in df_staff.columns]
-
         u_input = str(user).strip().upper()
         p_input = str(pwd).strip()
 
-        # Cari user di database (Sekarang aman pakai 'NAMA' karena sudah di-upper)
         user_row = df_staff[df_staff['NAMA'] == u_input]
 
         if not user_row.empty:
             pwd_sheet = str(user_row.iloc[0]['PASSWORD']).strip()
-            
-            # Sekarang aman panggil 'LEVEL' karena semua kolom sudah dipaksa Uppercase
             user_level = str(user_row.iloc[0]['LEVEL']).strip().upper()
             
             if pwd_sheet == p_input:
-            # --- PROSES LOGIN BERHASIL ---
+                # --- 1. SET STATUS LOGIN ---
                 st.session_state.sudah_login = True
                 user_key = user.lower().strip() 
                 st.session_state.user_aktif = user_key
                 st.session_state.waktu_login = datetime.now()
 
-                # --- SUNTIKAN KASTA OWNER (BYPASS GSHEET) ---
+                # --- 2. KUNCI KASTA OWNER (BYPASS) ---
                 if user_key == "dian":
                     st.session_state.user_level = "OWNER"
                 else:
                     st.session_state.user_level = user_level
 
-                # Ambil level yang baru saja dikunci untuk logika berikutnya
                 current_lv = st.session_state.user_level
 
-                # --- LOGIKA PENYARING ABSEN (STAFF & ADMIN WAJIB) ---
+                # --- 3. LOGIKA ABSEN & NOTIF ---
                 if current_lv in ["STAFF", "ADMIN"]:
                     log_absen_otomatis(user_key)
                     st.toast(f"Selamat bekerja, {user_key}!", icon="✅")
                 elif current_lv == "OWNER":
                     st.toast(f"Mode Owner Aktif: {user_key}", icon="👑")
-        
+
+                # --- 4. PAKSA SISTEM REFRESH (PENTING!) ---
+                st.query_params.update({"auth": "true", "user": user_key})
+                time.sleep(1) # Kasih nafas buat Toast nongol
+                st.rerun()
+            else:
+                st.error("Password salah.")
+        else:
+            st.error("Username tidak terdaftar.")
+
+    except Exception as e:
+        # --- PENUTUP TRY: Biar gak SyntaxError lagi ---
+        st.error(f"Sistem Login Error: {e}")        
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
@@ -2795,3 +2801,4 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
