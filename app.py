@@ -1187,12 +1187,12 @@ def tampilkan_tugas_kerja():
         mask_bulan = (df_all_tugas['DEADLINE_DT'].dt.month == sekarang.month) & \
                      (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
 
-        # 3. LOGIKA RADAR (Tampilan Mewah Kode Lama)
-        # Ambil data staff di luar IF biar semua variabel di bawah bisa baca kasta
+        # 3. LOGIKA RADAR (SUNTIKAN PRIVASI OWNER)
         st_raw = ambil_data_segar("Staff")
         st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
 
-        if user_level in ["OWNER", "ADMIN"]:
+        # --- REVISI: HANYA OWNER YANG BISA INTIP SEMUA ---
+        if user_level == "OWNER":
             # List staf yang muncul di dropdown (kecuali Owner biar tetap GHOST)
             list_staf = st_raw[st_raw['LEVEL'] != 'OWNER']['NAMA'].unique().tolist()
             target_user = st.selectbox("🎯 Intip Radar Staf:", list_staf).upper()
@@ -2810,6 +2810,7 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
 
