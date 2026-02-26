@@ -300,15 +300,19 @@ def proses_login(user, pwd):
             st.error("Database Staff tidak terbaca.")
             return
 
+        # --- OPSI 1: PAKSA SEMUA KOLOM JADI UPPERCASE (SINKRONISASI) ---
+        df_staff.columns = [str(c).strip().upper() for c in df_staff.columns]
+
         u_input = str(user).strip().upper()
         p_input = str(pwd).strip()
 
-        # Cari user di database
+        # Cari user di database (Sekarang aman pakai 'NAMA' karena sudah di-upper)
         user_row = df_staff[df_staff['NAMA'] == u_input]
 
         if not user_row.empty:
             pwd_sheet = str(user_row.iloc[0]['PASSWORD']).strip()
-            # Ambil level dari kolom LEVEL (F)
+            
+            # Sekarang aman panggil 'LEVEL' karena semua kolom sudah dipaksa Uppercase
             user_level = str(user_row.iloc[0]['LEVEL']).strip().upper()
             
             if pwd_sheet == p_input:
@@ -316,7 +320,7 @@ def proses_login(user, pwd):
                 st.session_state.sudah_login = True
                 user_key = user.lower().strip() 
                 st.session_state.user_aktif = user_key
-                st.session_state.user_level = user_level # Simpan level di session
+                st.session_state.user_level = user_level # ADMIN atau STAFF tersimpan mantap
                 st.session_state.waktu_login = datetime.now()
                 
                 # --- LOGIKA PENYARING ABSEN ---
@@ -325,6 +329,7 @@ def proses_login(user, pwd):
                     log_absen_otomatis(user_key)
                     st.toast(f"Selamat bekerja, {user_key}!", icon="✅")
                 else:
+                    # DIAN bakal masuk sini karena levelnya ADMIN
                     st.toast(f"Mode Admin Aktif: {user_key}", icon="⚡")
                 
                 st.query_params.update({"auth": "true", "user": user_key})
@@ -2760,3 +2765,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
