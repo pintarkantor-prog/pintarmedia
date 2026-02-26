@@ -1772,7 +1772,6 @@ def tampilkan_kendali_tim():
     pilihan_nama = c_bln.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
     bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
     tahun_dipilih = c_thn.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
-    t_target_display = 120 # Total target 3 staf x 40 video
 
     st.divider()
 
@@ -1788,6 +1787,9 @@ def tampilkan_kendali_tim():
 
         df_staff = ambil_data_lokal("Staff")
         df_staff = bersihkan_data(df_staff)
+        # Menghitung: Jumlah baris di df_staff dikali 40 video
+        t_target_display = len(df_staff) * 40
+        
         df_absen = ambil_data_lokal("Absensi")
         ws_kas_live = sh.worksheet("Arus_Kas")
         data_kas_raw = ws_kas_live.get_all_records()
@@ -2029,13 +2031,27 @@ def tampilkan_kendali_tim():
             staf_low = min(performa_staf, key=performa_staf.get) if performa_staf else "-"
             
             c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
-            # c_r1 kita ganti jadi info target bulanan (sebagai benchmark aja)
+            
+            # --- HITUNG PERSENTASE CAPAIAN ---
+            persen_capaian = (rekap_v_total / t_target_display * 100) if t_target_display > 0 else 0
+            
+            # c_r1: Target Bulanan
             c_r1.metric("🎯 TARGET IDEAL", f"{t_target_display} Vid") 
-            c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}")
+            
+            # c_r2: Total Video + Delta Persentase
+            c_r2.metric(
+                "🎬 TOTAL VIDEO", 
+                f"{int(rekap_v_total)}", 
+                delta=f"{persen_capaian:.1f}% Capaian",
+                delta_color="normal" if persen_capaian >= 80 else "inverse" # Hijau kalau > 80%
+            )
+            
             c_r3.metric("🔥 BONUS LEMBUR", f"Rp {rekap_b_cair:,}")
             c_r4.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
-            # c_r5 sekarang nampilin akumulasi hari lemah seluruh tim
-            c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR")
+            
+            # c_r5: Akumulasi hari lemah seluruh tim (Pake delta_color inverse biar merah kalau naik)
+            c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR", delta="Total Tim", delta_color="inverse")
+            
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
@@ -2560,6 +2576,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
