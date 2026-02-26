@@ -1745,7 +1745,7 @@ def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     
     # 1. PROTEKSI AKSES (Hanya Dian)
-    if user_sekarang != "dian":
+    if user_sekarang.lower() in ["dian", "lisa"]:
         st.title("⚡ KENDALI TIM")
         st.divider()
         st.warning("🔒 **AREA TERBATAS**")
@@ -2574,6 +2574,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
