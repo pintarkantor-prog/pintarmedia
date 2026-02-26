@@ -1396,85 +1396,85 @@ def tampilkan_tugas_kerja():
                                             st.warning("Isi link dulu!")
 
     # =========================================================
-    # --- 4.5. SISTEM KLAIM AI (VERSI MINIMALIS & LOGIKA BARU) ---
+    # --- 4.5. SISTEM KLAIM AI (FIXED VERSION 2026) ---
     # =========================================================
     if user_sekarang != "dian" and user_sekarang != "tamu":
         st.write("")
         
         with st.expander("⚡ KLAIM AKUN AI DISINI", expanded=False):
             try:
-                # --- KONEKSI & DATA (FIXED BY GEMINI) ---
-                sekarang_dt = datetime.now()
-                h_ini = sekarang_dt.date()
+                # 1. SETUP WAKTU & KONEKSI
+                tz_jakarta = pytz.timezone('Asia/Jakarta')
+                h_ini = datetime.now(tz_jakarta).date()
 
-                # Gunakan fungsi cache yang sudah lo buat di atas, jangan panggil client_ai lagi
                 sh_ai = get_gspread_sh() 
                 ws_akun = sh_ai.worksheet("Akun_AI")
-                
-                # Langsung ambil datanya, gak perlu open_by_url lagi karena sh_ai sudah pegang aksesnya
                 data_akun_raw = ws_akun.get_all_records()
                 df_ai = pd.DataFrame(data_akun_raw)
 
-                # --- FILTER AKUN ---
+                # 2. FILTER AKUN AKTIF MILIK USER (Otomatis Sembunyi Jika Expired)
                 user_up = user_sekarang.upper()
-                df_user = df_ai[df_ai['PEMAKAI'].astype(str).str.upper() == user_up].copy()
+                df_user_raw = df_ai[df_ai['PEMAKAI'].astype(str).str.upper() == user_up].copy()
                 
                 akun_aktif_user = []
-                if not df_user.empty:
-                    for idx, r in df_user.iterrows():
+                if not df_user_raw.empty:
+                    for idx, r in df_user_raw.iterrows():
                         try:
                             tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                            # Syarat tampil: Sisa hari harus >= 0
                             if (tgl_exp - h_ini).days >= 0:
                                 akun_aktif_user.append(r)
-                        except: akun_aktif_user.append(r)
+                        except:
+                            # Jika format tanggal error, kita asumsikan masih aktif dulu
+                            akun_aktif_user.append(r)
 
-                # --- BAGIAN KLAIM (TANPA JUDUL TEKS) ---
+                # 3. LOGIKA STOK & TOMBOL KLAIM
                 df_stok = df_ai[df_ai['PEMAKAI'].astype(str).str.strip() == ""].copy()
                 list_opsi = sorted(df_stok['AI'].unique().tolist()) if not df_stok.empty else []
                 
                 c_sel, c_btn = st.columns([2, 1])
                 pilihan_ai = c_sel.selectbox("Pilih Tool", list_opsi if list_opsi else ["STOK KOSONG"], label_visibility="collapsed", key="v5_select")
                 
-                # REVISI LOGIKA: Tetap hitung tapi jangan ditampilin teksnya
                 bisa_klaim = True 
-                
                 if not list_opsi:
                     bisa_klaim = False
-                    st.warning("😭 Stok akun sedang habis.") # Muncul cuma pas darurat aja
+                    st.warning("😭 Stok akun sedang habis.")
                 elif len(akun_aktif_user) >= 2:
                     bisa_klaim = False
-                    st.warning("🚫 Limit 2 akun aktif tercapai.") # Muncul cuma pas limit
+                    st.warning("🚫 Limit 2 akun aktif tercapai. Tunggu akun lama expired.")
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
-                    # 1. Pilih 1 akun acak yang stoknya masih kosong
                     target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
                     email_target = target.iloc[0]['EMAIL']
                     
                     try:
-                        # Mencari sel di kolom 2 (B) yang isinya email_target
+                        # MENCARI SEL (Fix gspread.exceptions bug)
                         cell = ws_akun.find(email_target, in_column=2)
                         
-                        # Kolom E (5) = PEMAKAI, Kolom F (6) = TANGGAL_KLAIM
+                        # UPDATE KE GSHEET
                         ws_akun.update_cell(cell.row, 5, user_up) 
                         ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
                         
-                        st.success(f"Akun {pilihan_ai} berhasil diklaim!")
+                        st.success(f"Akun {pilihan_ai} Berhasil Diklaim!")
                         time.sleep(1)
                         st.rerun()
-                    except gspread.exceptions.CellNotFound:
-                        st.error("Data email tidak ditemukan di GSheet. Hubungi Admin.")
+                    
+                    # CATCH ERROR SECARA DINAMIS
+                    except Exception as e:
+                        if "CellNotFound" in str(e) or "not found" in str(e).lower():
+                            st.error("Email tidak ditemukan di database. Hubungi Dian.")
+                        else:
+                            st.error(f"Gagal Update GSheet: {e}")
 
-                # --- DAFTAR KOLEKSI (TANPA JUDUL TEKS - LANGSUNG KARTU) ---
+                # 4. DAFTAR KOLEKSI (HANYA TAMPIL YANG AKTIF)
                 if akun_aktif_user:
-                    st.write("") # Pengganti divider biar lebih bersih
+                    st.divider()
                     kolom_vcard = st.columns(2)
                     for idx, r in enumerate(reversed(akun_aktif_user)):
-                        try:
-                            tgl_exp = pd.to_datetime(r['EXPIRED']).date()
-                            sisa = (tgl_exp - h_ini).days
-                        except:
-                            tgl_exp, sisa = h_ini, 0
+                        tgl_exp = pd.to_datetime(r['EXPIRED']).date()
+                        sisa = (tgl_exp - h_ini).days
                         
+                        # Warna Header Berdasarkan Sisa Hari
                         if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
                         elif 0 <= sisa <= 7: warna_h, stat_ai = "#f39c12", "🟠 LIMIT"
                         else: warna_h, stat_ai = "#e74c3c", "🔴 MATI"
@@ -1487,18 +1487,15 @@ def tampilkan_tugas_kerja():
                                     </div>
                                 """, unsafe_allow_html=True)
                                 
-                                # EMAIL & PASSWORD (2 KOLOM - FONT 15PX)
                                 c1, c2 = st.columns(2)
-                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
-                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASSWORD</p><code style='font-size:15px !important; display:block; padding:5px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
+                                c1.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>📧 EMAIL</p><code style='font-size:12px;'>{r['EMAIL']}</code>", unsafe_allow_html=True)
+                                c2.markdown(f"<p style='margin:10px 0 0 0; font-size:11px; color:#888;'>🔑 PASS</p><code style='font-size:12px;'>{r['PASSWORD']}</code>", unsafe_allow_html=True)
                                 
                                 st.divider()
-                                
-                                # STATUS, EXPIRED, SISA (3 KOLOM SEJAJAR)
                                 b1, b2, b3 = st.columns(3)
-                                b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
-                                b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
-                                b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+                                b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:12px;'>{stat_ai}</b>", unsafe_allow_html=True)
+                                b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXP</p><b style='font-size:12px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
+                                b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:14px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
 
                 st.caption("🆘 **Darurat?** Jika akun suspend sebelum jatah klaim tiba, hubungi Admin (Dian).")
 
@@ -2583,13 +2580,3 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
