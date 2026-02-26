@@ -2035,16 +2035,6 @@ def tampilkan_kendali_tim():
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
         
-        # --- TARUH DISINI (DI ATAS RADAR PERFORMA) ---
-        with st.expander("💰 RINCIAN PENGELUARAN REAL-TIME", expanded=False):
-            c1, c2, c3 = st.columns(3)
-            c1.metric("📋 Estimasi Gaji Pokok", f"Rp {total_gaji_pokok_tim:,.0f}", help="Total Gapok + Tunjangan (Sudah potong SP) untuk Staff & Admin")
-            c2.metric("🎁 Bonus Terbayar (ACC)", f"Rp {bonus_terbayar_kas:,.0f}", help="Total bonus absen & lembur yang sudah di-klik ACC")
-            c3.metric("⚙️ Operasional", f"Rp {ops:,.0f}", help="Biaya luar gaji yang diinput manual di Arus Kas")
-            
-            st.divider()
-            st.markdown(f"### Total Kewajiban Keluar: **Rp {total_out:,.0f}**")
-        
         # ======================================================================
         # --- UI: FINANCIAL COMMAND CENTER (CUSTOM LAYOUT) ---
         # ======================================================================
@@ -2144,9 +2134,12 @@ def tampilkan_kendali_tim():
             df_a_staf_r = df_a_f[df_a_f['NAMA'] == n_up].copy()
             df_t_staf_r = df_f_f[df_f_f['STAF'] == n_up].copy()
 
-            # --- LOGIKA SINKRON (KITAB SUCI) ---
+            # --- SISIRAN: KIRIM KASTA KE MESIN RADAR ---
+            lv_staf_ini = str(s.get('LEVEL', 'STAFF')).strip().upper()
+            
             b_lembur_staf, u_absen_staf, pot_sp_r, level_sp_r, h_lemah_staf = hitung_logika_performa_dan_bonus(
-                df_t_staf_r, df_a_staf_r, bulan_dipilih, tahun_dipilih
+                df_t_staf_r, df_a_staf_r, bulan_dipilih, tahun_dipilih,
+                level_target=lv_staf_ini # <--- KUNCI KEBAL LISA & ADMIN
             )
             
             jml_v = len(df_t_staf_r)
@@ -2236,7 +2229,7 @@ def tampilkan_kendali_tim():
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
                 ada_kerja = False
-                df_staff_raw_slip = df_staff.copy()
+                df_staff_raw_slip = df_staff[df_staff['LEVEL'].isin(['STAFF', 'ADMIN'])].copy()
                 kol_v = st.columns(2) 
                 
                 for idx, s in df_staff_raw_slip.iterrows():
@@ -2247,13 +2240,15 @@ def tampilkan_kendali_tim():
                     df_absen_staf_slip = df_a_f[df_a_f['NAMA'] == n_up].copy()
                     df_arsip_staf_slip = df_f_f[df_f_f['STAF'] == n_up].copy()
                     
-                    # --- 2. PANGGIL MESIN UTAMA (SINKRONISASI TOTAL) ---
-                    # Variabel ke-5 diganti menjadi hari_lemah agar sinkron
+                    # --- SISIRAN: KIRIM KASTA KE MESIN SLIP ---
+                    lv_slip_ini = str(s.get('LEVEL', 'STAFF')).strip().upper()
+
                     b_lembur_staf, u_absen_staf, pot_sp_admin, level_sp_admin, hari_lemah = hitung_logika_performa_dan_bonus(
                         df_arsip_staf_slip, 
                         df_absen_staf_slip, 
                         bulan_dipilih, 
-                        tahun_dipilih
+                        tahun_dipilih,
+                        level_target=lv_slip_ini # <--- KUNCI KEBAL DI SLIP GAJI
                     )
 
                     # --- 3. AMBIL DATA FINANSIAL DARI GSHEET ---
@@ -2815,5 +2810,6 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
