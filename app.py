@@ -2828,7 +2828,48 @@ def tampilkan_ruang_produksi():
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (PINTAR MEDIA OS)
 # ==============================================================================
+# ==============================================================================
+# BAGIAN 7: PENGENDALI UTAMA (PINTAR MEDIA OS)
+# ==============================================================================
 def utama():
+    # Cek login dulu sebelum ngerender apa-apa
+    if not cek_autentikasi():
+        tampilkan_halaman_login()
+        st.stop() # Paksa stop biar nggak ngerender sisa kode di bawah
+    
+    # Kalau lolos login, baru ambil data user
+    user_level = st.session_state.get("user_level", "STAFF")
+    
+    # Panggil Sidebar & Menu
+    menu = tampilkan_navigasi_sidebar()
+    
+    # Router Menu
+    if menu == "🚀 RUANG PRODUKSI": 
+        tampilkan_ruang_produksi()
+
+    elif menu == "🧠 PINTAR AI LAB": 
+        tampilkan_ai_lab()
+
+    elif menu == "💡 GUDANG IDE": 
+        tampilkan_gudang_ide()
+
+    elif menu == "📋 TUGAS KERJA": 
+        tampilkan_tugas_kerja()
+    
+    elif menu == "⚡ KENDALI TIM": 
+        if user_level in ["OWNER", "ADMIN"]:
+            tampilkan_kendali_tim()
+        else:
+            st.error("🚫 Akses Ditolak. Menu ini hanya untuk jajaran Manajemen.")
+
+# --- EKSEKUSI SISTEM ---
+if __name__ == "__main__":
+    # Panggil fungsi init SEBELUM utama
+    inisialisasi_keamanan()
+    pasang_css_kustom() 
+    
+    # Jalankan mesin
+    utama()
     inisialisasi_keamanan() 
     pasang_css_kustom() 
     
@@ -2869,6 +2910,7 @@ if __name__ == "__main__":
     pasang_css_kustom() 
     # 3. Jalankan mesin utama
     utama()
+
 
 
 
