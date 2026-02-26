@@ -1496,47 +1496,67 @@ def tampilkan_tugas_kerja():
             except Exception as e_station:
                 st.error(f"Gagal memuat AI Station: {e_station}")
                 
-    # --- 4. LACI ARSIP (SATU DAFTAR CAMPUR) ---
-    with st.expander("📜 RIWAYAT TUGAS (BULAN INI)", expanded=False):
+    # --- 4. LACI ARSIP (DENGAN FILTER BULAN) ---
+    with st.expander("📜 RIWAYAT & ARSIP TUGAS", expanded=False):
         if not df_all_tugas.empty:
-            # 1. Filter Dasar (Bulan ini & User)
-            mask_base = mask_bulan
-            if user_sekarang != "dian":
-                mask_base &= (df_all_tugas['STAF'] == user_sekarang.upper())
+            # --- A. FILTER PILIHAN BULAN ---
+            c_arsip1, c_arsip2 = st.columns([2, 1])
             
-            # 2. Ambil yang statusnya FINISH atau CANCELED saja
-            df_laci = df_all_tugas[mask_base & (df_all_tugas['STATUS'].isin(['FINISH', 'CANCELED']))].copy()
+            daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
+            
+            # Pilih Bulan & Tahun untuk Riwayat
+            bln_arsip_nama = c_arsip1.selectbox("📅 Pilih Bulan Riwayat:", list(daftar_bulan.values()), index=sekarang.month - 1, key="sel_bln_arsip")
+            bln_arsip_angka = [k for k, v in daftar_bulan.items() if v == bln_arsip_nama][0]
+            thn_arsip = c_arsip2.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030, key="sel_thn_arsip")
+
+            # --- B. PROSES FILTER DATA ---
+            # Pastikan kolom DEADLINE diubah jadi format tanggal dulu
+            df_all_tugas['DEADLINE_DT'] = pd.to_datetime(df_all_tugas['DEADLINE'], errors='coerce')
+            
+            # Filter berdasarkan Bulan, Tahun, dan Status (FINISH/CANCELED)
+            mask_arsip = (df_all_tugas['DEADLINE_DT'].dt.month == bln_arsip_angka) & \
+                         (df_all_tugas['DEADLINE_DT'].dt.year == thn_arsip) & \
+                         (df_all_tugas['STATUS'].isin(['FINISH', 'CANCELED']))
+            
+            if user_sekarang != "dian":
+                mask_arsip &= (df_all_tugas['STAF'] == user_sekarang.upper())
+
+            df_laci = df_all_tugas[mask_arsip].copy()
 
             if not df_laci.empty:
-                # Hitung Statistik buat ditaruh di atas tabel
+                # Statistik Singkat
                 total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
                 total_c = len(df_laci[df_laci['STATUS'] == "CANCELED"])
+                st.markdown(f"📊 **Laporan {bln_arsip_nama}:** ✅ {total_f} Selesai | 🚫 {total_c} Dibatalkan")
                 
-                # Teks Laporan Singkat
-                st.markdown(f"📊 **Statistik:** ✅ {total_f} Selesai | 🚫 {total_c} Dibatalkan")
-                
-                # Sortir: Yang terbaru (Deadline/ID) di paling atas
                 df_laci = df_laci.sort_values(by='ID', ascending=False)
                 
-                # 3. Tampilkan Tabel Tunggal
-                # Kita masukkan 'Catatan_Revisi' biar kalau ada yang batal, alasannya kelihatan
-                kolom_laci = ['ID', 'STAF', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
+                # --- C. TAMPILAN TABEL BERWARNA ---
+                kolom_laci = ['ID', 'STAF', 'INSTRUKSI', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
                 kolom_fix = [c for c in kolom_laci if c in df_laci.columns]
+
+                def beri_warna_status(s):
+                    if s == "FINISH": return "background-color: #1d976c; color: white;"
+                    elif s == "CANCELED": return "background-color: #e74c3c; color: white;"
+                    return ""
+
+                df_berwarna = df_laci[kolom_fix].style.applymap(beri_warna_status, subset=['STATUS'])
                 
                 st.dataframe(
-                    df_laci[kolom_fix],
+                    df_berwarna,
                     column_config={
-                        "ID": "🆔 ID",
-                        "STAF": "👤 STAF",
-                        "DEADLINE": "📅 TGL",
-                        "STATUS": "🚩 STATUS",
-                        "CATATAN_REVISI": "📝 KETERANGAN/ALASAN"
+                        "ID": st.column_config.TextColumn("🆔 ID", width="small"),
+                        "STAF": st.column_config.TextColumn("👤 STAF", width="small"),
+                        "INSTRUKSI": st.column_config.TextColumn("📝 JUDUL KONTEN", width="large"),
+                        "DEADLINE": st.column_config.TextColumn("📅 TGL", width="small"),
+                        "STATUS": st.column_config.TextColumn("🚩 STATUS", width="small"),
+                        "CATATAN_REVISI": "📋 KETERANGAN"
                     },
                     hide_index=True,
                     use_container_width=True
                 )
             else:
-                st.info("📭 Belum ada riwayat tugas (Selesai/Batal) untuk bulan ini.")
+                st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
         else:
             st.write("Belum ada data tugas.")
                 
@@ -2575,6 +2595,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
