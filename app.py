@@ -893,7 +893,7 @@ Balas HANYA tabel Markdown tanpa penjelasan apa pun.
                     st.download_button("📥 DOWNLOAD (.txt)", st.session_state.lab_hasil_otomatis, file_name="naskah.txt", use_container_width=True)
                 
 def tampilkan_gudang_ide():
-    # --- 1. CSS OVERLAY (TETEP ADA UNTUK PROSES) ---
+    # --- 1. CSS OVERLAY ---
     st.markdown("""
         <style>
         .loading-overlay {
@@ -936,6 +936,10 @@ def tampilkan_gudang_ide():
                     <p style='color: #1d976c; font-weight: bold;'>CEK RUANG PRODUKSI SEKARANG</p>
                 </div>
             """, unsafe_allow_html=True)
+            time.sleep(2)
+            st.session_state.sedang_proses_id = None
+            st.session_state.status_sukses = False
+            st.rerun()
         else:
             st.markdown(f"""
                 <div class="loading-overlay">
@@ -946,36 +950,27 @@ def tampilkan_gudang_ide():
             """, unsafe_allow_html=True)
             
     # --- 3. DATA & GRID RENDER ---
-    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
     user_level = st.session_state.get("user_level", "STAFF") 
     
-    tz_wib = pytz.timezone('Asia/Jakarta')
-
     try:
-        # 1. Koneksi Instan
         sh = get_gspread_sh() 
-        
-        # 2. Ambil Data (PERBAIKAN TYPO: Gunakan df_gudang agar konsisten)
-        # Gunakan tail(200) saja supaya GSheet nggak narik ribuan baris masa lalu
-        raw_data = ambil_data_beneran_segar("Gudang_Ide") 
+        raw_data = ambil_data_segar("Gudang_Ide") 
         df_gudang = raw_data.tail(200) 
         
         sheet_gudang = sh.worksheet("Gudang_Ide")
-        sheet_tugas = sh.worksheet("Tugas")
         
         if df_gudang.empty:
             st.warning("📭 Belum ada data di gudang ide.")
             return
 
-        # 3. FILTER & DISPLAY (Hanya yang masih FRESH/TERSEDIA)
+        # Ambil yang statusnya TERSEDIA
         df_tersedia = df_gudang[df_gudang['STATUS'] == 'TERSEDIA'].copy()
         
-        # Ambil 50 data terbaru untuk dipajang di dashboard
-        df_display = df_tersedia.tail(50).iloc[::-1] 
-        
-        list_judul_unik = df_display['JUDUL'].unique()
-    
+        if df_tersedia.empty:
+            st.info("🌟 Semua ide sudah terambil. Tunggu update dari Bos Dian ya!")
         else:
+            df_display = df_tersedia.tail(50).iloc[::-1] 
+            list_judul_unik = df_display['JUDUL'].unique()
             is_loading = st.session_state.sedang_proses_id is not None
             
             # RENDER GRID 3 KOLOM
@@ -985,29 +980,38 @@ def tampilkan_gudang_ide():
                 
                 for j, judul in enumerate(batch_judul):
                     with cols[j]:
-                        # Cari data pendukung berdasarkan judul
                         row_info = df_display[df_display['JUDUL'] == judul].iloc[0]
                         id_ini = str(row_info['ID_IDE'])
                         
                         with st.container(border=True):
-                            # UI Styling
                             st.markdown(f'<div style="height: 3px; background-color: #1d976c; border-radius: 10px; margin-bottom: 10px;"></div>', unsafe_allow_html=True)
                             st.markdown(f"<p style='color: #888; font-size: 15px; margin-bottom: -10px;'>ID: {id_ini}</p>", unsafe_allow_html=True)
                             st.markdown(f"### {judul}")
                             
                             st.write("") 
                             if st.button(f"🚀 AMBIL IDE", key=f"btn_{id_ini}", use_container_width=True, disabled=is_loading):
-                                st.session_state.sedang_proses_id = id_ini
-                                st.session_state.status_sukses = False
-                                st.rerun()
+                                # Logika Ambil Ide (Update GSheet)
+                                try:
+                                    cell = sheet_gudang.find(id_ini)
+                                    sheet_gudang.update_cell(cell.row, 5, "DIAMBIL") # Kolom Status
+                                    st.session_state.sedang_proses_id = id_ini
+                                    st.session_state.status_sukses = True
+                                    # Simpan naskah ke session agar bisa dibaca di Ruang Produksi
+                                    st.session_state.naskah_siap_produksi = row_info['NASKAH']
+                                    st.rerun()
+                                except:
+                                    st.error("Gagal mengambil data.")
+
                             if user_level == "OWNER":
-                                if st.button(f"🗑️ HAPUS IDE", key=f"del_{id_ini}", use_container_width=True):
-                                    # Logika hapus baris di GSheet
+                                if st.button(f"🗑️ HAPUS", key=f"del_{id_ini}", use_container_width=True):
                                     cell_del = sheet_gudang.find(id_ini)
                                     sheet_gudang.delete_rows(cell_del.row)
-                                    st.success("Ide Berhasil Dihapus!")
+                                    st.success("Terhapus!")
                                     time.sleep(1)
                                     st.rerun()
+
+    except Exception as e:
+        st.error(f"⚠️ Gagal memuat Gudang Ide: {e}")
                                 
             # --- 4. PROSES DATA (VERSI ANTI-LIMIT: BATCH UPDATE) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
@@ -2868,4 +2872,5 @@ if __name__ == "__main__":
     pasang_css_kustom() 
     # 3. Jalankan mesin utama
     utama()
+
 
