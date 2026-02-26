@@ -200,16 +200,18 @@ MASTER_CHAR = {
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 
 # ==============================================================================
-# FUNGSI ABSENSI OTOMATIS (MESIN ABSEN) - VERSI OPTIMASI
+# FUNGSI ABSENSI OTOMATIS (MESIN ABSEN) - VERSI KASTA OWNER VIP
 # ==============================================================================
 def log_absen_otomatis(nama_user):
     # 1. REM SESSION
     if st.session_state.get('absen_done_today', False):
         return
 
-    # 2. FILTER ADMIN (Langsung anggap beres)
+    # 2. FILTER OWNER (Jalur VIP - Langsung anggap beres tanpa catat log)
     user_level = st.session_state.get("user_level", "STAFF")
-    if user_level == "ADMIN" or nama_user.lower() == "tamu":
+    
+    # REVISI: Cuma OWNER yang dapet privilege skip absen. ADMIN & STAFF wajib absen.
+    if user_level == "OWNER" or nama_user.lower() == "tamu":
         st.session_state.absen_done_today = True
         return
     
@@ -220,7 +222,7 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    # 3. RANGE JAM KERJA (8 Pagi - 10 Malam)
+    # 3. RANGE JAM KERJA (Admin & Staff wajib masuk radar jam 8-10 pagi)
     if 8 <= jam < 22: 
         try:
             sh = get_gspread_sh() 
@@ -237,6 +239,7 @@ def log_absen_otomatis(nama_user):
                 sudah_absen = not df_absen[mask].empty
             
             if not sudah_absen:
+                # Logika Telat tetap berlaku buat Admin & Staff
                 status_final = "HADIR" if jam < 10 else f"TELAT ({jam_skrg})"
                 sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, status_final])
                 
@@ -249,9 +252,7 @@ def log_absen_otomatis(nama_user):
         except Exception as e:
             print(f"Error Absen: {e}")
     else:
-        # Jika di luar jam (misal jam 22:47), jangan pake st.warning
         st.session_state.absen_done_today = False 
-        # Pake toast aja biar gak ngerusak layout utama
         st.toast(f"Sistem Absen Tutup (Jam {jam_skrg}). Akses Terbatas.", icon="🚫")
             
 # ==============================================================================
@@ -319,14 +320,12 @@ def proses_login(user, pwd):
                 st.session_state.user_level = user_level # ADMIN atau STAFF tersimpan mantap
                 st.session_state.waktu_login = datetime.now()
                 
-                # --- LOGIKA PENYARING ABSEN ---
-                # Absensi otomatis HANYA untuk yang levelnya STAFF
-                if user_level == "STAFF":
+                # --- LOGIKA PENYARING ABSEN (STAFF & ADMIN WAJIB) ---
+                if user_level in ["STAFF", "ADMIN"]:
                     log_absen_otomatis(user_key)
                     st.toast(f"Selamat bekerja, {user_key}!", icon="✅")
-                else:
-                    # DIAN bakal masuk sini karena levelnya ADMIN
-                    st.toast(f"Mode Admin Aktif: {user_key}", icon="⚡")
+                elif user_level == "OWNER":
+                    st.toast(f"Mode Owner Aktif: {user_key}", icon="👑")
                 
                 st.query_params.update({"auth": "true", "user": user_key})
                 st.rerun()
@@ -643,8 +642,8 @@ def tampilkan_navigasi_sidebar():
             "📋 TUGAS KERJA"
         ]
         
-        # Cuma ADMIN yang bisa lihat menu Kendali Tim
-        if user_level == "ADMIN":
+# OWNER dan ADMIN bisa lihat menu Kendali Tim
+        if user_level in ["OWNER", "ADMIN"]:
             menu_list.append("⚡ KENDALI TIM")
 
         pilihan = st.radio(
@@ -982,7 +981,7 @@ def tampilkan_gudang_ide():
                                 st.session_state.status_sukses = False
                                 st.rerun()
 
-                            if user_level == "ADMIN":
+                            if user_level == "OWNER":
                                 if st.button(f"🗑️ HAPUS IDE", key=f"del_{id_ini}", use_container_width=True):
                                     # Logika hapus baris di GSheet
                                     cell_del = sheet_gudang.find(id_ini)
@@ -1060,7 +1059,7 @@ def kirim_notif_wa(pesan):
     except: pass
 
 # ==============================================================================
-# LOGIKA PERHITUNGAN (SP & BONUS 2026)
+# LOGIKA PERHITUNGAN (SP & BONUS 2026) - VERSI KASTA VIP
 # ==============================================================================
 def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
     bonus_video_total = 0
@@ -1072,66 +1071,63 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     # 1. Tentukan Batas Hari
     import calendar
     if bulan_pilih == sekarang.month and tahun_pilih == sekarang.year:
-        batas_sp = sekarang.day - 1 # SP hanya hitung hari yang sudah lewat
-        batas_bonus = sekarang.day  # Bonus hitung sampai hari ini
+        batas_sp = sekarang.day - 1 
+        batas_bonus = sekarang.day  
     else:
         batas_sp = calendar.monthrange(tahun_pilih, bulan_pilih)[1]
         batas_bonus = batas_sp
 
-    # 2. Rekap Harian (Hanya yang FINISH, Poin ditarik ke tanggal di kolom DEADLINE)
+    # 2. Rekap Harian
     df_finish = df_arsip_user[df_arsip_user['STATUS'] == 'FINISH'].copy()
     rekap_harian = {}
     
     if not df_finish.empty:
-        # Menghindari error jika ada data tanggal yang korup
         df_finish['TGL_SETOR'] = pd.to_datetime(df_finish['DEADLINE'], errors='coerce').dt.day
-        # Hapus data yang gagal diconvert jadi tanggal (NaT)
         df_finish = df_finish.dropna(subset=['TGL_SETOR'])
         rekap_harian = df_finish.groupby('TGL_SETOR').size().to_dict()
 
-    # 3. Looping Perhitungan (Logika Kesepakatan: SP vs Bonus)
+    # 3. Looping Perhitungan
     for tgl in range(1, 32):
         try:
-            # Sensor Hari Minggu (Libur SP tapi Bonus tetap jalan)
             tgl_objek = datetime(tahun_pilih, bulan_pilih, tgl)
             is_minggu = tgl_objek.weekday() == 6
         except:
             continue
 
-        # Ambil jumlah video yang statusnya sudah FINISH di tanggal setor tersebut
         jml_v = rekap_harian.get(tgl, 0)
         
-        # --- LOGIKA BONUS (Tetap cair meski hari Minggu) ---
+        # --- LOGIKA BONUS ---
         if tgl <= batas_bonus:
-            # 3 video ke atas = Bonus Absen 30rb
-            if jml_v >= 3: 
-                uang_absen_total += 30000 
+            if jml_v >= 3: uang_absen_total += 30000 
+            if jml_v >= 5: bonus_video_total += (jml_v - 4) * 30000
             
-            # 5 video ke atas = Bonus Video (30rb/video mulai video ke-5)
-            if jml_v >= 5: 
-                bonus_video_total += (jml_v - 4) * 30000
-            
-        # --- LOGIKA SP (Sensor Minggu Aktif) ---
+        # --- LOGIKA SP ---
         if tgl <= batas_sp and not is_minggu:
-            # 0-1 video FINISH = Hari Lemah (Kena hitung SP)
-            # 2 video FINISH = AMAN (Tidak dapet bonus, tapi tidak kena SP)
-            if jml_v <= 1: 
-                hari_lemah += 1
+            if jml_v <= 1: hari_lemah += 1
 
     # 4. Penentuan Level SP & Potongan
     pot_sp = 0
-    is_pemutihan = False # Bisa lo hubungkan ke sistem pemutihan nanti
+    is_pemutihan = False 
 
     if is_pemutihan:
         level_sp = "PEMUTIHAN (AKTIF)"
     elif bulan_pilih == sekarang.month and sekarang.day <= 6:
         level_sp = "MASA PROTEKSI"
     else:
-        # Akumulasi Hari Lemah dalam sebulan
         if hari_lemah >= 21: pot_sp = 1000000; level_sp = "SP 3"
         elif hari_lemah >= 14: pot_sp = 700000; level_sp = "SP 2"
         elif hari_lemah >= 7: pot_sp = 300000; level_sp = "SP 1"
         else: level_sp = "NORMAL"
+
+    # --- PROTEKSI VIP (SUNTIKAN KASTA) ---
+    # Mengambil level dari session state
+    user_level = st.session_state.get("user_level", "STAFF")
+    
+    # Jika yang login OWNER/ADMIN, biarpun h_kurang banyak, paksa jadi NORMAL
+    if user_level in ["OWNER", "ADMIN"]:
+        pot_sp = 0
+        level_sp = "NORMAL (VIP)"
+        hari_lemah = 0
 
     return bonus_video_total, uang_absen_total, pot_sp, level_sp, hari_lemah
     
@@ -1171,7 +1167,7 @@ def tampilkan_tugas_kerja():
 
         # Standarisasi Header & Bikin Variabel biar GAK NAME ERROR
         df_all_tugas.columns = [str(c).strip().upper() for c in df_all_tugas.columns]
-        data_tugas = df_all_tugas.to_dict('records') # <-- Penawar Error baris 1216
+        data_tugas = df_all_tugas.to_dict('records') 
         status_buang = ["ARSIP", "DONE", "BATAL"]
 
         # 2. SETUP FILTER BULAN
@@ -1182,17 +1178,17 @@ def tampilkan_tugas_kerja():
         # 3. LOGIKA RADAR (Tampilan Mewah Kode Lama)
         target_user = user_sekarang.upper()
         
-        # 3. LOGIKA RADAR
-        if user_level == "ADMIN":
+        # OWNER dan ADMIN bisa pilih siapa yang mau dipantau
+        if user_level in ["OWNER", "ADMIN"]:
             st_raw = ambil_data_segar("Staff")
             st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
-            list_staf = st_raw['NAMA'].unique().tolist()
-            # Admin memilih siapa yang mau dipantau
+            # List staf yang muncul di dropdown (kecuali Owner biar gak menuh-menuhin)
+            list_staf = st_raw[st_raw['LEVEL'] != 'OWNER']['NAMA'].unique().tolist()
             target_user = st.selectbox("🎯 Intip Radar Staf:", list_staf).upper()
         else:
             target_user = user_sekarang.upper()
 
-        if user_level == "STAFF" or user_level == "ADMIN":             
+        if user_level in ["STAFF", "ADMIN", "OWNER"]:        
             mask_user = df_all_tugas['STAF'].str.strip() == target_user
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             df_arsip_user = df_all_tugas[mask_user & mask_finish & mask_bulan].copy()
@@ -1208,10 +1204,14 @@ def tampilkan_tugas_kerja():
             )
             
             # --- PENENTU PESAN (Gaya Kode Lama) ---
-            if h_kurang >= 21:   status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
-            elif h_kurang >= 7:   status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo kejar target!"
-            elif h_kurang >= 4:   status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
-            else:                status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
+            if h_kurang >= 21:
+                status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
+            elif h_kurang >= 7:
+                status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo kejar target!"
+            elif h_kurang >= 4:
+                status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
+            else:
+                status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
 
             # --- RENDER RADAR UI (PERSIS TAMPILAN LAMA) ---
             with wadah_radar.container(border=True):
@@ -1221,7 +1221,6 @@ def tampilkan_tugas_kerja():
                     st.metric("📊 STATUS", status_ikon)
                 
                 with c2:
-                    # Pake delta_color inverse biar kalau angka naik jadi merah
                     st.metric(
                         "💀 HARI KURANG", 
                         f"{h_kurang} / 21", 
@@ -1230,22 +1229,17 @@ def tampilkan_tugas_kerja():
                     )
                 
                 with c3:
-                    # Hitung total dan rincian teks delta
                     total_semua_bonus = b_vid + u_abs
-                    
-                    # Gabungin teks Bonus Vid dan Bonus Absen dalam satu baris delta
                     txt_delta = []
                     if b_vid > 0: txt_delta.append(f"Vid: Rp {b_vid:,}")
                     if u_abs > 0: txt_delta.append(f"Absen: Rp {u_abs:,}")
-                    
-                    # Satukan dengan pemisah |
                     gabungan_delta = " | ".join(txt_delta) if txt_delta else None
                     
                     st.metric(
                         "💰 TOTAL BONUS", 
                         f"Rp {total_semua_bonus:,}", 
                         delta=gabungan_delta,
-                        delta_color="normal" # normal biar warnanya ijo seger
+                        delta_color="normal"
                     )
                 
                 with c4:
@@ -1253,43 +1247,42 @@ def tampilkan_tugas_kerja():
                     st.write(f"📢 **INFO {target_user}:** \n\n {msg}")
 
         st.divider()
-        # ... Lanjutkan ke bagian render kartu tugas di bawahnya ...
 
     except Exception as e:
         st.error(f"❌ Error Tampilan: {e}")
-        
-        st.divider() # Pemisah antara Radar dan Panel Admin
 
-        # --- 3. PANEL ADMIN (Taruh di Sini!) ---
-        if user_level == "ADMIN": # <--- Sekarang Lisa juga bisa kirim tugas
+    st.divider() # Pemisah antara Radar dan Panel Admin
+
+    # --- 3. PANEL ADMIN (Taruh di Sini!) ---
+    if user_level == "OWNER": # <--- Cuma Dian yang punya akses kirim tugas
+        
+        # Ambil data staff untuk dropdown
+        st_raw = ambil_data_segar("Staff")
+        st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
+        staf_options = st_raw['NAMA'].unique().tolist()
+        
+        with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
+            c2, c1 = st.columns([2, 1]) 
+            with c2: 
+                isi_tugas = st.text_area("Instruksi Tugas", height=150, placeholder="Tulis instruksi video di sini...", key="input_tugas_admin")
+            with c1: 
+                staf_tujuan = st.selectbox("Pilih Editor", staf_options)
+                pake_wa = st.checkbox("Kirim Notif WA?", value=True)
             
-            # Ambil data staff untuk dropdown (Pindahkan st_raw ke sini jika belum ada di atas)
-            st_raw = ambil_data_segar("Staff")
-            st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
-            staf_options = st_raw['NAMA'].unique().tolist()
-            
-            with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
-                c2, c1 = st.columns([2, 1]) 
-                with c2: 
-                    isi_tugas = st.text_area("Instruksi Tugas", height=150, placeholder="Tulis instruksi video di sini...", key="input_tugas_admin")
-                with c1: 
-                    staf_tujuan = st.selectbox("Pilih Editor", staf_options)
-                    pake_wa = st.checkbox("Kirim Notif WA?", value=True)
-                
-                if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
-                
-                    if isi_tugas:
-                        t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                        # Pastikan variabel sheet_tugas sudah lo definisikan (sh.worksheet("Tugas"))
-                        sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
-                        catat_log(f"Kirim Tugas Baru {t_id}")
-                        
-                        if pake_wa:
-                            kirim_notif_wa(f"✨ *INFO TUGAS*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:30]}...")
-                        
-                        st.success("✅ Terkirim!"); time.sleep(1); st.rerun()
-                    else:
-                        st.error("Isi dulu instruksinya, Bos!")
+            if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
+                if isi_tugas:
+                    t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    sheet_tugas.append_row([t_id, staf_tujuan, sekarang.strftime("%Y-%m-%d"), isi_tugas, "PROSES", "-", "", ""])
+                    catat_log(f"Kirim Tugas Baru {t_id}")
+                    
+                    if pake_wa:
+                        kirim_notif_wa(f"✨ *INFO TUGAS*\n\n👤 *Untuk:* {staf_tujuan.upper()}\n🆔 *ID:* {t_id}\n📝 *Detail:* {isi_tugas[:30]}...")
+                    
+                    st.success("✅ Terkirim!")
+                    time.sleep(1)
+                    st.rerun()
+                else:
+                    st.error("Isi dulu instruksinya, Bos!")
 
     # --- 4. SETOR MANDIRI (VERSI SUPER LOCK) ---
     if user_level == "STAFF":
@@ -1305,7 +1298,6 @@ def tampilkan_tugas_kerja():
                 
                 if submit_m:
                     if judul_m and link_m:
-                        # VALIDASI GANDA: Cek koma DAN cek jumlah protokol https
                         is_multiple = "," in link_m or link_m.lower().count("https://") > 1
                         
                         if is_multiple:
@@ -1313,7 +1305,6 @@ def tampilkan_tugas_kerja():
                         elif "drive.google.com" not in link_m.lower():
                             st.warning("⚠️ **LINK TIDAK VALID!** Pastikan kamu memasukkan link Google Drive yang benar.")
                         else:
-                            # PROSES SIMPAN KE GSHEET
                             t_id_m = f"M{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                             sheet_tugas.append_row([
                                 t_id_m, 
@@ -1323,12 +1314,8 @@ def tampilkan_tugas_kerja():
                                 "WAITING QC", 
                                 sekarang.strftime("%d/%m/%Y %H:%M"), 
                                 link_m, 
-                                "" # Catatan Kosong
+                                "" 
                             ])
-                            kirim_notif_wa(f"⚡ *SETORAN MANDIRI*\n\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n🎬 *Video:* {judul_m}")
-                            st.success(f"✅ Video '{judul_m}' berhasil disetor! Silakan setor video lainnya jika ada.")
-                            time.sleep(1)
-                            st.rerun()
                     else:
                         st.warning("⚠️ Mohon isi Judul dan Link terlebih dahulu!")
                         
@@ -1339,7 +1326,8 @@ def tampilkan_tugas_kerja():
     if not df_all_tugas.empty:
         status_buang = ["FINISH", "CANCELED"]
         
-        if user_level == "ADMIN": 
+        # OWNER dan ADMIN bisa pantau semua tugas yang lagi jalan
+        if user_level in ["OWNER", "ADMIN"]: 
             tugas_terfilter = [t for t in data_tugas if str(t.get("STATUS")).upper() not in status_buang]
         else:
             tugas_terfilter = [t for t in data_tugas if str(t.get("STAF")).lower() == user_sekarang and str(t.get("STATUS")).upper() not in status_buang]
@@ -1381,12 +1369,16 @@ def tampilkan_tugas_kerja():
                                     st.warning(f"⚠️ **REVISI:** {t['CATATAN_REVISI']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['INSTRUKSI']}")
                                 
-                                # --- BAGIAN KHUSUS ADMIN (DENGAN AUTO-BONUS) ---
-                                if user_level == "ADMIN": 
-                                    if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
-                                        link_qc = str(t["LINK_HASIL"]).strip()
-                                        st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
-                                    
+                                # --- BAGIAN MONITORING & EKSEKUSI ---
+                                
+                                # 1. LINK QC (Bisa dilihat OWNER & ADMIN biar bisa bantu cek)
+                                if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
+                                    link_qc = str(t["LINK_HASIL"]).strip()
+                                    st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
+
+                                # 2. PANEL VETO (KHUSUS OWNER: Tombol Duit & Status)
+                                if user_level == "OWNER":
+                                    st.write("---")
                                     cat_r = st.text_area("Catatan Admin:", key=f"cat_{t['ID']}", placeholder="Alasan Revisi/Batal...")
                                     
                                     b1, b2, b3 = st.columns(3)
@@ -1432,7 +1424,7 @@ def tampilkan_tugas_kerja():
                                                     msg_bonus = f"\n🔥 *BONUS LEMBUR:* Rp 30,000 (ID: {id_tugas})"
                                                     st.toast(f"🔥 Bonus Lembur {staf_nama} dicatat!", icon="🚀")
 
-                                                # 5. KIRIM NOTIF WA (PASTIKAN FUNGSI INI ADA)
+                                                # 5. KIRIM NOTIF WA
                                                 pesan_wa = f"✅ *TUGAS SELESAI (ACC)*\n\n👤 *Editor:* {staf_nama}\n🆔 *ID Tugas:* {id_tugas}\n📅 *Tanggal:* {tgl_tugas}{msg_bonus}\n\n✨ _Hasil kerja sudah masuk ke laporan keuangan._"
                                                 kirim_notif_wa(pesan_wa) 
 
@@ -1539,7 +1531,7 @@ def tampilkan_tugas_kerja():
                         ws_akun.update_cell(cell.row, 5, user_up) 
                         ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
                         
-                        # Kirim notif WA ke grup biar lo & Lisa tahu ada yang ambil akun
+                        # Kirim notif WA
                         kirim_notif_wa(f"🔑 *KLAIM AKUN AI*\n\n👤 *User:* {user_up}\n🛠️ *Tool:* {pilihan_ai}\n📧 *Email:* {email_target}")
                         
                         st.success(f"Akun {pilihan_ai} Berhasil Diklaim!")
@@ -1548,7 +1540,7 @@ def tampilkan_tugas_kerja():
                     except Exception as e:
                         st.error(f"Gagal Update GSheet: {e}")
 
-                # 4. DAFTAR KOLEKSI (SUDAH DILURUSKAN INDENTASINYA)
+                # 4. DAFTAR KOLEKSI
                 if akun_aktif_user:
                     st.divider()
                     kolom_vcard = st.columns(3) 
@@ -1876,12 +1868,12 @@ def tampilkan_tugas_kerja():
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 26 setiap bulannya.")
                 
 def tampilkan_kendali_tim():    
-    # 1. PROTEKSI AKSES
+# 1. PROTEKSI AKSES (Izinkan OWNER dan ADMIN masuk)
     user_level = st.session_state.get("user_level", "STAFF")
 
-    if user_level != "ADMIN":
-        st.error("🚫 Maaf, Area ini hanya untuk Admin.")
-        st.stop() 
+    if user_level not in ["OWNER", "ADMIN"]:
+        st.error("🚫 Maaf, Area ini hanya untuk jajaran Manajemen.")
+        st.stop()
 
     # 2. SETUP WAKTU (Wajib di atas agar variabel 'sekarang' terbaca semua modul)
     tz_wib = pytz.timezone('Asia/Jakarta')
@@ -1974,12 +1966,12 @@ def tampilkan_kendali_tim():
             # Bonus Terbayar adalah yang sudah masuk ke Arus Kas via tombol ACC
             bonus_terbayar_kas = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'Gaji Tim')]['NOMINAL'].sum()
 
-        # --- HITUNG ESTIMASI GAJI POKOK REAL (STAFF ONLY) ---
+        # --- HITUNG ESTIMASI GAJI POKOK REAL (STAFF & ADMIN) ---
         total_gaji_pokok_tim = 0
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
-        # FILTER: Kita hanya ambil yang levelnya STAFF
-        df_staff_real = df_staff[df_staff['LEVEL'] == 'STAFF']
+        # FILTER: Ambil STAFF dan ADMIN. OWNER (Dian) jangan dimasukkan agar saldo tetap rahasia.
+        df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'ADMIN'])]
 
         if not is_masa_depan:
             for _, s in df_staff_real.iterrows():
@@ -1990,7 +1982,7 @@ def tampilkan_kendali_tim():
                 df_a_staf = df_a_f[df_a_f['NAMA'] == n_up].copy()
                 df_t_staf = df_f_f[df_f_f['STAF'] == n_up].copy()
 
-                # Kita panggil mesin utama cuma buat ambil pot_sp-nya saja
+                # Kita panggil mesin utama (Sudah aman karena ada Mantra Kebal buat Admin)
                 _, _, pot_sp_real, _, _ = hitung_logika_performa_dan_bonus(
                     df_t_staf, df_a_staf, bulan_dipilih, tahun_dipilih
                 )
@@ -1998,15 +1990,16 @@ def tampilkan_kendali_tim():
                 g_pokok = int(pd.to_numeric(str(s.get('GAJI_POKOK')).replace('.',''), errors='coerce') or 0)
                 t_tunj = int(pd.to_numeric(str(s.get('TUNJANGAN')).replace('.',''), errors='coerce') or 0)
                 
-                # Gaji nett yang sudah dipotong SP (Berdasarkan Hari Lemah)
+                # Gaji nett: Admin pasti pot_sp_real-nya 0 karena Mantra Kebal tadi
                 gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp_real)
                 
                 if bulan_dipilih == sekarang.month:
+                    # Hitung proporsional hari berjalan
                     total_gaji_pokok_tim += (gaji_nett / 25) * min(sekarang.day, 25)
                 else:
                     total_gaji_pokok_tim += gaji_nett
 
-        # TOTAL OUTCOME SINKRON (Uang Keluar Real)
+        # TOTAL OUTCOME SINKRON (Uang Keluar Real: Staff + Admin)
         total_pengeluaran_gaji = total_gaji_pokok_tim + bonus_terbayar_kas
         total_out = total_pengeluaran_gaji + ops
         saldo_bersih = inc - total_out
@@ -2099,7 +2092,7 @@ def tampilkan_kendali_tim():
         performa_staf = {}
 
         # --- FILTER LEVEL: HANYA PROSES STAFF ---
-        df_staff_filtered = df_staff[df_staff['LEVEL'] == 'STAFF']
+        df_staff_filtered = df_staff[df_staff['LEVEL'].isin(['STAFF', 'ADMIN'])]
 
         # Loop menggunakan dataframe yang sudah difilter
         for idx, s in df_staff_filtered.reset_index().iterrows():
@@ -2160,35 +2153,39 @@ def tampilkan_kendali_tim():
                     st.progress(min(h_lemah_staf / 7, 1.0))
 
         # ======================================================================
-        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI CLEAN TOTAL) ---
+        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI CLEAN TOTAL - VIP SYNCED) ---
         # ======================================================================
         with st.container(border=True):
             st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
             
-            # 1. Pastikan MVP & LOW cuma dari Staff
-            staf_top = max(performa_staf, key=performa_staf.get) if performa_staf else "-"
-            staf_low = min(performa_staf, key=performa_staf.get) if performa_staf else "-"
+            # 1. Pastikan MVP & LOW cuma mengambil data dari level STAFF
+            # Kita ambil daftar nama yang emang levelnya STAFF aja
+            nama_staff_asli = df_staff[df_staff['LEVEL'] == 'STAFF']['NAMA'].str.upper().tolist()
+            performa_hanya_staff = {k: v for k, v in performa_staf.items() if k in nama_staff_asli}
+            
+            staf_top = max(performa_hanya_staff, key=performa_hanya_staff.get) if performa_hanya_staff else "-"
+            staf_low = min(performa_hanya_staff, key=performa_hanya_staff.get) if performa_hanya_staff else "-"
             
             c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
             
-            # 2. Target Ideal harus dinamis (Jumlah Staff x 40)
-            # Tadi lo 200 karena (4 Staff + 1 Admin) * 40. Sekarang kita kunci di Staff aja.
-            jml_staff_asli = len(df_staff[df_staff['LEVEL'] == 'STAFF'])
+            # 2. Target Ideal dinamis (Jumlah Staff x 40)
+            jml_staff_asli = len(nama_staff_asli)
             target_fix = jml_staff_asli * 40
             
             c_r1.metric("🎯 TARGET IDEAL", f"{target_fix} Vid") 
             
-            # 3. Total Video & Persentase
+            # 3. Total Video & Persentase Capaian
             persen_capaian = (rekap_v_total / target_fix * 100) if target_fix > 0 else 0
             c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}", delta=f"{persen_capaian:.1f}% Capaian")
             
+            # 4. Bonus (Total Gabungan Staff & Admin)
             c_r3.metric("🔥 BONUS LEMBUR", f"Rp {rekap_b_cair:,}")
             c_r4.metric("📅 BONUS ABSEN", f"Rp {rekap_b_absen:,}")
             
-            # 4. Total Hari Lemah (Ini yang tadi bikin angka 102 HR)
-            # Sekarang dia cuma akan nampilin akumulasi h_lemah_staf dari loop STAFF tadi.
+            # 5. Total Hari Lemah (Otomatis 0 buat Admin karena Mantra Kebal)
             c_r5.metric("💀 TOTAL HARI LEMAH", f"{rekap_h_malas} HR", delta="Staff Only", delta_color="inverse")
             
+            # 6. Gelar Juara & Perlu Bimbingan
             c_r6.metric("👑 MVP STAF", staf_top)
             c_r7.metric("📉 LOW STAF", staf_low)
         
@@ -2739,7 +2736,7 @@ def tampilkan_ruang_produksi():
                 st.markdown('<div style="margin-bottom: -15px;"></div>', unsafe_allow_html=True)
                 
 # ==============================================================================
-# BAGIAN 7: PENGENDALI UTAMA
+# BAGIAN 7: PENGENDALI UTAMA (PINTAR MEDIA OS)
 # ==============================================================================
 def utama():
     inisialisasi_keamanan() 
@@ -2748,27 +2745,32 @@ def utama():
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
-        # 1. TAMBAHKAN BARIS INI: Ambil level user dari session state
+        # 1. Ambil identitas user dari session
         user_level = st.session_state.get("user_level", "STAFF")
         
         # 2. Panggil Sidebar & Menu
         menu = tampilkan_navigasi_sidebar()
         
-        # 3. Logika Menu
-        if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
-        elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
-        elif menu == "💡 GUDANG IDE": tampilkan_gudang_ide()
-        elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
+        # 3. Logika Navigasi Menu
+        if menu == "🚀 RUANG PRODUKSI": 
+            tampilkan_ruang_produksi()
+
+        elif menu == "🧠 PINTAR AI LAB": 
+            tampilkan_ai_lab()
+
+        elif menu == "💡 GUDANG IDE": 
+            tampilkan_gudang_ide()
+
+        elif menu == "📋 TUGAS KERJA": 
+            tampilkan_tugas_kerja()
         
-        # 4. UBAH BAGIAN INI: Beri proteksi level Admin
+        # 4. PROTEKSI MENU KENDALI TIM (OWNER & ADMIN BISA MASUK)
         elif menu == "⚡ KENDALI TIM": 
-            if user_level == "ADMIN":
+            if user_level in ["OWNER", "ADMIN"]:
                 tampilkan_kendali_tim()
             else:
-                st.error("🚫 Akses Ditolak. Menu ini hanya untuk level Admin.")
+                st.error("🚫 Akses Ditolak. Menu ini hanya untuk jajaran Manajemen.")
 
-# --- BAGIAN PALING BAWAH ---
+# --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
-
-
