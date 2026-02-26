@@ -1327,7 +1327,7 @@ def tampilkan_tugas_kerja():
                         is_multiple = "," in link_m or link_m.lower().count("https://") > 1
                         
                         if is_multiple:
-                            st.error("❌ **TERDETEKSI GANDA!** Dilarang mengirim lebih dari 1 link dalam satu setoran. Silakan kirim satu per satu agar bonusmu tidak rugi.")
+                            st.error("❌ **TERDETEKSI GANDA!** Dilarang mengirim lebih dari 1 link dalam satu setoran.")
                         elif "drive.google.com" not in link_m.lower():
                             st.warning("⚠️ **LINK TIDAK VALID!** Pastikan kamu memasukkan link Google Drive yang benar.")
                         else:
@@ -1342,6 +1342,13 @@ def tampilkan_tugas_kerja():
                                 link_m, 
                                 "" 
                             ])
+                            
+                            # --- NOTIF WA SIMPEL (MANDIRI) ---
+                            kirim_notif_wa(f"📤 *SETORAN MANDIRI*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t_id_m}\n📝 *Tugas:* {judul_m}")
+                            
+                            st.success("✅ Setoran Mandiri Berhasil Terkirim!")
+                            time.sleep(1)
+                            st.rerun()
                     else:
                         st.warning("⚠️ Mohon isi Judul dan Link terlebih dahulu!")
                         
@@ -1493,6 +1500,11 @@ def tampilkan_tugas_kerja():
                                                 cell = sheet_tugas.find(str(t['ID']).strip())
                                                 sheet_tugas.update_cell(cell.row, 5, "WAITING QC")
                                                 sheet_tugas.update_cell(cell.row, 7, l_in)
+                                                
+                                                # --- NOTIF SIMPEL PAKAI INSTRUKSI ---
+                                                txt_tugas = t.get('INSTRUKSI', '-')[:20]
+                                                kirim_notif_wa(f"📤 *SETORAN TUGAS*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n📝 *Tugas:* {txt_tugas}...")
+                                                
                                                 st.success("Terkirim!"); time.sleep(1); st.rerun()
                                         else:
                                             st.warning("Isi link dulu!")
@@ -2823,6 +2835,7 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
 
 
 
