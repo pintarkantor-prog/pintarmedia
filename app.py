@@ -1772,6 +1772,7 @@ def tampilkan_kendali_tim():
     pilihan_nama = c_bln.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
     bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
     tahun_dipilih = c_thn.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
+    t_target_display = 120 # Total target 3 staf x 40 video
 
     st.divider()
 
@@ -2559,6 +2560,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
