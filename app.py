@@ -297,9 +297,6 @@ def inisialisasi_keamanan():
             "form_version": 0
         }
 
-    # --- KEAMANAN TINGGI: CABUT FITUR LOGIN VIA URL ---
-    # Bagian params auth dihapus agar tidak bisa bypass login lewat link.
-
 def proses_login(user, pwd):
     try:
         df_staff = ambil_data_segar("Staff")
@@ -308,48 +305,46 @@ def proses_login(user, pwd):
             st.error("Database Staff tidak terbaca.")
             return
 
+        # 1. Standarisasi Kolom & Input
         df_staff.columns = [str(c).strip().upper() for c in df_staff.columns]
         u_input = str(user).strip().upper()
         p_input = str(pwd).strip()
 
-        user_row = df_staff[df_staff['NAMA'] == u_input]
+        # 2. Cari User
+        user_row = df_staff[df_staff['NAMA'].astype(str).str.upper() == u_input]
 
         if not user_row.empty:
+            # PENTING: Paksa password jadi string biar gak bentrok tipe data
             pwd_sheet = str(user_row.iloc[0]['PASSWORD']).strip()
             user_level = str(user_row.iloc[0]['LEVEL']).strip().upper()
             
             if pwd_sheet == p_input:
-                # --- 1. SET STATUS LOGIN ---
+                # --- SET SESSION ---
                 st.session_state.sudah_login = True
                 user_key = user.lower().strip() 
                 st.session_state.user_aktif = user_key
                 st.session_state.waktu_login = datetime.now()
 
-                # --- 2. KUNCI KASTA OWNER (BYPASS) ---
+                # --- KUNCI LEVEL ---
                 if user_key == "dian":
                     st.session_state.user_level = "OWNER"
                 else:
                     st.session_state.user_level = user_level
 
-                current_lv = st.session_state.user_level
-
-                # --- 3. LOGIKA ABSEN & NOTIF ---
-                if current_lv in ["STAFF", "ADMIN"]:
+                # --- NOTIFIKASI ---
+                if st.session_state.user_level == "OWNER":
+                    st.toast(f"👑 Selamat Datang, Bos {user_key}!")
+                else:
                     log_absen_otomatis(user_key)
-                    st.toast(f"Selamat bekerja, {user_key}!", icon="✅")
-                elif current_lv == "OWNER":
-                    st.toast(f"Mode Owner Aktif: {user_key}", icon="👑")
-
-                # --- 4. PAKSA SISTEM REFRESH (BERSIHKAN URL) ---
-                # Bersihkan URL agar tidak ada celah login duplikat via link
-                st.query_params.clear() 
+                    st.toast(f"✅ Selamat Bekerja, {user_key}!")
                 
-                time.sleep(1) # Kasih nafas buat Toast nongol
+                # --- RERUN TANPA CLEAR PARAMS (BIAR STABIL) ---
+                time.sleep(0.5)
                 st.rerun()
             else:
-                st.error("Password salah.")
+                st.error("❌ Password salah. Cek Caps Lock atau spasi!")
         else:
-            st.error("Username tidak terdaftar.")
+            st.error(f"❓ Username '{u_input}' tidak ditemukan.")
 
     except Exception as e:
         st.error(f"Sistem Login Error: {e}")
@@ -2828,9 +2823,6 @@ def tampilkan_ruang_produksi():
 # ==============================================================================
 # BAGIAN 7: PENGENDALI UTAMA (PINTAR MEDIA OS)
 # ==============================================================================
-# ==============================================================================
-# BAGIAN 7: PENGENDALI UTAMA (PINTAR MEDIA OS)
-# ==============================================================================
 def utama():
     # Cek login dulu sebelum ngerender apa-apa
     if not cek_autentikasi():
@@ -2910,6 +2902,7 @@ if __name__ == "__main__":
     pasang_css_kustom() 
     # 3. Jalankan mesin utama
     utama()
+
 
 
 
