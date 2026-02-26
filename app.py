@@ -220,8 +220,8 @@ def log_absen_otomatis(nama_user):
     tgl_skrg = waktu_skrg.strftime("%Y-%m-%d")
     jam_skrg = waktu_skrg.strftime("%H:%M")
 
-    # 3. RANGE JAM KERJA (8 Pagi - 11 Malam)
-    if 8 <= jam < 23: 
+    # 3. RANGE JAM KERJA (8 Pagi - 10 Malam)
+    if 8 <= jam < 22: 
         try:
             sh = get_gspread_sh() 
             sheet_absen = sh.worksheet("Absensi")
@@ -2439,7 +2439,7 @@ def tampilkan_ruang_produksi():
             st.markdown("<p style='color: #e67e22; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>📡 <b>Synchronizing session data...</b></p>", unsafe_allow_html=True)
         
         else:
-            # Status jika login lewat jam 11 malam
+            # Status jika login lewat jam 10 malam
             st.markdown("<p style='color: #ff4b4b; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>🚫 <b>Access Denied:</b> Operational Window Closed</p>", unsafe_allow_html=True)
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
@@ -2766,6 +2766,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
