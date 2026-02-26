@@ -262,7 +262,7 @@ def inisialisasi_keamanan():
     if 'sudah_login' not in st.session_state:
         st.session_state.sudah_login = False
     
-# INISIALISASI MASTER DATA (VERSI CLEAN)
+    # INISIALISASI MASTER DATA (VERSI CLEAN)
     if 'data_produksi' not in st.session_state:
         st.session_state.data_produksi = {
             "jumlah_karakter": 2,
@@ -281,13 +281,8 @@ def inisialisasi_keamanan():
             "form_version": 0
         }
 
-    # Perbaikan: Jangan update session login otomatis dari params di sini jika bikin bentrok
-    params = st.query_params
-    if "auth" in params and params["auth"] == "true":
-        if not st.session_state.sudah_login:
-            st.session_state.sudah_login = True
-            st.session_state.user_aktif = params.get("user", "User")
-            st.session_state.waktu_login = datetime.now()
+    # --- KEAMANAN TINGGI: CABUT FITUR LOGIN VIA URL ---
+    # Bagian params auth dihapus agar tidak bisa bypass login lewat link.
 
 def proses_login(user, pwd):
     try:
@@ -329,8 +324,10 @@ def proses_login(user, pwd):
                 elif current_lv == "OWNER":
                     st.toast(f"Mode Owner Aktif: {user_key}", icon="👑")
 
-                # --- 4. PAKSA SISTEM REFRESH (PENTING!) ---
-                st.query_params.update({"auth": "true", "user": user_key})
+                # --- 4. PAKSA SISTEM REFRESH (BERSIHKAN URL) ---
+                # Bersihkan URL agar tidak ada celah login duplikat via link
+                st.query_params.clear() 
+                
                 time.sleep(1) # Kasih nafas buat Toast nongol
                 st.rerun()
             else:
@@ -339,8 +336,8 @@ def proses_login(user, pwd):
             st.error("Username tidak terdaftar.")
 
     except Exception as e:
-        # --- PENUTUP TRY: Biar gak SyntaxError lagi ---
-        st.error(f"Sistem Login Error: {e}")        
+        st.error(f"Sistem Login Error: {e}")
+        
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
@@ -2835,13 +2832,3 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
