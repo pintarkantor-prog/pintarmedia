@@ -1063,8 +1063,8 @@ def tampilkan_tugas_kerja():
     # --- 1. DATABASE FOTO STAFF (WAJIB ADA BIAR GAK NAMEERROR) ---
     foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
     foto_staff = {
-        "icha": "https://cdn-icons-png.flaticon.com/512/149/149073.png",
-        "nissa": "https://cdn-icons-png.flaticon.com/512/149/149074.png",
+        "icha": "https://cdn-icons-png.flaticon.com/512/149/149074.png",
+        "nissa": "https://cdn-icons-png.flaticon.com/512/149/149067.png",
         "inggi": "https://cdn-icons-png.flaticon.com/512/149/149072.png",
         "lisa": "https://cdn-icons-png.flaticon.com/512/149/149070.png",
         "dian": "https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -2574,6 +2574,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
