@@ -1974,12 +1974,15 @@ def tampilkan_kendali_tim():
             # Bonus Terbayar adalah yang sudah masuk ke Arus Kas via tombol ACC
             bonus_terbayar_kas = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'Gaji Tim')]['NOMINAL'].sum()
 
-        # --- HITUNG ESTIMASI GAJI POKOK REAL (SINKRONISASI HARIAN) ---
+        # --- HITUNG ESTIMASI GAJI POKOK REAL (STAFF ONLY) ---
         total_gaji_pokok_tim = 0
         is_masa_depan = tahun_dipilih > sekarang.year or (tahun_dipilih == sekarang.year and bulan_dipilih > sekarang.month)
         
+        # FILTER: Kita hanya ambil yang levelnya STAFF
+        df_staff_real = df_staff[df_staff['LEVEL'] == 'STAFF']
+
         if not is_masa_depan:
-            for _, s in df_staff.iterrows():
+            for _, s in df_staff_real.iterrows():
                 n_up = str(s.get('NAMA', '')).strip().upper()
                 if n_up == "" or n_up == "NAN": continue
                 
@@ -1999,10 +2002,8 @@ def tampilkan_kendali_tim():
                 gaji_nett = max(0, (g_pokok + t_tunj) - pot_sp_real)
                 
                 if bulan_dipilih == sekarang.month:
-                    # Estimasi pengeluaran gaji tim sampai hari ini
                     total_gaji_pokok_tim += (gaji_nett / 25) * min(sekarang.day, 25)
                 else:
-                    # Laporan bulan lalu (Full sebulan)
                     total_gaji_pokok_tim += gaji_nett
 
         # TOTAL OUTCOME SINKRON (Uang Keluar Real)
@@ -2770,3 +2771,4 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
