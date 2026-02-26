@@ -88,10 +88,6 @@ def rakit_prompt_sakral(aksi, style, light, arah, shot, cam):
 
     return f"{s_cmd} {tech_logic} {l_cmd}"
     
-DAFTAR_USER = {
-    "dian": "QWERTY21ab", "icha": "udin99", "nissa": "tung22",
-    "inggi": "udin33", "lisa": "tung66", "tamu": "123"
-}
 MASTER_CHAR = {
     "Custom": {"fisik": "", "versi_pakaian": {"Manual": ""}}, 
     
@@ -207,7 +203,14 @@ st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 # FUNGSI ABSENSI OTOMATIS (MESIN ABSEN) - VERSI OPTIMASI
 # ==============================================================================
 def log_absen_otomatis(nama_user):
-    if nama_user.lower() in ["dian", "tamu"]: return
+    # 1. CEK SESSION STATE (Biar gak kerja dua kali)
+    # Ini rem supaya fungsi gak jalan terus tiap refresh
+    if st.session_state.get('absen_done_today', False):
+        return
+
+    user_level = st.session_state.get("user_level", "STAFF")
+    if user_level == "ADMIN" or nama_user.lower() == "tamu": 
+        return
     
     tz_wib = pytz.timezone('Asia/Jakarta')
     waktu_skrg = datetime.now(tz_wib)
@@ -219,32 +222,42 @@ def log_absen_otomatis(nama_user):
     # Absensi hanya berlaku jam 8 pagi sampai 10 malam
     if 8 <= jam < 22: 
         try:
-            # --- PAKAI CACHE (GANTI DI SINI) ---
             sh = get_gspread_sh() 
             sheet_absen = sh.worksheet("Absensi")
             
-            # Gunakan fungsi ambil_data_segar agar sinkron & cepat
+            # Ambil data terbaru (Filter nama user & tanggal hari ini saja)
             df_absen = ambil_data_segar("Absensi")
             
             nama_up = nama_user.upper().strip()
-            sudah_absen = False
             
+            # Cek di memori GSheet apakah emang beneran udah ada
+            sudah_absen = False
             if not df_absen.empty:
-                # Cek apakah nama ini sudah absen di tanggal yang sama
-                sudah_absen = any((df_absen['TANGGAL'].astype(str) == tgl_skrg) & 
-                                  (df_absen['NAMA'] == nama_up))
+                df_absen['TANGGAL'] = df_absen['TANGGAL'].astype(str)
+                sudah_absen = not df_absen[(df_absen['TANGGAL'] == tgl_skrg) & 
+                                          (df_absen['NAMA'] == nama_up)].empty
             
             if not sudah_absen:
+                # Penentuan status yang lebih tegas
                 status_final = "HADIR" if jam < 10 else f"TELAT ({jam_skrg})"
+                
+                # Kirim ke GSheet
                 sheet_absen.append_row([nama_up, tgl_skrg, jam_skrg, status_final])
+                
+                # Tandai di Session State (Berhasil Absen)
+                st.session_state.absen_done_today = True
                 
                 if jam < 10:
                     st.toast(f"⏰ Absen Berhasil (Jam {jam_skrg})", icon="✅")
                 else:
                     st.toast(f"⚠️ Tercatat Telat (Jam {jam_skrg})", icon="ℹ️")
+            else:
+                # Kalau sudah ada di GSheet, tandai juga di session state biar gak ngecek lagi
+                st.session_state.absen_done_today = True
+
         except Exception as e:
-            # Log error dikit biar gak buta kalau ada masalah
             print(f"Error Absen: {e}")
+            
 # ==============================================================================
 # BAGIAN 2: SISTEM KEAMANAN & INISIALISASI DATA (SESSION STATE)
 # ==============================================================================
@@ -280,19 +293,50 @@ def inisialisasi_keamanan():
             st.session_state.waktu_login = datetime.now()
 
 def proses_login(user, pwd):
-    if user in DAFTAR_USER and DAFTAR_USER[user] == pwd:
-        st.session_state.sudah_login = True
-        st.session_state.user_aktif = user
-        st.session_state.waktu_login = datetime.now()
+    try:
+        df_staff = ambil_data_segar("Staff")
         
-        # AKTIVASI ABSEN
-        log_absen_otomatis(user)
-        
-        st.query_params.update({"auth": "true", "user": user})
-        st.rerun()
-    else:
-        st.error("Username atau Password salah.")
+        if df_staff.empty:
+            st.error("Database Staff tidak terbaca.")
+            return
 
+        u_input = str(user).strip().upper()
+        p_input = str(pwd).strip()
+
+        # Cari user di database
+        user_row = df_staff[df_staff['NAMA'] == u_input]
+
+        if not user_row.empty:
+            pwd_sheet = str(user_row.iloc[0]['PASSWORD']).strip()
+            # Ambil level dari kolom LEVEL (F)
+            user_level = str(user_row.iloc[0]['LEVEL']).strip().upper()
+            
+            if pwd_sheet == p_input:
+                # LOGIN BERHASIL
+                st.session_state.sudah_login = True
+                user_key = user.lower().strip() 
+                st.session_state.user_aktif = user_key
+                st.session_state.user_level = user_level # Simpan level di session
+                st.session_state.waktu_login = datetime.now()
+                
+                # --- LOGIKA PENYARING ABSEN ---
+                # Absensi otomatis HANYA untuk yang levelnya STAFF
+                if user_level == "STAFF":
+                    log_absen_otomatis(user_key)
+                    st.toast(f"Selamat bekerja, {user_key}!", icon="✅")
+                else:
+                    st.toast(f"Mode Admin Aktif: {user_key}", icon="⚡")
+                
+                st.query_params.update({"auth": "true", "user": user_key})
+                st.rerun()
+            else:
+                st.error("Password salah.")
+        else:
+            st.error("Username tidak terdaftar.")
+            
+    except Exception as e:
+        st.error(f"Sistem Login Error: {e}")
+        
 def tampilkan_halaman_login():
     st.markdown("<br>", unsafe_allow_html=True)
     col_l, col_m, col_r = st.columns([2, 1, 2]) 
@@ -575,8 +619,11 @@ def pasang_css_kustom():
 # BAGIAN 4: NAVIGASI SIDEBAR (VERSI CLOUD ONLY)
 # ==============================================================================
 def tampilkan_navigasi_sidebar():
+    # Ambil level user dari session state (Default ke STAFF jika tidak ada)
+    user_level = st.session_state.get("user_level", "STAFF")
+    
     with st.sidebar:
-        # 1. JUDUL DENGAN IKON (Sesuai Gambar)
+        # 1. JUDUL DENGAN IKON
         st.markdown("""
             <div style='display: flex; align-items: center; margin-bottom: 10px; margin-top: 10px;'>
                 <span style='font-size: 20px; margin-right: 10px;'>🖥️</span>
@@ -586,23 +633,29 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # 2. MENU RADIO (Daftar Pilihan)
+        # 2. LOGIKA FILTER MENU
+        # Daftar menu dasar untuk semua orang
+        menu_list = [
+            "🚀 RUANG PRODUKSI", 
+            "🧠 PINTAR AI LAB", 
+            "💡 GUDANG IDE", 
+            "📋 TUGAS KERJA"
+        ]
+        
+        # Cuma ADMIN yang bisa lihat menu Kendali Tim
+        if user_level == "ADMIN":
+            menu_list.append("⚡ KENDALI TIM")
+
         pilihan = st.radio(
             "COMMAND_MENU",
-            [
-                "🚀 RUANG PRODUKSI", 
-                "🧠 PINTAR AI LAB", 
-                "💡 GUDANG IDE", 
-                "📋 TUGAS KERJA", 
-                "⚡ KENDALI TIM"
-            ],
+            menu_list,
             label_visibility="collapsed"
         )
         
-        # 3. GARIS PEMISAH & SPASI KE BAWAH
+        # 3. GARIS PEMISAH
         st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         
-        # 1. KOTAK DURASI FILM
+        # 4. KOTAK DURASI FILM
         st.markdown("<p class='small-label'>🎬 DURASI FILM (ADEGAN)</p>", unsafe_allow_html=True)
         st.session_state.data_produksi["jumlah_adegan"] = st.number_input(
             "Jumlah Adegan", 1, 50, 
@@ -610,17 +663,15 @@ def tampilkan_navigasi_sidebar():
             label_visibility="collapsed"
         )
         
-        # 2. SISTEM DATABASE CLOUD (GSHEET)
+        # 5. SISTEM DATABASE CLOUD
         st.markdown("<p class='small-label'>☁️ CLOUD DATABASE (GSHEET)</p>", unsafe_allow_html=True)
         
-        # Tombol Backup & Restore Berdampingan dengan tampilan default
         col1, col2 = st.columns(2)
         with col1:
-            # type="primary" dihapus agar warnanya default (abu-abu)
             if st.button("📤 BACKUP", use_container_width=True): 
                 simpan_ke_gsheet()
         with col2:
-            if st.button("🔄 RESTORE", use_container_width=True):
+            if st.button("🔄 RESTORE", use_container_width=True): 
                 muat_dari_gsheet()
                 
         st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)   
@@ -629,11 +680,12 @@ def tampilkan_navigasi_sidebar():
             proses_logout()
         
         user = st.session_state.get("user_aktif", "USER").upper()
+        # Kita tampilkan levelnya di footer biar kamu gampang ngecek
         st.markdown(f'''
             <div style="border-top: 1px solid #30363d; padding-top: 15px; margin-top: 10px;">
                 <p class="status-footer">
                     🛰️ STATION: {user}_SESSION<br>
-                    🟢 STATUS: AKTIF
+                    🟢 STATUS: {user_level}
                 </p>
             </div>
         ''', unsafe_allow_html=True)
@@ -880,6 +932,8 @@ def tampilkan_gudang_ide():
             
     # --- 3. DATA & GRID RENDER ---
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    user_level = st.session_state.get("user_level", "STAFF") 
+    
     tz_wib = pytz.timezone('Asia/Jakarta')
 
     try:
@@ -926,6 +980,15 @@ def tampilkan_gudang_ide():
                                 st.session_state.sedang_proses_id = id_ini
                                 st.session_state.status_sukses = False
                                 st.rerun()
+
+                            if user_level == "ADMIN":
+                                if st.button(f"🗑️ HAPUS IDE", key=f"del_{id_ini}", use_container_width=True):
+                                    # Logika hapus baris di GSheet
+                                    cell_del = sheet_gudang.find(id_ini)
+                                    sheet_gudang.delete_rows(cell_del.row)
+                                    st.success("Ide Berhasil Dihapus!")
+                                    time.sleep(1)
+                                    st.rerun()
                                 
             # --- 4. PROSES DATA (VERSI MINIMALIS: HANYA LIST ADEGAN) ---
             if st.session_state.sedang_proses_id and not st.session_state.status_sukses:
@@ -1086,6 +1149,7 @@ def tampilkan_tugas_kerja():
     }
     
     user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
+    user_level = st.session_state.get("user_level", "STAFF")
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
@@ -1117,14 +1181,17 @@ def tampilkan_tugas_kerja():
         # 3. LOGIKA RADAR (Tampilan Mewah Kode Lama)
         target_user = user_sekarang.upper()
         
-        # Jika Admin Dian, kita kasih pilihan intip staf (Biar lo bisa liat radar mereka)
-        if user_sekarang == "dian":
+        # 3. LOGIKA RADAR
+        if user_level == "ADMIN":
             st_raw = ambil_data_segar("Staff")
             st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
             list_staf = st_raw['NAMA'].unique().tolist()
+            # Admin memilih siapa yang mau dipantau
             target_user = st.selectbox("🎯 Intip Radar Staf:", list_staf).upper()
+        else:
+            target_user = user_sekarang.upper()
 
-        if target_user != "TAMU":
+        if user_level == "STAFF" or user_level == "ADMIN":             
             mask_user = df_all_tugas['STAF'].str.strip() == target_user
             mask_finish = df_all_tugas['STATUS'].str.strip() == 'FINISH'
             df_arsip_user = df_all_tugas[mask_user & mask_finish & mask_bulan].copy()
@@ -1193,20 +1260,23 @@ def tampilkan_tugas_kerja():
         st.divider() # Pemisah antara Radar dan Panel Admin
 
         # --- 3. PANEL ADMIN (Taruh di Sini!) ---
-        if user_sekarang == "dian":
-            # Pastikan variabel st_raw (data staf) sudah lo panggil di atas
-            # Biar staf_options nggak error
-            staf_options = st_raw['NAMA'].unique().tolist() if 'st_raw' in locals() else []
+        if user_level == "ADMIN": # <--- Sekarang Lisa juga bisa kirim tugas
+            
+            # Ambil data staff untuk dropdown (Pindahkan st_raw ke sini jika belum ada di atas)
+            st_raw = ambil_data_segar("Staff")
+            st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
+            staf_options = st_raw['NAMA'].unique().tolist()
             
             with st.expander("✨ **KIRIM TUGAS BARU**", expanded=False):
                 c2, c1 = st.columns([2, 1]) 
                 with c2: 
-                    isi_tugas = st.text_area("Instruksi Tugas", height=150, placeholder="Tulis instruksi video di sini...")
+                    isi_tugas = st.text_area("Instruksi Tugas", height=150, placeholder="Tulis instruksi video di sini...", key="input_tugas_admin")
                 with c1: 
                     staf_tujuan = st.selectbox("Pilih Editor", staf_options)
                     pake_wa = st.checkbox("Kirim Notif WA?", value=True)
                 
                 if st.button("🚀 KIRIM KE EDITOR", use_container_width=True):
+                
                     if isi_tugas:
                         t_id = f"ID{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
                         # Pastikan variabel sheet_tugas sudah lo definisikan (sh.worksheet("Tugas"))
@@ -1221,10 +1291,10 @@ def tampilkan_tugas_kerja():
                         st.error("Isi dulu instruksinya, Bos!")
 
     # --- 4. SETOR MANDIRI (VERSI SUPER LOCK) ---
-    if user_sekarang != "dian" and user_sekarang != "tamu":
+    if user_level == "STAFF":
         with st.container(border=True):
             st.markdown("### 🚀 SETOR TUGAS MANDIRI")
-            st.info("💡 **Tips Bonus:** Setor 1 video per 1 kiriman agar bonus lembur & target bulanan terhitung otomatis oleh sistem.")
+            st.info("💡 **PENTING:** Setor 1 video per 1 kiriman agar bonus lembur & target bulanan terhitung otomatis oleh sistem.")
             
             with st.form("form_mandiri", clear_on_submit=True):
                 judul_m = st.text_input("📝 Judul Video/Pekerjaan:", placeholder="Contoh: Video Konten A Part 1")
@@ -1264,14 +1334,13 @@ def tampilkan_tugas_kerja():
     # --- 5. RENDER KARTU TUGAS (FIXED LOGIC) ---
     tugas_terfilter = []
     
-    # 1. Kumpulkan data dulu (Gunakan Huruf Besar sesuai hasil standarisasi di atas)
+    # 1. Kumpulkan data dulu
     if not df_all_tugas.empty:
         status_buang = ["FINISH", "CANCELED"]
-        if user_sekarang == "dian":
-            # Admin melihat semua yang bukan FINISH/CANCELED
+        
+        if user_level == "ADMIN": 
             tugas_terfilter = [t for t in data_tugas if str(t.get("STATUS")).upper() not in status_buang]
         else:
-            # Staff melihat miliknya
             tugas_terfilter = [t for t in data_tugas if str(t.get("STAF")).lower() == user_sekarang and str(t.get("STATUS")).upper() not in status_buang]
 
     # 2. CEK HASIL FILTER (Logika yang bener: kalau kosong kasih info, kalau ada gambar kartu)
@@ -1311,8 +1380,8 @@ def tampilkan_tugas_kerja():
                                     st.warning(f"⚠️ **REVISI:** {t['CATATAN_REVISI']}")
                                 st.markdown(f"> **INSTRUKSI:** \n> {t['INSTRUKSI']}")
                                 
-                                # --- BAGIAN KHUSUS ADMIN DIAN (DENGAN AUTO-BONUS) ---
-                                if user_sekarang == "dian":
+                                # --- BAGIAN KHUSUS ADMIN (DENGAN AUTO-BONUS) ---
+                                if user_level == "ADMIN": 
                                     if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
                                         link_qc = str(t["LINK_HASIL"]).strip()
                                         st.link_button("🚀 BUKA VIDEO (QC)", link_qc, use_container_width=True)
@@ -1392,9 +1461,8 @@ def tampilkan_tugas_kerja():
                                                 st.error("BATAL!"); time.sleep(1); st.rerun()
 
                                 # --- BAGIAN KHUSUS STAFF (SETOR) ---
-                                elif user_sekarang != "tamu":
+                                elif user_level == "STAFF": 
                                     st.markdown('<p class="small-label">🔗 LINK GDRIVE (1 VIDEO = 1 LINK)</p>', unsafe_allow_html=True)
-                                    # Gunakan text_input agar ringkas tapi pastikan logika split dihapus
                                     l_in = st.text_input("Paste Link di sini:", value=t.get("LINK_HASIL", ""), key=f"l_{t['ID']}")
                                     
                                     if st.button("🚀 SETOR", key=f"b_{t['ID']}", use_container_width=True):
@@ -1413,7 +1481,7 @@ def tampilkan_tugas_kerja():
     # =========================================================
     # --- 4.5. SISTEM KLAIM AI (FIXED INDENTATION) ---
     # =========================================================
-    if user_sekarang != "dian" and user_sekarang != "tamu":
+    if user_level == "STAFF": 
         st.write("")
         
         with st.expander("⚡ KLAIM AKUN AI DISINI", expanded=False):
@@ -1457,15 +1525,25 @@ def tampilkan_tugas_kerja():
                     st.warning("🚫 Limit 3 akun aktif tercapai.")
 
                 if c_btn.button("🔓 KLAIM AKUN", use_container_width=True, disabled=not bisa_klaim):
+                    # Ambil 1 akun random dari stok yang tersedia
                     target = df_stok[df_stok['AI'] == pilihan_ai].sample(1)
-                    email_target = target.iloc[0]['EMAIL']
+                    email_target = str(target.iloc[0]['EMAIL']).strip()
                     
                     try:
+                        # Gunakan koneksi 'sh' yang sudah ada di atas
+                        ws_akun = sh.worksheet("Akun_AI") 
                         cell = ws_akun.find(email_target, in_column=2)
+                        
+                        # Update Kolom PEMAKAI (5) dan TANGGAL KLAIM (6)
                         ws_akun.update_cell(cell.row, 5, user_up) 
                         ws_akun.update_cell(cell.row, 6, h_ini.strftime("%Y-%m-%d"))
+                        
+                        # Kirim notif WA ke grup biar lo & Lisa tahu ada yang ambil akun
+                        kirim_notif_wa(f"🔑 *KLAIM AKUN AI*\n\n👤 *User:* {user_up}\n🛠️ *Tool:* {pilihan_ai}\n📧 *Email:* {email_target}")
+                        
                         st.success(f"Akun {pilihan_ai} Berhasil Diklaim!")
-                        time.sleep(1); st.rerun()
+                        time.sleep(1)
+                        st.rerun()
                     except Exception as e:
                         st.error(f"Gagal Update GSheet: {e}")
 
@@ -1533,7 +1611,7 @@ def tampilkan_tugas_kerja():
                          (df_all_tugas['DEADLINE_DT'].dt.year == thn_arsip) & \
                          (df_all_tugas['STATUS'].isin(['FINISH', 'CANCELED']))
             
-            if user_sekarang != "dian":
+            if user_level == "STAFF":
                 mask_arsip &= (df_all_tugas['STAF'] == user_sekarang.upper())
 
             df_laci = df_all_tugas[mask_arsip].copy()
@@ -1596,7 +1674,7 @@ def tampilkan_tugas_kerja():
             st.write("Belum ada data tugas.")
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
-    if user_sekarang != "dian" and user_sekarang != "tamu":
+    if user_level == "STAFF":
         # A. AMBIL DATA ABSENSI DULU (Agar bisa dipakai untuk Radar & Slip)
         try:
             data_absensi = sheet_absensi.get_all_records()
@@ -1797,22 +1875,28 @@ def tampilkan_tugas_kerja():
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 26 setiap bulannya.")
                 
 def tampilkan_kendali_tim():    
-    # Ambil nama user aktif
-    user_sekarang = st.session_state.get("user_aktif", "tamu").lower()
-    
-    # 1. PROTEKSI AKSES (Satpam Admin)
-    # Sekarang Lisa sudah resmi jadi Co-Admin
-    if user_sekarang not in ["dian"]:
-        st.error("🚫 Maaf, Area ini hanya untuk Admin.")
-        return 
+    # 1. PROTEKSI AKSES
+    user_level = st.session_state.get("user_level", "STAFF")
 
-    # 2. HEADER HALAMAN
-    st.title("⚡ PUSAT KENDALI TIM")    
-    st.cache_data.clear()
-    
-    # 3. SETUP WAKTU & FILTER
+    if user_level != "ADMIN":
+        st.error("🚫 Maaf, Area ini hanya untuk Admin.")
+        st.stop() 
+
+    # 2. SETUP WAKTU (Wajib di atas agar variabel 'sekarang' terbaca semua modul)
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
+    
+    # 3. HEADER HALAMAN
+    col_h1, col_h2 = st.columns([3, 1])
+    with col_h1:
+        st.title("⚡ PUSAT KENDALI TIM")
+    with col_h2:
+        if st.button("🔄 REFRESH DATA", use_container_width=True):
+            st.cache_data.clear()
+            st.rerun()
+
+    # 4. KONEKSI MASTER (Satu koneksi untuk semua expander di bawah)
+    sh = get_gspread_sh()
     
     c_bln, c_thn = st.columns([2, 2])
     daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
@@ -2001,7 +2085,8 @@ def tampilkan_kendali_tim():
                         plot_bgcolor='rgba(0,0,0,0)'
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-                    
+                else:
+                    st.markdown("<p style='text-align:center; color:#666; font-size:12px; margin-top:50px;'>Belum ada data visualisasi untuk periode ini.</p>", unsafe_allow_html=True)                    
         # ======================================================================
         # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO - SYNCED) ---
         # ======================================================================
@@ -2226,7 +2311,9 @@ def tampilkan_kendali_tim():
                         v_pass = f3.text_input("Password")
                         v_exp = st.date_input("Tanggal Expired")
                         if st.form_submit_button("🚀 SIMPAN KE GSHEET"):
-                            ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp)])
+                            # Tambahkan "X" di kolom PEMAKAI agar langsung bisa diklaim staf
+                            # Tambahkan "" di kolom TANGGAL_KLAIM agar rapi
+                            ws_akun.append_row([v_ai, v_mail, v_pass, str(v_exp), "X", ""])
                             st.success("Berhasil Tersimpan!"); time.sleep(1); st.rerun()
 
                 st.divider()
@@ -2275,6 +2362,25 @@ def tampilkan_kendali_tim():
                                 b1.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>STATUS</p><b style='font-size:13px;'>{stat_ai}</b>", unsafe_allow_html=True)
                                 b2.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>EXPIRED</p><b style='font-size:13px;'>{tgl_exp.strftime('%d %b')}</b>", unsafe_allow_html=True)
                                 b3.markdown(f"<p style='margin:0; font-size:11px; color:#888;'>SISA</p><b style='font-size:15px; color:{warna_h};'>{sisa} Hr</b>", unsafe_allow_html=True)
+
+                                # --- TARUH DI SINI (KHUSUS ADMIN) ---
+                                st.write("") # Kasih jarak dikit
+                                if st.button(f"🔄 RESET AKUN", key=f"reset_{r['EMAIL']}", use_container_width=True):
+                                    try:
+                                        # Cari baris berdasarkan Email (Kolom B / indeks 2)
+                                        cell_target = ws_akun.find(str(r['EMAIL']).strip(), in_column=2)
+                                        
+                                        # Reset PEMAKAI (Kolom E / indeks 5) jadi 'X'
+                                        ws_akun.update_cell(cell_target.row, 5, "X")
+                                        
+                                        # Kosongkan TANGGAL_KLAIM (Kolom F / indeks 6)
+                                        ws_akun.update_cell(cell_target.row, 6, "")
+                                        
+                                        st.success(f"Akun {r['AI']} berhasil direset!")
+                                        time.sleep(1)
+                                        st.rerun()
+                                    except Exception as e:
+                                        st.error(f"Gagal reset: {e}")
                 else:
                     st.info("Belum ada data akun AI.")
 
@@ -2290,6 +2396,7 @@ def tampilkan_kendali_tim():
 # ==============================================================================
 def simpan_ke_memori():
     st.session_state.data_produksi = st.session_state.data_produksi
+
 def tampilkan_ruang_produksi():
     # 1. PENGATURAN WAKTU & USER
     sekarang = datetime.utcnow() + timedelta(hours=7) 
@@ -2302,10 +2409,24 @@ def tampilkan_ruang_produksi():
     nama_bulan = bulan_id[sekarang.month - 1]
     user_aktif = st.session_state.get("user_aktif", "User").upper()
 
+    log_absen_otomatis(user_aktif) 
+
     # 2. KUNCI DATA DARI SESSION STATE (SUMBER UTAMA)
-    # Kita ambil data di baris paling atas agar tidak tertimpa/reset
     data = st.session_state.data_produksi
     ver = st.session_state.get("form_version", 0)
+    
+    # 3. HEADER UI RUANG PRODUKSI
+    st.title(f"🚀 RUANG PRODUKSI")
+    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {sekarang.year}")
+    
+    # --- STATUS ABSENSI (Feedback Instant buat Staf) ---
+    with st.container():
+        if st.session_state.get('absen_done_today'):
+            st.caption("✅ Kehadiran hari ini telah tercatat otomatis.")
+        else:
+            st.caption("⏳ Menghubungkan ke sistem absensi...")
+            
+    st.divider()
 
     # --- QUALITY BOOSTER & NEGATIVE CONFIG (VERSI FINAL KLIMIS) ---
     QB_IMG = (
@@ -2612,40 +2733,30 @@ def tampilkan_ruang_produksi():
 # ==============================================================================
 def utama():
     inisialisasi_keamanan() 
-    pasang_css_kustom() # Tambahkan ini agar CSS kamu langsung aktif saat login
+    pasang_css_kustom() 
     
     if not cek_autentikasi():
         tampilkan_halaman_login()
     else:
-        # Panggil Sidebar & Menu setelah login berhasil
+        # 1. TAMBAHKAN BARIS INI: Ambil level user dari session state
+        user_level = st.session_state.get("user_level", "STAFF")
+        
+        # 2. Panggil Sidebar & Menu
         menu = tampilkan_navigasi_sidebar()
         
-        # Logika Menu
+        # 3. Logika Menu
         if menu == "🚀 RUANG PRODUKSI": tampilkan_ruang_produksi()
         elif menu == "🧠 PINTAR AI LAB": tampilkan_ai_lab()
         elif menu == "💡 GUDANG IDE": tampilkan_gudang_ide()
         elif menu == "📋 TUGAS KERJA": tampilkan_tugas_kerja()
-        elif menu == "⚡ KENDALI TIM": tampilkan_kendali_tim()
+        
+        # 4. UBAH BAGIAN INI: Beri proteksi level Admin
+        elif menu == "⚡ KENDALI TIM": 
+            if user_level == "ADMIN":
+                tampilkan_kendali_tim()
+            else:
+                st.error("🚫 Akses Ditolak. Menu ini hanya untuk level Admin.")
 
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
