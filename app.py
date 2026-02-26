@@ -642,7 +642,7 @@ def tampilkan_navigasi_sidebar():
             "📋 TUGAS KERJA"
         ]
         
-# OWNER dan ADMIN bisa lihat menu Kendali Tim
+        # OWNER dan ADMIN bisa lihat menu Kendali Tim
         if user_level in ["OWNER", "ADMIN"]:
             menu_list.append("⚡ KENDALI TIM")
 
@@ -1027,9 +1027,17 @@ def tampilkan_gudang_ide():
                 # D. Simpan ke naskah_siap_produksi
                 st.session_state.naskah_siap_produksi = naskah_bersih
                 
-                # E. Log Tugas
-                t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
-                sheet_tugas.append_row([t_id, user_sekarang.upper(), datetime.now(tz_wib).strftime("%Y-%m-%d"), f"TUGAS: {judul_proses}", "PROSES", "-", "", ""])
+                # E. Log Tugas (MANTRA GHOST: OWNER TIDAK DICATAT)
+                if user_level != "OWNER":
+                    t_id = f"T{datetime.now(tz_wib).strftime('%m%d%H%M%S')}"
+                    sheet_tugas.append_row([
+                        t_id, 
+                        user_sekarang.upper(), 
+                        datetime.now(tz_wib).strftime("%Y-%m-%d"), 
+                        f"TUGAS: {judul_proses}", 
+                        "PROSES", 
+                        "-", "", ""
+                    ])
 
                 st.session_state.status_sukses = True 
                 st.rerun()
@@ -1061,7 +1069,7 @@ def kirim_notif_wa(pesan):
 # ==============================================================================
 # LOGIKA PERHITUNGAN (SP & BONUS 2026) - VERSI KASTA VIP
 # ==============================================================================
-def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih):
+def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, tahun_pilih, level_target="STAFF"):
     bonus_video_total = 0
     uang_absen_total = 0
     hari_lemah = 0  
@@ -1124,7 +1132,7 @@ def hitung_logika_performa_dan_bonus(df_arsip_user, df_absen_user, bulan_pilih, 
     user_level = st.session_state.get("user_level", "STAFF")
     
     # Jika yang login OWNER/ADMIN, biarpun h_kurang banyak, paksa jadi NORMAL
-    if user_level in ["OWNER", "ADMIN"]:
+    if level_target in ["OWNER", "ADMIN"]:
         pot_sp = 0
         level_sp = "NORMAL (VIP)"
         hari_lemah = 0
@@ -1176,17 +1184,23 @@ def tampilkan_tugas_kerja():
                      (df_all_tugas['DEADLINE_DT'].dt.year == sekarang.year)
 
         # 3. LOGIKA RADAR (Tampilan Mewah Kode Lama)
-        target_user = user_sekarang.upper()
-        
-        # OWNER dan ADMIN bisa pilih siapa yang mau dipantau
+        # Ambil data staff di luar IF biar semua variabel di bawah bisa baca kasta
+        st_raw = ambil_data_segar("Staff")
+        st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
+
         if user_level in ["OWNER", "ADMIN"]:
-            st_raw = ambil_data_segar("Staff")
-            st_raw.columns = [str(c).strip().upper() for c in st_raw.columns]
-            # List staf yang muncul di dropdown (kecuali Owner biar gak menuh-menuhin)
+            # List staf yang muncul di dropdown (kecuali Owner biar tetap GHOST)
             list_staf = st_raw[st_raw['LEVEL'] != 'OWNER']['NAMA'].unique().tolist()
             target_user = st.selectbox("🎯 Intip Radar Staf:", list_staf).upper()
         else:
             target_user = user_sekarang.upper()
+
+        # --- INI KUNCINYA: CARI LEVEL SI TARGET DARI DATABASE ---
+        try:
+            # Cari baris si target_user, ambil kolom LEVEL-nya
+            level_asli_target = st_raw[st_raw['NAMA'] == target_user]['LEVEL'].values[0]
+        except:
+            level_asli_target = "STAFF" # Fallback kalau data gak ketemu
 
         if user_level in ["STAFF", "ADMIN", "OWNER"]:        
             mask_user = df_all_tugas['STAF'].str.strip() == target_user
@@ -1198,22 +1212,32 @@ def tampilkan_tugas_kerja():
                 df_absen_all.columns = [str(c).strip().upper() for c in df_absen_all.columns]
                 df_u_absen = df_absen_all[df_absen_all['NAMA'] == target_user].copy()
 
-            # HITUNG LOGIKA (Sinkron dengan mesin bonus lo)
+            # HITUNG LOGIKA (Sekarang kita kirim 'level_target' nya)
             b_vid, u_abs, pot_sp_r, level_sp_r, h_kurang = hitung_logika_performa_dan_bonus(
-                df_arsip_user, df_u_absen, sekarang.month, sekarang.year
+                df_arsip_user, 
+                df_u_absen, 
+                sekarang.month, 
+                sekarang.year,
+                level_target=level_asli_target # <--- SUNTIKAN KASTA KE MESIN HITUNG
             )
             
-            # --- PENENTU PESAN (Gaya Kode Lama) ---
-            if h_kurang >= 21:
-                status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
-            elif h_kurang >= 7:
-                status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo kejar target!"
-            elif h_kurang >= 4:
-                status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
+            # --- SISIRAN FINAL: PENENTU PESAN & RADAR UI (KASTA VERSION) ---
+            if level_asli_target in ["OWNER", "ADMIN"]:
+                status_ikon = "✨ VIP"
+                msg = "Akses Khusus: Tidak dipengaruhi sistem potongan SP harian."
+                tampil_h_kurang = 0 # VIP selalu terlihat bersih di radar
             else:
-                status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
+                tampil_h_kurang = h_kurang
+                if h_kurang >= 21:
+                    status_ikon, msg = "🚨 TERMINATED", f"Status: {level_sp_r}. Hubungi Admin!"
+                elif h_kurang >= 7:
+                    status_ikon, msg = "⚠️ WARNING", f"Dah kena {level_sp_r}. Ayo kejar target!"
+                elif h_kurang >= 4:
+                    status_ikon, msg = "⚡ PANTAU", f"Udah {h_kurang} hari bolong target."
+                else:
+                    status_ikon, msg = "✨ AMAN", "Performa mantap! Pertahankan."
 
-            # --- RENDER RADAR UI (PERSIS TAMPILAN LAMA) ---
+            # --- RENDER RADAR UI ---
             with wadah_radar.container(border=True):
                 c1, c2, c3, c4 = st.columns([1, 1, 1, 1.5])
                 
@@ -1223,8 +1247,8 @@ def tampilkan_tugas_kerja():
                 with c2:
                     st.metric(
                         "💀 HARI KURANG", 
-                        f"{h_kurang} / 21", 
-                        delta=f"{h_kurang} hari" if h_kurang > 0 else None,
+                        f"{tampil_h_kurang} / 21", 
+                        delta=f"{tampil_h_kurang} hari" if tampil_h_kurang > 0 else None,
                         delta_color="inverse"
                     )
                 
@@ -1474,7 +1498,7 @@ def tampilkan_tugas_kerja():
     # =========================================================
     # --- 4.5. SISTEM KLAIM AI (FIXED INDENTATION) ---
     # =========================================================
-    if user_level == "STAFF": 
+    if user_level in ["STAFF", "ADMIN"]:
         st.write("")
         
         with st.expander("⚡ KLAIM AKUN AI DISINI", expanded=False):
@@ -1667,7 +1691,7 @@ def tampilkan_tugas_kerja():
             st.write("Belum ada data tugas.")
                 
     # --- 5. GAJIAN (VERSI UTUH & SAKTI - FIX INDENTASI) ---
-    if user_level == "STAFF":
+    if user_level in ["STAFF", "ADMIN"]:
         # A. AMBIL DATA ABSENSI DULU (Agar bisa dipakai untuk Radar & Slip)
         try:
             data_absensi = sheet_absensi.get_all_records()
@@ -1868,7 +1892,6 @@ def tampilkan_tugas_kerja():
             st.info("🔒 **Menu Klaim Gaji** akan terbuka otomatis pada tanggal 26 setiap bulannya.")
                 
 def tampilkan_kendali_tim():    
-# 1. PROTEKSI AKSES (Izinkan OWNER dan ADMIN masuk)
     user_level = st.session_state.get("user_level", "STAFF")
 
     if user_level not in ["OWNER", "ADMIN"]:
@@ -2042,7 +2065,7 @@ def tampilkan_kendali_tim():
                     f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed", placeholder="Nominal Rp...")
                     f_ket = st.text_area("Keterangan", height=65, label_visibility="collapsed", placeholder="Catatan...")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
-                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, "Dian"])
+                        sh.worksheet("Arus_Kas").append_row([sekarang.strftime('%Y-%m-%d'), f_tipe, f_kat, int(f_nom), f_ket, user_sekarang.upper()])
                         st.success("Tersimpan!"); time.sleep(1); st.rerun()
 
             with col_logs:
@@ -2426,7 +2449,7 @@ def tampilkan_ruang_produksi():
     
     # --- STATUS BADGE (CYBER SECURITY STYLE) ---
     with st.container():
-        if level_aktif == "ADMIN":
+        if level_aktif in ["OWNER", "ADMIN"]:
             # Pesan khusus buat lo sebagai Owner
             st.markdown("<p style='color: #7f8c8d; font-size: 13px; margin-top:-15px; margin-bottom: 20px;'>⚡ <b>System Administrator Override</b></p>", unsafe_allow_html=True)
         
@@ -2774,3 +2797,4 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
