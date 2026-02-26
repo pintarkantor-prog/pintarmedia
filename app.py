@@ -2189,9 +2189,16 @@ def tampilkan_kendali_tim():
                     kolom_ai = st.columns(2)
                     h_ini = sekarang.date()
 
+                    # Counter buat ngatur kolom (biar gak bolong kalau ada yang di-skip)
+                    col_idx = 0
+
                     for idx, r in df_ai.iterrows():
                         tgl_exp = pd.to_datetime(r['EXPIRED']).date()
                         sisa = (tgl_exp - h_ini).days
+                        
+                        # --- MODIFIKASI DISINI: SEMBUNYIKAN KALAU MATI ---
+                        if sisa < 0: 
+                            continue # Lewati adegan ini, jangan tampilin di layar
                         
                         # Penentu Warna Header
                         if sisa > 7: warna_h, stat_ai = "#1d976c", "🟢 AMAN"
@@ -2576,6 +2583,7 @@ def utama():
 # --- BAGIAN PALING BAWAH ---
 if __name__ == "__main__":
     utama()
+
 
 
 
