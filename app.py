@@ -1499,8 +1499,8 @@ def tampilkan_tugas_kerja():
                                                 sheet_tugas.update_cell(cell.row, 7, l_in)
                                                 
                                                 # --- NOTIF SIMPEL PAKAI INSTRUKSI ---
-                                                txt_tugas = t.get('INSTRUKSI', '-')[:20]
-                                                kirim_notif_wa(f"📤 *SETORAN TUGAS*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n📝 *Tugas:* {txt_tugas}...")
+                                                txt_tugas = t.get('INSTRUKSI', '-')[:30]
+                                                kirim_notif_wa(f"📤 *SETORAN TUGAS*\n👤 *Editor:* {user_sekarang.upper()}\n🆔 *ID:* {t['ID']}\n📝 {txt_tugas}...")
                                                 
                                                 st.success("Terkirim!"); time.sleep(1); st.rerun()
                                         else:
@@ -2832,3 +2832,4 @@ def utama():
 # --- EKSEKUSI SISTEM ---
 if __name__ == "__main__":
     utama()
+
