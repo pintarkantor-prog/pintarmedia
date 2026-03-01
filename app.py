@@ -1,21 +1,33 @@
 def halaman_offline():
-    st.set_page_config(page_title="Web Sedang Maintenance", page_icon="🔧")
+    st.set_page_config(page_title="Maintenance Mode", page_icon="🔧", layout="centered")
+
+    # --- CSS SAKTI BUAT NGILANGIN ITEM ---
+    st.markdown("""
+        <style>
+        .main {
+            background-color: #ffffff; /* Maksa latar jadi putih */
+        }
+        h1, p, span {
+            color: #1f1f1f !important; /* Maksa tulisan jadi item biar kebaca di layar putih */
+        }
+        div.stButton > button {
+            background-color: #ff4b4b; /* Warna tombol redirect biar mencolok */
+            color: white !important;
+        }
+        </style>
+    """, unsafe_allow_value=True)
     
-    # Bikin layout tengah biar estetik
     _, col_tengah, _ = st.columns([1, 2, 1])
     
     with col_tengah:
         st.title("🔧 Web Lagi Maintenance, Cok!")
-        # Lo bisa ganti GIF-nya biar gak pada nangis
         st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJndTRndXJndXJndXJndXJndXJndXJndXJndXJndXJndXJndXJndSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/f3iwJFOVOwuy7K6FFw/giphy.gif")
         
-        st.warning("Sabar ya, sistem lagi kita rapihin biar makin gacor.")
-        st.info("Butuh akses cepat? Klik tombol di bawah buat balik ke web utama.")
+        st.warning("Lagi ada perbaikan database Supabase & GSheet bentar ya!")
         
-        # --- INI TOMBOL REDIRECT-NYA ---
+        # TOMBOL REDIRECT
         st.link_button("🚀 BALIK KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
         
-        st.divider()
-        st.caption("Admin PT Pintar Digital Kreasi")
+        st.info("Pindah ke kantor pusat aja dulu kalau buru-buru.")
 
-    st.stop() # Tetap pake ini biar kode bawahnya gak jalan
+    st.stop()
