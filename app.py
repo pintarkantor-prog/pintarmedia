@@ -65,10 +65,10 @@ def halaman_perang_bulat_paten():
         }
         </style>
         
-        <img src="https://i.pinimg.com/1200x/d0/3f/c4/d03fc4bdc00b3ae0495ef44b7a2314f8.jpg" class="round-flag usa" style="top:10%; left:5%;">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/015/089/231/small/russia-3d-rounded-flag-with-transparent-background-free-png.png" style="top:40%; right:10%;">
+        <img src="https://flagcdn.com/w160/us.png" class="round-flag usa" style="top:10%; left:5%;">
+        <img src="https://flagcdn.com/w160/il.png" class="round-flag isr" style="top:40%; right:10%;">
         <img src="https://flagcdn.com/w160/ir.png" class="round-flag ira" style="bottom:20%; left:20%;">
-        <img src="https://i.pinimg.com/736x/1f/3a/04/1f3a04018de63ce5e03526571aaa6f5d.jpg" style="top:20%; right:30%;">
+        <img src="https://flagcdn.com/w160/ru.png" class="round-flag rus" style="top:20%; right:30%;">
         <img src="https://flagcdn.com/w160/kp.png" class="round-flag nk" style="bottom:10%; right:15%;">
         
         <div class="rocket" style="top:50%; left:50%;">🚀</div>
@@ -80,6 +80,3 @@ def halaman_perang_bulat_paten():
     st.stop()
 
 halaman_perang_bulat_paten()
-
-
-
