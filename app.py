@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_pro_fix_total():
+def halaman_pro_final_perfect():
     st.set_page_config(
         page_title="Pintar Digital | Secure Access",
         page_icon="🔐",
@@ -8,10 +8,10 @@ def halaman_pro_fix_total():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: CENTER LOCK, EQUAL WIDTH, & MATCHING COLOR ---
+    # --- CSS SAKTI: FORCE CENTER & EQUAL WIDTH ---
     st.markdown("""
         <style>
-        /* 1. Hapus SEMUA elemen pengganggu & garis sisa */
+        /* 1. Hapus SEMUA elemen pengganggu Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
@@ -32,27 +32,28 @@ def halaman_pro_fix_total():
             padding: 0 !important;
         }
 
-        /* 3. Container Utama (Box + Tombol) */
-        .master-wrapper {
+        /* 3. Container Utama (Box + Tombol) - KUNCI DI TENGAH */
+        .ui-center-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px; /* Spasi jarak antara kotak dan tombol */
+            justify-content: center;
+            gap: 25px; /* JARAK SPASI ANTARA BOX DAN TOMBOL */
             z-index: 9999;
         }
 
-        /* 4. Kotak Terminal (Ukuran Fix 450px) */
+        /* 4. Kotak Terminal (Lebar Fix 450px) */
         .terminal-box {
             background: rgba(10, 25, 47, 0.95);
             padding: 45px;
-            border: 1px solid #64ffda; /* Warna senada gambar */
+            border: 1px solid #64ffda; /* WARNA SEWARNA LOGO */
             border-radius: 4px;
             box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
             text-align: center;
-            width: 450px; /* Lebar Kotak */
+            width: 450px; /* LEBAR FIX */
         }
 
-        .status-tag {
+        .status-header {
             color: #64ffda;
             font-family: 'Courier New', monospace;
             font-size: 0.85rem;
@@ -60,10 +61,10 @@ def halaman_pro_fix_total():
             margin-bottom: 20px;
         }
 
-        /* 5. Tombol Panjang Senada (Matching Width & Color) */
+        /* 5. Tombol Panjang (LEBAR SAMA DENGAN BOX & WARNA SENADA) */
         div.stButton > button {
             background-color: transparent !important;
-            color: #64ffda !important; /* Warna senada teks gambar */
+            color: #64ffda !important; /* WARNA SEWARNA LOGO */
             border: 1px solid #64ffda !important;
             border-radius: 4px !important;
             padding: 15px 0 !important;
@@ -72,8 +73,8 @@ def halaman_pro_fix_total():
             font-weight: bold !important;
             text-transform: uppercase !important;
             letter-spacing: 3px !important;
-            width: 450px !important; /* PANJANGNYA SAMA DENGAN KOTAK */
-            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 450px !important; /* PANJANGNYA SAMA PERSIS DENGAN KOTAK */
+            transition: 0.4s ease;
         }
 
         div.stButton > button:hover {
@@ -89,13 +90,14 @@ def halaman_pro_fix_total():
         </style>
     """, unsafe_allow_html=True)
 
-    # --- RENDER UI (Satu Wrapper agar Presisi) ---
-    st.markdown('<div class="master-wrapper">', unsafe_allow_html=True)
+    # --- RENDER UI (Satu Wrapper agar Presisi di Tengah) ---
+    # Kita pakai container kosong untuk "menjebak" elemen agar tetap di tengah
+    st.markdown('<div class="ui-center-wrapper">', unsafe_allow_html=True)
     
-    # Kotak Pesan
+    # Bagian Kotak
     st.markdown("""
         <div class="terminal-box">
-            <div class="status-tag">[ STATUS: MAINTENANCE ]</div>
+            <div class="status-header">[ STATUS: MAINTENANCE ]</div>
             <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 2rem;">ACCESS RESTRICTED</h1>
             <p style="color: #8892b0; font-size: 0.95rem; line-height: 1.6;">
                 Sistem sedang dalam sinkronisasi database berkala.<br>
@@ -104,10 +106,10 @@ def halaman_pro_fix_total():
         </div>
     """, unsafe_allow_html=True)
 
-    # Tombol Persis di Bawah (Lebar Sama)
+    # Bagian Tombol (Persis di Bawah dengan Lebar 450px)
     st.link_button("RETURN TO MAIN SERVER", "https://pintar.streamlit.app/")
     
     st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
-halaman_pro_fix_total()
+halaman_pro_final_perfect()
