@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_pro_final_perfect():
+def halaman_warzone_final_paten():
     st.set_page_config(
         page_title="Pintar Digital | Secure Access",
         page_icon="🔐",
@@ -8,15 +8,15 @@ def halaman_pro_final_perfect():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: FORCE CENTER & EQUAL WIDTH ---
+    # --- CSS SAKTI: POSISI MATI DI TENGAH ---
     st.markdown("""
         <style>
-        /* 1. Hapus SEMUA elemen pengganggu Streamlit */
+        /* 1. Sikat habis semua elemen sampah Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
         
-        /* 2. Background Full Screen dengan Grid Tipis */
+        /* 2. Background Grid Pro */
         .main {
             background-color: #050a0f !important;
             background-image: 
@@ -25,80 +25,70 @@ def halaman_pro_final_perfect():
             background-size: 30px 30px;
             height: 100vh !important;
             width: 100vw !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             margin: 0 !important;
             padding: 0 !important;
+            overflow: hidden !important;
         }
 
-        /* 3. Container Utama (Box + Tombol) - KUNCI DI TENGAH */
-        .ui-center-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 25px; /* JARAK SPASI ANTARA BOX DAN TOMBOL */
-            z-index: 9999;
-        }
-
-        /* 4. Kotak Terminal (Lebar Fix 450px) */
-        .terminal-box {
+        /* 3. KOTAK TERMINAL (KUNCI MATI DI TENGAH) */
+        .terminal-lock {
+            position: fixed;
+            top: 45%; /* Naik dikit biar tombol di bawahnya pas di tengah */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 999;
             background: rgba(10, 25, 47, 0.95);
             padding: 45px;
-            border: 1px solid #64ffda; /* WARNA SEWARNA LOGO */
+            border: 1px solid #64ffda;
             border-radius: 4px;
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.2);
             text-align: center;
-            width: 450px; /* LEBAR FIX */
+            width: 450px; /* Lebar Paten */
         }
 
-        .status-header {
-            color: #64ffda;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85rem;
-            letter-spacing: 4px;
-            margin-bottom: 20px;
+        /* 4. TOMBOL (KUNCI MATI DI BAWAH KOTAK) */
+        .button-lock {
+            position: fixed;
+            top: calc(45% + 185px); /* Posisi tepat di bawah kotak (45% + setengah tinggi kotak + spasi) */
+            left: 50%;
+            transform: translate(-50%, 0);
+            z-index: 1000;
+            width: 450px; /* LEBAR WAJIB SAMA DENGAN KOTAK */
         }
 
-        /* 5. Tombol Panjang (LEBAR SAMA DENGAN BOX & WARNA SENADA) */
+        /* Styling Button agar sewarna dan rapi */
         div.stButton > button {
             background-color: transparent !important;
-            color: #64ffda !important; /* WARNA SEWARNA LOGO */
+            color: #64ffda !important;
             border: 1px solid #64ffda !important;
             border-radius: 4px !important;
+            width: 100% !important; /* Ngikutin container 450px */
             padding: 15px 0 !important;
             font-size: 14px !important;
             font-family: 'Courier New', monospace !important;
             font-weight: bold !important;
             text-transform: uppercase !important;
             letter-spacing: 3px !important;
-            width: 450px !important; /* PANJANGNYA SAMA PERSIS DENGAN KOTAK */
-            transition: 0.4s ease;
+            transition: 0.3s;
         }
 
         div.stButton > button:hover {
             background-color: rgba(100, 255, 218, 0.1) !important;
-            box-shadow: 0 0 25px rgba(100, 255, 218, 0.4);
-            transform: translateY(-3px);
-            color: #ffffff !important;
-            border-color: #ffffff !important;
+            box-shadow: 0 0 20px #64ffda;
+            color: #fff !important;
         }
 
-        /* Hilangkan Border Container Streamlit */
+        /* Hapus border container Streamlit */
         .stMarkdownContainer { border: none !important; }
         </style>
-    """, unsafe_allow_html=True)
-
-    # --- RENDER UI (Satu Wrapper agar Presisi di Tengah) ---
-    # Kita pakai container kosong untuk "menjebak" elemen agar tetap di tengah
-    st.markdown('<div class="ui-center-wrapper">', unsafe_allow_html=True)
-    
-    # Bagian Kotak
-    st.markdown("""
-        <div class="terminal-box">
-            <div class="status-header">[ STATUS: MAINTENANCE ]</div>
-            <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 2rem;">ACCESS RESTRICTED</h1>
+        
+        <div class="terminal-lock">
+            <div style="color: #64ffda; font-family: monospace; letter-spacing: 4px; margin-bottom: 20px; font-size: 0.85rem;">
+                [ STATUS: MAINTENANCE ]
+            </div>
+            <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 2rem;">
+                ACCESS RESTRICTED
+            </h1>
             <p style="color: #8892b0; font-size: 0.95rem; line-height: 1.6;">
                 Sistem sedang dalam sinkronisasi database berkala.<br>
                 Silakan gunakan jalur akses utama di bawah ini.
@@ -106,10 +96,11 @@ def halaman_pro_final_perfect():
         </div>
     """, unsafe_allow_html=True)
 
-    # Bagian Tombol (Persis di Bawah dengan Lebar 450px)
+    # --- RENDER TOMBOL (DIPAKSA KE POSISI LOCK) ---
+    st.markdown('<div class="button-lock">', unsafe_allow_html=True)
     st.link_button("RETURN TO MAIN SERVER", "https://pintar.streamlit.app/")
-    
     st.markdown('</div>', unsafe_allow_html=True)
+
     st.stop()
 
-halaman_pro_final_perfect()
+halaman_warzone_final_paten()
