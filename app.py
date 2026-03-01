@@ -1,14 +1,14 @@
 import streamlit as st
 
-def halaman_digital_rocket():
+def halaman_war_digital():
     st.set_page_config(
-        page_title="Pintar Digital | Launching",
+        page_title="Pintar Digital | WAR ZONE",
         page_icon="🚀",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: FULL DIGITAL + ROKET ANIMASI ---
+    # --- CSS SAKTI: ANIMASI PERANG DIGITAL KELILING HALAMAN ---
     st.markdown("""
         <style>
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
@@ -16,107 +16,128 @@ def halaman_digital_rocket():
         }
         
         .main {
-            background-color: #050a0f; /* Hitam luar angkasa */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            background-color: #020508; /* Gelap total */
             height: 100vh;
             color: #00f2fe;
             font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
+            position: relative;
+        }
+
+        /* --- OBJEK PERANG YANG KELILING --- */
+        .war-obj {
+            position: absolute;
+            font-size: 50px;
+            z-index: 1;
+        }
+
+        /* Roket 1: Keliling Muter */
+        .rocket-1 {
+            animation: moveAround 10s linear infinite;
+            top: 10%; left: 10%;
         }
         
-        .digital-container {
+        /* Tank: Jalan Horizontal */
+        .tank-1 {
+            animation: moveHorizontal 15s linear infinite;
+            bottom: 20%; left: -100px;
+            font-size: 60px;
+        }
+
+        /* Rudal: Kecepatan Tinggi */
+        .missile-1 {
+            animation: moveDiagonal 5s linear infinite;
+            top: -50px; left: -50px;
+            font-size: 40px;
+        }
+
+        /* Pesawat: Patroli Atas */
+        .plane-1 {
+            animation: moveHorizontalReverse 12s linear infinite;
+            top: 20%; right: -100px;
+            font-size: 55px;
+        }
+
+        /* --- DEFINISI ANIMASI --- */
+        @keyframes moveAround {
+            0% { transform: translate(0,0) rotate(0deg); }
+            25% { transform: translate(80vw, 20vh) rotate(90deg); }
+            50% { transform: translate(50vw, 80vh) rotate(180deg); }
+            75% { transform: translate(0vw, 50vh) rotate(270deg); }
+            100% { transform: translate(0,0) rotate(360deg); }
+        }
+
+        @keyframes moveHorizontal {
+            from { left: -100px; }
+            to { left: 110vw; }
+        }
+
+        @keyframes moveHorizontalReverse {
+            from { right: -100px; }
+            to { right: 110vw; }
+        }
+
+        @keyframes moveDiagonal {
+            from { top: -50px; left: -50px; transform: rotate(45deg); }
+            to { top: 110vh; left: 110vw; transform: rotate(45deg); }
+        }
+
+        /* --- CONTAINER TENGAH --- */
+        .center-box {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            z-index: 10;
+            background: rgba(5, 10, 15, 0.8);
+            padding: 40px;
+            border-radius: 20px;
+            border: 2px solid #00f2fe;
+            box-shadow: 0 0 30px #00f2fe;
         }
 
-        /* --- ANIMASI ROKET GETAR --- */
-        .rocket-box {
-            font-size: 80px;
-            margin-bottom: 10px;
-            animation: shake 0.5s infinite;
-            display: inline-block;
-        }
-        
-        @keyframes shake {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(3px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            100% { transform: translate(1px, -2px) rotate(0deg); }
-        }
-
-        /* --- EQUALIZER DIGITAL --- */
         .equalizer {
             display: flex;
-            justify-content: space-between;
-            width: 80px;
-            height: 40px;
-            margin: 20px 0;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
         }
         .bar {
-            width: 10px;
-            height: 100%;
+            width: 8px; height: 30px;
             background: #00f2fe;
-            animation: equalize 0.8s ease-in-out infinite;
+            animation: equalize 0.5s infinite alternate;
         }
-        .bar:nth-child(1) { animation-delay: 0.0s; }
-        .bar:nth-child(2) { animation-delay: 0.2s; }
-        .bar:nth-child(3) { animation-delay: 0.4s; }
-        
+
         @keyframes equalize {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(0.3); }
+            from { height: 10px; }
+            to { height: 40px; }
         }
 
-        .status-text {
-            font-size: 1.2rem;
-            font-weight: bold;
-            letter-spacing: 3px;
-            color: #ffffff;
-            text-shadow: 0 0 10px #00f2fe;
-        }
-
-        /* --- TOMBOL PINDAH GACOR --- */
         div.stButton > button {
-            background: linear-gradient(45deg, #ff4b2b, #ff416c); /* Warna api roket */
-            color: white !important;
-            border-radius: 50px !important;
-            padding: 15px 40px;
+            background: linear-gradient(45deg, #00f2fe, #4facfe);
+            color: black !important;
             font-weight: bold;
+            border-radius: 50px;
+            padding: 10px 30px;
             border: none;
-            box-shadow: 0 0 20px rgba(255, 75, 43, 0.5);
-            transition: 0.3s;
-        }
-        div.stButton > button:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(255, 75, 43, 0.8);
         }
         </style>
-    """, unsafe_allow_html=True)
+        
+        <div class="war-obj rocket-1">🚀</div>
+        <div class="war-obj tank-1">🚜</div> <div class="war-obj missile-1">🚀</div> <div class="war-obj plane-1">✈️</div>
 
-    # --- HTML STRUCTURE ---
-    st.markdown("""
-        <div class="digital-container">
-            <div class="rocket-box">🚀</div>
+        <div class="center-box">
             <div class="equalizer">
-                <div class="bar"></div>
-                <div class="bar"></div>
-                <div class="bar"></div>
+                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
             </div>
-            <div class="status-text">SYSTEM UPGRADING...</div>
-            <p style="color: #4facfe;">Harap tenang, roket lagi dipanasin buat ke Web Utama.</p>
+            <h1 style="color:white; font-size: 2rem;">SERVER UNDER ATTACK!</h1>
+            <p style="color: #00f2fe;">Lagi maintenance gila-gilaan, Cok! Jangan nangis.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    # Tombol Redirect Langsung ke Web Utama lo
-    st.link_button("🔥 MELUNCUR KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
+    # Tombol Redirect
+    st.link_button("💥 KABUR KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
 
     st.stop()
 
-halaman_digital_rocket()
+halaman_war_digital()
