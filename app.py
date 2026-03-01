@@ -87,13 +87,8 @@ def halaman_war_zone_v2():
         <img src="https://flagcdn.com/w160/cn.png" class="round-flag chn" style="bottom:40%; right:30%;">
         <img src="https://flagcdn.com/w160/ps.png" class="round-flag pal" style="top:60%; left:10%;">
         
-        <div class="combat-unit fast-move" style="top:50%; left:50%;">🚀</div>
-        <div class="combat-unit fast-move" style="top:10%; left:70%; animation-delay: 2s;">✈️</div>
-        <div class="combat-unit med-move" style="bottom:30%; left:40%; animation-delay: 1s;">🛸</div>
-        <div class="combat-unit fast-move" style="top:80%; right:40%;">🚀</div>
         <div class="combat-unit med-move" style="top:20%; left:10%;">🛩️</div>
         <div class="combat-unit fast-move" style="bottom:10%; left:60%; animation-delay: 4s;">🚀</div>
-        <div class="combat-unit med-move" style="top:50%; right:10%;">🛸</div>
 
         <div class="fixed-footer"></div>
     """, unsafe_allow_html=True)
@@ -101,3 +96,4 @@ def halaman_war_zone_v2():
     st.stop()
 
 halaman_war_zone_v2()
+
