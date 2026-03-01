@@ -1,22 +1,22 @@
 import streamlit as st
 
-def halaman_final_perfect_center():
+def halaman_final_pasti_tengah():
     st.set_page_config(
         page_title="Pintar Digital | Secure Access",
         page_icon="🔐",
-        layout="wide",
+        layout="centered", # Gue ganti ke centered biar gak maruk layar
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: KUNCI MATI DI TITIK TENGAH (ANTI MELAR) ---
+    # --- JURUS SNIPER: KUNCI MATI SEMUA ELEMEN ---
     st.markdown("""
         <style>
-        /* 1. Sikat habis semua elemen sampah & garis sisa Streamlit */
+        /* 1. Hapus total semua sampah Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
         
-        /* 2. Background Grid Pro */
+        /* 2. Background Grid Profesional */
         .main {
             background-color: #050a0f !important;
             background-image: 
@@ -30,9 +30,8 @@ def halaman_final_perfect_center():
             overflow: hidden !important;
         }
 
-        /* 3. WRAPPER UTAMA (KUNCI MATI DI TENGAH LAYAR) */
-        /* Kita pakai koordinat fixed biar gak peduli sama layout wide Streamlit */
-        .absolute-center-container {
+        /* 3. WRAPPER ABSOLUT: GAK BAKAL BISA GESER */
+        .force-center {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -40,75 +39,73 @@ def halaman_final_perfect_center():
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 25px; /* Jarak spasi rapi antara box dan tombol */
+            gap: 20px;
             z-index: 99999;
-            width: 450px; /* KUNCI LEBAR BIAR GAK MELAR SEPERTI IMAGE_6C76EB */
+            width: 450px; /* KUNCI LEBAR BIAR GAK MELAR KAYAK IMAGE_6C76EB */
         }
 
-        /* 4. KOTAK TERMINAL (Lebar Fix 450px) */
+        /* 4. KOTAK TERMINAL */
         .terminal-box {
-            background: rgba(10, 25, 47, 0.95);
-            padding: 45px;
-            border: 1px solid #64ffda; /* WARNA SEWARNA LOGO */
+            background: rgba(10, 25, 47, 0.98);
+            padding: 40px;
+            border: 1px solid #64ffda; /* WARNA TEAL PRO */
             border-radius: 4px;
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
+            box-shadow: 0 0 30px rgba(100, 255, 218, 0.15);
             text-align: center;
-            width: 100%; /* Ngikutin container 450px */
+            width: 450px; /* HARUS SAMA DENGAN WRAPPER */
+            box-sizing: border-box;
         }
 
-        /* 5. TOMBOL PANJANG (WAJIB SEWARNA & LEBAR SAMA 450px) */
-        div.stButton > button {
-            background-color: transparent !important;
-            color: #64ffda !important; /* WARNA TEAL SENADA */
-            border: 1px solid #64ffda !important;
-            border-radius: 4px !important;
-            width: 450px !important; /* PANJANGNYA WAJIB SAMA DENGAN KOTAK */
-            padding: 15px 0 !important;
-            font-size: 14px !important;
-            font-family: 'Courier New', monospace !important;
-            font-weight: bold !important;
-            text-transform: uppercase !important;
-            letter-spacing: 3px !important;
-            transition: 0.4s ease;
+        /* 5. TOMBOL CUSTOM HTML (BIAR GAK PAKE ST.BUTTON YANG SUKA MOJOK) */
+        .btn-link {
+            display: block;
+            width: 450px; /* LEBAR PERSIS SAMA DENGAN KOTAK */
+            padding: 15px 0;
+            background: transparent;
+            color: #64ffda !important;
+            border: 1px solid #64ffda;
+            border-radius: 4px;
+            text-align: center;
+            text-decoration: none !important;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 14px;
+            letter-spacing: 2px;
+            transition: 0.3s all;
+            box-sizing: border-box;
         }
 
-        div.stButton > button:hover {
-            background-color: rgba(100, 255, 218, 0.1) !important;
-            box-shadow: 0 0 25px #64ffda;
-            color: #ffffff !important;
-            border-color: #ffffff !important;
-            transform: translateY(-3px);
+        .btn-link:hover {
+            background: rgba(100, 255, 218, 0.1);
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
+            color: #fff !important;
+            border-color: #fff;
         }
 
-        /* Hapus semua padding bawaan Streamlit yang bikin geser ke pojok */
+        /* Sikat sisa padding container Streamlit */
         .block-container { padding: 0 !important; }
-        .stMarkdownContainer { border: none !important; }
         </style>
-    """, unsafe_allow_html=True)
 
-    # --- RENDER SEMUA DALAM SATU WRAPPER ABSOLUT (ANTI POJOK) ---
-    st.markdown('<div class="absolute-center-container">', unsafe_allow_html=True)
-    
-    # Render Kotak Pesan (Gak Bakal Melar Lagi)
-    st.markdown("""
-        <div class="terminal-box">
-            <div style="color: #64ffda; font-family: monospace; letter-spacing: 4px; margin-bottom: 20px; font-size: 0.85rem;">
-                [ STATUS: MAINTENANCE ]
+        <div class="force-center">
+            <div class="terminal-box">
+                <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 15px; font-size: 0.8rem;">
+                    [ STATUS: MAINTENANCE ]
+                </div>
+                <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 1.8rem; border:none;">
+                    ACCESS RESTRICTED
+                </h1>
+                <p style="color: #8892b0; font-size: 0.9rem; line-height: 1.6; margin:0;">
+                    Sistem sedang dalam sinkronisasi database berkala.<br>
+                    Silakan gunakan jalur akses utama di bawah ini.
+                </p>
             </div>
-            <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 1.8rem;">
-                ACCESS RESTRICTED
-            </h1>
-            <p style="color: #8892b0; font-size: 0.9rem; line-height: 1.6;">
-                Sistem sedang dalam sinkronisasi database berkala.<br>
-                Silakan gunakan jalur akses utama di bawah ini.
-            </p>
+            
+            <a href="https://pintar.streamlit.app/" class="btn-link">
+                RETURN TO MAIN SERVER
+            </a>
         </div>
     """, unsafe_allow_html=True)
 
-    # Render Tombol (Persis di Bawah dengan Lebar 450px)
-    st.link_button("RETURN TO MAIN SERVER", "https://pintar.streamlit.app/")
-    
-    st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
-halaman_final_perfect_center()
+halaman_final_pasti_tengah()
