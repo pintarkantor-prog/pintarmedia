@@ -1,32 +1,30 @@
 import streamlit as st
 
-def halaman_warzone_final_v3():
+def halaman_war_zone_v2():
     st.set_page_config(
-        page_title="Pintar Digital | Elite",
-        page_icon="⚔️",
+        page_title="Pintar Digital | Warzone v2",
+        page_icon="🚀",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: HAPUS SEMUA GARIS & KUNCI TOMBOL DI TENGAH ---
+    # --- CSS SAKTI: FULL PAGE, BUNDAR, FIXED FOOTER ---
     st.markdown("""
         <style>
-        /* 1. Hapus Header, Footer, & Garis Bawaan Streamlit */
+        /* Hapus Header & Menu Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
             display: none !important;
         }
         
-        /* 2. Background Full Gelap */
         .main {
-            background-color: #010409 !important;
-            height: 100vh !important;
-            width: 100vw !important;
-            overflow: hidden !important;
-            margin: 0 !important;
-            padding: 0 !important;
+            background-color: #020508;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            margin: 0; padding: 0;
         }
 
-        /* 3. BENDERA BULAT KELILING */
+        /* --- STYLE BENDERA BULAT KELILING --- */
         .round-flag {
             position: absolute;
             width: 70px; height: 70px;
@@ -34,74 +32,50 @@ def halaman_warzone_final_v3():
             object-fit: cover;
             border: 2px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-            z-index: 1;
+            z-index: 2;
         }
 
+        /* --- STYLE UNIT TEMPUR --- */
+        .combat-unit {
+            position: absolute;
+            font-size: 50px;
+            z-index: 5;
+            filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+        }
+
+        /* Animasi Keliling Halaman */
         @keyframes patrol {
             0% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(80vw, 20vh) rotate(90deg); }
-            50% { transform: translate(40vw, 80vh) rotate(180deg); }
-            75% { transform: translate(-5vw, 40vh) rotate(270deg); }
+            25% { transform: translate(85vw, 15vh) rotate(90deg); }
+            50% { transform: translate(45vw, 85vh) rotate(180deg); }
+            75% { transform: translate(-5vw, 45vh) rotate(270deg); }
             100% { transform: translate(0,0) rotate(360deg); }
         }
 
+        /* Mapping Animasi Unit */
         .usa { animation: patrol 12s infinite linear; }
         .isr { animation: patrol 15s infinite linear reverse; }
         .ira { animation: patrol 20s infinite linear; }
         .rus { animation: patrol 18s infinite linear; }
         .nk  { animation: patrol 14s infinite linear reverse; }
-        .id  { animation: patrol 16s infinite linear; }
-        .cn  { animation: patrol 13s infinite linear reverse; }
-        .ps  { animation: patrol 19s infinite linear; }
+        .indo { animation: patrol 16s infinite linear; }
+        .chn { animation: patrol 13s infinite linear reverse; }
+        .pal { animation: patrol 19s infinite linear; }
 
-        /* 4. UNIT TEMPUR */
-        .combat-unit { position: absolute; font-size: 50px; z-index: 2; animation: patrol 10s infinite linear; }
+        /* Animasi Roket & Rudal Cepat */
+        .fast-move { animation: patrol 8s infinite linear; }
+        .med-move { animation: patrol 11s infinite linear reverse; }
 
-        /* 5. TOMBOL KECIL RGB - KUNCI MATI DI TENGAH */
-        .absolute-center {
+        /* --- FOOTER PATEN (FIXED) --- */
+        .fixed-footer {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Rumus Tengah Mutlak */
-            z-index: 9999;
-            padding: 4px;
-            border-radius: 50px;
-            background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
-            background-size: 400%;
-            animation: rainbow_move 8s linear infinite;
-            width: 220px; /* Lebar kecil sesuai request */
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #ff4b2b, #4facfe, #ff4b2b);
+            box-shadow: 0 -5px 15px rgba(255, 75, 43, 0.5);
+            z-index: 999;
         }
-
-        @keyframes rainbow_move {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 100% 50%; }
-        }
-
-        /* Styling Button Asli */
-        .absolute-center div.stButton > button {
-            background-color: #050a0f !important;
-            color: #ffffff !important;
-            border: none !important;
-            width: 210px !important;
-            border-radius: 50px !important;
-            font-weight: bold !important;
-            padding: 8px 0 !important;
-            font-size: 14px !important;
-            transition: 0.3s;
-        }
-        
-        .absolute-center div.stButton > button:hover {
-            color: #4facfe !important;
-            transform: scale(1.05);
-        }
-
-        /* HAPUS SEMUA GARIS BAWAH (NO BORDER) */
-        hr { display: none !important; }
-        .stMarkdownContainer { border: none !important; }
-
         </style>
         
         <img src="https://flagcdn.com/w160/us.png" class="round-flag usa" style="top:5%; left:5%;">
@@ -109,20 +83,21 @@ def halaman_warzone_final_v3():
         <img src="https://flagcdn.com/w160/ir.png" class="round-flag ira" style="bottom:20%; left:15%;">
         <img src="https://flagcdn.com/w160/ru.png" class="round-flag rus" style="top:25%; right:20%;">
         <img src="https://flagcdn.com/w160/kp.png" class="round-flag nk" style="bottom:10%; right:15%;">
-        <img src="https://flagcdn.com/w160/id.png" class="round-flag id" style="top:15%; left:40%;">
-        <img src="https://flagcdn.com/w160/cn.png" class="round-flag cn" style="bottom:40%; right:30%;">
-        <img src="https://flagcdn.com/w160/ps.png" class="round-flag ps" style="top:60%; left:10%;">
+        <img src="https://flagcdn.com/w160/id.png" class="round-flag indo" style="top:15%; left:40%;">
+        <img src="https://flagcdn.com/w160/cn.png" class="round-flag chn" style="bottom:40%; right:30%;">
+        <img src="https://flagcdn.com/w160/ps.png" class="round-flag pal" style="top:60%; left:10%;">
         
-        <div class="combat-unit" style="top:30%; left:30%;">🚀</div>
-        <div class="combat-unit" style="top:10%; left:70%; animation-delay: 2s%;">✈️</div>
-        <div class="combat-unit" style="bottom:20%; right:20%; animation-delay: 4s;">🚀</div>
-    """, unsafe_allow_html=True)
+        <div class="combat-unit fast-move" style="top:50%; left:50%;">🚀</div>
+        <div class="combat-unit fast-move" style="top:10%; left:70%; animation-delay: 2s;">✈️</div>
+        <div class="combat-unit med-move" style="bottom:30%; left:40%; animation-delay: 1s;">🛸</div>
+        <div class="combat-unit fast-move" style="top:80%; right:40%;">🚀</div>
+        <div class="combat-unit med-move" style="top:20%; left:10%;">🛩️</div>
+        <div class="combat-unit fast-move" style="bottom:10%; left:60%; animation-delay: 4s;">🚀</div>
+        <div class="combat-unit med-move" style="top:50%; right:10%;">🛸</div>
 
-    # --- TOMBOL LOGIN (CENTRED ABSOLUTE) ---
-    st.markdown('<div class="absolute-center">', unsafe_allow_html=True)
-    st.link_button("🚀 LOGIN UTAMA", "https://pintar.streamlit.app/")
-    st.markdown('</div>', unsafe_allow_html=True)
+        <div class="fixed-footer"></div>
+    """, unsafe_allow_html=True)
 
     st.stop()
 
-halaman_warzone_final_v3()
+halaman_war_zone_v2()
