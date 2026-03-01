@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_maintenance_pro_final():
+def halaman_maintenance_pro_final_banget():
     st.set_page_config(
         page_title="Pintar Media | Restricted",
         page_icon="🔐",
@@ -35,7 +35,7 @@ def halaman_maintenance_pro_final():
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px; /* Jarak rapi antara kotak dan tombol */
+            gap: 25px; /* Jarak rapi antara kotak dan tombol */
             z-index: 99999;
             width: 450px; /* Kunci lebar biar gak melar kayak image_6c76eb */
         }
@@ -43,7 +43,7 @@ def halaman_maintenance_pro_final():
         /* 4. KOTAK TERMINAL (PROFESSIONAL LOOK) */
         .terminal-box {
             background: rgba(22, 27, 34, 0.95);
-            padding: 40px;
+            padding: 45px;
             border: 1px solid rgba(100, 255, 218, 0.3);
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
@@ -57,7 +57,7 @@ def halaman_maintenance_pro_final():
             display: block;
             width: 100%; /* Panjang persis sama dengan kotak (450px) */
             padding: 16px 0;
-            /* Gradasi sewarna logo lo */
+            /* Gradasi sewarna logo lo di image_6c73c2 */
             background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444); 
             color: white !important;
             border: none;
@@ -85,13 +85,13 @@ def halaman_maintenance_pro_final():
 
         <div class="ultimate-center">
             <div class="terminal-box">
-                <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 15px; font-size: 0.8rem; font-weight: bold;">
+                <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 20px; font-size: 0.85rem; font-weight: bold;">
                     [ SYSTEM STATUS: ENCRYPTED ]
                 </div>
-                <h1 style="color: white; font-family: sans-serif; margin-bottom: 15px; font-size: 1.8rem; border: none;">
+                <h1 style="color: white; font-family: sans-serif; margin-bottom: 15px; font-size: 2rem; border: none; font-weight: 800;">
                     ACCESS RESTRICTED
                 </h1>
-                <p style="color: #8b949e; font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                <p style="color: #8b949e; font-size: 1rem; line-height: 1.6; margin: 0;">
                     Database sedang dalam sinkronisasi berkala.<br>
                     Silakan gunakan jalur akses utama di bawah.
                 </p>
@@ -105,4 +105,4 @@ def halaman_maintenance_pro_final():
 
     st.stop()
 
-halaman_maintenance_pro_final()
+halaman_maintenance_pro_final_banget()
