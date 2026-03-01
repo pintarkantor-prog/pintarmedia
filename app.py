@@ -1,17 +1,17 @@
 import streamlit as st
 
-def halaman_visual_only():
+def halaman_perang_bulat_paten():
     st.set_page_config(
-        page_title="Pintar Digital | Visual Mode",
-        page_icon="🚀",
+        page_title="Pintar Digital | Elite Zone",
+        page_icon="🎖️",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: HAPUS SEMUA TEKS/TOMBOL & BIKIN FULL ANIMASI ---
+    # --- CSS SAKTI: FULL PAGE, BUNDAR, FIXED FOOTER ---
     st.markdown("""
         <style>
-        /* Hapus elemen bawaan Streamlit */
+        /* Hapus Header & Menu Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
             display: none !important;
         }
@@ -21,47 +21,62 @@ def halaman_visual_only():
             height: 100vh;
             overflow: hidden;
             position: relative;
-            margin: 0;
-            padding: 0;
+            margin: 0; padding: 0;
         }
 
-        /* --- STYLE OBJEK KELILING --- */
-        .obj-war {
+        /* --- STYLE BENDERA BULAT KELILING --- */
+        .round-flag {
             position: absolute;
-            width: 80px;
+            width: 70px; height: 70px;
+            border-radius: 50%; /* Bikin bulet sempurna */
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
             z-index: 1;
-            filter: drop-shadow(0 0 15px rgba(255,255,255,0.3));
         }
 
-        /* Animasi Keliling Halaman (Random Path) */
+        /* Animasi Keliling Halaman */
         @keyframes patrol {
             0% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(85vw, 15vh) rotate(90deg); }
-            50% { transform: translate(45vw, 85vh) rotate(180deg); }
-            75% { transform: translate(-5vw, 45vh) rotate(270deg); }
+            25% { transform: translate(80vw, 20vh) rotate(90deg); }
+            50% { transform: translate(40vw, 80vh) rotate(180deg); }
+            75% { transform: translate(-5vw, 40vh) rotate(270deg); }
             100% { transform: translate(0,0) rotate(360deg); }
         }
 
-        /* Variasi Kecepatan & Delay biar Rame */
-        .usa { animation: patrol 12s infinite linear; top: 5%; left: 5%; }
-        .israel { animation: patrol 18s infinite linear reverse; top: 50%; right: 10%; }
-        .iran { animation: patrol 22s infinite linear; bottom: 5%; left: 30%; }
-        .rocket { animation: patrol 9s infinite linear; font-size: 60px; top: 40%; left: 45%; }
-        .plane { animation: patrol 14s infinite linear reverse; font-size: 55px; top: 70%; right: 30%; }
+        /* Set animasi beda-beda biar gak barengan */
+        .usa { animation: patrol 12s infinite linear; }
+        .isr { animation: patrol 15s infinite linear reverse; }
+        .ira { animation: patrol 20s infinite linear; }
+        .rus { animation: patrol 18s infinite linear; }
+        .nk  { animation: patrol 14s infinite linear reverse; }
+        .rocket { position: absolute; font-size: 50px; animation: patrol 10s infinite linear; z-index: 2; }
 
+        /* --- FOOTER PATEN (FIXED) --- */
+        .fixed-footer {
+            position: fixed;
+            bottom: 0; left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, #ff4b2b, #4facfe, #ff4b2b);
+            border-top: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 -5px 15px rgba(255, 75, 43, 0.5);
+            z-index: 999;
+        }
         </style>
         
-        <img src="https://flagcdn.com/w160/us.png" class="obj-war usa">
-        <img src="https://flagcdn.com/w160/il.png" class="obj-war israel">
-        <img src="https://flagcdn.com/w160/ir.png" class="obj-war iran">
+        <img src="https://flagcdn.com/w160/us.png" class="round-flag usa" style="top:10%; left:5%;">
+        <img src="https://flagcdn.com/w160/il.png" class="round-flag isr" style="top:40%; right:10%;">
+        <img src="https://flagcdn.com/w160/ir.png" class="round-flag ira" style="bottom:20%; left:20%;">
+        <img src="https://flagcdn.com/w160/ru.png" class="round-flag rus" style="top:20%; right:30%;">
+        <img src="https://flagcdn.com/w160/kp.png" class="round-flag nk" style="bottom:10%; right:15%;">
         
-        <div class="obj-war rocket">🚀</div>
-        <div class="obj-war plane">✈️</div>
-        <div class="obj-war rocket" style="animation-delay: 3s; top: 20%; right: 20%;">🚀</div>
-        <div class="obj-war plane" style="animation-delay: 5s; bottom: 20%; left: 10%;">✈️</div>
+        <div class="rocket" style="top:50%; left:50%;">🚀</div>
+        <div class="rocket" style="top:20%; left:70%; animation-delay: 3s;">✈️</div>
+
+        <div class="fixed-footer"></div>
     """, unsafe_allow_html=True)
 
-    # Berhenti di sini, tidak ada st.title atau st.link_button
     st.stop()
 
-halaman_visual_only()
+halaman_perang_bulat_paten()
