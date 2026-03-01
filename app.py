@@ -11,7 +11,7 @@ def halaman_maintenance_ramadhan_estetik():
             background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
         }
         
-        /* 2. Style Judul Teal ala Pintar Media */
+        /* 2. Style Judul Teal Modern */
         h1 {
             color: #008080 !important;
             text-align: center;
@@ -38,7 +38,7 @@ def halaman_maintenance_ramadhan_estetik():
             color: #006064;
         }
         
-        /* 5. Style Tombol Redirect Modern */
+        /* 5. Style Tombol Redirect Bulat Modern */
         stlinkbutton > a {
             background-color: #008080 !important;
             color: white !important;
@@ -64,9 +64,8 @@ def halaman_maintenance_ramadhan_estetik():
     with col_tengah:
         st.title("🌙 MARHABAN YA RAMADHAN")
         
-        # Gambar Ramadhan Estetik (Ganti link-nya kalau punya gambar sendiri)
-        # Gue cariin gambar yang resolusinya bagus
-        st.image("https://images.unsplash.com/photo-1596791697204-71239c065f97?q=80&w=800&auto=format&fit=crop", caption="Semoga keberkahan menyertai kita semua.", use_container_width=True)
+        # Gambar Ramadhan Estetik (Cari link gambar yang resolusinya bagus)
+        st.image("GANTI_Pake_LINK_GAMBAR_RAMADHAN_ESTETIK_LO_DI_SINI.jpg", caption="Semoga keberkahan menyertai kita semua.", use_container_width=True)
         
         st.warning("Mohon maaf, web Pintar Media lagi maintenance bentar!")
         
