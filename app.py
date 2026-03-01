@@ -1,28 +1,24 @@
 import streamlit as st
 
-def halaman_final_pasti_tengah():
+def halaman_maintenance_pro():
     st.set_page_config(
-        page_title="Pintar Digital | Secure Access",
+        page_title="Pintar Media | Restricted",
         page_icon="🔐",
-        layout="centered", # Gue ganti ke centered biar gak maruk layar
+        layout="centered", # Paksa layout sempit biar gak melar
         initial_sidebar_state="collapsed"
     )
 
-    # --- JURUS SNIPER: KUNCI MATI SEMUA ELEMEN ---
+    # --- CSS SNIPER: KUNCI MATI SEMUA DI TITIK TENGAH ---
     st.markdown("""
         <style>
-        /* 1. Hapus total semua sampah Streamlit */
+        /* 1. Sikat habis semua elemen sampah & garis sisa Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
         
-        /* 2. Background Grid Profesional */
+        /* 2. Background Deep Space */
         .main {
-            background-color: #050a0f !important;
-            background-image: 
-                linear-gradient(rgba(100, 255, 218, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(100, 255, 218, 0.05) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-color: #0d1117 !important;
             height: 100vh !important;
             width: 100vw !important;
             margin: 0 !important;
@@ -30,8 +26,8 @@ def halaman_final_pasti_tengah():
             overflow: hidden !important;
         }
 
-        /* 3. WRAPPER ABSOLUT: GAK BAKAL BISA GESER */
-        .force-center {
+        /* 3. WRAPPER UTAMA: POSISI TITIK TENGAH MUTLAK */
+        .ultimate-center {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -39,73 +35,73 @@ def halaman_final_pasti_tengah():
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 20px; /* Jarak rapi antara kotak dan tombol */
             z-index: 99999;
-            width: 450px; /* KUNCI LEBAR BIAR GAK MELAR KAYAK IMAGE_6C76EB */
+            width: 420px; /* Kunci lebar biar gak melar kayak image_6c76eb */
         }
 
-        /* 4. KOTAK TERMINAL */
+        /* 4. KOTAK TERMINAL (PROFESSIONAL LOOK) */
         .terminal-box {
-            background: rgba(10, 25, 47, 0.98);
+            background: rgba(22, 27, 34, 0.95);
             padding: 40px;
-            border: 1px solid #64ffda; /* WARNA TEAL PRO */
-            border-radius: 4px;
-            box-shadow: 0 0 30px rgba(100, 255, 218, 0.15);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
-            width: 450px; /* HARUS SAMA DENGAN WRAPPER */
+            width: 100%; /* Ngikutin wrapper 420px */
             box-sizing: border-box;
         }
 
-        /* 5. TOMBOL CUSTOM HTML (BIAR GAK PAKE ST.BUTTON YANG SUKA MOJOK) */
-        .btn-link {
+        /* 5. TOMBOL CUSTOM (SEWARNA LOGO PINTAR MEDIA) */
+        .btn-main {
             display: block;
-            width: 450px; /* LEBAR PERSIS SAMA DENGAN KOTAK */
-            padding: 15px 0;
-            background: transparent;
-            color: #64ffda !important;
-            border: 1px solid #64ffda;
-            border-radius: 4px;
+            width: 100%; /* Panjang persis sama dengan kotak */
+            padding: 14px 0;
+            /* Gradasi sewarna logo di image_6c73c2 */
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444); 
+            color: white !important;
+            border: none;
+            border-radius: 8px;
             text-align: center;
             text-decoration: none !important;
-            font-family: 'Courier New', monospace;
+            font-family: sans-serif;
             font-weight: bold;
             font-size: 14px;
-            letter-spacing: 2px;
-            transition: 0.3s all;
-            box-sizing: border-box;
+            letter-spacing: 1px;
+            transition: 0.3s all ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
         }
 
-        .btn-link:hover {
-            background: rgba(100, 255, 218, 0.1);
-            box-shadow: 0 0 20px rgba(100, 255, 218, 0.4);
-            color: #fff !important;
-            border-color: #fff;
+        .btn-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
+            filter: brightness(1.1);
         }
 
-        /* Sikat sisa padding container Streamlit */
+        /* Hapus sisa padding Streamlit yang bikin mojok */
         .block-container { padding: 0 !important; }
         </style>
 
-        <div class="force-center">
+        <div class="ultimate-center">
             <div class="terminal-box">
-                <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 15px; font-size: 0.8rem;">
-                    [ STATUS: MAINTENANCE ]
+                <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 15px; font-size: 0.8rem; font-weight: bold;">
+                    [ SYSTEM STATUS: ENCRYPTED ]
                 </div>
-                <h1 style="color: white; font-family: sans-serif; letter-spacing: 2px; margin-bottom: 15px; font-size: 1.8rem; border:none;">
+                <h1 style="color: white; font-family: sans-serif; margin-bottom: 15px; font-size: 1.8rem;">
                     ACCESS RESTRICTED
                 </h1>
-                <p style="color: #8892b0; font-size: 0.9rem; line-height: 1.6; margin:0;">
-                    Sistem sedang dalam sinkronisasi database berkala.<br>
-                    Silakan gunakan jalur akses utama di bawah ini.
+                <p style="color: #8b949e; font-size: 0.9rem; line-height: 1.6; margin: 0;">
+                    Database sedang dalam sinkronisasi berkala.<br>
+                    Silakan gunakan jalur akses utama di bawah.
                 </p>
             </div>
             
             <a href="https://pintar.streamlit.app/" class="btn-link">
-                RETURN TO MAIN SERVER
+                <div class="btn-main">RETURN TO MAIN SERVER</div>
             </a>
         </div>
     """, unsafe_allow_html=True)
 
     st.stop()
 
-halaman_final_pasti_tengah()
+halaman_maintenance_pro()
