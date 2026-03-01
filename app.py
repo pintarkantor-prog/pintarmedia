@@ -1,83 +1,123 @@
 import streamlit as st
 
-def halaman_maintenance_ramadhan_estetik():
-    st.set_page_config(page_title="Menyambut Ramadhan", page_icon="🌙", layout="centered")
+def halaman_equalizer_digital():
+    # 1. Set Page Config biar Full Page & Title Keren
+    st.set_page_config(
+        page_title="Pintar Digital | Toning Proses",
+        page_icon="⚡",
+        layout="wide", # Pake wide biar full
+        initial_sidebar_state="collapsed" # Sembunyiin sidebar
+    )
 
-    # --- CSS SAKTI BUAT TAMPILAN MODERN ---
+    # 2. CSS SAKTI: Hancurin Header Streamlit, Bikin Equalizer & Full Background
     st.markdown("""
         <style>
-        /* 1. Latar Belakang Gradasi biar Gak Polos */
-        .main {
-            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+        /* Sembunyiin elemen bawaan Streamlit biar Full Page */
+        [data-testid="stHeader"], [data-testid="stSidebar"], footer {
+            display: none !important;
+        }
+        .embedded-container {
+            margin: 0 !important;
+            padding: 0 !important;
         }
         
-        /* 2. Style Judul Teal Modern */
-        h1 {
-            color: #008080 !important;
+        /* Latar Belakang Digital Dark */
+        .main {
+            background-color: #0a0e17; /* Biru tua gelap banget ala server */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #00f2fe; /* Warna teks cyan digital */
+            font-family: 'Courier New', Courier, monospace; /* Font kode */
+            overflow: hidden;
+        }
+        
+        /* Container Utama Tengah */
+        .digital-container {
             text-align: center;
-            font-family: 'Poppins', sans-serif; /* Pake font modern */
-            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* --- ANIMASI EQUALIZER CSS --- */
+        .equalizer {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            height: 60px;
             margin-bottom: 30px;
         }
-        
-        /* 3. Style Gambar Pake Efek Card */
-        div.stImage > img {
-            border-radius: 20px; /* Sudut melengkung */
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); /* Bayangan estetik */
-            transition: transform 0.3s ease; /* Efek hover */
+        .bar {
+            width: 15px;
+            height: 100%;
+            background: linear-gradient(to top, #00c6ff, #00f2fe);
+            border-radius: 3px;
+            animation: equalize 1s ease-in-out infinite;
         }
-        div.stImage > img:hover {
-            transform: scale(1.02); /* Sedikit membesar pas di-hover */
-        }
+        /* Variasi animasi tiap bar biar dinamis */
+        .bar:nth-child(1) { animation-delay: 0.0s; }
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
         
-        /* 4. Style Peringatan (Warning) biar Gak Kaku */
-        div.stAlert {
-            border-radius: 15px;
-            border: 1px solid #00acc1;
-            background-color: white;
-            color: #006064;
+        @keyframes equalize {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.4); }
         }
-        
-        /* 5. Style Tombol Redirect Bulat Modern */
-        stlinkbutton > a {
-            background-color: #008080 !important;
+
+        /* Style Teks Modern ala Hacker */
+        .status-text {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .sub-text {
+            font-size: 1rem;
+            color: #4facfe;
+            margin-bottom: 30px;
+        }
+
+        /* Style Tombol Redirect Bulat Gacor */
+        div.stButton > button {
+            background: linear-gradient(45deg, #00c6ff, #4facfe);
             color: white !important;
-            border-radius: 30px !important; /* Tombol bulat */
-            padding: 10px 20px;
+            border-radius: 30px !important;
+            padding: 12px 30px;
             font-weight: bold;
-            text-decoration: none;
+            border: none;
             transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
         }
-        stlinkbutton > a:hover {
-            background-color: #006064 !important;
-            transform: translateY(-3px); /* Tombol naik dikit pas di-hover */
+        div.stButton > button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.6);
         }
-        
+
         </style>
-        
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     """, unsafe_allow_html=True)
-    
-    # Bikin layout tengah (3 kolom, tengah paling lebar)
-    _, col_tengah, _ = st.columns([1, 2, 1])
-    
-    with col_tengah:
-        st.title("🌙 MARHABAN YA RAMADHAN")
-        
-        # Gambar Ramadhan Estetik (Cari link gambar yang resolusinya bagus)
-        st.image("GANTI_Pake_LINK_GAMBAR_RAMADHAN_ESTETIK_LO_DI_SINI.jpg", caption="Semoga keberkahan menyertai kita semua.", use_container_width=True)
-        
-        st.warning("Mohon maaf, web Pintar Media lagi maintenance bentar!")
-        
-        st.info("Butuh akses cepat? Lo bisa akses kantor pusat dulu.")
 
-        # Tombol Redirect Bulat (Capsule)
-        st.link_button("🚀 BALIK KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
-        
-        st.divider()
-        st.caption("Admin PT Pintar Digital Kreasi")
+    # 3. Struktur HTML & Teks Digital (Inject langsung pake markdown)
+    st.markdown("""
+        <div class="digital-container">
+            <div class="equalizer">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            
+            <div class="status-text">SYSTEM STATUS: MAINTENANCE</div>
+            <div class="sub-text">WEB SEDANG DI-TUNING ULANG, COK! BENTAR YAA..</div>
+        </div>
+    """, unsafe_allow_html=True)
 
-    st.stop() # Tetap pake ini biar kode bawahnya gak jalan
+    # 4. Tombol Redirect Tetap Pake Streamlit (Biar Gampang)
+    st.link_button("🚀 PINDAH KE WEB UTAMA", "https://pintar.streamlit.app/", use_container_width=True)
 
-# Jalankan
-halaman_maintenance_ramadhan_estetik()
+    # 5. Pasang Stoper biar kode bawah gak jalan
+    st.stop()
+
+halaman_equalizer_digital()
