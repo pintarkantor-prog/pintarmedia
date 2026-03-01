@@ -1,39 +1,31 @@
 import streamlit as st
 
-def halaman_equalizer_digital():
-    # 1. Set Page Config biar Full Page & Title Keren
+def halaman_digital_rocket():
     st.set_page_config(
-        page_title="Pintar Digital | Toning Proses",
-        page_icon="⚡",
-        layout="wide", # Pake wide biar full
-        initial_sidebar_state="collapsed" # Sembunyiin sidebar
+        page_title="Pintar Digital | Launching",
+        page_icon="🚀",
+        layout="wide",
+        initial_sidebar_state="collapsed"
     )
 
-    # 2. CSS SAKTI: Hancurin Header Streamlit, Bikin Equalizer & Full Background
+    # --- CSS SAKTI: FULL DIGITAL + ROKET ANIMASI ---
     st.markdown("""
         <style>
-        /* Sembunyiin elemen bawaan Streamlit biar Full Page */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
             display: none !important;
         }
-        .embedded-container {
-            margin: 0 !important;
-            padding: 0 !important;
-        }
         
-        /* Latar Belakang Digital Dark */
         .main {
-            background-color: #0a0e17; /* Biru tua gelap banget ala server */
+            background-color: #050a0f; /* Hitam luar angkasa */
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #00f2fe; /* Warna teks cyan digital */
-            font-family: 'Courier New', Courier, monospace; /* Font kode */
+            color: #00f2fe;
+            font-family: 'Courier New', Courier, monospace;
             overflow: hidden;
         }
         
-        /* Container Utama Tengah */
         .digital-container {
             text-align: center;
             display: flex;
@@ -41,83 +33,90 @@ def halaman_equalizer_digital():
             align-items: center;
         }
 
-        /* --- ANIMASI EQUALIZER CSS --- */
+        /* --- ANIMASI ROKET GETAR --- */
+        .rocket-box {
+            font-size: 80px;
+            margin-bottom: 10px;
+            animation: shake 0.5s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            100% { transform: translate(1px, -2px) rotate(0deg); }
+        }
+
+        /* --- EQUALIZER DIGITAL --- */
         .equalizer {
             display: flex;
             justify-content: space-between;
-            width: 100px;
-            height: 60px;
-            margin-bottom: 30px;
+            width: 80px;
+            height: 40px;
+            margin: 20px 0;
         }
         .bar {
-            width: 15px;
+            width: 10px;
             height: 100%;
-            background: linear-gradient(to top, #00c6ff, #00f2fe);
-            border-radius: 3px;
-            animation: equalize 1s ease-in-out infinite;
+            background: #00f2fe;
+            animation: equalize 0.8s ease-in-out infinite;
         }
-        /* Variasi animasi tiap bar biar dinamis */
         .bar:nth-child(1) { animation-delay: 0.0s; }
-        .bar:nth-child(2) { animation-delay: 0.1s; }
-        .bar:nth-child(3) { animation-delay: 0.2s; }
-        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(2) { animation-delay: 0.2s; }
+        .bar:nth-child(3) { animation-delay: 0.4s; }
         
         @keyframes equalize {
             0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(0.4); }
+            50% { transform: scaleY(0.3); }
         }
 
-        /* Style Teks Modern ala Hacker */
         .status-text {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-        .sub-text {
-            font-size: 1rem;
-            color: #4facfe;
-            margin-bottom: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            letter-spacing: 3px;
+            color: #ffffff;
+            text-shadow: 0 0 10px #00f2fe;
         }
 
-        /* Style Tombol Redirect Bulat Gacor */
+        /* --- TOMBOL PINDAH GACOR --- */
         div.stButton > button {
-            background: linear-gradient(45deg, #00c6ff, #4facfe);
+            background: linear-gradient(45deg, #ff4b2b, #ff416c); /* Warna api roket */
             color: white !important;
-            border-radius: 30px !important;
-            padding: 12px 30px;
+            border-radius: 50px !important;
+            padding: 15px 40px;
             font-weight: bold;
             border: none;
-            transition: all 0.3s ease;
-            letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(0, 242, 254, 0.4);
+            box-shadow: 0 0 20px rgba(255, 75, 43, 0.5);
+            transition: 0.3s;
         }
         div.stButton > button:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 8px 20px rgba(0, 242, 254, 0.6);
+            transform: scale(1.1);
+            box-shadow: 0 0 30px rgba(255, 75, 43, 0.8);
         }
-
         </style>
     """, unsafe_allow_html=True)
 
-    # 3. Struktur HTML & Teks Digital (Inject langsung pake markdown)
+    # --- HTML STRUCTURE ---
     st.markdown("""
         <div class="digital-container">
+            <div class="rocket-box">🚀</div>
             <div class="equalizer">
                 <div class="bar"></div>
                 <div class="bar"></div>
                 <div class="bar"></div>
-                <div class="bar"></div>
             </div>
-            
-            <div class="status-text">SYSTEM STATUS: MAINTENANCE</div>
-            <div class="sub-text">WEB SEDANG DI-TUNING ULANG, COK! BENTAR YAA..</div>
+            <div class="status-text">SYSTEM UPGRADING...</div>
+            <p style="color: #4facfe;">Harap tenang, roket lagi dipanasin buat ke Web Utama.</p>
         </div>
     """, unsafe_allow_html=True)
 
-    # 4. Tombol Redirect Tetap Pake Streamlit (Biar Gampang)
-    st.link_button("🚀 PINDAH KE WEB UTAMA", "https://pintar.streamlit.app/", use_container_width=True)
+    # Tombol Redirect Langsung ke Web Utama lo
+    st.link_button("🔥 MELUNCUR KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
 
-    # 5. Pasang Stoper biar kode bawah gak jalan
     st.stop()
 
-halaman_equalizer_digital()
+halaman_digital_rocket()
