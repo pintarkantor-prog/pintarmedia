@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_warzone_center_fixed():
+def halaman_warzone_final_bersih():
     st.set_page_config(
         page_title="Pintar Digital | Warzone",
         page_icon="⚔️",
@@ -8,22 +8,28 @@ def halaman_warzone_center_fixed():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: FULL PAGE, BUNDAR, CENTER LOCK RGB ---
+    # --- CSS SAKTI: PURE CENTER, NO LINES, RGB GLOW ---
     st.markdown("""
         <style>
+        /* Sembunyiin Header & Menu Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
             display: none !important;
         }
         
+        /* Bikin background full gelap dan tombol di tengah */
         .main {
             background-color: #010409;
             height: 100vh;
+            width: 100vw;
             overflow: hidden;
-            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             margin: 0; padding: 0;
+            position: relative;
         }
 
-        /* --- BENDERA BULAT KELILING --- */
+        /* --- BENDERA BULAT KELILING (EFEK GLOW) --- */
         .round-flag {
             position: absolute;
             width: 70px; height: 70px;
@@ -42,33 +48,34 @@ def halaman_warzone_center_fixed():
             100% { transform: translate(0,0) rotate(360deg); }
         }
 
+        /* Mapping Animasi Bendera */
         .usa { animation: patrol 12s infinite linear; }
         .isr { animation: patrol 15s infinite linear reverse; }
         .ira { animation: patrol 20s infinite linear; }
         .rus { animation: patrol 18s infinite linear; }
         .nk  { animation: patrol 14s infinite linear reverse; }
-        .indo { animation: patrol 16s infinite linear; }
-        .chn { animation: patrol 13s infinite linear reverse; }
-        .pal { animation: patrol 19s infinite linear; }
+        .id  { animation: patrol 16s infinite linear; }
+        .cn  { animation: patrol 13s infinite linear reverse; }
+        .ps  { animation: patrol 19s infinite linear; }
 
         /* --- UNIT TEMPUR --- */
-        .combat-unit { position: absolute; font-size: 50px; z-index: 2; }
-        .fast { animation: patrol 8s infinite linear; }
+        .combat-unit { position: absolute; font-size: 50px; z-index: 2; animation: patrol 10s infinite linear; }
 
-        /* --- LOCK TOMBOL DI TENGAH --- */
-        .center-button-container {
+        /* --- CONTAINER TOMBOL LOGIN RGB (FIXED CENTER) --- */
+        .login-box-center {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 9999;
-            width: 220px; /* Lebar tombol kecil sesuai request */
-            padding: 4px;
+            padding: 5px;
             border-radius: 50px;
+            /* Efek Pelangi Muter */
             background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
             background-size: 400%;
             animation: rainbow_move 10s linear infinite;
             box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+            width: 230px; /* Ukuran tombol kecil */
             display: flex;
             justify-content: center;
         }
@@ -78,33 +85,26 @@ def halaman_warzone_center_fixed():
             100% { background-position: 100% 50%; }
         }
 
-        /* Styling Button Streamlit di dalam Container */
-        .center-button-container div.stButton > button {
+        /* Styling Button Asli Streamlit */
+        .login-box-center div.stButton > button {
             background-color: #050a0f !important;
             color: #ffffff !important;
             border: none !important;
-            width: 212px !important;
+            width: 220px !important;
             border-radius: 50px !important;
             font-weight: bold !important;
             padding: 10px 0 !important;
             font-size: 14px !important;
+            letter-spacing: 1px;
             transition: 0.3s;
         }
-
-        .center-button-container div.stButton > button:hover {
+        
+        .login-box-center div.stButton > button:hover {
             color: #4facfe !important;
             transform: scale(1.05);
         }
 
-        /* --- FOOTER PATEN --- */
-        .fixed-footer {
-            position: fixed;
-            bottom: 0; left: 0;
-            width: 100%;
-            height: 10px;
-            background: linear-gradient(90deg, #ff4b2b, #4facfe, #ff4b2b);
-            z-index: 1000;
-        }
+        /* --- HAPUS GARIS BAWAH (NO FOOTER) --- */
         </style>
         
         <img src="https://flagcdn.com/w160/us.png" class="round-flag usa" style="top:5%; left:5%;">
@@ -112,22 +112,19 @@ def halaman_warzone_center_fixed():
         <img src="https://flagcdn.com/w160/ir.png" class="round-flag ira" style="bottom:20%; left:15%;">
         <img src="https://flagcdn.com/w160/ru.png" class="round-flag rus" style="top:25%; right:20%;">
         <img src="https://flagcdn.com/w160/kp.png" class="round-flag nk" style="bottom:10%; right:15%;">
-        <img src="https://flagcdn.com/w160/id.png" class="round-flag indo" style="top:15%; left:40%;">
-        <img src="https://flagcdn.com/w160/cn.png" class="round-flag chn" style="bottom:40%; right:30%;">
-        <img src="https://flagcdn.com/w160/ps.png" class="round-flag pal" style="top:60%; left:10%;">
+        <img src="https://flagcdn.com/w160/id.png" class="round-flag id" style="top:15%; left:40%;">
+        <img src="https://flagcdn.com/w160/cn.png" class="round-flag cn" style="bottom:40%; right:30%;">
+        <img src="https://flagcdn.com/w160/ps.png" class="round-flag ps" style="top:60%; left:10%;">
         
-        <div class="combat-unit fast" style="top:50%; left:50%;">🚀</div>
-        <div class="combat-unit fast" style="top:10%; left:70%; animation-delay: 2s%;">✈️</div>
-        <div class="combat-unit fast" style="bottom:30%; left:40%;">🚀</div>
-
-        <div class="fixed-footer"></div>
+        <div class="combat-unit" style="top:50%; left:50%;">🚀</div>
+        <div class="combat-unit" style="top:10%; left:70%; animation-delay: 2s;">✈️</div>
     """, unsafe_allow_html=True)
 
-    # --- INJECT TOMBOL KE TENGAH LAYAR ---
-    st.markdown('<div class="center-button-container">', unsafe_allow_html=True)
+    # --- TOMBOL LOGIN KERAMAT (CENTERED) ---
+    st.markdown('<div class="login-box-center">', unsafe_allow_html=True)
     st.link_button("🚀 LOGIN UTAMA", "https://pintar.streamlit.app/")
     st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
-halaman_warzone_center_fixed()
+halaman_warzone_final_bersih()
