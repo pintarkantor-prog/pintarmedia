@@ -1,82 +1,92 @@
 import streamlit as st
 
-def halaman_war_bendera():
+def halaman_war_bersih():
     st.set_page_config(
-        page_title="Pintar Digital | GLOBAL WAR",
-        page_icon="⚔️",
+        page_title="Pintar Digital | Global",
+        page_icon="🌍",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: BENDERA & PESAWAT KELILING ---
+    # --- CSS SAKTI: BERSIHIN TOTAL & TOMBOL KECIL ---
     st.markdown("""
         <style>
+        /* Hapus Header & Footer Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
             display: none !important;
         }
         
         .main {
-            background-color: #020508;
+            background-color: #050a0f;
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             overflow: hidden;
             position: relative;
         }
 
-        /* STYLE OBJEK KELILING */
+        /* --- OBJEK BENDERA KELILING --- */
         .obj-war {
             position: absolute;
-            width: 80px; /* Ukuran bendera & pesawat */
+            width: 70px;
             z-index: 1;
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.2));
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.2));
+            animation: patrol 15s infinite linear;
         }
 
-        /* Animasi Berputar-putar Menuhin Layar */
         @keyframes patrol {
             0% { transform: translate(0,0) rotate(0deg); }
-            25% { transform: translate(80vw, 20vh) rotate(90deg); }
-            50% { transform: translate(40vw, 80vh) rotate(180deg); }
-            75% { transform: translate(-10vw, 40vh) rotate(270deg); }
+            50% { transform: translate(70vw, 50vh) rotate(180deg); }
             100% { transform: translate(0,0) rotate(360deg); }
         }
 
-        .usa { animation: patrol 12s infinite linear; }
-        .israel { animation: patrol 15s infinite linear reverse; }
-        .iran { animation: patrol 20s infinite linear; }
-        .rocket { animation: patrol 8s infinite linear; font-size: 50px; text-align:center; }
-
-        /* CENTER BOX */
+        /* --- BOX TENGAH --- */
         .center-box {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
             text-align: center;
             z-index: 100;
-            background: rgba(0, 0, 0, 0.85);
-            padding: 40px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 30px;
             border: 2px solid #ff4b2b;
             border-radius: 20px;
-            box-shadow: 0 0 30px #ff4b2b;
-            color: white;
+            box-shadow: 0 0 25px rgba(255, 75, 43, 0.5);
+            width: 400px; /* Ukuran box fix biar nggak meler */
+        }
+
+        h1 { color: white; font-size: 2rem !important; margin-bottom: 5px !important; }
+        .sub-text { color: #ff4b2b; font-weight: bold; margin-bottom: 20px; }
+
+        /* --- TOMBOL KECIL DI TENGAH --- */
+        .stElementContainer div.stButton {
+            display: flex;
+            justify-content: center;
+        }
+        
+        div.stButton > button {
+            background: #ff4b2b !important;
+            color: white !important;
+            border-radius: 10px !important;
+            padding: 5px 20px !important; /* Perkecil ukuran */
+            font-size: 14px !important;
+            width: auto !important; /* Nggak usah panjang-panjang */
+            border: none !important;
         }
         </style>
         
-        <img src="https://flagcdn.com/w160/us.png" class="obj-war usa" style="top:10%; left:10%;">
-        <img src="https://flagcdn.com/w160/il.png" class="obj-war israel" style="top:40%; right:10%;">
-        <img src="https://flagcdn.com/w160/ir.png" class="obj-war iran" style="bottom:10%; left:30%;">
-        
-        <div class="obj-war rocket" style="top:50%; left:50%;">🚀</div>
-        <div class="obj-war rocket" style="top:20%; right:30%; animation-delay: 2s;">✈️</div>
+        <img src="https://flagcdn.com/w160/us.png" class="obj-war" style="top:10%; left:10%; animation-duration: 12s;">
+        <img src="https://flagcdn.com/w160/il.png" class="obj-war" style="top:40%; right:10%; animation-duration: 18s;">
+        <img src="https://flagcdn.com/w160/ir.png" class="obj-war" style="bottom:10%; left:30%; animation-duration: 15s;">
+        <div class="obj-war" style="top:70%; right:20%; font-size: 40px;">🚀</div>
 
         <div class="center-box">
-            <h1 style="font-size: 2.5rem; margin-bottom: 0;">GLOBAL MAINTENANCE</h1>
-            <p style="color: #ff4b2b; font-weight: bold; letter-spacing: 2px;">WEB LAGI OFF, PINDAH KE PUSAT!</p>
-            <p style="color: #4facfe;">Lagi sinkronisasi database antar negara, Cok.</p>
+            <h1>GLOBAL MAINTENANCE</h1>
+            <div class="sub-text">WEB OFF - SINKRONISASI DATABASE</div>
         </div>
     """, unsafe_allow_html=True)
 
-    # Tombol Redirect Gacor
-    st.link_button("🔥 MELUNCUR KE KANTOR PUSAT", "https://pintar.streamlit.app/", use_container_width=True)
+    # Tombol kecil di tengah
+    st.link_button("🚀 Balik Ke Pusat", "https://pintar.streamlit.app/")
 
     st.stop()
 
-halaman_war_bendera()
+halaman_war_bersih()
