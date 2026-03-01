@@ -65,7 +65,7 @@ def halaman_perang_bulat_paten():
         }
         </style>
         
-        <img src="https://i.pinimg.com/736x/9f/a5/3e/9fa53e55d3d172e6ff49e6aef7f5a88f.jpg" class="round-flag usa" style="top:10%; left:5%;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Flag_of_the_United_States.svg/960px-Flag_of_the_United_States.svg.png" class="round-flag usa" style="top:10%; left:5%;">
         <img src="https://flagcdn.com/w160/il.png" class="round-flag isr" style="top:40%; right:10%;">
         <img src="https://flagcdn.com/w160/ir.png" class="round-flag ira" style="bottom:20%; left:20%;">
         <img src="https://flagcdn.com/w160/ru.png" class="round-flag rus" style="top:20%; right:30%;">
@@ -80,3 +80,4 @@ def halaman_perang_bulat_paten():
     st.stop()
 
 halaman_perang_bulat_paten()
+
