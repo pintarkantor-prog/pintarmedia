@@ -5,7 +5,8 @@ def halaman_offline():
     _, col_tengah, _ = st.columns([1, 2, 1])
     
     with col_tengah:
-        st.set_page_config(page_title="Web Sedang Istirahat", page_icon="🌙")
+        st.title("🔧 Web Lagi Maintenance, Cok!")
+        # Lo bisa ganti GIF-nya biar gak pada nangis
         st.image("https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHJndTRndXJndXJndXJndXJndXJndXJndXJndXJndXJndXJndXJndSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/f3iwJFOVOwuy7K6FFw/giphy.gif")
         
         st.warning("Sabar ya, sistem lagi kita rapihin biar makin gacor.")
