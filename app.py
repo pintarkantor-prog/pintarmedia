@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_warzone_final_paten():
+def halaman_final_lockdown():
     st.set_page_config(
         page_title="Pintar Digital | Secure Access",
         page_icon="🔐",
@@ -8,15 +8,15 @@ def halaman_warzone_final_paten():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: FORCE CENTER & NO GHOST ELEMENTS ---
+    # --- CSS SAKTI: POSISI MATI DI TITIK TENGAH ---
     st.markdown("""
         <style>
-        /* 1. Hapus SEMUA elemen sampah Streamlit & garis-garis sisa */
+        /* 1. Sikat habis semua elemen sampah & garis sisa */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
         
-        /* 2. Background Grid Pro tanpa margin */
+        /* 2. Background Grid Pro */
         .main {
             background-color: #050a0f !important;
             background-image: 
@@ -28,19 +28,20 @@ def halaman_warzone_final_paten():
             margin: 0 !important;
             padding: 0 !important;
             overflow: hidden !important;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* 3. WRAPPER UTAMA (KUNCI SEMUA DI TITIK TENGAH) */
-        .master-center-wrapper {
+        /* 3. WRAPPER UTAMA (KUNCI MATI DI TENGAH LAYAR) */
+        .absolute-center-wrapper {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             gap: 25px; /* JARAK SPASI ANTARA BOX DAN TOMBOL */
-            z-index: 9999;
+            z-index: 99999;
+            width: 450px; /* LEBAR FIX PENYELARAS */
         }
 
         /* 4. KOTAK TERMINAL (Lebar Fix 450px) */
@@ -49,9 +50,9 @@ def halaman_warzone_final_paten():
             padding: 45px;
             border: 1px solid #64ffda; /* WARNA SEWARNA LOGO */
             border-radius: 4px;
-            box-shadow: 0 0 40px rgba(100, 255, 218, 0.2);
+            box-shadow: 0 0 40px rgba(100, 255, 218, 0.15);
             text-align: center;
-            width: 450px; /* LEBAR PATEN */
+            width: 100%; /* Ngikutin wrapper 450px */
         }
 
         /* 5. TOMBOL PANJANG (WAJIB 450px & SENADA) */
@@ -67,7 +68,7 @@ def halaman_warzone_final_paten():
             font-weight: bold !important;
             text-transform: uppercase !important;
             letter-spacing: 3px !important;
-            transition: 0.3s;
+            transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         div.stButton > button:hover {
@@ -75,16 +76,17 @@ def halaman_warzone_final_paten():
             box-shadow: 0 0 25px #64ffda;
             color: #ffffff !important;
             border-color: #ffffff !important;
+            transform: translateY(-3px);
         }
 
-        /* Hapus border container Streamlit yang bikin geser */
+        /* Hapus semua padding bawaan Streamlit yang bikin geser */
+        .block-container { padding: 0 !important; }
         .stMarkdownContainer { border: none !important; }
-        [data-testid="stVerticalBlock"] { gap: 0 !important; }
         </style>
     """, unsafe_allow_html=True)
 
-    # --- RENDER UI (Satu Wrapper agar Presisi Mati di Tengah) ---
-    st.markdown('<div class="master-center-wrapper">', unsafe_allow_html=True)
+    # --- RENDER SEMUA DALAM SATU WRAPPER ABSOLUT ---
+    st.markdown('<div class="absolute-center-wrapper">', unsafe_allow_html=True)
     
     # Render Kotak Pesan
     st.markdown("""
@@ -108,4 +110,4 @@ def halaman_warzone_final_paten():
     st.markdown('</div>', unsafe_allow_html=True)
     st.stop()
 
-halaman_warzone_final_paten()
+halaman_final_lockdown()
