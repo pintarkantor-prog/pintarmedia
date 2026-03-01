@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_warzone_final_kecil():
+def halaman_warzone_center_fixed():
     st.set_page_config(
         page_title="Pintar Digital | Warzone",
         page_icon="⚔️",
@@ -8,7 +8,7 @@ def halaman_warzone_final_kecil():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: FULL PAGE, BUNDAR, TOMBOL KECIL RGB ---
+    # --- CSS SAKTI: FULL PAGE, BUNDAR, CENTER LOCK RGB ---
     st.markdown("""
         <style>
         [data-testid="stHeader"], [data-testid="stSidebar"], footer {
@@ -21,9 +21,6 @@ def halaman_warzone_final_kecil():
             overflow: hidden;
             position: relative;
             margin: 0; padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
         /* --- BENDERA BULAT KELILING --- */
@@ -58,16 +55,22 @@ def halaman_warzone_final_kecil():
         .combat-unit { position: absolute; font-size: 50px; z-index: 2; }
         .fast { animation: patrol 8s infinite linear; }
 
-        /* --- CONTAINER TOMBOL KECIL RGB --- */
-        .login-wrapper {
-            z-index: 100;
-            width: 260px; /* KITA KUNCI LEBARNYA DI SINI COK */
+        /* --- LOCK TOMBOL DI TENGAH --- */
+        .center-button-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+            width: 220px; /* Lebar tombol kecil sesuai request */
             padding: 4px;
-            border-radius: 50px; /* Biar bentuknya kapsul */
+            border-radius: 50px;
             background: linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
             background-size: 400%;
             animation: rainbow_move 10s linear infinite;
-            box-shadow: 0 0 20px rgba(0, 242, 254, 0.6);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+            display: flex;
+            justify-content: center;
         }
 
         @keyframes rainbow_move {
@@ -75,21 +78,22 @@ def halaman_warzone_final_kecil():
             100% { background-position: 100% 50%; }
         }
 
-        /* Bikin Tombol Streamlit-nya jadi Transparan di dalem Container RGB */
-        div.stButton > button {
+        /* Styling Button Streamlit di dalam Container */
+        .center-button-container div.stButton > button {
             background-color: #050a0f !important;
             color: #ffffff !important;
             border: none !important;
-            width: 100% !important;
+            width: 212px !important;
             border-radius: 50px !important;
             font-weight: bold !important;
-            padding: 10px 20px !important;
-            letter-spacing: 1px;
+            padding: 10px 0 !important;
+            font-size: 14px !important;
+            transition: 0.3s;
         }
 
-        div.stButton > button:hover {
+        .center-button-container div.stButton > button:hover {
             color: #4facfe !important;
-            transform: scale(1.02);
+            transform: scale(1.05);
         }
 
         /* --- FOOTER PATEN --- */
@@ -99,7 +103,7 @@ def halaman_warzone_final_kecil():
             width: 100%;
             height: 10px;
             background: linear-gradient(90deg, #ff4b2b, #4facfe, #ff4b2b);
-            z-index: 999;
+            z-index: 1000;
         }
         </style>
         
@@ -113,18 +117,17 @@ def halaman_warzone_final_kecil():
         <img src="https://flagcdn.com/w160/ps.png" class="round-flag pal" style="top:60%; left:10%;">
         
         <div class="combat-unit fast" style="top:50%; left:50%;">🚀</div>
-        <div class="combat-unit fast" style="top:10%; left:70%; animation-delay: 2s;">✈️</div>
+        <div class="combat-unit fast" style="top:10%; left:70%; animation-delay: 2s%;">✈️</div>
+        <div class="combat-unit fast" style="bottom:30%; left:40%;">🚀</div>
 
         <div class="fixed-footer"></div>
     """, unsafe_allow_html=True)
 
-    # --- TOMBOL LOGIN KECIL DI TENGAH ---
-    _, col_tengah, _ = st.columns([1, 1, 1]) # Pake kolom biar makin mantap di tengah
-    with col_tengah:
-        st.markdown('<div class="login-wrapper">', unsafe_allow_html=True)
-        st.link_button("🚀 LOGIN UTAMA", "https://pintar.streamlit.app/")
-        st.markdown('</div>', unsafe_allow_html=True)
+    # --- INJECT TOMBOL KE TENGAH LAYAR ---
+    st.markdown('<div class="center-button-container">', unsafe_allow_html=True)
+    st.link_button("🚀 LOGIN UTAMA", "https://pintar.streamlit.app/")
+    st.markdown('</div>', unsafe_allow_html=True)
 
     st.stop()
 
-halaman_warzone_final_kecil()
+halaman_warzone_center_fixed()
