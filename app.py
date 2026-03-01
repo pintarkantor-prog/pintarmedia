@@ -1,6 +1,6 @@
 import streamlit as st
 
-def halaman_pro_digital():
+def halaman_pro_digital_v2():
     st.set_page_config(
         page_title="Pintar Digital | Secure Access",
         page_icon="🛡️",
@@ -8,68 +8,66 @@ def halaman_pro_digital():
         initial_sidebar_state="collapsed"
     )
 
-    # --- CSS SAKTI: PRO DIGITAL, NO FLYING OBJECTS, PURE CENTER ---
+    # --- CSS SAKTI: POSISI TENGAH MUTLAK & NO GHOST ELEMENTS ---
     st.markdown("""
         <style>
-        /* 1. Hapus SEMUA elemen bawaan Streamlit & Garis-garis 'njir' */
+        /* Hapus elemen bawaan Streamlit */
         [data-testid="stHeader"], [data-testid="stSidebar"], footer, hr {
             display: none !important;
         }
         
-        /* 2. Background Deep Space dengan Animasi Mesh Tipis */
+        /* Background Deep Space */
         .main {
             background: radial-gradient(circle at center, #0a192f 0%, #020c1b 100%) !important;
             height: 100vh !important;
-            width: 100vw !important;
             overflow: hidden !important;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             margin: 0 !important;
             padding: 0 !important;
         }
 
-        /* 3. KARTU AKSES TENGAH (PRO LOOK) */
-        .command-card {
-            position: fixed;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
+        /* CONTAINER UTAMA TENGAH */
+        .command-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px; /* Jarak antara box dan tombol */
             z-index: 100;
-            text-align: center;
+        }
+
+        /* KARTU AKSES TENGAH */
+        .command-card {
             background: rgba(10, 25, 47, 0.7);
-            backdrop-filter: blur(15px); /* Efek kaca pro */
+            backdrop-filter: blur(15px);
             padding: 50px;
             border-radius: 20px;
             border: 1px solid rgba(100, 255, 218, 0.2);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 20px rgba(100, 255, 218, 0.1);
-            width: 400px;
+            width: 450px;
+            text-align: center;
         }
 
         .title-pro {
-            color: #64ffda; /* Warna Teal Digital */
+            color: #64ffda;
             font-family: 'Inter', sans-serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             font-weight: 800;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             margin-bottom: 10px;
             text-transform: uppercase;
         }
 
-        .sub-pro {
-            color: #8892b0;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            margin-bottom: 30px;
-        }
-
-        /* 4. TOMBOL MINIMALIS RGB GLOW */
+        /* TOMBOL MINIMALIS RGB CENTER */
         .btn-glow-container {
-            display: inline-block;
             padding: 2px;
             border-radius: 50px;
             background: linear-gradient(90deg, #64ffda, #4facfe, #64ffda);
             background-size: 200%;
             animation: move_gradient 4s linear infinite;
+            width: 280px; /* Lebar tombol fix */
         }
 
         @keyframes move_gradient {
@@ -82,7 +80,8 @@ def halaman_pro_digital():
             color: #64ffda !important;
             border: none !important;
             border-radius: 50px !important;
-            padding: 12px 35px !important;
+            width: 100% !important;
+            padding: 12px 0 !important;
             font-size: 14px !important;
             font-weight: bold !important;
             text-transform: uppercase !important;
@@ -97,20 +96,27 @@ def halaman_pro_digital():
         }
 
         </style>
-        
-        <div class="command-card">
-            <div style="color: #64ffda; font-size: 40px; margin-bottom: 20px;">🔒</div>
-            <div class="title-pro">SYSTEM LOCKED</div>
-            <div class="sub-pro">PINTAR MEDIA SEDANG DALAM PROSES MAINTENANCE INTERNAL.</div>
-        </div>
     """, unsafe_allow_html=True)
 
-    # --- TOMBOL REDIRECT (FIXED CENTER) ---
-    st.markdown('<div style="position: fixed; top: 70%; left: 50%; transform: translateX(-50%); z-index: 101;">', unsafe_allow_html=True)
-    st.markdown('<div class="btn-glow-container">', unsafe_allow_html=True)
-    st.link_button("ACCESS MAIN SERVER", "https://pintar.streamlit.app/")
-    st.markdown('</div></div>', unsafe_allow_html=True)
+    # --- STRUKTUR HTML DI TENGAH ---
+    st.markdown("""
+        <div class="main">
+            <div class="command-center">
+                <div class="command-card">
+                    <div style="color: #64ffda; font-size: 50px; margin-bottom: 20px;">🔒</div>
+                    <div class="title-pro">SYSTEM LOCKED</div>
+                    <p style="color: #8892b0; letter-spacing: 1px;">PINTAR MEDIA SEDANG DALAM PROSES MAINTENANCE INTERNAL.</p>
+                </div>
+                """, unsafe_allow_html=True)
 
+    # Inject Tombol Streamlit di tengah bawah Card
+    col1, col2, col3 = st.columns([1, 1, 1])
+    with col2:
+        st.markdown('<div class="btn-glow-container">', unsafe_allow_html=True)
+        st.link_button("ACCESS MAIN SERVER", "https://pintar.streamlit.app/")
+        st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown('</div></div>', unsafe_allow_html=True)
     st.stop()
 
-halaman_pro_digital()
+halaman_pro_digital_v2()
