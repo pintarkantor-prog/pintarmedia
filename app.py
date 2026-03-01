@@ -1,10 +1,10 @@
 import streamlit as st
 
-def halaman_maintenance_pro():
+def halaman_maintenance_pro_final():
     st.set_page_config(
         page_title="Pintar Media | Restricted",
         page_icon="🔐",
-        layout="centered", # Paksa layout sempit biar gak melar
+        layout="centered", 
         initial_sidebar_state="collapsed"
     )
 
@@ -37,7 +37,7 @@ def halaman_maintenance_pro():
             align-items: center;
             gap: 20px; /* Jarak rapi antara kotak dan tombol */
             z-index: 99999;
-            width: 420px; /* Kunci lebar biar gak melar kayak image_6c76eb */
+            width: 450px; /* Kunci lebar biar gak melar kayak image_6c76eb */
         }
 
         /* 4. KOTAK TERMINAL (PROFESSIONAL LOOK) */
@@ -48,16 +48,16 @@ def halaman_maintenance_pro():
             border-radius: 12px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
             text-align: center;
-            width: 100%; /* Ngikutin wrapper 420px */
+            width: 100%; 
             box-sizing: border-box;
         }
 
-        /* 5. TOMBOL CUSTOM (SEWARNA LOGO PINTAR MEDIA) */
+        /* 5. TOMBOL CUSTOM (SEWARNA LOGO PINTAR MEDIA - ANTI TEKS KODE) */
         .btn-main {
             display: block;
-            width: 100%; /* Panjang persis sama dengan kotak */
-            padding: 14px 0;
-            /* Gradasi sewarna logo di image_6c73c2 */
+            width: 100%; /* Panjang persis sama dengan kotak (450px) */
+            padding: 16px 0;
+            /* Gradasi sewarna logo lo */
             background: linear-gradient(90deg, #1e3a8a, #3b82f6, #ef4444); 
             color: white !important;
             border: none;
@@ -67,15 +67,16 @@ def halaman_maintenance_pro():
             font-family: sans-serif;
             font-weight: bold;
             font-size: 14px;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
             transition: 0.3s all ease;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            cursor: pointer;
         }
 
         .btn-main:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 25px rgba(59, 130, 246, 0.5);
-            filter: brightness(1.1);
+            filter: brightness(1.2);
         }
 
         /* Hapus sisa padding Streamlit yang bikin mojok */
@@ -87,7 +88,7 @@ def halaman_maintenance_pro():
                 <div style="color: #64ffda; font-family: monospace; letter-spacing: 3px; margin-bottom: 15px; font-size: 0.8rem; font-weight: bold;">
                     [ SYSTEM STATUS: ENCRYPTED ]
                 </div>
-                <h1 style="color: white; font-family: sans-serif; margin-bottom: 15px; font-size: 1.8rem;">
+                <h1 style="color: white; font-family: sans-serif; margin-bottom: 15px; font-size: 1.8rem; border: none;">
                     ACCESS RESTRICTED
                 </h1>
                 <p style="color: #8b949e; font-size: 0.9rem; line-height: 1.6; margin: 0;">
@@ -96,7 +97,7 @@ def halaman_maintenance_pro():
                 </p>
             </div>
             
-            <a href="https://pintar.streamlit.app/" class="btn-link">
+            <a href="https://pintar.streamlit.app/" style="text-decoration: none; width: 100%;">
                 <div class="btn-main">RETURN TO MAIN SERVER</div>
             </a>
         </div>
@@ -104,4 +105,4 @@ def halaman_maintenance_pro():
 
     st.stop()
 
-halaman_maintenance_pro()
+halaman_maintenance_pro_final()
