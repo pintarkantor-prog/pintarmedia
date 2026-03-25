@@ -3787,7 +3787,7 @@ def tampilkan_area_staf():
                 st.write("Sistem SP otomatis OFF jika Staff izin (sakit/agenda lain), kendala teknis kantor dan hari libur")
             with col2:
                 st.warning("📉 **HARI LEMAH (KURANG PRODUKTIF)**")
-                st.write("Jika dalam satu hari hanya menyelesaikan **1 video**, hari tersebut dicatat sebagai 'Hari Lemah'.")
+                st.write("Jika dalam satu hari peforma kinerja kurang produktif, hari tersebut dicatat sebagai 'Hari Lemah'.")
 
         st.write("")
 
@@ -3811,13 +3811,6 @@ def tampilkan_area_staf():
                 st.write("- **Potongan: Rp 1.000.000 + Pemutusan Kerja**")
 
         st.write("")
-
-        # --- CARD 3: TIPS & NOTIFIKASI ---
-        with st.container(border=True):
-            st.success("💡 **TIPS AGAR PENGHASILAN MAKSIMAL**")
-            st.write("- Setor minimal **3 video** setiap hari untuk mengaktifkan semua **Bonus Absensi**.")
-            st.write("- Jika hanya menyelesaikan **2 video**, status Anda **Aman**, namun Bonus Kehadiran & Lembur tidak cair.")
-            st.write("- CATATAN KHUSUS: Staff Uploader dan Admin, sistem SP berdasarkan peforma kinerja harian.")
 
     with t4:
         st.write("")
