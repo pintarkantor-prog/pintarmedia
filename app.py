@@ -2357,14 +2357,8 @@ def tampilkan_kendali_tim():
 
     try:
         # --- 1. AMBIL DATA SUPER CEPAT (SUPABASE) ---
-        df_staff = ambil_data_segar("Staff")
-        df_absen = ambil_data_segar("Absensi")
         df_kas   = ambil_data_segar("Arus_Kas")
-        df_tugas = ambil_data_segar("Tugas")
         df_log   = ambil_data_segar("Log_Aktivitas") # <--- CCTV Lo masuk sini
-
-        # Hitung target display (logika lo tetep jalan)
-        t_target_display = len(df_staff) * 40
 
         # --- 2. FUNGSI SARING TANGGAL (OPTIMASI SUPABASE) ---
         def saring_tgl(df, kolom, bln, thn):
@@ -2375,48 +2369,10 @@ def tampilkan_kendali_tim():
             return df[mask].copy()
 
         # Jalankan filter untuk semua tabel (Data otomatis tersaring sesuai bulan/tahun pilihan lo)
-        df_t_bln = saring_tgl(df_tugas, 'DEADLINE', bulan_dipilih, tahun_dipilih)
-        df_a_f   = saring_tgl(df_absen, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_k_f   = saring_tgl(df_kas, 'TANGGAL', bulan_dipilih, tahun_dipilih)
         df_log_f = saring_tgl(df_log, 'WAKTU', bulan_dipilih, tahun_dipilih)
 
-         # --- 3. LOGIKA REKAP (VERSI SUPER SAKTI ANTI-CRASH) ---
-        rekap_harian_tim = {}
-        rekap_total_video = {}
-
-        # --- 1. PROSES FILTER DATA (WAJIB ADA DI ATAS) ---
-        # Pastikan df_t_bln didefinisikan dulu dari hasil saring_tgl
-        if not df_t_bln.empty and 'STATUS' in df_t_bln.columns:
-            df_f_f = df_t_bln[df_t_bln['STATUS'].astype(str).str.upper() == "FINISH"].copy()
-        else:
-            # Jika data kosong, buat DataFrame kosong dengan kolom default agar tidak 'not defined'
-            df_f_f = pd.DataFrame(columns=['STAF', 'STATUS', 'TGL_TEMP'])
-
-        # --- 2. LOGIKA REKAP (VERSI SUPER SAKTI) ---
-        rekap_harian_tim = {}
-        rekap_total_video = {}
-
-        # Sekarang df_f_f PASTI ada wujudnya (biarpun kosong)
-        if not df_f_f.empty and 'STAF' in df_f_f.columns:
-            df_f_f['STAF'] = df_f_f['STAF'].astype(str).str.strip().str.upper()
-            
-            if 'TGL_TEMP' in df_f_f.columns:
-                df_f_f['TGL_STR'] = df_f_f['TGL_TEMP'].dt.strftime('%Y-%m-%d')
-                
-                # Groupby aman karena df_f_f sudah divalidasi
-                try:
-                    rekap_harian_tim = df_f_f.groupby(['STAF', 'TGL_STR']).size().unstack(fill_value=0).to_dict('index')
-                except:
-                    rekap_harian_tim = {}
-            
-            rekap_total_video = df_f_f['STAF'].value_counts().to_dict()
-        else:
-            # Fallback aman kalau Maret masih nol
-            rekap_harian_tim = {}
-            rekap_total_video = {}
-
         performa_staf = {} 
-
         # --- KALKULASI KEUANGAN RIIL ---
         inc = 0
         ops = 0
@@ -2582,157 +2538,6 @@ def tampilkan_kendali_tim():
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
                 else:
                     st.markdown("<p style='text-align:center; color:#666; font-size:12px; margin-top:50px;'>Belum ada data visualisasi untuk periode ini.</p>", unsafe_allow_html=True)
-                    
-        # ======================================================================
-        # --- 4. MASTER MONITORING & RADAR TIM (VERSI VISUAL PRO - SYNCED) ---
-        # ======================================================================
-        st.write(""); st.markdown("### 📡 RADAR PERFORMA TIM")
-        
-        kolom_card = st.columns(4)
-        rekap_v_total, rekap_b_cair, rekap_b_absen, rekap_h_malas = 0, 0, 0, 0
-        performa_staf = {}
-
-        # --- FIX: Loop dari STAFF biar Icha & Nissa gak ilang ---
-        df_staff_filtered = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
-
-        for idx, s in df_staff_filtered.reset_index().iterrows():
-            n_up = str(s.get('NAMA', '')).strip().upper()
-            if n_up == "" or n_up == "NAN": continue
-            
-            # --- FIX: Proteksi filter agar Maret tidak error ---
-            df_a_staf_r = df_a_f[df_a_f['NAMA'] == n_up].copy() if not df_a_f.empty else pd.DataFrame(columns=['NAMA', 'TANGGAL'])
-            df_t_staf_r = df_f_f[df_f_f['STAF'] == n_up].copy() if not df_f_f.empty else pd.DataFrame(columns=['STAF', 'STATUS'])
-
-            lv_staf_ini = str(s.get('LEVEL', 'STAFF')).strip().upper()
-            
-            # Mesin hitung tetep jalan dengan pengaman
-            try:
-                b_lembur_staf, u_absen_staf, pot_sp_r, level_sp_r, h_lemah_staf = hitung_logika_performa_dan_bonus(
-                    df_t_staf_r, df_a_staf_r, bulan_dipilih, tahun_dipilih,
-                    level_target=lv_staf_ini
-                )
-            except:
-                b_lembur_staf, u_absen_staf, pot_sp_r, level_sp_r, h_lemah_staf = 0, 0, 0, "NORMAL", 0
-            
-            # --- LOGIKA SINKRONISASI BONUS DARI KAS (LIVE) ---
-            bonus_real_staf = 0
-            if not df_kas.empty:
-                df_kas_temp = df_kas.copy()
-                df_kas_temp['NOMINAL_INT'] = pd.to_numeric(df_kas_temp['NOMINAL'].astype(str).replace(r'[^\d]', '', regex=True), errors='coerce').fillna(0)
-                
-                # Filter Periode & Nama Staf
-                mask_staf_kas = (df_kas_temp['KATEGORI'].str.upper() == 'GAJI TIM') & \
-                                (df_kas_temp['KETERANGAN'].str.upper().str.contains(n_up, na=False)) & \
-                                (pd.to_datetime(df_kas_temp['TANGGAL'], errors='coerce').dt.month == bulan_dipilih)
-                
-                bonus_real_staf = df_kas_temp[mask_staf_kas]['NOMINAL_INT'].sum()
-            
-            jml_v = len(df_t_staf_r)
-            rekap_v_total += jml_v
-            performa_staf[n_up] = jml_v
-            
-            # --- FIX: JML CANCEL (Proteksi empty) ---
-            jml_cancel = 0
-            if not df_t_bln.empty and 'STAF' in df_t_bln.columns:
-                jml_cancel = len(df_t_bln[(df_t_bln['STAF'] == n_up) & (df_t_bln['STATUS'].astype(str).str.upper() == 'CANCELED')])
-            
-            h_cair = 0
-            if n_up in rekap_harian_tim:
-                h_cair = sum(1 for qty in rekap_harian_tim[n_up].values() if qty >= 3)
-            
-            rekap_b_cair += bonus_real_staf 
-            rekap_h_malas += h_lemah_staf
-
-            t_hadir = 0
-            if not df_a_f.empty:
-                t_hadir = len(df_a_f[df_a_f['NAMA'].astype(str).str.upper() == n_up]['TANGGAL'].unique())
-                
-            warna_bg = "#1d976c" if level_sp_r == "NORMAL" or "PROTEKSI" in level_sp_r else "#f39c12" if level_sp_r == "SP 1" else "#e74c3c"
-
-            # --- TAMPILAN CARD ---
-            with kolom_card[idx % 4]:
-                with st.container(border=True):
-                    st.markdown(f'<div style="text-align:center; padding:5px; background:{warna_bg}; border-radius:8px 8px 0 0; margin:-15px -15px 10px -15px;"><b style="color:white; font-size:14px;">{n_up}</b></div>', unsafe_allow_html=True)
-                    
-                    m1, m2, m3 = st.columns(3)
-                    m1.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>FINISH</p><b style='font-size:14px;'>{int(jml_v)}</b>", unsafe_allow_html=True)
-                    m2.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>CANCEL</p><b style='font-size:14px; color:#e74c3c;'>{jml_cancel}</b>", unsafe_allow_html=True)
-                    m3.markdown(f"<p style='margin:0; font-size:9px; color:#888;'>ABSEN</p><b style='font-size:14px;'>{t_hadir}H</b>", unsafe_allow_html=True)
-                    
-                    st.divider()
-                    
-                    det1, det2 = st.columns(2)
-                    det1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>🚩 STATUS</p><b style='font-size:11px;'>{level_sp_r}</b>", unsafe_allow_html=True)
-                    det2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⚠️ HARI LEMAH</p><b style='font-size:12px; color:#e74c3c;'>{h_lemah_staf} Hari</b>", unsafe_allow_html=True)
-                    
-                    det1.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>✨ HARI CAIR</p><b style='font-size:12px;'>{h_cair} Hari</b>", unsafe_allow_html=True)
-                    det2.markdown(f"<p style='margin:5px 0 0 0; font-size:10px; color:#888;'>💰 TOTAL BONUS</p><b style='font-size:12px; color:#1d976c;'>Rp {int(bonus_real_staf):,}</b>", unsafe_allow_html=True)
-                    
-                    # Progress bar pengaman (Max 1.0)
-                    prog_val = min(h_lemah_staf / 7, 1.0) if h_lemah_staf > 0 else 0.0
-                    st.progress(prog_val)
-                    
-        # ======================================================================
-        # --- 5. RANGKUMAN KOLEKTIF TIM (VERSI FIX BONUS VIDEO & LEMBUR) ---
-        # ======================================================================
-        with st.container(border=True):
-            st.markdown("<p style='font-size:12px; font-weight:bold; color:#888; margin-bottom:15px;'>📊 RANGKUMAN KOLEKTIF TIM</p>", unsafe_allow_html=True)
-            
-            # 1. Ambil Nama Staff Aktif
-            nama_staff_asli = df_staff[df_staff['LEVEL'] == 'STAFF']['NAMA'].str.upper().tolist()
-            performa_hanya_staff = {k: v for k, v in performa_staf.items() if k in nama_staff_asli}
-            
-            # Pengaman MVP & LOW: Jika semua masih 0, jangan tampilkan error
-            if performa_hanya_staff and any(v > 0 for v in performa_hanya_staff.values()):
-                staf_top = max(performa_hanya_staff, key=performa_hanya_staff.get)
-                staf_low = min(performa_hanya_staff, key=performa_hanya_staff.get)
-            else:
-                staf_top = "-"
-                staf_low = "-"
-            
-            # --- LOGIKA SINKRONISASI KAS (FIXED) ---
-            df_kas_kolektif = ambil_data_segar("Arus_Kas")
-            real_b_video_kolektif = 0
-            real_b_absen_kolektif = 0
-            
-            if not df_kas_kolektif.empty:
-                df_kas_kolektif.columns = [str(c).strip().upper() for c in df_kas_kolektif.columns]
-                
-                # Filter Periode: Konsisten dengan filter bulan/tahun pilihan
-                df_kas_kolektif['TANGGAL_DT'] = pd.to_datetime(df_kas_kolektif['TANGGAL'], errors='coerce')
-                mask_periode = (df_kas_kolektif['TANGGAL_DT'].dt.month == bulan_dipilih) & \
-                               (df_kas_kolektif['TANGGAL_DT'].dt.year == tahun_dipilih)
-                
-                df_cair = df_kas_kolektif[mask_periode].copy()
-                
-                if not df_cair.empty:
-                    # Pastikan Nominal bersih dari karakter aneh
-                    df_cair['NOMINAL_FIX'] = pd.to_numeric(df_cair['NOMINAL'].astype(str).replace(r'[^\d]', '', regex=True), errors='coerce').fillna(0)
-                    
-                    # Logika pencarian kata kunci di keterangan Kas
-                    mask_video = (df_cair['KATEGORI'].str.upper() == 'GAJI TIM') & \
-                                 (df_cair['KETERANGAN'].str.upper().str.contains('VIDEO|LEMBUR', na=False))
-                    real_b_video_kolektif = df_cair[mask_video]['NOMINAL_FIX'].sum()
-                    
-                    mask_absen = (df_cair['KATEGORI'].str.upper() == 'GAJI TIM') & \
-                                 (df_cair['KETERANGAN'].str.upper().str.contains('ABSEN', na=False))
-                    real_b_absen_kolektif = df_cair[mask_absen]['NOMINAL_FIX'].sum()
-
-            # --- DISPLAY METRIC (7 KOLOM) ---
-            c_r1, c_r2, c_r3, c_r4, c_r5, c_r6, c_r7 = st.columns(7)
-            
-            target_fix = len(nama_staff_asli) * 60
-            c_r1.metric("🎯 TARGET IDEAL", f"{target_fix} Vid") 
-            
-            persen_capaian = (rekap_v_total / target_fix * 120) if target_fix > 0 else 0
-            c_r2.metric("🎬 TOTAL VIDEO", f"{int(rekap_v_total)}", delta=f"{persen_capaian:.1f}%")
-            
-            c_r3.metric("🔥 BONUS VIDEO", f"Rp {int(real_b_video_kolektif):,}", delta="LIVE SYNC")
-            c_r4.metric("📅 BONUS ABSEN", f"Rp {int(real_b_absen_real):,}" if 'real_b_absen_real' in locals() else f"Rp {int(real_b_absen_kolektif):,}", delta="LIVE SYNC")
-            
-            c_r5.metric("💀 TOTAL LEMAH", f"{rekap_h_malas} HR", delta="Staff Only", delta_color="inverse")
-            c_r6.metric("👑 MVP STAF", staf_top)
-            c_r7.metric("📉 LOW STAF", staf_low)
             
         # ======================================================================
         # --- 6. RINCIAN GAJI & SLIP (FULL VERSION - SINKRON HARIAN) ---
