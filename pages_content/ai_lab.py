@@ -17,14 +17,14 @@ def tampilkan_halaman():
     st.write(f"Selamat bekerja, **{user_aktif}**! Gunakan tools AI di bawah untuk produktivitas.")
 
     # --- 3. TABS MENU ---
-    t_grandma, t_anatomi, t_transform, t_random = st.tabs([
-        "👵 GRANDMA", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
+    t_masjid, t_anatomi, t_transform, t_random = st.tabs([
+        "🕌 MASJID", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
     ])
                 
     # ==========================================================================
     # TAB: THE FAMILY LEGACY (REAL HUMAN - NATURAL WIDE SHOT VERSION)
     # ==========================================================================
-    with t_grandma:
+    with t_masjid:
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
@@ -1037,7 +1037,7 @@ def tampilkan_halaman():
             ]
         }
         # --- UI LAYOUT ---        
-        with st.expander("👨‍👩‍👧‍👦 PINTAR NENEK ENGINE", expanded=True):
+        with st.expander("🕌 PINTAR MASJID ENGINE", expanded=True):
             # --- BARIS 1: MODUS KONTEN (OTAK UTAMA) ---
             st.markdown('<p class="small-label">PILIH MODUS KONTEN</p>', unsafe_allow_html=True)
             modus_konten = st.selectbox("Select Mode", list(MASTER_KONTEN_ALL.keys()), label_visibility="collapsed")
