@@ -165,12 +165,12 @@ def tampilkan_kendali_tim():
                             st.markdown(f"""
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
                                 <div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div>
-                                <div><b style="font-size: 15px;">{n_up}</b><br><span style="font-size: 11px; color: #888;">{jabatan_staf}</span></div>
+                                <div><b style="font-size: 15px;">{n_up}</b><span style="font-size: 11px; color: #888;">{jabatan_staf}</span></div>
                             </div>""", unsafe_allow_html=True)
                             
                             c1, c2 = st.columns(2)
-                            c1.markdown(f"<small>ESTIMASI TERIMA</small><h3 style='margin:0; color:#1d976c;'>Rp {v_total:,}</h3>", unsafe_allow_html=True)
-                            c2.markdown(f"<small>STATUS</small><br><b style='color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
+                            c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</small></p><h3 style='margin:0; color:#1d976c;'>Rp {v_total:,}</h3>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:14px; 'color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
                             
                             st.divider()
 
