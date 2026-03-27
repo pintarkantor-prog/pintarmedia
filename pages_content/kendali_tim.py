@@ -81,7 +81,7 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 6. UI: FINANCIAL DASHBOARD ---
         # ======================================================================
-        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=False):
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc_val:,.0f}")
             m2.metric("💸 OUTCOME", f"Rp {total_out_riil:,.0f}", delta=f"-Rp {total_out_riil:,.0f}" if total_out_riil > 0 else None, delta_color="normal")
