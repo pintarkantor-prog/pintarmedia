@@ -137,33 +137,85 @@ def tampilkan_kendali_tim():
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-        # --- 7. RINCIAN GAJI & SLIP (FIX ERROR 'Level') ---
-        st.write(""); st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
-        kol_v = st.columns(2) 
-        df_staff_slip = df_staff_real.reset_index(drop=True)
-        for idx, s in df_staff_slip.iterrows():
-            c_nama = next((c for c in s.index if c.lower() == 'nama'), 'Nama')
-            n_up = str(s.get(c_nama, '')).strip().upper()
-            if n_up == "" or n_up == "NAN": continue
-            
-            g_p = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.',''), errors='coerce') or 0)
-            t_j = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.',''), errors='coerce') or 0)
-            
-            b_c = 0
-            if not df_k_f.empty:
-                mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
-                       (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
-                b_c = int(df_k_f[mask]['NOM_VAL'].sum())
-            
-            t_n = g_p + t_j + b_c
+        # ======================================================================
+        # --- 6. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE) ---
+        # ======================================================================
+        with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
+            try:
+                # Filter Staff, Uploader, dan Admin saja
+                df_staff_raw_slip = df_staff[df_staff['Level'].isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
+                kol_v = st.columns(2) 
+                
+                for idx, s in df_staff_raw_slip.reset_index(drop=True).iterrows():
+                    n_up = str(s.get('Nama', '')).strip().upper()
+                    if n_up == "" or n_up == "NAN": continue
+                    
+                    # --- 1. DATA FINANSIAL (Logika Web Baru: Gapok & Tunjangan) ---
+                    v_gapok = int(pd.to_numeric(str(s.get('Gaji_Pokok', '0')).replace('.','').strip(), errors='coerce') or 0)
+                    v_tunjangan = int(pd.to_numeric(str(s.get('Tunjangan', '0')).replace('.','').strip(), errors='coerce') or 0)
+                    
+                    # --- 2. FILTER BONUS CAIR DARI KAS (Hanya yang Kategori Gaji Tim & Ada Nama Staff) ---
+                    bonus_cair_total = 0
+                    if not df_k_f.empty:
+                        # Cari di df_k_f (Data Kas yang sudah tersaring bulan & tahun di atas)
+                        mask_bonus = (df_k_f['Kategori'] == 'Gaji Tim') & \
+                                     (df_k_f['Keterangan'].str.upper().str.contains(n_up, na=False))
+                        bonus_cair_total = int(df_k_f[mask_bonus]['NOM_VAL'].sum())
 
-            with kol_v[idx % 2]:
-                with st.container(border=True):
-                    st.markdown(f"**👤 {n_up}**")
-                    st.markdown(f"#### Rp {t_n:,}")
-                    if st.button(f"📄 SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
-                        slip_h = f"""<div style="background: white; padding: 25px; border-radius: 15px; border: 1px solid #eee; font-family: sans-serif; width: 300px; margin: auto; color: #333;"><center><h3 style="color: #1d976c;">PINTAR MEDIA</h3></center><hr><table style="width: 100%; font-size: 12px; line-height: 2;"><tr><td>Nama</td><td align="right"><b>{n_up}</b></td></tr><tr><td>Gapok</td><td align="right">{g_p:,}</td></tr><tr><td>Tunjangan</td><td align="right">{t_j:,}</td></tr><tr style="color: #1d976c;"><td>Bonus</td><td align="right">+{b_c:,}</td></tr><tr style="background: #1a1a1a; color: white;"><td>TOTAL</td><td align="right"><b>{t_n:,}</b></td></tr></table></div>"""
-                        st.components.v1.html(slip_h, height=450)
+                    # --- 3. RUMUS FINAL (Web Baru: Simple Banget) ---
+                    v_total_terima = v_gapok + v_tunjangan + bonus_cair_total
 
-    except Exception as e:
-        st.error(f"⚠️ Sesuai Referensi, Error di: {e}")
+                    # --- 4. TAMPILAN VCARD (STYLE LAMA DIAN) ---
+                    with kol_v[idx % 2]:
+                        with st.container(border=True):
+                            st.markdown(f"""
+                            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+                                <div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div>
+                                <div>
+                                    <b style="font-size: 15px;">{n_up}</b><br>
+                                    <span style="font-size: 11px; color: #888;">{s.get('Jabatan', 'STAFF')}</span>
+                                </div>
+                            </div>
+                            """, unsafe_allow_html=True)
+                            
+                            c1, c2 = st.columns(2)
+                            c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</p><h3 style='margin:0; color:#1d976c;'>Rp {v_total_terima:,}</h3>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:14px; color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
+                            
+                            st.divider()
+
+                            # --- 5. SLIP GAJI DIGITAL (STYLE LAMA DIAN) ---
+                            if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
+                                slip_html = f"""
+                                <div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
+                                    <center>
+                                        <h2 style="color: #1d976c; margin: 0;">PINTAR MEDIA</h2>
+                                        <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin: 10px 0;"></div>
+                                        <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
+                                    </center>
+                                    <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
+                                        <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
+                                            <tr><td style="color: #999; font-weight: 600;">NAMA</td><td align="right"><b>{n_up}</b></td></tr>
+                                            <tr><td style="color: #999; font-weight: 600;">PERIODE</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
+                                        </table>
+                                    </div>
+                                    <table style="width: 100%; font-size: 13px; line-height: 2.5; border-collapse: collapse;">
+                                        <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
+                                        <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
+                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Terbayar</td><td align="right">+ {bonus_cair_total:,}</td></tr>
+                                    </table>
+                                    <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
+                                        <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px;">Total Diterima</p>
+                                        <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4;">Rp {v_total_terima:,}</h2>
+                                    </div>
+                                    <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #bbb; border-top: 1px solid #f5f5f5; padding-top: 15px;">
+                                        <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
+                                        Waktu Cetak: {sekarang.strftime('%d/%m/%Y %H:%M:%S')} WIB
+                                    </div>
+                                </div>
+                                <center><button onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#1a1a1a; color:#55efc4; border:2px solid #55efc4; border-radius:10px; cursor:pointer; font-weight:bold;">🖨️ CETAK KE PDF</button></center>
+                                """
+                                st.components.v1.html(slip_html, height=750)
+
+            except Exception as e:
+                st.error(f"⚠️ Gagal merinci gaji: {e}")
