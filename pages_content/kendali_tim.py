@@ -126,7 +126,7 @@ def tampilkan_kendali_tim():
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-        # ======================================================================
+# ======================================================================
         # --- 7. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
@@ -135,7 +135,7 @@ def tampilkan_kendali_tim():
                 c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
                 c_gp = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
                 c_tj = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
-                c_jab = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan') # DETEKSI JABATAN
+                c_jab = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
                 
                 df_staff_raw_slip = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper().isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
                 kol_v = st.columns(2) 
@@ -145,12 +145,12 @@ def tampilkan_kendali_tim():
                     n_up = str(s.get(c_nama, '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    # Logika Gaji Simple
+                    # Logika Gaji Simple (Web Baru)
                     v_gapok = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.','').strip(), errors='coerce') or 0)
                     v_tunjangan = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.','').strip(), errors='coerce') or 0)
-                    jabatan_staf = str(s.get(c_jab, 'STAFF PRODUCTION')).upper() # AMBIL JABATAN ASLI
+                    jabatan_staf = str(s.get(c_jab, 'STAFF PRODUCTION')).upper() 
                     
-                    # Bonus dari Kas
+                    # Bonus ditarik dari Kas (Gaji Tim)
                     bonus_cair = 0
                     if not df_k_f.empty:
                         mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
@@ -161,6 +161,7 @@ def tampilkan_kendali_tim():
 
                     with kol_v[idx % 2]:
                         with st.container(border=True):
+                            # --- VCARD STYLE LAMA ---
                             st.markdown(f"""
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
                                 <div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div>
@@ -173,6 +174,7 @@ def tampilkan_kendali_tim():
                             
                             st.divider()
 
+                            # --- SLIP DIGITAL DENGAN LOGO ---
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
                                 slip_html = f"""
                                 <div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
@@ -205,5 +207,7 @@ def tampilkan_kendali_tim():
                                 <center><button onclick="window.print()" style="margin-top:20px; padding:10px 20px; background:#1a1a1a; color:#55efc4; border:2px solid #55efc4; border-radius:10px; cursor:pointer; font-weight:bold;">🖨️ CETAK KE PDF</button></center>
                                 """
                                 st.components.v1.html(slip_html, height=750)
+            
+            # --- PENUTUP TRY-EXCEPT YANG TADI KETINGGALAN ---
             except Exception as e_slip:
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
