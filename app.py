@@ -89,10 +89,10 @@ def halaman_login():
                             
                             # 4. NOTIFIKASI & REFRESH INSTAN
                             # Kita ganti st.success dengan st.toast biar nggak nunggu loading lama
-                            st.toast(f"✅ Login Berhasil! Selamat Datang {u}", icon="🚀")
+                            st.toast(f"✅ Selamat Datang {u}", icon="🚀")
                             
                             # Jeda super singkat saja
-                            time.sleep(0.5) 
+                            time.sleep(1) 
                             st.rerun() # <--- INI WAJIB ADA DI PALING BAWAH
                         else:
                             st.error("❌ Username atau Password salah!")
