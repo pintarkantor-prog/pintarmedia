@@ -177,6 +177,13 @@ else:
             st.title("📱 Database Channel")
             st.error(f"Gagal memuat halaman: {e}")
 
+    elif menu == "📩 OTP HUB":
+        try:
+            from pages_content import otp_hub
+            otp_hub.tampilkan_halaman()
+        except Exception as e:
+            st.error(f"Gagal memuat OTP Hub: {e}")
+
     elif menu == "📘 AREA STAF":
         st.title("📘 Area Staf")
         st.write("Pusat informasi tim.")
