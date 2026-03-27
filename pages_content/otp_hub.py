@@ -72,7 +72,7 @@ def tampilkan_halaman():
             st.info("Belum ada SMS masuk.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE (SERVER 1 & 2 ONLY)
+    # TAB 2: SEWA NOMOR ONLINE (LAYOUT 3 KOLOM SEJAJAR)
     # ==========================================================================
     with tab_online:
         dict_server = {
@@ -80,19 +80,37 @@ def tampilkan_halaman():
             "Server 1 (Backup)": "https://otpnum.com/api/"
         }
         
+        # --- HEADER 3 KOLOM: SERVER | SALDO | REFRESH ---
         with st.container(border=True):
-            col_srv, col_bal = st.columns([2, 1])
-            srv_name = col_srv.selectbox("Pilih Server", list(dict_server.keys()), index=0, key="sel_server_online")
+            # Kita bagi kolom dengan rasio [2, 1.5, 1] agar pas
+            c_srv, c_bal, c_btn = st.columns([2, 1.5, 1])
+            
+            # 1. Pilih Server
+            srv_name = c_srv.selectbox("Pilih Server", list(dict_server.keys()), index=0, key="sel_server_online", label_visibility="collapsed")
             srv_url = dict_server[srv_name]
 
+            # 2. Ambil & Tampilkan Saldo
             res_bal = get_otpnum_api(srv_url, "balance", {"api_key": API_KEY})
-            saldo = clean_angka(res_bal['data'].get('balance', 0)) if res_bal and res_bal.get('success') else 0
+            if res_bal and res_bal.get('success'):
+                raw_saldo = res_bal['data'].get('balance', 0)
+                saldo = clean_angka(raw_saldo)
+            else:
+                saldo = 0
             
-            col_bal.markdown(f"<p style='margin:0; color:gray; font-size:11px;'>SALDO</p><h3 style='margin:0; color:#50FA7B;'>Rp {saldo:,}</h3>", unsafe_allow_html=True)
-            if col_bal.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"):
+            # Tampilan Saldo yang lebih compact
+            c_bal.markdown(f"""
+                <div style='text-align: center; background: #262730; padding: 5px; border-radius: 5px; border: 1px solid #444;'>
+                    <small style='color: gray; font-size: 10px; display: block;'>SALDO</small>
+                    <b style='color: #50FA7B; font-size: 16px;'>Rp {saldo:,}</b>
+                </div>
+            """, unsafe_allow_html=True)
+
+            # 3. Tombol Refresh
+            if c_btn.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"):
                 if "list_services_v2" in st.session_state: del st.session_state.list_services_v2
                 st.rerun()
 
+        # --- PANEL ORDER (GOOGLE ONLY) ---
         st.markdown("#### 🛒 Sewa Nomor Baru")
         with st.container(border=True):
             if "list_services_v2" not in st.session_state or st.session_state.get("current_srv") != srv_name:
