@@ -5,6 +5,7 @@ import time
 import os
 from datetime import timedelta
 from modules import database
+from pages_content import ai_lab
 
 # --- FUNGSI PANGGIL CSS ---
 def local_css(file_name):
@@ -145,9 +146,7 @@ else:
 
     # C. Routing Halaman (Otomatis ke AI LAB karena jadi pilihan pertama di radio)
     if menu == "🧠 PINTAR AI LAB":
-        st.title("🧠 PINTAR AI LAB")
-        st.write(f"Selamat datang kembali, {st.session_state['user_aktif']}. Area eksperimen AI siap digunakan.")
-        st.divider()
+        ai_lab.tampilkan_halaman()
         # Isi konten AI LAB kamu di sini
 
     elif menu == "📱 DATABASE CHANNEL":
