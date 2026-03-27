@@ -9,8 +9,9 @@ def tampilkan_halaman():
                 "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
     
     nama_hari = hari_id[sekarang.weekday()]
-    tgl = sekarang.day
     nama_bulan = bulan_id[sekarang.month - 1]
+    tgl = sekarang.day
+    tahun = sekarang.year
     
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
     user_level = st.session_state.get("user_level", "STAFF").upper()
@@ -20,10 +21,11 @@ def tampilkan_halaman():
     
     if user_level not in izin_akses:
         st.error(f"🚫 Maaf {user_aktif}, Area ini terbatas untuk tim internal.")
+        st.stop()
 
     # --- 2. TAMPILAN UTAMA ---
     st.title("🧠 PINTAR AI LAB")
-    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {sekarang.strftime('%d %B %Y')}")
+    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {tahun}")
 
     # --- 3. TABS MENU ---
     t_masjid, t_anatomi, t_transform, t_random = st.tabs([
