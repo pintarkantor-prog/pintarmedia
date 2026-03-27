@@ -60,11 +60,16 @@ def tampilkan_kendali_tim():
         ops_val = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() != 'GAJI TIM')]['NOM_VAL'].sum() if not df_k_f.empty else 0
         bonus_val = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM')]['NOM_VAL'].sum() if not df_k_f.empty else 0
 
+        # DETEKSI KOLOM STAFF (Gaji_Pokok, Tunjangan, Level)
+        c_gp = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
+        c_tj = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
+        c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
+        
         # Hitung Gapok Tim
+        df_staff_real = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper().isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         total_gapok = 0
-        df_staff_real = df_staff[df_staff['Level'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         for _, s in df_staff_real.iterrows():
-            total_gapok += int(str(s.get('Gaji_Pokok', '0')).replace('.', '') or 0) + int(str(s.get('Tunjangan', '0')).replace('.', '') or 0)
+            total_gapok += int(str(s.get(c_gp, '0')).replace('.', '') or 0) + int(str(s.get(c_tj, '0')).replace('.', '') or 0)
 
         total_out_riil = total_gapok + bonus_val + ops_val
         saldo_riil = inc_val - total_out_riil
@@ -97,15 +102,13 @@ def tampilkan_kendali_tim():
                         database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
                         st.success("OK!"); time.sleep(0.5); st.rerun()
 
-            # --- LOG TRANSAKSI (DENGAN TANGGAL + STYLE ABU MIRING) ---
+            # --- LOG TRANSAKSI (GAYA SAKTI DIAN: TANGGAL + ABU MIRING) ---
             with col_logs:
                 with st.container(height=315):
                     if not df_k_f.empty:
                         for _, r in df_k_f.sort_values(by='TGL_DT', ascending=False).head(15).iterrows():
                             v_tipe = str(r.get(col_tipe, '')).upper()
                             color = "#00ba69" if v_tipe == "PENDAPATAN" else "#ff4b4b"
-                            
-                            # Format Tanggal untuk Log (misal: 25 Mar)
                             tgl_log = r['TGL_DT'].strftime('%d %b') if pd.notnull(r['TGL_DT']) else "-"
                             
                             st.markdown(f"""
@@ -120,9 +123,8 @@ def tampilkan_kendali_tim():
 
             with col_viz:
                 st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
-                df_donut = pd.DataFrame({"Kat": ["INCOME", "OUTCOME"], "Val": [inc_val, total_out_riil]})
                 if (inc_val + total_out_riil) > 0:
-                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                    fig = px.pie(values=[inc_val, total_out_riil], names=['INC', 'OUT'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
                     fig.update_layout(
                         showlegend=True,
                         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, font=dict(size=10)),
@@ -131,19 +133,25 @@ def tampilkan_kendali_tim():
                         annotations=[dict(text=f"{margin_val:.1f}%", x=0.5, y=0.5, font_size=20, showarrow=False, font_color="#ccc")]
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
-                else:
-                    st.markdown("<p style='text-align:center; color:#666; font-size:12px; margin-top:50px;'>No Data Viz.</p>", unsafe_allow_html=True)
 
-        # --- 7. RINCIAN GAJI & SLIP ---
+        # --- 7. RINCIAN GAJI & SLIP (FIX ERROR 'Level') ---
         st.write(""); st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
         kol_v = st.columns(2) 
         df_staff_slip = df_staff_real.reset_index(drop=True)
         for idx, s in df_staff_slip.iterrows():
-            n_up = str(s.get('Nama', '')).strip().upper()
+            c_nama = next((c for c in s.index if c.lower() == 'nama'), 'Nama')
+            n_up = str(s.get(c_nama, '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
-            g_p = int(pd.to_numeric(str(s.get('Gaji_Pokok', '0')).replace('.',''), errors='coerce') or 0)
-            t_j = int(pd.to_numeric(str(s.get('Tunjangan', '0')).replace('.',''), errors='coerce') or 0)
-            b_c = int(df_k_f[(df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))]['NOM_VAL'].sum()) if not df_k_f.empty else 0
+            
+            g_p = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.',''), errors='coerce') or 0)
+            t_j = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.',''), errors='coerce') or 0)
+            
+            b_c = 0
+            if not df_k_f.empty:
+                mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
+                       (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
+                b_c = int(df_k_f[mask]['NOM_VAL'].sum())
+            
             t_n = g_p + t_j + b_c
 
             with kol_v[idx % 2]:
@@ -155,4 +163,4 @@ def tampilkan_kendali_tim():
                         st.components.v1.html(slip_h, height=450)
 
     except Exception as e:
-        st.error(f"⚠️ Terjadi Kesalahan: {e}")
+        st.error(f"⚠️ Sesuai Referensi, Error di: {e}")
