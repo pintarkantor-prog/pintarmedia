@@ -1,1 +1,36 @@
+/* 1. Kotak Login biar lebih Modern */
+div[data-testid="stForm"] {
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 40px;
+    background-color: #0d1117;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
 
+/* 2. Judul Login */
+h2 {
+    color: #ffffff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 30px !important;
+}
+
+/* 3. Tombol Submit (Warna Merah Bold) */
+button[kind="primaryFormSubmit"] {
+    background-color: #d73a49 !important;
+    color: white !important;
+    border: none !important;
+    height: 45px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+button[kind="primaryFormSubmit"]:hover {
+    background-color: #b31d28 !important;
+    transform: scale(1.02);
+}
+
+/* 4. Input Field biar lebih rapi */
+input {
+    border-radius: 8px !important;
+}
