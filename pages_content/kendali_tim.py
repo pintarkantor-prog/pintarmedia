@@ -340,7 +340,7 @@ def tampilkan_kendali_tim():
                         except Exception as e:
                             st.error(f"Gagal: {e}")
                     else:
-                        st.warning("Nominal harus lebih dari 0!") 
+                        st.warning("Nominal harus lebih dari 0!")
 
     except Exception as e:
         st.error(f"⚠️ Sistem Error: {e}")
