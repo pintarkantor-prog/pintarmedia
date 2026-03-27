@@ -32,10 +32,10 @@ def get_otpnum_api(server_url, endpoint, params):
     except Exception as e: return {"success": False, "message": str(e)}
 
 def tampilkan_halaman():
-    st.title("📩 OTP HUB - PINTAR MEDIA v2.0")
+    st.title("📩 OTP HUB")
     API_KEY = st.secrets.get("OTPNUM_API_KEY", "")
 
-    tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE)", "🛒 SEWA NOMOR ONLINE"])
+    tab_lokal, tab_online = st.tabs(["📱 OTP HP KERJA", "🛒 BELI NOMOR OTP"])
 
     # ==========================================================================
     # TAB 1: SMS LOKAL
