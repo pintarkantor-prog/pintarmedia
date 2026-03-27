@@ -47,7 +47,7 @@ def tampilkan_kendali_tim():
             col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
             col_tipe = next((c for c in df_kas_raw.columns if c.lower() == 'tipe'), 'Tipe')
             col_kat = next((c for c in df_kas_raw.columns if c.lower() == 'kategori'), 'Kategori')
-            col_ket = next((c for c in df_kas_raw.columns if c.lower() == 'keterangan'), 'Keterangan') # FIX DISINI!
+            col_ket = next((c for c in df_kas_raw.columns if c.lower() == 'keterangan'), 'Keterangan')
 
             df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
             
@@ -58,7 +58,7 @@ def tampilkan_kendali_tim():
             df_k_f['NOM_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
         else:
             df_k_f = pd.DataFrame()
-            col_tipe, col_kat, col_ket = 'Tipe', 'Kategori', 'Keterangan' # Fallback
+            col_tipe, col_kat, col_ket = 'Tipe', 'Kategori', 'Keterangan'
 
         # --- 5. KALKULASI FINANSIAL ---
         inc, bonus_k, ops = 0, 0, 0
@@ -120,14 +120,15 @@ def tampilkan_kendali_tim():
                 with st.container(height=315):
                     if not df_k_f.empty:
                         for _, r in df_k_f.sort_values(by='TGL_DT', ascending=False).head(15).iterrows():
-                            # FIX DISINI: Pake col_tipe, col_kat, col_ket yang udah dideteksi
                             v_tipe = str(r.get(col_tipe, '')).upper()
                             warna_log = "#00ba69" if v_tipe == "PENDAPATAN" else "#ff4b4b"
+                            
+                            # --- STYLING LOG (ABU-ABU & MIRING PADA KETERANGAN) ---
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
                                 <b>{r.get(col_kat, 'KAS')}</b> 
                                 <span style='float:right; color:{warna_log}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
-                                <small>{r.get(col_ket, '-')}</small>
+                                <small style='color: #888; font-style: italic;'>{r.get(col_ket, '-')}</small>
                             </div>
                             """, unsafe_allow_html=True)
                     else:
@@ -153,7 +154,6 @@ def tampilkan_kendali_tim():
             
             b_c = 0
             if not df_k_f.empty:
-                # FIX DISINI: Filter bonus pake col_kat dan col_ket hasil deteksi awal
                 mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
                        (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
                 b_c = int(df_k_f[mask]['NOM_VAL'].sum())
