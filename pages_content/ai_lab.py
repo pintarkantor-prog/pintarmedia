@@ -1174,28 +1174,32 @@ def tampilkan_halaman():
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
             st.code(final_ai_prompt, language="text")
 
-            # --- 8. TOMBOL ANTREAN ROBOT (PROMPT GAMBAR = VIDEO) ---
+            # --- 8. TOMBOL ANTREAN ROBOT (VERSI TESTER) ---
             st.divider()
             if st.button("🤖 KIRIM KE ANTRIAN ROBOT", use_container_width=True, key="btn_antre_masjid"):
                 try:
-                    # Ambil data dari pilihan di atas
-                    data_tugas = {
-                        "karakter": char_key, 
-                        "prompt_gambar": final_ai_prompt, # Prompt untuk FLOW
-                        "prompt_video": final_ai_prompt,  # Prompt untuk GROK (DISAMAKAN)
+                    # Cek manual apakah database konek
+                    from modules import database 
+                    
+                    # Buat data dummy dulu buat ngetes jalur
+                    payload = {
+                        "karakter": str(char_key), 
+                        "prompt_gambar": str(final_ai_prompt),
+                        "prompt_video": str(final_ai_prompt),
                         "status": "Pending",
-                        "pencatat": user_aktif
+                        "pencatat": str(user_aktif)
                     }
                     
-                    # Eksekusi kirim ke tabel Antrian_Video
-                    from modules import database
-                    database.supabase.table("Antrian_Video").insert(data_tugas).execute()
+                    # Tembak!
+                    res = database.supabase.table("Antrian_Video").insert(payload).execute()
                     
-                    st.success(f"🚀 BERHASIL! {char_key} masuk antrean. Robot akan pakai prompt yang sama untuk Gambar & Video.")
+                    # Kalau berhasil, harusnya muncul ini:
+                    st.success(f"🚀 MASUK PAK EKO! Cek Supabase sekarang.")
                     st.balloons()
                     
                 except Exception as e:
-                    st.error(f"Gagal Kirim ke Antrean: {e}")
+                    # Kalau gagal, dia bakal "teriak" di sini:
+                    st.error(f"Penyebab Gagal: {e}")
 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
