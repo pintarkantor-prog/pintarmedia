@@ -40,34 +40,31 @@ def tampilkan_kendali_tim():
         df_staff = database.ambil_data("Staff")
         df_kas_raw = database.ambil_data("Arus_Kas")
 
-        # --- 4. SARING DATA & CLEANING (ANTI-LOG 0) ---
+        # --- 4. SARING DATA & CLEANING (SESUAI SCREENSHOT SUPABASE LO!) ---
         if not df_kas_raw.empty:
-            # Cari kolom 'Tanggal' & 'Nominal' secara cerdas
-            col_tgl = next((c for c in df_kas_raw.columns if c.lower() == 'tanggal'), 'Tanggal')
-            col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
-            col_tipe = next((c for c in df_kas_raw.columns if c.lower() == 'tipe'), 'Tipe')
-            col_kat = next((c for c in df_kas_raw.columns if c.lower() == 'kategori'), 'Kategori')
-
-            df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
+            # SESUAI GAMBAR: Tanggal, Tipe, Kategori, Nominal, Keterangan, Pencatat
+            df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw['Tanggal'], errors='coerce')
             df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
             
-            # Konversi nominal ke angka murni (Ini kunci biar Log gak Rp 0)
-            df_k_f['NOM_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
+            # Cleaning nominal
+            df_k_f['NOM_VAL'] = pd.to_numeric(df_k_f['Nominal'].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
         else:
             df_k_f = pd.DataFrame()
 
         # --- 5. KALKULASI METRIK ---
         inc, bonus_k, ops = 0, 0, 0
         if not df_k_f.empty:
-            inc = df_k_f[df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENDAPATAN']['NOM_VAL'].sum()
-            ops = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() != 'GAJI TIM')]['NOM_VAL'].sum()
-            bonus_k = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM')]['NOM_VAL'].sum()
+            inc = df_k_f[df_k_f['Tipe'].fillna('').astype(str).str.upper() == 'PENDAPATAN']['NOM_VAL'].sum()
+            ops = df_k_f[(df_k_f['Tipe'].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f['Kategori'].fillna('').astype(str).str.upper() != 'GAJI TIM')]['NOM_VAL'].sum()
+            bonus_k = df_k_f[(df_k_f['Tipe'].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f['Kategori'].fillna('').astype(str).str.upper() == 'GAJI TIM')]['NOM_VAL'].sum()
 
-        # Hitung Gapok
+        # HITUNG GAPOK (SESUAI GAMBAR STAFF: Gaji_Pokok, Tunjangan, Level)
         total_gapok = 0
-        df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
+        df_staff_real = df_staff[df_staff['Level'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         for _, s in df_staff_real.iterrows():
-            total_gapok += int(str(s.get('GAJI_POKOK', '0')).replace('.', '') or 0) + int(str(s.get('TUNJANGAN', '0')).replace('.', '') or 0)
+            g_val = int(str(s.get('Gaji_Pokok', '0')).replace('.', '') or 0)
+            t_val = int(str(s.get('Tunjangan', '0')).replace('.', '') or 0)
+            total_gapok += (g_val + t_val)
 
         total_out = total_gapok + bonus_k + ops
         saldo = inc - total_out
@@ -96,26 +93,28 @@ def tampilkan_kendali_tim():
                     f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed")
                     f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
-                        database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
+                        database.supabase.table("Arus_Kas").insert({
+                            "Tanggal": sekarang.strftime('%Y-%m-%d'), 
+                            "Tipe": f_tipe, 
+                            "Kategori": f_kat, 
+                            "Nominal": str(int(f_nom)), 
+                            "Keterangan": f_ket, 
+                            "Pencatat": user_sekarang
+                        }).execute()
                         st.success("OK!"); time.sleep(0.5); st.rerun()
 
             with col_log:
                 with st.container(height=315):
                     if not df_k_f.empty:
-                        # Log harus ambil dari df_k_f yang sudah di-cleaning
                         for _, r in df_k_f.sort_values(by='TGL_DT', ascending=False).head(15).iterrows():
-                            # FIX LOGIKA WARNA & TAMPILAN
-                            tipe_row = str(r[col_tipe]).upper()
-                            warna_log = "#00ba69" if tipe_row == "PENDAPATAN" else "#ff4b4b"
+                            warna_log = "#00ba69" if str(r['Tipe']).upper() == "PENDAPATAN" else "#ff4b4b"
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
-                                <b>{r[col_kat]}</b> 
+                                <b>{r['Kategori']}</b> 
                                 <span style='float:right; color:{warna_log}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
                                 <small style='color:#888;'>{r['Keterangan']}</small>
                             </div>
                             """, unsafe_allow_html=True)
-                    else:
-                        st.caption("Belum ada data.")
 
             with col_viz:
                 if (inc + total_out) > 0:
@@ -124,26 +123,23 @@ def tampilkan_kendali_tim():
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
         # ======================================================================
-        # --- UI: RINCIAN GAJI & SLIP (FIX 'str' object error) ---
+        # --- UI: RINCIAN GAJI & SLIP ---
         # ======================================================================
         st.write(""); st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
         kol_v = st.columns(2) 
-        
-        # Reset index biar idx lari dari 0-1-2...
         df_staff_slip = df_staff_real.reset_index(drop=True)
         
         for idx, s in df_staff_slip.iterrows():
-            n_up = str(s.get('NAMA', '')).strip().upper()
+            n_up = str(s.get('Nama', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
             
-            g_p = int(pd.to_numeric(str(s.get('GAJI_POKOK', '0')).replace('.',''), errors='coerce') or 0)
-            t_j = int(pd.to_numeric(str(s.get('TUNJANGAN', '0')).replace('.',''), errors='coerce') or 0)
+            # AMBIL SESUAI NAMA KOLOM SUPABASE: Gaji_Pokok, Tunjangan
+            g_p = int(pd.to_numeric(str(s.get('Gaji_Pokok', '0')).replace('.',''), errors='coerce') or 0)
+            t_j = int(pd.to_numeric(str(s.get('Tunjangan', '0')).replace('.',''), errors='coerce') or 0)
             
-            # Bonus cair
             b_c = 0
             if not df_k_f.empty:
-                # Perbaikan filter bonus (Case Insensitive)
-                mask_bonus = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
+                mask_bonus = (df_k_f['Kategori'].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
                              (df_k_f['Keterangan'].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
                 b_c = int(df_k_f[mask_bonus]['NOM_VAL'].sum())
             
@@ -151,7 +147,7 @@ def tampilkan_kendali_tim():
 
             with kol_v[idx % 2]:
                 with st.container(border=True):
-                    st.markdown(f"""<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;"><div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div><div><b>{n_up}</b><br><small>{s.get('LEVEL', 'STAFF')}</small></div></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;"><div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div><div><b>{n_up}</b><br><small>{s.get('Jabatan', 'STAFF')}</small></div></div>""", unsafe_allow_html=True)
                     c1, c2 = st.columns(2)
                     c1.markdown(f"<small>ESTIMASI TERIMA</small><h3 style='margin:0; color:#1d976c;'>Rp {t_n:,}</h3>", unsafe_allow_html=True)
                     c2.markdown(f"<small>STATUS</small><br><b style='color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
