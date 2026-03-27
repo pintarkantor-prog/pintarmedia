@@ -98,7 +98,7 @@ def tampilkan_kendali_tim():
                     f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
                         database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
-                        st.success("OK!"); time.sleep(0.5); st.rerun()
+                        st.success("Berhasil Disimpan!"); time.sleep(1); st.rerun()
 
             with col_logs:
                 with st.container(height=315):
