@@ -77,7 +77,7 @@ def tampilkan_halaman():
                     
                     st.markdown(f"<div style='background:#1e1e1e; padding:10px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
         else:
-            st.info("Tidak ada SMS lokal masuk dalam 1 jam terakhir.")
+            st.info("Tidak ada Kode OTP masuk dalam 1 jam terakhir.")
 
         st.caption(f"🔄 Last Sync Lokal: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')} WIB")
 
