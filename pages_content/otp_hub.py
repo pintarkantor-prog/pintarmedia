@@ -38,7 +38,7 @@ def tampilkan_halaman():
     tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE)", "🛒 SEWA NOMOR ONLINE"])
 
     # ==========================================================================
-    # TAB 1: SMS LOKAL (BALIKIN ISI PESAN / KOLOM 3)
+    # TAB 1: SMS LOKAL (LENGKAP DENGAN ISI PESAN)
     # ==========================================================================
     with tab_lokal:
         waktu_cutoff = (datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
@@ -63,20 +63,16 @@ def tampilkan_halaman():
                 otp_code = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))[0] if re.findall(r'\b\d{6}\b', str(r['MESSAGE'])) else "---"
                 
                 with st.container(border=True):
-                    # Header: Unit HP & Waktu
-                    st.markdown(f"<span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span> <small style='float:right; color:gray;'>{dt_obj.strftime('%H:%M:%S')} WIB</small>", unsafe_allow_html=True)
+                    # Header: Unit & Waktu
+                    st.markdown(f"<div style='display: flex; justify-content: space-between;'><span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span><small style='color:gray;'>{dt_obj.strftime('%H:%M:%S')} WIB</small></div>", unsafe_allow_html=True)
                     
-                    # Kolom 1 & 2: Pengirim & Kode
-                    col1, col2 = st.columns([2, 1])
-                    col1.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b>{r['SENDER']}</b>", unsafe_allow_html=True)
-                    col2.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
+                    # Isi Detail
+                    c1, c2 = st.columns([2, 1])
+                    c1.markdown(f"<p style='margin:10px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b style='font-size:15px;'>{r['SENDER']}</b>", unsafe_allow_html=True)
+                    c2.markdown(f"<p style='margin:10px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
                     
-                    # --- INI KOLOM 3 YANG TADI LUPA: ISI PESAN ---
-                    st.markdown(f"""
-                        <div style='background:#1e1e1e; padding:10px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px;'>
-                            {r['MESSAGE']}
-                        </div>
-                    """, unsafe_allow_html=True)
+                    # ISI PESAN (KOLOM 3)
+                    st.markdown(f"<div style='background:#1e1e1e; padding:12px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#DDD; font-size:13px; line-height:1.4;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
         else:
             st.info("Belum ada SMS masuk.")
 
@@ -126,7 +122,6 @@ def tampilkan_halaman():
                         st.rerun()
             else: st.warning("Layanan Google tidak ditemukan.")
 
-        # AUTO-POLLING SMS
         if "active_order" in st.session_state:
             ord = st.session_state.active_order
             with st.container(border=True):
@@ -138,7 +133,7 @@ def tampilkan_halaman():
                     msg_area.success(f"🔥 OTP: {st.session_state.otp_online}")
                     st.balloons()
                 else:
-                    msg_area.info("⏳ Menunggu SMS... (Cek tiap 10 detik)")
+                    msg_area.info("⏳ Menunggu SMS... (10s)")
                     time.sleep(10)
                     st.rerun()
                 
