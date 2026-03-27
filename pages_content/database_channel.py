@@ -835,7 +835,6 @@ def tampilkan_database_channel():
             """, unsafe_allow_html=True)
 
         # --- PANEL ORDER (GOOGLE ONLY) ---
-        st.markdown("#### 🛒 Sewa Nomor Baru")
         with st.container(border=True):
             if "list_services_v2" not in st.session_state or st.session_state.get("current_srv") != srv_name:
                 res_serv = get_otpnum_api(srv_url, "services", {"api_key": API_KEY, "country_id": 6})
