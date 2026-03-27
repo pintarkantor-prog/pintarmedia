@@ -15,39 +15,30 @@ def tampilkan_halaman():
         st.error(f"Gagal narik data OTP: {e}")
         return
 
-    # --- 2. PANEL KONTROL (SEJAJAR RAPI) ---
-    with st.expander("🛠️ PANEL KONTROL & FILTER", expanded=True):
-        # Pakai kolom dengan perbandingan yang pas
-        c1, c2 = st.columns([4, 1])
+    # --- 2. SINGLE EXPANDER UNTUK SEMUA ---
+    with st.expander("🛠️ PANEL KONTROL & DAFTAR SMS", expanded=True):
         
-        # Search Input
-        search_query = c1.text_input("Cari...", placeholder="Cari HP 01, Google, dsb...", label_visibility="collapsed")
+        # --- BARIS 1: PENCARIAN ---
+        search_query = st.text_input("Cari...", placeholder="Ketik Unit (HP 01), Pengirim (Google), atau Kode...", label_visibility="collapsed")
         
-        # Tombol Refresh (Dipaksa sejajar dengan margin-top di CSS)
-        st.markdown("""
-            <style>
-                div[data-testid="stButton"] button {
-                    height: 42px !important;
-                }
-            </style>
-        """, unsafe_allow_html=True)
+        # --- BARIS 2: TOMBOL AKSI (SEJAJAR) ---
+        c1, c2 = st.columns(2)
         
-        if c2.button("🔄 REFRESH", use_container_width=True, type="primary"):
+        if c1.button("🔄 REFRESH DATA", use_container_width=True, type="primary"):
             st.rerun()
 
-        # Tombol Hapus (Hanya Owner)
-        if st.session_state.get("user_level") == "OWNER":
-            st.markdown("<div style='margin-top:5px;'></div>", unsafe_allow_html=True)
-            if st.button("🗑️ BERSIHKAN SEMUA LOG OTP", use_container_width=True):
+        if c2.button("🗑️ BERSIHKAN LOG", use_container_width=True):
+            if st.session_state.get("user_level") == "OWNER":
                 database.supabase.table("OTP_Log").delete().neq("id", 0).execute()
                 st.success("Log dikosongkan.")
                 time.sleep(0.5)
                 st.rerun()
+            else:
+                st.warning("Akses Ditolak!")
 
-    st.markdown("<br>", unsafe_allow_html=True)
+        st.markdown("<hr style='margin:15px 0; border-color:#444;'>", unsafe_allow_html=True)
 
-    # --- 3. LIST SMS MASUK (DALAM EXPANDER) ---
-    with st.expander("📥 DAFTAR SMS MASUK (TERBARU)", expanded=True):
+        # --- BARIS 3: LIST SMS (DIBUNGKUS DALAM EXPANDER) ---
         if not df_otp.empty:
             if search_query:
                 mask = (
@@ -62,14 +53,13 @@ def tampilkan_halaman():
             if df_display.empty:
                 st.info("Pencarian tidak ditemukan.")
             else:
+                # Loop untuk SMS masuk
                 for i, r in df_display.iterrows():
-                    # Konversi Waktu & OTP
                     dt_obj = pd.to_datetime(r['created_at']).tz_convert('Asia/Jakarta')
                     waktu_str = dt_obj.strftime('%d/%m %H:%M:%S')
                     otp_match = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))
                     otp_code = otp_match[0] if otp_match else "---"
 
-                    # Card Design dalam Expander
                     with st.container(border=True):
                         col_a, col_b = st.columns([1, 1])
                         col_a.markdown(f"**📱 {r['RECEIVER']}**")
@@ -77,10 +67,10 @@ def tampilkan_halaman():
                         
                         cp, co = st.columns([2, 1])
                         cp.markdown(f"<p style='margin:0; font-size:11px; color:gray;'>PENGIRIM</p><b>{r['SENDER']}</b>", unsafe_allow_html=True)
-                        co.markdown(f"<p style='margin:0; font-size:11px; color:gray; text-align:right;'>KODE OTP</p><h3 style='margin:0; text-align:right; color:#FF4B4B;'>{otp_code}</h3>", unsafe_allow_html=True)
+                        co.markdown(f"<p style='margin:0; font-size:11px; color:gray; text-align:right;'>KODE</p><h3 style='margin:0; text-align:right; color:#FF4B4B;'>{otp_code}</h3>", unsafe_allow_html=True)
                         
                         st.markdown(f"<p style='margin-top:10px; font-size:13px; color:#DDD; background:#1e1e1e; padding:10px; border-radius:5px;'>{r['MESSAGE']}</p>", unsafe_allow_html=True)
         else:
             st.info("Belum ada SMS masuk.")
 
-    st.caption(f"🔄 Auto-update saat halaman dibuka | Terakhir: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')}")
+    st.caption(f"🔄 Auto-update on load | Last Update: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')}")
