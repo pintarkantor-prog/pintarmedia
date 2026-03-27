@@ -91,7 +91,7 @@ def tampilkan_halaman():
                             co.markdown(f"<p style='margin:0; font-size:11px; color:gray; text-align:right;'>KODE</p><h3 style='margin:0; text-align:right; color:#FF4B4B;'>{otp_code}</h3>", unsafe_allow_html=True)
                             st.markdown(f"<p style='margin-top:10px; font-size:13px; color:#DDD; background:#1e1e1e; padding:10px; border-radius:5px;'>{r['MESSAGE']}</p>", unsafe_allow_html=True)
             else:
-                st.info("Belum ada SMS masuk di rak HP.")
+                st.info("Belum ada OTP SMS masuk.")
 
     # ==========================================================================
     # TAB 2: SEWA NOMOR ONLINE (OTPNUM.COM)
