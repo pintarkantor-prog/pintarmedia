@@ -6,24 +6,20 @@ import re
 import requests
 from datetime import datetime, timedelta
 
-# --- FUNGSI API DENGAN TRIK PROXY (BIAR TEMBUS IP NOT ALLOWED) ---
+# Matikan peringatan SSL
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
+# --- FUNGSI API ---
 def get_otpnum_v2(endpoint, params):
     try:
-        # Kita tambahkan proxy public biar IP Streamlit gak langsung keliatan
-        # Jika proxy ini lambat, Dian bisa daftar IP di dashboard OTPNUM
         base_url = "https://otpnum.com/api/v2/"
         full_url = f"{base_url}{endpoint}"
-        
-        # Tambahkan headers agar terlihat seperti browser beneran
-        headers = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-        }
-        
-        response = requests.get(full_url, params=params, timeout=15, headers=headers)
-        
+        headers = {"User-Agent": "Mozilla/5.0"}
+        response = requests.get(full_url, params=params, timeout=15, headers=headers, verify=False)
         if response.status_code == 200:
             return response.json()
-        return {"success": False, "message": f"IP Diblokir (HTTP {response.status_code})"}
+        return {"success": False, "message": f"HTTP {response.status_code}"}
     except Exception as e:
         return {"success": False, "message": str(e)}
 
@@ -34,7 +30,7 @@ def tampilkan_halaman():
     tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE)", "🛒 SEWA NOMOR ONLINE"])
 
     # ==========================================================================
-    # TAB 1: SMS LOKAL (GAYA MODERN - TETAP UTUH)
+    # TAB 1: SMS LOKAL
     # ==========================================================================
     with tab_lokal:
         waktu_cutoff = (datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
@@ -45,9 +41,12 @@ def tampilkan_halaman():
 
         with st.container(border=True):
             c_search, c_ref, c_del = st.columns([3, 1, 1])
-            search_q = c_search.text_input("Filter SMS...", placeholder="Cari...", label_visibility="collapsed")
-            if c_ref.button("🔄 REFRESH", use_container_width=True): st.rerun()
-            if c_del.button("🗑️ CLEAR", use_container_width=True):
+            search_q = c_search.text_input("Filter SMS...", placeholder="Cari...", label_visibility="collapsed", key="search_lokal")
+            
+            # KASIH KEY UNIK DISINI
+            if c_ref.button("🔄 REFRESH", use_container_width=True, key="btn_refresh_lokal"): 
+                st.rerun()
+            if c_del.button("🗑️ CLEAR", use_container_width=True, key="btn_clear_lokal"):
                 if st.session_state.get("user_level") == "OWNER":
                     database.supabase.table("OTP_Log").delete().neq("id", 0).execute()
                     st.rerun()
@@ -56,64 +55,66 @@ def tampilkan_halaman():
             df_display = df_otp[df_otp.apply(lambda row: search_q.lower() in str(row).lower(), axis=1)] if search_q else df_otp
             for i, r in df_display.iterrows():
                 dt_obj = pd.to_datetime(r['created_at']).tz_convert('Asia/Jakarta')
-                otp_code = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))[0] if re.findall(r'\b\d{6}\b', str(r['MESSAGE'])) else "---"
+                otp_match = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))
+                otp_code = otp_match[0] if otp_match else "---"
                 with st.container(border=True):
-                    st.markdown(f"<span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span> <small style='float:right; color:gray;'>{dt_obj.strftime('%H:%M:%S')} WIB</small>", unsafe_allow_html=True)
-                    c1, c2 = st.columns([2, 1])
-                    c1.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b>{r['SENDER']}</b>", unsafe_allow_html=True)
-                    c2.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
+                    h1, h2 = st.columns([1, 1])
+                    h1.markdown(f"<span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span>", unsafe_allow_html=True)
+                    h2.markdown(f"<p style='text-align:right; color:gray; font-size:12px; margin:0;'>{dt_obj.strftime('%H:%M:%S')} WIB</p>", unsafe_allow_html=True)
+                    b1, b2 = st.columns([2, 1])
+                    b1.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b>{r['SENDER']}</b>", unsafe_allow_html=True)
+                    b2.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
                     st.markdown(f"<div style='background:#1e1e1e; padding:10px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
         else:
-            st.info("Belum ada SMS masuk 1 jam terakhir.")
+            st.info("Belum ada SMS masuk dalam 1 jam terakhir.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE (SERVER 2)
+    # TAB 2: SEWA NOMOR ONLINE
     # ==========================================================================
     with tab_online:
-        # Cek Saldo
         res_bal = get_otpnum_v2("balance", {"api_key": API_KEY})
+        saldo = res_bal['data']['balance'] if res_bal and res_bal.get('success') else 0
         
-        if res_bal and res_bal.get('success'):
-            saldo = res_bal['data']['balance']
-            with st.container(border=True):
-                s1, s2 = st.columns([2, 1])
-                s1.markdown(f"### 💰 Saldo: Rp {saldo:,}")
-                if s2.button("🔄 REFRESH", use_container_width=True): st.rerun()
-        else:
-            st.error(f"⚠️ KONEKSI DIBLOKIR: {res_bal.get('message') if res_bal else 'Timeout'}")
-            st.warning("Penyakit: IP Server Streamlit belum didaftarkan di OTPNUM.")
+        with st.container(border=True):
+            s1, s2 = st.columns([2, 1])
+            s1.markdown(f"### 💰 Saldo OTPNUM\n# Rp {saldo:,}")
+            # KASIH KEY UNIK DISINI
+            if s2.button("🔄 REFRESH", use_container_width=True, key="btn_refresh_saldo"): 
+                st.rerun()
 
         st.markdown("#### 🛒 Sewa Nomor Baru")
         with st.container(border=True):
+            country_id = 6 
             if "list_services_v2" not in st.session_state:
-                res_serv = get_otpnum_v2("services", {"api_key": API_KEY, "country_id": 6})
+                res_serv = get_otpnum_v2("services", {"api_key": API_KEY, "country_id": country_id})
                 if res_serv and res_serv.get('success'):
                     st.session_state.list_services_v2 = res_serv['data']['services']
 
-            services = st.session_state.get("list_services_v2", [])
-            opts = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in services}
-            pilih = st.selectbox("Layanan", list(opts.keys()) if opts else ["Gagal memuat layanan"])
-            
-            if st.button("🚀 BELI NOMOR", use_container_width=True, type="primary"):
-                sid = opts.get(pilih)
-                res_order = get_otpnum_v2("order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
-                if res_order and res_order.get('success'):
-                    st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "name": pilih}
-                    st.rerun()
-                else: st.error(f"Gagal: {res_order.get('message') if res_order else 'Gagal Order'}")
+            list_s = st.session_state.get("list_services_v2", [])
+            options_serv = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in list_s}
+            pilih_name = st.selectbox("Pilih Layanan", list(options_serv.keys()) if options_serv else ["Memuat..."], key="select_layanan")
+            service_id = options_serv.get(pilih_name)
 
-        # Monitoring Nomor Aktif
+            if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary", key="btn_beli_nomor"):
+                if service_id:
+                    res_order = get_otpnum_v2("order", {"api_key": API_KEY, "service_id": service_id, "operator": "any", "country_id": country_id})
+                    if res_order and res_order.get('success'):
+                        st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "name": pilih_name}
+                        st.rerun()
+                    else: st.error("Gagal order!")
+
         if "active_order" in st.session_state:
             ord = st.session_state.active_order
             with st.container(border=True):
                 st.markdown(f"**NOMOR:** `{ord['number']}`")
-                c_c1, c_c2 = st.columns(2)
-                if c_c1.button("🔄 CEK SMS", use_container_width=True):
+                c_cek, c_can = st.columns(2)
+                # KASIH KEY UNIK DISINI
+                if c_cek.button("🔄 CEK SMS", use_container_width=True, key="btn_cek_sms_online"):
                     res_stat = get_otpnum_v2("status", {"api_key": API_KEY, "order_id": ord['id']})
                     if res_stat and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
                         st.session_state.otp_online = res_stat['data']['sms']
                         st.balloons()
-                if c_c2.button("❌ CANCEL", use_container_width=True):
-                    get_otpnum_v2("cancel", {"api_key": API_KEY, "order_id": ord['id']})
+                if c_can.button("❌ SELESAI", use_container_width=True, key="btn_cancel_online"):
                     del st.session_state.active_order
+                    if "otp_online" in st.session_state: del st.session_state.otp_online
                     st.rerun()
