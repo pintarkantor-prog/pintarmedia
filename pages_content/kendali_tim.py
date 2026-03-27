@@ -211,3 +211,6 @@ def tampilkan_kendali_tim():
             # --- PENUTUP TRY-EXCEPT YANG TADI KETINGGALAN ---
             except Exception as e_slip:
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
+
+except Exception as e:
+        st.error(f"⚠️ Sistem Error: {e}")
