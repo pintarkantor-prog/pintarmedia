@@ -190,7 +190,7 @@ def tampilkan_kendali_tim():
                                             <tr><td style="color: #999; font-weight: 600;">PERIODE</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                         </table>
                                     </div>
-                                    <table style="width: 100%; font-size: 13px; line-height: 2.5; border-collapse: collapse;">
+                                    <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
                                         <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
                                         <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
                                         <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Terbayar</td><td align="right">+ {bonus_cair:,}</td></tr>
