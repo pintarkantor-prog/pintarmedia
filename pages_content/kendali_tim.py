@@ -170,7 +170,7 @@ def tampilkan_kendali_tim():
                             
                             c1, c2 = st.columns(2)
                             c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</small></p><h3 style='margin:0; color:#1d976c;'>Rp {v_total:,}</h3>", unsafe_allow_html=True)
-                            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:14px; 'color:#1d976c;'>✅AKTIF</b>", unsafe_allow_html=True)
+                            c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:14px; color:#1d976c;'>✅AKTIF</b>", unsafe_allow_html=True)
                             
                             st.divider()
 
@@ -311,41 +311,32 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 9. PANEL INPUT BONUS & LEMBUR (KONEK KE SLIP) ---
         # ======================================================================
-        with st.expander("🚀 INPUT BONUS / LEMBUR CEPAT", expanded=False):
-            st.info("💡 Bonus yang diinput di sini akan otomatis muncul di Slip Gaji karyawan terkait.")
-            with st.form("form_bonus_cepat", clear_on_submit=True):
-                c1, c2, c3 = st.columns([2, 1.5, 2.5])
-                
+        with st.expander("🚀 INPUT EXTRA / POTONGAN GAJI TIM", expanded=False):
+            with st.form("form_extra_gaji", clear_on_submit=True):
+                c1, c2, c3, c4 = st.columns([1.5, 1.2, 1.5, 2])
                 with c1:
-                    st.markdown('<p class="small-label">Pilih Karyawan</p>', unsafe_allow_html=True)
-                    # Ambil daftar nama staff selain OWNER
+                    st.markdown('<p class="small-label">Karyawan</p>', unsafe_allow_html=True)
                     daftar_nama = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'][c_nm].tolist()
-                    f_staf_bonus = st.selectbox("S", daftar_nama, label_visibility="collapsed")
-                
+                    f_staf_ex = st.selectbox("S", daftar_nama, label_visibility="collapsed")
                 with c2:
-                    st.markdown('<p class="small-label">Nominal Bonus</p>', unsafe_allow_html=True)
-                    f_nom_bonus = st.number_input("N", min_value=0, step=50000, label_visibility="collapsed")
-                
+                    st.markdown('<p class="small-label">Jenis</p>', unsafe_allow_html=True)
+                    f_tipe_ex = st.selectbox("T", ["BONUS KINERJA", "LEMBUR", "POTONGAN", "KASBON"], label_visibility="collapsed")
                 with c3:
-                    st.markdown('<p class="small-label">Alasan / Keterangan</p>', unsafe_allow_html=True)
-                    f_ket_bonus = st.text_input("K", placeholder="Contoh: Lembur Video / Bonus Kinerja", label_visibility="collapsed")
+                    st.markdown('<p class="small-label">Nominal</p>', unsafe_allow_html=True)
+                    f_nom_ex = st.number_input("N", min_value=0, step=10000, label_visibility="collapsed")
+                with c4:
+                    st.markdown('<p class="small-label">Keterangan</p>', unsafe_allow_html=True)
+                    f_ket_ex = st.text_input("K", placeholder="Detail...", label_visibility="collapsed")
                 
-                if st.form_submit_button("💰 CAIRKAN & UPDATE SLIP", use_container_width=True):
-                    if f_nom_bonus > 0:
-                        try:
-                            # KUNCI: Keterangan harus mengandung NAMA KARYAWAN agar dibaca fungsi Slip
-                            ket_final = f"BONUS: {f_staf_bonus.upper()} - {f_ket_bonus}"
-                            
-                            database.supabase.table("Arus_Kas").insert({
-                                "Tanggal": sekarang.strftime('%Y-%m-%d'),
-                                "Tipe": "PENGELUARAN",
-                                "Kategori": "Gaji Tim", # Harus sama dengan kategori di filter Slip
-                                "Nominal": str(int(f_nom_bonus)),
-                                "Keterangan": ket_final,
-                                "Pencatat": user_sekarang
-                            }).execute()
-                            
-                            st.success(f"Berhasil! Bonus {f_staf_bonus} masuk ke Kas & Slip."); time.sleep(1); st.rerun()
+                if st.form_submit_button("🚀 SIMPAN KE SLIP", use_container_width=True):
+                    if f_nom_ex > 0:
+                        ket_final = f"{f_tipe_ex}: {f_staf_ex.upper()} - {f_ket_ex}"
+                        database.supabase.table("Arus_Kas").insert({
+                            "Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": "PENGELUARAN",
+                            "Kategori": "Gaji Tim", "Nominal": str(int(f_nom_ex)),
+                            "Keterangan": ket_final, "Pencatat": user_sekarang
+                        }).execute()
+                        st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
                         except Exception as e:
                             st.error(f"Gagal: {e}")
                     else:
