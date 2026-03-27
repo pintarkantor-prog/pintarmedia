@@ -112,7 +112,7 @@ def tampilkan_kendali_tim():
                             tgl_log = r['TGL_DT'].strftime('%d %b') if pd.notnull(r['TGL_DT']) else "-"
                             
                             st.markdown(f"""
-                            <div style='font-size:12px; border-bottom:1px solid #333; padding:5px 0;'>
+                            <div style='font-size:11px; border-bottom:1px solid #333; padding:5px 0;'>
                                 <b style='color:#ccc;'>{r.get(col_kat, 'KAS')}</b> 
                                 <span style='float:right; color:{color}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
                                 <small style='color: #888; font-style: italic;'>[{tgl_log}] - {r.get(col_ket, '-')}</small>
@@ -124,7 +124,7 @@ def tampilkan_kendali_tim():
             with col_viz:
                 st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
                 if (inc_val + total_out_riil) > 0:
-                    fig = px.pie(values=[inc_val, total_out_riil], names=['INC', 'OUT'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                    fig = px.pie(values=[inc_val, total_out_riil], names=['INCOME', 'OUTCOME'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
                     fig.update_layout(
                         showlegend=True,
                         legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, font=dict(size=10)),
