@@ -212,11 +212,12 @@ def tampilkan_kendali_tim():
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
 
         # ======================================================================
-        # --- 8. MANAJEMEN TIM TOTAL (TAMBAH, EDIT, HAPUS) ---
+        # --- 8. MANAJEMEN TIM TOTAL (MURNI STREAMLIT) ---
         # ======================================================================
         with st.expander("⚙️ MANAJEMEN TIM & PENGATURAN GAJI", expanded=False):
+            
             # --- A. FITUR TAMBAH STAFF BARU ---
-            st.markdown("#### ➕ Tambah Staff Baru")
+            st.markdown("#### ➕ TAMBAH STAFF BARU")
             with st.form("form_tambah_staff", clear_on_submit=True):
                 c1, c2, c3 = st.columns(3)
                 t_nama = c1.text_input("Nama Lengkap")
@@ -232,22 +233,18 @@ def tampilkan_kendali_tim():
                     if t_nama and t_pass:
                         try:
                             database.supabase.table("Staff").insert({
-                                "Nama": t_nama.upper(),
-                                "Jabatan": t_jabatan,
-                                "Level": t_level,
-                                "Gaji_Pokok": str(int(t_gapok)),
-                                "Tunjangan": str(int(t_tunjangan)),
-                                "Password": t_pass
+                                "Nama": t_nama.upper(), "Jabatan": t_jabatan, "Level": t_level,
+                                "Gaji_Pokok": str(int(t_gapok)), "Tunjangan": str(int(t_tunjangan)), "Password": t_pass
                             }).execute()
-                            st.success(f"Berhasil! {t_nama} resmi jadi bagian PINTAR MEDIA."); time.sleep(1); st.rerun()
+                            st.success(f"OK! {t_nama} resmi terdaftar."); time.sleep(1); st.rerun()
                         except Exception as e: st.error(f"Gagal: {e}")
-                    else: st.warning("Nama dan Password wajib diisi!")
 
             st.divider()
 
             # --- B. FITUR EDIT & HAPUS STAFF LAMA ---
-            st.markdown("#### 📝 Edit atau Berhentikan Staff")
-            # Deteksi kolom secara dinamis (antisipasi case-sensitive)
+            st.markdown("#### 📝 EDIT ATAU BERHENTIKAN STAFF")
+            
+            # Deteksi Kolom (Antisipasi Case Supabase lo)
             c_nm = next((c for c in df_staff.columns if c.lower() == 'nama'), 'Nama')
             c_jb = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
             c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
@@ -256,44 +253,44 @@ def tampilkan_kendali_tim():
             c_pw = next((c for c in df_staff.columns if c.lower() == 'password'), 'Password')
             c_id = next((c for c in df_staff.columns if c.lower() == 'id'), 'id')
 
-            # Kita tampilkan semua kecuali OWNER biar ngga sengaja hapus diri sendiri
+            # Filter selain OWNER
             df_manage = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'].copy()
 
             for _, s in df_manage.iterrows():
                 sid = s.get(c_id)
-                s_nama = s.get(c_nm, 'Unknown')
-                
                 with st.container(border=True):
-                    # Baris 1: Identitas & Password
-                    col1, col2, col3, col4 = st.columns([2, 2, 1.5, 1.5])
-                    u_nama = col1.text_input("Nama", value=str(s_nama), key=f"unm_{sid}")
-                    u_jab = col2.text_input("Jabatan", value=str(s.get(c_jb, '')), key=f"ujb_{sid}")
-                    u_lv = col3.selectbox("Level", ["STAFF", "UPLOADER", "ADMIN"], index=["STAFF", "UPLOADER", "ADMIN"].index(str(s.get(c_lv, 'STAFF')).upper()) if str(s.get(c_lv, 'STAFF')).upper() in ["STAFF", "UPLOADER", "ADMIN"] else 0, key=f"ulv_{sid}")
-                    u_pw = col4.text_input("Pass", value=str(s.get(c_pw, '')), type="password", key=f"upw_{sid}")
+                    # Baris 1: Identitas
+                    cols1 = st.columns([2, 2, 1.5, 1.5])
+                    u_nama = cols1[0].text_input("Nama Staff", value=str(s.get(c_nm, '')), key=f"unm_{sid}")
+                    u_jab = cols1[1].text_input("Jabatan", value=str(s.get(c_jb, '')), key=f"ujb_{sid}")
+                    u_lv = cols1[2].selectbox("Level", ["STAFF", "UPLOADER", "ADMIN"], index=["STAFF", "UPLOADER", "ADMIN"].index(str(s.get(c_lv, 'STAFF')).upper()) if str(s.get(c_lv, 'STAFF')).upper() in ["STAFF", "UPLOADER", "ADMIN"] else 0, key=f"ulv_{sid}")
+                    u_pw = cols1[3].text_input("Password", value=str(s.get(c_pw, '')), type="password", key=f"upw_{sid}")
 
-                    # Baris 2: Keuangan & Tombol Aksi
-                    col5, col6, col7, col8 = st.columns([2, 2, 1.5, 1.5])
-                    u_gp = col5.text_input("Gapok", value=str(s.get(c_gp, '0')), key=f"ugp_{sid}")
-                    u_tj = col6.text_input("Tunjangan", value=str(s.get(c_tj, '0')), key=f"utj_{sid}")
+                    # Baris 2: Finansial & Tombol
+                    cols2 = st.columns([2, 2, 1.5, 1.5])
+                    u_gp = cols2[0].text_input("Gaji Pokok", value=str(s.get(c_gp, '0')), key=f"ugp_{sid}")
+                    u_tj = cols2[1].text_input("Tunjangan", value=str(s.get(c_tj, '0')), key=f"utj_{sid}")
                     
-                    if col7.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
+                    st.write("") # Jeda dikit
+                    btn_up = cols2[2].button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True)
+                    btn_del = cols2[3].button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True)
+
+                    if btn_up:
                         try:
                             database.supabase.table("Staff").update({
                                 c_nm: u_nama.upper(), c_jb: u_jab, c_lv: u_lv,
                                 c_gp: u_gp, c_tj: u_tj, c_pw: u_pw
                             }).eq(c_id, sid).execute()
-                            st.success(f"Update {u_nama} Berhasil!"); time.sleep(0.5); st.rerun()
+                            st.success("Berhasil Update!"); time.sleep(0.5); st.rerun()
                         except Exception as e: st.error(f"Gagal: {e}")
 
-                    if col8.button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True):
-                        if st.session_state.get('confirm_delete') == sid:
-                            try:
-                                database.supabase.table("Staff").delete().eq(c_id, sid).execute()
-                                st.success(f"{u_nama} telah diberhentikan."); st.session_state.pop('confirm_delete'); time.sleep(0.5); st.rerun()
-                            except Exception as e: st.error(f"Gagal: {e}")
+                    if btn_del:
+                        if st.session_state.get('del_confirm') == sid:
+                            database.supabase.table("Staff").delete().eq(c_id, sid).execute()
+                            st.success("Staff dihapus."); st.session_state.pop('del_confirm'); time.sleep(0.5); st.rerun()
                         else:
-                            st.session_state['confirm_delete'] = sid
-                            st.warning(f"Klik HAPUS sekali lagi untuk konfirmasi pemberhentian {u_nama}!")
+                            st.session_state['del_confirm'] = sid
+                            st.warning("Klik HAPUS sekali lagi!")
             else:
                 st.warning("Tidak ada data staff untuk diedit.")
 
