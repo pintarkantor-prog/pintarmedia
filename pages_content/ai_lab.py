@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import datetime, timedelta
-from modules import database
 
 def tampilkan_halaman():
     # --- 1. PINTU UTAMA: CEK IZIN AKSES ---
@@ -1106,8 +1105,12 @@ def tampilkan_halaman():
                 pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"])
 
             st.write("")
-            btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
-            
+            btn_gen = st.button(
+                "🚀 GENERATE VIDEO PROMPT", 
+                type="primary", 
+                use_container_width=True, 
+                key="btn_generate_video"
+            )
         # --- LOGIC GENERATOR (TOTAL REBUILD: ULTRA SHARP & CLEAN VISUAL) ---
         if btn_gen:
             # 1. POSISI MATI LESEHAN
@@ -1165,34 +1168,10 @@ def tampilkan_halaman():
                 f"chair, table, furniture, text, watermark, side-view, tilted, distorted."
             )
 
-            st.session_state.temp_prompt = final_ai_prompt
-            st.session_state.temp_char = char_key
-            
-        # --- 7. TAMPILKAN HASIL ---
-        if "temp_prompt" in st.session_state:
-            st.divider() # <--- Sekarang udah menjorok ke dalam
+            # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
-            st.code(st.session_state.temp_prompt, language="text")
-
-            # TOMBOL ANTREAN (Sekarang dia mandiri, gak bakal ilang pas diklik)
-            if st.button("🤖 KIRIM KE ANTRIAN ROBOT", use_container_width=True, key="btn_antre_masjid"):
-                try:
-                    from modules import database 
-                    
-                    payload = {
-                        "karakter": str(st.session_state.temp_char), 
-                        "prompt_gambar": str(st.session_state.temp_prompt),
-                        "prompt_video": str(st.session_state.temp_prompt),
-                        "status": "Pending",
-                        "pencatat": str(user_aktif)
-                    }
-                    
-                    database.supabase.table("Antrian_Video").insert(payload).execute()
-                    
-                    st.success(f"🚀 BERHASIL Masuk Antrian Robot!")
-                    
-                except Exception as e:
-                    st.error(f"Penyebab Gagal: {e}")
+            st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
+            st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
