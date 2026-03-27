@@ -1169,36 +1169,38 @@ def tampilkan_halaman():
                 f"chair, table, furniture, text, watermark, side-view, tilted, distorted."
             )
 
+            st.session_state.temp_prompt = final_ai_prompt
+            st.session_state.temp_char = char_key
+            
             # --- 7. TAMPILKAN HASIL ---
-            st.success("🔥 PROMPT MASJID READY!")
-            st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
-            st.code(final_ai_prompt, language="text")
+            if "temp_prompt" in st.session_state:
+                st.success("🔥 PROMPT MASJID READY!")
+                st.code(st.session_state.temp_prompt, language="text")
 
             # --- 8. TOMBOL ANTREAN ROBOT (VERSI TESTER) ---
             st.divider()
+            # Tombol ini sekarang nggak bakal "ngilangin" prompt karena datanya ada di session_state
             if st.button("🤖 KIRIM KE ANTRIAN ROBOT", use_container_width=True, key="btn_antre_masjid"):
                 try:
-                    # Cek manual apakah database konek
                     from modules import database 
                     
-                    # Buat data dummy dulu buat ngetes jalur
                     payload = {
-                        "karakter": str(char_key), 
-                        "prompt_gambar": str(final_ai_prompt),
-                        "prompt_video": str(final_ai_prompt),
+                        "karakter": str(st.session_state.temp_char), 
+                        "prompt_gambar": str(st.session_state.temp_prompt),
+                        "prompt_video": str(st.session_state.temp_prompt),
                         "status": "Pending",
                         "pencatat": str(user_aktif)
                     }
                     
-                    # Tembak!
-                    res = database.supabase.table("Antrian_Video").insert(payload).execute()
+                    database.supabase.table("Antrian_Video").insert(payload).execute()
                     
-                    # Kalau berhasil, harusnya muncul ini:
-                    st.success(f"🚀 MASUK PAK EKO! Cek Supabase sekarang.")
+                    st.success(f"🚀 Berhasil Dikirim!")
                     st.balloons()
                     
+                    # Opsional: Hapus memori setelah sukses kirim
+                    # del st.session_state.temp_prompt
+                    
                 except Exception as e:
-                    # Kalau gagal, dia bakal "teriak" di sini:
                     st.error(f"Penyebab Gagal: {e}")
 
     # ==========================================================================
