@@ -61,38 +61,43 @@ def halaman_login():
                 
                 if submit:
                     if u and p:
-                        # --- START MESIN BARU ---
+                        # --- AMBIL DATA STAFF ---
                         df_staff = database.ambil_data("Staff")
-                        # Cari user yang cocok
+                        
+                        # Filter (Pastikan Nama di DB besar semua kalau kamu pakai .upper() di input)
                         user_row = df_staff[(df_staff['Nama'] == u) & (df_staff['Password'] == p)]
                         
                         if not user_row.empty:
-                            level = user_row.iloc[0]['Level'].upper()
+                            user_data = user_row.iloc[0]
+                            level = str(user_data['Level']).upper()
                             hostname_pc = socket.gethostname()
 
-                            # 1. CEK WHITELIST PC (Kecuali Dian/Owner)
+                            # 1. CEK WHITELIST PC
                             if level != "OWNER":
                                 if not database.cek_pc_whitelist(hostname_pc):
-                                    st.error(f"Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
-                                    return
+                                    st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
+                                    st.stop() # Paksa berhenti biar nggak lanjut ke bawah
 
-                            # 2. UPDATE SESI (Anti-Sharing / Kick Device Lain)
-                            database.update_sesi(u, st.session_state["browser_session_id"])
-                            
-                            # 3. SET SESSION STATE
+                            # 2. SET SESSION STATE (Wajib diisi SEMUA sebelum rerun)
                             st.session_state["is_login"] = True
                             st.session_state["user_aktif"] = u
                             st.session_state["user_level"] = level
                             st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
+
+                            # 3. UPDATE SESI DI DATABASE (Anti-Sharing)
+                            database.update_sesi(u, st.session_state["browser_session_id"])
                             
-                            st.success(f"Selamat Datang, {u}!")
-                            time.sleep(1)
-                            st.rerun()
+                            # 4. NOTIFIKASI & REFRESH INSTAN
+                            # Kita ganti st.success dengan st.toast biar nggak nunggu loading lama
+                            st.toast(f"✅ Login Berhasil! Selamat Datang {u}", icon="🚀")
+                            
+                            # Jeda super singkat saja
+                            time.sleep(0.5) 
+                            st.rerun() # <--- INI WAJIB ADA DI PALING BAWAH
                         else:
-                            st.error("Username atau Password salah!")
-                        # --- END MESIN BARU ---
+                            st.error("❌ Username atau Password salah!")
                     else:
-                        st.warning("Isi dulu Username atau Password!")
+                        st.warning("⚠️ Isi dulu Username dan Password!")
 
 # --- MONITORING KEAMANAN REAL-TIME (SILENT MODE) ---
 if st.session_state["is_login"]:
