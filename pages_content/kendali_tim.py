@@ -37,7 +37,7 @@ def tampilkan_kendali_tim():
     st.divider()
 
     try:
-        # --- 3. AMBIL DATA ---
+        # --- 4. AMBIL DATA ---
         df_staff = database.ambil_data("Staff")
         df_kas_raw = database.ambil_data("Arus_Kas")
 
@@ -49,7 +49,7 @@ def tampilkan_kendali_tim():
         else:
             df_k_f = pd.DataFrame()
 
-        # --- 4. KALKULASI FINANSIAL (Sesuaikan Nama Kolom di Gambar) ---
+        # --- 5. KALKULASI FINANSIAL ---
         inc, ops, bonus_cair = 0, 0, 0
         if not df_k_f.empty:
             # Sesuai gambar: 'Nominal'
@@ -62,6 +62,7 @@ def tampilkan_kendali_tim():
 
         # Hitung Gapok Tim dari Tabel Staff
         total_gapok_tim = 0
+        # Pastikan kolom level di Staff juga dicek kapitalisasinya (di sini NAMA, GAJI_POKOK, LEVEL)
         df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         for _, s in df_staff_real.iterrows():
             total_gapok_tim += int(str(s.get('GAJI_POKOK', '0')).replace('.', '') or 0) + int(str(s.get('TUNJANGAN', '0')).replace('.', '') or 0)
@@ -71,25 +72,19 @@ def tampilkan_kendali_tim():
         margin = (saldo_bersih / inc * 100) if inc > 0 else 0
 
         # ======================================================================
-        # --- UI: FINANCIAL COMMAND CENTER (SULTAN LOOK) ---
+        # --- UI: FINANCIAL COMMAND CENTER ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
-            # Baris Metrik
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
-            
-            # Outcome Merah (Delta negatif)
             m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None, delta_color="inverse")
             
-            # Saldo Bersih (Positif Hijau, Negatif Merah)
             status_txt = "🟢 SURPLUS" if saldo_bersih >= 0 else "🔴 DEFISIT"
             m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}", delta=status_txt, delta_color="normal")
-            
             m4.metric("📊 MARGIN", f"{margin:.1f}%")
 
             st.divider()
 
-            # Formasi: Input (1) - Logs (1.2) - Viz (1)
             col_input, col_logs, col_viz = st.columns([1, 1.2, 1], gap="small")
 
             with col_input:
@@ -100,14 +95,13 @@ def tampilkan_kendali_tim():
                     f_ket = st.text_area("Keterangan", height=65, label_visibility="collapsed", placeholder="Catatan...")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
                         if f_nom > 0:
-                            # SINKRON MURNI SUPABASE
                             database.supabase.table("Arus_Kas").insert({
                                 "Tanggal": sekarang.strftime('%Y-%m-%d'),
                                 "Tipe": f_tipe,
                                 "Kategori": f_kat,
                                 "Nominal": str(int(f_nom)),
                                 "Keterangan": f_ket,
-                                "Pencatat": user_sekarang.upper()
+                                "Pencatat": user_sekarang
                             }).execute()
                             st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
 
@@ -116,6 +110,7 @@ def tampilkan_kendali_tim():
                     if not df_k_f.empty:
                         df_logs_display = df_k_f.sort_values(by='TGL_TEMP', ascending=False).head(15)
                         for _, r in df_logs_display.iterrows():
+                            # Sesuai DB: 'Tipe', 'Kategori', 'Nominal'
                             color = "#00ba69" if r['Tipe'] == "PENDAPATAN" else "#ff4b4b"
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
@@ -131,13 +126,12 @@ def tampilkan_kendali_tim():
                 st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
                 if inc > 0 or total_out > 0:
                     fig = px.pie(values=[inc, total_out], names=['INCOME', 'OUTCOME'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
-                    fig.update_layout(showlegend=True, legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, font=dict(size=10)),
-                                      height=200, margin=dict(t=0, b=0, l=0, r=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+                    fig.update_layout(showlegend=False, height=200, margin=dict(t=0, b=0, l=0, r=0), paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
                 else:
                     st.markdown("<p style='text-align:center; color:#666; font-size:12px; margin-top:50px;'>No Viz Data.</p>", unsafe_allow_html=True)
 
-        # --- 7. RINCIAN GAJI & SLIP ---
+        # --- 6. RINCIAN GAJI & SLIP ---
         st.write("")
         st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
         kol_v = st.columns(2)
@@ -148,6 +142,7 @@ def tampilkan_kendali_tim():
             
             bonus_staf = 0
             if not df_k_f.empty:
+                # FIX CASE: Pakai 'Kategori' dan 'NOMINAL_VAL' agar sinkron dengan kalkulasi di atas
                 mask = (df_k_f['Kategori'] == 'Gaji Tim') & (df_k_f['Keterangan'].str.contains(n_up, na=False, case=False))
                 bonus_staf = df_k_f[mask]['NOMINAL_VAL'].sum()
 
@@ -163,11 +158,12 @@ def tampilkan_kendali_tim():
                     
                     if st.button(f"📄 PRINT SLIP {n_up}", key=f"slip_{n_up}", use_container_width=True):
                         slip_html = f"""
-                        <div style="background:white; padding:20px; color:#333; font-family:sans-serif; border:1px solid #ddd; width:300px; margin:auto; border-radius:10px;">
+                        <div style="background:white; padding:20px; color:#333; font-family:sans-serif; border:1px solid #ddd; width:300px; margin:auto; border-radius:10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
                             <center><b style="font-size:18px; color:#1d976c;">PINTAR MEDIA</b><br><small>SLIP GAJI DIGITAL</small></center>
                             <hr>
                             <table style="width:100%; font-size:11px;">
                                 <tr><td>Nama</td><td align="right"><b>{n_up}</b></td></tr>
+                                <tr><td>Jabatan</td><td align="right">{s.get('LEVEL', 'STAFF')}</td></tr>
                                 <tr><td>Periode</td><td align="right">{pilihan_nama} {tahun_dipilih}</td></tr>
                             </table>
                             <hr>
@@ -176,13 +172,13 @@ def tampilkan_kendali_tim():
                                 <tr><td>Tunjangan</td><td align="right">{v_tunj:,}</td></tr>
                                 <tr style="color:#1d976c;"><td>Bonus Cair</td><td align="right">+{bonus_staf:,}</td></tr>
                                 <tr style="font-weight:bold; font-size:14px; border-top:2px solid #eee;">
-                                    <td style="padding-top:10px;">TOTAL</td><td align="right" style="padding-top:10px;">Rp {total_terima:,}</td>
+                                    <td style="padding-top:10px;">TOTAL</td><td align="right" style="padding-top:10px; color:#1d976c;">Rp {total_terima:,}</td>
                                 </tr>
                             </table>
                             <hr>
                             <center><small>ID Sesi: {st.session_state.get('browser_session_id', 'N/A')[:8]}</small></center>
                         </div>
-                        <center><button onclick="window.print()" style="margin-top:10px; cursor:pointer;">🖨️ Cetak PDF</button></center>
+                        <center><button onclick="window.print()" style="margin-top:15px; cursor:pointer; background:#1d976c; color:white; border:none; padding:8px 20px; border-radius:5px;">🖨️ Cetak PDF</button></center>
                         """
                         st.components.v1.html(slip_html, height=450)
 
