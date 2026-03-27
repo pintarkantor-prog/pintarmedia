@@ -308,5 +308,47 @@ def tampilkan_kendali_tim():
             else:
                 st.warning("Tidak ada data staff untuk diedit.")
 
+        # ======================================================================
+        # --- 9. INPUT BONUS & LEMBUR CEPAT ---
+        # ======================================================================
+        st.divider()
+        st.markdown("#### 🚀 INPUT BONUS / LEMBUR CEPAT")
+        with st.container(border=True):
+            with st.form("form_bonus_cepat", clear_on_submit=True):
+                c1, c2, c3 = st.columns([2, 1.5, 2.5])
+                
+                with c1:
+                    st.markdown('<p class="small-label">Pilih Karyawan</p>', unsafe_allow_html=True)
+                    # Ambil daftar nama staff dari df_staff
+                    daftar_nama = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'][c_nm].tolist()
+                    f_staf_bonus = st.selectbox("S", daftar_nama, label_visibility="collapsed")
+                
+                with c2:
+                    st.markdown('<p class="small-label">Nominal Bonus</p>', unsafe_allow_html=True)
+                    f_nom_bonus = st.number_input("N", min_value=0, step=50000, label_visibility="collapsed")
+                
+                with c3:
+                    st.markdown('<p class="small-label">Alasan / Keterangan</p>', unsafe_allow_html=True)
+                    f_ket_bonus = st.text_input("K", placeholder="Contoh: Lembur / Bonus Kinerja Maret", label_visibility="collapsed")
+                
+                if st.form_submit_button("💰 CAIRKAN BONUS", use_container_width=True):
+                    if f_nom_bonus > 0:
+                        try:
+                            # Masukkan ke tabel Arus_Kas agar otomatis terbaca di Slip Gaji
+                            database.supabase.table("Arus_Kas").insert({
+                                "Tanggal": sekarang.strftime('%Y-%m-%d'),
+                                "Tipe": "PENGELUARAN",
+                                "Kategori": "Gaji Tim",
+                                "Nominal": str(int(f_nom_bonus)),
+                                "Keterangan": f"BONUS: {f_staf_bonus} - {f_ket_bonus}",
+                                "Pencatat": user_sekarang
+                            }).execute()
+                            
+                            st.success(f"Berhasil! Bonus {f_staf_bonus} otomatis masuk ke Arus Kas & Slip Gaji."); time.sleep(1); st.rerun()
+                        except Exception as e:
+                            st.error(f"Gagal: {e}")
+                    else:
+                        st.warning("Nominal harus lebih dari 0!")
+
     except Exception as e:
         st.error(f"⚠️ Sistem Error: {e}")
