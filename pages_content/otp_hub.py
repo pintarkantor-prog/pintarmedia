@@ -72,7 +72,7 @@ def tampilkan_halaman():
             st.info("Belum ada SMS masuk.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE (LAYOUT 3 KOLOM SEJAJAR)
+    # TAB 2: SEWA NOMOR ONLINE (SIMPLE 3 KOLOM)
     # ==========================================================================
     with tab_online:
         dict_server = {
@@ -82,30 +82,20 @@ def tampilkan_halaman():
         
         # --- HEADER 3 KOLOM: SERVER | SALDO | REFRESH ---
         with st.container(border=True):
-            # Kita bagi kolom dengan rasio [2, 1.5, 1] agar pas
-            c_srv, c_bal, c_btn = st.columns([2, 1.5, 1])
+            c_srv, c_bal, c_btn = st.columns([2, 1, 1])
             
             # 1. Pilih Server
             srv_name = c_srv.selectbox("Pilih Server", list(dict_server.keys()), index=0, key="sel_server_online", label_visibility="collapsed")
             srv_url = dict_server[srv_name]
 
-            # 2. Ambil & Tampilkan Saldo
+            # 2. Ambil Saldo
             res_bal = get_otpnum_api(srv_url, "balance", {"api_key": API_KEY})
-            if res_bal and res_bal.get('success'):
-                raw_saldo = res_bal['data'].get('balance', 0)
-                saldo = clean_angka(raw_saldo)
-            else:
-                saldo = 0
+            saldo = clean_angka(res_bal['data'].get('balance', 0)) if res_bal and res_bal.get('success') else 0
             
-            # Tampilan Saldo yang lebih compact
-            c_bal.markdown(f"""
-                <div style='text-align: center; background: #262730; padding: 5px; border-radius: 5px; border: 1px solid #444;'>
-                    <small style='color: gray; font-size: 10px; display: block;'>SALDO</small>
-                    <b style='color: #50FA7B; font-size: 16px;'>Rp {saldo:,}</b>
-                </div>
-            """, unsafe_allow_html=True)
+            # Tampilan Saldo di Kolom Tengah/Kanan (Tanpa CSS)
+            c_bal.markdown(f"**Saldo:**\nRp {saldo:,}")
 
-            # 3. Tombol Refresh
+            # 3. Tombol Refresh di Ujung Kanan
             if c_btn.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"):
                 if "list_services_v2" in st.session_state: del st.session_state.list_services_v2
                 st.rerun()
