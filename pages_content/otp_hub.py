@@ -48,9 +48,21 @@ def tampilkan_halaman():
         except: df_otp = pd.DataFrame()
 
         with st.container(border=True):
-            c_search, c_ref, c_del = st.columns([3, 1, 1])
-            search_q = c_search.text_input("", placeholder="Filter...", key="search_lokal")
-            if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_lokal"): st.rerun()
+            # vertical_alignment="end" adalah kunci biar tombol & input sejajar lurus
+            c_search, c_ref, c_del = st.columns([3, 1, 1], vertical_alignment="end")
+            
+            # Kita kasih label kosong "" dan label_visibility="collapsed"
+            search_q = c_search.text_input(
+                label="", 
+                placeholder="Filter SMS...", 
+                key="search_lokal", 
+                label_visibility="collapsed"
+            )
+            
+            # Tombol-tombol di sampingnya akan otomatis rata bawah (sejajar input)
+            if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_lokal"): 
+                st.rerun()
+                
             if c_del.button("🗑️ CLEAR", use_container_width=True, key="clr_lokal"):
                 if st.session_state.get("user_level") == "OWNER":
                     database.supabase.table("OTP_Log").delete().neq("id", 0).execute()
