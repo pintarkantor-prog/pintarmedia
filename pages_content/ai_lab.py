@@ -1189,8 +1189,7 @@ def tampilkan_halaman():
                     
                     database.supabase.table("Antrian_Video").insert(payload).execute()
                     
-                    st.success(f"🚀 BERHASIL! Cek Supabase sekarang.")
-                    st.balloons()
+                    st.success(f"🚀 BERHASIL Masuk Antrian Robot!")
                     
                 except Exception as e:
                     st.error(f"Penyebab Gagal: {e}")
