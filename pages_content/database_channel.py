@@ -742,7 +742,7 @@ def tampilkan_database_channel():
 
             # --- 4. LOGIKA SAVE PERUBAHAN (DAUR ULANG) ---
             if not edited_a.equals(df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
-                if st.button("💾 KONFIRMASI DAUR ULANG / UPDATE ARSIP", type="primary", use_container_width=True):
+                if st.button("💾 KONFIRMASI PERUBAHAN", type="primary", use_container_width=True):
                     try:
                         with st.spinner("Memproses data ke Supabase..."):
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
@@ -766,9 +766,9 @@ def tampilkan_database_channel():
 
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diperbarui/Didaur Ulang!")
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diperbarui!")
                                 time.sleep(1)
                                 st.rerun()
                                 
                     except Exception as e:
-                        st.error(f"❌ Gagal Daur Ulang: {e}")
+                        st.error(f"❌ Gagal Diperbarui: {e}")
