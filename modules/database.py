@@ -72,19 +72,19 @@ def tambah_log(user, aksi):
 # 4. FUNGSI KEAMANAN (SESI & WHITELIST)
 # ==============================================================================
 def update_sesi(nama, session_id):
-    """Mencatat sesi login terakhir"""
+    """Mencatat sesi login terakhir - Fix Error Nama"""
     try:
+        # Kita pakai huruf kecil semua untuk KEY di dictionary 
+        # SAAT input ke Supabase, pastikan kolom di tabel 'Sesi_Login' 
+        # juga huruf kecil semua: 'nama', 'session_id', 'last_login'
         data = {
-            "nama": nama,
+            "nama": str(nama).upper(), # Isinya kita paksa besar biar seragam
             "session_id": session_id,
             "last_login": ambil_waktu_sekarang().isoformat()
         }
+        
+        # Eksekusi Upsert
         supabase.table("Sesi_Login").upsert(data, on_conflict="nama").execute()
-    except: pass
-
-def cek_pc_whitelist(hostname):
-    """Cek apakah PC terdaftar di Whitelist"""
-    try:
-        res = supabase.table("PC_Whitelist").select("*").eq("hostname", hostname).execute()
-        return len(res.data) > 0
-    except: return False
+    except Exception as e:
+        # Print error ke terminal buat kita debug kalau masih bandel
+        print(f"❌ Catatan sesi gagal: {e}")
