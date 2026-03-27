@@ -106,15 +106,23 @@ def halaman_login():
 # --- 3. CEK AUTENTIKASI (Satpam Pintu Depan) ---
 def cek_autentikasi():
     if st.session_state.get("is_login", False):
+        user_aktif = st.session_state["user_aktif"]
+        session_sekarang = st.session_state["browser_session_id"]
+        
         # A. Cek Durasi 10 Jam
         waktu_sekarang = database.ambil_waktu_sekarang()
         if (waktu_sekarang - st.session_state["waktu_login"]) > timedelta(hours=10):
-            proses_logout("Sesi berakhir (10 Jam).")
+            proses_logout("Sesi berakhir.")
             return False
         
-        # B. Cek Single Device (Anti-Sharing)
-        if not database.cek_sesi_valid(st.session_state["user_aktif"], st.session_state["browser_session_id"]):
-            proses_logout("Akun Anda login di perangkat lain.")
+        # B. CEK SINGLE DEVICE (VERSI KICK):
+        # Ambil ID sesi yang terdaftar di Database Supabase saat ini
+        sesi_di_db = database.ambil_sesi_terakhir(user_aktif)
+        
+        if sesi_di_db and sesi_di_db != session_sekarang:
+            # Jika ID di DB beda dengan ID di browser ini, 
+            # berarti ada login baru di tempat lain. KICK!
+            proses_logout("Akun Anda login di perangkat lain. Sesi ini dihentikan.")
             return False
             
         return True
