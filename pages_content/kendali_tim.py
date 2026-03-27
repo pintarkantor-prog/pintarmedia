@@ -112,7 +112,7 @@ def tampilkan_kendali_tim():
                             tgl_log = r['TGL_DT'].strftime('%d %b') if pd.notnull(r['TGL_DT']) else "-"
                             
                             st.markdown(f"""
-                            <div style='font-size:11px; border-bottom:1px solid #333; padding:5px 0;'>
+                            <div style='font-size:12px; border-bottom:1px solid #333; padding:4px 0;'>
                                 <b style='color:#ccc;'>{r.get(col_kat, 'KAS')}</b> 
                                 <span style='float:right; color:{color}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
                                 <small style='color: #888; font-style: italic;'>[{tgl_log}] - {r.get(col_ket, '-')}</small>
