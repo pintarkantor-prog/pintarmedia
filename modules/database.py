@@ -17,42 +17,74 @@ def ambil_waktu_sekarang():
     return datetime.now(tz)
 
 # ==============================================================================
-# 2. FUNGSI AMBIL DATA (MESIN UTAMA)
+# 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
 def ambil_data(nama_tabel):
-    """Mengambil semua data dari tabel Supabase tertentu"""
+    """Mengambil semua data segar langsung dari Supabase"""
     try:
         res = supabase.table(nama_tabel).select("*").execute()
-        return pd.DataFrame(res.data)
+        df = pd.DataFrame(res.data)
+        if not df.empty:
+            # Bersihkan data agar seragam (KAPITAL & No Spasi)
+            df.columns = [str(c).strip().upper() for c in df.columns]
+            df = df.fillna('')
+            return df
+        return pd.DataFrame()
     except Exception as e:
         st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
 
 # ==============================================================================
-# 3. FUNGSI KEAMANAN (VERSI SIMPEL & STABIL)
+# 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
+# ==============================================================================
+def load_data_channel():
+    """Khusus narik data akun YouTube (Real-time)"""
+    return ambil_data("Channel_Pintar")
+
+def load_data_hp():
+    """Khusus narik data unit HP (Real-time)"""
+    return ambil_data("Data_HP")
+
+def simpan_perubahan_channel(data_batch):
+    """Update status masal langsung ke Supabase (Instan)"""
+    try:
+        if data_batch:
+            supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+            return True
+        return False
+    except Exception as e:
+        st.error(f"Gagal Simpan: {e}")
+        return False
+
+def tambah_log(user, aksi):
+    """Mencatat aktivitas ke Supabase (Dian tidak dicatat)"""
+    if str(user).upper() == "DIAN": return
+    try:
+        waktu_log = ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M:%S")
+        supabase.table("Log_Aktivitas").insert({
+            "Waktu": waktu_log,
+            "User": str(user).upper(),
+            "Aksi": aksi
+        }).execute()
+    except: pass
+
+# ==============================================================================
+# 4. FUNGSI KEAMANAN (SESI & WHITELIST)
 # ==============================================================================
 def update_sesi(nama, session_id):
-    """Hanya mencatat kapan terakhir login (Biar Gaji di tabel Staff Aman)"""
+    """Mencatat sesi login terakhir"""
     try:
         data = {
             "nama": nama,
             "session_id": session_id,
             "last_login": ambil_waktu_sekarang().isoformat()
         }
-        # Menggunakan tabel Sesi_Login agar tidak mengganggu tabel Staff
         supabase.table("Sesi_Login").upsert(data, on_conflict="nama").execute()
-    except Exception as e:
-        # Silent error agar tidak mengganggu proses login utama
-        print(f"Catatan sesi gagal: {e}")
+    except: pass
 
 def cek_pc_whitelist(hostname):
-    """Mengecek apakah PC terdaftar di kantor (Whitelist)"""
+    """Cek apakah PC terdaftar di Whitelist"""
     try:
-        # Mencari hostname di tabel PC_Whitelist
         res = supabase.table("PC_Whitelist").select("*").eq("hostname", hostname).execute()
         return len(res.data) > 0
-    except:
-        # Jika tabel tidak ada atau error, anggap tidak terdaftar
-        return False
-
-# Fitur 'tendang otomatis' dihapus agar aplikasi lebih stabil dan ringan.
+    except: return False
