@@ -168,7 +168,6 @@ def tampilkan_halaman():
                     if res_stat and res_stat.get('success') and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
                         st.session_state.otp_online = res_stat['data']['sms']
                         msg_area.success(f"🔥 OTP DITEMUKAN: {st.session_state.otp_online}")
-                        st.balloons()
                         # Jika sudah ada OTP, kita stop auto-refresh-nya
                         st.info("OTP sudah muncul. Klik 'SELESAI' jika sudah selesai menyalin.")
                     else:
