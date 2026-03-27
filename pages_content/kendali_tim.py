@@ -126,19 +126,31 @@ def tampilkan_kendali_tim():
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-        # --- 7. RINCIAN GAJI & SLIP (FULL VERSION - LOGIKA BARU) ---
+        # ======================================================================
+        # --- 7. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE) ---
+        # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
+                # Ambil kolom secara dinamis biar anti-error
+                c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
+                c_gp = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
+                c_tj = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
+                c_jab = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan') # DETEKSI JABATAN
+                
                 df_staff_raw_slip = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper().isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
                 kol_v = st.columns(2) 
+                
                 for idx, s in df_staff_raw_slip.reset_index(drop=True).iterrows():
                     c_nama = next((c for c in s.index if c.lower() == 'nama'), 'Nama')
                     n_up = str(s.get(c_nama, '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
+                    # Logika Gaji Simple
                     v_gapok = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.','').strip(), errors='coerce') or 0)
                     v_tunjangan = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.','').strip(), errors='coerce') or 0)
+                    jabatan_staf = str(s.get(c_jab, 'STAFF PRODUCTION')).upper() # AMBIL JABATAN ASLI
                     
+                    # Bonus dari Kas
                     bonus_cair = 0
                     if not df_k_f.empty:
                         mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
@@ -152,7 +164,7 @@ def tampilkan_kendali_tim():
                             st.markdown(f"""
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
                                 <div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div>
-                                <div><b>{n_up}</b><br><small>{s.get('Jabatan', 'STAFF')}</small></div>
+                                <div><b>{n_up}</b><br><small>{jabatan_staf}</small></div>
                             </div>""", unsafe_allow_html=True)
                             
                             c1, c2 = st.columns(2)
@@ -165,13 +177,14 @@ def tampilkan_kendali_tim():
                                 slip_html = f"""
                                 <div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
                                     <center>
-                                        <h2 style="color: #1d976c; margin: 0;">PINTAR MEDIA</h2>
+                                        <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 200px; margin-bottom: 10px;">
                                         <div style="height: 3px; background: #1d976c; width: 50px; border-radius: 10px; margin: 10px 0;"></div>
                                         <p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Resmi</p>
                                     </center>
                                     <div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;">
                                         <table style="width: 100%; font-size: 11px; border-collapse: collapse;">
                                             <tr><td style="color: #999; font-weight: 600;">NAMA</td><td align="right"><b>{n_up}</b></td></tr>
+                                            <tr><td style="color: #999; font-weight: 600;">JABATAN</td><td align="right"><b>{jabatan_staf}</b></td></tr>
                                             <tr><td style="color: #999; font-weight: 600;">PERIODE</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                         </table>
                                     </div>
@@ -194,6 +207,3 @@ def tampilkan_kendali_tim():
                                 st.components.v1.html(slip_html, height=750)
             except Exception as e_slip:
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
-
-    except Exception as e:
-        st.error(f"⚠️ Sistem Error: {e}")
