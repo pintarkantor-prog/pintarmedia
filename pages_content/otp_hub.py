@@ -116,23 +116,38 @@ def tampilkan_halaman():
                         st.rerun()
             else: st.warning("Layanan Google tidak ditemukan.")
 
+        # --- AUTO-POLLING SMS (VERSI FIX TOMBOL CANCEL) ---
         if "active_order" in st.session_state:
             ord = st.session_state.active_order
+            current_url = ord.get('url')
+            
             with st.container(border=True):
-                st.markdown(f"**NOMOR:** `{ord.get('number')}`")
-                msg_area = st.empty()
-                res_stat = get_otpnum_api(ord.get('url'), "status", {"api_key": API_KEY, "order_id": ord.get('id')})
-                if res_stat and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
-                    st.session_state.otp_online = res_stat['data']['sms']
-                    msg_area.success(f"🔥 OTP: {st.session_state.otp_online}")
-                    st.balloons()
-                else:
-                    msg_area.info("⏳ Menunggu SMS... (Web cek otomatis tiap 10 detik)")
-                    time.sleep(10)
-                    st.rerun()
+                st.markdown(f"**NOMOR AKTIF:** `{ord.get('number')}`")
                 
-                if st.button("❌ SELESAI / CANCEL", use_container_width=True, key="btn_cancel_virtual"):
-                    get_otpnum_api(ord.get('url'), "cancel", {"api_key": API_KEY, "order_id": ord.get('id')})
-                    if "active_order" in st.session_state: del st.session_state.active_order
-                    if "otp_online" in st.session_state: del st.session_state.otp_online
-                    st.rerun()
+                # PINDAHKAN TOMBOL CANCEL KE ATAS BIAR GAMPANG DIKLIK
+                if st.button("❌ SELESAI / CANCEL NOMOR INI", use_container_width=True, key="btn_cancel_virtual", type="secondary"):
+                    with st.spinner("Membatalkan/Menyelesaikan..."):
+                        if current_url:
+                            get_otpnum_api(current_url, "cancel", {"api_key": API_KEY, "order_id": ord.get('id')})
+                        # Bersihkan semua session terkait order ini
+                        if "active_order" in st.session_state: del st.session_state.active_order
+                        if "otp_online" in st.session_state: del st.session_state.otp_online
+                        st.rerun()
+
+                st.divider()
+                msg_area = st.empty()
+                
+                # Cek Status SMS
+                if current_url:
+                    res_stat = get_otpnum_api(current_url, "status", {"api_key": API_KEY, "order_id": ord.get('id')})
+                    
+                    if res_stat and res_stat.get('success') and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
+                        st.session_state.otp_online = res_stat['data']['sms']
+                        msg_area.success(f"🔥 OTP DITEMUKAN: {st.session_state.otp_online}")
+                        st.balloons()
+                        # Jika sudah ada OTP, kita stop auto-refresh-nya
+                        st.info("OTP sudah muncul. Klik 'SELESAI' jika sudah selesai menyalin.")
+                    else:
+                        msg_area.info("⏳ Menunggu SMS... (Web cek otomatis tiap 10 detik)")
+                        time.sleep(10)
+                        st.rerun()
