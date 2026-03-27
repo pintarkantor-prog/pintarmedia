@@ -20,13 +20,12 @@ def ambil_waktu_sekarang():
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
 def ambil_data(nama_tabel):
-    """Mengambil semua data segar langsung dari Supabase"""
+    """Mengambil data dari Supabase tanpa merusak Case Sensitive kolom"""
     try:
         res = supabase.table(nama_tabel).select("*").execute()
         df = pd.DataFrame(res.data)
         if not df.empty:
-            # Bersihkan data agar seragam (KAPITAL & No Spasi)
-            df.columns = [str(c).strip().upper() for c in df.columns]
+            # JANGAN pakai .upper() di sini agar sistem login tetap baca huruf kecil
             df = df.fillna('')
             return df
         return pd.DataFrame()
