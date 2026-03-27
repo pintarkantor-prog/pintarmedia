@@ -1,58 +1,65 @@
-/* 1. DASAR APLIKASI & SCROLLBAR */
+/* ==============================================================================
+   CSS RESTORASI PINTAR MEDIA (KLASIK LOOK - MESIN V2.0)
+   ============================================================================== */
+
+/* 1. DASAR APLIKASI (Ganti warna biar lebih terang kayak Gambar 2) */
 .stApp { 
-    background-color: #0b0e14; 
+    background-color: #1a1c24; /* Warna abu-abu kebiruan khas web lamamu */
     color: #e0e0e0; 
 }
 
 [data-testid="stSidebar"] { 
-    background-color: #1a1c24 !important; 
-    border-right: 1px solid rgba(29, 151, 108, 0.1) !important; 
+    background-color: #0b0e14 !important; 
+    border-right: 1px solid #30363d !important; 
 }
 
-/* Scrollbar Custom */
+/* Scrollbar tetep Hijau biar keren */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0e1117; }
 ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-/* 2. FIXED HEADER (Biar Dashboard Rapi) */
+/* 2. FIXED HEADER (Tetap ada biar dashboard rapi) */
 [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
     position: fixed; top: 0; left: 310px; right: 0; z-index: 99999;
     background-color: #0e1117; padding: 10px 2rem; border-bottom: 2px solid #31333f;
 }
 
-@media (max-width: 768px) {
-    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
-}
-
-/* 3. TOMBOL PRIMARY (HIJAU GRADIENT) - KHAS PINTAR MEDIA */
-div.stButton > button[kind="primary"], 
-button[kind="primaryFormSubmit"] {
-    background: linear-gradient(to right, #1d976c, #11998e) !important;
+/* 3. TOMBOL LOGIN (Ganti biar GAK FULL WIDTH dan warna GAK GRADIENT) */
+div.stButton > button[kind="primaryFormSubmit"] {
+    background-color: #31333f !important; /* Warna abu-abu standar Gambar 2 */
     color: white !important; 
-    border: none !important; 
-    border-radius: 8px !important;
-    padding: 10px 20px !important;
-    font-weight: bold !important;
-    box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
+    border: 1px solid #464b5d !important; 
+    border-radius: 6px !important;
+    padding: 8px 25px !important;
+    width: auto !important; /* Tombol jadi kecil di tengah */
+    display: block;
+    margin: 15px auto !important; /* Biar posisi di tengah-tengah form */
+    font-weight: 500 !important;
+    box-shadow: none !important;
     transition: 0.3s;
 }
 
-button[kind="primaryFormSubmit"]:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 15px rgba(29, 151, 108, 0.4) !important;
+div.stButton > button[kind="primaryFormSubmit"]:hover {
+    background-color: #464b5d !important;
 }
 
-/* 4. MODE BORDERLESS INPUT */
-.stTextArea textarea, .stTextInput input, div[data-baseweb="input"] {
-    border: none !important;
+/* 4. BALIKIN BORDER INPUT (Gak boleh Borderless biar mirip Gambar 2) */
+.stTextInput input {
+    border: 1px solid #30363d !important; /* Garis kotak dipertegas */
     box-shadow: none !important;
-    background-color: #0d1117 !important;
-    border-radius: 10px !important;
+    background-color: #1a1f26 !important;
+    border-radius: 6px !important;
     color: #ffffff !important;
 }
 
-/* 5. STAFF HEADER & PREMIUM LOOK */
+/* Label Username/Password */
+.stTextInput label p {
+    color: #e0e0e0 !important;
+    font-size: 14px !important;
+}
+
+/* 5. STAFF HEADER & PREMIUM LOOK (Tetap jaga buat dashboard nanti) */
 .staff-header-premium {
     background: rgba(29, 151, 108, 0.2) !important;
     border: 2px solid #1d976c !important;
@@ -60,21 +67,7 @@ button[kind="primaryFormSubmit"]:hover {
     padding: 15px 20px !important;
 }
 
-/* 6. HIDE STREAMLIT BORDER (Biar Clean) */
-div[data-testid="stExpander"] {
-    border: 1px solid #30363d !important; 
-    border-radius: 12px !important; 
-    background-color: #161922 !important;
-}
-
-/* 7. COPY BUTTON STYLING (HIJAU BESAR) */
-button[title="Copy to clipboard"] {
-    background-color: #238636 !important;
-    transform: scale(1.4);
-    margin-right: 10px !important;
-}
-
-/* Menghilangkan Menu Bawaan agar terlihat Standalone App */
+/* 6. HIDE STREAMLIT MENU */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
