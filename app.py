@@ -137,7 +137,7 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📘 AREA STAF"]
+        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📩 OTP HUB", "📘 AREA STAF"]
         if user_level in ["OWNER", "ADMIN"]:
             menu_list.append("⚡ KENDALI TIM")
 
