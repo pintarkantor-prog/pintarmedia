@@ -25,7 +25,7 @@ def get_otpnum_api(server_url, endpoint, params):
         if not server_url: return None
         base = server_url if server_url.endswith("/") else f"{server_url}/"
         full_url = f"{base}{endpoint}"
-        headers = {"User-Agent": "Mozilla/5.0"}
+        headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
         response = requests.get(full_url, params=params, timeout=15, headers=headers, verify=False)
         if response.status_code == 200: return response.json()
         return {"success": False, "message": f"HTTP {response.status_code}"}
@@ -38,7 +38,7 @@ def tampilkan_halaman():
     tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE)", "🛒 SEWA NOMOR ONLINE"])
 
     # ==========================================================================
-    # TAB 1: SMS LOKAL (LENGKAP DENGAN ISI PESAN)
+    # TAB 1: SMS LOKAL
     # ==========================================================================
     with tab_lokal:
         waktu_cutoff = (datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
@@ -49,7 +49,7 @@ def tampilkan_halaman():
 
         with st.container(border=True):
             c_search, c_ref, c_del = st.columns([3, 1, 1])
-            search_q = c_search.text_input("Cari...", placeholder="Filter...", key="search_lokal")
+            search_q = c_search.text_input("Cari SMS...", placeholder="Filter...", key="search_lokal")
             if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_lokal"): st.rerun()
             if c_del.button("🗑️ CLEAR", use_container_width=True, key="clr_lokal"):
                 if st.session_state.get("user_level") == "OWNER":
@@ -63,27 +63,21 @@ def tampilkan_halaman():
                 otp_code = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))[0] if re.findall(r'\b\d{6}\b', str(r['MESSAGE'])) else "---"
                 
                 with st.container(border=True):
-                    # Header: Unit & Waktu
                     st.markdown(f"<div style='display: flex; justify-content: space-between;'><span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span><small style='color:gray;'>{dt_obj.strftime('%H:%M:%S')} WIB</small></div>", unsafe_allow_html=True)
-                    
-                    # Isi Detail
                     c1, c2 = st.columns([2, 1])
-                    c1.markdown(f"<p style='margin:10px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b style='font-size:15px;'>{r['SENDER']}</b>", unsafe_allow_html=True)
+                    c1.markdown(f"<p style='margin:10px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b>{r['SENDER']}</b>", unsafe_allow_html=True)
                     c2.markdown(f"<p style='margin:10px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
-                    
-                    # ISI PESAN (KOLOM 3)
-                    st.markdown(f"<div style='background:#1e1e1e; padding:12px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#DDD; font-size:13px; line-height:1.4;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
+                    st.markdown(f"<div style='background:#1e1e1e; padding:12px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px; line-height:1.4;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
         else:
             st.info("Belum ada SMS masuk.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE
+    # TAB 2: SEWA NOMOR ONLINE (SERVER 1 & 2 ONLY)
     # ==========================================================================
     with tab_online:
         dict_server = {
-            "Server 2": "https://otpnum.com/api/v2/",
-            "Server 1": "https://otpnum.com/api/",
-            "Server 3": "https://otpnum.com/api/v3/"
+            "Server 2 (Primary)": "https://otpnum.com/api/v2/",
+            "Server 1 (Backup)": "https://otpnum.com/api/"
         }
         
         with st.container(border=True):
@@ -94,7 +88,7 @@ def tampilkan_halaman():
             res_bal = get_otpnum_api(srv_url, "balance", {"api_key": API_KEY})
             saldo = clean_angka(res_bal['data'].get('balance', 0)) if res_bal and res_bal.get('success') else 0
             
-            col_bal.markdown(f"<p style='margin:0; color:gray; font-size:11px;'>SALDO {srv_name}</p><h3 style='margin:0; color:#50FA7B;'>Rp {saldo:,}</h3>", unsafe_allow_html=True)
+            col_bal.markdown(f"<p style='margin:0; color:gray; font-size:11px;'>SALDO</p><h3 style='margin:0; color:#50FA7B;'>Rp {saldo:,}</h3>", unsafe_allow_html=True)
             if col_bal.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"):
                 if "list_services_v2" in st.session_state: del st.session_state.list_services_v2
                 st.rerun()
@@ -133,7 +127,7 @@ def tampilkan_halaman():
                     msg_area.success(f"🔥 OTP: {st.session_state.otp_online}")
                     st.balloons()
                 else:
-                    msg_area.info("⏳ Menunggu SMS... (10s)")
+                    msg_area.info("⏳ Menunggu SMS... (Web cek otomatis tiap 10 detik)")
                     time.sleep(10)
                     st.rerun()
                 
