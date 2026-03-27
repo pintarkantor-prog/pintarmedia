@@ -37,26 +37,32 @@ def tampilkan_kendali_tim():
     st.divider()
 
     try:
-        # --- 4. AMBIL DATA SUPABASE (FULL KILAT) ---
+        # --- 3. AMBIL DATA SUPABASE (FULL KILAT) ---
         df_staff = database.ambil_data("Staff")
         df_kas_raw = database.ambil_data("Arus_Kas")
 
-        # --- 5. SARING DATA KAS PERIODE ---
+        # --- PROTEKSI ANTI-ERROR: PAKSA SEMUA KOLOM JADI KAPITAL ---
+        if not df_staff.empty:
+            df_staff.columns = [c.upper() for c in df_staff.columns]
+        
         if not df_kas_raw.empty:
-            # Kita buat df_k_f untuk kalkulasi (Gunakan nama kolom asli Supabase: 'Tanggal')
-            df_kas_raw['TGL_TEMP'] = pd.to_datetime(df_kas_raw['Tanggal'], errors='coerce')
+            df_kas_raw.columns = [c.upper() for c in df_kas_raw.columns]
+            
+            # Sekarang kita panggil pakai 'TANGGAL' (KAPITAL) karena sudah dipaksa di atas
+            df_kas_raw['TGL_TEMP'] = pd.to_datetime(df_kas_raw['TANGGAL'], errors='coerce')
             mask = (df_kas_raw['TGL_TEMP'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_TEMP'].dt.year == tahun_dipilih)
             df_k_f = df_kas_raw[mask].copy()
         else:
             df_k_f = pd.DataFrame()
 
-        # --- 6. KALKULASI FINANSIAL ---
+        # --- 6. KALKULASI FINANSIAL (Panggil Semua Pakai KAPITAL) ---
         inc, ops, bonus_cair = 0, 0, 0
         if not df_k_f.empty:
-            df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f['Nominal'].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
-            inc = df_k_f[df_k_f['Tipe'] == 'PENDAPATAN']['NOMINAL_VAL'].sum()
-            ops = df_k_f[(df_k_f['Tipe'] == 'PENGELUARAN') & (df_k_f['Kategori'] != 'Gaji Tim')]['NOMINAL_VAL'].sum()
-            bonus_cair = df_k_f[(df_k_f['Tipe'] == 'PENGELUARAN') & (df_k_f['Kategori'] == 'Gaji Tim')]['NOMINAL_VAL'].sum()
+            # Pastikan kolom NOMINAL, TIPE, KATEGORI dipanggil KAPITAL
+            df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f['NOMINAL'].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
+            inc = df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL_VAL'].sum()
+            ops = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] != 'GAJI TIM')]['NOMINAL_VAL'].sum()
+            bonus_cair = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'GAJI TIM')]['NOMINAL_VAL'].sum()
 
         # Hitung Gapok Tim dari Tabel Staff
         total_gapok_tim = 0
