@@ -4,6 +4,7 @@ from modules import database
 import time
 import re
 import requests
+from datetime import datetime, timedelta
 
 def ambil_saldo_otpnum(api_key):
     try:
@@ -16,50 +17,65 @@ def tampilkan_halaman():
     st.title("📩 OTP HUB - PINTAR MEDIA v2.0")
     API_KEY_OTPNUM = st.secrets.get("OTPNUM_API_KEY", "")
 
-    tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (25 HP)", "🛒 SEWA NOMOR ONLINE"])
+    tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE NOW)", "🛒 SEWA NOMOR ONLINE"])
 
     # ==========================================================================
-    # TAB 1: SMS LOKAL (EXPANDER + CARD)
+    # TAB 1: SMS LOKAL (MODERN CARD & 1 HOUR FILTER)
     # ==========================================================================
     with tab_lokal:
+        # Filter: Hanya ambil data 1 jam terakhir dari sekarang
+        waktu_cutoff = (datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
+        
         try:
-            data_otp = database.supabase.table("OTP_Log").select("*").order("created_at", desc=True).limit(50).execute()
+            # Kita filter langsung di query Supabase biar kencang
+            data_otp = database.supabase.table("OTP_Log")\
+                .select("*")\
+                .gte("created_at", waktu_cutoff)\
+                .order("created_at", desc=True)\
+                .execute()
             df_otp = pd.DataFrame(data_otp.data)
         except: df_otp = pd.DataFrame()
 
-        with st.expander("🛠️ PANEL KONTROL & DAFTAR SMS", expanded=True):
-            search_query = st.text_input("Cari SMS...", placeholder="Ketik Unit, Pengirim, atau Kode...", label_visibility="collapsed")
-            c1, c2 = st.columns(2)
-            if c1.button("🔄 REFRESH SMS", use_container_width=True): st.rerun()
-            if c2.button("🗑️ BERSIHKAN LOG", use_container_width=True):
-                if st.session_state.get("user_level") == "OWNER":
-                    database.supabase.table("OTP_Log").delete().neq("id", 0).execute()
-                    st.rerun()
-
-            st.markdown("<hr style='margin:15px 0; border-color:#444;'>", unsafe_allow_html=True)
-
-            if not df_otp.empty:
-                # Filter pencarian
-                df_display = df_otp[df_otp.apply(lambda row: search_query.lower() in str(row).lower(), axis=1)] if search_query else df_otp
-                
-                for i, r in df_display.iterrows():
-                    dt_obj = pd.to_datetime(r['created_at']).tz_convert('Asia/Jakarta')
-                    otp_match = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))
-                    otp_code = otp_match[0] if otp_match else "---"
-                    
-                    # CARD DALAM EXPANDER
-                    with st.container(border=True):
-                        ca, cb = st.columns([1, 1])
-                        ca.markdown(f"**📱 {r['RECEIVER']}**")
-                        cb.markdown(f"<p style='text-align:right; color:gray; font-size:12px;'>{dt_obj.strftime('%d/%m %H:%M:%S')}</p>", unsafe_allow_html=True)
-                        cp, co = st.columns([2, 1])
-                        cp.markdown(f"PENGIRIM: **{r['SENDER']}**")
-                        co.markdown(f"<h3 style='margin:0; text-align:right; color:#FF4B4B;'>{otp_code}</h3>", unsafe_allow_html=True)
-                        st.markdown(f"<p style='background:#1e1e1e; padding:8px; border-radius:5px; font-size:13px;'>{r['MESSAGE']}</p>", unsafe_allow_html=True)
-            else:
-                st.info("Belum ada SMS masuk.")
+        # Panel Kontrol Minimalis
+        c_search, c_ref, c_del = st.columns([3, 1, 1])
+        search_q = c_search.text_input("Cari...", placeholder="Filter SMS...", label_visibility="collapsed")
         
-        st.caption(f"🔄 Last Update SMS Lokal: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')} WIB")
+        if c_ref.button("🔄 REFRESH", use_container_width=True): st.rerun()
+        
+        if c_del.button("🗑️ CLEAR", use_container_width=True):
+            if st.session_state.get("user_level") == "OWNER":
+                database.supabase.table("OTP_Log").delete().neq("id", 0).execute()
+                st.rerun()
+
+        st.markdown(f"<p style='color:gray; font-size:12px; margin-top:5px;'>🔥 Menampilkan SMS 60 menit terakhir</p>", unsafe_allow_html=True)
+
+        # RENDER CARD MODERN
+        if not df_otp.empty:
+            df_display = df_otp[df_otp.apply(lambda row: search_q.lower() in str(row).lower(), axis=1)] if search_q else df_otp
+            
+            for i, r in df_display.iterrows():
+                dt_obj = pd.to_datetime(r['created_at']).tz_convert('Asia/Jakarta')
+                otp_match = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))
+                otp_code = otp_match[0] if otp_match else "---"
+                
+                # DESIGN CARD TANPA EXPANDER (MODERN LOOK)
+                with st.container(border=True):
+                    # Header Card
+                    h1, h2 = st.columns([1, 1])
+                    h1.markdown(f"<span style='background:#FF4B4B; color:white; padding:2px 8px; border-radius:5px; font-size:12px;'>📱 {r['RECEIVER']}</span>", unsafe_allow_html=True)
+                    h2.markdown(f"<p style='text-align:right; color:gray; font-size:12px; margin:0;'>{dt_obj.strftime('%H:%M:%S')}</p>", unsafe_allow_html=True)
+                    
+                    # Body Card
+                    b1, b2 = st.columns([2, 1])
+                    b1.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px;'>PENGIRIM</p><b style='font-size:16px;'>{r['SENDER']}</b>", unsafe_allow_html=True)
+                    b2.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
+                    
+                    # Message Area
+                    st.markdown(f"<div style='background:#1e1e1e; padding:10px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
+        else:
+            st.info("Tidak ada SMS dalam 1 jam terakhir.")
+
+        st.caption(f"🔄 Last Sync: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')} WIB")
 
     # ==========================================================================
     # TAB 2: SEWA NOMOR ONLINE (MODERN CARD)
@@ -67,22 +83,19 @@ def tampilkan_halaman():
     with tab_online:
         saldo = ambil_saldo_otpnum(API_KEY_OTPNUM)
         
-        # CARD SALDO (Pakai Container Border biar kyk Card)
+        # CARD SALDO
         with st.container(border=True):
-            col_s1, col_s2 = st.columns([2, 1])
-            col_s1.markdown(f"### 💰 Saldo OTPNUM\n**Rp {saldo:,}**")
-            if col_s2.button("➕ TOP UP", use_container_width=True):
-                st.info("Silakan top up di web otpnum.com")
+            s1, s2 = st.columns([2, 1])
+            s1.markdown(f"### 💰 Saldo OTPNUM\n# Rp {saldo:,}")
+            if s2.button("➕ TOP UP", use_container_width=True):
+                st.info("Top up di web OTPNUM ya!")
 
         st.markdown("#### 🛒 Sewa Nomor Baru")
         with st.container(border=True):
-            c_lay, c_neg = st.columns(2)
-            layanan = c_lay.selectbox("Layanan", ["Google", "Telegram", "WhatsApp", "Facebook"], label_visibility="collapsed")
-            negara = c_neg.selectbox("Negara", ["Indonesia", "Vietnam", "Thailand"], label_visibility="collapsed")
+            layanan = st.selectbox("Pilih Layanan", ["Google/Youtube", "Telegram", "WhatsApp", "Facebook", "TikTok"])
             if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary"):
-                st.toast("Menghubungkan ke API OTPNUM...")
+                st.toast("Menghubungkan ke API...")
 
-        st.markdown("#### 🕒 Nomor Aktif")
-        # CARD HASIL BELI (Contoh Tampilan kalau sudah dapet nomor)
+        st.markdown("#### 🕒 Riwayat Sewa (Aktif)")
         with st.container(border=True):
-            st.warning("Belum ada nomor yang sedang disewa. Silakan klik tombol Beli di atas.")
+            st.write("Belum ada transaksi aktif.")
