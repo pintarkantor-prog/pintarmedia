@@ -63,14 +63,34 @@ def tampilkan_kendali_tim():
         margin = (saldo_bersih / inc * 100) if inc > 0 else 0
 
         # ======================================================================
-        # --- UI: FINANCIAL COMMAND CENTER (SESUAI GAMBAR) ---
+        # --- UI: FINANCIAL COMMAND CENTER (VERSI FIX WARNA) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             # Baris Metrik
             m1, m2, m3, m4 = st.columns(4)
+            
+            # 1. INCOME (Selalu Hijau kalau ada isinya)
             m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", delta=f"-Rp {total_out:,.0f}", delta_color="inverse")
-            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}", delta="SURPLUS" if saldo_bersih >= 0 else "DEFISIT")
+            
+            # 2. OUTCOME (Pakai delta negatif agar OTOMATIS MERAH tanpa 'inverse')
+            m2.metric(
+                "💸 OUTCOME", 
+                f"Rp {total_out:,.0f}", 
+                delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None,
+                delta_color="normal" # normal + angka negatif = MERAH
+            )
+            
+            # 3. SALDO BERSIH (Pakai angka saldo_bersih sebagai penentu warna)
+            # Kita akali: tulisannya SURPLUS/DEFISIT, tapi warnanya ikut angka
+            status_txt = "🟢 SURPLUS" if saldo_bersih >= 0 else "🔴 DEFISIT"
+            m3.metric(
+                "📈 SALDO BERSIH", 
+                f"Rp {saldo_bersih:,.0f}", 
+                delta=status_txt,
+                delta_color="normal" # Otomatis: positif HIJAU, negatif MERAH
+            )
+            
+            # 4. MARGIN
             m4.metric("📊 MARGIN", f"{margin:.1f}%")
 
             st.divider()
