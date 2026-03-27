@@ -6,25 +6,23 @@ import re
 import requests
 from datetime import datetime, timedelta
 
-# --- FUNGSI API OTPNUM SESUAI DOKUMEN SERVER 2 ---
-def get_otpnum_data(url_lengkap):
+# --- FUNGSI API KHUSUS SERVER 2 (SESUAI SS DIAN) ---
+def get_otpnum_v2(endpoint, params):
     try:
-        # Sesuai gambar: GET request langsung ke URL contoh
-        res = requests.get(url_lengkap, timeout=10).json()
+        base_url = "https://otpnum.com/api/v2"
+        res = requests.get(f"{base_url}/{endpoint}", params=params, timeout=10).json()
         return res if res.get('success') else None
     except:
         return None
 
 def tampilkan_halaman():
     st.title("📩 OTP HUB - PINTAR MEDIA v2.0")
-    
-    # API KEY dari Secrets
     API_KEY = st.secrets.get("OTPNUM_API_KEY", "")
 
     tab_lokal, tab_online = st.tabs(["📱 SMS LOKAL (ACTIVE)", "🛒 SEWA NOMOR ONLINE"])
 
     # ==========================================================================
-    # TAB 1: SMS LOKAL (60 MENIT TERAKHIR)
+    # TAB 1: SMS LOKAL (GAYA MODERN - 1 JAM TERAKHIR)
     # ==========================================================================
     with tab_lokal:
         waktu_cutoff = (datetime.now() - timedelta(hours=1)).strftime('%Y-%m-%d %H:%M:%S')
@@ -35,7 +33,7 @@ def tampilkan_halaman():
 
         with st.container(border=True):
             c_search, c_ref, c_del = st.columns([3, 1, 1])
-            search_q = c_search.text_input("Filter...", placeholder="Cari SMS...", label_visibility="collapsed")
+            search_q = c_search.text_input("Cari SMS...", placeholder="Filter...", label_visibility="collapsed")
             if c_ref.button("🔄 REFRESH", use_container_width=True): st.rerun()
             if c_del.button("🗑️ CLEAR", use_container_width=True):
                 if st.session_state.get("user_level") == "OWNER":
@@ -57,17 +55,14 @@ def tampilkan_halaman():
                     b2.markdown(f"<p style='margin:5px 0 0 0; color:#888; font-size:11px; text-align:right;'>KODE OTP</p><h2 style='margin:0; text-align:right; color:#F1FA8C;'>{otp_code}</h2>", unsafe_allow_html=True)
                     st.markdown(f"<div style='background:#1e1e1e; padding:10px; border-radius:8px; margin-top:10px; border-left: 3px solid #444; color:#CCC; font-size:13px;'>{r['MESSAGE']}</div>", unsafe_allow_html=True)
         else:
-            st.info("Tidak ada SMS masuk 1 jam terakhir.")
+            st.info("Tidak ada SMS masuk dalam 1 jam terakhir.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE (REVISI SESUAI DOKUMEN SERVER 2)
+    # TAB 2: SEWA NOMOR ONLINE (FULL SERVER 2 LOGIC)
     # ==========================================================================
     with tab_online:
-        # Sesuai Gambar 2: Base URL Server 2 adalah https://otpnum.com/api/v2/
-        BASE_URL_S2 = "https://otpnum.com/api/v2"
-        
-        # 1. CEK SALDO (Endpoint: /balance)
-        res_bal = get_otpnum_data(f"{BASE_URL_S2}/balance?api_key={API_KEY}")
+        # 1. CEK SALDO (Endpoint: balance)
+        res_bal = get_otpnum_v2("balance", {"api_key": API_KEY})
         saldo = res_bal['data']['balance'] if res_bal else 0
         
         with st.container(border=True):
@@ -75,26 +70,35 @@ def tampilkan_halaman():
             s1.markdown(f"### 💰 Saldo OTPNUM\n# Rp {saldo:,}")
             if s2.button("🔄 REFRESH SALDO", use_container_width=True): st.rerun()
 
-        # 2. PANEL ORDER (Endpoint: /services & /place_order)
+        # 2. PANEL ORDER
         st.markdown("#### 🛒 Sewa Nomor Baru (Server 2)")
         with st.container(border=True):
-            # Load Services
-            if "list_services_s2" not in st.session_state:
-                with st.spinner("Menarik data stok..."):
-                    res_serv = get_otpnum_data(f"{BASE_URL_S2}/services?api_key={API_KEY}")
-                    if res_serv: st.session_state.list_services_s2 = res_serv['data']
+            # Step A: Load Countries (Indonesia = 6)
+            # Biar simpel, kita patok Indonesia dulu (ID: 6) sesuai SS kamu
+            country_id = 6 
+            
+            # Step B: Load Services (Endpoint: services)
+            if "list_services_v2" not in st.session_state:
+                with st.spinner("Menarik data layanan..."):
+                    res_serv = get_otpnum_v2("services", {"api_key": API_KEY, "country_id": country_id})
+                    if res_serv: st.session_state.list_services_v2 = res_serv['data']['services']
 
-            list_s = st.session_state.get("list_services_s2", [])
-            options_serv = {f"{s['name']} - Rp {s['price']}": s['id'] for s in list_s}
+            list_s = st.session_state.get("list_services_v2", [])
+            options_serv = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in list_s}
             
             pilih_name = st.selectbox("Pilih Layanan", list(options_serv.keys()) if options_serv else ["Memuat..."])
-            id_serv = options_serv.get(pilih_name)
+            service_id = options_serv.get(pilih_name)
 
             if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary"):
-                if id_serv:
-                    with st.spinner("Memesan..."):
-                        # Endpoint order: /place_order
-                        res_order = get_otpnum_data(f"{BASE_URL_S2}/place_order?api_key={API_KEY}&service_id={id_serv}")
+                if service_id:
+                    with st.spinner("Memesan nomor..."):
+                        # Endpoint order (Sesuai SS: /order)
+                        res_order = get_otpnum_v2("order", {
+                            "api_key": API_KEY, 
+                            "service_id": service_id,
+                            "operator": "any",
+                            "country_id": country_id
+                        })
                         if res_order:
                             st.session_state.active_order = {
                                 "id": res_order['data']['order_id'],
@@ -104,7 +108,7 @@ def tampilkan_halaman():
                             st.rerun()
                         else: st.error("Gagal order. Stok habis atau saldo kurang.")
 
-        # 3. MONITORING (Endpoint: /status)
+        # 3. MONITORING (Endpoint: status)
         if "active_order" in st.session_state:
             ord = st.session_state.active_order
             with st.container(border=True):
@@ -112,19 +116,24 @@ def tampilkan_halaman():
                 c_cek, c_can = st.columns(2)
                 
                 if c_cek.button("🔄 CEK SMS", use_container_width=True):
-                    # Endpoint status: /status
-                    res_stat = get_otpnum_data(f"{BASE_URL_S2}/status?api_key={API_KEY}&order_id={ord['id']}")
-                    if res_stat and res_stat['data'].get('sms'):
+                    res_stat = get_otpnum_v2("status", {"api_key": API_KEY, "order_id": ord['id']})
+                    if res_stat and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
                         st.session_state.otp_online = res_stat['data']['sms']
                         st.balloons()
-                    else: st.toast("SMS belum masuk...")
+                    else: st.toast("SMS belum masuk (status: waiting)...")
 
                 if c_can.button("❌ SELESAI / CANCEL", use_container_width=True):
+                    # Kita panggil /cancel atau /done jika perlu, tapi ini simpelnya hapus session aja
                     del st.session_state.active_order
                     if "otp_online" in st.session_state: del st.session_state.otp_online
                     st.rerun()
 
                 if "otp_online" in st.session_state:
-                    st.markdown(f"<h1 style='text-align:center; color:#50FA7B; letter-spacing:5px;'>{st.session_state.otp_online}</h1>", unsafe_allow_html=True)
+                    st.markdown(f"""
+                        <div style="background:#262730; padding:15px; border-radius:10px; border:2px solid #50FA7B; text-align:center; margin-top:10px;">
+                            <p style="margin:0; color:gray;">KODE OTP MASUK:</p>
+                            <h1 style="color:#50FA7B; margin:0; letter-spacing:5px;">{st.session_state.otp_online}</h1>
+                        </div>
+                    """, unsafe_allow_html=True)
         else:
             st.info("Belum ada nomor yang disewa.")
