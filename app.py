@@ -41,47 +41,57 @@ def proses_logout(pesan=None):
         time.sleep(2)
     st.rerun()
 
-# --- TAMPILAN LOGIN ---
+# --- TAMPILAN LOGIN (Wajah Lama, Mesin Baru) ---
 def halaman_login():
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1.2, 1, 1.2])
-    
-    with col2:
-        st.markdown("<h2 style='text-align:center;'>🔐 PINTAR LOGIN</h2>", unsafe_allow_html=True)
+    with st.container():
+        st.markdown("<br><br>", unsafe_allow_html=True)
+        # Layout 3 Kolom khas Web Lama
+        col_l, col_m, col_r = st.columns([1.5, 1, 1.5]) 
         
-        with st.form("login_station"):
-            u = st.text_input("Username", placeholder="Masukkan Nama...").strip().upper()
-            p = st.text_input("Password", type="password", placeholder="Password...")
-            submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
+        with col_m:
+            # Header Teks (Karena Logo sudah dihapus)
+            st.markdown("<h2 style='text-align:center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
             
-            if submit:
-                df_staff = database.ambil_data("Staff")
-                # Cari user yang cocok (Case Sensitive untuk password)
-                user_row = df_staff[(df_staff['Nama'] == u) & (df_staff['Password'] == p)]
+            # Form Login Station
+            with st.form("login_station", clear_on_submit=False):
+                u = st.text_input("Username", placeholder="Username...", key="input_u").strip().upper()
+                p = st.text_input("Password", type="password", placeholder="Password...", key="input_p")
+                submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
                 
-                if not user_row.empty:
-                    level = user_row.iloc[0]['Level'].upper()
-                    hostname_pc = socket.gethostname()
+                if submit:
+                    if u and p:
+                        # --- START MESIN BARU ---
+                        df_staff = database.ambil_data("Staff")
+                        # Cari user yang cocok
+                        user_row = df_staff[(df_staff['Nama'] == u) & (df_staff['Password'] == p)]
+                        
+                        if not user_row.empty:
+                            level = user_row.iloc[0]['Level'].upper()
+                            hostname_pc = socket.gethostname()
 
-                    # 1. CEK WHITELIST PC (Kecuali Dian/Owner)
-                    if level != "OWNER":
-                        if not database.cek_pc_whitelist(hostname_pc):
-                            st.error(f"Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
-                            return
+                            # 1. CEK WHITELIST PC (Kecuali Dian/Owner)
+                            if level != "OWNER":
+                                if not database.cek_pc_whitelist(hostname_pc):
+                                    st.error(f"Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
+                                    return
 
-                    # 2. UPDATE SESI (Kick device lain)
-                    database.update_sesi(u, st.session_state["browser_session_id"])
-                    
-                    # 3. SET SESSION STATE
-                    st.session_state["is_login"] = True
-                    st.session_state["user_aktif"] = u
-                    st.session_state["user_level"] = level
-                    st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
-                    st.success(f"Selamat Datang, {u}!")
-                    time.sleep(1)
-                    st.rerun()
-                else:
-                    st.error("Username atau Password salah!")
+                            # 2. UPDATE SESI (Anti-Sharing / Kick Device Lain)
+                            database.update_sesi(u, st.session_state["browser_session_id"])
+                            
+                            # 3. SET SESSION STATE
+                            st.session_state["is_login"] = True
+                            st.session_state["user_aktif"] = u
+                            st.session_state["user_level"] = level
+                            st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
+                            
+                            st.success(f"Selamat Datang, {u}!")
+                            time.sleep(1)
+                            st.rerun()
+                        else:
+                            st.error("Username atau Password salah!")
+                        # --- END MESIN BARU ---
+                    else:
+                        st.warning("Isi dulu Username atau Password!")
 
 # --- MONITORING KEAMANAN REAL-TIME (SILENT MODE) ---
 if st.session_state["is_login"]:
