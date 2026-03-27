@@ -23,11 +23,10 @@ def tampilkan_kendali_tim():
     with col_h1:
         st.title("⚡ PUSAT KENDALI TIM")
     with col_h2:
-        # Pake st.spinner biar ada efek loading pas ditarik datanya
         if st.button("🔄 REFRESH DATA", use_container_width=True):
             with st.spinner("⏳ Menghubungkan ke Pusat Data..."):
                 st.cache_data.clear()
-                time.sleep(1.5) # Kasih jeda dikit biar animasi loading-nya kerasa
+                time.sleep(1.5)
                 st.rerun()
 
     c_bln, c_thn = st.columns([2, 2])
@@ -81,10 +80,10 @@ def tampilkan_kendali_tim():
         # ======================================================================
         # --- 6. UI: FINANCIAL DASHBOARD ---
         # ======================================================================
-        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=False):
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc_val:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out_riil:,.0f}", delta=f"-Rp {total_out_riil:,.0f}" if total_out_riil > 0 else None, delta_color="normal")
+            m2.metric("💸 OUTCOME", f"Rp {total_out_riil:,.0f}", delta=f("-Rp {total_out_riil:,.0f}") if total_out_riil > 0 else None, delta_color="normal")
             
             status_s = "SURPLUS" if saldo_riil >= 0 else "DEFISIT"
             warna_d = "normal" if saldo_riil >= 0 else "inverse"
@@ -103,9 +102,8 @@ def tampilkan_kendali_tim():
                     f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
                         database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
-                        st.success("OK!"); time.sleep(0.5); st.rerun()
+                        st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
 
-            # --- LOG TRANSAKSI (GAYA SAKTI DIAN: TANGGAL + ABU MIRING) ---
             with col_logs:
                 with st.container(height=315):
                     if not df_k_f.empty:
@@ -119,8 +117,7 @@ def tampilkan_kendali_tim():
                                 <b style='color:#ccc;'>{r.get(col_kat, 'KAS')}</b> 
                                 <span style='float:right; color:{color}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
                                 <small style='color: #888; font-style: italic;'>[{tgl_log}] - {r.get(col_ket, '-')}</small>
-                            </div>
-                            """, unsafe_allow_html=True)
+                            </div>""", unsafe_allow_html=True)
                     else:
                         st.caption("Belum ada data transaksi.")
 
@@ -138,34 +135,33 @@ def tampilkan_kendali_tim():
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
         # ======================================================================
-        # --- 6. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE) ---
+        # --- 7. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE BARU) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
             try:
-                # Filter Staff, Uploader, dan Admin saja
-                df_staff_raw_slip = df_staff[df_staff['Level'].isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
+                df_staff_raw_slip = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper().isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
                 kol_v = st.columns(2) 
                 
                 for idx, s in df_staff_raw_slip.reset_index(drop=True).iterrows():
-                    n_up = str(s.get('Nama', '')).strip().upper()
+                    # Ambil nama staf secara dinamis
+                    c_nama = next((c for c in s.index if c.lower() == 'nama'), 'Nama')
+                    n_up = str(s.get(c_nama, '')).strip().upper()
                     if n_up == "" or n_up == "NAN": continue
                     
-                    # --- 1. DATA FINANSIAL (Logika Web Baru: Gapok & Tunjangan) ---
-                    v_gapok = int(pd.to_numeric(str(s.get('Gaji_Pokok', '0')).replace('.','').strip(), errors='coerce') or 0)
-                    v_tunjangan = int(pd.to_numeric(str(s.get('Tunjangan', '0')).replace('.','').strip(), errors='coerce') or 0)
+                    # LOGIKA FINANSIAL WEB BARU (SIMPLE)
+                    v_gapok = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.','').strip(), errors='coerce') or 0)
+                    v_tunjangan = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.','').strip(), errors='coerce') or 0)
                     
-                    # --- 2. FILTER BONUS CAIR DARI KAS (Hanya yang Kategori Gaji Tim & Ada Nama Staff) ---
                     bonus_cair_total = 0
                     if not df_k_f.empty:
-                        # Cari di df_k_f (Data Kas yang sudah tersaring bulan & tahun di atas)
-                        mask_bonus = (df_k_f['Kategori'] == 'Gaji Tim') & \
-                                     (df_k_f['Keterangan'].str.upper().str.contains(n_up, na=False))
+                        # Bonus ditarik dari semua transaksi 'Gaji Tim' yang mengandung nama staf
+                        mask_bonus = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
+                                     (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
                         bonus_cair_total = int(df_k_f[mask_bonus]['NOM_VAL'].sum())
 
-                    # --- 3. RUMUS FINAL (Web Baru: Simple Banget) ---
                     v_total_terima = v_gapok + v_tunjangan + bonus_cair_total
 
-                    # --- 4. TAMPILAN VCARD (STYLE LAMA DIAN) ---
+                    # --- TAMPILAN VCARD MEWAH (WEB LAMA) ---
                     with kol_v[idx % 2]:
                         with st.container(border=True):
                             st.markdown(f"""
@@ -175,8 +171,7 @@ def tampilkan_kendali_tim():
                                     <b style="font-size: 15px;">{n_up}</b><br>
                                     <span style="font-size: 11px; color: #888;">{s.get('Jabatan', 'STAFF')}</span>
                                 </div>
-                            </div>
-                            """, unsafe_allow_html=True)
+                            </div>""", unsafe_allow_html=True)
                             
                             c1, c2 = st.columns(2)
                             c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</p><h3 style='margin:0; color:#1d976c;'>Rp {v_total_terima:,}</h3>", unsafe_allow_html=True)
@@ -184,7 +179,7 @@ def tampilkan_kendali_tim():
                             
                             st.divider()
 
-                            # --- 5. SLIP GAJI DIGITAL (STYLE LAMA DIAN) ---
+                            # --- SLIP GAJI DIGITAL MEWAH (WEB LAMA) ---
                             if st.button(f"📄 PREVIEW & PRINT SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
                                 slip_html = f"""
                                 <div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 350px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);">
@@ -206,7 +201,7 @@ def tampilkan_kendali_tim():
                                     </table>
                                     <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
                                         <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px;">Total Diterima</p>
-                                        <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4;">Rp {v_total_terima:,}</h2>
+                                        <h2 style="margin: 5px 0 0; font-size: 26px; color: #55efc4; font-weight: 800;">Rp {v_total_terima:,}</h2>
                                     </div>
                                     <div style="margin-top: 30px; text-align: center; font-size: 9px; color: #bbb; border-top: 1px solid #f5f5f5; padding-top: 15px;">
                                         <b>Diterbitkan secara digital oleh Sistem PINTAR MEDIA</b><br>
@@ -217,5 +212,8 @@ def tampilkan_kendali_tim():
                                 """
                                 st.components.v1.html(slip_html, height=750)
 
-            except Exception as e:
-                st.error(f"⚠️ Gagal merinci gaji: {e}")
+            except Exception as e_slip:
+                st.error(f"Gagal memuat Rincian Gaji Sinkron: {e_slip}")
+
+    except Exception as e:
+        st.error(f"⚠️ Sistem Error Utama: {e}")
