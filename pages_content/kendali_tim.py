@@ -211,5 +211,53 @@ def tampilkan_kendali_tim():
             except Exception as e_slip:
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
 
+        # ======================================================================
+        # --- 8. PENGATURAN GAJI & JABATAN (EDIT LANGSUNG KE SUPABASE) ---
+        # ======================================================================
+        with st.expander("⚙️ PENGATURAN GAJI & JABATAN TIM", expanded=False):
+            st.info("💡 Ubah angka di bawah dan klik 'Update' untuk sinkronisasi ke Supabase.")
+            
+            # Kita looping data staff yang ada
+            for idx, s in df_staff.iterrows():
+                # Ambil data lama
+                id_staf = s.get('id') # Pastikan kolom ID ada di Supabase lo
+                nama_staf = s.get('Nama', 'Unknown')
+                gapok_lama = s.get('Gaji_Pokok', '0')
+                tunjangan_lama = s.get('Tunjangan', '0')
+                jabatan_lama = s.get('Jabatan', 'STAFF')
+                
+                with st.container(border=True):
+                    col_n, col_g, col_t, col_j, col_b = st.columns([2, 2, 2, 2, 1.5])
+                    
+                    with col_n:
+                        st.markdown(f"**{nama_staf}**")
+                        st.caption(f"ID: {id_staf}")
+                    
+                    with col_g:
+                        new_gapok = st.text_input("Gaji Pokok", value=str(gapok_lama), key=f"gp_{id_staf}")
+                    
+                    with col_t:
+                        new_tunjangan = st.text_input("Tunjangan", value=str(tunjangan_lama), key=f"tj_{id_staf}")
+                        
+                    with col_j:
+                        new_jabatan = st.text_input("Jabatan", value=str(jabatan_lama), key=f"jb_{id_staf}")
+                    
+                    with col_b:
+                        st.write("") # Spasi biar tombol sejajar
+                        if st.button("💾 UPDATE", key=f"btn_{id_staf}", use_container_width=True):
+                            try:
+                                # JALANKAN UPDATE KE SUPABASE
+                                database.supabase.table("Staff").update({
+                                    "Gaji_Pokok": new_gapok,
+                                    "Tunjangan": new_tunjangan,
+                                    "Jabatan": new_jabatan
+                                }).eq("id", id_staf).execute()
+                                
+                                st.success(f"Berhasil Update {nama_staf}!")
+                                time.sleep(1)
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"Gagal: {e}")
+
     except Exception as e:
         st.error(f"⚠️ Sistem Error: {e}")
