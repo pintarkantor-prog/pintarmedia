@@ -309,17 +309,16 @@ def tampilkan_kendali_tim():
                 st.warning("Tidak ada data staff untuk diedit.")
 
         # ======================================================================
-        # --- 9. INPUT BONUS & LEMBUR CEPAT ---
+        # --- 9. PANEL INPUT BONUS & LEMBUR (KONEK KE SLIP) ---
         # ======================================================================
-        st.divider()
-        st.markdown("#### 🚀 INPUT BONUS / LEMBUR CEPAT")
-        with st.container(border=True):
+        with st.expander("🚀 INPUT BONUS / LEMBUR CEPAT", expanded=False):
+            st.info("💡 Bonus yang diinput di sini akan otomatis muncul di Slip Gaji karyawan terkait.")
             with st.form("form_bonus_cepat", clear_on_submit=True):
                 c1, c2, c3 = st.columns([2, 1.5, 2.5])
                 
                 with c1:
                     st.markdown('<p class="small-label">Pilih Karyawan</p>', unsafe_allow_html=True)
-                    # Ambil daftar nama staff dari df_staff
+                    # Ambil daftar nama staff selain OWNER
                     daftar_nama = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'][c_nm].tolist()
                     f_staf_bonus = st.selectbox("S", daftar_nama, label_visibility="collapsed")
                 
@@ -329,22 +328,24 @@ def tampilkan_kendali_tim():
                 
                 with c3:
                     st.markdown('<p class="small-label">Alasan / Keterangan</p>', unsafe_allow_html=True)
-                    f_ket_bonus = st.text_input("K", placeholder="Contoh: Lembur / Bonus Kinerja Maret", label_visibility="collapsed")
+                    f_ket_bonus = st.text_input("K", placeholder="Contoh: Lembur Video / Bonus Kinerja", label_visibility="collapsed")
                 
-                if st.form_submit_button("💰 CAIRKAN BONUS", use_container_width=True):
+                if st.form_submit_button("💰 CAIRKAN & UPDATE SLIP", use_container_width=True):
                     if f_nom_bonus > 0:
                         try:
-                            # Masukkan ke tabel Arus_Kas agar otomatis terbaca di Slip Gaji
+                            # KUNCI: Keterangan harus mengandung NAMA KARYAWAN agar dibaca fungsi Slip
+                            ket_final = f"BONUS: {f_staf_bonus.upper()} - {f_ket_bonus}"
+                            
                             database.supabase.table("Arus_Kas").insert({
                                 "Tanggal": sekarang.strftime('%Y-%m-%d'),
                                 "Tipe": "PENGELUARAN",
-                                "Kategori": "Gaji Tim",
+                                "Kategori": "Gaji Tim", # Harus sama dengan kategori di filter Slip
                                 "Nominal": str(int(f_nom_bonus)),
-                                "Keterangan": f"BONUS: {f_staf_bonus} - {f_ket_bonus}",
+                                "Keterangan": ket_final,
                                 "Pencatat": user_sekarang
                             }).execute()
                             
-                            st.success(f"Berhasil! Bonus {f_staf_bonus} otomatis masuk ke Arus Kas & Slip Gaji."); time.sleep(1); st.rerun()
+                            st.success(f"Berhasil! Bonus {f_staf_bonus} masuk ke Kas & Slip."); time.sleep(1); st.rerun()
                         except Exception as e:
                             st.error(f"Gagal: {e}")
                     else:
