@@ -171,6 +171,6 @@ def tampilkan_halaman():
                         # Jika sudah ada OTP, kita stop auto-refresh-nya
                         st.info("OTP sudah muncul. Klik 'SELESAI' jika sudah selesai menyalin.")
                     else:
-                        msg_area.info("⏳ Menunggu SMS... (Web cek otomatis tiap 10 detik)")
+                        msg_area.info("⏳ Menunggu SMS Masuk...")
                         time.sleep(10)
                         st.rerun()
