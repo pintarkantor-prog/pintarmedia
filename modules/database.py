@@ -25,24 +25,24 @@ def ambil_data(nama_tabel):
 
 # 3. FUNGSI KEAMANAN SESI & PC
 def update_sesi(nama, session_id):
-    """Mencatat ID Sesi terbaru langsung ke tabel Staff (Single Device)"""
+    """Mencatat ID Sesi ke tabel khusus Sesi_Login (Biar Gaji aman)"""
     try:
         data = {
-            "Session_ID": session_id,
-            "Last_Login": ambil_waktu_sekarang().isoformat()
+            "nama": nama,
+            "session_id": session_id,
+            "last_login": ambil_waktu_sekarang().isoformat()
         }
-        # Update kolom Session_ID milik user yang sedang login
-        supabase.table("Staff").update(data).eq("Nama", nama).execute()
+        # Pake upsert: kalo nama udah ada dia update, kalo belum dia nambah baru
+        supabase.table("Sesi_Login").upsert(data, on_conflict="nama").execute()
     except Exception as e:
         print(f"Gagal update sesi: {e}")
 
 def ambil_sesi_terakhir(username):
-    """Mengambil ID Sesi terbaru dari tabel Staff untuk divalidasi"""
+    """Ambil ID sesi terbaru dari tabel Sesi_Login"""
     try:
-        response = supabase.table("Staff").select("Session_ID").eq("Nama", username).execute()
-        if response.data and len(response.data) > 0:
-            # Pastikan nama kolom di Supabase adalah 'Session_ID' (Case Sensitive)
-            return response.data[0].get("Session_ID")
+        res = supabase.table("Sesi_Login").select("session_id").eq("nama", username).execute()
+        if res.data and len(res.data) > 0:
+            return res.data[0].get("session_id")
         return None
     except Exception as e:
         print(f"Error ambil_sesi_terakhir: {e}")
