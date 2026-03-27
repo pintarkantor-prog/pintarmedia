@@ -169,13 +169,13 @@ else:
         ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
-        # Pastikan kamu sudah buat file pages_content/database_channel.py
+        # Lazy Loading: Hanya import saat menu diklik agar web kencang
         try:
             from pages_content import database_channel
-            database_channel.tampilkan_halaman()
-        except:
+            database_channel.tampilkan_database_channel()
+        except Exception as e:
             st.title("📱 Database Channel")
-            st.error("File pages_content/database_channel.py tidak ditemukan!")
+            st.error(f"Gagal memuat halaman: {e}")
 
     elif menu == "📘 AREA STAF":
         st.title("📘 Area Staf")
