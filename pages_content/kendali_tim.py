@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 from modules import database
+import plotly.express as px
 from datetime import datetime
 import pytz
 import time
@@ -11,76 +12,113 @@ def tampilkan_kendali_tim():
     user_sekarang = st.session_state.get("user_aktif", "User").upper()
 
     if user_level not in ["OWNER", "ADMIN"]:
-        st.error("🚫 Area ini hanya untuk Manajemen.")
+        st.error("🚫 Akses Dibatasi!")
         st.stop()
 
-    # --- 2. SETUP WAKTU & FILTER ---
+    # --- 2. SETUP WAKTU & HEADER ---
     tz = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz)
     
-    st.title("💰 KENDALI KEUANGAN & SLIP")
+    st.title("⚡ PUSAT KENDALI TIM")
     
-    c_bln, c_thn, c_ref = st.columns([2, 1, 1], vertical_alignment="bottom")
+    c_bln, c_thn, c_ref = st.columns([3, 2, 1.2], vertical_alignment="bottom")
     daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
     pilihan_nama = c_bln.selectbox("📅 Pilih Bulan Laporan:", list(daftar_bulan.values()), index=sekarang.month - 1)
     bulan_dipilih = [k for k, v in daftar_bulan.items() if v == pilihan_nama][0]
-    tahun_dipilih = c_thn.number_input("Tahun:", value=sekarang.year, min_value=2024, max_value=2030)
+    tahun_dipilih = c_thn.number_input("Tahun:", value=sekarang.year)
     
     if c_ref.button("🔄 REFRESH DATA", use_container_width=True):
-        st.cache_data.clear()
         st.rerun()
 
     st.divider()
 
     try:
-        # --- 3. AMBIL DATA (HANYA STAFF & KAS) ---
-        with st.spinner("Menarik Data Keuangan..."):
-            df_staff = database.ambil_data("Staff")
-            df_kas = database.ambil_data("Arus_Kas")
-
-        # Paksa kolom jadi KAPITAL
-        for df in [df_staff, df_kas]:
-            if not df.empty: df.columns = [c.upper() for c in df.columns]
-
-        # --- 4. SARING DATA KAS SESUAI PERIODE ---
+        # --- 3. AMBIL DATA & FILTER ---
+        df_staff = database.ambil_data("Staff")
+        df_kas = database.ambil_data("Arus_Kas")
+        
+        # Standarisasi Kolom Kapital
         if not df_kas.empty:
-            df_kas['TGL_TEMP'] = pd.to_datetime(df_kas['TANGGAL'], errors='coerce')
-            mask = (df_kas['TGL_TEMP'].dt.month == bulan_dipilih) & (df_kas['TGL_TEMP'].dt.year == tahun_dipilih)
-            df_k_f = df_kas[mask].copy()
+            df_kas.columns = [c.upper() for c in df_kas.columns]
+            df_kas['TGL_DT'] = pd.to_datetime(df_kas['TANGGAL'], errors='coerce')
+            df_k_f = df_kas[(df_kas['TGL_DT'].dt.month == bulan_dipilih) & (df_kas['TGL_DT'].dt.year == tahun_dipilih)].copy()
         else:
             df_k_f = pd.DataFrame()
 
-        # ======================================================================
-        # --- MENU 1: ANALISIS KEUANGAN ---
-        # ======================================================================
-        st.markdown("### 📊 ANALISIS KEUANGAN")
-        
-        inc, ops, bonus_terbayar_kas = 0, 0, 0
+        # --- 4. KALKULASI FINANSIAL ---
+        inc, ops, bonus_cair = 0, 0, 0
         if not df_k_f.empty:
             df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f['NOMINAL'].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
             inc = df_k_f[df_k_f['TIPE'] == 'PENDAPATAN']['NOMINAL_VAL'].sum()
             ops = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] != 'GAJI TIM')]['NOMINAL_VAL'].sum()
-            bonus_terbayar_kas = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'GAJI TIM')]['NOMINAL_VAL'].sum()
+            bonus_cair = df_k_f[(df_k_f['TIPE'] == 'PENGELUARAN') & (df_k_f['KATEGORI'] == 'GAJI TIM')]['NOMINAL_VAL'].sum()
 
-        # Hitung Gaji Pokok Tim dari Tabel Staff
-        total_gaji_pokok_tim = 0
+        total_gapok = 0
         df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
-        
         for _, s in df_staff_real.iterrows():
-            g_pokok = int(str(s.get('GAJI_POKOK', '0')).replace('.', '') or 0)
-            t_tunj = int(str(s.get('TUNJANGAN', '0')).replace('.', '') or 0)
-            total_gaji_pokok_tim += (g_pokok + t_tunj)
+            total_gapok += int(str(s.get('GAJI_POKOK', '0')).replace('.', '') or 0) + int(str(s.get('TUNJANGAN', '0')).replace('.', '') or 0)
 
-        total_out = total_gaji_pokok_tim + bonus_terbayar_kas + ops
-        saldo_riil = inc - total_out
+        total_out = total_gapok + bonus_cair + ops
+        saldo_bersih = inc - total_out
+        margin = (saldo_bersih / inc * 100) if inc > 0 else 0
 
-        with st.container(border=True):
+        # ======================================================================
+        # --- UI: FINANCIAL COMMAND CENTER (SESUAI GAMBAR) ---
+        # ======================================================================
+        with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
+            # Baris Metrik
             m1, m2, m3, m4 = st.columns(4)
             m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", delta=f"-{total_out:,.0f}", delta_color="inverse")
-            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_riil:,.0f}", delta="SURPLUS" if saldo_riil >= 0 else "DEFISIT")
-            margin = (saldo_riil / inc * 100) if inc > 0 else 0
+            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", delta=f"-Rp {total_out:,.0f}", delta_color="inverse")
+            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_bersih:,.0f}", delta="SURPLUS" if saldo_bersih >= 0 else "DEFISIT")
             m4.metric("📊 MARGIN", f"{margin:.1f}%")
+
+            st.divider()
+
+            # Layout 3 Kolom: Input | Log | Chart
+            col_input, col_logs, col_viz = st.columns([1.2, 1.5, 1], gap="medium")
+
+            with col_input:
+                with st.form("form_kas_v2", clear_on_submit=True):
+                    f_tipe = st.radio("Tipe", ["PENDAPATAN", "PENGELUARAN"], horizontal=True, label_visibility="collapsed")
+                    f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Lainnya"], label_visibility="collapsed")
+                    f_nom = st.number_input("Nominal", min_value=0, step=50000, placeholder="Nominal Rp...")
+                    f_ket = st.text_area("Catatan...", height=80, placeholder="Keterangan transaksi...")
+                    if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
+                        if f_nom > 0:
+                            database.supabase.table("Arus_Kas").insert({
+                                "TANGGAL": sekarang.strftime('%Y-%m-%d'), "TIPE": f_tipe,
+                                "KATEGORI": f_kat, "NOMINAL": str(int(f_nom)),
+                                "KETERANGAN": f_ket, "PENCATAT": user_sekarang
+                            }).execute()
+                            st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
+
+            with col_logs:
+                # Log Transaksi (Scrollable Container)
+                with st.container(height=300, border=True):
+                    if not df_k_f.empty:
+                        df_display = df_k_f.sort_values(by='TGL_DT', ascending=False)
+                        for _, r in df_display.iterrows():
+                            c_text = "#50FA7B" if r['TIPE'] == "PENDAPATAN" else "#FF5555"
+                            st.markdown(f"""
+                            <div style='font-size:11px; border-bottom:1px solid #333; padding:5px 0;'>
+                                <span style='color:#888;'>{r['KATEGORI']}</span>
+                                <span style='float:right; color:{c_text}; font-weight:bold;'>Rp {float(r['NOMINAL']):,.0f}</span><br>
+                                <i style='color:#ccc;'>{r['KETERANGAN']}</i>
+                            </div>
+                            """, unsafe_allow_html=True)
+                    else:
+                        st.caption("Belum ada data.")
+
+            with col_viz:
+                # Donut Chart
+                if inc > 0 or total_out > 0:
+                    fig = px.pie(values=[inc, total_out], names=['INCOME', 'OUTCOME'], 
+                                 hole=0.7, color_discrete_sequence=["#50FA7B", "#FF5555"])
+                    fig.update_layout(showlegend=False, height=200, margin=dict(t=0,b=0,l=0,r=0),
+                                      paper_bgcolor='rgba(0,0,0,0)', plot_bgcolor='rgba(0,0,0,0)')
+                    st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+                    st.markdown(f"<center><small>{margin:.1f}% Margin</small></center>", unsafe_allow_html=True)
 
         # ======================================================================
         # --- MENU 2: RINCIAN GAJI & SLIP ---
