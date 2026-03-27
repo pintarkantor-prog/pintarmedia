@@ -7,8 +7,9 @@ import re
 def tampilkan_halaman():
     st.title("📩 OTP HUB SMS")
     
-    # --- 1. AMBIL DATA DARI SUPABASE ---
+    # --- 1. AMBIL DATA DARI SUPABASE (URUTAN TERBARU DI ATAS) ---
     try:
+        # Perintah .order("created_at", desc=True) memastikan SMS paling baru muncul pertama
         data_otp = database.supabase.table("OTP_Log").select("*").order("created_at", desc=True).limit(50).execute()
         df_otp = pd.DataFrame(data_otp.data)
     except Exception as e:
@@ -19,12 +20,12 @@ def tampilkan_halaman():
     with st.expander("🛠️ PANEL KONTROL & DAFTAR SMS", expanded=True):
         
         # --- BARIS 1: PENCARIAN ---
-        search_query = st.text_input("Cari...", placeholder="Ketik Unit (HP 01), Pengirim (Google), atau Kode...", label_visibility="collapsed")
+        search_query = st.text_input("Cari...", placeholder="Ketik Unit HP, Pengirim, atau Kode...", label_visibility="collapsed")
         
-        # --- BARIS 2: TOMBOL AKSI (SEJAJAR) ---
+        # --- BARIS 2: TOMBOL AKSI (SEJAJAR & WARNA NETRAL) ---
         c1, c2 = st.columns(2)
         
-        if c1.button("🔄 REFRESH DATA", use_container_width=True, type="primary"):
+        if c1.button("🔄 REFRESH DATA", use_container_width=True):
             st.rerun()
 
         if c2.button("🗑️ BERSIHKAN LOG", use_container_width=True):
@@ -38,9 +39,10 @@ def tampilkan_halaman():
 
         st.markdown("<hr style='margin:15px 0; border-color:#444;'>", unsafe_allow_html=True)
 
-        # --- BARIS 3: LIST SMS (DIBUNGKUS DALAM EXPANDER) ---
+        # --- BARIS 3: LIST SMS ---
         if not df_otp.empty:
             if search_query:
+                # Filter pencarian tetap mempertahankan urutan terbaru di atas
                 mask = (
                     df_otp['RECEIVER'].astype(str).str.contains(search_query, case=False, na=False) |
                     df_otp['SENDER'].astype(str).str.contains(search_query, case=False, na=False) |
@@ -53,10 +55,13 @@ def tampilkan_halaman():
             if df_display.empty:
                 st.info("Pencarian tidak ditemukan.")
             else:
-                # Loop untuk SMS masuk
+                # Loop render card
                 for i, r in df_display.iterrows():
+                    # Konversi Waktu ke WIB
                     dt_obj = pd.to_datetime(r['created_at']).tz_convert('Asia/Jakarta')
                     waktu_str = dt_obj.strftime('%d/%m %H:%M:%S')
+                    
+                    # Cari 6 digit OTP
                     otp_match = re.findall(r'\b\d{6}\b', str(r['MESSAGE']))
                     otp_code = otp_match[0] if otp_match else "---"
 
@@ -73,4 +78,4 @@ def tampilkan_halaman():
         else:
             st.info("Belum ada SMS masuk.")
 
-    st.caption(f"🔄 Auto-update on load | Last Update: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')}")
+    st.caption(f"🔄 Last Update: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')} WIB")
