@@ -212,58 +212,63 @@ def tampilkan_kendali_tim():
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
 
         # ======================================================================
-        # --- 8. PENGATURAN GAJI & JABATAN (FIX KEY ERROR) ---
+        # --- 8. PENGATURAN GAJI & JABATAN (TANPA OWNER) ---
         # ======================================================================
         with st.expander("⚙️ PENGATURAN GAJI & JABATAN TIM", expanded=False):
             st.info("💡 Ubah data di bawah dan klik 'UPDATE' untuk simpan ke Supabase.")
             
-            # Deteksi Nama Kolom Staff secara dinamis biar gak salah panggil
+            # Deteksi Nama Kolom Staff secara dinamis
             c_gp_st = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
             c_tj_st = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
             c_jb_st = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
             c_nm_st = next((c for c in df_staff.columns if c.lower() == 'nama'), 'Nama')
-            # Cari kolom ID (bisa 'id', 'ID', atau 'id_staff')
+            c_lv_st = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
             c_id_st = next((c for c in df_staff.columns if c.lower() == 'id'), None)
 
-            for idx, s in df_staff.iterrows():
-                nama_key = str(s.get(c_nm_st, f"staff_{idx}")).replace(" ", "_")
-                real_id = s.get(c_id_st) if c_id_st else None
-                
-                with st.container(border=True):
-                    col_n, col_g, col_t, col_j, col_b = st.columns([2, 2, 2, 2, 1.5])
+            # --- FILTER: HANYA STAFF, UPLOADER, ADMIN (OWNER DIBUANG) ---
+            df_edit_staff = df_staff[df_staff[c_lv_st].fillna('').astype(str).str.upper().isin(['STAFF', 'UPLOADER', 'ADMIN'])].copy()
+
+            if not df_edit_staff.empty:
+                for idx, s in df_edit_staff.iterrows():
+                    nama_key = str(s.get(c_nm_st, f"staff_{idx}")).replace(" ", "_")
+                    real_id = s.get(c_id_st) if c_id_st else None
                     
-                    with col_n:
-                        st.markdown(f"**{s.get(c_nm_st, 'Unknown')}**")
-                        st.caption(f"Posisi: {s.get(c_jb_st, 'Staff')}")
-                    
-                    with col_g:
-                        # Pake nama staff sebagai KEY biar UNIK
-                        new_gp = st.text_input("Gaji Pokok", value=str(s.get(c_gp_st, '0')), key=f"gp_{nama_key}")
-                    
-                    with col_t:
-                        new_tj = st.text_input("Tunjangan", value=str(s.get(c_tj_st, '0')), key=f"tj_{nama_key}")
+                    with st.container(border=True):
+                        col_n, col_g, col_t, col_j, col_b = st.columns([2, 2, 2, 2, 1.5])
                         
-                    with col_j:
-                        new_jb = st.text_input("Jabatan", value=str(s.get(c_jb_st, 'STAFF')), key=f"jb_{nama_key}")
-                    
-                    with col_b:
-                        st.write("") 
-                        if st.button("💾 UPDATE", key=f"btn_{nama_key}", use_container_width=True):
-                            if real_id:
-                                try:
-                                    database.supabase.table("Staff").update({
-                                        c_gp_st: new_gp,
-                                        c_tj_st: new_tj,
-                                        c_jb_st: new_jb
-                                    }).eq(c_id_st, real_id).execute()
-                                    
-                                    st.success(f"OK! {s.get(c_nm_st)} Berhasil di-Update.")
-                                    time.sleep(1)
-                                    st.rerun()
-                                except Exception as e:
-                                    st.error(f"Gagal Update: {e}")
-                            else:
-                                st.error("❌ Kolom ID tidak ditemukan di tabel Staff Supabase!")
+                        with col_n:
+                            st.markdown(f"**{s.get(c_nm_st, 'Unknown')}**")
+                            st.caption(f"Posisi: {s.get(c_jb_st, 'Staff')}")
+                        
+                        with col_g:
+                            new_gp = st.text_input("Gaji Pokok", value=str(s.get(c_gp_st, '0')), key=f"gp_{nama_key}")
+                        
+                        with col_t:
+                            new_tj = st.text_input("Tunjangan", value=str(s.get(c_tj_st, '0')), key=f"tj_{nama_key}")
+                            
+                        with col_j:
+                            new_jb = st.text_input("Jabatan", value=str(s.get(c_jb_st, 'STAFF')), key=f"jb_{nama_key}")
+                        
+                        with col_b:
+                            st.write("") 
+                            if st.button("💾 UPDATE", key=f"btn_{nama_key}", use_container_width=True):
+                                if real_id:
+                                    try:
+                                        database.supabase.table("Staff").update({
+                                            c_gp_st: new_gp,
+                                            c_tj_st: new_tj,
+                                            c_jb_st: new_jb
+                                        }).eq(c_id_st, real_id).execute()
+                                        
+                                        st.success(f"OK! {s.get(c_nm_st)} Berhasil di-Update.")
+                                        time.sleep(1)
+                                        st.rerun()
+                                    except Exception as e:
+                                        st.error(f"Gagal Update: {e}")
+                                else:
+                                    st.error("❌ Kolom ID tidak ditemukan!")
+            else:
+                st.warning("Tidak ada data staff untuk diedit.")
 
     except Exception as e:
         st.error(f"⚠️ Sistem Error: {e}")
