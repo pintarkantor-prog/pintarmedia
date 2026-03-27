@@ -101,8 +101,7 @@ def tampilkan_halaman():
             
             # 4. Tampilan Saldo (Kolom Kanan - Tanpa CSS, Pakai Markdown Standar)
             c_bal.markdown(f"""
-                ### 💰 SALDO {srv_name}
-                ## <span style='color: #50FA7B; font-size: 20px;'>Rp {saldo:,}</span>
+                ## <span style='color: #50FA7B; font-size: 20px;'>💰 SALDO Rp {saldo:,}</span>
             """, unsafe_allow_html=True)
 
         # --- PANEL ORDER (GOOGLE ONLY) ---
