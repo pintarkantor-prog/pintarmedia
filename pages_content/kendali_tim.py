@@ -217,7 +217,7 @@ def tampilkan_kendali_tim():
         with st.expander("⚙️ MANAJEMEN TIM & PENGATURAN GAJI", expanded=False):
             
             # --- A. FITUR TAMBAH STAFF BARU ---
-            st.markdown("#### ➕ TAMBAH STAFF BARU")
+            st.markdown("##### ➕ TAMBAH STAFF BARU")
             with st.form("form_tambah_staff", clear_on_submit=True):
                 c1, c2, c3 = st.columns(3)
                 with c1:
@@ -254,7 +254,7 @@ def tampilkan_kendali_tim():
             st.divider()
 
             # --- B. FITUR EDIT & HAPUS STAFF ---
-            st.markdown("#### 📝 EDIT ATAU BERHENTIKAN STAFF")
+            st.markdown("##### 📝 EDIT ATAU BERHENTIKAN STAFF")
             c_nm = next((c for c in df_staff.columns if c.lower() == 'nama'), 'Nama')
             c_jb = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
             c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
