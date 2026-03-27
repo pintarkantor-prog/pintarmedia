@@ -1106,12 +1106,8 @@ def tampilkan_halaman():
                 pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"])
 
             st.write("")
-            btn_gen = st.button(
-                "🚀 GENERATE VIDEO PROMPT", 
-                type="primary", 
-                use_container_width=True, 
-                key="btn_generate_video"
-            )
+            btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
+            
         # --- LOGIC GENERATOR (TOTAL REBUILD: ULTRA SHARP & CLEAN VISUAL) ---
         if btn_gen:
             # 1. POSISI MATI LESEHAN
@@ -1172,14 +1168,13 @@ def tampilkan_halaman():
             st.session_state.temp_prompt = final_ai_prompt
             st.session_state.temp_char = char_key
             
-            # --- 7. TAMPILKAN HASIL ---
-            if "temp_prompt" in st.session_state:
-                st.success("🔥 PROMPT MASJID READY!")
-                st.code(st.session_state.temp_prompt, language="text")
+        # --- 7. TAMPILKAN HASIL ---
+        if "temp_prompt" in st.session_state:
+            st.divider() # <--- Sekarang udah menjorok ke dalam
+            st.success("🔥 PROMPT MASJID READY!")
+            st.code(st.session_state.temp_prompt, language="text")
 
-            # --- 8. TOMBOL ANTREAN ROBOT (VERSI TESTER) ---
-            st.divider()
-            # Tombol ini sekarang nggak bakal "ngilangin" prompt karena datanya ada di session_state
+            # TOMBOL ANTREAN (Sekarang dia mandiri, gak bakal ilang pas diklik)
             if st.button("🤖 KIRIM KE ANTRIAN ROBOT", use_container_width=True, key="btn_antre_masjid"):
                 try:
                     from modules import database 
@@ -1194,11 +1189,8 @@ def tampilkan_halaman():
                     
                     database.supabase.table("Antrian_Video").insert(payload).execute()
                     
-                    st.success(f"🚀 Berhasil Dikirim!")
+                    st.success(f"🚀 BERHASIL! Cek Supabase sekarang.")
                     st.balloons()
-                    
-                    # Opsional: Hapus memori setelah sukses kirim
-                    # del st.session_state.temp_prompt
                     
                 except Exception as e:
                     st.error(f"Penyebab Gagal: {e}")
