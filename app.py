@@ -137,7 +137,7 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📩 OTP HUB", "📘 AREA STAF"]
+        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📘 AREA STAF"]
         if user_level in ["OWNER", "ADMIN"]:
             menu_list.append("⚡ KENDALI TIM")
 
@@ -176,13 +176,6 @@ else:
         except Exception as e:
             st.title("📱 Database Channel")
             st.error(f"Gagal memuat halaman: {e}")
-
-    elif menu == "📩 OTP HUB":
-        try:
-            from pages_content import otp_hub
-            otp_hub.tampilkan_halaman()
-        except Exception as e:
-            st.error(f"Gagal memuat OTP Hub: {e}")
 
     elif menu == "📘 AREA STAF":
         st.title("📘 Area Staf")
