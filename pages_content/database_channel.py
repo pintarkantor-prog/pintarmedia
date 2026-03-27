@@ -18,7 +18,7 @@ def tampilkan_database_channel():
         st.stop() # Menghentikan seluruh proses render ke bawah
 
     # --- 2. HEADER & SETUP ---
-    st.title("📱 DATABASE MASTER CHANNEL")
+    st.title("📱 DATABASE CHANNEL")
     tz = pytz.timezone('Asia/Jakarta') 
 
     # --- 3. PENARIKAN DATA REAL-TIME ---
@@ -381,14 +381,16 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- 2. LOGIKA GENERATE TABEL PRINT (TIM BREAK) ---
-            df_j['HP_NUM'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
-            df_display = df_j.sort_values(['HP_NUM', 'PAGI'])
+            # --- 2. LOGIKA GENERATE TABEL (GAYA KODE AWAL + TIM BREAK) ---
+            df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
+            df_display = df_j.sort_values(['HP_N', 'PAGI'])
             
-            # PISAHKAN LIST HP JADI 2 KELOMPOK (Sesuai Tim Staf Kamu)
+            # PISAHKAN LIST HP JADI 2 KELOMPOK
             list_hp_tim1 = [h for h in df_display['HP'].unique() if pd.to_numeric(h, errors='coerce') <= 11]
             list_hp_tim2 = [h for h in df_display['HP'].unique() if pd.to_numeric(h, errors='coerce') > 11]
             
+            # Gabungkan jadi satu list besar tapi kita kasih pembatas (marker)
+            # Ini biar kodenya mirip struktur awal lo yang pake loop
             kelompok_tim = [
                 {"nama": "ICHA / NISSA (HP 1-11)", "list": list_hp_tim1},
                 {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
@@ -400,11 +402,12 @@ def tampilkan_database_channel():
                 list_hp_unik = tim["list"]
                 if not list_hp_unik: continue
                 
-                # Loop per 6 HP per halaman agar tidak sesak saat di-print
+                # Loop per 11 HP (sama kayak kode awal lo)
                 for start_idx in range(0, len(list_hp_unik), 6):
                     hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
                     df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
                     
+                    # Tambahkan div dengan class page-break
                     html_all_pages += f"""
                     <div class="print-container page-break">
                         <div class="header-box">
@@ -428,8 +431,6 @@ def tampilkan_database_channel():
                         p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
                         s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
                         o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
-                        
-                        # Hanya tampilkan nomor HP di baris pertama tiap unit HP
                         hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
                         bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                         
@@ -457,22 +458,52 @@ def tampilkan_database_channel():
                 }, hide_index=True, use_container_width=True
             )
 
-            # --- 4. RENDER TOMBOL PRINT ---
+            # --- 4. STYLE SULTAN AESTHETIC V2 (FULL ABU-ABU + HEADER HITAM) ---
             html_masterpiece = f"""
             <style>
                 @media print {{
                     @page {{ size: A4 portrait; margin: 1cm; }}
-                    body {{ font-family: 'Segoe UI', Tahoma, sans-serif; background: white; }}
-                    .print-container {{ width: 100%; margin: 0 auto; }}
+                    * {{ box-sizing: border-box; }}
+                    body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
+                    
+                    .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
                     .page-break {{ page-break-after: always; }}
+
                     .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
                     h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
                     .sub {{ font-size: 12px; color: #666; }}
-                    table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
-                    th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
-                    td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; }}
+
+                    table {{ 
+                        width: 100%; 
+                        border-collapse: collapse; 
+                        border: 1px solid #CCC; /* SEMUA GARIS LUAR ABU-ABU */
+                        table-layout: fixed;
+                    }}
+                    
+                    /* HEADER HITAM SOLID */
+                    th {{ 
+                        background-color: #FFFFFF !important;
+                        color: #1E3A8A !important;
+                        padding: 10px; 
+                        border: 1px solid #CCC;
+                        font-size: 12px;
+                        font-weight: bold;
+                        -webkit-print-color-adjust: exact;
+                    }}
+                    
+                    td {{ 
+                        border: 1px solid #CCC; /* SEMUA GARIS DALAM ABU-ABU */
+                        padding: 8px 10px; 
+                        font-size: 14px; 
+                        color: #111;
+                        line-height: 1.3;
+                    }}
+                    
                     .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
+                    .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
                     .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
+                    
+                    .footer-note {{ margin-top: 10px; text-align: right; font-size: 9px; color: #999; }}
                 }}
             </style>
             {html_all_pages}
@@ -480,28 +511,214 @@ def tampilkan_database_channel():
             
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
-
-    # ==============================================================================
-    # TAB 4: MONITOR HP
-    # ==============================================================================
+                
+    # ======================================================================
+    # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
+    # ======================================================================
     with tab_hp:
-        if not df_hp.empty:
-            # Tampilan Grid HP sesuai kodemu yang lama
-            cols = st.columns(4)
-            for i, (idx, r) in enumerate(df_hp.iterrows()):
-                with cols[i % 4]:
-                    with st.container(border=True):
-                        st.markdown(f"**{r['NAMA_HP']}**")
-                        st.caption(f"{r['PROVIDER']} | {r['NOMOR_HP']}")
-                        st.code(f"Exp: {r['MASA_AKTIF']}")
+        # --- 1. EXPANDER INPUT (LANGSUNG KARENA SUDAH LOLOS SATPAM UTAMA) ---
+        with st.expander("➕ DAFTARKAN UNIT HP BARU", expanded=False):
+            with st.form("form_hp_supabase", clear_on_submit=True):
+                st.markdown("### 📝 Input Data Unit")
+                c1, c2 = st.columns(2)
+                v_nama = c1.text_input("Nama Unit (Contoh: HP 01)")
+                v_no = c2.text_input("Nomor HP (Contoh: 0812...)")
+                
+                c3, c4 = st.columns(2)
+                v_prov = c3.selectbox("Provider", ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"])
+                v_tgl = c4.date_input("Masa Aktif Kartu")
+                
+                if st.form_submit_button("🚀 SIMPAN UNIT", use_container_width=True):
+                    if v_nama and v_no:
+                        try:
+                            tgl_fix = v_tgl.strftime("%d/%m/%Y")
+                            database.supabase.table("Data_HP").insert({
+                                "NAMA_HP": str(v_nama).upper(),
+                                "NOMOR_HP": str(v_no),
+                                "PROVIDER": v_prov,
+                                "MASA_AKTIF": tgl_fix
+                            }).execute()
+
+                            st.success(f"✅ {v_nama} Berhasil Didaftarkan!")
+                            time.sleep(0.5)
+                            st.rerun() 
+                        except Exception as e:
+                            st.error(f"Error Supabase: {e}")
+                    else:
+                        st.error("Nama & Nomor wajib diisi!")
+
+        st.divider()
+
+        # --- 2. DISPLAY RADAR CARD ---
+        if df_hp.empty:
+            st.info("Radar unit HP masih kosong. Silakan daftarkan unit baru.")
         else:
-            st.warning("Data HP belum didaftarkan.")
+            now_indo = database.ambil_waktu_sekarang().date()
+            
+            # --- FIX URUTAN HP (Agar 1, 2, 3... urut lurus) ---
+            df_hp['HP_NUM'] = df_hp['NAMA_HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
+            df_view = df_hp[df_hp['NAMA_HP'].str.strip() != ""].sort_values('HP_NUM').copy()
+            
+            # Tampilan Grid 4 Kolom
+            grid = st.columns(4) 
+            for i, (idx, r) in enumerate(df_view.iterrows()):
+                with grid[i % 4]:
+                    try:
+                        t_exp = pd.to_datetime(r['MASA_AKTIF'], dayfirst=True).date()
+                        sisa = (t_exp - now_indo).days
+                        
+                        if sisa > 10: color_code = "#2D5A47" # HIJAU
+                        elif 4 <= sisa <= 10: color_code = "#B8860B" # KUNING
+                        else: color_code = "#962D2D" # MERAH
+                    except:
+                        color_code = "#444"; sisa = "?"
+
+                    with st.container(border=True):
+                        st.markdown(f'''
+                            <div style="background:{color_code}; padding:5px; border-radius:5px; text-align:center; margin-bottom:12px;">
+                                <b style="color:white; font-size:18px;">{r["NAMA_HP"]}</b>
+                            </div>
+                        ''', unsafe_allow_html=True)
+                        
+                        ic1, ic2 = st.columns(2)
+                        ic1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>📞 NOMOR</p><b style='font-size:14px;'>{r['NOMOR_HP']}</b>", unsafe_allow_html=True)
+                        ic2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>📡 PROVIDER</p><b style='font-size:11px;'>{r['PROVIDER']}</b>", unsafe_allow_html=True)
+                        
+                        st.divider()
+                        sc1, sc2 = st.columns(2)
+                        sc1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>📅 EXPIRED</p><code style='font-size:11px;'>{r['MASA_AKTIF']}</code>", unsafe_allow_html=True)
+                        
+                        sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa < 4 else "#ffffff"
+                        sc2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⏳ SISA</p><b style='font-size:14px; color:{sisa_color};'>{sisa} Hari</b>", unsafe_allow_html=True)
+
+                        # --- FITUR EDIT (TANPA CEK IF LAGI) ---
+                        with st.popover("✏️ Edit", use_container_width=True):
+                            st.markdown(f"#### 🛠️ EDIT: {r['NAMA_HP']}")
+                            e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{idx}").strip()
+                            e_no = st.text_input("📞 Nomor HP", value=str(r['NOMOR_HP']), key=f"eno_{idx}").strip()
+                            
+                            provider_list = ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"]
+                            curr_prov = r['PROVIDER'] if r['PROVIDER'] in provider_list else "TELKOMSEL"
+                            e_prov = st.selectbox("📡 Provider", provider_list, index=provider_list.index(curr_prov), key=f"ep_{idx}")
+                            e_tgl = st.text_input("📅 Exp (DD/MM/YYYY)", value=str(r['MASA_AKTIF']), key=f"et_{idx}").strip()
+                            
+                            if st.button("💾 SIMPAN", key=f"btn_e_{idx}", use_container_width=True, type="primary"):
+                                if e_nama and e_no:
+                                    try:
+                                        database.supabase.table("Data_HP").update({
+                                            "NAMA_HP": e_nama.upper(), 
+                                            "NOMOR_HP": str(e_no), 
+                                            "PROVIDER": e_prov, 
+                                            "MASA_AKTIF": e_tgl
+                                        }).eq("NAMA_HP", r['NAMA_HP']).execute()
+                                        
+                                        st.success(f"✅ {e_nama} Berhasil Diupdate!")
+                                        time.sleep(0.5)
+                                        st.rerun()
+                                    except Exception as e:
+                                        st.error(f"❌ Gagal Update Supabase: {e}")
+                                else:
+                                    st.error("⚠️ Nama & Nomor HP wajib diisi!")
 
     # ==============================================================================
-    # TAB 5 & 6: SOLD & ARSIP (Satu Jalur)
+    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - ORIGINAL UI v2.0)
     # ==============================================================================
-    with tab_sd:
-        st.dataframe(df[df['STATUS'] == 'SOLD'], use_container_width=True, hide_index=True)
+    with tab_sd: 
+        # --- 1. SETUP FILTER PERIODE ---
+        now_indo = database.ambil_waktu_sekarang()
         
-    with tab_ar:
-        st.dataframe(df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])], use_container_width=True, hide_index=True)
+        col_f1, col_f2 = st.columns([1, 1])
+        with col_f1:
+            list_bulan = {
+                "01": "Januari", "02": "Februari", "03": "Maret", "04": "April", 
+                "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", 
+                "09": "September", "10": "Oktober", "11": "November", "12": "Desember"
+            }
+            sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=now_indo.month - 1, key="tab_sold_bln")
+            sel_bln_code = [k for k, v in list_bulan.items() if v == sel_bln_nama][0]
+        with col_f2:
+            sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
+
+        filter_periode = f"{sel_bln_code}/{sel_thn}"
+        
+        # --- 2. LOGIKA HITUNG DATA ---
+        df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
+        total_ever = len(df_sold_all)
+        
+        mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
+        df_selected = df_sold_all[mask_periode].copy()
+        total_selected = len(df_selected)
+        
+        # Hitung data bulan lalu
+        try:
+            from datetime import timedelta
+            date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
+            date_prev = (date_selected - timedelta(days=1))
+            filter_prev = date_prev.strftime("%m/%Y")
+            total_prev = len(df_sold_all[df_sold_all['EDITED'].astype(str).str.contains(filter_prev, na=False)])
+        except:
+            total_prev = 0
+            filter_prev = "N/A"
+
+        # --- 3. RENDER METRIK ---
+        with st.container(border=True):
+            m1, m2, m3 = st.columns(3)
+            m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
+            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
+            m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # --- 4. DATABASE TABEL ---
+        st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
+        if df_selected.empty:
+            st.info(f"Belum ada data penjualan tercatat untuk periode {filter_periode}")
+        else:
+            df_selected['TGL_LAST'] = df_selected['EDITED']
+            df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
+            
+            st.dataframe(
+                df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS"]], 
+                use_container_width=True, hide_index=True,
+                column_config={
+                    "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180),
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100)
+                }
+            )
+        
+    # ==============================================================================
+    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - ORIGINAL UI v2.0)
+    # ==============================================================================
+    with tab_ar: 
+        # --- 1. LOGIKA DASHBOARD ARSIP ---
+        df_a = df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])].copy()
+        
+        total_arsip = len(df_a)
+        total_busuk = len(df_a[df_a['STATUS'] == 'BUSUK'])
+        total_suspend = len(df_a[df_a['STATUS'] == 'SUSPEND'])
+
+        # --- 2. RENDER METRIK ---
+        with st.container(border=True):
+            ca1, ca2, ca3 = st.columns(3)
+            ca1.metric("💀 TOTAL ARSIP", f"{total_arsip}", delta="Akun Rusak", delta_color="inverse")
+            ca2.metric("📉 TOTAL BUSUK", f"{total_busuk}", delta="Teknis/Kartu", delta_color="inverse")
+            ca3.metric("🚫 TOTAL SUSPEND", f"{total_suspend}", delta="Banned YT", delta_color="inverse")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # --- 3. DATABASE ARSIP ---
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP (HISTORY AUDIT)")
+        if df_a.empty:
+            st.success("✨ Arsip masih kosong. Belum ada akun yang bermasalah!")
+        else:
+            df_a['TGL_KEJADIAN'] = df_a['EDITED']
+            df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
+            
+            st.dataframe(
+                df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS"]], 
+                use_container_width=True, hide_index=True,
+                column_config={
+                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=180),
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100)
+                }
+            )
