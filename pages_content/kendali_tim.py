@@ -23,9 +23,12 @@ def tampilkan_kendali_tim():
     with col_h1:
         st.title("⚡ PUSAT KENDALI TIM")
     with col_h2:
+        # Pake st.spinner biar ada efek loading pas ditarik datanya
         if st.button("🔄 REFRESH DATA", use_container_width=True):
-            st.cache_data.clear()
-            st.rerun()
+            with st.spinner("⏳ Menghubungkan ke Pusat Data..."):
+                st.cache_data.clear()
+                time.sleep(1.5) # Kasih jeda dikit biar animasi loading-nya kerasa
+                st.rerun()
 
     c_bln, c_thn = st.columns([2, 2])
     daftar_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
