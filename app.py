@@ -15,20 +15,20 @@ def local_css(file_name):
     else:
         st.error(f"File {file_name} tidak ditemukan!")
 
-# --- EKSEKUSI PANGGILAN ---
+# --- EKSEKUSI PANGGILAN CSS ---
 local_css("assets/style.css")
 
 # --- CONFIG HALAMAN ---
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
 
-# Inisialisasi ID Browser Unik
+# Inisialisasi ID Browser & Status Login
 if "browser_session_id" not in st.session_state:
     st.session_state["browser_session_id"] = str(uuid.uuid4())
 
 if "is_login" not in st.session_state:
     st.session_state["is_login"] = False
 
-# CSS Sembunyikan Sidebar jika belum login
+# Sembunyikan Sidebar jika belum login
 if not st.session_state["is_login"]:
     st.markdown("<style>[data-testid='stSidebar']{display:none;}</style>", unsafe_allow_html=True)
 
@@ -41,10 +41,9 @@ def proses_logout(pesan=None):
         time.sleep(2)
     st.rerun()
 
-# --- 1. PROSES LOGIN (Logika Murni - Tanpa UI) ---
+# --- 1. PROSES LOGIN (Logika Murni) ---
 def proses_login(u, p):
     try:
-        # Tarik data staff
         df_staff = database.ambil_data("Staff")
         u_input = str(u).strip().upper()
         p_input = str(p).strip()
@@ -63,24 +62,24 @@ def proses_login(u, p):
                     st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
                     st.stop()
 
-            # SET SESSION STATE (Kunci Data di Memori)
+            # SET SESSION STATE
             st.session_state["is_login"] = True
             st.session_state["user_aktif"] = u_input
             st.session_state["user_level"] = level
             st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
             
-            # Update Sesi ke Supabase (Anti-Sharing)
+            # Catat login di tabel Sesi_Login (Opsional/History)
             database.update_sesi(u_input, st.session_state["browser_session_id"])
             
             st.toast(f"✅ Selamat Datang {u_input}")
-            time.sleep(0.5) # Jeda tipis biar mata sempat liat notif
-            st.rerun() # PAKSA REFRESH INSTAN
+            time.sleep(0.5)
+            st.rerun()
         else:
             st.error("❌ Username atau Password salah!")
     except Exception as e:
         st.error(f"Sistem Login Error: {e}")
 
-# --- 2. TAMPILAN LOGIN (Hanya UI Form) ---
+# --- 2. TAMPILAN LOGIN (UI Form) ---
 def halaman_login():
     with st.container():
         st.markdown("<br><br>", unsafe_allow_html=True)
@@ -99,36 +98,22 @@ def halaman_login():
                 
                 if submit:
                     if u.strip() and p.strip():
-                        proses_login(u, p) # Panggil fungsi logika di atas
+                        proses_login(u, p)
                     else:
                         st.warning("⚠️ Isi dulu Bos!")
 
-# --- 3. CEK AUTENTIKASI (Satpam Pintu Depan) ---
+# --- 3. CEK AUTENTIKASI (Satpam Durasi) ---
 def cek_autentikasi():
     if st.session_state.get("is_login", False):
-        user_aktif = st.session_state["user_aktif"]
-        session_sekarang = st.session_state["browser_session_id"]
-        
-        # A. Cek Durasi 10 Jam
+        # Hanya cek durasi login 10 jam (Fitur tendang-tendangan sudah dihapus)
         waktu_sekarang = database.ambil_waktu_sekarang()
         if (waktu_sekarang - st.session_state["waktu_login"]) > timedelta(hours=10):
             proses_logout("Sesi berakhir.")
             return False
-        
-        # B. CEK SINGLE DEVICE (VERSI KICK):
-        # Ambil ID sesi yang terdaftar di Database Supabase saat ini
-        sesi_di_db = database.ambil_sesi_terakhir(user_aktif)
-        
-        if sesi_di_db and sesi_di_db != session_sekarang:
-            # Jika ID di DB beda dengan ID di browser ini, 
-            # berarti ada login baru di tempat lain. KICK!
-            proses_logout("Akun Anda login di perangkat lain. Sesi ini dihentikan.")
-            return False
-            
         return True
     return False
 
-# --- 4. NAVIGASI SIDEBAR (Tetap Pakai Yang Baru) ---
+# --- 4. NAVIGASI SIDEBAR ---
 def tampilkan_navigasi_sidebar():
     user_level = st.session_state.get("user_level", "STAFF")
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
@@ -166,16 +151,20 @@ def tampilkan_navigasi_sidebar():
 if not cek_autentikasi():
     halaman_login()
 else:
-    # Tampilkan Sidebar
     menu = tampilkan_navigasi_sidebar()
 
-    # Routing Halaman
+    # ROUTING HALAMAN
     if menu == "🧠 PINTAR AI LAB":
         ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
-        st.title("📱 Database Channel")
-        st.write("Daftar akun email dan channel kamu.")
+        # Pastikan kamu sudah buat file pages_content/database_channel.py
+        try:
+            from pages_content import database_channel
+            database_channel.tampilkan_halaman()
+        except:
+            st.title("📱 Database Channel")
+            st.error("File pages_content/database_channel.py tidak ditemukan!")
 
     elif menu == "📘 AREA STAF":
         st.title("📘 Area Staf")
