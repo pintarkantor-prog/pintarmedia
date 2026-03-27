@@ -49,7 +49,7 @@ def tampilkan_halaman():
 
         with st.container(border=True):
             c_search, c_ref, c_del = st.columns([3, 1, 1])
-            search_q = c_search.text_input(placeholder="Filter...", key="search_lokal")
+            search_q = c_search.text_input("", placeholder="Filter...", key="search_lokal")
             if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_lokal"): st.rerun()
             if c_del.button("🗑️ CLEAR", use_container_width=True, key="clr_lokal"):
                 if st.session_state.get("user_level") == "OWNER":
