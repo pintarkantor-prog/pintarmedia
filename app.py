@@ -6,7 +6,7 @@ from datetime import timedelta
 from modules import database
 
 # --- CONFIG HALAMAN ---
-st.set_page_config(page_title="PINTAR MEDIA v2.0", page_icon="🖼️", layout="wide")
+st.set_page_config(page_title="PINTAR MEDIA | Studio", page_icon="🖼️", layout="wide")
 
 # Inisialisasi ID Browser Unik (Dibuat sekali per buka browser)
 if "browser_session_id" not in st.session_state:
@@ -34,7 +34,6 @@ def halaman_login():
     col1, col2, col3 = st.columns([1.2, 1, 1.2])
     
     with col2:
-        st.image("PINTAR.png", use_container_width=True)
         st.markdown("<h2 style='text-align:center;'>🔐 PINTAR SECURE LOGIN</h2>", unsafe_allow_html=True)
         
         with st.form("login_station"):
@@ -78,7 +77,7 @@ if st.session_state["is_login"]:
     durasi = waktu_sekarang - st.session_state["waktu_login"]
     
     if durasi > timedelta(hours=10):
-        proses_logout("Sesi habis (Maksimal 10 Jam).")
+        proses_logout("Sesi habis.")
 
     # B. Cek Single Device (Anti-Sharing)
     if not database.cek_sesi_valid(st.session_state["user_aktif"], st.session_state["browser_session_id"]):
