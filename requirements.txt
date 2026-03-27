@@ -1,8 +1,1 @@
-streamlit
-pandas
-gspread
-google-auth
-requests
-pytz
-plotly
-supabase
+
