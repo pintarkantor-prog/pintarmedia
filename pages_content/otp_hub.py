@@ -48,10 +48,10 @@ def tampilkan_halaman():
         except: df_otp = pd.DataFrame()
 
         with st.container(border=True):
-            # vertical_alignment="end" adalah kunci biar tombol & input sejajar lurus
-            c_search, c_ref, c_del = st.columns([3, 1, 1], vertical_alignment="end")
+            # Pakai "bottom" biar kotak input & tombol rata di garis bawah yang sama
+            c_search, c_ref, c_del = st.columns([3, 1, 1], vertical_alignment="bottom")
             
-            # Kita kasih label kosong "" dan label_visibility="collapsed"
+            # Label kosong "" dan collapsed biar bener-bener bersih
             search_q = c_search.text_input(
                 label="", 
                 placeholder="Filter SMS...", 
@@ -59,7 +59,7 @@ def tampilkan_halaman():
                 label_visibility="collapsed"
             )
             
-            # Tombol-tombol di sampingnya akan otomatis rata bawah (sejajar input)
+            # Tombol otomatis sejajar lurus dengan kotak input di sampingnya
             if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_lokal"): 
                 st.rerun()
                 
