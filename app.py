@@ -88,8 +88,7 @@ def halaman_login():
                             database.update_sesi(u, st.session_state["browser_session_id"])
                             
                             # 4. NOTIFIKASI & REFRESH INSTAN
-                            # Kita ganti st.success dengan st.toast biar nggak nunggu loading lama
-                            st.toast(f"✅ Selamat Datang {u}", icon="🚀")
+                            st.toast(f"✅ Selamat Datang {u}")
                             
                             # Jeda super singkat saja
                             time.sleep(1) 
