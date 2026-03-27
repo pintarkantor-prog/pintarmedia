@@ -126,7 +126,7 @@ def tampilkan_kendali_tim():
                     )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-# ======================================================================
+        # ======================================================================
         # --- 7. RINCIAN GAJI & SLIP (STYLE MEWAH - LOGIKA SIMPLE) ---
         # ======================================================================
         with st.expander("💰 RINCIAN GAJI & SLIP", expanded=False):
