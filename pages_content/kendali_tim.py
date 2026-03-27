@@ -150,14 +150,17 @@ def tampilkan_kendali_tim():
                     v_tunjangan = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.','').strip(), errors='coerce') or 0)
                     jabatan_staf = str(s.get(c_jab, 'STAFF PRODUCTION')).upper() 
                     
-                    # Bonus ditarik dari Kas (Gaji Tim)
-                    bonus_cair = 0
+                    # --- MESIN HITUNG RINCIAN (LEBIH TELITI) ---
+                    v_bonus, v_lembur, v_potong, v_kasbon = 0, 0, 0, 0
                     if not df_k_f.empty:
-                        mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
-                               (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
-                        bonus_cair = int(df_k_f[mask]['NOM_VAL'].sum())
-                    
-                    v_total = v_gapok + v_tunjangan + bonus_cair
+                        df_staf_kas = df_k_f[(df_k_f[col_kat] == 'Gaji Tim') & (df_k_f[col_ket].str.upper().str.contains(n_up, na=False))]
+                        if not df_staf_kas.empty:
+                            v_bonus = int(df_staf_kas[df_staf_kas[col_ket].str.upper().str.contains('BONUS', na=False)]['NOM_VAL'].sum())
+                            v_lembur = int(df_staf_kas[df_staf_kas[col_ket].str.upper().str.contains('LEMBUR', na=False)]['NOM_VAL'].sum())
+                            v_potong = int(df_staf_kas[df_staf_kas[col_ket].str.upper().str.contains('POTONGAN', na=False)]['NOM_VAL'].sum())
+                            v_kasbon = int(df_staf_kas[df_staf_kas[col_ket].str.upper().str.contains('KASBON', na=False)]['NOM_VAL'].sum())
+
+                    v_total = (v_gapok + v_tunjangan + v_bonus + v_lembur) - (v_potong + v_kasbon)
 
                     with kol_v[idx % 2]:
                         with st.container(border=True):
@@ -190,10 +193,13 @@ def tampilkan_kendali_tim():
                                             <tr><td style="color: #999; font-weight: 600;">PERIODE</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr>
                                         </table>
                                     </div>
-                                    <table style="width: 100%; font-size: 13px; line-height: 2.2; border-collapse: collapse;">
+                                    <table style="width: 100%; font-size: 13px; line-height: 2.1; border-collapse: collapse;">
                                         <tr><td style="color: #666;">Gaji Pokok</td><td align="right" style="font-weight: 600;">Rp {v_gapok:,}</td></tr>
                                         <tr><td style="color: #666;">Tunjangan</td><td align="right" style="font-weight: 600;">Rp {v_tunjangan:,}</td></tr>
-                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Terbayar</td><td align="right">+ {bonus_cair:,}</td></tr>
+                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Kinerja</td><td align="right">+ {v_bonus:,}</td></tr>
+                                        <tr style="color: #1d976c; font-weight: 600;"><td>Bonus Lembur</td><td align="right">+ {v_lembur:,}</td></tr>
+                                        <tr style="color: #e74c3c; font-weight: 600;"><td>Potongan</td><td align="right">- {v_potong:,}</td></tr>
+                                        <tr style="color: #e74c3c; font-weight: 600;"><td>Kasbon</td><td align="right">- {v_kasbon:,}</td></tr>
                                     </table>
                                     <div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;">
                                         <p style="margin: 0; font-size: 9px; color: #55efc4; text-transform: uppercase; letter-spacing: 2px; font-weight: 700;">Total Diterima</p>
