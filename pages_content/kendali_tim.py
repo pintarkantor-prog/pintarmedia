@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from modules import database  # Panggil modul database lo
+from modules import database
 import plotly.express as px
 from datetime import datetime
 import pytz
@@ -40,114 +40,103 @@ def tampilkan_kendali_tim():
         df_staff = database.ambil_data("Staff")
         df_kas_raw = database.ambil_data("Arus_Kas")
 
-        # --- 4. LOGIKA SARING TANGGAL (FIX CASE-SENSITIVE) ---
+        # --- 4. LOGIKA SARING TANGGAL (GAYA DIAN) ---
         if not df_kas_raw.empty:
-            # Trik Aman: Cari kolom yang namanya mirip 'Tanggal'
-            col_tgl = next((c for c in df_kas_raw.columns if c.lower() == 'tanggal'), None)
+            # Cari kolom 'Tanggal' (Case-Insensitive)
+            col_tgl = next((c for c in df_kas_raw.columns if c.lower() == 'tanggal'), 'Tanggal')
+            df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
+            df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
             
-            if col_tgl:
-                df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
-                df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
-                
-                # Cleaning nominal (Regex lo) - Cari kolom 'Nominal'
-                col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
-                df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
-            else:
-                st.error("⚠️ Kolom 'Tanggal' tidak ditemukan di database Arus_Kas!")
-                df_k_f = pd.DataFrame()
+            # Cleaning nominal (Regex Dian)
+            col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
+            df_k_f['NOM_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
         else:
             df_k_f = pd.DataFrame()
 
-        # --- 5. KALKULASI FINANSIAL (Pake .get() biar aman) ---
-        inc_val, ops_val, bonus_val = 0, 0, 0
+        # --- 5. KALKULASI FINANSIAL ---
+        inc, bonus_k, ops = 0, 0, 0
         if not df_k_f.empty:
-            # Pastikan kolom Tipe & Kategori juga ketemu
-            col_tipe = next((c for c in df_k_f.columns if c.lower() == 'tipe'), 'Tipe')
-            col_kat = next((c for c in df_k_f.columns if c.lower() == 'kategori'), 'Kategori')
+            c_tipe = next((c for c in df_k_f.columns if c.lower() == 'tipe'), 'Tipe')
+            c_kat = next((c for c in df_k_f.columns if c.lower() == 'kategori'), 'Kategori')
+            
+            inc = df_k_f[df_k_f[c_tipe].str.upper() == 'PENDAPATAN']['NOM_VAL'].sum()
+            ops = df_k_f[(df_k_f[c_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[c_kat].str.upper() != 'GAJI TIM')]['NOM_VAL'].sum()
+            bonus_k = df_k_f[(df_k_f[c_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[c_kat].str.upper() == 'GAJI TIM')]['NOM_VAL'].sum()
 
-            inc_val = df_k_f[df_k_f[col_tipe].str.upper() == 'PENDAPATAN']['NOMINAL_VAL'].sum()
-            ops_val = df_k_f[(df_k_f[col_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].str.upper() != 'GAJI TIM')]['NOMINAL_VAL'].sum()
-            bonus_val = df_k_f[(df_k_f[col_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].str.upper() == 'GAJI TIM')]['NOMINAL_VAL'].sum()
-        # Hitung Gapok Tim dari Staff
+        # Hitung Gapok Tim
         total_gapok = 0
         df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         for _, s in df_staff_real.iterrows():
             total_gapok += int(str(s.get('GAJI_POKOK', '0')).replace('.', '') or 0) + int(str(s.get('TUNJANGAN', '0')).replace('.', '') or 0)
 
-        total_out_riil = total_gapok + bonus_val + ops_val
-        saldo_riil = inc_val - total_out_riil
-        margin_val = (saldo_riil / inc_val * 100) if inc_val > 0 else 0
+        total_out = total_gapok + bonus_k + ops
+        saldo = inc - total_out
+        margin = (saldo / inc * 100) if inc > 0 else 0
 
         # ======================================================================
-        # --- 6. UI: FINANCIAL DASHBOARD (METRIK LO BANGET!) ---
+        # --- 6. UI: FINANCIAL DASHBOARD (FIXED TYPO!) ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             m1, m2, m3, m4 = st.columns(4)
-            m1.metric("💰 INCOME", f"Rp {inc_val:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out_riil:,.0f}", delta=f("-Rp {total_out_riil:,.0f}") if total_out_riil > 0 else None, delta_color="normal")
+            m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
             
-            status_saldo = "SURPLUS" if saldo_riil >= 0 else "DEFISIT"
-            warna_delta = "normal" if saldo_riil >= 0 else "inverse"
-            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_riil:,.0f}", delta=status_saldo, delta_color=warna_delta)
-            m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
+            # --- FIX: GAK ADA LAGI name 'f' is not defined ---
+            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", 
+                      delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None, 
+                      delta_color="normal")
+            
+            status_s = "SURPLUS" if saldo >= 0 else "DEFISIT"
+            warna_d = "normal" if saldo >= 0 else "inverse"
+            m3.metric("📈 SALDO BERSIH", f"Rp {saldo:,.0f}", delta=status_s, delta_color=warna_d)
+            m4.metric("📊 MARGIN", f"{margin:.1f}%")
 
             st.divider()
 
-            # Formasi 3 Kolom: Input - Logs - Viz
-            col_input, col_logs, col_viz = st.columns([1, 1.2, 1], gap="small")
-            
-            with col_input:
+            col_in, col_log, col_viz = st.columns([1, 1.2, 1], gap="small")
+            with col_in:
                 with st.form("form_kas_dian", clear_on_submit=True):
                     f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
                     f_kat = st.selectbox("Kategori", ["YouTube", "Brand Deal", "Gaji Tim", "Operasional", "Lainnya"], label_visibility="collapsed")
-                    f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed", placeholder="Rp...")
-                    f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed", placeholder="Catatan...")
+                    f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed")
+                    f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
                         database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
-                        st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
+                        st.success("OK!"); time.sleep(0.5); st.rerun()
 
-            with col_logs:
+            with col_log:
                 with st.container(height=315):
                     if not df_k_f.empty:
                         for _, r in df_k_f.sort_values(by='TGL_DT', ascending=False).head(15).iterrows():
-                            c_text = "#00ba69" if r['Tipe'] == "PENDAPATAN" else "#ff4b4b"
-                            st.markdown(f"<div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'><b>{r['Kategori']}</b> <span style='float:right; color:{c_text};'>Rp {float(r['Nominal']):,.0f}</span><br><small>{r['Keterangan']}</small></div>", unsafe_allow_html=True)
+                            c_text = "#00ba69" if str(r.get('Tipe', '')).upper() == "PENDAPATAN" else "#ff4b4b"
+                            st.markdown(f"<div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'><b>{r.get('Kategori', 'KAS')}</b> <span style='float:right; color:{c_text};'>Rp {float(r.get('Nominal', 0)):,.0f}</span><br><small>{r.get('Keterangan', '-')}</small></div>", unsafe_allow_html=True)
 
             with col_viz:
-                if (inc_val + total_out_riil) > 0:
-                    fig = px.pie(values=[inc_val, total_out_riil], names=['INC', 'OUT'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                if (inc + total_out) > 0:
+                    fig = px.pie(values=[inc, total_out], names=['INC', 'OUT'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
                     fig.update_layout(showlegend=False, height=200, margin=dict(t=0, b=0, l=0, r=0), paper_bgcolor='rgba(0,0,0,0)')
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
 
-        # ======================================================================
-        # --- 7. UI: SLIP GAJI MEWAH (TANPA SP/BONUS VIDEO/ABSEN) ---
-        # ======================================================================
+        # --- SLIP GAJI MEWAH ---
         st.write(""); st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
         kol_v = st.columns(2) 
         for idx, s in df_staff_real.reset_index().iterrows():
             n_up = str(s.get('NAMA', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
-            
-            gapok = int(pd.to_numeric(str(s.get('GAJI_POKOK', '0')).replace('.',''), errors='coerce') or 0)
-            tunj = int(pd.to_numeric(str(s.get('TUNJANGAN', '0')).replace('.',''), errors='coerce') or 0)
-            
-            bonus_cair = 0
-            if not df_k_f.empty:
-                mask = (df_k_f['Kategori'] == 'Gaji Tim') & (df_k_f['Keterangan'].str.upper().str.contains(n_up, na=False))
-                bonus_cair = int(df_k_f[mask]['NOMINAL_VAL'].sum())
-
-            total_nett = gapok + tunj + bonus_cair
+            g_p = int(pd.to_numeric(str(s.get('GAJI_POKOK', '0')).replace('.',''), errors='coerce') or 0)
+            t_j = int(pd.to_numeric(str(s.get('TUNJANGAN', '0')).replace('.',''), errors='coerce') or 0)
+            b_c = int(df_k_f[(df_k_f.get('Kategori', '') == 'Gaji Tim') & (df_k_f.get('Keterangan', '').str.upper().str.contains(n_up, na=False))]['NOM_VAL'].sum()) if not df_k_f.empty else 0
+            t_n = g_p + t_j + b_c
 
             with kol_v[idx % 2]:
                 with st.container(border=True):
-                    st.markdown(f"""<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;"><div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div><div><b style="font-size: 15px;">{n_up}</b><br><span style="font-size: 11px; color: #888;">{s.get('LEVEL', 'STAFF')}</span></div></div>""", unsafe_allow_html=True)
+                    st.markdown(f"""<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;"><div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div><div><b>{n_up}</b><br><small>{s.get('LEVEL', 'STAFF')}</small></div></div>""", unsafe_allow_html=True)
                     c1, c2 = st.columns(2)
-                    c1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>ESTIMASI TERIMA</p><h3 style='margin:0; color:#1d976c;'>Rp {total_nett:,}</h3>", unsafe_allow_html=True)
-                    c2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>STATUS</p><b style='font-size:14px; color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
+                    c1.markdown(f"<small>ESTIMASI TERIMA</small><h3 style='margin:0; color:#1d976c;'>Rp {t_n:,}</h3>", unsafe_allow_html=True)
+                    c2.markdown(f"<small>STATUS</small><br><b style='color:#1d976c;'>AKTIF</b>", unsafe_allow_html=True)
                     
-                    if st.button(f"📄 PRINT SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
-                        slip_html = f"""<div style="background: white; padding: 30px; border-radius: 20px; border: 1px solid #eee; font-family: sans-serif; width: 320px; margin: auto; color: #333; box-shadow: 0 10px 30px rgba(0,0,0,0.05);"><center><h2 style="color: #1d976c; margin-bottom: 0;">PINTAR MEDIA</h2><p style="font-size: 10px; letter-spacing: 4px; color: #1d976c; font-weight: 800; text-transform: uppercase;">Slip Gaji Digital</p></center><div style="background: #fcfcfc; padding: 15px; border-radius: 12px; border: 1px solid #f0f0f0; margin: 20px 0;"><table style="width: 100%; font-size: 11px;"><tr><td style="color: #999;">NAMA</td><td align="right"><b>{n_up}</b></td></tr><tr><td style="color: #999;">PERIODE</td><td align="right"><b>{pilihan_nama} {tahun_dipilih}</b></td></tr></table></div><table style="width: 100%; font-size: 13px; line-height: 2.5;"><tr><td>Gaji Pokok</td><td align="right">Rp {gapok:,}</td></tr><tr><td>Tunjangan</td><td align="right">Rp {tunj:,}</td></tr><tr style="color: #1d976c;"><td>Bonus Cair</td><td align="right">+ {bonus_cair:,}</td></tr></table><div style="background: #1a1a1a; color: white; padding: 15px; border-radius: 15px; text-align: center; margin-top: 25px;"><p style="margin:0; font-size: 9px; color: #55efc4; letter-spacing: 2px;">TOTAL DITERIMA</p><h2 style="margin: 5px 0 0; color: #55efc4;">Rp {total_nett:,}</h2></div></div><center><button onclick="window.print()" style="margin-top:20px; cursor:pointer;">🖨️ PRINT</button></center>"""
-                        st.components.v1.html(slip_html, height=750)
+                    if st.button(f"📄 SLIP {n_up}", key=f"slp_{n_up}", use_container_width=True):
+                        slip_h = f"""<div style="background: white; padding: 25px; border-radius: 15px; border: 1px solid #eee; font-family: sans-serif; width: 300px; margin: auto; color: #333;"><center><h3 style="color: #1d976c;">PINTAR MEDIA</h3></center><hr><table style="width: 100%; font-size: 12px; line-height: 2;"><tr><td>Nama</td><td align="right"><b>{n_up}</b></td></tr><tr><td>Gapok</td><td align="right">{g_p:,}</td></tr><tr><td>Tunjangan</td><td align="right">{t_j:,}</td></tr><tr style="color: #1d976c;"><td>Bonus</td><td align="right">+{b_c:,}</td></tr><tr style="background: #1a1a1a; color: white;"><td>TOTAL</td><td align="right"><b>{t_n:,}</b></td></tr></table></div>"""
+                        st.components.v1.html(slip_h, height=400)
 
     except Exception as e:
-        st.error(f"⚠️ Sesuai Referensi, Error di: {e}")
+        st.error(f"⚠️ Error: {e}")
