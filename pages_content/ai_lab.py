@@ -2,7 +2,15 @@ import streamlit as st
 
 def tampilkan_halaman():
     # --- 1. PINTU UTAMA: CEK IZIN AKSES ---
-    # Ambil data dari session state yang dibuat di app.py
+    sekarang = datetime.utcnow() + timedelta(hours=7) 
+    hari_id = ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"]
+    bulan_id = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", 
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"]
+    
+    nama_hari = hari_id[sekarang.weekday()]
+    tgl = sekarang.day
+    nama_bulan = bulan_id[sekarang.month - 1]
+    
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
@@ -14,7 +22,7 @@ def tampilkan_halaman():
 
     # --- 2. TAMPILAN UTAMA ---
     st.title("🧠 PINTAR AI LAB")
-    st.write(f"Selamat bekerja, **{user_aktif}**! Gunakan tools AI di bawah untuk produktivitas.")
+    st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {sekarang.strftime('%d %B %Y')}")
 
     # --- 3. TABS MENU ---
     t_masjid, t_anatomi, t_transform, t_random = st.tabs([
