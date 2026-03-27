@@ -111,7 +111,4 @@ def tampilkan_halaman():
             if st.button("🚀 BELI NOMOR", use_container_width=True, type="primary"):
                 st.warning("Sedang integrasi sistem Order... Saldo aman!")
 
-        st.divider()
-        st.caption("ℹ️ Riwayat nomor sewa online akan muncul di sini setelah integrasi API Order tuntas.")
-
     st.caption(f"🔄 Last Update: {database.ambil_waktu_sekarang().strftime('%H:%M:%S')} WIB")
