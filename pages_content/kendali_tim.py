@@ -7,7 +7,7 @@ import pytz
 import time
 
 def tampilkan_kendali_tim():    
-    # 1. AUTH & SETUP WAKTU
+    # --- 1. SETUP AUTH & WAKTU ---
     user_sekarang = st.session_state.get("user_aktif", "User").upper()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
@@ -18,7 +18,7 @@ def tampilkan_kendali_tim():
     tz_wib = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz_wib)
     
-    # 2. HEADER & FILTER
+    # --- 2. HEADER & FILTER ---
     col_h1, col_h2 = st.columns([3, 1])
     with col_h1:
         st.title("⚡ PUSAT KENDALI TIM")
@@ -42,7 +42,6 @@ def tampilkan_kendali_tim():
 
         # --- 4. SARING DATA (PAKE PENANGKAL ERROR KOLOM) ---
         if not df_kas_raw.empty:
-            # Jurus nyari kolom biarpun case-nya beda (Gaya Dian)
             col_tgl = next((c for c in df_kas_raw.columns if c.lower() == 'tanggal'), 'Tanggal')
             col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
             col_tipe = next((c for c in df_kas_raw.columns if c.lower() == 'tipe'), 'Tipe')
@@ -50,55 +49,44 @@ def tampilkan_kendali_tim():
             col_ket = next((c for c in df_kas_raw.columns if c.lower() == 'keterangan'), 'Keterangan')
 
             df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
-            
-            # Filter Periode
             df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
-            
-            # Cleaning Nominal (Regex Dian)
             df_k_f['NOM_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
         else:
             df_k_f = pd.DataFrame()
             col_tipe, col_kat, col_ket = 'Tipe', 'Kategori', 'Keterangan'
 
         # --- 5. KALKULASI FINANSIAL ---
-        inc, bonus_k, ops = 0, 0, 0
-        if not df_k_f.empty:
-            inc = df_k_f[df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENDAPATAN']['NOM_VAL'].sum()
-            ops = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() != 'GAJI TIM')]['NOM_VAL'].sum()
-            bonus_k = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM')]['NOM_VAL'].sum()
+        inc_val = df_k_f[df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENDAPATAN']['NOM_VAL'].sum() if not df_k_f.empty else 0
+        ops_val = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() != 'GAJI TIM')]['NOM_VAL'].sum() if not df_k_f.empty else 0
+        bonus_val = df_k_f[(df_k_f[col_tipe].fillna('').astype(str).str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM')]['NOM_VAL'].sum() if not df_k_f.empty else 0
 
-        # Hitung Gapok Tim (Nama Kolom Staff lo: 'Gaji_Pokok', 'Tunjangan', 'Level')
+        # Hitung Gapok Tim
         total_gapok = 0
-        c_gp = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
-        c_tj = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
-        c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
-        
-        df_staff_real = df_staff[df_staff[c_lv].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
+        df_staff_real = df_staff[df_staff['Level'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
         for _, s in df_staff_real.iterrows():
-            total_gapok += int(str(s.get(c_gp, '0')).replace('.', '') or 0) + int(str(s.get(c_tj, '0')).replace('.', '') or 0)
+            total_gapok += int(str(s.get('Gaji_Pokok', '0')).replace('.', '') or 0) + int(str(s.get('Tunjangan', '0')).replace('.', '') or 0)
 
-        total_out = total_gapok + bonus_k + ops
-        saldo = inc - total_out
-        margin = (saldo / inc * 100) if inc > 0 else 0
+        total_out_riil = total_gapok + bonus_val + ops_val
+        saldo_riil = inc_val - total_out_riil
+        margin_val = (saldo_riil / inc_val * 100) if inc_val > 0 else 0
 
         # ======================================================================
         # --- 6. UI: FINANCIAL DASHBOARD ---
         # ======================================================================
         with st.expander("💰 ANALISIS KEUANGAN & KAS", expanded=True):
             m1, m2, m3, m4 = st.columns(4)
-            m1.metric("💰 INCOME", f"Rp {inc:,.0f}")
-            m2.metric("💸 OUTCOME", f"Rp {total_out:,.0f}", 
-                      delta=f"-Rp {total_out:,.0f}" if total_out > 0 else None, 
-                      delta_color="normal")
+            m1.metric("💰 INCOME", f"Rp {inc_val:,.0f}")
+            m2.metric("💸 OUTCOME", f"Rp {total_out_riil:,.0f}", delta=f"-Rp {total_out_riil:,.0f}" if total_out_riil > 0 else None, delta_color="normal")
             
-            status_s = "SURPLUS" if saldo >= 0 else "DEFISIT"
-            warna_d = "normal" if saldo >= 0 else "inverse"
-            m3.metric("📈 SALDO BERSIH", f"Rp {saldo:,.0f}", delta=status_s, delta_color=warna_d)
-            m4.metric("📊 MARGIN", f"{margin:.1f}%")
+            status_s = "SURPLUS" if saldo_riil >= 0 else "DEFISIT"
+            warna_d = "normal" if saldo_riil >= 0 else "inverse"
+            m3.metric("📈 SALDO BERSIH", f"Rp {saldo_riil:,.0f}", delta=status_s, delta_color=warna_d)
+            m4.metric("📊 MARGIN", f"{margin_val:.1f}%")
 
             st.divider()
 
-            col_in, col_log, col_viz = st.columns([1, 1.2, 1], gap="small")
+            col_in, col_logs, col_viz = st.columns([1, 1.2, 1], gap="small")
+            
             with col_in:
                 with st.form("form_kas_dian", clear_on_submit=True):
                     f_tipe = st.pills("Tipe", ["PENDAPATAN", "PENGELUARAN"], default="PENGELUARAN", label_visibility="collapsed")
@@ -106,58 +94,56 @@ def tampilkan_kendali_tim():
                     f_nom = st.number_input("Nominal", min_value=0, step=50000, label_visibility="collapsed")
                     f_ket = st.text_area("Ket...", height=65, label_visibility="collapsed")
                     if st.form_submit_button("🚀 SIMPAN", use_container_width=True):
-                        database.supabase.table("Arus_Kas").insert({
-                            "Tanggal": sekarang.strftime('%Y-%m-%d'), 
-                            "Tipe": f_tipe, 
-                            "Kategori": f_kat, 
-                            "Nominal": str(int(f_nom)), 
-                            "Keterangan": f_ket, 
-                            "Pencatat": user_sekarang
-                        }).execute()
-                        st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
+                        database.supabase.table("Arus_Kas").insert({"Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": f_tipe, "Kategori": f_kat, "Nominal": str(int(f_nom)), "Keterangan": f_ket, "Pencatat": user_sekarang}).execute()
+                        st.success("OK!"); time.sleep(0.5); st.rerun()
 
-            with col_log:
+            # --- LOG TRANSAKSI (DENGAN TANGGAL + STYLE ABU MIRING) ---
+            with col_logs:
                 with st.container(height=315):
                     if not df_k_f.empty:
                         for _, r in df_k_f.sort_values(by='TGL_DT', ascending=False).head(15).iterrows():
                             v_tipe = str(r.get(col_tipe, '')).upper()
-                            warna_log = "#00ba69" if v_tipe == "PENDAPATAN" else "#ff4b4b"
+                            color = "#00ba69" if v_tipe == "PENDAPATAN" else "#ff4b4b"
                             
-                            # --- STYLING LOG (ABU-ABU & MIRING PADA KETERANGAN) ---
+                            # Format Tanggal untuk Log (misal: 25 Mar)
+                            tgl_log = r['TGL_DT'].strftime('%d %b') if pd.notnull(r['TGL_DT']) else "-"
+                            
                             st.markdown(f"""
                             <div style='font-size:11px; border-bottom:1px solid #333; padding:4px 0;'>
-                                <b>{r.get(col_kat, 'KAS')}</b> 
-                                <span style='float:right; color:{warna_log}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
-                                <small style='color: #888; font-style: italic;'>{r.get(col_ket, '-')}</small>
+                                <b style='color:#ccc;'>{r.get(col_kat, 'KAS')}</b> 
+                                <span style='float:right; color:{color}; font-weight:bold;'>Rp {r['NOM_VAL']:,.0f}</span><br>
+                                <small style='color: #888; font-style: italic;'>[{tgl_log}] - {r.get(col_ket, '-')}</small>
                             </div>
                             """, unsafe_allow_html=True)
                     else:
-                        st.caption("Belum ada data.")
+                        st.caption("Belum ada data transaksi.")
 
             with col_viz:
-                if (inc + total_out) > 0:
-                    fig = px.pie(values=[inc, total_out], names=['INC', 'OUT'], hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
-                    fig.update_layout(showlegend=False, height=200, margin=dict(t=0, b=0, l=0, r=0), paper_bgcolor='rgba(0,0,0,0)')
+                st.markdown("<div style='margin-top: 20px;'></div>", unsafe_allow_html=True)
+                df_donut = pd.DataFrame({"Kat": ["INCOME", "OUTCOME"], "Val": [inc_val, total_out_riil]})
+                if (inc_val + total_out_riil) > 0:
+                    fig = px.pie(df_donut, values='Val', names='Kat', hole=0.75, color_discrete_sequence=["#00ba69", "#ff4b4b"])
+                    fig.update_layout(
+                        showlegend=True,
+                        legend=dict(orientation="h", yanchor="bottom", y=-0.2, xanchor="center", x=0.5, font=dict(size=10)),
+                        height=200, margin=dict(t=0, b=0, l=0, r=0),
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        annotations=[dict(text=f"{margin_val:.1f}%", x=0.5, y=0.5, font_size=20, showarrow=False, font_color="#ccc")]
+                    )
                     st.plotly_chart(fig, use_container_width=True, config={'displayModeBar': False})
+                else:
+                    st.markdown("<p style='text-align:center; color:#666; font-size:12px; margin-top:50px;'>No Data Viz.</p>", unsafe_allow_html=True)
 
         # --- 7. RINCIAN GAJI & SLIP ---
         st.write(""); st.markdown("### 📄 RINCIAN GAJI & SLIP STAFF")
         kol_v = st.columns(2) 
         df_staff_slip = df_staff_real.reset_index(drop=True)
         for idx, s in df_staff_slip.iterrows():
-            c_nama = next((c for c in s.index if c.lower() == 'nama'), 'Nama')
-            n_up = str(s.get(c_nama, '')).strip().upper()
+            n_up = str(s.get('Nama', '')).strip().upper()
             if n_up == "" or n_up == "NAN": continue
-            
-            g_p = int(pd.to_numeric(str(s.get(c_gp, '0')).replace('.',''), errors='coerce') or 0)
-            t_j = int(pd.to_numeric(str(s.get(c_tj, '0')).replace('.',''), errors='coerce') or 0)
-            
-            b_c = 0
-            if not df_k_f.empty:
-                mask = (df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & \
-                       (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))
-                b_c = int(df_k_f[mask]['NOM_VAL'].sum())
-            
+            g_p = int(pd.to_numeric(str(s.get('Gaji_Pokok', '0')).replace('.',''), errors='coerce') or 0)
+            t_j = int(pd.to_numeric(str(s.get('Tunjangan', '0')).replace('.',''), errors='coerce') or 0)
+            b_c = int(df_k_f[(df_k_f[col_kat].fillna('').astype(str).str.upper() == 'GAJI TIM') & (df_k_f[col_ket].fillna('').astype(str).str.upper().str.contains(n_up, na=False))]['NOM_VAL'].sum()) if not df_k_f.empty else 0
             t_n = g_p + t_j + b_c
 
             with kol_v[idx % 2]:
@@ -169,4 +155,4 @@ def tampilkan_kendali_tim():
                         st.components.v1.html(slip_h, height=450)
 
     except Exception as e:
-        st.error(f"⚠️ Sesuai Referensi, Error di: {e}")
+        st.error(f"⚠️ Terjadi Kesalahan: {e}")
