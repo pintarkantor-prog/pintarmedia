@@ -7,6 +7,7 @@ from datetime import timedelta
 from modules import database
 from pages_content import ai_lab
 
+
 # --- FUNGSI PANGGIL CSS ---
 def local_css(file_name):
     if os.path.exists(file_name):
@@ -182,5 +183,10 @@ else:
         st.write("Pusat informasi tim.")
 
     elif menu == "⚡ KENDALI TIM":
-        st.title("⚡ Kendali Tim")
-        st.write("Manajemen khusus Owner/Admin.")
+        # Lazy Loading: Tarik menu keuangan pas diklik biar studio tetep enteng
+        try:
+            from pages_content import kendali_tim
+            kendali_tim.tampilkan_kendali_tim()
+        except Exception as e:
+            st.title("⚡ Kendali Tim")
+            st.error(f"Gagal memuat sistem keuangan: {e}")
