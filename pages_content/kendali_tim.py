@@ -330,15 +330,21 @@ def tampilkan_kendali_tim():
                 
                 if st.form_submit_button("🚀 SIMPAN KE SLIP", use_container_width=True):
                     if f_nom_ex > 0:
-                        ket_final = f"{f_tipe_ex}: {f_staf_ex.upper()} - {f_ket_ex}"
-                        database.supabase.table("Arus_Kas").insert({
-                            "Tanggal": sekarang.strftime('%Y-%m-%d'), "Tipe": "PENGELUARAN",
-                            "Kategori": "Gaji Tim", "Nominal": str(int(f_nom_ex)),
-                            "Keterangan": ket_final, "Pencatat": user_sekarang
-                        }).execute()
-                        st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
+                        # --- MULAI TRY DISINI ---
+                        try:
+                            ket_final = f"{f_tipe_ex}: {f_staf_ex.upper()} - {f_ket_ex}"
+                            database.supabase.table("Arus_Kas").insert({
+                                "Tanggal": sekarang.strftime('%Y-%m-%d'), 
+                                "Tipe": "PENGELUARAN",
+                                "Kategori": "Gaji Tim", 
+                                "Nominal": str(int(f_nom_ex)),
+                                "Keterangan": ket_final, 
+                                "Pencatat": user_sekarang
+                            }).execute()
+                            st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
+                        # --- TUTUP EXCEPT DISINI ---
                         except Exception as e:
-                            st.error(f"Gagal: {e}")
+                            st.error(f"Gagal Simpan: {e}")
                     else:
                         st.warning("Nominal harus lebih dari 0!")
 
