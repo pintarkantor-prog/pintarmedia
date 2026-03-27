@@ -1,8 +1,25 @@
 import streamlit as st
 
 def tampilkan_halaman():
+    # --- 1. PINTU UTAMA: CEK IZIN AKSES ---
+    # Ambil data dari session state yang dibuat di app.py
+    user_aktif = st.session_state.get("user_aktif", "USER").upper()
+    user_level = st.session_state.get("user_level", "STAFF").upper()
+
+    # Cek apakah level user ada di daftar yang diizinkan
+    izin_akses = ["OWNER", "ADMIN", "STAFF"]
+    
+    if user_level not in izin_akses:
+        st.error(f"🚫 Maaf {user_aktif}, Area ini terbatas untuk tim internal.")
+
+    # --- 2. TAMPILAN UTAMA ---
     st.title("🧠 PINTAR AI LAB")
-    t_grandma, t_anatomi, t_transform, t_random = st.tabs(["👵 GRANDMA", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"])
+    st.write(f"Selamat bekerja, **{user_aktif}**! Gunakan tools AI di bawah untuk produktivitas.")
+
+    # --- 3. TABS MENU ---
+    t_grandma, t_anatomi, t_transform, t_random = st.tabs([
+        "👵 GRANDMA", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
+    ])
                 
     # ==========================================================================
     # TAB: THE FAMILY LEGACY (REAL HUMAN - NATURAL WIDE SHOT VERSION)
