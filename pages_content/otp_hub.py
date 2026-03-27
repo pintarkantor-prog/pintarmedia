@@ -64,7 +64,7 @@ def tampilkan_halaman():
             st.info("Belum ada SMS masuk 1 jam terakhir.")
 
     # ==========================================================================
-    # TAB 2: SEWA NOMOR ONLINE (SERVER & SALDO SEJAJAR)
+    # TAB 2: SEWA NOMOR ONLINE (3 KOLOM SEJAJAR)
     # ==========================================================================
     with tab_online:
         dict_server = {
@@ -73,69 +73,74 @@ def tampilkan_halaman():
             "Server 3": "https://otpnum.com/api/v3/"
         }
         
-        # --- HEADER: SERVER & SALDO SEJAJAR ---
+        # --- HEADER 3 KOLOM: SERVER | REFRESH | SALDO ---
         with st.container(border=True):
-            col_srv, col_bal = st.columns([2, 1])
-            srv_name = col_srv.selectbox("Pilih Server", list(dict_server.keys()), index=0, key="sel_server_online")
+            c_srv, c_ref, c_bal = st.columns([2, 1, 1.5])
+            
+            # Kolom 1: Pilih Server
+            srv_name = c_srv.selectbox("Server", list(dict_server.keys()), index=0, key="sel_server_online", label_visibility="collapsed")
             srv_url = dict_server[srv_name]
+
+            # Kolom 2: Tombol Refresh
+            if c_ref.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"):
+                if "list_services_v2" in st.session_state: del st.session_state.list_services_v2
+                st.rerun()
 
             # Ambil Saldo
             res_bal = get_otpnum_api(srv_url, "balance", {"api_key": API_KEY})
-            saldo = res_bal['data']['balance'] if res_bal and res_bal.get('success') else 0
+            saldo = clean_angka(res_bal['data'].get('balance', 0)) if res_bal and res_bal.get('success') else 0
             
-            # Tampilan Saldo di Sebelah Kanan (Vertical Center)
-            col_bal.markdown(f"<p style='margin:0; color:gray; font-size:12px;'>SALDO {srv_name}</p><h3 style='margin:0; color:#50FA7B;'>Rp {saldo:,}</h3>", unsafe_allow_html=True)
-            if col_bal.button("🔄 REFRESH", use_container_width=True, key="ref_bal_online"): st.rerun()
+            # Kolom 3: Saldo (Rata Kanan)
+            c_bal.markdown(f"<div style='text-align:right;'><p style='margin:0; color:gray; font-size:11px;'>SALDO</p><h3 style='margin:0; color:#50FA7B;'>Rp {saldo:,}</h3></div>", unsafe_allow_html=True)
 
         # --- PANEL ORDER (GOOGLE ONLY) ---
         st.markdown("#### 🛒 Sewa Nomor Baru")
         with st.container(border=True):
-            res_serv = get_otpnum_api(srv_url, "services", {"api_key": API_KEY, "country_id": 6})
+            # Load & Filter Services
+            if "list_services_v2" not in st.session_state or st.session_state.get("current_srv") != srv_name:
+                res_serv = get_otpnum_api(srv_url, "services", {"api_key": API_KEY, "country_id": 6})
+                if res_serv and res_serv.get('success'):
+                    st.session_state.list_services_v2 = res_serv['data']['services']
+                    st.session_state.current_srv = srv_name
+
+            list_s = st.session_state.get("list_services_v2", [])
+            keywords = ['google', 'youtube', 'gmail']
+            filtered_s = [s for s in list_s if any(k in s['service_name'].lower() for k in keywords)]
             
-            if res_serv and res_serv.get('success'):
-                keywords = ['google', 'youtube', 'gmail']
-                all_s = res_serv['data']['services']
-                filtered_s = [s for s in all_s if any(k in s['service_name'].lower() for k in keywords)]
-                
-                opts = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in filtered_s}
-                
-                if opts:
-                    pilih_layanan = st.selectbox("Layanan Tersedia", list(opts.keys()), key="pilih_google_only")
-                    if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary", key="btn_beli_virtual"):
-                        sid = opts[pilih_layanan]
-                        res_order = get_otpnum_api(srv_url, "order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
-                        if res_order and res_order.get('success'):
-                            st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "url": srv_url}
-                            st.rerun()
-                else:
-                    st.warning("Layanan Google tidak ditemukan.")
+            opts = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in filtered_s}
+            
+            if opts:
+                pilih_name = st.selectbox("Pilih Layanan", list(opts.keys()), key="pilih_google_only", label_visibility="collapsed")
+                if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary", key="btn_beli_virtual"):
+                    sid = opts[pilih_name]
+                    res_order = get_otpnum_api(srv_url, "order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
+                    if res_order and res_order.get('success'):
+                        st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "url": srv_url}
+                        st.rerun()
+                    else:
+                        st.error(f"Gagal: {res_order.get('message') if res_order else 'Stok Habis'}")
             else:
-                st.error("Gagal muat layanan.")
+                st.warning("Layanan Google tidak ditemukan.")
 
         # --- AUTO-POLLING SMS ---
         if "active_order" in st.session_state:
+            # (Bagian Auto-Polling tetap sama ya Dian...)
             ord = st.session_state.active_order
-            # Pakai .get() untuk menghindari error 'url'
-            current_url = ord.get('url')
-            
             with st.container(border=True):
                 st.markdown(f"**NOMOR:** `{ord.get('number')}`")
                 msg_area = st.empty()
-                
-                if current_url:
-                    res_stat = get_otpnum_api(current_url, "status", {"api_key": API_KEY, "order_id": ord.get('id')})
-                    
-                    if res_stat and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
-                        st.session_state.otp_online = res_stat['data']['sms']
-                        msg_area.success(f"🔥 OTP: {st.session_state.otp_online}")
-                        st.balloons()
-                    else:
-                        msg_area.info("⏳ Menunggu SMS... (Auto-Check 10s)")
-                        time.sleep(10)
-                        st.rerun()
+                res_stat = get_otpnum_api(ord.get('url'), "status", {"api_key": API_KEY, "order_id": ord.get('id')})
+                if res_stat and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
+                    st.session_state.otp_online = res_stat['data']['sms']
+                    msg_area.success(f"🔥 OTP: {st.session_state.otp_online}")
+                    st.balloons()
+                else:
+                    msg_area.info("⏳ Menunggu SMS... (10s)")
+                    time.sleep(10)
+                    st.rerun()
                 
                 if st.button("❌ SELESAI / CANCEL", use_container_width=True, key="btn_cancel_virtual"):
-                    if current_url: get_otpnum_api(current_url, "cancel", {"api_key": API_KEY, "order_id": ord.get('id')})
+                    get_otpnum_api(ord.get('url'), "cancel", {"api_key": API_KEY, "order_id": ord.get('id')})
                     if "active_order" in st.session_state: del st.session_state.active_order
                     if "otp_online" in st.session_state: del st.session_state.otp_online
                     st.rerun()
