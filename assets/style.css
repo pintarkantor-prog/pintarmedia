@@ -1,73 +1,138 @@
-/* ==============================================================================
-   CSS RESTORASI PINTAR MEDIA (KLASIK LOOK - MESIN V2.0)
-   ============================================================================== */
-
-/* 1. DASAR APLIKASI (Ganti warna biar lebih terang kayak Gambar 2) */
-.stApp { 
-    background-color: #1a1c24; /* Warna abu-abu kebiruan khas web lamamu */
-    color: #e0e0e0; 
-}
-
+/* 1. DASAR APLIKASI & SCROLLBAR */
+.stApp { background-color: #0b0e14; color: #e0e0e0; }
 [data-testid="stSidebar"] { 
-    background-color: #0b0e14 !important; 
-    border-right: 1px solid #30363d !important; 
+    background-color: #1a1c24 !important; 
+    border-right: 1px solid rgba(29, 151, 108, 0.1) !important; 
 }
 
-/* Scrollbar tetep Hijau biar keren */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #0e1117; }
 ::-webkit-scrollbar-thumb { background: #31333f; border-radius: 10px; }
 ::-webkit-scrollbar-thumb:hover { background: #1d976c; }
 
-/* 2. FIXED HEADER (Tetap ada biar dashboard rapi) */
+/* 2. FIXED HEADER (STATION & JAM) */
 [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) {
     position: fixed; top: 0; left: 310px; right: 0; z-index: 99999;
     background-color: #0e1117; padding: 10px 2rem; border-bottom: 2px solid #31333f;
 }
+@media (max-width: 768px) {
+    [data-testid="stMainViewContainer"] section.main div.block-container > div:nth-child(1) { left: 0; }
+}
 
-/* 3. TOMBOL LOGIN (Ganti biar GAK FULL WIDTH dan warna GAK GRADIENT) */
-div.stButton > button[kind="primaryFormSubmit"] {
-    background-color: #31333f !important; /* Warna abu-abu standar Gambar 2 */
+/* 3. HANYA TOMBOL GENERATE YANG HIJAU (PRIMARY) */
+div.stButton > button[kind="primary"], button[kind="primaryFormSubmit"] {
+    background: linear-gradient(to right, #1d976c, #11998e) !important;
     color: white !important; 
-    border: 1px solid #464b5d !important; 
-    border-radius: 6px !important;
-    padding: 8px 25px !important;
-    width: auto !important; /* Tombol jadi kecil di tengah */
-    display: block;
-    margin: 15px auto !important; /* Biar posisi di tengah-tengah form */
-    font-weight: 500 !important;
-    box-shadow: none !important;
-    transition: 0.3s;
+    border: none !important; 
+    border-radius: 8px !important;
+    padding: 10px 20px !important;
+    margin-top: 15px !important;
+    margin-bottom: 10px !important;
+    font-weight: bold !important;
+    font-size: 14px !important;
+    width: 100%; 
+    box-shadow: 0 4px 12px rgba(29, 151, 108, 0.2) !important;
 }
 
-div.stButton > button[kind="primaryFormSubmit"]:hover {
-    background-color: #464b5d !important;
-}
-
-/* 4. BALIKIN BORDER INPUT (Gak boleh Borderless biar mirip Gambar 2) */
-.stTextInput input {
-    border: 1px solid #30363d !important; /* Garis kotak dipertegas */
+/* 4. MODE TANPA GARIS (BORDERLESS) PADA SEMUA INPUT */
+.stTextArea textarea, 
+.stTextInput input, 
+div[data-testid="stNumberInput"], 
+div[data-baseweb="input"],
+div[data-baseweb="textarea"],
+[data-baseweb="base-input"] {
+    border: none !important;
     box-shadow: none !important;
-    background-color: #1a1f26 !important;
-    border-radius: 6px !important;
+    outline: none !important;
+    background-color: #0d1117 !important;
+    border-radius: 10px !important;
     color: #ffffff !important;
 }
 
-/* Label Username/Password */
-.stTextInput label p {
-    color: #e0e0e0 !important;
-    font-size: 14px !important;
+.stTextArea textarea:focus, 
+.stTextInput input:focus, 
+div[data-testid="stNumberInput"]:focus-within,
+div[data-baseweb="input"]:focus-within,
+[data-baseweb="base-input"]:focus-within {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
 }
 
-/* 5. STAFF HEADER & PREMIUM LOOK (Tetap jaga buat dashboard nanti) */
+/* 5. STAFF HEADER & LABEL */
 .staff-header-premium {
     background: rgba(29, 151, 108, 0.2) !important;
     border: 2px solid #1d976c !important;
     border-radius: 10px !important;
-    padding: 15px 20px !important;
+    padding: 15px 20px !important; margin-bottom: 25px !important;
+    display: flex !important; align-items: center !important; gap: 12px !important;
+}
+.staff-header-premium b { color: #1d976c !important; font-size: 1.15em !important; }
+
+.small-label {
+    color: #1d976c !important; font-size: 10px !important;
+    font-weight: 800 !important; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 5px !important; display: block;
 }
 
-/* 6. HIDE STREAMLIT MENU */
+/* 6. KOMPONEN LAIN */
+.stExpander {
+    border: 1px solid #30363d !important; 
+    border-radius: 12px !important; 
+    background-color: #161922 !important;
+    margin-bottom: 10px !important;
+}
+
+.status-footer { font-size: 11px !important; color: #8b949e !important; font-family: monospace; }
+
+hr { 
+    border: none !important;
+    border-top: 1px solid #30363d !important; 
+    opacity: 0.3 !important;
+    margin: 15px 0 !important;
+}
+
+/* 7. PENGATURAN INPUT HALAMAN LOGIN */
+.stForm div[data-baseweb="input"] {
+    background-color: #1a1f26 !important;
+    border: 1px solid #30363d !important;
+}
+.stForm input {
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+}
+.stForm label p {
+    color: #e0e0e0 !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+}
+
+/* 8. COPY TO CLIPBOARD */
+.stCodeBlock {
+    border: 1px solid #30363d !important;
+    border-radius: 10px !important;
+    background-color: #0d1117 !important;
+    padding: 10px !important;
+}
+
+button[title="Copy to clipboard"] {
+    background-color: #238636 !important;
+    color: white !important;
+    transform: scale(1.6);
+    margin-right: 15px !important;
+    margin-top: 15px !important;
+    border-radius: 6px !important;
+    border: none !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+button[title="Copy to clipboard"]:hover {
+    background-color: #2ea043 !important;
+    transform: scale(1.8) !important;
+    cursor: pointer !important;
+}
+
+/* HIDE STREAMLIT BORDER & MENU */
 #MainMenu {visibility: hidden;}
 footer {visibility: hidden;}
 header {visibility: hidden;}
