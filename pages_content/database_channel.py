@@ -687,7 +687,7 @@ def tampilkan_database_channel():
             )
         
     # ==============================================================================
-    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - ORIGINAL UI v2.0)
+    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
     # ==============================================================================
     with tab_ar: 
         # --- 1. LOGIKA DASHBOARD ARSIP ---
@@ -706,19 +706,69 @@ def tampilkan_database_channel():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE ARSIP ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP (HISTORY AUDIT)")
+        # --- 3. DATABASE ARSIP (EDITABLE UNTUK DAUR ULANG) ---
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA DIEDIT/DAUR ULANG)")
         if df_a.empty:
             st.success("✨ Arsip masih kosong. Belum ada akun yang bermasalah!")
         else:
+            df_a['REAL_IDX'] = df_a.index 
             df_a['TGL_KEJADIAN'] = df_a['EDITED']
             df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
-            st.dataframe(
-                df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS"]], 
-                use_container_width=True, hide_index=True,
-                column_config={
-                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=180),
-                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100)
-                }
+            # Konfigurasi Kolom agar bisa edit Status, Nama, Pass, dll.
+            config_arsip = {
+                "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120),
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
+                "STATUS": st.column_config.SelectboxColumn(
+                    "⚙️ STATUS", 
+                    width=100,
+                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
+                    help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
+                ),
+                "REAL_IDX": None
+            }
+            
+            edited_a = st.data_editor(
+                df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
+                use_container_width=True, 
+                hide_index=True,
+                column_config=config_arsip,
+                key="grid_arsip_daur_ulang"
             )
+
+            # --- 4. LOGIKA SAVE PERUBAHAN (DAUR ULANG) ---
+            if not edited_a.equals(df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
+                if st.button("💾 KONFIRMASI DAUR ULANG / UPDATE ARSIP", type="primary", use_container_width=True):
+                    try:
+                        with st.spinner("Memproses data ke Supabase..."):
+                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                            data_batch = []
+                            
+                            for i, row in edited_a.iterrows():
+                                idx_asli = int(row['REAL_IDX'])
+                                old_val = df.iloc[idx_asli]
+                                
+                                # Cek jika ada perubahan data
+                                if row['STATUS'] != old_val['STATUS'] or row['PASSWORD'] != old_val['PASSWORD'] or row['NAMA_CHANNEL'] != old_val['NAMA_CHANNEL']:
+                                    data_batch.append({
+                                        "EMAIL": row['EMAIL'].strip().lower(),
+                                        "PASSWORD": row['PASSWORD'],
+                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                        "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                        "STATUS": row['STATUS'],
+                                        "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
+                                    })
+
+                            if data_batch:
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diperbarui/Didaur Ulang!")
+                                time.sleep(1)
+                                st.rerun()
+                                
+                    except Exception as e:
+                        st.error(f"❌ Gagal Daur Ulang: {e}")
