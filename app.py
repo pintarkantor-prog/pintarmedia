@@ -29,10 +29,10 @@ def tampilkan_halaman_login():
                         st.session_state["sudah_login"] = True
                         st.session_state["user_info"] = user_data # Simpan level user (Owner/Staff)
                         st.session_state["waktu_login"] = datetime.now()
-                        st.success(f"Halo {user_data['Nama']}, Gaspol!")
+                        st.success(f"Halo {user_data['Nama']}")
                         st.rerun()
                     else:
-                        st.error("Gagal Login! Cek Username/Password di Supabase.")
+                        st.error("Gagal Login! Cek Username/Password.")
 
 # LOGIKA UTAMA
 if not st.session_state["sudah_login"]:
