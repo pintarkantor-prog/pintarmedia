@@ -44,40 +44,51 @@ def proses_logout(pesan=None):
 # --- 1. PROSES LOGIN (Logika Murni) ---
 def proses_login(u, p):
     try:
+        # 1. Ambil data (Sudah dipaksa KAPITAL oleh fungsi ambil_data)
         df_staff = database.ambil_data("Staff")
         u_input = str(u).strip().upper()
         p_input = str(p).strip()
 
-        # Cari user yang cocok
-        user_row = df_staff[(df_staff['Nama'].str.upper() == u_input) & (df_staff['Password'] == p_input)]
+        # 2. Cari user (Gunakan nama kolom KAPITAL: 'NAMA' dan 'PASSWORD')
+        # Kita pakai .astype(str) untuk jaga-jaga kalau pass di DB dianggap angka
+        user_row = df_staff[
+            (df_staff['NAMA'].astype(str).str.upper() == u_input) & 
+            (df_staff['PASSWORD'].astype(str) == p_input)
+        ]
         
         if not user_row.empty:
             user_data = user_row.iloc[0]
-            level = str(user_data['Level']).upper()
+            
+            # Ambil LEVEL (Pakai kapital juga)
+            level = str(user_data['LEVEL']).upper()
             hostname_pc = socket.gethostname()
 
-            # Cek Whitelist (Kecuali Owner)
+            # 3. Cek Whitelist (Kecuali Owner)
             if level != "OWNER":
                 if not database.cek_pc_whitelist(hostname_pc):
                     st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
                     st.stop()
 
-            # SET SESSION STATE
+            # 4. SET SESSION STATE
             st.session_state["is_login"] = True
             st.session_state["user_aktif"] = u_input
             st.session_state["user_level"] = level
             st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
             
-            # Catat login di tabel Sesi_Login (Opsional/History)
-            database.update_sesi(u_input, st.session_state["browser_session_id"])
+            # Catat login
+            database.update_sesi(u_input, st.session_state.get("browser_session_id", "Unknown"))
             
             st.toast(f"✅ Selamat Datang {u_input}")
             time.sleep(0.5)
             st.rerun()
         else:
             st.error("❌ Username atau Password salah!")
+            
     except Exception as e:
+        # Menampilkan detail kolom yang tersedia kalau masih error (buat debug)
         st.error(f"Sistem Login Error: {e}")
+        if 'df_staff' in locals():
+            st.write("Kolom tersedia:", list(df_staff.columns))
 
 # --- 2. TAMPILAN LOGIN (UI Form) ---
 def halaman_login():
