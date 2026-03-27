@@ -212,52 +212,58 @@ def tampilkan_kendali_tim():
                 st.error(f"⚠️ Gagal Slip: {e_slip}")
 
         # ======================================================================
-        # --- 8. PENGATURAN GAJI & JABATAN (EDIT LANGSUNG KE SUPABASE) ---
+        # --- 8. PENGATURAN GAJI & JABATAN (FIX KEY ERROR) ---
         # ======================================================================
         with st.expander("⚙️ PENGATURAN GAJI & JABATAN TIM", expanded=False):
-            st.info("💡 Ubah angka di bawah dan klik 'Update' untuk sinkronisasi ke Supabase.")
+            st.info("💡 Ubah data di bawah dan klik 'UPDATE' untuk simpan ke Supabase.")
             
-            # Kita looping data staff yang ada
+            # Deteksi Nama Kolom Staff secara dinamis biar gak salah panggil
+            c_gp_st = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
+            c_tj_st = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
+            c_jb_st = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
+            c_nm_st = next((c for c in df_staff.columns if c.lower() == 'nama'), 'Nama')
+            # Cari kolom ID (bisa 'id', 'ID', atau 'id_staff')
+            c_id_st = next((c for c in df_staff.columns if c.lower() == 'id'), None)
+
             for idx, s in df_staff.iterrows():
-                # Ambil data lama
-                id_staf = s.get('id') # Pastikan kolom ID ada di Supabase lo
-                nama_staf = s.get('Nama', 'Unknown')
-                gapok_lama = s.get('Gaji_Pokok', '0')
-                tunjangan_lama = s.get('Tunjangan', '0')
-                jabatan_lama = s.get('Jabatan', 'STAFF')
+                nama_key = str(s.get(c_nm_st, f"staff_{idx}")).replace(" ", "_")
+                real_id = s.get(c_id_st) if c_id_st else None
                 
                 with st.container(border=True):
                     col_n, col_g, col_t, col_j, col_b = st.columns([2, 2, 2, 2, 1.5])
                     
                     with col_n:
-                        st.markdown(f"**{nama_staf}**")
-                        st.caption(f"ID: {id_staf}")
+                        st.markdown(f"**{s.get(c_nm_st, 'Unknown')}**")
+                        st.caption(f"Posisi: {s.get(c_jb_st, 'Staff')}")
                     
                     with col_g:
-                        new_gapok = st.text_input("Gaji Pokok", value=str(gapok_lama), key=f"gp_{id_staf}")
+                        # Pake nama staff sebagai KEY biar UNIK
+                        new_gp = st.text_input("Gaji Pokok", value=str(s.get(c_gp_st, '0')), key=f"gp_{nama_key}")
                     
                     with col_t:
-                        new_tunjangan = st.text_input("Tunjangan", value=str(tunjangan_lama), key=f"tj_{id_staf}")
+                        new_tj = st.text_input("Tunjangan", value=str(s.get(c_tj_st, '0')), key=f"tj_{nama_key}")
                         
                     with col_j:
-                        new_jabatan = st.text_input("Jabatan", value=str(jabatan_lama), key=f"jb_{id_staf}")
+                        new_jb = st.text_input("Jabatan", value=str(s.get(c_jb_st, 'STAFF')), key=f"jb_{nama_key}")
                     
                     with col_b:
-                        st.write("") # Spasi biar tombol sejajar
-                        if st.button("💾 UPDATE", key=f"btn_{id_staf}", use_container_width=True):
-                            try:
-                                # JALANKAN UPDATE KE SUPABASE
-                                database.supabase.table("Staff").update({
-                                    "Gaji_Pokok": new_gapok,
-                                    "Tunjangan": new_tunjangan,
-                                    "Jabatan": new_jabatan
-                                }).eq("id", id_staf).execute()
-                                
-                                st.success(f"Berhasil Update {nama_staf}!")
-                                time.sleep(1)
-                                st.rerun()
-                            except Exception as e:
-                                st.error(f"Gagal: {e}")
+                        st.write("") 
+                        if st.button("💾 UPDATE", key=f"btn_{nama_key}", use_container_width=True):
+                            if real_id:
+                                try:
+                                    database.supabase.table("Staff").update({
+                                        c_gp_st: new_gp,
+                                        c_tj_st: new_tj,
+                                        c_jb_st: new_jb
+                                    }).eq(c_id_st, real_id).execute()
+                                    
+                                    st.success(f"OK! {s.get(c_nm_st)} Berhasil di-Update.")
+                                    time.sleep(1)
+                                    st.rerun()
+                                except Exception as e:
+                                    st.error(f"Gagal Update: {e}")
+                            else:
+                                st.error("❌ Kolom ID tidak ditemukan di tabel Staff Supabase!")
 
     except Exception as e:
         st.error(f"⚠️ Sistem Error: {e}")
