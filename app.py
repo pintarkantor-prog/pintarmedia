@@ -41,7 +41,46 @@ def proses_logout(pesan=None):
         time.sleep(2)
     st.rerun()
 
-# --- TAMPILAN LOGIN ---
+# --- 1. PROSES LOGIN (Logika Murni - Tanpa UI) ---
+def proses_login(u, p):
+    try:
+        # Tarik data staff
+        df_staff = database.ambil_data("Staff")
+        u_input = str(u).strip().upper()
+        p_input = str(p).strip()
+
+        # Cari user yang cocok
+        user_row = df_staff[(df_staff['Nama'].str.upper() == u_input) & (df_staff['Password'] == p_input)]
+        
+        if not user_row.empty:
+            user_data = user_row.iloc[0]
+            level = str(user_data['Level']).upper()
+            hostname_pc = socket.gethostname()
+
+            # Cek Whitelist (Kecuali Owner)
+            if level != "OWNER":
+                if not database.cek_pc_whitelist(hostname_pc):
+                    st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
+                    st.stop()
+
+            # SET SESSION STATE (Kunci Data di Memori)
+            st.session_state["is_login"] = True
+            st.session_state["user_aktif"] = u_input
+            st.session_state["user_level"] = level
+            st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
+            
+            # Update Sesi ke Supabase (Anti-Sharing)
+            database.update_sesi(u_input, st.session_state["browser_session_id"])
+            
+            st.toast(f"✅ Selamat Datang {u_input}")
+            time.sleep(0.5) # Jeda tipis biar mata sempat liat notif
+            st.rerun() # PAKSA REFRESH INSTAN
+        else:
+            st.error("❌ Username atau Password salah!")
+    except Exception as e:
+        st.error(f"Sistem Login Error: {e}")
+
+# --- 2. TAMPILAN LOGIN (Hanya UI Form) ---
 def halaman_login():
     with st.container():
         st.markdown("<br><br>", unsafe_allow_html=True)
@@ -54,40 +93,34 @@ def halaman_login():
                 st.markdown("<h2 style='text-align:center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
             
             with st.form("login_station", clear_on_submit=False):
-                u = st.text_input("Username", placeholder="Username...", key="input_u").strip().upper()
+                u = st.text_input("Username", placeholder="Username...", key="input_u")
                 p = st.text_input("Password", type="password", placeholder="Password...", key="input_p")
                 submit = st.form_submit_button("MASUK KE SISTEM 🚀", use_container_width=True)
                 
                 if submit:
-                    if u and p:
-                        df_staff = database.ambil_data("Staff")
-                        user_row = df_staff[(df_staff['Nama'] == u) & (df_staff['Password'] == p)]
-                        
-                        if not user_row.empty:
-                            user_data = user_row.iloc[0]
-                            level = str(user_data['Level']).upper()
-                            hostname_pc = socket.gethostname()
-
-                            if level != "OWNER":
-                                if not database.cek_pc_whitelist(hostname_pc):
-                                    st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
-                                    st.stop()
-
-                            st.session_state["is_login"] = True
-                            st.session_state["user_aktif"] = u
-                            st.session_state["user_level"] = level
-                            st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
-                            database.update_sesi(u, st.session_state["browser_session_id"])
-                            
-                            st.toast(f"✅ Selamat Datang {u}")
-                            time.sleep(1) 
-                            st.rerun()
-                        else:
-                            st.error("❌ Username atau Password salah!")
+                    if u.strip() and p.strip():
+                        proses_login(u, p) # Panggil fungsi logika di atas
                     else:
-                        st.warning("⚠️ Isi dulu Username dan Password!")
+                        st.warning("⚠️ Isi dulu Bos!")
 
-# --- NAVIGASI SIDEBAR (Style Klasik) ---
+# --- 3. CEK AUTENTIKASI (Satpam Pintu Depan) ---
+def cek_autentikasi():
+    if st.session_state.get("is_login", False):
+        # A. Cek Durasi 10 Jam
+        waktu_sekarang = database.ambil_waktu_sekarang()
+        if (waktu_sekarang - st.session_state["waktu_login"]) > timedelta(hours=10):
+            proses_logout("Sesi berakhir (10 Jam).")
+            return False
+        
+        # B. Cek Single Device (Anti-Sharing)
+        if not database.cek_sesi_valid(st.session_state["user_aktif"], st.session_state["browser_session_id"]):
+            proses_logout("Akun Anda login di perangkat lain.")
+            return False
+            
+        return True
+    return False
+
+# --- 4. NAVIGASI SIDEBAR (Tetap Pakai Yang Baru) ---
 def tampilkan_navigasi_sidebar():
     user_level = st.session_state.get("user_level", "STAFF")
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
@@ -100,19 +133,11 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # Menu yang diinginkan: AI LAB, DATABASE CHANNEL, AREA STAF, KENDALI TIM
-        menu_list = [
-            "🧠 PINTAR AI LAB", 
-            "📱 DATABASE CHANNEL",
-            "📘 AREA STAF"
-        ]
-        
+        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📘 AREA STAF"]
         if user_level in ["OWNER", "ADMIN"]:
             menu_list.append("⚡ KENDALI TIM")
 
-        # Navigasi Radio
         pilihan = st.radio("COMMAND_MENU", menu_list, label_visibility="collapsed")
-        
         st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         
         st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)   
@@ -127,37 +152,27 @@ def tampilkan_navigasi_sidebar():
                 </p>
             </div>
         ''', unsafe_allow_html=True)
-        
     return pilihan
 
-# --- LOGIKA JALANKAN APLIKASI ---
-if not st.session_state["is_login"]:
+# --- JALANKAN APLIKASI ---
+if not cek_autentikasi():
     halaman_login()
 else:
-    # A. Cek Keamanan Real-time
-    waktu_sekarang = database.ambil_waktu_sekarang()
-    if (waktu_sekarang - st.session_state["waktu_login"]) > timedelta(hours=10):
-        proses_logout()
-    if not database.cek_sesi_valid(st.session_state["user_aktif"], st.session_state["browser_session_id"]):
-        proses_logout()
-
-    # B. Panggil Navigasi
+    # Tampilkan Sidebar
     menu = tampilkan_navigasi_sidebar()
 
-    # C. Routing Halaman (Otomatis ke AI LAB karena jadi pilihan pertama di radio)
+    # Routing Halaman
     if menu == "🧠 PINTAR AI LAB":
         ai_lab.tampilkan_halaman()
-        # Isi konten AI LAB kamu di sini
 
     elif menu == "📱 DATABASE CHANNEL":
         st.title("📱 Database Channel")
-        # Nanti kita panggil: pages_content.database_channel.tampilkan_halaman()
         st.write("Daftar akun email dan channel kamu.")
 
     elif menu == "📘 AREA STAF":
         st.title("📘 Area Staf")
-        st.write("Pusat informasi dan koordinasi tim.")
+        st.write("Pusat informasi tim.")
 
     elif menu == "⚡ KENDALI TIM":
         st.title("⚡ Kendali Tim")
-        st.write("Panel manajemen khusus Owner/Admin.")
+        st.write("Manajemen khusus Owner/Admin.")
