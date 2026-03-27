@@ -36,27 +36,38 @@ def tampilkan_kendali_tim():
     st.divider()
 
     try:
-        # --- 3. AMBIL DATA (Pake database.ambil_data yang udah lo punya) ---
+        # --- 3. AMBIL DATA ---
         df_staff = database.ambil_data("Staff")
         df_kas_raw = database.ambil_data("Arus_Kas")
 
-        # --- 4. LOGIKA SARING TANGGAL (GAYA LO!) ---
+        # --- 4. LOGIKA SARING TANGGAL (FIX CASE-SENSITIVE) ---
         if not df_kas_raw.empty:
-            # Cari kolom 'Tanggal' (sesuai screenshot Supabase lo)
-            df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw['Tanggal'], errors='coerce')
-            df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
-            # Cleaning nominal (Regex lo)
-            df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f['Nominal'].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
+            # Trik Aman: Cari kolom yang namanya mirip 'Tanggal'
+            col_tgl = next((c for c in df_kas_raw.columns if c.lower() == 'tanggal'), None)
+            
+            if col_tgl:
+                df_kas_raw['TGL_DT'] = pd.to_datetime(df_kas_raw[col_tgl], errors='coerce')
+                df_k_f = df_kas_raw[(df_kas_raw['TGL_DT'].dt.month == bulan_dipilih) & (df_kas_raw['TGL_DT'].dt.year == tahun_dipilih)].copy()
+                
+                # Cleaning nominal (Regex lo) - Cari kolom 'Nominal'
+                col_nom = next((c for c in df_kas_raw.columns if c.lower() == 'nominal'), 'Nominal')
+                df_k_f['NOMINAL_VAL'] = pd.to_numeric(df_k_f[col_nom].astype(str).replace(r'[^\d.]', '', regex=True), errors='coerce').fillna(0)
+            else:
+                st.error("⚠️ Kolom 'Tanggal' tidak ditemukan di database Arus_Kas!")
+                df_k_f = pd.DataFrame()
         else:
             df_k_f = pd.DataFrame()
 
-        # --- 5. KALKULASI FINANSIAL ---
+        # --- 5. KALKULASI FINANSIAL (Pake .get() biar aman) ---
         inc_val, ops_val, bonus_val = 0, 0, 0
         if not df_k_f.empty:
-            inc_val = df_k_f[df_k_f['Tipe'] == 'PENDAPATAN']['NOMINAL_VAL'].sum()
-            ops_val = df_k_f[(df_k_f['Tipe'] == 'PENGELUARAN') & (df_k_f['Kategori'] != 'Gaji Tim')]['NOMINAL_VAL'].sum()
-            bonus_val = df_k_f[(df_k_f['Tipe'] == 'PENGELUARAN') & (df_k_f['Kategori'] == 'Gaji Tim')]['NOMINAL_VAL'].sum()
+            # Pastikan kolom Tipe & Kategori juga ketemu
+            col_tipe = next((c for c in df_k_f.columns if c.lower() == 'tipe'), 'Tipe')
+            col_kat = next((c for c in df_k_f.columns if c.lower() == 'kategori'), 'Kategori')
 
+            inc_val = df_k_f[df_k_f[col_tipe].str.upper() == 'PENDAPATAN']['NOMINAL_VAL'].sum()
+            ops_val = df_k_f[(df_k_f[col_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].str.upper() != 'GAJI TIM')]['NOMINAL_VAL'].sum()
+            bonus_val = df_k_f[(df_k_f[col_tipe].str.upper() == 'PENGELUARAN') & (df_k_f[col_kat].str.upper() == 'GAJI TIM')]['NOMINAL_VAL'].sum()
         # Hitung Gapok Tim dari Staff
         total_gapok = 0
         df_staff_real = df_staff[df_staff['LEVEL'].isin(['STAFF', 'UPLOADER', 'ADMIN'])]
