@@ -30,10 +30,10 @@ def tampilkan_database_channel():
         st.warning("Gagal memuat data. Pastikan tabel 'Channel_Pintar' ada di Supabase.")
         return
 
-    # --- 4. PEMBUATAN TAB ---
-    tab_st, tab_pr, tab_jd, tab_hp, tab_sd, tab_ar = st.tabs([
+    # --- 4. PEMBUATAN TAB (DITAMBAH TAB BELI NOMOR) ---
+    tab_st, tab_pr, tab_jd, tab_hp, tab_sd, tab_ar, tab_buy = st.tabs([
         "📦 STOK STANDBY", "🚀 CHANNEL PROSES", "📅 JADWAL UPLOAD", 
-        "📱 MONITOR HP", "💰 SOLD CHANNEL", "📂 ARSIP"
+        "📱 MONITOR HP", "💰 SOLD CHANNEL", "📂 ARSIP", "🛒 BELI NOMOR OTP"
     ])
 
     # ==============================================================================
@@ -772,3 +772,85 @@ def tampilkan_database_channel():
                                 
                     except Exception as e:
                         st.error(f"❌ Gagal Diperbarui: {e}")
+
+    # ==============================================================================
+    # TAB 7: BELI NOMOR OTP (PINDAHAN DARI OTP HUB - SERVER 1 & 2 ONLY)
+    # ==============================================================================
+    with tab_buy:
+        from pages_content import otp_hub # Pastikan fungsi API ada di sini
+        API_KEY = st.secrets.get("OTPNUM_API_KEY", "")
+        
+        dict_server = {
+            "Server 2 (Primary)": "https://otpnum.com/api/v2/",
+            "Server 1 (Backup)": "https://otpnum.com/api/"
+        }
+        
+        # --- HEADER 3 KOLOM: SERVER | REFRESH | SALDO ---
+        with st.container(border=True):
+            c_srv, c_btn, c_bal = st.columns([3, 1.2, 2], vertical_alignment="bottom")
+            
+            srv_name = c_srv.selectbox("Pilih Server", list(dict_server.keys()), index=0, key="sel_srv_tab_ch", label_visibility="collapsed")
+            srv_url = dict_server[srv_name]
+
+            if c_btn.button("🔄 REFRESH", key="ref_bal_tab_ch", use_container_width=True):
+                if "list_services_v2" in st.session_state: del st.session_state.list_services_v2
+                st.rerun()
+            
+            res_bal = otp_hub.get_otpnum_api(srv_url, "balance", {"api_key": API_KEY})
+            saldo = otp_hub.clean_angka(res_bal['data'].get('balance', 0)) if res_bal and res_bal.get('success') else 0
+            
+            c_bal.markdown(f"""
+                <div style='text-align: right;'>
+                    <span style='color: gray; font-size: 10px;'>💰 SALDO {srv_name}</span><br>
+                    <span style='color: #50FA7B; font-size: 22px; font-weight: bold;'>Rp {saldo:,}</span>
+                </div>
+            """, unsafe_allow_html=True)
+
+        # --- PANEL ORDER (GOOGLE ONLY) ---
+        st.markdown("#### 🛒 Sewa Nomor Baru")
+        with st.container(border=True):
+            if "list_services_v2" not in st.session_state or st.session_state.get("current_srv") != srv_name:
+                res_serv = otp_hub.get_otpnum_api(srv_url, "services", {"api_key": API_KEY, "country_id": 6})
+                if res_serv and res_serv.get('success'):
+                    st.session_state.list_services_v2 = res_serv['data']['services']
+                    st.session_state.current_srv = srv_name
+
+            list_s = st.session_state.get("list_services_v2", [])
+            keywords = ['google', 'youtube', 'gmail']
+            filtered_s = [s for s in list_s if any(k in s['service_name'].lower() for k in keywords)]
+            opts = {f"{s['service_name']} - Rp {s['price']}": s['service_id'] for s in filtered_s}
+            
+            if opts:
+                col_sel, col_buy = st.columns([3, 2], vertical_alignment="bottom")
+                pilih_name = col_sel.selectbox("Layanan", list(opts.keys()), key="pilih_google_tab_ch", label_visibility="collapsed")
+                
+                if col_buy.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary", key="btn_beli_tab_ch"):
+                    sid = opts[pilih_name]
+                    res_order = otp_hub.get_otpnum_api(srv_url, "order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
+                    if res_order and res_order.get('success'):
+                        st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "url": srv_url}
+                        st.rerun()
+            else: st.warning("Layanan Google tidak ditemukan.")
+
+        # --- MONITORING SMS ---
+        if "active_order" in st.session_state:
+            ord = st.session_state.active_order
+            with st.container(border=True):
+                st.markdown(f"**NOMOR AKTIF:** `{ord.get('number')}`")
+                
+                if st.button("❌ SELESAI / CANCEL", use_container_width=True, key="can_tab_ch"):
+                    otp_hub.get_otpnum_api(ord.get('url'), "cancel", {"api_key": API_KEY, "order_id": ord.get('id')})
+                    del st.session_state.active_order
+                    st.rerun()
+
+                st.divider()
+                msg_area = st.empty()
+                res_stat = otp_hub.get_otpnum_api(ord.get('url'), "status", {"api_key": API_KEY, "order_id": ord.get('id')})
+                
+                if res_stat and res_stat.get('success') and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
+                    msg_area.success(f"🔥 KODE OTP: {res_stat['data']['sms']}")
+                    st.balloons()
+                else:
+                    msg_area.info("⏳ Menunggu SMS masuk...")
+                    time.sleep(10)
+                    st.rerun()
