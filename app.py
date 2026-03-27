@@ -45,12 +45,13 @@ def proses_logout(pesan=None):
 def halaman_login():
     with st.container():
         st.markdown("<br><br>", unsafe_allow_html=True)
-        # Layout 3 Kolom khas Web Lama
         col_l, col_m, col_r = st.columns([1.5, 1, 1.5]) 
         
         with col_m:
-            # Header Teks (Karena Logo sudah dihapus)
-            st.markdown("<h2 style='text-align:center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
+            try:
+                st.image("PINTAR.png", use_container_width=True)
+            except:
+                st.markdown("<h2 style='text-align:center;'>PINTAR MEDIA</h2>", unsafe_allow_html=True)
             
             # Form Login Station
             with st.form("login_station", clear_on_submit=False):
