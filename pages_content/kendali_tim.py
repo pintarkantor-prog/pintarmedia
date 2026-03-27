@@ -165,7 +165,7 @@ def tampilkan_kendali_tim():
                             st.markdown(f"""
                             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
                                 <div style="background: linear-gradient(135deg, #1d976c, #93f9b9); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px;">{n_up[0]}</div>
-                                <div><b>{n_up}</b><br><small>{jabatan_staf}</small></div>
+                                <div><b style="font-size: 15px;">{n_up}</b><br><span style="font-size: 11px; color: #888;">{jabatan_staf}</span></div>
                             </div>""", unsafe_allow_html=True)
                             
                             c1, c2 = st.columns(2)
