@@ -2,8 +2,21 @@ import streamlit as st
 import uuid
 import socket
 import time
+import os # Tambahkan ini untuk cek file
 from datetime import timedelta
 from modules import database
+
+# --- FUNGSI PANGGIL CSS ---
+def local_css(file_name):
+    if os.path.exists(file_name):
+        with open(file_name) as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    else:
+        st.error(f"File {file_name} tidak ditemukan!")
+
+# --- EKSEKUSI PANGGILAN ---
+# Pastikan jalurnya benar: folder assets / file style.css
+local_css("assets/style.css")
 
 # --- CONFIG HALAMAN ---
 st.set_page_config(page_title="PINTAR MEDIA | Studio", page_icon="🖼️", layout="wide")
@@ -70,34 +83,34 @@ def halaman_login():
                 else:
                     st.error("Username atau Password salah!")
 
-# --- MONITORING KEAMANAN REAL-TIME ---
+# --- MONITORING KEAMANAN REAL-TIME (SILENT MODE) ---
 if st.session_state["is_login"]:
     # A. Cek Durasi 10 Jam (WIB)
     waktu_sekarang = database.ambil_waktu_sekarang()
     durasi = waktu_sekarang - st.session_state["waktu_login"]
     
     if durasi > timedelta(hours=10):
-        proses_logout("Sesi habis.")
+        proses_logout() # Keluar otomatis tanpa notif berisik
 
     # B. Cek Single Device (Anti-Sharing)
     if not database.cek_sesi_valid(st.session_state["user_aktif"], st.session_state["browser_session_id"]):
-        proses_logout("Akun login di perangkat lain. Sesi ini diputus!")
+        proses_logout() # Langsung kick jika ada login baru di device lain
 
 # --- JALANKAN APLIKASI ---
 if not st.session_state["is_login"]:
     halaman_login()
 else:
-    # Sidebar Info
-    st.sidebar.image("PINTAR.png", width=100)
+    # Sidebar Info (Minimalis)
     st.sidebar.write(f"👤 **{st.session_state['user_aktif']}**")
     st.sidebar.write(f"🛡️ Level: {st.session_state['user_level']}")
     
-    if st.sidebar.button("Keluar (Logout)"):
+    st.sidebar.markdown("<br>", unsafe_allow_html=True)
+    if st.sidebar.button("Keluar (Logout)", use_container_width=True):
         proses_logout()
 
-    # Dashboard Utama
-    st.title("🚀 Dashboard PINTAR MEDIA v2.0")
-    st.write(f"Waktu Login Anda (WIB): {st.session_state['waktu_login'].strftime('%H:%M:%S')}")
+    # Dashboard Utama (Bersih & Rapi)
+    st.title("🚀 Dashboard PINTAR MEDIA")
+    st.write(f"Selamat datang kembali, {st.session_state['user_aktif']}.")
     
-    sisa = timedelta(hours=10) - (database.ambil_waktu_sekarang() - st.session_state["waktu_login"])
-    st.info(f"Sisa waktu sesi Anda: {str(sisa).split('.')[0]}")
+    # Space kosong buat konten berikutnya
+    st.divider()
