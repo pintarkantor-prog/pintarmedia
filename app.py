@@ -34,7 +34,7 @@ def halaman_login():
     col1, col2, col3 = st.columns([1.2, 1, 1.2])
     
     with col2:
-        st.markdown("<h2 style='text-align:center;'>🔐 PINTAR SECURE LOGIN</h2>", unsafe_allow_html=True)
+        st.markdown("<h2 style='text-align:center;'>🔐 PINTAR LOGIN</h2>", unsafe_allow_html=True)
         
         with st.form("login_station"):
             u = st.text_input("Username", placeholder="Masukkan Nama...").strip().upper()
