@@ -194,8 +194,8 @@ def tampilkan_database_channel():
                                 old_val = df.iloc[idx_asli]
                                 
                                 # Cek jika ada perubahan status atau data lain
-                                if row['STATUS'] != old_val['STATUS'] or row['EMAIL'] != old_val['EMAIL']:
-                                    target_email = row['EMAIL'].strip().lower()
+                                if str(row['STATUS']) != str(old_val['STATUS']) or str(row['EMAIL']).strip() != str(old_val['EMAIL']).strip():
+                                    target_email = str(row['EMAIL']).strip().lower()
                                     target_hp = str(old_val['HP'])
                                     
                                     # LOGIKA AUTO-ASSIGN HP (SLOT DINAMIS)
@@ -206,7 +206,6 @@ def tampilkan_database_channel():
                                         target_hp = "1"
                                         for h in range(1, 101):
                                             count_sekarang = hp_counts.get(str(h), 0)
-                                            # Jatah Slot: HP 1-8 (3 Channel), Lainnya (4 Channel)
                                             max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8] else 4
                                             
                                             if count_sekarang < max_slot:
