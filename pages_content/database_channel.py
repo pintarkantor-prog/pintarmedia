@@ -671,6 +671,7 @@ def tampilkan_database_channel():
     # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
     # ==============================================================================
     with tab_sd: 
+        # --- 1. SETUP FILTER PERIODE ---
         now_indo = database.ambil_waktu_sekarang()
         col_f1, col_f2 = st.columns([1, 1])
         with col_f1:
@@ -681,15 +682,21 @@ def tampilkan_database_channel():
             sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
 
         filter_periode = f"{sel_bln_code}/{sel_thn}"
+        
+        # --- 2. LOGIKA DATA ---
         df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
         mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
         df_selected = df_sold_all[mask_periode].copy()
         
         with st.container(border=True):
             m1, m2 = st.columns(2)
-            m1.metric("💰 TOTAL SOLD", f"{len(df_sold_all)}")
-            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{len(df_selected)}")
+            m1.metric("💰 TOTAL SOLD", f"{len(df_sold_all)}", delta="Unit Laku")
+            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{len(df_selected)}", delta="Bulan Ini")
 
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        # --- 3. DATABASE TABEL (DENGAN ICON & EDITABLE STATUS) ---
+        st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
         if df_selected.empty:
             st.info(f"Belum ada data periode {filter_periode}")
         else:
@@ -697,36 +704,65 @@ def tampilkan_database_channel():
             df_selected['TGL_LAST'] = df_selected['EDITED']
             df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
             
+            # --- CONFIG KOLOM PAKE ICON SULTAN ---
             config_sold = {
                 "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
                 "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
-                "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]),
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120, disabled=True),
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150, disabled=True),
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
+                "STATUS": st.column_config.SelectboxColumn(
+                    "⚙️ STATUS", width=100, 
+                    options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"],
+                    help="Ubah status jika akun batal terjual/refund."
+                ),
                 "REAL_IDX": None
             }
 
-            edited_sold = st.data_editor(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], use_container_width=True, hide_index=True, column_config=config_sold, key="grid_sold_final")
+            edited_sold = st.data_editor(
+                df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
+                use_container_width=True, 
+                hide_index=True, 
+                column_config=config_sold, 
+                key="grid_sold_manager_v3"
+            )
 
+            # --- 4. TOMBOL KONFIRMASI (LOGIKA SAVE FILTERED) ---
             if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
                 if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
                     try:
-                        tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                        data_batch = []
-                        for i, row in edited_sold.iterrows():
-                            idx_asli = int(row['REAL_IDX'])
-                            old_val = df.iloc[idx_asli]
-                            if str(row['STATUS']) != str(old_val['STATUS']):
-                                data_batch.append({"EMAIL": row['EMAIL'].strip().lower(), "STATUS": row['STATUS'], "EDITED": f"Update: {user_aktif} ({tgl_now})"})
-                        if data_batch:
-                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                            st.cache_data.clear()
-                            st.success(f"✅ Mantap! {len(data_batch)} Akun Diperbarui!")
-                            time.sleep(1)
-                            st.rerun()
+                        with st.spinner("Sinkronisasi data penjualan..."):
+                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                            data_batch = []
+                            
+                            for i, row in edited_sold.iterrows():
+                                idx_asli = int(row['REAL_IDX'])
+                                old_val = df.iloc[idx_asli]
+                                
+                                # Filter biar cuma yang lo edit status/subs-nya yang kekirim
+                                if str(row['STATUS']) != str(old_val['STATUS']) or \
+                                   str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']):
+                                    
+                                    data_batch.append({
+                                        "EMAIL": row['EMAIL'].strip().lower(),
+                                        "STATUS": row['STATUS'],
+                                        "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                        "EDITED": f"Update: {user_aktif} ({tgl_now})"
+                                    })
+
+                            if data_batch:
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                st.cache_data.clear()
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
+                                time.sleep(1)
+                                st.rerun()
+                                
                     except Exception as e:
-                        st.error(f"❌ Error: {e}")
+                        st.error(f"❌ Gagal Simpan: {e}")
 
     # ==============================================================================
-    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
+    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
     # ==============================================================================
     with tab_ar: 
         # --- 1. LOGIKA DASHBOARD ARSIP ---
@@ -745,8 +781,8 @@ def tampilkan_database_channel():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE ARSIP (BISA DIEDIT/DAUR ULANG) ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP")
+        # --- 3. DATABASE ARSIP (FULL EDITABLE & ICON SULTAN) ---
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA EDIT SEMUA KOLOM)")
         if df_a.empty:
             st.success("✨ Arsip masih kosong!")
         else:
@@ -754,30 +790,36 @@ def tampilkan_database_channel():
             df_a['TGL_KEJADIAN'] = df_a['EDITED']
             df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
+            # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ICON ---
             config_arsip = {
                 "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120),
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # BUKA
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), # BUKA
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # BUKA
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), # BUKA
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), # BUKA
                 "STATUS": st.column_config.SelectboxColumn(
-                    "⚙️ STATUS", width=100,
-                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]
+                    "⚙️ STATUS", 
+                    width=100,
+                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
+                    help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
                 ),
                 "REAL_IDX": None
             }
             
             edited_a = st.data_editor(
                 df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
-                use_container_width=True, hide_index=True, column_config=config_arsip, key="grid_arsip_v2"
+                use_container_width=True, 
+                hide_index=True, 
+                column_config=config_arsip, 
+                key="grid_arsip_daur_ulang_v3"
             )
 
-            # --- 4. LOGIKA SAVE (HANYA YANG BERUBAH) ---
+            # --- 4. LOGIKA SAVE (ANTI MUBADZIR - FILTERED) ---
             if not edited_a.equals(df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
                 if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
                     try:
-                        with st.spinner("Sinkronisasi..."):
+                        with st.spinner("Sinkronisasi data..."):
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                             data_batch = []
                             
@@ -785,9 +827,12 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # Filter biar gak kirim semua
+                                # Filter: Cek perubahan di SEMUA kolom yang dibuka
                                 if (str(row['STATUS']) != str(old_val['STATUS']) or 
                                     str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
                                     str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
                                     
                                     data_batch.append({
@@ -803,12 +848,12 @@ def tampilkan_database_channel():
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                 st.cache_data.clear()
-                                st.success(f"✅ Mantap Bos Dian! {len(data_batch)} Akun Berhasil Diperbarui!")
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun Arsip Diperbarui!")
                                 time.sleep(1)
                                 st.rerun()
+                                
                     except Exception as e:
-                        st.error(f"❌ Error: {e}")
-
+                        st.error(f"❌ Gagal Diperbarui: {e}")
 
     # ==========================================================================
     # TAB 7: SEWA NOMOR ONLINE (VERSI FIX LAYOUT & SALDO HIJAU)
