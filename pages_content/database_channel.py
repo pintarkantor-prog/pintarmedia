@@ -668,71 +668,63 @@ def tampilkan_database_channel():
                                     st.error("⚠️ Nama & Nomor HP wajib diisi!")
 
     # ==============================================================================
-    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - ORIGINAL UI v2.0)
+    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
     # ==============================================================================
     with tab_sd: 
-        # --- 1. SETUP FILTER PERIODE ---
         now_indo = database.ambil_waktu_sekarang()
-        
         col_f1, col_f2 = st.columns([1, 1])
         with col_f1:
-            list_bulan = {
-                "01": "Januari", "02": "Februari", "03": "Maret", "04": "April", 
-                "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", 
-                "09": "September", "10": "Oktober", "11": "November", "12": "Desember"
-            }
+            list_bulan = {"01": "Januari", "02": "Februari", "03": "Maret", "04": "April", "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", "09": "September", "10": "Oktober", "11": "November", "12": "Desember"}
             sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=now_indo.month - 1, key="tab_sold_bln")
             sel_bln_code = [k for k, v in list_bulan.items() if v == sel_bln_nama][0]
         with col_f2:
             sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
 
         filter_periode = f"{sel_bln_code}/{sel_thn}"
-        
-        # --- 2. LOGIKA HITUNG DATA ---
         df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
-        total_ever = len(df_sold_all)
-        
         mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
         df_selected = df_sold_all[mask_periode].copy()
-        total_selected = len(df_selected)
         
-        # Hitung data bulan lalu
-        try:
-            from datetime import timedelta
-            date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
-            date_prev = (date_selected - timedelta(days=1))
-            filter_prev = date_prev.strftime("%m/%Y")
-            total_prev = len(df_sold_all[df_sold_all['EDITED'].astype(str).str.contains(filter_prev, na=False)])
-        except:
-            total_prev = 0
-            filter_prev = "N/A"
-
-        # --- 3. RENDER METRIK ---
         with st.container(border=True):
-            m1, m2, m3 = st.columns(3)
-            m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
-            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
-            m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
+            m1, m2 = st.columns(2)
+            m1.metric("💰 TOTAL SOLD", f"{len(df_sold_all)}")
+            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{len(df_selected)}")
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # --- 4. DATABASE TABEL ---
-        st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
         if df_selected.empty:
-            st.info(f"Belum ada data penjualan tercatat untuk periode {filter_periode}")
+            st.info(f"Belum ada data periode {filter_periode}")
         else:
+            df_selected['REAL_IDX'] = df_selected.index
             df_selected['TGL_LAST'] = df_selected['EDITED']
             df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
             
-            st.dataframe(
-                df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS"]], 
-                use_container_width=True, hide_index=True,
-                column_config={
-                    "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180),
-                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100)
-                }
-            )
-        
+            config_sold = {
+                "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
+                "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]),
+                "REAL_IDX": None
+            }
+
+            edited_sold = st.data_editor(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], use_container_width=True, hide_index=True, column_config=config_sold, key="grid_sold_final")
+
+            if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
+                if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
+                    try:
+                        tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                        data_batch = []
+                        for i, row in edited_sold.iterrows():
+                            idx_asli = int(row['REAL_IDX'])
+                            old_val = df.iloc[idx_asli]
+                            if str(row['STATUS']) != str(old_val['STATUS']):
+                                data_batch.append({"EMAIL": row['EMAIL'].strip().lower(), "STATUS": row['STATUS'], "EDITED": f"Update: {user_aktif} ({tgl_now})"})
+                        if data_batch:
+                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                            st.cache_data.clear()
+                            st.success(f"✅ Mantap! {len(data_batch)} Akun Diperbarui!")
+                            time.sleep(1)
+                            st.rerun()
+                    except Exception as e:
+                        st.error(f"❌ Error: {e}")
+
     # ==============================================================================
     # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
     # ==============================================================================
@@ -753,16 +745,15 @@ def tampilkan_database_channel():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE ARSIP (EDITABLE UNTUK DAUR ULANG) ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA DIEDIT/DAUR ULANG)")
+        # --- 3. DATABASE ARSIP (BISA DIEDIT/DAUR ULANG) ---
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP")
         if df_a.empty:
-            st.success("✨ Arsip masih kosong. Belum ada akun yang bermasalah!")
+            st.success("✨ Arsip masih kosong!")
         else:
             df_a['REAL_IDX'] = df_a.index 
             df_a['TGL_KEJADIAN'] = df_a['EDITED']
             df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
-            # Konfigurasi Kolom agar bisa edit Status, Nama, Pass, dll.
             config_arsip = {
                 "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
                 "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
@@ -771,27 +762,22 @@ def tampilkan_database_channel():
                 "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
                 "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
                 "STATUS": st.column_config.SelectboxColumn(
-                    "⚙️ STATUS", 
-                    width=100,
-                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
-                    help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
+                    "⚙️ STATUS", width=100,
+                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]
                 ),
                 "REAL_IDX": None
             }
             
             edited_a = st.data_editor(
                 df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
-                use_container_width=True, 
-                hide_index=True,
-                column_config=config_arsip,
-                key="grid_arsip_daur_ulang"
+                use_container_width=True, hide_index=True, column_config=config_arsip, key="grid_arsip_v2"
             )
 
-            # --- 4. LOGIKA SAVE PERUBAHAN (DAUR ULANG) ---
+            # --- 4. LOGIKA SAVE (HANYA YANG BERUBAH) ---
             if not edited_a.equals(df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
-                if st.button("💾 KONFIRMASI PERUBAHAN", type="primary", use_container_width=True):
+                if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
                     try:
-                        with st.spinner("Memproses data ke Supabase..."):
+                        with st.spinner("Sinkronisasi..."):
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                             data_batch = []
                             
@@ -799,8 +785,11 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # Cek jika ada perubahan data
-                                if row['STATUS'] != old_val['STATUS'] or row['PASSWORD'] != old_val['PASSWORD'] or row['NAMA_CHANNEL'] != old_val['NAMA_CHANNEL']:
+                                # Filter biar gak kirim semua
+                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
+                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                                    
                                     data_batch.append({
                                         "EMAIL": row['EMAIL'].strip().lower(),
                                         "PASSWORD": row['PASSWORD'],
@@ -813,12 +802,12 @@ def tampilkan_database_channel():
 
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diperbarui!")
+                                st.cache_data.clear()
+                                st.success(f"✅ Mantap Bos Dian! {len(data_batch)} Akun Berhasil Diperbarui!")
                                 time.sleep(1)
                                 st.rerun()
-                                
                     except Exception as e:
-                        st.error(f"❌ Gagal Diperbarui: {e}")
+                        st.error(f"❌ Error: {e}")
 
 
     # ==========================================================================
