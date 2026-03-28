@@ -668,9 +668,14 @@ def tampilkan_database_channel():
                                     st.error("⚠️ Nama & Nomor HP wajib diisi!")
 
     # ==============================================================================
-    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - EDITABLE v2.0)
+    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
     # ==============================================================================
     with tab_sd: 
+        # --- 0. HEADER DENGAN LOGO ---
+        c_logo, c_text = st.columns([0.1, 0.9])
+        c_logo.markdown("## 💰") 
+        c_text.markdown("### DATA PENJUALAN PINTAR MEDIA")
+
         # --- 1. SETUP FILTER PERIODE ---
         now_indo = database.ambil_waktu_sekarang()
         col_f1, col_f2 = st.columns([1, 1])
@@ -695,7 +700,7 @@ def tampilkan_database_channel():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE TABEL (DENGAN ICON & EDITABLE STATUS) ---
+        # --- 3. DATABASE TABEL (FULL EDITABLE & ICON SULTAN) ---
         st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
         if df_selected.empty:
             st.info(f"Belum ada data periode {filter_periode}")
@@ -704,14 +709,14 @@ def tampilkan_database_channel():
             df_selected['TGL_LAST'] = df_selected['EDITED']
             df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
             
-            # --- CONFIG KOLOM PAKE ICON SULTAN ---
+            # --- CONFIG: SEMUA BISA DIEDIT (KECUALI TANGGAL) ---
             config_sold = {
                 "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120, disabled=True),
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150, disabled=True),
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # BUKA
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), # BUKA
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # BUKA
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), # BUKA
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), # BUKA
                 "STATUS": st.column_config.SelectboxColumn(
                     "⚙️ STATUS", width=100, 
                     options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"],
@@ -725,10 +730,10 @@ def tampilkan_database_channel():
                 use_container_width=True, 
                 hide_index=True, 
                 column_config=config_sold, 
-                key="grid_sold_manager_v3"
+                key="grid_sold_full_edit_v3"
             )
 
-            # --- 4. TOMBOL KONFIRMASI (LOGIKA SAVE FILTERED) ---
+            # --- 4. LOGIKA SAVE (FILTERED - ANTI MUBADZIR) ---
             if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
                 if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
                     try:
@@ -740,21 +745,28 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # Filter biar cuma yang lo edit status/subs-nya yang kekirim
-                                if str(row['STATUS']) != str(old_val['STATUS']) or \
-                                   str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']):
+                                # Filter: Cek perubahan di SEMUA kolom
+                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
+                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
                                     
                                     data_batch.append({
                                         "EMAIL": row['EMAIL'].strip().lower(),
-                                        "STATUS": row['STATUS'],
+                                        "PASSWORD": row['PASSWORD'],
+                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
                                         "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                        "STATUS": row['STATUS'],
                                         "EDITED": f"Update: {user_aktif} ({tgl_now})"
                                     })
 
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                 st.cache_data.clear()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
+                                st.success(f"✅ Mantap! {len(data_batch)} Data SOLD Diperbarui!")
                                 time.sleep(1)
                                 st.rerun()
                                 
