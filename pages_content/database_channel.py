@@ -185,37 +185,42 @@ def tampilkan_database_channel():
                 column_config=config_st, use_container_width=True, hide_index=True, key="grid_st_pro_locked"
             )
 
-            # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16) ---
-            kolom_cek = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]
-            if not edited_st.equals(df_st[kolom_cek]):
-                if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
-                    try:
-                        with st.spinner("Sinkronisasi Radar ke Supabase..."):
-                            tgl_now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
+        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - OPTIMIZED) ---
+        kolom_cek = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]
+        if not edited_st.equals(df_st[kolom_cek]):
+            if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
+                try:
+                    with st.spinner("Sinkronisasi Radar ke Supabase..."):
+                        tgl_now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
+                        
+                        # 1. SIAPIN KERANJANG KOSONG
+                        data_batch = []
+                        
+                        for i, row in edited_st.iterrows():
+                            # Ambil data asli dari database buat dibandingin
+                            idx_asli = int(row['REAL_IDX'])
+                            old_val = df.iloc[idx_asli]
+                            
+                            # --- JURUS SAKTI: FILTER HANYA YANG BERUBAH ---
+                            # Kita cek apakah kolom penting ada yang beda sama data lama
+                            if (str(row['STATUS']) != str(old_val['STATUS']) or 
+                                str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
                                 
-                            # 1. SIAPIN KERANJANG (List Kosong)
-                            data_batch = []
-                                
-                            for i, row in edited_st.iterrows():
                                 target_email = row['EMAIL'].strip().lower()
-                                idx_asli = int(row['REAL_IDX'])
-                                old_val = df.iloc[idx_asli]
-                                    
-                                # --- LOGIKA TARGET HP (SLOT DINAMIS 2 & 3) ---
                                 target_hp = str(old_val['HP'])
+                                
+                                # --- LOGIKA TARGET HP (SLOT DINAMIS) ---
                                 if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
                                     df_p_now = df[df['STATUS'] == 'PROSES'].copy()
                                     hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
-                                        
+                                    
                                     target_hp = "1"
                                     for h in range(1, 101):
-                                        count_sekarang = hp_counts.get(str(h), 0) 
-                                        # Kalau mau balikin 2 semua, kosongin aja isinya jadi: if h in []:
-                                        if h in [1, 2, 3, 4, 5, 6, 7, 8,]:
-                                            max_slot = 3
-                                        else:
-                                            max_slot = 4
-                                            
+                                        count_sekarang = hp_counts.get(str(h), 0)
+                                        max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8] else 4
+                                        
                                         if count_sekarang < max_slot:
                                             target_hp = str(h)
                                             break
@@ -223,7 +228,7 @@ def tampilkan_database_channel():
                                 elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
                                     target_hp = ""
 
-                                # 2. MASUKIN DATA KE KERANJANG (GAK PAKE .execute() DI SINI!)
+                                # 2. CUMA MASUKIN DATA YANG BERUBAH KE KERANJANG
                                 data_batch.append({
                                     "TANGGAL": tgl_now,
                                     "EMAIL": target_email,
@@ -237,17 +242,20 @@ def tampilkan_database_channel():
                                     "EDITED": f"Up: {user_aktif} ({tgl_now})"
                                 })
 
-                            # Inilah yang bikin instan milidetik, Cok!
-                            if data_batch:
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                        # --- EKSEKUSI KE SUPABASE ---
+                        if data_batch:
+                            # Tembak database cuma dengan data yang berubah (Efisien!)
+                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
 
                             st.cache_data.clear()
                             st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
                             time.sleep(1)
                             st.rerun()
+                        else:
+                            st.info("Tidak ada perubahan spesifik yang terdeteksi.")
                                 
-                    except Exception as e:
-                        st.error(f"❌ Error Global: {e}")
+                except Exception as e:
+                    st.error(f"❌ Error Global: {e}")
 
     # ==============================================================================
     # TAB 2: MONITORING PROSES (RADAR SYNC & SLOT HP PROTECTION v2.0)
