@@ -185,7 +185,7 @@ def tampilkan_database_channel():
                 column_config=config_st, use_container_width=True, hide_index=True, key="grid_st_pro_locked"
             )
 
-        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - OPTIMIZED) ---
+        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - ANTI-MUBADZIR) ---
         kolom_cek = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]
         if not edited_st.equals(df_st[kolom_cek]):
             if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
@@ -201,8 +201,7 @@ def tampilkan_database_channel():
                             idx_asli = int(row['REAL_IDX'])
                             old_val = df.iloc[idx_asli]
                             
-                            # --- JURUS SAKTI: FILTER HANYA YANG BERUBAH ---
-                            # Kita cek apakah kolom penting ada yang beda sama data lama
+                            # --- FILTER SAKTI: CEK APAKAH BARIS INI BENERAN BERUBAH? ---
                             if (str(row['STATUS']) != str(old_val['STATUS']) or 
                                 str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
                                 str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
@@ -244,9 +243,7 @@ def tampilkan_database_channel():
 
                         # --- EKSEKUSI KE SUPABASE ---
                         if data_batch:
-                            # Tembak database cuma dengan data yang berubah (Efisien!)
                             database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-
                             st.cache_data.clear()
                             st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
                             time.sleep(1)
