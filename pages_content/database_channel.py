@@ -193,8 +193,11 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # Cek jika ada perubahan status atau data lain
-                                if str(row['STATUS']) != str(old_val['STATUS']) or str(row['EMAIL']).strip() != str(old_val['EMAIL']).strip():
+                                # Cek jika ada perubahan status atau data lain (biar detail)
+                                if str(row['STATUS']) != str(old_val['STATUS']) or \
+                                   str(row['EMAIL']).strip() != str(old_val['EMAIL']).strip() or \
+                                   str(row['PASSWORD']) != str(old_val['PASSWORD']):
+                                   
                                     target_email = str(row['EMAIL']).strip().lower()
                                     target_hp = str(old_val['HP'])
                                     
@@ -227,9 +230,18 @@ def tampilkan_database_channel():
                                     })
 
                             if data_batch:
+                                # Eksekusi ke Supabase
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
-                                time.sleep(1)
+                                
+                                # Trik biar GAK KEDIP: Nahan notif sebelum rerun
+                                placeholder = st.empty()
+                                with placeholder.container():
+                                    st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
+                                    for d in data_batch:
+                                        # Notif melayang biar mantap
+                                        st.toast(f"Sukses update {d['EMAIL']}", icon='🔥')
+                                
+                                time.sleep(2) # Kasih waktu lo napas 2 detik buat liat suksesnya
                                 st.rerun()
                                 
                     except Exception as e:
