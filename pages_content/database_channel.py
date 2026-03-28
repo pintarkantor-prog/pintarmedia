@@ -239,7 +239,7 @@ def tampilkan_database_channel():
 
                             # Inilah yang bikin instan milidetik, Cok!
                             if data_batch:
-                                supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
 
                             st.cache_data.clear()
                             st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
