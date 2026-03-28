@@ -688,19 +688,35 @@ def tampilkan_database_channel():
 
         filter_periode = f"{sel_bln_code}/{sel_thn}"
         
-        # --- 2. LOGIKA DATA ---
+        # --- 2. LOGIKA HITUNG DATA (SUPABASE DATA) ---
         df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
+        total_ever = len(df_sold_all)
+        
         mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
         df_selected = df_sold_all[mask_periode].copy()
+        total_selected = len(df_selected)
         
+        # --- LOGIKA DELTA BULAN LALU (YANG TADI KEHAPUS) ---
+        try:
+            from datetime import timedelta
+            date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
+            date_prev = (date_selected - timedelta(days=1))
+            filter_prev = date_prev.strftime("%m/%Y")
+            total_prev = len(df_sold_all[df_sold_all['EDITED'].astype(str).str.contains(filter_prev, na=False)])
+        except:
+            total_prev = 0
+            filter_prev = "N/A"
+
+        # --- 3. RENDER 3 METRIK UTAMA ---
         with st.container(border=True):
-            m1, m2 = st.columns(2)
-            m1.metric("💰 TOTAL SOLD", f"{len(df_sold_all)}", delta="Unit Laku")
-            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{len(df_selected)}", delta="Bulan Ini")
+            m1, m2, m3 = st.columns(3)
+            m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
+            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
+            m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE TABEL (FULL EDITABLE & ICON SULTAN) ---
+        # --- 4. DATABASE TABEL (FULL EDITABLE & ICON SULTAN) ---
         st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
         if df_selected.empty:
             st.info(f"Belum ada data periode {filter_periode}")
@@ -709,18 +725,16 @@ def tampilkan_database_channel():
             df_selected['TGL_LAST'] = df_selected['EDITED']
             df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
             
-            # --- CONFIG: SEMUA BISA DIEDIT (KECUALI TANGGAL) ---
             config_sold = {
                 "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # BUKA
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), # BUKA
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # BUKA
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), # BUKA
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), # BUKA
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120),
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
                 "STATUS": st.column_config.SelectboxColumn(
                     "⚙️ STATUS", width=100, 
-                    options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"],
-                    help="Ubah status jika akun batal terjual/refund."
+                    options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]
                 ),
                 "REAL_IDX": None
             }
@@ -730,10 +744,10 @@ def tampilkan_database_channel():
                 use_container_width=True, 
                 hide_index=True, 
                 column_config=config_sold, 
-                key="grid_sold_full_edit_v3"
+                key="grid_sold_full_edit_final"
             )
 
-            # --- 4. LOGIKA SAVE (FILTERED - ANTI MUBADZIR) ---
+            # --- 5. LOGIKA SAVE (ANTI MUBADZIR) ---
             if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
                 if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
                     try:
@@ -766,7 +780,7 @@ def tampilkan_database_channel():
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                 st.cache_data.clear()
-                                st.success(f"✅ Mantap! {len(data_batch)} Data SOLD Diperbarui!")
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
                                 time.sleep(1)
                                 st.rerun()
                                 
