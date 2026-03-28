@@ -255,31 +255,26 @@ def tampilkan_database_channel():
                     st.error(f"❌ Error Global: {e}")
 
     # ==============================================================================
-    # TAB 2: MONITORING PROSES (RADAR SYNC & SLOT HP PROTECTION v2.0)
+    # TAB 2: MONITORING PROSES (EDITABLE VERSION)
     # ==============================================================================
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
         
-        # --- INFO INSTRUKSI STAFF ---
         st.info("""
             💡 **PENGINGAT KHUSUS:**
             1. HP 1-8 Konten Sakura (Max 3 Channel)
             2. HP 9-23 Konten Masjid (Max 4 Channel)
-            3. Pastikan login/hapus stock video disesuaikan.
         """)
 
-        # Filter data yang statusnya PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
 
         if df_p.empty:
             st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
         else:
-            # --- FIX SORTING (Agar HP 1, 2... 10 urut lurus) ---
             df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
             df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
 
             display_list = []
-            # Groupby untuk membuat tampilan "Group per HP"
             for hp_id, group in df_p.groupby('HP', sort=False):
                 for i, (idx, r) in enumerate(group.iterrows()):
                     display_list.append({
@@ -295,14 +290,14 @@ def tampilkan_database_channel():
 
             df_display = pd.DataFrame(display_list)
             
-            # Konfigurasi Kolom Editor
+            # --- CONFIG: SEMUA GEMBOK DIBUKA ---
             config_p = {
                 "HP": st.column_config.TextColumn("📱 UNIT", width=80, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200, disabled=True),
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130, disabled=True),
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150, disabled=True),
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # Buka
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), # Buka
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # Buka
                 "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=60), 
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=100, disabled=True),
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=150), # Buka
                 "STATUS": st.column_config.SelectboxColumn(
                     "⚙️ STATUS", width=100, 
                     options=["PROSES", "SOLD", "STANDBY", "BUSUK", "SUSPEND"]
@@ -318,9 +313,9 @@ def tampilkan_database_channel():
                 key="grid_p_pro_v2"
             )
 
-            # --- LOGIKA SAVE (MURNI SUPABASE - BATCH) ---
+            # --- LOGIKA SAVE (FULL UPDATE FILTERED) ---
             if not edited_p.equals(df_display):
-                if st.button("💾 UPDATE STATUS MONITORING", use_container_width=True, type="primary"):
+                if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
                     try:
                         with st.spinner("Sinkronisasi ke Supabase..."):
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
@@ -330,24 +325,32 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # Cek perubahan Status atau Subscribe
-                                if (row['STATUS'] != old_val['STATUS'] or str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                                # --- CEK PERUBAHAN SEMUA KOLOM ---
+                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
+                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
+                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or
+                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()):
+                                    
                                     target_hp = str(old_val['HP'])
-                                    # Jika dilepas dari proses, kosongkan HP-nya
                                     if row['STATUS'] != 'PROSES':
                                         target_hp = "" 
 
                                     data_batch.append({
                                         "EMAIL": row['EMAIL'].strip().lower(),
-                                        "STATUS": row['STATUS'],
+                                        "PASSWORD": row['PASSWORD'],
+                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
                                         "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                        "STATUS": row['STATUS'],
                                         "HP": target_hp,
                                         "EDITED": f"Up: {user_aktif} ({tgl_now})"
                                     })
 
                             if data_batch:
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                                st.success(f"✅ Berhasil! {len(data_batch)} Akun terupdate.")
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
                                 time.sleep(1)
                                 st.rerun()
                                 
