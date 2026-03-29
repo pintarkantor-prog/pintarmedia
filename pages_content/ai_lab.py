@@ -1173,125 +1173,132 @@ def tampilkan_halaman():
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
             st.code(final_ai_prompt, language="text")
 
-# ==========================================================================
-    # TAB: BAMBOO CRAFT SURREAL (LUXURY ARCHITECTURE & COMIC TENSION)
     # ==========================================================================
-    # Perbaikan: Pakai variabel t_bamboo yang sudah didefinisikan di st.tabs
+    # TAB: BAMBOO CRAFT (HIDDEN BAMBOO PALACE GENERATOR)
+    # ==========================================================================
     with t_bamboo:
-        # Kita bungkus semua dalam expander utama biar clean
-        with st.expander("🎋 MENGELOLA BAMBOO CRAFT GENERATOR", expanded=True):
+        # Kita bungkus semua dalam satu expander utama biar rapi
+        with st.expander("🎋 MENGELOLA HIDDEN BAMBOO GENERATOR", expanded=True):
             
-            # --- 1. KAMUS DNA LOKAL (HANYA UNTUK TAB INI) ---
-            # Fokus DNA: Interaksi Jarak Dekat & Ekspresi Ekstrim (Medium Shot)
-            MASTER_BAMBOO_SOUL = {
-                "Kakek Tua (Jantungan Shot)": (
-                    "Medium-close up portrait of an elderly Indonesian artisan man, deeply weathered, sun-baked tanned skin. "
-                    "His face is the main focus, with a profound Expression: Wide-eyed terror, mouth wide open, gasping in complete shock. "
-                    "Wispy, long white hair and beard flying back as he flinches. Calloused hands clutch his chest. "
-                    "Wearing a tattered weathered grey t-shirt and dark sarong."
-                ),
-                "Nenek Tua (Shocked Elder)": (
-                    "Medium-close up portrait of an aged Indonesian woman with thick, porous skin and visible age spots. "
-                    "Her silver hair is messy from flinching. Expression: Intense fear, eyes wide open, "
-                    "hands raised in a defensive posture. Deep nasolabial folds and sagging skin texture."
+            # --- 1. KAMUS DNA MODULAR (GAMPANG DIEDIT) ---
+            # Data ini gue ambil langsung dari pemahaman 4 video referensi lo
+            
+            # DNA KARAKTER (Identity Anchor)
+            MASTER_DNA_CHAR = {
+                "Kakek Tua (The Inhabitant)": (
+                    "An elderly Indonesian man with deeply weathered skin. "
+                    "His identity is defined by long, wispy white hair and a thin, "
+                    "stringy white beard. He has calloused, thick-knuckled hands. "
+                    "Expression: Wide-eyed terror, mouth agape, gasping in shock."
                 )
             }
 
-            # Deskripsi Rumah dibuat dekat/latar belakang (fokus ke teras)
-            MASTER_BAMBOO_HOUSE = {
-                "Emerald Sanctuary (Green Bamboo)": (
-                    "Set inside a lush, mist-shrouded tropical rainforest with giant ferns and rising mist. "
-                    "The person is startled on a complex-woven fresh green bamboo porch. Just behind them "
-                    "is a stunning modern multi-level fresh green bamboo house sanctuary with intricate hexagonal weaving. "
-                    "Golden morning sunlight filtering through the dense canopy, creating strong god-rays."
-                ),
-                "Golden Reed Palace (Natural Wood)": (
-                    "Set on a polished golden bamboo terrace. Behind the person is an avant-garde "
-                    "luxury sanctuary built from golden bamboo and aged wood, with spiral pillars. "
-                    "Misty ancient jungle background."
+            # DNA PAKAIAN (The "Seragam")
+            MASTER_DNA_CLOTH = {
+                "Kaos Putih & Sarung Usang": (
+                    "tattered weathered white singlet tank top and a faded "
+                    "dark brown traditional check-pattern sarong."
                 )
             }
 
-            MASTER_INTERIOR_DNA = {
-                "Glass Palace & Koi Stream": (
-                    "breathtaking luxury bamboo interior with high glass ceilings, an indoor koi stream pond "
-                    "integrated into the marble floor, and lush indoor tropical plants. "
-                    "The furniture features elegant bamboo curves with {motif} patterns and textures."
-                ),
-                "Royal Bamboo Suite": (
-                    "ultra-luxury bedroom suite with massive bamboo pillars and a giant glass wall "
-                    "overlooking the jungle. Features silk sheets and intricate {motif} sculptures throughout the room."
+            # DNA LOKASI & ARSITEKTUR RUMAH (Emerald Sanctuary)
+            MASTER_DNA_HOUSE = {
+                "Emerald Sanctuary (Green Bamboo)": {
+                    "deskripsi": (
+                        "Set in a lush, mist-shrouded tropical rainforest with massive ferns. "
+                        "Just behind the man is a stunning modern Multi-level fresh green "
+                        "bamboo house with complex weaving patterns. Golden morning sunlight."
+                    ),
+                    "hewan_motif": "hexagonal fresh green bamboo weaving patterns."
+                }
+            }
+
+            # DNA INTERIOR (Theme-consistent Luxury)
+            MASTER_DNA_INT = {
+                "Glass Hall & Koi Stream": (
+                    "breathtaking luxury bamboo interior with high glass ceilings, an "
+                    "indoor koi stream pond integrated into the marble floor, and plants. "
+                    "The furniture features elegant bamboo curves with {motif} patterns."
                 )
             }
 
-            # --- 2. UI SELECTION (2 Kolom Rapi) ---
+            # --- 2. UI SELECTION (2 Kolom Rapi & Bebas Error) ---
+            # Pastiin nama col1 & col2 sama persis pas dipanggil
             col1, col2 = st.columns(2)
             
             with col1:
-                char_key = st.selectbox("JIWA KARAKTER", list(MASTER_BAMBOO_SOUL.keys()))
-                house_key = st.selectbox("LOKASI & RUMAH (LUAR)", list(MASTER_BAMBOO_HOUSE.keys()))
-                hewan_key = st.selectbox("ANCAMAN HEWAN", ["King Cobra", "Bengal Tiger", "Black Panther", "Elephant"])
+                char_key = st.selectbox("JIWA KARAKTER (DNA MUKA)", list(MASTER_DNA_CHAR.keys()))
+                house_key = st.selectbox("ARSITEKTUR BAMBU (DNA LUAR)", list(MASTER_DNA_HOUSE.keys()))
+                hewan_key = st.selectbox("ANCAMAN HEWAN (AWAL)", ["King Cobra", "Bengal Tiger", "Black Panther"])
 
             with col2:
-                int_key = st.selectbox("INTERIOR KEJUTAN (DALAM)", list(MASTER_INTERIOR_DNA.keys()))
-                cloth_desc = st.text_input("DNA PAKAIAN", "tattered weathered white t-shirt and a faded dark brown sarong")
+                # Kita buat int_key di sini
+                int_key = st.selectbox("INTERIOR KEJUTAN (DNA DALAM)", list(MASTER_DNA_INT.keys()))
+                # Kita copas baju yang paling 'Visi-Misi' jadi text input default
+                cloth_input = st.text_input("DETAIL PAKAIAN (DNA BAJU)", MASTER_DNA_CLOTH["Kaos Putih & Sarung Usang"])
                 st.caption("Pastiin deskripsi baju konsisten di Master A & B.")
 
             st.divider()
 
-            # --- 3. RAKIT STORYBOARD LOGIC (PROMPT ENGINEERING) ---
+            # --- 3. RAKIT STORYBOARD LOGIC (PROMPT ENGINEERING KUNCI KONSISTENSI) ---
             if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
                 # Ambil Data
-                c_dna = MASTER_BAMBOO_SOUL[char_key]
-                h_dna = MASTER_BAMBOO_HOUSE[house_key]
-                # Suntik motif hewan ke interior
-                i_dna = MASTER_INTERIOR_DNA[int_key].format(motif=hewan_key.lower())
+                c_dna = MASTER_DNA_CHAR[char_key]
+                h_dna = MASTER_DNA_HOUSE[house_key]
+                
+                # SUNTIKKAN DNA HEWAN KE DALAM INTERIOR
+                # Kita buat logic untuk ganti {motif} jadi motif hewan yang sesuai
+                motif_name = f"{hewan_key.lower()}-skin" if "Cobra" in hewan_key else f"{hewan_key.lower()}-stripe"
+                i_dna_formatted = MASTER_DNA_INT[int_key].format(motif=motif_name)
                 
                 # --- IDENTITY ANCHOR & CLEANING FOR MASTER B ---
-                # Pisahin deskripsi fisik murni dari ekspresinya (Cari kata 'Expression:')
+                # Kita pisahin deskripsi fisik murni dari ekspresinya (Cari kata 'Expression:')
                 fisik_murni = c_dna.split("Expression:")[0].strip()
 
                 # --- OUTPUT MASTER KEYFRAMES (FLUX) ---
                 st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
                 
-                # MASTER A (EXTERIOR INTERACTION): Fokus hewan nempel ke kakek
+                # MASTER A (EXTERIOR INTERACTION): Fokus interaksi kakek & harimau di teras
                 m_a = (
-                    f"MASTER A (EXTERIOR INTERACTION): {c_dna}. He is flinching back, startled on the {h_dna}. "
-                    f"A colossal {hewan_key} has risen in front of him, looming and threatening, taking up half the frame. "
+                    f"MASTER A (EXTERIOR INTERACTION): {c_dna} He is wearing {cloth_input}. "
+                    f"Startled on the {h_dna['deskripsi']} A colossal {hewan_key} has risen "
+                    f"in front of him, looming and threatening, taking up half the frame. "
                     f"Cinematic Medium shot, 8k, photorealistic."
                 )
                 
                 # MASTER B (INTERIOR RELIEF): Ekspresi lega, fisk & baju sama
                 m_b = (
                     f"MASTER B (INTERIOR RELIEF): {fisik_murni} Expression: Safe, calm, and relieved smile. "
-                    f"Wearing {cloth_desc}. Inside a breathtaking {i_dna}. "
-                    f"Natural sunlight through glass ceiling, 8k, cinematic."
+                    f"Wearing {cloth_input}. Inside a breathtaking {i_dna_formatted} "
+                    f"Natural sunlight through glass ceiling, 8k, cinematic portrait."
                 )
                 
-                # Hasil Prompt dengan perbaikan tanda baca double dots
+                # Kita bungkus Master dalam expander tersendiri biar gak numpuk
                 with st.expander("📝 PROMPT GAMBAR MASTER (KLIK UNTUK COPY)", expanded=True):
-                    st.info("Gunakan Master A untuk Video 0-20s | Master B untuk Video 20-40s (Ganti di detik ke-20)")
+                    st.info("Master A: Gunakan untuk Video 0-20s | Master B: Gunakan untuk Video 20-40s")
+                    # Tampilkan hasil dengan perbaikan tanda baca double dots
                     st.code(m_a.replace("..", "."), language="text")
                     st.code(m_b.replace("..", "."), language="text")
 
                 # --- OUTPUT VIDEO CHAIN PROMPTS (GROK) ---
                 st.subheader("📽️ VIDEO CHAIN PROMPTS (GROK)")
                 
-                # DNA Gerakan untuk Grok (Tetep pake Medium/Close shot di awal)
-                s1 = f"SCENE 1: Close-up on the face of {char_key}. He gasps in fear as the {hewan_key} rises its head. {h_dna}. Camera shakes slightly."
+                # DNA Gerakan untuk Grok (Tetep pake Medium shot di awal buat interaksi)
+                s1 = f"SCENE 1: Close-up on the face of {char_key}. He gasps in fear as the {hewan_key} rises its head. {h_dna['deskripsi']}. Camera shakes slightly."
                 s2 = f"SCENE 2: {char_key} turns around in panic and rushes into the bamboo house doorway, slamming the door. Fast tracking shot from behind."
-                s3 = f"SCENE 3: Camera dives rapidly through the dark bamboo doorway, transitioning into the breathtaking luxury {i_dna}. Smooth FPV motion."
-                s4 = f"SCENE 4: 360 degree pan of the interior {i_dna}. {char_key} is sitting safely, looking out the glass walls. Calm atmosphere."
+                s3 = f"SCENE 3: Camera dives rapidly through the dark bamboo doorway, transitioning into the breathtaking luxury {i_dna_formatted}. Smooth FPV motion."
+                s4 = f"SCENE 4: 360 degree pan of the interior {i_dna_formatted}. {char_key} is sitting safely at a table, smiling. Calm atmosphere."
 
                 scenes = [s1, s2, s3, s4]
                 titles = ["THE THREAT (0-5s)", "THE ESCAPE (5-10s)", "THE DIVE (10-15s)", "THE REVEAL (15-20s)"]
                 
                 for i, scene in enumerate(scenes):
-                    with st.expander(f"STEP {i+1}: {titles[i]}", expanded=False):
+                    with st.expander(f"STEP {i+1}: {titles[i]}", expanded=True):
                         # Baju dicopas manual di sini karena Grok butuh detail di teks
-                        st.code(scene.replace(char_key, f"{char_key} wearing {cloth_desc}"), language="text")
+                        st.code(scene.replace(char_key, f"{char_key} wearing {cloth_input}"), language="text")
                 
                 st.success("DNA Berhasil Dirakit, Coy! Langsung hajar di Grok/Kling! 🎋🔥")
+                
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
     # ==========================================================================
