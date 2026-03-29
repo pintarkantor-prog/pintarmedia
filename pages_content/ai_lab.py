@@ -1,5 +1,6 @@
 import streamlit as st
 from datetime import datetime, timedelta
+from modules.dna_config import KARAKTER_DNA, PAKAIAN_DNA, LOKASI_DNA, INTERIOR_DNA
 
 def tampilkan_halaman():
     # --- 1. PINTU UTAMA: CEK IZIN AKSES ---
@@ -28,8 +29,8 @@ def tampilkan_halaman():
     st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {tahun}")
 
     # --- 3. TABS MENU ---
-    t_masjid, t_anatomi, t_transform, t_random = st.tabs([
-        "🕌 MASJID", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
+    t_masjid, t_bamboo, t_anatomi, t_transform, t_random = st.tabs([
+        "🕌 MASJID", "🎋 BAMBOO CRAFT", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
     ])
                 
     # ==========================================================================
@@ -1172,6 +1173,85 @@ def tampilkan_halaman():
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
             st.code(final_ai_prompt, language="text")
+
+    # ==========================================================================
+    # TAB: BAMBOO CRAFT SURREAL (LUXURY ARCHITECTURE & ANIMAL DNA)
+    # ==========================================================================
+    with t_bamboo:
+        # --- 1. KAMUS DNA KHUSUS TAB BAMBOO (Lokal di dalam tab) ---
+        MASTER_BAMBOO_SOUL = {
+            "Kakek (The Master Artisan)": (
+                "An elderly Indonesian man with deeply weathered, sun-baked tanned skin. "
+                "His face is a map of deep wrinkles with prominent crow's feet and etched forehead lines. "
+                "Wispy, long white hair and a thin, stringy white beard. "
+                "Expression: Wide-eyed terror, mouth slightly agape, gasping in pure shock."
+            ),
+            "Nenek (The Village Matriarch)": (
+                "An aged woman with thick, porous skin and visible age spots. "
+                "Her silver hair is pulled back into a tight, authentic bun. "
+                "She has heavy drooping eyelids and deep nasolabial folds. "
+                "Expression: Intense fear, body tensed up, eyes darting in panic."
+            )
+        }
+
+        MASTER_BAMBOO_HOUSE = {
+            "Emerald Sanctuary": (
+                "A colossal, modern multi-level luxury bamboo mansion made of fresh green bamboo. "
+                "Intricate hexagonal weaving patterns and sweeping organic curves. "
+                "Nestled in a lush, sun-drenched tropical rainforest with massive ferns and rising mist."
+            )
+        }
+
+        MASTER_INTERIOR_DNA = {
+            "Glass Palace & Koi Stream": (
+                "luxury bamboo interior with high glass ceilings, indoor koi stream pond on the floor, "
+                "marble accents, and modern furniture. Decor features {motif} patterns."
+            ),
+            "Royal Bamboo Bedroom": (
+                "royal bedroom suite with massive bamboo pillars, silk sheets, and a giant glass wall. "
+                "The room is decorated with {motif} sculptures."
+            )
+        }
+
+        # --- 2. UI SELECTION (Droplist) ---
+        c1, c2 = st.columns(2)
+        with c1:
+            char_key = st.selectbox("JIWA KARAKTER", list(MASTER_BAMBOO_SOUL.keys()))
+            house_key = st.selectbox("ARSITEKTUR BAMBU", list(MASTER_BAMBOO_HOUSE.keys()))
+            hewan_key = st.selectbox("ANCAMAN HEWAN", ["King Cobra", "Bengal Tiger", "Black Panther"])
+        with col2:
+            # Kita buat interior key di sini
+            int_key = st.selectbox("INTERIOR KEJUTAN", list(MASTER_INTERIOR_DNA.keys()))
+            # Tambahan buat baju (Identity Anchor)
+            cloth_desc = st.text_input("DETAIL PAKAIAN", "tattered white t-shirt and faded brown sarong")
+
+        st.divider()
+
+        # --- 3. RAKIT PROMPT (THE LOGIC) ---
+        if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
+            # Ambil data dari kamus lokal di atas
+            c_dna = MASTER_BAMBOO_SOUL[char_key]
+            h_dna = MASTER_BAMBOO_HOUSE[house_key]
+            i_dna = MASTER_INTERIOR_DNA[int_key].format(motif=hewan_key.lower())
+            
+            # Identity Anchor
+            anchor = f"{c_dna}. Wearing {cloth_desc}."
+
+            # OUTPUT MASTER (FLUX/VEO)
+            st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
+            st.code(f"MASTER A (EXTERIOR): {anchor}. Porch of {h_dna}. Threatened by {hewan_key}. Cinematic 8k.", language="text")
+            st.code(f"MASTER B (INTERIOR): {anchor}, safe. Inside {i_dna}. Sunbeams through glass ceiling, 8k.", language="text")
+
+            # OUTPUT VIDEO CHAIN (GROK)
+            st.subheader("📽️ VIDEO CHAIN (GROK)")
+            s1 = f"SCENE 1: {char_key} gasps in shock as the {hewan_key} rises its head. {h_dna}."
+            s2 = f"SCENE 2: {char_key} turns and rushes into the green bamboo doorway, slamming it shut."
+            s3 = f"SCENE 3: Camera dives into the dark bamboo doorway, transitioning into the luxury {i_dna}."
+            s4 = f"SCENE 4: 360 degree pan of the {i_dna}. {char_key} is seen safe by the window."
+            
+            for i, sc in enumerate([s1, s2, s3, s4]):
+                st.info(f"Step {i+1}")
+                st.code(sc)
 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
