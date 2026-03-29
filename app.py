@@ -20,7 +20,7 @@ def local_css(file_name):
 local_css("assets/style.css")
 
 # --- CONFIG HALAMAN ---
-st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide")
+st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide", initial_sidebar_state="expanded")
 
 # Inisialisasi ID Browser & Status Login
 if "browser_session_id" not in st.session_state:
