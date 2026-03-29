@@ -1,6 +1,5 @@
 import streamlit as st
 from datetime import datetime, timedelta
-from modules.dna_config import KARAKTER_DNA, PAKAIAN_DNA, LOKASI_DNA, INTERIOR_DNA
 
 def tampilkan_halaman():
     # --- 1. PINTU UTAMA: CEK IZIN AKSES ---
