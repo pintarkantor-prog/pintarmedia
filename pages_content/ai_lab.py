@@ -1174,48 +1174,45 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
-    # TAB: BAMBOO CRAFT (GEOMETRIC BAMBOO ARCHITECTURE - STAR SHAPED DNA)
+    # TAB: BAMBOO CRAFT (STAR SHAPE DNA - HALLWAY TRANSITION)
     # ==========================================================================
     with t_bamboo:
-        with st.expander("🎋 GEOMETRIC BAMBOO GENERATOR (STAR SHAPE DNA)", expanded=True):
+        with st.expander("🎋 GEOMETRIC BAMBOO GENERATOR (LORONG DNA)", expanded=True):
             
-            # --- 1. KAMUS DNA TEKNIS (FOKUS STRUKTUR) ---
+            # --- 1. KAMUS DNA TEKNIS (FOKUS EKSTERIOR & LORONG) ---
             MASTER_DNA_HOUSE_EXT = {
-                "Star-Shaped Bamboo Sanctuary": (
-                    "A unique star-shaped bamboo house, constructed entirely from fresh green bamboo stalks. "
-                    "The structure forms a symmetrical five-point star layout, with sharp geometric angles and clean handcrafted joints. "
-                    "Wall panels are tightly arranged using vertical and diagonal bamboo segments, showing natural texture, nodes, and subtle color variations from light green to deep emerald. "
-                    "Steep triangular roof made from layered dried palm leaves or thatch, with visible overlapping patterns. "
-                    "Surface detail: micro-texture of bamboo fibers, natural gloss from sunlight, and precise binding using traditional rope ties."
+                "Star-Shaped Bamboo (Fresh Green)": (
+                    "A unique star-shaped house made from fresh green bamboo stalks. "
+                    "Symmetrical five-point star layout, sharp geometric angles, clean handcrafted joints. "
+                    "Layered dried palm leaf roof. Misty tropical jungle background."
+                )
+            }
+
+            # DNA Interior: Fokus ke Lorong & Bambu Coklat/Matang
+            MASTER_DNA_INT = {
+                "Luxury Geometric Hallway": (
+                    "Deep cinematic shot of a long, luxury geometric hallway inside the house. "
+                    "The bamboo here is polished golden-brown and aged dark wood, NOT green. "
+                    "Intricate rhythmic bamboo ribbing along the tunnel-like corridor. "
+                    "An indoor koi stream flows along the side of the hallway floor. "
+                    "Warm ambient lighting casting long shadows. No glass, purely organic textures."
                 )
             }
 
             MASTER_DNA_CHAR = {
                 "Kakek Tua (Referensi)": (
-                    "An elderly Indonesian man with deeply weathered skin. "
-                    "Long, wispy white hair and a thin, long white beard. "
-                    "Expression: Wide-eyed shock, mouth agape, gasping."
-                )
-            }
-
-            MASTER_DNA_INT = {
-                "Geometric Interior & Koi": (
-                    "Ultra-realistic interior matching the star-shaped exterior geometry. "
-                    "Exposed bamboo beam ceilings, an indoor koi stream integrated into the polished bamboo floor. "
-                    "Luxury amenities blended with raw handcrafted bamboo textures. No glass, purely organic."
+                    "An elderly Indonesian man, long wispy white hair and long white beard. "
+                    "Weathered skin, thin build."
                 )
             }
 
             # --- 2. UI SELECTION ---
             col1, col2 = st.columns(2)
-            
             with col1:
                 char_key = st.selectbox("KARAKTER DNA", list(MASTER_DNA_CHAR.keys()))
-                house_key = st.selectbox("ARSITEKTUR BAMBU (STAR SHAPE)", list(MASTER_DNA_HOUSE_EXT.keys()))
-                hewan_key = st.selectbox("ANCAMAN HEWAN", ["King Cobra", "Bengal Tiger", "Black Panther"])
-
+                house_key = st.selectbox("EKSTERIOR (GREEN)", list(MASTER_DNA_HOUSE_EXT.keys()))
             with col2:
-                int_key = st.selectbox("INTERIOR DNA", list(MASTER_DNA_INT.keys()))
+                int_key = st.selectbox("INTERIOR (LORONG GOLDEN)", list(MASTER_DNA_INT.keys()))
                 baju_input = st.text_input("DETAIL PAKAIAN", "white singlet tank top and a traditional check-pattern sarong")
 
             st.divider()
@@ -1224,40 +1221,39 @@ def tampilkan_halaman():
             if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
                 c_dna = MASTER_DNA_CHAR[char_key]
                 h_dna = MASTER_DNA_HOUSE_EXT[house_key]
-                i_dna = MASTER_DNA_INT[int_key].format(motif=hewan_key.lower())
+                i_dna = MASTER_DNA_INT[int_key]
                 
-                # Cleaning for Master B (Lega)
-                fisik_murni = c_dna.split("Expression:")[0].strip()
-
                 # --- OUTPUT MASTER KEYFRAMES ---
                 st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
                 
+                # Master A: Luar (Hijau & Kaget)
                 m_a = (
-                    f"MASTER A (EXTERIOR): {c_dna} Wearing {baju_input}. "
-                    f"Startled on the porch of the {h_dna}. "
-                    f"A colossal {hewan_key} looming in front of him. 50mm lens, ultra sharp focus, 8k."
+                    f"MASTER A (EXTERIOR): {c_dna} Expression: Wide-eyed shock, gasping. Wearing {baju_input}. "
+                    f"Standing on the porch of the {h_dna}. A colossal Bengal Tiger looming in front. 8k."
                 )
+                
+                # Master B: Lorong (Coklat & Lega)
                 m_b = (
-                    f"MASTER B (INTERIOR): {fisik_murni} Expression: Safe and smiling. "
-                    f"Wearing {baju_input}. Inside the {i_dna}. Cinematic lighting, 8k."
+                    f"MASTER B (HALLWAY ENTRY): {c_dna} Expression: Relieved smile, walking into the frame. "
+                    f"Wearing {baju_input}. Inside the {i_dna}. Cinematic lighting, ultra-realistic 8k."
                 )
                 
                 with st.expander("📝 PROMPT MASTER (COPY SINI)", expanded=True):
-                    st.code(m_a, language="text")
-                    st.code(m_b, language="text")
+                    st.code(m_a.replace("..", "."), language="text")
+                    st.code(m_b.replace("..", "."), language="text")
 
                 # --- OUTPUT VIDEO CHAIN (GROK) ---
                 st.subheader("📽️ VIDEO CHAIN (GROK)")
-                s1 = f"SCENE 1: Close-up face of {char_key} in {baju_input}. Shocked at a {hewan_key} on the {house_key} porch."
-                s2 = f"SCENE 2: Wide shot. {char_key} runs across the green bamboo walkway into the entrance of the star-shaped bamboo house."
-                s3 = f"SCENE 3: FPV camera dives through the bamboo entrance, showing the complex joints and transitioning into the luxury {i_dna}."
-                s4 = f"SCENE 4: 360 pan of the {i_dna}. The man is safe and happy."
+                s1 = f"SCENE 1: Close-up face of {char_key} in {baju_input}. Shocked at the predator on the {house_key} porch."
+                s2 = f"SCENE 2: Wide shot. The man runs frantically into the star-shaped entrance, slamming the heavy bamboo door."
+                s3 = f"SCENE 3: FPV camera dives through the door, entering a long, dark-to-light transition into the {i_dna}."
+                s4 = f"SCENE 4: The man is seen from the back, walking slowly through the stunning {i_dna}. Very calm and majestic atmosphere."
 
                 for i, scene in enumerate([s1, s2, s3, s4]):
                     with st.expander(f"STEP {i+1}", expanded=True):
                         st.code(scene, language="text")
                 
-                st.success("SELESAI COK! DNA GEOMETRIS BAMBU SUDAH SIAP! 🎋🔥")
+                st.success("DNA LORONG BERHASIL DIRAKIT, COY! GAS KE GROK! 🎋🔥")
                 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
