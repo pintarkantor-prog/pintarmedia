@@ -1174,116 +1174,120 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
-    # TAB: BAMBOO CRAFT (THE GUARDIAN ENGINE - CLEAN MASTER LOGIC)
+    # TAB: BAMBOO CRAFT (THE GUARDIAN ENGINE - FIXED ENCOUNTER LOGIC)
     # ==========================================================================
     with t_bamboo:
-        with st.expander("🎋 HIDDEN BAMBOO GUARDIAN (ACTION LOGIC)", expanded=True):
+        with st.expander("🎋 HIDDEN BAMBOO GUARDIAN (MULTI-VARIANT PROTECTED)", expanded=True):
             
-            # --- 1. DATABASE MASTER (BAMBOO SCOPE) ---
+            # --- 1. DATABASE MASTER VARIATIF (BAMBOO SCOPE) ---
             MASTER_CHAR_BAMBOO = {
-                "Kakek Legend": "Elderly Indonesian man, long wispy white hair and long thin white beard, weathered skin.",
-                "Nenek Artisan": "Elderly Indonesian woman, silver hair in a messy bun, wrinkled porous skin."
+                "Kakek Legend": "Elderly Indonesian man, very long wispy white hair and long thin white beard, deeply weathered sun-baked skin.",
+                "Nenek Artisan": "Elderly Indonesian woman, silver hair in a messy bun, kind but weary eyes, wrinkled porous skin.",
+                "Kakek Nyentrik": "Old man with a bald top, long white side-hair, wearing small circular wooden spectacles, tanned skin."
             }
 
             MASTER_CLOTH_BAMBOO = {
-                "Singlet & Sarung": "wearing a tattered white singlet tank top and a traditional check-pattern sarong.",
-                "Kaos Oblong & Batik": "wearing a faded grey vintage t-shirt and a classic batik-patterned sarong."
+                "Singlet & Sarung": "wearing a tattered white singlet tank top and a traditional dark brown check-pattern sarong.",
+                "Kaos Oblong & Batik": "wearing a faded grey vintage t-shirt and a classic batik-patterned sarong.",
+                "Telanjang Dada & Sarung": "shirtless, showing a lean weathered torso, wearing a vibrant red checkered sarong."
             }
 
             MASTER_HOUSE_BAMBOO = {
                 "Bear Head Shape": "A massive architectural marvel shaped like a bear's head with an open mouth as the entrance.",
                 "Star Geometric": "A unique five-point star-shaped sanctuary with sharp geometric angles and symmetrical stalks.",
-                "Tiger Head Shape": "A colossal bamboo structure resembling a roaring tiger head."
+                "Tiger Head Shape": "A colossal bamboo structure resembling a roaring tiger head, handcrafted with precision."
             }
 
+            # Master Latar (Dunia Luar)
             MASTER_WORLD_BAMBOO = {
-                "River Rapids": "set on a rocky river bank with fast-flowing white water.",
-                "Misty Deep Jungle": "hidden deep within a dense tropical rainforest with thick fog.",
-                "Highland Waterfall": "standing next to a massive, roaring waterfall with lush greenery."
+                "River Rapids": "set on a rocky river bank with fast-flowing white water and mossy boulders.",
+                "Misty Deep Jungle": "hidden deep within a dense tropical rainforest with thick fog and giant ferns.",
+                "Highland Waterfall": "standing next to a massive, roaring waterfall with constant mist and lush greenery."
             }
 
+            # Database Ruangan Otomatis Khusus Bamboo (Sesuai Hewan)
             HEWAN_THEME_BAMBOO = {
                 "King Cobra": {
+                    "vibe": "mysterious and slithering",
                     "r1": "narrow winding tunnel with scale-patterned green bamboo walls",
-                    "r2": "hallway with golden cobra head sculptures",
-                    "end": "luxurious bedroom with snake-skin textured bamboo furniture"
+                    "r2": "hallway with golden cobra head sculptures and glowing emerald eyes",
+                    "r3": "circular room with a giant bamboo throne shaped like a hooded cobra",
+                    "end": "serene master bedroom with snake-skin textured bamboo furniture"
                 },
                 "Bengal Tiger": {
-                    "r1": "grand arched corridor with tiger-stripe green bamboo patterns",
-                    "r2": "passage with wooden tiger head carvings",
-                    "end": "elegant bedroom with tiger-print woven bamboo mats"
+                    "vibe": "powerful and majestic",
+                    "r1": "grand arched corridor with thick green bamboo stalks resembling tiger stripes",
+                    "r2": "passage with wooden tiger head carvings and torch lighting",
+                    "r3": "vast hall with a roaring tiger bamboo sculpture in the center",
+                    "end": "master bedroom with tiger-print woven bamboo mats"
                 }
             }
 
-            # --- 2. UI SELECTION ---
+            # --- 2. UI SELECTION (BAMBOO SCOPE) ---
             col1_b, col2_b = st.columns(2)
             with col1_b:
-                st.markdown("### 🎭 IDENTITY & THREAT")
-                char_p_b = st.selectbox("PILIH KARAKTER", list(MASTER_CHAR_BAMBOO.keys()), key="sb_char_b")
-                cloth_p_b = st.selectbox("PILIH PAKAIAN", list(MASTER_CLOTH_BAMBOO.keys()), key="sb_cloth_b")
-                hewan_p_b = st.selectbox("HEWAN PENGEJAR", list(HEWAN_THEME_BAMBOO.keys()), key="sb_hewan_b")
+                st.markdown("### 🎭 MASTER IDENTITY")
+                char_pilih_b = st.selectbox("PILIH KARAKTER", list(MASTER_CHAR_BAMBOO.keys()), key="sb_char_b")
+                cloth_pilih_b = st.selectbox("PILIH PAKAIAN", list(MASTER_CLOTH_BAMBOO.keys()), key="sb_cloth_b")
+                hewan_pilih_b = st.selectbox("HEWAN PENJAGA", list(HEWAN_THEME_BAMBOO.keys()), key="sb_hewan_b")
             
             with col2_b:
-                st.markdown("### 🏘️ WORLD & DIALOGUE")
-                shape_p_b = st.selectbox("BENTUK RUMAH", list(MASTER_HOUSE_BAMBOO.keys()), key="sb_shape_b")
-                world_p_b = st.selectbox("LATAR LOKASI", list(MASTER_WORLD_BAMBOO.keys()), key="sb_world_b")
-                dialogue_b = st.text_input("DIALOG ENDING (CTA)", "Bantu like dan subscribe ya...", key="ti_cta_b")
+                st.markdown("### 🏘️ MASTER WORLD")
+                shape_pilih_b = st.selectbox("BENTUK RUMAH", list(MASTER_HOUSE_BAMBOO.keys()), key="sb_shape_b")
+                latar_pilih_b = st.selectbox("LATAR LOKASI", list(MASTER_WORLD_BAMBOO.keys()), key="sb_latar_b")
+                dialogue_b = st.text_input("DIALOG ENDING (CTA)", "Bantu like dan subscribe kalau kalian suka video kakek ya", key="ti_cta_b")
 
             st.divider()
 
-            # --- 3. RAKIT STORYBOARD ---
+            # --- 3. RAKIT STORYBOARD OTOMATIS (FIXED ENCOUNTER LOGIC) ---
             if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True, key="btn_bamboo"):
-                dna_f = MASTER_CHAR_BAMBOO[char_p_b]
-                dna_b = MASTER_CLOTH_BAMBOO[cloth_p_b]
-                dna_h = MASTER_HOUSE_BAMBOO[shape_p_b]
-                dna_w = MASTER_WORLD_BAMBOO[world_p_b]
-                data_b = HEWAN_THEME_BAMBOO[hewan_p_b]
+                # Parsing Data
+                dna_f = MASTER_CHAR_BAMBOO[char_pilih_b]
+                dna_b = MASTER_CLOTH_BAMBOO[cloth_pilih_b]
+                dna_h = MASTER_HOUSE_BAMBOO[shape_pilih_b]
+                data_b = HEWAN_THEME_BAMBOO[hewan_pilih_b]
                 material_b = "Fresh green bamboo stalks, vertical and horizontal arrangement."
                 
-                # --- MASTER IMAGE (UNTUK FLUX - CLEAN TANPA HEWAN) ---
-                m_img = (
-                    f"MASTER IMAGE (CLEAN): High-quality photograph of {dna_f} {dna_b} "
-                    f"standing exactly in front of the bamboo door of his {dna_h}. "
-                    f"He is looking left and right with a worried expression. No animals present yet. "
-                    f"Background: {dna_w}. 8k, photorealistic, cinematic lighting."
+                # --- MASTER A (LUAR): KAGET DI TERAS (FLUX) ---
+                # Hewan didefinisikan muncul dari Latar, Kakek di depan pintu.
+                m_a = (
+                    f"MASTER A (EXTERIOR): Close-up on {dna_f} {dna_b} Expression: Wide-eyed terror, mouth agape, gasping. "
+                    f"He is flinching back on the porch, startled by a colossal {hewan_pilih_b} "
+                    f"that has emerged from the {latar_pilih_b}, looming and threatening. "
+                    f"The door of his {dna_h} is closed behind him. 8k, cinematic."
                 )
-
-                # --- VIDEO PROMPT (UNTUK GROK - ACTION LOGIC) ---
+                
+                # --- VIDEO PROMPT (UNTUK GROK - LOGIC FIXED) ---
+                # Instruksi Grok buat nggerakin kaget -> lari ke pintu -> masuk.
                 v_action = (
-                    f"VIDEO PROMPT (THE ACTION): Start with the character standing in front of the door. "
-                    f"Suddenly, a colossal {hewan_p_b} emerges from the bushes and charges toward him. "
-                    f"The character panics, quickly opens the door, rushes inside, and slams it shut. "
-                    f"The {hewan_p_b} stops at the door, growling and scratching the bamboo surface in anger."
+                    f"ACTION LOGIC (GROK): Start from MASTER A. The character gasps in fear at the colossal {hewan_pilih_b} "
+                    f"emerging from the {latar_pilih_b}. He quickly opens the closed door of {dna_h}, rushes inside, "
+                    f"and slams it shut. The {hewan_pilih_b} strikes the closed door in anger. Transition into DIVE."
                 )
 
-                # --- INTERIOR DIVE ---
-                v_dive = (
-                    f"VIDEO PROMPT (THE DIVE): Follow shot from behind the character as he runs through {data_b['r1']} "
-                    f"then slows down into a walk through {data_b['r2']}. "
-                    f"Everything is made of {material_b}. High-end cinematic movement."
+                # --- MASTER B (DALAM): LORONG LEGA (FLUX) ---
+                m_b = (
+                    f"MASTER B (HALLWAY entry): Follow shot from behind the character. "
+                    f"Walking through {data_b['r1']}. Material: {material_b}. "
+                    f"Natural green lighting, atmospheric shadows. {dna_f} is present, looking relieved. 8k."
                 )
+                
+                # --- DISPLAY ---
+                st.subheader("🖼| MASTER KEYFRAMES (FLUX)")
+                with st.expander("MASTER A: KAGET DI TERAS (0s)", expanded=True):
+                    st.code(m_a.replace("..", "."), language="text")
+                with st.expander("MASTER B: LORONG LEGA (10s)", expanded=True):
+                    st.code(m_b.replace("..", "."), language="text")
 
-                # --- ENDING ---
-                v_end = (
-                    f"VIDEO PROMPT (ENDING): Close-up on the character's face in the {data_b['end']}. "
-                    f"He is safe, smiling, and speaking to the camera: '{dialogue_b}'. 8k."
-                )
-
-                # DISPLAY
-                st.subheader("🖼️ ASET GAMBAR (FLUX/IMAGE MASTER)")
-                st.info("Gunakan prompt ini untuk membuat gambar awal yang konsisten.")
-                st.code(m_img, language="text")
-
-                st.subheader("📽️ PROMPT VIDEO (GROK/VEO)")
-                st.warning("Gunakan prompt ini untuk menggerakkan gambar Master di atas.")
-                with st.expander("SCENE 1: THE ENCOUNTER (ACTION)", expanded=True):
-                    st.code(v_action, language="text")
+                st.subheader("📽️ PROMPT VIDEO (GROK)")
+                with st.expander("SCENE 1: THE ENCOUNTER (GERAKAN FIX)", expanded=True):
+                    st.code(v_action.replace("..", "."), language="text")
                 with st.expander("SCENE 2: THE DIVE (INTERIOR)", expanded=True):
-                    st.code(v_dive, language="text")
-                with st.expander("SCENE 3: THE ENDING (DIALOGUE)", expanded=True):
-                    st.code(v_end, language="text")
+                    st.code(f"Smooth cinematic dive through {data_b['r1']} and {data_b['r2']}, "
+                            f"transition into {data_b['r3']}, character smiling in {data_b['end']}. "
+                            f"He speaks: '{dialogue_b}'.", language="text")
 
-                st.success(f"Logika Action {hewan_p_b} Berhasil Dirakit! 🎋🔥")
+                st.success(f"DNA {hewan_pilih_b} Berhasil Dirakit! Karakter & Rumah Konsisten. Gas, Coy! 🎋🔥")
                 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
