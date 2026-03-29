@@ -1174,15 +1174,13 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
-    # TAB: BAMBOO CRAFT (HIDDEN LUXURY - KONTEKS REFERENSI)
+    # TAB: BAMBOO CRAFT (HIDDEN BAMBOO PALACE - DNA PERSIS REFERENSI)
     # ==========================================================================
     with t_bamboo:
         # Kita bungkus semua dalam expander utama biar rapi
-        with st.expander("🎋 HIDDEN BAMBOO PALACE (REFERENSI)", expanded=True):
+        with st.expander("🎋 HIDDEN BAMBOO GENERATOR (DNA SS)", expanded=True):
             
-            # --- 1. KAMUS DNA MODULAR (LOKAL, FOKUS KONTEKS) ---
-            
-            # DNA KARAKTER (Identity Anchor)
+            # --- 1. KAMUS DNA MODULAR (COPY-PASTE DARI SS) ---
             MASTER_DNA_CHAR = {
                 "Kakek Tua (Referensi)": (
                     "An elderly Indonesian man with deeply weathered skin. "
@@ -1191,41 +1189,42 @@ def tampilkan_halaman():
                 )
             }
 
-            # DNA RUMAH LUAR (Humble Shack - Poin Kunci Diskusi Kita)
+            # DNA RUMAH LUAR (Bambu Muda Besar & Kaca sesuai SS)
             MASTER_DNA_HOUSE_EXT = {
-                "Traditional Humble Bamboo Shack": (
-                    "Set inside a dense, lush tropical rainforest with mist and god-rays. "
-                    "In the background is a traditional humble, weathered natural bamboo shack village house. "
-                    "A natural green bamboo setapak walkway leads up to the simple front door. Humble and organic."
+                "Emerald Sanctuary (SS Logic)": (
+                    "Set inside a lush, mist-shrouded tropical rainforest with massive ferns. "
+                    "Just behind the person is a stunning modern Multi-level fresh green "
+                    "bamboo house sanctuary with complex weaving. It features large glass window walls. "
+                    "Golden morning sunlight filtering through the dense canopy, creating god-rays."
                 )
             }
 
-            # DNA INTERIOR (Theme-consistent Luxury - Kejutan di Dalam)
+            # DNA INTERIOR (Kejutan Kemewahan Tema Hewan)
             MASTER_DNA_INT = {
                 "Glass Palace & Koi Stream": (
-                    "breathtaking luxury modern bamboo interior with massive sky-view glass ceilings, "
-                    "an indoor koi stream pond integrated into the marble floor, and lush indoor tropical plants. "
-                    "The furniture features elegant bamboo curves with {motif} patterns and textures. Sunbeams."
+                    "breathtaking luxury bamboo interior with high glass ceilings, an indoor koi stream pond "
+                    "integrated into the marble floor, and lush indoor tropical plants. "
+                    "The furniture features elegant bamboo curves with {motif} patterns."
                 )
             }
 
-            # --- 2. UI SELECTION (2 Kolom Rapi & Bebas Error) ---
+            # --- 2. UI SELECTION ---
             col1, col2 = st.columns(2)
             
             with col1:
                 char_key = st.selectbox("JIWA KARAKTER", list(MASTER_DNA_CHAR.keys()))
-                house_ext_key = st.selectbox("TAMPAK LUAR (Humble Shack)", list(MASTER_DNA_HOUSE_EXT.keys()))
+                house_ext_key = st.selectbox("LOKASI & RUMAH (LUAR)", list(MASTER_DNA_HOUSE_EXT.keys()))
                 hewan_key = st.selectbox("ANCAMAN HEWAN", ["King Cobra", "Bengal Tiger", "Black Panther"])
 
             with col2:
-                int_key = st.selectbox("INTERIOR KEJUTAN (Glass Palace)", list(MASTER_DNA_INT.keys()))
+                int_key = st.selectbox("INTERIOR KEJUTAN (DNA DALAM)", list(MASTER_DNA_INT.keys()))
                 # Seragam wajib sesuai referensi: Kaos singlet putih & Sarung usang
-                baju_input = st.text_input("PAKAIAN (DNA)", "white singlet tank top and a faded dark brown check-pattern sarong")
+                baju_input = st.text_input("PAKAIAN (DNA)", "white singlet tank top and a traditional check-pattern sarong")
                 st.caption("Pastiin deskripsi baju konsisten di Master A & B.")
 
             st.divider()
 
-            # --- 3. RAKIT STORYBOARD LOGIC (PROMPT ENGINEERING) ---
+            # --- 3. RAKIT STORYBOARD LOGIC ---
             if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
                 # Ambil Data
                 c_dna = MASTER_DNA_CHAR[char_key]
@@ -1235,13 +1234,13 @@ def tampilkan_halaman():
                 motif_name = f"{hewan_key.lower()}-skin" if "Cobra" in hewan_key else f"{hewan_key.lower()}-stripe"
                 i_dna_formatted = MASTER_DNA_INT[int_key].format(motif=motif_name)
                 
-                # --- IDENTITY ANCHOR & CLEANING FOR MASTER B (REMOVE RELAXED) ---
+                # --- IDENTITY ANCHOR & CLEANING FOR MASTER B ---
                 fisik_murni = c_dna.split("Expression:")[0].strip()
 
                 # --- OUTPUT MASTER KEYFRAMES (FLUX) ---
                 st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
                 
-                # MASTER A (EXTERIOR INTERACTION): Kaget di gubuk
+                # MASTER A (EXTERIOR INTERACTION): Kaget di depan rumah bambu hijau
                 m_a = (
                     f"MASTER A (EXTERIOR INTERACTION): {fisik_murni} Expression: Wide-eyed shock, mouth agape, gasping. "
                     f"Wearing {baju_input}. He is flinching back, startled on the {h_ext_dna} A colossal {hewan_key} "
@@ -1255,19 +1254,18 @@ def tampilkan_halaman():
                 )
                 
                 with st.expander("📝 PROMPT GAMBAR MASTER (KLIK UNTUK COPY)", expanded=True):
-                    st.info("Master A: Gunakan untuk Video 0-20s | Master B: Gunakan untuk Video 20-40s (Ganti di detik ke-20)")
+                    st.info("Master A: Gunakan untuk Video 0-20s | Master B: Gunakan untuk Video 20-40s")
                     st.code(m_a.replace("..", "."), language="text")
                     st.code(m_b.replace("..", "."), language="text")
 
                 # --- OUTPUT VIDEO CHAIN PROMPTS (GROK) ---
                 st.subheader("📽️ VIDEO CHAIN PROMPTS (GROK)")
                 
-                # Scene Grok butuh detail baju & fisik di teks prompt
-                c_anchor_full = f"{char_key} in {baju_input}"
+                c_anchor_full = f"{char_key} wearing {baju_input}"
                 
-                s1 = f"SCENE 1: Close-up. The face of {c_anchor_full}. He gasps in fear as the {hewan_key} rises its head on the porch of the humble bamboo shack. {h_ext_dna}."
-                s2 = f"SCENE 2: Wide shot. {c_anchor_full} runs in panic up the green bamboo walkway and into the simple bamboo shack, slamming the door. Fast camera movement."
-                s3 = f"SCENE 3: FPV camera dives into the simple dark wooden doorway, transitioning into the luxury {i_dna_formatted}."
+                s1 = f"SCENE 1: Close-up. The face of {c_anchor_full}. He gasps in fear as the {hewan_key} rises its head on the porch of his {h_ext_dna}."
+                s2 = f"SCENE 2: Wide shot. {c_anchor_full} runs in panic up the green bamboo walkway and into the {h_ext_dna} house door, slamming it shut."
+                s3 = f"SCENE 3: FPV camera dives rapidly through the simple dark doorway, transitioning into the breathtaking luxury {i_dna_formatted}."
                 s4 = f"SCENE 4: 360 degree pan of the interior {i_dna_formatted}. {c_anchor_full} is safe and enjoying the space. Relaxed music vibe."
 
                 scenes = [s1, s2, s3, s4]
