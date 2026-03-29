@@ -185,63 +185,68 @@ def tampilkan_database_channel():
                 column_config=config_st, use_container_width=True, hide_index=True, key="grid_st_pro_locked"
             )
 
-        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - ANTI-MUBADZIR) ---
+        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - EMAIL ANCHOR FIXED) ---
         kolom_cek = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]
+        
         if not edited_st.equals(df_st[kolom_cek]):
             if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
                 try:
                     with st.spinner("Sinkronisasi Radar ke Supabase..."):
                         tgl_now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
-                        
-                        # 1. SIAPIN KERANJANG KOSONG
                         data_batch = []
                         
                         for i, row in edited_st.iterrows():
-                            # Ambil data asli dari database buat dibandingin
-                            idx_asli = int(row['REAL_IDX'])
-                            old_val = df.iloc[idx_asli]
+                            # Ambil kunci unik (Email) untuk mencari data lama di database
+                            email_target = str(row['EMAIL']).strip().lower()
                             
-                            # --- FILTER SAKTI: CEK APAKAH BARIS INI BENERAN BERUBAH? ---
-                            if (str(row['STATUS']) != str(old_val['STATUS']) or 
-                                str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                            # Cari baris asli di df master berdasarkan email
+                            match_df = df[df['EMAIL'].str.lower() == email_target]
+                            
+                            if not match_df.empty:
+                                old_val = match_df.iloc[0]
                                 
-                                target_email = row['EMAIL'].strip().lower()
-                                target_hp = str(old_val['HP'])
-                                
-                                # --- LOGIKA TARGET HP (SLOT DINAMIS) ---
-                                if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
-                                    df_p_now = df[df['STATUS'] == 'PROSES'].copy()
-                                    hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
+                                # --- FILTER SAKTI: Cek perubahan murni ---
+                                is_changed = (
+                                    str(row['STATUS']).strip() != str(old_val['STATUS']).strip() or 
+                                    str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
+                                    str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                    str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
+                                )
+
+                                if is_changed:
+                                    target_hp = str(old_val.get('HP', ''))
                                     
-                                    target_hp = "1"
-                                    for h in range(1, 101):
-                                        count_sekarang = hp_counts.get(str(h), 0)
-                                        max_slot = 3 if h in [1, 2, 3, 4, 5, 6] else 4
+                                    # --- LOGIKA TARGET HP (SLOT DINAMIS) ---
+                                    if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
+                                        df_p_now = df[df['STATUS'] == 'PROSES'].copy()
+                                        hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
                                         
-                                        if count_sekarang < max_slot:
-                                            target_hp = str(h)
-                                            break
+                                        target_hp = "1"
+                                        for h in range(1, 101):
+                                            count_sekarang = hp_counts.get(str(h), 0)
+                                            max_slot = 3 if h in [1, 2, 3, 4, 5, 6] else 4
+                                            if count_sekarang < max_slot:
+                                                target_hp = str(h)
+                                                break
 
-                                elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
-                                    target_hp = ""
+                                    elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
+                                        target_hp = ""
 
-                                # 2. CUMA MASUKIN DATA YANG BERUBAH KE KERANJANG
-                                data_batch.append({
-                                    "TANGGAL": tgl_now,
-                                    "EMAIL": target_email,
-                                    "PASSWORD": row['PASSWORD'],
-                                    "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                    "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                    "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                    "STATUS": row['STATUS'],
-                                    "HP": target_hp,
-                                    "PENCATAT": row['PENCATAT'],
-                                    "EDITED": f"Up: {user_aktif} ({tgl_now})"
-                                })
+                                    # Masukkan data yang beneran berubah ke keranjang batch
+                                    data_batch.append({
+                                        "EMAIL": email_target,
+                                        "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
+                                        "PASSWORD": str(row['PASSWORD']).strip(),
+                                        "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
+                                        "SUBSCRIBE": str(row['SUBSCRIBE']).strip(),
+                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                        "STATUS": row['STATUS'],
+                                        "HP": target_hp,
+                                        "PENCATAT": row['PENCATAT'],
+                                        "EDITED": f"Up: {user_aktif} ({tgl_now})"
+                                    })
 
-                        # --- EKSEKUSI KE SUPABASE ---
+                        # --- EKSEKUSI BATCH UPSERT ---
                         if data_batch:
                             database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                             st.cache_data.clear()
@@ -253,7 +258,6 @@ def tampilkan_database_channel():
                                 
                 except Exception as e:
                     st.error(f"❌ Error Global: {e}")
-
     # ==============================================================================
     # TAB 2: MONITORING PROSES (EDITABLE VERSION)
     # ==============================================================================
