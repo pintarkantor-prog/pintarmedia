@@ -133,7 +133,7 @@ def tampilkan_database_channel():
                             try:
                                 # Pake spinner biar kelihatan lagi kerja
                                 with st.spinner("Mendaftarkan akun..."):
-                                    supabase.table("Channel_Pintar").insert({
+                                    database.supabase.table("Channel_Pintar").insert({
                                         "TANGGAL": tgl_now, 
                                         "EMAIL": v_mail,
                                         "PASSWORD": v_pass,
