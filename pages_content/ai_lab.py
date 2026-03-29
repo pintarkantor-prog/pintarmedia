@@ -1174,86 +1174,131 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
-    # TAB: BAMBOO CRAFT (STAR SHAPE DNA - HALLWAY TRANSITION)
+    # TAB: BAMBOO CRAFT (THE GUARDIAN ENGINE - FULL MASTER SYSTEM)
     # ==========================================================================
     with t_bamboo:
-        with st.expander("🎋 GEOMETRIC BAMBOO GENERATOR (LORONG DNA)", expanded=True):
+        with st.expander("🎋 HIDDEN BAMBOO GUARDIAN (FULL MASTER)", expanded=True):
             
-            # --- 1. KAMUS DNA TEKNIS (FOKUS EKSTERIOR & LORONG) ---
-            MASTER_DNA_HOUSE_EXT = {
-                "Star-Shaped Bamboo (Fresh Green)": (
-                    "A unique star-shaped house made from fresh green bamboo stalks. "
-                    "Symmetrical five-point star layout, sharp geometric angles, clean handcrafted joints. "
-                    "Layered dried palm leaf roof. Misty tropical jungle background."
-                )
+            # --- 1. DATABASE MASTER VARIATIF (BAMBOO SCOPE) ---
+            
+            # Master Karakter Khusus Bamboo
+            MASTER_CHAR_BAMBOO = {
+                "Kakek Legend": "Elderly Indonesian man, very long wispy white hair and long thin white beard, deeply weathered sun-baked skin.",
+                "Nenek Artisan": "Elderly Indonesian woman, silver hair in a messy bun, kind but weary eyes, wrinkled porous skin.",
+                "Kakek Nyentrik": "Old man with a bald top, long white side-hair, wearing small circular wooden spectacles, tanned skin."
             }
 
-            # DNA Interior: Fokus ke Lorong & Bambu Coklat/Matang
-            MASTER_DNA_INT = {
-                "Luxury Geometric Hallway": (
-                    "Deep cinematic shot of a long, luxury geometric hallway inside the house. "
-                    "The bamboo here is polished golden-brown and aged dark wood, NOT green. "
-                    "Intricate rhythmic bamboo ribbing along the tunnel-like corridor. "
-                    "An indoor koi stream flows along the side of the hallway floor. "
-                    "Warm ambient lighting casting long shadows. No glass, purely organic textures."
-                )
+            # Master Pakaian Khusus Bamboo
+            MASTER_CLOTH_BAMBOO = {
+                "Singlet & Sarung": "wearing a tattered white singlet tank top and a traditional dark brown check-pattern sarong.",
+                "Kaos Oblong & Batik": "wearing a faded grey vintage t-shirt and a classic batik-patterned sarong.",
+                "Telanjang Dada & Sarung": "shirtless, showing a lean weathered torso, wearing a vibrant red checkered sarong."
             }
 
-            MASTER_DNA_CHAR = {
-                "Kakek Tua (Referensi)": (
-                    "An elderly Indonesian man, long wispy white hair and long white beard. "
-                    "Weathered skin, thin build."
-                )
+            # Master Arsitektur Rumah Khusus Bamboo
+            MASTER_HOUSE_BAMBOO = {
+                "Bear Head Shape": "A massive architectural marvel shaped like a bear's head with an open mouth as the entrance.",
+                "Star Geometric": "A unique five-point star-shaped sanctuary with sharp geometric angles and symmetrical stalks.",
+                "Tiger Head Shape": "A colossal bamboo structure resembling a roaring tiger head, handcrafted with precision.",
+                "Eagle Nest": "A towering bamboo structure shaped like a giant eagle nest perched on a cliffside."
+            }
+
+            # Master Latar (Dunia Luar)
+            MASTER_WORLD_BAMBOO = {
+                "River Rapids": "set on a rocky river bank with fast-flowing white water and mossy boulders.",
+                "Misty Deep Jungle": "hidden deep within a dense tropical rainforest with thick fog and giant ferns.",
+                "Highland Waterfall": "standing next to a massive, roaring waterfall with constant mist and lush greenery.",
+                "Ancient Forest": "surrounded by thousand-year-old giant trees with glowing moss and rising morning mist."
+            }
+
+            # Database Ruangan Otomatis Khusus Bamboo
+            HEWAN_THEME_BAMBOO = {
+                "King Cobra": {
+                    "r1": "narrow winding tunnel with scale-patterned green bamboo walls",
+                    "r2": "hallway with golden cobra head sculptures and glowing eyes",
+                    "r3": "vast gallery with snake-spine bamboo ribbing and emerald lanterns",
+                    "end": "luxurious master bedroom with snake-skin textured bamboo furniture"
+                },
+                "Bengal Tiger": {
+                    "r1": "grand arched corridor with tiger-stripe green bamboo patterns",
+                    "r2": "passage with wooden tiger head carvings and torch lighting",
+                    "r3": "vast hall featuring a majestic roaring tiger bamboo sculpture",
+                    "end": "elegant bedroom with tiger-print woven bamboo mats and pillows"
+                },
+                "Black Panther": {
+                    "r1": "stealthy dark tunnel with sleek black-green bamboo stalks",
+                    "r2": "passage featuring black panther statues carved from charred bamboo",
+                    "r3": "meditation hall with panther-claw shaped bamboo pillars",
+                    "end": "minimalist bedroom with dark green bamboo accents and soft silk"
+                }
             }
 
             # --- 2. UI SELECTION ---
-            col1, col2 = st.columns(2)
-            with col1:
-                char_key = st.selectbox("KARAKTER DNA", list(MASTER_DNA_CHAR.keys()))
-                house_key = st.selectbox("EKSTERIOR (GREEN)", list(MASTER_DNA_HOUSE_EXT.keys()))
-            with col2:
-                int_key = st.selectbox("INTERIOR (LORONG GOLDEN)", list(MASTER_DNA_INT.keys()))
-                baju_input = st.text_input("DETAIL PAKAIAN", "white singlet tank top and a traditional check-pattern sarong")
+            col1_b, col2_b = st.columns(2)
+            with col1_b:
+                st.markdown("### 🎭 IDENTITY & THREAT")
+                char_pilih_b = st.selectbox("PILIH KARAKTER", list(MASTER_CHAR_BAMBOO.keys()), key="sb_char_b")
+                cloth_pilih_b = st.selectbox("PILIH PAKAIAN", list(MASTER_CLOTH_BAMBOO.keys()), key="sb_cloth_b")
+                hewan_pilih_b = st.selectbox("HEWAN PENJAGA", list(HEWAN_THEME_BAMBOO.keys()), key="sb_hewan_b")
+            
+            with col2_b:
+                st.markdown("### 🏘️ WORLD & DIALOGUE")
+                shape_pilih_b = st.selectbox("BENTUK RUMAH", list(MASTER_HOUSE_BAMBOO.keys()), key="sb_shape_b")
+                world_pilih_b = st.selectbox("LATAR LOKASI", list(MASTER_WORLD_BAMBOO.keys()), key="sb_world_b")
+                dialogue_b = st.text_input("DIALOG ENDING (CTA)", "Bantu like dan subscribe kalau kalian suka video kakek ya", key="ti_cta_b")
 
             st.divider()
 
-            # --- 3. RAKIT STORYBOARD LOGIC ---
-            if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
-                c_dna = MASTER_DNA_CHAR[char_key]
-                h_dna = MASTER_DNA_HOUSE_EXT[house_key]
-                i_dna = MASTER_DNA_INT[int_key]
+            # --- 3. RAKIT STORYBOARD OTOMATIS ---
+            if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True, key="btn_bamboo"):
+                # Parsing
+                dna_f = MASTER_CHAR_BAMBOO[char_pilih_b]
+                dna_b = MASTER_CLOTH_BAMBOO[cloth_pilih_b]
+                dna_h = MASTER_HOUSE_BAMBOO[shape_pilih_b]
+                dna_w = MASTER_WORLD_BAMBOO[world_pilih_b]
+                data_b = HEWAN_THEME_BAMBOO[hewan_pilih_b]
+                material_b = "Fresh green bamboo stalks, vertical and horizontal arrangement."
                 
-                # --- OUTPUT MASTER KEYFRAMES ---
-                st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
-                
-                # Master A: Luar (Hijau & Kaget)
-                m_a = (
-                    f"MASTER A (EXTERIOR): {c_dna} Expression: Wide-eyed shock, gasping. Wearing {baju_input}. "
-                    f"Standing on the porch of the {h_dna}. A colossal Bengal Tiger looming in front. 8k."
+                # --- SCENE 1: THE ENCOUNTER ---
+                m1 = (
+                    f"SCENE 1 (THE THREAT): Close-up on {dna_f} {dna_b} "
+                    f"Standing in front of the door of his {dna_h}, looking left and right anxiously. "
+                    f"Suddenly a colossal {hewan_pilih_b} emerges from the {dna_w}. "
+                    f"The character flinches and rushes inside. The {hewan_pilih_b} strikes the closed bamboo door in anger. 8k."
                 )
-                
-                # Master B: Lorong (Coklat & Lega)
-                m_b = (
-                    f"MASTER B (HALLWAY ENTRY): {c_dna} Expression: Relieved smile, walking into the frame. "
-                    f"Wearing {baju_input}. Inside the {i_dna}. Cinematic lighting, ultra-realistic 8k."
+
+                # --- SCENE 2: THE DIVE (HALLWAY 1) ---
+                m2 = (
+                    f"SCENE 2 (THE DIVE): Follow shot from behind the character. "
+                    f"Walking through {data_b['r1']}. Material: {material_b}. "
+                    f"Natural green lighting, atmospheric shadows. {dna_f} is present. No dialogue. 8k."
                 )
-                
-                with st.expander("📝 PROMPT MASTER (COPY SINI)", expanded=True):
-                    st.code(m_a.replace("..", "."), language="text")
-                    st.code(m_b.replace("..", "."), language="text")
 
-                # --- OUTPUT VIDEO CHAIN (GROK) ---
-                st.subheader("📽️ VIDEO CHAIN (GROK)")
-                s1 = f"SCENE 1: Close-up face of {char_key} in {baju_input}. Shocked at the predator on the {house_key} porch."
-                s2 = f"SCENE 2: Wide shot. The man runs frantically into the star-shaped entrance, slamming the heavy bamboo door."
-                s3 = f"SCENE 3: FPV camera dives through the door, entering a long, dark-to-light transition into the {i_dna}."
-                s4 = f"SCENE 4: The man is seen from the back, walking slowly through the stunning {i_dna}. Very calm and majestic atmosphere."
+                # --- SCENE 3 & 4: THE PROGRESSION (HALLWAY 2 & 3) ---
+                m3 = (
+                    f"SCENE 3 & 4 (PROGRESSION): Passing through {data_b['r2']} then into {data_b['r3']}. "
+                    f"Ornaments: {hewan_pilih_b} themes throughout. Everything is {material_b}. "
+                    f"Character is exploring calmly, admiring the architecture. No dialogue. 8k, cinematic."
+                )
 
-                for i, scene in enumerate([s1, s2, s3, s4]):
-                    with st.expander(f"STEP {i+1}", expanded=True):
-                        st.code(scene, language="text")
+                # --- SCENE 5: ENDING & DIALOGUE ---
+                m5 = (
+                    f"SCENE 5 (ENDING): Zoom into the character's face inside the {data_b['end']}. "
+                    f"Smiling warmly at the camera. He is speaking: '{dialogue_b}'. "
+                    f"Background: {dna_h} interior bedroom made of green bamboo. "
+                    f"8k, photorealistic, cinematic lighting."
+                )
+
+                # DISPLAY
+                st.subheader("🖼️ MASTER STORYBOARD (AUTO-GENERATED)")
+                titles = ["ENCOUNTER", "THE DIVE", "INTERIOR GALLERY", "ENDING (DIALOGUE)"]
+                prompts = [m1, m2, m3, m5]
                 
-                st.success("DNA LORONG BERHASIL DIRAKIT, COY! GAS KE GROK! 🎋🔥")
+                for t, p in zip(titles, prompts):
+                    with st.expander(f"STEP: {t}", expanded=True):
+                        st.code(p, language="text")
+
+                st.success(f"DNA {hewan_pilih_b} di {world_pilih_b} Berhasil Dirakit! 🎋🔥")
                 
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
