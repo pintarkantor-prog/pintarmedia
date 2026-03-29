@@ -1174,103 +1174,66 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
 
     # ==========================================================================
-    # TAB: BAMBOO CRAFT SURREAL (LUXURY ARCHITECTURE & ANIMAL DNA)
+    # TAB: BAMBOO CRAFT SURREAL (WIDE SHOT ARCHITECTURE)
     # ==========================================================================
     with t_bamboo:
-        # --- 1. MASTER DNA LOKAL (HANYA UNTUK TAB BAMBOO) ---
-        MASTER_BAMBOO_SOUL = {
-            "Kakek (The Master Artisan)": (
-                "An elderly Indonesian man with deeply weathered, sun-baked tanned skin. "
-                "His face is a map of deep wrinkles with prominent crow's feet and etched forehead lines. "
-                "Wispy, long white hair and a thin, stringy white beard that moves with the wind. "
-                "His hands are calloused with thick knuckles from years of weaving. "
-                "Expression: Wide-eyed terror, mouth slightly agape, gasping in pure shock."
-            ),
-            "Nenek (The Village Matriarch)": (
-                "An aged woman with thick, porous skin and visible age spots. "
-                "Her silver hair is pulled back into a tight, authentic bun. "
-                "She has heavy drooping eyelids and deep nasolabial folds that sag toward the jawline. "
-                "Expression: Intense fear, body tensed up, eyes darting in panic toward the threat."
-            )
-        }
+        with st.expander("🎋 MENGELOLA BAMBOO CRAFT GENERATOR", expanded=True):
+            # --- 1. DNA MASTER (KONSISTEN WIDE SHOT) ---
+            MASTER_BAMBOO_SOUL = {
+                "Kakek (The Inhabitant)": (
+                    "An elderly Indonesian man with long white hair and beard, wearing a simple white tank top and sarong. "
+                    "He is shown as a small figure in a wide landscape shot to emphasize the scale of the building."
+                )
+            }
 
-        MASTER_BAMBOO_HOUSE = {
-            "Emerald Sanctuary (Green Bamboo)": (
-                "A colossal, modern multi-level luxury bamboo mansion made of fresh green bamboo. "
-                "The architecture features intricate hexagonal weaving patterns and sweeping organic curves. "
-                "Nestled in a lush, sun-drenched tropical rainforest with massive ferns and rising mist. "
-                "Golden morning sunlight filtering through the dense canopy, creating sharp god-rays."
-            ),
-            "Golden Reed Palace (Natural Wood)": (
-                "An expansive, avant-garde luxury sanctuary built from polished golden bamboo and aged wood. "
-                "Spiral bamboo pillars support a vast thatched roof made of dark palm fiber. "
-                "Located on a cliffside overlooking a massive waterfall in a misty ancient jungle."
-            )
-        }
+            MASTER_BAMBOO_HOUSE = {
+                "Emerald Sanctuary (Green Bamboo)": (
+                    "A stunning, modern multi-level luxury bamboo house made of fresh green bamboo. "
+                    "Surrounded by a lush, sun-drenched tropical rainforest with massive ferns and rising mist. "
+                    "Wide angle cinematic shot with golden morning sunlight."
+                )
+            }
 
-        MASTER_INTERIOR_DNA = {
-            "Glass Palace & Koi Stream": (
-                "breathtaking luxury bamboo interior with high glass ceilings, an indoor koi stream pond "
-                "integrated into the marble floor, and lush indoor tropical plants. "
-                "The furniture features elegant bamboo curves with {motif} patterns and textures."
-            ),
-            "Royal Bamboo Bedroom": (
-                "ultra-luxury bedroom suite with massive bamboo support pillars and a giant glass wall "
-                "overlooking the jungle. Features silk sheets, a modern bamboo fireplace, "
-                "and intricate {motif} sculptures and carvings throughout the room."
-            )
-        }
+            # --- 2. UI SELECTION ---
+            col1, col2 = st.columns(2)
+            with col1:
+                char_key = st.selectbox("KARAKTER", list(MASTER_BAMBOO_SOUL.keys()))
+                house_key = st.selectbox("DESAIN RUMAH BAMBU", list(MASTER_BAMBOO_HOUSE.keys()))
+            with col2:
+                hewan_key = st.selectbox("ANCAMAN HEWAN (AWAL)", ["King Cobra", "Bengal Tiger", "Black Panther"])
+                interior_key = st.selectbox("TEMA INTERIOR", ["Luxury Glass Hall", "Zen Koi Garden", "Modern Bamboo Kitchen"])
 
-        # --- 2. UI SELECTION (PASTIKAN col1 & col2 SUDAH PAS) ---
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            char_key = st.selectbox("JIWA KARAKTER", list(MASTER_BAMBOO_SOUL.keys()))
-            house_key = st.selectbox("ARSITEKTUR BAMBU (LUAR)", list(MASTER_BAMBOO_HOUSE.keys()))
-            animal_key = st.selectbox("ANCAMAN HEWAN", ["King Cobra", "Bengal Tiger", "Black Panther", "Elephant"])
+            st.divider()
 
-        with col2:
-            int_key = st.selectbox("INTERIOR KEJUTAN (DALAM)", list(MASTER_INTERIOR_DNA.keys()))
-            cloth_desc = st.text_input("DNA PAKAIAN", "tattered weathered white t-shirt and a faded dark brown sarong")
-            st.caption("Tips: Detail baju harus sama di Master A & B.")
+            # --- 3. RAKIT STORYBOARD LOGIC ---
+            if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
+                char_dna = MASTER_BAMBOO_SOUL[char_key]
+                house_dna = MASTER_BAMBOO_HOUSE[house_key]
+                
+                # --- MASTER KEYFRAME (WIDE SHOT) ---
+                st.subheader("🖼️ MASTER KEYFRAME (FLUX/VEO)")
+                m_a = (
+                    f"A wide-angle cinematic shot of {house_dna}. {char_dna}. "
+                    f"In the foreground, a large {hewan_key} is facing him. "
+                    f"High contrast, 8k, photorealistic natural lighting."
+                )
+                st.info("Gunakan ini sebagai referensi visual utama agar rumah bambunya tetap konsisten.")
+                st.code(m_a, language="text")
 
-        st.divider()
+                # --- VIDEO CHAIN PROMPTS (GROK) ---
+                st.subheader("📽️ VIDEO CHAIN PROMPTS (GROK)")
+                
+                s1 = f"SCENE 1 (0-5s): Wide shot. The man is startled by a {hewan_key} in front of his bamboo house. He quickly turns and runs inside the house door."
+                s2 = f"SCENE 2 (5-10s): Wide shot from inside the house. The man enters and closes the door. The camera pans to reveal a luxury {interior_key} with glass ceilings."
+                s3 = f"SCENE 3 (10-15s): The man is now walking calmly through the {interior_key}, passing a koi pond and glass walls. Very peaceful atmosphere."
+                s4 = f"SCENE 4 (15-20s): The man sits down or does a simple activity in the {interior_key}. 360 degree slow rotation to show the full bamboo architecture."
 
-        # --- 3. RAKIT STORYBOARD LOGIC ---
-        if st.button("🚀 RAKIT BAMBOO STORYBOARD", type="primary", use_container_width=True):
-            # Ambil Data
-            c_dna = MASTER_BAMBOO_SOUL[char_key]
-            h_dna = MASTER_BAMBOO_HOUSE[house_key]
-            i_dna = MASTER_INTERIOR_DNA[int_key].format(motif=animal_key.lower())
-            
-            # Identity Anchor (Identity Visual)
-            anchor = f"{c_dna}. Wearing {cloth_desc}."
-
-            # --- OUTPUT MASTER (FLUX/VEO) ---
-            st.subheader("🖼️ MASTER KEYFRAMES (FLUX)")
-            
-            m_a = f"MASTER A (EXTERIOR): {anchor}. Standing on the porch of {h_dna}. A menacing {animal_key} is threatening him. Cinematic 8k, photorealistic."
-            m_b = f"MASTER B (INTERIOR): {anchor}, now safe and calm. Inside a {i_dna}. Natural sunlight through glass ceiling, 8k, cinematic."
-            
-            st.info("Gunakan Master A untuk Video 0-20s, dan Master B untuk Video 20-40s.")
-            st.code(m_a, language="text")
-            st.code(m_b, language="text")
-
-            # --- OUTPUT VIDEO CHAIN (GROK) ---
-            st.subheader("📽️ VIDEO CHAIN PROMPTS (GROK)")
-            
-            s1 = f"SCENE 1: Close-up on the face of {char_key}. He gasps in fear as the {animal_key} rises its head. {h_dna}. Camera shakes slightly."
-            s2 = f"SCENE 2: {char_key} turns around in panic and rushes into the bamboo house doorway, slamming the door. Fast tracking shot from behind."
-            s3 = f"SCENE 3: Camera dives rapidly through the dark bamboo doorway, transitioning into the breathtaking luxury {i_dna}. Smooth FPV motion."
-            s4 = f"SCENE 4: 360 degree pan of the {i_dna}. {char_key} is sitting at a VIP table, safe and smiling. The jungle is visible through glass walls."
-
-            scenes = [s1, s2, s3, s4]
-            for i, scene in enumerate(scenes):
-                with st.expander(f"STEP {i+1}: {'THE THREAT' if i==0 else 'THE ESCAPE' if i==1 else 'THE DIVE' if i==2 else 'THE REVEAL'}", expanded=True):
+                scenes = [s1, s2, s3, s4]
+                for i, scene in enumerate(scenes):
+                    st.info(f"Step {i+1}")
                     st.code(scene, language="text")
-            
-            st.success("DNA Berhasil Dirakit! Silakan eksekusi di Grok/Kling, Coy! 🎋🔥")
 
+                st.success("DNA Storyboard Wide Shot Berhasil Dirakit! Gas, Coy! 🎋🔥")
     # ==========================================================================
     # TAB: ANATOMY (SULTAN IDENTITY LOCK - CLEAN ENGINE)
     # ==========================================================================
