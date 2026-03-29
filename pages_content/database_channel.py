@@ -218,7 +218,7 @@ def tampilkan_database_channel():
                                     target_hp = "1"
                                     for h in range(1, 101):
                                         count_sekarang = hp_counts.get(str(h), 0)
-                                        max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8] else 4
+                                        max_slot = 3 if h in [1, 2, 3, 4, 5, 6] else 4
                                         
                                         if count_sekarang < max_slot:
                                             target_hp = str(h)
@@ -262,8 +262,8 @@ def tampilkan_database_channel():
         
         st.info("""
             💡 **PENGINGAT KHUSUS:**
-            1. HP 1-8 Konten Sakura (Max 3 Channel)
-            2. HP 9-23 Konten Masjid (Max 4 Channel)
+            1. HP 1-6 Konten Sakura (Max 3 Channel)
+            2. HP 7-23 Konten Masjid (Max 4 Channel)
         """)
 
         df_p = df[df['STATUS'] == 'PROSES'].copy()
