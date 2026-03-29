@@ -40,7 +40,7 @@ def tampilkan_database_channel():
     # Cek apakah user punya otoritas
     if level_aktif not in ["OWNER", "ADMIN"]:
         st.error("🚫 AKSES DITOLAK!")
-        st.info("Halaman ini hanya dapat diakses oleh Owner dan Admin.")
+        st.info("Halaman ini hanya dapat diakses oleh Admin.")
         st.stop() # Menghentikan seluruh proses render ke bawah
 
     # --- 2. HEADER & SETUP ---
