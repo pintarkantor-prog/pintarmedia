@@ -536,7 +536,7 @@ def tampilkan_area_staf():
             elif user_level == "UPLOADER":
                 gapok_display = "Rp 1.500.000"
             elif user_level == "ADMIN":
-                gapok_display = "Rp 2.500.000"
+                gapok_display = "Rp 1.500.000"
             else:
                 gapok_display = "Rp -, -"
 
