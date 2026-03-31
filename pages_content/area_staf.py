@@ -41,12 +41,12 @@ def tampilkan_area_staf():
             "rutinitas": [
                 "Produksi video harian sesuai kebutuhan Kantor.",
                 "Koordinasi dengan Admin terkait Stok Harian.",
-                "Jika stok harian, tanpa perlu kirim tugas (langsung serahkan hasil ke Admin via FD).",
+                "Jika stok harian, tanpa perlu kirim tugas ( langsung serahkan hasil ke Admin via FD ).",
                 "Jika ada tugas khusus dari owner, wajib setor hasil tugas via Form Tugas Khusus."
             ],
             "sop": [
                 "**Kualitas:** Minimal 1080p Full HD.",
-                "**Ratio:** Format 9:16 (Vertical).",
+                "**Ratio:** Format 9:16 ( Vertical ).",
                 "**Durasi:** Disesuaikan kebutuhan.",
                 "**Nama file video:** TGL_NAMA_JUDUL.mp4"
             ]
@@ -55,10 +55,10 @@ def tampilkan_area_staf():
             "judul": "UPLOADER", "ikon": "📲",
             "rutinitas": [
                 "Upload konten harian sesuai jadwal.",
-                "Hapus file video yang sudah di Upload (termasuk di folder sampah).",
+                "Hapus file video yang sudah di Upload ( termasuk di folder sampah ).",
                 "Koordinasi dengan Admin terkait stok video di HP.",
-                "Isi daya setiap HP (Jangan sampai lowbat).",
-                "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala (2 hari sekali)."
+                "Isi daya setiap HP ( Jangan sampai lowbat ).",
+                "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala ( 2 hari sekali )."
             ],
             "sop": [
                 "Upload tepat waktu sesuai jadwal yang tersedia.",
