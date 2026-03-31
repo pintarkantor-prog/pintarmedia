@@ -7,12 +7,13 @@ import pytz
 import time
 
 def tampilkan_kendali_tim():    
-    # --- 1. SETUP AUTH & WAKTU ---
+    # --- 1. SETUP AUTH & WAKTU (DOUBLE LOCK SYSTEM) ---
     user_sekarang = st.session_state.get("user_aktif", "User").upper()
-    user_level = st.session_state.get("user_level", "STAFF").upper()
+    user_level = str(st.session_state.get("user_level", "STAFF")).upper().strip()
 
+    # Benteng Terakhir: Jika bukan Owner/Admin, hentikan paksa!
     if user_level not in ["OWNER", "ADMIN"]:
-        st.error("🚫 Area Terbatas!")
+        st.error(f"🚫 AKSES DITOLAK, {user_sekarang}!")
         st.stop()
 
     tz_wib = pytz.timezone('Asia/Jakarta')
