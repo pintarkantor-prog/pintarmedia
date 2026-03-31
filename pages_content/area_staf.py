@@ -39,32 +39,33 @@ def tampilkan_area_staf():
         "STAFF": { 
             "judul": "EDITOR", "ikon": "🎬",
             "rutinitas": [
-                "Produksi minimal 3 Video AI per hari.",
-                "Setor hasil ke folder GDrive Project.",
-                "Update status tugas di tabel progres.",
-                "Backup aset mentah ke storage lokal."
+                "Produksi video harian sesuai kebutuhan Kantor.",
+                "Koordinasi dengan Admin terkait Stok Harian.",
+                "Jika stok harian, tanpa perlu kirim tugas (langsung serahkan hasil ke Admin via FD).",
+                "Jika ada tugas khusus dari owner, wajib setor hasil tugas via Form Tugas Khusus."
             ],
             "sop": [
                 "**Kualitas:** Minimal 1080p Full HD.",
                 "**Ratio:** Format 9:16 (Vertical).",
-                "**Durasi:** Min. 60 detik (No Filler).",
-                "**Audio:** Wajib Copyright-Free.",
-                "**Naming:** TGL_NAMA_JUDUL.mp4"
+                "**Durasi:** Disesuaikan kebututahn.",
+                "**Nama file video:** TGL_NAMA_JUDUL.mp4"
             ]
         },
         "UPLOADER": {
             "judul": "UPLOADER", "ikon": "📲",
             "rutinitas": [
-                "Upload 3 konten harian tepat waktu.",
-                "Cek interaksi & balas komentar.",
-                "Monitoring performa video harian.",
-                "Lapor status kesehatan akun."
+                "Upload konten harian sesuai jadwal.",
+                "Hapus file video yang sudah di Upload (termasuk di folder sampah).",
+                "Koordinasi dengan Admin terkait stok video di HP.",
+                "Isi daya setiap HP (Jangan sampai lowbat).",
+                "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala (2 hari sekali)."
             ],
             "sop": [
-                "**Jadwal:** 10:00, 14:00, dan 19:00 WIB.",
-                "**SEO:** Judul & Deskripsi unik harian.",
-                "**Thumbnail:** High-Contrast & No-Clickbait.",
-                "**Copyright:** Cek status setelah 1 jam upload."
+                "**Jadwal:** Upload tepat waktu sesuai jadwal yang tersedia.",
+                "**SEO:** Judul & Deskripsi mengikuti WA Kerja, atau isi manual pada konten-konten tertentu.",
+                "**Thumbnail:** Pilih thumbnail yang jelas! utamakan kejadian atau fokus ke karakter.",
+                "**Cek n Ricek:** Sebelum upload, wajib tonton video Youtube orang lain beberapa detik.",
+                "**Cek n Ricek:** Setelah upload, jangan langsung di close, refresh dulu, tonton Youtube orang lain beberapa detik, baru close YT."
             ]
         },
         "ADMIN": {
