@@ -19,6 +19,7 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
+@st.cache_data(ttl=600)
 def ambil_data(nama_tabel):
     """Mengambil data & Memaksa semua kolom jadi KAPITAL (Anti-Error Case Sensitive)"""
     try:
@@ -49,10 +50,10 @@ def load_data_hp():
     return ambil_data("Data_HP")
 
 def simpan_perubahan_channel(data_batch):
-    """Update status masal langsung ke Supabase (Instan)"""
     try:
         if data_batch:
             supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+            st.cache_data.clear() # <--- TAMBAHIN INI! Biar cache kehapus & data langsung update
             return True
         return False
     except Exception as e:
