@@ -495,7 +495,7 @@ def tampilkan_database_channel():
                         """
                     html_all_pages += "</tbody></table></div>"
 
-            # --- 3. MONITORING VIEW (WEB) ---
+            # --- 3. MONITORING VIEW (WEB - TETEP MUNCUL BIAR BISA DILIHAT) ---
             st.markdown("#### 📱 MONITORING JADWAL UPLOAD")
             st.dataframe(
                 df_display[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]],
@@ -508,59 +508,81 @@ def tampilkan_database_channel():
                 }, hide_index=True, use_container_width=True
             )
 
-            # --- 4. STYLE SULTAN AESTHETIC V2 (FULL ABU-ABU + HEADER HITAM) ---
-            html_masterpiece = f"""
-            <style>
-                @media print {{
-                    @page {{ size: A4 portrait; margin: 1cm; }}
-                    * {{ box-sizing: border-box; }}
-                    body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                    
-                    .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
-                    .page-break {{ page-break-after: always; }}
+            st.divider()
 
-                    .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
-                    h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
-                    .sub {{ font-size: 12px; color: #666; }}
+            # --- 4. LOGIKA PRINT (SILET: RAKIT CUMA PAS TOMBOL DIKLIK) ---
+            if st.button("📄 PREPARE & PRINT JADWAL", use_container_width=True, type="primary"):
+                with st.spinner("🚀 Sedang merakit dokumen cetak..."):
+                    # KITA PINDAHIN PROSES RAKITNYA KE SINI
+                    html_all_pages = "" 
+                    for tim in kelompok_tim:
+                        list_hp_unik = tim["list"]
+                        if not list_hp_unik: continue
+                        for start_idx in range(0, len(list_hp_unik), 6):
+                            hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
+                            df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
+                            
+                            html_all_pages += f"""
+                            <div class="print-container page-break">
+                                <div class="header-box">
+                                    <h2>📋 JADWAL UPLOAD PINTAR MEDIA</h2>
+                                    <p class="sub">Unit: <b>{tim['nama']}</b> | Periode: <b>{tgl_str}</b></p>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%;">📱 HP</th>
+                                            <th style="width: 45%;">📺 CHANNEL YOUTUBE</th>
+                                            <th style="width: 15%;">🌅 PAGI</th>
+                                            <th style="width: 15%;">☀️ SIANG</th>
+                                            <th style="width: 15%;">🌆 SORE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            """
+                            for i, r in enumerate(df_page.itertuples()):
+                                p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
+                                s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
+                                o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
+                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
+                                bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
+                                
+                                html_all_pages += f"""
+                                    <tr style="background-color: {bg_color} !important;">
+                                        <td class="col-hp">{hp_view}</td>
+                                        <td class="col-ch">{r.NAMA_CHANNEL}</td>
+                                        <td class="col-jam">{p}</td>
+                                        <td class="col-jam">{s}</td>
+                                        <td class="col-jam">{o}</td>
+                                    </tr>
+                                """
+                            html_all_pages += "</tbody></table></div>"
 
-                    table {{ 
-                        width: 100%; 
-                        border-collapse: collapse; 
-                        border: 1px solid #CCC; /* SEMUA GARIS LUAR ABU-ABU */
-                        table-layout: fixed;
-                    }}
-                    
-                    /* HEADER HITAM SOLID */
-                    th {{ 
-                        background-color: #FFFFFF !important;
-                        color: #1E3A8A !important;
-                        padding: 10px; 
-                        border: 1px solid #CCC;
-                        font-size: 12px;
-                        font-weight: bold;
-                        -webkit-print-color-adjust: exact;
-                    }}
-                    
-                    td {{ 
-                        border: 1px solid #CCC; /* SEMUA GARIS DALAM ABU-ABU */
-                        padding: 8px 10px; 
-                        font-size: 14px; 
-                        color: #111;
-                        line-height: 1.3;
-                    }}
-                    
-                    .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
-                    .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
-                    .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
-                    
-                    .footer-note {{ margin-top: 10px; text-align: right; font-size: 9px; color: #999; }}
-                }}
-            </style>
-            {html_all_pages}
-            """
-            
-            if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
-                st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
+                    # --- STYLE SULTAN (Juga dirakit di dalam sini) ---
+                    html_masterpiece = f"""
+                    <style>
+                        @media print {{
+                            @page {{ size: A4 portrait; margin: 1cm; }}
+                            * {{ box-sizing: border-box; }}
+                            body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
+                            .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
+                            .page-break {{ page-break-after: always; }}
+                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
+                            h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
+                            .sub {{ font-size: 12px; color: #666; }}
+                            table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
+                            td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; line-height: 1.3; }}
+                            .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
+                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
+                            .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
+                        }}
+                    </style>
+                    {html_all_pages}
+                    <script>window.print();</script>
+                    """
+                    # EKSEKUSI PRINT
+                    st.components.v1.html(html_masterpiece, height=0)
                 
     # ======================================================================
     # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
