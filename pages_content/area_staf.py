@@ -296,67 +296,96 @@ def tampilkan_area_staf():
                 # Ini muncul kalau setelah di-filter datanya emang gak ada
                 st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
                     
-# ==============================================================================
-    # TAB 2: PANDUAN KERJA (BERDASARKAN AKTIVITAS / CARA KERJA)
+    # ==============================================================================
+    # TAB 2: PANDUAN KERJA (FILTERED BY LEVEL)
     # ==============================================================================
     with tab_panduan:
-        st.markdown(f"#### 📖 Pusat Panduan Kerja: PINTAR MEDIA")
-        st.info("💡 **INFO:** Klik setiap judul panduan di bawah ini untuk melihat langkah-langkah teknisnya secara lengkap.")
+        st.markdown(f"#### 📖 Panduan Kerja: {user_aktif}")
+        
+        # --- FUNGSI MODULAR PANDUAN EDITOR ---
+        def panduan_setor_tugas():
+            with st.expander("🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)", expanded=True):
+                st.markdown("#### 1️⃣ Produksi & Standar Kualitas")
+                st.write("- **Produksi Harian:** Wajib bikin video harian sesuai kebutuhan stok kantor.")
+                st.write("- **Cek Stok:** Selalu koordinasi sama Admin buat tau stok video mana yang mau habis.")
+                st.success(f"📌 **Format Nama:** `{sekarang.strftime('%d%m')}_NAMAMU_JUDUL.mp4` (Wajib biar Admin gak bingung!)")
+                
+                st.divider()
 
-        # --- 1. PANDUAN SETOR TUGAS ---
-        with st.expander("📝 1. PANDUAN SETOR & PENYERAHAN TUGAS", expanded=True):
-            col_s1, col_s2 = st.columns(2)
-            with col_s1:
-                st.markdown("**📽️ Penyerahan Stok Harian (Offline):**")
-                st.write("1. Pastikan video sudah sesuai **SOP Kualitas** (1080p, 9:16).")
-                st.write("2. Nama file wajib: `TGL_NAMA_JUDUL.mp4`.")
-                st.write("3. Masukkan file ke **Flashdisk (FD)** yang tersedia di kantor.")
-                st.write("4. Serahkan FD ke **Admin** untuk proses pemindahan ke unit HP.")
-            with col_s2:
-                st.markdown("**🚀 Penyerahan Tugas Khusus (Online):**")
-                st.write("1. Upload file video ke **Google Drive** kantor.")
-                st.write("2. Pastikan akses link sudah **'Anyone with the link'**.")
-                st.write("3. Buka **Tab TUGAS KERJA** di aplikasi ini.")
-                st.write("4. Cari ID Tugas Anda, klik **🔍 Buka Detail**, tempel link GDrive, lalu klik **SETOR**.")
+                st.markdown("#### 2️⃣ Alur Penyerahan Hasil Kerja")
+                col_jalur1, col_jalur2 = st.columns(2)
+                
+                with col_jalur1:
+                    st.info("📂 **JALUR A: STOK HARIAN (OFFLINE)**")
+                    st.write("**Kapan?** Untuk stok video rutin harian.")
+                    st.write("**Caranya:**")
+                    st.write("- **Gak perlu** input link ke sistem/web ini.")
+                    st.write("- Copy file video ke **Flashdisk (FD)** kantor.")
+                    st.write("- Serahkan FD langsung ke **Admin**.")
+                    st.write("- Pastikan file sudah aman ter-copy sebelum cabut FD.")
 
-        # --- 2. PANDUAN AMANIN AKUN & UNIT ---
-        with st.expander("🔐 2. PANDUAN KEAMANAN AKUN GOOGLE & UNIT HP"):
-            c_sec1, c_sec2 = st.columns(2)
-            with c_sec1: # SUDAH FIXED: Pake c_sec1
-                st.markdown("**🛡️ Proteksi Akun:**")
-                st.write("- **Dilarang Keras** login akun YouTube kantor di perangkat pribadi (Laptop/HP Sendiri).")
-                st.write("- Jika muncul notifikasi 'Perangkat Tidak Dikenal', segera lapor Admin.")
-                st.write("- Jangan pernah membagikan **Prompt AI** rahasia perusahaan ke luar grup WA.")
-            with c_sec2: # SUDAH FIXED: Pake c_sec2
-                st.error("**⚠️ Kasus Verifikasi 2 Langkah:**")
-                st.write("Jika HP meminta kode OTP atau menekan angka verifikasi:")
-                st.write("1. **JANGAN** asal tekan angka.")
-                st.write("2. **JANGAN** isi kode sembarangan.")
-                st.write("3. Langsung teriak atau panggil Owner/Admin untuk verifikasi fisik.")
+                with col_jalur2:
+                    st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
+                    st.write("**Kapan?** Jika ada instruksi tugas dari Owner di web.")
+                    st.write("**Caranya:**")
+                    st.write("- Upload file ke **Google Drive** kantor.")
+                    st.write("- Set link ke: *'Anyone with the link'*.")
+                    st.write("- Buka Tab **TUGAS KERJA** di web ini.")
+                    st.write("- Klik **🔍 Buka Detail** pada ID tugasmu, tempel link, lalu **SETOR**.")
 
-        # --- 3. PANDUAN UPLOAD & RITUAL ALGORITMA ---
-        with st.expander("📲 3. PANDUAN UPLOAD & RITUAL ALGORITMA (ANTI-SPAM)"):
-            st.markdown("**⏰ Jadwal Upload:** `10:00` | `14:00` | `19:00` (Wajib Tepat Waktu!)")
+                st.divider()
+                st.warning("⚠️ **PENTING:** Habis setor (via FD atau Web), langsung japri atau lapor di Grup WA biar Admin langsung QC!")
+
+        def panduan_ritual_upload():
+            with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM", expanded=True):
+                st.warning("⚠️ **Pemanasan Akun:** Tonton video Shorts orang lain 30 detik sebelum & sesudah upload.")
+                st.write("- **Jadwal:** Pagi 10:00 | Siang 14:00 | Malam 19:00 WIB.")
+                st.write("- **Thumbnail:** Wajib pilih frame yang paling bikin penasaran.")
+                st.write("- **Closing:** Jangan langsung tutup YT setelah upload, tonton video lain dulu.")
+
+        def panduan_rawat_hp():
+            with st.expander("⚙️ MAINTENANCE UNIT HP", expanded=False):
+                st.write("- **Pembersihan:** Hapus file video & folder sampah setelah upload sukses.")
+                st.write("- **Refresh:** Restart HP dan Update aplikasi YT setiap 2 hari sekali.")
+                st.write("- **Power:** Pastikan HP selalu tercolok charger (No Lowbat).")
+
+        def panduan_kontrol_admin():
+            with st.expander("📊 MANAJEMEN DATABASE & KONTROL", expanded=True):
+                st.write("- **Real-Time:** Update status Channel & HP di database saat itu juga.")
+                st.write("- **Logistik:** Pantau stok video di HP. Jika sisa <3, segera tagih Editor.")
+                st.write("- **Keuangan:** Catat arus kas kantor dengan akurasi 100%.")
+
+        # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
+        if user_level in ["OWNER", "ADMIN"]:
+            # Owner & Admin bisa pilih mau liat panduan siapa
+            pilihan = st.segmented_control(
+                "Pilih Panduan Divisi:", 
+                ["EDITOR", "UPLOADER", "ADMIN"], 
+                default="EDITOR"
+            )
             st.divider()
-            st.markdown("**🔄 Ritual 'Pemanasan' YouTube:**")
-            st.write("1. **Sebelum Upload:** Buka aplikasi YT, tonton minimal 2-3 video Shorts orang lain.")
-            st.write("2. **Proses Upload:** Pilih Thumbnail yang kontras. Judul & Deskripsi unik sesuai WA Kerja.")
-            st.write("3. **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton 1-2 video lagi baru close.")
-            st.write("4. **Maintenance:** Hapus file video di galeri **DAN** di folder sampah/trash HP.")
-
-        # --- 4. PANDUAN PERAWATAN PERANGKAT ---
-        with st.expander("⚙️ 4. PANDUAN PERAWATAN PERANGKAT (DEVICE MAINTENANCE)"):
-            c_dev1, c_dev2 = st.columns(2)
-            with c_dev1:
-                st.markdown("**🧹 Pembersihan Sistem (2 Hari Sekali):**")
-                st.write("- **Restart HP:** Biar sistem segar dan tidak berat.")
-                st.write("- **Clear Chat:** Hapus pesan-pesan tidak penting di WA/Pesan HP.")
-                st.write("- **Update App:** Cek Playstore, pastikan YouTube versi terbaru.")
-            with c_dev2:
-                st.markdown("**⚡ Manajemen Daya & Data:**")
-                st.write("- Pastikan HP selalu tercolok charger (Dilarang mati karena lowbat).")
-                st.write("- Cek sisa kuota di HP secara berkala via aplikasi provider.")
-                st.write("- Lapor Admin jika unit HP terasa panas berlebih.")
+            if pilihan == "EDITOR": panduan_setor_tugas()
+            elif pilihan == "UPLOADER": 
+                panduan_ritual_upload()
+                panduan_rawat_hp()
+            elif pilihan == "ADMIN": panduan_kontrol_admin()
+            
+        elif user_level == "STAFF": # Editor
+            st.info("Pusat Informasi untuk Editor AI")
+            panduan_setor_tugas()
+            
+        elif user_level == "UPLOADER":
+            st.info("Pusat Informasi untuk Uploader Konten")
+            panduan_ritual_upload()
+            panduan_rawat_hp()
+            
+        # Panduan Keamanan (Wajib buat SEMUA ORANG)
+        st.divider()
+        with st.expander("🔐 PROSEDUR AMANIN AKUN GOOGLE"):
+            c1, c2 = st.columns(2)
+            c1.write("- Dilarang login di perangkat pribadi.")
+            c1.write("- JANGAN share Prompt AI ke luar Grup WA.")
+            c2.error("Jika muncul OTP/Verifikasi: JANGAN ditekan! Segera panggil Owner/Admin.")
                 
     # ==============================================================================
     # TAB 3: PERATURAN KERJA
