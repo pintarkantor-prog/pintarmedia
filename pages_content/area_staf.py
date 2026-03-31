@@ -436,7 +436,7 @@ def tampilkan_area_staf():
                 col_sec1, col_sec2 = st.columns(2)
                 
                 with col_sec1:
-                    st.markdown("**🛡️ Aturan Penggunaan Akun:**")
+                    st.success("**🛡️ Aturan Penggunaan Akun:**")
                     st.write("- **Dilarang Keras** login akun Google kantor di perangkat pribadi (Laptop/HP sendiri).")
                     st.write("- Wajib pasang Nomor HP yang aktif di semua Akun Google.")
                     st.write("- Pastikan semua akun google telah diganti password saat pembelian.")
