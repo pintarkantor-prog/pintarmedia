@@ -723,123 +723,125 @@ def tampilkan_database_channel():
     with tab_sd: 
         # --- PROTEKSI AKSES OWNER ---
         if user_level == "OWNER":
+            # --- 0. HEADER DENGAN LOGO ---
+            c_logo, c_text = st.columns([0.1, 0.9])
+            c_logo.markdown("## 💰") 
+            c_text.markdown("### DATA PENJUALAN PINTAR MEDIA")
+
+            # --- 1. SETUP FILTER PERIODE ---
+            now_indo = database.ambil_waktu_sekarang()
+            col_f1, col_f2 = st.columns([1, 1])
+            with col_f1:
+                list_bulan = {"01": "Januari", "02": "Februari", "03": "Maret", "04": "April", "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", "09": "September", "10": "Oktober", "11": "November", "12": "Desember"}
+                sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=now_indo.month - 1, key="tab_sold_bln")
+                sel_bln_code = [k for k, v in list_bulan.items() if v == sel_bln_nama][0]
+            with col_f2:
+                sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
+
+            filter_periode = f"{sel_bln_code}/{sel_thn}"
             
+            # --- 2. LOGIKA HITUNG DATA (SUPABASE DATA) ---
+            df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
+            total_ever = len(df_sold_all)
+            
+            mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
+            df_selected = df_sold_all[mask_periode].copy()
+            total_selected = len(df_selected)
+            
+            # --- LOGIKA DELTA BULAN LALU ---
+            try:
+                from datetime import timedelta, datetime
+                date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
+                date_prev = (date_selected - timedelta(days=1))
+                filter_prev = date_prev.strftime("%m/%Y")
+                total_prev = len(df_sold_all[df_sold_all['EDITED'].astype(str).str.contains(filter_prev, na=False)])
+            except:
+                total_prev = 0
+                filter_prev = "N/A"
+
+            # --- 3. RENDER 3 METRIK UTAMA ---
+            with st.container(border=True):
+                m1, m2, m3 = st.columns(3)
+                m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
+                m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
+                m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
+
+            st.markdown("<br>", unsafe_allow_html=True)
+
+            # --- 4. DATABASE TABEL ---
+            st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
+            if df_selected.empty:
+                st.info(f"Belum ada data periode {filter_periode}")
+            else:
+                df_selected['REAL_IDX'] = df_selected.index
+                df_selected['TGL_LAST'] = df_selected['EDITED']
+                df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
+                
+                config_sold = {
+                    "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
+                    "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
+                    "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120),
+                    "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
+                    "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
+                    "STATUS": st.column_config.SelectboxColumn(
+                        "⚙️ STATUS", width=100, 
+                        options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]
+                    ),
+                    "REAL_IDX": None
+                }
+
+                edited_sold = st.data_editor(
+                    df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
+                    use_container_width=True, 
+                    hide_index=True, 
+                    column_config=config_sold, 
+                    key="grid_sold_full_edit_final"
+                )
+
+                # --- 5. LOGIKA SAVE ---
+                if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
+                    if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
+                        try:
+                            with st.spinner("Sinkronisasi data penjualan..."):
+                                tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                                data_batch = []
+                                
+                                for i, row in edited_sold.iterrows():
+                                    idx_asli = int(row['REAL_IDX'])
+                                    old_val = df.iloc[idx_asli]
+                                    
+                                    if (str(row['STATUS']) != str(old_val['STATUS']) or 
+                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                        str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                                        
+                                        data_batch.append({
+                                            "EMAIL": row['EMAIL'].strip().lower(),
+                                            "PASSWORD": row['PASSWORD'],
+                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                            "STATUS": row['STATUS'],
+                                            "EDITED": f"Update: {user_aktif} ({tgl_now})"
+                                        })
+
+                                if data_batch:
+                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                    st.cache_data.clear()
+                                    st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
+                                    time.sleep(1)
+                                    st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ Gagal Simpan: {e}")
+
         else:
             # Tampilan buat Staff/Admin yang nyasar ke sini
             st.markdown("<br><br>", unsafe_allow_html=True)
             st.warning(f"⚠️ **AKSES TERBATAS!**")
-            st.error(f"Mohon maaf {user_aktif}, kamu tidak mendapat akses!.")
-
-        # --- 1. SETUP FILTER PERIODE ---
-        now_indo = database.ambil_waktu_sekarang()
-        col_f1, col_f2 = st.columns([1, 1])
-        with col_f1:
-            list_bulan = {"01": "Januari", "02": "Februari", "03": "Maret", "04": "April", "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", "09": "September", "10": "Oktober", "11": "November", "12": "Desember"}
-            sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=now_indo.month - 1, key="tab_sold_bln")
-            sel_bln_code = [k for k, v in list_bulan.items() if v == sel_bln_nama][0]
-        with col_f2:
-            sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
-
-        filter_periode = f"{sel_bln_code}/{sel_thn}"
-        
-        # --- 2. LOGIKA HITUNG DATA (SUPABASE DATA) ---
-        df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
-        total_ever = len(df_sold_all)
-        
-        mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
-        df_selected = df_sold_all[mask_periode].copy()
-        total_selected = len(df_selected)
-        
-        # --- LOGIKA DELTA BULAN LALU (YANG TADI KEHAPUS) ---
-        try:
-            from datetime import timedelta
-            date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
-            date_prev = (date_selected - timedelta(days=1))
-            filter_prev = date_prev.strftime("%m/%Y")
-            total_prev = len(df_sold_all[df_sold_all['EDITED'].astype(str).str.contains(filter_prev, na=False)])
-        except:
-            total_prev = 0
-            filter_prev = "N/A"
-
-        # --- 3. RENDER 3 METRIK UTAMA ---
-        with st.container(border=True):
-            m1, m2, m3 = st.columns(3)
-            m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
-            m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
-            m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        # --- 4. DATABASE TABEL (FULL EDITABLE & ICON SULTAN) ---
-        st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
-        if df_selected.empty:
-            st.info(f"Belum ada data periode {filter_periode}")
-        else:
-            df_selected['REAL_IDX'] = df_selected.index
-            df_selected['TGL_LAST'] = df_selected['EDITED']
-            df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
-            
-            config_sold = {
-                "TGL_LAST": st.column_config.TextColumn("⏰ TGL SOLD", width=180, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120),
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
-                "STATUS": st.column_config.SelectboxColumn(
-                    "⚙️ STATUS", width=100, 
-                    options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]
-                ),
-                "REAL_IDX": None
-            }
-
-            edited_sold = st.data_editor(
-                df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
-                use_container_width=True, 
-                hide_index=True, 
-                column_config=config_sold, 
-                key="grid_sold_full_edit_final"
-            )
-
-            # --- 5. LOGIKA SAVE (ANTI MUBADZIR) ---
-            if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
-                if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
-                    try:
-                        with st.spinner("Sinkronisasi data penjualan..."):
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            data_batch = []
-                            
-                            for i, row in edited_sold.iterrows():
-                                idx_asli = int(row['REAL_IDX'])
-                                old_val = df.iloc[idx_asli]
-                                
-                                # Filter: Cek perubahan di SEMUA kolom
-                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
-                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
-                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
-                                    
-                                    data_batch.append({
-                                        "EMAIL": row['EMAIL'].strip().lower(),
-                                        "PASSWORD": row['PASSWORD'],
-                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                        "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                        "STATUS": row['STATUS'],
-                                        "EDITED": f"Update: {user_aktif} ({tgl_now})"
-                                    })
-
-                            if data_batch:
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                                st.cache_data.clear()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
-                                time.sleep(1)
-                                st.rerun()
-                                
-                    except Exception as e:
-                        st.error(f"❌ Gagal Simpan: {e}")
+            st.error(f"Mohon maaf {user_aktif}, kamu tidak mendapat akses!")
 
     # ==============================================================================
     # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
