@@ -341,10 +341,6 @@ def tampilkan_area_staf():
                     st.write("- Buka Tab **TUGAS KERJA** di web ini, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
-            # --- FOOTER WARNING ---
-            st.write("")
-            st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
-
         # --- FUNGSI MODULAR PANDUAN UPLOADER (MODEL CARD SYSTEM) ---
         def panduan_ritual_upload():
             st.markdown("### 📲 RITUAL UPLOAD & ANTI-SPAM")
@@ -395,10 +391,10 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 🏗️ Produksi & Stok Channel Standby")
                 st.info("💡 **Tugas Utama:** Admin adalah penyedia akun agar operasional tidak berhenti.")
-                st.write("- **Hunting Akun:** Mencari akun Google fresh/tua untuk bahan channel baru.")
-                st.write("- **Ternak Channel:** Membuat channel-channel baru secara berkala untuk stok standby.")
-                st.write("- **Quality Control:** Memastikan channel standby sudah siap (setting dasar YT sudah oke).")
-                st.write("- **Update Database:** Segera masukkan data channel baru ke sistem agar siap digunakan.")
+                st.write("- Mencari akun Google fresh/tua untuk bahan channel baru.")
+                st.write("- Membuat channel-channel baru secara berkala untuk stok standby.")
+                st.write("- Memastikan channel standby sudah siap (setting dasar YT sudah oke).")
+                st.write("- Segera masukkan data channel baru ke sistem agar siap digunakan.")
 
             st.write("") # Spacing
 
@@ -407,10 +403,10 @@ def tampilkan_area_staf():
                 st.markdown("#### 🔄 Rutinitas & Rekap Harian")
                 # --- POIN REQUEST DIAN ---
                 st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby.")
-                st.write("- **Monitoring Channel:** Memastikan channel standby selalu update statusnya (siap/digunakan).")
-                st.write("- **Rekap Unit:** Update dan rekap database HP (Hapus sesi login lama agar aman).")
-                st.write("- **Stok Video:** Update stok video di masing-masing HP secara berkala.")
-                st.write("- **Efisiensi:** Memastikan seluruh kegiatan kantor berjalan efektif tanpa hambatan teknis.")
+                st.write("- Memastikan channel standby selalu update statusnya (siap/digunakan).")
+                st.write("- Update dan rekap database HP (Hapus sesi login lama agar aman).")
+                st.write("- Update stok video di masing-masing HP secara berkala.")
+                st.write("- Memastikan seluruh kegiatan kantor berjalan efektif tanpa hambatan teknis.")
 
             st.write("") # Spacing
 
@@ -421,47 +417,63 @@ def tampilkan_area_staf():
             with col_adm1:
                 with st.container(border=True):
                     st.info("🔍 **Pengecekan Logistik**")
-                    st.write("- **Cek Fisik:** Rutin cek kuota internet, listrik, dan kondisi unit HP.")
-                    st.write("- **Real-Time:** Data Channel wajib di-update secara real-time (No Delay).")
-                    st.write("- **Akurasi:** Akurasi data channel wajib 99% (No Error).")
+                    st.write("- Rutin cek kuota internet, listrik, dan kondisi unit HP.")
+                    st.write("- Data Channel wajib di-update secara real-time (No Delay).")
+                    st.write("- Akurasi data channel wajib 99% (No Error).")
 
             with col_adm2:
                 with st.container(border=True):
                     st.success("💰 **Keuangan & Koordinasi**")
-                    st.write("- **Arus Kas:** Mencatat setiap pengeluaran operasional (beli akun, kuota, dll).")
-                    st.write("- **Koordinasi Tim:** Wajib cerewet ingetin Editor soal stok dan Uploader soal jadwal.")
-                    st.write("- **Akurasi Keuangan:** Data keuangan tidak boleh ada selisih sedikit pun.")
+                    st.write("- Mencatat setiap pengeluaran operasional (beli akun, kuota, dll).")
+                    st.write("- Wajib cerewet ingetin Editor soal stok dan Uploader soal jadwal.")
+                    st.write("- Data keuangan tidak boleh ada selisih sedikit pun.")
 
             st.warning("⚠️ Admin adalah jantung data kantor. Kelalaian data Admin berakibat fatal pada performa seluruh tim!")
 
-        # --- LOGIKA PENAMPILAN (OWNER & ADMIN PAKE RADIO) ---
-        if user_level in ["OWNER", "ADMIN"]:            
-            # --- GANTI KE RADIO HORIZONTAL ---
-            pilihan = st.radio(
-                "Pilih Panduan Divisi:", 
-                ["EDITOR", "UPLOADER", "ADMIN"], 
-                horizontal=True,
-                label_visibility="collapsed" # Biar lebih rapi, judulnya kita umpetin
-            )
+        def panduan_keamanan_akun():
+            st.markdown("### 🔐 PROSEDUR AMANKAN AKUN GOOGLE")
+            with st.container(border=True):
+                col_sec1, col_sec2 = st.columns(2)
+                
+                with col_sec1:
+                    st.markdown("**🛡️ Aturan Penggunaan Akun:**")
+                    st.write("- **Dilarang Keras** login akun Google kantor di perangkat pribadi (Laptop/HP sendiri).")
+                    st.write("- Wajib pasang Nomor HP yang aktif di semua Akun Google.")
+                    st.write("- Pastikan semua akun google telah diganti password saat pembelian.")
+                    st.write("- Pastikan semua data akun google ter-input dengan benar di Sistem.")
+                
+                with col_sec2:
+                    st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):**")
+                    st.write("Jika HP tiba-tiba minta klik angka atau masukkan kode verifikasi:")
+                    st.write("1. **JANGAN** asal tekan angka/tombol 'YES'.")
+                    st.write("2. **JANGAN** isi kode sembarangan.")
+                    st.write("3. **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
+                
+        # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
+        if user_level in ["OWNER", "ADMIN"]:
+            pilihan = st.radio("Pilih Panduan Divisi:", ["EDITOR", "UPLOADER", "ADMIN"], horizontal=True)
             
-            st.divider()
-            
-            # Eksekusi sesuai pilihan radio
             if pilihan == "EDITOR": 
-                panduan_setor_tugas() # Pake fungsi detail yang kita buat tadi
+                panduan_setor_tugas()
             elif pilihan == "UPLOADER": 
                 panduan_ritual_upload()
                 panduan_rawat_hp()
+                st.divider()
+                panduan_keamanan_akun() # <-- Muncul di monitoring Owner/Admin
             elif pilihan == "ADMIN": 
                 panduan_kontrol_admin()
+                st.divider()
+                panduan_keamanan_akun() # <-- Muncul di monitoring Owner/Admin
             
-        # Panduan Keamanan (Wajib buat SEMUA ORANG)
-        st.divider()
-        with st.expander("🔐 PROSEDUR AMANIN AKUN GOOGLE"):
-            c1, c2 = st.columns(2)
-            c1.write("- Dilarang login di perangkat pribadi.")
-            c1.write("- JANGAN share Prompt AI ke luar Grup WA.")
-            c2.error("Jika muncul OTP/Verifikasi: JANGAN ditekan! Segera panggil Owner/Admin.")
+        elif user_level == "UPLOADER":
+            panduan_ritual_upload()
+            panduan_rawat_hp()
+            st.divider()
+            panduan_keamanan_akun() # <-- MUNCUL DI LAYAR UPLOADER
+            
+        elif user_level == "STAFF": # Editor
+            panduan_setor_tugas() 
+            # Editor gak perlu liat keamanan akun karena gak pegang HP/Akun
                 
     # ==============================================================================
     # TAB 3: PERATURAN KERJA
