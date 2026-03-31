@@ -709,87 +709,110 @@ def tampilkan_area_staf():
             d = res_ttd.data[0]
             st.success(f"✔️ **DOKUMEN DISAHKAN SECARA DIGITAL**\n\nNama: {nama_lengkap_staf} | Tanggal: {d['tgl_tanda_tangan']} | Jam: {d['waktu_presisi']}")
             
-            # --- RAKIT HTML DENGAN STRUKTUR A4-CONTAINER LO ---
+            # --- KONSTRUKSI HTML (A4 PRINT READY + FULL TEXT NO CUT) ---
             html_kontrak_full = f"""
             <style>
                 @media print {{
-                    @page {{ size: A4; margin: 10mm; }}
-                    body {{ margin: 0; padding: 0; background: white; }}
-                    .a4-container {{ border: none !important; box-shadow: none !important; width: 100% !important; margin: 0 !important; padding: 5mm !important; }}
-                    .no-print {{ display: none !important; }}
+                    @page {{ size: A4; margin: 15mm; }}
+                    body {{ margin: 0; padding: 0; }}
+                    .a4-container {{ border: none !important; box-shadow: none !important; width: 100% !important; margin: 0 !important; padding: 0 !important; }}
                 }}
                 .a4-container {{
                     background: white; 
                     width: 210mm; 
                     padding: 20mm; 
                     margin: auto; 
-                    font-family: 'Arial', sans-serif; 
+                    font-family: Arial, sans-serif; 
                     color: black; 
-                    line-height: 1.5; 
+                    line-height: 1.6; 
                     border: 1px solid #eee;
-                    box-shadow: 0 0 10px rgba(0,0,0,0.1);
                     box-sizing: border-box;
                 }}
-                h3, h4 {{ margin-top: 15px; margin-bottom: 5px; text-transform: uppercase; }}
-                p {{ margin: 5px 0; font-size: 13px; text-align: justify; }}
-                .kop-table {{ width: 100%; border-bottom: 3px solid black; padding-bottom: 10px; margin-bottom: 20px; }}
             </style>
-
             <div class="a4-container">
-                <table class="kop-table">
+                <table style="width: 100%; border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 30px;">
                     <tr>
-                        <td style="width: 25%;"><img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" width="150"></td>
-                        <td style="text-align: right;">
-                            <h2 style="margin: 0;">PT PINTAR DIGITAL KREASI</h2>
-                            <p style="margin: 0; font-size: 12px;">Creative Content & Digital Media Production</p>
-                            <p style="margin: 0; font-size: 11px; color: #444;">SK KEMENKUMHAM: AHU-011181.AH.01.31.Tahun 2025</p>
+                        <td style="width: 30%; vertical-align: middle;">
+                            <img src="https://raw.githubusercontent.com/pintarkantor-prog/pintarmedia/main/PINTAR.png" style="width: 180px; height: auto;">
+                        </td>
+                        <td style="width: 70%; text-align: right; vertical-align: middle;">
+                            <h1 style="margin: 0; font-size: 22px; font-weight: bold; text-transform: uppercase;">PT Pintar Digital Kreasi</h1>
+                            <p style="margin: 0; font-size: 12px; color: #333;">Creative Content & Digital Media Production</p>
+                            <p style="margin: 0; font-size: 10px; color: #666;">SK KEMENKUMHAM: {nomor_ahu}</p>
                         </td>
                     </tr>
                 </table>
 
                 <h3 style="text-align: center; text-decoration: underline;">SURAT PERJANJIAN KEMITRAAN KERJA</h3>
-                <p style="text-align: center; margin-top: -10px;">Nomor: {periode_skrg}/PM/KONTRAK/{user_aktif.upper()}</p>
+                <p style="text-align: center; margin-top: -10px; font-size: 14px;">Nomor: {periode_skrg}/PM/KONTRAK/{user_aktif.upper()}</p>
 
-                <table style="width: 100%; margin-top: 20px; border-collapse: collapse; font-size: 13px;">
+                <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
                     <tr>
-                        <td style="width: 50%; vertical-align: top; border: 1px solid #000; padding: 10px;">
+                        <td style="width: 50%; border: 1px solid black; padding: 10px; vertical-align: top; font-size: 13px;">
                             <b>PIHAK KEDUA (MITRA):</b><br>
-                            Nama: {nama_lengkap_staf}<br>
+                            Nama Lengkap: {nama_lengkap_staf}<br>
                             Jabatan: {jabatan_db}<br>
-                            ID Staff: {user_aktif.upper()}
+                            ID Staff: {user_aktif.upper()}<br><br>
+                            <i>Selanjutnya disebut sebagai Penerima Kerja.</i>
                         </td>
-                        <td style="width: 50%; vertical-align: top; border: 1px solid #000; padding: 10px;">
+                        <td style="width: 50%; border: 1px solid black; padding: 10px; vertical-align: top; font-size: 13px;">
                             <b>PIHAK PERTAMA (OWNER):</b><br>
-                            Nama: Dian Setya Wardana<br>
+                            Nama Lengkap: Dian Setya Wardana<br>
                             Perusahaan: PT. PINTAR DIGITAL KREASI<br>
-                            No. AHU: AHU-011181.AH.01.31.2025
+                            No. AHU: {nomor_ahu}<br><br>
+                            <i>Selanjutnya disebut sebagai Pemberi Kerja.</i>
                         </td>
                     </tr>
                 </table>
 
-                <h4>I. PENGHASILAN & PENGGAJIAN</h4>
-                <p>1. <b>Gaji Pokok:</b> Rp {int(gaji_pokok):,}</p>
-                <p>2. <b>Tunjangan Kerja:</b> Rp 250.000 - Rp 500.000 (Disesuaikan dengan kebijakan perusahaan).</p>
-                <p>3. <b>Bonus Kinerja:</b> Diberikan berdasarkan pencapaian target produksi dan kualitas Video HQ.</p>
-                <p>4. <b>Lembur:</b> Hari Normal (25rb/Jam) | Hari Minggu/Libur (100rb/7 Jam sesuai instruksi Admin).</p>
-                <p style="font-style: italic; font-size: 11px;">* Pembayaran dilakukan setiap tanggal 2 s/d 5 melalui sistem transfer resmi.</p>
+                <h4 style="margin-top: 25px; border-bottom: 1px solid #000;">I. PENGHASILAN & PENGGAJIAN</h4>
+                <div style="font-size: 13px;">
+                    1. <b>Gaji Pokok:</b> Rp {int(gaji_pokok):,}<br>
+                    2. <b>Tunjangan Kerja:</b> Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)<br>
+                    3. <b>Bonus Kinerja:</b> Berdasarkan pencapaian target<br>
+                    4. <b>Lembur:</b> Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)<br><br>
+                    *) Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5.
+                </div>
 
-                <h4>II. PASAL-PASAL KESEPAKATAN</h4>
-                <p><b>PASAL 1 (STATUS):</b> Hubungan hukum adalah Kemitraan Lepas (Freelance/Project-Based). Pihak Kedua bukan karyawan tetap, sehingga tidak ada kewajiban pesangon.</p>
-                <p><b>PASAL 2 (REM DARURAT):</b> Pihak Pertama berhak menghentikan proyek sepihak jika terjadi perubahan algoritma platform. Pembayaran dilakukan secara PRO-RATA (Hanya hari yang dijalankan).</p>
-                <p><b>PASAL 3 (KERAHASIAAN):</b> Pihak Kedua wajib menjaga kerahasiaan metode kerja dan PROMPT AI. DILARANG KERAS membocorkan aset kepada pihak manapun. Pelanggaran akan diproses hukum.</p>
-                <p><b>PASAL 4 (ASET):</b> Tanggung jawab penuh atas inventaris kantor. Kerusakan akibat kelalaian wajib ganti rugi penuh. Aset wajib kembali maksimal 2x24 Jam setelah kontrak berakhir.</p>
-                <p><b>PASAL 5 (ETIKA):</b> Wajib mematuhi Jam Operasional dan standar Video HQ. Pihak Pertama berhak memutus kontrak jika Pihak Kedua tidak capai target selama 6 hari berturut-turut.</p>
+                <h4 style="margin-top: 20px; border-bottom: 1px solid #000;">II. PASAL-PASAL KESEPAKATAN KEMITRAAN</h4>
+                
+                <div style="font-size: 13px; text-align: justify;">
+                    <p><b>PASAL 1: STATUS HUBUNGAN KERJA</b><br>
+                    1. Hubungan hukum antara Pihak Pertama dan Pihak Kedua adalah hubungan <b>Kemitraan Lepas (Freelance/Project-Based)</b>.<br>
+                    2. Pihak Kedua tidak memiliki status sebagai karyawan tetap, sehingga Pihak Pertama tidak berkewajiban memberikan tunjangan pesangon, atau jaminan sosial di luar kesepakatan tertulis.<br>
+                    3. Perjanjian ini berlaku selama proyek <b>PINTAR MEDIA</b> berjalan dan performa Pihak Kedua memenuhi standar evaluasi bulanan.</p>
+
+                    <p><b>PASAL 2: KLAUSUL REM DARURAT & FORCE MAJEURE</b><br>
+                    1. Mengingat jenis pekerjaan ini sangat bergantung pada kebijakan platform pihak ketiga (YouTube), Pihak Pertama berhak <b>menghentikan, menunda, atau mengakhiri</b> kemitraan secara sepihak jika terjadi perubahan algoritma atau penurunan tren pasar.<br>
+                    2. Dalam hal terjadi penghentian proyek sebagaimana dimaksud pada ayat (1), maka Pihak Kedua setuju bahwa pembayaran upah akan dilakukan secara <b>PRO-RATA</b> (Hanya membayar sesuai jumlah hari hingga hari penghentian).<br>
+                    3. Pihak Kedua membebaskan Pihak Pertama dari segala tuntutan ganti rugi atau pesangon jika proyek dihentikan karena faktor-faktor tersebut di atas.</p>
+
+                    <p><b>PASAL 3: KERAHASIAAN NEGARA & KEKAYAAN INTELEKTUAL</b><br>
+                    1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama <b>PROMPT AI</b> yang digunakan oleh PINTAR MEDIA.<br>
+                    2. Pihak Kedua <b>DILARANG KERAS</b> menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.<br>
+                    3. Seluruh hasil karya berupa Video, Script, Voiceover, dan Aset Digital lainnya adalah milik sah Pihak Pertama.<br>
+                    4. Pelanggaran terhadap pasal ini akan ditindaklanjuti melalui jalur hukum pidana/perdata dan dikenakan denda materiil sebesar kerugian yang dialami perusahaan.</p>
+
+                    <p><b>PASAL 4: TANGGUNG JAWAB ASSET INVENTARIS</b><br>
+                    1. Pihak Kedua bertanggung jawab penuh atas pemeliharaan Smartphone, PC, atau peralatan kantor lainnya yang dipinjamkan.<br>
+                    2. Segala bentuk kerusakan fisik (Layar pecah, terkena air, hilang) akibat kelalaian Pihak Kedua wajib diganti rugi secara penuh oleh Pihak Kedua.<br>
+                    3. Pihak Kedua <b>Dilarang Keras</b> mengubah kredensial akun (Email/Password/Profile) pada akun-akun premium (Google, Gemini, Grok, dll) tanpa izin Admin.<br>
+                    4. Saat hubungan kemitraan berakhir, Pihak Kedua wajib mengembalikan aset inventaris dalam waktu maksimal <b>2x24 Jam</b> dalam kondisi fungsional.</p>
+
+                    <p><b>PASAL 5: ETIKA KERJA & EVALUASI</b><br>
+                    1. Pihak Kedua wajib mematuhi Jam Operasional yang telah ditentukan (Shift 1 / Shift 2).<br>
+                    2. Pihak Kedua wajib menjaga peforma pekerjaan sesuai dengan standar yang ditetapkan Admin.<br>
+                    3. Pihak Kedua dilarang menggunakan perangkat kantor untuk kepentingan pribadi yang dapat menurunkan ritme produktivitas tim.<br>
+                    4. Pihak Pertama berhak memutuskan kontrak secara sepihak jika Pihak Kedua melanggar etika kerja atau tidak mencapai target minimal selama 6 hari berturut-turut.</p>
+                </div>
 
                 <div style="margin-top: 30px; padding: 15px; border: 2px solid green; text-align: center; background-color: #f9fff9;">
-                    <b style="color: green;">✔ VERIFIKASI DIGITAL DISAHKAN</b><br>
-                    Dokumen ini telah disetujui secara sadar oleh <b>{nama_lengkap_staf}</b><br>
-                    <span style="font-size: 11px;">ID: {d.get('id', 'PM-DIGITAL')} | Tanggal: {d['tgl_tanda_tangan']} | Pukul: {d['waktu_presisi']}</span>
+                    <b style="color: green;">✔ DOKUMEN DISAHKAN SECARA DIGITAL</b><br>
+                    Nama: {nama_lengkap_staf} | Tanggal: {d['tgl_tanda_tangan']} | Jam: {d['waktu_presisi']}
                 </div>
             </div>
             """
 
-            # --- TOMBOL PRINT ---
             st.write("")
             if st.button("📄 CETAK KONTRAK KERJA", use_container_width=True, type="primary"):
                 st.components.v1.html(f"""
@@ -797,14 +820,13 @@ def tampilkan_area_staf():
                     <script>
                         var content = document.getElementById('hidden-print').innerHTML;
                         var win = window.open('', '', 'height=700,width=900');
-                        win.document.write('<html><head><title>Kontrak_PINTARMEDIA_{user_aktif.upper()}</title></head><body>');
+                        win.document.write('<html><head><title>KONTRAK_{user_aktif.upper()}</title></head><body>');
                         win.document.write(content);
                         win.document.write('</body></html>');
                         win.document.close();
                         setTimeout(function(){{ win.print(); win.close(); }}, 500);
                     </script>
                 """, height=0)
-            st.caption("💡 Klik tombol di atas untuk mencetak atau simpan sebagai PDF.")
             
         else:
             # Bagian ini tetap sama (untuk yang belum TTD)
