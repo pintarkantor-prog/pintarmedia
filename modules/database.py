@@ -72,22 +72,21 @@ def tambah_log(user, aksi):
     except: pass
 
 # ==============================================================================
-# 4. FUNGSI KEAMANAN (SESI & WHITELIST)
+# 4. FUNGSI KEAMANAN (HANYA SESI LOGIN - WHITELIST HAPUS)
 # ==============================================================================
+
 def update_sesi(nama, session_id):
-    """Mencatat sesi login terakhir - Fix Error Nama"""
+    """Mencatat sesi login terakhir ke tabel Sesi_Login (Whitelist dihapus)"""
     try:
-        # Kita pakai huruf kecil semua untuk KEY di dictionary 
-        # SAAT input ke Supabase, pastikan kolom di tabel 'Sesi_Login' 
-        # juga huruf kecil semua: 'nama', 'session_id', 'last_login'
+        # Data tetap masuk ke Supabase buat monitoring Owner
         data = {
-            "nama": str(nama).upper(), # Isinya kita paksa besar biar seragam
+            "nama": str(nama).upper(), 
             "session_id": session_id,
             "last_login": ambil_waktu_sekarang().isoformat()
         }
         
-        # Eksekusi Upsert
+        # Eksekusi Upsert (Update data kalau nama sudah ada)
         supabase.table("Sesi_Login").upsert(data, on_conflict="nama").execute()
     except Exception as e:
-        # Print error ke terminal buat kita debug kalau masih bandel
+        # Hanya muncul di log terminal/console
         print(f"❌ Catatan sesi gagal: {e}")
