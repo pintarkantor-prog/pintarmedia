@@ -797,5 +797,28 @@ def tampilkan_area_staf():
                         "tgl_tanda_tangan": sekarang.strftime('%d %B %Y'), "waktu_presisi": sekarang.strftime('%H:%M:%S')
                     }
                     supabase.table("kontrak_staff").insert(payload).execute()
+                    kirim_notif_wa(f"✅ *KONTRAK DISAHKAN*\n\nStaff: *{nama_lengkap_staf}*\nPeriode: {periode_skrg}\nStatus: Telah menyetujui seluruh pasal kemitraan PINTAR MEDIA.")
                     st.success("Tanda tangan berhasil!")
                     st.rerun()
+
+        # --- 4. KHUSUS ADMIN: MONITORING & TAGIHAN WA ---
+        if user_level == "OWNER":
+            st.divider()
+            st.subheader(f"📊 Monitoring TTD Kontrak ({periode_skrg})")
+            
+            # Cek siapa yang sudah TTD
+            res_all = supabase.table("kontrak_staff").select("username").eq("periode", periode_skrg).execute()
+            sudah_ttd = [x['username'].lower() for x in res_all.data]
+            
+            staf_wajib = ["nissa", "lisa", "icha", "inggi"]
+            belum_ttd = [s.upper() for s in staf_wajib if s not in sudah_ttd]
+            
+            if belum_ttd:
+                st.error(f"⚠️ Belum TTD: {', '.join(belum_ttd)}")
+                if st.button("📣 TAGIH LEWAT WA GRUP", use_container_width=True):
+                    nama_tagihan = ", ".join([staff_mapping.get(s.lower(), s) for s in belum_ttd])
+                    pesan_tagihan = f"📢 *REMINDER ADMINISTRASI*\n\nKepada: *{nama_tagihan}*\n\nHarap segera masuk ke Dashboard dan menandatangani KONTRAK KERJA periode *{periode_skrg}*. Akses kerja akan terkunci jika belum disahkan. Terima kasih!"
+                    kirim_notif_wa(pesan_tagihan)
+                    st.info("Tagihan telah dikirim ke grup WA!")
+            else:
+                st.success("✅ Seluruh staff telah melengkapi administrasi kontrak bulan ini.")
