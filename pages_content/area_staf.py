@@ -653,14 +653,12 @@ def tampilkan_area_staf():
                         <b>PIHAK KEDUA (MITRA):</b><br>
                         Nama Lengkap: {nama_lengkap_staf}<br>
                         Jabatan: {jabatan_db}<br>
-                        ID Staff: {user_aktif.upper()}<br><br>
                         <i>Selanjutnya disebut sebagai Penerima Kerja.</i>
                     </td>
                     <td style="width: 50%; border: 1px solid black; padding: 10px; vertical-align: top; font-size: 13px;">
                         <b>PIHAK PERTAMA (OWNER):</b><br>
                         Nama Lengkap: Dian Setya Wardana<br>
                         Perusahaan: PT. PINTAR DIGITAL KREASI<br>
-                        No. AHU: {nomor_ahu}<br><br>
                         <i>Selanjutnya disebut sebagai Pemberi Kerja.</i>
                     </td>
                 </tr>
@@ -751,20 +749,31 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.write(f"**Nama Lengkap:** \nDian Setya Wardana")
                     st.write(f"**Perusahaan:** \nPT. PINTAR DIGITAL KREASI")
-                    st.caption(f"No. AHU: {nomor_ahu}")
+                    st.caption("Selanjutnya disebut sebagai Pemberi Kerja.")
 
             st.write("---")
-            # --- AKHIR BAGIAN PARA PIHAK ---
 
+            # --- CARD 2: PENGHASILAN & PENGGAJIAN (REBORN) ---
             with st.container(border=True):
                 st.markdown("### 💰 I. PENGHASILAN & PENGGAJIAN")
-                cg1, cg2 = st.columns([1, 2])
-                cg1.metric("Gaji Pokok", f"Rp {int(gaji_pokok):,}")
-                with cg2:
-                    st.write(f"1. **Tunjangan Kerja:** Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)")
-                    st.write(f"2. **Bonus Kinerja:** Berdasarkan pencapaian target")
-                    st.write(f"3. **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
-                    st.write(f"4. *Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5 melalui sistem transfer bank/e-wallet.*")
+                
+                # Kita bagi 3 kolom biar gak numpuk ke bawah
+                col_angka, col_detail = st.columns([1.2, 2])
+                
+                with col_angka:
+                    # Kotak Gaji Pokok yang Mencolok
+                    st.metric(label="💵 GAJI POKOK (NETT)", value=f"Rp {int(gaji_pokok):,}")
+                    st.caption("*) Belum termasuk tunjangan & bonus")
+                
+                with col_detail:
+                    # Detail Poin pake Bullet Points asli Streamlit biar simetris
+                    st.markdown("**DETAIL KOMPONEN LAINNYA:**")
+                    st.write(f"🔹 **Tunjangan Kerja:** Rp 250k - Rp 500k")
+                    st.write(f"🔹 **Bonus Kinerja:** Sesuai Pencapaian Target")
+                    st.write(f"🔹 **Lembur:** Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
+                
+                # Footer Penggajian pake info box kecil biar ditekankan
+                st.info(f"📅 **JADWAL PAYDAY:** Seluruh upah disalurkan setiap tanggal **2 s/d 5** via Transfer Bank/E-Wallet.")
 
 
             with st.container(border=True):
