@@ -6,6 +6,7 @@ import os
 from datetime import timedelta
 from modules import database
 from pages_content import ai_lab
+from pages_content import area_staf
 
 
 # --- FUNGSI PANGGIL CSS ---
@@ -179,8 +180,13 @@ else:
             st.error(f"Gagal memuat halaman: {e}")
 
     elif menu == "📘 AREA STAF":
-        st.title("📘 Area Staf")
-        st.write("Pusat informasi tim.")
+        # Lazy Loading: Hanya import saat menu diklik agar performa stabil
+        try:
+            from pages_content import area_staf
+            area_staf.tampilkan_area_staf()
+        except Exception as e:
+            st.title("📘 Area Staf")
+            st.error(f"Gagal memuat halaman staf: {e}")
 
     elif menu == "⚡ KENDALI TIM":
         # Lazy Loading: Tarik menu keuangan pas diklik biar studio tetep enteng
