@@ -472,47 +472,65 @@ def tampilkan_area_staf():
             # Editor gak perlu liat keamanan akun karena gak pegang HP/Akun
                 
     # ==============================================================================
-    # TAB 3: PERATURAN KERJA
+    # TAB 3: PERATURAN KERJA (MODEL CARD - FULL POLICY)
     # ==============================================================================
     with tab_peraturan:
-        st.markdown(f"### ⚖️ Peraturan Kedisiplinan: {user_aktif}")
+        st.markdown(f"### 📜 Kebijakan Internal PINTAR MEDIA")
         
-        # --- CARD 1: TARGET & PROGRES (FULL WIDTH) ---
+        # --- CARD 1: KETENTUAN WAKTU & DISIPLIN (SYSTEM SHIFT) ---
         with st.container(border=True):
-            st.markdown("#### 🚀 Target & Laporan Harian")
-            st.write("1. **Target Wajib:** Produksi dan upload harian wajib terpenuhi 100% sesuai slot yang ditentukan.")
-            st.write("2. **Lapor Progres:** Wajib melaporkan progres kerja secara berkala di Grup WA (Mulai Kerja, Proses, & Selesai).")
-            st.write("3. **Koordinasi:** Jika ada kendala teknis (mati lampu/internet), wajib segera lapor Admin/Owner agar jadwal tidak berantakan.")
-            st.info("💡 **Key Performance:** Konsistensi adalah kunci utama bonus performa bulanan.")
+            st.markdown("#### 🕒 I. KETENTUAN WAKTU KERJA & DISIPLIN")
+            
+            col_shift1, col_shift2 = st.columns(2)
+            
+            with col_shift1:
+                st.info("☀️ **SHIFT 1 (Pagi - Sore)**")
+                st.write("**⏰ Jam Kerja:** 08:00 s/d 16:00 WIB")
+                st.write("**☕ Istirahat:** 11:30 – 12:30 WIB (Senin - Sabtu)")
+                st.write("- Khusus Jumat: 11:30 – 13:00 WIB")
 
-        st.write("") # Spacing
+            with col_shift2:
+                st.success("🌤️ **SHIFT 2 (Siang - Malam)**")
+                st.write("**⏰ Jam Kerja:** 10:00 s/d 18:00 WIB")
+                st.write("**☕ Istirahat:** 11:30 – 12:30 WIB (**Fleksibel**)")
+                st.write("- Menyesuaikan kondisi load kerja di kantor.")
 
-        # --- CARD 2: KEAMANAN & SANKSI (COLUMNS) ---
-        col_per1, col_per2 = st.columns(2)
-        
-        # --- CARD 2A: KERAHASIAAN PERUSAHAAN (KIRI) ---
-        with col_per1:
-            with st.container(border=True):
-                st.error("🔐 **Kerahasiaan Data (Strict)**")
-                st.markdown("**Dilarang Keras:**")
-                st.write("- Menyebarkan **Prompt AI** perusahaan ke pihak luar.")
-                st.write("- Membagikan trik/cara kerja internal ke orang lain.")
-                st.write("- Menggunakan tool premium kantor untuk kepentingan pribadi.")
-                st.warning("⚠️ Pelanggaran poin ini berakibat pemberhentian kerja secara sepihak.")
+            st.divider()
+            st.write("**📅 Hari Kerja:** Senin – Sabtu (Minggu & Libur Nasional Tutup).")
+            st.write("**🚀 Presensi:** Tercatat otomatis melalui login sistem Dashboard.")
+            st.write("**💡 Info:** Cuti Bersama tetap berjalan normal kecuali ditentukan lain oleh Owner.")
 
-        # --- CARD 2B: TATA TERTIB KANTOR (KANAN) ---
-        with col_per2:
-            with st.container(border=True):
-                st.success("🏢 **Tata Tertib & Lingkungan**")
-                st.markdown("**Kewajiban Staf:**")
-                st.write("- Menjaga kebersihan dan keamanan unit HP/Laptop kantor.")
-                st.write("- Dilarang mengubah settingan akun tanpa izin Admin.")
-                st.write("- Datang dan pulang sesuai jam operasional yang disepakati.")
-                st.write("- Mengedepankan kejujuran dalam setiap laporan hasil kerja.")
+        st.write("") 
 
-        # --- FOOTER REMINDER ---
+        # --- CARD 2: PENGGAJIAN & APRESIASI ---
+        with st.container(border=True):
+            st.markdown("#### 💰 II. SISTEM PENGGAJIAN & APRESIASI KINERJA")
+            st.write("**📅 Periode Pembayaran:** Hak upah, tunjangan, dan bonus disalurkan tanggal 2 s/d 5 setiap bulannya.")
+            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan Kinerja, Bonus Absensi, dan Bonus Performa (Video HQ).")
+
         st.write("")
-        st.warning("⚠️ Peraturan ini dibuat untuk menjaga ritme kerja tim. Kelalaian satu orang bisa menghambat kerja seluruh tim. Mari kerja cerdas dan disiplin!")
+
+        # --- CARD 3: SOP & ALAT KERJA ---
+        col_sop, col_alat = st.columns(2)
+        with col_sop:
+            with st.container(border=True):
+                st.markdown("#### 📑 III. SOP KONTEN")
+                st.write("SOP kerja berdasarkan posisi masing-masing dapat dilihat di halaman **Area Staff**.")
+        
+        with col_alat:
+            with st.container(border=True):
+                st.markdown("#### 📱 IV. PENGGUNAAN ALAT")
+                st.write("Smartphone diperbolehkan terbatas hanya untuk riset tren dan koordinasi internal.")
+
+        st.write("")
+
+        # --- CARD 4: ASSET & KERAHASIAAN ---
+        with st.container(border=True):
+            st.markdown("#### 🔐 V. TANGGUNG JAWAB ASSET & DATA")
+            st.error("⚠️ **PENTING:** Dilarang keras mengubah informasi akun premium atau menyebarkan Prompt AI perusahaan ke pihak luar!")
+            st.write("- Gunakan kuota render (credit) secara bijak dan terukur.")
+
+        st.warning("⚠️ Seluruh Staff wajib mematuhi jam kerja sesuai pembagian Shift yang telah ditentukan.")
 
     # ==============================================================================
     # TAB 4: KONTRAK KERJA
