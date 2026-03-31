@@ -5,6 +5,7 @@ import time
 from datetime import datetime
 import pytz
 import requests
+from modules.database import supabase
 
 def kirim_notif_wa(pesan):
     token = "f4CApLBAJDTPrVHHZCDF"
