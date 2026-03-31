@@ -19,6 +19,7 @@ def kirim_notif_wa(pesan):
     except: pass
 
 def tampilkan_area_staf():
+    st.title("📘 Pusat Informasi")
     # --- 1. SETUP IDENTITAS ---
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     user_level = st.session_state.get("user_level", "STAFF").upper()
