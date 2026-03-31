@@ -764,7 +764,7 @@ def tampilkan_area_staf():
             st.warning(f"🚨 **ADMINISTRASI WAJIB:** Anda belum menyetujui kontrak kemitraan periode **{periode_skrg}**.")
             
             # --- TAMPILAN LAYAR (VERSI BERSIH & RAPI) ---
-            st.markdown("<h2 style='text-align: center;'>📜 SURAT PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
+            st.markdown("<h2 style='text-align: center;'>📜 PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
             
             st.write("### 🤝 PARA PIHAK KEMITRAAN")
             c1, c2 = st.columns(2)
