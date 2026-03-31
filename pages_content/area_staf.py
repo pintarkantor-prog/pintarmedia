@@ -249,15 +249,27 @@ def tampilkan_area_staf():
 
                                         # PANEL SETOR (STAFF)
                                         else:
-                                            if status != "WAITING QC":
-                                                l_in = st.text_input("Link GDrive", key=f"in_{id_gede}")
-                                                if st.button("🚀 SETOR", key=f"btn_{id_gede}", use_container_width=True):
+                                            # Cek apakah sudah ada link yang pernah ditempel
+                                            link_lama = t.get("LINK_HASIL", "-")
+                                            
+                                            if status == "WAITING QC":
+                                                st.info(f"✅ Sudah disetor. Link: {link_lama}")
+                                                st.caption("Tunggu proses checking ya...")
+                                            else:
+                                                # Staff bisa paste link di sini
+                                                l_in = st.text_input("Tempel (Paste) Link GDrive:", key=f"in_{id_gede}")
+                                                if st.button("🚀 SETOR SEKARANG", key=f"btn_{id_gede}", use_container_width=True):
                                                     if "drive.google.com" in l_in:
                                                         database.supabase.table("Tugas").update({
-                                                            "Status": "WAITING QC", "Link_Hasil": l_in, "Waktu_Kirim": sekarang.strftime("%d/%m/%Y %H:%M")
+                                                            "Status": "WAITING QC", 
+                                                            "Link_Hasil": l_in, 
+                                                            "Waktu_Kirim": sekarang.strftime("%d/%m/%Y %H:%M")
                                                         }).eq("ID", id_gede).execute()
+                                                        
                                                         kirim_notif_wa(f"📤 *SETORAN*\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {id_gede}")
-                                                        st.rerun()
+                                                        st.success("Berhasil Disetor!"); time.sleep(1); st.rerun()
+                                                    else:
+                                                        st.warning("⚠️ Pastikan yang ditempel adalah link GDrive!")
 
         # ==============================================================================
         # E. ARSIP TUGAS (VERSI CLEAN - NO DOUBLE IF)
