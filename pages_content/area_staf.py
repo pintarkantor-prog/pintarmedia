@@ -520,10 +520,37 @@ def tampilkan_area_staf():
                 st.write("- Membagikan akses akun kepada pihak ketiga tanpa izin adalah pelanggaran berat.")
                 
                 st.markdown("**📉 Efisiensi Resource:**")
-                st.write("- Gunakan kuota produksi (render credit) secara bijak dan terukur guna menghindari pemborosan aset digital.")
+                st.write("- Gunakan kuota produksi secara bijak dan terukur guna menghindari pemborosan.")
 
-            st.divider()
-            st.warning("⚠️ **Sanksi:** Kelalaian pada poin-poin di atas dapat berakibat pada teguran keras hingga pemberhentian kerja.")
+        with st.container(border=True):
+            st.markdown("#### 🧹 PEMELIHARAAN ASET & ETIKA LINGKUNGAN")
+            
+            c_aset1, c_aset2 = st.columns(2)
+            
+            with c_aset1:
+                st.markdown("**📱 Penanganan Alat Kantor:**")
+                st.write("- **Safety First:** Letakkan HP/Laptop di area yang aman, jangan di pinggir meja yang rawan jatuh.")
+                st.write("- **Kabel & Charger:** Rapikan kabel setelah digunakan, dilarang menarik paksa kabel charger dari unit.")
+                st.write("- **Suhu Perangkat:** Jika HP/Laptop terasa panas berlebih (Overheat), wajib diistirahatkan atau gunakan pendingin.")
+                st.write("- **Kerusakan:** Kerusakan akibat kelalaian (jatuh/kena air) menjadi tanggung jawab penuh staf yang memegang.")
+
+            with c_aset2:
+                st.markdown("**✨ Kebersihan Area Kerja:**")
+                st.write("- **Meja Kerja:** Wajib bersih dari sampah plastik, sisa makanan, atau kertas yang tidak terpakai.")
+                st.write("- **No Food Zone:** Dilarang membawa makanan berat/berkuah ke dekat perangkat elektronik.")
+                st.write("- **Rehat:** Rapikan kursi dan matikan lampu/kipas yang tidak perlu saat meninggalkan kantor (Pulang).")
+                st.success("💡 **Filosofi:** Meja yang rapi mencerminkan hasil konten yang berkualitas.")
+
+        with st.container(border=True):
+            st.markdown("#### 🤝 Komitmen Bersama")
+            st.write("1. Owner berhak melakukan penyesuaian kebijakan operasional kapan saja demi kebaikan tim.")
+            st.write("2. Setiap Staff wajib menjaga etika komunikasi yang baik di dalam maupun di luar kantor.")
+            st.write("3. Segala bentuk kendala personal yang mengganggu kerja wajib dikomunikasikan secara transparan.")
+            
+            # Gimmick biar mereka merasa terikat
+            st.checkbox("Saya telah membaca, memahami, dan siap mematuhi seluruh peraturan PINTAR MEDIA.", value=True)
+
+        st.caption(f"Terakhir diperbarui: {sekarang.strftime('%d %B %Y')}")
 
     # ==============================================================================
     # TAB 4: KONTRAK KERJA
