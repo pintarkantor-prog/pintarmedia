@@ -759,7 +759,7 @@ def tampilkan_area_staf():
                             <b>PIHAK PERTAMA (OWNER):</b><br>
                             Nama Lengkap: Dian Setya Wardana<br>
                             Perusahaan: PT. PINTAR DIGITAL KREASI<br>
-                            No. AHU: {nomor_ahu}<br><br>
+                            No. AHU:** AHU-011181.AH.01.31.2025<br><br>
                             <i>Selanjutnya disebut sebagai Pemberi Kerja.</i>
                         </td>
                     </tr>
