@@ -722,11 +722,7 @@ def tampilkan_database_channel():
     # ==============================================================================
     with tab_sd: 
         # --- PROTEKSI AKSES OWNER ---
-        if user_level == "OWNER":
-            # --- 0. HEADER DENGAN LOGO ---
-            c_logo, c_text = st.columns([0.1, 0.9])
-            c_logo.markdown("## 💰") 
-            c_text.markdown("### DATA PENJUALAN PINTAR MEDIA")
+        if level_aktif == "OWNER":
 
             # --- 1. SETUP FILTER PERIODE ---
             now_indo = database.ambil_waktu_sekarang()
