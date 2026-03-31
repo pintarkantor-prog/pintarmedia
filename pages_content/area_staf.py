@@ -296,7 +296,7 @@ def tampilkan_area_staf():
                 # Ini muncul kalau setelah di-filter datanya emang gak ada
                 st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
                     
-    # ==============================================================================
+# ==============================================================================
     # TAB 2: PANDUAN KERJA (BERDASARKAN AKTIVITAS / CARA KERJA)
     # ==============================================================================
     with tab_panduan:
@@ -315,19 +315,19 @@ def tampilkan_area_staf():
             with col_s2:
                 st.markdown("**🚀 Penyerahan Tugas Khusus (Online):**")
                 st.write("1. Upload file video ke **Google Drive** kantor.")
-                st.write("2. Pastikan akses link sudah **'Anyone with the link'** (Bisa diakses siapa saja).")
+                st.write("2. Pastikan akses link sudah **'Anyone with the link'**.")
                 st.write("3. Buka **Tab TUGAS KERJA** di aplikasi ini.")
                 st.write("4. Cari ID Tugas Anda, klik **🔍 Buka Detail**, tempel link GDrive, lalu klik **SETOR**.")
 
         # --- 2. PANDUAN AMANIN AKUN & UNIT ---
         with st.expander("🔐 2. PANDUAN KEAMANAN AKUN GOOGLE & UNIT HP"):
             c_sec1, c_sec2 = st.columns(2)
-            with c_safe1:
+            with c_sec1: # SUDAH FIXED: Pake c_sec1
                 st.markdown("**🛡️ Proteksi Akun:**")
                 st.write("- **Dilarang Keras** login akun YouTube kantor di perangkat pribadi (Laptop/HP Sendiri).")
-                st.write("- Jika muncul notifikasi 'Perangkat Tidak Dikenal', segera ambil screenshot dan lapor Admin.")
-                st.write("- Jangan pernah membagikan **Prompt AI** rahasia perusahaan ke luar grup WA Kerja.")
-            with c_safe2:
+                st.write("- Jika muncul notifikasi 'Perangkat Tidak Dikenal', segera lapor Admin.")
+                st.write("- Jangan pernah membagikan **Prompt AI** rahasia perusahaan ke luar grup WA.")
+            with c_sec2: # SUDAH FIXED: Pake c_sec2
                 st.error("**⚠️ Kasus Verifikasi 2 Langkah:**")
                 st.write("Jika HP meminta kode OTP atau menekan angka verifikasi:")
                 st.write("1. **JANGAN** asal tekan angka.")
@@ -339,10 +339,10 @@ def tampilkan_area_staf():
             st.markdown("**⏰ Jadwal Upload:** `10:00` | `14:00` | `19:00` (Wajib Tepat Waktu!)")
             st.divider()
             st.markdown("**🔄 Ritual 'Pemanasan' YouTube:**")
-            st.write("1. **Sebelum Upload:** Buka aplikasi YT, tonton minimal 2-3 video Shorts orang lain (pancing aktivitas manusia).")
-            st.write("2. **Proses Upload:** Pilih Thumbnail yang paling kontras/fokus ke karakter. Judul & Deskripsi unik.")
-            st.write("3. **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton 1-2 video lagi, baru kembali ke menu utama HP.")
-            st.write("4. **Maintenance:** Hapus file video di galeri **DAN** di folder sampah/trash HP setelah upload sukses.")
+            st.write("1. **Sebelum Upload:** Buka aplikasi YT, tonton minimal 2-3 video Shorts orang lain.")
+            st.write("2. **Proses Upload:** Pilih Thumbnail yang kontras. Judul & Deskripsi unik sesuai WA Kerja.")
+            st.write("3. **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton 1-2 video lagi baru close.")
+            st.write("4. **Maintenance:** Hapus file video di galeri **DAN** di folder sampah/trash HP.")
 
         # --- 4. PANDUAN PERAWATAN PERANGKAT ---
         with st.expander("⚙️ 4. PANDUAN PERAWATAN PERANGKAT (DEVICE MAINTENANCE)"):
@@ -352,11 +352,12 @@ def tampilkan_area_staf():
                 st.write("- **Restart HP:** Biar sistem segar dan tidak berat.")
                 st.write("- **Clear Chat:** Hapus pesan-pesan tidak penting di WA/Pesan HP.")
                 st.write("- **Update App:** Cek Playstore, pastikan YouTube versi terbaru.")
-            with col_dev2:
+            with c_dev2:
                 st.markdown("**⚡ Manajemen Daya & Data:**")
                 st.write("- Pastikan HP selalu tercolok charger (Dilarang mati karena lowbat).")
                 st.write("- Cek sisa kuota di HP secara berkala via aplikasi provider.")
                 st.write("- Lapor Admin jika unit HP terasa panas berlebih.")
+                
     # ==============================================================================
     # TAB 3: PERATURAN KERJA
     # ==============================================================================
