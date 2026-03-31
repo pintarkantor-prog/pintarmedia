@@ -36,7 +36,7 @@ def tampilkan_area_staf():
     # --- 3. DATABASE KETENTUAN (SOP) ---
     ketentuan = {
         "STAFF": { 
-            "judul": "🎨 STANDAR PRODUKSI EDITOR", "ikon": "🎬",
+            "judul": "STANDAR PRODUKSI EDITOR", "ikon": "🎬",
             "poin": [
                 "**Kualitas Visual:** Minimal 1080p Full HD.",
                 "**Aspect Ratio:** Format 9:16 (1080x1920).",
@@ -46,7 +46,7 @@ def tampilkan_area_staf():
             ]
         },
         "UPLOADER": {
-            "judul": "🚀 STANDAR OPERASIONAL UPLOADER", "ikon": "📲",
+            "judul": "STANDAR OPERASIONAL UPLOADER", "ikon": "📲",
             "poin": [
                 "**Jadwal Upload:** 3x sehari (10:00, 14:00, 19:00).",
                 "**Optimasi SEO:** Judul, Tag, & Deskripsi unik.",
@@ -54,7 +54,7 @@ def tampilkan_area_staf():
             ]
         },
         "ADMIN": {
-            "judul": "⚙️ STANDAR KONTROL ADMIN", "ikon": "📊",
+            "judul": "STANDAR KONTROL ADMIN", "ikon": "📊",
             "poin": [
                 "**QC Video:** Pastikan setoran sesuai Standar Produksi.",
                 "**Database:** Update Riwayat & Arsip Tugas real-time.",
