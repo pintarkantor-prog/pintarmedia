@@ -167,7 +167,7 @@ def tampilkan_area_staf():
                                         st.write(f"📝 {t.get('INSTRUKSI', '-')}")
                                         
                                         # PANEL QC (OWNER)
-                                        if user_level in ["OWNER", "ADMIN"]
+                                        if user_level in ["OWNER", "ADMIN"]:
                                             if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
                                                 st.link_button("🚀 BUKA VIDEO (QC)", t['LINK_HASIL'], use_container_width=True)
                                             
