@@ -356,9 +356,7 @@ def tampilkan_area_staf():
                 st.write("- **Keuangan:** Catat arus kas kantor dengan akurasi 100%.")
 
         # --- LOGIKA PENAMPILAN (OWNER & ADMIN PAKE RADIO) ---
-        if user_level in ["OWNER", "ADMIN"]:
-            st.markdown("#### 🛠️ Monitoring Panduan Tim")
-            
+        if user_level in ["OWNER", "ADMIN"]:            
             # --- GANTI KE RADIO HORIZONTAL ---
             pilihan = st.radio(
                 "Pilih Panduan Divisi:", 
