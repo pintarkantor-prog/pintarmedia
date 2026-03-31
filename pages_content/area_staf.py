@@ -776,73 +776,159 @@ def tampilkan_area_staf():
                 st.info(f"📅 **JADWAL PAYDAY:** Seluruh upah disalurkan setiap tanggal **2 s/d 5** via Transfer Bank/E-Wallet.")
 
 
+            # --- CARD 3: PASAL-PASAL KESEPAKATAN (BRUTAL & CLEAN) ---
             with st.container(border=True):
-                st.markdown("<h3 style='text-align: center;'>⚖️ PASAL-PASAL KESEPAKATAN</h3>", unsafe_allow_html=True)
+                st.markdown("<h3 style='text-align: center;'>⚖️ PASAL-PASAL KESEPAKATAN KEMITRAAN</h3>", unsafe_allow_html=True)
                 st.divider()
-                
+
                 # PASAL 1
-                st.markdown("#### **PASAL 1: STATUS HUBUNGAN KERJA**")
-                st.write("1. Hubungan hukum antara Pihak Pertama dan Pihak Kedua adalah hubungan **Kemitraan Lepas (Freelance/Project-Based)**.")
-                st.write("2. Pihak Kedua tidak memiliki status sebagai karyawan tetap, sehingga Pihak Pertama tidak berkewajiban memberikan tunjangan pesangon, atau jaminan sosial di luar kesepakatan tertulis.")
-                st.write("3. Perjanjian ini berlaku selama proyek **PINTAR MEDIA** berjalan dan performa Pihak Kedua memenuhi standar evaluasi bulanan.")
+                st.info("📜 **PASAL 1: STATUS HUBUNGAN KERJA**")
+                st.markdown("""
+                1. Hubungan hukum antara Pihak Pertama dan Pihak Kedua adalah hubungan **Kemitraan Lepas (Freelance/Project-Based)**.
+                2. Pihak Kedua tidak memiliki status sebagai karyawan tetap, sehingga Pihak Pertama tidak berkewajiban memberikan tunjangan pesangon, atau jaminan sosial di luar kesepakatan tertulis.
+                3. Perjanjian ini berlaku selama proyek **PINTAR MEDIA** berjalan dan performa Pihak Kedua memenuhi standar evaluasi bulanan.
+                """)
+                st.write("")
 
                 # PASAL 2
-                st.markdown("#### **PASAL 2: KLAUSUL REM DARURAT & FORCE MAJEURE**")
-                st.write("1. Mengingat jenis pekerjaan ini sangat bergantung pada kebijakan platform pihak ketiga (YouTube), Pihak Pertama berhak **menghentikan, menunda, atau mengakhiri** kemitraan secara sepihak jika terjadi perubahan algoritma atau penurunan tren pasar.")
-                st.write("2. Dalam hal terjadi penghentian proyek sebagaimana dimaksud pada ayat (1), maka Pihak Kedua setuju bahwa pembayaran upah akan dilakukan secara **PRO-RATA** (Hanya membayar sesuai jumlah hari hingga hari penghentian).")
-                st.write("3. Pihak Kedua membebaskan Pihak Pertama dari segala tuntutan ganti rugi atau pesangon jika proyek dihentikan karena faktor-faktor tersebut di atas.")
+                st.info("📜 **PASAL 2: KLAUSUL REM DARURAT & FORCE MAJEURE**")
+                st.markdown("""
+                1. Mengingat jenis pekerjaan ini sangat bergantung pada kebijakan platform pihak ketiga (YouTube), Pihak Pertama berhak **menghentikan, menunda, atau mengakhiri** kemitraan secara sepihak jika terjadi perubahan algoritma atau penurunan tren pasar.
+                2. Dalam hal terjadi penghentian proyek sebagaimana dimaksud pada ayat (1), maka Pihak Kedua setuju bahwa pembayaran upah akan dilakukan secara **PRO-RATA** (Hanya membayar sesuai jumlah hari hingga hari penghentian).
+                3. Pihak Kedua membebaskan Pihak Pertama dari segala tuntutan ganti rugi atau pesangon jika proyek dihentikan karena faktor-faktor tersebut di atas.
+                """)
+                st.write("")
 
-                # PASAL 3
-                st.markdown("#### **PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL**")
-                st.write("1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama **PROMPT AI** yang digunakan oleh PINTAR MEDIA.")
-                st.write("2. Pihak Kedua **DILARANG KERAS** menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.")
-                st.write("3. Seluruh hasil karya berupa Video, Script, Voiceover, dan Aset Digital lainnya adalah milik sah Pihak Pertama.")
-                st.write("4. Pelanggaran terhadap pasal ini akan ditindaklanjuti melalui jalur hukum pidana/perdata dan dikenakan denda materiil sebesar kerugian yang dialami perusahaan.")
+                # PASAL 3 - INI YANG PALING GALAK
+                st.error("🚨 **PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL**")
+                st.markdown("""
+                1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama **PROMPT AI** yang digunakan oleh PINTAR MEDIA.
+                2. Pihak Kedua **DILARANG KERAS** menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.
+                3. Seluruh hasil karya berupa Video, Script, Voiceover, dan Aset Digital lainnya adalah milik sah Pihak Pertama.
+                4. Pelanggaran terhadap pasal ini akan ditindaklanjuti melalui jalur hukum pidana/perdata dan dikenakan denda materiil sebesar kerugian yang dialami perusahaan.
+                """)
+                st.write("")
 
                 # PASAL 4
-                st.markdown("#### **PASAL 4: TANGGUNG JAWAB ASSET INVENTARIS**")
-                st.write("1. Pihak Kedua bertanggung jawab penuh atas pemeliharaan Smartphone, PC, atau peralatan kantor lainnya yang dipinjamkan.")
-                st.write("2. Segala bentuk kerusakan fisik (Layar pecah, terkena air, hilang) akibat kelalaian Pihak Kedua wajib diganti rugi secara penuh oleh Pihak Kedua.")
-                st.write("3. Pihak Kedua **Dilarang Keras** mengubah kredensial akun (Email/Password/Profile) pada akun-akun premium (Google, Gemini, Grok, dll) tanpa izin Admin.")
-                st.write("4. Saat hubungan kemitraan berakhir, Pihak Kedua wajib mengembalikan aset inventaris dalam waktu maksimal **2x24 Jam** dalam kondisi fungsional.")
+                st.info("📜 **PASAL 4: TANGGUNG JAWAB ASSET INVENTARIS**")
+                st.markdown("""
+                1. Pihak Kedua bertanggung jawab penuh atas pemeliharaan Smartphone, PC, atau peralatan kantor lainnya yang dipinjamkan.
+                2. Segala bentuk kerusakan fisik (Layar pecah, terkena air, hilang) akibat kelalaian Pihak Kedua wajib diganti rugi secara penuh oleh Pihak Kedua.
+                3. Pihak Kedua **Dilarang Keras** mengubah kredensial akun (Email/Password/Profile) pada akun-akun premium (Google, Gemini, Grok, dll) tanpa izin Admin.
+                4. Saat hubungan kemitraan berakhir, Pihak Kedua wajib mengembalikan aset inventaris dalam waktu maksimal **2x24 Jam** dalam kondisi fungsional.
+                """)
+                st.write("")
 
                 # PASAL 5
-                st.markdown("#### **PASAL 5: ETIKA KERJA & EVALUASI**")
-                st.write("1. Pihak Kedua wajib mematuhi Jam Operasional yang telah ditentukan (Shift 1 / Shift 2).")
-                st.write("2. Pihak Kedua wajib menjaga peforma pekerjaan sesuai dengan standar yang ditetapkan Admin.")
-                st.write("3. Pihak Kedua dilarang menggunakan perangkat kantor untuk kepentingan pribadi yang dapat menurunkan ritme produktivitas tim.")
-                st.write("4. Pihak Pertama berhak memutuskan kontrak secara sepihak jika Pihak Kedua melanggar etika kerja atau tidak mencapai target minimal selama 6 hari berturut-turut.")
+                st.info("📜 **PASAL 5: ETIKA KERJA & EVALUASI**")
+                st.markdown("""
+                1. Pihak Kedua wajib mematuhi Jam Operasional yang telah ditentukan (Shift 1 / Shift 2).
+                2. Pihak Kedua wajib menjaga peforma pekerjaan sesuai dengan standar yang ditetapkan Admin.
+                3. Pihak Kedua dilarang menggunakan perangkat kantor untuk kepentingan pribadi yang dapat menurunkan ritme produktivitas tim.
+                4. Pihak Pertama berhak memutuskan kontrak secara sepihak jika Pihak Kedua melanggar etika kerja atau tidak mencapai target minimal selama 6 hari berturut-turut.
+                """)
 
+            # --- CARD 4: DIGITAL SIGNATURE AREA (SANGAR) ---
             with st.container(border=True):
-                setuju = st.checkbox(f"Saya, {nama_lengkap_staf}, menyetujui seluruh ketentuan untuk periode {periode_skrg}.")
-                if st.button("🖋️ TANDA TANGANI KONTRAK SEKARANG", disabled=not setuju, use_container_width=True):
-                    payload = {
-                        "username": user_aktif, "nama_staff": nama_lengkap_staf, "periode": periode_skrg,
-                        "tgl_tanda_tangan": sekarang.strftime('%d %B %Y'), "waktu_presisi": sekarang.strftime('%H:%M:%S')
-                    }
-                    supabase.table("kontrak_staff").insert(payload).execute()
-                    kirim_notif_wa(f"✅ *KONTRAK DISAHKAN*\n\nStaff: *{nama_lengkap_staf}*\nPeriode: {periode_skrg}\nStatus: Telah menyetujui seluruh pasal kemitraan PINTAR MEDIA.")
-                    st.success("Tanda tangan berhasil!")
-                    st.rerun()
+                st.markdown("### 🖋️ PENGESAHAN DIGITAL")
+                st.write(f"Saya yang bertanda tangan di bawah ini, menyatakan telah membaca, memahami, dan menyetujui seluruh ketentuan kemitraan **PINTAR MEDIA** untuk periode **{periode_skrg}**.")
+                
+                # Kita bikin checkbox-nya lebih mencolok
+                st.divider()
+                setuju = st.checkbox(f"**SAYA, {nama_lengkap_staf.upper()}, MENYATAKAN SETUJU TANPA PAKSAAN.**")
+                
+                # Tombol tanda tangan dengan logika proteksi
+                if st.button("🖋️ TANDA TANGANI KONTRAK SEKARANG", 
+                             disabled=not setuju, 
+                             use_container_width=True, 
+                             type="primary"): # Pakai type="primary" biar warnanya beda sendiri
+                    
+                    with st.status("Sedang mengesahkan dokumen digital...", expanded=True) as status:
+                        try:
+                            # 1. Siapkan Payload
+                            payload = {
+                                "username": user_aktif, 
+                                "nama_staff": nama_lengkap_staf, 
+                                "periode": periode_skrg,
+                                "tgl_tanda_tangan": sekarang.strftime('%d %B %Y'), 
+                                "waktu_presisi": sekarang.strftime('%H:%M:%S')
+                            }
+                            
+                            # 2. Tembak ke Database
+                            st.write("📝 Mencatat rekam jejak digital ke database...")
+                            supabase.table("kontrak_staff").insert(payload).execute()
+                            
+                            # 3. Kirim Notif WA (Fonnte)
+                            st.write("📲 Mengirimkan notifikasi pengesahan ke grup...")
+                            pesan_legal = (
+                                f"✅ *KONTRAK DISAHKAN DIGITAL*\n\n"
+                                f"Staff: *{nama_lengkap_staf}*\n"
+                                f"Periode: *{periode_skrg}*\n"
+                                f"Waktu: {sekarang.strftime('%H:%M:%S')} WIB\n\n"
+                                f"Status: _Telah menyetujui seluruh draf kontrak PINTAR MEDIA tanpa paksaan._"
+                            )
+                            kirim_notif_wa(pesan_legal)
+                            
+                            status.update(label="✅ Pengesahan Berhasil! Memuat ulang...", state="complete", expanded=False)
+                            st.toast("Kontrak Berhasil Disahkan!", icon="🚀")
+                            
+                            # Kasih jeda dikit biar staf lo liat suksesnya
+                            import time
+                            time.sleep(2)
+                            st.rerun()
+                            
+                        except Exception as e:
+                            status.update(label="❌ Gagal mengesahkan!", state="error")
+                            st.error(f"Terjadi kesalahan sistem: {e}")
 
-        # --- 4. KHUSUS ADMIN: MONITORING & TAGIHAN WA ---
+        # --- 4. KHUSUS OWNER: MONITORING ADMINISTRASI (CLEAN & PROFESSIONAL) ---
         if user_level == "OWNER":
             st.divider()
-            st.subheader(f"📊 Monitoring TTD Kontrak ({periode_skrg})")
+            st.markdown(f"### 📊 MONITORING ADMINISTRASI ({periode_skrg})")
             
-            # Cek siapa yang sudah TTD
+            # 1. Data Retrieval
             res_all = supabase.table("kontrak_staff").select("username").eq("periode", periode_skrg).execute()
             sudah_ttd = [x['username'].lower() for x in res_all.data]
-            
             staf_wajib = ["nissa", "lisa", "icha", "inggi"]
-            belum_ttd = [s.upper() for s in staf_wajib if s not in sudah_ttd]
+            belum_ttd = [s for s in staf_wajib if s not in sudah_ttd]
             
+            # 2. Stats Summary
+            total_staf = len(staf_wajib)
+            jumlah_sudah = len(sudah_ttd)
+            progres_persen = jumlah_sudah / total_staf
+            
+            c_stats1, c_stats2 = st.columns([3, 1])
+            with c_stats1:
+                st.write(f"**Status Kepatuhan: {jumlah_sudah} dari {total_staf} Staf**")
+                st.progress(progres_persen)
+            with c_stats2:
+                st.metric("Kepatuhan", f"{int(progres_persen * 100)}%")
+
+            st.write("")
+
+            # 3. Kondisi Tampilan (NO EFEK LAYAR)
             if belum_ttd:
-                st.error(f"⚠️ Belum TTD: {', '.join(belum_ttd)}")
-                if st.button("📣 TAGIH LEWAT WA GRUP", use_container_width=True):
-                    nama_tagihan = ", ".join([staff_mapping.get(s.lower(), s) for s in belum_ttd])
-                    pesan_tagihan = f"📢 *REMINDER ADMINISTRASI*\n\nKepada: *{nama_tagihan}*\n\nHarap segera masuk ke Dashboard dan menandatangani KONTRAK KERJA periode *{periode_skrg}*. Akses kerja akan terkunci jika belum disahkan. Terima kasih!"
-                    kirim_notif_wa(pesan_tagihan)
-                    st.info("Tagihan telah dikirim ke grup WA!")
+                c_list, c_tagih = st.columns([2, 1])
+                with c_list:
+                    st.error(f"⚠️ **BELUM TANDA TANGAN:**\n\n" + "\n".join([f"- {s.upper()} ({staff_mapping.get(s, s)})" for s in belum_ttd]))
+                
+                with c_tagih:
+                    if st.button("📣 TAGIH WA GRUP", use_container_width=True, type="primary"):
+                        nama_tagihan = ", ".join([staff_mapping.get(s, s) for s in belum_ttd])
+                        pesan_tagihan = (
+                            f"📢 *REMINDER ADMINISTRASI PINTAR MEDIA*\n\n"
+                            f"Kepada: *{nama_tagihan.upper()}*\n\n"
+                            f"Anda terdeteksi BELUM menandatangani kontrak periode *{periode_skrg}*.\n"
+                            f"Segera sahkan dokumen di Dashboard PINTAR MEDIA. Terima kasih."
+                        )
+                        kirim_notif_wa(pesan_tagihan)
+                        st.info("Pesan tagihan terkirim.")
             else:
-                st.success("✅ Seluruh staff telah melengkapi administrasi kontrak bulan ini.")
+                # VERSI BERSIH: TANPA BALON, TANPA SALJU, TANPA TOAST
+                with st.container(border=True):
+                    st.markdown("""
+                    <div style="text-align: center; padding: 20px;">
+                        <h2 style="color: #10b981; margin: 0;">✅ STATUS: ADMINISTRASI CLEAN</h2>
+                        <p style="color: #888; font-size: 14px;">Seluruh staf telah melengkapi tanda tangan kontrak periode ini.</p>
+                    </div>
+                    """, unsafe_allow_html=True)
