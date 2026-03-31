@@ -766,7 +766,7 @@ def tampilkan_area_staf():
             # --- TAMPILAN LAYAR (VERSI BERSIH & RAPI) ---
             st.markdown("<h2 style='text-align: center;'>📜 PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
             
-            st.write("### 🤝 PARA PIHAK KEMITRAAN")
+            st.write("### 🤝 PARA PIHAK")
             c1, c2 = st.columns(2)
             
             with c1:
