@@ -639,15 +639,24 @@ def tampilkan_area_staf():
         # --- CARD 2: PENGHASILAN (DIBUAT ELEGAN) ---
         with st.container(border=True):
             st.markdown("### 💰 I. PENGHASILAN & PENGGAJIAN")
-            g_col1, g_col2, g_col3 = st.columns(3)
-            g_col1.metric("Gaji Pokok", f"Rp {int(gaji_pokok):,}")
-            g_col2.metric("Tunjangan", f"Rp {int(tunjangan):,}")
-            g_col3.metric("Lembur/Bonus", "Sesuai Target")
-            st.caption("*) Pembayaran dilakukan setiap tanggal 2 s/d 5 melalui sistem transfer bank/e-wallet.")
+            
+            # Baris Utama: Gaji Pokok
+            c_gapok, c_ket = st.columns([1, 2])
+            with c_gapok:
+                st.metric("Gaji Pokok", f"Rp {int(gaji_pokok):,}")
+            
+            with c_ket:
+                st.markdown("**Komponen Tambahan:**")
+                st.write(f"- **Tunjangan Kerja:** Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)")
+                st.write("- **Bonus Kinerja:** Berdasarkan pencapaian target")
+                st.write("- **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
+
+            st.divider()
+            st.caption("*) Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5.")
 
         # --- CARD 3: KLAUSUL LEGAL (SATU CARD FULL) ---
         with st.container(border=True):
-            st.markdown("<h3 style='text-align: center;'>PASAL-PASAL KESEPAKATAN KEMITRAAN</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center;'>⚖️ PASAL-PASAL KESEPAKATAN KEMITRAAN</h3>", unsafe_allow_html=True)
             st.divider()
 
             # PASAL 1
