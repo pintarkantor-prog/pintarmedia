@@ -100,7 +100,7 @@ def tampilkan_area_staf():
                 with st.form("form_tugas_baru", clear_on_submit=True):
                     col1, col2 = st.columns([2, 1])
                     instr = col1.text_area("Instruksi Tugas", placeholder="Tulis instruksi di sini...")
-                    staf_tujuan = col2.selectbox("Pilih Staf", ["ICHA", "LISSA", "INGGI", "NISSA"])
+                    staf_tujuan = col2.selectbox("Pilih Staf", list_staff_tujuan)
                     if st.form_submit_button("🚀 KIRIM KE EDITOR", use_container_width=True):
                         if instr:
                             # ID UNIK (T0331...)
