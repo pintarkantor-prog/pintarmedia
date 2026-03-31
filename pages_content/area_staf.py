@@ -124,11 +124,11 @@ def tampilkan_area_staf():
                 c1, c2 = st.columns(2)
                 with c1:
                     with st.container(border=True):
-                        st.markdown(f"### 📌 Rutinitas Harian {data['judul']}")
+                        st.markdown(f"#### 📌 Rutinitas Harian {data['judul']}")
                         for r in data['rutinitas']: st.markdown(f"✅ {r}")
                 with c2:
                     with st.container(border=True):
-                        st.markdown(f"### 🛠️ Standar Operasional Kerja")
+                        st.markdown(f"#### 🛠️ Standar Operasional Kerja")
                         for s in data['sop']: st.markdown(f"⭐ {s}")
 
         st.divider()
@@ -302,7 +302,7 @@ def tampilkan_area_staf():
     with tab_panduan:        
         # --- FUNGSI MODULAR PANDUAN EDITOR (MODEL CARD SYSTEM) ---
         def panduan_setor_tugas():
-            st.markdown("### 🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)")
+            st.markdown("#### 🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)")
             
             # --- CARD 1: RUTINITAS (FULL WIDTH) ---
             with st.container(border=True):
@@ -343,7 +343,7 @@ def tampilkan_area_staf():
 
         # --- FUNGSI MODULAR PANDUAN UPLOADER (MODEL CARD SYSTEM) ---
         def panduan_ritual_upload():
-            st.markdown("### 📲 RITUAL UPLOAD & ANTI-SPAM")
+            st.markdown("#### 📲 RITUAL UPLOAD & ANTI-SPAM")
             
             # --- CARD 1: RITUAL PEMANASAN ---
             with st.container(border=True):
@@ -363,7 +363,7 @@ def tampilkan_area_staf():
                 st.write("- Selesai upload, pastikan video sudah muncul di tab 'Your Videos' sebelum berpindah ke HP lain.")
 
         def panduan_rawat_hp():
-            st.markdown("### ⚙️ MAINTENANCE UNIT HP")
+            st.markdown("#### ⚙️ MAINTENANCE UNIT HP")
             
             col_hp1, col_hp2 = st.columns(2)
             
@@ -385,7 +385,7 @@ def tampilkan_area_staf():
 
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():
-            st.markdown("### 📊 MANAJEMEN DATABASE & KONTROL")
+            st.markdown("#### 📊 MANAJEMEN DATABASE & KONTROL")
             
             # --- CARD 1: PRODUKSI & STOK CHANNEL (PABRIK CHANNEL) ---
             with st.container(border=True):
@@ -431,7 +431,7 @@ def tampilkan_area_staf():
             st.warning("⚠️ Admin adalah jantung data kantor. Kelalaian data Admin berakibat fatal pada performa seluruh tim!")
 
         def panduan_keamanan_akun():
-            st.markdown("### 🔐 PROSEDUR AMANKAN AKUN GOOGLE")
+            st.markdown("#### 🔐 PROSEDUR KEAMANAN AKUN GOOGLE")
             with st.container(border=True):
                 col_sec1, col_sec2 = st.columns(2)
                 
@@ -495,7 +495,8 @@ def tampilkan_area_staf():
 
             st.divider()
             st.write("**📅 Hari Kerja:** Senin – Sabtu (Minggu & Libur Nasional Tutup).")
-            st.write("**💡 Info:** Cuti Bersama Operasional tetap berjalan normal kecuali ditentukan lain oleh Owner.")
+            st.write("**🚀 Presensi Absensi:** Tercatat otomatis melalui sistem.")
+            st.write("**💡 Info:** Cuti Bersama, Operasional kantor tetap berjalan normal kecuali ditentukan lain oleh Owner.")
 
         st.write("") 
 
