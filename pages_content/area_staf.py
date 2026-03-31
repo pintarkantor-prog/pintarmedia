@@ -396,7 +396,7 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 🔄 Rutinitas & Rekap Harian")
                 # --- POIN REQUEST DIAN ---
-                st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby.")
+                st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby (umur channel pengganti minimal 4 hari).")
                 st.write("- Memastikan channel standby selalu update statusnya (siap/digunakan).")
                 st.write("- Update dan rekap database HP (Hapus sesi login lama agar aman).")
                 st.write("- Update stok video di masing-masing HP secara berkala.")
