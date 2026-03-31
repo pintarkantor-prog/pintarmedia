@@ -47,7 +47,7 @@ def tampilkan_area_staf():
             "sop": [
                 "**Kualitas:** Minimal 1080p Full HD.",
                 "**Ratio:** Format 9:16 (Vertical).",
-                "**Durasi:** Disesuaikan kebututahn.",
+                "**Durasi:** Disesuaikan kebutuhan.",
                 "**Nama file video:** TGL_NAMA_JUDUL.mp4"
             ]
         },
