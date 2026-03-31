@@ -738,7 +738,7 @@ def tampilkan_area_staf():
                         <td style="width: 70%; text-align: right; vertical-align: middle;">
                             <h1 style="margin: 0; font-size: 22px; font-weight: bold; text-transform: uppercase;">PT Pintar Digital Kreasi</h1>
                             <p style="margin: 0; font-size: 12px; color: #333;">Creative Content & Digital Media Production</p>
-                            <p style="margin: 0; font-size: 10px; color: #666;">SK KEMENKUMHAM: {nomor_ahu}</p>
+                            <p style="margin: 0; font-size: 10px; color: #666;">SK KEMENKUMHAM: AHU-011181.AH.01.31.2025</p>
                         </td>
                     </tr>
                 </table>
