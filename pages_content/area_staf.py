@@ -30,6 +30,7 @@ def tampilkan_area_staf():
     # Bikin daftar nama buat dropdown Owner (Kirim Tugas)
     # Kita ambil yang levelnya bukan OWNER
     list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
+    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
     # --- 3. DATABASE KETENTUAN (SOP) ---
     ketentuan = {
