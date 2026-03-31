@@ -531,7 +531,7 @@ def tampilkan_area_staf():
             st.markdown("#### 💰 SISTEM PENGGAJIAN & APRESIASI KINERJA")
             
             # --- LOGIKA PENENTUAN GAJI (Sesuai Level) ---
-            if user_level == "EDITOR":
+            if user_level == "STAFF":
                 gapok_display = "Rp 2.500.000"
             elif user_level == "UPLOADER":
                 gapok_display = "Rp 1.500.000"
