@@ -166,21 +166,25 @@ else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # ROUTING HALAMAN (Panggil Fungsi Langsung, Gak Pake Import Lagi)
+    # --- JURUS SILET: LOADING SETIAP PINDAH MENU ---
     if menu == "🧠 PINTAR AI LAB":
-        ai_lab.tampilkan_halaman()
+        with st.spinner("🧠 Sinkronisasi Otak AI..."):
+            ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
         if user_level in ["OWNER", "ADMIN"]:
-            database_channel.tampilkan_database_channel()
+            with st.spinner("📱 Sedang memindai..."):
+                database_channel.tampilkan_database_channel()
         else:
             st.error("🚫 Akses Ditolak!")
 
     elif menu == "📘 AREA STAF":
-        area_staf.tampilkan_area_staf()
+        with st.spinner("📘 Membuka Berkas Staf..."):
+            area_staf.tampilkan_area_staf()
 
     elif menu == "⚡ KENDALI TIM":
         if user_level in ["OWNER", "ADMIN"]:
-            kendali_tim.tampilkan_kendali_tim()
+            with st.spinner("⚡ Menghitung Amunisi Finansial..."):
+                kendali_tim.tampilkan_kendali_tim()
         else:
             st.error("🚫 Akses Ditolak!")
