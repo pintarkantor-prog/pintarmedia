@@ -800,7 +800,7 @@ def tampilkan_area_staf():
                 st.write("")
 
                 # PASAL 3 - INI YANG PALING GALAK
-                st.error("🚨 **PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL**")
+                st.info("🚨 **PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL**")
                 st.markdown("""
                 1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama **PROMPT AI** yang digunakan oleh PINTAR MEDIA.
                 2. Pihak Kedua **DILARANG KERAS** menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.
