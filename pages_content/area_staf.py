@@ -306,14 +306,9 @@ def tampilkan_area_staf():
         def panduan_setor_tugas():
             with st.expander("🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)", expanded=True):
                 # --- BAGIAN 1: RUTINITAS PRODUKSI ---
-                st.markdown("#### 1️⃣ Produksi & Standar Kualitas")
+                st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian:")
                 st.write("- **Produksi Harian:** Wajib bikin video harian sesuai kebutuhan stok kantor.")
                 st.write("- **Cek Stok:** Selalu koordinasi sama Admin buat tau stok video mana yang mau habis.")
-                st.success(f"📌 **Format Nama:** `{sekarang.strftime('%d%m')}_NAMAMU_JUDUL.mp4` (Wajib biar Admin gak bingung!)")
-                
-                st.divider()
-
-                st.markdown("**📅 Rutinitas & Koordinasi Harian:**")
                 st.write("- **Koordinasi Pagi:** Jam 08:00 - 09:00 wajib tanya Admin: *'HP mana yang stoknya sudah kritis (<3 video)?'*")
                 st.write("- **Skala Prioritas:** Dahulukan membuat stok untuk HP yang stok videonya paling sedikit.")
                 st.success(f"📌 **Format Nama Wajib:** `{sekarang.strftime('%d%m')}_NAMAMU_JUDUL.mp4` (Contoh: {sekarang.strftime('%d%m')}_ICHA_CERITA_UDIN.mp4)")
