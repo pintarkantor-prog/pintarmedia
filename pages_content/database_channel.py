@@ -39,7 +39,6 @@ def tampilkan_database_channel():
     
     if level_aktif not in ["OWNER", "ADMIN"]:
         st.error(f"🚫 AKSES DITOLAK, {user_aktif}!")
-        st.info("Halaman ini berisi data sensitif akun PINTAR MEDIA.")
         st.stop() 
 
     # --- 2. HEADER & SETUP (Hanya jalan jika lolos sensor di atas) ---
