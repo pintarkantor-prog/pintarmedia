@@ -61,9 +61,11 @@ def load_data_hp():
 def simpan_perubahan_channel(data_batch):
     try:
         if data_batch:
-            supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-            st.cache_data.clear() # <--- TAMBAHIN INI! Biar cache kehapus & data langsung update
-            return True
+            with st.spinner("Mengirim data ke pusat..."): # Opsional: tambah spinner
+                supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                st.cache_data.clear()
+                st.toast("✅ Data Berhasil Disinkron!", icon="🚀") # Tambahan biar mantap
+                return True
         return False
     except Exception as e:
         st.error(f"Gagal Simpan: {e}")
