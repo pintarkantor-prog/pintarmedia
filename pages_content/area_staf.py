@@ -468,12 +468,10 @@ def tampilkan_area_staf():
     # ==============================================================================
     # TAB 3: PERATURAN KERJA (MODEL CARD - FULL POLICY)
     # ==============================================================================
-    with tab_peraturan:
-        st.markdown(f"### 📜 Kebijakan Internal PINTAR MEDIA")
-        
+    with tab_peraturan:        
         # --- CARD 1: KETENTUAN WAKTU & DISIPLIN (SYSTEM SHIFT) ---
         with st.container(border=True):
-            st.markdown("#### 🕒 KETENTUAN WAKTU KERJA")
+            st.markdown("#### 📜 KETENTUAN WAKTU KERJA")
             
             col_shift1, col_shift2 = st.columns(2)
             
@@ -489,40 +487,43 @@ def tampilkan_area_staf():
 
             st.divider()
             st.write("**📅 Hari Kerja:** Senin – Sabtu (Minggu & Libur Nasional Tutup).")
-            st.write("**🚀 Presensi Absensi:** Tercatat otomatis melalui sistem.")
             st.write("**💡 Info:** Cuti Bersama, Operasional kantor tetap berjalan normal kecuali ditentukan lain oleh Owner.")
 
         st.write("") 
 
         # --- CARD 2: PENGGAJIAN & APRESIASI ---
         with st.container(border=True):
-            st.markdown("#### 💰 II. SISTEM PENGGAJIAN & APRESIASI KINERJA")
+            st.markdown("#### 💰 SISTEM PENGGAJIAN & APRESIASI KINERJA")
             st.write("**📅 Periode Pembayaran:** Hak upah, tunjangan, dan bonus disalurkan tanggal 2 s/d 5 setiap bulannya.")
-            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan Kinerja, Bonus Kinerja, dan Bonus Performa (Video HQ).")
+            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan, Bonus Kinerja, dan Bonus Lembur.")
 
         st.write("")
 
-        # --- CARD 3: SOP & ALAT KERJA ---
-        col_sop, col_alat = st.columns(2)
-        with col_sop:
-            with st.container(border=True):
-                st.markdown("#### 📑 III. SOP KONTEN")
-                st.write("SOP kerja berdasarkan posisi masing-masing dapat dilihat di halaman **Area Staff**.")
-        
-        with col_alat:
-            with st.container(border=True):
-                st.markdown("#### 📱 IV. PENGGUNAAN ALAT")
-                st.write("Smartphone diperbolehkan terbatas hanya untuk riset tren dan koordinasi internal.")
-
-        st.write("")
-
-        # --- CARD 4: ASSET & KERAHASIAAN ---
+        # --- CARD 3: OPERASIONAL & KEAMANAN ASSET (GABUNGAN) ---
         with st.container(border=True):
-            st.markdown("#### 🔐 V. TANGGUNG JAWAB ASSET & DATA")
-            st.error("⚠️ **PENTING:** Dilarang keras mengubah informasi akun premium atau menyebarkan Prompt AI perusahaan ke pihak luar!")
-            st.write("- Gunakan kuota render (credit) secara bijak dan terukur.")
+            st.markdown("#### 🛠️ OPERASIONAL, ALAT KERJA & KEAMANAN ASSET")
+            
+            c_sop, c_alat = st.columns(2)
+            
+            with c_sop:
+                st.markdown("**📑 Standar Operasional (SOP):**")
+                st.write("- SOP kerja berdasarkan posisi (Editor, Uploader, Admin) wajib dilihat di halaman **Area Staff**.")
+                st.write("- Seluruh staff wajib mengikuti instruksi teknis yang sudah ditentukan.")
+                
+                st.markdown("**📱 Penggunaan Smartphone:**")
+                st.write("- Diperbolehkan terbatas hanya untuk riset tren, ide cerita, dan koordinasi internal.")
+                st.write("- **Batasan Etika:** Dilarang untuk hiburan pribadi (Game/WA Personal) yang mengganggu produktivitas.")
 
-        st.warning("⚠️ Seluruh Staff wajib mematuhi jam kerja sesuai pembagian Shift yang telah ditentukan.")
+            with c_alat:
+                st.error("**🔐 Kerahasiaan & Integritas Data:**")
+                st.write("- **Dilarang Keras** menyebarkan rahasia perusahaan ke pihak luar.")
+                st.write("- Membagikan akses akun kepada pihak ketiga tanpa izin adalah pelanggaran berat.")
+                
+                st.markdown("**📉 Efisiensi Resource:**")
+                st.write("- Gunakan kuota produksi (render credit) secara bijak dan terukur guna menghindari pemborosan aset digital.")
+
+            st.divider()
+            st.warning("⚠️ **Sanksi:** Kelalaian pada poin-poin di atas dapat berakibat pada teguran keras hingga pemberhentian kerja.")
 
     # ==============================================================================
     # TAB 4: KONTRAK KERJA
