@@ -491,41 +491,43 @@ def tampilkan_area_staf():
 
         st.write("") 
 
-        # --- CARD 2: PENGGAJIAN & APRESIASI (DINAMIS + TUNJANGAN) ---
+        # --- CARD 2: PENGGAJIAN & APRESIASI (KOMPLIT) ---
         with st.container(border=True):
             st.markdown("#### 💰 SISTEM PENGGAJIAN & APRESIASI KINERJA")
             
-            # --- LOGIKA PENENTUAN GAJI & TUNJANGAN (Sesuai Level) ---
-            # Silahkan ganti angka Gapok di bawah ini sesuai deal-dealan lo, Dian.
+            # --- LOGIKA PENENTUAN GAJI (Sesuai Level) ---
             if user_level == "EDITOR":
-                gapok_display = "Rp 2.500.000"
+                gapok_display = "Rp 2.000.000"
             elif user_level == "UPLOADER":
-                gapok_display = "Rp 1.500.000"
+                gapok_display = "Rp 1.800.000"
             elif user_level == "ADMIN":
                 gapok_display = "Rp 2.500.000"
             else:
                 gapok_display = "Rp -, -"
-
-            # Tunjangan Kerja Fleksibel
-            tunjangan_display = "Rp 250.000 - Rp 500.000"
 
             col_gaji1, col_gaji2 = st.columns(2)
             
             with col_gaji1:
                 st.success(f"💵 **Penghasilan Bulanan ({user_level}):**")
                 st.markdown(f"**Gaji Pokok:** {gapok_display}")
-                st.markdown(f"**Tunjangan Kerja:** {tunjangan_display}")
-                st.caption("*(Tunjangan disesuaikan dengan kondisi perusahaan)*")
-                st.write("**📅 Periode:** Cair Tanggal 2 s/d 5 tiap bulan.")
+                st.markdown(f"**Tunjangan Kerja:** Rp 250.000 - Rp 500.000")
+                
+                st.divider()
+                st.markdown("**🌟 Bonus Kinerja:**")
+                st.write("- Disesuaikan dengan performa kerja individu.")
+                st.write("- Tergantung tercapainya target perusahaan bulan ini.")
 
             with col_gaji2:
-                st.info("⏲️ **Bonus Lembur:**")
+                st.info("⏲️ **Bonus Lembur & Jadwal:**")
                 st.write("**• Senin - Sabtu:** Rp 25.000 / Jam")
-                st.write("**• Minggu / Tgl Merah:** Rp 100.000 / 8 Jam")
-                st.write("**📊 Struktur:** Gaji Pokok + Tunjangan + Bonus Kinerja + Lembur.")
+                st.write("**• Minggu / Tgl Merah:** Rp 100.000 / hari")
+                
+                st.divider()
+                st.write("**📅 Periode Pembayaran:**")
+                st.write("Hak upah, tunjangan, dan bonus disalurkan pada **Tanggal 2 s/d 5** setiap bulannya.")
+                st.write("**📊 Struktur:** Gaji + Tunjangan + Bonus + Lembur.")
 
-            st.divider()
-            st.warning("⚠️ **Catatan:** Pembayaran hak upah dilakukan secara transparan sesuai rekap data di sistem.")
+            st.warning("⚠️ **Catatan:** Pembayaran dilakukan secara transparan berdasarkan rekap data performa di sistem.")
 
         st.write("")
 
