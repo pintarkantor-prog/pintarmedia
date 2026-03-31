@@ -124,7 +124,7 @@ def tampilkan_area_staf():
             df_t.columns = [str(c).strip().upper() for c in df_t.columns]
 
             # --- D. TUGAS AKTIF (CARD 2 KOLOM) ---
-            st.markdown("#### ⚡ Progres Tugas Aktif")
+            st.markdown("#### ⚡ Progres Tugas Khusus")
             status_aktif = ['PROSES', 'WAITING QC', 'REVISI']
             
             if user_level in ["OWNER", "ADMIN"]:
