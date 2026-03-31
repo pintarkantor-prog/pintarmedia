@@ -19,21 +19,30 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
-@st.cache_data(ttl=600)
+@st.cache_data(ttl=60) # <--- DATA DISIMPAN 60 DETIK DI MEMORI
 def ambil_data(nama_tabel):
-    """Mengambil data & Memaksa semua kolom jadi KAPITAL (Anti-Error Case Sensitive)"""
+    """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
-        res = supabase.table(nama_tabel).select("*").execute()
+        query = supabase.table(nama_tabel).select("*")
+        
+        if nama_tabel == "Log_Aktivitas":
+            # Ambil 200 BARIS data terbaru, bukan detik ya Boss!
+            res = query.order("Waktu", desc=True).limit(200).execute()
+        
+        else:
+            # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
+            res = query.execute()
+            
         df = pd.DataFrame(res.data)
         
         if not df.empty:
-            # --- JURUS SAKTI: Paksa semua nama kolom jadi KAPITAL & Hapus Spasi ---
+            # JURUS SAKTI: Paksa kolom jadi KAPITAL
             df.columns = [str(c).strip().upper() for c in df.columns]
-            
-            # Bersihkan isi data dari NaN agar tidak crash saat diolah
             df = df.fillna('')
             return df
+            
         return pd.DataFrame()
+        
     except Exception as e:
         st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
