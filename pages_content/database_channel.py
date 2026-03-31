@@ -721,10 +721,14 @@ def tampilkan_database_channel():
     # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
     # ==============================================================================
     with tab_sd: 
-        # --- 0. HEADER DENGAN LOGO ---
-        c_logo, c_text = st.columns([0.1, 0.9])
-        c_logo.markdown("## 💰") 
-        c_text.markdown("### DATA PENJUALAN PINTAR MEDIA")
+        # --- PROTEKSI AKSES OWNER ---
+        if user_level == "OWNER":
+            
+        else:
+            # Tampilan buat Staff/Admin yang nyasar ke sini
+            st.markdown("<br><br>", unsafe_allow_html=True)
+            st.warning(f"⚠️ **AKSES TERBATAS!**")
+            st.error(f"Mohon maaf {user_aktif}, kamu tidak mendapat akses!.")
 
         # --- 1. SETUP FILTER PERIODE ---
         now_indo = database.ambil_waktu_sekarang()
