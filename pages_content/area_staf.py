@@ -33,7 +33,32 @@ def tampilkan_area_staf():
     list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
     foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
-    # --- 3. DATABASE KETENTUAN (PISAH RUTINITAS & SOP) ---
+Sikat, Dian! Bener banget, kalau ditaruh di variabel data_kerja kayak gitu, lo ngeditnya tinggal buka file, ganti teksnya, save, beres. Gak perlu buka-buka dashboard database lagi kalau cuma mau nambahin satu poin kecil.
+
+Nih, kodingan lengkap bagian TAB 1: TUGAS KERJA yang udah gue gabungin sama cara efisien lo tadi. Ini udah paket lengkap: Level Dinamis (dari Supabase) dan Isi SOP Manual (Gampang Diedit).
+
+📂 pages_content/area_staf.py
+Python
+def tampilkan_area_staf():
+    st.title("📘 Pusat Informasi")
+    
+    # --- 1. SETUP IDENTITAS ---
+    user_aktif = st.session_state.get("user_aktif", "User").upper()
+    user_level = st.session_state.get("user_level", "STAFF").upper()
+    tz = pytz.timezone('Asia/Jakarta')
+    sekarang = datetime.now(tz)
+    
+    # --- 2. AMBIL DATA STAFF (DINAMIS DARI SUPABASE) ---
+    res_staff = database.supabase.table("Staff").select("Nama, Level").execute()
+    df_staff_db = pd.DataFrame(res_staff.data)
+    
+    # Ambil list nama & level unik (Kecuali Owner)
+    list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
+    list_level_aktif = [l.upper() for l in df_staff_db['Level'].unique() if l.upper() != "OWNER"]
+    
+    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+
+    # --- 3. DATABASE KETENTUAN (EDIT MANUAL DI SINI COK!) ---
     data_kerja = {
         "STAFF": { 
             "judul": "EDITOR", "ikon": "🎬",
@@ -93,33 +118,39 @@ def tampilkan_area_staf():
     with tab_tugas:        
         # --- A. TAMPILAN DINAMIS (2 CARD MODEL) ---
         if user_level in ["OWNER", "ADMIN"]:
-            # Tampilan Grid buat Bos & Admin (Lihat Semua)
-            st.markdown("#### 🕒 Monitoring Standar Kerja Tim")
-            for lvl, data in data_kerja.items():
-                with st.expander(f"{data['ikon']} **KONTROL {data['judul']}**", expanded=(lvl=="STAFF")):
-                    c1, c2 = st.columns(2)
-                    with c1:
-                        st.info("📌 **RUTINITAS HARIAN**")
-                        for r in data['rutinitas']: st.markdown(f"- {r}")
-                    with c2:
-                        st.success("🛠️ **STANDAR OPERASIONAL (SOP)**")
-                        for s in data['sop']: st.markdown(f"- {s}")
+            st.markdown("#### 🕒 Monitoring Standar Tim")
+            
+            target_monitor = st.radio(
+                "Pilih Divisi:", list_level_aktif, horizontal=True, label_visibility="collapsed"
+            )
+            
+            # Kita mapping STAFF ke label EDITOR biar gak bingung
+            data = data_kerja.get(target_monitor)
+            if data:
+                c1, c2 = st.columns(2)
+                with c1:
+                    with st.container(border=True):
+                        st.info(f"📌 **RUTINITAS {data['judul']}**")
+                        for r in data['rutinitas']: st.markdown(f"✅ {r}")
+                with c2:
+                    with st.container(border=True):
+                        st.success(f"🛠️ **SOP {data['judul']}**")
+                        for s in data['sop']: st.markdown(f"⭐ {s}")
+        
         else:
-            # Tampilan 2 Card Berjajar buat Staf (Fokus)
-            st.markdown("#### 🕒 Tugas Harian & Standar Kerja")
+            # --- B. TAMPILAN STAFF (OTOMATIS) ---
+            st.markdown("#### 🕒 Tugas & Standar Anda")
             data = data_kerja.get(user_level)
             if data:
-                col_rutinitas, col_sop = st.columns(2)
-                with col_rutinitas:
+                c1, c2 = st.columns(2)
+                with c1:
                     with st.container(border=True):
                         st.markdown(f"### 📌 Rutinitas {data['judul']}")
-                        for r in data['rutinitas']:
-                            st.markdown(f"✅ {r}")
-                with col_sop:
+                        for r in data['rutinitas']: st.markdown(f"✅ {r}")
+                with c2:
                     with st.container(border=True):
                         st.markdown(f"### 🛠️ Standar Kualitas")
-                        for s in data['sop']:
-                            st.markdown(f"⭐ {s}")
+                        for s in data['sop']: st.markdown(f"⭐ {s}")
 
         st.divider()
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
