@@ -6,7 +6,6 @@ import os
 from datetime import timedelta
 from modules import database
 from pages_content import ai_lab
-from pages_content import area_staf
 
 # --- FUNGSI PANGGIL CSS ---
 def local_css(file_name):
@@ -183,7 +182,12 @@ else:
             st.error("🚫 Akses Ditolak!")
 
     elif menu == "📘 AREA STAF":
-        area_staf.tampilkan_area_staf()
+        try:
+            # PENTING: Import di sini kalau lo gak import di atas
+            from pages_content import area_staf 
+            area_staf.tampilkan_area_staf()
+        except Exception as e:
+            st.error(f"Gagal memuat halaman staf: {e}")
 
     elif menu == "⚡ KENDALI TIM":
         if user_level in ["OWNER", "ADMIN"]:
