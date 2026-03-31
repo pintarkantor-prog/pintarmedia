@@ -835,7 +835,6 @@ def tampilkan_database_channel():
 
         else:
             # Tampilan buat Staff/Admin yang nyasar ke sini
-            st.markdown("<br><br>", unsafe_allow_html=True)
             st.warning(f"⚠️ **AKSES TERBATAS!**")
             st.error(f"Mohon maaf {user_aktif}, kamu tidak mendapat akses!")
 
