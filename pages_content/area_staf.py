@@ -305,6 +305,7 @@ def tampilkan_area_staf():
         # --- FUNGSI MODULAR PANDUAN EDITOR ---
         def panduan_setor_tugas():
             with st.expander("🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)", expanded=True):
+                # --- BAGIAN 1: RUTINITAS PRODUKSI ---
                 st.markdown("#### 1️⃣ Produksi & Standar Kualitas")
                 st.write("- **Produksi Harian:** Wajib bikin video harian sesuai kebutuhan stok kantor.")
                 st.write("- **Cek Stok:** Selalu koordinasi sama Admin buat tau stok video mana yang mau habis.")
@@ -312,29 +313,37 @@ def tampilkan_area_staf():
                 
                 st.divider()
 
+                st.markdown("**📅 Rutinitas & Koordinasi Harian:**")
+                st.write("- **Koordinasi Pagi:** Jam 08:00 - 09:00 wajib tanya Admin: *'HP mana yang stoknya sudah kritis (<3 video)?'*")
+                st.write("- **Skala Prioritas:** Dahulukan membuat stok untuk HP yang stok videonya paling sedikit.")
+                st.success(f"📌 **Format Nama Wajib:** `{sekarang.strftime('%d%m')}_NAMAMU_JUDUL.mp4` (Contoh: {sekarang.strftime('%d%m')}_ICHA_CERITA_UDIN.mp4)")
+                
+                st.divider()
+
+                # --- BAGIAN 2: ALUR PENYERAHAN HASIL KERJA ---
                 st.markdown("#### 2️⃣ Alur Penyerahan Hasil Kerja")
                 col_jalur1, col_jalur2 = st.columns(2)
                 
                 with col_jalur1:
                     st.info("📂 **JALUR A: STOK HARIAN (OFFLINE)**")
-                    st.write("**Kapan?** Untuk stok video rutin harian.")
-                    st.write("**Caranya:**")
-                    st.write("- **Gak perlu** input link ke sistem/web ini.")
-                    st.write("- Copy file video ke **Flashdisk (FD)** kantor.")
-                    st.write("- Serahkan FD langsung ke **Admin**.")
-                    st.write("- Pastikan file sudah aman ter-copy sebelum cabut FD.")
+                    st.write("**Target:** Video rutin harian untuk stok HP.")
+                    st.write("**Langkah Kerja:**")
+                    st.write("- **Tidak perlu** input data ke sistem/web ini.")
+                    st.write("- Copy file video langsung dari Laptop ke **Flashdisk (FD)**.")
+                    st.write("- Serahkan FD ke **Admin** untuk proses QC & pindah ke HP.")
+                    st.write("- Pastikan file tercopy sempurna sebelum mencabut FD.")
 
                 with col_jalur2:
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
-                    st.write("**Kapan?** Jika ada instruksi tugas dari Owner di web.")
-                    st.write("**Caranya:**")
-                    st.write("- Upload file ke **Google Drive** kantor.")
-                    st.write("- Set link ke: *'Anyone with the link'*.")
-                    st.write("- Buka Tab **TUGAS KERJA** di web ini.")
-                    st.write("- Klik **🔍 Buka Detail** pada ID tugasmu, tempel link, lalu **SETOR**.")
+                    st.write("**Target:** Instruksi khusus dari Owner di Tab Tugas.")
+                    st.write("**Langkah Kerja:**")
+                    st.write("- Upload file ke **Google Drive** kantor (Folder Project).")
+                    st.write("- Setting link ke: *'Anyone with the link'*.")
+                    st.write("- Buka Tab **TUGAS KERJA** di web ini, cari ID tugasmu.")
+                    st.write("- Klik **🔍 Buka Detail**, tempel link, lalu klik **SETOR**.")
 
                 st.divider()
-                st.warning("⚠️ **PENTING:** Habis setor (via FD atau Web), langsung japri atau lapor di Grup WA biar Admin langsung QC!")
+                st.warning("⚠️ **WAJIB:** Setelah setor (via FD atau Web), langsung lapor di Grup WA Kerja agar Admin bisa segera melakukan Quality Control (QC)!")
 
         def panduan_ritual_upload():
             with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM", expanded=True):
