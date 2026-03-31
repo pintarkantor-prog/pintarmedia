@@ -106,11 +106,11 @@ def tampilkan_area_staf():
                 c1, c2 = st.columns(2)
                 with c1:
                     with st.container(border=True):
-                        st.info(f"📌 **RUTINITAS {data['judul']}**")
+                        st.info(f"📌 **Rutinitas {data['judul']}**")
                         for r in data['rutinitas']: st.markdown(f"✅ {r}")
                 with c2:
                     with st.container(border=True):
-                        st.success(f"🛠️ **SOP {data['judul']}**")
+                        st.success(f"🛠️ **Standar Operasional Kerja {data['judul']}**")
                         for s in data['sop']: st.markdown(f"⭐ {s}")
         
         else:
@@ -125,7 +125,7 @@ def tampilkan_area_staf():
                         for r in data['rutinitas']: st.markdown(f"✅ {r}")
                 with c2:
                     with st.container(border=True):
-                        st.markdown(f"### 🛠️ Standar Kualitas")
+                        st.markdown(f"### 🛠️ Standar Operasional Kerja")
                         for s in data['sop']: st.markdown(f"⭐ {s}")
 
         st.divider()
