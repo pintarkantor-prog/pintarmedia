@@ -65,7 +65,7 @@ def tampilkan_area_staf():
                             kirim_notif_wa(f"🔔 *TUGAS BARU*\n👤 *Untuk:* {staf}\n📝 *Detail:* {instr}\n🆔 *ID:* {new_id_gede}")
                             st.success(f"Tugas {new_id_gede} Terkirim!"); time.sleep(1); st.rerun()
 
-        # --- C. PROSES DATA (MENGUNCI ID BESAR) ---
+        # --- C. PROSES DATA (ANTI-BENTROK ID) ---
         df_raw = database.ambil_data("Tugas")
         if not df_raw.empty:
             df_t = df_raw.copy()
