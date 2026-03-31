@@ -299,9 +299,7 @@ def tampilkan_area_staf():
     # ==============================================================================
     # TAB 2: PANDUAN KERJA (FILTERED BY LEVEL)
     # ==============================================================================
-    with tab_panduan:
-        st.markdown(f"#### 📖 Panduan Kerja: {user_aktif}")
-        
+    with tab_panduan:        
         # --- FUNGSI MODULAR PANDUAN EDITOR (MODEL CARD SYSTEM) ---
         def panduan_setor_tugas():
             st.markdown("### 🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)")
@@ -354,7 +352,7 @@ def tampilkan_area_staf():
             # --- CARD 1: RITUAL PEMANASAN ---
             with st.container(border=True):
                 st.warning("⚠️ **Pemanasan Akun (Ritual Wajib):**")
-                st.write("- **Sebelum Upload:** Buka aplikasi YT, tonton video Shorts orang lain minimal 30 detik (pancing aktivitas manusia).")
+                st.write("- **Sebelum Upload:** Buka aplikasi YT, tonton video Shorts orang lain minimal 15 detik (pancing aktivitas manusia).")
                 st.write("- **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton lagi 1-2 video orang lain sebentar baru keluar/close aplikasi.")
                 st.info("💡 **Tujuan:** Biar akun dianggap 'Manusia' oleh sistem YouTube dan video lebih gampang masuk rekomendasi (FYP).")
 
@@ -363,10 +361,10 @@ def tampilkan_area_staf():
             # --- CARD 2: OPTIMASI KONTEN ---
             with st.container(border=True):
                 st.markdown("#### 📝 Langkah Optimasi & Jadwal")
-                st.write("- **Jadwal Emas:** Wajib upload tepat waktu sesuai jadwal: Pagi `10:00` | Siang `14:00` | Malam `19:00` WIB.")
-                st.write("- **Thumbnail:** Wajib pilih frame yang paling bikin penasaran, kaget, atau fokus ke karakter utama.")
-                st.write("- **Metadata:** Judul & Deskripsi wajib mengikuti arahan WA Kerja atau kembangkan secara manual pada konten tertentu.")
-                st.write("- **Closing:** Selesai upload, pastikan video sudah muncul di tab 'Your Videos' sebelum berpindah ke HP lain.")
+                st.write("- Wajib upload tepat waktu sesuai jadwal upload harian.")
+                st.write("- Wajib pilih Thumbnail yang paling bikin penasaran, kaget, atau fokus ke karakter utama.")
+                st.write("- Judul & Deskripsi wajib mengikuti arahan WA Kerja atau kembangkan secara manual pada konten tertentu.")
+                st.write("- Selesai upload, pastikan video sudah muncul di tab 'Your Videos' sebelum berpindah ke HP lain.")
 
         def panduan_rawat_hp():
             st.markdown("### ⚙️ MAINTENANCE UNIT HP")
@@ -377,17 +375,17 @@ def tampilkan_area_staf():
             with col_hp1:
                 with st.container(border=True):
                     st.markdown("**🧹 Pembersihan Memori:**")
-                    st.write("- **Hapus Video:** Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
-                    st.write("- **Kosongkan Sampah:** Wajib cek folder 'Recently Deleted' di galeri dan kosongkan total secara berkala.")
-                    st.write("- **Clear Chat:** Hapus pesan atau chat di HP yang sudah tidak diperlukan.")
+                    st.write("- Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
+                    st.write("- Wajib cek folder 'Recently Deleted / Sampah' di galeri dan kosongkan secara berkala.")
+                    st.write("- Hapus pesan sms atau chat di HP yang sudah tidak diperlukan.")
 
             # --- CARD 4: PERFORMA UNIT (KANAN) ---
             with col_hp2:
                 with st.container(border=True):
                     st.markdown("**⚡ Performa & Daya:**")
-                    st.write("- **Refresh System:** Wajib **Restart HP** dan Update aplikasi YT secara berkala (minimal 2 hari sekali).")
-                    st.write("- **Power Management:** Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
-                    st.write("- **Suhu:** Jika HP terasa panas berlebih, istirahatkan sebentar atau letakkan di dekat kipas.")
+                    st.write("- Wajib **Restart HP** dan Update aplikasi YT secara berkala (minimal 2 hari sekali).")
+                    st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
+                    st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
 
         def panduan_kontrol_admin():
             with st.expander("📊 MANAJEMEN DATABASE & KONTROL", expanded=True):
