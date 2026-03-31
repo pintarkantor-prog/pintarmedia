@@ -649,7 +649,7 @@ def tampilkan_area_staf():
                 st.markdown("**Komponen Tambahan:**")
                 st.write(f"- **Tunjangan Kerja:** Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)")
                 st.write("- **Bonus Kinerja:** Berdasarkan pencapaian target")
-                st.write("- **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
+                st.write("- **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/8 Jam)")
 
             st.divider()
             st.caption("*) Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5.")
@@ -676,7 +676,7 @@ def tampilkan_area_staf():
             """)
 
             # PASAL 3
-            st.markdown("#### **PASAL 3: KERAHASIAAN NEGARA & KEKAYAAN INTELEKTUAL**")
+            st.markdown("#### **PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL**")
             st.write("""
             1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama **PROMPT AI** yang digunakan oleh PINTAR MEDIA.
             2. Pihak Kedua **DILARANG KERAS** menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.
@@ -770,7 +770,7 @@ def tampilkan_area_staf():
                     1. <b>Gaji Pokok:</b> Rp {int(gaji_pokok):,}<br>
                     2. <b>Tunjangan Kerja:</b> Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)<br>
                     3. <b>Bonus Kinerja:</b> Berdasarkan pencapaian target<br>
-                    4. <b>Lembur:</b> Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)<br><br>
+                    4. <b>Lembur:</b> Hari Normal (25rb/Jam) | Minggu (100rb/8 Jam)<br><br>
                     *) Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5.
                 </div>
 
@@ -787,7 +787,7 @@ def tampilkan_area_staf():
                     2. Dalam hal terjadi penghentian proyek sebagaimana dimaksud pada ayat (1), maka Pihak Kedua setuju bahwa pembayaran upah akan dilakukan secara <b>PRO-RATA</b> (Hanya membayar sesuai jumlah hari hingga hari penghentian).<br>
                     3. Pihak Kedua membebaskan Pihak Pertama dari segala tuntutan ganti rugi atau pesangon jika proyek dihentikan karena faktor-faktor tersebut di atas.</p>
 
-                    <p><b>PASAL 3: KERAHASIAAN NEGARA & KEKAYAAN INTELEKTUAL</b><br>
+                    <p><b>PASAL 3: KERAHASIAAN & KEKAYAAN INTELEKTUAL</b><br>
                     1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama <b>PROMPT AI</b> yang digunakan oleh PINTAR MEDIA.<br>
                     2. Pihak Kedua <b>DILARANG KERAS</b> menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.<br>
                     3. Seluruh hasil karya berupa Video, Script, Voiceover, dan Aset Digital lainnya adalah milik sah Pihak Pertama.<br>
@@ -807,8 +807,9 @@ def tampilkan_area_staf():
                 </div>
 
                 <div style="margin-top: 30px; padding: 15px; border: 2px solid green; text-align: center; background-color: #f9fff9;">
-                    <b style="color: green;">✔ DOKUMEN DISAHKAN SECARA DIGITAL</b><br>
-                    Nama: {nama_lengkap_staf} | Tanggal: {d['tgl_tanda_tangan']} | Jam: {d['waktu_presisi']}
+                    <b style="color: green;">✔ VERIFIKASI DIGITAL DISAHKAN</b><br>
+                    Dokumen ini telah disetujui secara sadar oleh <b>{nama_lengkap_staf}</b><br>
+                    <span style="font-size: 11px;">Tanggal: {d['tgl_tanda_tangan']} | Pukul: {d['waktu_presisi']}</span>
                 </div>
             </div>
             """
