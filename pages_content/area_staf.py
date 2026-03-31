@@ -458,19 +458,15 @@ def tampilkan_area_staf():
             elif pilihan == "UPLOADER": 
                 panduan_ritual_upload()
                 panduan_rawat_hp()
-                st.divider()
                 panduan_keamanan_akun() # <-- Muncul di monitoring Owner/Admin
             elif pilihan == "ADMIN": 
                 panduan_kontrol_admin()
-                st.divider()
                 panduan_keamanan_akun() # <-- Muncul di monitoring Owner/Admin
             
         elif user_level == "UPLOADER":
             panduan_ritual_upload()
             panduan_rawat_hp()
-            st.divider()
-            panduan_keamanan_akun() # <-- MUNCUL DI LAYAR UPLOADER
-            
+            panduan_keamanan_akun() # <-- MUNCUL DI LAYAR UPLOADER        
         elif user_level == "STAFF": # Editor
             panduan_setor_tugas() 
             # Editor gak perlu liat keamanan akun karena gak pegang HP/Akun
