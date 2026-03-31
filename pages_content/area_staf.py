@@ -497,9 +497,9 @@ def tampilkan_area_staf():
             
             # --- LOGIKA PENENTUAN GAJI (Sesuai Level) ---
             if user_level == "EDITOR":
-                gapok_display = "Rp 2.000.000"
+                gapok_display = "Rp 2.500.000"
             elif user_level == "UPLOADER":
-                gapok_display = "Rp 1.800.000"
+                gapok_display = "Rp 1.500.000"
             elif user_level == "ADMIN":
                 gapok_display = "Rp 2.500.000"
             else:
@@ -518,14 +518,14 @@ def tampilkan_area_staf():
                 st.write("- Tergantung tercapainya target perusahaan bulan ini.")
 
             with col_gaji2:
-                st.info("⏲️ **Bonus Lembur & Jadwal:**")
+                st.info("⏲️ **Bonus Lembur & Pembayaran:**")
                 st.write("**• Senin - Sabtu:** Rp 25.000 / Jam")
                 st.write("**• Minggu / Tgl Merah:** Rp 100.000 / hari")
                 
                 st.divider()
                 st.write("**📅 Periode Pembayaran:**")
                 st.write("Hak upah, tunjangan, dan bonus disalurkan pada **Tanggal 2 s/d 5** setiap bulannya.")
-                st.write("**📊 Struktur:** Gaji + Tunjangan + Bonus + Lembur.")
+                st.write("**📊 Struktur:** Gaji Pokok + Tunjangan + Bonus + Lembur.")
 
             st.warning("⚠️ **Catatan:** Pembayaran dilakukan secara transparan berdasarkan rekap data performa di sistem.")
 
