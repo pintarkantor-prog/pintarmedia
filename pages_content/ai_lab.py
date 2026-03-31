@@ -17,7 +17,7 @@ def tampilkan_halaman():
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
     # Cek apakah level user ada di daftar yang diizinkan
-    izin_akses = ["OWNER", "ADMIN", "STAFF"]
+    izin_akses = ["OWNER", "ADMIN", "UPLOADER", "STAFF"]
     
     if user_level not in izin_akses:
         st.error(f"🚫 Maaf {user_aktif}, Area ini terbatas untuk tim internal.")
