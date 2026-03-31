@@ -585,45 +585,63 @@ def tampilkan_area_staf():
         st.caption(f"Terakhir diperbarui: 31 Maret 2026")
 
     # ==============================================================================
-    # TAB 4: KONTRAK KERJA (MODEL KEMITRAAN FLEKSIBEL)
+    # TAB 4: KONTRAK KERJA (KONEKSI SUPABASE)
     # ==============================================================================
     with tab_kontrak:
-        st.markdown(f"#### 📜 Detail Kontrak Kerja Sama")
+        st.markdown(f"### 📜 Detail Kontrak Kerja Sama")
         
-        # --- CARD UTAMA: STATUS USER ---
+        # --- 1. AMBIL DATA DARI SUPABASE ---
+        # Cek apakah user ini sudah tanda tangan untuk periode bulan ini
+        periode_skrg = sekarang.strftime('%m-%Y') # Hasil: 04-2026
+        
+        res_kontrak = supabase.table("kontrak_staff")\
+            .select("*")\
+            .eq("username", user_aktif)\
+            .eq("periode", periode_skrg)\
+            .execute()
+        
+        sudah_ttd = len(res_kontrak.data) > 0
+
+        # --- 2. TAMPILAN KONTRAK (MODEL CARD) ---
         with st.container(border=True):
-            col_id1, col_id2 = st.columns(2)
-            with col_id1:
-                st.write(f"👤 **Nama Staff:** {user_aktif}")
-                st.write(f"🏷️ **Posisi:** {user_level} AI")
-            with col_id2:
-                st.write("📅 **Status:** Kemitraan Lepas (Part-Time)")
-                st.success("✅ **Kondisi:** Proyek Aktif")
+            st.markdown(f"#### 📝 Ringkasan Kesepakatan: {user_aktif}")
+            st.write(f"🏷️ **Posisi:** {user_level} | 📅 **Periode:** {periode_skrg}")
+            st.info("💡 **Status Kerja:** Kemitraan Lepas (Part-Time / Project-Based).")
+            
+            with st.expander("🔍 Baca Detail Klausul Kontrak", expanded=not sudah_ttd):
+                st.warning("⚠️ **Klausul Darurat:** Owner berhak menunda/menghentikan proyek jika terjadi perubahan tren/kebijakan platform.")
+                st.write("- Upah dihitung **Pro-rata** jika proyek berhenti di tengah periode.")
+                st.write("- Seluruh aset (HP/Akun) wajib dikembalikan 1x24 jam setelah kontrak berakhir.")
 
         st.write("")
 
-        # --- CARD ISI KONTRAK (FULL TEXT) ---
-        with st.container(border=True):
-            st.markdown("#### 📝 Ringkasan Kesepakatan Kerja")
+        # --- 3. LOGIKA TOMBOL TANDA TANGAN ---
+        if sudah_ttd:
+            # Jika sudah tanda tangan, tampilkan info saja
+            data_ttd = res_kontrak.data[0]
+            st.success(f"✅ **Kontrak Terverifikasi Digital**\n\nDiterima pada: {data_ttd['tgl_tanda_tangan']} pukul {data_ttd['waktu_presisi']}")
+        else:
+            # Jika belum, munculkan Checkbox + Tombol
+            st.error("❗ Anda belum menyetujui kontrak untuk periode bulan ini.")
+            setuju = st.checkbox("Saya memahami dan menyetujui seluruh isi Kontrak PINTAR MEDIA.")
             
-            # Poin 1: Status Kerja
-            st.markdown("**1. Hubungan Kerja Sama**")
-            st.write(f"Hubungan kerja antara Owner PINTAR MEDIA dan {user_aktif} adalah Kemitraan Lepas berbasis proyek (Project-Based). Tidak ada ikatan karyawan tetap.")
-            
-            # Poin 2: Fleksibilitas Proyek (Penting buat Dian!)
-            st.markdown("**2. Penyesuaian & Penghentian Proyek**")
-            st.warning("⚠️ **Klausul Darurat:** Dikarenakan sifat proyek yang dinamis mengikuti tren digital (YouTube/AI), Owner berhak menghentikan atau menunda operasional proyek sewaktu-waktu tanpa masa sanggah.")
-            st.write("- Jika proyek berhenti, upah akan dihitung secara **Pro-rata** (Hanya membayar hari/video yang sudah selesai dikerjakan).")
-            
-            # Poin 3: Masa Berlaku
-            st.markdown("**3. Masa Berlaku**")
-            st.write("Kontrak ini berlaku selama performa akun dan target harian terpenuhi. Evaluasi kelayakan mitra dilakukan setiap akhir bulan.")
-            
-            # Poin 4: Pengembalian Aset
-            st.error("**4. Pengembalian Aset & Data**")
-            st.write("Apabila kerja sama berakhir (baik karena proyek berhenti atau resign), Staff wajib mengembalikan seluruh inventaris (HP, Akun, Data) dalam kondisi semula dalam waktu 1x24 jam.")
-
-        # --- TOMBOL KONFIRMASI ---
-        st.write("")
-        if st.checkbox("Saya memahami dan menyetujui bahwa status kerja ini adalah Kemitraan Fleksibel."):
-            st.success("🤝 Kesepakatan diakui secara digital oleh sistem.")
+            if st.button("🖋️ TANDA TANGANI KONTRAK", disabled=not setuju):
+                try:
+                    # Data yang akan dikirim ke Supabase
+                    payload = {
+                        "username": user_aktif,
+                        "nama_staff": user_nama_lengkap, # Pastikan variabel nama lengkap sudah didefinisikan sebelumnya
+                        "periode": periode_skrg,
+                        "tgl_tanda_tangan": sekarang.strftime('%d %B %Y'),
+                        "waktu_presisi": sekarang.strftime('%H:%M:%S')
+                    }
+                    
+                    # Insert data ke tabel kontrak_staff
+                    supabase.table("kontrak_staff").insert(payload).execute()
+                    
+                    st.success("✅ Kontrak berhasil ditandatangani secara digital!")
+                    st.balloons()
+                    st.rerun() # Refresh biar statusnya langsung berubah jadi 'Terverifikasi'
+                    
+                except Exception as e:
+                    st.error(f"Gagal memproses tanda tangan: {e}")
