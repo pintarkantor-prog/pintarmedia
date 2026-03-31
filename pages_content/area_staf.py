@@ -405,6 +405,8 @@ def tampilkan_area_staf():
             # --- CARD 2: KONTROL OPERASIONAL ---
             with st.container(border=True):
                 st.markdown("#### 🔄 Rutinitas & Rekap Harian")
+                # --- POIN REQUEST DIAN ---
+                st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby.")
                 st.write("- **Monitoring Channel:** Memastikan channel standby selalu update statusnya (siap/digunakan).")
                 st.write("- **Rekap Unit:** Update dan rekap database HP (Hapus sesi login lama agar aman).")
                 st.write("- **Stok Video:** Update stok video di masing-masing HP secara berkala.")
@@ -421,12 +423,12 @@ def tampilkan_area_staf():
                     st.markdown("🔍 **Pengecekan Logistik**")
                     st.write("- **Cek Fisik:** Rutin cek kuota internet, listrik, dan kondisi unit HP.")
                     st.write("- **Real-Time:** Data Channel wajib di-update secara real-time (No Delay).")
-                    st.write("- **Akurasi:** Akurasi data channel wajib 100% (No Error).")
+                    st.write("- **Akurasi:** Akurasi data channel wajib 99% (No Error).")
 
             with col_adm2:
                 with st.container(border=True):
                     st.success("💰 **Keuangan & Koordinasi**")
-                    st.write("- **Arus Kas:** Mencatat setiap pengeluaran operasional (beli akun, bensin, dll).")
+                    st.write("- **Arus Kas:** Mencatat setiap pengeluaran operasional (beli akun, kuota, dll).")
                     st.write("- **Koordinasi Tim:** Wajib cerewet ingetin Editor soal stok dan Uploader soal jadwal.")
                     st.write("- **Akurasi Keuangan:** Data keuangan tidak boleh ada selisih sedikit pun.")
 
