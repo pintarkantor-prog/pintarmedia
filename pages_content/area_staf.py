@@ -296,52 +296,75 @@ def tampilkan_area_staf():
                 # Ini muncul kalau setelah di-filter datanya emang gak ada
                 st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
                     
-    # ==============================================================================
-    # TAB 2: PANDUAN KERJA (KIBLAT OPERASIONAL)
+# ==============================================================================
+    # TAB 2: PANDUAN KERJA (MANUAL BOOK OPERASIONAL MENYELURUH)
     # ==============================================================================
     with tab_panduan:
-        st.markdown(f"#### 📖 Panduan Operasional: {user_aktif}")
-        st.info("💡 **Tips:** Pelajari panduan ini agar hasil kerja langsung ACC tanpa revisi.")
+        st.markdown(f"#### 📜 Kitab Suci Operasional PINTAR MEDIA")
+        st.info("⚠️ **PERHATIAN:** Kelalaian dalam mengikuti panduan ini dapat menghambat performa akun dan bonus tim.")
         
-        # --- 1. KEAMANAN AKUN & PERANGKAT ---
-        with st.expander("🔐 1. PROSEDUR KEAMANAN AKUN (PENTING!)", expanded=True):
-            c1, c2 = st.columns(2)
-            with c1:
-                st.markdown("**🛡️ Akses Perangkat:**")
-                st.write("- Wajib gunakan unit HP yang sudah ditentukan.")
-                st.write("- Dilarang login di luar perangkat kantor tanpa izin.")
-                st.write("- Pastikan koneksi IP stabil (Gunakan WiFi Kantor).")
-            with c2:
-                st.markdown("**⚠️ Tindakan Darurat:**")
-                st.warning("Jika muncul Verifikasi 2 Langkah atau kode OTP, SEGERA lapor ke Admin/Owner. Jangan ditekan sembarangan!")
+        # --- 1. DIVISI EDITOR (PRODUCTION) ---
+        with st.expander("🎬 PANDUAN MENDALAM: DIVISI EDITOR", expanded=True):
+            col_ed1, col_ed2 = st.columns(2)
+            with col_ed1:
+                st.markdown("**📌 Rutinitas Produksi:**")
+                st.write("- **Kebutuhan Kantor:** Wajib setor video harian (stok) sesuai target yang disepakati.")
+                st.write("- **Koordinasi Stok:** Cek Admin setiap pagi untuk tau HP mana yang stok videonya sudah kritis.")
+                st.write("- **Sistem Serah Terima:** Jika video stok harian, serahkan file mentah via **Flashdisk (FD)** langsung ke Admin.")
+                st.write("- **Tugas Khusus:** Jika Owner kirim tugas di sistem, wajib setor via form (Tab 1) agar ID Tugas bisa di-ACC.")
+            with col_ed2:
+                st.markdown("**🛠️ Standar Kualitas (SOP):**")
+                st.success("- **Visual:** High Definition (Min. 1080p).")
+                st.success("- **Ratio:** Wajib 9:16 (Vertical) tanpa bar hitam.")
+                st.success("- **Durasi:** Fleksibel, namun harus padat (No Filler).")
+                st.code(f"Naming: {sekarang.strftime('%d%m')}_NAMA_JUDUL.mp4", language="text")
 
-        # --- 2. ALUR PRODUKSI (KHUSUS EDITOR) ---
-        with st.expander("🎬 2. ALUR PRODUKSI VIDEO AI (EDITOR)"):
-            st.markdown("Berikut adalah langkah-langkah menciptakan konten standar **PINTAR MEDIA**:")
-            st.write("1. **Brainstorming:** Gunakan menu `🧠 PINTAR AI LAB` untuk ide & prompt.")
-            st.write("2. **Generasi:** Pastikan visual AI konsisten (Wajah & Karakter sama).")
-            st.write("3. **Editing:** Masukkan Voice Over (VO) dan Sound Effect yang sesuai.")
-            st.write("4. **Watermark:** Wajib pasang logo PINTAR MEDIA di pojok kanan atas.")
-            st.write("5. **Export:** Gunakan settingan 1080x1920 (9:16) - 30/60 FPS.")
+        # --- 2. DIVISI UPLOADER (DISTRIBUTION) ---
+        with st.expander("📲 PANDUAN MENDALAM: DIVISI UPLOADER", expanded=False):
+            col_up1, col_up2 = st.columns(2)
+            with col_up1:
+                st.markdown("**📌 Rutinitas & Maintenance HP:**")
+                st.write("- **Upload Berjadwal:** Jangan telat! Algoritma butuh konsistensi jam tayang.")
+                st.write("- **Kebersihan Memori:** Wajib hapus video yang sudah tayang. Jangan lupa kosongkan **Folder Sampah** agar HP tidak lemot.")
+                st.write("- **Kesehatan Unit:** Setiap **2 hari sekali**, wajib: Restart HP, Hapus Chat/Pesan, dan Update Aplikasi YT.")
+                st.write("- **Power Management:** Cek kabel charger. Jangan sampai ada HP mati total (Lowbat) saat jam kerja.")
+            with col_up2:
+                st.markdown("**🛡️ Ritual Anti-Spam (SOP):**")
+                st.warning("⚠️ **WARMING UP:** Sebelum upload, tonton video random orang lain (Shorts/Long) min 30 detik agar akun dianggap 'Manusia'.")
+                st.write("- **Post-Upload:** Jangan langsung tutup aplikasi. Tonton lagi video orang lain sebentar baru close.")
+                st.write("- **Metadata:** Judul & Deskripsi WAJIB unik. Gunakan referensi dari WA Kerja atau kembangkan secara manual.")
+                st.write("- **Thumbnail:** Wajib pilih frame yang paling bikin orang penasaran (Click-worthy).")
 
-        # --- 3. PROSEDUR UPLOAD (KHUSUS UPLOADER) ---
-        with st.expander("🚀 3. PROSEDUR UPLOAD & OPTIMASI (UPLOADER)"):
-            st.markdown("**⏰ Jadwal Emas (Prime Time):**")
-            st.code("Pagi: 10:00 | Siang: 14:00 | Malam: 19:00 WIB", language="text")
-            
-            st.markdown("**📝 Checklist Sebelum Publish:**")
-            st.write("- **Thumbnail:** Gunakan frame paling menarik dari video.")
-            st.write("- **SEO:** Judul harus mengandung Keyword (Minimal 3-5 kata).")
-            st.write("- **Tag:** Masukkan minimal 10 tag relevan.")
-            st.write("- **Interaksi:** Balas minimal 5 komentar pertama setelah upload.")
+        # --- 3. DIVISI ADMIN (CONTROL & DATA) ---
+        with st.expander("📊 PANDUAN MENDALAM: DIVISI ADMIN", expanded=False):
+            col_ad1, col_ad2 = st.columns(2)
+            with col_ad1:
+                st.markdown("**📌 Rutinitas Kontrol:**")
+                st.write("- **Channel Monitoring:** Pastikan status channel (Standby/Upload) selalu update di database.")
+                st.write("- **Security:** Jika ada HP ganti akun, segera **Hapus Sesi Login** lama agar database tidak bengkak.")
+                st.write("- **Stok Logistik:** Cek stok video di tiap HP. Jika sisa <3 video, segera instruksikan Editor buat stok baru.")
+                st.write("- **Operasional:** Pastikan kuota internet dan listrik kantor aman 100%.")
+            with col_ad2:
+                st.markdown("**💰 Akurasi & Keuangan (SOP):**")
+                st.error("- **Zero Error:** Data keuangan dan data channel wajib **Real-Time**. Salah input = Data sampah.")
+                st.write("- **Arus Kas:** Catat setiap pengeluaran sekecil apa pun (Bensin, Token, Galon, dll).")
+                st.write("- **Hubungan Tim:** Admin adalah jembatan. Wajib cerewet ingetin jadwal ke Uploader dan stok ke Editor.")
 
-        # --- 4. SISTEM PELAPORAN ---
-        with st.expander("📊 4. CARA SETOR & LAPOR TUGAS"):
-            st.write("1. Upload file final ke GDrive (Pastikan link sudah 'Anyone with the link').")
-            st.write("2. Copy link GDrive tersebut.")
-            st.write("3. Buka tab `📝 TUGAS KERJA` di sistem ini.")
-            st.write("4. Klik tombol **🔍 Buka Detail** pada ID Tugas yang sesuai.")
-            st.write("5. Tempel link dan klik **🚀 SETOR**.")
+        # --- 4. KEAMANAN & SOSIAL (UMUM) ---
+        st.markdown("---")
+        with st.container(border=True):
+            st.markdown("### 🚫 PERATURAN KERAS (ZERO TOLERANCE)")
+            c_safe1, c_safe2 = st.columns(2)
+            with c_safe1:
+                st.markdown("**🔒 Keamanan Digital:**")
+                st.write("1. Dilarang login akun kantor di HP Pribadi.")
+                st.write("2. Wajib lapor jika ada notif 'Perangkat Tidak Dikenal'.")
+                st.write("3. **Dilarang keras** membagikan Prompt AI perusahaan ke pihak luar.")
+            with c_safe2:
+                st.markdown("**🏢 Etika Kantor:**")
+                st.write("1. Menjaga kebersihan meja kerja dan unit HP masing-masing.")
+                st.write("2. Komunikasi tim wajib sopan dan profesional (Koordinasi via WA Group).")
+                st.write("3. Datang dan pulang tepat waktu sesuai shift.")
 
     # ==============================================================================
     # TAB 3: PERATURAN KERJA
