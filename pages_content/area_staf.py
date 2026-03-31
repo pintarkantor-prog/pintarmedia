@@ -387,11 +387,44 @@ def tampilkan_area_staf():
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
 
+        # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():
-            with st.expander("📊 MANAJEMEN DATABASE & KONTROL", expanded=True):
-                st.write("- **Real-Time:** Update status Channel & HP di database saat itu juga.")
-                st.write("- **Logistik:** Pantau stok video di HP. Jika sisa <3, segera tagih Editor.")
-                st.write("- **Keuangan:** Catat arus kas kantor dengan akurasi 100%.")
+            st.markdown("### 📊 MANAJEMEN DATABASE & KONTROL")
+            
+            # --- CARD 1: RUTINITAS KONTROL UTAMA ---
+            with st.container(border=True):
+                st.markdown("#### 🔄 Rutinitas & Operasional Harian")
+                st.write("- **Update Status:** Memastikan channel standby selalu update di database.")
+                st.write("- **Rekap Database:** Update dan rekap database channel serta HP (Hapus sesi login lama).")
+                st.write("- **Monitor Stok:** Update stok video di masing-masing HP secara berkala.")
+                st.write("- **Efisiensi:** Memastikan kegiatan operasional kantor berjalan efektif dan efisien.")
+                st.write("- **Tugas Lain:** Menjalankan tugas tambahan yang disesuaikan dengan kebutuhan kantor.")
+
+            st.write("") # Spacing
+
+            # --- CARD 2: STANDAR OPERASIONAL (SOP) ---
+            st.markdown("#### 📝 Standar Operasional Admin")
+            col_adm1, col_adm2 = st.columns(2)
+            
+            # --- CARD 2A: PENGECEKAN LOGISTIK (KIRI) ---
+            with col_adm1:
+                with st.container(border=True):
+                    st.info("🔍 **Pengecekan & Akurasi**")
+                    st.write("- **Cek Stok:** Rutin cek stok channel, ketersediaan video, kuota internet, hingga listrik kantor.")
+                    st.write("- **Real-Time:** Data Channel wajib selalu di-update secara real-time di sistem.")
+                    st.write("- **Zero Error:** Akurasi data channel dan input data lainnya harus 100% (No Error).")
+
+            # --- CARD 2B: KEUANGAN & KOORDINASI (KANAN) ---
+            with col_adm2:
+                with st.container(border=True):
+                    st.success("💰 **Keuangan & Komunikasi**")
+                    st.write("- **Arus Kas:** Mencatat setiap arus kas operasional kantor dengan teliti.")
+                    st.write("- **Akurasi 100%:** Data keuangan wajib akurat dan tidak boleh ada selisih sedikit pun.")
+                    st.write("- **Hubungan Tim:** Selalu koordinasi dengan staff lain (Editor & Uploader) terkait stok video, jadwal, dan status channel.")
+
+            # --- FOOTER WARNING ---
+            st.write("")
+            st.warning("⚠️ Admin adalah jembatan informasi kantor. Pastikan semua data valid sebelum dilaporkan ke Owner!")
 
         # --- LOGIKA PENAMPILAN (OWNER & ADMIN PAKE RADIO) ---
         if user_level in ["OWNER", "ADMIN"]:            
