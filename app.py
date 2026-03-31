@@ -159,35 +159,28 @@ def tampilkan_navigasi_sidebar():
         ''', unsafe_allow_html=True)
     return pilihan
 
-# --- DI APP.PY (BAGIAN JALANKAN APLIKASI) ---
+# --- JALANKAN APLIKASI (VERSI ORIGINAL DIAN) ---
 if not cek_autentikasi():
     halaman_login()
 else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # --- 1. JURUS PEMBERSIH KACA (BIAR GAK GHOSTING) ---
-    # Kita buat satu titik kosong sebagai "Master Container"
-    master_layar = st.empty()
+    # ROUTING HALAMAN (POLOSAN TANPA VARIASI)
+    if menu == "🧠 PINTAR AI LAB":
+        ai_lab.tampilkan_halaman()
 
-    # --- 2. MASUKKAN SEMUA MENU KE DALAM WADAH TERSEBUT ---
-    with master_layar.container():
-        if menu == "🧠 PINTAR AI LAB":
-            ai_lab.tampilkan_halaman()
+    elif menu == "📱 DATABASE CHANNEL":
+        if user_level in ["OWNER", "ADMIN"]:
+            database_channel.tampilkan_database_channel()
+        else:
+            st.error("🚫 Akses Ditolak!")
 
-        elif menu == "📱 DATABASE CHANNEL":
-            if user_level in ["OWNER", "ADMIN"]:
-                # Panggil langsung, biarkan 'Manusia Lari' di pojok kanan kerja sendiri
-                database_channel.tampilkan_database_channel()
-            else:
-                st.error("🚫 Akses Ditolak!")
+    elif menu == "📘 AREA STAF":
+        area_staf.tampilkan_area_staf()
 
-        elif menu == "📘 AREA STAF":
-            area_staf.tampilkan_area_staf()
-
-        elif menu == "⚡ KENDALI TIM":
-            if user_level in ["OWNER", "ADMIN"]:
-                # Di sini data berat Arus Kas ditarik
-                kendali_tim.tampilkan_kendali_tim()
-            else:
-                st.error("🚫 Akses Ditolak!")
+    elif menu == "⚡ KENDALI TIM":
+        if user_level in ["OWNER", "ADMIN"]:
+            kendali_tim.tampilkan_kendali_tim()
+        else:
+            st.error("🚫 Akses Ditolak!")
