@@ -340,17 +340,35 @@ def tampilkan_area_staf():
                 st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
 
         def panduan_ritual_upload():
-            with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM", expanded=True):
-                st.warning("⚠️ **Pemanasan Akun:** Tonton video Shorts orang lain 30 detik sebelum & sesudah upload.")
-                st.write("- **Jadwal:** Pagi 10:00 | Siang 14:00 | Malam 19:00 WIB.")
-                st.write("- **Thumbnail:** Wajib pilih frame yang paling bikin penasaran.")
-                st.write("- **Closing:** Jangan langsung tutup YT setelah upload, tonton video lain dulu.")
+            with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM (WAJIB!)", expanded=True):
+                st.info("💡 **Tujuan:** Biar akun dianggap 'Manusia' oleh YouTube dan video gampang FYP.")
+                
+                st.markdown("**🔥 Ritual Pemanasan Akun:**")
+                st.warning("⚠️ **Sebelum Upload:** Buka YT, tonton minimal 2-3 video Shorts orang lain (pancing aktivitas).")
+                st.warning("⚠️ **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton lagi 1-2 video orang lain baru keluar.")
+                
+                st.divider()
+                
+                st.markdown("**📝 Langkah Optimasi:**")
+                st.write("- **Jadwal Upload:** Sesuai waktu jadwal harian. (Jangan telat!)")
+                st.write("- **Thumbnail:** Pilih frame yang paling bikin kaget atau fokus ke muka karakter.")
+                st.write("- **Metadata:** Judul & Deskripsi wajib beda-beda (cek WA Kerja atau kembangkan sendiri pada konten tertentu).")
 
         def panduan_rawat_hp():
-            with st.expander("⚙️ MAINTENANCE UNIT HP", expanded=False):
-                st.write("- **Pembersihan:** Hapus file video & folder sampah setelah upload sukses.")
-                st.write("- **Refresh:** Restart HP dan Update aplikasi YT setiap 2 hari sekali.")
-                st.write("- **Power:** Pastikan HP selalu tercolok charger (No Lowbat).")
+            with st.expander("⚙️ MAINTENANCE UNIT HP (HARI-HARI)", expanded=False):
+                col_hp1, col_hp2 = st.columns(2)
+                
+                with col_hp1:
+                    st.markdown("**🧹 Kebersihan Memori:**")
+                    st.write("- **Hapus Video:** Langsung hapus file video yang sudah sukses di-upload.")
+                    st.write("- **Kosongkan Sampah:** Cek folder 'Recently Deleted' di galeri, kosongkan total biar HP gak lemot.")
+                    st.write("- **Bersihkan Pesan:** Hapus chat/pesan masuk di HP secara berkala.")
+                
+                with col_hp2:
+                    st.markdown("**⚡ Performa & Daya:**")
+                    st.write("- **Refresh System:** Wajib **Restart HP** setiap 2 hari sekali agar sistem tetap segar.")
+                    st.write("- **Update:** Cek Playstore, pastikan aplikasi YouTube selalu versi terbaru.")
+                    st.error("- **No Lowbat:** HP harus selalu standby dicolok charger. Jangan sampai mati total!")
 
         def panduan_kontrol_admin():
             with st.expander("📊 MANAJEMEN DATABASE & KONTROL", expanded=True):
