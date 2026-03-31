@@ -297,14 +297,51 @@ def tampilkan_area_staf():
                 st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
                     
     # ==============================================================================
-    # TAB 2: PANDUAN KERJA
+    # TAB 2: PANDUAN KERJA (KIBLAT OPERASIONAL)
     # ==============================================================================
     with tab_panduan:
-        st.markdown("#### 📖 SOP Operasional Produksi")
-        with st.expander("1. Cara Login & Amankan Akun"):
-            st.write("- Gunakan unit HP sesuai slot.\n- Pastikan IP stabil.\n- Lapor jika verifikasi muncul.")
-        with st.expander("2. Alur Produksi Video AI"):
-            st.write("- Gunakan prompt PINTAR AI LAB.\n- Pasang watermark.\n- Upload sesuai jadwal.")
+        st.markdown(f"#### 📖 Panduan Operasional: {user_aktif}")
+        st.info("💡 **Tips:** Pelajari panduan ini agar hasil kerja langsung ACC tanpa revisi.")
+        
+        # --- 1. KEAMANAN AKUN & PERANGKAT ---
+        with st.expander("🔐 1. PROSEDUR KEAMANAN AKUN (PENTING!)", expanded=True):
+            c1, c2 = st.columns(2)
+            with c1:
+                st.markdown("**🛡️ Akses Perangkat:**")
+                st.write("- Wajib gunakan unit HP yang sudah ditentukan.")
+                st.write("- Dilarang login di luar perangkat kantor tanpa izin.")
+                st.write("- Pastikan koneksi IP stabil (Gunakan WiFi Kantor).")
+            with c2:
+                st.markdown("**⚠️ Tindakan Darurat:**")
+                st.warning("Jika muncul Verifikasi 2 Langkah atau kode OTP, SEGERA lapor ke Admin/Owner. Jangan ditekan sembarangan!")
+
+        # --- 2. ALUR PRODUKSI (KHUSUS EDITOR) ---
+        with st.expander("🎬 2. ALUR PRODUKSI VIDEO AI (EDITOR)"):
+            st.markdown("Berikut adalah langkah-langkah menciptakan konten standar **PINTAR MEDIA**:")
+            st.write("1. **Brainstorming:** Gunakan menu `🧠 PINTAR AI LAB` untuk ide & prompt.")
+            st.write("2. **Generasi:** Pastikan visual AI konsisten (Wajah & Karakter sama).")
+            st.write("3. **Editing:** Masukkan Voice Over (VO) dan Sound Effect yang sesuai.")
+            st.write("4. **Watermark:** Wajib pasang logo PINTAR MEDIA di pojok kanan atas.")
+            st.write("5. **Export:** Gunakan settingan 1080x1920 (9:16) - 30/60 FPS.")
+
+        # --- 3. PROSEDUR UPLOAD (KHUSUS UPLOADER) ---
+        with st.expander("🚀 3. PROSEDUR UPLOAD & OPTIMASI (UPLOADER)"):
+            st.markdown("**⏰ Jadwal Emas (Prime Time):**")
+            st.code("Pagi: 10:00 | Siang: 14:00 | Malam: 19:00 WIB", language="text")
+            
+            st.markdown("**📝 Checklist Sebelum Publish:**")
+            st.write("- **Thumbnail:** Gunakan frame paling menarik dari video.")
+            st.write("- **SEO:** Judul harus mengandung Keyword (Minimal 3-5 kata).")
+            st.write("- **Tag:** Masukkan minimal 10 tag relevan.")
+            st.write("- **Interaksi:** Balas minimal 5 komentar pertama setelah upload.")
+
+        # --- 4. SISTEM PELAPORAN ---
+        with st.expander("📊 4. CARA SETOR & LAPOR TUGAS"):
+            st.write("1. Upload file final ke GDrive (Pastikan link sudah 'Anyone with the link').")
+            st.write("2. Copy link GDrive tersebut.")
+            st.write("3. Buka tab `📝 TUGAS KERJA` di sistem ini.")
+            st.write("4. Klik tombol **🔍 Buka Detail** pada ID Tugas yang sesuai.")
+            st.write("5. Tempel link dan klik **🚀 SETOR**.")
 
     # ==============================================================================
     # TAB 3: PERATURAN KERJA
