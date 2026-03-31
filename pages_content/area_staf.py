@@ -585,7 +585,7 @@ def tampilkan_area_staf():
 
         st.caption(f"Terakhir diperbarui: 31 Maret 2026")
 
-# ==============================================================================
+    # ==============================================================================
     # TAB 4: KONTRAK KERJA (PINTAR MEDIA - VERSI LEGAL MUTLAK)
     # ==============================================================================
     with tab_kontrak:
@@ -747,10 +747,11 @@ def tampilkan_area_staf():
                 cg1, cg2 = st.columns([1, 2])
                 cg1.metric("Gaji Pokok", f"Rp {int(gaji_pokok):,}")
                 with cg2:
-                    st.write(f"1. **Gaji Pokok:** Rp {int(gaji_pokok):,}")
-                    st.write(f"2. **Tunjangan Kerja:** Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)")
-                    st.write(f"3. **Bonus Kinerja:** Berdasarkan pencapaian target")
-                    st.write(f"4. **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
+                    st.write(f"1. **Tunjangan Kerja:** Rp 250.000 - Rp 500.000 (Disesuaikan kondisi perusahaan)")
+                    st.write(f"2. **Bonus Kinerja:** Berdasarkan pencapaian target")
+                    st.write(f"3. **Lembur:** Hari Normal (25rb/Jam) | Minggu (100rb/7 Jam)")
+                    st.write(f"4. *Seluruh hak upah, tunjangan, dan bonus disalurkan setiap tanggal 2 s/d 5 melalui sistem transfer bank/e-wallet.*")
+
 
             with st.container(border=True):
                 st.markdown("<h3 style='text-align: center;'>⚖️ PASAL-PASAL KESEPAKATAN</h3>", unsafe_allow_html=True)
