@@ -17,24 +17,6 @@ def kirim_notif_wa(pesan):
 
 def tampilkan_area_staf():
     st.title("📘 Pusat Informasi")
-    # --- 1. SETUP IDENTITAS ---
-    user_aktif = st.session_state.get("user_aktif", "User").upper()
-    user_level = st.session_state.get("user_level", "STAFF").upper()
-    tz = pytz.timezone('Asia/Jakarta')
-    sekarang = datetime.now(tz)
-    
-    # --- 2. AMBIL DATA STAFF DARI SUPABASE (DINAMIS) ---
-    # Kita ambil data terbaru biar kalau ada staf baru/pecat langsung sinkron
-    res_staff = database.supabase.table("Staff").select("Nama, Level").execute()
-    df_staff_db = pd.DataFrame(res_staff.data)
-    
-    # Bikin daftar nama buat dropdown Owner (Kirim Tugas)
-    # Kita ambil yang levelnya bukan OWNER
-    list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
-    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
-
-def tampilkan_area_staf():
-    st.title("📘 Pusat Informasi")
     
     # --- 1. SETUP IDENTITAS ---
     user_aktif = st.session_state.get("user_aktif", "User").upper()
