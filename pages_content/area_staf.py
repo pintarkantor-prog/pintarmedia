@@ -355,29 +355,28 @@ def tampilkan_area_staf():
                 st.write("- **Logistik:** Pantau stok video di HP. Jika sisa <3, segera tagih Editor.")
                 st.write("- **Keuangan:** Catat arus kas kantor dengan akurasi 100%.")
 
-        # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
+        # --- LOGIKA PENAMPILAN (OWNER & ADMIN PAKE RADIO) ---
         if user_level in ["OWNER", "ADMIN"]:
-            # Owner & Admin bisa pilih mau liat panduan siapa
-            pilihan = st.segmented_control(
+            st.markdown("#### 🛠️ Monitoring Panduan Tim")
+            
+            # --- GANTI KE RADIO HORIZONTAL ---
+            pilihan = st.radio(
                 "Pilih Panduan Divisi:", 
                 ["EDITOR", "UPLOADER", "ADMIN"], 
-                default="EDITOR"
+                horizontal=True,
+                label_visibility="collapsed" # Biar lebih rapi, judulnya kita umpetin
             )
+            
             st.divider()
-            if pilihan == "EDITOR": panduan_setor_tugas()
+            
+            # Eksekusi sesuai pilihan radio
+            if pilihan == "EDITOR": 
+                panduan_setor_tugas() # Pake fungsi detail yang kita buat tadi
             elif pilihan == "UPLOADER": 
                 panduan_ritual_upload()
                 panduan_rawat_hp()
-            elif pilihan == "ADMIN": panduan_kontrol_admin()
-            
-        elif user_level == "STAFF": # Editor
-            st.info("Pusat Informasi untuk Editor AI")
-            panduan_setor_tugas()
-            
-        elif user_level == "UPLOADER":
-            st.info("Pusat Informasi untuk Uploader Konten")
-            panduan_ritual_upload()
-            panduan_rawat_hp()
+            elif pilihan == "ADMIN": 
+                panduan_kontrol_admin()
             
         # Panduan Keamanan (Wajib buat SEMUA ORANG)
         st.divider()
