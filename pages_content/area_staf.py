@@ -491,11 +491,41 @@ def tampilkan_area_staf():
 
         st.write("") 
 
-        # --- CARD 2: PENGGAJIAN & APRESIASI ---
+        # --- CARD 2: PENGGAJIAN & APRESIASI (DINAMIS + TUNJANGAN) ---
         with st.container(border=True):
             st.markdown("#### 💰 SISTEM PENGGAJIAN & APRESIASI KINERJA")
-            st.write("**📅 Periode Pembayaran:** Hak upah, tunjangan, dan bonus disalurkan tanggal 2 s/d 5 setiap bulannya.")
-            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan, Bonus Kinerja, dan Bonus Lembur.")
+            
+            # --- LOGIKA PENENTUAN GAJI & TUNJANGAN (Sesuai Level) ---
+            # Silahkan ganti angka Gapok di bawah ini sesuai deal-dealan lo, Dian.
+            if user_level == "EDITOR":
+                gapok_display = "Rp 2.500.000"
+            elif user_level == "UPLOADER":
+                gapok_display = "Rp 1.500.000"
+            elif user_level == "ADMIN":
+                gapok_display = "Rp 2.500.000"
+            else:
+                gapok_display = "Rp -, -"
+
+            # Tunjangan Kerja Fleksibel
+            tunjangan_display = "Rp 250.000 - Rp 500.000"
+
+            col_gaji1, col_gaji2 = st.columns(2)
+            
+            with col_gaji1:
+                st.success(f"💵 **Penghasilan Bulanan ({user_level}):**")
+                st.markdown(f"**Gaji Pokok:** {gapok_display}")
+                st.markdown(f"**Tunjangan Kerja:** {tunjangan_display}")
+                st.caption("*(Tunjangan disesuaikan dengan kondisi perusahaan)*")
+                st.write("**📅 Periode:** Cair Tanggal 2 s/d 5 tiap bulan.")
+
+            with col_gaji2:
+                st.info("⏲️ **Bonus Lembur:**")
+                st.write("**• Senin - Sabtu:** Rp 25.000 / Jam")
+                st.write("**• Minggu / Tgl Merah:** Rp 100.000 / 7 Jam")
+                st.write("**📊 Struktur:** Gaji Pokok + Tunjangan + Bonus Kinerja + Lembur.")
+
+            st.divider()
+            st.warning("⚠️ **Catatan:** Pembayaran hak upah dilakukan secara transparan sesuai rekap data di sistem.")
 
         st.write("")
 
