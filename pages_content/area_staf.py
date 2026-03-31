@@ -323,21 +323,21 @@ def tampilkan_area_staf():
                     st.write("**Target:** Video rutin harian untuk stok HP.")
                     st.write("**Langkah Kerja:**")
                     st.write("- **Tidak perlu** input data ke sistem/web ini.")
-                    st.write("- Copy file video langsung dari Laptop ke **Flashdisk (FD)**.")
-                    st.write("- Serahkan FD ke **Admin** untuk proses QC & pindah ke HP.")
+                    st.write("- Copy file video langsung dari PC ke **Flashdisk (FD)**.")
                     st.write("- Pastikan file tercopy sempurna sebelum mencabut FD.")
+                    st.write("- Serahkan FD ke **Admin** untuk proses QC & pindah ke folder Stok.")
 
                 with col_jalur2:
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
                     st.write("**Target:** Instruksi khusus dari Owner di Tab Tugas.")
                     st.write("**Langkah Kerja:**")
-                    st.write("- Upload file ke **Google Drive** kantor (Folder Project).")
+                    st.write("- Upload file ke **Google Drive** (Folder Project).")
                     st.write("- Setting link ke: *'Anyone with the link'*.")
                     st.write("- Buka Tab **TUGAS KERJA** di web ini, cari ID tugasmu.")
-                    st.write("- Klik **🔍 Buka Detail**, tempel link, lalu klik **SETOR**.")
+                    st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
                 st.divider()
-                st.warning("⚠️ **WAJIB:** Setelah setor (via FD atau Web), langsung lapor di Grup WA Kerja agar Admin bisa segera melakukan Quality Control (QC)!")
+                st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
 
         def panduan_ritual_upload():
             with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM", expanded=True):
