@@ -71,16 +71,18 @@ def tampilkan_area_staf():
         "ADMIN": {
             "judul": "ADMIN", "ikon": "📊",
             "rutinitas": [
-                "QC semua setoran video Editor.",
-                "Input data pengeluaran harian.",
-                "Update database channel & HP.",
-                "Rekap absensi & bonus mingguan."
+                "Memastikan channel standby selalu update.",
+                "Update dan Rekap database channel & HP ( Hapus Login ).",
+                "Update stok video di masing-masing HP.",
+                "Memastikan kegiatan operasional kantor berjalan efektif dan efisien.",
+                "Tugas lain disesuaikan kebutuhan kantor."
             ],
             "sop": [
-                "**QC:** Cek Visual, Audio, & Watermark.",
-                "**Database:** Data wajib real-time.",
-                "**Payroll:** Akurasi data 100% (No Error).",
-                "**Koordinasi:** Pastikan slot upload terisi."
+                "Cek stok channel, video, kuota, listrik, dll.",
+                "Data Channel wajib selalu update ( real-time ).",
+                "Mencatat arus kas operasional kantor.",
+                "Akurasi data channel dan keuangan 100% (No Error).",
+                "Selalu koordinasi dengan staff lain terkait stok video, jadwal, channel, dll."
             ]
         }
     }
