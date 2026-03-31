@@ -33,32 +33,52 @@ def tampilkan_area_staf():
     list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
     foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
-    # --- 3. DATABASE KETENTUAN (SOP) ---
-    ketentuan = {
+    # --- 3. DATABASE KETENTUAN (PISAH RUTINITAS & SOP) ---
+    data_kerja = {
         "STAFF": { 
-            "judul": "STANDAR PRODUKSI EDITOR", "ikon": "🎬",
-            "poin": [
-                "**Kualitas Visual:** Minimal 1080p Full HD.",
-                "**Aspect Ratio:** Format 9:16 (1080x1920).",
-                "**Durasi:** Minimal 60 detik (Padat & No Filler).",
-                "**Audio & SFX:** Wajib Copyright-Free.",
-                "**Backup:** Simpan aset mentah minimal 3 hari."
+            "judul": "EDITOR", "ikon": "🎬",
+            "rutinitas": [
+                "Produksi minimal 3 Video AI per hari.",
+                "Setor hasil ke folder GDrive Project.",
+                "Update status tugas di tabel progres.",
+                "Backup aset mentah ke storage lokal."
+            ],
+            "sop": [
+                "**Kualitas:** Minimal 1080p Full HD.",
+                "**Ratio:** Format 9:16 (Vertical).",
+                "**Durasi:** Min. 60 detik (No Filler).",
+                "**Audio:** Wajib Copyright-Free.",
+                "**Naming:** TGL_NAMA_JUDUL.mp4"
             ]
         },
         "UPLOADER": {
-            "judul": "STANDAR OPERASIONAL UPLOADER", "ikon": "📲",
-            "poin": [
-                "**Jadwal Upload:** 3x sehari (10:00, 14:00, 19:00).",
-                "**Optimasi SEO:** Judul, Tag, & Deskripsi unik.",
-                "**Interaksi:** Balas komentar di 1 jam pertama."
+            "judul": "UPLOADER", "ikon": "📲",
+            "rutinitas": [
+                "Upload 3 konten harian tepat waktu.",
+                "Cek interaksi & balas komentar.",
+                "Monitoring performa video harian.",
+                "Lapor status kesehatan akun."
+            ],
+            "sop": [
+                "**Jadwal:** 10:00, 14:00, dan 19:00 WIB.",
+                "**SEO:** Judul & Deskripsi unik harian.",
+                "**Thumbnail:** High-Contrast & No-Clickbait.",
+                "**Copyright:** Cek status setelah 1 jam upload."
             ]
         },
         "ADMIN": {
-            "judul": "STANDAR KONTROL ADMIN", "ikon": "📊",
-            "poin": [
-                "**QC Video:** Pastikan setoran sesuai Standar Produksi.",
-                "**Database:** Update Riwayat & Arsip Tugas real-time.",
-                "**Payroll:** Rekap Bonus & Absensi mingguan."
+            "judul": "ADMIN", "ikon": "📊",
+            "rutinitas": [
+                "QC semua setoran video Editor.",
+                "Input data pengeluaran harian.",
+                "Update database channel & HP.",
+                "Rekap absensi & bonus mingguan."
+            ],
+            "sop": [
+                "**QC:** Cek Visual, Audio, & Watermark.",
+                "**Database:** Data wajib real-time.",
+                "**Payroll:** Akurasi data 100% (No Error).",
+                "**Koordinasi:** Pastikan slot upload terisi."
             ]
         }
     }
@@ -72,26 +92,37 @@ def tampilkan_area_staf():
     # ==============================================================================
     with tab_tugas:        
         # --- A. RUTINITAS (OTOMATIS SESUAI LEVEL DATABASE) ---
-        st.markdown("#### 🕒 Rutinitas & Standar Kerja")
+        st.markdown("#### 🕒 Rutinitas Harian & Standar Kerja")
         
+        # --- A. TAMPILAN DINAMIS (2 CARD MODEL) ---
         if user_level in ["OWNER", "ADMIN"]:
-            cols_r = st.columns(3)
-            with cols_r[0]:
-                st.success("🎬 **EDITOR**")
-                for p in ketentuan["STAFF"]["poin"]: st.markdown(f"• {p}")
-            with cols_r[1]:
-                st.info("📲 **UPLOADER**")
-                for p in ketentuan["UPLOADER"]["poin"]: st.markdown(f"• {p}")
-            with cols_r[2]:
-                st.warning("📊 **ADMIN**")
-                for p in ketentuan["ADMIN"]["poin"]: st.markdown(f"• {p}")
+            # Tampilan Grid buat Bos & Admin (Lihat Semua)
+            st.markdown("#### 🕒 Monitoring Standar Tim")
+            for lvl, data in data_kerja.items():
+                with st.expander(f"{data['ikon']} **KONTROL {data['judul']}**", expanded=(lvl=="STAFF")):
+                    c1, c2 = st.columns(2)
+                    with c1:
+                        st.info("📌 **RUTINITAS HARIAN**")
+                        for r in data['rutinitas']: st.markdown(f"- {r}")
+                    with c2:
+                        st.success("🛠️ **STANDAR OPERASIONAL (SOP)**")
+                        for s in data['sop']: st.markdown(f"- {s}")
         else:
-            # Staff hanya lihat card sesuai Level mereka di database
-            data = ketentuan.get(user_level)
+            # Tampilan 2 Card Berjajar buat Staf (Fokus)
+            st.markdown("#### 🕒 Tugas & Standar Anda")
+            data = data_kerja.get(user_level)
             if data:
-                with st.container(border=True):
-                    st.success(f"{data['ikon']} **{data['judul']}**")
-                    for p in data['poin']: st.markdown(f"• {p}")
+                col_rutinitas, col_sop = st.columns(2)
+                with col_rutinitas:
+                    with st.container(border=True):
+                        st.markdown(f"### 📌 Rutinitas {data['judul']}")
+                        for r in data['rutinitas']:
+                            st.markdown(f"✅ {r}")
+                with col_sop:
+                    with st.container(border=True):
+                        st.markdown(f"### 🛠️ Standar Kualitas")
+                        for s in data['sop']:
+                            st.markdown(f"⭐ {s}")
 
         st.divider()
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
