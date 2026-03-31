@@ -27,7 +27,6 @@ def tampilkan_kendali_tim():
         if st.button("🔄 REFRESH DATA", use_container_width=True):
             with st.spinner("⏳ Menghubungkan ke Pusat Data..."):
                 st.cache_data.clear()
-                time.sleep(1.5)
                 st.rerun()
 
     c_bln, c_thn = st.columns([2, 2])
