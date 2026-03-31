@@ -589,7 +589,7 @@ def tampilkan_area_staf():
     # TAB 4: KONTRAK KERJA (KONEKSI SUPABASE)
     # ==============================================================================
     with tab_kontrak:
-        # 1. DEFINISI MAPPING NAMA ASLI
+        # --- 1. MAPPING & DATABASE LOGIC ---
         staff_mapping = {
             "nissa": "Nisaul Mukaromah Alfiyaeni",
             "lisa": "Salisatu Rohmatus Saodah",
@@ -597,12 +597,10 @@ def tampilkan_area_staf():
             "inggi": "Rizki Retno Inggiani",
             "dian": "Dian Setya Wardana"
         }
-        
         nama_lengkap_staf = staff_mapping.get(user_aktif.lower(), user_aktif.upper())
         
-        # 2. TARIK DATA DARI SUPABASE (Filter Kolom 'Nama')
         try:
-            res_staff = supabase.table("Staff").select("*").eq("Nama", nama_lengkap_staf).execute()
+            res_staff = supabase.table("Staff").select("*").eq("Nama", user_aktif.upper()).execute()
             if res_staff.data:
                 s_data = res_staff.data[0]
                 gaji_pokok = s_data.get("Gaji_Pokok", 0)
@@ -610,78 +608,102 @@ def tampilkan_area_staf():
                 jabatan_db = s_data.get("Jabatan", user_level)
             else:
                 gaji_pokok, tunjangan, jabatan_db = 0, 0, user_level
-        except Exception as e:
-            st.error(f"Gagal koneksi data Staff: {e}")
+        except:
             gaji_pokok, tunjangan, jabatan_db = 0, 0, user_level
 
-        # Data Legalitas
-        nama_direktur = "Dian Setya Wardana"
-        nomor_ahu = "AHU-011181.AH.01.31.Tahun 2025"
         periode_skrg = sekarang.strftime('%m-%Y')
 
-        st.markdown(f"### 📜 Dokumen Perjanjian Kemitraan")
+        # --- TAMPILAN UTAMA ---
+        st.markdown("<h2 style='text-align: center; color: #fffdff;'>📜 SURAT PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
+        st.markdown(f"<p style='text-align: center; color: #888;'>Nomor: {periode_skrg}/PM/KONTRAK/{user_aktif.upper()}</p>", unsafe_allow_html=True)
+        st.write("---")
 
-        # --- CARD 1: IDENTITAS PARA PIHAK ---
+        # --- CARD 1: PARA PIHAK (PIHAK KEDUA DULU) ---
+        c_pihak2, c_pihak1 = st.columns(2)
+        with c_pihak2:
+            with st.container(border=True):
+                st.markdown("### 👤 PIHAK KEDUA (MITRA)")
+                st.markdown(f"**Nama Lengkap:** {nama_lengkap_staf}")
+                st.markdown(f"**Jabatan:** {jabatan_db}")
+                st.markdown(f"**ID Staff:** {user_aktif.upper()}")
+                st.caption("Selanjutnya disebut sebagai Penerima Kerja.")
+
+        with c_pihak1:
+            with st.container(border=True):
+                st.markdown("### 🏢 PIHAK PERTAMA (OWNER)")
+                st.markdown(f"**Nama Lengkap:** Dian Setya Wardana")
+                st.markdown("**Perusahaan:** PINTAR MEDIA")
+                st.markdown("**No. AHU:** AHU-011181.AH.01.31.2025")
+                st.caption("Selanjutnya disebut sebagai Pemberi Kerja.")
+
+        # --- CARD 2: PENGHASILAN (DIBUAT ELEGAN) ---
         with st.container(border=True):
-            col_p1, col_p2 = st.columns(2)
-            with col_p1:
-                st.write("**PIHAK PERTAMA (Owner):**")
-                st.markdown(f"#### {nama_direktur}")
-                st.caption(f"No. AHU: {nomor_ahu}")
-            with col_p2:
-                st.write("**PIHAK KEDUA (Mitra):**")
-                st.markdown(f"#### {nama_lengkap_staf}")
-                st.caption(f"Jabatan: {jabatan_db} | ID: {user_aktif}")
+            st.markdown("### 💰 I. PENGHASILAN & PENGGAJIAN")
+            g_col1, g_col2, g_col3 = st.columns(3)
+            g_col1.metric("Gaji Pokok", f"Rp {int(gaji_pokok):,}")
+            g_col2.metric("Tunjangan", f"Rp {int(tunjangan):,}")
+            g_col3.metric("Lembur/Bonus", "Sesuai Target")
+            st.caption("*) Pembayaran dilakukan setiap tanggal 2 s/d 5 melalui sistem transfer bank/e-wallet.")
 
-        # --- CARD 2: PENGHASILAN & PENGGAJIAN (Dinamis) ---
+        # --- CARD 3: KLAUSUL LEGAL (SATU CARD FULL) ---
         with st.container(border=True):
-            st.markdown("#### 💰 PENGHASILAN & PENGGAJIAN")
-            c_g1, c_g2 = st.columns(2)
-            with c_g1:
-                st.write(f"**Gaji Pokok:** Rp {int(gaji_pokok):,}")
-                st.write(f"**Tunjangan Kerja:** Rp {int(tunjangan):,}")
-            with c_g2:
-                st.write("**Bonus Performa:** Disesuaikan Target")
-                st.write("**Lembur:** Sesuai Prosedur Operasional")
-            st.caption("*(Seluruh penghasilan dibayarkan melalui sistem transfer pada tanggal 2 s/d 5)*")
+            st.markdown("<h3 style='text-align: center;'>PASAL-PASAL KESEPAKATAN KEMITRAAN</h3>", unsafe_allow_html=True)
+            st.divider()
 
-        # --- CARD 3: KLAUSUL PERJANJIAN (DIPERBANYAK & DIPERJELAS) ---
-        with st.container(border=True):
-            st.markdown("#### ⚖️ KLAUSUL & KETENTUAN KEMITRAAN")
-            
-            with st.expander("📌 I. STATUS & KEBERLANJUTAN PROYEK", expanded=True):
-                st.write("1. Hubungan kerja bersifat **Kemitraan Lepas (Project-Based)**, bukan karyawan tetap.")
-                st.write("2. Mitra memahami bahwa proyek ini sangat dinamis dan bergantung pada kebijakan platform pihak ketiga (YouTube/AI/Medsos).")
-                st.error("3. **KLAUSUL REM DARURAT:** Owner berhak menghentikan atau menunda proyek secara sepihak jika terjadi penurunan tren, perubahan algoritma, atau masalah teknis pada resource perusahaan.")
+            # PASAL 1
+            st.markdown("#### **PASAL 1: STATUS HUBUNGAN KERJA**")
+            st.write("""
+            1. Hubungan hukum antara Pihak Pertama dan Pihak Kedua adalah hubungan **Kemitraan Lepas (Freelance/Project-Based)**.
+            2. Pihak Kedua tidak memiliki status sebagai karyawan tetap, sehingga Pihak Pertama tidak berkewajiban memberikan tunjangan hari tua, pesangon, atau jaminan sosial di luar kesepakatan tertulis.
+            3. Perjanjian ini berlaku selama proyek **PINTAR MEDIA** berjalan dan performa Pihak Kedua memenuhi standar evaluasi bulanan.
+            """)
 
-            with st.expander("📌 II. SISTEM PEMBAYARAN & SANKSI", expanded=False):
-                st.write("1. Pembayaran upah dihitung secara **Pro-rata** jika proyek berhenti di tengah bulan berjalan.")
-                st.write("2. Owner berhak melakukan pemotongan upah jika ditemukan kelalaian kerja yang menyebabkan kerugian pada aset digital atau fisik perusahaan.")
-                st.write("3. Bonus Kinerja bersifat non-tetap dan merupakan hak prerogatif Owner.")
+            # PASAL 2
+            st.markdown("#### **PASAL 2: KLAUSUL REM DARURAT & FORCE MAJEURE**")
+            st.write(f"""
+            1. Mengingat jenis pekerjaan ini sangat bergantung pada kebijakan platform pihak ketiga (YouTube, AI Provider, Media Sosial), Pihak Pertama berhak **menghentikan, menunda, atau mengakhiri** kemitraan secara sepihak jika terjadi perubahan algoritma, penutupan akses resource AI, atau penurunan tren pasar.
+            2. Dalam hal terjadi penghentian proyek sebagaimana dimaksud pada ayat (1), maka Pihak Kedua setuju bahwa pembayaran upah akan dilakukan secara **PRO-RATA** (Hanya membayar sesuai jumlah hari atau jumlah video yang telah selesai diproduksi hingga hari penghentian).
+            3. Pihak Kedua membebaskan Pihak Pertama dari segala tuntutan ganti rugi atau pesangon jika proyek dihentikan karena faktor-faktor tersebut di atas.
+            """)
 
-            with st.expander("📌 III. KERAHASIAAN DATA & INTELEKTUAL (STRICT)", expanded=False):
-                st.write("1. **Dilarang Keras** menyebarkan, menjual, atau memberikan 'Prompt AI' milik PINTAR MEDIA kepada pihak manapun.")
-                st.write("2. Seluruh hasil produksi (Video/Audio/Script) adalah milik sah perusahaan.")
-                st.write("3. Pelanggaran kerahasiaan data akan ditindak tegas melalui jalur hukum atau denda materiil.")
+            # PASAL 3
+            st.markdown("#### **PASAL 3: KERAHASIAAN NEGARA & KEKAYAAN INTELEKTUAL**")
+            st.error("""
+            1. Pihak Kedua wajib menjaga kerahasiaan seluruh metode kerja, alur produksi, dan terutama **PROMPT AI** yang digunakan oleh PINTAR MEDIA.
+            2. Pihak Kedua **DILARANG KERAS** menyebarkan, menjual, atau membocorkan Prompt AI tersebut kepada pihak manapun, baik selama masa kontrak maupun setelah kontrak berakhir.
+            3. Seluruh hasil karya berupa Video HQ, Script, Voiceover, dan Aset Digital lainnya adalah milik sah Pihak Pertama.
+            4. Pelanggaran terhadap pasal ini akan ditindaklanjuti melalui jalur hukum pidana/perdata dan dikenakan denda materiil sebesar kerugian yang dialami perusahaan.
+            """)
 
-            with st.expander("📌 IV. PENGGUNAAN & PENGEMBALIAN ASET", expanded=False):
-                st.write("1. Mitra bertanggung jawab penuh atas keamanan Smartphone/Laptop kantor yang diamanahkan.")
-                st.write("2. **Dilarang** mengubah informasi akun premium (Email/Password) tanpa izin tertulis Admin.")
-                st.write("3. Apabila kemitraan berakhir, Mitra wajib mengembalikan aset dalam waktu 1x24 jam dalam kondisi baik. Keterlambatan pengembalian akan dikenakan sanksi harian.")
+            # PASAL 4
+            st.markdown("#### **PASAL 4: TANGGUNG JAWAB ASSET INVENTARIS**")
+            st.write("""
+            1. Pihak Kedua bertanggung jawab penuh atas pemeliharaan Smartphone, Laptop, atau peralatan kantor lainnya yang dipinjamkan.
+            2. Segala bentuk kerusakan fisik (Layar pecah, terkena air, hilang) akibat kelalaian Pihak Kedua wajib diganti rugi secara penuh oleh Pihak Kedua.
+            3. Pihak Kedua **Dilarang Keras** mengubah kredensial akun (Email/Password/Profile) pada akun-akun premium (Canva, ChatGPT, Midjourney, dll) tanpa izin Admin.
+            4. Saat hubungan kemitraan berakhir, Pihak Kedua wajib mengembalikan aset inventaris dalam waktu maksimal **1x24 Jam** dalam kondisi fungsional.
+            """)
 
-        st.write("")
+            # PASAL 5
+            st.markdown("#### **PASAL 5: ETIKA KERJA & EVALUASI**")
+            st.write("""
+            1. Pihak Kedua wajib mematuhi Jam Operasional yang telah ditentukan (Shift 1 / Shift 2).
+            2. Pihak Kedua wajib menjaga kualitas hasil produksi (Video High Quality) sesuai dengan standar yang ditetapkan Admin.
+            3. Pihak Kedua dilarang menggunakan perangkat kantor untuk kepentingan hiburan pribadi (Game, Media Sosial Pribadi) yang dapat menurunkan ritme produktivitas tim.
+            4. Pihak Pertama berhak memutuskan kontrak secara sepihak jika Pihak Kedua melanggar etika kerja atau tidak mencapai target minimal selama 3 hari berturut-turut.
+            """)
 
-        # --- 4. LOGIKA TANDA TANGAN ---
+        # --- CARD 4: TANDA TANGAN ---
         res_ttd = supabase.table("kontrak_staff").select("*").eq("username", user_aktif).eq("periode", periode_skrg).execute()
         
         if len(res_ttd.data) > 0:
             d = res_ttd.data[0]
-            st.success(f"✅ Kontrak ini telah disetujui digital oleh **{nama_lengkap_staf}** pada {d['tgl_tanda_tangan']} | {d['waktu_presisi']}")
+            st.success(f"✔️ **DOKUMEN DISAHKAN SECARA DIGITAL**\n\nNama: {nama_lengkap_staf} | Tanggal: {d['tgl_tanda_tangan']} | Jam: {d['waktu_presisi']}")
         else:
-            st.error("⚠️ Dokumen ini wajib disetujui untuk melanjutkan akses pekerjaan.")
-            setuju = st.checkbox(f"Saya, {nama_lengkap_staf}, menyatakan telah membaca dan menyetujui seluruh klausul di atas tanpa paksaan.")
+            st.error("❗ Anda diwajibkan memberikan persetujuan digital untuk dapat melanjutkan akses ke Dashboard Kerja.")
+            setuju = st.checkbox(f"Saya, {nama_lengkap_staf}, menyetujui seluruh ketentuan PINTAR MEDIA di atas tanpa paksaan.")
             
-            if st.button("🖋️ TANDA TANGANI KONTRAK DIGITAL", disabled=not setuju, use_container_width=True):
+            if st.button("🖊️ TANDA TANGANI KONTRAK SEKARANG", disabled=not setuju, use_container_width=True):
                 try:
                     payload = {
                         "username": user_aktif,
@@ -691,7 +713,7 @@ def tampilkan_area_staf():
                         "waktu_presisi": sekarang.strftime('%H:%M:%S')
                     }
                     supabase.table("kontrak_staff").insert(payload).execute()
-                    st.success("Tanda tangan terekam! Halaman akan dimuat ulang...")
+                    st.success("Kontrak Berhasil Ditandatangani!")
                     st.rerun()
                 except Exception as e:
-                    st.error(f"Gagal memproses tanda tangan: {e}")
+                    st.error(f"Gagal merekam: {e}")
