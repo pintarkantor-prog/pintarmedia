@@ -33,17 +33,16 @@ def get_otpnum_api(server_url, endpoint, params):
     except Exception as e: return {"success": False, "message": str(e)}
 
 def tampilkan_database_channel():
-    # --- 1. PROTEKSI LEVEL AKSES (HANYA OWNER & ADMIN) ---
-    level_aktif = st.session_state.get("user_level", "STAFF")
+    # --- 1. PROTEKSI LEVEL AKSES (DOUBLE LOCK) ---
+    level_aktif = str(st.session_state.get("user_level", "STAFF")).upper().strip()
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     
-    # Cek apakah user punya otoritas
     if level_aktif not in ["OWNER", "ADMIN"]:
-        st.error("🚫 AKSES DITOLAK!")
-        st.info("Halaman ini hanya dapat diakses oleh Admin.")
-        st.stop() # Menghentikan seluruh proses render ke bawah
+        st.error(f"🚫 AKSES DITOLAK, {user_aktif}!")
+        st.info("Halaman ini berisi data sensitif akun PINTAR MEDIA.")
+        st.stop() 
 
-    # --- 2. HEADER & SETUP ---
+    # --- 2. HEADER & SETUP (Hanya jalan jika lolos sensor di atas) ---
     st.title("📱 DATABASE CHANNEL")
     tz = pytz.timezone('Asia/Jakarta') 
 
