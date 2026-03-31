@@ -122,7 +122,7 @@ def cek_autentikasi():
 
 # --- 4. NAVIGASI SIDEBAR ---
 def tampilkan_navigasi_sidebar():
-    user_level = st.session_state.get("user_level", "STAFF")
+    user_level = st.session_state.get("user_level", "STAFF").upper() # Pastikan UPPER
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
     
     with st.sidebar:
@@ -133,8 +133,13 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📘 AREA STAF"]
+        # --- KUNCI SIDEBAR: Menu Dasar untuk Semua ---
+        menu_list = ["🧠 PINTAR AI LAB", "📘 AREA STAF"]
+        
+        # --- KUNCI OWNER & ADMIN: Tambah Menu Rahasia ---
         if user_level in ["OWNER", "ADMIN"]:
+            # Kita sisipkan di tengah atau akhir sesuai selera lo
+            menu_list.insert(1, "📱 DATABASE CHANNEL") 
             menu_list.append("⚡ KENDALI TIM")
 
         pilihan = st.radio("COMMAND_MENU", menu_list, label_visibility="collapsed")
@@ -159,34 +164,32 @@ if not cek_autentikasi():
     halaman_login()
 else:
     menu = tampilkan_navigasi_sidebar()
+    user_level = st.session_state.get("user_level", "STAFF").upper()
 
     # ROUTING HALAMAN
     if menu == "🧠 PINTAR AI LAB":
         ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
-        # Lazy Loading: Hanya import saat menu diklik agar web kencang
-        try:
-            from pages_content import database_channel
-            database_channel.tampilkan_database_channel()
-        except Exception as e:
-            st.title("📱 Database Channel")
-            st.error(f"Gagal memuat halaman: {e}")
+        # PROTEKSI EKSTRA: Biar Staff gak bisa tembak URL/Menu
+        if user_level in ["OWNER", "ADMIN"]:
+            try:
+                from pages_content import database_channel
+                database_channel.tampilkan_database_channel()
+            except Exception as e:
+                st.error(f"Gagal memuat halaman: {e}")
+        else:
+            st.error("🚫 Akses Ditolak!")
 
     elif menu == "📘 AREA STAF":
-        # Lazy Loading: Hanya import saat menu diklik agar performa stabil
-        try:
-            from pages_content import area_staf
-            area_staf.tampilkan_area_staf()
-        except Exception as e:
-            st.title("📘 Area Staf")
-            st.error(f"Gagal memuat halaman staf: {e}")
+        area_staf.tampilkan_area_staf()
 
     elif menu == "⚡ KENDALI TIM":
-        # Lazy Loading: Tarik menu keuangan pas diklik biar studio tetep enteng
-        try:
-            from pages_content import kendali_tim
-            kendali_tim.tampilkan_kendali_tim()
-        except Exception as e:
-            st.title("⚡ Kendali Tim")
-            st.error(f"Gagal memuat sistem keuangan: {e}")
+        if user_level in ["OWNER", "ADMIN"]:
+            try:
+                from pages_content import kendali_tim
+                kendali_tim.tampilkan_kendali_tim()
+            except Exception as e:
+                st.error(f"Gagal memuat sistem: {e}")
+        else:
+            st.error("🚫 Akses Ditolak!")
