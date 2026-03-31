@@ -729,7 +729,7 @@ def tampilkan_area_staf():
                     </script>
                 """, height=0)
         else:
-            st.warning(f"🚨 **ADMINISTRASI WAJIB:** Anda wajib menyetujui kontrak kemitraan periode **{periode_skrg}**.")
+            st.warning(f"🚨 **ADMINISTRASI WAJIB:** Anda belum menyetujui kontrak kemitraan periode **{periode_skrg}**.")
             
             # --- TAMPILAN LAYAR (FULL TEXT TANPA SINGKATAN) ---
             st.markdown("<h2 style='text-align: center;'>📜 SURAT PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
