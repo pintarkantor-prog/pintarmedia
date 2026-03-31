@@ -5,7 +5,7 @@ import time
 import os
 from datetime import timedelta
 from modules import database
-from pages_content import ai_lab
+from pages_content import ai_lab, area_staf, database_channel, kendali_tim
 
 # --- FUNGSI PANGGIL CSS ---
 def local_css(file_name):
@@ -166,35 +166,21 @@ else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # ROUTING HALAMAN
+    # ROUTING HALAMAN (Panggil Fungsi Langsung, Gak Pake Import Lagi)
     if menu == "🧠 PINTAR AI LAB":
         ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
-        # PROTEKSI EKSTRA: Biar Staff gak bisa tembak URL/Menu
         if user_level in ["OWNER", "ADMIN"]:
-            try:
-                from pages_content import database_channel
-                database_channel.tampilkan_database_channel()
-            except Exception as e:
-                st.error(f"Gagal memuat halaman: {e}")
+            database_channel.tampilkan_database_channel()
         else:
             st.error("🚫 Akses Ditolak!")
 
     elif menu == "📘 AREA STAF":
-        try:
-            # PENTING: Import di sini kalau lo gak import di atas
-            from pages_content import area_staf 
-            area_staf.tampilkan_area_staf()
-        except Exception as e:
-            st.error(f"Gagal memuat halaman staf: {e}")
+        area_staf.tampilkan_area_staf()
 
     elif menu == "⚡ KENDALI TIM":
         if user_level in ["OWNER", "ADMIN"]:
-            try:
-                from pages_content import kendali_tim
-                kendali_tim.tampilkan_kendali_tim()
-            except Exception as e:
-                st.error(f"Gagal memuat sistem: {e}")
+            kendali_tim.tampilkan_kendali_tim()
         else:
             st.error("🚫 Akses Ditolak!")
