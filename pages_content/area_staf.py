@@ -118,7 +118,7 @@ def tampilkan_area_staf():
         
         else:
             # --- B. TAMPILAN STAFF (OTOMATIS) ---
-            st.markdown("#### 🕒 Tugas & Standar Anda")
+            st.markdown(f"#### 🕒 Tugas & Standar Kerja {user_aktif}")
             data = data_kerja.get(user_level)
             if data:
                 c1, c2 = st.columns(2)
