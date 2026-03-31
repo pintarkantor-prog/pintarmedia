@@ -589,60 +589,66 @@ def tampilkan_area_staf():
     # TAB 4: KONTRAK KERJA (KONEKSI SUPABASE)
     # ==============================================================================
     with tab_kontrak:
-        st.markdown(f"### 📜 Detail Kontrak Kerja Sama")
+        st.markdown(f"### 📜 Dokumen Kesepakatan Kemitraan")
         
         # --- 1. AMBIL DATA DARI SUPABASE ---
-        # Cek apakah user ini sudah tanda tangan untuk periode bulan ini
-        periode_skrg = sekarang.strftime('%m-%Y') # Hasil: 04-2026
-        
-        res_kontrak = supabase.table("kontrak_staff")\
-            .select("*")\
-            .eq("username", user_aktif)\
-            .eq("periode", periode_skrg)\
-            .execute()
-        
+        periode_skrg = sekarang.strftime('%m-%Y')
+        res_kontrak = supabase.table("kontrak_staff").select("*").eq("username", user_aktif).eq("periode", periode_skrg).execute()
         sudah_ttd = len(res_kontrak.data) > 0
 
-        # --- 2. TAMPILAN KONTRAK (MODEL CARD) ---
+        # --- CARD 1: IDENTITAS MITRA ---
         with st.container(border=True):
-            st.markdown(f"#### 📝 Ringkasan Kesepakatan: {user_aktif}")
-            st.write(f"🏷️ **Posisi:** {user_level} | 📅 **Periode:** {periode_skrg}")
-            st.info("💡 **Status Kerja:** Kemitraan Lepas (Part-Time / Project-Based).")
+            c1, c2 = st.columns(2)
+            with c1:
+                st.write(f"👤 **Pihak Kedua (Mitra):** {user_aktif}")
+                st.write(f"🏷️ **Posisi:** {user_level}")
+            with c2:
+                st.write(f"📅 **Periode Kontrak:** {periode_skrg}")
+                st.write(f"🏛️ **Pihak Pertama:** Owner PINTAR MEDIA")
+
+        # --- CARD 2: KLAUSUL OPERASIONAL & REM DARURAT (Gue Pertegas di Sini) ---
+        with st.container(border=True):
+            st.markdown("#### ⚖️ Ketentuan & Klausul Penting")
             
-            with st.expander("🔍 Baca Detail Klausul Kontrak", expanded=not sudah_ttd):
-                st.warning("⚠️ **Klausul Darurat:** Owner berhak menunda/menghentikan proyek jika terjadi perubahan tren/kebijakan platform.")
-                st.write("- Upah dihitung **Pro-rata** jika proyek berhenti di tengah periode.")
-                st.write("- Seluruh aset (HP/Akun) wajib dikembalikan 1x24 jam setelah kontrak berakhir.")
+            # Sub-Card: Status Kerja
+            with st.container(border=True):
+                st.write("**A. Status Hubungan Kerja**")
+                st.write("Hubungan kerja bersifat **Kemitraan Lepas (Project-Based)**. Mitra memahami bahwa ini bukan ikatan karyawan tetap, dan keberlanjutan proyek bergantung sepenuhnya pada ketersediaan resource dan kondisi market.")
+
+            # Sub-Card: Klausul Darurat (Rem Darurat Dian)
+            with st.container(border=True):
+                st.error("**B. Klausul Penghentian Proyek (Rem Darurat)**")
+                st.write("1. Owner berhak menghentikan atau menunda proyek secara sepihak jika terjadi force majeure, perubahan kebijakan platform (YT/AI), atau penurunan performa bisnis.")
+                st.write("2. Jika proyek berhenti, upah akan dibayarkan secara **Pro-rata** (Hanya hari yang dijalankan).")
+                st.write("3. Tidak ada kewajiban pesangon atau ganti rugi jika proyek dihentikan karena faktor eksternal tersebut.")
+
+            # Sub-Card: Kerahasiaan & Aset
+            with st.container(border=True):
+                st.warning("**C. Integritas Data & Aset**")
+                st.write("- Mitra wajib menjaga kerahasiaan **Prompt AI** dan metode kerja internal.")
+                st.write("- Seluruh aset (HP/Akun) wajib dikembalikan dalam kondisi 100% baik saat kerja sama berakhir.")
 
         st.write("")
 
-        # --- 3. LOGIKA TOMBOL TANDA TANGAN ---
+        # --- 3. LOGIKA TANDA TANGAN ---
         if sudah_ttd:
-            # Jika sudah tanda tangan, tampilkan info saja
-            data_ttd = res_kontrak.data[0]
-            st.success(f"✅ **Kontrak Terverifikasi Digital**\n\nDiterima pada: {data_ttd['tgl_tanda_tangan']} pukul {data_ttd['waktu_presisi']}")
+            data = res_kontrak.data[0]
+            st.success(f"✅ **KONTRAK TERVERIFIKASI DIGITAL**\n\nDisetujui pada: {data['tgl_tanda_tangan']} | {data['waktu_presisi']}")
         else:
-            # Jika belum, munculkan Checkbox + Tombol
-            st.error("❗ Anda belum menyetujui kontrak untuk periode bulan ini.")
-            setuju = st.checkbox("Saya memahami dan menyetujui seluruh isi Kontrak PINTAR MEDIA.")
+            st.error("❗ Dokumen ini memerlukan persetujuan digital untuk periode bulan ini.")
+            setuju = st.checkbox("Saya telah membaca, memahami, dan menyetujui seluruh klausul kemitraan di atas tanpa paksaan.")
             
-            if st.button("🖋️ TANDA TANGANI KONTRAK", disabled=not setuju):
+            if st.button("🖋️ TANDA TANGANI KONTRAK", disabled=not setuju, use_container_width=True):
                 try:
-                    # Data yang akan dikirim ke Supabase
                     payload = {
                         "username": user_aktif,
-                        "nama_staff": user_nama_lengkap, # Pastikan variabel nama lengkap sudah didefinisikan sebelumnya
+                        "nama_staff": user_aktif, # Ganti ke nama lengkap jika tersedia
                         "periode": periode_skrg,
                         "tgl_tanda_tangan": sekarang.strftime('%d %B %Y'),
                         "waktu_presisi": sekarang.strftime('%H:%M:%S')
                     }
-                    
-                    # Insert data ke tabel kontrak_staff
                     supabase.table("kontrak_staff").insert(payload).execute()
-                    
-                    st.success("✅ Kontrak berhasil ditandatangani secara digital!")
-                    st.balloons()
-                    st.rerun() # Refresh biar statusnya langsung berubah jadi 'Terverifikasi'
-                    
+                    st.success("✅ Kontrak berhasil direkam ke database!")
+                    st.rerun()
                 except Exception as e:
-                    st.error(f"Gagal memproses tanda tangan: {e}")
+                    st.error(f"Gagal merekam data: {e}")
