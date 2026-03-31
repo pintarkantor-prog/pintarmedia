@@ -517,7 +517,7 @@ def tampilkan_area_staf():
 
             with col_shift2:
                 st.success("🌤️ **SHIFT 2 (Siang - Sore)**")
-                st.write("**⏰ Jam Kerja:** 10:00 s/d 18:00 WIB")
+                st.write("**⏰ Jam Kerja:** 10:00 s/d 18:00 WIB (**Fleksibel**)")
                 st.write("**🕒 Istirahat:** 11:30 – 12:30 WIB (**Fleksibel**)")
 
             st.divider()
