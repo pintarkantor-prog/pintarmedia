@@ -140,15 +140,37 @@ def tampilkan_area_staf():
                     col1, col2 = st.columns([2, 1])
                     instr = col1.text_area("Instruksi Tugas", placeholder="Tulis instruksi di sini...")
                     staf_tujuan = col2.selectbox("Pilih Staf", list_staff_tujuan)
+                    
                     if st.form_submit_button("🚀 KIRIM TUGAS SEKARANG", use_container_width=True):
                         if instr:
-                            # ID UNIK (T0331...)
+                            # 1. Generate ID Unik
                             new_id_gede = f"T{sekarang.strftime('%m%d%H%M%S')}"
+                            
+                            # 2. Potong Detail Instruksi (Maks 50 Huruf)
+                            instr_wa = (instr[:50] + '...') if len(instr) > 50 else instr
+                            
+                            # 3. Simpan ke Database Supabase
                             database.supabase.table("Tugas").insert({
-                                "ID": new_id_gede, "Staf": staf_tujuan, "Instruksi": instr, "Status": "PROSES", "Deadline": sekarang.strftime("%Y-%m-%d")
+                                "ID": new_id_gede, 
+                                "Staf": staf_tujuan, 
+                                "Instruksi": instr, 
+                                "Status": "PROSES", 
+                                "Deadline": sekarang.strftime("%Y-%m-%d")
                             }).execute()
-                            kirim_notif_wa(f"🔔 *TUGAS BARU*\n👤 *Untuk:* {staf_tujuan}\n📝 *Detail:* {instr}\n🆔 *ID:* {new_id_gede}")
-                            st.success(f"Tugas {new_id_gede} Terkirim!"); time.sleep(1); st.rerun()
+                            
+                            # 4. Kirim Notifikasi WA (ID di bawah Tugas Baru)
+                            kirim_notif_wa(
+                                f"🔔 *TUGAS BARU*\n"
+                                f"🆔 *ID:* {new_id_gede}\n"
+                                f"👤 *Untuk:* {staf_tujuan}\n"
+                                f"📝 *Detail:* {instr_wa}"
+                            )
+                            
+                            st.success(f"✅ Tugas {new_id_gede} Terkirim!")
+                            time.sleep(1)
+                            st.rerun()
+                        else:
+                            st.warning("⚠️ Isi instruksinya dulu!")
 
         # --- C. PROSES DATA (TEKNIK SELECTIVE SUPABASE) ---
         # Kita panggil kolomnya SATU-SATU biar 'id' kecil gak ikut campur!
