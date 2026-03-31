@@ -302,42 +302,50 @@ def tampilkan_area_staf():
     with tab_panduan:
         st.markdown(f"#### 📖 Panduan Kerja: {user_aktif}")
         
-        # --- FUNGSI MODULAR PANDUAN EDITOR ---
+        # --- FUNGSI MODULAR PANDUAN EDITOR (MODEL CARD SYSTEM) ---
         def panduan_setor_tugas():
-            with st.expander("🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)", expanded=True):
-                # --- BAGIAN 1: RUTINITAS PRODUKSI ---
+            st.markdown("### 🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)")
+            
+            # --- CARD 1: RUTINITAS (FULL WIDTH) ---
+            with st.container(border=True):
                 st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian:")
                 st.write("- Selalu koordinasi dengan Admin buat tau stok video mana yang mau habis.")
                 st.write("- Wajib bikin video harian sesuai kebutuhan stok kantor.")
                 st.write("- Dahulukan membuat stok untuk Konten yang stok videonya paling sedikit.")
                 st.success(f"📌 **Format Nama Wajib:** `{sekarang.strftime('%d%m')}_JUDUL_FILE.mp4` (Contoh: {sekarang.strftime('%d%m')}_MASJID_NENEK.mp4)")
-                
-                st.divider()
+            
+            st.write("") # Spacing sedikit
 
-                # --- BAGIAN 2: ALUR PENYERAHAN HASIL KERJA ---
-                st.markdown("#### 2️⃣ Alur Penyerahan Hasil Kerja")
-                col_jalur1, col_jalur2 = st.columns(2)
-                
-                with col_jalur1:
+            # --- HEADER JALUR PENYERAHAN ---
+            st.markdown("#### 2️⃣ Alur Penyerahan Hasil Kerja")
+            
+            col_jalur1, col_jalur2 = st.columns(2)
+            
+            # --- CARD 2: JALUR A (KIRI) ---
+            with col_jalur1:
+                with st.container(border=True):
                     st.info("📂 **JALUR A: STOK HARIAN (OFFLINE)**")
-                    st.write("**Target:** Video rutin harian untuk stok HP.")
-                    st.write("**Langkah Kerja:**")
+                    st.markdown("**Target:** Video rutin harian untuk stok HP.")
+                    st.markdown("**Langkah Kerja:**")
                     st.write("- **Tidak perlu** input data ke sistem/web ini.")
                     st.write("- Copy file video langsung dari PC ke **Flashdisk (FD)**.")
                     st.write("- Pastikan file tercopy sempurna sebelum mencabut FD.")
                     st.write("- Serahkan FD ke **Admin** untuk proses QC & pindah ke folder Stok.")
 
-                with col_jalur2:
+            # --- CARD 3: JALUR B (KANAN) ---
+            with col_jalur2:
+                with st.container(border=True):
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
-                    st.write("**Target:** Instruksi khusus dari Owner di Tab Tugas.")
-                    st.write("**Langkah Kerja:**")
+                    st.markdown("**Target:** Instruksi khusus dari Owner di Tab Tugas.")
+                    st.markdown("**Langkah Kerja:**")
                     st.write("- Upload file ke **Google Drive** (Folder Project).")
                     st.write("- Setting link ke: *'Anyone with the link'*.")
                     st.write("- Buka Tab **TUGAS KERJA** di web ini, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
-                st.divider()
-                st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
+            # --- FOOTER WARNING ---
+            st.write("")
+            st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
 
         def panduan_ritual_upload():
             with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM (WAJIB!)", expanded=True):
