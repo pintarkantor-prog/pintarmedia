@@ -96,7 +96,7 @@ def tampilkan_area_staf():
 
         st.divider()
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
-        if user_level in ["OWNER"]:
+        if user_level in ["OWNER", "ADMIN"]:
             with st.expander("✨ **KIRIM TUGAS KHUSUS BARU**", expanded=False):
                 with st.form("form_tugas_baru", clear_on_submit=True):
                     col1, col2 = st.columns([2, 1])
