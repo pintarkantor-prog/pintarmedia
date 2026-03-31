@@ -61,11 +61,11 @@ def tampilkan_area_staf():
                 "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala (2 hari sekali)."
             ],
             "sop": [
-                "**Jadwal:** Upload tepat waktu sesuai jadwal yang tersedia.",
-                "**SEO:** Judul & Deskripsi mengikuti WA Kerja, atau isi manual pada konten-konten tertentu.",
-                "**Thumbnail:** Pilih thumbnail yang jelas! utamakan kejadian atau fokus ke karakter.",
-                "**Cek n Ricek:** Sebelum upload, wajib tonton video Youtube orang lain beberapa detik.",
-                "**Cek n Ricek:** Setelah upload, jangan langsung di close, refresh dulu, tonton Youtube orang lain beberapa detik, baru close YT."
+                "Upload tepat waktu sesuai jadwal yang tersedia.",
+                "Judul & Deskripsi mengikuti WA Kerja, atau isi manual pada konten-konten tertentu.",
+                "Pilih thumbnail yang jelas! utamakan kejadian atau fokus ke karakter.",
+                "Sebelum upload, wajib tonton video Youtube orang lain beberapa detik.",
+                "Selesai upload, tonton dulu video Youtube orang lain, baru close YT nya."
             ]
         },
         "ADMIN": {
