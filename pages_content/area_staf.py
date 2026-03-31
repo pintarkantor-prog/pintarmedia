@@ -347,36 +347,47 @@ def tampilkan_area_staf():
             st.write("")
             st.warning("⚠️ Informasi panduan ini bersifat sebagai pengingat, silahkan tanya ke Admin/Owner untuk penjelasan lengkap!")
 
+        # --- FUNGSI MODULAR PANDUAN UPLOADER (MODEL CARD SYSTEM) ---
         def panduan_ritual_upload():
-            with st.expander("📲 RITUAL UPLOAD & ANTI-SPAM (WAJIB!)", expanded=True):
-                st.info("💡 **Tujuan:** Biar akun dianggap 'Manusia' oleh YouTube dan video gampang FYP.")
-                
-                st.markdown("**🔥 Ritual Pemanasan Akun:**")
-                st.warning("⚠️ **Sebelum Upload:** Buka YT, tonton minimal 2-3 video Shorts orang lain (pancing aktivitas).")
-                st.warning("⚠️ **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton lagi 1-2 video orang lain baru keluar.")
-                
-                st.divider()
-                
-                st.markdown("**📝 Langkah Optimasi:**")
-                st.write("- **Jadwal Upload:** Sesuai waktu jadwal harian. (Jangan telat!)")
-                st.write("- **Thumbnail:** Pilih frame yang paling bikin kaget atau fokus ke muka karakter.")
-                st.write("- **Metadata:** Judul & Deskripsi wajib beda-beda (cek WA Kerja atau kembangkan sendiri pada konten tertentu).")
+            st.markdown("### 📲 RITUAL UPLOAD & ANTI-SPAM")
+            
+            # --- CARD 1: RITUAL PEMANASAN ---
+            with st.container(border=True):
+                st.warning("⚠️ **Pemanasan Akun (Ritual Wajib):**")
+                st.write("- **Sebelum Upload:** Buka aplikasi YT, tonton video Shorts orang lain minimal 30 detik (pancing aktivitas manusia).")
+                st.write("- **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton lagi 1-2 video orang lain sebentar baru keluar/close aplikasi.")
+                st.info("💡 **Tujuan:** Biar akun dianggap 'Manusia' oleh sistem YouTube dan video lebih gampang masuk rekomendasi (FYP).")
+
+            st.write("") # Spacing
+
+            # --- CARD 2: OPTIMASI KONTEN ---
+            with st.container(border=True):
+                st.markdown("#### 📝 Langkah Optimasi & Jadwal")
+                st.write("- **Jadwal Emas:** Wajib upload tepat waktu sesuai jadwal: Pagi `10:00` | Siang `14:00` | Malam `19:00` WIB.")
+                st.write("- **Thumbnail:** Wajib pilih frame yang paling bikin penasaran, kaget, atau fokus ke karakter utama.")
+                st.write("- **Metadata:** Judul & Deskripsi wajib mengikuti arahan WA Kerja atau kembangkan secara manual pada konten tertentu.")
+                st.write("- **Closing:** Selesai upload, pastikan video sudah muncul di tab 'Your Videos' sebelum berpindah ke HP lain.")
 
         def panduan_rawat_hp():
-            with st.expander("⚙️ MAINTENANCE UNIT HP (HARI-HARI)", expanded=False):
-                col_hp1, col_hp2 = st.columns(2)
-                
-                with col_hp1:
-                    st.markdown("**🧹 Kebersihan Memori:**")
-                    st.write("- **Hapus Video:** Langsung hapus file video yang sudah sukses di-upload.")
-                    st.write("- **Kosongkan Sampah:** Cek folder 'Recently Deleted' di galeri, kosongkan total biar HP gak lemot.")
-                    st.write("- **Bersihkan Pesan:** Hapus chat/pesan masuk di HP secara berkala.")
-                
-                with col_hp2:
+            st.markdown("### ⚙️ MAINTENANCE UNIT HP")
+            
+            col_hp1, col_hp2 = st.columns(2)
+            
+            # --- CARD 3: KEBERSIHAN DATA (KIRI) ---
+            with col_hp1:
+                with st.container(border=True):
+                    st.markdown("**🧹 Pembersihan Memori:**")
+                    st.write("- **Hapus Video:** Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
+                    st.write("- **Kosongkan Sampah:** Wajib cek folder 'Recently Deleted' di galeri dan kosongkan total secara berkala.")
+                    st.write("- **Clear Chat:** Hapus pesan atau chat di HP yang sudah tidak diperlukan.")
+
+            # --- CARD 4: PERFORMA UNIT (KANAN) ---
+            with col_hp2:
+                with st.container(border=True):
                     st.markdown("**⚡ Performa & Daya:**")
-                    st.write("- **Refresh System:** Wajib **Restart HP** setiap 2 hari sekali agar sistem tetap segar.")
-                    st.write("- **Update:** Cek Playstore, pastikan aplikasi YouTube selalu versi terbaru.")
-                    st.error("- **No Lowbat:** HP harus selalu standby dicolok charger. Jangan sampai mati total!")
+                    st.write("- **Refresh System:** Wajib **Restart HP** dan Update aplikasi YT secara berkala (minimal 2 hari sekali).")
+                    st.write("- **Power Management:** Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
+                    st.write("- **Suhu:** Jika HP terasa panas berlebih, istirahatkan sebentar atau letakkan di dekat kipas.")
 
         def panduan_kontrol_admin():
             with st.expander("📊 MANAJEMEN DATABASE & KONTROL", expanded=True):
