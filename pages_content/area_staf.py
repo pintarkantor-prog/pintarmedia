@@ -155,12 +155,63 @@ def tampilkan_area_staf():
                                                         kirim_notif_wa(f"📤 *SETORAN*\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {id_gede}")
                                                         st.rerun()
 
-            # --- E. ARSIP TUGAS ---
-            st.divider()
-            with st.expander("📂 RIWAYAT & ARSIP TUGAS"):
-                status_arsip = ['FINISH', 'CANCELED', 'BATAL']
-                mask_arsip = df_t['STATUS'].isin(status_arsip) if user_level == "OWNER" else (df_t['STAF'].str.upper() == user_aktif) & (df_t['STATUS'].isin(status_arsip))
-                st.dataframe(df_t[mask_arsip].sort_values(by="ID", ascending=False)[['ID', 'STAF', 'INSTRUKSI', 'STATUS']], hide_index=True)
+            # ==============================================================================
+            # E. ARSIP TUGAS (VERSI WEB LAMA - FIX ID GEDE)
+            # ==============================================================================
+            with st.expander("📜 RIWAYAT & ARSIP TUGAS", expanded=False):
+                c_arsip1, c_arsip2 = st.columns([2, 1])
+                daftar_bulan = {
+                    1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 
+                    7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+                }
+                
+                bln_arsip_nama = c_arsip1.selectbox("📅 Pilih Bulan Riwayat:", list(daftar_bulan.values()), index=sekarang.month - 1, key="sel_bln_arsip")
+                bln_arsip_angka = [k for k, v in daftar_bulan.items() if v == bln_arsip_nama][0]
+                thn_arsip = c_arsip2.number_input("📅 Tahun:", value=sekarang.year, min_value=2024, max_value=2030, key="sel_thn_arsip")
+
+                # Filter data dari df_t (yang sudah bersih ID Gede-nya)
+                df_laci = df_t.copy()
+                
+                if not df_laci.empty:
+                    # 1. Konversi Deadline ke Datetime buat filter bulan/tahun
+                    df_laci['DEADLINE_DT'] = pd.to_datetime(df_laci['DEADLINE'], errors='coerce')
+                    
+                    # 2. Filter Waktu & Status
+                    mask_waktu = (df_laci['DEADLINE_DT'].dt.month == bln_arsip_angka) & (df_laci['DEADLINE_DT'].dt.year == thn_arsip)
+                    mask_status = df_laci['STATUS'].isin(['FINISH', 'CANCELED', 'BATAL', 'DONE'])
+                    
+                    df_laci = df_laci[mask_waktu & mask_status]
+                    
+                    # 3. Filter berdasarkan Level Staff (Hanya liat punya sendiri)
+                    if user_level in ["STAFF", "UPLOADER"]:
+                        df_laci = df_laci[df_laci['STAF'].str.upper() == user_aktif]
+
+                    # --- LOGIKA TAMPILAN ---
+                    if not df_laci.empty:
+                        # Statistik Laporan
+                        total_f = len(df_laci[df_laci['STATUS'] == "FINISH"])
+                        total_c = len(df_laci[df_laci['STATUS'].isin(['CANCELED', 'BATAL'])])
+                        
+                        st.markdown(f"📊 **Laporan {bln_arsip_nama}:** <span style='color:#1d976c;'>✅ {total_f} Selesai</span> | <span style='color:#e74c3c;'>🚫 {total_c} Dibatalkan</span>", unsafe_allow_html=True)
+                        
+                        # Kolom yang ditampilkan (Gunakan ID Gede)
+                        kolom_fix = ['ID', 'STAF', 'INSTRUKSI', 'DEADLINE', 'STATUS', 'CATATAN_REVISI']
+                        
+                        st.dataframe(
+                            df_laci.sort_values(by=['DEADLINE', 'ID'], ascending=[False, False])[kolom_fix],
+                            column_config={
+                                "ID": st.column_config.TextColumn("🆔 ID"),
+                                "STAF": st.column_config.TextColumn("👤 STAF"),
+                                "INSTRUKSI": st.column_config.TextColumn("📝 JUDUL KONTEN"),
+                                "DEADLINE": st.column_config.TextColumn("📅 TGL"),
+                                "STATUS": st.column_config.TextColumn("🚩 STATUS"),
+                                "CATATAN_REVISI": st.column_config.TextColumn("📋 KETERANGAN")
+                            },
+                            hide_index=True,
+                            use_container_width=True
+                        )
+                    else:
+                        st.info(f"📭 Tidak ada riwayat tugas pada {bln_arsip_nama} {thn_arsip}.")
                     
     # ==============================================================================
     # TAB 2: PANDUAN KERJA
