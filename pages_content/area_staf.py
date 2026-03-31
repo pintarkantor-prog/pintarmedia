@@ -374,7 +374,7 @@ def tampilkan_area_staf():
             # --- CARD 3: KEBERSIHAN DATA (KIRI) ---
             with col_hp1:
                 with st.container(border=True):
-                    st.markdown("**🧹 Pembersihan Memori:**")
+                    st.info("**🧹 Pembersihan Memori:**")
                     st.write("- Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
                     st.write("- Wajib cek folder 'Recently Deleted / Sampah' di galeri dan kosongkan secara berkala.")
                     st.write("- Hapus pesan sms atau chat di HP yang sudah tidak diperlukan.")
@@ -382,7 +382,7 @@ def tampilkan_area_staf():
             # --- CARD 4: PERFORMA UNIT (KANAN) ---
             with col_hp2:
                 with st.container(border=True):
-                    st.markdown("**⚡ Performa & Daya:**")
+                    st.success("**⚡ Performa & Daya:**")
                     st.write("- Wajib **Restart HP** dan Update aplikasi YT secara berkala (minimal 2 hari sekali).")
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
@@ -420,7 +420,7 @@ def tampilkan_area_staf():
             
             with col_adm1:
                 with st.container(border=True):
-                    st.markdown("🔍 **Pengecekan Logistik**")
+                    st.info("🔍 **Pengecekan Logistik**")
                     st.write("- **Cek Fisik:** Rutin cek kuota internet, listrik, dan kondisi unit HP.")
                     st.write("- **Real-Time:** Data Channel wajib di-update secara real-time (No Delay).")
                     st.write("- **Akurasi:** Akurasi data channel wajib 99% (No Error).")
