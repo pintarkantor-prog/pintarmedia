@@ -33,12 +33,6 @@ def tampilkan_area_staf():
     list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
     foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
 
-Sikat, Dian! Bener banget, kalau ditaruh di variabel data_kerja kayak gitu, lo ngeditnya tinggal buka file, ganti teksnya, save, beres. Gak perlu buka-buka dashboard database lagi kalau cuma mau nambahin satu poin kecil.
-
-Nih, kodingan lengkap bagian TAB 1: TUGAS KERJA yang udah gue gabungin sama cara efisien lo tadi. Ini udah paket lengkap: Level Dinamis (dari Supabase) dan Isi SOP Manual (Gampang Diedit).
-
-📂 pages_content/area_staf.py
-Python
 def tampilkan_area_staf():
     st.title("📘 Pusat Informasi")
     
