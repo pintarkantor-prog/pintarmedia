@@ -91,13 +91,10 @@ def tampilkan_area_staf():
     # TAB 1: TUGAS KERJA
     # ==============================================================================
     with tab_tugas:        
-        # --- A. RUTINITAS (OTOMATIS SESUAI LEVEL DATABASE) ---
-        st.markdown("#### 🕒 Rutinitas Harian & Standar Kerja")
-        
         # --- A. TAMPILAN DINAMIS (2 CARD MODEL) ---
         if user_level in ["OWNER", "ADMIN"]:
             # Tampilan Grid buat Bos & Admin (Lihat Semua)
-            st.markdown("#### 🕒 Monitoring Standar Tim")
+            st.markdown("#### 🕒 Monitoring Standar Kerja Tim")
             for lvl, data in data_kerja.items():
                 with st.expander(f"{data['ikon']} **KONTROL {data['judul']}**", expanded=(lvl=="STAFF")):
                     c1, c2 = st.columns(2)
@@ -109,7 +106,7 @@ def tampilkan_area_staf():
                         for s in data['sop']: st.markdown(f"- {s}")
         else:
             # Tampilan 2 Card Berjajar buat Staf (Fokus)
-            st.markdown("#### 🕒 Tugas & Standar Anda")
+            st.markdown("#### 🕒 Tugas Harian & Standar Kerja")
             data = data_kerja.get(user_level)
             if data:
                 col_rutinitas, col_sop = st.columns(2)
