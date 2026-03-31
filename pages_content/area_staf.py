@@ -475,8 +475,44 @@ def tampilkan_area_staf():
     # TAB 3: PERATURAN KERJA
     # ==============================================================================
     with tab_peraturan:
-        st.warning("⚠️ Peraturan Kedisiplinan")
-        st.markdown("1. Target harian wajib terpenuhi.\n2. Dilarang sebar prompt perusahaan.\n3. Wajib lapor progres.")
+        st.markdown(f"### ⚖️ Peraturan Kedisiplinan: {user_aktif}")
+        
+        # --- CARD 1: TARGET & PROGRES (FULL WIDTH) ---
+        with st.container(border=True):
+            st.markdown("#### 🚀 Target & Laporan Harian")
+            st.write("1. **Target Wajib:** Produksi dan upload harian wajib terpenuhi 100% sesuai slot yang ditentukan.")
+            st.write("2. **Lapor Progres:** Wajib melaporkan progres kerja secara berkala di Grup WA (Mulai Kerja, Proses, & Selesai).")
+            st.write("3. **Koordinasi:** Jika ada kendala teknis (mati lampu/internet), wajib segera lapor Admin/Owner agar jadwal tidak berantakan.")
+            st.info("💡 **Key Performance:** Konsistensi adalah kunci utama bonus performa bulanan.")
+
+        st.write("") # Spacing
+
+        # --- CARD 2: KEAMANAN & SANKSI (COLUMNS) ---
+        col_per1, col_per2 = st.columns(2)
+        
+        # --- CARD 2A: KERAHASIAAN PERUSAHAAN (KIRI) ---
+        with col_per1:
+            with st.container(border=True):
+                st.error("🔐 **Kerahasiaan Data (Strict)**")
+                st.markdown("**Dilarang Keras:**")
+                st.write("- Menyebarkan **Prompt AI** perusahaan ke pihak luar.")
+                st.write("- Membagikan trik/cara kerja internal ke orang lain.")
+                st.write("- Menggunakan tool premium kantor untuk kepentingan pribadi.")
+                st.warning("⚠️ Pelanggaran poin ini berakibat pemberhentian kerja secara sepihak.")
+
+        # --- CARD 2B: TATA TERTIB KANTOR (KANAN) ---
+        with col_per2:
+            with st.container(border=True):
+                st.success("🏢 **Tata Tertib & Lingkungan**")
+                st.markdown("**Kewajiban Staf:**")
+                st.write("- Menjaga kebersihan dan keamanan unit HP/Laptop kantor.")
+                st.write("- Dilarang mengubah settingan akun tanpa izin Admin.")
+                st.write("- Datang dan pulang sesuai jam operasional yang disepakati.")
+                st.write("- Mengedepankan kejujuran dalam setiap laporan hasil kerja.")
+
+        # --- FOOTER REMINDER ---
+        st.write("")
+        st.warning("⚠️ Peraturan ini dibuat untuk menjaga ritme kerja tim. Kelalaian satu orang bisa menghambat kerja seluruh tim. Mari kerja cerdas dan disiplin!")
 
     # ==============================================================================
     # TAB 4: KONTRAK KERJA
