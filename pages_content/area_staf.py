@@ -301,9 +301,7 @@ def tampilkan_area_staf():
     # ==============================================================================
     with tab_panduan:        
         # --- FUNGSI MODULAR PANDUAN EDITOR (MODEL CARD SYSTEM) ---
-        def panduan_setor_tugas():
-            st.markdown("#### 🎬 PANDUAN PRODUKSI & SETOR TUGAS (EDITOR)")
-            
+        def panduan_setor_tugas():            
             # --- CARD 1: RUTINITAS (FULL WIDTH) ---
             with st.container(border=True):
                 st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian:")
@@ -342,9 +340,7 @@ def tampilkan_area_staf():
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
         # --- FUNGSI MODULAR PANDUAN UPLOADER (MODEL CARD SYSTEM) ---
-        def panduan_ritual_upload():
-            st.markdown("#### 📲 RITUAL UPLOAD & ANTI-SPAM")
-            
+        def panduan_ritual_upload():            
             # --- CARD 1: RITUAL PEMANASAN ---
             with st.container(border=True):
                 st.warning("⚠️ **Pemanasan Akun (Ritual Wajib):**")
@@ -384,9 +380,7 @@ def tampilkan_area_staf():
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
 
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
-        def panduan_kontrol_admin():
-            st.markdown("#### 📊 MANAJEMEN DATABASE & KONTROL")
-            
+        def panduan_kontrol_admin():            
             # --- CARD 1: PRODUKSI & STOK CHANNEL (PABRIK CHANNEL) ---
             with st.container(border=True):
                 st.markdown("#### 🏗️ Produksi & Stok Channel Standby")
