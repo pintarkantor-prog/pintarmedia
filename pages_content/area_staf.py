@@ -19,16 +19,50 @@ def kirim_notif_wa(pesan):
     except: pass
 
 def tampilkan_area_staf():
-    st.title("📘 Pusat Informasi")
     # --- 1. SETUP IDENTITAS ---
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     user_level = st.session_state.get("user_level", "STAFF").upper()
     tz = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz)
     
-    foto_staff_default = "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    # --- 2. DATABASE RUTINITAS (MODEL CARD) ---
+    # Lo bisa edit isinya di sini sesuai jobdesk asli
+    data_rutinitas = {
+        "STAFF": { # Ini untuk ICHA & NISSA (Staff Editor)
+            "ikon": "🎬",
+            "judul": "RUTINITAS EDITOR",
+            "poin": [
+                "Produksi minimal 3 video AI per hari.",
+                "Kualitas Visual: Wajib 1080p Full HD.",
+                "Aspect Ratio: Format 9:16 (1080x1920).",
+                "Durasi: Minimal 60 detik (Padat & No Filler).",
+                "Audio: Wajib Copyright-Free (YT Audio Library).",
+                "Backup: Simpan aset mentah min. 3 hari."
+            ]
+        },
+        "UPLOADER": { # Ini untuk LISA
+            "ikon": "🚀",
+            "judul": "RUTINITAS UPLOADER",
+            "poin": [
+                "Upload 3 konten harian (10:00, 14:00, 19:00).",
+                "Optimasi SEO: Judul, Tag, dan Deskripsi unik.",
+                "Cek Interaksi: Balas komentar di 1 jam pertama.",
+                "Monitoring: Cek status hak cipta setelah upload."
+            ]
+        },
+        "ADMIN": { # Ini untuk INGGI
+            "ikon": "⚙️",
+            "judul": "RUTINITAS ADMIN",
+            "poin": [
+                "QC Semua setoran video (Visual, Audio, SFX).",
+                "Update Database Channel harian.",
+                "Rekap bonus video & absensi tim.",
+                "Monitoring kesehatan akun (Live/Suspend)."
+            ]
+        }
+    }
 
-    # --- 2. TABS MENU ---
+    # --- 3. TABS MENU ---
     tab_tugas, tab_panduan, tab_peraturan, tab_kontrak = st.tabs([
         "📝 TUGAS KERJA", "📖 PANDUAN KERJA", "⚖️ PERATURAN KERJA", "📜 KONTRAK KERJA"
     ])
@@ -37,20 +71,34 @@ def tampilkan_area_staf():
     # TAB 1: TUGAS KERJA
     # ==============================================================================
     with tab_tugas:
-        # --- A. RUTINITAS (CHECKLIST) ---
-        st.markdown(f"#### 🕒 Rutinitas Harian: {user_aktif}")
-        with st.container(border=True):
-            if user_level == "STAFF": # EDITOR
-                st.markdown("- [ ] Produksi min. 3 video AI / hari\n- [ ] QC Mandiri Watermark & Subtitle")
-            elif user_level == "UPLOADER": # LISA
-                st.markdown("- [ ] Upload jadwal Jam 10, 14, 19\n- [ ] Optimasi SEO & Balas Komentar")
-            elif user_level == "ADMIN": # INGGI
-                st.markdown("- [ ] QC Setoran Editor\n- [ ] Update Data Report Harian")
-            else:
-                st.write("Sistem Monitoring Owner Aktif.")
+        st.markdown(f"### 📋 Papan Kerja: {user_aktif}")
+        
+        # --- A. RUTINITAS HARIAN (MODEL CARD BY LEVEL) ---
+        st.markdown("#### 🕒 Rutinitas Harian")
+        
+        # Logika Owner: Tampilkan Semua | Logika Staff: Tampilkan Miliknya
+        if user_level == "OWNER":
+            cols_r = st.columns(3)
+            for idx, (lvl, data) in enumerate(data_rutinitas.items()):
+                with cols_r[idx]:
+                    with st.container(border=True):
+                        st.markdown(f"### {data['ikon']} {data['judul']}")
+                        for p in data['poin']:
+                            st.markdown(f"- {p}")
+        else:
+            # Ambil data sesuai level user yang login
+            r_data = data_rutinitas.get(user_level)
+            if r_data:
+                with st.container(border=True):
+                    st.markdown(f"### {r_data['ikon']} {r_data['judul']}")
+                    c1, c2 = st.columns(2) # Bagi 2 kolom biar gak kepanjangan ke bawah
+                    mid = len(r_data['poin']) // 2
+                    with c1:
+                        for p in r_data['poin'][:mid+1]: st.markdown(f"- {p}")
+                    with c2:
+                        for p in r_data['poin'][mid+1:]: st.markdown(f"- {p}")
 
         st.divider()
-
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
         if user_level == "OWNER":
             with st.expander("✨ **KIRIM TUGAS KHUSUS BARU**", expanded=False):
