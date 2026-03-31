@@ -31,98 +31,141 @@ def tampilkan_area_staf():
     ])
 
     # ==============================================================================
-    # TAB 1: TUGAS KERJA (Berdasarkan Level)
+    # TAB 1: TUGAS KERJA
     # ==============================================================================
     with tab_tugas:
-        st.markdown(f"### 📋 Papan Tugas: {user_aktif}")
-        
-        # --- A. LOGIKA TUGAS HARIAN BERDASARKAN LEVEL ---
+        # --- A. RUTINITAS HARIAN (CHECKLIST) ---
+        st.markdown(f"#### 🕒 Rutinitas Harian: {user_aktif}")
         with st.container(border=True):
-            if user_level == "STAFF": # ICHA & NISSA (Staff Editor)
-                st.markdown("#### 🎬 Tugas Harian Editor")
-                st.write("- [ ] Produksi minimal 3 video AI per hari.")
-                st.write("- [ ] Pastikan watermark 'PINTAR DIGITAL' terpasang.")
-                st.write("- [ ] Setor link GDrive di kolom 'Tugas Khusus' jika ada instruksi.")
-                
-            elif user_level == "ADMIN": # INGGI (Admin)
-                st.markdown("#### ⚙️ Tugas Harian Admin")
-                st.write("- [ ] Kontrol kualitas (QC) video yang disetor Editor.")
-                st.write("- [ ] Update status akun di Database Channel.")
-                st.write("- [ ] Pastikan slot HP terisi sesuai jadwal.")
-                
-            elif user_level == "UPLOADER": # LISA (Staff Uploader)
-                st.markdown("#### 🚀 Tugas Harian Uploader")
-                st.write("- [ ] Upload video ke YouTube/TikTok (Jam 10, 14, 19).")
-                st.write("- [ ] Optimasi Judul & Deskripsi sesuai riset Lab.")
-                st.write("- [ ] Balas komentar dan bangun interaksi akun.")
-            
-            elif user_level == "OWNER":
-                st.success("👑 Anda Login sebagai Owner. Pantau semua progres tim di bawah.")
+            if user_level == "STAFF": # EDITOR
+                st.markdown("- [ ] Produksi min. 3 video AI / hari\n- [ ] QC Mandiri Watermark & Subtitle")
+            elif user_level == "UPLOADER": # LISA
+                st.markdown("- [ ] Upload jadwal Jam 10, 14, 19\n- [ ] Optimasi SEO & Balas Komentar")
+            elif user_level == "ADMIN": # INGGI
+                st.markdown("- [ ] QC Setoran Editor\n- [ ] Update Data Report Harian")
+            else:
+                st.write("Sistem Monitoring Owner Aktif.")
 
         st.divider()
 
-        # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
+        # --- B. PANEL OWNER (KIRIM TUGAS BARU) ---
         if user_level == "OWNER":
-            with st.expander("✨ **KIRIM INSTRUKSI TUGAS KHUSUS**", expanded=False):
-                with st.form("form_kirim_tugas", clear_on_submit=True):
-                    col_a, col_b = st.columns([2, 1])
-                    instruksi = col_a.text_area("Detail Instruksi", placeholder="Tulis tugas tambahan...")
-                    staf_tujuan = col_b.selectbox("Pilih Staf", ["ICHA", "LISSA", "INGGI", "NISSA"])
-                    
-                    if st.form_submit_button("🚀 KIRIM TUGAS", use_container_width=True):
-                        if instruksi:
-                            t_id = f"T{sekarang.strftime('%m%d%H%M%S')}"
+            with st.expander("✨ **KIRIM TUGAS KHUSUS BARU**", expanded=False):
+                with st.form("form_tugas_baru", clear_on_submit=True):
+                    col1, col2 = st.columns([2, 1])
+                    instr = col1.text_area("Instruksi Tugas")
+                    staf = col2.selectbox("Pilih Staf", ["ICHA", "LISSA", "INGGI", "NISSA"])
+                    if st.form_submit_button("🚀 KIRIM KE EDITOR", use_container_width=True):
+                        if instr:
+                            new_id = f"T{sekarang.strftime('%m%d%H%M%S')}"
                             database.supabase.table("Tugas").insert({
-                                "ID": t_id, "STAF": staf_tujuan, "INSTRUKSI": instruksi, "STATUS": "PROSES", "DEADLINE": sekarang.strftime("%Y-%m-%d")
+                                "ID": new_id, "Staf": staf, "Instruksi": instr, "Status": "PROSES", "Deadline": sekarang.strftime("%Y-%m-%d")
                             }).execute()
-                            kirim_notif_wa(f"🔔 *TUGAS KHUSUS*\n👤 *Untuk:* {staf_tujuan}\n📝 *Detail:* {instruksi}\n🆔 *ID:* {t_id}")
-                            st.success(f"Tugas {t_id} terkirim!"); time.sleep(1); st.rerun()
+                            kirim_notif_wa(f"🔔 *TUGAS BARU*\n👤 *Untuk:* {staf}\n📝 *Detail:* {instr}\n🆔 *ID:* {new_id}")
+                            st.success("Tugas Terkirim!"); time.sleep(1); st.rerun()
 
-        # --- C. DAFTAR TUGAS KHUSUS & SETORAN ---
-        st.markdown("#### ⚡ Progres Tugas Khusus")
+        # --- C. AMBIL & BERSIHKAN DATA ---
         df_raw = database.ambil_data("Tugas")
-        
         if not df_raw.empty:
             df_t = df_raw.copy()
+            # Hapus id (int8) biar ID (text) yang jadi identitas utama
             if 'id' in df_t.columns: df_t = df_t.drop(columns=['id'])
             df_t.columns = [str(c).strip().upper() for c in df_t.columns]
             df_t = df_t.loc[:, ~df_t.columns.duplicated()]
 
-            # LEVEL FILTERING: Hanya lihat tugas milik sendiri
-            if user_level == "OWNER":
-                mask = ~df_t['STATUS'].isin(['FINISH', 'BATAL'])
-            else:
-                mask = (df_t['STAF'] == user_aktif) & (~df_t['STATUS'].isin(['FINISH', 'BATAL']))
+            # --- D. TUGAS AKTIF (CARD 2 KOLOM) ---
+            st.markdown("#### ⚡ Progres Tugas Aktif")
+            status_aktif = ['PROSES', 'WAITING QC', 'REVISI']
             
-            tugas_aktif = df_t[mask].sort_values(by="ID", ascending=False).to_dict('records')
-
-            if not tugas_aktif:
-                st.caption("Belum ada tugas khusus tambahan.")
+            if user_level == "OWNER":
+                mask_aktif = df_t['STATUS'].isin(status_aktif)
             else:
-                for t in tugas_aktif:
-                    with st.container(border=True):
-                        col_info, col_stat = st.columns([3, 1])
-                        col_info.markdown(f"**ID:** `{t['ID']}` | **Instruksi:** {t['INSTRUKSI']}")
-                        col_stat.markdown(f"`{t['STATUS']}`")
-                        
-                        # Aksi buat Staf
-                        if user_level != "OWNER":
-                            if t['STATUS'] != "WAITING QC":
-                                link = st.text_input("Link Hasil Kerja", key=f"url_{t['ID']}")
-                                if st.button("🚀 SETOR", key=f"btn_{t['ID']}", use_container_width=True):
-                                    if "http" in link:
-                                        database.supabase.table("Tugas").update({"STATUS": "WAITING QC", "LINK_HASIL": link}).eq("ID", t['ID']).execute()
-                                        kirim_notif_wa(f"📤 *SETORAN*\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {t['ID']}\n🔗 *Link:* {link}")
-                                        st.rerun()
-                        # Aksi buat Owner/Admin (Inggi bisa QC juga kalau levelnya ADMIN)
-                        else:
-                            if t.get("LINK_HASIL"):
-                                st.link_button("📂 QC VIDEO", t['LINK_HASIL'], use_container_width=True)
-                                if st.button("✅ ACC", key=f"acc_{t['ID']}", use_container_width=True):
-                                    database.supabase.table("Tugas").update({"STATUS": "FINISH"}).eq("ID", t['ID']).execute()
-                                    kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {t['ID']}\n👤 *Staf:* {t['STAF']}")
-                                    st.rerun()
+                mask_aktif = (df_t['STAF'] == user_aktif) & (df_t['STATUS'].isin(status_aktif))
+            
+            data_aktif = df_t[mask_aktif].sort_values(by="ID", ascending=False).to_dict('records')
 
+            if not data_aktif:
+                st.caption("Tidak ada tugas khusus yang sedang berjalan.")
+            else:
+                # Render Card 2 Kolom
+                for i in range(0, len(data_aktif), 2):
+                    cols = st.columns(2)
+                    for j in range(2):
+                        if i + j < len(data_aktif):
+                            t = data_aktif[i + j]
+                            with cols[j]:
+                                with st.container(border=True):
+                                    # Header Card
+                                    c_ava, c_txt = st.columns([1, 4])
+                                    c_ava.image("https://cdn-icons-png.flaticon.com/512/149/149071.png", width=50)
+                                    with c_txt:
+                                        st.markdown(f"**{t['STAF']}** | <span style='color:#1d976c;'>ID: {t['ID']}</span>", unsafe_allow_html=True)
+                                        color = "🟡" if t['STATUS'] == "WAITING QC" else "🔴" if t['STATUS'] == "REVISI" else "🟢"
+                                        st.markdown(f"{color} `{t['STATUS']}`")
+                                    
+                                    olah = st.toggle("🔍 Buka Detail", key=f"tgl_{t['ID']}")
+                                    if olah:
+                                        st.divider()
+                                        st.markdown(f"**INSTRUKSI:** \n{t['INSTRUKSI']}")
+                                        
+                                        # Aksi Berdasarkan Level
+                                        if user_level != "OWNER":
+                                            if t['STATUS'] != "WAITING QC":
+                                                link = st.text_input("Link Hasil GDrive", key=f"in_{t['ID']}")
+                                                if st.button("🚀 SETOR", key=f"btn_{t['ID']}", use_container_width=True):
+                                                    if "http" in link:
+                                                        database.supabase.table("Tugas").update({"STATUS": "WAITING QC", "LINK_HASIL": link}).eq("ID", t['ID']).execute()
+                                                        kirim_notif_wa(f"📤 *SETORAN*\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {t['ID']}")
+                                                        st.rerun()
+                                        else:
+                                            if t.get("LINK_HASIL"):
+                                                st.link_button("🚀 BUKA VIDEO (QC)", t['LINK_HASIL'], use_container_width=True)
+                                                st.divider()
+                                                cat_admin = st.text_area("Catatan Admin:", key=f"cat_{t['ID']}", placeholder="Alasan Revisi/Batal...")
+                                                
+                                                b1, b2, b3 = st.columns(3)
+                                                
+                                                # --- TOMBOL ACC ---
+                                                if b1.button("🟢 ACC", key=f"acc_{t['ID']}", use_container_width=True):
+                                                    database.supabase.table("Tugas").update({"Status": "FINISH"}).eq("ID", t['ID']).execute()
+                                                    kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {t['ID']}\n👤 *Staf:* {t['STAF']}\nStatus: FINISH")
+                                                    st.rerun()
+                                                
+                                                # --- TOMBOL REVISI ---
+                                                if b2.button("🔴 REV", key=f"rev_{t['ID']}", use_container_width=True):
+                                                    if cat_admin:
+                                                        database.supabase.table("Tugas").update({"Status": "REVISI", "CATATAN_REVISI": cat_admin}).eq("ID", t['ID']).execute()
+                                                        # NOTIF WA REVISI
+                                                        kirim_notif_wa(f"⚠️ *REVISI TUGAS*\n👤 *Editor:* {t['STAF']}\n🆔 *ID:* {t['ID']}\n📝 *Catatan:* {cat_admin}")
+                                                        st.rerun()
+                                                    else:
+                                                        st.error("Isi alasan revisi dulu!")
+                                                
+                                                # --- TOMBOL BATAL ---
+                                                if b3.button("🚫 BATAL", key=f"can_{t['ID']}", use_container_width=True):
+                                                    if cat_admin:
+                                                        database.supabase.table("Tugas").update({"Status": "CANCELED", "CATATAN_REVISI": cat_admin}).eq("ID", t['ID']).execute()
+                                                        # NOTIF WA BATAL
+                                                        kirim_notif_wa(f"🚫 *TUGAS DIBATALKAN*\n👤 *Staf:* {t['STAF']}\n🆔 *ID:* {t['ID']}\n📝 *Alasan:* {cat_admin}")
+                                                        st.rerun()
+                                                    else:
+                                                        st.error("Isi alasan pembatalan dulu!")
+
+            # --- E. ARSIP TUGAS (EXPANDER) ---
+            st.divider()
+            with st.expander("📂 RIWAYAT & ARSIP TUGAS", expanded=False):
+                # Filter Arsip (Finish & Cancel)
+                status_arsip = ['FINISH', 'CANCEL', 'CANCELED', 'BATAL']
+                if user_level == "OWNER":
+                    mask_arsip = df_t['STATUS'].isin(status_arsip)
+                else:
+                    mask_arsip = (df_t['STAF'] == user_aktif) & (df_t['STATUS'].isin(status_arsip))
+                
+                df_arsip = df_t[mask_arsip].sort_values(by="ID", ascending=False)
+                if df_arsip.empty:
+                    st.info("Belum ada riwayat tugas.")
+                else:
+                    st.dataframe(df_arsip[['ID', 'STAF', 'INSTRUKSI', 'STATUS']], use_container_width=True, hide_index=True)
     # ==============================================================================
     # TAB 2: PANDUAN KERJA
     # ==============================================================================
