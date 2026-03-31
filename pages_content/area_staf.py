@@ -75,7 +75,7 @@ def tampilkan_area_staf():
         # --- A. RUTINITAS (OTOMATIS SESUAI LEVEL DATABASE) ---
         st.markdown("#### 🕒 Rutinitas & Standar Kerja")
         
-        if user_level == "OWNER":
+        if user_level in ["OWNER", "ADMIN"]:
             cols_r = st.columns(3)
             with cols_r[0]:
                 st.success("🎬 **EDITOR**")
@@ -96,7 +96,7 @@ def tampilkan_area_staf():
 
         st.divider()
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
-        if user_level == "OWNER":
+        if user_level in ["OWNER"]:
             with st.expander("✨ **KIRIM TUGAS KHUSUS BARU**", expanded=False):
                 with st.form("form_tugas_baru", clear_on_submit=True):
                     col1, col2 = st.columns([2, 1])
@@ -128,7 +128,7 @@ def tampilkan_area_staf():
             st.markdown("#### ⚡ Progres Tugas Aktif")
             status_aktif = ['PROSES', 'WAITING QC', 'REVISI']
             
-            if user_level == "OWNER":
+            if user_level in ["OWNER", "ADMIN"]:
                 mask = df_t['STATUS'].isin(status_aktif)
             else:
                 mask = (df_t['STAF'].str.upper() == user_aktif) & (df_t['STATUS'].isin(status_aktif))
@@ -167,7 +167,7 @@ def tampilkan_area_staf():
                                         st.write(f"📝 {t.get('INSTRUKSI', '-')}")
                                         
                                         # PANEL QC (OWNER)
-                                        if user_level == "OWNER":
+                                        if user_level in ["OWNER", "ADMIN"]
                                             if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
                                                 st.link_button("🚀 BUKA VIDEO (QC)", t['LINK_HASIL'], use_container_width=True)
                                             
