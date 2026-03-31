@@ -835,8 +835,7 @@ def tampilkan_database_channel():
 
         else:
             # Tampilan buat Staff/Admin yang nyasar ke sini
-            st.warning(f"⚠️ **AKSES TERBATAS!**")
-            st.error(f"Mohon maaf {user_aktif}, kamu tidak mendapat akses!")
+            st.warning(f"⚠️ Mohon maaf {user_aktif}, kamu tidak memiliki akses!")
 
     # ==============================================================================
     # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
