@@ -93,7 +93,7 @@ def tampilkan_area_staf():
     # ==============================================================================
     with tab_tugas:        
         # --- A. TAMPILAN DINAMIS (2 CARD MODEL) ---
-        if user_level in ["OWNER", "ADMIN"]:
+        if user_level in ["OWNER"]:
             st.markdown("#### 🕒 Monitoring Standar Tim")
             
             target_monitor = st.radio(
@@ -136,7 +136,7 @@ def tampilkan_area_staf():
                     col1, col2 = st.columns([2, 1])
                     instr = col1.text_area("Instruksi Tugas", placeholder="Tulis instruksi di sini...")
                     staf_tujuan = col2.selectbox("Pilih Staf", list_staff_tujuan)
-                    if st.form_submit_button("🚀 KIRIM KE EDITOR", use_container_width=True):
+                    if st.form_submit_button("🚀 KIRIM TUGAS SEKARANG", use_container_width=True):
                         if instr:
                             # ID UNIK (T0331...)
                             new_id_gede = f"T{sekarang.strftime('%m%d%H%M%S')}"
