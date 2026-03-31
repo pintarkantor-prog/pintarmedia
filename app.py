@@ -43,16 +43,15 @@ def proses_logout(pesan=None):
         time.sleep(2)
     st.rerun()
 
-# --- 1. PROSES LOGIN (Logika Murni) ---
+# --- 1. PROSES LOGIN (Pembersihan Total Whitelist) ---
 def proses_login(u, p):
     try:
-        # 1. Ambil data (Sudah dipaksa KAPITAL oleh fungsi ambil_data)
+        # 1. Ambil data Staff (Database Utama)
         df_staff = database.ambil_data("Staff")
         u_input = str(u).strip().upper()
         p_input = str(p).strip()
 
-        # 2. Cari user (Gunakan nama kolom KAPITAL: 'NAMA' dan 'PASSWORD')
-        # Kita pakai .astype(str) untuk jaga-jaga kalau pass di DB dianggap angka
+        # 2. Cari user berdasarkan NAMA dan PASSWORD (Case Insensitive untuk Nama)
         user_row = df_staff[
             (df_staff['NAMA'].astype(str).str.upper() == u_input) & 
             (df_staff['PASSWORD'].astype(str) == p_input)
@@ -61,23 +60,20 @@ def proses_login(u, p):
         if not user_row.empty:
             user_data = user_row.iloc[0]
             
-            # Ambil LEVEL (Pakai kapital juga)
-            level = str(user_data['LEVEL']).upper()
-            hostname_pc = socket.gethostname()
+            # --- KUNCI: STANDARISASI LEVEL ---
+            # Kita paksa UPPER agar sinkron dengan dict ketentuan di area_staf.py
+            level = str(user_data.get('LEVEL', 'STAFF')).upper().strip()
 
-            # 3. Cek Whitelist (Kecuali Owner)
-            if level != "OWNER":
-                if not database.cek_pc_whitelist(hostname_pc):
-                    st.error(f"❌ Akses Ditolak! PC ({hostname_pc}) Tidak Terdaftar.")
-                    st.stop()
+            # --- FITUR WHITELIST PC TELAH DIHAPUS ---
+            # (Staf sekarang bisa login dari perangkat mana saja)
 
-            # 4. SET SESSION STATE
+            # 3. SET SESSION STATE
             st.session_state["is_login"] = True
             st.session_state["user_aktif"] = u_input
             st.session_state["user_level"] = level
             st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
             
-            # Catat login
+            # Catat sesi login ke Supabase
             database.update_sesi(u_input, st.session_state.get("browser_session_id", "Unknown"))
             
             st.toast(f"✅ Selamat Datang {u_input}")
@@ -87,11 +83,11 @@ def proses_login(u, p):
             st.error("❌ Username atau Password salah!")
             
     except Exception as e:
-        # Menampilkan detail kolom yang tersedia kalau masih error (buat debug)
+        # Debugging jika ada kolom yang hilang di database
         st.error(f"Sistem Login Error: {e}")
         if 'df_staff' in locals():
-            st.write("Kolom tersedia:", list(df_staff.columns))
-
+            st.write("Kolom terdeteksi:", list(df_staff.columns))
+            
 # --- 2. TAMPILAN LOGIN (UI Form) ---
 def halaman_login():
     with st.container():
