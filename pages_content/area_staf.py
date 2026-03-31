@@ -479,26 +479,23 @@ def tampilkan_area_staf():
         
         # --- CARD 1: KETENTUAN WAKTU & DISIPLIN (SYSTEM SHIFT) ---
         with st.container(border=True):
-            st.markdown("#### 🕒 I. KETENTUAN WAKTU KERJA & DISIPLIN")
+            st.markdown("#### 🕒 KETENTUAN WAKTU KERJA")
             
             col_shift1, col_shift2 = st.columns(2)
             
             with col_shift1:
                 st.info("☀️ **SHIFT 1 (Pagi - Sore)**")
                 st.write("**⏰ Jam Kerja:** 08:00 s/d 16:00 WIB")
-                st.write("**☕ Istirahat:** 11:30 – 12:30 WIB (Senin - Sabtu)")
-                st.write("- Khusus Jumat: 11:30 – 13:00 WIB")
+                st.write("**🕒 Istirahat:** 11:30 – 12:30 WIB")
 
             with col_shift2:
-                st.success("🌤️ **SHIFT 2 (Siang - Malam)**")
+                st.success("🌤️ **SHIFT 2 (Siang - Sore)**")
                 st.write("**⏰ Jam Kerja:** 10:00 s/d 18:00 WIB")
-                st.write("**☕ Istirahat:** 11:30 – 12:30 WIB (**Fleksibel**)")
-                st.write("- Menyesuaikan kondisi load kerja di kantor.")
+                st.write("**🕒 Istirahat:** 11:30 – 12:30 WIB (**Fleksibel**)")
 
             st.divider()
             st.write("**📅 Hari Kerja:** Senin – Sabtu (Minggu & Libur Nasional Tutup).")
-            st.write("**🚀 Presensi:** Tercatat otomatis melalui login sistem Dashboard.")
-            st.write("**💡 Info:** Cuti Bersama tetap berjalan normal kecuali ditentukan lain oleh Owner.")
+            st.write("**💡 Info:** Cuti Bersama Operasional tetap berjalan normal kecuali ditentukan lain oleh Owner.")
 
         st.write("") 
 
@@ -506,7 +503,7 @@ def tampilkan_area_staf():
         with st.container(border=True):
             st.markdown("#### 💰 II. SISTEM PENGGAJIAN & APRESIASI KINERJA")
             st.write("**📅 Periode Pembayaran:** Hak upah, tunjangan, dan bonus disalurkan tanggal 2 s/d 5 setiap bulannya.")
-            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan Kinerja, Bonus Absensi, dan Bonus Performa (Video HQ).")
+            st.write("**📊 Struktur Upah:** Terdiri dari Gaji Pokok, Tunjangan Kinerja, Bonus Kinerja, dan Bonus Performa (Video HQ).")
 
         st.write("")
 
