@@ -37,11 +37,11 @@ def tampilkan_area_staf():
         # --- A. RUTINITAS (CHECKLIST) ---
         st.markdown(f"#### 🕒 Rutinitas Harian: {user_aktif}")
         with st.container(border=True):
-            if user_level == "STAFF": # EDITOR
+            if user_level == "STAFF": 
                 st.markdown("- [ ] Produksi min. 3 video AI / hari\n- [ ] QC Mandiri Watermark & Subtitle")
-            elif user_level == "UPLOADER": # LISA
+            elif user_level == "UPLOADER":
                 st.markdown("- [ ] Upload jadwal Jam 10, 14, 19\n- [ ] Optimasi SEO & Balas Komentar")
-            elif user_level == "ADMIN": # INGGI
+            elif user_level == "ADMIN":
                 st.markdown("- [ ] QC Setoran Editor\n- [ ] Update Data Report Harian")
             else:
                 st.write("Sistem Monitoring Owner Aktif.")
@@ -54,53 +54,53 @@ def tampilkan_area_staf():
                 with st.form("form_tugas_baru", clear_on_submit=True):
                     col1, col2 = st.columns([2, 1])
                     instr = col1.text_area("Instruksi Tugas")
-                    staf = col2.selectbox("Pilih Staf", ["ICHA", "LISSA", "INGGI", "NISSA"])
+                    staf_tujuan = col2.selectbox("Pilih Staf", ["ICHA", "LISSA", "INGGI", "NISSA"])
                     if st.form_submit_button("🚀 KIRIM KE EDITOR", use_container_width=True):
                         if instr:
-                            # ID UNIK buatan (Tgl+Jam)
                             new_id_gede = f"T{sekarang.strftime('%m%d%H%M%S')}"
                             database.supabase.table("Tugas").insert({
-                                "ID": new_id_gede, "Staf": staf, "Instruksi": instr, "Status": "PROSES", "Deadline": sekarang.strftime("%Y-%m-%d")
+                                "ID": new_id_gede, "Staf": staf_tujuan, "Instruksi": instr, "Status": "PROSES", "Deadline": sekarang.strftime("%Y-%m-%d")
                             }).execute()
-                            kirim_notif_wa(f"🔔 *TUGAS BARU*\n👤 *Untuk:* {staf}\n📝 *Detail:* {instr}\n🆔 *ID:* {new_id_gede}")
+                            kirim_notif_wa(f"🔔 *TUGAS BARU*\n👤 *Untuk:* {staf_tujuan}\n📝 *Detail:* {instr}\n🆔 *ID:* {new_id_gede}")
                             st.success(f"Tugas {new_id_gede} Terkirim!"); time.sleep(1); st.rerun()
 
-        # --- C. PROSES DATA (ANTI-BENTROK ID) ---
+        # --- C. PROSES DATA (SOLUSI TOTAL ERROR ID) ---
         df_raw = database.ambil_data("Tugas")
         if not df_raw.empty:
-            df_t = df_raw.copy()
+            # SILET: Jangan pake drop index, tapi pilih kolom spesifik biar gak duplikat
+            # Kita mapping nama kolom dari Supabase ke Nama DataFrame yang bersih
+            df_t = pd.DataFrame(df_raw)
             
-            # --- KUNCI SILET: Hapus kolom pertama (id kecil) secara paksa ---
-            # Karena kolom 'id' kecil di Supabase lo selalu ada di paling kiri (index 0)
-            df_t = df_t.drop(df_t.columns[0], axis=1)
+            # Kita paksa ambil kolom ID Gede (kolom ke-2 biasanya) dan buang id kecil
+            # Jika ada kolom bernama 'ID' dan 'id', kita pastikan ambil yang isinya String (T0302...)
+            if 'id' in df_t.columns and 'ID' in df_t.columns:
+                df_t = df_t.drop(columns=['id']) # Buang si pengganggu
             
-            # Sekarang baru aman buat dipaksa jadi UPPERCASE semua
+            # Standarisasi Header
             df_t.columns = [str(c).strip().upper() for c in df_t.columns]
+            
+            # Jika masih duplikat (jarang terjadi tapi buat jaga-jaga)
+            df_t = df_t.loc[:, ~df_t.columns.duplicated()]
 
             # --- D. TAMPILAN KARTU TUGAS AKTIF ---
             st.markdown("#### ⚡ Progres Tugas Aktif")
             status_aktif = ['PROSES', 'WAITING QC', 'REVISI']
             
-            # Tambahan Filter: Pastikan Staf hanya lihat miliknya sendiri
             if user_level == "OWNER":
                 mask_aktif = df_t['STATUS'].isin(status_aktif)
             else:
-                # Kita pake .str.upper() biar matching-nya akurat
                 mask_aktif = (df_t['STAF'].str.upper() == user_aktif) & (df_t['STATUS'].isin(status_aktif))
             
-            # Gunakan ID GEDE untuk sorting
             data_aktif = df_t[mask_aktif].sort_values(by="ID", ascending=False).to_dict('records')
 
             if not data_aktif:
                 st.caption("Tidak ada tugas khusus aktif.")
             else:
-                # Render 2 Kolom
                 for i in range(0, len(data_aktif), 2):
                     cols = st.columns(2)
                     for j in range(2):
                         if i + j < len(data_aktif):
                             t = data_aktif[i + j]
-                            # Variabel id_gede untuk identitas kartu
                             id_gede = str(t.get('ID', 'N/A'))
                             
                             with cols[j]:
@@ -108,7 +108,6 @@ def tampilkan_area_staf():
                                     c_ava, c_txt = st.columns([1, 4])
                                     c_ava.image("https://cdn-icons-png.flaticon.com/512/149/149071.png", width=50)
                                     with c_txt:
-                                        # Pakai ID GEDE di sini!
                                         st.markdown(f"**{t['STAF']}** | <span style='color:#1d976c;'>ID: {id_gede}</span>", unsafe_allow_html=True)
                                         icon = "🟡" if t['STATUS'] == "WAITING QC" else "🔴" if t['STATUS'] == "REVISI" else "🟢"
                                         st.markdown(f"{icon} `{t['STATUS']}`")
@@ -135,7 +134,7 @@ def tampilkan_area_staf():
                                                 
                                                 if b1.button("🟢 ACC", key=f"acc_{id_gede}", use_container_width=True):
                                                     database.supabase.table("Tugas").update({"Status": "FINISH"}).eq("ID", id_gede).execute()
-                                                    kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {id_gede}")
+                                                    kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {id_gede}\n👤 *Staf:* {t['STAF']}")
                                                     st.rerun()
                                                 
                                                 if b2.button("🔴 REV", key=f"rev_{id_gede}", use_container_width=True):
@@ -148,7 +147,7 @@ def tampilkan_area_staf():
                                                 if b3.button("🚫 BATAL", key=f"can_{id_gede}", use_container_width=True):
                                                     if cat_admin:
                                                         database.supabase.table("Tugas").update({"Status": "CANCELED", "CATATAN_REVISI": cat_admin}).eq("ID", id_gede).execute()
-                                                        kirim_notif_wa(f"🚫 *TUGAS BATAL*\n🆔 *ID:* {id_gede}\n📝 *Alasan:* {cat_admin}")
+                                                        kirim_notif_wa(f"🚫 *TUGAS BATAL*\n🆔 *ID:* {id_gede}\n👤 *Staf:* {t['STAF']}\n📝 *Alasan:* {cat_admin}")
                                                         st.rerun()
                                                     else: st.error("Isi alasan batal!")
 
@@ -160,7 +159,6 @@ def tampilkan_area_staf():
                 df_arsip = df_t[mask_arsip].sort_values(by="ID", ascending=False)
                 if df_arsip.empty: st.info("Belum ada riwayat.")
                 else:
-                    # Menampilkan ID GEDE di tabel arsip juga
                     st.dataframe(df_arsip[['ID', 'STAF', 'INSTRUKSI', 'STATUS']], use_container_width=True, hide_index=True)
                     
     # ==============================================================================
