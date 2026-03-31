@@ -6,9 +6,6 @@ from datetime import datetime
 import pytz
 import requests
 
-# ==============================================================================
-# NOTIFIKASI WA (FONNTE)
-# ==============================================================================
 def kirim_notif_wa(pesan):
     token = "f4CApLBAJDTPrVHHZCDF"
     target = "120363407726656878@g.us"
@@ -25,44 +22,45 @@ def tampilkan_area_staf():
     tz = pytz.timezone('Asia/Jakarta')
     sekarang = datetime.now(tz)
     
-    # --- 2. DATABASE RUTINITAS (MODEL CARD) ---
-    # Lo bisa edit isinya di sini sesuai jobdesk asli
-    data_rutinitas = {
-        "STAFF": { # Ini untuk ICHA & NISSA (Staff Editor)
-            "ikon": "🎬",
-            "judul": "RUTINITAS EDITOR",
+    # --- 2. AMBIL DATA STAFF DARI SUPABASE (DINAMIS) ---
+    # Kita ambil data terbaru biar kalau ada staf baru/pecat langsung sinkron
+    res_staff = database.supabase.table("Staff").select("Nama, Level").execute()
+    df_staff_db = pd.DataFrame(res_staff.data)
+    
+    # Bikin daftar nama buat dropdown Owner (Kirim Tugas)
+    # Kita ambil yang levelnya bukan OWNER
+    list_staff_tujuan = df_staff_db[df_staff_db['Level'] != 'OWNER']['Nama'].unique().tolist()
+
+    # --- 3. DATABASE KETENTUAN (SOP) ---
+    ketentuan = {
+        "STAFF": { 
+            "judul": "🎨 STANDAR PRODUKSI EDITOR", "ikon": "🎬",
             "poin": [
-                "Produksi minimal 3 video AI per hari.",
-                "Kualitas Visual: Wajib 1080p Full HD.",
-                "Aspect Ratio: Format 9:16 (1080x1920).",
-                "Durasi: Minimal 60 detik (Padat & No Filler).",
-                "Audio: Wajib Copyright-Free (YT Audio Library).",
-                "Backup: Simpan aset mentah min. 3 hari."
+                "**Kualitas Visual:** Minimal 1080p Full HD.",
+                "**Aspect Ratio:** Format 9:16 (1080x1920).",
+                "**Durasi:** Minimal 60 detik (Padat & No Filler).",
+                "**Audio & SFX:** Wajib Copyright-Free.",
+                "**Backup:** Simpan aset mentah minimal 3 hari."
             ]
         },
-        "UPLOADER": { # Ini untuk LISA
-            "ikon": "🚀",
-            "judul": "RUTINITAS UPLOADER",
+        "UPLOADER": {
+            "judul": "🚀 STANDAR OPERASIONAL UPLOADER", "ikon": "📲",
             "poin": [
-                "Upload 3 konten harian (10:00, 14:00, 19:00).",
-                "Optimasi SEO: Judul, Tag, dan Deskripsi unik.",
-                "Cek Interaksi: Balas komentar di 1 jam pertama.",
-                "Monitoring: Cek status hak cipta setelah upload."
+                "**Jadwal Upload:** 3x sehari (10:00, 14:00, 19:00).",
+                "**Optimasi SEO:** Judul, Tag, & Deskripsi unik.",
+                "**Interaksi:** Balas komentar di 1 jam pertama."
             ]
         },
-        "ADMIN": { # Ini untuk INGGI
-            "ikon": "⚙️",
-            "judul": "RUTINITAS ADMIN",
+        "ADMIN": {
+            "judul": "⚙️ STANDAR KONTROL ADMIN", "ikon": "📊",
             "poin": [
-                "QC Semua setoran video (Visual, Audio, SFX).",
-                "Update Database Channel harian.",
-                "Rekap bonus video & absensi tim.",
-                "Monitoring kesehatan akun (Live/Suspend)."
+                "**QC Video:** Pastikan setoran sesuai Standar Produksi.",
+                "**Database:** Update Riwayat & Arsip Tugas real-time.",
+                "**Payroll:** Rekap Bonus & Absensi mingguan."
             ]
         }
     }
 
-    # --- 3. TABS MENU ---
     tab_tugas, tab_panduan, tab_peraturan, tab_kontrak = st.tabs([
         "📝 TUGAS KERJA", "📖 PANDUAN KERJA", "⚖️ PERATURAN KERJA", "📜 KONTRAK KERJA"
     ])
@@ -73,30 +71,27 @@ def tampilkan_area_staf():
     with tab_tugas:
         st.markdown(f"### 📋 Papan Kerja: {user_aktif}")
         
-        # --- A. RUTINITAS HARIAN (MODEL CARD BY LEVEL) ---
-        st.markdown("#### 🕒 Rutinitas Harian")
+        # --- A. RUTINITAS (OTOMATIS SESUAI LEVEL DATABASE) ---
+        st.markdown("#### 🕒 Rutinitas & Standar Kerja")
         
-        # Logika Owner: Tampilkan Semua | Logika Staff: Tampilkan Miliknya
         if user_level == "OWNER":
             cols_r = st.columns(3)
-            for idx, (lvl, data) in enumerate(data_rutinitas.items()):
-                with cols_r[idx]:
-                    with st.container(border=True):
-                        st.markdown(f"### {data['ikon']} {data['judul']}")
-                        for p in data['poin']:
-                            st.markdown(f"- {p}")
+            with cols_r[0]:
+                st.success("🎬 **EDITOR**")
+                for p in ketentuan["STAFF"]["poin"]: st.markdown(f"• {p}")
+            with cols_r[1]:
+                st.info("📲 **UPLOADER**")
+                for p in ketentuan["UPLOADER"]["poin"]: st.markdown(f"• {p}")
+            with cols_r[2]:
+                st.warning("📊 **ADMIN**")
+                for p in ketentuan["ADMIN"]["poin"]: st.markdown(f"• {p}")
         else:
-            # Ambil data sesuai level user yang login
-            r_data = data_rutinitas.get(user_level)
-            if r_data:
+            # Staff hanya lihat card sesuai Level mereka di database
+            data = ketentuan.get(user_level)
+            if data:
                 with st.container(border=True):
-                    st.markdown(f"### {r_data['ikon']} {r_data['judul']}")
-                    c1, c2 = st.columns(2) # Bagi 2 kolom biar gak kepanjangan ke bawah
-                    mid = len(r_data['poin']) // 2
-                    with c1:
-                        for p in r_data['poin'][:mid+1]: st.markdown(f"- {p}")
-                    with c2:
-                        for p in r_data['poin'][mid+1:]: st.markdown(f"- {p}")
+                    st.success(f"{data['ikon']} **{data['judul']}**")
+                    for p in data['poin']: st.markdown(f"• {p}")
 
         st.divider()
         # --- B. PANEL OWNER (KIRIM TUGAS KHUSUS) ---
