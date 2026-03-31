@@ -585,9 +585,45 @@ def tampilkan_area_staf():
         st.caption(f"Terakhir diperbarui: 31 Maret 2026")
 
     # ==============================================================================
-    # TAB 4: KONTRAK KERJA
+    # TAB 4: KONTRAK KERJA (MODEL KEMITRAAN FLEKSIBEL)
     # ==============================================================================
     with tab_kontrak:
-        st.markdown(f"#### 📜 Kontrak: {user_aktif}")
-        if st.button("📄 Lihat Ringkasan Kontrak"):
-            st.write("- **Posisi:** Creator AI\n- **Status:** Aktif")
+        st.markdown(f"#### 📜 Detail Kontrak Kerja Sama")
+        
+        # --- CARD UTAMA: STATUS USER ---
+        with st.container(border=True):
+            col_id1, col_id2 = st.columns(2)
+            with col_id1:
+                st.write(f"👤 **Nama Staff:** {user_aktif}")
+                st.write(f"🏷️ **Posisi:** {user_level} AI")
+            with col_id2:
+                st.write("📅 **Status:** Kemitraan Lepas (Part-Time)")
+                st.success("✅ **Kondisi:** Proyek Aktif")
+
+        st.write("")
+
+        # --- CARD ISI KONTRAK (FULL TEXT) ---
+        with st.container(border=True):
+            st.markdown("#### 📝 Ringkasan Kesepakatan Kerja")
+            
+            # Poin 1: Status Kerja
+            st.markdown("**1. Hubungan Kerja Sama**")
+            st.write(f"Hubungan kerja antara Owner PINTAR MEDIA dan {user_aktif} adalah Kemitraan Lepas berbasis proyek (Project-Based). Tidak ada ikatan karyawan tetap.")
+            
+            # Poin 2: Fleksibilitas Proyek (Penting buat Dian!)
+            st.markdown("**2. Penyesuaian & Penghentian Proyek**")
+            st.warning("⚠️ **Klausul Darurat:** Dikarenakan sifat proyek yang dinamis mengikuti tren digital (YouTube/AI), Owner berhak menghentikan atau menunda operasional proyek sewaktu-waktu tanpa masa sanggah.")
+            st.write("- Jika proyek berhenti, upah akan dihitung secara **Pro-rata** (Hanya membayar hari/video yang sudah selesai dikerjakan).")
+            
+            # Poin 3: Masa Berlaku
+            st.markdown("**3. Masa Berlaku**")
+            st.write("Kontrak ini berlaku selama performa akun dan target harian terpenuhi. Evaluasi kelayakan mitra dilakukan setiap akhir bulan.")
+            
+            # Poin 4: Pengembalian Aset
+            st.error("**4. Pengembalian Aset & Data**")
+            st.write("Apabila kerja sama berakhir (baik karena proyek berhenti atau resign), Staff wajib mengembalikan seluruh inventaris (HP, Akun, Data) dalam kondisi semula dalam waktu 1x24 jam.")
+
+        # --- TOMBOL KONFIRMASI ---
+        st.write("")
+        if st.checkbox("Saya memahami dan menyetujui bahwa status kerja ini adalah Kemitraan Fleksibel."):
+            st.success("🤝 Kesepakatan diakui secara digital oleh sistem.")
