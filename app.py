@@ -6,6 +6,7 @@ import os
 from datetime import timedelta
 from modules import database
 from pages_content import ai_lab
+from pages_content import area_staf
 
 # --- FUNGSI PANGGIL CSS ---
 def local_css(file_name):
