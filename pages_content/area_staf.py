@@ -731,16 +731,39 @@ def tampilkan_area_staf():
         else:
             st.warning(f"🚨 **ADMINISTRASI WAJIB:** Anda belum menyetujui kontrak kemitraan periode **{periode_skrg}**.")
             
-            # --- TAMPILAN LAYAR (FULL TEXT TANPA SINGKATAN) ---
-            st.markdown("<h2 style='text-align: center;'>📜 SURAT PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
+            # --- TAMPILAN LAYAR (UI REBORN - FULL TEXT) ---
+            st.markdown("<h2 style='text-align: center; color: #fffdff;'>📜 SURAT PERJANJIAN KEMITRAAN KERJA</h2>", unsafe_allow_html=True)
             
-            with st.container(border=True):
-                st.markdown("### 👥 PARA PIHAK")
-                c1, c2 = st.columns(2)
-                with c1:
-                    st.markdown(f"**PIHAK KEDUA (MITRA)**\n\nNama Lengkap: {nama_lengkap_staf}\n\nJabatan: {jabatan_db}")
-                with c2:
-                    st.markdown(f"**PIHAK PERTAMA (OWNER)**\n\nNama Lengkap: Dian Setya Wardana\n\nAHU: {nomor_ahu}")
+            # --- BAGIAN PARA PIHAK (GANTI KODE LAMA LO DENGAN INI) ---
+            st.markdown("### 🤝 PARA PIHAK KEMITRAAN")
+            c1, c2 = st.columns(2)
+            
+            with c1:
+                with st.container(border=True):
+                    st.markdown(f"""
+                    <div style="background-color: #0e1117; padding: 15px; border-radius: 10px; border-left: 5px solid #3b82f6; min-height: 180px;">
+                        <h4 style="margin: 0; color: #3b82f6;">👤 PIHAK KEDUA (MITRA)</h4>
+                        <hr style="margin: 10px 0; opacity: 0.2;">
+                        <p style="margin: 5px 0; font-size: 15px;"><b>Nama Lengkap:</b><br>{nama_lengkap_staf}</p>
+                        <p style="margin: 5px 0; font-size: 15px;"><b>Jabatan:</b><br>{jabatan_db}</p>
+                        <small style="color: #888;">Selanjutnya disebut sebagai Penerima Kerja.</small>
+                    </div>
+                    """, unsafe_allow_html=True)
+
+            with c2:
+                with st.container(border=True):
+                    st.markdown(f"""
+                    <div style="background-color: #0e1117; padding: 15px; border-radius: 10px; border-left: 5px solid #10b981; min-height: 180px;">
+                        <h4 style="margin: 0; color: #10b981;">🏢 PIHAK PERTAMA (OWNER)</h4>
+                        <hr style="margin: 10px 0; opacity: 0.2;">
+                        <p style="margin: 5px 0; font-size: 15px;"><b>Nama Lengkap:</b><br>Dian Setya Wardana</p>
+                        <p style="margin: 5px 0; font-size: 15px;"><b>Perusahaan:</b><br>PT. PINTAR DIGITAL KREASI</p>
+                        <small style="color: #888;">Selanjutnya disebut sebagai Pemberi Kerja.</small>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            st.caption(f"📜 Dokumen ini mengacu pada legalitas perusahaan dengan No. AHU: {nomor_ahu}")
+            # --- AKHIR BAGIAN PARA PIHAK ---
 
             with st.container(border=True):
                 st.markdown("### 💰 I. PENGHASILAN & PENGGAJIAN")
