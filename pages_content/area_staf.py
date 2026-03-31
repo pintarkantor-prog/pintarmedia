@@ -739,9 +739,16 @@ def tampilkan_area_staf():
             d = res_ttd.data[0]
             st.success(f"✔️ **DOKUMEN DISAHKAN SECARA DIGITAL**\n\nNama: {nama_lengkap_staf} | Tanggal: {d['tgl_tanda_tangan']} | Jam: {d['waktu_presisi']}")
             
-            # Tips Print Muncul Setelah Berhasil TTD
-            st.info("🖨️ **SIAP CETAK:** Tekan **Ctrl + P** untuk menyimpan sebagai PDF atau mencetak kontrak ini.")
+            st.write("")
+            # Tombol Print ala web lama lo, ditaruh di sini
+            if st.button("📄 CETAK KONTRAK KERJA", use_container_width=True, type="primary"):
+                # Memicu jendela print browser otomatis
+                st.components.v1.html("<script>window.print();</script>", height=0)
+            
+            st.caption("💡 Jika jendela print tidak muncul, pastikan browser Anda tidak memblokir pop-up.")
+            
         else:
+            # Bagian ini tetap sama (untuk yang belum TTD)
             st.error("❗ Anda diwajibkan memberikan persetujuan digital untuk dapat melanjutkan akses ke Dashboard Kerja.")
             setuju = st.checkbox(f"Saya, {nama_lengkap_staf}, menyetujui seluruh ketentuan PINTAR MEDIA di atas tanpa paksaan.")
             
