@@ -70,23 +70,25 @@ def tampilkan_area_staf():
         if not df_raw.empty:
             df_t = df_raw.copy()
             
-            # --- KUNCI SILET: Hapus kolom 'id' kecil agar tidak bentrok ---
-            if 'id' in df_t.columns:
-                df_t = df_t.drop(columns=['id'])
+            # --- KUNCI SILET: Hapus kolom pertama (id kecil) secara paksa ---
+            # Karena kolom 'id' kecil di Supabase lo selalu ada di paling kiri (index 0)
+            df_t = df_t.drop(df_t.columns[0], axis=1)
             
-            # Sekarang panggil ID GEDE (kolom ke-2 di Supabase lo)
-            # Kita pastikan namanya standard
+            # Sekarang baru aman buat dipaksa jadi UPPERCASE semua
             df_t.columns = [str(c).strip().upper() for c in df_t.columns]
 
             # --- D. TAMPILAN KARTU TUGAS AKTIF ---
             st.markdown("#### ⚡ Progres Tugas Aktif")
             status_aktif = ['PROSES', 'WAITING QC', 'REVISI']
             
+            # Tambahan Filter: Pastikan Staf hanya lihat miliknya sendiri
             if user_level == "OWNER":
                 mask_aktif = df_t['STATUS'].isin(status_aktif)
             else:
+                # Kita pake .str.upper() biar matching-nya akurat
                 mask_aktif = (df_t['STAF'].str.upper() == user_aktif) & (df_t['STATUS'].isin(status_aktif))
             
+            # Gunakan ID GEDE untuk sorting
             data_aktif = df_t[mask_aktif].sort_values(by="ID", ascending=False).to_dict('records')
 
             if not data_aktif:
