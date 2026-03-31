@@ -159,32 +159,28 @@ def tampilkan_navigasi_sidebar():
         ''', unsafe_allow_html=True)
     return pilihan
 
-# --- JALANKAN APLIKASI ---
+# --- JALANKAN APLIKASI (VERSI POLOSAN ORI) ---
 if not cek_autentikasi():
     halaman_login()
 else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # --- JURUS SILET: LOADING SETIAP PINDAH MENU ---
+    # ROUTING HALAMAN (Versi Tanpa Spinner/Loading Tengah)
     if menu == "🧠 PINTAR AI LAB":
-        with st.spinner("🧠 Sinkronisasi Otak AI..."):
-            ai_lab.tampilkan_halaman()
+        ai_lab.tampilkan_halaman()
 
     elif menu == "📱 DATABASE CHANNEL":
         if user_level in ["OWNER", "ADMIN"]:
-            with st.spinner("📱 Sedang memindai..."):
-                database_channel.tampilkan_database_channel()
+            database_channel.tampilkan_database_channel()
         else:
             st.error("🚫 Akses Ditolak!")
 
     elif menu == "📘 AREA STAF":
-        with st.spinner("📘 Membuka Berkas Staf..."):
-            area_staf.tampilkan_area_staf()
+        area_staf.tampilkan_area_staf()
 
     elif menu == "⚡ KENDALI TIM":
         if user_level in ["OWNER", "ADMIN"]:
-            with st.spinner("⚡ Menghitung Amunisi Finansial..."):
-                kendali_tim.tampilkan_kendali_tim()
+            kendali_tim.tampilkan_kendali_tim()
         else:
             st.error("🚫 Akses Ditolak!")
