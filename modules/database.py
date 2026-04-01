@@ -1,8 +1,9 @@
 import streamlit as st
 from supabase import create_client, Client
 import pandas as pd
-from datetime import datetime
+from datetime import datetime, timedelta  # <--- WAJIB ADA timedelta DI SINI!
 import pytz
+import time # Buat jeda sleep pas simpan data
 
 # ==============================================================================
 # 1. SETUP KONEKSI & WAKTU
