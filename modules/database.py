@@ -46,6 +46,9 @@ def ambil_data(nama_tabel):
         st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
 
+# ==============================================================================
+# 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
+# ==============================================================================
 def bersihkan_data(df):
     """Jurus sakti biar data seragam, gak ada spasi liar & huruf kecil"""
     if df.empty: return df
@@ -57,27 +60,26 @@ def bersihkan_data(df):
             df[col] = df[col].astype(str).str.strip().str.upper()
     return df
 
-# ==============================================================================
-# 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
-# ==============================================================================
 def load_data_channel():
     """Narik data murni (Real-time tanpa Cache)"""
     try:
-        # Langsung nembak Supabase tanpa filter cache
         res = supabase.table("Channel_Pintar").select("*").execute()
         if res.data:
             df = pd.DataFrame(res.data)
-            return bersihkan_data(df) # Pastiin fungsi bersihkan_data lo udah ada
+            return bersihkan_data(df) # Sekarang aman karena fungsi udah ada di atas
         return pd.DataFrame(columns=["TANGGAL", "EMAIL", "STATUS", "HP"])
     except Exception as e:
         st.error(f"❌ Supabase Error: {e}")
         return pd.DataFrame()
 
-@st.cache_data(ttl=60) # Biarin 10 menit kayak web lama, karena HP jarang ganti
+@st.cache_data(ttl=600) # <--- GANTI JADI 600 (10 Menit) BIAR HP GAK NARIK TERUS
 def load_data_hp():
     try:
         res = supabase.table("Data_HP").select("*").execute()
-        return pd.DataFrame(res.data)
+        df = pd.DataFrame(res.data)
+        if not df.empty:
+            df.columns = [str(c).strip().upper() for c in df.columns]
+        return df
     except:
         return pd.DataFrame()
 
@@ -96,15 +98,27 @@ def simpan_perubahan_channel(data_batch):
 
 def tambah_log(user, aksi):
     """Mencatat aktivitas ke Supabase (Dian tidak dicatat)"""
-    if str(user).upper() == "DIAN": return
+    # 1. Standarisasi Nama (Biar gak ada "Icha", "icha", "ICHA")
+    user_fix = str(user).strip().upper()
+    
+    # 2. Proteksi Owner (Sesuai request lo, Dian gak dicatat)
+    if user_fix == "DIAN": 
+        return
+        
     try:
+        # 3. Format Waktu Indonesia (Sesuai mesin baru lo)
         waktu_log = ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M:%S")
+        
+        # 4. Kirim ke Supabase
         supabase.table("Log_Aktivitas").insert({
             "Waktu": waktu_log,
-            "User": str(user).upper(),
-            "Aksi": aksi
+            "User": user_fix,
+            "Aksi": str(aksi).strip()
         }).execute()
-    except: pass
+        
+    except Exception as e:
+        # Minimal print ke console biar lo tau kalau ada masalah koneksi
+        print(f"❌ Log Error: {e}")
 
 # ==============================================================================
 # 4. FUNGSI KEAMANAN (HANYA SESI LOGIN - WHITELIST HAPUS)
