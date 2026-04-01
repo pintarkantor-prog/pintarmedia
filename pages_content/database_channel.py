@@ -365,7 +365,7 @@ def tampilkan_database_channel():
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
                                 
                                 # 4. KASIH JEDA DIKIT (Biar Supabase kelar nulis)
-                                time.sleep(1.5) 
+                                time.sleep(1) 
                                 st.rerun()
                             else:
                                 st.info("Tidak ada perubahan data.")
@@ -651,7 +651,7 @@ def tampilkan_database_channel():
                             }).execute()
 
                             st.success(f"✅ {v_nama} Berhasil Didaftarkan!")
-                            time.sleep(1.5)
+                            time.sleep(1)
                             st.rerun() 
                         except Exception as e:
                             st.error(f"Error Supabase: {e}")
@@ -725,7 +725,7 @@ def tampilkan_database_channel():
                                         
                                         st.cache_data.clear()
                                         st.success(f"✅ {e_nama} Berhasil Diupdate!")
-                                        time.sleep(1.5)
+                                        time.sleep(1)
                                         st.rerun()
                                     except Exception as e:
                                         st.error(f"❌ Gagal Update Supabase: {e}")
@@ -843,7 +843,7 @@ def tampilkan_database_channel():
                                     database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                     st.cache_data.clear()
                                     st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
-                                    time.sleep(1.5)
+                                    time.sleep(1)
                                     st.rerun()
                         except Exception as e:
                             st.error(f"❌ Gagal Simpan: {e}")
@@ -940,7 +940,7 @@ def tampilkan_database_channel():
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                 st.cache_data.clear()
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun Arsip Diperbarui!")
-                                time.sleep(1.5)
+                                time.sleep(1)
                                 st.rerun()
                                 
                     except Exception as e:
