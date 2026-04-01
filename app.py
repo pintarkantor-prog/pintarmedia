@@ -20,21 +20,30 @@ local_css("assets/style.css")
 # --- CONFIG HALAMAN ---
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide", initial_sidebar_state="expanded")
 
-# --- MODIF 1: FUNGSI RESET LAYAR (TARUH SINI) ---
+# --- MODIF 1: FUNGSI RESET LAYAR ---
 def reset_layar():
     """Hancurkan bayangan tabel & cache tiap ganti menu"""
     st.cache_data.clear()
+    
+    # KUNCI UTAMA: Update waktu sync biar ID Container di bawah BERUBAH
+    st.session_state["last_sync"] = time.time() 
+    
     # Hapus sisa memori editor tabel agar tidak ghosting
     for key in list(st.session_state.keys()):
+        # Pastiin 'grid_' atau 'editor_' sesuai dengan key yang lo pake di st.data_editor
         if "grid_" in key or "editor_" in key:
             del st.session_state[key]
 
-# Inisialisasi ID Browser & Status Login
+# --- INISIALISASI SESSION STATE AWAL ---
 if "browser_session_id" not in st.session_state:
     st.session_state["browser_session_id"] = str(uuid.uuid4())
 
 if "is_login" not in st.session_state:
     st.session_state["is_login"] = False
+
+# Inisialisasi last_sync biar gak error pas pertama login
+if "last_sync" not in st.session_state:
+    st.session_state["last_sync"] = time.time()
 
 # Sembunyikan Sidebar jika belum login
 if not st.session_state["is_login"]:
@@ -158,17 +167,16 @@ def tampilkan_navigasi_sidebar():
 if not cek_autentikasi():
     halaman_login()
 else:
-    # --- MODIF 3: WARM UP DATABASE (Optional tapi ngebantu) ---
+    # --- MODIF 3: WARM UP ---
     if 'last_sync' not in st.session_state:
-        st.session_state.last_sync = database.ambil_waktu_sekarang()
+        st.session_state.last_sync = time.time() # Pake time.time biar simpel
 
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
-
-    # --- MODIF 4: GUNAKAN st.empty() UNTUK ROUTING ---
-    container_utama = st.empty()
-
-    with container_utama.container():
+    menu_id = f"konten_{menu}_{st.session_state.last_sync}"
+    
+    # Gunakan container dengan key unik
+    with st.container(key=menu_id):
         if menu == "🧠 PINTAR AI LAB":
             ai_lab.tampilkan_halaman()
 
