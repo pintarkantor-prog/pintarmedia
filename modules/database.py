@@ -33,8 +33,7 @@ def ambil_data(nama_tabel):
             # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
             res = query.execute()
             
-    df = pd.DataFrame(res.data)
-        
+        df = pd.DataFrame(res.data)    
         if not df.empty:
             df.columns = [str(c).strip().upper() for c in df.columns]
             df = df.fillna("") 
