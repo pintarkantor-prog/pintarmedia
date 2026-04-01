@@ -146,8 +146,7 @@ def tampilkan_database_channel():
                                 # 1. Hapus cache SEBELUM sukses (Biar memori langsung kosong)
                                 st.cache_data.clear()
                                 st.success(f"✅ MANTAP! Akun {v_mail} masuk Supabase.")
-                                time.sleep(1.5)
-                                st.cache_data.clear()
+                                time.sleep(1)
                                 st.rerun()
 
                             except Exception as e:
@@ -434,7 +433,8 @@ def tampilkan_database_channel():
                                 database.supabase.table("Channel_Pintar").upsert(
                                     data_supabase, on_conflict="EMAIL"
                                 ).execute()
-
+                                
+                            st.cache_data.clear()
                             st.success(f"✅ Mantap! {len(data_supabase)} Jadwal Berhasil Sinkron.")
                             time.sleep(1)
                             st.rerun()
@@ -722,6 +722,7 @@ def tampilkan_database_channel():
                                             "MASA_AKTIF": e_tgl
                                         }).eq("NAMA_HP", r['NAMA_HP']).execute()
                                         
+                                        st.cache_data.clear()
                                         st.success(f"✅ {e_nama} Berhasil Diupdate!")
                                         time.sleep(0.5)
                                         st.rerun()
