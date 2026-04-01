@@ -170,7 +170,7 @@ else:
     # Ini simulasi 'ambil_data_segar' web lama lo yang running 2 detik
     with st.spinner(f"🚀 Sinkronisasi {menu}..."):
         import time
-        time.sleep(1.2) # Jeda 0.8 detik aja udah cukup buat 'ngunci' visual
+        time.sleep(0.8) # Jeda 0.8 detik aja udah cukup buat 'ngunci' visual
         
         # --- ROUTING HALAMAN ---
         if menu == "🧠 PINTAR AI LAB":
