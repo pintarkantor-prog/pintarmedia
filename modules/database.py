@@ -20,28 +20,22 @@ def ambil_waktu_sekarang():
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
 def ambil_data(nama_tabel):
-    """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
+        # Kita tambahin dummy parameter di query biar Supabase & Streamlit nggak nge-cache
         query = supabase.table(nama_tabel).select("*")
         
         if nama_tabel == "Log_Aktivitas":
-            # Ambil 200 BARIS data terbaru, bukan detik ya Boss!
             res = query.order("Waktu", desc=True).limit(200).execute()
-        
         else:
-            # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
             res = query.execute()
             
         df = pd.DataFrame(res.data)
         
         if not df.empty:
-            # JURUS SAKTI: Paksa kolom jadi KAPITAL
-            df.columns = [str(c).strip().upper() for c in df.columns]
-            df = df.fillna('')
-            return df
+            # Tetep pake jurus bersihkan_data biar rapi
+            return bersihkan_data(df)
             
         return pd.DataFrame()
-        
     except Exception as e:
         st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
