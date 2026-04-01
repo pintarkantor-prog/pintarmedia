@@ -361,10 +361,7 @@ def tampilkan_database_channel():
                                 
                                 # 3. BERSIHKAN LAGI (Double Kill!)
                                 st.cache_data.clear() 
-                                
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
-                                
-                                # 4. KASIH JEDA DIKIT (Biar Supabase kelar nulis)
                                 time.sleep(1) 
                                 st.rerun()
                             else:
@@ -650,6 +647,7 @@ def tampilkan_database_channel():
                                 "MASA_AKTIF": tgl_fix
                             }).execute()
 
+                            st.cache_data.clear()
                             st.success(f"✅ {v_nama} Berhasil Didaftarkan!")
                             time.sleep(1)
                             st.rerun() 
