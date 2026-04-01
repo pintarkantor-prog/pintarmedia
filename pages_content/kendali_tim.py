@@ -261,7 +261,7 @@ def tampilkan_kendali_tim():
                             }).execute()
                             # Clear cache biar data baru langsung nongol
                             st.cache_data.clear()
-                            st.success("Berhasil!"); time.sleep(1); st.rerun()
+                            st.success("Tersimpan!"); time.sleep(1); st.rerun()
                         except Exception as e: st.error(f"Gagal: {e}")
 
             st.divider()
@@ -324,7 +324,7 @@ def tampilkan_kendali_tim():
                                     }).eq("id", sid).execute() # 'id' kecil sesuai gambar lo
                                     
                                     st.cache_data.clear()
-                                    st.success("OK!"); time.sleep(0.5); st.rerun()
+                                    st.success("BERHASIL!"); time.sleep(0.5); st.rerun()
                                 except Exception as e:
                                     st.error(f"Gagal Update: {e}")
 
