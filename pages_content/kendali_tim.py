@@ -269,16 +269,17 @@ def tampilkan_kendali_tim():
             # --- B. FITUR EDIT & HAPUS STAFF ---
             st.markdown("##### 📝 EDIT ATAU BERHENTIKAN STAFF")
             
-            # Cari kolom ID (Pastikan di Supabase namanya 'id' atau 'ID')
+            # 1. Cari kolom ID (Biasanya 'id' atau 'ID' di Supabase)
             c_id = next((c for c in df_staff.columns if c.lower() == 'id'), 'id')
             
-            # Filter non-owner (Gunakan huruf kapital karena sudah di-upper di database.py)
+            # 2. Filter non-owner (Pake 'LEVEL' karena di database.py sudah di-UPPER)
             df_manage = df_staff[df_staff['LEVEL'].fillna('').astype(str).str.upper() != 'OWNER'].copy()
 
             if not df_manage.empty:
                 for _, s in df_manage.iterrows():
                     sid = s.get(c_id)
                     with st.container(border=True):
+                        # --- BARIS 1: Identitas ---
                         cols1 = st.columns([2, 2, 1.5, 1.5])
                         with cols1[0]:
                             st.markdown('<p class="small-label">Nama Staff</p>', unsafe_allow_html=True)
@@ -296,6 +297,7 @@ def tampilkan_kendali_tim():
                             st.markdown('<p class="small-label">Password Login</p>', unsafe_allow_html=True)
                             u_pw = st.text_input("P", value=str(s.get('PASSWORD', '')), type="password", key=f"upw_{sid}", label_visibility="collapsed")
 
+                        # --- BARIS 2: Finansial & Tombol ---
                         cols2 = st.columns([2, 2, 1.5, 1.5])
                         with cols2[0]:
                             st.markdown('<p class="small-label">Gaji Pokok</p>', unsafe_allow_html=True)
@@ -308,14 +310,14 @@ def tampilkan_kendali_tim():
                             st.write(" ") 
                             if st.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
                                 try:
-                                    # KUNCI: NAMA KOLOM DI DALAM {} HARUS PERSIS SUPABASE
+                                    # TEMBAK LANGSUNG KE KOLOM SUPABASE (Nama, Jabatan, Gaji_Pokok, Tunjangan, Password, Level)
                                     database.supabase.table("Staff").update({
                                         "Nama": u_nama.upper(), 
                                         "Jabatan": u_jab, 
-                                        "Level": u_lv, 
                                         "Gaji_Pokok": u_gp, 
                                         "Tunjangan": u_tj, 
-                                        "Password": u_pw
+                                        "Password": u_pw,
+                                        "Level": u_lv
                                     }).eq(c_id, sid).execute()
                                     
                                     st.cache_data.clear()
@@ -332,7 +334,7 @@ def tampilkan_kendali_tim():
                                     st.success("Dihapus!"); st.session_state.pop('confirm_del'); time.sleep(0.5); st.rerun()
                                 else:
                                     st.session_state['confirm_del'] = sid
-                                    st.warning("Klik HAPUS sekali lagi!")
+                                    st.warning("HAPUS lagi?")
             else:
                 st.warning("Tidak ada data staff untuk diedit.")
 
