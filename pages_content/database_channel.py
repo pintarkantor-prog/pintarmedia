@@ -352,7 +352,12 @@ def tampilkan_database_channel():
                                     })
 
                             if data_batch:
+                                # 1. Kirim ke Supabase
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                
+                                # 2. JURUS SAKTI: Hapus Cache Biar Langsung Update!
+                                st.cache_data.clear() 
+                                
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
                                 time.sleep(1)
                                 st.rerun()
