@@ -19,6 +19,7 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
+@st.cache_data(ttl=60)
 def ambil_data(nama_tabel):
     """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
