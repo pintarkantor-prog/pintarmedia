@@ -19,7 +19,6 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
-@st.cache_data(ttl=60)
 def ambil_data(nama_tabel):
     """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
@@ -51,27 +50,20 @@ def ambil_data(nama_tabel):
 # 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
 # ==============================================================================
 def load_data_channel():
-    # Biarin Real-time biar Dian gak dapet data basi
+    """Khusus narik data akun YouTube (Real-time)"""
     return ambil_data("Channel_Pintar")
 
 def load_data_hp():
+    """Khusus narik data unit HP (Real-time)"""
     return ambil_data("Data_HP")
 
 def simpan_perubahan_channel(data_batch):
     try:
         if data_batch:
-            with st.spinner("🚀 Sinkronisasi ke Supabase..."):
-                # 1. Kirim Data
+            with st.spinner("Mengirim data ke pusat..."): # Opsional: tambah spinner
                 supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
-                
-                # 2. Sapu Bersih Memori (Biar gak ada bayangan data lama)
                 st.cache_data.clear()
-                
-                # 3. Jeda Napas (Ini kuncinya biar gak ngebayang!)
-                import time
-                time.sleep(1.2) 
-                
-                st.toast("✅ Data Berhasil Disinkron!", icon="🚀")
+                st.toast("✅ Data Berhasil Disinkron!", icon="🚀") # Tambahan biar mantap
                 return True
         return False
     except Exception as e:
