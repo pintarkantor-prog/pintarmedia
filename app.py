@@ -159,28 +159,34 @@ def tampilkan_navigasi_sidebar():
         ''', unsafe_allow_html=True)
     return pilihan
 
-# --- JALANKAN APLIKASI (VERSI ORIGINAL DIAN) ---
+# --- JALANKAN APLIKASI (VERSI KUNCI SENTRAL) ---
 if not cek_autentikasi():
     halaman_login()
 else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # ROUTING HALAMAN (POLOSAN TANPA VARIASI)
-    if menu == "🧠 PINTAR AI LAB":
-        ai_lab.tampilkan_halaman()
+    # --- JURUS KUNCI: Kasih jeda biar layar BERSIH TOTAL ---
+    # Ini simulasi 'ambil_data_segar' web lama lo yang running 2 detik
+    with st.spinner(f"🚀 Sinkronisasi {menu}..."):
+        import time
+        time.sleep(1.2) # Jeda 0.8 detik aja udah cukup buat 'ngunci' visual
+        
+        # --- ROUTING HALAMAN ---
+        if menu == "🧠 PINTAR AI LAB":
+            ai_lab.tampilkan_halaman()
 
-    elif menu == "📱 DATABASE CHANNEL":
-        if user_level in ["OWNER", "ADMIN"]:
-            database_channel.tampilkan_database_channel()
-        else:
-            st.error("🚫 Akses Ditolak!")
+        elif menu == "📱 DATABASE CHANNEL":
+            if user_level in ["OWNER", "ADMIN"]:
+                database_channel.tampilkan_database_channel()
+            else:
+                st.error("🚫 Akses Ditolak!")
 
-    elif menu == "📘 AREA STAF":
-        area_staf.tampilkan_area_staf()
+        elif menu == "📘 AREA STAF":
+            area_staf.tampilkan_area_staf()
 
-    elif menu == "⚡ KENDALI TIM":
-        if user_level in ["OWNER", "ADMIN"]:
-            kendali_tim.tampilkan_kendali_tim()
-        else:
-            st.error("🚫 Akses Ditolak!")
+        elif menu == "⚡ KENDALI TIM":
+            if user_level in ["OWNER", "ADMIN"]:
+                kendali_tim.tampilkan_kendali_tim()
+            else:
+                st.error("🚫 Akses Ditolak!")
