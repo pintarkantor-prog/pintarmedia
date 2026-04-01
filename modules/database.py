@@ -19,7 +19,6 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
-@st.cache_data(ttl=60) # <--- DATA DISIMPAN 60 DETIK DI MEMORI
 def ambil_data(nama_tabel):
     """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
@@ -47,16 +46,40 @@ def ambil_data(nama_tabel):
         st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
 
+def bersihkan_data(df):
+    """Jurus sakti biar data seragam, gak ada spasi liar & huruf kecil"""
+    if df.empty: return df
+    df.columns = [str(c).strip().upper() for c in df.columns]
+    df = df.fillna('')
+    kolom_krusial = ['EMAIL', 'STATUS', 'NAMA_CHANNEL', 'PENCATAT', 'HP']
+    for col in df.columns:
+        if col in kolom_krusial:
+            df[col] = df[col].astype(str).str.strip().str.upper()
+    return df
+
 # ==============================================================================
 # 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
 # ==============================================================================
 def load_data_channel():
-    """Khusus narik data akun YouTube (Real-time)"""
-    return ambil_data("Channel_Pintar")
+    """Narik data murni (Real-time tanpa Cache)"""
+    try:
+        # Langsung nembak Supabase tanpa filter cache
+        res = supabase.table("Channel_Pintar").select("*").execute()
+        if res.data:
+            df = pd.DataFrame(res.data)
+            return bersihkan_data(df) # Pastiin fungsi bersihkan_data lo udah ada
+        return pd.DataFrame(columns=["TANGGAL", "EMAIL", "STATUS", "HP"])
+    except Exception as e:
+        st.error(f"❌ Supabase Error: {e}")
+        return pd.DataFrame()
 
+@st.cache_data(ttl=60) # Biarin 10 menit kayak web lama, karena HP jarang ganti
 def load_data_hp():
-    """Khusus narik data unit HP (Real-time)"""
-    return ambil_data("Data_HP")
+    try:
+        res = supabase.table("Data_HP").select("*").execute()
+        return pd.DataFrame(res.data)
+    except:
+        return pd.DataFrame()
 
 def simpan_perubahan_channel(data_batch):
     try:
