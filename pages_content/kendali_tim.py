@@ -252,12 +252,12 @@ def tampilkan_kendali_tim():
                         try:
                             # GUNAKAN NAMA KOLOM ASLI SUPABASE LO
                             database.supabase.table("Staff").insert({
-                                "Nama": t_nama.upper(), 
+                                "Nama": t_nama.strip().upper(),
                                 "Jabatan": t_jabatan, 
-                                "Level": t_level,
                                 "Gaji_Pokok": str(int(t_gapok)), 
                                 "Tunjangan": str(int(t_tunjangan)), 
                                 "Password": t_pass
+                                "Level": u_lv.strip().upper(),
                             }).execute()
                             # Clear cache biar data baru langsung nongol
                             st.cache_data.clear()
@@ -269,22 +269,23 @@ def tampilkan_kendali_tim():
             # --- B. FITUR EDIT & HAPUS STAFF ---
             st.markdown("##### 📝 EDIT ATAU BERHENTIKAN STAFF")
             
-            # 1. Deteksi ID (Cari kolom ID di dataframe lo)
-            # Karena di database.py lo pake .upper(), maka namanya jadi 'ID'
-            c_id = next((c for c in df_staff.columns if c.upper() == 'ID'), 'ID')
+            # 1. Cari kolom ID (Sesuai gambar lo: 'id' kecil)
+            # Karena database.py pake .upper(), di DataFrame dia jadi 'ID'
+            c_id_df = next((c for c in df_staff.columns if c.upper() == 'ID'), 'ID')
             
-            # 2. Filter non-owner (Pake 'LEVEL' kapital sesuai database.py)
+            # 2. Filter non-owner (Pake 'LEVEL' kapital karena hasil olahan database.py)
             df_manage = df_staff[df_staff['LEVEL'].fillna('').astype(str).str.upper() != 'OWNER'].copy()
 
             if not df_manage.empty:
                 for _, s in df_manage.iterrows():
-                    sid = s.get(c_id)
+                    sid = s.get(c_id_df) # Ini ID unik buat filter Supabase
+                    
                     with st.container(border=True):
-                        # --- BARIS 1: Identitas Utama ---
+                        # --- BARIS 1: Data Utama ---
                         cols1 = st.columns([2, 2, 1.5, 1.5])
                         with cols1[0]:
                             st.markdown('<p class="small-label">Nama Staff</p>', unsafe_allow_html=True)
-                            # Langsung tembak 'NAMA' (Hasil .upper() dari database.py)
+                            # s.get('NAMA') karena database.py ngerubah jadi kapital
                             u_nama = st.text_input("N", value=str(s.get('NAMA', '')), key=f"unm_{sid}", label_visibility="collapsed")
                         with cols1[1]:
                             st.markdown('<p class="small-label">Jabatan</p>', unsafe_allow_html=True)
@@ -299,7 +300,7 @@ def tampilkan_kendali_tim():
                             st.markdown('<p class="small-label">Password Login</p>', unsafe_allow_html=True)
                             u_pw = st.text_input("P", value=str(s.get('PASSWORD', '')), type="password", key=f"upw_{sid}", label_visibility="collapsed")
 
-                        # --- BARIS 2: Gaji & Tombol Aksi ---
+                        # --- BARIS 2: Gaji & Tombol ---
                         cols2 = st.columns([2, 2, 1.5, 1.5])
                         with cols2[0]:
                             st.markdown('<p class="small-label">Gaji Pokok</p>', unsafe_allow_html=True)
@@ -312,15 +313,15 @@ def tampilkan_kendali_tim():
                             st.write(" ") 
                             if st.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
                                 try:
-                                    # LANGSUNG TEMBAK NAMA KOLOM ASLI SUPABASE (Sesuai info lo)
+                                    # SESUAI GAMBAR LO: Nama kolom asli Supabase (Pake Huruf Besar di awal)
                                     database.supabase.table("Staff").update({
-                                        "Nama": u_nama.upper(), 
+                                        "Nama": u_nama.strip().upper(),
                                         "Jabatan": u_jab, 
                                         "Gaji_Pokok": u_gp, 
                                         "Tunjangan": u_tj, 
                                         "Password": u_pw,
-                                        "Level": u_lv
-                                    }).eq("id", sid).execute() # Pastikan kolom ID di Supabase lo namanya 'id' (kecil)
+                                        "Level": u_lv.strip().upper(),
+                                    }).eq("id", sid).execute() # 'id' kecil sesuai gambar lo
                                     
                                     st.cache_data.clear()
                                     st.success("OK!"); time.sleep(0.5); st.rerun()
@@ -331,7 +332,6 @@ def tampilkan_kendali_tim():
                             st.write(" ")
                             if st.button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True):
                                 if st.session_state.get('confirm_del') == sid:
-                                    # Sesuai kolom ID asli di Supabase lo
                                     database.supabase.table("Staff").delete().eq("id", sid).execute()
                                     st.cache_data.clear()
                                     st.success("Dihapus!"); st.session_state.pop('confirm_del'); time.sleep(0.5); st.rerun()
