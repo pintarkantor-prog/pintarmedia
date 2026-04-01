@@ -50,8 +50,6 @@ def tampilkan_database_channel():
         df = database.ambil_data("Channel_Pintar")
         df_hp = database.ambil_data("Data_HP")
     
-        time.sleep(0.6) 
-
     if df.empty:
         st.warning("⚠️ Gagal memuat data atau tabel kosong.")
         return
