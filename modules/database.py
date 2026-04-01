@@ -33,20 +33,13 @@ def ambil_data(nama_tabel):
             # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
             res = query.execute()
             
-        df = pd.DataFrame(res.data)
+    df = pd.DataFrame(res.data)
         
         if not df.empty:
-            # 1. Bersihkan Nama Kolom
             df.columns = [str(c).strip().upper() for c in df.columns]
-            
-            # 2. Hapus Kolom 'ID' kalau ada (Biar gak menuh-menuhin tabel)
-            if 'ID' in df.columns:
-                df = df.drop(columns=['ID'])
-            
-            # 3. OBAT NAN: Ganti NaN jadi String Kosong
-            # Kita pake replace juga buat jaga-jaga ada None dari JSON
-            df = df.replace({pd.NA: '', None: ''}).fillna('')
-            
+            df = df.fillna("") 
+            df = df.astype(str)
+            df = df.replace(["None", "nan", "NaN", "<NA>"], "")
             return df
             
         return pd.DataFrame()
