@@ -36,9 +36,17 @@ def ambil_data(nama_tabel):
         df = pd.DataFrame(res.data)
         
         if not df.empty:
-            # JURUS SAKTI: Paksa kolom jadi KAPITAL
+            # 1. Bersihkan Nama Kolom
             df.columns = [str(c).strip().upper() for c in df.columns]
-            df = df.fillna('')
+            
+            # 2. Hapus Kolom 'ID' kalau ada (Biar gak menuh-menuhin tabel)
+            if 'ID' in df.columns:
+                df = df.drop(columns=['ID'])
+            
+            # 3. OBAT NAN: Ganti NaN jadi String Kosong
+            # Kita pake replace juga buat jaga-jaga ada None dari JSON
+            df = df.replace({pd.NA: '', None: ''}).fillna('')
+            
             return df
             
         return pd.DataFrame()
