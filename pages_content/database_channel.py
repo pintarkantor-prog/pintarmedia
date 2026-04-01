@@ -143,10 +143,11 @@ def tampilkan_database_channel():
                                         "EDITED": f"New: {user_aktif} ({tgl_now})"
                                     }).execute()
                                     
-                                # Hapus cache biar data langsung muncul di tabel bawah
+                                # 1. Hapus cache SEBELUM sukses (Biar memori langsung kosong)
                                 st.cache_data.clear()
                                 st.success(f"✅ MANTAP! Akun {v_mail} masuk Supabase.")
-                                time.sleep(0.5)
+                                time.sleep(1.5)
+                                st.cache_data.clear()
                                 st.rerun()
 
                             except Exception as e:
