@@ -347,35 +347,45 @@ def tampilkan_kendali_tim():
         with st.expander("🚀 INPUT BONUS / POTONGAN GAJI", expanded=False):
             with st.form("form_extra_gaji", clear_on_submit=True):
                 c1, c2, c3, c4 = st.columns([1.5, 1.2, 1.5, 2])
+                
                 with c1:
                     st.markdown('<p class="small-label">Karyawan</p>', unsafe_allow_html=True)
-                    daftar_nama = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'][c_nm].tolist()
+                    # PAKAI 'LEVEL' DAN 'NAMA' KAPITAL (Hasil database.py)
+                    mask_bukan_owner = df_staff['LEVEL'].fillna('').astype(str).str.upper() != 'OWNER'
+                    daftar_nama = df_staff[mask_bukan_owner]['NAMA'].tolist()
                     f_staf_ex = st.selectbox("S", daftar_nama, label_visibility="collapsed")
+                
                 with c2:
                     st.markdown('<p class="small-label">Jenis</p>', unsafe_allow_html=True)
                     f_tipe_ex = st.selectbox("T", ["BONUS KINERJA", "LEMBUR", "POTONGAN", "KASBON"], label_visibility="collapsed")
+                
                 with c3:
                     st.markdown('<p class="small-label">Nominal</p>', unsafe_allow_html=True)
                     f_nom_ex = st.number_input("N", min_value=0, step=10000, label_visibility="collapsed")
+                
                 with c4:
                     st.markdown('<p class="small-label">Keterangan</p>', unsafe_allow_html=True)
                     f_ket_ex = st.text_input("K", placeholder="Detail...", label_visibility="collapsed")
                 
                 if st.form_submit_button("🚀 SIMPAN BONUS / POTONGAN", use_container_width=True):
                     if f_nom_ex > 0:
-                        # --- MULAI TRY DISINI ---
                         try:
+                            # --- LOGIKA PENYIMPANAN ---
                             ket_final = f"{f_tipe_ex}: {f_staf_ex.upper()} - {f_ket_ex}"
+                            
+                            # Ambil waktu via fungsi database lo
+                            tgl_indo = database.ambil_waktu_sekarang().strftime('%Y-%m-%d')
+                            
                             database.supabase.table("Arus_Kas").insert({
-                                "Tanggal": sekarang.strftime('%Y-%m-%d'), 
+                                "Tanggal": tgl_indo, 
                                 "Tipe": "PENGELUARAN",
                                 "Kategori": "Gaji Tim", 
                                 "Nominal": str(int(f_nom_ex)),
                                 "Keterangan": ket_final, 
-                                "Pencatat": user_sekarang
+                                "Pencatat": user_sekarang # <--- UDAH PAKE VARIABEL LO, COK!
                             }).execute()
+                            
                             st.success("Tersimpan!"); time.sleep(0.5); st.rerun()
-                        # --- TUTUP EXCEPT DISINI ---
                         except Exception as e:
                             st.error(f"Gagal Simpan: {e}")
                     else:
