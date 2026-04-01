@@ -47,36 +47,29 @@ def ambil_data(nama_tabel):
 # 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
 # ==============================================================================
 def bersihkan_data(df):
-    """Jurus sakti biar data seragam, gak ada spasi liar & huruf kecil"""
     if df.empty: return df
     df.columns = [str(c).strip().upper() for c in df.columns]
     df = df.fillna('')
-    kolom_krusial = ['EMAIL', 'STATUS', 'NAMA_CHANNEL', 'PENCATAT', 'HP']
-    for col in df.columns:
-        if col in kolom_krusial:
-            df[col] = df[col].astype(str).str.strip().str.upper()
+    
+    if 'EMAIL' in df.columns:
+        # PENTING: Lowercase + Hapus Spasi + Hilangkan baris kosong
+        df['EMAIL'] = df['EMAIL'].astype(str).str.strip().str.lower()
+        df = df[df['EMAIL'] != ''] 
+        
+    if 'STATUS' in df.columns:
+        df['STATUS'] = df['STATUS'].astype(str).str.strip().str.upper()
+        
     return df
 
 def load_data_channel():
-    """Narik data murni (Real-time tanpa Cache)"""
-    try:
-        res = supabase.table("Channel_Pintar").select("*").execute()
-        if res.data:
-            df = pd.DataFrame(res.data)
-            return bersihkan_data(df) # Sekarang aman karena fungsi udah ada di atas
-        return pd.DataFrame(columns=["TANGGAL", "EMAIL", "STATUS", "HP"])
-    except Exception as e:
-        st.error(f"❌ Supabase Error: {e}")
-        return pd.DataFrame()
+    # Panggil fungsi utama biar satu pintu
+    return ambil_data("Channel_Pintar")
 
-@st.cache_data(ttl=600) # <--- GANTI JADI 600 (10 Menit) BIAR HP GAK NARIK TERUS
 def load_data_hp():
+    """Gunakan mesin ambil_data biar standardisasinya sama (Upper/Strip)"""
     try:
-        res = supabase.table("Data_HP").select("*").execute()
-        df = pd.DataFrame(res.data)
-        if not df.empty:
-            df.columns = [str(c).strip().upper() for c in df.columns]
-        return df
+        # Panggil fungsi utama lo biar gak nulis ulang logika kolom
+        return ambil_data("Data_HP") 
     except:
         return pd.DataFrame()
 
