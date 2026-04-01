@@ -129,24 +129,25 @@ def tampilkan_database_channel():
                             v_mail = v_mail.strip().lower() 
                                 
                             try:
-                                # Pake spinner biar kelihatan lagi kerja
-                                with st.spinner("Mendaftarkan akun..."):
-                                    database.supabase.table("Channel_Pintar").insert({
-                                        "TANGGAL": tgl_now, 
-                                        "EMAIL": v_mail,
-                                        "PASSWORD": v_pass,
-                                        "NAMA_CHANNEL": v_nama,
-                                        "SUBSCRIBE": v_subs,
-                                        "LINK_CHANNEL": v_link,
-                                        "STATUS": "STANDBY",
-                                        "PENCATAT": user_aktif,
-                                        "EDITED": f"New: {user_aktif} ({tgl_now})"
-                                    }).execute()
+                                # JANGAN pake spinner di sini kalo gak mau kedip, 
+                                # tapi kalo mau tetep ada, bungkus prosesnya aja
+                                database.supabase.table("Channel_Pintar").insert({
+                                    "TANGGAL": tgl_now, 
+                                    "EMAIL": v_mail,
+                                    "PASSWORD": v_pass,
+                                    "NAMA_CHANNEL": v_nama,
+                                    "SUBSCRIBE": v_subs,
+                                    "LINK_CHANNEL": v_link,
+                                    "STATUS": "STANDBY",
+                                    "PENCATAT": user_aktif,
+                                    "EDITED": f"New: {user_aktif} ({tgl_now})"
+                                }).execute()
                                     
-                                # 1. Hapus cache SEBELUM sukses (Biar memori langsung kosong)
+
+                                st.session_state.form_baru = False
                                 st.cache_data.clear()
-                                st.success(f"✅ MANTAP! Akun {v_mail} masuk Supabase.")
-                                time.sleep(1.5)
+                                st.toast(f"✅ Akun {v_mail} Berhasil Masuk!", icon="🚀")
+                                time.sleep(0.5)
                                 st.rerun()
 
                             except Exception as e:
