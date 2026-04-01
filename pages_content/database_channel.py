@@ -49,10 +49,7 @@ def tampilkan_database_channel():
     with st.spinner("🔄 Sinkronisasi Radar Supabase..."):
         df = database.ambil_data("Channel_Pintar")
         df_hp = database.ambil_data("Data_HP")
-        
-        # --- JURUS KUNCI ANTI-BAYANGAN ---
-        # Kasih jeda tipis biar Streamlit 'ngapus' visual menu sebelumnya
-        import time
+    
         time.sleep(0.6) 
 
     if df.empty:
