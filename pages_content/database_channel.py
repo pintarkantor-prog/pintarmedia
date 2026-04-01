@@ -33,7 +33,7 @@ def get_otpnum_api(server_url, endpoint, params):
     except Exception as e: return {"success": False, "message": str(e)}
 
 def tampilkan_database_channel():
-    # --- 1. PROTEKSI LEVEL AKSES (DOUBLE LOCK) ---
+    # --- 1. PROTEKSI LEVEL AKSES (Udah Mantap!) ---
     level_aktif = str(st.session_state.get("user_level", "STAFF")).upper().strip()
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     
@@ -41,20 +41,25 @@ def tampilkan_database_channel():
         st.error(f"🚫 AKSES DITOLAK, {user_aktif}!")
         st.stop() 
 
-    # --- 2. HEADER & SETUP (Hanya jalan jika lolos sensor di atas) ---
+    # --- 2. HEADER & SETUP ---
     st.title("📱 DATABASE CHANNEL")
-    tz = pytz.timezone('Asia/Jakarta') 
+    # tz = pytz.timezone('Asia/Jakarta') # (Pake kalo emang ada olah tanggal di bawah)
 
     # --- 3. PENARIKAN DATA REAL-TIME ---
-    with st.spinner("Sinkronisasi Radar Supabase..."):
+    with st.spinner("🔄 Sinkronisasi Radar Supabase..."):
         df = database.ambil_data("Channel_Pintar")
         df_hp = database.ambil_data("Data_HP")
+        
+        # --- JURUS KUNCI ANTI-BAYANGAN ---
+        # Kasih jeda tipis biar Streamlit 'ngapus' visual menu sebelumnya
+        import time
+        time.sleep(0.6) 
 
     if df.empty:
-        st.warning("Gagal memuat data. Pastikan tabel 'Channel_Pintar' ada di Supabase.")
+        st.warning("⚠️ Gagal memuat data atau tabel kosong.")
         return
 
-    # --- 4. PEMBUATAN TAB (DITAMBAH TAB BELI NOMOR) ---
+    # --- 4. PEMBUATAN TAB ---
     tab_st, tab_pr, tab_jd, tab_hp, tab_sd, tab_ar, tab_buy = st.tabs([
         "📦 STOK STANDBY", "🚀 CHANNEL PROSES", "📅 JADWAL UPLOAD", 
         "📱 MONITOR HP", "💰 SOLD CHANNEL", "📂 ARSIP", "🛒 BELI NOMOR OTP"
