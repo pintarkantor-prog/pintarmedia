@@ -15,11 +15,19 @@ def local_css(file_name):
     else:
         st.error(f"File {file_name} tidak ditemukan!")
 
-# --- EKSEKUSI PANGGILAN CSS ---
 local_css("assets/style.css")
 
 # --- CONFIG HALAMAN ---
 st.set_page_config(page_title="PINTAR MEDIA | Studio", layout="wide", initial_sidebar_state="expanded")
+
+# --- MODIF 1: FUNGSI RESET LAYAR (TARUH SINI) ---
+def reset_layar():
+    """Hancurkan bayangan tabel & cache tiap ganti menu"""
+    st.cache_data.clear()
+    # Hapus sisa memori editor tabel agar tidak ghosting
+    for key in list(st.session_state.keys()):
+        if "grid_" in key or "editor_" in key:
+            del st.session_state[key]
 
 # Inisialisasi ID Browser & Status Login
 if "browser_session_id" not in st.session_state:
@@ -41,15 +49,13 @@ def proses_logout(pesan=None):
         time.sleep(2)
     st.rerun()
 
-# --- 1. PROSES LOGIN (Pembersihan Total Whitelist) ---
+# --- 1. PROSES LOGIN ---
 def proses_login(u, p):
     try:
-        # 1. Ambil data Staff (Database Utama)
         df_staff = database.ambil_data("Staff")
         u_input = str(u).strip().upper()
         p_input = str(p).strip()
 
-        # 2. Cari user berdasarkan NAMA dan PASSWORD (Case Insensitive untuk Nama)
         user_row = df_staff[
             (df_staff['NAMA'].astype(str).str.upper() == u_input) & 
             (df_staff['PASSWORD'].astype(str) == p_input)
@@ -57,21 +63,13 @@ def proses_login(u, p):
         
         if not user_row.empty:
             user_data = user_row.iloc[0]
-            
-            # --- KUNCI: STANDARISASI LEVEL ---
-            # Kita paksa UPPER agar sinkron dengan dict ketentuan di area_staf.py
             level = str(user_data.get('LEVEL', 'STAFF')).upper().strip()
 
-            # --- FITUR WHITELIST PC TELAH DIHAPUS ---
-            # (Staf sekarang bisa login dari perangkat mana saja)
-
-            # 3. SET SESSION STATE
             st.session_state["is_login"] = True
             st.session_state["user_aktif"] = u_input
             st.session_state["user_level"] = level
             st.session_state["waktu_login"] = database.ambil_waktu_sekarang()
             
-            # Catat sesi login ke Supabase
             database.update_sesi(u_input, st.session_state.get("browser_session_id", "Unknown"))
             
             st.toast(f"✅ Selamat Datang {u_input}")
@@ -81,12 +79,11 @@ def proses_login(u, p):
             st.error("❌ Username atau Password salah!")
             
     except Exception as e:
-        # Debugging jika ada kolom yang hilang di database
         st.error(f"Sistem Login Error: {e}")
         if 'df_staff' in locals():
             st.write("Kolom terdeteksi:", list(df_staff.columns))
-            
-# --- 2. TAMPILAN LOGIN (UI Form) ---
+
+# --- 2. TAMPILAN LOGIN ---
 def halaman_login():
     with st.container():
         st.markdown("<br><br>", unsafe_allow_html=True)
@@ -109,10 +106,9 @@ def halaman_login():
                     else:
                         st.warning("⚠️ Isi dulu Bos!")
 
-# --- 3. CEK AUTENTIKASI (Satpam Durasi) ---
+# --- 3. CEK AUTENTIKASI ---
 def cek_autentikasi():
     if st.session_state.get("is_login", False):
-        # Hanya cek durasi login 10 jam (Fitur tendang-tendangan sudah dihapus)
         waktu_sekarang = database.ambil_waktu_sekarang()
         if (waktu_sekarang - st.session_state["waktu_login"]) > timedelta(hours=10):
             proses_logout("Sesi berakhir.")
@@ -122,7 +118,7 @@ def cek_autentikasi():
 
 # --- 4. NAVIGASI SIDEBAR ---
 def tampilkan_navigasi_sidebar():
-    user_level = st.session_state.get("user_level", "STAFF").upper() # Pastikan UPPER
+    user_level = st.session_state.get("user_level", "STAFF").upper()
     user_aktif = st.session_state.get("user_aktif", "USER").upper()
     
     with st.sidebar:
@@ -133,19 +129,18 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # --- KUNCI SIDEBAR: Menu Dasar untuk Semua ---
         menu_list = ["🧠 PINTAR AI LAB", "📘 AREA STAF"]
         
-        # --- KUNCI OWNER & ADMIN: Tambah Menu Rahasia ---
         if user_level in ["OWNER", "ADMIN"]:
-            # Kita sisipkan di tengah atau akhir sesuai selera lo
             menu_list.insert(1, "📱 DATABASE CHANNEL") 
             menu_list.append("⚡ KENDALI TIM")
 
-        pilihan = st.radio("COMMAND_MENU", menu_list, label_visibility="collapsed")
-        st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
+        # --- MODIF 2: TAMBAH on_change=reset_layar DI SINI ---
+        pilihan = st.radio("COMMAND_MENU", menu_list, label_visibility="collapsed", on_change=reset_layar)
         
+        st.markdown("<hr style='margin: 20px 0; border-color: #30363d;'>", unsafe_allow_html=True)
         st.markdown('<div style="margin-top: 50px;"></div>', unsafe_allow_html=True)   
+        
         if st.button("⚡ KELUAR SISTEM", key="btn_logout", use_container_width=True):
             proses_logout()
         
@@ -159,28 +154,35 @@ def tampilkan_navigasi_sidebar():
         ''', unsafe_allow_html=True)
     return pilihan
 
-# --- JALANKAN APLIKASI (VERSI ORIGINAL DIAN) ---
+# --- JALANKAN APLIKASI ---
 if not cek_autentikasi():
     halaman_login()
 else:
+    # --- MODIF 3: WARM UP DATABASE (Optional tapi ngebantu) ---
+    if 'last_sync' not in st.session_state:
+        st.session_state.last_sync = database.ambil_waktu_sekarang()
+
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # ROUTING HALAMAN (POLOSAN TANPA VARIASI)
-    if menu == "🧠 PINTAR AI LAB":
-        ai_lab.tampilkan_halaman()
+    # --- MODIF 4: GUNAKAN st.empty() UNTUK ROUTING ---
+    container_utama = st.empty()
 
-    elif menu == "📱 DATABASE CHANNEL":
-        if user_level in ["OWNER", "ADMIN"]:
-            database_channel.tampilkan_database_channel()
-        else:
-            st.error("🚫 Akses Ditolak!")
+    with container_utama.container():
+        if menu == "🧠 PINTAR AI LAB":
+            ai_lab.tampilkan_halaman()
 
-    elif menu == "📘 AREA STAF":
-        area_staf.tampilkan_area_staf()
+        elif menu == "📱 DATABASE CHANNEL":
+            if user_level in ["OWNER", "ADMIN"]:
+                database_channel.tampilkan_database_channel()
+            else:
+                st.error("🚫 Akses Ditolak!")
 
-    elif menu == "⚡ KENDALI TIM":
-        if user_level in ["OWNER", "ADMIN"]:
-            kendali_tim.tampilkan_kendali_tim()
-        else:
-            st.error("🚫 Akses Ditolak!")
+        elif menu == "📘 AREA STAF":
+            area_staf.tampilkan_area_staf()
+
+        elif menu == "⚡ KENDALI TIM":
+            if user_level in ["OWNER", "ADMIN"]:
+                kendali_tim.tampilkan_kendali_tim()
+            else:
+                st.error("🚫 Akses Ditolak!")
