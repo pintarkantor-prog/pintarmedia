@@ -21,23 +21,26 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 def ambil_data(nama_tabel):
     try:
-        # Kita tambahin dummy parameter di query biar Supabase & Streamlit nggak nge-cache
+        # 1. Setup Waktu buat Saringan (Biar enteng kayak web lama)
+        now = ambil_waktu_sekarang()
+        tgl_awal_bulan = now.replace(day=1).strftime("%Y-%m-%d")
+        
         query = supabase.table(nama_tabel).select("*")
         
+        # 2. JURUS SARINGAN (Kunci Biar Gak Mbayang Kelamaan)
         if nama_tabel == "Log_Aktivitas":
             res = query.order("Waktu", desc=True).limit(200).execute()
+        elif nama_tabel == "Arus_Kas":
+            # Cuma tarik data bulan ini (Biar laporannya cepet)
+            res = query.gte("Tanggal", tgl_awal_bulan).order("id", desc=True).execute()
         else:
+            # Untuk Channel_Pintar, tarik semua tapi tetep real-time
             res = query.execute()
             
         df = pd.DataFrame(res.data)
-        
-        if not df.empty:
-            # Tetep pake jurus bersihkan_data biar rapi
-            return bersihkan_data(df)
-            
-        return pd.DataFrame()
+        return bersihkan_data(df) # Pake fungsi pembersih sakti lo
     except Exception as e:
-        st.error(f"Gagal ambil data {nama_tabel}: {e}")
+        st.error(f"Gagal tarik {nama_tabel}: {e}")
         return pd.DataFrame()
 
 # ==============================================================================
