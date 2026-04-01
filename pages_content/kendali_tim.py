@@ -269,20 +269,22 @@ def tampilkan_kendali_tim():
             # --- B. FITUR EDIT & HAPUS STAFF ---
             st.markdown("##### 📝 EDIT ATAU BERHENTIKAN STAFF")
             
-            # 1. Cari kolom ID (Biasanya 'id' atau 'ID' di Supabase)
-            c_id = next((c for c in df_staff.columns if c.lower() == 'id'), 'id')
+            # 1. Deteksi ID (Cari kolom ID di dataframe lo)
+            # Karena di database.py lo pake .upper(), maka namanya jadi 'ID'
+            c_id = next((c for c in df_staff.columns if c.upper() == 'ID'), 'ID')
             
-            # 2. Filter non-owner (Pake 'LEVEL' karena di database.py sudah di-UPPER)
+            # 2. Filter non-owner (Pake 'LEVEL' kapital sesuai database.py)
             df_manage = df_staff[df_staff['LEVEL'].fillna('').astype(str).str.upper() != 'OWNER'].copy()
 
             if not df_manage.empty:
                 for _, s in df_manage.iterrows():
                     sid = s.get(c_id)
                     with st.container(border=True):
-                        # --- BARIS 1: Identitas ---
+                        # --- BARIS 1: Identitas Utama ---
                         cols1 = st.columns([2, 2, 1.5, 1.5])
                         with cols1[0]:
                             st.markdown('<p class="small-label">Nama Staff</p>', unsafe_allow_html=True)
+                            # Langsung tembak 'NAMA' (Hasil .upper() dari database.py)
                             u_nama = st.text_input("N", value=str(s.get('NAMA', '')), key=f"unm_{sid}", label_visibility="collapsed")
                         with cols1[1]:
                             st.markdown('<p class="small-label">Jabatan</p>', unsafe_allow_html=True)
@@ -297,7 +299,7 @@ def tampilkan_kendali_tim():
                             st.markdown('<p class="small-label">Password Login</p>', unsafe_allow_html=True)
                             u_pw = st.text_input("P", value=str(s.get('PASSWORD', '')), type="password", key=f"upw_{sid}", label_visibility="collapsed")
 
-                        # --- BARIS 2: Finansial & Tombol ---
+                        # --- BARIS 2: Gaji & Tombol Aksi ---
                         cols2 = st.columns([2, 2, 1.5, 1.5])
                         with cols2[0]:
                             st.markdown('<p class="small-label">Gaji Pokok</p>', unsafe_allow_html=True)
@@ -310,7 +312,7 @@ def tampilkan_kendali_tim():
                             st.write(" ") 
                             if st.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
                                 try:
-                                    # TEMBAK LANGSUNG KE KOLOM SUPABASE (Nama, Jabatan, Gaji_Pokok, Tunjangan, Password, Level)
+                                    # LANGSUNG TEMBAK NAMA KOLOM ASLI SUPABASE (Sesuai info lo)
                                     database.supabase.table("Staff").update({
                                         "Nama": u_nama.upper(), 
                                         "Jabatan": u_jab, 
@@ -318,7 +320,7 @@ def tampilkan_kendali_tim():
                                         "Tunjangan": u_tj, 
                                         "Password": u_pw,
                                         "Level": u_lv
-                                    }).eq(c_id, sid).execute()
+                                    }).eq("id", sid).execute() # Pastikan kolom ID di Supabase lo namanya 'id' (kecil)
                                     
                                     st.cache_data.clear()
                                     st.success("OK!"); time.sleep(0.5); st.rerun()
@@ -329,12 +331,13 @@ def tampilkan_kendali_tim():
                             st.write(" ")
                             if st.button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True):
                                 if st.session_state.get('confirm_del') == sid:
-                                    database.supabase.table("Staff").delete().eq(c_id, sid).execute()
+                                    # Sesuai kolom ID asli di Supabase lo
+                                    database.supabase.table("Staff").delete().eq("id", sid).execute()
                                     st.cache_data.clear()
                                     st.success("Dihapus!"); st.session_state.pop('confirm_del'); time.sleep(0.5); st.rerun()
                                 else:
                                     st.session_state['confirm_del'] = sid
-                                    st.warning("HAPUS lagi?")
+                                    st.warning("Hapus?")
             else:
                 st.warning("Tidak ada data staff untuk diedit.")
 
