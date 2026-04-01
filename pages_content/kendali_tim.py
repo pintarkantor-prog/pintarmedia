@@ -250,10 +250,17 @@ def tampilkan_kendali_tim():
                 if st.form_submit_button("🚀 DAFTARKAN STAFF BARU", use_container_width=True):
                     if t_nama and t_pass:
                         try:
+                            # GUNAKAN NAMA KOLOM ASLI SUPABASE LO
                             database.supabase.table("Staff").insert({
-                                "Nama": t_nama.upper(), "Jabatan": t_jabatan, "Level": t_level,
-                                "Gaji_Pokok": str(int(t_gapok)), "Tunjangan": str(int(t_tunjangan)), "Password": t_pass
+                                "Nama": t_nama.upper(), 
+                                "Jabatan": t_jabatan, 
+                                "Level": t_level,
+                                "Gaji_Pokok": str(int(t_gapok)), 
+                                "Tunjangan": str(int(t_tunjangan)), 
+                                "Password": t_pass
                             }).execute()
+                            # Clear cache biar data baru langsung nongol
+                            st.cache_data.clear()
                             st.success("Berhasil!"); time.sleep(1); st.rerun()
                         except Exception as e: st.error(f"Gagal: {e}")
 
@@ -261,56 +268,71 @@ def tampilkan_kendali_tim():
 
             # --- B. FITUR EDIT & HAPUS STAFF ---
             st.markdown("##### 📝 EDIT ATAU BERHENTIKAN STAFF")
-            c_nm = next((c for c in df_staff.columns if c.lower() == 'nama'), 'Nama')
-            c_jb = next((c for c in df_staff.columns if c.lower() == 'jabatan'), 'Jabatan')
-            c_lv = next((c for c in df_staff.columns if c.lower() == 'level'), 'Level')
-            c_gp = next((c for c in df_staff.columns if c.lower() == 'gaji_pokok'), 'Gaji_Pokok')
-            c_tj = next((c for c in df_staff.columns if c.lower() == 'tunjangan'), 'Tunjangan')
-            c_pw = next((c for c in df_staff.columns if c.lower() == 'password'), 'Password')
+            
+            # Cari kolom ID (Pastikan di Supabase namanya 'id' atau 'ID')
             c_id = next((c for c in df_staff.columns if c.lower() == 'id'), 'id')
+            
+            # Filter non-owner (Gunakan huruf kapital karena sudah di-upper di database.py)
+            df_manage = df_staff[df_staff['LEVEL'].fillna('').astype(str).str.upper() != 'OWNER'].copy()
 
-            df_manage = df_staff[df_staff[c_lv].fillna('').astype(str).str.upper() != 'OWNER'].copy()
+            if not df_manage.empty:
+                for _, s in df_manage.iterrows():
+                    sid = s.get(c_id)
+                    with st.container(border=True):
+                        cols1 = st.columns([2, 2, 1.5, 1.5])
+                        with cols1[0]:
+                            st.markdown('<p class="small-label">Nama Staff</p>', unsafe_allow_html=True)
+                            u_nama = st.text_input("N", value=str(s.get('NAMA', '')), key=f"unm_{sid}", label_visibility="collapsed")
+                        with cols1[1]:
+                            st.markdown('<p class="small-label">Jabatan</p>', unsafe_allow_html=True)
+                            u_jab = st.text_input("J", value=str(s.get('JABATAN', '')), key=f"ujb_{sid}", label_visibility="collapsed")
+                        with cols1[2]:
+                            st.markdown('<p class="small-label">Level</p>', unsafe_allow_html=True)
+                            curr_lv = str(s.get('LEVEL', 'STAFF')).upper()
+                            u_lv = st.selectbox("L", ["STAFF", "UPLOADER", "ADMIN"], 
+                                             index=["STAFF", "UPLOADER", "ADMIN"].index(curr_lv) if curr_lv in ["STAFF", "UPLOADER", "ADMIN"] else 0, 
+                                             key=f"ulv_{sid}", label_visibility="collapsed")
+                        with cols1[3]:
+                            st.markdown('<p class="small-label">Password Login</p>', unsafe_allow_html=True)
+                            u_pw = st.text_input("P", value=str(s.get('PASSWORD', '')), type="password", key=f"upw_{sid}", label_visibility="collapsed")
 
-            for _, s in df_manage.iterrows():
-                sid = s.get(c_id)
-                with st.container(border=True):
-                    cols1 = st.columns([2, 2, 1.5, 1.5])
-                    with cols1[0]:
-                        st.markdown('<p class="small-label">Nama Staff</p>', unsafe_allow_html=True)
-                        u_nama = st.text_input("N", value=str(s.get(c_nm, '')), key=f"unm_{sid}", label_visibility="collapsed")
-                    with cols1[1]:
-                        st.markdown('<p class="small-label">Jabatan</p>', unsafe_allow_html=True)
-                        u_jab = st.text_input("J", value=str(s.get(c_jb, '')), key=f"ujb_{sid}", label_visibility="collapsed")
-                    with cols1[2]:
-                        st.markdown('<p class="small-label">Level</p>', unsafe_allow_html=True)
-                        u_lv = st.selectbox("L", ["STAFF", "UPLOADER", "ADMIN"], index=["STAFF", "UPLOADER", "ADMIN"].index(str(s.get(c_lv, 'STAFF')).upper()) if str(s.get(c_lv, 'STAFF')).upper() in ["STAFF", "UPLOADER", "ADMIN"] else 0, key=f"ulv_{sid}", label_visibility="collapsed")
-                    with cols1[3]:
-                        st.markdown('<p class="small-label">Password Login</p>', unsafe_allow_html=True)
-                        u_pw = st.text_input("P", value=str(s.get(c_pw, '')), type="password", key=f"upw_{sid}", label_visibility="collapsed")
+                        cols2 = st.columns([2, 2, 1.5, 1.5])
+                        with cols2[0]:
+                            st.markdown('<p class="small-label">Gaji Pokok</p>', unsafe_allow_html=True)
+                            u_gp = st.text_input("G", value=str(s.get('GAJI_POKOK', '0')), key=f"ugp_{sid}", label_visibility="collapsed")
+                        with cols2[1]:
+                            st.markdown('<p class="small-label">Tunjangan</p>', unsafe_allow_html=True)
+                            u_tj = st.text_input("T", value=str(s.get('TUNJANGAN', '0')), key=f"utj_{sid}", label_visibility="collapsed")
+                        
+                        with cols2[2]:
+                            st.write(" ") 
+                            if st.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
+                                try:
+                                    # KUNCI: NAMA KOLOM DI DALAM {} HARUS PERSIS SUPABASE
+                                    database.supabase.table("Staff").update({
+                                        "Nama": u_nama.upper(), 
+                                        "Jabatan": u_jab, 
+                                        "Level": u_lv, 
+                                        "Gaji_Pokok": u_gp, 
+                                        "Tunjangan": u_tj, 
+                                        "Password": u_pw
+                                    }).eq(c_id, sid).execute()
+                                    
+                                    st.cache_data.clear()
+                                    st.success("OK!"); time.sleep(0.5); st.rerun()
+                                except Exception as e:
+                                    st.error(f"Gagal Update: {e}")
 
-                    cols2 = st.columns([2, 2, 1.5, 1.5])
-                    with cols2[0]:
-                        st.markdown('<p class="small-label">Gaji Pokok</p>', unsafe_allow_html=True)
-                        u_gp = st.text_input("G", value=str(s.get(c_gp, '0')), key=f"ugp_{sid}", label_visibility="collapsed")
-                    with cols2[1]:
-                        st.markdown('<p class="small-label">Tunjangan</p>', unsafe_allow_html=True)
-                        u_tj = st.text_input("T", value=str(s.get(c_tj, '0')), key=f"utj_{sid}", label_visibility="collapsed")
-                    
-                    with cols2[2]:
-                        st.write(" ") # Penyeimbang biar sejajar
-                        if st.button("💾 UPDATE", key=f"ubtn_{sid}", use_container_width=True):
-                            database.supabase.table("Staff").update({c_nm: u_nama.upper(), c_jb: u_jab, c_lv: u_lv, c_gp: u_gp, c_tj: u_tj, c_pw: u_pw}).eq(c_id, sid).execute()
-                            st.success("OK!"); time.sleep(0.5); st.rerun()
-
-                    with cols2[3]:
-                        st.write(" ")
-                        if st.button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True):
-                            if st.session_state.get('confirm_del') == sid:
-                                database.supabase.table("Staff").delete().eq(c_id, sid).execute()
-                                st.success("Dihapus!"); st.session_state.pop('confirm_del'); time.sleep(0.5); st.rerun()
-                            else:
-                                st.session_state['confirm_del'] = sid
-                                st.warning("Klik HAPUS sekali lagi!")
+                        with cols2[3]:
+                            st.write(" ")
+                            if st.button("🗑️ HAPUS", key=f"dbtn_{sid}", use_container_width=True):
+                                if st.session_state.get('confirm_del') == sid:
+                                    database.supabase.table("Staff").delete().eq(c_id, sid).execute()
+                                    st.cache_data.clear()
+                                    st.success("Dihapus!"); st.session_state.pop('confirm_del'); time.sleep(0.5); st.rerun()
+                                else:
+                                    st.session_state['confirm_del'] = sid
+                                    st.warning("Klik HAPUS sekali lagi!")
             else:
                 st.warning("Tidak ada data staff untuk diedit.")
 
