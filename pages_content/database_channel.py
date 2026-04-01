@@ -316,10 +316,13 @@ def tampilkan_database_channel():
                 key="grid_p_pro_v2"
             )
 
-            # --- LOGIKA SAVE (FULL UPDATE FILTERED) ---
+            # --- LOGIKA SAVE (VERSI TERBAIK & ANTI-LAG) ---
             if not edited_p.equals(df_display):
                 if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
                     try:
+                        # 1. BERSIHKAN CACHE DI AWAL (Biar gak ada sisa data lama)
+                        st.cache_data.clear() 
+
                         with st.spinner("Sinkronisasi ke Supabase..."):
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                             data_batch = []
@@ -328,7 +331,7 @@ def tampilkan_database_channel():
                                 idx_asli = int(row['REAL_IDX'])
                                 old_val = df.iloc[idx_asli]
                                 
-                                # --- CEK PERUBAHAN SEMUA KOLOM ---
+                                # Cek perubahan murni
                                 if (str(row['STATUS']) != str(old_val['STATUS']) or 
                                     str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
                                     str(row['PASSWORD']) != str(old_val['PASSWORD']) or
@@ -352,15 +355,19 @@ def tampilkan_database_channel():
                                     })
 
                             if data_batch:
-                                # 1. Kirim ke Supabase
+                                # 2. EKSEKUSI UPSERT
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
                                 
-                                # 2. JURUS SAKTI: Hapus Cache Biar Langsung Update!
+                                # 3. BERSIHKAN LAGI (Double Kill!)
                                 st.cache_data.clear() 
                                 
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
-                                time.sleep(1)
+                                
+                                # 4. KASIH JEDA DIKIT (Biar Supabase kelar nulis)
+                                time.sleep(1.5) 
                                 st.rerun()
+                            else:
+                                st.info("Tidak ada perubahan data.")
                                 
                     except Exception as e:
                         st.error(f"❌ Gagal update: {e}")
