@@ -324,7 +324,7 @@ def tampilkan_kendali_tim():
                                     }).eq("id", sid).execute() # 'id' kecil sesuai gambar lo
                                     
                                     st.cache_data.clear()
-                                    st.success("BERHASIL!"); time.sleep(0.5); st.rerun()
+                                    st.success("Berhasil!"); time.sleep(0.5); st.rerun()
                                 except Exception as e:
                                     st.error(f"Gagal Update: {e}")
 
