@@ -125,7 +125,7 @@ def tampilkan_database_channel():
                         
                     if st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True):
                         if v_nama and v_mail:
-                            tgl_now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
+                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                             v_mail = v_mail.strip().lower() 
                                 
                             try:
@@ -190,7 +190,7 @@ def tampilkan_database_channel():
             if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
                 try:
                     with st.spinner("Sinkronisasi Radar ke Supabase..."):
-                        tgl_now = datetime.now(tz).strftime("%d/%m/%Y %H:%M")
+                        tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                         data_batch = []
                         
                         for i, row in edited_st.iterrows():
