@@ -21,24 +21,31 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 def ambil_data(nama_tabel):
     try:
-        # 1. Setup Waktu buat Saringan (Biar enteng kayak web lama)
-        now = ambil_waktu_sekarang()
-        tgl_awal_bulan = now.replace(day=1).strftime("%Y-%m-%d")
-        
         query = supabase.table(nama_tabel).select("*")
         
-        # 2. JURUS SARINGAN (Kunci Biar Gak Mbayang Kelamaan)
+        # 1. SETTING WAKTU (Mundur ke awal bulan lalu)
+        now = ambil_waktu_sekarang()
+        # Cari tanggal 1 di bulan lalu (Maret)
+        first_day_this_month = now.replace(day=1)
+        last_day_last_month = first_day_this_month - timedelta(days=1)
+        start_date_limit = last_day_last_month.replace(day=1).strftime("%Y-%m-%d") 
+        # Hasil start_date_limit: 2026-03-01
+
         if nama_tabel == "Log_Aktivitas":
             res = query.order("Waktu", desc=True).limit(200).execute()
+            
         elif nama_tabel == "Arus_Kas":
-            # Cuma tarik data bulan ini (Biar laporannya cepet)
-            res = query.gte("Tanggal", tgl_awal_bulan).order("id", desc=True).execute()
+            # 2. TARIK DATA DARI 1 MARET SAMPAI SEKARANG
+            # Biar pembukuan Maret lo tetep muncul dan gak ghaib!
+            res = query.gte("Tanggal", start_date_limit).order("Tanggal", desc=True).execute()
+            
         else:
-            # Untuk Channel_Pintar, tarik semua tapi tetep real-time
+            # Untuk tabel lain tetap normal
             res = query.execute()
             
         df = pd.DataFrame(res.data)
-        return bersihkan_data(df) # Pake fungsi pembersih sakti lo
+        return bersihkan_data(df)
+        
     except Exception as e:
         st.error(f"Gagal tarik {nama_tabel}: {e}")
         return pd.DataFrame()
