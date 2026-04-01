@@ -1,9 +1,8 @@
 import streamlit as st
 from supabase import create_client, Client
 import pandas as pd
-from datetime import datetime, timedelta  # <--- WAJIB ADA timedelta DI SINI!
+from datetime import datetime
 import pytz
-import time # Buat jeda sleep pas simpan data
 
 # ==============================================================================
 # 1. SETUP KONEKSI & WAKTU
@@ -20,66 +19,44 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
+@st.cache_data(ttl=10) # <--- DATA DISIMPAN 60 DETIK DI MEMORI
 def ambil_data(nama_tabel):
+    """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
     try:
         query = supabase.table(nama_tabel).select("*")
         
-        # 1. SETTING WAKTU (Mundur ke awal bulan lalu)
-        now = ambil_waktu_sekarang()
-        # Cari tanggal 1 di bulan lalu (Maret)
-        first_day_this_month = now.replace(day=1)
-        last_day_last_month = first_day_this_month - timedelta(days=1)
-        start_date_limit = last_day_last_month.replace(day=1).strftime("%Y-%m-%d") 
-        # Hasil start_date_limit: 2026-03-01
-
         if nama_tabel == "Log_Aktivitas":
+            # Ambil 200 BARIS data terbaru, bukan detik ya Boss!
             res = query.order("Waktu", desc=True).limit(200).execute()
-            
-        elif nama_tabel == "Arus_Kas":
-            # 2. TARIK DATA DARI 1 MARET SAMPAI SEKARANG
-            # Biar pembukuan Maret lo tetep muncul dan gak ghaib!
-            res = query.gte("Tanggal", start_date_limit).order("Tanggal", desc=True).execute()
-            
+        
         else:
-            # Untuk tabel lain tetap normal
+            # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
             res = query.execute()
             
         df = pd.DataFrame(res.data)
-        return bersihkan_data(df)
+        
+        if not df.empty:
+            # JURUS SAKTI: Paksa kolom jadi KAPITAL
+            df.columns = [str(c).strip().upper() for c in df.columns]
+            df = df.fillna('')
+            return df
+            
+        return pd.DataFrame()
         
     except Exception as e:
-        st.error(f"Gagal tarik {nama_tabel}: {e}")
+        st.error(f"Gagal ambil data {nama_tabel}: {e}")
         return pd.DataFrame()
 
 # ==============================================================================
 # 3. FUNGSI OPERASIONAL CHANNEL (PINDAHAN DARI WEB LAMA)
 # ==============================================================================
-def bersihkan_data(df):
-    if df.empty: return df
-    df.columns = [str(c).strip().upper() for c in df.columns]
-    df = df.fillna('')
-    
-    if 'EMAIL' in df.columns:
-        # PENTING: Lowercase + Hapus Spasi + Hilangkan baris kosong
-        df['EMAIL'] = df['EMAIL'].astype(str).str.strip().str.lower()
-        df = df[df['EMAIL'] != ''] 
-        
-    if 'STATUS' in df.columns:
-        df['STATUS'] = df['STATUS'].astype(str).str.strip().str.upper()
-        
-    return df
-
 def load_data_channel():
-    # Panggil fungsi utama biar satu pintu
+    """Khusus narik data akun YouTube (Real-time)"""
     return ambil_data("Channel_Pintar")
 
 def load_data_hp():
-    """Gunakan mesin ambil_data biar standardisasinya sama (Upper/Strip)"""
-    try:
-        # Panggil fungsi utama lo biar gak nulis ulang logika kolom
-        return ambil_data("Data_HP") 
-    except:
-        return pd.DataFrame()
+    """Khusus narik data unit HP (Real-time)"""
+    return ambil_data("Data_HP")
 
 def simpan_perubahan_channel(data_batch):
     try:
@@ -96,27 +73,15 @@ def simpan_perubahan_channel(data_batch):
 
 def tambah_log(user, aksi):
     """Mencatat aktivitas ke Supabase (Dian tidak dicatat)"""
-    # 1. Standarisasi Nama (Biar gak ada "Icha", "icha", "ICHA")
-    user_fix = str(user).strip().upper()
-    
-    # 2. Proteksi Owner (Sesuai request lo, Dian gak dicatat)
-    if user_fix == "DIAN": 
-        return
-        
+    if str(user).upper() == "DIAN": return
     try:
-        # 3. Format Waktu Indonesia (Sesuai mesin baru lo)
         waktu_log = ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M:%S")
-        
-        # 4. Kirim ke Supabase
         supabase.table("Log_Aktivitas").insert({
             "Waktu": waktu_log,
-            "User": user_fix,
-            "Aksi": str(aksi).strip()
+            "User": str(user).upper(),
+            "Aksi": aksi
         }).execute()
-        
-    except Exception as e:
-        # Minimal print ke console biar lo tau kalau ada masalah koneksi
-        print(f"❌ Log Error: {e}")
+    except: pass
 
 # ==============================================================================
 # 4. FUNGSI KEAMANAN (HANYA SESI LOGIN - WHITELIST HAPUS)
