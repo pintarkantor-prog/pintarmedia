@@ -159,18 +159,21 @@ def tampilkan_navigasi_sidebar():
         ''', unsafe_allow_html=True)
     return pilihan
 
-# --- JALANKAN APLIKASI (VERSI KUNCI SENTRAL) ---
+# --- JALANKAN APLIKASI (VERSI TANPA SPINNER - TETEP BERSIH) ---
 if not cek_autentikasi():
     halaman_login()
 else:
     menu = tampilkan_navigasi_sidebar()
     user_level = st.session_state.get("user_level", "STAFF").upper()
 
-    # --- JURUS KUNCI: Kasih jeda biar layar BERSIH TOTAL ---
-    # Ini simulasi 'ambil_data_segar' web lama lo yang running 2 detik
-    with st.spinner(f"🚀 Sinkronisasi {menu}..."):
-        import time
-        time.sleep(0.8) # Jeda 0.8 detik aja udah cukup buat 'ngunci' visual
+    # --- JURUS KUNCI: WADAH KOSONG (WIPE LAYAR) ---
+    # Kita bikin satu wadah kosong yang bakal kita isi ulang tiap pindah menu
+    wadah_utama = st.empty()
+
+    with wadah_utama.container():
+        # Kasih jeda tipis banget (0.3-0.5 detik) buat sinkronisasi browser
+        # Tanpa spinner, ini bakal berasa kenceng tapi layarnya sempet bersih
+        time.sleep(0.4) 
         
         # --- ROUTING HALAMAN ---
         if menu == "🧠 PINTAR AI LAB":
