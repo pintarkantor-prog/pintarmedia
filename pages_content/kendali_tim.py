@@ -256,8 +256,8 @@ def tampilkan_kendali_tim():
                                 "Jabatan": t_jabatan, 
                                 "Gaji_Pokok": str(int(t_gapok)), 
                                 "Tunjangan": str(int(t_tunjangan)), 
-                                "Password": t_pass
-                                "Level": u_lv.strip().upper(),
+                                "Password": t_pass,
+                                "Level": u_lv.strip().upper()
                             }).execute()
                             # Clear cache biar data baru langsung nongol
                             st.cache_data.clear()
@@ -320,7 +320,7 @@ def tampilkan_kendali_tim():
                                         "Gaji_Pokok": u_gp, 
                                         "Tunjangan": u_tj, 
                                         "Password": u_pw,
-                                        "Level": u_lv.strip().upper(),
+                                        "Level": u_lv.strip().upper()
                                     }).eq("id", sid).execute() # 'id' kecil sesuai gambar lo
                                     
                                     st.cache_data.clear()
