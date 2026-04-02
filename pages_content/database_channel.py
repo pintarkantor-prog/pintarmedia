@@ -422,12 +422,12 @@ def tampilkan_database_channel():
             with st.container(border=True):
                 st.markdown("### ⚡ ESTAFET GENERATOR (SLOT MENCAR)")
                 c_start, c_btn = st.columns([1, 1])
-                start_time = c_start.text_input("🕒 Jam Mulai HP 1 & 12", value="08:15", key="start_estafet")
+                start_time = c_start.text_input("🕒 Jam Mulai Upload", value="08:15", key="start_estafet")
                 
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        with st.status("Ngerakit Kloter Round Robin...", expanded=False) as status:
+                        with st.status("Sedang membuat jadwal otomatis...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
@@ -435,7 +435,7 @@ def tampilkan_database_channel():
                                 # Urutan total adalah posisi antrean dari semua akun di tim tsb
                                 target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 10)
                                 # Skip Istirahat 11:30 - 12:30 (Otomatis geser 1 jam)
-                                if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
+                                if (target.hour * 60 + target.minute) >= (11 * 60 + 40):
                                     target = target + timedelta(minutes=60)
                                 return target
 
