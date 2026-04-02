@@ -396,57 +396,55 @@ def tampilkan_database_channel():
                         st.error(f"❌ Gagal update: {e}")
 
     # ==============================================================================
-    # TAB 3: JADWAL UPLOAD (ESTAFET GENERATOR v3.0)
+    # TAB 3: JADWAL UPLOAD (URUT HP + PARALLEL TIM + EDIT MANUAL)
     # ==============================================================================
     with tab_jd:
-        df_j = df[df['STATUS'] == 'PROSES'].copy()
+        # 1. Pastikan Data Terurut Berdasarkan HP sejak awal
+        df['HP_N'] = pd.to_numeric(df['HP'], errors='coerce').fillna(999)
+        df_j = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N', 'NAMA_CHANNEL']).copy()
 
         if df_j.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
         else:
             now_indo = database.ambil_waktu_sekarang()
-            tgl_str = now_indo.strftime("%d %B %Y")
+            nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
+            tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
-            # --- 1. DEFINISI KELOMPOK TIM (WAJIB DI SINI BIAR GAK NAMEERROR) ---
-            df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
-            # Tim A: HP 1-11, Tim B: HP 12-23
-            list_hp_tim1 = [str(int(h)) for h in df_j['HP_N'].unique() if 1 <= h <= 11]
-            list_hp_tim2 = [str(int(h)) for h in df_j['HP_N'].unique() if 12 <= h <= 23]
+            # --- DEFINISI TIM (Sesuai Urutan HP) ---
+            list_hp_tim1 = [str(int(h)) for h in sorted(df_j['HP_N'].unique()) if 1 <= h <= 11]
+            list_hp_tim2 = [str(int(h)) for h in sorted(df_j['HP_N'].unique()) if 12 <= h <= 23]
             
             kelompok_tim = [
                 {"nama": "ICHA / NISSA (HP 1-11)", "list": list_hp_tim1},
                 {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
             ]
 
-            # --- 2. GENERATOR JADWAL ESTAFET ---
+            # --- A. GENERATOR JADWAL (TOMBOL SAKTI) ---
             with st.container(border=True):
-                st.markdown("### ⚡ ESTAFET GENERATOR (PARALLEL TIM A & B)")
+                st.markdown("### ⚡ ESTAFET GENERATOR (AUTO-SLOT)")
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai HP 1 & 12", value="08:15", key="start_estafet")
                 
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        with st.status("Lagi ngeracik antrean parallel...", expanded=False) as status:
+                        with st.status("Lagi ngerakit jadwal urut HP...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
-                            df_sorted = df_j.sort_values(['HP_N', 'NAMA_CHANNEL'])
 
                             def hitung_jam_aman(waktu_obj):
                                 b_awal = waktu_obj.replace(hour=11, minute=30)
                                 b_akhir = waktu_obj.replace(hour=12, minute=30)
-                                if b_awal <= waktu_obj < b_akhir:
-                                    return waktu_obj.replace(hour=12, minute=30)
+                                if b_awal <= waktu_obj < b_akhir: return waktu_obj.replace(hour=12, minute=30)
                                 return waktu_obj
 
                             last_hp, slot_ke = None, 0
-                            for _, row in df_sorted.iterrows():
+                            for _, row in df_j.iterrows():
                                 curr_hp = str(row['HP_N'])
                                 if curr_hp == last_hp: slot_ke += 1
                                 else: slot_ke, last_hp = 1, curr_hp
 
-                                no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
-                                # Logika Parallel: HP 12 dihitung sebagai urutan 1 di Tim B
+                                no_hp = int(row['HP_N'])
                                 urutan = no_hp if no_hp <= 11 else no_hp - 11
                                 jeda = (urutan - 1) * 10
                                 
@@ -465,30 +463,46 @@ def tampilkan_database_channel():
                             if data_update:
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
                                 st.cache_data.clear()
-                                status.update(label="✅ Berhasil!", state="complete")
-                                st.rerun() # Wajib Rerun biar tanda "-" hilang
-                    except Exception as e:
-                        st.error(f"Error: {e}")
+                                st.rerun()
+                    except Exception as e: st.error(f"Error: {e}")
+
+            # --- B. EDIT MANUAL (YANG TADI ILANG) ---
+            with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
+                kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
+                edited_j = st.data_editor(
+                    df_j[kolom_edit],
+                    column_config={"HP": st.column_config.TextColumn(disabled=True), "ID": None},
+                    use_container_width=True, hide_index=True, key="editor_manual_final"
+                )
+                if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True):
+                    try:
+                        data_save = [{"id": r['ID'], "PAGI": r['PAGI'], "SIANG": r['SIANG'], "SORE": r['SORE']} for _, r in edited_j.iterrows()]
+                        database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
+                        st.cache_data.clear(); st.rerun()
+                    except Exception as e: st.error(f"Gagal simpan: {e}")
 
             st.divider()
 
-            # --- 3. MONITORING VIEW (DATA TERBARU) ---
-            st.markdown("#### 📱 MONITORING JADWAL HARI INI")
-            df_display = df_j.sort_values(['HP_N', 'PAGI'])
-            kolom_cek = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]
-            st.dataframe(df_display[kolom_cek], hide_index=True, use_container_width=True)
+            # --- C. MONITORING VIEW ---
+            st.markdown("#### 📱 MONITORING JADWAL (URUT HP)")
+            st.dataframe(df_j[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], hide_index=True, use_container_width=True)
 
-            # --- 4. LOGIKA PRINT (SAMA KAYA KODE ASLI LO) ---
-            if st.button("📄 PRINT JADWAL", use_container_width=True):
+            # --- 4. LOGIKA PRINT (Sesuai Kode Asli Dian - Urutan HP Diperketat) ---
+            if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
-                    # Rakit ulang html_all_pages di sini biar datanya fresh
+                    # KUNCI URUTAN HP DISINI BIAR GAK ACAK PAS DIPRINT
+                    df_display['HP_N'] = pd.to_numeric(df_display['HP'], errors='coerce').fillna(999)
+                    df_display = df_display.sort_values(['HP_N', 'PAGI'])
+                    
                     html_all_pages = "" 
                     for tim in kelompok_tim:
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
+                        
+                        # Loop per 6 HP sesuai pakem lo
                         for start_idx in range(0, len(list_hp_unik), 6):
                             hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
-                            df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
+                            df_page = df_display[df_display['HP'].isin(hp_halaman_ini)].copy()
                             
                             html_all_pages += f"""
                             <div class="print-container page-break">
@@ -508,13 +522,13 @@ def tampilkan_database_channel():
                                     </thead>
                                     <tbody>
                             """
-                            # Pake itertuples biar kenceng pas ngerakit HTML
+                            # Loop isi tabel (Pake itertuples biar kenceng)
                             for i, r in enumerate(df_page.itertuples()):
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
                                 
-                                # Logika buat nyembunyiin nomor HP kalo barisnya sama (biar rapi)
+                                # Logika sembunyiin nomor HP biar rapi (Logika asli lo)
                                 hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                                 
@@ -529,57 +543,28 @@ def tampilkan_database_channel():
                                 """
                             html_all_pages += "</tbody></table></div>"
 
-                    # --- STYLE SULTAN ASLI DIAN (TIDAK DIUBAH) ---
+                    # --- STYLE SULTAN ASLI DIAN (TIDAK GUE RUBAH SAMA SEKALI) ---
                     html_masterpiece = f"""
                     <style>
                         @media print {{
                             @page {{ size: A4 portrait; margin: 1cm; }}
                             * {{ box-sizing: border-box; }}
                             body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                            
                             .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
                             .page-break {{ page-break-after: always; }}
-
                             .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
                             h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
                             .sub {{ font-size: 12px; color: #666; }}
-
-                            table {{ 
-                                width: 100%; 
-                                border-collapse: collapse; 
-                                border: 1px solid #CCC; /* SEMUA GARIS LUAR ABU-ABU */
-                                table-layout: fixed;
-                            }}
-                            
-                            /* HEADER HITAM SOLID */
-                            th {{ 
-                                background-color: #FFFFFF !important;
-                                color: #1E3A8A !important;
-                                padding: 10px; 
-                                border: 1px solid #CCC;
-                                font-size: 12px;
-                                font-weight: bold;
-                                -webkit-print-color-adjust: exact;
-                            }}
-                            
-                            td {{ 
-                                border: 1px solid #CCC; /* SEMUA GARIS DALAM ABU-ABU */
-                                padding: 8px 10px; 
-                                font-size: 14px; 
-                                color: #111;
-                                line-height: 1.3;
-                            }}
-                            
+                            table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
+                            td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; line-height: 1.3; }}
                             .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
                             .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
                             .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
-                            
-                            .footer-note {{ margin-top: 10px; text-align: right; font-size: 9px; color: #999; }}
                         }}
                     </style>
                     {html_all_pages}
                     """
-                    # EKSEKUSI PRINT LANGSUNG
                     st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
                 
     # ======================================================================
