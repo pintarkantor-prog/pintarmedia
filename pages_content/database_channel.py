@@ -263,16 +263,44 @@ def tampilkan_database_channel():
                 except Exception as e:
                     st.error(f"❌ Error Global: {e}")
     # ==============================================================================
-    # TAB 2: MONITORING PROSES (EDITABLE VERSION)
+    # TAB 2: MONITORING PROSES (3 KOLOM CARD MURNI)
     # ==============================================================================
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
         
-        st.info("""
-            💡 **PENGINGAT KHUSUS:**
-            1. HP 1 - 3 Konten Sakura
-            2. HP 4 - 23 Konten Masjid
-        """)
+        # --- HITUNG DATA UNTUK CARD ---
+        df_p = df[df['STATUS'] == 'PROSES'].copy()
+        total_ch_proses = len(df_p)
+        hp_list = df_p['HP'].unique()
+        total_hp_jalan = len(hp_list)
+        
+        # Hitung rata-rata akun per HP (biar lo tau beban kerja tiap unit)
+        avg_slot = round(total_ch_proses / total_hp_jalan, 1) if total_hp_jalan > 0 else 0
+
+        # --- RENDER 3 KOLOM CARD ---
+        with st.container(border=True):
+            st.write("💡 **STATUS OPERASIONAL UNIT**")
+            c1, c2, c3 = st.columns(3)
+            
+            with c1:
+                with st.container(border=True):
+                    st.write("📊 **TOTAL AKUN**")
+                    st.subheader(f"{total_ch_proses} Channel")
+                    st.caption(f"Sedang jalan di {total_hp_jalan} Unit HP")
+
+            with c2:
+                with st.container(border=True):
+                    st.write("🌸 **HP 1 - 3**")
+                    st.error("**KONTEN SAKURA**")
+                    st.caption("Max: 3 Slot per Unit")
+
+            with c3:
+                with st.container(border=True):
+                    st.write("🕌 **HP 4 - 23**")
+                    st.info("**KONTEN MASJID**")
+                    st.caption("Max: 4 Slot per Unit")
+
+        st.markdown("<br>", unsafe_allow_html=True)
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
