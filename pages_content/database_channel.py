@@ -228,7 +228,7 @@ def tampilkan_database_channel():
                                         target_hp = "1"
                                         for h in range(1, 101):
                                             count_sekarang = hp_counts.get(str(h), 0)
-                                            max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9] else 4
+                                            max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] else 4
                                             if count_sekarang < max_slot:
                                                 target_hp = str(h)
                                                 break
