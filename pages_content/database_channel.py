@@ -196,7 +196,7 @@ def tampilkan_database_channel():
                 "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=300),
                 "PENCATAT": st.column_config.TextColumn("👤 OLEH", width=50, disabled=True),
                 "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
-                "REAL_IDX": st.column_config.TextColumn("📍 IDX", width=40, disabled=True), # Kasih liat dikit gapapa
+                "REAL_IDX": None,
                 "ID": None # SEMBUNYIKAN ID ASLI (Kunci Supabase)
             }
 
