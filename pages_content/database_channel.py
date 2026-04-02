@@ -401,7 +401,7 @@ def tampilkan_database_channel():
     with tab_jd:
         # 1. Pastikan Data Terurut Berdasarkan HP & Channel
         df['HP_N'] = pd.to_numeric(df['HP'], errors='coerce').fillna(999)
-        df_j_sorted = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N', 'NAMA_CHANNEL']).copy()
+        df_j_sorted = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N'], kind='mergesort').copy()
 
         if df_j_sorted.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
