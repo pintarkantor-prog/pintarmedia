@@ -274,16 +274,17 @@ def tampilkan_database_channel():
                         st.error(f"❌ Error Global: {e}")
 
                 st.divider() 
-                st.caption("Data diperbarui secara real-time dari Database Pintar Media.")
 
         else:
-            st.warning("⚠️ **RESTRICTED ACCESS (AKSES TERBATAS)**")
-            st.markdown(f"### Halo, {user_aktif}")
-            st.write("""
-                Mohon maaf, modul **Manajemen Stok & Inventaris** ini hanya dapat diakses oleh 
-                level manajemen (**Owner, Admin, & Staff**).
+            st.error("🛡️ **SECURITY CLEARANCE REQUIRED**")
+            st.write(f"Sistem mendeteksi identitas: **{user_aktif}**")
+            st.divider()
+            st.info(f"""
+                **Pemberitahuan Sistem:**
+                Hak akses Anda saat ini sebagai **{level_aktif}** tidak memiliki izin untuk melihat data finansial dan stok. 
+                Segala aktivitas log tetap terekam dalam sistem keamanan **PT Pintar Digital Kreasi**.
             """)
-            st.info("💡 **Tugas Hari Ini:** Silakan akses tab **JADWAL UPLOAD** untuk memulai operasional harian Anda.")
+            st.caption("Gunakan tab yang tersedia sesuai dengan deskripsi pekerjaan Anda.")
     # ==============================================================================
     # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
     # ==============================================================================
