@@ -441,39 +441,39 @@ def tampilkan_database_channel():
                             for _, row in df_sorted.iterrows():
                                 curr_hp = str(row['HP_N'])
                                 
-                                # Logika hitung slot ke-berapa (1, 2, atau 3)
                                 if curr_hp == last_hp:
                                     slot_ke += 1
                                 else:
-                                    slot_ke = 1 # Reset jadi channel pertama di HP baru
+                                    slot_ke = 1
                                     last_hp = curr_hp
 
                                 no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
                                 jeda_estafet = (no_hp - 1) * 10
                                 
-                                # Jam dasar HP tsb (PAGI)
-                                jam_base_hp = hitung_jam_aman(base_pagi + timedelta(minutes=jeda_estafet))
+                                # 1. JAM PAGI (Base)
+                                jam_pagi = hitung_jam_aman(base_pagi + timedelta(minutes=jeda_estafet))
+                                
+                                # 2. JAM SIANG (Jeda 2.5 jam dari pagi agar tidak bentrok istirahat)
+                                jam_siang = hitung_jam_aman(jam_pagi + timedelta(hours=2, minutes=30))
+                                
+                                # 3. JAM SORE (Jeda 2 jam dari siang agar sebelum 15:45)
+                                jam_sore = hitung_jam_aman(jam_siang + timedelta(hours=2))
 
                                 # --- LOGIKA SLOT MENCAR ---
-                                # Slot 1: Pagi | Slot 2: Siang (+5 jam) | Slot 3: Sore (+8 jam)
-                                p_val = jam_base_hp.strftime("%H:%M") if slot_ke == 1 else ""
-                                
-                                s_raw = jam_base_hp + timedelta(hours=5)
-                                s_val = hitung_jam_aman(s_raw).strftime("%H:%M") if slot_ke == 2 else ""
-                                
-                                o_raw = jam_base_hp + timedelta(hours=8)
-                                o_val = hitung_jam_aman(o_raw).strftime("%H:%M") if slot_ke == 3 else ""
+                                p_val = jam_pagi.strftime("%H:%M") if slot_ke == 1 else ""
+                                s_val = jam_siang.strftime("%H:%M") if slot_ke == 2 else ""
+                                o_val = jam_sore.strftime("%H:%M") if slot_ke == 3 else ""
 
-                                # Emergency Slot 4 (Kalo ada)
+                                # Emergency Slot 4 (Kalau ada HP isi 4 channel, taruh mepet jam pulang)
                                 if slot_ke >= 4:
-                                    o_val = hitung_jam_aman(jam_base_hp + timedelta(hours=9)).strftime("%H:%M")
+                                    o_val = "15:40" 
 
                                 data_update.append({
                                     "id": row['ID'],
                                     "PAGI": p_val,
                                     "SIANG": s_val,
                                     "SORE": o_val,
-                                    "EDITED": f"Estafet Silet: {user_aktif}"
+                                    "EDITED": f"Estafet Office: {user_aktif}"
                                 })
                             
                             # --- INDENTASI FIX: DI LUAR LOOP FOR ---
