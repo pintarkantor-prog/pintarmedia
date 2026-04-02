@@ -109,22 +109,6 @@ def tampilkan_database_channel():
         if hc2.button("➕ TAMBAH AKUN", use_container_width=True, type="primary"):
             st.session_state.form_baru = not st.session_state.get('form_baru', False)
 
-        # --- 4. FORM INPUT AKUN BARU (GAYA KONFIRMASI + ANTI DUPLIKAT) ---
-        if st.session_state.get('form_baru', False):
-            with st.container(border=True):
-                with st.form("input_v6_icon", clear_on_submit=True):
-                    f1, f2, f3 = st.columns(3)
-                    v_mail = f1.text_input("📧 Email Login")
-                    v_pass = f2.text_input("🔑 Password")
-                    v_nama = f3.text_input("📺 Nama Channel")
-                        
-                    f4, f5 = st.columns([1, 2])
-                    v_subs = f4.text_input("📊 Jumlah Subs")
-                    v_link = f5.text_input("🔗 Link Channel")
-                    
-                    # TOMBOL SIMPAN
-                    btn_save = st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True)
-
         # --- 4. FORM INPUT AKUN BARU (INDENTASI SAKTI) ---
         if st.session_state.get('form_baru', False):
             with st.container(border=True):
