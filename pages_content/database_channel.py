@@ -395,7 +395,7 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"❌ Gagal update: {e}")
 
-# ==============================================================================
+    # ==============================================================================
     # TAB 3: JADWAL UPLOAD (ESTAFET GENERATOR v3.0)
     # ==============================================================================
     with tab_jd:
@@ -434,24 +434,49 @@ def tampilkan_database_channel():
                                     return waktu_obj + timedelta(minutes=60)
                                 return waktu_obj
 
+                            # Variabel bantu buat nandain urutan channel di HP yang sama
+                            last_hp = None
+                            slot_ke = 0
+
                             for _, row in df_sorted.iterrows():
-                                no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
-                                # Jeda 10 menit antar HP
-                                jeda = (no_hp - 1) * 10
+                                curr_hp = str(row['HP_N'])
                                 
-                                # Itung Pagi, Siang (+4 jam), Sore (+8 jam)
-                                t_pagi = hitung_jam_aman(base_pagi + timedelta(minutes=jeda))
-                                t_siang = hitung_jam_aman(t_pagi + timedelta(hours=4))
-                                t_sore = hitung_jam_aman(t_pagi + timedelta(hours=8))
+                                # Logika hitung slot ke-berapa (1, 2, atau 3)
+                                if curr_hp == last_hp:
+                                    slot_ke += 1
+                                else:
+                                    slot_ke = 1 # Reset jadi channel pertama di HP baru
+                                    last_hp = curr_hp
+
+                                no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
+                                jeda_estafet = (no_hp - 1) * 10
+                                
+                                # Jam dasar HP tsb (PAGI)
+                                jam_base_hp = hitung_jam_aman(base_pagi + timedelta(minutes=jeda_estafet))
+
+                                # --- LOGIKA SLOT MENCAR ---
+                                # Slot 1: Pagi | Slot 2: Siang (+5 jam) | Slot 3: Sore (+8 jam)
+                                p_val = jam_base_hp.strftime("%H:%M") if slot_ke == 1 else ""
+                                
+                                s_raw = jam_base_hp + timedelta(hours=5)
+                                s_val = hitung_jam_aman(s_raw).strftime("%H:%M") if slot_ke == 2 else ""
+                                
+                                o_raw = jam_base_hp + timedelta(hours=8)
+                                o_val = hitung_jam_aman(o_raw).strftime("%H:%M") if slot_ke == 3 else ""
+
+                                # Emergency Slot 4 (Kalo ada)
+                                if slot_ke >= 4:
+                                    o_val = hitung_jam_aman(jam_base_hp + timedelta(hours=9)).strftime("%H:%M")
 
                                 data_update.append({
                                     "id": row['ID'],
-                                    "PAGI": t_pagi.strftime("%H:%M"),
-                                    "SIANG": t_siang.strftime("%H:%M"),
-                                    "SORE": t_sore.strftime("%H:%M"),
-                                    "EDITED": f"Auto-Estafet: {user_aktif}"
+                                    "PAGI": p_val,
+                                    "SIANG": s_val,
+                                    "SORE": o_val,
+                                    "EDITED": f"Estafet Silet: {user_aktif}"
                                 })
                             
+                            # --- INDENTASI FIX: DI LUAR LOOP FOR ---
                             if data_update:
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
                                 st.cache_data.clear()
@@ -459,6 +484,7 @@ def tampilkan_database_channel():
                                 st.success(f"Beres! {len(data_update)} Akun sudah terjadwal otomatis.")
                                 time.sleep(1)
                                 st.rerun()
+
                     except Exception as e:
                         st.error(f"❌ Format jam salah atau error: {e}")
 
