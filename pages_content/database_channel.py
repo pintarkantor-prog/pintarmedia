@@ -494,23 +494,31 @@ def tampilkan_database_channel():
                         time.sleep(1); st.rerun()
                     except Exception as e: st.error(f"Error: {e}")
 
-            # --- 3. MONITORING & PRINT (KODE ASLI DIAN TANPA UBAH) ---
+            # --- 3. MONITORING VIEW (TARUH SETELAH EXPANDER EDIT) ---
+            st.divider()
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
+            
+            # PROTEKSI: Pastikan kolom ada biar gak KeyError
+            kolom_cek = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]
+            df_monitor = df_display.reindex(columns=kolom_cek).fillna("-")
+
             st.dataframe(
-                df_display[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]],
+                df_monitor,
                 column_config={
                     "HP": st.column_config.TextColumn("📱 HP", width=50),
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250),
                     "PAGI": st.column_config.TextColumn("🌅 PAGI", width=120),
                     "SIANG": st.column_config.TextColumn("☀️ SIANG", width=120),
                     "SORE": st.column_config.TextColumn("🌆 SORE", width=120),
-                }, hide_index=True, use_container_width=True
+                }, 
+                hide_index=True, 
+                use_container_width=True
             )
 
-            # --- 4. LOGIKA PRINT (HANYA PINDAH RAKITAN - ISI HTML TETEP ASLI LO) ---
+            # --- 4. LOGIKA PRINT (SAMA KAYA KODE ASLI LO) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
-                    # --- RAKITAN HTML ASLI DIAN ---
+                    # Rakit ulang html_all_pages di sini biar datanya fresh
                     html_all_pages = "" 
                     for tim in kelompok_tim:
                         list_hp_unik = tim["list"]
@@ -537,10 +545,13 @@ def tampilkan_database_channel():
                                     </thead>
                                     <tbody>
                             """
+                            # Pake itertuples biar kenceng pas ngerakit HTML
                             for i, r in enumerate(df_page.itertuples()):
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
+                                
+                                # Logika buat nyembunyiin nomor HP kalo barisnya sama (biar rapi)
                                 hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                                 
