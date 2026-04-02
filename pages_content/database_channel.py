@@ -113,47 +113,56 @@ def tampilkan_database_channel():
             st.markdown("<br>", unsafe_allow_html=True)
 
             # ==============================================================================
-            # MONITORING PRODUKTIVITAS: TOP 3 PERFORMANCE (CLEAN CARD)
+            # MONITORING PRODUKTIVITAS: TOP 3 PERFORMANCE (FORMAT TANGGAL CANTIK)
             # ==============================================================================
-            hari_ini = database.ambil_waktu_sekarang().strftime("%d/%m/%Y")
-            df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini, na=False)]
+            # 1. Ambil waktu sekarang
+            nowww = database.ambil_waktu_sekarang()
+            
+            # 2. Buat Kamus Bulan Indonesia
+            bulan_indooo = {
+                1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
+                7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+            }
+            
+            # 3. Rakit Format Tanggalnya (Contoh: 03 Maret 2026)
+            tgl_cantik = f"{nowww.day:02d} {bulan_indooo[nowww.month]} {nowww.year}"
+            
+            # 4. Tetep butuh format asli buat filter ke database (03/04/2026)
+            hari_ini_filter = nowww.strftime("%d/%m/%Y")
+            
+            # Filter data berdasarkan kolom TANGGAL lo
+            df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
             
             # Rekap & Urutkan Terbanyak
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
             
-            with st.expander(f"📊 REPORT INPUT HARIAN ({hari_ini} AKUN BARU)", expanded=True):
+            # 5. Pake 'tgl_cantik' di judul Expander
+            with st.expander(f"📊 REPORT INPUT HARIAN - {tgl_cantik}", expanded=True):
                 if not df_today.empty:
                     cols = st.columns(3)
                     top_3 = rekap_pencatat.head(3)
                     
                     for i in range(3):
                         with cols[i]:
-                            # Card Frame
                             with st.container(border=True):
                                 if i < len(top_3):
                                     nama = top_3.iloc[i]['NAMA']
                                     jumlah = top_3.iloc[i]['JUMLAH']
                                     
-                                    # Pembeda Visual: Juara 1 dapet Bold + Warna (Optional)
-                                    if i == 0:
-                                        st.write("**⭐ TOP PERFORMANCE**")
-                                        st.subheader(f":green[{nama}]") # Nama warna hijau biar silet
-                                        st.title(f"{jumlah}") # Angka paling gede
-                                    else:
-                                        st.write(f"RANK {i+1}")
-                                        st.subheader(nama)
-                                        st.header(f"{jumlah}")
-                                    
-                                    st.caption("Akun Terinput Hari ini")
+                                    # Visual Silet: Urutan 1-2-3
+                                    rank_label = ["🥇 TOP I", "🥈 TOP II", "🥉 TOP III"]
+                                    st.write(rank_label[i])
+                                    st.subheader(nama)
+                                    st.title(f"{jumlah}")
+                                    st.caption("Akun Terinput")
                                 else:
-                                    # Standby Card kalau staff kurang dari 3
                                     st.write(f"RANK {i+1}")
                                     st.subheader("-")
                                     st.header("0")
                                     st.caption("No Activity")
                 else:
-                    st.info("Sistem belum mendeteksi aktivitas input hari ini.")
+                    st.info(f"Sistem belum mendeteksi aktivitas input pada {tgl_cantik}.")
 
             st.markdown("<br>", unsafe_allow_html=True)
             
