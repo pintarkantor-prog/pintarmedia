@@ -492,7 +492,7 @@ def tampilkan_database_channel():
             list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 11]
             list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 12 <= h <= 23]
             kelompok_tim = [
-                {"nama": "ICHA / NISSA (HP 1-11)", "list": list_hp_tim1},
+                {"nama": "INGGI (HP 1-11)", "list": list_hp_tim1},
                 {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
             ]
 
