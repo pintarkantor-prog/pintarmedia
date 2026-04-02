@@ -173,7 +173,7 @@ else:
     with wadah_utama.container():
         # Kasih jeda tipis banget (0.3-0.5 detik) buat sinkronisasi browser
         # Tanpa spinner, ini bakal berasa kenceng tapi layarnya sempet bersih
-        time.sleep(1) 
+        time.sleep(0.5) 
         
         # --- ROUTING HALAMAN ---
         if menu == "🧠 PINTAR AI LAB":
