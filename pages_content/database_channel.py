@@ -427,58 +427,47 @@ def tampilkan_database_channel():
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        with st.status("Ngerakit antrean estafet murni...", expanded=False) as status:
+                        with st.status("Ngerakit Kloter Round Robin...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
-                            # 1. Kelompokkan data per HP
-                            # Kita looping 3 kali (buat ngisi PAGI dulu semua, baru SIANG, baru SORE)
-                            def hitung_estafet(jam_awal, urutan_ke):
-                                # Selisih 10 menit per urutan
-                                target = jam_awal + timedelta(minutes=(urutan_ke - 1) * 10)
-                                # Skip Istirahat 11:30 - 12:30
+                            def geser_jam_silet(waktu_mulai, urutan_total):
+                                # Urutan total adalah posisi antrean dari semua akun di tim tsb
+                                target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 10)
+                                # Skip Istirahat 11:30 - 12:30 (Otomatis geser 1 jam)
                                 if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
                                     target = target + timedelta(minutes=60)
                                 return target
 
-                            # Kita proses per Tim biar parallel
-                            for tim_idx in [1, 2]: # Tim 1 (HP 1-11), Tim 2 (HP 12-23)
+                            # Kita proses per Tim (Tim 1: HP 1-11, Tim 2: HP 12-23)
+                            for tim_idx in [1, 2]:
                                 if tim_idx == 1:
                                     df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 11].copy()
                                 else:
                                     df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 12].copy()
                                 
-                                # Ambil semua ID akun di tim ini secara berurutan
-                                # Channel 1 tiap HP masuk antrean awal, dst
-                                list_id_tim = df_tim['ID'].tolist()
-                                
-                                for i, akun_id in enumerate(list_id_tim):
-                                    # i+1 adalah urutan ke-berapa akun ini upload di timnya
-                                    jam_final = hitung_estafet(base_pagi, i + 1)
-                                    
-                                    # Tentukan dia masuk kolom mana berdasarkan urutan slot di HP-nya
-                                    # Tapi karena lo bilang PAGI/SIANG/SORE cuma penanda upload ke-1,2,3
-                                    # Kita cek akun ini di HP-nya itu urutan keberapa
-                                    row_akun = df_tim[df_tim['ID'] == akun_id].iloc[0]
-                                    
-                                    # Cek slot ke-berapa di HP yang sama
-                                    # (Gue pake logika: Akun 1 di HP tsb = Pagi, Akun 2 = Siang, Akun 3 = Sore)
-                                    # TAPI jamnya tetep urutan estafet dari akun sebelumnya!
-                                    
-                                    # Cari tahu ini channel ke-berapa di HP-nya
-                                    df_hp_ini = df_tim[df_tim['HP'] == row_akun['HP']]
-                                    urutan_di_hp = list(df_hp_ini['ID']).index(akun_id) + 1
-                                    
-                                    p_val = jam_final.strftime("%H:%M") if urutan_di_hp == 1 else ""
-                                    s_val = jam_final.strftime("%H:%M") if urutan_di_hp == 2 else ""
-                                    o_val = jam_final.strftime("%H:%M") if urutan_di_hp == 3 else ""
+                                if df_tim.empty: continue
 
+                                # --- LOGIKA ROUND ROBIN DIAN ---
+                                # 1. Kelompokkan akun berdasarkan 'urutan ke-berapa' di tiap HP
+                                # Kloter 1: Semua akun pertama di tiap HP
+                                # Kloter 2: Semua akun kedua di tiap HP, dst.
+                                df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
+                                
+                                # 2. Urutkan berdasarkan Kloter dulu (1, 2, 3), baru nomor HP
+                                df_resorted = df_tim.sort_values(['urutan_di_hp', 'HP_N'])
+                                
+                                # 3. Kasih jam estafet berurutan
+                                for i, (idx_row, row) in enumerate(df_resorted.iterrows(), 1):
+                                    jam_final = geser_jam_silet(base_pagi, i)
+                                    
+                                    # Simpan ke kolom sesuai kloternya
                                     data_update.append({
-                                        "id": akun_id,
-                                        "PAGI": p_val,
-                                        "SIANG": s_val,
-                                        "SORE": o_val,
-                                        "EDITED": f"Murni: {user_aktif}"
+                                        "id": row['ID'],
+                                        "PAGI": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 1 else "",
+                                        "SIANG": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 2 else "",
+                                        "SORE": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 3 else "",
+                                        "EDITED": f"Round-Robin: {user_aktif}"
                                     })
 
                             if data_update:
