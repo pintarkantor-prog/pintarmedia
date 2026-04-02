@@ -111,6 +111,36 @@ def tampilkan_database_channel():
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
 
             st.markdown("<br>", unsafe_allow_html=True)
+
+            # ==============================================================================
+            # DI SINI TEMPATNYA: MONITORING PRODUKTIVITAS HARIAN (EXPANDER + CARDS)
+            # ==============================================================================
+            hari_ini = database.ambil_waktu_sekarang().strftime("%d/%m/%Y")
+            
+            # Filter data berdasarkan kolom TANGGAL lo
+            df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini, na=False)]
+            
+            # Rekap jumlah input per staff dari kolom PENCATAT lo
+            rekap_pencatat = df_today['PENCATAT'].value_counts()
+            total_today = len(df_today)
+
+            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN BARU)", expanded=False):
+                if not df_today.empty:
+                    # Bikin Grid 4 Kolom buat Card Staff
+                    kolom_staff = st.columns(4)
+                    
+                    for i, (nama, jumlah) in enumerate(rekap_pencatat.items()):
+                        with kolom_staff[i % 4]:
+                            with st.container(border=True):
+                                st.caption("🚀 PENCATAT")
+                                st.subheader(f"{nama}")
+                                st.write(f"**{jumlah}** Akun Hari Ini")
+                                # Bar pemanis: target 30 akun biar penuh
+                                st.progress(min(jumlah/30, 1.0))
+                else:
+                    st.info(f"Belum ada aktivitas input akun pada tanggal {hari_ini}.")
+
+            st.markdown("<br>", unsafe_allow_html=True)
             
             # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
             hc1, hc2 = st.columns([3, 1])
