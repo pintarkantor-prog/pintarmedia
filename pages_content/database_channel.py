@@ -396,103 +396,77 @@ def tampilkan_database_channel():
                         st.error(f"❌ Gagal update: {e}")
 
     # ==============================================================================
-    # TAB 3: JADWAL UPLOAD (URUT HP + PARALLEL TIM + EDIT MANUAL)
+    # TAB 3: JADWAL UPLOAD (FULL ESTAFET SULTAN v4.0 - ANTI-NUMPUK & PARALLEL)
     # ==============================================================================
     with tab_jd:
-        # 1. Pastikan Data Terurut Berdasarkan HP sejak awal
+        # 1. Pastikan Data Terurut Berdasarkan HP & Channel
         df['HP_N'] = pd.to_numeric(df['HP'], errors='coerce').fillna(999)
-        df_j = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N', 'NAMA_CHANNEL']).copy()
+        df_j_sorted = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N', 'NAMA_CHANNEL']).copy()
 
-        if df_j.empty:
+        if df_j_sorted.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
         else:
             now_indo = database.ambil_waktu_sekarang()
             nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
-            # --- DEFINISI TIM (Sesuai Urutan HP) ---
-            list_hp_tim1 = [str(int(h)) for h in sorted(df_j['HP_N'].unique()) if 1 <= h <= 11]
-            list_hp_tim2 = [str(int(h)) for h in sorted(df_j['HP_N'].unique()) if 12 <= h <= 23]
-            
+            # --- DEFINISI KELOMPOK TIM (Wajib Ada di Atas) ---
+            list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 11]
+            list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 12 <= h <= 23]
             kelompok_tim = [
                 {"nama": "ICHA / NISSA (HP 1-11)", "list": list_hp_tim1},
                 {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
             ]
 
-            # --- A. GENERATOR JADWAL (TOMBOL SAKTI) ---
+            # --- A. GENERATOR JADWAL (ESTAFET PARALLEL) ---
             with st.container(border=True):
-                st.markdown("### ⚡ ESTAFET GENERATOR (AUTO-SLOT)")
+                st.markdown("### ⚡ ESTAFET GENERATOR (SLOT MENCAR)")
+                st.caption("Pola: Slot 1 (Pagi), Slot 2 (Siang), Slot 3 (Sore) | Jeda 10 Menit Antar HP | Parallel Tim A & B")
+                
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai HP 1 & 12", value="08:15", key="start_estafet")
                 
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        with st.status("Lagi ngerakit jadwal urut HP...", expanded=False) as status:
+                        with st.status("Lagi ngerakit antrean estafet silet...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
-                            def hitung_jam_aman(waktu_obj):
-                                b_awal = waktu_obj.replace(hour=11, minute=30)
-                                b_akhir = waktu_obj.replace(hour=12, minute=30)
-                                if b_awal <= waktu_obj < b_akhir: return waktu_obj.replace(hour=12, minute=30)
-                                return waktu_obj
+                            def geser_jam(waktu_mulai, tambah_menit, tambah_jam=0):
+                                target = waktu_mulai + timedelta(hours=tambah_jam, minutes=tambah_menit)
+                                # Logika Skip Istirahat (11:30 - 12:30)
+                                if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
+                                    target = target + timedelta(minutes=60)
+                                return target.strftime("%H:%M")
 
-                            # Variabel bantu
                             last_hp, slot_ke = None, 0
-
-                            for _, row in df_sorted.iterrows():
+                            for _, row in df_j_sorted.iterrows():
                                 curr_hp = str(row['HP_N'])
                                 if curr_hp == last_hp: slot_ke += 1
                                 else: slot_ke, last_hp = 1, curr_hp
 
-                                no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
-                                
-                                # Logika Parallel: HP 12 jadi urutan 1 di Tim B
+                                no_hp = int(row['HP_N'])
                                 urutan = no_hp if no_hp <= 11 else no_hp - 11
-                                jeda_menit = (urutan - 1) * 10
+                                jeda = (urutan - 1) * 10
                                 
-                                # --- FUNGSI BARU: GESER ANTREAN ---
-                                def geser_jam(waktu_mulai, tambah_menit, tambah_jam=0):
-                                    # 1. Itung jam asli tanpa mikir istirahat
-                                    target = waktu_mulai + timedelta(hours=tambah_jam, minutes=tambah_menit)
-                                    
-                                    # 2. Cek apakah jam target ini ngelewati atau pas di jam istirahat
-                                    # Kita pake patokan menit dari jam 00:00 biar gampang
-                                    menit_target = target.hour * 60 + target.minute
-                                    menit_istirahat_start = 11 * 60 + 40 # 11:30
-                                    
-                                    if menit_target >= menit_istirahat_start:
-                                        # Kalo udah jam 11:30 keatas, tambahin 60 menit (istirahat)
-                                        target = target + timedelta(minutes=60)
-                                    
-                                    return target.strftime("%H:%M")
-
-                                # Eksekusi Slot Mencar
-                                p_val = geser_jam(base_pagi, jeda_menit) if slot_ke == 1 else ""
-                                s_val = geser_jam(base_pagi, jeda_menit, tambah_jam=4) if slot_ke == 2 else ""
-                                o_val = geser_jam(base_pagi, jeda_menit, tambah_jam=7) if slot_ke == 3 else ""
+                                # Slot Mencar (Pagi, Siang +4h, Sore +7h)
+                                p_val = geser_jam(base_pagi, jeda) if slot_ke == 1 else ""
+                                s_val = geser_jam(base_pagi, jeda, tambah_jam=4) if slot_ke == 2 else ""
+                                o_val = geser_jam(base_pagi, jeda, tambah_jam=7) if slot_ke == 3 else ""
 
                                 data_update.append({
-                                    "id": row['ID'],
-                                    "PAGI": p_val,
-                                    "SIANG": s_val,
-                                    "SORE": o_val,
-                                    "EDITED": f"Estafet Anti-Numpuk: {user_aktif}"
+                                    "id": row['ID'], "PAGI": p_val, "SIANG": s_val, "SORE": o_val,
+                                    "EDITED": f"Auto-Estafet: {user_aktif}"
                                 })
                             
                             if data_update:
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
-                                st.cache_data.clear()
-                                st.rerun()
+                                st.cache_data.clear(); st.rerun()
                     except Exception as e: st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL (DIBALIKIN LAGI COK) ---
+            # --- B. EDIT MANUAL JADWAL (DENGAN ICON LENGKAP) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
-                # Pastikan kolom bantu ada sebelum editor
-                df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
-                df_j_sorted = df_j.sort_values(['HP_N', 'NAMA_CHANNEL'])
-                
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
                 edited_j = st.data_editor(
                     df_j_sorted[kolom_edit],
@@ -504,7 +478,7 @@ def tampilkan_database_channel():
                         "SORE": st.column_config.TextColumn("🌆 SORE"),
                         "ID": None
                     },
-                    use_container_width=True, hide_index=True, key="editor_manual_v3"
+                    use_container_width=True, hide_index=True, key="editor_manual_v4"
                 )
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True):
                     try:
@@ -515,11 +489,10 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- C. MONITORING VIEW (ICON DIBALIKIN) ---
+            # --- C. MONITORING VIEW (DENGAN ICON LENGKAP) ---
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
-            df_display = df_j.sort_values(['HP_N', 'PAGI'])
             st.dataframe(
-                df_display[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], 
+                df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], 
                 column_config={
                     "HP": st.column_config.TextColumn("📱 HP", width=50),
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250),
@@ -530,21 +503,16 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- D. LOGIKA PRINT (ASLI DIAN + FIX KEYERROR) ---
+            # --- D. LOGIKA PRINT (STYLE SULTAN DIAN - 6 HP PER LEMBAR) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
-                with st.spinner("Merakit jadwal..."):
-                    # FIX KEYERROR: Bikin HP_N dulu sebelum sort di dalem button
-                    df_display['HP_N'] = pd.to_numeric(df_display['HP'], errors='coerce').fillna(999)
-                    df_display_sorted = df_display.sort_values(['HP_N', 'PAGI'])
-                    
+                with st.spinner("Merakit mahakarya jadwal..."):
                     html_all_pages = "" 
                     for tim in kelompok_tim:
-                        list_hp_unik = tim["list"]
-                        if not list_hp_unik: continue
-                        
-                        for start_idx in range(0, len(list_hp_unik), 6):
-                            hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
-                            df_page = df_display_sorted[df_display_sorted['HP'].isin(hp_halaman_ini)].copy()
+                        list_hp_tim = tim["list"]
+                        if not list_hp_tim: continue
+                        for s_idx in range(0, len(list_hp_tim), 6):
+                            hp_hal = list_hp_tim[s_idx : s_idx + 6]
+                            df_page = df_j_sorted[df_j_sorted['HP'].isin(hp_hal)].copy()
                             
                             html_all_pages += f"""
                             <div class="print-container page-break">
@@ -562,28 +530,25 @@ def tampilkan_database_channel():
                                             <th style="width: 15%;">🌆 SORE</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                            """
+                                    <tbody>"""
                             for i, r in enumerate(df_page.itertuples()):
-                                p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
-                                s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
-                                o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
-                                
-                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1].HP) else ""
+                                p = r.PAGI if r.PAGI and str(r.PAGI).strip() != "" else "-"
+                                s = r.SIANG if r.SIANG and str(r.SIANG).strip() != "" else "-"
+                                o = r.SORE if r.SORE and str(r.SORE).strip() != "" else "-"
+                                # Sembunyiin nomor HP duplikat biar rapi
+                                hp_show = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
-                                
                                 html_all_pages += f"""
                                     <tr style="background-color: {bg_color} !important;">
-                                        <td class="col-hp">{hp_view}</td>
+                                        <td class="col-hp">{hp_show}</td>
                                         <td class="col-ch">{r.NAMA_CHANNEL}</td>
                                         <td class="col-jam">{p}</td>
                                         <td class="col-jam">{s}</td>
                                         <td class="col-jam">{o}</td>
-                                    </tr>
-                                """
+                                    </tr>"""
                             html_all_pages += "</tbody></table></div>"
 
-                    # --- STYLE SULTAN ASLI DIAN (TIDAK BERUBAH) ---
+                    # --- CSS SULTAN ASLI DIAN (TIDAK ADA YANG DIRUBAH) ---
                     html_masterpiece = f"""
                     <style>
                         @media print {{
