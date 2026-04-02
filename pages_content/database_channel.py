@@ -126,7 +126,8 @@ def tampilkan_database_channel():
                     if st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True):
                         if v_nama and v_mail:
                             tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            v_mail = v_mail.strip().lower() 
+                            v_mail = v_mail.strip().lower()
+                            v_nama = v_nama.strip()
                                 
                             try:
                                 # JANGAN pake spinner di sini kalo gak mau kedip, 
@@ -144,10 +145,9 @@ def tampilkan_database_channel():
                                 }).execute()
                                     
 
-                                st.session_state.form_baru = False
                                 st.cache_data.clear()
                                 st.toast(f"✅ Akun {v_mail} Berhasil Masuk!", icon="🚀")
-                                time.sleep(0.5)
+                                time.sleep(1)
                                 st.rerun()
 
                             except Exception as e:
@@ -163,10 +163,13 @@ def tampilkan_database_channel():
         if df_st.empty:
             st.info("Belum ada stok standby.")
         else:
+            # Penomoran visual
             df_st['NO'] = range(1, len(df_st) + 1)
+            # REAL_IDX tetep ada buat navigasi visual lo
             df_st['REAL_IDX'] = df_st.index 
             df_st['SUBSCRIBE'] = df_st['SUBSCRIBE'].astype(str)
 
+            # Konfigurasi Kolom
             config_st = {
                 "NO": st.column_config.TextColumn("#️⃣ NO", width=30, disabled=True),
                 "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
@@ -175,19 +178,25 @@ def tampilkan_database_channel():
                 "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=50), 
                 "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=300),
                 "PENCATAT": st.column_config.TextColumn("👤 OLEH", width=50, disabled=True),
-                "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=80, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
-                "REAL_IDX": None 
+                "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
+                "REAL_IDX": st.column_config.TextColumn("📍 IDX", width=40, disabled=True), # Kasih liat dikit gapapa
+                "ID": None # SEMBUNYIKAN ID ASLI (Kunci Supabase)
             }
 
+            # Ambil kolom ID juga (Hasil .upper() dari database.py)
+            kolom_tampil = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX", "ID"]
+
             edited_st = st.data_editor(
-                df_st[["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]],
-                column_config=config_st, use_container_width=True, hide_index=True, key="grid_st_pro_locked"
+                df_st[kolom_tampil],
+                column_config=config_st, 
+                use_container_width=True, 
+                hide_index=True, 
+                key=f"grid_st_{len(df_st)}" # Biar gak ngebayang datanya
             )
 
-        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION f/16 - EMAIL ANCHOR FIXED) ---
-        kolom_cek = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX"]
-        
-        if not edited_st.equals(df_st[kolom_cek]):
+        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION - ID ANCHOR) ---
+        # Cek apakah ada perubahan di data editor dibanding df_st
+        if not edited_st.equals(df_st[kolom_tampil]):
             if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
                 try:
                     with st.spinner("Sinkronisasi Radar ke Supabase..."):
@@ -195,18 +204,16 @@ def tampilkan_database_channel():
                         data_batch = []
                         
                         for i, row in edited_st.iterrows():
-                            # Ambil kunci unik (Email) untuk mencari data lama di database
-                            email_target = str(row['EMAIL']).strip().lower()
-                            
-                            # Cari baris asli di df master berdasarkan email
-                            match_df = df[df['EMAIL'].str.lower() == email_target]
+                            # Cari baris asli di master DF pake ID (Bukan REAL_IDX atau EMAIL)
+                            match_df = df[df['ID'] == row['ID']]
                             
                             if not match_df.empty:
                                 old_val = match_df.iloc[0]
                                 
-                                # --- FILTER SAKTI: Cek perubahan murni ---
+                                # FILTER PERUBAHAN: Cek data murni
                                 is_changed = (
                                     str(row['STATUS']).strip() != str(old_val['STATUS']).strip() or 
+                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
                                     str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
                                     str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
                                     str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
@@ -215,12 +222,12 @@ def tampilkan_database_channel():
                                 if is_changed:
                                     target_hp = str(old_val.get('HP', ''))
                                     
-                                    # --- LOGIKA TARGET HP (SLOT DINAMIS) ---
+                                    # Logika Auto-Slot lo tetep jalan
                                     if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
                                         df_p_now = df[df['STATUS'] == 'PROSES'].copy()
                                         hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
                                         
-                                        target_hp = "1"
+                                        # Scan HP Kosong
                                         target_hp = "1"
                                         for h in range(1, 101):
                                             count_sekarang = hp_counts.get(str(h), 0)
@@ -228,13 +235,13 @@ def tampilkan_database_channel():
                                             if count_sekarang < max_slot:
                                                 target_hp = str(h)
                                                 break
-
                                     elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
                                         target_hp = ""
 
-                                    # Masukkan data yang beneran berubah ke keranjang batch
+                                    # Masukkan ke keranjang batch
                                     data_batch.append({
-                                        "EMAIL": email_target,
+                                        "id": row['ID'], # KUNCI UTAMA (Gunakan huruf kecil 'id' sesuai Supabase)
+                                        "EMAIL": str(row['EMAIL']).strip().lower(),
                                         "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
                                         "PASSWORD": str(row['PASSWORD']).strip(),
                                         "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
@@ -246,12 +253,12 @@ def tampilkan_database_channel():
                                         "EDITED": f"Up: {user_aktif} ({tgl_now})"
                                     })
 
-                        # --- EKSEKUSI BATCH UPSERT ---
                         if data_batch:
-                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                            # UPSERT PAKE on_conflict="id" (Anti-Duplikat!)
+                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                             st.cache_data.clear()
-                            st.success(f"✅ Mantap! {len(data_batch)} Akun Berhasil Diupdate!")
-                            time.sleep(1.5)
+                            st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
+                            time.sleep(1)
                             st.rerun()
                         else:
                             st.info("Tidak ada perubahan spesifik yang terdeteksi.")
@@ -270,11 +277,13 @@ def tampilkan_database_channel():
             2. HP 4 - 23 Konten Masjid
         """)
 
+        # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
 
         if df_p.empty:
             st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
         else:
+            # Sorting HP biar rapi (1, 2, 3...)
             df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
             df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
 
@@ -282,7 +291,7 @@ def tampilkan_database_channel():
             for hp_id, group in df_p.groupby('HP', sort=False):
                 for i, (idx, r) in enumerate(group.iterrows()):
                     display_list.append({
-                        "REAL_IDX": idx,
+                        "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
                         "HP": f"📱 HP {hp_id}" if i == 0 else "", 
                         "EMAIL": r['EMAIL'],
                         "PASSWORD": r['PASSWORD'],
@@ -296,17 +305,17 @@ def tampilkan_database_channel():
             
             # --- CONFIG: SEMUA GEMBOK DIBUKA ---
             config_p = {
+                "ID": None, # Sembunyiin KTP asli
                 "HP": st.column_config.TextColumn("📱 UNIT", width=80, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # Buka
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), # Buka
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # Buka
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), 
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
                 "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=60), 
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=150), # Buka
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=150), 
                 "STATUS": st.column_config.SelectboxColumn(
                     "⚙️ STATUS", width=100, 
                     options=["PROSES", "SOLD", "STANDBY", "BUSUK", "SUSPEND"]
-                ),
-                "REAL_IDX": None 
+                )
             }
 
             edited_p = st.data_editor(
@@ -317,11 +326,10 @@ def tampilkan_database_channel():
                 key="grid_p_pro_v2"
             )
 
-            # --- LOGIKA SAVE (VERSI TERBAIK & ANTI-LAG) ---
+            # --- LOGIKA SAVE (PAKE ID SEBAGAI JANGKAR) ---
             if not edited_p.equals(df_display):
                 if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
                     try:
-                        # 1. BERSIHKAN CACHE DI AWAL (Biar gak ada sisa data lama)
                         st.cache_data.clear() 
 
                         with st.spinner("Sinkronisasi ke Supabase..."):
@@ -329,37 +337,43 @@ def tampilkan_database_channel():
                             data_batch = []
                             
                             for i, row in edited_p.iterrows():
-                                idx_asli = int(row['REAL_IDX'])
-                                old_val = df.iloc[idx_asli]
-                                
-                                # Cek perubahan murni
-                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
-                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
-                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or
-                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
-                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()):
+                                # Cari data lama pake ID (Bukan Index!)
+                                match_df = df[df['ID'] == row['ID']]
+                                if not match_df.empty:
+                                    old_val = match_df.iloc[0]
                                     
-                                    target_hp = str(old_val['HP'])
-                                    if row['STATUS'] != 'PROSES':
-                                        target_hp = "" 
+                                    # Cek perubahan murni
+                                    is_changed = (
+                                        str(row['STATUS']) != str(old_val['STATUS']) or 
+                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
+                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or
+                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                        str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()
+                                    )
 
-                                    data_batch.append({
-                                        "EMAIL": row['EMAIL'].strip().lower(),
-                                        "PASSWORD": row['PASSWORD'],
-                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                        "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                        "STATUS": row['STATUS'],
-                                        "HP": target_hp,
-                                        "EDITED": f"Up: {user_aktif} ({tgl_now})"
-                                    })
+                                    if is_changed:
+                                        # HP dilepas kalau status bukan PROSES
+                                        target_hp = str(old_val['HP'])
+                                        if row['STATUS'] != 'PROSES':
+                                            target_hp = "" 
+
+                                        data_batch.append({
+                                            "id": row['ID'], # <--- JANGKAR UTAMA
+                                            "EMAIL": row['EMAIL'].strip().lower(),
+                                            "PASSWORD": row['PASSWORD'],
+                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                            "STATUS": row['STATUS'],
+                                            "HP": target_hp,
+                                            "EDITED": f"Up: {user_aktif} ({tgl_now})"
+                                        })
 
                             if data_batch:
-                                # 2. EKSEKUSI UPSERT
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                # UPSERT PAKE on_conflict="id"
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                 
-                                # 3. BERSIHKAN LAGI (Double Kill!)
                                 st.cache_data.clear() 
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
                                 time.sleep(1) 
@@ -396,7 +410,7 @@ def tampilkan_database_channel():
                 # Sort biar rapi per HP dan waktu
                 df_j_sorted = df_j.sort_values(['HP_N', 'PAGI'])
 
-                kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "EMAIL", "REAL_IDX"]
+                kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "EMAIL", "ID"]
                 
                 edited_j = st.data_editor(
                     df_j_sorted[kolom_edit],
@@ -407,7 +421,7 @@ def tampilkan_database_channel():
                         "SIANG": st.column_config.TextColumn("☀️ SIANG"),
                         "SORE": st.column_config.TextColumn("🌆 SORE"),
                         "EMAIL": None, 
-                        "REAL_IDX": None
+                        "ID": None
                     },
                     use_container_width=True, hide_index=True, key="editor_manual_v2"
                 )
@@ -420,6 +434,7 @@ def tampilkan_database_channel():
 
                             for _, row in edited_j.iterrows():
                                 data_supabase.append({
+                                    "id": row['ID'], # <--- AMBIL ID ASLI (Pastikan ID masuk di kolom_edit)
                                     "EMAIL": row['EMAIL'].strip().lower(),
                                     "PAGI": str(row['PAGI']) if row['PAGI'] else "",
                                     "SIANG": str(row['SIANG']) if row['SIANG'] else "",
@@ -429,7 +444,7 @@ def tampilkan_database_channel():
 
                             if data_supabase:
                                 database.supabase.table("Channel_Pintar").upsert(
-                                    data_supabase, on_conflict="EMAIL"
+                                    data_supabase, on_conflict="id"
                                 ).execute()
                                 
                             st.cache_data.clear()
@@ -624,13 +639,13 @@ def tampilkan_database_channel():
     # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
     # ======================================================================
     with tab_hp:
-        # --- 1. EXPANDER INPUT (LANGSUNG KARENA SUDAH LOLOS SATPAM UTAMA) ---
+        # --- 1. EXPANDER INPUT UNIT BARU ---
         with st.expander("➕ DAFTARKAN UNIT HP BARU", expanded=False):
             with st.form("form_hp_supabase", clear_on_submit=True):
                 st.markdown("### 📝 Input Data Unit")
                 c1, c2 = st.columns(2)
-                v_nama = c1.text_input("Nama Unit (Contoh: HP 01)")
-                v_no = c2.text_input("Nomor HP (Contoh: 0812...)")
+                v_nama = c1.text_input("Nama Unit (Contoh: HP 01)").strip().upper()
+                v_no = c2.text_input("Nomor HP (Contoh: 0812...)").strip()
                 
                 c3, c4 = st.columns(2)
                 v_prov = c3.selectbox("Provider", ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"])
@@ -641,8 +656,8 @@ def tampilkan_database_channel():
                         try:
                             tgl_fix = v_tgl.strftime("%d/%m/%Y")
                             database.supabase.table("Data_HP").insert({
-                                "NAMA_HP": str(v_nama).upper(),
-                                "NOMOR_HP": str(v_no),
+                                "NAMA_HP": v_nama,
+                                "NOMOR_HP": v_no,
                                 "PROVIDER": v_prov,
                                 "MASA_AKTIF": tgl_fix
                             }).execute()
@@ -664,15 +679,20 @@ def tampilkan_database_channel():
         else:
             now_indo = database.ambil_waktu_sekarang().date()
             
-            # --- FIX URUTAN HP (Agar 1, 2, 3... urut lurus) ---
+            # --- FIX URUTAN HP ---
             df_hp['HP_NUM'] = df_hp['NAMA_HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
             df_view = df_hp[df_hp['NAMA_HP'].str.strip() != ""].sort_values('HP_NUM').copy()
             
             # Tampilan Grid 4 Kolom
             grid = st.columns(4) 
             for i, (idx, r) in enumerate(df_view.iterrows()):
+                # Ambil ID unik database (id kecil atau ID besar tergantung database.py)
+                # Kita coba ambil 'id' (Supabase default) atau 'ID' (hasil .upper() lo)
+                id_target = r.get('id') if 'id' in r else r.get('ID')
+
                 with grid[i % 4]:
                     try:
+                        # Parsing tanggal DD/MM/YYYY
                         t_exp = pd.to_datetime(r['MASA_AKTIF'], dayfirst=True).date()
                         sisa = (t_exp - now_indo).days
                         
@@ -700,10 +720,10 @@ def tampilkan_database_channel():
                         sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa < 4 else "#ffffff"
                         sc2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⏳ SISA</p><b style='font-size:14px; color:{sisa_color};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
-                        # --- FITUR EDIT (TANPA CEK IF LAGI) ---
+                        # --- FITUR EDIT PAKE JANGKAR ID ---
                         with st.popover("✏️ Edit", use_container_width=True):
                             st.markdown(f"#### 🛠️ EDIT: {r['NAMA_HP']}")
-                            e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{idx}").strip()
+                            e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{idx}").strip().upper()
                             e_no = st.text_input("📞 Nomor HP", value=str(r['NOMOR_HP']), key=f"eno_{idx}").strip()
                             
                             provider_list = ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"]
@@ -714,22 +734,22 @@ def tampilkan_database_channel():
                             if st.button("💾 SIMPAN", key=f"btn_e_{idx}", use_container_width=True, type="primary"):
                                 if e_nama and e_no:
                                     try:
+                                        # GUNAKAN ID UNTUK UPDATE (eq)
                                         database.supabase.table("Data_HP").update({
-                                            "NAMA_HP": e_nama.upper(), 
-                                            "NOMOR_HP": str(e_no), 
+                                            "NAMA_HP": e_nama, 
+                                            "NOMOR_HP": e_no, 
                                             "PROVIDER": e_prov, 
                                             "MASA_AKTIF": e_tgl
-                                        }).eq("NAMA_HP", r['NAMA_HP']).execute()
+                                        }).eq("id", id_target).execute() # <--- INI KUNCINYA
                                         
                                         st.cache_data.clear()
                                         st.success(f"✅ {e_nama} Berhasil Diupdate!")
                                         time.sleep(1)
                                         st.rerun()
                                     except Exception as e:
-                                        st.error(f"❌ Gagal Update Supabase: {e}")
+                                        st.error(f"❌ Gagal Update: {e}")
                                 else:
                                     st.error("⚠️ Nama & Nomor HP wajib diisi!")
-
     # ==============================================================================
     # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
     # ==============================================================================
@@ -753,11 +773,12 @@ def tampilkan_database_channel():
             df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
             total_ever = len(df_sold_all)
             
+            # Filter berdasarkan kolom EDITED (jejak digital transaksi)
             mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
             df_selected = df_sold_all[mask_periode].copy()
             total_selected = len(df_selected)
             
-            # --- LOGIKA DELTA BULAN LALU ---
+            # --- LOGIKA DELTA BULAN LALU (Silet Analisis) ---
             try:
                 from datetime import timedelta, datetime
                 date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
@@ -771,18 +792,18 @@ def tampilkan_database_channel():
             # --- 3. RENDER 3 METRIK UTAMA ---
             with st.container(border=True):
                 m1, m2, m3 = st.columns(3)
-                m1.metric("💰 TOTAL SOLD", f"{total_ever}", delta="Unit Laku")
-                m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Bulan Ini")
-                m3.metric(f"🕒 BULAN LALU", f"{total_prev}", delta=f"Perbandingan {filter_prev}", delta_color="off")
+                m1.metric("💰 TOTAL SOLD (ALL TIME)", f"{total_ever}", delta="Unit Laku")
+                m2.metric(f"📅 {sel_bln_nama.upper()} {sel_thn}", f"{total_selected}", delta=f"Laku Bulan Ini")
+                m3.metric(f"🕒 BULAN LALU ({filter_prev})", f"{total_prev}", delta=f"{total_selected - total_prev} dari bulan lalu", delta_color="normal")
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # --- 4. DATABASE TABEL ---
+            # --- 4. DATABASE TABEL (Pake Jangkar ID) ---
             st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
             if df_selected.empty:
                 st.info(f"Belum ada data periode {filter_periode}")
             else:
-                df_selected['REAL_IDX'] = df_selected.index
+                # Pastikan kolom ID ditarik
                 df_selected['TGL_LAST'] = df_selected['EDITED']
                 df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
                 
@@ -797,19 +818,21 @@ def tampilkan_database_channel():
                         "⚙️ STATUS", width=100, 
                         options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]
                     ),
-                    "REAL_IDX": None
+                    "ID": None # SEMBUNYIKAN KTP ASLI
                 }
 
+                # Tampilkan kolom ID di belakang layar buat jangkar update
                 edited_sold = st.data_editor(
-                    df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
+                    df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]], 
                     use_container_width=True, 
                     hide_index=True, 
                     column_config=config_sold, 
-                    key="grid_sold_full_edit_final"
+                    key=f"grid_sold_{filter_periode}" # Key dinamis biar refresh tiap ganti bulan
                 )
 
-                # --- 5. LOGIKA SAVE ---
-                if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
+                # --- 5. LOGIKA SAVE (ANTI-DUPLIKAT PAKE ID) ---
+                # Cek perubahan antara hasil edit dan data awal
+                if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]]):
                     if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
                         try:
                             with st.spinner("Sinkronisasi data penjualan..."):
@@ -817,38 +840,47 @@ def tampilkan_database_channel():
                                 data_batch = []
                                 
                                 for i, row in edited_sold.iterrows():
-                                    idx_asli = int(row['REAL_IDX'])
-                                    old_val = df.iloc[idx_asli]
-                                    
-                                    if (str(row['STATUS']) != str(old_val['STATUS']) or 
-                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                        str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
-                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                                    # Cari baris asli pake ID (Bukan Index!)
+                                    match_df = df[df['ID'] == row['ID']]
+                                    if not match_df.empty:
+                                        old_val = match_df.iloc[0]
                                         
-                                        data_batch.append({
-                                            "EMAIL": row['EMAIL'].strip().lower(),
-                                            "PASSWORD": row['PASSWORD'],
-                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                            "STATUS": row['STATUS'],
-                                            "EDITED": f"Update: {user_aktif} ({tgl_now})"
-                                        })
+                                        # Cek perubahan murni di kolom-kolom penting
+                                        is_changed = (
+                                            str(row['STATUS']) != str(old_val['STATUS']) or 
+                                            str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or
+                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
+                                        )
+
+                                        if is_changed:
+                                            data_batch.append({
+                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "EMAIL": row['EMAIL'].strip().lower(),
+                                                "PASSWORD": row['PASSWORD'],
+                                                "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                                "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                                "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                                "STATUS": row['STATUS'],
+                                                "EDITED": f"Audit: {user_aktif} ({tgl_now})"
+                                            })
 
                                 if data_batch:
-                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                     st.cache_data.clear()
-                                    st.success(f"✅ Mantap! {len(data_batch)} Akun SOLD Diperbarui!")
+                                    st.success(f"✅ Mantap Bos! {len(data_batch)} Akun SOLD Diperbarui!")
                                     time.sleep(1)
                                     st.rerun()
+                                else:
+                                    st.info("Tidak ada perubahan data.")
+
                         except Exception as e:
-                            st.error(f"❌ Gagal Simpan: {e}")
+                            st.error(f"❌ Gagal Simpan Audit: {e}")
 
         else:
             # Tampilan buat Staff/Admin yang nyasar ke sini
-            st.warning(f"⚠️ Mohon maaf {user_aktif}, kamu tidak memiliki akses!")
+            st.warning(f"⚠️ Mohon maaf {user_aktif}, kamu tidak memiliki akses ke menu ini.")
 
     # ==============================================================================
     # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
@@ -870,42 +902,44 @@ def tampilkan_database_channel():
 
         st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE ARSIP (FULL EDITABLE & ICON SULTAN) ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA EDIT SEMUA KOLOM)")
+        # --- 3. DATABASE ARSIP (FULL EDITABLE & ID ANCHOR) ---
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA DAUR ULANG)")
         if df_a.empty:
             st.success("✨ Arsip masih kosong!")
         else:
-            df_a['REAL_IDX'] = df_a.index 
             df_a['TGL_KEJADIAN'] = df_a['EDITED']
             df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
-            # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ICON ---
+            # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
             config_arsip = {
+                "ID": None, # SEMBUNYIIN KTP ASLI
                 "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), # BUKA
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), # BUKA
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), # BUKA
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), # BUKA
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), # BUKA
+                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
+                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
+                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
+                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), 
+                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), 
                 "STATUS": st.column_config.SelectboxColumn(
                     "⚙️ STATUS", 
                     width=100,
                     options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
                     help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
-                ),
-                "REAL_IDX": None
+                )
             }
             
+            # Tambahkan ID ke dalam list kolom yang ditarik
+            kolom_tampil_a = ["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]
+
             edited_a = st.data_editor(
-                df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]], 
+                df_a[kolom_tampil_a], 
                 use_container_width=True, 
                 hide_index=True, 
                 column_config=config_arsip, 
                 key="grid_arsip_daur_ulang_v3"
             )
 
-            # --- 4. LOGIKA SAVE (ANTI MUBADZIR - FILTERED) ---
-            if not edited_a.equals(df_a[["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "REAL_IDX"]]):
+            # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
+            if not edited_a.equals(df_a[kolom_tampil_a]):
                 if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
                     try:
                         with st.spinner("Sinkronisasi data..."):
@@ -913,29 +947,35 @@ def tampilkan_database_channel():
                             data_batch = []
                             
                             for i, row in edited_a.iterrows():
-                                idx_asli = int(row['REAL_IDX'])
-                                old_val = df.iloc[idx_asli]
+                                # Cari baris asli di master DF pake ID
+                                match_df = df[df['ID'] == row['ID']]
                                 
-                                # Filter: Cek perubahan di SEMUA kolom yang dibuka
-                                if (str(row['STATUS']) != str(old_val['STATUS']) or 
-                                    str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                    str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                    str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
-                                    str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])):
+                                if not match_df.empty:
+                                    old_val = match_df.iloc[0]
                                     
-                                    data_batch.append({
-                                        "EMAIL": row['EMAIL'].strip().lower(),
-                                        "PASSWORD": row['PASSWORD'],
-                                        "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                        "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                        "STATUS": row['STATUS'],
-                                        "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
-                                    })
+                                    # Cek perubahan murni
+                                    is_changed = (
+                                        str(row['STATUS']) != str(old_val['STATUS']) or 
+                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
+                                    )
+
+                                    if is_changed:
+                                        data_batch.append({
+                                            "id": row['ID'], # <--- JANGKAR UTAMA
+                                            "EMAIL": row['EMAIL'].strip().lower(),
+                                            "PASSWORD": row['PASSWORD'],
+                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                            "STATUS": row['STATUS'],
+                                            "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
+                                        })
 
                             if data_batch:
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                 st.cache_data.clear()
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun Arsip Diperbarui!")
                                 time.sleep(1)
@@ -943,7 +983,7 @@ def tampilkan_database_channel():
                                 
                     except Exception as e:
                         st.error(f"❌ Gagal Diperbarui: {e}")
-
+                        
     # ==========================================================================
     # TAB 7: SEWA NOMOR ONLINE (VERSI FIX LAYOUT & SALDO HIJAU)
     # ==========================================================================
