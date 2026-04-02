@@ -697,19 +697,17 @@ def tampilkan_database_channel():
             # Tampilan Grid 4 Kolom
             grid = st.columns(4) 
             for i, (idx, r) in enumerate(df_view.iterrows()):
-                # Ambil ID unik database (id kecil atau ID besar tergantung database.py)
-                # Kita coba ambil 'id' (Supabase default) atau 'ID' (hasil .upper() lo)
+                # Ambil ID unik database sebagai jangkar utama
                 id_target = r.get('id') if 'id' in r else r.get('ID')
 
                 with grid[i % 4]:
                     try:
-                        # Parsing tanggal DD/MM/YYYY
                         t_exp = pd.to_datetime(r['MASA_AKTIF'], dayfirst=True).date()
                         sisa = (t_exp - now_indo).days
                         
-                        if sisa > 10: color_code = "#2D5A47" # HIJAU
-                        elif 4 <= sisa <= 10: color_code = "#B8860B" # KUNING
-                        else: color_code = "#962D2D" # MERAH
+                        if sisa > 10: color_code = "#2D5A47" 
+                        elif 4 <= sisa <= 10: color_code = "#B8860B" 
+                        else: color_code = "#962D2D" 
                     except:
                         color_code = "#444"; sisa = "?"
 
@@ -731,27 +729,28 @@ def tampilkan_database_channel():
                         sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa < 4 else "#ffffff"
                         sc2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⏳ SISA</p><b style='font-size:14px; color:{sisa_color};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
-                        # --- FITUR EDIT PAKE JANGKAR ID ---
+                        # --- FITUR EDIT (Pake id_target biar gak salah alamat) ---
                         with st.popover("✏️ Edit", use_container_width=True):
                             st.markdown(f"#### 🛠️ EDIT: {r['NAMA_HP']}")
-                            e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{idx}").strip().upper()
-                            e_no = st.text_input("📞 Nomor HP", value=str(r['NOMOR_HP']), key=f"eno_{idx}").strip()
+                            
+                            # KUNCI UTAMA: Key harus pake ID Unik Database, bukan index dataframe!
+                            e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{id_target}").strip().upper()
+                            e_no = st.text_input("📞 Nomor HP", value=str(r['NOMOR_HP']), key=f"eno_{id_target}").strip()
                             
                             provider_list = ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"]
                             curr_prov = r['PROVIDER'] if r['PROVIDER'] in provider_list else "TELKOMSEL"
-                            e_prov = st.selectbox("📡 Provider", provider_list, index=provider_list.index(curr_prov), key=f"ep_{idx}")
-                            e_tgl = st.text_input("📅 Exp (DD/MM/YYYY)", value=str(r['MASA_AKTIF']), key=f"et_{idx}").strip()
+                            e_prov = st.selectbox("📡 Provider", provider_list, index=provider_list.index(curr_prov), key=f"ep_{id_target}")
+                            e_tgl = st.text_input("📅 Exp (DD/MM/YYYY)", value=str(r['MASA_AKTIF']), key=f"et_{id_target}").strip()
                             
-                            if st.button("💾 SIMPAN", key=f"btn_e_{idx}", use_container_width=True, type="primary"):
+                            if st.button("💾 SIMPAN", key=f"btn_e_{id_target}", use_container_width=True, type="primary"):
                                 if e_nama and e_no:
                                     try:
-                                        # GUNAKAN ID UNTUK UPDATE (eq)
                                         database.supabase.table("Data_HP").update({
                                             "NAMA_HP": e_nama, 
                                             "NOMOR_HP": e_no, 
                                             "PROVIDER": e_prov, 
                                             "MASA_AKTIF": e_tgl
-                                        }).eq("id", id_target).execute() # <--- INI KUNCINYA
+                                        }).eq("id", id_target).execute() 
                                         
                                         st.cache_data.clear()
                                         st.success(f"✅ {e_nama} Berhasil Diupdate!")
