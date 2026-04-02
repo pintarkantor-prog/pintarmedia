@@ -1006,7 +1006,8 @@ def tampilkan_database_channel():
             current_url = ord.get('url')
             
             with st.container(border=True):
-                st.markdown(f"**NOMOR AKTIF:** `{ord.get('number')}`")
+                st.markdown(f"# 📱 `{ord.get('number')}`")
+                st.caption("Salin nomor di atas untuk verifikasi Google")
                 
                 # PINDAHKAN TOMBOL CANCEL KE ATAS BIAR GAMPANG DIKLIK
                 if st.button("❌ SELESAI / CANCEL NOMOR INI", use_container_width=True, key="btn_cancel_virtual", type="secondary"):
@@ -1027,7 +1028,7 @@ def tampilkan_database_channel():
                     
                     if res_stat and res_stat.get('success') and res_stat['data'].get('sms') and res_stat['data']['sms'] != "waiting":
                         st.session_state.otp_online = res_stat['data']['sms']
-                        msg_area.success(f"🔥 OTP DITEMUKAN: {st.session_state.otp_online}")
+                        msg_area.success(f"# 🔥 {st.session_state.otp_online}")
                         # Jika sudah ada OTP, kita stop auto-refresh-nya
                         st.info("OTP sudah muncul. Klik 'SELESAI' jika sudah selesai menyalin.")
                     else:
