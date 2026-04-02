@@ -268,25 +268,25 @@ def tampilkan_database_channel():
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
 
-        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM METRIC) ---
+        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM PROPORTIONAL) ---
         with st.container(border=True):
             c1, c2, c3, c4 = st.columns(4)
             
             with c1:
                 st.write("📱 **HP 1 - 3**")
-                st.subheader("3 Channel") # Subheader bikin tulisan gede tapi proporsional
+                st.markdown("##### 3 Channel") # Pake H5 biar pas ukurannya
 
             with c2:
                 st.write("📱 **HP 4 - 23**")
-                st.subheader("3 Channel")
+                st.markdown("##### 3 Channel")
 
             with c3:
-                st.markdown("🌸 **SAKURA**")
-                st.subheader("HP 1 - 3")
+                st.write("🌸 **SAKURA**")
+                st.markdown("##### HP 1 - 3")
 
             with c4:
-                st.markdown("🕌 **MASJID AI**")
-                st.subheader("HP 4 - 23")
+                st.write("🕌 **MASJID AI**")
+                st.markdown("##### HP 4 - 23")
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
