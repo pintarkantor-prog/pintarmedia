@@ -438,6 +438,15 @@ def tampilkan_database_channel():
                             last_hp = None
                             slot_ke = 0
 
+                            def hitung_jam_aman(waktu_obj):
+                                # Rentang Istirahat 11:30 - 12:30
+                                b_awal = waktu_obj.replace(hour=11, minute=30)
+                                b_akhir = waktu_obj.replace(hour=12, minute=30)
+                                if b_awal <= waktu_obj < b_akhir:
+                                    # Jika masuk jam istirahat, langsung lompat ke 12:30
+                                    return waktu_obj.replace(hour=12, minute=30)
+                                return waktu_obj
+
                             for _, row in df_sorted.iterrows():
                                 curr_hp = str(row['HP_N'])
                                 
@@ -448,32 +457,41 @@ def tampilkan_database_channel():
                                     last_hp = curr_hp
 
                                 no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
-                                jeda_estafet = (no_hp - 1) * 10
                                 
-                                # 1. JAM PAGI (Base)
+                                # --- LOGIKA PARALLEL ESTAFET ---
+                                # Tim A (1-11) hitung dari 1
+                                # Tim B (12-23) juga hitung dari 1 (dikurangi 11)
+                                if no_hp <= 11:
+                                    urutan_antrean = no_hp
+                                else:
+                                    urutan_antrean = no_hp - 11 # HP 12 jadi urutan 1 di Tim B
+                                
+                                jeda_estafet = (urutan_antrean - 1) * 10
+                                
+                                # 1. JAM PAGI (Mulai 08:15)
                                 jam_pagi = hitung_jam_aman(base_pagi + timedelta(minutes=jeda_estafet))
                                 
-                                # 2. JAM SIANG (Jeda 2.5 jam dari pagi agar tidak bentrok istirahat)
-                                jam_siang = hitung_jam_aman(jam_pagi + timedelta(hours=2, minutes=30))
+                                # 2. JAM SIANG (Jeda 3 jam dari pagi biar mencar)
+                                jam_siang = hitung_jam_aman(jam_pagi + timedelta(hours=3))
                                 
-                                # 3. JAM SORE (Jeda 2 jam dari siang agar sebelum 15:45)
-                                jam_sore = hitung_jam_aman(jam_siang + timedelta(hours=2))
+                                # 3. JAM SORE (Jeda 2.5 jam dari siang agar sebelum 15:45)
+                                jam_sore = hitung_jam_aman(jam_siang + timedelta(hours=2, minutes=30))
 
                                 # --- LOGIKA SLOT MENCAR ---
                                 p_val = jam_pagi.strftime("%H:%M") if slot_ke == 1 else ""
                                 s_val = jam_siang.strftime("%H:%M") if slot_ke == 2 else ""
                                 o_val = jam_sore.strftime("%H:%M") if slot_ke == 3 else ""
 
-                                # Emergency Slot 4 (Kalau ada HP isi 4 channel, taruh mepet jam pulang)
+                                # Emergency Slot 4 (Kalau ada, taruh 15 menit setelah Sore)
                                 if slot_ke >= 4:
-                                    o_val = "15:40" 
+                                    o_val = (jam_sore + timedelta(minutes=15)).strftime("%H:%M")
 
                                 data_update.append({
                                     "id": row['ID'],
                                     "PAGI": p_val,
                                     "SIANG": s_val,
                                     "SORE": o_val,
-                                    "EDITED": f"Estafet Office: {user_aktif}"
+                                    "EDITED": f"Parallel: {user_aktif}"
                                 })
                             
                             # --- INDENTASI FIX: DI LUAR LOOP FOR ---
