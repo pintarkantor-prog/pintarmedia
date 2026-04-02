@@ -46,7 +46,7 @@ def tampilkan_database_channel():
     level_aktif = str(st.session_state.get("user_level", "STAFF")).upper().strip()
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     
-    if level_aktif not in ["OWNER", "ADMIN"]:
+    if level_aktif not in ["OWNER", "ADMIN", "STAFF", "UPLOADER"]:
         st.error(f"🚫 AKSES DITOLAK, {user_aktif}!")
         st.stop() 
 
