@@ -27,10 +27,19 @@ def get_otpnum_api(server_url, endpoint, params):
         base = server_url if server_url.endswith("/") else f"{server_url}/"
         full_url = f"{base}{endpoint}"
         headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"}
-        response = requests.get(full_url, params=params, timeout=15, headers=headers, verify=False)
-        if response.status_code == 200: return response.json()
-        return {"success": False, "message": f"HTTP {response.status_code}"}
-    except Exception as e: return {"success": False, "message": str(e)}
+        
+        # Gue naikin timeout jadi 25 biar gak gampang baper (timeout)
+        response = requests.get(full_url, params=params, timeout=25, headers=headers, verify=False)
+        
+        if response.status_code == 200: 
+            return response.json()
+        
+        return {"success": False, "message": f"Server OTP lagi Down (HTTP {response.status_code})"}
+        
+    except Exception: 
+        # DI SINI KUNCINYA, COK! 
+        # Kita abaikan pesan 'str(e)' yang ribet itu, ganti pake teks sultan:
+        return {"success": False, "message": "SERVER LAGI LEMOT / TIMEOUT!"}
 
 def tampilkan_database_channel():
     # --- 1. PROTEKSI LEVEL AKSES (Udah Mantap!) ---
