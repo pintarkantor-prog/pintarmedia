@@ -135,7 +135,7 @@ def tampilkan_database_channel():
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
             
             # 5. Pake 'tgl_cantik' di judul Expander
-            with st.expander(f"📊 REPORT INPUT HARIAN - {tgl_cantik}", expanded=True):
+            with st.expander(f"📊 REPORT INPUT HARIAN - {tgl_cantik}", expanded=False):
                 if not df_today.empty:
                     cols = st.columns(3)
                     top_3 = rekap_pencatat.head(3)
