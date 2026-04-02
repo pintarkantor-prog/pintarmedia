@@ -43,12 +43,11 @@ def tampilkan_database_channel():
 
     # --- 2. HEADER & SETUP ---
     st.title("📱 DATABASE CHANNEL")
-    # tz = pytz.timezone('Asia/Jakarta') # (Pake kalo emang ada olah tanggal di bawah)
 
-    # --- 3. PENARIKAN DATA REAL-TIME ---
-    with st.spinner("🔄 Sinkronisasi Radar Supabase..."):
-        df = database.ambil_data("Channel_Pintar")
-        df_hp = database.ambil_data("Data_HP")
+    # --- 3. PENARIKAN DATA REAL-TIME (VERSI SENYAP - ANTI KEDIP) ---
+    # Kita hapus spinner-nya, biar narik data di balik layar aja
+    df = database.ambil_data("Channel_Pintar")
+    df_hp = database.ambil_data("Data_HP")
     
     if df.empty:
         st.warning("⚠️ Gagal memuat data atau tabel kosong.")
@@ -199,7 +198,7 @@ def tampilkan_database_channel():
         if not edited_st.equals(df_st[kolom_tampil]):
             if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
                 try:
-                    with st.spinner("Sinkronisasi Radar ke Supabase..."):
+                    with st.spinner("Lagi nyimpen ke database, sabaar..."):
                         tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                         data_batch = []
                         
