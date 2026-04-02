@@ -263,42 +263,49 @@ def tampilkan_database_channel():
                 except Exception as e:
                     st.error(f"❌ Error Global: {e}")
     # ==============================================================================
-    # TAB 2: MONITORING PROSES (3 KOLOM CARD MURNI)
+    # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
     # ==============================================================================
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
         
-        # --- HITUNG DATA UNTUK CARD ---
+        # --- 1. LOGIKA HITUNG REAL-TIME ---
         df_p = df[df['STATUS'] == 'PROSES'].copy()
-        total_ch_proses = len(df_p)
-        hp_list = df_p['HP'].unique()
-        total_hp_jalan = len(hp_list)
         
-        # Hitung rata-rata akun per HP (biar lo tau beban kerja tiap unit)
-        avg_slot = round(total_ch_proses / total_hp_jalan, 1) if total_hp_jalan > 0 else 0
+        # Itung sebaran HP (Biar tau HP 1 isi berapa, HP 2 isi berapa, dst)
+        if not df_p.empty:
+            # Kita buat tabel ringkas sebaran slot
+            sebaran_slot = df_p['HP'].value_counts().sort_index()
+            # Ubah jadi DataFrame biar enak dibaca
+            df_sebaran = pd.DataFrame({
+                "UNIT HP": [f"HP {int(k)}" for k in sebaran_slot.index],
+                "ISI SLOT": [f"{v} Channel" for v in sebaran_slot.values]
+            })
+        else:
+            df_sebaran = pd.DataFrame(columns=["UNIT HP", "ISI SLOT"])
 
-        # --- RENDER 3 KOLOM CARD ---
+        # --- 2. RENDER 3 KOLOM DALAM SATU CONTAINER ---
         with st.container(border=True):
-            st.write("💡 **STATUS OPERASIONAL UNIT**")
-            c1, c2, c3 = st.columns(3)
+            c1, c2, c3 = st.columns([1.5, 1, 1])
             
             with c1:
-                with st.container(border=True):
-                    st.write("📊 **TOTAL AKUN**")
-                    st.subheader(f"{total_ch_proses} Channel")
-                    st.caption(f"Sedang jalan di {total_hp_jalan} Unit HP")
+                st.write("📊 **LIST SLOT PER UNIT**")
+                if not df_sebaran.empty:
+                    # Nunjukin HP 1 isi 4, HP 2 isi 3, dst secara vertikal
+                    st.dataframe(df_sebaran, use_container_width=True, hide_index=True)
+                else:
+                    st.info("Belum ada HP jalan")
 
             with c2:
-                with st.container(border=True):
-                    st.write("🌸 **HP 1 - 3**")
-                    st.error("**KONTEN SAKURA**")
-                    st.caption("Max: 3 Slot per Unit")
+                st.write("🌸 **HP 1 - 3**")
+                st.error("**KONTEN SAKURA**")
+                st.write("Aturan: **Max 3 Slot**")
+                st.caption("Khusus Unit Sakura")
 
             with c3:
-                with st.container(border=True):
-                    st.write("🕌 **HP 4 - 23**")
-                    st.info("**KONTEN MASJID**")
-                    st.caption("Max: 4 Slot per Unit")
+                st.write("🕌 **HP 4 - 23**")
+                st.info("**KONTEN MASJID**")
+                st.write("Aturan: **Max 4 Slot**")
+                st.caption("Khusus Unit Masjid")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
