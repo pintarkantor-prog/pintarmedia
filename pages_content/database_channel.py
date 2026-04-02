@@ -268,44 +268,30 @@ def tampilkan_database_channel():
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
         
-        # --- 1. LOGIKA HITUNG REAL-TIME ---
+        # --- 1. RADAR KAPASITAS UNIT (1 KONTAINER 3 KOLOM) ---
         df_p = df[df['STATUS'] == 'PROSES'].copy()
-        
-        # Itung sebaran HP (Biar tau HP 1 isi berapa, HP 2 isi berapa, dst)
-        if not df_p.empty:
-            # Kita buat tabel ringkas sebaran slot
-            sebaran_slot = df_p['HP'].value_counts().sort_index()
-            # Ubah jadi DataFrame biar enak dibaca
-            df_sebaran = pd.DataFrame({
-                "UNIT HP": [f"HP {int(k)}" for k in sebaran_slot.index],
-                "ISI SLOT": [f"{v} Channel" for v in sebaran_slot.values]
-            })
-        else:
-            df_sebaran = pd.DataFrame(columns=["UNIT HP", "ISI SLOT"])
+        sebaran = df_p['HP'].value_counts().sort_index() if not df_p.empty else {}
 
-        # --- 2. RENDER 3 KOLOM DALAM SATU CONTAINER ---
         with st.container(border=True):
             c1, c2, c3 = st.columns([1.5, 1, 1])
             
             with c1:
-                st.write("📊 **LIST SLOT PER UNIT**")
-                if not df_sebaran.empty:
-                    # Nunjukin HP 1 isi 4, HP 2 isi 3, dst secara vertikal
-                    st.dataframe(df_sebaran, use_container_width=True, hide_index=True)
+                st.write("📊 **LIST SLOT HP**")
+                if sebaran.any():
+                    # Nunjukin HP 1: 4 ch, HP 2: 3 ch, dst
+                    st.dataframe(pd.DataFrame({"HP": [f"Unit {int(k)}" for k in sebaran.index], "ISI": [f"{v} Channel" for v in sebaran.values]}), use_container_width=True, hide_index=True)
                 else:
-                    st.info("Belum ada HP jalan")
+                    st.info("Belum ada unit jalan")
 
             with c2:
-                st.write("🌸 **HP 1 - 3**")
-                st.error("**KONTEN SAKURA**")
-                st.write("Aturan: **Max 3 Slot**")
-                st.caption("Khusus Unit Sakura")
+                st.write("🌸 **SAKURA (1-9)**")
+                st.error("**MAX 3 SLOT**")
+                st.caption("Khusus Konten Sakura")
 
             with c3:
-                st.write("🕌 **HP 4 - 23**")
-                st.info("**KONTEN MASJID**")
-                st.write("Aturan: **Max 4 Slot**")
-                st.caption("Khusus Unit Masjid")
+                st.write("🕌 **MASJID (10-100)**")
+                st.info("**MAX 4 SLOT**")
+                st.caption("Khusus Konten Masjid")
 
         st.markdown("<br>", unsafe_allow_html=True)
 
