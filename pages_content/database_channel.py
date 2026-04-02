@@ -279,139 +279,146 @@ def tampilkan_database_channel():
             # --- TAMPILAN SINGKAT & PADAT ---
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
-            st.info("💡 **SOLUSI:** Silakan fokus pada tab **JADWAL UPLOAD** untuk tugas harian.")
     # ==============================================================================
     # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
     # ==============================================================================
     with tab_pr:
-        st.markdown("#### 🚀 MONITORING PROSES")
+        if level_aktif in ["OWNER", "ADMIN"]:
+            st.markdown("#### 🚀 MONITORING PROSES")
 
-        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM PROPORTIONAL) ---
-        with st.container(border=True):
-            c1, c2, c3, c4 = st.columns(4)
+            # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM PROPORTIONAL) ---
+            with st.container(border=True):
+                c1, c2, c3, c4 = st.columns(4)
             
-            with c1:
-                st.write("📱 **HP 1 - 3**")
-                st.markdown("##### 3 Channel") # Pake H5 biar pas ukurannya
+                with c1:
+                    st.write("📱 **HP 1 - 3**")
+                    st.markdown("##### 3 Channel") # Pake H5 biar pas ukurannya
 
-            with c2:
-                st.write("📱 **HP 4 - 23**")
-                st.markdown("##### 3 Channel")
+                with c2:
+                    st.write("📱 **HP 4 - 23**")
+                    st.markdown("##### 3 Channel")
 
-            with c3:
-                st.write("🌸 **SAKURA**")
-                st.markdown("##### HP 1 - 3")
+                with c3:
+                    st.write("🌸 **SAKURA**")
+                    st.markdown("##### HP 1 - 3")
 
-            with c4:
-                st.write("🕌 **MASJID AI**")
-                st.markdown("##### HP 4 - 23")
+                with c4:
+                    st.write("🕌 **MASJID AI**")
+                    st.markdown("##### HP 4 - 23")
 
-        # Filter data PROSES
-        df_p = df[df['STATUS'] == 'PROSES'].copy()
+            # Filter data PROSES
+            df_p = df[df['STATUS'] == 'PROSES'].copy()
 
-        if df_p.empty:
-            st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
-        else:
-            # Sorting HP biar rapi (1, 2, 3...)
-            df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
-            df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
+            if df_p.empty:
+                st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
+            else:
+                # Sorting HP biar rapi (1, 2, 3...)
+                df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
+                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
 
-            display_list = []
-            for hp_id, group in df_p.groupby('HP', sort=False):
-                for i, (idx, r) in enumerate(group.iterrows()):
-                    display_list.append({
-                        "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
-                        "HP": f"📱 HP {hp_id}" if i == 0 else "", 
-                        "EMAIL": r['EMAIL'],
-                        "PASSWORD": r['PASSWORD'],
-                        "NAMA_CHANNEL": r['NAMA_CHANNEL'],
-                        "SUBSCRIBE": str(r['SUBSCRIBE']),
-                        "LINK_CHANNEL": r['LINK_CHANNEL'],
-                        "STATUS": r['STATUS']
-                    })
+                display_list = []
+                for hp_id, group in df_p.groupby('HP', sort=False):
+                    for i, (idx, r) in enumerate(group.iterrows()):
+                        display_list.append({
+                            "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
+                            "HP": f"📱 HP {hp_id}" if i == 0 else "", 
+                            "EMAIL": r['EMAIL'],
+                            "PASSWORD": r['PASSWORD'],
+                            "NAMA_CHANNEL": r['NAMA_CHANNEL'],
+                            "SUBSCRIBE": str(r['SUBSCRIBE']),
+                            "LINK_CHANNEL": r['LINK_CHANNEL'],
+                            "STATUS": r['STATUS']
+                        })
 
-            df_display = pd.DataFrame(display_list)
+                df_display = pd.DataFrame(display_list)
             
-            # --- CONFIG: SEMUA GEMBOK DIBUKA ---
-            config_p = {
-                "ID": None, # Sembunyiin KTP asli
-                "HP": st.column_config.TextColumn("📱 UNIT", width=80, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), 
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=60), 
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=150), 
-                "STATUS": st.column_config.SelectboxColumn(
-                    "⚙️ STATUS", width=100, 
-                    options=["PROSES", "SOLD", "STANDBY", "BUSUK", "SUSPEND"]
+                # --- CONFIG: SEMUA GEMBOK DIBUKA ---
+                config_p = {
+                    "ID": None, # Sembunyiin KTP asli
+                    "HP": st.column_config.TextColumn("📱 UNIT", width=80, disabled=True),
+                    "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
+                    "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), 
+                    "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
+                    "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=60), 
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=150), 
+                    "STATUS": st.column_config.SelectboxColumn(
+                        "⚙️ STATUS", width=100, 
+                        options=["PROSES", "SOLD", "STANDBY", "BUSUK", "SUSPEND"]
+                    )
+                }
+
+                edited_p = st.data_editor(
+                    df_display, 
+                    column_config=config_p, 
+                    use_container_width=True, 
+                    hide_index=True, 
+                    key="grid_p_pro_v2"
                 )
-            }
 
-            edited_p = st.data_editor(
-                df_display, 
-                column_config=config_p, 
-                use_container_width=True, 
-                hide_index=True, 
-                key="grid_p_pro_v2"
-            )
+                # --- LOGIKA SAVE (PAKE ID SEBAGAI JANGKAR) ---
+                if not edited_p.equals(df_display):
+                    if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
+                        try:
+                            st.cache_data.clear() 
 
-            # --- LOGIKA SAVE (PAKE ID SEBAGAI JANGKAR) ---
-            if not edited_p.equals(df_display):
-                if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
-                    try:
-                        st.cache_data.clear() 
-
-                        with st.spinner("Sinkronisasi ke Supabase..."):
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            data_batch = []
+                            with st.spinner("Sinkronisasi ke Supabase..."):
+                                tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                                data_batch = []
                             
-                            for i, row in edited_p.iterrows():
-                                # Cari data lama pake ID (Bukan Index!)
-                                match_df = df[df['ID'] == row['ID']]
-                                if not match_df.empty:
-                                    old_val = match_df.iloc[0]
+                                for i, row in edited_p.iterrows():
+                                    # Cari data lama pake ID (Bukan Index!)
+                                    match_df = df[df['ID'] == row['ID']]
+                                    if not match_df.empty:
+                                        old_val = match_df.iloc[0]
                                     
-                                    # Cek perubahan murni
-                                    is_changed = (
-                                        str(row['STATUS']) != str(old_val['STATUS']) or 
-                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
-                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or
-                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                        str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
-                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()
-                                    )
+                                        # Cek perubahan murni
+                                        is_changed = (
+                                            str(row['STATUS']) != str(old_val['STATUS']) or 
+                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
+                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or
+                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                            str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                            str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()
+                                        )
 
-                                    if is_changed:
-                                        # HP dilepas kalau status bukan PROSES
-                                        target_hp = str(old_val['HP'])
-                                        if row['STATUS'] != 'PROSES':
-                                            target_hp = "" 
+                                        if is_changed:
+                                            # HP dilepas kalau status bukan PROSES
+                                            target_hp = str(old_val['HP'])
+                                            if row['STATUS'] != 'PROSES':
+                                                target_hp = "" 
 
-                                        data_batch.append({
-                                            "id": row['ID'], # <--- JANGKAR UTAMA
-                                            "EMAIL": row['EMAIL'].strip().lower(),
-                                            "PASSWORD": row['PASSWORD'],
-                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                            "STATUS": row['STATUS'],
-                                            "HP": target_hp,
-                                            "EDITED": f"Up: {user_aktif} ({tgl_now})"
-                                        })
+                                            data_batch.append({
+                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "EMAIL": row['EMAIL'].strip().lower(),
+                                                "PASSWORD": row['PASSWORD'],
+                                                "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                                "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                                "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                                "STATUS": row['STATUS'],
+                                                "HP": target_hp,
+                                                "EDITED": f"Up: {user_aktif} ({tgl_now})"
+                                            })
 
-                            if data_batch:
-                                # UPSERT PAKE on_conflict="id"
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
+                                if data_batch:
+                                    # UPSERT PAKE on_conflict="id"
+                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                 
-                                st.cache_data.clear() 
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
-                                time.sleep(1) 
-                                st.rerun()
-                            else:
-                                st.info("Tidak ada perubahan data.")
+                                    st.cache_data.clear() 
+                                    st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
+                                    time.sleep(1) 
+                                    st.rerun()
+                                else:
+                                    st.info("Tidak ada perubahan data.")
                                 
-                    except Exception as e:
-                        st.error(f"❌ Gagal update: {e}")
+                        except Exception as e:
+                            st.error(f"❌ Gagal update: {e}")
+
+                    st.divider() 
+
+        else:
+            # --- TAMPILAN SINGKAT & PADAT ---
+            st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
+            st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
 
     # ==============================================================================
     # TAB 3: JADWAL UPLOAD (FULL ESTAFET SULTAN v4.0 - ANTI-NUMPUK & PARALLEL)
@@ -855,111 +862,122 @@ def tampilkan_database_channel():
                         except Exception as e:
                             st.error(f"❌ Gagal Simpan Audit: {e}")
 
+                    st.divider() 
+
         else:
-            # Tampilan buat Staff/Admin yang nyasar ke sini
-            st.warning(f"⚠️ Mohon maaf {user_aktif}, kamu tidak memiliki akses ke menu ini.")
+            # --- TAMPILAN SINGKAT & PADAT ---
+            st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
+            st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Owner.")
 
     # ==============================================================================
     # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
     # ==============================================================================
-    with tab_ar: 
-        # --- 1. LOGIKA DASHBOARD ARSIP ---
-        df_a = df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])].copy()
+    with tab_ar:
+        if level_aktif in ["OWNER", "ADMIN"]:
+            # --- 1. LOGIKA DASHBOARD ARSIP ---
+            df_a = df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])].copy()
         
-        total_arsip = len(df_a)
-        total_busuk = len(df_a[df_a['STATUS'] == 'BUSUK'])
-        total_suspend = len(df_a[df_a['STATUS'] == 'SUSPEND'])
+            total_arsip = len(df_a)
+            total_busuk = len(df_a[df_a['STATUS'] == 'BUSUK'])
+            total_suspend = len(df_a[df_a['STATUS'] == 'SUSPEND'])
 
-        # --- 2. RENDER METRIK ---
-        with st.container(border=True):
-            ca1, ca2, ca3 = st.columns(3)
-            ca1.metric("💀 TOTAL ARSIP", f"{total_arsip}", delta="Akun Rusak", delta_color="inverse")
-            ca2.metric("📉 TOTAL BUSUK", f"{total_busuk}", delta="Teknis/Kartu", delta_color="inverse")
-            ca3.metric("🚫 TOTAL SUSPEND", f"{total_suspend}", delta="Banned YT", delta_color="inverse")
+            # --- 2. RENDER METRIK ---
+            with st.container(border=True):
+                ca1, ca2, ca3 = st.columns(3)
+                ca1.metric("💀 TOTAL ARSIP", f"{total_arsip}", delta="Akun Rusak", delta_color="inverse")
+                ca2.metric("📉 TOTAL BUSUK", f"{total_busuk}", delta="Teknis/Kartu", delta_color="inverse")
+                ca3.metric("🚫 TOTAL SUSPEND", f"{total_suspend}", delta="Banned YT", delta_color="inverse")
 
-        st.markdown("<br>", unsafe_allow_html=True)
+            st.markdown("<br>", unsafe_allow_html=True)
 
-        # --- 3. DATABASE ARSIP (FULL EDITABLE & ID ANCHOR) ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP")
-        if df_a.empty:
-            st.success("✨ Arsip masih kosong!")
-        else:
-            df_a['TGL_KEJADIAN'] = df_a['EDITED']
-            df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
+            # --- 3. DATABASE ARSIP (FULL EDITABLE & ID ANCHOR) ---
+            st.markdown("##### 📂 DAFTAR AKUN ARSIP")
+            if df_a.empty:
+                st.success("✨ Arsip masih kosong!")
+            else:
+                df_a['TGL_KEJADIAN'] = df_a['EDITED']
+                df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
-            # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
-            config_arsip = {
-                "ID": None, # SEMBUNYIIN KTP ASLI
-                "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), 
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), 
-                "STATUS": st.column_config.SelectboxColumn(
-                    "⚙️ STATUS", 
-                    width=100,
-                    options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
-                    help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
+                # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
+                config_arsip = {
+                    "ID": None, # SEMBUNYIIN KTP ASLI
+                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
+                    "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
+                    "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
+                    "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
+                    "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), 
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), 
+                    "STATUS": st.column_config.SelectboxColumn(
+                        "⚙️ STATUS", 
+                        width=100,
+                        options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
+                        help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
+                    )
+                }
+            
+                # Tambahkan ID ke dalam list kolom yang ditarik
+                kolom_tampil_a = ["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]
+
+                edited_a = st.data_editor(
+                    df_a[kolom_tampil_a], 
+                    use_container_width=True, 
+                    hide_index=True, 
+                    column_config=config_arsip, 
+                    key="grid_arsip_daur_ulang_v3"
                 )
-            }
-            
-            # Tambahkan ID ke dalam list kolom yang ditarik
-            kolom_tampil_a = ["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]
 
-            edited_a = st.data_editor(
-                df_a[kolom_tampil_a], 
-                use_container_width=True, 
-                hide_index=True, 
-                column_config=config_arsip, 
-                key="grid_arsip_daur_ulang_v3"
-            )
-
-            # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
-            if not edited_a.equals(df_a[kolom_tampil_a]):
-                if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
-                    try:
-                        with st.spinner("Sinkronisasi data..."):
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            data_batch = []
+                # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
+                if not edited_a.equals(df_a[kolom_tampil_a]):
+                    if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
+                        try:
+                            with st.spinner("Sinkronisasi data..."):
+                                tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                                data_batch = []
                             
-                            for i, row in edited_a.iterrows():
-                                # Cari baris asli di master DF pake ID
-                                match_df = df[df['ID'] == row['ID']]
+                                for i, row in edited_a.iterrows():
+                                    # Cari baris asli di master DF pake ID
+                                    match_df = df[df['ID'] == row['ID']]
                                 
-                                if not match_df.empty:
-                                    old_val = match_df.iloc[0]
+                                    if not match_df.empty:
+                                        old_val = match_df.iloc[0]
                                     
-                                    # Cek perubahan murni
-                                    is_changed = (
-                                        str(row['STATUS']) != str(old_val['STATUS']) or 
-                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                        str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                        str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                        str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
-                                    )
+                                        # Cek perubahan murni
+                                        is_changed = (
+                                            str(row['STATUS']) != str(old_val['STATUS']) or 
+                                            str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
+                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
+                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
+                                        )
 
-                                    if is_changed:
-                                        data_batch.append({
-                                            "id": row['ID'], # <--- JANGKAR UTAMA
-                                            "EMAIL": row['EMAIL'].strip().lower(),
-                                            "PASSWORD": row['PASSWORD'],
-                                            "NAMA_CHANNEL": row['NAMA_CHANNEL'],
-                                            "SUBSCRIBE": str(row['SUBSCRIBE']),
-                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                            "STATUS": row['STATUS'],
-                                            "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
-                                        })
+                                        if is_changed:
+                                            data_batch.append({
+                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "EMAIL": row['EMAIL'].strip().lower(),
+                                                "PASSWORD": row['PASSWORD'],
+                                                "NAMA_CHANNEL": row['NAMA_CHANNEL'],
+                                                "SUBSCRIBE": str(row['SUBSCRIBE']),
+                                                "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                                "STATUS": row['STATUS'],
+                                                "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
+                                            })
 
-                            if data_batch:
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
-                                st.cache_data.clear()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun Arsip Diperbarui!")
-                                time.sleep(1)
-                                st.rerun()
+                                if data_batch:
+                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
+                                    st.cache_data.clear()
+                                    st.success(f"✅ Mantap! {len(data_batch)} Akun Arsip Diperbarui!")
+                                    time.sleep(1)
+                                    st.rerun()
                                 
-                    except Exception as e:
-                        st.error(f"❌ Gagal Diperbarui: {e}")
+                        except Exception as e:
+                            st.error(f"❌ Gagal Diperbarui: {e}")
+
+                    st.divider() 
+
+        else:
+            # --- TAMPILAN SINGKAT & PADAT ---
+            st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
+            st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
                         
     # ==========================================================================
     # TAB 7: SEWA NOMOR ONLINE (VERSI FIX LAYOUT & SALDO HIJAU)
