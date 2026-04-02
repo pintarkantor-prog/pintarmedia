@@ -273,20 +273,20 @@ def tampilkan_database_channel():
             c1, c2, c3, c4 = st.columns(4)
             
             with c1:
-                # Menunjukkan kapasitas HP 1-3
-                st.metric(label="📱 HP 1 - 3", value="3 Channel", delta="Max Slot")
+                st.write("📱 **HP 1 - 3**")
+                st.subheader("3 Channel") # Subheader bikin tulisan gede tapi proporsional
 
             with c2:
-                # Menunjukkan kapasitas HP 4-23
-                st.metric(label="📱 HP 4 - 23", value="3 Channel", delta="Max Slot")
+                st.write("📱 **HP 4 - 23**")
+                st.subheader("3 Channel")
 
             with c3:
-                # Menunjukkan penempatan konten Sakura
-                st.metric(label="🌸 SAKURA", value="HP 1 - 3", delta="Konten")
+                st.markdown("🌸 **SAKURA**")
+                st.subheader("HP 1 - 3")
 
             with c4:
-                # Menunjukkan penempatan konten Masjid
-                st.metric(label="🕌 MASJID AI", value="HP 4 - 23", delta="Konten")
+                st.markdown("🕌 **MASJID AI**")
+                st.subheader("HP 4 - 23")
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
