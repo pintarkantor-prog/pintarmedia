@@ -72,205 +72,218 @@ def tampilkan_database_channel():
     # TAB 1: STOK STANDBY (GAYA RADAR UI v2.0 - FULL SUPABASE)
     # ==============================================================================
     with tab_st: # Sesuaikan nama variabel tab di atas
-        # --- 1. LOGIKA HITUNG DATA (Real-time) ---
-        total_st = len(df[df['STATUS'] == 'STANDBY'])
-        total_pr = len(df[df['STATUS'] == 'PROSES'])
+        if level_aktif in ["OWNER", "ADMIN", "STAFF"]:
+            # --- 1. LOGIKA HITUNG DATA (Real-time) ---
+            total_st = len(df[df['STATUS'] == 'STANDBY'])
+            total_pr = len(df[df['STATUS'] == 'PROSES'])
         
-        # Hitung HP Aktif (Cek kolom HP yang tidak kosong)
-        hp_aktif = len(df[df['HP'].notna() & (df['HP'].astype(str).str.strip() != "")]['HP'].unique())
+            # Hitung HP Aktif (Cek kolom HP yang tidak kosong)
+            hp_aktif = len(df[df['HP'].notna() & (df['HP'].astype(str).str.strip() != "")]['HP'].unique())
         
-        # --- LOGIKA STATUS VITAL ---
-        selisih_vital = total_st - (total_pr + 10)
-        status_stok = f"AMAN (+{selisih_vital})" if selisih_vital >= 0 else f"KRITIS ({selisih_vital})"
-        warna_stok = "normal" if selisih_vital >= 0 else "inverse"
+            # --- LOGIKA STATUS VITAL ---
+            selisih_vital = total_st - (total_pr + 10)
+            status_stok = f"AMAN (+{selisih_vital})" if selisih_vital >= 0 else f"KRITIS ({selisih_vital})"
+            warna_stok = "normal" if selisih_vital >= 0 else "inverse"
         
-        # --- LOGIKA SOLD (Bulan Ini) ---
-        now_indo = database.ambil_waktu_sekarang()
-        bln_ini = now_indo.strftime("%m/%Y") 
+            # --- LOGIKA SOLD (Bulan Ini) ---
+            now_indo = database.ambil_waktu_sekarang()
+            bln_ini = now_indo.strftime("%m/%Y") 
         
-        # Filter SOLD bulan ini berdasarkan kolom EDITED
-        mask_ini = (df['STATUS'] == 'SOLD') & (df['EDITED'].astype(str).str.contains(bln_ini, na=False))
-        sold_ini = len(df[mask_ini])
+            # Filter SOLD bulan ini berdasarkan kolom EDITED
+            mask_ini = (df['STATUS'] == 'SOLD') & (df['EDITED'].astype(str).str.contains(bln_ini, na=False))
+            sold_ini = len(df[mask_ini])
         
-        # HITUNG ARSIP (SUSPEND + BUSUK)
-        total_arsip = len(df[df['STATUS'].isin(['SUSPEND', 'BUSUK'])])
+            # HITUNG ARSIP (SUSPEND + BUSUK)
+            total_arsip = len(df[df['STATUS'].isin(['SUSPEND', 'BUSUK'])])
 
-        # --- 2. RENDER DASHBOARD UI (BALIK KE GAYA st.write) ---
-        with st.container(border=True):
-            c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 2.2])
-            c1.metric("📦 CH STANDBY", f"{total_st}", delta=status_stok, delta_color=warna_stok)
-            c2.metric("🚀 CH PROSES", f"{total_pr}", delta="ON PROCESS")
-            c3.metric("📱 UNIT HP", f"{hp_aktif}", delta="LIVE")
-            c4.metric("💰 SOLD (BLN)", f"{sold_ini}", delta="Bulan Ini")
-                
-            # INI YANG LO MAU: Pake gaya st.write di Kolom 5
-            with c5:
-                st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
-                st.write(f"📢 **INFO SISTEM:**")
-                st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
-
-        st.markdown("<br>", unsafe_allow_html=True)
-            
-        # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
-        hc1, hc2 = st.columns([3, 1])
-        hc1.markdown("#### 🔐 DATABASE STOK STANDBY")
-            
-        if hc2.button("➕ TAMBAH AKUN", use_container_width=True, type="primary"):
-            st.session_state.form_baru = not st.session_state.get('form_baru', False)
-
-        # --- 4. FORM INPUT AKUN BARU (GAYA LAMA - NOTIF TOAST) ---
-        if st.session_state.get('form_baru', False):
+            # --- 2. RENDER DASHBOARD UI (BALIK KE GAYA st.write) ---
             with st.container(border=True):
-                # Gue kasih key dinamis biar gak error "Duplicate Form" lagi
-                with st.form(key=f"form_input_{len(df)}", clear_on_submit=True):
-                    f1, f2, f3 = st.columns(3)
-                    v_mail = f1.text_input("📧 Email Login")
-                    v_pass = f2.text_input("🔑 Password")
-                    v_nama = f3.text_input("📺 Nama Channel")
-                        
-                    f4, f5 = st.columns([1, 2])
-                    v_subs = f4.text_input("📊 Jumlah Subs")
-                    v_link = f5.text_input("🔗 Link Channel")
-                        
-                    if st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True):
-                        if v_nama and v_mail:
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            v_mail = v_mail.strip().lower()
-                            v_nama = v_nama.strip()
-                                
-                            try:
-                                database.supabase.table("Channel_Pintar").insert({
-                                    "TANGGAL": tgl_now, 
-                                    "EMAIL": v_mail,
-                                    "PASSWORD": v_pass,
-                                    "NAMA_CHANNEL": v_nama,
-                                    "SUBSCRIBE": v_subs,
-                                    "LINK_CHANNEL": v_link,
-                                    "STATUS": "STANDBY",
-                                    "PENCATAT": user_aktif,
-                                    "EDITED": f"New: {user_aktif} ({tgl_now})"
-                                }).execute()
+                c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 2.2])
+                c1.metric("📦 CH STANDBY", f"{total_st}", delta=status_stok, delta_color=warna_stok)
+                c2.metric("🚀 CH PROSES", f"{total_pr}", delta="ON PROCESS")
+                c3.metric("📱 UNIT HP", f"{hp_aktif}", delta="LIVE")
+                c4.metric("💰 SOLD (BLN)", f"{sold_ini}", delta="Bulan Ini")
+                
+                # INI YANG LO MAU: Pake gaya st.write di Kolom 5
+                with c5:
+                    st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
+                    st.write(f"📢 **INFO SISTEM:**")
+                    st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
 
+            st.markdown("<br>", unsafe_allow_html=True)
+            
+            # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
+            hc1, hc2 = st.columns([3, 1])
+            hc1.markdown("#### 🔐 DATABASE STOK STANDBY")
+            
+            if hc2.button("➕ TAMBAH AKUN", use_container_width=True, type="primary"):
+                st.session_state.form_baru = not st.session_state.get('form_baru', False)
+
+            # --- 4. FORM INPUT AKUN BARU (GAYA LAMA - NOTIF TOAST) ---
+            if st.session_state.get('form_baru', False):
+                with st.container(border=True):
+                    # Gue kasih key dinamis biar gak error "Duplicate Form" lagi
+                    with st.form(key=f"form_input_{len(df)}", clear_on_submit=True):
+                        f1, f2, f3 = st.columns(3)
+                        v_mail = f1.text_input("📧 Email Login")
+                        v_pass = f2.text_input("🔑 Password")
+                        v_nama = f3.text_input("📺 Nama Channel")
+                        
+                        f4, f5 = st.columns([1, 2])
+                        v_subs = f4.text_input("📊 Jumlah Subs")
+                        v_link = f5.text_input("🔗 Link Channel")
+                        
+                        if st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True):
+                            if v_nama and v_mail:
+                                tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                                v_mail = v_mail.strip().lower()
+                                v_nama = v_nama.strip()
+                                
+                                try:
+                                    database.supabase.table("Channel_Pintar").insert({
+                                        "TANGGAL": tgl_now, 
+                                        "EMAIL": v_mail,
+                                        "PASSWORD": v_pass,
+                                        "NAMA_CHANNEL": v_nama,
+                                        "SUBSCRIBE": v_subs,
+                                        "LINK_CHANNEL": v_link,
+                                        "STATUS": "STANDBY",
+                                        "PENCATAT": user_aktif,
+                                        "EDITED": f"New: {user_aktif} ({tgl_now})"
+                                    }).execute()
+
+                                    st.cache_data.clear()
+                                    st.toast(f"✅ Berhasil Masuk: {v_mail}", icon="🚀")
+                                    time.sleep(1)
+                                    st.rerun()
+
+                                except Exception as e:
+                                    if "23505" in str(e):
+                                        st.warning(f"⚠️ Email **{v_mail}** sudah ada!")
+                                    else:
+                                        st.error(f"❌ Masalah: {e}")
+                            else:
+                                st.error("⚠️ Email dan Nama Channel wajib diisi!")
+                                
+            # --- 5. GRID EDITOR STANDBY ---
+            df_st = df[df['STATUS'] == 'STANDBY'].copy()
+            if df_st.empty:
+                st.info("Belum ada stok standby.")
+            else:
+                # Penomoran visual
+                df_st['NO'] = range(1, len(df_st) + 1)
+                # REAL_IDX tetep ada buat navigasi visual lo
+                df_st['REAL_IDX'] = df_st.index 
+                df_st['SUBSCRIBE'] = df_st['SUBSCRIBE'].astype(str)
+
+                # Konfigurasi Kolom
+                config_st = {
+                    "NO": st.column_config.TextColumn("#️⃣ NO", width=30, disabled=True),
+                    "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
+                    "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130),
+                    "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=130),
+                    "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=50), 
+                    "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=300),
+                    "PENCATAT": st.column_config.TextColumn("👤 OLEH", width=50, disabled=True),
+                    "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
+                    "REAL_IDX": None,
+                    "ID": None # SEMBUNYIKAN ID ASLI (Kunci Supabase)
+                }
+
+                # Ambil kolom ID juga (Hasil .upper() dari database.py)
+                kolom_tampil = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX", "ID"]
+
+                edited_st = st.data_editor(
+                    df_st[kolom_tampil],
+                    column_config=config_st, 
+                    use_container_width=True, 
+                    hide_index=True, 
+                    key=f"grid_st_{len(df_st)}" # Biar gak ngebayang datanya
+                )
+
+            # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION - ID ANCHOR) ---
+            # Cek apakah ada perubahan di data editor dibanding df_st
+            if not edited_st.equals(df_st[kolom_tampil]):
+                if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
+                    try:
+                        with st.spinner("Lagi nyimpen ke database, sabaar..."):
+                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                            data_batch = []
+                        
+                            for i, row in edited_st.iterrows():
+                                # Cari baris asli di master DF pake ID (Bukan REAL_IDX atau EMAIL)
+                                match_df = df[df['ID'] == row['ID']]
+                            
+                                if not match_df.empty:
+                                    old_val = match_df.iloc[0]
+                                
+                                    # FILTER PERUBAHAN: Cek data murni
+                                    is_changed = (
+                                        str(row['STATUS']).strip() != str(old_val['STATUS']).strip() or 
+                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                        str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
+                                        str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                        str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
+                                    )
+
+                                    if is_changed:
+                                        target_hp = str(old_val.get('HP', ''))
+                                    
+                                        # Logika Auto-Slot lo tetep jalan
+                                        if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
+                                            df_p_now = df[df['STATUS'] == 'PROSES'].copy()
+                                            hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
+                                        
+                                            # Scan HP Kosong
+                                            target_hp = "1"
+                                            for h in range(1, 101):
+                                                count_sekarang = hp_counts.get(str(h), 0)
+                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] else 4
+                                                if count_sekarang < max_slot:
+                                                    target_hp = str(h)
+                                                    break
+                                        elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
+                                            target_hp = ""
+
+                                        # Masukkan ke keranjang batch
+                                        data_batch.append({
+                                            "id": row['ID'], # KUNCI UTAMA (Gunakan huruf kecil 'id' sesuai Supabase)
+                                            "EMAIL": str(row['EMAIL']).strip().lower(),
+                                            "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
+                                            "PASSWORD": str(row['PASSWORD']).strip(),
+                                            "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
+                                            "SUBSCRIBE": str(row['SUBSCRIBE']).strip(),
+                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                            "STATUS": row['STATUS'],
+                                            "HP": target_hp,
+                                            "PENCATAT": row['PENCATAT'],
+                                            "EDITED": f"Up: {user_aktif} ({tgl_now})"
+                                        })
+
+                            if data_batch:
+                                # UPSERT PAKE on_conflict="id" (Anti-Duplikat!)
+                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                 st.cache_data.clear()
-                                st.toast(f"✅ Berhasil Masuk: {v_mail}", icon="🚀")
+                                st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
                                 time.sleep(1)
                                 st.rerun()
-
-                            except Exception as e:
-                                if "23505" in str(e):
-                                    st.warning(f"⚠️ Email **{v_mail}** sudah ada!")
-                                else:
-                                    st.error(f"❌ Masalah: {e}")
-                        else:
-                            st.error("⚠️ Email dan Nama Channel wajib diisi!")
+                            else:
+                                st.info("Tidak ada perubahan spesifik yang terdeteksi.")
                                 
-        # --- 5. GRID EDITOR STANDBY ---
-        df_st = df[df['STATUS'] == 'STANDBY'].copy()
-        if df_st.empty:
-            st.info("Belum ada stok standby.")
+                    except Exception as e:
+                        st.error(f"❌ Error Global: {e}")
+
+                st.divider() 
+                st.caption("Data diperbarui secara real-time dari Database Pintar Media.")
+
         else:
-            # Penomoran visual
-            df_st['NO'] = range(1, len(df_st) + 1)
-            # REAL_IDX tetep ada buat navigasi visual lo
-            df_st['REAL_IDX'] = df_st.index 
-            df_st['SUBSCRIBE'] = df_st['SUBSCRIBE'].astype(str)
-
-            # Konfigurasi Kolom
-            config_st = {
-                "NO": st.column_config.TextColumn("#️⃣ NO", width=30, disabled=True),
-                "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
-                "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130),
-                "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=130),
-                "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=50), 
-                "LINK_CHANNEL": st.column_config.LinkColumn("🔗 URL", width=300),
-                "PENCATAT": st.column_config.TextColumn("👤 OLEH", width=50, disabled=True),
-                "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
-                "REAL_IDX": None,
-                "ID": None # SEMBUNYIKAN ID ASLI (Kunci Supabase)
-            }
-
-            # Ambil kolom ID juga (Hasil .upper() dari database.py)
-            kolom_tampil = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX", "ID"]
-
-            edited_st = st.data_editor(
-                df_st[kolom_tampil],
-                column_config=config_st, 
-                use_container_width=True, 
-                hide_index=True, 
-                key=f"grid_st_{len(df_st)}" # Biar gak ngebayang datanya
-            )
-
-        # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION - ID ANCHOR) ---
-        # Cek apakah ada perubahan di data editor dibanding df_st
-        if not edited_st.equals(df_st[kolom_tampil]):
-            if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
-                try:
-                    with st.spinner("Lagi nyimpen ke database, sabaar..."):
-                        tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                        data_batch = []
-                        
-                        for i, row in edited_st.iterrows():
-                            # Cari baris asli di master DF pake ID (Bukan REAL_IDX atau EMAIL)
-                            match_df = df[df['ID'] == row['ID']]
-                            
-                            if not match_df.empty:
-                                old_val = match_df.iloc[0]
-                                
-                                # FILTER PERUBAHAN: Cek data murni
-                                is_changed = (
-                                    str(row['STATUS']).strip() != str(old_val['STATUS']).strip() or 
-                                    str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                    str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
-                                    str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
-                                    str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
-                                )
-
-                                if is_changed:
-                                    target_hp = str(old_val.get('HP', ''))
-                                    
-                                    # Logika Auto-Slot lo tetep jalan
-                                    if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
-                                        df_p_now = df[df['STATUS'] == 'PROSES'].copy()
-                                        hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
-                                        
-                                        # Scan HP Kosong
-                                        target_hp = "1"
-                                        for h in range(1, 101):
-                                            count_sekarang = hp_counts.get(str(h), 0)
-                                            max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] else 4
-                                            if count_sekarang < max_slot:
-                                                target_hp = str(h)
-                                                break
-                                    elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
-                                        target_hp = ""
-
-                                    # Masukkan ke keranjang batch
-                                    data_batch.append({
-                                        "id": row['ID'], # KUNCI UTAMA (Gunakan huruf kecil 'id' sesuai Supabase)
-                                        "EMAIL": str(row['EMAIL']).strip().lower(),
-                                        "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
-                                        "PASSWORD": str(row['PASSWORD']).strip(),
-                                        "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
-                                        "SUBSCRIBE": str(row['SUBSCRIBE']).strip(),
-                                        "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                        "STATUS": row['STATUS'],
-                                        "HP": target_hp,
-                                        "PENCATAT": row['PENCATAT'],
-                                        "EDITED": f"Up: {user_aktif} ({tgl_now})"
-                                    })
-
-                        if data_batch:
-                            # UPSERT PAKE on_conflict="id" (Anti-Duplikat!)
-                            database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
-                            st.cache_data.clear()
-                            st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
-                            time.sleep(1)
-                            st.rerun()
-                        else:
-                            st.info("Tidak ada perubahan spesifik yang terdeteksi.")
-                                
-                except Exception as e:
-                    st.error(f"❌ Error Global: {e}")
+            st.warning("⚠️ **RESTRICTED ACCESS (AKSES TERBATAS)**")
+            st.markdown(f"### Halo, {user_aktif}")
+            st.write("""
+                Mohon maaf, modul **Manajemen Stok & Inventaris** ini hanya dapat diakses oleh 
+                level manajemen (**Owner, Admin, & Staff**).
+            """)
+            st.info("💡 **Tugas Hari Ini:** Silakan akses tab **JADWAL UPLOAD** untuk memulai operasional harian Anda.")
     # ==============================================================================
     # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
     # ==============================================================================
