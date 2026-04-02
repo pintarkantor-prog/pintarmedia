@@ -410,7 +410,7 @@ def tampilkan_database_channel():
             nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
-            # --- DEFINISI KELOMPOK TIM (Wajib Ada di Atas) ---
+            # --- DEFINISI KELOMPOK TIM ---
             list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 11]
             list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 12 <= h <= 23]
             kelompok_tim = [
@@ -418,60 +418,61 @@ def tampilkan_database_channel():
                 {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
             ]
 
-            # --- A. GENERATOR JADWAL (ESTAFET PARALLEL) ---
+            # --- A. GENERATOR JADWAL (AUTO-ESTAFET SILET) ---
             with st.container(border=True):
                 st.markdown("### ⚡ ESTAFET GENERATOR (SLOT MENCAR)")
-                st.caption("Pola: Slot 1 (Pagi), Slot 2 (Siang), Slot 3 (Sore) | Jeda 10 Menit Antar HP | Parallel Tim A & B")
-                
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai HP 1 & 12", value="08:15", key="start_estafet")
                 
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        with st.status("Lagi ngerakit antrean estafet silet...", expanded=False) as status:
+                        with st.status("Ngerakit jadwal kantor...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
-                            def geser_jam(waktu_mulai, tambah_menit, slot_ke):
-                                # 1. Itung Jam Pagi dulu sebagai patokan (Jeda 10 mnt antar HP)
-                                target = waktu_mulai + timedelta(minutes=tambah_menit)
-                                
-                                if slot_ke == 1: # --- PAGI ---
-                                    # Kalo pagi nabrak 11:30, baru geser ke 12:30
-                                    if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
-                                        target = target + timedelta(minutes=60)
-                                    return target.strftime("%H:%M")
-                                
-                                elif slot_ke == 2: # --- SIANG ---
-                                    # SIANG harus mulai 12:30 PAS setelah istirahat
-                                    # Jadi patokannya 12:30 + jeda antar HP
-                                    base_siang = waktu_mulai.replace(hour=12, minute=30)
-                                    target_siang = base_siang + timedelta(minutes=tambah_menit)
-                                    return target_siang.strftime("%H:%M")
-                                
-                                elif slot_ke == 3: # --- SORE ---
-                                    # SORE mulai jam 14:15 biar gak nabrak absen pulang 15:45
-                                    base_sore = waktu_mulai.replace(hour=14, minute=15)
-                                    target_sore = base_sore + timedelta(minutes=tambah_menit)
-                                    return target_sore.strftime("%H:%M")
+                            last_hp, slot_ke = None, 0
+                            for _, row in df_j_sorted.iterrows():
+                                curr_hp = str(row['HP_N'])
+                                if curr_hp == last_hp:
+                                    slot_ke += 1
+                                else:
+                                    slot_ke = 1
+                                    last_hp = curr_hp
 
-                            # Eksekusi di dalam loop:
-                            p_val = geser_jam(base_pagi, jeda, slot_ke=1) if slot_ke == 1 else ""
-                            s_val = geser_jam(base_pagi, jeda, slot_ke=2) if slot_ke == 2 else ""
-                            o_val = geser_jam(base_pagi, jeda, slot_ke=3) if slot_ke == 3 else ""
+                                no_hp = int(row['HP_N'])
+                                urutan = no_hp if no_hp <= 11 else no_hp - 11
+                                jeda = (urutan - 1) * 10
+                                
+                                # --- LOGIKA JAM SILET ---
+                                # PAGI: Start 08:15 (Lompat kalo kena 11:30)
+                                j_pagi = base_pagi + timedelta(minutes=jeda)
+                                if (j_pagi.hour * 60 + j_pagi.minute) >= (11 * 60 + 30):
+                                    j_pagi = j_pagi + timedelta(minutes=60)
+                                
+                                # SIANG: Mulai 12:30 PAS
+                                j_siang = base_pagi.replace(hour=12, minute=30) + timedelta(minutes=jeda)
+                                
+                                # SORE: Mulai 14:15 biar aman sebelum 15:45
+                                j_sore = base_pagi.replace(hour=14, minute=15) + timedelta(minutes=jeda)
 
+                                # Masukin data per Slot
                                 data_update.append({
-                                    "id": row['ID'], "PAGI": p_val, "SIANG": s_val, "SORE": o_val,
-                                    "EDITED": f"Auto-Estafet: {user_aktif}"
+                                    "id": row['ID'],
+                                    "PAGI": j_pagi.strftime("%H:%M") if slot_ke == 1 else "",
+                                    "SIANG": j_siang.strftime("%H:%M") if slot_ke == 2 else "",
+                                    "SORE": j_sore.strftime("%H:%M") if slot_ke == 3 else "",
+                                    "EDITED": f"Auto-Silet: {user_aktif}"
                                 })
                             
                             if data_update:
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
-                                st.cache_data.clear(); st.rerun()
-                    except Exception as e: st.error(f"Error: {e}")
+                                st.cache_data.clear()
+                                st.rerun()
+                    except Exception as e:
+                        st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL (DENGAN ICON LENGKAP) ---
+            # --- B. EDIT MANUAL JADWAL ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
                 edited_j = st.data_editor(
@@ -484,7 +485,7 @@ def tampilkan_database_channel():
                         "SORE": st.column_config.TextColumn("🌆 SORE"),
                         "ID": None
                     },
-                    use_container_width=True, hide_index=True, key="editor_manual_v4"
+                    use_container_width=True, hide_index=True, key="editor_v4_final"
                 )
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True):
                     try:
@@ -495,7 +496,7 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- C. MONITORING VIEW (DENGAN ICON LENGKAP) ---
+            # --- C. MONITORING VIEW ---
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
             st.dataframe(
                 df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], 
@@ -509,9 +510,9 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- D. LOGIKA PRINT (STYLE SULTAN DIAN - 6 HP PER LEMBAR) ---
+            # --- D. LOGIKA PRINT (STYLE SULTAN DIAN) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
-                with st.spinner("Merakit mahakarya jadwal..."):
+                with st.spinner("Merakit jadwal..."):
                     html_all_pages = "" 
                     for tim in kelompok_tim:
                         list_hp_tim = tim["list"]
@@ -541,8 +542,7 @@ def tampilkan_database_channel():
                                 p = r.PAGI if r.PAGI and str(r.PAGI).strip() != "" else "-"
                                 s = r.SIANG if r.SIANG and str(r.SIANG).strip() != "" else "-"
                                 o = r.SORE if r.SORE and str(r.SORE).strip() != "" else "-"
-                                # Sembunyiin nomor HP duplikat biar rapi
-                                hp_show = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
+                                hp_show = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1].HP) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                                 html_all_pages += f"""
                                     <tr style="background-color: {bg_color} !important;">
@@ -554,23 +554,17 @@ def tampilkan_database_channel():
                                     </tr>"""
                             html_all_pages += "</tbody></table></div>"
 
-                    # --- CSS SULTAN ASLI DIAN (TIDAK ADA YANG DIRUBAH) ---
                     html_masterpiece = f"""
                     <style>
                         @media print {{
                             @page {{ size: A4 portrait; margin: 1cm; }}
-                            * {{ box-sizing: border-box; }}
-                            body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
                             .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
                             .page-break {{ page-break-after: always; }}
-                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
-                            h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
-                            .sub {{ font-size: 12px; color: #666; }}
+                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; }}
                             table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
-                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
-                            td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; line-height: 1.3; }}
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; }}
+                            td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; }}
                             .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
-                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
                             .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
                         }}
                     </style>
