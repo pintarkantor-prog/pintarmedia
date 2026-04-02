@@ -180,7 +180,8 @@ else:
             ai_lab.tampilkan_halaman()
 
         elif menu == "📱 DATABASE CHANNEL":
-            if user_level in ["OWNER", "ADMIN"]:
+            # Siapapun (OWNER, ADMIN, STAFF) sekarang bisa masuk sini
+            if user_level in ["OWNER", "ADMIN", "STAFF", "UPLOADER"]:
                 database_channel.tampilkan_database_channel()
             else:
                 st.error("🚫 Akses Ditolak!")
