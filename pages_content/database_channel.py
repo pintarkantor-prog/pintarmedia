@@ -145,7 +145,7 @@ def tampilkan_database_channel():
                                         st.subheader(nama)
                                         st.header(f"{jumlah}")
                                     
-                                    st.caption("Akun Terinput")
+                                    st.caption("Akun Terinput Hari ini")
                                 else:
                                     # Standby Card kalau staff kurang dari 3
                                     st.write(f"RANK {i+1}")
