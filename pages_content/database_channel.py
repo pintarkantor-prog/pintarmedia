@@ -109,7 +109,7 @@ def tampilkan_database_channel():
         if hc2.button("➕ TAMBAH AKUN", use_container_width=True, type="primary"):
             st.session_state.form_baru = not st.session_state.get('form_baru', False)
 
-        # --- 4. FORM INPUT AKUN BARU (INDENTASI FIXED & CLEAN) ---
+        # --- 4. FORM INPUT AKUN BARU (GAYA KONFIRMASI + ANTI DUPLIKAT) ---
         if st.session_state.get('form_baru', False):
             with st.container(border=True):
                 with st.form("input_v6_icon", clear_on_submit=True):
@@ -121,41 +121,75 @@ def tampilkan_database_channel():
                     f4, f5 = st.columns([1, 2])
                     v_subs = f4.text_input("📊 Jumlah Subs")
                     v_link = f5.text_input("🔗 Link Channel")
+                    
+                    # TOMBOL SIMPAN
+                    btn_save = st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True)
+
+        # --- 4. FORM INPUT AKUN BARU (INDENTASI SAKTI) ---
+        if st.session_state.get('form_baru', False):
+            with st.container(border=True):
+                # Form harus punya variable tombol sendiri
+                with st.form("input_v6_icon", clear_on_submit=True):
+                    f1, f2, f3 = st.columns(3)
+                    v_mail = f1.text_input("📧 Email Login")
+                    v_pass = f2.text_input("🔑 Password")
+                    v_nama = f3.text_input("📺 Nama Channel")
                         
-                    if st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True):
-                        if v_nama and v_mail:
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            v_mail = v_mail.strip().lower()
-                            v_nama = v_nama.strip()
+                    f4, f5 = st.columns([1, 2])
+                    v_subs = f4.text_input("📊 Jumlah Subs")
+                    v_link = f5.text_input("🔗 Link Channel")
+                    
+                    # Definisikan tombol di dalam form
+                    btn_save = st.form_submit_button("🚀 SIMPAN KE DATABASE", use_container_width=True)
+
+                # --- LOGIKA EKSEKUSI (SEJAJAR DENGAN with st.form) ---
+                if btn_save:
+                    if v_nama and v_mail:
+                        v_mail = v_mail.strip().lower()
+                        v_nama = v_nama.strip()
+                        tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                            
+                        try:
+                            # Pakai st.status biar ada spinner proses di bawah tombol
+                            with st.status("🔍 Mengecek Duplikat & Menyimpan...", expanded=True) as status:
                                 
-                            try:
-                                # JANGAN pake spinner di sini kalo gak mau kedip, 
-                                # tapi kalo mau tetep ada, bungkus prosesnya aja
-                                database.supabase.table("Channel_Pintar").insert({
-                                    "TANGGAL": tgl_now, 
-                                    "EMAIL": v_mail,
-                                    "PASSWORD": v_pass,
-                                    "NAMA_CHANNEL": v_nama,
-                                    "SUBSCRIBE": v_subs,
-                                    "LINK_CHANNEL": v_link,
-                                    "STATUS": "STANDBY",
-                                    "PENCATAT": user_aktif,
-                                    "EDITED": f"New: {user_aktif} ({tgl_now})"
-                                }).execute()
-                                    
-
-                                st.cache_data.clear()
-                                st.toast(f"✅ Akun {v_mail} Berhasil Masuk!", icon="🚀")
-                                time.sleep(1)
-                                st.rerun()
-
-                            except Exception as e:
-                                if "23505" in str(e):
-                                    st.warning(f"⚠️ Email **{v_mail}** sudah terdaftar!")
+                                # --- 🛡️ FILTER ANTI-DUPLIKAT ---
+                                cek_duplikat = df[df['EMAIL'].str.lower() == v_mail]
+                                
+                                if not cek_duplikat.empty:
+                                    status.update(label="⚠️ GAGAL: Email Sudah Terdaftar!", state="error", expanded=False)
+                                    st.warning(f"Email **{v_mail}** sudah ada di database!")
                                 else:
-                                    st.error(f"❌ Masalah: {e}")
-                        else:
-                            st.error("⚠️ Email dan Nama Channel wajib diisi!")
+                                    # --- GAS INSERT ---
+                                    database.supabase.table("Channel_Pintar").insert({
+                                        "TANGGAL": tgl_now, 
+                                        "EMAIL": v_mail,
+                                        "PASSWORD": v_pass,
+                                        "NAMA_CHANNEL": v_nama,
+                                        "SUBSCRIBE": v_subs,
+                                        "LINK_CHANNEL": v_link,
+                                        "STATUS": "STANDBY",
+                                        "PENCATAT": user_aktif,
+                                        "EDITED": f"New: {user_aktif} ({tgl_now})"
+                                    }).execute()
+                                    
+                                    st.cache_data.clear()
+                                    
+                                    # Update status jadi centang ijo (complete)
+                                    status.update(label="✅ Data Berhasil Disimpan!", state="complete", expanded=False)
+                                    st.success(f"Mantap! Akun **{v_mail}** sudah masuk stok Standby.")
+                                    
+                                    time.sleep(1.5)
+                                    st.rerun()
+
+                        except Exception as e:
+                            # Tangkap error 23505 (Unique Violation) dari database
+                            if "23505" in str(e):
+                                st.warning(f"⚠️ Email **{v_mail}** beneran udah ada di database server!")
+                            else:
+                                st.error(f"❌ Masalah Teknikal: {e}")
+                    else:
+                        st.error("⚠️ Email dan Nama Channel wajib diisi!")
                                 
         # --- 5. GRID EDITOR STANDBY ---
         df_st = df[df['STATUS'] == 'STANDBY'].copy()
