@@ -268,25 +268,25 @@ def tampilkan_database_channel():
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
 
-        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM CLEAN) ---
+        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM METRIC) ---
         with st.container(border=True):
             c1, c2, c3, c4 = st.columns(4)
             
             with c1:
-                st.markdown("#### 📱 HP 1 - 3")
-                st.write("isi: **3 Channel/HP**")
+                # Menunjukkan kapasitas HP 1-3
+                st.metric(label="📱 HP 1 - 3", value="3 Channel", delta="Max Slot")
 
             with c2:
-                st.markdown("#### 📱 HP 4 - 23")
-                st.write("isi: **3 Channel/HP**")
+                # Menunjukkan kapasitas HP 4-23
+                st.metric(label="📱 HP 4 - 23", value="3 Channel", delta="Max Slot")
 
             with c3:
-                st.markdown("#### 🌸 SAKURA")
-                st.write("isi di: **HP 1 - 3**")
+                # Menunjukkan penempatan konten Sakura
+                st.metric(label="🌸 SAKURA", value="HP 1 - 3", delta="Konten")
 
             with c4:
-                st.markdown("#### 🕌 MASJID AI")
-                st.write("isi di: **HP 4 - 23**")
+                # Menunjukkan penempatan konten Masjid
+                st.metric(label="🕌 MASJID AI", value="HP 4 - 23", delta="Konten")
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
