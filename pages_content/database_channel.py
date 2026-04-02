@@ -267,33 +267,31 @@ def tampilkan_database_channel():
     # ==============================================================================
     with tab_pr:
         st.markdown("#### 🚀 MONITORING PROSES")
-        
-        # --- 1. RADAR KAPASITAS UNIT (1 KONTAINER 3 KOLOM) ---
-        df_p = df[df['STATUS'] == 'PROSES'].copy()
-        sebaran = df_p['HP'].value_counts().sort_index() if not df_p.empty else {}
 
+        # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM CLEAN) ---
         with st.container(border=True):
-            c1, c2, c3 = st.columns([1.5, 1, 1])
+            st.markdown("### 📊 DASHBOARD OPERASIONAL UNIT")
+            c1, c2, c3, c4 = st.columns(4)
             
             with c1:
-                st.write("📊 **LIST SLOT HP**")
-                if sebaran.any():
-                    # Nunjukin HP 1: 4 ch, HP 2: 3 ch, dst
-                    st.dataframe(pd.DataFrame({"HP": [f"Unit {int(k)}" for k in sebaran.index], "ISI": [f"{v} Channel" for v in sebaran.values]}), use_container_width=True, hide_index=True)
-                else:
-                    st.info("Belum ada unit jalan")
+                st.markdown("#### 🌸 HP 1 - 3")
+                st.write("Isi: **3 Channel**")
+                st.caption("Konten Sakura")
 
             with c2:
-                st.write("🌸 **SAKURA (1-9)**")
-                st.error("**MAX 3 SLOT**")
-                st.caption("Khusus Konten Sakura")
+                st.markdown("#### 🕌 HP 4 - 23")
+                st.write("Isi: **3 Channel**")
+                st.caption("Konten Masjid")
 
             with c3:
-                st.write("🕌 **MASJID (10-100)**")
-                st.info("**MAX 4 SLOT**")
-                st.caption("Khusus Konten Masjid")
+                st.markdown("#### ⚠️ LIMIT")
+                st.write("Max: **4 Channel**")
+                st.caption("Unit Tertentu")
 
-        st.markdown("<br>", unsafe_allow_html=True)
+            with c4:
+                st.markdown("#### 👤 STAFF")
+                st.write(f"**{user_aktif}**")
+                st.caption("Operator Aktif")
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
