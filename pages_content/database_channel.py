@@ -438,26 +438,47 @@ def tampilkan_database_channel():
                                 if b_awal <= waktu_obj < b_akhir: return waktu_obj.replace(hour=12, minute=30)
                                 return waktu_obj
 
+                            # Variabel bantu
                             last_hp, slot_ke = None, 0
-                            for _, row in df_j.iterrows():
+
+                            for _, row in df_sorted.iterrows():
                                 curr_hp = str(row['HP_N'])
                                 if curr_hp == last_hp: slot_ke += 1
                                 else: slot_ke, last_hp = 1, curr_hp
 
-                                no_hp = int(row['HP_N'])
-                                urutan = no_hp if no_hp <= 11 else no_hp - 11
-                                jeda = (urutan - 1) * 10
+                                no_hp = int(row['HP_N']) if row['HP_N'] != 999 else 1
                                 
-                                j_pagi = hitung_jam_aman(base_pagi + timedelta(minutes=jeda))
-                                j_siang = hitung_jam_aman(j_pagi + timedelta(hours=3))
-                                j_sore = hitung_jam_aman(j_siang + timedelta(hours=2, minutes=30))
+                                # Logika Parallel: HP 12 jadi urutan 1 di Tim B
+                                urutan = no_hp if no_hp <= 11 else no_hp - 11
+                                jeda_menit = (urutan - 1) * 10
+                                
+                                # --- FUNGSI BARU: GESER ANTREAN ---
+                                def geser_jam(waktu_mulai, tambah_menit, tambah_jam=0):
+                                    # 1. Itung jam asli tanpa mikir istirahat
+                                    target = waktu_mulai + timedelta(hours=tambah_jam, minutes=tambah_menit)
+                                    
+                                    # 2. Cek apakah jam target ini ngelewati atau pas di jam istirahat
+                                    # Kita pake patokan menit dari jam 00:00 biar gampang
+                                    menit_target = target.hour * 60 + target.minute
+                                    menit_istirahat_start = 11 * 60 + 40 # 11:30
+                                    
+                                    if menit_target >= menit_istirahat_start:
+                                        # Kalo udah jam 11:30 keatas, tambahin 60 menit (istirahat)
+                                        target = target + timedelta(minutes=60)
+                                    
+                                    return target.strftime("%H:%M")
+
+                                # Eksekusi Slot Mencar
+                                p_val = geser_jam(base_pagi, jeda_menit) if slot_ke == 1 else ""
+                                s_val = geser_jam(base_pagi, jeda_menit, tambah_jam=4) if slot_ke == 2 else ""
+                                o_val = geser_jam(base_pagi, jeda_menit, tambah_jam=7) if slot_ke == 3 else ""
 
                                 data_update.append({
                                     "id": row['ID'],
-                                    "PAGI": j_pagi.strftime("%H:%M") if slot_ke == 1 else "",
-                                    "SIANG": j_siang.strftime("%H:%M") if slot_ke == 2 else "",
-                                    "SORE": j_sore.strftime("%H:%M") if slot_ke == 3 else "",
-                                    "EDITED": f"Parallel: {user_aktif}"
+                                    "PAGI": p_val,
+                                    "SIANG": s_val,
+                                    "SORE": o_val,
+                                    "EDITED": f"Estafet Anti-Numpuk: {user_aktif}"
                                 })
                             
                             if data_update:
