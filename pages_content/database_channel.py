@@ -113,32 +113,47 @@ def tampilkan_database_channel():
             st.markdown("<br>", unsafe_allow_html=True)
 
             # ==============================================================================
-            # DI SINI TEMPATNYA: MONITORING PRODUKTIVITAS HARIAN (EXPANDER + CARDS)
+            # MONITORING PRODUKTIVITAS: TOP 3 PERFORMANCE (CLEAN CARD)
             # ==============================================================================
             hari_ini = database.ambil_waktu_sekarang().strftime("%d/%m/%Y")
-            
-            # Filter data berdasarkan kolom TANGGAL lo
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini, na=False)]
             
-            # Rekap jumlah input per staff dari kolom PENCATAT lo
-            rekap_pencatat = df_today['PENCATAT'].value_counts()
-            total_today = len(df_today)
-
-            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN BARU)", expanded=False):
+            # Rekap & Urutkan Terbanyak
+            rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
+            rekap_pencatat.columns = ['NAMA', 'JUMLAH']
+            
+            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN BARU)", expanded=True):
                 if not df_today.empty:
-                    # Bikin Grid 4 Kolom buat Card Staff
-                    kolom_staff = st.columns(4)
+                    cols = st.columns(3)
+                    top_3 = rekap_pencatat.head(3)
                     
-                    for i, (nama, jumlah) in enumerate(rekap_pencatat.items()):
-                        with kolom_staff[i % 4]:
+                    for i in range(3):
+                        with cols[i]:
+                            # Card Frame
                             with st.container(border=True):
-                                st.caption("🚀 PENCATAT")
-                                st.subheader(f"{nama}")
-                                st.write(f"**{jumlah}** Akun Hari Ini")
-                                # Bar pemanis: target 30 akun biar penuh
-                                st.progress(min(jumlah/30, 1.0))
+                                if i < len(top_3):
+                                    nama = top_3.iloc[i]['NAMA']
+                                    jumlah = top_3.iloc[i]['JUMLAH']
+                                    
+                                    # Pembeda Visual: Juara 1 dapet Bold + Warna (Optional)
+                                    if i == 0:
+                                        st.write("**⭐ TOP PERFORMANCE**")
+                                        st.subheader(f":green[{nama}]") # Nama warna hijau biar silet
+                                        st.title(f"{jumlah}") # Angka paling gede
+                                    else:
+                                        st.write(f"RANK {i+1}")
+                                        st.subheader(nama)
+                                        st.header(f"{jumlah}")
+                                    
+                                    st.caption("Akun Terinput")
+                                else:
+                                    # Standby Card kalau staff kurang dari 3
+                                    st.write(f"RANK {i+1}")
+                                    st.subheader("-")
+                                    st.header("0")
+                                    st.caption("No Activity")
                 else:
-                    st.info(f"Belum ada aktivitas input akun pada tanggal {hari_ini}.")
+                    st.info("Sistem belum mendeteksi aktivitas input hari ini.")
 
             st.markdown("<br>", unsafe_allow_html=True)
             
