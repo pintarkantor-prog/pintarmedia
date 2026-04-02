@@ -109,9 +109,6 @@ def tampilkan_database_channel():
                     st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
-
-            st.markdown("<br>", unsafe_allow_html=True)
-
             # ==============================================================================
             # MONITORING PRODUKTIVITAS: TOP 3 PERFORMANCE (FORMAT TANGGAL CANTIK)
             # ==============================================================================
