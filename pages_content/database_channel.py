@@ -426,14 +426,6 @@ def tampilkan_database_channel():
                             df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
                             df_sorted = df_j.sort_values(['HP_N', 'NAMA_CHANNEL'])
 
-                            def hitung_jam_aman(waktu_obj):
-                                # Rentang Istirahat 11:30 - 12:30
-                                b_awal = waktu_obj.replace(hour=11, minute=30)
-                                b_akhir = waktu_obj.replace(hour=12, minute=30)
-                                if b_awal <= waktu_obj < b_akhir:
-                                    return waktu_obj + timedelta(minutes=60)
-                                return waktu_obj
-
                             # Variabel bantu buat nandain urutan channel di HP yang sama
                             last_hp = None
                             slot_ke = 0
