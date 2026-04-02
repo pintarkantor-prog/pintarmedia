@@ -432,11 +432,18 @@ def tampilkan_database_channel():
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
                             def geser_jam_silet(waktu_mulai, urutan_total):
-                                # Urutan total adalah posisi antrean dari semua akun di tim tsb
+                                # 1. Itung jam asli berdasarkan antrean (10 mnt per akun)
                                 target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 10)
-                                # Skip Istirahat 11:30 - 12:30 (Otomatis geser 1 jam)
-                                if (target.hour * 60 + target.minute) >= (11 * 60 + 40):
-                                    target = target + timedelta(minutes=60)
+                                
+                                # 2. Cek apakah jam target masuk/melewati batas awal istirahat (11:30)
+                                # 11:30 itu sama dengan 690 menit dari jam 00:00
+                                menit_target = target.hour * 60 + target.minute
+                                
+                                if menit_target >= (11 * 60 + 30):
+                                    # Kalo kena istirahat, kita lempar ke 12:40.
+                                    # Selisih dari 11:30 ke 12:40 adalah 70 menit.
+                                    target = target + timedelta(minutes=70)
+                                    
                                 return target
 
                             # Kita proses per Tim (Tim 1: HP 1-11, Tim 2: HP 12-23)
@@ -854,7 +861,7 @@ def tampilkan_database_channel():
         st.markdown("<br>", unsafe_allow_html=True)
 
         # --- 3. DATABASE ARSIP (FULL EDITABLE & ID ANCHOR) ---
-        st.markdown("##### 📂 DAFTAR AKUN ARSIP (BISA DAUR ULANG)")
+        st.markdown("##### 📂 DAFTAR AKUN ARSIP")
         if df_a.empty:
             st.success("✨ Arsip masih kosong!")
         else:
