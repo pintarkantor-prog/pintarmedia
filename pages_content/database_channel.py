@@ -122,7 +122,7 @@ def tampilkan_database_channel():
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
             
-            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN BARU)", expanded=True):
+            with st.expander(f"📊 REPORT INPUT HARIAN ({hari_ini} AKUN BARU)", expanded=True):
                 if not df_today.empty:
                     cols = st.columns(3)
                     top_3 = rekap_pencatat.head(3)
