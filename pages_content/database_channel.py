@@ -466,13 +466,24 @@ def tampilkan_database_channel():
                                 st.rerun()
                     except Exception as e: st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL (YANG TADI ILANG) ---
+            # --- B. EDIT MANUAL JADWAL (DIBALIKIN LAGI COK) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
+                # Pastikan kolom bantu ada sebelum editor
+                df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
+                df_j_sorted = df_j.sort_values(['HP_N', 'NAMA_CHANNEL'])
+                
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
                 edited_j = st.data_editor(
-                    df_j[kolom_edit],
-                    column_config={"HP": st.column_config.TextColumn(disabled=True), "ID": None},
-                    use_container_width=True, hide_index=True, key="editor_manual_final"
+                    df_j_sorted[kolom_edit],
+                    column_config={
+                        "HP": st.column_config.TextColumn("📱 HP", width=50, disabled=True),
+                        "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250, disabled=True),
+                        "PAGI": st.column_config.TextColumn("🌅 PAGI"),
+                        "SIANG": st.column_config.TextColumn("☀️ SIANG"),
+                        "SORE": st.column_config.TextColumn("🌆 SORE"),
+                        "ID": None
+                    },
+                    use_container_width=True, hide_index=True, key="editor_manual_v3"
                 )
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True):
                     try:
@@ -483,26 +494,36 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- C. MONITORING VIEW ---
-            st.markdown("#### 📱 MONITORING JADWAL (URUT HP)")
-            st.dataframe(df_j[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], hide_index=True, use_container_width=True)
+            # --- C. MONITORING VIEW (ICON DIBALIKIN) ---
+            st.markdown("#### 📱 MONITORING JADWAL HARI INI")
+            df_display = df_j.sort_values(['HP_N', 'PAGI'])
+            st.dataframe(
+                df_display[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], 
+                column_config={
+                    "HP": st.column_config.TextColumn("📱 HP", width=50),
+                    "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250),
+                    "PAGI": st.column_config.TextColumn("🌅 PAGI", width=120),
+                    "SIANG": st.column_config.TextColumn("☀️ SIANG", width=120),
+                    "SORE": st.column_config.TextColumn("🌆 SORE", width=120),
+                },
+                hide_index=True, use_container_width=True
+            )
 
-            # --- 4. LOGIKA PRINT (Sesuai Kode Asli Dian - Urutan HP Diperketat) ---
+            # --- D. LOGIKA PRINT (ASLI DIAN + FIX KEYERROR) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
-                    # KUNCI URUTAN HP DISINI BIAR GAK ACAK PAS DIPRINT
+                    # FIX KEYERROR: Bikin HP_N dulu sebelum sort di dalem button
                     df_display['HP_N'] = pd.to_numeric(df_display['HP'], errors='coerce').fillna(999)
-                    df_display = df_display.sort_values(['HP_N', 'PAGI'])
+                    df_display_sorted = df_display.sort_values(['HP_N', 'PAGI'])
                     
                     html_all_pages = "" 
                     for tim in kelompok_tim:
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
                         
-                        # Loop per 6 HP sesuai pakem lo
                         for start_idx in range(0, len(list_hp_unik), 6):
                             hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
-                            df_page = df_display[df_display['HP'].isin(hp_halaman_ini)].copy()
+                            df_page = df_display_sorted[df_display_sorted['HP'].isin(hp_halaman_ini)].copy()
                             
                             html_all_pages += f"""
                             <div class="print-container page-break">
@@ -522,14 +543,12 @@ def tampilkan_database_channel():
                                     </thead>
                                     <tbody>
                             """
-                            # Loop isi tabel (Pake itertuples biar kenceng)
                             for i, r in enumerate(df_page.itertuples()):
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() != "" else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() != "" else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() != "" else "-"
                                 
-                                # Logika sembunyiin nomor HP biar rapi (Logika asli lo)
-                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
+                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1].HP) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                                 
                                 html_all_pages += f"""
@@ -543,7 +562,7 @@ def tampilkan_database_channel():
                                 """
                             html_all_pages += "</tbody></table></div>"
 
-                    # --- STYLE SULTAN ASLI DIAN (TIDAK GUE RUBAH SAMA SEKALI) ---
+                    # --- STYLE SULTAN ASLI DIAN (TIDAK BERUBAH) ---
                     html_masterpiece = f"""
                     <style>
                         @media print {{
