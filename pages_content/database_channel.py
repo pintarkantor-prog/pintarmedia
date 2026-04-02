@@ -399,9 +399,11 @@ def tampilkan_database_channel():
     # TAB 3: JADWAL UPLOAD (FULL ESTAFET SULTAN v4.0 - ANTI-NUMPUK & PARALLEL)
     # ==============================================================================
     with tab_jd:
-        # 1. Pastikan Data Terurut Berdasarkan HP & Channel
-        df['HP_N'] = pd.to_numeric(df['HP'], errors='coerce').fillna(999)
-        df_j_sorted = df[df['STATUS'] == 'PROSES'].sort_values(['HP_N'], kind='mergesort').copy()
+        df_j = df[df['STATUS'] == 'PROSES'].copy()
+        
+        df_j_kocok = df_j.sample(frac=1).reset_index(drop=True)
+        df_j_kocok['HP_N'] = pd.to_numeric(df_j_kocok['HP'], errors='coerce').fillna(999)
+        df_j_sorted = df_j_kocok.sort_values(['HP_N'], kind='mergesort').copy()
 
         if df_j_sorted.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
@@ -420,7 +422,6 @@ def tampilkan_database_channel():
 
             # --- A. GENERATOR JADWAL (AUTO-ESTAFET SILET) ---
             with st.container(border=True):
-                st.markdown("### ⚡ ESTAFET GENERATOR (SLOT MENCAR)")
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai Upload", value="08:15", key="start_estafet")
                 
