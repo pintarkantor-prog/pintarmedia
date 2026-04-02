@@ -270,27 +270,26 @@ def tampilkan_database_channel():
 
         # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM CLEAN) ---
         with st.container(border=True):
-            st.markdown("### 📊 DASHBOARD OPERASIONAL UNIT")
             c1, c2, c3, c4 = st.columns(4)
             
             with c1:
-                st.markdown("#### 🌸 HP 1 - 3")
+                st.markdown("#### 📱 HP 1 - 3")
                 st.write("Isi: **3 Channel**")
                 st.caption("Konten Sakura")
 
             with c2:
-                st.markdown("#### 🕌 HP 4 - 23")
+                st.markdown("#### 📱 HP 4 - 23")
                 st.write("Isi: **3 Channel**")
                 st.caption("Konten Masjid")
 
             with c3:
-                st.markdown("#### ⚠️ LIMIT")
-                st.write("Max: **4 Channel**")
+                st.markdown("#### 🌸 SAKURA")
+                st.write("**isi di HP 1-3**")
                 st.caption("Unit Tertentu")
 
             with c4:
-                st.markdown("#### 👤 STAFF")
-                st.write(f"**{user_aktif}**")
+                st.markdown("#### 🕌 MASJID AI")
+                st.write("**isi di HP 4-23**")
                 st.caption("Operator Aktif")
 
         # Filter data PROSES
