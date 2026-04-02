@@ -433,27 +433,33 @@ def tampilkan_database_channel():
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
-                            def geser_jam(waktu_mulai, tambah_menit, tambah_jam=0):
-                                target = waktu_mulai + timedelta(hours=tambah_jam, minutes=tambah_menit)
-                                # Logika Skip Istirahat (11:30 - 12:30)
-                                if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
-                                    target = target + timedelta(minutes=60)
-                                return target.strftime("%H:%M")
-
-                            last_hp, slot_ke = None, 0
-                            for _, row in df_j_sorted.iterrows():
-                                curr_hp = str(row['HP_N'])
-                                if curr_hp == last_hp: slot_ke += 1
-                                else: slot_ke, last_hp = 1, curr_hp
-
-                                no_hp = int(row['HP_N'])
-                                urutan = no_hp if no_hp <= 11 else no_hp - 11
-                                jeda = (urutan - 1) * 10
+                            def geser_jam(waktu_mulai, tambah_menit, slot_ke):
+                                # 1. Itung Jam Pagi dulu sebagai patokan (Jeda 10 mnt antar HP)
+                                target = waktu_mulai + timedelta(minutes=tambah_menit)
                                 
-                                # Slot Mencar (Pagi, Siang +4h, Sore +7h)
-                                p_val = geser_jam(base_pagi, jeda) if slot_ke == 1 else ""
-                                s_val = geser_jam(base_pagi, jeda, tambah_jam=4) if slot_ke == 2 else ""
-                                o_val = geser_jam(base_pagi, jeda, tambah_jam=7) if slot_ke == 3 else ""
+                                if slot_ke == 1: # --- PAGI ---
+                                    # Kalo pagi nabrak 11:30, baru geser ke 12:30
+                                    if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
+                                        target = target + timedelta(minutes=60)
+                                    return target.strftime("%H:%M")
+                                
+                                elif slot_ke == 2: # --- SIANG ---
+                                    # SIANG harus mulai 12:30 PAS setelah istirahat
+                                    # Jadi patokannya 12:30 + jeda antar HP
+                                    base_siang = waktu_mulai.replace(hour=12, minute=30)
+                                    target_siang = base_siang + timedelta(minutes=tambah_menit)
+                                    return target_siang.strftime("%H:%M")
+                                
+                                elif slot_ke == 3: # --- SORE ---
+                                    # SORE mulai jam 14:15 biar gak nabrak absen pulang 15:45
+                                    base_sore = waktu_mulai.replace(hour=14, minute=15)
+                                    target_sore = base_sore + timedelta(minutes=tambah_menit)
+                                    return target_sore.strftime("%H:%M")
+
+                            # Eksekusi di dalam loop:
+                            p_val = geser_jam(base_pagi, jeda, slot_ke=1) if slot_ke == 1 else ""
+                            s_val = geser_jam(base_pagi, jeda, slot_ke=2) if slot_ke == 2 else ""
+                            o_val = geser_jam(base_pagi, jeda, slot_ke=3) if slot_ke == 3 else ""
 
                                 data_update.append({
                                     "id": row['ID'], "PAGI": p_val, "SIANG": s_val, "SORE": o_val,
