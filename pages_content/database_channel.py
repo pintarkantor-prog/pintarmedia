@@ -274,23 +274,19 @@ def tampilkan_database_channel():
             
             with c1:
                 st.markdown("#### 📱 HP 1 - 3")
-                st.write("Isi: **3 Channel**")
-                st.caption("Konten Sakura")
+                st.write("Jumlah: **3 Channel/HP**")
 
             with c2:
                 st.markdown("#### 📱 HP 4 - 23")
-                st.write("Isi: **3 Channel**")
-                st.caption("Konten Masjid")
+                st.write("Isi: **3 Channel/HP**")
 
             with c3:
                 st.markdown("#### 🌸 SAKURA")
-                st.write("**isi di HP 1-3**")
-                st.caption("Unit Tertentu")
+                st.write("isi di: **HP 1-3**")
 
             with c4:
                 st.markdown("#### 🕌 MASJID AI")
-                st.write("**isi di HP 4-23**")
-                st.caption("Operator Aktif")
+                st.write("isi di: **HP 4-23**")
 
         # Filter data PROSES
         df_p = df[df['STATUS'] == 'PROSES'].copy()
