@@ -133,13 +133,11 @@ def tampilkan_navigasi_sidebar():
             </div>
         """, unsafe_allow_html=True)
         
-        # --- KUNCI SIDEBAR: Menu Dasar untuk Semua ---
-        menu_list = ["🧠 PINTAR AI LAB", "📘 AREA STAF"]
+        # --- SEMUA ROLE BISA LIAT TIGA MENU INI ---
+        menu_list = ["🧠 PINTAR AI LAB", "📱 DATABASE CHANNEL", "📘 AREA STAF"]
         
-        # --- KUNCI OWNER & ADMIN: Tambah Menu Rahasia ---
+        # --- KHUSUS KENDALI TIM TETEP OWNER & ADMIN ---
         if user_level in ["OWNER", "ADMIN"]:
-            # Kita sisipkan di tengah atau akhir sesuai selera lo
-            menu_list.insert(1, "📱 DATABASE CHANNEL") 
             menu_list.append("⚡ KENDALI TIM")
 
         pilihan = st.radio("COMMAND_MENU", menu_list, label_visibility="collapsed")
