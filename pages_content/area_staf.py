@@ -532,11 +532,11 @@ def tampilkan_area_staf():
             
             # --- LOGIKA PENENTUAN GAJI (Sesuai Level) ---
             if user_level == "STAFF":
-                gapok_display = "Rp 2.500.000"
+                gapok_display = "Rp 2.000.000"
             elif user_level == "UPLOADER":
                 gapok_display = "Rp 1.500.000"
             elif user_level == "ADMIN":
-                gapok_display = "Rp 1.500.000"
+                gapok_display = "Rp 2.500.000"
             else:
                 gapok_display = "Rp -, -"
 
