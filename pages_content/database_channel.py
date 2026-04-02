@@ -34,7 +34,7 @@ def get_otpnum_api(server_url, endpoint, params):
         if response.status_code == 200: 
             return response.json()
         
-        return {"success": False, "message": f"Server OTP lagi Down (HTTP {response.status_code})"}
+        return {"success": False, "message": "SERVER LAGI ERROR / UNDER MAINTENANCE!"}
         
     except Exception: 
         # DI SINI KUNCINYA, COK! 
