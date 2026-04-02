@@ -992,13 +992,29 @@ def tampilkan_database_channel():
             
             if opts:
                 pilih_name = st.selectbox("Layanan Tersedia", list(opts.keys()), key="pilih_google_only")
+                
+                # --- LOGIKA TOMBOL ANTI-SPAM ---
                 if st.button("🚀 BELI NOMOR SEKARANG", use_container_width=True, type="primary", key="btn_beli_virtual"):
-                    sid = opts[pilih_name]
-                    res_order = get_otpnum_api(srv_url, "order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
-                    if res_order and res_order.get('success'):
-                        st.session_state.active_order = {"id": res_order['data']['order_id'], "number": res_order['data']['number'], "url": srv_url}
-                        st.rerun()
-            else: st.warning("Layanan Google tidak ditemukan.")
+                    with st.spinner("Sedang memesan nomor, sabar..."):
+                        sid = opts[pilih_name]
+                        res_order = get_otpnum_api(srv_url, "order", {"api_key": API_KEY, "service_id": sid, "operator": "any", "country_id": 6})
+                        
+                        if res_order and res_order.get('success'):
+                            # BERHASIL
+                            st.session_state.active_order = {
+                                "id": res_order['data']['order_id'], 
+                                "number": res_order['data']['number'], 
+                                "url": srv_url
+                            }
+                            st.success(f"Nomor Berhasil Dipesan: {res_order['data']['number']}")
+                            st.rerun()
+                        else:
+                            # GAGAL (KASIH KETERANGAN BIAR GAK KLIK LAGI)
+                            pesan_error = res_order.get('message', 'Server Gagal Merespon') if res_order else "Koneksi Timeout"
+                            st.error(f"❌ GAGAL BELI: {pesan_error}")
+                            st.warning("Jangan klik lagi, tunggu 10 detik atau coba Server lain!")
+            else:
+                st.warning("Layanan Google tidak ditemukan.")
 
         # --- AUTO-POLLING SMS (VERSI FIX TOMBOL CANCEL) ---
         if "active_order" in st.session_state:
