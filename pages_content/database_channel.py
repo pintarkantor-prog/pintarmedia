@@ -276,15 +276,10 @@ def tampilkan_database_channel():
                 st.divider() 
 
         else:
-            st.error("🛡️ **SECURITY CLEARANCE REQUIRED**")
-            st.write(f"Sistem mendeteksi identitas: **{user_aktif}**")
-            st.divider()
-            st.info(f"""
-                **Pemberitahuan Sistem:**
-                Hak akses Anda saat ini sebagai **{level_aktif}** tidak memiliki izin untuk melihat data finansial dan stok. 
-                Segala aktivitas log tetap terekam dalam sistem keamanan **PT Pintar Digital Kreasi**.
-            """)
-            st.caption("Gunakan tab yang tersedia sesuai dengan deskripsi pekerjaan Anda.")
+            # --- TAMPILAN SINGKAT & PADAT ---
+            st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
+            st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
+            st.info("💡 **SOLUSI:** Silakan fokus pada tab **JADWAL UPLOAD** untuk tugas harian.")
     # ==============================================================================
     # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
     # ==============================================================================
