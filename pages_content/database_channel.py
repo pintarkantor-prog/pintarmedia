@@ -114,7 +114,7 @@ def tampilkan_database_channel():
             # ==============================================================================
             nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
-            kemarin_filter = (nowww - datetime.timedelta(days=1)).strftime("%d/%m/%Y")
+            kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
             # 1. Logika Hitung (Sama kayak tadi)
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
