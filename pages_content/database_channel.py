@@ -131,7 +131,7 @@ def tampilkan_database_channel():
 
             # --- 2. Render UI (Expander Duluan) ---
             # Expanded=False biar pas buka web gak menuh-menuhin layar
-            with st.expander(f"📊 REKAP INPUT HARIAN ({total_today} AKUN)", expanded=False):
+            with st.expander(f"📊 REKAP INPUT HARIAN", expanded=False):
                 
                 # Bikin 4 Kolom di dalem expander
                 cols = st.columns(4)
