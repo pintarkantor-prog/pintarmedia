@@ -110,56 +110,55 @@ def tampilkan_database_channel():
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
             # ==============================================================================
-            # MONITORING PRODUKTIVITAS: TOP 3 PERFORMANCE (FORMAT TANGGAL CANTIK)
+            # MONITORING PRODUKTIVITAS: 4 KOLOM DALAM EXPANDER
             # ==============================================================================
-            # 1. Ambil waktu sekarang
             nowww = database.ambil_waktu_sekarang()
-            
-            # 2. Buat Kamus Bulan Indonesia
-            bulan_indooo = {
-                1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
-                7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
-            }
-            
-            # 3. Rakit Format Tanggalnya (Contoh: 03 Maret 2026)
-            tgl_cantik = f"{nowww.day:02d} {bulan_indooo[nowww.month]} {nowww.year}"
-            
-            # 4. Tetep butuh format asli buat filter ke database (03/04/2026)
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
+            kemarin_filter = (nowww - datetime.timedelta(days=1)).strftime("%d/%m/%Y")
             
-            # Filter data berdasarkan kolom TANGGAL lo
+            # 1. Logika Hitung (Sama kayak tadi)
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
+            df_yesterday = df[df['TANGGAL'].astype(str).str.contains(kemarin_filter, na=False)]
             
-            # Rekap & Urutkan Terbanyak
+            total_today = len(df_today)
+            total_yesterday = len(df_yesterday)
+            selisih = total_today - total_yesterday
+            
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
-            
-            # 5. Pake 'tgl_cantik' di judul Expander
-            with st.expander(f"📊 REPORT INPUT HARIAN - {tgl_cantik}", expanded=False):
-                if not df_today.empty:
-                    cols = st.columns(3)
-                    top_3 = rekap_pencatat.head(3)
-                    
-                    for i in range(3):
-                        with cols[i]:
-                            with st.container(border=True):
-                                if i < len(top_3):
-                                    nama = top_3.iloc[i]['NAMA']
-                                    jumlah = top_3.iloc[i]['JUMLAH']
-                                    
-                                    # Visual Silet: Urutan 1-2-3
-                                    rank_label = ["🥇 TOP I", "🥈 TOP II", "🥉 TOP III"]
-                                    st.write(rank_label[i])
-                                    st.subheader(nama)
-                                    st.title(f"{jumlah}")
-                                    st.caption("Akun Terinput")
-                                else:
-                                    st.write(f"RANK {i+1}")
-                                    st.subheader("-")
-                                    st.header("0")
-                                    st.caption("No Activity")
-                else:
-                    st.info(f"Sistem belum mendeteksi aktivitas input pada {tgl_cantik}.")
+            top_staff = rekap_pencatat.head(3)
+
+            # --- RENDER EXPANDER ---
+            # Kita pake f-string biar judul expander-nya dinamis ada totalnya
+            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN) - {tgl_cantik}", expanded=True):
+                
+                # Bikin 4 Kolom di DALAM expander
+                cols = st.columns(4)
+
+                # KOLOM 1: PUSAT DATA
+                with cols[0]:
+                    with st.container(border=True):
+                        st.write("📈 **TOTAL**")
+                        st.metric(
+                            label="Hari Ini", 
+                            value=f"{total_today}", 
+                            delta=f"{selisih} vs Kemarin"
+                        )
+
+                # KOLOM 2, 3, 4: TOP STAFF
+                for i in range(3):
+                    with cols[i+1]:
+                        with st.container(border=True):
+                            if i < len(top_staff):
+                                nama = top_staff.iloc[i]['NAMA']
+                                jumlah = top_staff.iloc[i]['JUMLAH']
+                                st.write(f"👤 **RANK {i+1}**")
+                                st.subheader(nama)
+                                st.write(f"**{jumlah}** Akun")
+                            else:
+                                st.write(f"👤 **RANK {i+1}**")
+                                st.subheader("-")
+                                st.caption("No data")
 
             st.markdown("<br>", unsafe_allow_html=True)
             
