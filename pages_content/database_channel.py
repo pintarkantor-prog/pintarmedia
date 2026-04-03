@@ -114,6 +114,11 @@ def tampilkan_database_channel():
             # ==============================================================================
             nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
+            
+            # PANGGIL ULANG DI SINI BIAR PASTI KENAL
+            from datetime import timedelta 
+            
+            # Sekarang panggil tanpa 'datetime.' di depannya
             kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
             # 1. Logika Hitung (Sama kayak tadi)
