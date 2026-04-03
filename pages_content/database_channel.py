@@ -110,18 +110,26 @@ def tampilkan_database_channel():
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
             # ==============================================================================
-            # MONITORING PRODUKTIVITAS: 4 KOLOM DALAM EXPANDER
+            # MONITORING PRODUKTIVITAS: 4 KOLOM DALAM EXPANDER (FIXED VERSION)
             # ==============================================================================
+            
+            # 1. SETTING WAKTU & TANGGAL (Wajib di atas)
             nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
             
-            # PANGGIL ULANG DI SINI BIAR PASTI KENAL
-            from datetime import timedelta 
-            
-            # Sekarang panggil tanpa 'datetime.' di depannya
+            # Import timedelta di sini biar aman dari UnboundLocalError
+            from datetime import timedelta
             kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
-            # 1. Logika Hitung (Sama kayak tadi)
+            # Rakit Tanggal Cantik Indonesia
+            bulan_indooo = {
+                1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
+                7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
+            }
+            tgl_cantik = f"{nowww.day:02d} {bulan_indooo[nowww.month]} {nowww.year}"
+            
+            # 2. LOGIKA HITUNG DATA (DATABASE)
+            # Filter data hari ini dan kemarin
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
             df_yesterday = df[df['TANGGAL'].astype(str).str.contains(kemarin_filter, na=False)]
             
@@ -129,42 +137,46 @@ def tampilkan_database_channel():
             total_yesterday = len(df_yesterday)
             selisih = total_today - total_yesterday
             
+            # Rekap Top 3 Staff
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
             top_staff = rekap_pencatat.head(3)
 
-            # --- RENDER EXPANDER ---
-            # Kita pake f-string biar judul expander-nya dinamis ada totalnya
+            # 3. RENDER UI EXPANDER
             with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN) - {tgl_cantik}", expanded=True):
                 
-                # Bikin 4 Kolom di DALAM expander
+                # Bikin layout 4 kolom
                 cols = st.columns(4)
 
-                # KOLOM 1: PUSAT DATA
+                # --- KOLOM 1: PUSAT DATA (TOTAL & DELTA) ---
                 with cols[0]:
                     with st.container(border=True):
                         st.write("📈 **TOTAL**")
                         st.metric(
                             label="Hari Ini", 
                             value=f"{total_today}", 
-                            delta=f"{selisih} vs Kemarin"
+                            delta=f"{selisih} vs Kemarin",
+                            delta_color="normal" if selisih >= 0 else "inverse"
                         )
 
-                # KOLOM 2, 3, 4: TOP STAFF
+                # --- KOLOM 2, 3, 4: TOP STAFF ---
                 for i in range(3):
                     with cols[i+1]:
                         with st.container(border=True):
                             if i < len(top_staff):
                                 nama = top_staff.iloc[i]['NAMA']
                                 jumlah = top_staff.iloc[i]['JUMLAH']
+                                
                                 st.write(f"👤 **RANK {i+1}**")
                                 st.subheader(nama)
                                 st.write(f"**{jumlah}** Akun")
                             else:
+                                # Tampilan jika staff belum ada/kurang dari 3
                                 st.write(f"👤 **RANK {i+1}**")
                                 st.subheader("-")
-                                st.caption("No data")
+                                st.caption("Belum ada data")
 
+            # Spasi bawah biar nggak nempel ke tabel
             st.markdown("<br>", unsafe_allow_html=True)
             
             # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
