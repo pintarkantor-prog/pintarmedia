@@ -110,73 +110,51 @@ def tampilkan_database_channel():
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
             # ==============================================================================
-            # MONITORING PRODUKTIVITAS: 4 KOLOM DALAM EXPANDER (FIXED VERSION)
+            # RENDER DASHBOARD UI: GAYA METRIC TOTAL & STAFF (CLEAN)
             # ==============================================================================
             
-            # 1. SETTING WAKTU & TANGGAL (Wajib di atas)
+            # --- 1. Persiapan Data ---
             nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
-            
-            # Import timedelta di sini biar aman dari UnboundLocalError
             from datetime import timedelta
             kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
-            # Rakit Tanggal Cantik Indonesia
-            bulan_indooo = {
-                1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni",
-                7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"
-            }
-            tgl_cantik = f"{nowww.day:02d} {bulan_indooo[nowww.month]} {nowww.year}"
-            
-            # 2. LOGIKA HITUNG DATA (DATABASE)
-            # Filter data hari ini dan kemarin
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
             df_yesterday = df[df['TANGGAL'].astype(str).str.contains(kemarin_filter, na=False)]
             
             total_today = len(df_today)
-            total_yesterday = len(df_yesterday)
-            selisih = total_today - total_yesterday
+            selisih = total_today - len(df_yesterday)
             
-            # Rekap Top 3 Staff
+            # Rekap Staff Hari Ini
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
-            top_staff = rekap_pencatat.head(3)
 
-            # 3. RENDER UI EXPANDER
-            with st.expander(f"📊 REPORT INPUT HARIAN ({total_today} AKUN) - {tgl_cantik}", expanded=True):
+            # --- 2. Render UI (Satu Baris Lurus) ---
+            with st.container(border=True):
+                # Kita pake 6 kolom biar pas (1 Total + 5 Space Staff)
+                cols = st.columns([1.2, 1, 1, 1, 1, 1])
                 
-                # Bikin layout 4 kolom
-                cols = st.columns(4)
-
-                # --- KOLOM 1: PUSAT DATA (TOTAL & DELTA) ---
-                with cols[0]:
-                    with st.container(border=True):
-                        st.write("📈 **TOTAL**")
-                        st.metric(
-                            label="Hari Ini", 
-                            value=f"{total_today}", 
-                            delta=f"{selisih} vs Kemarin",
-                            delta_color="normal" if selisih >= 0 else "inverse"
+                # KOLOM 1: TOTAL INPUT HARI INI
+                cols[0].metric(
+                    label="📈 TOTAL HARI INI", 
+                    value=f"{total_today}", 
+                    delta=f"{selisih} vs Kemarin"
+                )
+                
+                # KOLOM 2 s/d 6: NAMA STAFF & INPUTNYA
+                # Looping otomatis sesuai jumlah staff yang input hari ini
+                for i in range(len(rekap_pencatat)):
+                    if i < 5: # Batasin maksimal 5 staff biar gak overflow ke samping
+                        nama_staff = rekap_pencatat.iloc[i]['NAMA']
+                        jml_staff = rekap_pencatat.iloc[i]['JUMLAH']
+                        
+                        # Render langsung: Nama Staff sebagai Label, Jumlah sebagai Value
+                        cols[i+1].metric(
+                            label=f"👤 {nama_staff.upper()}", 
+                            value=f"{jml_staff}",
+                            delta="Akun"
                         )
 
-                # --- KOLOM 2, 3, 4: TOP STAFF ---
-                for i in range(3):
-                    with cols[i+1]:
-                        with st.container(border=True):
-                            if i < len(top_staff):
-                                nama = top_staff.iloc[i]['NAMA']
-                                jumlah = top_staff.iloc[i]['JUMLAH']
-                                
-                                st.write(f"👤 **RANK {i+1}**")
-                                st.subheader(nama)
-                                st.write(f"**{jumlah}** Akun")
-                            else:
-                                # Tampilan jika staff belum ada/kurang dari 3
-                                st.write(f"👤 **RANK {i+1}**")
-                                st.subheader("-")
-                                st.caption("Belum ada data")
-
-            # Spasi bawah biar nggak nempel ke tabel
             st.markdown("<br>", unsafe_allow_html=True)
             
             # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
