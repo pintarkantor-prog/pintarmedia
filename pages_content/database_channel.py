@@ -110,7 +110,7 @@ def tampilkan_database_channel():
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
             # ==============================================================================
-            # RENDER DASHBOARD UI: GAYA METRIC TOTAL & STAFF (CLEAN)
+            # REPORT HARIAN: EXPANDER LUAR -> CONTAINER DALAM (4 KOLOM)
             # ==============================================================================
             
             # --- 1. Persiapan Data ---
@@ -129,31 +129,39 @@ def tampilkan_database_channel():
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
 
-            # --- 2. Render UI (Satu Baris Lurus) ---
-            with st.container(border=True):
-                # Kita pake 6 kolom biar pas (1 Total + 5 Space Staff)
-                cols = st.columns([1.2, 1, 1, 1, 1, 1])
+            # --- 2. Render UI (Expander Duluan) ---
+            # Expanded=False biar pas buka web gak menuh-menuhin layar
+            with st.expander(f"📊 REKAP INPUT HARIAN ({total_today} AKUN)", expanded=False):
                 
-                # KOLOM 1: TOTAL INPUT HARI INI
-                cols[0].metric(
-                    label="📈 TOTAL HARI INI", 
-                    value=f"{total_today}", 
-                    delta=f"{selisih} vs Kemarin"
-                )
+                # Bikin 4 Kolom di dalem expander
+                cols = st.columns(4)
                 
-                # KOLOM 2 s/d 6: NAMA STAFF & INPUTNYA
-                # Looping otomatis sesuai jumlah staff yang input hari ini
-                for i in range(len(rekap_pencatat)):
-                    if i < 5: # Batasin maksimal 5 staff biar gak overflow ke samping
-                        nama_staff = rekap_pencatat.iloc[i]['NAMA']
-                        jml_staff = rekap_pencatat.iloc[i]['JUMLAH']
-                        
-                        # Render langsung: Nama Staff sebagai Label, Jumlah sebagai Value
-                        cols[i+1].metric(
-                            label=f"👤 {nama_staff.upper()}", 
-                            value=f"{jml_staff}",
-                            delta="Akun"
+                # KOLOM 1: TOTAL (Dibungkus Container)
+                with cols[0]:
+                    with st.container(border=True):
+                        st.metric(
+                            label="📈 TOTAL HARI INI", 
+                            value=f"{total_today}", 
+                            delta=f"{selisih} vs Kemarin"
                         )
+                
+                # KOLOM 2, 3, 4: STAFF (Dibungkus Container Masing-masing)
+                for i in range(3):
+                    with cols[i+1]:
+                        if i < len(rekap_pencatat):
+                            nama_staff = rekap_pencatat.iloc[i]['NAMA']
+                            jml_staff = rekap_pencatat.iloc[i]['JUMLAH']
+                            
+                            # Bikin kotak border buat tiap staff
+                            with st.container(border=True):
+                                st.metric(
+                                    label=f"👤 {nama_staff.upper()}", 
+                                    value=f"{jml_staff}",
+                                    delta="Akun Terinput"
+                                )
+                        else:
+                            # Biar kolom kosong tetep sejajar/gak jomplang
+                            st.write("") 
 
             st.markdown("<br>", unsafe_allow_html=True)
             
