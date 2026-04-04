@@ -55,14 +55,14 @@ def tampilkan_area_staf():
         "UPLOADER": {
             "judul": "UPLOADER", "ikon": "📲",
             "rutinitas": [
-                "Upload konten harian sesuai jadwal.",
+                "Upload tepat waktu sesuai jadwal yang tersedia",
                 "Hapus file video yang sudah di Upload ( termasuk di folder sampah ).",
                 "Koordinasi dengan Admin terkait stok video di HP.",
                 "Isi daya setiap HP ( Jangan sampai lowbat ).",
                 "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala ( 2 hari sekali )."
             ],
             "sop": [
-                "Upload tepat waktu sesuai jadwal yang tersedia.",
+                "**DILARANG** menautkan wifi kantor ke HP kerja.",
                 "Judul & Deskripsi mengikuti WA Kerja, atau isi manual pada konten-konten tertentu.",
                 "Pilih thumbnail yang jelas! utamakan kejadian atau fokus ke karakter.",
                 "Sebelum upload, wajib tonton video Youtube orang lain beberapa detik.",
