@@ -433,7 +433,7 @@ def tampilkan_area_staf():
                 # --- POIN REQUEST DIAN ---
                 st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby *(umur channel pengganti minimal 4 hari)*.")
                 st.write("- Memastikan channel standby selalu update statusnya (siap/digunakan).")
-                st.write("- Update dan rekap database HP (Hapus sesi login lama agar aman).")
+                st.write("- Update jadwal harian untuk uploader setiap sore.")
                 st.write("- Update stok video di masing-masing HP secara berkala.")
                 st.write("- Memastikan seluruh kegiatan kantor berjalan efektif tanpa hambatan teknis.")
 
