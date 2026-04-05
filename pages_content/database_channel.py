@@ -345,19 +345,19 @@ def tampilkan_database_channel():
             
                 with c1:
                     st.write("📱 **HP 1 - 24**")
-                    st.markdown("##### :blue[3 Channel/HP]") # Pake H5 biar pas ukurannya
+                    st.markdown("##### :green[3 Channel /hp]") # Pake H5 biar pas ukurannya
 
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### HP 1 - 3 | 9 - 10 | 17 - 18")
+                    st.markdown("##### :pink[HP 1 - 3 | 9 - 10 | 17 - 18]")
 
                 with c3:
                     st.write("🕌 **KONTEN MASJID AI**")
-                    st.markdown("##### HP 4 - 8 | 11 - 16 | 19 - 24 ")
+                    st.markdown("##### :orange[HP 4 - 8 | 11 - 16 | 19 - 24]")
 
                 with c4:
                     st.write("🚀 **KONTEN XXX**")
-                    st.markdown("##### HP XXX ")
+                    st.markdown("##### :violet[HP XXX]")
 
             # Filter data PROSES
             df_p = df[df['STATUS'] == 'PROSES'].copy()
