@@ -566,27 +566,49 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL ---
+            # --- B. EDIT MANUAL JADWAL (VERSI FIX DIAN) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
-                kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
-                edited_j = st.data_editor(
+                kolom_edit = ["ID", "HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]
+                
+                # Kita pakai data_editor dengan key khusus
+                edited_df = st.data_editor(
                     df_j_sorted[kolom_edit],
                     column_config={
-                        "HP": st.column_config.TextColumn("📱 HP", width=50, disabled=True),
-                        "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250, disabled=True),
+                        "ID": None, # Sembunyikan ID tapi tetap ada di data
+                        "HP": st.column_config.TextColumn("📱 HP", disabled=True),
+                        "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", disabled=True),
                         "PAGI": st.column_config.TextColumn("🌅 PAGI"),
                         "SIANG": st.column_config.TextColumn("☀️ SIANG"),
                         "SORE": st.column_config.TextColumn("🌆 SORE"),
-                        "ID": None
                     },
-                    use_container_width=True, hide_index=True, key="editor_v4_final"
+                    use_container_width=True,
+                    hide_index=True,
+                    key="editor_manual_sultan"
                 )
-                if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True):
+
+                if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True, type="primary"):
                     try:
-                        data_save = [{"id": r['ID'], "PAGI": r['PAGI'], "SIANG": r['SIANG'], "SORE": r['SORE']} for _, r in edited_j.iterrows()]
-                        database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
-                        st.cache_data.clear(); st.rerun()
-                    except Exception as e: st.error(f"Gagal simpan: {e}")
+                        # Ambil data yang sudah diedit di layar
+                        # Karena kita pakai upsert, kita kirim semua baris yang tampil
+                        data_save = []
+                        for _, row in edited_df.iterrows():
+                            data_save.append({
+                                "id": row['ID'],
+                                "PAGI": str(row['PAGI']) if row['PAGI'] else "",
+                                "SIANG": str(row['SIANG']) if row['SIANG'] else "",
+                                "SORE": str(row['SORE']) if row['SORE'] else "",
+                                "EDITED": f"Manual: {user_aktif}"
+                            })
+
+                        if data_save:
+                            with st.spinner("Menyimpan ke Supabase..."):
+                                database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
+                                st.success("✅ Perubahan Manual Berhasil Disimpan!")
+                                st.cache_data.clear() # Bersihkan cache biar Web Monitor langsung update
+                                time.sleep(1)
+                                st.rerun()
+                    except Exception as e:
+                        st.error(f"Gagal simpan: {e}")
 
             st.divider()
 
