@@ -566,15 +566,18 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL (VERSI FIX DIAN) ---
+            # --- B. EDIT MANUAL JADWAL (VERSI ANTI-GAGAL DIAN) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
+                # 1. Siapkan kolom yang mau diedit
                 kolom_edit = ["ID", "HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]
-                
-                # Kita pakai data_editor dengan key khusus
-                edited_df = st.data_editor(
-                    df_j_sorted[kolom_edit],
+                df_untuk_edit = df_j_sorted[kolom_edit].copy()
+
+                # 2. Tampilkan Editor dengan Key yang STABIL
+                # Gunakan on_change untuk memastikan data terserap ke state
+                edited_data = st.data_editor(
+                    df_untuk_edit,
                     column_config={
-                        "ID": None, # Sembunyikan ID tapi tetap ada di data
+                        "ID": None, # Sembunyikan ID
                         "HP": st.column_config.TextColumn("📱 HP", disabled=True),
                         "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", disabled=True),
                         "PAGI": st.column_config.TextColumn("🌅 PAGI"),
@@ -583,32 +586,40 @@ def tampilkan_database_channel():
                     },
                     use_container_width=True,
                     hide_index=True,
-                    key="editor_manual_sultan"
+                    key="editor_sultan_final" # KEY HARUS TETAP INI
                 )
 
+                # 3. Tombol Simpan
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True, type="primary"):
                     try:
-                        # Ambil data yang sudah diedit di layar
-                        # Karena kita pakai upsert, kita kirim semua baris yang tampil
-                        data_save = []
-                        for _, row in edited_df.iterrows():
-                            data_save.append({
+                        # Kita ambil data LANGSUNG dari variabel 'edited_data' yang dihasilkan st.data_editor
+                        updates = []
+                        
+                        # Looping hasil editan
+                        for index, row in edited_data.iterrows():
+                            updates.append({
                                 "id": row['ID'],
-                                "PAGI": str(row['PAGI']) if row['PAGI'] else "",
-                                "SIANG": str(row['SIANG']) if row['SIANG'] else "",
-                                "SORE": str(row['SORE']) if row['SORE'] else "",
+                                "PAGI": str(row['PAGI']).strip() if row['PAGI'] else "EMPTY",
+                                "SIANG": str(row['SIANG']).strip() if row['SIANG'] else "EMPTY",
+                                "SORE": str(row['SORE']).strip() if row['SORE'] else "EMPTY",
                                 "EDITED": f"Manual: {user_aktif}"
                             })
-
-                        if data_save:
-                            with st.spinner("Menyimpan perubahan jadwal..."):
-                                database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
-                                st.success("✅ Perubahan Manual Berhasil Disimpan!")
-                                st.cache_data.clear() # Bersihkan cache biar Web Monitor langsung update
+                        
+                        if updates:
+                            with st.status("Menyimpan ke Database...", expanded=True) as status:
+                                # Kirim ke Supabase
+                                database.supabase.table("Channel_Pintar").upsert(updates, on_conflict="id").execute()
+                                
+                                # BERSIHKAN SEMUA CACHE BIAR MONITOR BAYANGAN UPDATE
+                                st.cache_data.clear()
+                                status.update(label="✅ Berhasil Disimpan!", state="complete", expanded=False)
+                                
+                                # Kasih jeda dikit biar server Supabase napas
                                 time.sleep(1)
                                 st.rerun()
+                                
                     except Exception as e:
-                        st.error(f"Gagal simpan: {e}")
+                        st.error(f"❌ Gagal Simpan: {e}")
 
             st.divider()
 
