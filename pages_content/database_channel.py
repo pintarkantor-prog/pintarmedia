@@ -344,20 +344,20 @@ def tampilkan_database_channel():
                 c1, c2, c3, c4 = st.columns(4)
             
                 with c1:
-                    st.write("📱 **HP 1 - 3**")
-                    st.markdown("##### 3 Channel") # Pake H5 biar pas ukurannya
+                    st.write("📱 **HP 1 - 24**")
+                    st.markdown("##### 3 Channel/HP") # Pake H5 biar pas ukurannya
 
                 with c2:
-                    st.write("📱 **HP 4 - 23**")
-                    st.markdown("##### 3 Channel")
+                    st.write("🌸 **KONTEN SAKURA**")
+                    st.markdown("##### HP 1 - 3 | 9 - 10 | 17 - 18")
 
                 with c3:
-                    st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### HP 1-3 | 9-10 | 17-18")
+                    st.write("🕌 **KONTEN MASJID AI**")
+                    st.markdown("##### HP 4 - 8 | 11 - 16 | 19 - 24 ")
 
                 with c4:
-                    st.write("🕌 **KONTEN MASJID AI**")
-                    st.markdown("##### HP 4-8 | 11-16 | 19-24 ")
+                    st.write("🕌 **KONTEN XXX**")
+                    st.markdown("##### HP XXX ")
 
             # Filter data PROSES
             df_p = df[df['STATUS'] == 'PROSES'].copy()
