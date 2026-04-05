@@ -352,11 +352,11 @@ def tampilkan_database_channel():
                     st.markdown("##### 3 Channel")
 
                 with c3:
-                    st.write("🌸 ** KONTEN SAKURA**")
+                    st.write("🌸 **KONTEN SAKURA**")
                     st.markdown("##### HP 1-3 | 9-10 | 17-18")
 
                 with c4:
-                    st.write("🕌 ** KONTEN MASJID AI**")
+                    st.write("🕌 **KONTEN MASJID AI**")
                     st.markdown("##### HP 4-8 | 11-16 | 19-24 ")
 
             # Filter data PROSES
