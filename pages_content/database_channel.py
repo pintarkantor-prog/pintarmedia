@@ -350,7 +350,7 @@ def tampilkan_database_channel():
 
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### :blue[HP 1 - 3] :gray[|] :blue[9 - 10] :gray[|] :violet[17 - 18]")
+                    st.markdown("##### :blue[HP 1 - 3] :gray[|] :blue[9 - 10] :gray[|] :blue[17 - 18]")
 
                 with c3:
                     st.write("🕌 **KONTEN MASJID AI**")
