@@ -345,7 +345,7 @@ def tampilkan_database_channel():
             
                 with c1:
                     st.write("📱 **HP 1 - 24**")
-                    st.markdown("##### 3 Channel/HP") # Pake H5 biar pas ukurannya
+                    st.markdown("##### :blue[3 Channel/HP]") # Pake H5 biar pas ukurannya
 
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
