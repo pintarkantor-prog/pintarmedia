@@ -291,7 +291,7 @@ def tampilkan_database_channel():
                                             target_hp = "1"
                                             for h in range(1, 101):
                                                 count_sekarang = hp_counts.get(str(h), 0)
-                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23] else 4
+                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] else 4
                                                 if count_sekarang < max_slot:
                                                     target_hp = str(h)
                                                     break
@@ -491,11 +491,11 @@ def tampilkan_database_channel():
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
             # --- DEFINISI KELOMPOK TIM ---
-            list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 11]
-            list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 12 <= h <= 23]
+            list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 12]
+            list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 13 <= h <= 24]
             kelompok_tim = [
-                {"nama": "INGGI (HP 1-11)", "list": list_hp_tim1},
-                {"nama": "LISA (HP 12-23)", "list": list_hp_tim2}
+                {"nama": "INGGI (HP 1-12)", "list": list_hp_tim1},
+                {"nama": "LISA (HP 13-24)", "list": list_hp_tim2}
             ]
 
             # --- A. GENERATOR JADWAL (AUTO-ESTAFET SILET) ---
