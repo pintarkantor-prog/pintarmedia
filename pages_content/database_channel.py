@@ -616,10 +616,14 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- 3. MONITORING VIEW (TETAP SAMA) ---
+            # --- 3. MONITORING VIEW (VERSI BERSIH ANTI-EMPTY) ---
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
+            
+            # Kita bikin tampilan monitor yang bersih dari tulisan EMPTY
+            df_monitor = df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]].replace("EMPTY", "")
+            
             st.dataframe(
-                df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]], 
+                df_monitor, 
                 column_config={
                     "HP": st.column_config.TextColumn("📱 HP", width=50),
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250),
