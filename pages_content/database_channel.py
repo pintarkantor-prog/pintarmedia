@@ -559,13 +559,16 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- PERUBAHAN 3: EDIT MANUAL JADWAL (Logika Anti-Gagal) ---
+            # --- PERUBAHAN 3: EDIT MANUAL JADWAL (Logika Anti-Gagal & Anti-EMPTY) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
-                editor_key = "editor_manual_sultan_v4" # KEY WAJIB ADA
+                editor_key = "editor_manual_sultan_v4" 
+
+                # 1. TAMPILAN BERSIH: Hapus tulisan EMPTY di layar
+                df_editor_view = df_j_sorted[kolom_edit].replace("EMPTY", "")
 
                 edited_df = st.data_editor(
-                    df_j_sorted[kolom_edit],
+                    df_editor_view,
                     column_config={
                         "HP": st.column_config.TextColumn("📱 HP", disabled=True),
                         "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", disabled=True),
@@ -579,22 +582,28 @@ def tampilkan_database_channel():
                 
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True, type="primary"):
                     if editor_key in st.session_state:
-                        # Ambil hanya baris yang diedit biar enteng
                         edits = st.session_state[editor_key].get("edited_rows", {})
                         if not edits:
-                            st.warning("Nggak ada data yang lo ubah, Dian.")
+                            st.warning("Belum ada data yang dirubah.")
                         else:
                             try:
                                 data_save = []
                                 for row_idx, changes in edits.items():
                                     orig = df_j_sorted.iloc[int(row_idx)]
+                                    
+                                    # 2. LOGIKA BALIKIN KE DB: Kalau kosong, kirim "EMPTY"
+                                    p_val = changes.get("PAGI", orig['PAGI'])
+                                    s_val = changes.get("SIANG", orig['SIANG'])
+                                    o_val = changes.get("SORE", orig['SORE'])
+
                                     data_save.append({
                                         "id": orig['ID'],
-                                        "PAGI": changes.get("PAGI", orig['PAGI']),
-                                        "SIANG": changes.get("SIANG", orig['SIANG']),
-                                        "SORE": changes.get("SORE", orig['SORE']),
+                                        "PAGI": p_val if p_val and str(p_val).strip() != "" else "EMPTY",
+                                        "SIANG": s_val if s_val and str(s_val).strip() != "" else "EMPTY",
+                                        "SORE": o_val if o_val and str(o_val).strip() != "" else "EMPTY",
                                         "EDITED": f"Manual: {user_aktif}"
                                     })
+
                                 if data_save:
                                     database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
                                     st.success(f"✅ Berhasil Simpan {len(data_save)} Baris!")
