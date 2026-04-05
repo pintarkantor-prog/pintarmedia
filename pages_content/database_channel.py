@@ -601,7 +601,7 @@ def tampilkan_database_channel():
                             })
 
                         if data_save:
-                            with st.spinner("Menyimpan ke Supabase..."):
+                            with st.spinner("Menyimpan perubahan jadwal..."):
                                 database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
                                 st.success("✅ Perubahan Manual Berhasil Disimpan!")
                                 st.cache_data.clear() # Bersihkan cache biar Web Monitor langsung update
