@@ -566,18 +566,17 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL (VERSI ANTI-GAGAL DIAN) ---
+            # --- B. EDIT MANUAL JADWAL (JURUS TERAKHIR ANTI-GAGAL) ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
-                # 1. Siapkan kolom yang mau diedit
-                kolom_edit = ["ID", "HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]
-                df_untuk_edit = df_j_sorted[kolom_edit].copy()
-
-                # 2. Tampilkan Editor dengan Key yang STABIL
-                # Gunakan on_change untuk memastikan data terserap ke state
-                edited_data = st.data_editor(
-                    df_untuk_edit,
+                kolom_tampil = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
+                
+                # 1. Tampilkan Editor
+                # Key ini penting banget buat nangkep isi yang berubah
+                editor_key = "editor_sultan_v4"
+                st.data_editor(
+                    df_j_sorted[kolom_tampil],
                     column_config={
-                        "ID": None, # Sembunyikan ID
+                        "ID": None,
                         "HP": st.column_config.TextColumn("📱 HP", disabled=True),
                         "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", disabled=True),
                         "PAGI": st.column_config.TextColumn("🌅 PAGI"),
@@ -586,40 +585,47 @@ def tampilkan_database_channel():
                     },
                     use_container_width=True,
                     hide_index=True,
-                    key="editor_sultan_final" # KEY HARUS TETAP INI
+                    key=editor_key
                 )
 
-                # 3. Tombol Simpan
+                # 2. Tombol Simpan dengan Logika State Manual
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True, type="primary"):
-                    try:
-                        # Kita ambil data LANGSUNG dari variabel 'edited_data' yang dihasilkan st.data_editor
-                        updates = []
+                    # Cek apakah ada perubahan di state editor
+                    if editor_key in st.session_state:
+                        # Ambil daftar baris yang diedit saja
+                        edits = st.session_state[editor_key].get("edited_rows", {})
                         
-                        # Looping hasil editan
-                        for index, row in edited_data.iterrows():
-                            updates.append({
-                                "id": row['ID'],
-                                "PAGI": str(row['PAGI']).strip() if row['PAGI'] else "EMPTY",
-                                "SIANG": str(row['SIANG']).strip() if row['SIANG'] else "EMPTY",
-                                "SORE": str(row['SORE']).strip() if row['SORE'] else "EMPTY",
-                                "EDITED": f"Manual: {user_aktif}"
-                            })
-                        
-                        if updates:
-                            with st.status("Menyimpan ke Database...", expanded=True) as status:
-                                # Kirim ke Supabase
-                                database.supabase.table("Channel_Pintar").upsert(updates, on_conflict="id").execute()
-                                
-                                # BERSIHKAN SEMUA CACHE BIAR MONITOR BAYANGAN UPDATE
-                                st.cache_data.clear()
-                                status.update(label="✅ Berhasil Disimpan!", state="complete", expanded=False)
-                                
-                                # Kasih jeda dikit biar server Supabase napas
-                                time.sleep(1)
-                                st.rerun()
-                                
-                    except Exception as e:
-                        st.error(f"❌ Gagal Simpan: {e}")
+                        if not edits:
+                            st.warning("Nggak ada data yang lo ubah, Dian. Coba ketik dulu di tabelnya!")
+                        else:
+                            try:
+                                data_update = []
+                                # Kita cocokin index yang diedit sama ID aslinya
+                                for row_idx, changes in edits.items():
+                                    # Ambil ID asli berdasarkan urutan baris yang tampil
+                                    original_row = df_j_sorted.iloc[int(row_idx)]
+                                    
+                                    # Bangun data update (ambil data lama, timpa sama yang baru diubah)
+                                    payload = {
+                                        "id": original_row['ID'],
+                                        "PAGI": changes.get("PAGI", original_row['PAGI']),
+                                        "SIANG": changes.get("SIANG", original_row['SIANG']),
+                                        "SORE": changes.get("SORE", original_row['SORE']),
+                                        "EDITED": f"Manual Fix: {user_aktif}"
+                                    }
+                                    data_update.append(payload)
+
+                                if data_update:
+                                    database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
+                                    st.success(f"✅ {len(data_update)} Baris Berhasil Diupdate!")
+                                    st.cache_data.clear() # Biar monitor bayangan langsung sadar
+                                    import time
+                                    time.sleep(1)
+                                    st.rerun()
+                            except Exception as e:
+                                st.error(f"Gagal Simpan: {e}")
+                    else:
+                        st.error("Sistem editor belum siap. Coba klik tabelnya dulu.")
 
             st.divider()
 
