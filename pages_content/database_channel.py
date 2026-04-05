@@ -608,8 +608,7 @@ def tampilkan_database_channel():
                                     database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
                                     st.success(f"✅ Berhasil Simpan {len(data_save)} Baris!")
                                     st.cache_data.clear()
-                                    import time as tm_lib
-                                    tm_lib.sleep(1)
+                                    time.sleep(1)
                                     st.rerun()
                             except Exception as e:
                                 st.error(f"Gagal: {e}")
