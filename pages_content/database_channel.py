@@ -356,7 +356,7 @@ def tampilkan_database_channel():
                     st.markdown("##### HP 4 - 8 | 11 - 16 | 19 - 24 ")
 
                 with c4:
-                    st.write("🕌 **KONTEN XXX**")
+                    st.write("🚀 **KONTEN XXX**")
                     st.markdown("##### HP XXX ")
 
             # Filter data PROSES
@@ -528,9 +528,9 @@ def tampilkan_database_channel():
                             # Kita proses per Tim (Tim 1: HP 1-11, Tim 2: HP 12-23)
                             for tim_idx in [1, 2]:
                                 if tim_idx == 1:
-                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 11].copy()
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 12].copy()
                                 else:
-                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 12].copy()
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 13].copy()
                                 
                                 if df_tim.empty: continue
 
