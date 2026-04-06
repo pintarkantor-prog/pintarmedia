@@ -223,9 +223,8 @@ def tampilkan_database_channel():
             if df_st.empty:
                 st.info("Belum ada stok standby.")
             else:
-                # Penomoran visual
+                df_st = df_st.sort_values(by='ID', ascending=False)
                 df_st['NO'] = range(1, len(df_st) + 1)
-                # REAL_IDX tetep ada buat navigasi visual lo
                 df_st['REAL_IDX'] = df_st.index 
                 df_st['SUBSCRIBE'] = df_st['SUBSCRIBE'].astype(str)
 
