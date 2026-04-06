@@ -30,11 +30,16 @@ def ambil_data(nama_tabel):
             res = query.order("Waktu", desc=True).limit(200).execute()
         
         else:
-            # ==========================================================
-            # KUNCINYA DI SINI: Tambahkan .range(0, 10000) 
-            # Ini perintah buat jebol limit default 1000 Supabase.
-            # ==========================================================
-            res = query.limit(5000).execute()
+            # Panggil Truk 1 (0-1000)
+            res1 = query.range(0, 1000).execute()
+            data_total = res1.data
+            
+            # Panggil Truk 2 (1001-2000)
+            res2 = query.range(1001, 2000).execute()
+            if res2.data:
+                data_total.extend(res2.data)
+                
+            df = pd.DataFrame(data_total)
             
         df = pd.DataFrame(res.data)    
         if not df.empty:
