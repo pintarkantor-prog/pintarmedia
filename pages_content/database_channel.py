@@ -218,7 +218,7 @@ def tampilkan_database_channel():
                                 st.error("⚠️ Email dan Nama Channel wajib diisi!")
                                 
             # --- 5. GRID EDITOR STANDBY ---
-            df_st = df_temp[df_temp['STATUS_FIX'] == 'STANDBY'].copy()
+            df_st = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'].copy()
             if df_st.empty:
                 st.info("Belum ada stok standby.")
             else:
