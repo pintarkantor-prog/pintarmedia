@@ -19,40 +19,41 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
-@st.cache_data(ttl=60)
+@st.cache_data(ttl=1)
 def ambil_data(nama_tabel):
-    """Ambil data: Log dilimit 200, sisanya AMBIL SEMUA (Bypass Limit 1000)."""
+    """Ambil data: Paksa panggil dua kali biar tembus limit 1000 Supabase."""
     try:
-        # 1. Mulai Query
         query = supabase.table(nama_tabel).select("*")
         
         if nama_tabel == "Log_Aktivitas":
-            res = query.order("Waktu", desc=True).limit(200).execute()
-        
+            # Truk tunggal buat Log (200 data cukup)
+            res_log = query.order("Waktu", desc=True).limit(200).execute()
+            data_final = res_log.data
         else:
-            # Panggil Truk 1 (0-1000)
+            # --- TRUK 1 (0-1000) ---
             res1 = query.range(0, 1000).execute()
-            data_total = res1.data
+            data_final = res1.data if res1.data else []
             
-            # Panggil Truk 2 (1001-2000)
-            res2 = query.range(1001, 2000).execute()
-            if res2.data:
-                data_total.extend(res2.data)
-                
-            df = pd.DataFrame(data_total)
-            
-        df = pd.DataFrame(res.data)    
+            # --- TRUK 2 (1001-2000) ---
+            # Kita panggil lagi buat ambil sisanya (35 data lo ada di sini)
+            try:
+                res2 = query.range(1001, 2000).execute()
+                if res2.data:
+                    data_final.extend(res2.data)
+            except:
+                pass # Kalau data gak sampe 1000, truk 2 abaikan aja
+
+        # SEKARANG KITA PAKE data_final, BUKAN res.data LAGI
+        df = pd.DataFrame(data_final)    
+        
         if not df.empty:
             df.columns = [str(c).strip().upper() for c in df.columns]
-            # Pastikan kolom ID jadi integer/numeric dulu sebelum di-string-kan
-            # Biar sorting ID di app.py nanti gak ngaco
             if 'ID' in df.columns:
                 df['ID'] = pd.to_numeric(df['ID'], errors='coerce')
 
             df = df.fillna("") 
             df = df.astype(str)
-            # Bersihin lagi biar gak ada kata 'nan' atau '.0' sisa float
-            df = df.replace(["None", "nan", "NaN", "<NA>", "nan.0"], "")
+            df = df.replace(["NONE", "NAN", "NAN.0", "<NA>"], "")
             return df
             
         return pd.DataFrame()
