@@ -19,7 +19,7 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 # 2. FUNGSI AMBIL DATA (MESIN UTAMA - NO CACHE)
 # ==============================================================================
-@st.cache_data(ttl=1)
+@st.cache_data(ttl=60)
 def ambil_data(nama_tabel):
     """Ambil data: Paksa panggil dua kali biar tembus limit 1000 Supabase."""
     try:
