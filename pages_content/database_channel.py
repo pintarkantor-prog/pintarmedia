@@ -977,22 +977,22 @@ def tampilkan_database_channel():
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # --- 3. DATABASE ARSIP (LOGIKA SORTING SAKTI) ---
+            # --- 3. DATABASE ARSIP (LOGIKA SORTING ID - ANTI GAGAL) ---
             st.markdown("##### 📂 DAFTAR AKUN ARSIP")
             if df_a.empty:
                 st.success("✨ Arsip masih kosong!")
             else:
-                # CRITICAL: Urutkan dulu pakai EDITED asli (biasanya format timestamp) 
-                # sebelum kolomnya di-rename atau diubah isinya.
-                df_a = df_a.sort_values(by='EDITED', ascending=False)
+                # KUNCINYA DI SINI: Urutkan berdasarkan ID secara Descending (Besar ke Kecil)
+                # Karena ID paling besar = Data yang paling baru masuk/diedit di database.
+                df_a = df_a.sort_values(by='ID', ascending=False)
                 
-                # Baru setelah urut, kita buat kolom tampilan untuk user
+                # Kolom pajangan tetap ambil dari EDITED
                 df_a['TGL_KEJADIAN'] = df_a['EDITED']
             
                 # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
                 config_arsip = {
-                    "ID": None, 
-                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=170, disabled=True),
+                    "ID": None, # Sembunyikan ID agar tabel bersih
+                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=180, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
                     "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
@@ -1013,7 +1013,7 @@ def tampilkan_database_channel():
                     use_container_width=True, 
                     hide_index=True, 
                     column_config=config_arsip, 
-                    key="grid_arsip_daur_ulang_v3"
+                    key="grid_arsip_daur_ulang_v4" # Key gue bedain biar gak tabrakan cache
                 )
                 
                 # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
