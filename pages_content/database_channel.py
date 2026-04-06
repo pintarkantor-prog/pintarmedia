@@ -977,18 +977,19 @@ def tampilkan_database_channel():
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # --- 3. DATABASE ARSIP (FULL EDITABLE & ID ANCHOR) ---
+            # --- 3. DATABASE ARSIP (FULL EDITABLE & SORTING TERBARU) ---
             st.markdown("##### 📂 DAFTAR AKUN ARSIP")
             if df_a.empty:
                 st.success("✨ Arsip masih kosong!")
             else:
+                # --- URUTKAN BERDASARKAN EDITED TERBARU ---
+                df_a = df_a.sort_values(by='EDITED', ascending=False)
                 df_a['TGL_KEJADIAN'] = df_a['EDITED']
-                df_a = df_a.sort_values(by=['TGL_KEJADIAN'], ascending=False)
             
                 # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
                 config_arsip = {
                     "ID": None, # SEMBUNYIIN KTP ASLI
-                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=150, disabled=True),
+                    "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=170, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
                     "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150), 
@@ -1012,7 +1013,7 @@ def tampilkan_database_channel():
                     column_config=config_arsip, 
                     key="grid_arsip_daur_ulang_v3"
                 )
-
+                
                 # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
                 if not edited_a.equals(df_a[kolom_tampil_a]):
                     if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
