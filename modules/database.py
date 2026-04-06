@@ -21,24 +21,33 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 @st.cache_data(ttl=60)
 def ambil_data(nama_tabel):
-    """Ambil data: Log dilimit 200 baris, sisanya (Channel/Kas) ambil SEMUA."""
+    """Ambil data: Log dilimit 200, sisanya AMBIL SEMUA (Bypass Limit 1000)."""
     try:
+        # 1. Mulai Query
         query = supabase.table(nama_tabel).select("*")
         
         if nama_tabel == "Log_Aktivitas":
-            # Ambil 200 BARIS data terbaru, bukan detik ya Boss!
             res = query.order("Waktu", desc=True).limit(200).execute()
         
         else:
-            # Buat Channel_Pintar, Arus_Kas, dll: Ambil SEMUA baris biar akurat
-            res = query.execute()
+            # ==========================================================
+            # KUNCINYA DI SINI: Tambahkan .range(0, 10000) 
+            # Ini perintah buat jebol limit default 1000 Supabase.
+            # ==========================================================
+            res = query.range(0, 10000).execute()
             
         df = pd.DataFrame(res.data)    
         if not df.empty:
             df.columns = [str(c).strip().upper() for c in df.columns]
+            # Pastikan kolom ID jadi integer/numeric dulu sebelum di-string-kan
+            # Biar sorting ID di app.py nanti gak ngaco
+            if 'ID' in df.columns:
+                df['ID'] = pd.to_numeric(df['ID'], errors='coerce')
+
             df = df.fillna("") 
             df = df.astype(str)
-            df = df.replace(["None", "nan", "NaN", "<NA>"], "")
+            # Bersihin lagi biar gak ada kata 'nan' atau '.0' sisa float
+            df = df.replace(["None", "nan", "NaN", "<NA>", "nan.0"], "")
             return df
             
         return pd.DataFrame()
@@ -61,14 +70,22 @@ def load_data_hp():
 def simpan_perubahan_channel(data_batch):
     try:
         if data_batch:
-            with st.spinner("Mengirim data ke pusat..."): # Opsional: tambah spinner
+            with st.spinner("Mengirim data ke pusat..."):
+                # Kita tetep pake EMAIL sebagai jangkar (On Conflict)
+                # Biar kalau emailnya sama, dia otomatis UPDATE bukan INSERT
                 supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="EMAIL").execute()
+                
+                # Clear Cache biar angka 395 tadi langsung update jadi 1035+
                 st.cache_data.clear()
-                st.toast("✅ Data Berhasil Disinkron!", icon="🚀") # Tambahan biar mantap
+                st.toast("✅ Sinkronisasi Berhasil!", icon="🚀")
                 return True
         return False
     except Exception as e:
-        st.error(f"Gagal Simpan: {e}")
+        # Jika email duplikat tapi ID beda, Supabase bakal nolak dan masuk ke sini
+        if "duplicate key" in str(e).lower():
+            st.error("⚠️ Gagal: Email sudah terdaftar!")
+        else:
+            st.error(f"❌ Gagal Simpan: {e}")
         return False
 
 def tambah_log(user, aksi):
