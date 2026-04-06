@@ -977,18 +977,21 @@ def tampilkan_database_channel():
 
             st.markdown("<br>", unsafe_allow_html=True)
 
-            # --- 3. DATABASE ARSIP (FULL EDITABLE & SORTING TERBARU) ---
+            # --- 3. DATABASE ARSIP (LOGIKA SORTING SAKTI) ---
             st.markdown("##### 📂 DAFTAR AKUN ARSIP")
             if df_a.empty:
                 st.success("✨ Arsip masih kosong!")
             else:
-                # --- URUTKAN BERDASARKAN EDITED TERBARU ---
+                # CRITICAL: Urutkan dulu pakai EDITED asli (biasanya format timestamp) 
+                # sebelum kolomnya di-rename atau diubah isinya.
                 df_a = df_a.sort_values(by='EDITED', ascending=False)
+                
+                # Baru setelah urut, kita buat kolom tampilan untuk user
                 df_a['TGL_KEJADIAN'] = df_a['EDITED']
             
                 # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
                 config_arsip = {
-                    "ID": None, # SEMBUNYIIN KTP ASLI
+                    "ID": None, 
                     "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=170, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
                     "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
@@ -1003,7 +1006,6 @@ def tampilkan_database_channel():
                     )
                 }
             
-                # Tambahkan ID ke dalam list kolom yang ditarik
                 kolom_tampil_a = ["TGL_KEJADIAN", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]
 
                 edited_a = st.data_editor(
