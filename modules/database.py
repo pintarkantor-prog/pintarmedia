@@ -34,7 +34,7 @@ def ambil_data(nama_tabel):
             # KUNCINYA DI SINI: Tambahkan .range(0, 10000) 
             # Ini perintah buat jebol limit default 1000 Supabase.
             # ==========================================================
-            res = query.range(0, 10000).execute()
+            res = query.limit(5000).execute()
             
         df = pd.DataFrame(res.data)    
         if not df.empty:
