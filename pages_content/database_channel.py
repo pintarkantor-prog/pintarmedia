@@ -74,11 +74,8 @@ def tampilkan_database_channel():
     with tab_st: # Sesuaikan nama variabel tab di atas
         if level_aktif in ["OWNER", "ADMIN", "STAFF"]:
             # --- 1. LOGIKA HITUNG DATA (Real-time) ---
-            df_temp = df.copy()
-            df_temp['STATUS_FIX'] = df_temp['STATUS'].astype(str).str.strip().upper()
-            total_st = len(df_temp[df_temp['STATUS_FIX'] == 'STANDBY'])
-            total_pr = len(df_temp[df_temp['STATUS_FIX'] == 'PROSES'])
-        
+            total_st = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'])
+            total_pr = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'])
             # Hitung HP Aktif (Cek kolom HP yang tidak kosong)
             hp_aktif = len(df[df['HP'].notna() & (df['HP'].astype(str).str.strip() != "")]['HP'].unique())
         
