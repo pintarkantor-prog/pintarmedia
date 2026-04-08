@@ -257,7 +257,7 @@ def tampilkan_kendali_tim():
                                 "Gaji_Pokok": str(int(t_gapok)), 
                                 "Tunjangan": str(int(t_tunjangan)), 
                                 "Password": t_pass,
-                                "Level": u_lv.strip().upper()
+                                "Level": t_level.strip().upper()
                             }).execute()
                             # Clear cache biar data baru langsung nongol
                             st.cache_data.clear()
