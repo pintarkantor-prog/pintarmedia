@@ -629,6 +629,7 @@ def tampilkan_area_staf():
             "lisa": "Salisatu Rohmatus Saodah",
             "icha": "Nissa Pangestuningrum",
             "inggi": "Rizki Retno Inggiani",
+            "hani": "Nur Hanifah",
             "dian": "Dian Setya Wardana"
         }
         
@@ -923,7 +924,7 @@ def tampilkan_area_staf():
             # 1. Data Retrieval
             res_all = supabase.table("kontrak_staff").select("username").eq("periode", periode_skrg).execute()
             sudah_ttd = [x['username'].lower() for x in res_all.data]
-            staf_wajib = ["nissa", "lisa", "icha", "inggi"]
+            staf_wajib = ["nissa", "lisa", "icha", "inggi", "hani"]
             belum_ttd = [s for s in staf_wajib if s not in sudah_ttd]
             
             # 2. Stats Summary
