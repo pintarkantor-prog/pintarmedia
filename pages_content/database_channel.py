@@ -77,7 +77,8 @@ def tampilkan_database_channel():
             total_st = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'])
             total_pr = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'])
             # Hitung HP Aktif (Cek kolom HP yang tidak kosong)
-            hp_aktif = len(df[df['HP'].notna() & (df['HP'].astype(str).str.strip() != "")]['HP'].unique())
+            df_proses = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES']
+            hp_aktif = len(df_proses[df_proses['HP'].notna() & (df_proses['HP'].astype(str).str.strip() != "")]['HP'].unique())
         
             # --- LOGIKA STATUS VITAL ---
             selisih_vital = total_st - (total_pr + 10)
