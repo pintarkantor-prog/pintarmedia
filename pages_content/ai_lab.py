@@ -1518,10 +1518,12 @@ def tampilkan_halaman():
             
             scene_context = (
                 f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW PHOTO. NO TEXT, NO SUBTITLES. "
-                f"LIGHTING: 4 PM late afternoon soft overcast sky, no harsh sun. "
-                f"CONTRAST: Intense glowing LED light contrast against dark cloudy sky. "
+                # --- UPDATE LIGHTING: THE SOULFUL RIM LIGHT (SOLUSI 3) ---
+                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. The air is clear but non-glaring, creating a delicate warm rim light that outlines the character's silhouette and the model without any harsh brightness. "
+                # --- UPDATE CONTRAST: DRAMATIC BUT GENTLE ---
+                f"CONTRAST: Rich, deep contrast where the mosque's LED lights create an intense glowing focal point, making the humble recycled materials look surprisingly beautiful and moving. "
                 f"CAMERA: Close-up 1 meter, strictly STATIC camera, locked tripod, perfectly level eye-level. "
-                f"DEEP FOCUS: F/16 Aperture, CRYSTAL CLEAR from foreground to background."
+                f"DEEP FOCUS: F/16 Aperture, CRYSTAL CLEAR from mosque to background, zero blur."
             )
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
@@ -1547,20 +1549,30 @@ def tampilkan_halaman():
             else:
                 audio_emotion = "MANDATORY AUDIO: Natural, steady breathing and calm pacing."
 
-            # --- FINAL ASSEMBLY ---
+            # --- FINAL ASSEMBLY (FIXED: SYAHDU & EMOTIONAL SYNC) ---
             final_ai_prompt = (
-                f"{scene_context} \n\n"
+                f"{scene_context} \n\n" # Ini manggil Lighting Golden Rim Light lo yang baru
+                
                 f"CHARACTER DNA: {soul_desc}. {ANATOMY_LOCK} {MANDATORY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
                 f"ENVIRONMENT: {env_detail}. \n"
-                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. \n" 
-                f"THE MASTERPIECE: {deskripsi_teknis}. \n"
-                f"AUDIO STYLE: {logat_final}. \n"
-                f"EMOTIONAL DELIVERY: {audio_emotion} \n"
-                f"DIALOG CONTEXT: '{user_dialog}' \n\n"
+                
+                # Fokus ke interaksi tangan ke miniatur & raut wajah
+                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. Focus on the interaction between hands and miniature. \n" 
+                f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
+                
+                # --- AUDIO ENGINE: KUNCI BIAR SUARA GAK FLAT ---
+                f"AUDIO CONFIGURATION: \n"
+                f"- Primary Accent: {logat_final} \n"
+                f"- Emotional Layer: {audio_emotion} \n"
+                f"- Dialog Content: '{user_dialog}' \n"
+                f"- Delivery Instruction: Use deep pauses and natural breath sounds to convey profound sincerity. \n\n"
+                
                 f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture. Static locked camera. "
-                f"VISUAL: Ultra-sharp 8K, zero motion blur. "
-                f"NEGATIVE PROMPT: thunderstorm, rain, blurry, bokeh, shaky, chair, table, watermark, text."
+                f"VISUAL QUALITY: Ultra-sharp 8K, cinematic high-contrast, zero motion blur, realistic textures. \n"
+                
+                f"NEGATIVE PROMPT: thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
+                f"blurry, bokeh, shaky, chair, table, watermark, text, subtitles, captions."
             )
 
             # --- 7. TAMPILKAN HASIL ---
