@@ -248,6 +248,7 @@ def tampilkan_halaman():
                     "The colossal main dome is made of translucent pale-jade melon flesh, filled with a 'Starlight Mint' internal lighting scheme—thousands of micro-fiber optic points that twinkle like a distant galaxy. "
                     "The minarets are smooth, polished rinds with a soft, steady turquoise glow emanating from the window slits. "
                     "The overall lighting is soft, ethereal, and diffused, making the mosque appear like a glowing emerald sanctuary in a quiet, twilight atmosphere."
+                ),
                 "Buah Naga": (
                     "A monumental 1-meter mosque object built from the vibrant anatomy of Dragonfruit. "
                     "The walls are covered in overlapping magenta rind scales with lime-green tips, creating a futuristic 'organic armor' look. "
