@@ -99,38 +99,34 @@ def tampilkan_halaman():
                 "Prominent blue veins on her temples. An almost ethereal presence of quiet heartbreak. "
                 "No smoothing, 100% realistic tired face, looking deeply tired and exhausted."
             ),
-            "Kakek (The Wise)": (
-                "A very elderly Indonesian man in his late 70s with a fragile but dignified look. "
-                "His face is a landscape of deep, sagging wrinkles, heavy eye bags, and prominent age spots. "
-                "Paper-thin, weathered skin with visible pores and fine veins. " # Kulit setipis kertas
-                "Thin white hair and a sparse, long white beard that adds to his ancient wisdom look. " # Jenggot putih tipis
-                "Deeply recessed eyes that look tired but peaceful. "
-                "Authentic elderly skin texture, raw and unpolished, no smoothing filters."
+            "Kakek Sableng": (
+                "A distinguished elderly Indonesian man in his late 70s with a sharp, noble facial structure. "
+                "High, prominent forehead with deep horizontal wisdom lines. His nose is straight and firm. "
+                "The skin is like old leather, showing deep sun-damage, fine silver-white stubble on a strong jawline. "
+                "Eyes are sharp but kind, with heavy lids and dark, realistic eye bags. "
+                "Thin silver hair neatly combed back. No filters, strictly raw aged masculinity."
             ),
-            "Kakek Wiryo (The Artisan)": (
-                "A sturdy elderly Indonesian man in his 60s with a tough, hardworking physique. "
-                "He has sun-darkened, leathery skin with deep creases on his forehead and around his mouth. " # Kulit leathery (seperti kulit samak)
-                "Large, strong hands with thick knuckles, prominent veins, and rough skin texture. " # Tangan kuat khas pekerja
-                "Short, thick salt-and-pepper hair and a neat white mustache. " # Kumis putih rapi
-                "A focused, sharp, and resilient expression. "
-                "Realistic skin details showing sweat and authentic grit. Masterpiece realism."
+            "Kakek Sinto": (
+                "An extremely aged Javanese man, appearing over 85 years old and very frail. "
+                "His face is deeply sunken, showing significant muscle loss and a skeletal bone structure. "
+                "Skin is paper-thin and translucent, covered in thousands of fine cross-hatched wrinkles and dark liver spots. "
+                "Hollowed cheeks and temples. His eyes are cloudy with cataracts, looking tired and distant. "
+                "A thin, wispy white beard and moustache. A profoundly vulnerable and heartbreaking elderly presence."
             ),
-            "Kakek Joyo (The Farmer)": (
-                "A warm and friendly Indonesian grandfather in his 60s with a constant gentle smile. "
-                "His eyes are bright and twinkling behind deep laugh lines (crow's feet). " # Mata berbinar
-                "Healthy, warm-toned elderly skin with natural aging marks and a kind, fatherly glow. "
-                "Full, soft white hair and a clean-shaven, approachable face. "
-                "His expression is one of pure contentment, 'syahdu', and spiritual peace. "
-                "Natural young-at-heart elderly look, 100% realistic skin textures without filters."
+            "Kakek Wiryo": (
+                "A sturdy, square-faced elderly man in his 60s with a rugged, leathery complexion. "
+                "Broad nose and a very strong, thick jawline. His skin is deeply tanned and rough, with large visible pores and sweat-beads. "
+                "Deep nasolabial folds and thick, calloused-looking skin on the neck. "
+                "Short, messy salt-and-pepper hair. His expression is focused and resilient, showing a lifetime of physical labor. "
+                "Raw, unpolished cinematic details focusing on grit and muscle definition."
             ),
-            "Kakek Usman (The Silent)": (
-                "An elderly Indonesian grandfather in his late 60s, visibly heartbroken and deeply saddened. "
-                "His face is contorted in grief, with tears streaming down his heavily wrinkled cheeks and jawline. " # Air mata mengalir, keriput bengkak
-                "His eyes are red, swollen from crying, half-closed, and glistening with glistening moisture. " # Mata merah, bengkak, glistening
-                "A trembling lip, quivering chin, and a deeply furrowed brow expressing profound sorrow and despair. " # Bibir gemetar, dagu bergetar, alis berkerut sedih
-                "Thin white hair and a disheveled white beard, adding to his fragile and neglected appearance. " # Rambut/jenggot acak-acakan, ringkih
-                "Authentic elderly skin texture with a healthy, unprocessed look, showing natural pores and age lines. No smooth filters." # Tekstur kulit muda fresh
-                "A profoundly vulnerable, heartbreaking, and raw emotional presence."
+            "Kakek Usman": (
+                "An elderly grandfather with a small, narrow face contorted in deep grief. "
+                "His most striking feature is his reddened, swollen eyes, glistening with heavy moisture and tears. "
+                "The skin around his eyes and cheeks is puffy and inflamed from crying. "
+                "Deeply furrowed brow and a trembling, quivering lower lip. "
+                "Thin, disheveled white hair and a sparse beard. The look of a man who has lost everything. "
+                "100% emotional realism, haunting and raw."
             )
         }
 
@@ -154,62 +150,70 @@ def tampilkan_halaman():
                 "Kebaya Kutu Baru Polos & Selendang ": "Wearing a very plain, dyed cotton Kutu Baru kebaya in a deep forest green, fastened with a large rusted brooch. A long, frayed 'Slendang' batik cloth is draped diagonally across her chest and shoulder, over her simple white hijab."
             },
             "Nenek Dulah": {
-                "Daster Floral & Bergo Kaos": "Wearing a bright but faded floral-patterned Sundanese-style daster with a soft, well-washed instant jersey bergo hijab that looks comfortable for daily house chores.",
-                "Kebaya Bordir Katun & Sarung": "Wearing a simple, humble cotton kebaya with subtle embroidery (bordir) on the edges, paired with a faded floral sarong and a thin cotton scarf loosely draped as a hijab.",
-                "Setelan Celana Kaos & Jilbab Instan": "Wearing a modest long-sleeved cotton pajama set with small floral motifs, paired with a simple daily instant jersey hijab in a soft, matching pastel color.",
-                "Daster Kancing Depan & Bergo Tali": "Wearing a practical front-buttoned cotton daster in a light color, paired with a simple instant bergo hijab that has ties at the back, perfect for an elderly grandmother's daily look.",
-                "Tunik Katun & Sarung Batik": "Wearing a loose, breathable cotton tunic shirt paired with a faded West Javanese batik sarong and a simple daily instant hijab tied neatly under the chin.",
-                "Daster Lowo Floral & Kerudung Lilit": "Wearing a wide 'bat-wing' (lowo) daster with a vibrant but aged floral print, complemented by a thin pashmina-style cotton scarf wrapped simply and loosely around her head."
+                "Daster Kaos Bertekstur & Handuk Kecil": "Wearing a thick, oversized daily cotton-jersey daster in a faded mustard yellow with tiny pilling textures. A small, well-worn blue hand towel is draped around her neck, tucked into a simple grey instant jersey hijab that shows realistic fabric weight.",
+                "Kebaya Nenek Motif Garis & Sarung": "Wearing a very simple, old-fashioned short-sleeved cotton kebaya with thin vertical stripes (motif garis), fastened by a single large silver safety pin. Paired with a dark, mud-stained batik sarong and a thin cotton scarf wrapped tightly around her head.",
+                "Kaos Kerah Lengan Panjang & Celana Batik": "Wearing a modest long-sleeved polo shirt in a faded sage green color with a slightly stretched collar. Paired with loose, comfortable batik-patterned cotton trousers and a practical white instant hijab that looks soft and well-washed.",
+                "Daster Rayon Kancing & Kerudung Bawal": "Wearing a loose, front-buttoned rayon daster in a dark floral print that has a limp and heavily wrinkled texture. Complemented by a simple square cotton 'bawal' hijab folded into a triangle and tied loosely under her chin, showing a traditional village look.",
+                "Tunik Katun Oxford & Sarung Lawasan": "Wearing a sturdy but aged long-sleeved tunic made of thick Oxford cotton in a faded sky blue. Paired with a weathered, yellowish-faded 'Lawasan' batik sarong and a simple black jersey hijab that covers her chest.",
+                "Baju Kurung Katun Kasar & Jilbab Slup": "Wearing a humble, loose-fitting baju kurung made of raw, unbleached cotton (katun kasar) in off-white. The fabric shows natural husks and textures. Paired with a practical dark brown 'slup' instant hijab for a quiet, grandmotherly home-stay vibe."
             },
             "Nenek Sartini": {
-                "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
-                "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
-                "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
-                "Kaos Tunik & Sarung Pelikat": "Wearing a long-sleeved cotton tunic shirt paired with a faded cotton sarong and a simple bawal hijab loosely draped over her head, showing a relaxed home-stay vibe.",
-                "Baju Kurung Moden & Bergo Tali": "Wearing a very simple daily Baju Kurung Moden made of breathable rayon fabric, paired with a simple instant bergo hijab that has ties at the back for comfort.",
-                "Kebaya Labuh & Hijab Slup": "Wearing a modest, long-length daily Kebaya Labuh made of lightweight cotton, paired with a faded floral sarong and a practical instant jersey hijab for a neat grandmotherly look."
+                "Baju Kurung Teluk Belanga Usang": "Wearing an old-school, faded Baju Kurung Teluk Belanga made of stiff, weathered cotton in a muted mustard color. The neckline shows minor fraying. Paired with a dark, hand-woven songket sarong that has lost its gold-glitter and a simple white cotton bawal hijab pinned tightly.",
+                "Kebaya Labuh Brokat Berudul": "Wearing a long, modest Kebaya Labuh made of old-fashioned heavy brocade fabric that is visibly 'berudul' (pilling and fuzzy). The fabric is a dusty lavender color, paired with a faded floral sarong and a thin georgette scarf wrapped loosely around her head.",
+                "Tunik Viskosa Kusut & Hijab Bergo": "Wearing a long-sleeved tunic made of limp, heavily wrinkled viscose fabric in a dark forest green. The fabric has a slight oily sheen. Paired with a simple, well-worn grey jersey bergo hijab and a thick cotton sarong wrapped at the waist.",
+                "Baju Kurung Pesak Motif Tabur": "Wearing a classic loose Baju Kurung Pesak with a small 'motif tabur' (scattered floral) pattern that has almost faded away. Made of soft, thin cotton. Complemented by a practical black instant hijab that shows a matte, dusty texture.",
+                "Kaos Haji Panjang & Kain Panjang Lilit": "Wearing a modest long-sleeved white cotton Kaos Haji (undershirt) showing yellowish sweat stains around the collar. Paired with a dark-toned kain panjang lilit and a simple, breathable white instant hijab pinned under the chin.",
+                "Daster Kaos Melayu & Kerudung Bawal Slup": "Wearing a very loose long-sleeved cotton-jersey daster with traditional bold patterns in faded maroon. Paired with a square 'bawal' hijab that is already stitched under the chin (slup style), made of stiff, semi-transparent voile fabric."
             },
             "Nenek Tinah": {
-                "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
-                "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
-                "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
-                "Kaos Tunik & Sarung Pelikat": "Wearing a long-sleeved cotton tunic shirt paired with a faded cotton sarong and a simple bawal hijab loosely draped over her head, showing a relaxed home-stay vibe.",
-                "Baju Kurung Moden & Bergo Tali": "Wearing a very simple daily Baju Kurung Moden made of breathable rayon fabric, paired with a simple instant bergo hijab that has ties at the back for comfort.",
-                "Kebaya Labuh & Hijab Slup": "Wearing a modest, long-length daily Kebaya Labuh made of lightweight cotton, paired with a faded floral sarong and a practical instant jersey hijab for a neat grandmotherly look."
+                "Baju Kurung Tulang Belut & Sarung Pudar": "Wearing an old-school Baju Kurung with 'Tulang Belut' stitching around the neck, made of thin, faded cotton in a dusty teal color. The fabric is so worn it looks slightly shiny at the seams. Paired with a red-toned batik sarong that has almost lost its pattern from years of washing.",
+                "Kaos Lengan Panjang Melar & Jilbab Slup": "Wearing an oversized, stretched-out (melar) long-sleeved cotton t-shirt in a faded cream color with a small, cracked graphic print on the chest. Paired with a simple black 'slup' instant hijab and a dark-colored daily sarong tied loosely at her waist.",
+                "Kebaya Labuh Katun Kasar & Kain Lilit": "Wearing a long-length, modest Kebaya Labuh made of thick but soft raw cotton (katun kasar) in a muted mustard shade. The fabric shows a prominent weave texture. Paired with a thin cotton scarf wrapped twice around her head as a simple, rustic village hijab.",
+                "Tunik Rayon Floral & Bergo Kaos": "Wearing a limp, heavily wrinkled rayon tunic with a blurry floral motif in faded purple. The material hangs loosely on her fragile body. Paired with a well-worn grey instant bergo hijab that has a small, faded watermark on the side.",
+                "Baju Kurung Pesak & Selendang Batik": "Wearing a classic, wide-fitting Baju Kurung Pesak in a solid, dusty olive color. Instead of a modern hijab, a long, thin batik 'selendang' is wrapped meticulously around her head and pinned under the chin in an old-fashioned way.",
+                "Daster Kaos & Jaket Kardigan Tua": "Wearing a daily cotton daster, layered with an old, pilling knitted cardigan in a faded charcoal color. The cardigan has one missing button. Paired with a simple white jersey hijab tucked inside the cardigan, looking very humble and realistic."
             },
             "Nenek Wati": {
-                "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
-                "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
-                "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
-                "Kaos Tunik & Sarung Pelikat": "Wearing a long-sleeved cotton tunic shirt paired with a faded cotton sarong and a simple bawal hijab loosely draped over her head, showing a relaxed home-stay vibe.",
-                "Baju Kurung Moden & Bergo Tali": "Wearing a very simple daily Baju Kurung Moden made of breathable rayon fabric, paired with a simple instant bergo hijab that has ties at the back for comfort.",
-                "Kebaya Labuh & Hijab Slup": "Wearing a modest, long-length daily Kebaya Labuh made of lightweight cotton, paired with a faded floral sarong and a practical instant jersey hijab for a neat grandmotherly look."
+                "Daster Kaos & Celemek Kain Usang": "Wearing a thick cotton-jersey daster in a faded brick-red color, covered by a handmade waist apron (celemek) made from a recycled flour sack with faded blue markings. The daster shows heavy pilling and realistic fabric folds at the lap.",
+                "Kaos Polo Pudar & Sarung Kotak": "Wearing a modest long-sleeved polo shirt in a deeply faded charcoal color with a frayed collar. Paired with a thick, traditional checked 'sarung pelikat' in dark green and a simple grey instant jersey hijab that covers her shoulders.",
+                "Kebaya Nenek Motif Polkadot & Handuk Kecil": "Wearing a very old-fashioned short-sleeved cotton kebaya with a faded white polkadot pattern on a navy base, fastened by a rusty gold brooch. A small, well-worn white hand towel is draped over her shoulder, paired with a thin cotton hijab.",
+                "Tunik Katun Oxford & Kerudung Ikat": "Wearing a sturdy but heavily wrinkled long-sleeved tunic made of thick Oxford cotton in a faded olive green. Instead of an instant hijab, she wears a square cotton scarf wrapped and tied haphazardly behind her neck, showing a very authentic rural home look.",
+                "Baju Kurung Rayon & Jilbab Slup": "Wearing a limp, semi-translucent baju kurung made of old rayon fabric in a blurry floral print. The fabric has visible snags and a slight oily sheen from age. Paired with a simple black 'slup' instant hijab that looks soft and well-washed.",
+                "Kaos Haji & Rompi Katun Tua": "Wearing a classic white 'Kaos Haji' (long-sleeved undershirt) with a visible small pocket, layered with a thin, faded tan cotton vest. Paired with a dark-brown batik sarong and a simple, breathable white instant hijab pinned tightly under her chin."
             },
 
             # --- KELOMPOK KAKEK ---
-            "Kakek (The Wise)": {
-                "Kaos Putih & Peci Hitam": "Wearing a simple plain white cotton t-shirt with a classic black velvet Peci (songkok) on his head for a humble daily look.",
-                "Baju Koko Abu & Peci": "Wearing a daily light grey Baju Koko with subtle embroidery on the chest and a neat black Peci on his head.",
-                "Kaos Abu & Sarung Putih": "Wearing a comfortable charcoal grey long-sleeved t-shirt paired with a white patterned sarong wrapped around his waist.",
-                "Kemeja Putih & Peci": "Wearing an old, well-worn short-sleeved white button-down shirt and a classic black Peci, looking dignified and fatherly."
+            "Kakek Sableng": {
+                "Kemeja Batik Sogan & Peci": "Wearing an old, long-sleeved batik shirt with a faded brown Sogan pattern, looking stiff and weathered. Paired with a classic black velvet Peci that shows signs of dust, and a dark sarong tied high.",
+                "Baju Koko Putih & Sajadah Bahu": "Wearing a humble white cotton Baju Koko with subtle embroidery, fabric showing grayish discoloration from age. A thin green prayer mat is draped over his left shoulder, paired with a black Peci.",
+                "Jas Tua (Vintage) & Sarung": "Wearing an oversized, dusty dark vintage blazer over a plain white undershirt. The sleeves are slightly too long for his thin arms, paired with a faded checked sarong, looking dignified but lonely.",
+                "Kaos Haji & Sorban Sampir": "Wearing a classic white 'Kaos Haji' with a small front pocket. A long, thin white turban (sorban) is loosely draped over his shoulders. Paired with a dark-toned sarong, looking very spiritual and elderly.",
+                "Tunik Katun & Celana Komprang": "Wearing a modest, loose-fitting long-sleeved cotton tunic in faded tan. Paired with traditional black loose trousers (komprang) and a weathered sarong slung over his shoulder.",
+                "Baju Kurung Lelaki & Peci Putih": "Wearing a very simple, loose-fitting Malay-style Baju Kurung in a faded olive color. Paired with a simple white prayer cap (kupluk) and a dark batik sarong, looking fatherly."
             },
-            "Kakek Wiryo (The Artisan)": {
-                "Kaos Putih & Peci Hitam": "Wearing a simple plain white cotton t-shirt with a classic black velvet Peci (songkok) on his head for a humble daily look.",
-                "Baju Koko Abu & Peci": "Wearing a daily light grey Baju Koko with subtle embroidery on the chest and a neat black Peci on his head.",
-                "Kaos Abu & Sarung Putih": "Wearing a comfortable charcoal grey long-sleeved t-shirt paired with a white patterned sarong wrapped around his waist.",
-                "Kemeja Putih & Peci": "Wearing an old, well-worn short-sleeved white button-down shirt and a classic black Peci, looking dignified and fatherly."
+            "Kakek Sinto": {
+                "Kaos Singlet Kuning & Sarung": "Wearing a thin, yellowed-white ribbed singlet (singlet swan) that shows his fragile collarbones and bony shoulders. Paired with a soft, extremely faded 'Lawasan' batik sarong wrapped high around his chest.",
+                "Kaos Haji & Kupluk Putih": "Wearing a grayish, well-worn white 'Kaos Haji' showing pilling textures. Paired with a thin white knitted prayer cap (kupluk) and a simple brown sarong that looks too large for his shrunken frame.",
+                "Kemeja Katun Tipis & Peci Miring": "Wearing a very thin, short-sleeved cotton shirt in faded beige with one button missing. A weathered black Peci is perched slightly tilted on his head, showing a weary and fragile village look.",
+                "Sarung Sampir & Dada Terbuka": "He is shirtless but has an old, faded batik cloth draped over his thin shoulders like a shawl. Paired with a weathered sarong tied with a simple piece of plastic string at the waist.",
+                "Baju Lurik Usang & Caping": "Wearing an old, dark-striped 'Lurik' jacket with frayed cuffs. He holds a traditional straw 'caping' hat. The fabric looks rough and heavy on his thin body, paired with a faded dark sarong.",
+                "Kaos Panjang Melar & Sarung Pelikat": "Wearing a charcoal grey long-sleeved t-shirt with a stretched-out (melar) collar. Paired with a patterned 'sarung pelikat' in muted blue and green checks that looks dusty and worn-out."
             },
-            "Kakek Joyo (The Farmer)": {
-                "Kaos Putih & Peci Hitam": "Wearing a simple plain white cotton t-shirt with a classic black velvet Peci (songkok) on his head for a humble daily look.",
-                "Baju Koko Abu & Peci": "Wearing a daily light grey Baju Koko with subtle embroidery on the chest and a neat black Peci on his head.",
-                "Kaos Abu & Sarung Putih": "Wearing a comfortable charcoal grey long-sleeved t-shirt paired with a white patterned sarong wrapped around his waist.",
-                "Kemeja Putih & Peci": "Wearing an old, well-worn short-sleeved white button-down shirt and a classic black Peci, looking dignified and fatherly."
+            "Kakek Wiryo": {
+                "Kaos Oblong Abu & Handuk Leher": "Wearing a sweat-stained charcoal grey cotton t-shirt with visible pilling. A small, frayed red-and-white checkered towel is draped around his neck. Paired with a thick, dark-colored sarong.",
+                "Kemeja Flanel & Sarung Wadimor": "Wearing a rugged, short-sleeved plaid flannnel shirt in faded red and black checks. Paired with a patterned 'Wadimor' daily sarong in dark blue tied tightly at his waist, looking resilient.",
+                "Baju Koko Putih & Peci Hitam": "Wearing a sturdy but stained white Baju Koko showing grease marks from work. Paired with a classic black Peci and a dark checked sarong, showing the look of a hardworking grandfather.",
+                "Kaos Kerah & Jaket Parka Tua": "Wearing a faded navy polo shirt layered with an old, thin vintage parka jacket in olive green. The jacket shows realistic salt-stains and creases, paired with a sturdy dark sarong.",
+                "Kemeja Safari & Peci Haji": "Wearing a short-sleeved khaki safari shirt with multiple pockets, looking very old-school. Paired with a simple white prayer cap and a patterned sarong in muted brown tones.",
+                "Kaos Putih & Sarung Gajah Duduk": "Wearing a simple plain white cotton t-shirt that looks thin and grayish. Paired with a classic 'Gajah Duduk' checked sarong in muted green and orange tied traditionally at the waist."
             },
-            "Kakek Usman (The Silent)": {
-                "Kaos Putih & Peci Hitam": "Wearing a simple plain white cotton t-shirt with a classic black velvet Peci (songkok) on his head for a humble daily look.",
-                "Baju Koko Abu & Peci": "Wearing a daily light grey Baju Koko with subtle embroidery on the chest and a neat black Peci on his head.",
-                "Kaos Abu & Sarung Putih": "Wearing a comfortable charcoal grey long-sleeved t-shirt paired with a white patterned sarong wrapped around his waist.",
-                "Kemeja Putih & Peci": "Wearing an old, well-worn short-sleeved white button-down shirt and a classic black Peci, looking dignified and fatherly."
+            "Kakek Usman": {
+                "Baju Koko Biru & Peci Berdebu": "Wearing a heavily wrinkled, dark blue Baju Koko made of soft rayon fabric. His black Peci looks dusty and misshapen. Paired with a dark-toned sarong that looks disheveled and untidy.",
+                "Kemeja Cokelat & Tasbih Kayu": "Wearing a plain, faded brown cotton shirt with two missing buttons. He holds a string of dark wooden prayer beads (tasbih) in his trembling hands. Paired with a weathered, dark-grey sarong.",
+                "Kaos Panjang Putih & Jilbab Sampir": "Wearing a grayish, well-worn white long-sleeved t-shirt. A faded batik cloth is draped over his head and shoulders like a makeshift shawl, emphasizing his deep vulnerability and grief.",
+                "Tunik Katun Kusut & Sarung Pudar": "Wearing a long-sleeved cotton tunic in a faded charcoal color that hangs loosely. Paired with an extremely faded, soft batik sarong that has lost its pattern, looking very poor and sad.",
+                "Daster Kaos & Jaket Rajut Tua": "Wearing a simple daily cotton daster (unisex home wear), layered with an old, pilling knitted cardigan in a faded charcoal color. Paired with a simple white Peci, looking very humble and lonely.",
+                "Kaos Oblong Putih & Sarung Melintir": "Wearing a thin, grayish white oblong t-shirt with a stretched collar. His sarong is tied haphazardly and looks twisted (melintir) at the waist. His expression is one of complete despair."
             }
         }
 
