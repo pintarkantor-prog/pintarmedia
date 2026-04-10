@@ -1435,34 +1435,31 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (REWRITTEN: SENSORY & TEXTURE) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                # --- VERSI DESA (SENSORY RURAL) ---
                 "Napas Tua (The Fading Echo): A voice like a dying candle in a large, silent room. It feels weightless and 'hollow', not just shaky, but shivering as if from a deep inner chill. Every word is a struggle to survive, sounding like a faint ghost of a memory.",
                 "Pasrah (The Sacred Ache): A voice that sounds like old, dry parchment rubbing together. There is a 'heavy lump' of swallowed tears in every vowel, making it sound warm but deeply bruised. It carries no ego, just a raw, stripped-back sincerity.",
                 "Getaran Qalbu (The Grainy Prayer): A voice with a 'grainy' and 'dusty' texture, like sand falling on wood. It lacks any smoothness. The words drop one by one, heavy with silence, conveying a soul that has found peace in total emptiness.",
-                # --- VERSI JAWA (DEEP ANCESTRAL) ---
-                "Jawa Nrimo (The Earthy Hum): A low, grounded voice that sounds like it’s coming from deep within the earth. The 'dh' and 'th' aren't just phonetic; they are heavy, rhythmic thuds of a heart that has waited forever. It’s a thick, honey-like slow cadence of absolute patience.",
-                "Jawa Sepuh (The Dried Leaf): A voice as thin and brittle as a dried autumn leaf. It carries a soft, apologetic air, sounding like it’s afraid the mere act of speaking will break the silence. Every pause is a silent prayer, deeply fragile and saint-like.",
-                "Jawa Melas (The Infinite Sigh): A voice dominated by the sound of air, not tone. It sounds like a continuous, weary sigh that has been turned into speech. The words are soft and blurred at the edges, sounding profoundly lonely and pitiable.",
-                # --- VERSI SUNDA (MELODIC MIST) ---
-                "Sunda Mendayu (The Mountain Weep): A melodic rhythm that flows like water through mist. It’s airy and ghost-like, with vowel endings that stretch out like a quiet sob that never quite breaks. It feels weightless, polite, and deeply, deeply sorrowful.",
-                "Sunda Parahyangan (The Whispering Grace): A whispery lilt that feels like a cold breeze at dawn. It’s exceptionally light, almost without a physical body, sounding like a soul that has finished its journey and is now just a soft, grateful vibration in the air."
+                "Jawa Nrimo (The Earthy Hum): A low, grounded voice that sounds like it’s coming from deep within the earth. The 'dh' and 'th' are heavy, rhythmic thuds of a heart that has waited forever. It’s a thick, honey-like slow cadence of absolute patience.",
+                "Jawa Sepuh (The Dried Leaf): A voice as thin and brittle as a dried autumn leaf. It carries a soft, apologetic air, sounding like it’s afraid the mere act of speaking will break the silence. Every pause is a silent prayer, deeply fragile.",
+                "Jawa Melas (The Infinite Sigh): A voice dominated by the sound of air, not tone. It sounds like a continuous, weary sigh that has been turned into speech. The words are soft and blurred at the edges, sounding profoundly lonely.",
+                "Sunda Mendayu (The Mountain Weep): A melodic rhythm that flows like water through mist. It’s airy and ghost-like, with vowel endings that stretch out like a quiet sob that never quite breaks. It feels weightless and deeply sorrowful.",
+                "Sunda Parahyangan (The Whispering Grace): A whispery lilt that feels like a cold breeze at dawn. It’s exceptionally light, without a physical body, sounding like a soul that is now just a soft, grateful vibration in the air."
             ],
             "Mood": [
-                "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience, looking natural and unforced.",
+                "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience.",
                 "Sedih & Lirih: A fragile facial expression, eyes slightly glassy as if holding back tears, with a heavy and tired gaze that deeply moves the viewer's heart.",
-                "Pasrah & Syukur: A deeply submissive and calm look, reflecting total acceptance of a difficult life. The face is serene but weary, showing absolute sincerity and spiritual peace.",
-                "Iba & Berharap: A gentle yet sorrowful expression, with eyes that look upward or toward the diorama with a faint, hopeful glimmer in the middle of deep exhaustion."
+                "Pasrah & Syukur: A deeply submissive and calm look, reflecting total acceptance of a difficult life. The face is serene but weary, showing spiritual peace.",
+                "Iba & Berharap: A gentle yet sorrowful expression, with eyes that look upward with a faint, hopeful glimmer in the middle of deep exhaustion."
             ],
             "Physical Action": [
                 "Menyentuh Bagian Atas/Kubah dengan Lembut: Gently touching the top surface or the dome of the miniature with trembling fingers, then slowly shifting the gaze to look at the camera with a thin, tired, but sincere smile.",
-                "Membelai Sisi Miniatur dengan Tulus: Softly stroking the side walls or the texture of the craft while looking directly into the camera with glistening eyes, as if silently sharing the struggle behind the work.",
+                "Membelai Sisi Miniatur dengan Tulus: Softly stroking the side walls or the texture of the craft while looking directly into the camera with glistening eyes.",
                 "Menatap Khusyuk sambil Memegang Alas: Hands gently supporting or holding the base of the model, looking down with intense focus before slowly looking up to meet the camera's gaze with watery-eyed gratitude.",
-                "Mengusap Debu dari Miniatur: Gently wiping a tiny speck of dust from the miniature's surface with a shaky hand, then looking warmly at the camera with a peaceful and contented expression."
+                "Mengusap Debu dari Miniatur: Gently wiping a tiny speck of dust from the miniature's surface with a shaky hand, then looking warmly at the camera with a peaceful expression."
             ]
         }
+
         # --- UI LAYOUT ---        
         with st.expander("🕌 PINTAR MASJID ENGINE", expanded=True):
-            # --- BARIS 1: MODUS KONTEN (OTAK UTAMA) ---
             st.markdown('<p class="small-label">PILIH MODUS KONTEN</p>', unsafe_allow_html=True)
             modus_konten = st.selectbox("Select Mode", list(MASTER_KONTEN_ALL.keys()), label_visibility="collapsed")
             st.divider()
@@ -1497,72 +1494,60 @@ def tampilkan_halaman():
             c5, c6 = st.columns([2, 1])
             with c5:
                 st.markdown('<p class="small-label">DIALOG (NATURAL INDONESIAN)</p>', unsafe_allow_html=True)
-
-                # 4. TEXT AREA (Kuncinya di parameter 'key')
                 user_dialog = st.text_area(
                     "Input Dialog", 
                     placeholder=f"Tulis dialog {char_key.split(' (')[0]} di sini...",
                     height=250, 
                     label_visibility="collapsed",
-                    key="input_dialog_key" # Ini nyambung ke handle_kocok
+                    key="input_dialog_key"
                 )  
-                # Update state biar sinkron
                 st.session_state.current_dialog = user_dialog
 
             with c6:
                 st.markdown('<p class="small-label">ACTING & PERFORMANCE</p>', unsafe_allow_html=True)
                 pilih_logat = st.selectbox("Pilih Logat", MASTER_AUDIO_STYLE["Logat"])
                 pilih_mood = st.selectbox("Pilih Mood", MASTER_AUDIO_STYLE["Mood"])
-                
-                # --- GANTI DI SINI: Dari random jadi selectbox ---
                 pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"])
 
             st.write("")
-            btn_gen = st.button(
-                "🚀 GENERATE VIDEO PROMPT", 
-                type="primary", 
-                use_container_width=True, 
-                key="btn_generate_video"
-            )
-        # --- LOGIC GENERATOR (TOTAL REBUILD: ULTRA SHARP & CLEAN VISUAL) ---
+            btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
+
+        # --- LOGIC GENERATOR ---
         if btn_gen:
-            # 1. POSISI MATI LESEHAN
             posisi_nenek = "sitting cross-legged on the ground (lesehan)"
             
-            # 2. KUNCI KETAJAMAN & CLEAN STATIC VISUAL (MENDUNG NATURAL)
             scene_context = (
-                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW PHOTO. "
-                f"MANDATORY: NO TEXT, NO SUBTITLES, NO CAPTIONS. "
-                # --- UPDATE LIGHTING: MENDUNG SORE NATURAL ---
-                f"LIGHTING: 4 PM late afternoon with a soft dark-grey overcast sky, subtle thin cloud layers, no harsh sun. "
-                f"CONTRAST: Intense glowing LED light contrast against dark cloudy sky, making the colors pop intensely. " # <-- Kalimat sakti lo!
-                # --- POSITIONING: JARAK 1 METER & URUTAN LURUS ---
-                f"CAMERA DISTANCE: Close-up 1 meter distance from lens to mosque. "
-                f"ALIGNMENT: Strictly symmetrical. Mosque is in foreground center, {posisi_nenek} is directly behind the mosque. "
-                # --- CAMERA: STATIS TOTAL ---
-                f"CAMERA MOVEMENT: Strictly STATIC camera, zero movement, zero shake, zero zoom, zero slide. "
-                f"FIXED AXIS: Perfectly level 0-degree eye level, locked tripod position. "
-                # --- SHARPNESS: ANTI BLUR ---
-                f"DEEP FOCUS: F/16 Aperture, everything from mosque to background is CRYSTAL CLEAR, zero blur, zero bokeh."
+                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW PHOTO. NO TEXT, NO SUBTITLES. "
+                f"LIGHTING: 4 PM late afternoon soft overcast sky, no harsh sun. "
+                f"CONTRAST: Intense glowing LED light contrast against dark cloudy sky. "
+                f"CAMERA: Close-up 1 meter, strictly STATIC camera, locked tripod, perfectly level eye-level. "
+                f"DEEP FOCUS: F/16 Aperture, CRYSTAL CLEAR from foreground to background."
             )
 
-            # 3. AMBIL DATA MASTER
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
             
-            # 4. KUNCI ANATOMI & HIJAB
             ANATOMY_LOCK = "STRICTLY TWO HUMAN HANDS, five fingers each. No ghost limbs."
             MANDATORY_LOCK = "MANDATORY: FULL HIJAB. NO HAIR SHOWING. FULLY COVERED MODEST CLOTHING."
 
-            # --- 4.5 FILTER PEMBERSIH (HANYA AMBIL DALAM KURUNG) ---
-            # Kode ini bakal buang teks Indo dan cuma ambil teks Inggris di dalam kurung
+            # --- FILTER PEMBERSIH ---
             aksi_final = pilih_aksi.split('(')[-1].strip(')') if '(' in pilih_aksi else pilih_aksi
             mood_final = pilih_mood.split('(')[-1].strip(')') if '(' in pilih_mood else pilih_mood
             logat_final = pilih_logat.split('(')[-1].strip(')') if '(' in pilih_logat else pilih_logat
                 
-            # 5. FINAL ASSEMBLY (FIXED: STATIC, SHARP, & MOODY NATURAL)
+            # --- THE MAGIC INJECTION: LINKING MOOD TO AUDIO PERFORMANCE ---
+            if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
+                audio_emotion = "MANDATORY AUDIO: Add a heavy crying undertone, voice cracking on vowels, with long shaky gasps between sentences."
+            elif "Pasrah" in pilih_mood:
+                audio_emotion = "MANDATORY AUDIO: Deliver with extreme low energy, whispery, hollow breath, and profound spiritual surrender."
+            elif "Iba" in pilih_mood or "Berharap" in pilih_mood:
+                audio_emotion = "MANDATORY AUDIO: Shivering voice, rising intonation like a plea, sounding overwhelmed by grace and sorrow."
+            else:
+                audio_emotion = "MANDATORY AUDIO: Natural, steady breathing and calm pacing."
+
+            # --- FINAL ASSEMBLY ---
             final_ai_prompt = (
                 f"{scene_context} \n\n"
                 f"CHARACTER DNA: {soul_desc}. {ANATOMY_LOCK} {MANDATORY_LOCK} \n"
@@ -1570,15 +1555,12 @@ def tampilkan_halaman():
                 f"ENVIRONMENT: {env_detail}. \n"
                 f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. \n" 
                 f"THE MASTERPIECE: {deskripsi_teknis}. \n"
-                f"DIALOG CONTEXT: '{user_dialog}' delivered with {logat_final} accent. \n\n"
-                # --- TECHNICAL: KUNCI STATIS, TAJAM, & ANTI-BADAII ---
-                f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture, Deep Focus. "
-                f"CAMERA LOGIC: Strictly STATIC camera, zero movement, perfectly level 0-degree eye-level angle. " 
-                f"VISUAL: Ultra-sharp 8K, high-contrast colors, zero motion blur, global shutter. "
-                # --- NEGATIVE PROMPT: BUANG SEMUA SAMPAH VISUAL ---
-                f"NEGATIVE PROMPT: thunderstorm, heavy black clouds, storm, rain, " # <-- Anti kiamat
-                f"blurry, bokeh, depth of field, out of focus, shaky, motion blur, " 
-                f"chair, table, furniture, text, watermark, side-view, tilted, distorted."
+                f"AUDIO STYLE: {logat_final}. \n"
+                f"EMOTIONAL DELIVERY: {audio_emotion} \n"
+                f"DIALOG CONTEXT: '{user_dialog}' \n\n"
+                f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture. Static locked camera. "
+                f"VISUAL: Ultra-sharp 8K, zero motion blur. "
+                f"NEGATIVE PROMPT: thunderstorm, rain, blurry, bokeh, shaky, chair, table, watermark, text."
             )
 
             # --- 7. TAMPILKAN HASIL ---
