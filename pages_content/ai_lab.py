@@ -30,7 +30,7 @@ def tampilkan_halaman():
     # --- 3. TABS MENU (Dian's New Menu) ---
     t_masjid_v1, t_masjid_v2, t_roblox, t_minecraft, t_random = st.tabs([
         "🕌 MINIATUR MASJID", 
-        "🕌 MASJID VERSI BARU", 
+        "🎋 MASJID VERSI BARU", 
         "🎮 ROBLOX", 
         "⛏️ MINECRAFT", 
         "🎲 RANDOM"
