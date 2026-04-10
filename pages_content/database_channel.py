@@ -639,30 +639,30 @@ def tampilkan_database_channel():
                     css_print = """
                     <style>
                         @media print {
-                            @page { size: A4 portrait; margin: 1cm; }
-                            body { font-family: Arial, sans-serif; background: white; color: #000; }
+                            @page { size: A4 portrait; margin: 0.8cm; }
+                            body { font-family: 'Segoe UI', Arial, sans-serif; background: white; color: #000; }
                             .print-container { width: 100%; }
                             .page-break { page-break-after: always; }
                             
-                            /* Header dibikin tipis biar hemat ruang atas */
-                            .header-box { text-align: center; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
-                            h2 { font-size: 22px; margin: 0; text-transform: uppercase; }
-                            .sub { font-size: 13px; font-weight: bold; color: #333; margin-top: 5px; }
+                            /* Header Tipis & Profesional */
+                            .header-box { text-align: center; border-bottom: 1.5px solid #000; margin-bottom: 8px; padding-bottom: 3px; }
+                            h2 { font-size: 19px; margin: 0; font-weight: bold; }
+                            .sub { font-size: 11px; color: #555; margin-top: 2px; }
                             
-                            /* Tabel: Font Gede (13px), Padding Pas (6px) */
-                            table { width: 100%; border-collapse: collapse; border: 2px solid #000; table-layout: fixed; }
-                            th { background-color: #f2f2f2 !important; padding: 8px; border: 1.5px solid #000; font-size: 13px; font-weight: bold; }
-                            td { border: 1.5px solid #000; padding: 6px 8px; font-size: 13.5px; line-height: 1.2; font-weight: 500; }
+                            /* Tabel Garis Tipis Sesuai Request */
+                            table { width: 100%; border-collapse: collapse; border: 1px solid #000; table-layout: fixed; }
+                            th { background-color: #F2F2F2 !important; padding: 6px 2px; border: 0.5px solid #000; font-size: 11px; font-weight: bold; -webkit-print-color-adjust: exact; }
+                            td { border: 0.5px solid #000; padding: 5px 8px; font-size: 12px; line-height: 1.2; color: #111; }
                             
-                            /* Kolom HP: Bikin Gede & Mencolok */
-                            .col-hp { font-weight: 900; text-align: center; font-size: 18px; background-color: #eee !important; width: 50px; }
+                            /* Kolom HP: Bold tapi Garis Tetap Tipis */
+                            .col-hp { font-weight: bold; text-align: center; font-size: 14px; background-color: #FAFAFA !important; }
                             .col-ch { text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
                             
-                            /* Jam: Bikin Merah & Tebal biar Inggi Gak Telat */
-                            .col-jam { text-align: center; font-weight: 800; color: #d00 !important; font-size: 14px; }
+                            /* Jam: Merah tapi Gak Lebay */
+                            .col-jam { text-align: center; font-weight: bold; color: #B00 !important; font-size: 12px; }
                             
-                            /* Hilangkan URL atau footer streamlit yang ganggu */
-                            header, footer { display: none !important; }
+                            /* Penyesuaian Baris Ganti HP (Tipis aja garisnya) */
+                            .row-border { border-top: 1px solid #000 !important; }
                         }
                     </style>
                     """
