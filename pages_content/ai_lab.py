@@ -1432,22 +1432,20 @@ def tampilkan_halaman():
                 "Surrounding objects: a worn-out backpack, a pair of heavy boots, and a small handheld radio."
             )
         }
-        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (FIXED WORKSHOP INTERACTION) ---
+        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (REWRITTEN: SENSORY & TEXTURE) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                # --- VERSI DESA (INDONESIAN WITH RURAL SOUL) ---
-                # --- INI VERSI BARU (ANTI-MAINSTREAM & LEBIH EMOSIONAL) ---
-                "Napas Tua (Fragile Soul): A voice that sounds like a fading echo, almost weightless. It's not just 'shaky', it's 'shivering' from deep within. The cadence is irregular with soft, hollow gasps between words, sounding as if the speaker is whispering to a loved one who is no longer there.",
-                "Pasrah (Sacred Surrender): A voice that carries a 'heavy lump' in the throat, making every vowel sound slightly muffled and warm. It sounds like someone who is smiling through tears, with a soft 'crack' in the middle of sentences that feels incredibly intimate and heartbreaking.",
-                "Getaran Qalbu (The Trembling Gratitude): A deeply weathered voice, but stripped of all tension. The words drop slowly like leaves in a windless forest. It has zero 'urban' energy; it’s a dry, grainy sound that feels like old paper rubbing together, conveying a soul that has let go of everything.",
-                # --- VERSI JAWA (HEAVY PHONETIC & HUMBLE) ---
-                "Jawa Nrimo (Getar Kalbu): A deeply humble Javanese accent with soft, vibrating 'dh' and 'th' percussion. The tone is a low-register chest voice that sounds like a calm, rhythmic hum of total spiritual surrender and patience.",
-                "Jawa Sepuh (Suara Retak): An elderly, fragile Javanese voice that sounds 'cracked' and thin. It carries high-frequency raspiness and a very gentle, apologetic cadence, sounding like a serene elder who is afraid to disturb anyone.",
-                "Jawa Melas (Helaan Napas): A very slow Javanese tempo, almost a whisper. It features a deep, audible sigh (helaan napas) before speaking, with soft-tonality that emphasizes the 'h' sounds, making it sound intensely pitiable.",
-
-                # --- VERSI SUNDA (SOFT & MELODIC) ---
-                "Sunda Mendayu (Lirih): A melodic, undulating Sundanese rhythm that sounds like a soft breeze. The voice is airy and weightless, with prolonged, breathy vowel endings that suggest a quiet, patient heart holding back sorrow.",
-                "Sunda Parahyangan (Pasrah): A whispery Sundanese lilt that is slow and humble. It carries a 'hollow' quality and high-frequency flow, sounding deeply respectful and serene, like a prayer of gratitude in a quiet, lonely place."
+                # --- VERSI DESA (SENSORY RURAL) ---
+                "Napas Tua (The Fading Echo): A voice like a dying candle in a large, silent room. It feels weightless and 'hollow', not just shaky, but shivering as if from a deep inner chill. Every word is a struggle to survive, sounding like a faint ghost of a memory.",
+                "Pasrah (The Sacred Ache): A voice that sounds like old, dry parchment rubbing together. There is a 'heavy lump' of swallowed tears in every vowel, making it sound warm but deeply bruised. It carries no ego, just a raw, stripped-back sincerity.",
+                "Getaran Qalbu (The Grainy Prayer): A voice with a 'grainy' and 'dusty' texture, like sand falling on wood. It lacks any smoothness. The words drop one by one, heavy with silence, conveying a soul that has found peace in total emptiness.",
+                # --- VERSI JAWA (DEEP ANCESTRAL) ---
+                "Jawa Nrimo (The Earthy Hum): A low, grounded voice that sounds like it’s coming from deep within the earth. The 'dh' and 'th' aren't just phonetic; they are heavy, rhythmic thuds of a heart that has waited forever. It’s a thick, honey-like slow cadence of absolute patience.",
+                "Jawa Sepuh (The Dried Leaf): A voice as thin and brittle as a dried autumn leaf. It carries a soft, apologetic air, sounding like it’s afraid the mere act of speaking will break the silence. Every pause is a silent prayer, deeply fragile and saint-like.",
+                "Jawa Melas (The Infinite Sigh): A voice dominated by the sound of air, not tone. It sounds like a continuous, weary sigh that has been turned into speech. The words are soft and blurred at the edges, sounding profoundly lonely and pitiable.",
+                # --- VERSI SUNDA (MELODIC MIST) ---
+                "Sunda Mendayu (The Mountain Weep): A melodic rhythm that flows like water through mist. It’s airy and ghost-like, with vowel endings that stretch out like a quiet sob that never quite breaks. It feels weightless, polite, and deeply, deeply sorrowful.",
+                "Sunda Parahyangan (The Whispering Grace): A whispery lilt that feels like a cold breeze at dawn. It’s exceptionally light, almost without a physical body, sounding like a soul that has finished its journey and is now just a soft, grateful vibration in the air."
             ],
             "Mood": [
                 "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience, looking natural and unforced.",
