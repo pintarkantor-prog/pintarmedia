@@ -138,12 +138,12 @@ def tampilkan_halaman():
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
             "Nenek Juminah": {
-                "Daster Batik & Bergo Instan": "Wearing a faded daily batik floral daster with short sleeves, paired with a simple, well-worn comfortable instant jersey bergo hijab covering her head and neck.",
-                "Kaos Panjang & Jilbab Kaos": "Wearing a modest, oversized long-sleeved cotton house shirt in faded neutral colors, paired with a simple daily instant jersey hijab and a cotton sarong tied at the waist.",
-                "Daster Lowo & Kerudung Lilit": "Wearing a loose, wide 'bat-wing' (lowo) batik patterned daster with a simple thin cotton scarf wrapped loosely and comfortably around her head as a daily hijab.",
-                "Baju Kurung Katun & Hijab Slup": "Wearing a simple, humble Indonesian-style modest cotton baju kurung with a practical jersey instant hijab for a neat, grandmotherly home look.",
-                "Tunik Kancing & Bergo Tali": "Wearing a front-buttoned cotton tunic shirt with minor wrinkles, paired with an instant bergo hijab that has simple ties at the back of the head.",
-                "Setelan Celana Kaos & Jilbab": "Wearing a matching daily pajama set of a long-sleeved cotton tunic and loose trousers in faded colors, paired with a breathable instant jersey hijab."
+                "Kebaya Nenek Katun Jadul": "Wearing a very thin, semi-translucent white cotton kebaya with vintage embroidery patterns, fastened by three small rustic safety pins. The fabric shows significant aging and yellowing, paired with a dark brown batik sarong that has a rough, starched texture.",
+                "Daster Rayon Kusut & Handuk Leher": "Wearing a limp, faded navy blue rayon daster with large blurry floral prints, showing heavy realistic wrinkles. A small, frayed white hand towel is draped around her neck, tucked slightly into her simple grey jersey bergo hijab.",
+                "Baju Kurung Satin Kusam & Kain Lilit": "Wearing a modest, oversized long-sleeved baju kurung made of dull, non-shiny vintage satin in muted olive. The fabric has visible snags and pulls. Paired with a thick, hand-woven cotton cloth wrapped simply over her head as a rustic village hijab.",
+                "Kaos Haji Putih & Sarung Lawasan": "Wearing a classic Indonesian 'Kaos Haji' (white long-sleeved undershirt with a small pocket) that looks grayish from many washes. Paired with an extremely faded 'Lawasan' batik sarong and a thin, breathable white instant hijab pinned tightly under the chin.",
+                "Tunik Katun Plisket & Bergo Renda": "Wearing a front-buttoned tunic with a unique pleated (plisket) texture in a dusty rose color. The fabric is stiff and weathered. Paired with an old-fashioned instant bergo hijab that has small, yellowed lace (renda) edges around the face.",
+                "Daster Kaos Melar & Kerudung Segi Empat": "Wearing an oversized, stretched-out (melar) soft cotton t-shirt style daster in faded maroon. Complemented by a simple square cotton hijab (hijab segi empat) that is folded haphazardly and tied loosely behind her neck, showing a very casual home-stay look."
             },
             "Nenek Sikem": {
                 "Kebaya Kutubaru & Jarik Parang": "Wearing a daily-worn, faded floral cotton kebaya kutubaru fastened with a vintage safety pin, paired with a dark-brown batik jarik cloth in Parang motif and a thin cotton scarf loosely wrapped as a hijab.",
