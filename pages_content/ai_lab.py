@@ -43,21 +43,22 @@ def tampilkan_halaman():
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
-            "Nenek (The Matriarch)": (
-                "An elderly woman with a fuller, rounded facial structure where gravity has taken its toll. "
-                "Deep nasolabial folds and heavy jowls that sag past the jawline. "
-                "Her eyelids are thick and drooping, almost covering her eyes, with large, soft bags underneath. "
-                "The skin texture is thick, porous, and covered in large age spots and liver spots. "
-                "A double chin with soft, folded skin textures. No filters, authentic aged volume."
+            "Nenek Jawa": (
+                "An extremely lean and thin-faced Javanese elderly woman. "
+                "Sunken cheeks with very prominent, high cheekbones and a sharp, bony jawline. "
+                "Her skin is like parchment paper, tightly stretched over her facial structure but deeply creased with hundreds of fine, dry wrinkles. "
+                "Visible hollows around the temples and eyes. Large, expressive but weary dark eyes with heavy crow's feet. "
+                "Authentic weathered skin with deep sun-damage, fine moles, and uneven pigmentation. "
+                "No soft volume, strictly bony and thin facial structure for a fragile look."
             ),
             "Nenek Simbah": (
-                "An extremely elderly Javanese woman, easily appearing over 80 years old. "
-                "Her face is a dense and chaotic network of profound, deep wrinkles that completely consume her visage. "
-                "Heavy crow's feet, prominent forehead furrows, and sagging skin folds around her neck and jawline, showing significant volume loss. "
-                "Authentic weathered skin texture with prominent age spots, visible pores, and raw, uneven pigmentation. "
-                "Her expression is deeply weary and sorrowful, with half-lidded, cloudy eyes looking down. "
-                "Her lower lip is downturned with a visible quiver, pressed thin against her toothless gums. "
-                "Raw, unpolished cinematic skin details. No smooth filters. 100% authentic aged Javanese look."
+                "An incredibly frail Javanese elder with a very small, shrunken facial structure. "
+                "Her skin is extremely dry and flaky, with deep vertical fissures on her cheeks and forehead. "
+                "Eyelids are severely drooping, creating a weary but resilient look. "
+                "Visible salt-and-pepper peach fuzz on her chin and upper lip. "
+                "The texture is raw and uneven, with prominent sun-spots and thick, leathery patches on the forehead. "
+                "Neck skin is severely loose and sagging in thin, delicate folds. "
+                "Masterpiece detail on the interaction between bone structure and sagging skin. No filters."
             ),
             "Nenek Sunda": (
                 "A frail and very aged Sundanese grandmother, her face deeply marked by extreme age and sorrow. "
@@ -117,7 +118,7 @@ def tampilkan_halaman():
         # --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
-            "Nenek (The Matriarch)": {
+            "Nenek Jawa": {
                 "Daster Batik & Bergo Instan": "Wearing a faded daily batik floral daster with short sleeves, paired with a simple, well-worn comfortable instant jersey bergo hijab covering her head and neck.",
                 "Kaos Panjang & Jilbab Kaos": "Wearing a modest, oversized long-sleeved cotton house shirt in faded neutral colors, paired with a simple daily instant jersey hijab and a cotton sarong tied at the waist.",
                 "Daster Lowo & Kerudung Lilit": "Wearing a loose, wide 'bat-wing' (lowo) batik patterned daster with a simple thin cotton scarf wrapped loosely and comfortably around her head as a daily hijab.",
