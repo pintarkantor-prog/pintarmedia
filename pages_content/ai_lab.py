@@ -217,37 +217,37 @@ def tampilkan_halaman():
             }
         }
 
-        # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: 90% PROGRESS INTERACTIVE) ---
+        # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Semangka (The Red Kingdom)": (
-                    "A monumental 1-meter mosque diorama built entirely from the anatomy of watermelons. "
-                    "The main walls are constructed from millions of vibrant red watermelon cubes with high-gloss moisture. "
-                    "The colossal main dome is a translucent sphere of polished watermelon flesh where thousands of black seeds are arranged in intricate geometric Arabic calligraphy patterns. "
-                    "Inside the dome, a 'Solar Crimson' LED scheme (deep red and warm gold) makes the seeds look like floating stars. "
-                    "Tall minarets are crafted from the dark-green striped rinds, wrapped in intensely flickering lime-green fairy lights. "
-                    "The atmosphere is high-contrast, glowing intensely against a pitch-black background."
+                "Semangka": (
+                    "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
+                    "The walls are composed of millions of pressurized, ruby-red watermelon cubes with a glistening, high-moisture finish. "
+                    "The main dome is a sphere of translucent, polished watermelon flesh, glowing with a soft, internal 'Ember Amber' LED light that reveals the organic cellular structure. "
+                    "Inside the dome, thousands of black seeds are meticulously arranged in sacred geometric patterns, silhouetted against the warm internal glow. "
+                    "Minarets of dark-green striped rind are subtly traced with thin, steady warm-white fiber-optic lines, avoiding aggressive flickering. "
+                    "The lighting is cinematic and moody, seeping through the red fruit like a glowing hearth."
                 ),
-                "Strawberry (The Ruby Shrine)": (
-                    "A gigantic 1-meter mosque model built from millions of vibrant red strawberry slices and seeds. "
-                    "The entire facade features a dense, rhythmic texture of strawberry skin with hyper-detailed yellow seeds (pips) acting as golden studs. "
-                    "The main dome is a colossal strawberry-shaped sphere made of translucent red jelly, glowing from within with powerful 'Ruby Galaxy' LED wash lights. "
-                    "Every minaret is a pillar of stacked whole strawberries, wrapped in rapidly pulsing ice-white fairy lights. "
-                    "Entrance arches are outlined with vibrant pink neon strips, creating a luscious, high-gloss sugary glow against the dark environment."
+                "Strawberry": (
+                    "A gigantic 1-meter mosque model constructed from high-density strawberry slices. "
+                    "The facade is a masterwork of texture, featuring the pitted red skin of the fruit with thousands of tiny yellow seeds acting as natural golden rivets. "
+                    "The colossal dome is made of translucent strawberry-infused crystal gelatin, illuminated by a deep 'Crimson Dusk' internal wash light that creates a soft, diffused halo. "
+                    "Instead of bright neon, the arches are outlined with a dim, steady rose-gold glow that accentuates the fruit's natural curves. "
+                    "The minarets are capped with fresh green leaves, illuminated from below by subtle warm-white spotlights, creating a sophisticated and organic masterpiece."
                 ),
-                "Nanas (The Golden Armor)": (
-                    "A monumental 1-meter mosque object built from thousands of geometric pineapple rind segments. "
-                    "The architecture looks aggressive and grand, featuring the spiky, diamond-patterned texture of pineapple skins in golden-yellow and green. "
-                    "The colossal main dome is a sphere of polished, translucent yellow pineapple flesh, glowing with an internal 'Golden Flare' LED scheme that highlights the fibrous natural patterns. "
-                    "Tall minarets are topped with the sharp, spiked green crowns of the pineapple, wrapped in intensely flickering emerald fairy lights. "
-                    "All arches are outlined in pulsing electric-orange neon strips, reflecting off the waxy pineapple texture."
+                "Nanas": (
+                    "A grand 1-meter standalone mosque object built from interlocking geometric pineapple rind segments. "
+                    "The diamond-patterned skin creates a rugged, golden-brown architectural armor. "
+                    "The main dome is a massive sphere of carved, succulent yellow pineapple, glowing with a 'Champagne Solar' internal LED that highlights the fibrous golden veins of the fruit. "
+                    "The sharp, spiked green crowns of the pineapple form the minaret towers, lit with a very dim, steady emerald-green wash from the base. "
+                    "No neon strips; instead, the light 'bleeds' naturally through the gaps in the rind, creating a rhythmic and high-luxury play of light and shadow."
                 ),
-                "Melon (The Emerald Sanctuary)": (
-                    "A colossal 1-meter mosque diorama built entirely from cantaloupe and honeydew melon anatomy. "
-                    "The walls feature the hyper-detailed, intricate reticulated 'net' texture of melon rinds, looking like ancient stone carvings. "
-                    "The main dome is a massive sphere of translucent pale-green melon flesh, filled with thousands of twinkling fiber-optic star lights. "
-                    "Tall minarets crafted from polished melon rinds are wrapped in intensely flickering cyan and lime LED fairy lights. "
-                    "Entrance arches are framed by intense turquoise neon tubing, casting a powerful, saturated glow over the textured rinds against a high-contrast dark background."
+                "Melon": (
+                    "A colossal 1-meter diorama built from honeydew and cantaloupe melon. "
+                    "The walls showcase the intricate, reticulated 'net' texture of the rind, looking like aged ivory carvings. "
+                    "The colossal main dome is made of translucent pale-jade melon flesh, filled with a 'Starlight Mint' internal lighting scheme—thousands of micro-fiber optic points that twinkle like a distant galaxy. "
+                    "The minarets are smooth, polished rinds with a soft, steady turquoise glow emanating from the window slits. "
+                    "The overall lighting is soft, ethereal, and diffused, making the mosque appear like a glowing emerald sanctuary in a quiet, twilight atmosphere."
                 ),
             },
             # --- 3. MASTER KONTEN (🌍 WORLD MOSQUE DIORAMA - CRAFT SCALE EDITION) ---
