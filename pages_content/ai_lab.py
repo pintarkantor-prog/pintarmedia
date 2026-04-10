@@ -1436,10 +1436,10 @@ def tampilkan_halaman():
         MASTER_AUDIO_STYLE = {
             "Logat": [
                 # --- VERSI DESA (INDONESIAN WITH RURAL SOUL) ---
-                "Napas Tua: A thin, cracked voice that sounds like a faint whisper. It carries a heavy 'breathy' texture with frequent pauses for air, emphasizing physical exhaustion and a humble heart that is weary but peaceful.",
-                "Pasrah (Tulus): A raw, unpolished village voice with a flat, honest intonation. It features a rhythmic 'broken' cadence and a dusty texture, sounding deeply sincere as if the speaker is surrendering all their troubles to God.",
-                "Suara Gemetar: A shaky (gemetar) high-register voice with a dry, raspy throat texture. Every sentence feels like it's on the verge of a tearful gratitude, creating an intense emotional connection with the listener.",
-
+                # --- INI VERSI BARU (ANTI-MAINSTREAM & LEBIH EMOSIONAL) ---
+                "Napas Tua (Fragile Soul): A shaky, paper-thin voice that sounds like a fading echo. The cadence is irregular, interrupted by soft, heavy sighs (helaan napas) that suggest a deep spiritual tiredness. It's not just 'dry', it sounds like a soul speaking through a lifetime of silence and prayer, deeply fragile but profoundly peaceful.",
+                "Pasrah (Sacred Surrender): A weightless, hollow voice that feels like a quiet echo in an empty room. There is zero ego in the tone; it is stripped of all worldly tension, sounding exceptionally clean yet weary. Each word drops slowly like a leaf falling in a windless forest, conveying a soul that has let go of every burden and placed its entire trust in the Divine.",
+                "Getaran Qalbu (The Trembling Gratitude): A fragile, shivering voice that feels like it’s floating on the edge of a sob. Instead of just being shaky, every word carries a 'heavy lump' in the throat, creating a beautiful yet heartbreaking vibration. It sounds like a whisper of someone who is overwhelmed by a small blessing, making the listener feel an instant, deep ache in their chest.",
                 # --- VERSI JAWA (HEAVY PHONETIC & HUMBLE) ---
                 "Jawa Nrimo (Getar Kalbu): A deeply humble Javanese accent with soft, vibrating 'dh' and 'th' percussion. The tone is a low-register chest voice that sounds like a calm, rhythmic hum of total spiritual surrender and patience.",
                 "Jawa Sepuh (Suara Retak): An elderly, fragile Javanese voice that sounds 'cracked' and thin. It carries high-frequency raspiness and a very gentle, apologetic cadence, sounding like a serene elder who is afraid to disturb anyone.",
