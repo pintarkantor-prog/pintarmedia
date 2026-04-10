@@ -495,7 +495,7 @@ def tampilkan_database_channel():
                                 target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 15)
                                 menit_target = target.hour * 60 + target.minute
                                 if menit_target >= (11 * 60 + 30):
-                                    target = target + timedelta(minutes=70)
+                                    target = target + timedelta(minutes=60)
                                 return target
 
                             for tim_idx in [1, 2]:
