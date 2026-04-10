@@ -599,79 +599,65 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- 4. LOGIKA PRINT (GAYA ASLI DIAN) ---
+            # --- 4. LOGIKA PRINT (VERSI AMAN DARI ERROR KUTIP) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
                     df_display = df_j_sorted.copy()
                     html_all_pages = "" 
+                    
                     for tim in kelompok_tim:
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
+                        
+                        # Ambil 9 HP per halaman
                         for start_idx in range(0, len(list_hp_unik), 9):
                             hp_halaman_ini = list_hp_unik[start_idx : start_idx + 9]
                             df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
                             
-                            html_all_pages += f"""
-                            <div class="print-container page-break">
-                                <div class="header-box">
-                                    <h2>📋 JADWAL UPLOAD PINTAR MEDIA</h2>
-                                    <p class="sub">Unit: <b>{tim['nama']}</b> | Periode: <b>{tgl_str}</b></p>
-                                </div>
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th style="width: 10%;">📱 HP</th>
-                                            <th style="width: 45%;">📺 CHANNEL YOUTUBE</th>
-                                            <th style="width: 15%;">🌅 PAGI</th>
-                                            <th style="width: 15%;">☀️ SIANG</th>
-                                            <th style="width: 15%;">🌆 SORE</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                            """
+                            # Header Tabel
+                            header_html = f'<div class="print-container page-break"><div class="header-box"><h2>📋 JADWAL UPLOAD PINTAR MEDIA</h2><p class="sub">Unit: <b>{tim["nama"]}</b> | Periode: <b>{tgl_str}</b></p></div>'
+                            table_start = '<table><thead><tr><th style="width: 8%;">📱 HP</th><th style="width: 47%;">📺 CHANNEL</th><th style="width: 15%;">🌅 PAGI</th><th style="width: 15%;">☀️ SIANG</th><th style="width: 15%;">🌆 SORE</th></tr></thead><tbody>'
+                            
+                            rows_html = ""
+                            last_hp = None
                             for i, r in enumerate(df_page.itertuples()):
-                                # PENYESUAIAN KECIL: Biar pas diprint tulisan "EMPTY" jadi "-"
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() not in ["", "EMPTY"] else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() not in ["", "EMPTY"] else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() not in ["", "EMPTY"] else "-"
                                 
-                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
-                                bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
+                                curr_hp = str(r.HP)
+                                hp_view = curr_hp if curr_hp != last_hp else ""
+                                last_hp = curr_hp
                                 
-                                html_all_pages += f"""
-                                    <tr style="background-color: {bg_color} !important;">
-                                        <td class="col-hp">{hp_view}</td>
-                                        <td class="col-ch">{r.NAMA_CHANNEL}</td>
-                                        <td class="col-jam">{p}</td>
-                                        <td class="col-jam">{s}</td>
-                                        <td class="col-jam">{o}</td>
-                                    </tr>
-                                """
-                            html_all_pages += "</tbody></table></div>"
+                                border_style = "border-top: 1.5px solid #000 !important;" if hp_view and i != 0 else ""
+                                
+                                rows_html += f'<tr style="{border_style}"><td class="col-hp">{hp_view}</td><td class="col-ch">{r.NAMA_CHANNEL}</td><td class="col-jam">{p}</td><td class="col-jam">{s}</td><td class="col-jam">{o}</td></tr>'
+                            
+                            html_all_pages += header_html + table_start + rows_html + "</tbody></table></div>"
 
-                    # CSS (TETAP SAMA)
-                    html_masterpiece = f"""
+                    # CSS PISAH BIAR GAK BENTROK KUTIP
+                    css_print = """
                     <style>
-                        @media print {{
-                            @page {{ size: A4 portrait; margin: 1cm; }}
-                            * {{ box-sizing: border-box; }}
-                            body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                            .print-container {{ width: 100%; max-width: 690px; margin: 0 auto; }}
-                            .page-break {{ page-break-after: always; }}
-                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 15px; padding-bottom: 5px; }}
-                            h2 {{ font-size: 20px; margin: 5px 0; color: #000; }}
-                            .sub {{ font-size: 12px; color: #666; }}
-                            table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
-                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
-                            td {{ border: 1px solid #CCC; padding: 8px 10px; font-size: 14px; color: #111; line-height: 1.3; }}
-                            .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; }}
-                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; }}
-                            .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
-                        }}
+                        @media print {
+                            @page { size: A4 portrait; margin: 0.8cm; }
+                            body { font-family: Arial; background: white; }
+                            .print-container { width: 100%; }
+                            .page-break { page-break-after: always; }
+                            .header-box { text-align: center; border-bottom: 2px solid #000; margin-bottom: 5px; }
+                            h2 { font-size: 17px; margin: 0; }
+                            .sub { font-size: 10px; color: #333; margin: 2px 0; }
+                            table { width: 100%; border-collapse: collapse; border: 1.5px solid #000; table-layout: fixed; }
+                            th { background-color: #eee !important; padding: 5px; border: 1px solid #000; font-size: 10px; }
+                            td { border: 1px solid #000; padding: 3px 5px; font-size: 11px; line-height: 1.1; color: #000; }
+                            .col-hp { font-weight: bold; text-align: center; font-size: 13px; background-color: #f9f9f9 !important; }
+                            .col-ch { text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+                            .col-jam { text-align: center; font-weight: bold; color: #c00 !important; }
+                        }
                     </style>
-                    {html_all_pages}
                     """
-                    st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
+                    
+                    full_html = css_print + html_all_pages + "<script>window.print();</script>"
+                    st.components.v1.html(full_html, height=0)
                 
     # ======================================================================
     # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
