@@ -43,7 +43,7 @@ def tampilkan_halaman():
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
-            "Nenek Jawa": (
+            "Nenek Juminah": (
                 "An extremely lean and thin-faced Javanese elderly woman. "
                 "Sunken cheeks with very prominent, high cheekbones and a sharp, bony jawline. "
                 "Her skin is like parchment paper, tightly stretched over her facial structure but deeply creased with hundreds of fine, dry wrinkles. "
@@ -51,7 +51,7 @@ def tampilkan_halaman():
                 "Authentic weathered skin with deep sun-damage, fine moles, and uneven pigmentation. "
                 "No soft volume, strictly bony and thin facial structure for a fragile look."
             ),
-            "Nenek Simbah": (
+            "Nenek Sikem": (
                 "An incredibly frail Javanese elder with a very small, shrunken facial structure. "
                 "Her skin is extremely dry and flaky, with deep vertical fissures on her cheeks and forehead. "
                 "Eyelids are severely drooping, creating a weary but resilient look. "
@@ -60,25 +60,44 @@ def tampilkan_halaman():
                 "Neck skin is severely loose and sagging in thin, delicate folds. "
                 "Masterpiece detail on the interaction between bone structure and sagging skin. No filters."
             ),
-            "Nenek Sunda": (
-                "A frail and very aged Sundanese grandmother, her face deeply marked by extreme age and sorrow. "
-                "An intensely wrinkled forehead with heavy vertical creases between her brows, indicating deep worry and heartbreak. "
-                "The skin around her eyes is exceptionally sagging, with heavy dark circles and prominent sagging folds. "
-                "Visible skin pores, realistic dry patches, and authentic elderly skin texture with a dull, matte finish. "
-                "A deeply melancholic and pensive 'sayu' expression, looking forward with a profoundly sad gaze. "
-                "Her lips are pressed together tightly, showing deep, fine lines and natural wrinkles. "
-                "Raw elderly skin texture showing authentic sagging and realistic muscle loss in the face. "
-                "No smoothing, 100% realistic tired Sundanese face."
+            "Nenek Dulah": (
+                "An elderly Sundanese woman with a soft heart-shaped face that has significantly lost its firmness. "
+                "The skin is pale and delicate, hanging in soft, heavy folds along the jawline. "
+                "Distinct 'sayu' almond-shaped eyes with very thin, sparse eyebrows and heavy, drooping upper lids. "
+                "Her nose is refined but the skin around the nostrils is deeply creased. "
+                "Texture is focused on 'fine-cracked' wrinkles (like old porcelain) rather than deep canyons. "
+                "Authentic age spots are faint but numerous. Her mouth is small, with a soft, trembling upper lip. "
+                "No harsh edges, focusing on a fragile, soft, and aristocratic aged Sundanese look."
             ),
-            "Nenek Melayu": (
-                "A profoundly elderly Melayu woman, her face a map of extreme age and sorrow. "
-                "Her entire countenance is consumed by heavy, sagging wrinkles and deep facial lines. "
-                "Her eyes are bright with unshed tears, glistening with unshed tears, showing heavy, reddened eyelids. "
-                "The skin around her jaw and neck is severely sagging, showing realistic volume loss and fragility. "
-                "Visible age spots, prominent blue veins on her hands and temples, and authentic aged skin texture with clear pores. "
-                "Her downturned mouth has a subtle, realistic quiver in her lower lip, emphasizing her grief. "
-                "Raw, high-definition skin texture showing authentic age spots and visible pores dampened by a thin layer of cold sweat. "
-                "100% high-definition real elderly face, cinematic and hauntingly emotional."
+            "Nenek Sartini": (
+                "An elderly Sundanese grandmother with a wider, rounder facial base and high, flat cheekbones. "
+                "Significant sagging in the lower face, creating deep marionette lines that reach the chin. "
+                "Her eyes are constantly moist and reddened, suggesting chronic fatigue, with puffy, dark eye bags. "
+                "The skin texture is matte, slightly oily in the T-zone, with visible large pores and broken capillaries on the cheeks. "
+                "A very realistic double-chin with loose, crepey skin texture. "
+                "Her expression is one of deep, silent endurance. Raw and unpolished cinematic detail. "
+                "Focusing on the heavy, sagging volume of an aged rural Sundanese face."
+            ),
+            "Nenek Tinah": (
+                "An incredibly broken Javanese elderly woman appearing in her late 80s. "
+                "Her face is a tragic map of deep, chaotic wrinkles and severe volume loss. "
+                "The skin hangs loosely in heavy, dark folds around her hollowed jaw and throat (crepey skin). "
+                "Her eyes are her most haunting feature: bloodshot, raw from crying, and continuously glistening with unshed tears. "
+                "A profound, silent, and distant 'bengong' expression, staring blankly without focus. "
+                "Her lower lip has a constant, deeply realistic tremor (quiver) due to emotional pain. "
+                "Skin texture is raw, dry, and covered in deep sun-damage and dark age spots. "
+                "Visible trembling in her hands as they rest. An aura of complete despair and vulnerability."
+                "Raw, unpolished, zero smoothing filters. The look of a soul crushed by grief."
+            ),
+            "Nenek Wati": (
+                "A tiny, terribly frail Sundanese grandmother appearing extremely fragile. "
+                "Her small, oval face is consumed by deep, vertical worry lines and incredibly sagging jowls. "
+                "Eyes are deeply recessed, looking intensely 'sayu', with heavily reddened and drooping eyelids that show significant bags. "
+                "The skin texture is pale, translucent like porcelain, and covered in fine white, dry flakes. "
+                "Her lips are thin and pressed tightly together, forming a melancholic, pensive line that emphasizes her quiet suffering. "
+                "Neck skin is severely loose, forming multiple deep folds along her shrunken throat. "
+                "Prominent blue veins on her temples. An almost ethereal presence of quiet heartbreak. "
+                "No smoothing, 100% realistic tired face, looking deeply tired and exhausted."
             ),
             "Kakek (The Wise)": (
                 "A very elderly Indonesian man in his late 70s with a fragile but dignified look. "
@@ -118,7 +137,7 @@ def tampilkan_halaman():
         # --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
-            "Nenek Jawa": {
+            "Nenek Juminah": {
                 "Daster Batik & Bergo Instan": "Wearing a faded daily batik floral daster with short sleeves, paired with a simple, well-worn comfortable instant jersey bergo hijab covering her head and neck.",
                 "Kaos Panjang & Jilbab Kaos": "Wearing a modest, oversized long-sleeved cotton house shirt in faded neutral colors, paired with a simple daily instant jersey hijab and a cotton sarong tied at the waist.",
                 "Daster Lowo & Kerudung Lilit": "Wearing a loose, wide 'bat-wing' (lowo) batik patterned daster with a simple thin cotton scarf wrapped loosely and comfortably around her head as a daily hijab.",
@@ -126,7 +145,7 @@ def tampilkan_halaman():
                 "Tunik Kancing & Bergo Tali": "Wearing a front-buttoned cotton tunic shirt with minor wrinkles, paired with an instant bergo hijab that has simple ties at the back of the head.",
                 "Setelan Celana Kaos & Jilbab": "Wearing a matching daily pajama set of a long-sleeved cotton tunic and loose trousers in faded colors, paired with a breathable instant jersey hijab."
             },
-            "Nenek Simbah": {
+            "Nenek Sikem": {
                 "Kebaya Kutubaru & Jarik Parang": "Wearing a daily-worn, faded floral cotton kebaya kutubaru fastened with a vintage safety pin, paired with a dark-brown batik jarik cloth in Parang motif and a thin cotton scarf loosely wrapped as a hijab.",
                 "Daster Batik Solo & Bergo Tali": "Wearing an authentic brown Batik Solo daster with a classic 'Sogan' pattern, paired with a simple jersey instant hijab that has ties at the back, showing a traditional home look.",
                 "Kaos Lengan Panjang & Jarik Lawasan": "Wearing a modest long-sleeved cotton shirt in earth tones, paired with a weathered, well-washed 'Lawasan' batik jarik cloth and a simple instant hijab tied neatly under the chin.",
@@ -134,7 +153,7 @@ def tampilkan_halaman():
                 "Kebaya Kartini Katun & Sarung": "Wearing a very simple, non-formal cotton Kebaya Kartini in a faded solid color, paired with a comfortable batik sarong and a daily instant bergo hijab for a humble appearance.",
                 "Setelan Celana Batik & Jilbab Kaos": "Wearing a matching daily batik pajama set consisting of a long-sleeved tunic and loose trousers, paired with a breathable instant jersey hijab in a matching muted earth tone."
             },
-            "Nenek Sunda": {
+            "Nenek Dulah": {
                 "Daster Floral & Bergo Kaos": "Wearing a bright but faded floral-patterned Sundanese-style daster with a soft, well-washed instant jersey bergo hijab that looks comfortable for daily house chores.",
                 "Kebaya Bordir Katun & Sarung": "Wearing a simple, humble cotton kebaya with subtle embroidery (bordir) on the edges, paired with a faded floral sarong and a thin cotton scarf loosely draped as a hijab.",
                 "Setelan Celana Kaos & Jilbab Instan": "Wearing a modest long-sleeved cotton pajama set with small floral motifs, paired with a simple daily instant jersey hijab in a soft, matching pastel color.",
@@ -142,7 +161,23 @@ def tampilkan_halaman():
                 "Tunik Katun & Sarung Batik": "Wearing a loose, breathable cotton tunic shirt paired with a faded West Javanese batik sarong and a simple daily instant hijab tied neatly under the chin.",
                 "Daster Lowo Floral & Kerudung Lilit": "Wearing a wide 'bat-wing' (lowo) daster with a vibrant but aged floral print, complemented by a thin pashmina-style cotton scarf wrapped simply and loosely around her head."
             },
-            "Nenek Melayu": {
+            "Nenek Sartini": {
+                "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
+                "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
+                "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
+                "Kaos Tunik & Sarung Pelikat": "Wearing a long-sleeved cotton tunic shirt paired with a faded cotton sarong and a simple bawal hijab loosely draped over her head, showing a relaxed home-stay vibe.",
+                "Baju Kurung Moden & Bergo Tali": "Wearing a very simple daily Baju Kurung Moden made of breathable rayon fabric, paired with a simple instant bergo hijab that has ties at the back for comfort.",
+                "Kebaya Labuh & Hijab Slup": "Wearing a modest, long-length daily Kebaya Labuh made of lightweight cotton, paired with a faded floral sarong and a practical instant jersey hijab for a neat grandmotherly look."
+            },
+            "Nenek Tinah": {
+                "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
+                "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
+                "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
+                "Kaos Tunik & Sarung Pelikat": "Wearing a long-sleeved cotton tunic shirt paired with a faded cotton sarong and a simple bawal hijab loosely draped over her head, showing a relaxed home-stay vibe.",
+                "Baju Kurung Moden & Bergo Tali": "Wearing a very simple daily Baju Kurung Moden made of breathable rayon fabric, paired with a simple instant bergo hijab that has ties at the back for comfort.",
+                "Kebaya Labuh & Hijab Slup": "Wearing a modest, long-length daily Kebaya Labuh made of lightweight cotton, paired with a faded floral sarong and a practical instant jersey hijab for a neat grandmotherly look."
+            },
+            "Nenek Wati": {
                 "Baju Kurung Kedah & Sarung": "Wearing a traditional short-cut daily Baju Kurung Kedah made of soft faded cotton with floral prints, paired with a matching batik sarong and a simple cotton bawal hijab pinned under the chin.",
                 "Baju Kurung Pesak & Tudung Sarung": "Wearing a classic loose-fitting Baju Kurung Pesak in a muted solid color, paired with a practical 'tudung sarung' (instant jersey hijab) that covers the chest comfortably.",
                 "Daster Panjang & Hijab Instan": "Wearing a modest long-sleeved cotton daster with traditional Melayu floral motifs, complemented by a simple daily instant jersey hijab in a matching faded tone.",
