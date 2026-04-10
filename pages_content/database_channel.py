@@ -659,25 +659,26 @@ def tampilkan_database_channel():
                     html_masterpiece = f"""
                     <style>
                         @media print {{
-                            /* 1. MENCURI RUANG: Margin atas bawah gue bikin 0 biar HP 9 ketarik ke atas */
-                            @page {{ size: A4 portrait; margin: 0.1cm 0.8cm; }} 
+                            /* 1. KUNCI HALAMAN: Kasih margin atas 0.8cm biar gak mepet plafon */
+                            @page {{ size: A4 portrait; margin: 0.8cm 0.8cm 0.3cm 0.8cm; }} 
                             * {{ box-sizing: border-box; }}
                             body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                            .print-container {{ width: 100%; max-width: 750px; margin: 0 auto; }}
+                            
+                            /* Kasih sedikit ruang napas di paling atas */
+                            .print-container {{ width: 100%; max-width: 750px; margin: 0 auto; padding-top: 10px; }}
                             .page-break {{ page-break-after: always; }}
 
-                            /* 2. Header Box: Makin compact biar gak nendang baris bawah */
-                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 5px; padding-bottom: 2px; }}
-                            h2 {{ font-size: 19px; margin: 0; color: #000; }}
-                            .sub {{ font-size: 11px; color: #666; margin: 0; }}
+                            /* 2. Header Box: Compact tapi elegan */
+                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 8px; padding-bottom: 5px; }}
+                            h2 {{ font-size: 20px; margin: 0; color: #000; }}
+                            .sub {{ font-size: 12px; color: #666; margin: 0; }}
                             
-                            /* 3. Tabel: Style Excel Persis Punya Lo */
+                            /* 3. Tabel: Garis tipis abu-abu Excel Style */
                             table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
-                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 7px; border: 1px solid #CCC; font-size: 12px; font-weight: bold; -webkit-print-color-adjust: exact; }}
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 13px; font-weight: bold; -webkit-print-color-adjust: exact; }}
                             
-                            /* 4. Baris: TINGGI TETEP DAPET (Padding 8.5px), TULISAN JELAS (13px) */
-                            /* Ini angka keramat biar HP 9 gak nendang ke halaman 2 */
-                            td {{ border: 1px solid #CCC; padding: 8.5px 8px; font-size: 13px; color: #111; line-height: 1.1; }}
+                            /* 4. Baris: Tinggi (Padding 8.5px) biar HP 9 pas di satu lembar */
+                            td {{ border: 1px solid #CCC; padding: 8.5px 10px; font-size: 13.5px; color: #111; line-height: 1.1; }}
                             
                             .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; font-size: 15px; }}
                             .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
