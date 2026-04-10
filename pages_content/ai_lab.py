@@ -566,7 +566,7 @@ def tampilkan_halaman():
                     "The walls have a grainy, fibrous texture with realistic dirt-specks for authenticity. "
                     "The main dome is a sphere of translucent carrot slices glowing with an internal 'Sunset Orange' LED. "
                     "The minarets are tall, slender carrot obelisks topped with fresh green carrot-top leaves, lit by steady warm-white spotlights."
-                ),
+                )
             },
             # --- 3. MASTER KONTEN (🌍 WORLD MOSQUE DIORAMA - CRAFT SCALE EDITION) ---
             "🌍 Diorama Masjid": {
