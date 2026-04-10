@@ -220,7 +220,7 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Semangka": (
+                "Buah Semangka": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
                     "The walls are composed of millions of pressurized, ruby-red watermelon cubes with a glistening, high-moisture finish. "
                     "The main dome is a sphere of translucent, polished watermelon flesh, glowing with a soft, internal 'Ember Amber' LED light that reveals the organic cellular structure. "
@@ -228,26 +228,344 @@ def tampilkan_halaman():
                     "Minarets of dark-green striped rind are subtly traced with thin, steady warm-white fiber-optic lines, avoiding aggressive flickering. "
                     "The lighting is cinematic and moody, seeping through the red fruit like a glowing hearth."
                 ),
-                "Strawberry": (
+                "Buah Strawberry": (
                     "A gigantic 1-meter mosque model constructed from high-density strawberry slices. "
                     "The facade is a masterwork of texture, featuring the pitted red skin of the fruit with thousands of tiny yellow seeds acting as natural golden rivets. "
                     "The colossal dome is made of translucent strawberry-infused crystal gelatin, illuminated by a deep 'Crimson Dusk' internal wash light that creates a soft, diffused halo. "
                     "Instead of bright neon, the arches are outlined with a dim, steady rose-gold glow that accentuates the fruit's natural curves. "
                     "The minarets are capped with fresh green leaves, illuminated from below by subtle warm-white spotlights, creating a sophisticated and organic masterpiece."
                 ),
-                "Nanas": (
+                "Buah Nanas": (
                     "A grand 1-meter standalone mosque object built from interlocking geometric pineapple rind segments. "
                     "The diamond-patterned skin creates a rugged, golden-brown architectural armor. "
                     "The main dome is a massive sphere of carved, succulent yellow pineapple, glowing with a 'Champagne Solar' internal LED that highlights the fibrous golden veins of the fruit. "
                     "The sharp, spiked green crowns of the pineapple form the minaret towers, lit with a very dim, steady emerald-green wash from the base. "
                     "No neon strips; instead, the light 'bleeds' naturally through the gaps in the rind, creating a rhythmic and high-luxury play of light and shadow."
                 ),
-                "Melon": (
+                "Buah Melon": (
                     "A colossal 1-meter diorama built from honeydew and cantaloupe melon. "
                     "The walls showcase the intricate, reticulated 'net' texture of the rind, looking like aged ivory carvings. "
                     "The colossal main dome is made of translucent pale-jade melon flesh, filled with a 'Starlight Mint' internal lighting scheme—thousands of micro-fiber optic points that twinkle like a distant galaxy. "
                     "The minarets are smooth, polished rinds with a soft, steady turquoise glow emanating from the window slits. "
                     "The overall lighting is soft, ethereal, and diffused, making the mosque appear like a glowing emerald sanctuary in a quiet, twilight atmosphere."
+                "Buah Naga": (
+                    "A monumental 1-meter mosque object built from the vibrant anatomy of Dragonfruit. "
+                    "The walls are covered in overlapping magenta rind scales with lime-green tips, creating a futuristic 'organic armor' look. "
+                    "The colossal main dome is a sphere of translucent white dragonfruit flesh, embedded with millions of tiny black seeds that create a natural 'stardust' texture. "
+                    "Inside, a 'Cyber-Violet' internal LED glow pulses slowly, making the seeds look like a floating galaxy trapped in ice. "
+                    "Minarets are built from twisted magenta rinds, illuminated with thin, steady electric-pink fiber-optic lines that accentuate the sharp scales."
+                ),
+                "Buah Salak": (
+                    "A grand 1-meter mosque model constructed entirely from snake-fruit (salak) scales. "
+                    "The facade is a masterwork of dark-brown, high-gloss metallic-looking scales, arranged in a perfect shingle pattern like ancient dragon skin. "
+                    "The main dome is a stark contrast, made of polished, bone-white ivory salak flesh with a subtle matte finish. "
+                    "Lighting: No external lamps; instead, a 'Ghostly Moonwhite' LED glows from deep within the cracks of the scales, creating a high-contrast, mysterious aura. "
+                    "The minarets are tall, dark pillars of stacked scales, topped with a single, steady amber pin-light for a sophisticated, ancient look."
+                ),
+                "Buah Durian": (
+                    "A massive 1-meter mosque object built from thousands of sharp, golden-brown durian thorns. "
+                    "The architecture is aggressive and monumental, with every inch of the walls covered in hyper-detailed, needle-sharp spikes. "
+                    "The colossal main dome is made of rich, creamy yellow durian pulp with a high-gloss finish, glowing with a 'Royal Tungsten' internal light that makes it look like molten gold. "
+                    "Minarets are crafted from the thick, woody durian rinds, wrapped in a very dim, steady warm-white glow seeping through the gaps of the thorns. "
+                    "The visual is heavy, powerful, and overwhelmingly detailed."
+                ),
+                "Buah Kiwi": (
+                    "A unique 1-meter mosque diorama built from the fuzzy and succulent anatomy of Kiwi fruit. "
+                    "The main structure is wrapped in the brown, velvet-like 'fuzzy' skin of the kiwi, creating a soft, organic, moss-like texture. "
+                    "The main dome is a cross-section of a giant kiwi, where the radial pattern of black seeds and vibrant green fibers are illuminated by an 'Electric Lime' internal wash. "
+                    "The light bleeds through the translucent green flesh, highlighting every tiny fiber. "
+                    "Minarets are smooth, carved kiwi wood capped with vibrant green slices, lit with steady mint-colored fiber-optics for a fresh, serene architectural vibe."
+                ),
+                "Buah Pisang": (
+                    "A monumental 1-meter mosque diorama built from the complete anatomy of a banana tree. "
+                    "The walls are crafted from layers of fresh, waxy green banana leaves with deep, parallel ribbing textures. "
+                    "The colossal main dome is a sphere made of thousands of curved, bright yellow banana slices, glowing from within with a 'Soft Canary' LED scheme that highlights the tiny black seeds in the center. "
+                    "Tall minarets are built from the textured, fibrous stalks of the banana bunch, wrapped in steady warm-white fiber-optic lines. "
+                    "All entrance arches are outlined with a dim, steady lime-green neon glow, reflecting off the glossy, organic surface of the leaves."
+                ),
+                "Buah Manggis": (
+                    "A monumental 1-meter mosque model built from Mangosteen anatomy. "
+                    "The walls are thick, matte-textured rinds in deep royal purple. "
+                    "The main dome is a sphere of snow-white mangosteen segments with a high-gloss finish, glowing from within with a 'Celestial White' LED that makes it look like polished marble. "
+                    "Minarets are topped with the iconic wooden petal-shaped bases of the fruit, lit by subtle warm-white pin-lights."
+                ),
+                "Buah Jeruk": (
+                    "A grand 1-meter mosque object constructed from Orange anatomy. "
+                    "The walls feature the hyper-detailed pitted texture of orange rinds. "
+                    "The main dome is a massive sphere of interlocking translucent citrus sacs, glowing with a 'Warm Amber' internal wash. "
+                    "The light refracts through the juicy pulp, creating a shimmering, crystalline effect like thousands of tiny orange gemstones."
+                ),
+                "Buah Apel": (
+                    "A monumental 1-meter standalone mosque object built entirely from thousands of high-gloss red and green Apple anatomy. "
+                    "The walls are constructed from millions of interlocking, polished red apple skin segments, looking like deep obsidian-ruby scales with realistic waxy texture. "
+                    "The colossal main dome is a translucent sphere of polished, crisp white apple flesh, glowing from within with a soft, internal 'Amber Harvest' LED that reveals the fine organic grain of the fruit. "
+                    "Tall minarets are crafted from tightly packed whole red apples, wrapped in thin, steady warm-white fiber-optic lines. "
+                    "All entrance arches are outlined with a dim, steady lime-green neon glow, reflecting beautifully off the ultra-glossy apple skin surface against a high-contrast dark environment."
+                ),
+                "Buah Anggur": (
+                    "A gigantic 1-meter standalone mosque diorama built from thousands of glossy purple and green grape halves. "
+                    "The entire structure has a luscious, 'wet-look' texture, made of densely packed translucent grapes looking like clusters of polished amethyst gemstones. "
+                    "The colossal main dome is a sphere of clear gelatin where thousands of grape seeds are arranged in intricate geometric Arabic calligraphy patterns, silhouetted against a deep 'Royal Violet' internal LED glow. "
+                    "Tall minarets are crafted from stacked purple grapes, wrapped in intensely flickering colorful LED fairy lights and framed by intense multi-colored RGB neon strips. "
+                    "The entire fruity surface glows powerfully against the dark background, casting a magical, colorful wash over the intricate sugary craftsmanship."
+                ),
+                "Kelapa": (
+                    "A monumental 1-meter mosque diorama built from the rugged anatomy of Coconuts. "
+                    "The walls feature the raw, fibrous brown texture of coconut husks (sabut) and polished dark-brown coconut shells (batok). "
+                    "The colossal main dome is made of translucent, snowy-white coconut flesh with a high-gloss finish, glowing from within with a 'Crystal White' LED that highlights the organic ridges. "
+                    "Minarets are crafted from stacked coconut shells, wrapped in steady warm-white fiber-optic lines that accentuate the rough fibers. "
+                    "The lighting is humble yet dignified, seeping through the fibrous cracks of the husk against a dark, moody background."
+                ),
+                "Buah Markisa": (
+                    "A gigantic 1-meter mosque model built from Passionfruit anatomy. "
+                    "The exterior walls are made of dark, shriveled purple skins showing intense, realistic organic wrinkles. "
+                    "The colossal main dome is a sphere of translucent orange passionfruit pulp, where millions of crunchy black seeds are suspended like a swirling galaxy. "
+                    "Inside, a 'Solar Flare' golden LED scheme makes the seeds look like a floating nebula trapped in glass. "
+                    "Every minaret is a pillar of purple rind wrapped in thin, steady violet neon strips, casting a powerful, saturated glow over the wet, glossy fruity interior."
+                ),
+                "Daun Pisang": (
+                    "A monumental 1-meter mosque model built from layers of fresh and dried banana leaves. "
+                    "The walls feature the deep, rhythmic parallel ribbing of waxy green leaves. "
+                    "The main dome is a colossal sphere of tightly woven young banana leaves (janur), glowing with an internal 'Forest Mint' LED that highlights the translucent green veins. "
+                    "Minarets are tall, rolled-up leaf scrolls wrapped in steady warm-white fiber-optic lines. "
+                    "The atmosphere is fresh, organic, and high-contrast against the dark background."
+                ),
+                "Daun Jati": (
+                    "A grand 1-meter mosque built from the wide, rough-textured leaves of the Teak tree. "
+                    "The facade has a leathery, matte brown-green texture with prominent, rugged veins like ancient parchment. "
+                    "The main dome is made of overlapping dried teak leaves, glowing from within with a 'Deep Amber' LED that seeps through the natural holes and cracks in the leaves. "
+                    "This creates a mysterious, rustic, and 'old-world' architectural vibe. "
+                    "No neon; just raw, weathered organic textures in a high-contrast cinematic setting."
+                ),
+                "Daun Pakis": (
+                    "A gigantic 1-meter mosque diorama constructed from thousands of intricate fern fronds. "
+                    "The architecture looks like a fractal masterpiece, with curled fern 'heads' (fiddleheads) forming the arches and pillar decorations. "
+                    "The colossal dome is a dense weave of delicate fern leaves, illuminated by a 'Neon Lime' internal wash that creates complex shadows. "
+                    "Tall minarets are crafted from upright fern stalks wrapped in thin, silver-white fiber-optic lines, looking like a glowing jungle sanctuary."
+                ),
+                "Daun Kelapa": (
+                    "A monumental 1-meter mosque diorama built from the complete anatomy of Coconut leaves. "
+                    "The walls are constructed from millions of dry, brown coconut leaflets arranged in a sharp, rhythmic chevron pattern. "
+                    "The colossal main dome is a masterwork of 'Janur' (young yellow coconut leaves), woven into an intricate, tight diamond-mesh pattern. "
+                    "Inside, a 'Golden Harvest' internal LED scheme glows through the gaps of the weave, creating a mesmerizing pattern of light and shadow (ray-traced shadows). "
+                    "Tall minarets are crafted from thousands of bundled 'Lidi' (leaf midribs), looking like slender ivory towers wrapped in steady warm-white fiber-optic lines. "
+                    "The overall look is incredibly detailed, organic, and culturally rich against a high-contrast dark background."
+                ),
+                "Daun Talas": (
+                    "A monumental 1-meter mosque model built from oversized, waxy Taro leaves. "
+                    "The surface features hyper-realistic water droplets that bead and roll across the velvet-textured green surface. "
+                    "The main dome is a massive, single curved leaf glowing with an internal 'Deep Cyan' LED, showing a soft diffused light. "
+                    "Every arch is outlined with a subtle moisture-glimmer, looking fresh and ethereal."
+                ),
+                "Daun Sirih": (
+                    "A grand 1-meter mosque built from thousands of heart-shaped Betel leaves. "
+                    "The walls are arranged in a shimmering scale-like pattern, showcasing the elegant curved veins of each leaf. "
+                    "The main dome is a sphere of translucent green membranes, glowing with an internal 'Emerald Forest' LED that reveals the intricate network of veins. "
+                    "The look is delicate, sacred, and very detailed."
+                ),
+                "Daun Kering": (
+                    "A fragile 1-meter mosque model built from weathered, crispy dried leaves. "
+                    "The texture is a mix of brittle browns and ochre, featuring realistic holes and frayed edges from age. "
+                    "The main dome is a skeletal structure of leaf veins, glowing with a dim, flickering 'Candle-Light' LED that leaks through the natural decay. "
+                    "This creates a profoundly sad yet beautiful architectural masterpiece, looking extremely old and fragile."
+                ),
+                "Daun Bambu": (
+                    "A monumental 1-meter mosque model built from thousands of slender, needle-like Bamboo leaves. "
+                    "The walls feature a clean, vertical striped texture made from overlapping fresh green leaf blades. "
+                    "The main dome is a sharp, conical structure glowing with an internal 'Pale Jade' LED that highlights the elegant parallel veins. "
+                    "The look is minimalist, serene, and incredibly sharp in 8K resolution."
+                ),
+                "Daun Pepaya": (
+                    "A grand 1-meter mosque object built from the deeply lobed, finger-like anatomy of Papaya leaves. "
+                    "The architecture features complex, star-shaped patterns on the walls where the leaf lobes overlap. "
+                    "The colossal main dome is an intricate lace-like structure, glowing with an internal 'Solar Amber' LED that casts dramatic, jagged shadows. "
+                    "It looks like an ancient, organic cathedral made of green lace."
+                ),
+                "Daun Teratai": (
+                    "A monumental 1-meter mosque diorama built from oversized, circular Lotus leaves. "
+                    "The main dome is a single, massive perfectly curved leaf with a soft matte texture and high-gloss water droplets on top. "
+                    "Internal 'Lunar Ice' LED lighting creates a soft, ethereal glow that makes the leaf appear translucent. "
+                    "The minarets are crafted from porous lotus stems, with light leaking through the natural internal air-canals."
+                ),
+                "Daun Pandan": (
+                    "A monumental 1-meter mosque model built from thousands of long, slender Pandan leaves. "
+                    "The walls feature a masterwork of complex diagonal weaving, showcasing the sharp central rib of each leaf. "
+                    "The main dome is a sphere of knotted and plaited pandan strips, glowing with an internal 'Lime Forest' LED that seeps through the tight weaves. "
+                    "The look is incredibly neat, rhythmic, and possesses a high-gloss organic finish that catches the light beautifully."
+                ),
+                "Daun Pucuk Merah": (
+                    "A grand 1-meter mosque diorama built from millions of tiny leaves from the Syzygium (Pucuk Merah) plant. "
+                    "The facade shows a stunning natural gradient, with bright crimson-red leaves at the tips of the minarets fading into deep forest green at the base. "
+                    "The main dome is a dense, fluffy mound of tiny red leaves, glowing from within with a 'Sunset Gold' LED that highlights the delicate, small-scale texture. "
+                    "It looks like a mosque built from living, glowing embers."
+                ),
+                "Bunga Mawar": (
+                    "A monumental 1-meter mosque model built from millions of deep red rose petals. "
+                    "The walls feature a soft, velvet-like texture of overlapping petals, creating a rich 'Ombre' effect from dark maroon to bright scarlet. "
+                    "The colossal main dome is a massive, blooming rose head with a high-gloss dew finish, glowing from within with a 'Deep Ruby' LED that seeps through the petal layers. "
+                    "Minarets are crafted from dark green rose stems with realistic sharp thorns, lit by steady warm-white fiber optics. "
+                    "The look is romantic, majestic, and incredibly detailed in its organic softness."
+                ),
+                "Bunga Melati": (
+                    "A gigantic 1-meter mosque diorama built from thousands of tiny, ivory-white Jasmine buds. "
+                    "The facade is a dense mosaic of unopened buds, looking like precious pearls or white marble carvings. "
+                    "The main dome is a sphere of fully bloomed jasmine flowers, glowing from within with a soft 'Lunar Pearl' LED wash. "
+                    "Instead of neon, the arches are outlined with a dim, steady warm-white glow that emphasizes the purity of the white petals. "
+                    "The visual is serene, spiritual, and looks incredibly fragile and clean."
+                ),
+                "Bunga Matahari": (
+                    "A grand 1-meter mosque object built from the anatomy of Sunflowers. "
+                    "The walls are covered in the rough, fibrous texture of sunflower petals, while the arches are framed by the large, vibrant yellow outer petals. "
+                    "The colossal main dome is a sphere made of millions of dark brown sunflower seeds arranged in perfect Fibonacci spirals, glowing with an internal 'Golden Flare' LED. "
+                    "Tall minarets are thick, hairy green stalks topped with smaller sunflower heads, wrapped in steady amber fiber-optic lines. "
+                    "The look is bold, warm, and high-contrast."
+                ),
+                "Bunga Teratai": (
+                    "A monumental 1-meter mosque built from oversized Pink Lotus petals. "
+                    "The walls have a waxy, semi-translucent texture that captures light beautifully. "
+                    "The main dome is a massive, multi-layered lotus flower glowing from its core with a 'Zen Pink' internal LED, making the petal veins visible. "
+                    "Inside the dome, the yellow seed pod (receptacle) acts as a glowing chandelier. "
+                    "The minarets are smooth, pale-green stalks, giving a very calm, ethereal architectural vibe."
+                ),
+                "Bunga Anggrek": (
+                    "A gigantic 1-meter mosque model built from vibrant purple and white Orchid petals. "
+                    "The architecture features the unique, organic shapes of orchid lips (labellum) as entrance arches. "
+                    "The main dome is a sphere of translucent orchid wings, glowing with a 'Mystic Violet' internal LED that highlights the intricate purple spots and veins. "
+                    "The minarets are slender, curved orchid stems wrapped in thin, steady silver-white fiber optics. "
+                    "The visual is extremely luxurious, rare, and artistic."
+                ),
+                "Bunga Lavender": (
+                    "A unique 1-meter mosque diorama built from millions of tiny purple lavender sprigs. "
+                    "The texture is extremely 'busy' and fuzzy, creating a soft purple haze across the walls. "
+                    "The main dome is a dense mound of lavender buds glowing with a 'Soft Lilac' internal wash. "
+                    "The minarets are tall, slender bundles of lavender stalks wrapped in rapidly pulsing violet fairy lights. "
+                    "It looks like a mosque built from a magical purple cloud, very atmospheric and moody."
+                ),
+                "Bunga Kamboja": (
+                    "A monumental 1-meter mosque model built from thousands of thick-petaled Frangipani (Kamboja) flowers. "
+                    "The walls have a smooth, waxy porcelain-like finish with a natural white-to-yellow gradient. "
+                    "The main dome is a sphere of overlapping waxy petals, glowing from within with a 'Golden Butter' LED that reveals the soft organic texture. "
+                    "Minarets are crafted from the thick, greyish-green woody stems of the Kamboja tree, lit by steady warm-white fiber optics for a serene, tropical vibe."
+                ),
+                "Bunga Sepatu": (
+                    "A gigantic 1-meter mosque diorama built from vibrant red Hibiscus flowers. "
+                    "The walls feature the silky, fibrous texture of large red petals. "
+                    "The colossal main dome is formed by hundreds of translucent petals, with a central golden stamen acting as a majestic spire. "
+                    "Inside, a 'Crimson Pulse' LED highlights the delicate veins of the petals, making the entire structure glow like a red lantern against a dark background."
+                ),
+                "Bunga Tulip": (
+                    "A grand 1-meter mosque object built from thousands of perfectly curved Tulip petals. "
+                    "The architecture is minimalist and sleek, with a satin-like glossy finish on every surface. "
+                    "The colossal main dome is a closed-chalice shape made of deep purple petals, glowing with a 'Mystic Amethyst' internal LED wash. "
+                    "All arches are outlined with a dim, steady silver-white glow, creating a high-luxury and modern botanical masterpiece."
+                ),
+                "Bunga Bougainvillea": (
+                    "A unique 1-meter mosque model built from millions of paper-thin Bougainvillea petals in vibrant magenta. "
+                    "The texture is crisp and intricate, with petals arranged like roofing shingles across the entire facade. "
+                    "The main dome is a dense, glowing mound of paper-like membranes, illuminated by a 'Neon Fuchsia' internal wash that leaks through the paper-thin petals. "
+                    "The visual is incredibly light, airy, and intensely colorful."
+                ),
+                "Pisang & Kamboja": (
+                    "A monumental 1-meter mosque model blending fresh banana leaves and white frangipani. "
+                    "The walls are built from waxy green banana leaf scrolls, while every entrance arch is meticulously decorated with thousands of white-and-yellow Kamboja flowers. "
+                    "The colossal dome is a weave of green 'Janur' with blooming kamboja flowers acting as glowing jewels. "
+                    "Internal 'Forest Gold' LED lighting seeps through the leaves and petals, creating a lush, tropical paradise vibe in high-contrast."
+                ),
+                "Jati & Mawar": (
+                    "A grand 1-meter mosque diorama mixing rugged dried Teak leaves and deep red roses. "
+                    "The structure has a rustic brown-leather base made from teak leaves, contrasted by a colossal main dome made entirely of millions of red velvet rose petals. "
+                    "The minarets are thick teak stalks wrapped in thorny rose vines. "
+                    "Lighting: A 'Deep Crimson' internal LED makes the dome glow like a burning ember, while the brown leaves stay in dramatic shadow."
+                ),
+                "Teratai & Melati": (
+                    "A gigantic 1-meter mosque built from oversized circular Lotus leaves and tiny Jasmine buds. "
+                    "The facade is a pure white mosaic of jasmine flowers, built upon a sturdy base of dark green lotus stalks. "
+                    "The main dome is a massive, perfectly curved lotus leaf with jasmine garlands draped over it like lace. "
+                    "Inside, a 'Lunar Ice' white LED creates a serene, spiritual glow that makes the white petals look like glowing porcelain."
+                ),
+                "Keladi & Bougainvillea": (
+                    "A monumental 1-meter mosque object featuring heart-shaped Caladium leaves and magenta Bougainvillea. "
+                    "The walls are a vibrant mix of red-veined leaves and paper-thin magenta petals, creating a stunning organic gradient. "
+                    "The main dome is a sphere of translucent pink membranes, glowing with an internal 'Fuchsia Galaxy' LED scheme. "
+                    "This is the ultimate 'warna-warni' look, appearing like a glowing magical garden cathedral in the dark."
+                ),
+                "Bambu & Anggrek": (
+                    "A grand 1-meter mosque combining slender green bamboo leaves and purple orchids. "
+                    "The walls feature clean, vertical bamboo lines, while the arches are framed by exotic purple orchid lips (labellum). "
+                    "The colossal dome is a sphere of bamboo weave with orchid petals embedded like stained glass. "
+                    "Internal 'Pale Amethyst' LED lighting highlights the purple veins and green fibers, creating a high-luxury, peaceful vibe."
+                ),
+                "Brokoli": (
+                    "A monumental 1-meter mosque model built entirely from Romanesco broccoli. "
+                    "The walls feature thousands of natural, lime-green fractal pyramids and spiral cones. "
+                    "The colossal main dome is a massive fractal spire glowing from within with a 'Toxic Emerald' LED wash that highlights the organic math-like patterns. "
+                    "Minarets are tall fractal stalks wrapped in steady warm-white fiber-optic lines, looking like a masterpiece of alien architecture."
+                ),
+                "Jagung": (
+                    "A gigantic 1-meter mosque diorama constructed from millions of translucent 'Glass Gem' corn kernels. "
+                    "Each kernel looks like a polished, multi-colored gemstone in shades of blue, pink, purple, and gold. "
+                    "The main dome is a massive sphere of glowing corn-gems, illuminated by a 'Prism RGB' internal LED that scatters colorful light through the translucent grains. "
+                    "The visual is incredibly luxurious, resembling a cathedral made of thousands of tiny stained-glass beads."
+                ),
+                "Pare": (
+                    "A grand 1-meter mosque object built from the rugged, bumpy skin of Bitter Gourds (Pare). "
+                    "The walls have an intensely detailed, warty green texture that creates deep shadows. "
+                    "The colossal main dome is made of polished, translucent pale-green pare flesh, glowing with a soft 'Acid Mint' internal LED. "
+                    "The lighting 'bleeds' through the bumpy ridges, making the texture look hyper-detailed and sharp in 8K resolution."
+                ),
+                "Cabai Rawit": (
+                    "A monumental 1-meter mosque model built from millions of vibrant red and bird's eye chilies. "
+                    "The facade is a dense, high-gloss mosaic of shiny red chili skins. "
+                    "The main dome is a sphere of densely packed chilies, glowing with a 'Lava Red' internal LED scheme that makes the entire structure look like a burning, sacred ember. "
+                    "Minarets are topped with green chili stems, lit by steady warm-white pin-lights for a powerful and aggressive visual."
+                ),
+                "Terong": (
+                    "A gigantic 1-meter mosque model built from high-gloss purple eggplant skins. "
+                    "The texture is smooth, dark, and deeply reflective, looking like polished purple obsidian. "
+                    "The colossal main dome is made of bone-white eggplant flesh, glowing from within with a 'Soft Amethyst' LED wash. "
+                    "The contrast between the near-black purple skin and the glowing white interior creates a very sophisticated and high-luxury architectural vibe."
+                ),
+                "Jamur Kuping": (
+                    "A unique 1-meter mosque diorama built from translucent black wood-ear mushrooms (Jamur Kuping). "
+                    "The walls have a wavy, rubbery, and semi-translucent dark texture. "
+                    "The main dome is a sphere of overlapping mushroom membranes, glowing with a dim 'Ethereal Blue' LED that highlights the veins of the fungus. "
+                    "The look is dark, mysterious, and very high-contrast, perfect for a moody cinematic scene."
+                ),
+                "Bawang Merah": (
+                    "A monumental 1-meter mosque model built from thousands of glossy purple shallot skins and cloves. "
+                    "The walls feature the translucent, papery texture of red onion skins, layered like delicate shingles. "
+                    "The colossal main dome is a sphere of polished white onion flesh, glowing from within with a 'Soft Lilac' LED that highlights the concentric ring patterns. "
+                    "Minarets are topped with dried onion roots, looking like intricate ancient spires, lit by steady warm-white fiber optics."
+                ),
+                "Kol Ungu": (
+                    "A gigantic 1-meter mosque diorama built from the tightly packed, wavy leaves of Purple Cabbage. "
+                    "The facade shows a complex maze of white veins against deep violet leaf membranes. "
+                    "The colossal main dome is a cross-section of a cabbage head, glowing with a 'Mystic Magenta' internal LED wash that reveals the labyrinth-like internal structure. "
+                    "The lighting 'bleeds' through the purple fibers, creating a high-luxury and artistic architectural look."
+                ),
+                "Paprika": (
+                    "A grand 1-meter mosque object built from high-gloss red, yellow, and orange Bell Peppers. "
+                    "The walls have an ultra-smooth, waxy finish that reflects the surroundings like polished enamel. "
+                    "The main dome is a sphere of translucent pepper flesh with internal 'Amber Sun' LED lighting, making the seeds inside visible as soft silhouettes. "
+                    "All arches are outlined with a dim, steady gold neon glow, emphasizing the vibrant, juicy colors of the vegetable."
+                ),
+                "Jagung Manis": (
+                    "A monumental 1-meter mosque constructed from millions of golden corn kernels and dried husks. "
+                    "The walls are built from the pale-tan, fibrous texture of corn husks (kelobot), while the dome is a sphere of shiny, plump yellow kernels. "
+                    "Internal 'Buttery Gold' LED lighting makes every kernel glow like a tiny amber gemstone. "
+                    "The minarets are wrapped in 'corn silk' (rambut jagung), lit by thin, flickering fiber-optic lines for a soft, ethereal golden aura."
+                ),
+                "Labu Parang": (
+                    "A massive 1-meter mosque model built from the thick, ribbed skin of Pumpkins. "
+                    "The architecture is grand and heavy, featuring the deep grooves and textured orange rind. "
+                    "The colossal main dome is a carved pumpkin sphere, glowing from within with a powerful 'Harvest Fire' orange LED that leaks through geometric star-shaped carvings. "
+                    "The look is sturdy, warm, and cinematic, perfect for a high-contrast dark environment."
+                ),
+                "Wortel": (
+                    "A unique 1-meter mosque diorama built from thousands of bright orange carrot sticks and peels. "
+                    "The walls have a grainy, fibrous texture with realistic dirt-specks for authenticity. "
+                    "The main dome is a sphere of translucent carrot slices glowing with an internal 'Sunset Orange' LED. "
+                    "The minarets are tall, slender carrot obelisks topped with fresh green carrot-top leaves, lit by steady warm-white spotlights."
                 ),
             },
             # --- 3. MASTER KONTEN (🌍 WORLD MOSQUE DIORAMA - CRAFT SCALE EDITION) ---
