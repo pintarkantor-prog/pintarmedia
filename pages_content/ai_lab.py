@@ -1001,67 +1001,465 @@ def tampilkan_halaman():
         MASTER_GRANDMA_SETTING = {
             "Sudut Dapur Tungku": (
                 "Sitting on a low wooden stool (dingklik) next to a traditional clay wood-fire stove (tungku). "
-                "The background is a solid wall of soot-covered bricks (tembok pawon) with deep black carbon stains. "
-                "The floor is hard-packed earth with scattered wood ash and charcoal bits. "
-                "Surrounding objects: a soot-blackened kettle, a pile of dry firewood, and an old coconut shell dipper (gayung batok). "
-                "Atmospheric smoky haze with thin light beams (God rays) hitting the dust particles."
+                "The background is a solid wall of soot-covered bricks (tembok pawon) with deep black carbon stains and rough mortar. "
+                "The floor is hard-packed earth with scattered white wood ash, burnt charcoal bits, and dry twigs. "
+                "Surrounding objects: a soot-blackened aluminum kettle, a pile of split firewood, and an old coconut shell dipper (gayung batok) on a wooden bucket."
             ),
-            "Teras Bambu Remang": (
-                "Sitting on an old, creaky bamboo platform (lincak) under a low-hanging thatched roof. "
-                "The background is a dark, out-of-focus village garden with banana leaf silhouettes. "
-                "Next to her is a dim kerosene lamp (lampu templok) casting a soft amber glow on the diorama. "
-                "Surrounding objects: an old sarong draped on the rail, a coil of mosquito coil (obat nyamuk bakar) with its ash, and a chipped enamel mug. "
-                "Focus on the 'Wet-Look' of the village air after rain."
+            "Teras Bambu & Lincak": (
+                "Sitting on a creaky, polished bamboo platform (lincak) under a low-hanging thatched roof made of dried palm leaves. "
+                "The background is a solid wall of old, woven bamboo sheets (gedek) with visible greyish fading fibers. "
+                "The floor is unpolished grey cement with fine sandy textures. "
+                "Surrounding objects: a hand-woven leaf fan (kipas bambu), an old sarong draped on a wooden rail, a coil of mosquito coil with its white ash, and a chipped enamel mug."
             ),
             "Gudang Kayu Tua": (
-                "Sitting on the floor of a dark wooden shed filled with antique farm tools. "
-                "The background is a solid wall of rough-hewn timber planks with visible woodworms and cobwebs in the corners. "
-                "The floor is covered in a layer of fine sawdust and dry teak leaves. "
-                "Surrounding objects: a rusted sickle (arit), a pile of old burlap sacks (karung goni), and a broken wooden ladder. "
-                "The lighting is a single dramatic spotlight from a hole in the roof, hitting the diorama mosque."
+                "Sitting on a floor made of rough timber planks inside a dark shed. "
+                "The background is a solid wall of aged, uneven wood boards with visible woodworm holes, peeling bark, and dusty cobwebs in the corners. "
+                "The floor is covered in a layer of fine sawdust, dry teak leaves, and wood shavings. "
+                "Surrounding objects: a rusted sickle (arit) leaning against a post, a stack of old burlap sacks (karung goni), and a broken wooden ladder."
             ),
             "Lantai Ubin Motif Jadul": (
-                "Sitting on a classic 'Ubin PC' (vintage cement tiles) with faded floral patterns and weathered cracks. "
-                "The background is a solid whitewashed wall with peeling paint and mossy damp patches (rembesan air). "
-                "Next to her is a small wooden radio playing static, a plate of steamed bananas, and an old pair of 'Sandal Jepit' with a wire repair. "
-                "Focus on the contrast between the cold patterned floor and the humble handcrafted diorama."
+                "Sitting on a floor of classic 'Ubin PC' (vintage cement tiles) with faded floral patterns and weathered cracks. "
+                "The background is a solid whitewashed brick wall with realistic peeling paint and damp mossy patches near the base. "
+                "The environment is clean but aged. "
+                "Surrounding objects: a small wooden vintage radio, a plate of steamed bananas, and an old pair of rubber 'Sandal Jepit' with a wire repair."
             ),
             "Bawah Pohon Sawo": (
-                "Sitting directly on the ground under the deep shade of an old fruit tree. "
-                "The floor is a mix of dry soil, small river stones, and fallen brown leaves. "
-                "The background is the thick, gnarled trunk of the tree with realistic bark texture. "
-                "Surrounding objects: a bamboo rake (garu), an old plastic bucket filled with water, and a few chickens scratching the dirt nearby. "
-                "Natural, high-contrast sunlight filtered through leaves (bokeh effect)."
+                "Sitting directly on the dry ground in a shaded backyard. "
+                "The floor is a realistic mix of dark soil, small grey river stones, and crunchy fallen brown leaves. "
+                "The background is the thick, gnarled trunk of an old fruit tree with rough, deeply textured bark. "
+                "Surrounding objects: a bamboo rake (garu), an old plastic bucket, and a few chickens wandering in the background."
+            ),
+            "Gubuk Tengah Sawah": (
+                "Sitting on a raised platform of a small bamboo 'Gubug' (hut). "
+                "The floor is made of uneven bamboo slats (pancuh) with visible gaps showing the muddy earth and weeds below. "
+                "The background is a vast green paddy field with swaying rice stalks. "
+                "Surrounding objects: a worn-out conical straw hat (caping), a rusty sickle stuck in a bamboo post, and a plastic water bottle wrapped in a damp cloth."
+            ),
+            "Gubuk Deru Hujan": (
+                "Sitting inside a small field hut with a thick, shaggy thatched roof (atap rumbia). "
+                "The floor is wet bamboo with realistic water puddles and mud stains. "
+                "The background is a misty view of rain falling on the rice fields. "
+                "Surrounding objects: an old burlap sack used as a raincoat, a clay pot for boiling water, and a pair of mud-stained rubber boots."
+            ),
+            "Gubuk Panen Jerami": (
+                "Sitting on a thick pile of dry, golden rice stalks (jerami) inside a rough teak-wood hut. "
+                "The background is a harvested rice field with scattered hay stacks. "
+                "The environment is filled with loose straw and golden husks. "
+                "Surrounding objects: a large woven basket (tenggok) filled with unhusked rice, a traditional wooden rake, and a stained enamel plate."
+            ),
+            "Kandang Kambing Kayu": (
+                "Sitting on a weathered wooden plank platform next to an empty livestock pen. "
+                "The background is a solid wall of vertical dark teak wood slats with visible wood grain and gaps. "
+                "The floor is a mix of dry soil and scattered hay. "
+                "Surrounding objects: an old woven grass basket (kranjang rumput), a rusted metal bucket, and a hanging kerosene lantern (without light)."
+            ),
+            "Bawah Pohon Bambu": (
+                "Sitting on a pile of dry, crunchy bamboo leaves (klaras) in a secluded grove. "
+                "The background is a dense thicket of green and yellow bamboo poles (Pring Petung). "
+                "The floor is dark, damp soil mixed with fallen organic debris. "
+                "Surrounding objects: a pile of bamboo shoots (rebung), an old rusty bicycle carrier, and a small birdcage hanging from a branch."
+            ),
+            "Sumur Tua Berlumut": (
+                "Sitting on a low mossy stone wall next to a traditional village well (sumur timba). "
+                "The background is a solid wall of old red bricks covered in thick green moss and ferns. "
+                "The floor is wet grey cement with realistic puddles and water stains. "
+                "Surrounding objects: a black rubber bucket with a frayed rope, a bar of soap on a stone, and a pair of wooden clogs (gapyak)."
+            ),
+            "Pinggir Sungai Berbatu": (
+                "Sitting on a massive flat grey river stone. "
+                "The background is a flowing river with white water splashes and smooth boulders. "
+                "The floor is a mix of rounded pebbles, fine sand, and sun-bleached drift-wood. "
+                "Surrounding objects: a bamboo fishing rod, a small plastic bucket, and a sarong laid out to dry on a rock."
+            ),
+            "Lantai Tanah & Jemuran Gabah": (
+                "Sitting on a low plastic stool on a flat, swept dirt floor (tanah liat). "
+                "The background is a solid wall of old red bricks with mossy patches and white salt stains. "
+                "The floor is covered by a large blue plastic tarp used for drying unhusked rice (gabah). "
+                "Surrounding objects: a bamboo broom (sapu lidi), a wooden rake, and a few scattered chickens picking at the grain."
+            ),
+            "Pojok Gudang Kayu Bakar": (
+                "Sitting on a stack of rough timber planks in a shed. "
+                "The background is a massive pile of split firewood (kayu bakar) stacked unevenly reaching the ceiling. "
+                "The floor is covered in dry bark, wood chips, and fine sawdust. "
+                "Surrounding objects: an old rusted axe, a pile of dry coconut husks (sepet), and a dusty spiderweb in the corner."
+            ),
+            "Samping Kandang Ayam": (
+                "Sitting on a wooden crate next to a bamboo chicken coop (kandang ayam petelur). "
+                "The background is a wall of bamboo slats with visible wire mesh and feathers stuck in the gaps. "
+                "The floor is dark soil mixed with dry straw and grain husks. "
+                "Surrounding objects: a plastic feed bucket, a pile of old bamboo poles, and a discarded rubber tire used as a planter."
+            ),
+            "Teras Belakang & Cucian Piring": (
+                "Sitting on a cold cement steps near a backyard washing area. "
+                "The background is a solid wall of unpainted cement with green water stains and mold. "
+                "The floor is wet and slippery with realistic soap suds and puddles. "
+                "Surrounding objects: a stack of enamel plates, a blackened cooking pot, a pair of worn-out sandals (sandal jepit), and a plastic basin."
+            ),
+            "Bawah Pohon Melinjo": (
+                "Sitting on the ground on top of a flattened cardboard box. "
+                "The background is the trunk of a tall Gnetum gnemon tree (pohon melinjo) and a dense thicket of wild shrubs. "
+                "The floor is covered in small yellowish melinjo seeds and dry, crunchy leaves. "
+                "Surrounding objects: a bamboo basket (tenggok) for gathering leaves, a rusted sickle (arit), and an old radio on a stone."
+            ),
+            "Pojok Genteng Tua": (
+                "Sitting on a low wooden plank leaning against a massive stack of old, mossy terracotta roof tiles (genteng tanah liat). "
+                "The background is a solid wall of stacks of tiles with realistic chips, cracks, and patches of grey lichen. "
+                "The floor is dark, damp soil with scattered broken tile fragments and small ferns. "
+                "Surrounding objects: an old bamboo ladder, a rusted watering can, and a pile of dry coconut husks (sepet)."
+            ),
+            "Selasar Kandang Sapi": (
+                "Sitting on a thick timber beam next to a traditional village cattle pen made of heavy teak logs. "
+                "The background is a solid wall of dark, weathered wood with visible rope tie-marks and animal-rubbed textures. "
+                "The floor is a mix of packed earth and dried yellow straw (jerami). "
+                "Surrounding objects: a large woven bamboo basket (tenggok) filled with grass, a plastic bucket, and an old salt-lick block on a stump."
+            ),
+            "Jemuran Pakaian Belakang": (
+                "Sitting on a low stone next to a simple clothesline made of frayed plastic rope tied between two trees. "
+                "The background is a solid wall of unpainted, weathered grey cement with water stains and peeling moss. "
+                "The floor is uneven dirt with small puddles of soapy water and a few plastic clothespins scattered around. "
+                "Surrounding objects: a pile of wet laundry in a plastic basin, a pair of wooden clogs (bakiak), and a small cat playing with a thread."
+            ),
+            "Pojok Kebun Singkong": (
+                "Sitting on a fallen log in the middle of a dense cassava plantation. "
+                "The background is a wall of vertical cassava stems and large, palmate green leaves. "
+                "The ground is covered in dark, loose soil with realistic root bumps and dry weeds. "
+                "Surrounding objects: a pile of harvested cassava roots with clinging dirt, a rusted sickle (arit), and a worn-out conical straw hat (caping)."
+            ),
+            "Gubuk Alat Tani": (
+                "Sitting on a stack of old burlap sacks inside a small, open-air tool shed. "
+                "The background is a solid wall of vertically arranged bamboo poles with farm tools hanging from rusty nails. "
+                "The floor is covered in a layer of fine dust, dry grass, and old fertilizer bags. "
+                "Surrounding objects: a rusted plow (luku), a bamboo rake (garu), and an old radio playing static on a wooden crate."
+            ),
+            "Kebun Semangka": (
+                "Sitting on a flat wooden plank in the middle of a sprawling watermelon field. "
+                "The background is a solid carpet of large, lobed green leaves and tangled curly vines (sulur) spreading across the ground. "
+                "The floor is dry, sandy soil with realistic cracks and scattered straw mulch. "
+                "Surrounding objects: several large striped watermelons still attached to vines, a pile of harvested fruit, and an old plastic bucket for watering."
+            ),
+            "Kebun Melon": (
+                "Sitting on a low stool inside a greenhouse or open melon farm with vertical bamboo trellises (ajir). "
+                "The background is a wall of hanging green melons supported by small plastic nets and climbing vines. "
+                "The floor is covered in black plastic mulch (mulsa) with small holes where the stems grow out. "
+                "Surrounding objects: a pair of garden shears, a small notebook for recording harvest, and a discarded fertilizer bag."
+            ),
+            "Kebun Nanas": (
+                "Sitting on a clear patch of earth surrounded by sharp, spiky pineapple plants. "
+                "The background is a dense sea of long, serrated grey-green leaves with a few pineapples growing from the centers. "
+                "The floor is reddish-brown volcanic soil with small pebbles and dry weeds. "
+                "Surrounding objects: a thick pair of protective gloves, a large woven basket (tenggok), and a wooden crate for fruit."
+            ),
+            "Kebun Buah Naga": (
+                "Sitting on a stone against a background of concrete pillars covered in sprawling Dragon Fruit cactus vines. "
+                "The facade features long, triangular green cactus arms hanging down like organic curtains. "
+                "The floor is dry dirt with fallen pink flower petals and small stone fragments. "
+                "Surrounding objects: a long bamboo pole for harvesting, a plastic crate, and an old wide-brimmed straw hat (caping)."
+            ),
+            "Kebun Strawberry": (
+                "Sitting on a small wooden plank in a highland strawberry farm. "
+                "The background features rows of black polybags or elevated wooden planters filled with green strawberry plants and small white flowers. "
+                "The floor is covered in dry pine needles or straw mulch to keep the fruits clean. "
+                "Surrounding objects: several bright red strawberries hanging from the vines, a small plastic basket for picking, and a rusted hand trowel."
+            ),
+            "Kebun Jeruk": (
+                "Sitting on a low stool under the dense canopy of orange trees. "
+                "The background is a wall of dark green waxy leaves and dozens of round yellow oranges hanging from the branches. "
+                "The floor is dark soil mixed with fallen orange leaves and a few overripe fruits on the ground. "
+                "Surrounding objects: a long bamboo harvesting pole (galah), a large woven bamboo basket (tenggok), and an old plastic crate."
+            ),
+            "Kebun Pepaya": (
+                "Sitting on a fallen papaya trunk against a background of tall, slender papaya trees with large star-shaped leaves. "
+                "The facade features bunches of green and ripening orange papayas clustered near the top of the trunks. "
+                "The ground is covered in dry greyish leaves and loose soil with realistic root bumps. "
+                "Surrounding objects: a wooden ladder leaning against a tree, a pile of harvested fruit, and an old 'arit' (sickle) on the ground."
+            ),
+            "Kebun Anggur": (
+                "Sitting on a wooden bench under a low-hanging bamboo trellis covered in grapevine leaves. "
+                "The background features heavy clusters of purple and green grapes hanging directly above the diorama. "
+                "The floor is a mix of pebbles and fine sand with fallen vine tendrils and dry leaves. "
+                "Surrounding objects: a pair of small pruning shears, a glass of tea on a wooden box, and a traditional conical hat (caping)."
+            ),
+            "Kebun Pisang": (
+                "Sitting on a fallen, rotting banana trunk (gedebog) in a dense, humid grove. "
+                "The background is a solid wall of massive green banana leaves, some tattered and frayed by wind, mixed with hanging dry brown leaves (klaras). "
+                "The floor is damp, dark soil covered in decaying organic matter and small wild mushrooms. "
+                "Surrounding objects: a bunch of harvested green bananas (pisang kepok), a rusted long-handled sickle (arit), and a discarded plastic tarp."
+            ),
+            "Pojok Jantung Pisang": (
+                "Sitting on a low wooden stool directly under a low-hanging purple banana blossom (jantung pisang). "
+                "The background features several thick, moist banana trunks with realistic layered textures and water-stain patterns. "
+                "The ground is covered in dry banana fibers and fallen purple blossom petals. "
+                "Surrounding objects: a woven bamboo basket (tenggok) filled with banana hearts, a pair of muddy rubber boots, and a wooden crate."
+            ),
+            "Jemuran Daun Pisang": (
+                "Sitting on a bamboo mat in a clearing surrounded by banana trees. "
+                "The background features several large, fresh banana leaves laid out on the ground or leaning against a fence to dry. "
+                "The floor is a mix of dry soil and scattered banana leaf stalks (pelepah). "
+                "Surrounding objects: a bundle of tied banana leaves, a small knife for trimming, and a traditional conical hat (caping) resting on the ground."
+            ),
+            "Gubuk Tambak Udang/Ikan": (
+                "Sitting on a fragile wooden jetty of a small bamboo hut (saung) over a vast brackish water pond. "
+                "The background features the open water of the pond with a few wooden aerators (kincir air) in the distance. "
+                "The floor is made of old, sun-bleached timber planks with salt crusts and small dried algae. "
+                "Surrounding objects: a large fishing net (jala), a plastic bucket for fish feed, and an old lifebuoy hanging on a bamboo post."
+            ),
+            "Pinggir Kolam Ikan Koi": (
+                "Sitting on a flat decorative river stone at the edge of a clear garden pond. "
+                "The background is the water surface filled with vibrant, colorful Koi fish (orange, white, and calico) swimming near the surface. "
+                "The floor is a mix of smooth pebbles, green mossy rocks, and small water plants like lilies. "
+                "Surrounding objects: a small wooden bridge in the distance, a ceramic bowl of fish food, and a pair of traditional wooden clogs (gapyak)."
+            ),
+            "Belakang Aquarium Ikan Hias": (
+                "Sitting on a small stool directly behind a massive, long glass aquarium filled with colorful tropical fish. "
+                "The background is the interior of the tank with green aquatic plants, white sand, and glowing neon fish swimming across. "
+                "The floor is clean indoor tiles with a small rug. "
+                "Surrounding objects: an air pump with bubbling sounds (visualized as bubbles), a fish net, and containers of fish flakes on a side table."
+            ),
+            "Pojok Kolam Ikan Hias": (
+                "Sitting on a low concrete ledge next to a small backyard pond with a mini waterfall feature. "
+                "The background features colorful goldfish and comets darting through floating duckweed (mata lele). "
+                "The floor is wet terracotta tiles with realistic water splashes and damp patches. "
+                "Surrounding objects: a stone statue of a frog, a watering can, and a small bamboo water fountain (shishi-odoshi)."
+            ),
+            "Bengkel Kayu Tradisional": (
+                "Sitting on a thick, unfinished timber block inside a rustic carpentry workshop. "
+                "The background is a solid wall of hanging hand tools: saws, chisels, and wooden mallets on a pegboard. "
+                "The floor is buried under a thick layer of curly wood shavings (tatal) and fine sawdust. "
+                "Surrounding objects: a half-finished wooden chair, a bottle of wood glue, and a pile of teak planks."
+            ),
+            "Pojok Anyaman Bambu": (
+                "Sitting on a woven bamboo mat surrounded by hundreds of thin bamboo strips (atan). "
+                "The background features several half-finished 'besek' and 'tampah' stacked against a gedek wall. "
+                "The floor is covered in small bamboo fibers and offcuts. "
+                "Surrounding objects: a sharp small knife (pisau raut), a bundle of raw bamboo poles, and a bowl of water for soaking the strips."
+            ),
+            "Gudang Barang Antik Desa": (
+                "Sitting on an old dusty trunk in a dark corner filled with forgotten village heirlooms. "
+                "The background features a stack of old clay jars (gentong), a rusted manual sewing machine, and a vintage bicycle. "
+                "The floor is dark stone with layers of realistic dust and cobwebs. "
+                "Surrounding objects: an old kerosene lantern, a pile of vintage batik cloths, and a moth-eaten wooden cupboard."
+            ),
+            "Pinggir Rel Kereta Desa": (
+                "Sitting on a large ballast stone near a quiet, single-track railway line passing through a village. "
+                "The background features the perspective of the iron rails disappearing into the green bushes. "
+                "The floor is a mix of coarse grey gravel (ballast), dry grass, and rusted iron scraps. "
+                "Surrounding objects: an old signal post, a discarded plastic bottle, and a small wildflower patch between the tracks."
+            ),
+            "Halaman Jemuran Kerupuk": (
+                "Sitting on a low stool in a vast yard filled with hundreds of wooden trays (widik) drying colorful raw crackers. "
+                "The background is a sea of pink, yellow, and white crackers arranged in geometric rows. "
+                "The floor is dry, swept cement with realistic cracks. "
+                "Surrounding objects: a large bamboo pole for carrying the trays, a stray chicken, and a conical hat (caping) on a post."
+            ),
+            "Pojok Pasar Desa": (
+                "Sitting on a low wooden bench in a quiet corner of a traditional village market. "
+                "The background features stacks of empty wooden crates, woven bamboo baskets (bronjong), and old burlap sacks. "
+                "The floor is a mix of damp cement and scattered organic waste like onion skins and dry corn husks. "
+                "Surrounding objects: a rusted manual scale, a stray cat, and a discarded cardboard box for 'Mie Instan'."
+            ),
+            "Gubuk Pandai Besi": (
+                "Sitting on a soot-covered wooden stump inside a traditional blacksmith workshop. "
+                "The background features a large stone furnace, a heavy iron anvil, and various raw iron scraps. "
+                "The floor is covered in a thick layer of black charcoal dust, fine iron filings, and grey ash. "
+                "Surrounding objects: a heavy hammer, a bucket of dark cooling water, and a pile of finished sickles (arit)."
+            ),
+            "Teras Rumah Panggung Kayu": (
+                "Sitting on the top step of a weathered wooden staircase leading to a traditional stilt house. "
+                "The background is a solid wall of dark, unpainted timber planks with deep wood grain and lichen. "
+                "The floor (the steps) shows realistic wear-and-tear and mud-stained footprints. "
+                "Surrounding objects: a pair of old wooden clogs (bakiak), a broom made of palm leaf ribs (sapu lidi), and a plastic basin for washing feet."
+            ),
+            "Pojok Penggilingan Padi": (
+                "Sitting on a stack of plastic sacks inside a noisy rice mill shed. "
+                "The background is filled with massive piles of rice husks (sekam) and heavy machinery parts. "
+                "The air is hazy with floating fine rice dust, and the floor is covered in golden husks and white flour particles. "
+                "Surrounding objects: a large metal funnel, a plastic shovel, and a tattered sarong used as a dust mask."
+            ),
+            "Gunung Sampah TPA": (
+                "Sitting on a flattened cardboard box at the base of a massive mountain of assorted waste. "
+                "The background is a solid wall of colorful but faded plastic bags, crushed plastic bottles, and organic waste layers. "
+                "The floor is a mix of dark, muddy soil and scattered colorful scrap fragments. "
+                "Surrounding objects: a long bamboo hook (pengait sampah), a large woven plastic sack (karung rongsok), and a swarm of out-of-focus flies."
+            ),
+            "Gudang Pengepul Rongsok": (
+                "Sitting on a rusted oil drum inside a cluttered scrap metal yard. "
+                "The background is a solid wall of stacked rusted iron pipes, old bicycle frames, and crumpled sheet metal. "
+                "The floor is dark, oil-stained concrete with scattered rusty nails and metallic dust. "
+                "Surrounding objects: a heavy manual scale, a pile of copper wires, and a pair of thick industrial gloves."
+            ),
+            "Pojok Tumpukan Botol Plastik": (
+                "Sitting on a low stool surrounded by thousands of transparent and colorful plastic bottles packed in large nets. "
+                "The background is a translucent wall of plastic textures, showing realistic reflections and crinkled surfaces. "
+                "The floor is swept cement with scattered plastic caps and labels. "
+                "Surrounding objects: a manual bottle crusher, a large white plastic sack, and an old radio on a wooden crate."
+            ),
+            "Bawah Pohon Samping TPA": (
+                "Sitting on the dry ground at the edge of a landfill under a dusty tree. "
+                "The background features the silhouette of an excavator and a pile of old discarded tires. "
+                "The floor is dry dirt mixed with small bits of windblown plastic and dry leaves. "
+                "Surrounding objects: a tattered umbrella, a plastic water gallon, and a pair of worn-out boots with holes."
+            ),
+            "Gudang Kardus Bekas": (
+                "Sitting on a low stack of flattened cardboard boxes. "
+                "The background is a solid wall of towering, neatly tied stacks of brown corrugated cardboard boxes with visible shipping labels and torn tape. "
+                "The floor is covered in fine paper dust, cardboard scraps, and loose packing strings. "
+                "Surrounding objects: a large manual weighing scale, a box cutter knife, and a pile of old newspapers used as padding."
+            ),
+            "Pojok Tumpukan Koran": (
+                "Sitting on a wooden crate surrounded by yellowed, dusty stacks of old newspapers and vintage magazines. "
+                "The background features walls of paper bundles tied with plastic twine, showing realistic frayed edges and ink-stained textures. "
+                "The floor is dark cement with scattered loose pages and paper confetti. "
+                "Surrounding objects: an old pair of glasses, a glass of black coffee on a stack of newsprint, and a small hand-trolley (hand-truck)."
+            ),
+            "Lapak Rongsok Campuran": (
+                "Sitting in a crowded yard filled with a chaotic mix of scrap materials. "
+                "The background features a wall of compressed plastic blocks, tangled copper wires, and old electronic circuit boards. "
+                "The floor is gritty soil mixed with metallic fragments, plastic caps, and small rusted bolts. "
+                "Surrounding objects: a large magnetic wand for sorting metal, a massive white sack (karung jumbo) filled with cans, and a rusted bicycle frame."
+            ),
+            "Gubuk Sortir Sampah Kertas": (
+                "Sitting inside a small open-air hut dedicated to sorting scrap paper. "
+                "The background features various types of paper waste: egg cartons, cement bags, and office paper piles. "
+                "The floor is a mix of packed earth and layers of discarded paper fibers. "
+                "Surrounding objects: a large bamboo basket (tenggok) for sorting, a plastic water gallon, and a pair of worn-out work gloves."
+            ),
+            "Teras Samping Toko Kelontong": (
+                "Sitting on a wooden bench on the side of a small village 'Warung'. "
+                "The background features stacks of empty glass soda bottles in plastic crates and a few hanging snack sachets. "
+                "The floor is grey cement with realistic wear-and-tear. "
+                "Surrounding objects: a vintage bicycle leaning against the wall, a wooden crate, and an old glass jar filled with crackers (peyek)."
+            ),
+            "Pojok Perpustakaan Desa": (
+                "Sitting on the floor in a small, humble community reading corner. "
+                "The background is a simple wooden bookshelf filled with old, mismatched books and magazines. "
+                "The floor is covered in a clean, cheap plastic carpet with a simple pattern. "
+                "Surrounding objects: a small desk, a pair of reading glasses, and a stack of newspapers."
+            ),
+            "Taman Bunga Depan Rumah": (
+                "Sitting on a low wooden bench surrounded by dozens of colorful plants in recycled containers. "
+                "The background features bright red hibiscus, yellow marigolds, and pink bougainvillea. "
+                "The floor is swept gravel and small white stones with realistic sandy textures. "
+                "Surrounding objects: potted plants in old tin biscuit cans, a plastic watering can, and a small bamboo fence."
+            ),
+            "Taman Tanaman Obat": (
+                "Sitting on a flat stone in a small backyard 'Apotek Hidup' (herbal garden). "
+                "The background is a lush mix of ginger plants, turmeric leaves, and tall lemongrass stalks. "
+                "The floor is rich, dark damp soil with patches of green moss and fallen leaves. "
+                "Surrounding objects: a small clay mortar and pestle (ulekan), a woven basket for gathering herbs, and an old pair of garden shears."
+            ),
+            "Sudut Taman Pot Gantung": (
+                "Sitting on a plastic stool under a wooden trellis filled with hanging plants like 'Anggrek' (orchids) and ferns. "
+                "The background features several hanging pots made of halved coconut shells and plastic bottles. "
+                "The floor is clean grey cement with realistic water stains from plant irrigation. "
+                "Surrounding objects: a wooden birdcage hanging nearby, a small glass of tea on a table, and a pile of potting soil in a sack."
+            ),
+            "Taman Sayur Mini": (
+                "Sitting on a wooden crate next to small patches of chili plants, mustard greens (sawi), and spring onions. "
+                "The background is a mix of vibrant green leafy vegetables and vertical bamboo stakes (ajir). "
+                "The ground is covered in dark compost and dry rice husks (sekam). "
+                "Surrounding objects: a small hand trowel, a plastic bucket, and several red chili peppers drying on a bamboo tray (tampah)."
+            ),
+            "Gubuk Pinggir Rel Kereta Kota": (
+                "Sitting on a wooden crate next to a railway track in a crowded city slum. "
+                "The background features a solid wall of rusted corrugated iron sheets (seng) and graffiti-covered concrete. "
+                "The floor is a mix of coarse grey gravel, oil-stained soil, and scattered plastic trash. "
+                "Surrounding objects: a pile of old tires, a plastic gallon of water, and overhead messy electrical wires."
+            ),
+            "Teras Kontrakan Sempit": (
+                "Sitting on a thin floor mat in a very narrow city alleyway (gang sempit). "
+                "The background is a solid wall of unpainted cement bricks with mossy water leaks from upper floors. "
+                "The floor is cracked, uneven asphalt with small puddles of soapy water. "
+                "Surrounding objects: a row of laundry hanging on a plastic rope, a gas cylinder (LPG 3kg), and a pair of worn-out sneakers."
+            ),
+            "Kolong Jembatan Beton": (
+                "Sitting on a flattened cardboard box under a massive, weathered concrete bridge structure. "
+                "The background features the grey, stained pillars of the bridge with realistic soot and exhaust smoke marks. "
+                "The floor is dusty, dry dirt mixed with broken glass and old newspapers. "
+                "Surrounding objects: a makeshift bed made of sacks, an old bicycle, and a small portable stove."
+            ),
+            "Taman Mawar & Melati": (
+                "Sitting on a white-painted vintage bench surrounded by dense bushes of red roses and white jasmine. "
+                "The background is a vibrant wall of flowers with soft petals and green leaves. "
+                "The floor is covered in fallen white and red petals with clean stone paths. "
+                "Surrounding objects: a classic watering can, a small butterfly net, and a wooden basket of freshly cut flowers."
+            ),
+            "Kebun Bunga Warna-Warni": (
+                "Sitting on a flat stone in the middle of a field of sunflowers, zinnias, and lavender. "
+                "The background is a chaotic but beautiful explosion of yellow, purple, and orange blooms. "
+                "The floor is a mix of rich brown soil and small pebbles. "
+                "Surrounding objects: a wide-brimmed straw hat with a ribbon, a glass of iced tea, and a small garden shovel."
+            ),
+            "Sudut Taman Anggrek": (
+                "Sitting on a low stool under a wooden trellis draped with various hanging orchids. "
+                "The background features hanging coconut shell pots and mossy wooden slabs where orchids grow. "
+                "The floor is damp grey cement with realistic water reflections. "
+                "Surrounding objects: a mist sprayer bottle, a small wooden birdcage, and a pile of charcoal for planting."
+            ),
+            "Pinggiran Rel Kereta Jakarta": (
+                "Sitting on a stack of old tires near a busy railway track in a crowded Jakarta district. "
+                "The background is a solid wall of rusted corrugated iron sheets and grey concrete walls with peeling posters. "
+                "The floor is coarse grey gravel mixed with plastic scrap and oil stains. "
+                "Surrounding objects: messy overhead electrical cables, a plastic water gallon, and a discarded 'Mie Instan' box."
+            ),
+            "Gang Sempit Jakarta": (
+                "Sitting on a thin mat in a very narrow alleyway between tall, unpainted brick buildings. "
+                "The background is a wall of messy pipes, air conditioning units, and colorful laundry hanging overhead. "
+                "The floor is cracked, uneven asphalt with puddles of soapy water. "
+                "Surrounding objects: a 3kg LPG gas cylinder, a row of worn-out sandals, and a bucket of washing water."
+            ),
+            "Teras Kontrakan Padat": (
+                "Sitting on a small wooden bench in a very narrow, sunless alleyway (gang sempit) between tall brick houses. "
+                "The background is a wall of messy AC outdoor units, tangled cables, and damp mossy patches near the drainage. "
+                "The floor is cracked asphalt with small soapy puddles from nearby laundry. "
+                "Surrounding objects: a 3kg LPG cylinder, a row of worn-out sandals, and a bucket of washing water."
+            ),
+            "Puncak Gunung Berkabut": (
+                "Sitting on a jagged volcanic rock at the edge of a high mountain peak. "
+                "The background is a vast sea of white clouds (samudera awan) with silhouettes of distant peaks. "
+                "The floor is dark volcanic sand and small pumice stones with realistic dry, gritty textures. "
+                "Surrounding objects: a small camping stove, a metal mug with steam, and a sturdy wooden hiking pole."
+            ),
+            "Hutan Pinus Pegunungan": (
+                "Sitting on a fallen pine trunk in a dense, misty forest. "
+                "The background is a wall of tall, slender pine trees disappearing into thick white fog. "
+                "The floor is covered in a thick, crunchy layer of dry pine needles and small pine cones. "
+                "Surrounding objects: a kerosene lantern, a small stack of firewood, and an old wool blanket."
+            ),
+            "Lereng Gunung Berbatu": (
+                "Sitting on a large boulder on a steep, treeless mountain slope. "
+                "The background is a vast view of a valley below with tiny, twinkling village lights in the far distance. "
+                "The ground is rough grey gravel and yellowed mountain grass (edelweiss style). "
+                "Surrounding objects: a worn-out backpack, a pair of heavy boots, and a small handheld radio."
             )
         }
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (FIXED WORKSHOP INTERACTION) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "Natural Village-Authentic: A raw, unpolished voice with a flat, honest intonation. It carries a rhythmic 'broken' cadence, sounding deeply sincere and unpretentious with a texture that is slightly dry and dusty, lacking any urban polish.",
-                "Old Javanese Phonetic: Slow and deliberate with a heavy, vibrating 'dh' and 'th' percussion. The tone is deeply humble, featuring a low-register chest voice that sounds like a calm, rhythmic hum.",
-                "Soft Sundanese Lilt: A melodic, undulating rhythm (mendayu) with a gentle rising and falling pitch. The voice is airy and breathy, characterized by a smooth, high-frequency flow with no harsh edges.",
-                "Coastal Melayu Cadence: Quick-paced and rhythmic with a dry, gravelly texture. The intonation is punchy and direct, sounding like a weathered voice shaped by salt air and open spaces.",
-                "Village-Common 'Kering' Voice: A thin, cracked, and slightly shaky (gemetar) voice. It carries the texture of a dry throat, with high-register raspiness and frequent breathy pauses between phrases.",
-                "The Serene Matriarch: Extremely slow tempo, almost a whisper. The voice is calm, stable, and deeply reverent, with soft guttural friction in the throat that suggests a lifetime of silent prayer."
+                # --- VERSI DESA (INDONESIAN WITH RURAL SOUL) ---
+                "Napas Tua: A thin, cracked voice that sounds like a faint whisper. It carries a heavy 'breathy' texture with frequent pauses for air, emphasizing physical exhaustion and a humble heart that is weary but peaceful.",
+                "Pasrah (Tulus): A raw, unpolished village voice with a flat, honest intonation. It features a rhythmic 'broken' cadence and a dusty texture, sounding deeply sincere as if the speaker is surrendering all their troubles to God.",
+                "Suara Gemetar: A shaky (gemetar) high-register voice with a dry, raspy throat texture. Every sentence feels like it's on the verge of a tearful gratitude, creating an intense emotional connection with the listener.",
+
+                # --- VERSI JAWA (HEAVY PHONETIC & HUMBLE) ---
+                "Jawa Nrimo (Getar Kalbu): A deeply humble Javanese accent with soft, vibrating 'dh' and 'th' percussion. The tone is a low-register chest voice that sounds like a calm, rhythmic hum of total spiritual surrender and patience.",
+                "Jawa Sepuh (Suara Retak): An elderly, fragile Javanese voice that sounds 'cracked' and thin. It carries high-frequency raspiness and a very gentle, apologetic cadence, sounding like a serene elder who is afraid to disturb anyone.",
+                "Jawa Melas (Helaan Napas): A very slow Javanese tempo, almost a whisper. It features a deep, audible sigh (helaan napas) before speaking, with soft-tonality that emphasizes the 'h' sounds, making it sound intensely pitiable.",
+
+                # --- VERSI SUNDA (SOFT & MELODIC) ---
+                "Sunda Mendayu (Lirih): A melodic, undulating Sundanese rhythm that sounds like a soft breeze. The voice is airy and weightless, with prolonged, breathy vowel endings that suggest a quiet, patient heart holding back sorrow.",
+                "Sunda Parahyangan (Pasrah): A whispery Sundanese lilt that is slow and humble. It carries a 'hollow' quality and high-frequency flow, sounding deeply respectful and serene, like a prayer of gratitude in a quiet, lonely place."
             ],
             "Mood": [
-                "Sedih & Sayu (Quiet Vulnerability - Steady gaze, eyes heavy with deep emotion)",
-                "Tenang & Bengong (Pensive Stillness - Calm facial expression, long natural pauses)",
-                "Damai Sejahtera (Graceful Serenity - Serene and peaceful look, slow breathing)",
-                "Tulus Ikhlas (Humble Devotion - Gentle and sincere facial expression)",
-                "Tegar & Bijak (Stoic Calmness - A steady, wise face reflecting years of memories)",
-                "Fokus Khusyuk (Sacred Focus - Deeply focused expression, absolute sincerity)",
-                "Penuh Harapan (Peaceful Hope - A calm, hopeful look in the eyes)"
+                "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience, looking natural and unforced.",
+                "Sedih & Lirih: A fragile facial expression, eyes slightly glassy as if holding back tears, with a heavy and tired gaze that deeply moves the viewer's heart.",
+                "Pasrah & Syukur: A deeply submissive and calm look, reflecting total acceptance of a difficult life. The face is serene but weary, showing absolute sincerity and spiritual peace.",
+                "Iba & Berharap: A gentle yet sorrowful expression, with eyes that look upward or toward the diorama with a faint, hopeful glimmer in the middle of deep exhaustion."
             ],
             "Physical Action": [
-                "Menyentuh kubah dengan lembut sambil sesekali menatap kamera (Gently touching the mosque's dome, occasionally shifting gaze to look warmly at the camera)",
-                "Menatap tajam detail lalu mendongak tersenyum (Holding a focused gaze on the details, then briefly looking up at the camera with a subtle smile)",
-                "Mata berkaca-kaca menatap kamera dengan tulus (Looking directly at the camera with glistening eyes and a deeply soulful, hopeful expression)",
-                "Tangan bersedekap di pangkuan menatap penuh doa (Hands resting on the lap in a prayerful pose, looking at the camera with silent devotion)",
-                "Tersenyum tipis ke arah kamera sambil memegang miniatur (A peaceful smile while looking directly at the camera, hands gently supporting the model)",
-                "Mengusap debu lalu menatap puas ke kamera (Gently wiping a speck of dust, then looking at the camera with a satisfied and contented expression)",
-                "Memejamkan mata bersyukur lalu membukanya menatap kamera (Closing eyes in gratitude, then opening them to look warmly at the camera)",
-                "Menunduk khusyuk merakit sesekali melirik kamera (Looking down with intense focus on the craft, occasionally glancing at the camera with a confident smile)"
+                "Menyentuh Bagian Atas/Kubah dengan Lembut: Gently touching the top surface or the dome of the miniature with trembling fingers, then slowly shifting the gaze to look at the camera with a thin, tired, but sincere smile.",
+                "Membelai Sisi Miniatur dengan Tulus: Softly stroking the side walls or the texture of the craft while looking directly into the camera with glistening eyes, as if silently sharing the struggle behind the work.",
+                "Menatap Khusyuk sambil Memegang Alas: Hands gently supporting or holding the base of the model, looking down with intense focus before slowly looking up to meet the camera's gaze with watery-eyed gratitude.",
+                "Mengusap Debu dari Miniatur: Gently wiping a tiny speck of dust from the miniature's surface with a shaky hand, then looking warmly at the camera with a peaceful and contented expression."
             ]
         }
         # --- UI LAYOUT ---        
