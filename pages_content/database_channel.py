@@ -39,7 +39,7 @@ def tampilkan_database_channel():
     # TAB 1: STOK STANDBY (GAYA RADAR UI v2.0 - FULL SUPABASE)
     # ==============================================================================
     with tab_st: # Sesuaikan nama variabel tab di atas
-        if level_aktif in ["OWNER", "ADMIN", "STAFF"]:
+        if level_aktif in ["OWNER", "ADMIN"]:
             # --- 1. LOGIKA HITUNG DATA (Real-time) ---
             total_st = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'])
             total_pr = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'])
@@ -257,7 +257,7 @@ def tampilkan_database_channel():
                                             target_hp = "1"
                                             for h in range(1, 101):
                                                 count_sekarang = hp_counts.get(str(h), 0)
-                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24] else 4
+                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] else 4
                                                 if count_sekarang < max_slot:
                                                     target_hp = str(h)
                                                     break
@@ -472,11 +472,11 @@ def tampilkan_database_channel():
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
             # --- DEFINISI KELOMPOK TIM (Logika Sultan Tetap) ---
-            list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 12]
-            list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 13 <= h <= 24]
+            list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 9]
+            list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 10 <= h <= 18]
             kelompok_tim = [
-                {"nama": "INGGI (HP 1-12)", "list": list_hp_tim1},
-                {"nama": "LISA (HP 13-24)", "list": list_hp_tim2}
+                {"nama": "INGGI (HP 1-9)", "list": list_hp_tim1},
+                {"nama": "HANI (HP 10-18)", "list": list_hp_tim2}
             ]
 
             # --- A. GENERATOR JADWAL (Logika Silet Tetap) ---
@@ -492,7 +492,7 @@ def tampilkan_database_channel():
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
                             def geser_jam_silet(waktu_mulai, urutan_total):
-                                target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 10)
+                                target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 15)
                                 menit_target = target.hour * 60 + target.minute
                                 if menit_target >= (11 * 60 + 30):
                                     target = target + timedelta(minutes=70)
@@ -500,9 +500,9 @@ def tampilkan_database_channel():
 
                             for tim_idx in [1, 2]:
                                 if tim_idx == 1:
-                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 12].copy()
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 9].copy()
                                 else:
-                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 13].copy()
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 10].copy()
                                 
                                 if df_tim.empty: continue
                                 df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
@@ -607,8 +607,8 @@ def tampilkan_database_channel():
                     for tim in kelompok_tim:
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
-                        for start_idx in range(0, len(list_hp_unik), 6):
-                            hp_halaman_ini = list_hp_unik[start_idx : start_idx + 6]
+                        for start_idx in range(0, len(list_hp_unik), 9):
+                            hp_halaman_ini = list_hp_unik[start_idx : start_idx + 9]
                             df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
                             
                             html_all_pages += f"""
