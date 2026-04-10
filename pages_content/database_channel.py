@@ -639,19 +639,30 @@ def tampilkan_database_channel():
                     css_print = """
                     <style>
                         @media print {
-                            @page { size: A4 portrait; margin: 0.8cm; }
-                            body { font-family: Arial; background: white; }
+                            @page { size: A4 portrait; margin: 1cm; }
+                            body { font-family: Arial, sans-serif; background: white; color: #000; }
                             .print-container { width: 100%; }
                             .page-break { page-break-after: always; }
-                            .header-box { text-align: center; border-bottom: 2px solid #000; margin-bottom: 5px; }
-                            h2 { font-size: 17px; margin: 0; }
-                            .sub { font-size: 10px; color: #333; margin: 2px 0; }
-                            table { width: 100%; border-collapse: collapse; border: 1.5px solid #000; table-layout: fixed; }
-                            th { background-color: #eee !important; padding: 5px; border: 1px solid #000; font-size: 10px; }
-                            td { border: 1px solid #000; padding: 3px 5px; font-size: 11px; line-height: 1.1; color: #000; }
-                            .col-hp { font-weight: bold; text-align: center; font-size: 13px; background-color: #f9f9f9 !important; }
+                            
+                            /* Header dibikin tipis biar hemat ruang atas */
+                            .header-box { text-align: center; border-bottom: 2px solid #000; margin-bottom: 10px; padding-bottom: 5px; }
+                            h2 { font-size: 22px; margin: 0; text-transform: uppercase; }
+                            .sub { font-size: 13px; font-weight: bold; color: #333; margin-top: 5px; }
+                            
+                            /* Tabel: Font Gede (13px), Padding Pas (6px) */
+                            table { width: 100%; border-collapse: collapse; border: 2px solid #000; table-layout: fixed; }
+                            th { background-color: #f2f2f2 !important; padding: 8px; border: 1.5px solid #000; font-size: 13px; font-weight: bold; }
+                            td { border: 1.5px solid #000; padding: 6px 8px; font-size: 13.5px; line-height: 1.2; font-weight: 500; }
+                            
+                            /* Kolom HP: Bikin Gede & Mencolok */
+                            .col-hp { font-weight: 900; text-align: center; font-size: 18px; background-color: #eee !important; width: 50px; }
                             .col-ch { text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-                            .col-jam { text-align: center; font-weight: bold; color: #c00 !important; }
+                            
+                            /* Jam: Bikin Merah & Tebal biar Inggi Gak Telat */
+                            .col-jam { text-align: center; font-weight: 800; color: #d00 !important; font-size: 14px; }
+                            
+                            /* Hilangkan URL atau footer streamlit yang ganggu */
+                            header, footer { display: none !important; }
                         }
                     </style>
                     """
