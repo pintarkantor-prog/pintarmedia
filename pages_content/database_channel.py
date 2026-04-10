@@ -599,7 +599,7 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- 4. LOGIKA PRINT (VERSI AMAN DARI ERROR KUTIP) ---
+            # --- 4. LOGIKA PRINT (GAYA ASLI DIAN - OPTIMIZED 9 HP) ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
                     df_display = df_j_sorted.copy()
@@ -609,66 +609,76 @@ def tampilkan_database_channel():
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
                         
-                        # Ambil 9 HP per halaman
+                        # Loop per 9 HP biar pas 1 halaman
                         for start_idx in range(0, len(list_hp_unik), 9):
                             hp_halaman_ini = list_hp_unik[start_idx : start_idx + 9]
                             df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
                             
-                            # Header Tabel
-                            header_html = f'<div class="print-container page-break"><div class="header-box"><h2>📋 JADWAL UPLOAD PINTAR MEDIA</h2><p class="sub">Unit: <b>{tim["nama"]}</b> | Periode: <b>{tgl_str}</b></p></div>'
-                            table_start = '<table><thead><tr><th style="width: 8%;">📱 HP</th><th style="width: 47%;">📺 CHANNEL</th><th style="width: 15%;">🌅 PAGI</th><th style="width: 15%;">☀️ SIANG</th><th style="width: 15%;">🌆 SORE</th></tr></thead><tbody>'
+                            html_all_pages += f"""
+                            <div class="print-container page-break">
+                                <div class="header-box">
+                                    <h2 style="margin:0; font-size:22px;">📋 JADWAL UPLOAD PINTAR MEDIA</h2>
+                                    <p class="sub" style="margin:2px 0; font-size:13px;">Unit: <b>{tim['nama']}</b> | Periode: <b>{tgl_str}</b></p>
+                                </div>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 10%;">📱 HP</th>
+                                            <th style="width: 45%;">📺 CHANNEL YOUTUBE</th>
+                                            <th style="width: 15%;">🌅 PAGI</th>
+                                            <th style="width: 15%;">☀️ SIANG</th>
+                                            <th style="width: 15%;">🌆 SORE</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            """
                             
-                            rows_html = ""
-                            last_hp = None
                             for i, r in enumerate(df_page.itertuples()):
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() not in ["", "EMPTY"] else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() not in ["", "EMPTY"] else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() not in ["", "EMPTY"] else "-"
                                 
-                                curr_hp = str(r.HP)
-                                hp_view = curr_hp if curr_hp != last_hp else ""
-                                last_hp = curr_hp
+                                hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
+                                bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
                                 
-                                border_style = "border-top: 1.5px solid #000 !important;" if hp_view and i != 0 else ""
+                                # Garis pemisah tipis antar HP (Kaya punya lo)
+                                border_top = "border-top: 1px solid #000 !important;" if hp_view and i != 0 else ""
                                 
-                                rows_html += f'<tr style="{border_style}"><td class="col-hp">{hp_view}</td><td class="col-ch">{r.NAMA_CHANNEL}</td><td class="col-jam">{p}</td><td class="col-jam">{s}</td><td class="col-jam">{o}</td></tr>'
-                            
-                            html_all_pages += header_html + table_start + rows_html + "</tbody></table></div>"
+                                html_all_pages += f"""
+                                    <tr style="background-color: {bg_color} !important; {border_top}">
+                                        <td class="col-hp">{hp_view}</td>
+                                        <td class="col-ch">{r.NAMA_CHANNEL}</td>
+                                        <td class="col-jam">{p}</td>
+                                        <td class="col-jam">{s}</td>
+                                        <td class="col-jam">{o}</td>
+                                    </tr>
+                                """
+                            html_all_pages += "</tbody></table></div>"
 
-                    # CSS PISAH BIAR GAK BENTROK KUTIP
-                    css_print = """
+                    # --- CSS PERSIS PUNYA LO (Hanya Padding & Margin yang Gue Press) ---
+                    html_masterpiece = f"""
                     <style>
-                        @media print {
-                            @page { size: A4 portrait; margin: 0.8cm; }
-                            body { font-family: 'Segoe UI', Arial, sans-serif; background: white; color: #000; }
-                            .print-container { width: 100%; }
-                            .page-break { page-break-after: always; }
+                        @media print {{
+                            @page {{ size: A4 portrait; margin: 0.5cm 1cm; }} /* Margin atas bawah dikecilin biar muat */
+                            * {{ box-sizing: border-box; }}
+                            body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
+                            .print-container {{ width: 100%; max-width: 750px; margin: 0 auto; }}
+                            .page-break {{ page-break-after: always; }}
+                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 10px; padding-bottom: 5px; }}
                             
-                            /* Header Tipis & Profesional */
-                            .header-box { text-align: center; border-bottom: 1.5px solid #000; margin-bottom: 8px; padding-bottom: 3px; }
-                            h2 { font-size: 19px; margin: 0; font-weight: bold; }
-                            .sub { font-size: 11px; color: #555; margin-top: 2px; }
+                            table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
+                            /* Font tetep gede (12px-13px) tapi padding gue press ke 5px biar 9 HP muat */
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 6px; border: 1px solid #CCC; font-size: 13px; font-weight: bold; -webkit-print-color-adjust: exact; }}
+                            td {{ border: 1px solid #CCC; padding: 5px 10px; font-size: 13px; color: #111; line-height: 1.1; }}
                             
-                            /* Tabel Garis Tipis Sesuai Request */
-                            table { width: 100%; border-collapse: collapse; border: 1px solid #000; table-layout: fixed; }
-                            th { background-color: #F2F2F2 !important; padding: 6px 2px; border: 0.5px solid #000; font-size: 11px; font-weight: bold; -webkit-print-color-adjust: exact; }
-                            td { border: 0.5px solid #000; padding: 5px 8px; font-size: 12px; line-height: 1.2; color: #111; }
-                            
-                            /* Kolom HP: Bold tapi Garis Tetap Tipis */
-                            .col-hp { font-weight: bold; text-align: center; font-size: 14px; background-color: #FAFAFA !important; }
-                            .col-ch { text-align: left; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-                            
-                            /* Jam: Merah tapi Gak Lebay */
-                            .col-jam { text-align: center; font-weight: bold; color: #B00 !important; font-size: 12px; }
-                            
-                            /* Penyesuaian Baris Ganti HP (Tipis aja garisnya) */
-                            .row-border { border-top: 1px solid #000 !important; }
-                        }
+                            .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; font-size: 15px; }}
+                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+                            .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
+                        }}
                     </style>
+                    {html_all_pages}
                     """
-                    
-                    full_html = css_print + html_all_pages + "<script>window.print();</script>"
-                    st.components.v1.html(full_html, height=0)
+                    st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
                 
     # ======================================================================
     # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
