@@ -127,7 +127,7 @@ def tampilkan_halaman():
                 "Deeply furrowed brow and a trembling, quivering lower lip. "
                 "Thin, disheveled white hair and a sparse beard. The look of a man who has lost everything. "
                 "100% emotional realism, haunting and raw."
-            )
+            ),
         }
 
         # --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
