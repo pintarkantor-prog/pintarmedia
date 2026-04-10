@@ -27,15 +27,19 @@ def tampilkan_halaman():
     st.title("🧠 PINTAR AI LAB")
     st.markdown(f"**{user_aktif}** | 📅 {nama_hari}, {tgl} {nama_bulan} {tahun}")
 
-    # --- 3. TABS MENU ---
-    t_masjid, t_anatomi, t_transform, t_random = st.tabs([
-        "🕌 MASJID", "🦴 ANATOMY", "⚡ TRANSFORMATION", "🎲 RANDOM"
+    # --- 3. TABS MENU (Dian's New Menu) ---
+    t_masjid_v1, t_masjid_v2, t_roblox, t_minecraft, t_random = st.tabs([
+        "🕌 MINIATUR MASJID", 
+        "🕌 MASJID VERSI BARU", 
+        "🎮 ROBLOX", 
+        "⛏️ MINECRAFT", 
+        "🎲 RANDOM"
     ])
                 
     # ==========================================================================
-    # TAB: THE FAMILY LEGACY (REAL HUMAN - NATURAL WIDE SHOT VERSION)
+    # TAB 1: MINIATUR MASJID
     # ==========================================================================
-    with t_masjid:
+    with t_masjid_v1:
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
@@ -1316,172 +1320,28 @@ def tampilkan_halaman():
                 with res1: st.code(final_img, language="markdown")
                 with res2: st.code(final_vid, language="markdown")
             else:
-                st.error("Lokasi dan Naskah Visual wajib diisi, Dian!")
+                st.error("Lokasi dan Naskah Visual wajib diisi!")
                 
-    # ============================================================
-    # --- TAB: ⚡ TRANSFORMATION ENGINE (ULTIMATE SULTAN EDITION) ---
-    # ============================================================
-    with t_transform:        
-        with st.expander("⚡ PINTAR TRANFORMATION ENGINE", expanded=True):
+    # ==========================================================================
+    # TAB 2: MASJID VERSI BARU
+    # ==========================================================================
+    with t_masjid_v2:
+        st.status("Sedang proses pembuatan...", expanded=False)
 
-            # --- 1. DATABASE & SULTAN MAPPING (ANATOMY GRADE) ---
-            DB_TRANS_EFFECT = {
-                "Energi (Super Saiyan/Aura)": "radiant golden aura, electrical sparks, hair standing up, glowing energy pulses",
-                "Otot (Hulk/Monster)": "rapid muscle expansion, skin stretching, clothes ripping, massive physical growth",
-                "Kostum (Spiderman/Armor)": "suit material crawling over skin, nanotech assembly, liquid metal covering the body",
-                "Bakar (Embers)": "burning into glowing hot embers, skin turning into charcoal then flaking away",
-                "Cair (Liquid Metal)": "melting into a fluid liquid silver metal, reflective chrome transition",
-                "Pasir (Dust/Sand)": "disintegrating into fine particles, blown away by mystical wind",
-                "Asap (Shadow/Mist)": "turning into dark thick smoke, swirling shadows, ethereal gaseous state"
-            }
+    # ==========================================================================
+    # TAB 3: ROBLOX
+    # ==========================================================================
+    with t_roblox:
+        st.status("Sedang proses pembuatan...", expanded=False)
 
-            MAP_STYLE_TRANS = {
-                "Sangat Nyata": "hyper-realistic raw photorealism, 8k RAW photo, ultra-detailed skin textures, sharp focus, masterpiece quality, shot on 35mm lens, f/8, ray-tracing",
-                "Cinematic": "cinematic movie still shot on 70mm IMAX film, anamorphic lens flare, theatrical shadows, cinematic color grading, deep black levels",
-                "Anime": "high-quality 3D animation style, Pixar aesthetic, stylized character design, soft global illumination, vibrant cinematic colors",
-            }
+    # ==========================================================================
+    # TAB 4: MINECRAFT
+    # ==========================================================================
+    with t_minecraft:
+        st.status("Sedang proses pembuatan...", expanded=False)
 
-            MAP_GEAR_TRANS = {
-                "ARRI Alexa LF": "shot on ARRI Alexa LF, cinematic color science, soft highlight roll-off, professional film look, natural skin tones",
-                "RED V-Raptor": "shot on RED V-Raptor 8K, extreme sharpness, high dynamic range, digital cinema texture",
-                "Sony A7S III (Vlog)": "shot on Sony A7S III, handheld feel, 4k digital video texture, realistic autofocus depth",
-                "Vintage 16mm": "16mm film stock, vintage grainy texture, nostalgic color grading, retro aesthetic"
-            }
-            
-            MAP_LIGHT_TRANS = {
-                "Senja Cerah (Golden)": "soft late afternoon light, pale gold ambient glow, neutral color temperature, realistic outdoor lighting",
-                "Misty Night": "clear moonlit night, diffused moonlight, cool silver glow, high contrast shadows, deep black levels",
-                "Studio Light": "professional cinematic studio lighting, sharp dual-rim light, neutral color balance, 8k showcase quality"
-            }
-
-            MAP_CAM_TRANS = {
-                "Sejajar Mata": "eye-level cinematic shot, 50mm prime lens, natural perspective, sharp focus on subjects",
-                "Low Angle": "dramatic low angle shot, looking up from ground level, 35mm lens, heroic majestic scale",
-                "High Angle": "high angle cinematic perspective, looking down from above, 35mm lens, realistic depth",
-            }
-
-            # --- 2. INPUT PANEL ---
-            with st.container(border=True):
-                col_c1, col_c2 = st.columns(2)
-                with col_c1:
-                    st.markdown('<p class="small-label">👤 KARAKTER UTAMA (IDENTITY LOCK)</p>', unsafe_allow_html=True)
-                    v_char_name = st.text_input("Nama Utama:", placeholder="Nama...", key="tr_name", label_visibility="collapsed")
-                    v_char_physic = st.text_input("Fisik Utama:", placeholder="Fisik (Contoh: Pria atletis)...", key="tr_physic", label_visibility="collapsed")
-                    v_char_outfit = st.text_input("Outfit Utama:", placeholder="Pakaian Utama...", key="tr_outfit", label_visibility="collapsed")
-                with col_c2:
-                    st.markdown('<p class="small-label">👥 KARAKTER TAMBAHAN (OPTIONAL)</p>', unsafe_allow_html=True)
-                    v_fig_name = st.text_input("Nama Figuran:", placeholder="Nama...", key="fig_name", label_visibility="collapsed")
-                    v_fig_physic = st.text_input("Fisik Figuran:", placeholder="Fisik Figuran...", key="fig_physic", label_visibility="collapsed")
-                    v_fig_outfit = st.text_input("Outfit Figuran:", placeholder="Pakaian Figuran...", key="fig_outfit", label_visibility="collapsed")
-
-                st.divider()
-
-                col_p1, col_p2 = st.columns(2)
-                with col_p1:
-                    st.markdown('<p class="small-label">🧬 WUJUD AKHIR (TARGET FORM)</p>', unsafe_allow_html=True)
-                    v_char_target = st.text_input("Wujud Akhir:", placeholder="Contoh: Hulk, Transformer...", key="tr_target", label_visibility="collapsed")
-                    st.markdown('<p class="small-label">⚡ PEMICU SPESIFIK (TRIGGER)</p>', unsafe_allow_html=True)
-                    v_trigger = st.text_input("Aksi Pemicu:", placeholder="Contoh: saat loncat, saat berteriak...", key="tr_trigger", label_visibility="collapsed")
-                with col_p2:
-                    st.markdown('<p class="small-label">✨ EFEK TRANSISI</p>', unsafe_allow_html=True)
-                    v_eff_type = st.selectbox("Efek:", list(DB_TRANS_EFFECT.keys()), key="tr_eff", label_visibility="collapsed")
-                    st.markdown('<p class="small-label">⏱️ TIMING (DETIK)</p>', unsafe_allow_html=True)
-                    v_timing = st.slider("Berubah Setelah:", 1.0, 15.0, 2.0, 0.5, key="tr_time")
-
-                st.divider()
-
-                st.markdown('<p class="small-label">🎬 NASKAH VISUAL (PISAHKAN DENGAN TITIK . UNTUK URUTAN AKSI)</p>', unsafe_allow_html=True)
-                v_scene_detail = st.text_area("Urutan Adegan:", placeholder="Contoh: DIAN jalan. DIAN lari. DIAN loncat. DIAN berubah.", height=150, key="tr_scene", label_visibility="collapsed")
-                
-                col_d1, col_d2 = st.columns(2)
-                with col_d1:
-                    st.markdown(f'<p class="small-label">💬 DIALOG {v_char_name.upper() if v_char_name else "UTAMA"}</p>', unsafe_allow_html=True)
-                    v_diag_a = st.text_area("Utama Bicara:", height=30, key="tr_diag_a", label_visibility="collapsed")
-                with col_d2:
-                    st.markdown(f'<p class="small-label">💬 DIALOG {v_fig_name.upper() if v_fig_name else "FIGURAN"}</p>', unsafe_allow_html=True)
-                    v_fig_diag = st.text_area("Figuran Bicara:", height=30, key="tr_fig_diag", label_visibility="collapsed")
-
-                st.divider()
-
-                col_s1, col_s2 = st.columns(2)
-                with col_s1:
-                    st.markdown('<p class="small-label">🎨 STYLE & LIGHTING</p>', unsafe_allow_html=True)
-                    v_style_choice = st.selectbox("Style:", list(MAP_STYLE_TRANS.keys()), key="tr_style", label_visibility="collapsed")
-                    v_light_choice = st.selectbox("Lighting:", list(MAP_LIGHT_TRANS.keys()), key="tr_light", label_visibility="collapsed")
-                with col_s2:
-                    st.markdown('<p class="small-label">🎥 CAMERA GEAR & SHOT</p>', unsafe_allow_html=True)
-                    v_gear_choice = st.selectbox("Camera Gear:", list(MAP_GEAR_TRANS.keys()), key="tr_gear", label_visibility="collapsed")
-                    v_cam_choice = st.selectbox("Shot Angle:", list(MAP_CAM_TRANS.keys()), key="tr_cam", label_visibility="collapsed")
-
-                v_loc = st.text_input("📍 Lokasi Kejadian:", placeholder="Lokasi...", key="tr_loc")
-
-                btn_gen_trans = st.button("🚀 GENERATE PROMPT", type="primary", use_container_width=True)
-
-            # --- 3. LOGIKA GENERATOR PROMPT (SULTAN ENGINE) ---
-            if btn_gen_trans:
-                if v_char_name and v_scene_detail and v_loc:
-                    
-                    def rakit_identitas_sultan(name, physic, outfit, is_master=False):
-                        if not name: return ""
-                        ref_tag = "refer to PHOTO #MASTER ONLY" if is_master else "visual description only"
-                        return f"[[ CAST_SULTAN_{name.upper()} ({name}): {ref_tag}. PHYSIC: {physic}. WEAR: {outfit} ]]"
-
-                    steps = [s.strip() for s in v_scene_detail.split('.') if len(s.strip()) > 2]
-                    first_step_text = steps[0].upper() if steps else v_scene_detail.upper()
-                    
-                    fig_in_script = True if (v_fig_name and v_fig_name.upper() in v_scene_detail.upper()) else False
-                    fig_in_first_frame = True if (v_fig_name and v_fig_name.upper() in first_step_text) else False
-
-                    main_id = rakit_identitas_sultan(v_char_name, v_char_physic, v_char_outfit, is_master=True)
-                    fig_id_full = " AND " + rakit_identitas_sultan(v_fig_name, v_fig_physic, v_fig_outfit) if fig_in_script else ""
-                    fig_id_initial = " AND " + rakit_identitas_sultan(v_fig_name, v_fig_physic, v_fig_outfit) if fig_in_first_frame else ""
-
-                    # --- LOGIKA DIALOG ---
-                    target_phase = "Phase 2" if len(steps) > 1 else "Phase 1"
-                    video_diag = ""
-                    if v_diag_a or v_fig_diag:
-                        video_diag = f"DIALOGUE EXECUTION: Mouth movement is ONLY allowed for the speaker. "
-                        if v_diag_a and not v_fig_diag:
-                            video_diag += f"In {target_phase}, {v_char_name} is the ONLY one speaking: '{v_diag_a}'. {v_fig_name} must keep mouth tightly closed."
-                        elif v_fig_diag and not v_diag_a:
-                            video_diag += f"In {target_phase}, {v_fig_name} is the ONLY one speaking: '{v_fig_diag}'. {v_char_name} must keep mouth tightly closed."
-                        elif v_diag_a and v_fig_diag:
-                            video_diag += f"In {target_phase}, {v_char_name} speaks first, then {v_fig_name} replies. No simultaneous talking."
-
-                    # --- FIX ERROR: DEFINISI DULU BARU TAMBAH ---
-                    ULTRA_SHARP = "extreme sharp focus, cinematic texture, visible skin pores, natural imperfections, 8k, masterpiece quality, no motion blur"
-                    TRANS_NEG = "text, speech bubbles, subtitles, floating objects, extra limbs, plastic texture, airbrushed, cartoon, low quality, glitch, distorted hands"
-                    
-                    # Sekarang aman buat ditambahin karena TRANS_NEG sudah ada isinya
-                    if v_fig_name:
-                        TRANS_NEG += f", {v_fig_name} talking, simultaneous speaking, ghost lipsync, vibrating lips"
-
-                    is_trans = True if (v_trigger and v_char_target) else False
-                    trans_logic = (f"CHRONOLOGY: Maintain {v_char_outfit} form until {v_timing}s, then as {v_char_name} {v_trigger}, morph into {v_char_target}." if is_trans else "PURE ACTION.")
-
-                    # --- FINAL OUTPUT ---
-                    final_img = (
-                        f"{main_id}{fig_id_initial}. SCENE START: {steps[0] if steps else v_scene_detail}. Neutral expression, closed mouth. "
-                        f"VISUAL: {MAP_GEAR_TRANS[v_gear_choice]}, {MAP_CAM_TRANS[v_cam_choice]}, {MAP_STYLE_TRANS[v_style_choice]}, {MAP_LIGHT_TRANS[v_light_choice]}. "
-                        f"TECHNICAL: {ULTRA_SHARP}. NEGATIVE: {TRANS_NEG}"
-                    )
-                    
-                    final_vid = (
-                        f"MANDATORY: START DIRECTLY FROM THE UPLOADED REFERENCE IMAGE. {main_id}{fig_id_full}. STORYLINE: {' -> '.join([f'Phase {i+1}: {s}' for i, s in enumerate(steps)])}. {video_diag} "
-                        f"CINEMATOGRAPHY: {MAP_GEAR_TRANS[v_gear_choice]}, {MAP_STYLE_TRANS[v_style_choice]}, {MAP_LIGHT_TRANS[v_light_choice]}. "
-                        f"{trans_logic} TECHNICAL: {ULTRA_SHARP}. Ensure 100% identity consistency for 20s. NEGATIVE: {TRANS_NEG}"
-                    )
-
-                    st.divider()
-                    res1, res2 = st.columns(2)
-                    with res1:
-                        st.markdown('<p class="small-label">📸 1. GENERATE IMAGE INI</p>', unsafe_allow_html=True)
-                        st.code(final_img, language="markdown")
-                    with res2:
-                        st.markdown(f'<p class="small-label">🎬 2. UPLOAD IMAGE KE VIDEO PROMPT INI</p>', unsafe_allow_html=True)
-                        st.code(final_vid, language="markdown")
-                else:
-                    st.error("Minimal isi Nama Utama, Naskah, dan Lokasi!")
-
+    # ==========================================================================
+    # TAB 5: RANDOM
+    # ==========================================================================
     with t_random:
-        st.status("Sedang proses...", expanded=False)
+        st.status("Sedang proses pembuatan...", expanded=False)
