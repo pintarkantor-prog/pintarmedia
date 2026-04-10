@@ -749,7 +749,7 @@ def tampilkan_database_channel():
                         sisa = (t_exp - now_indo).days
                         
                         if sisa > 5: color_code = "#2D5A47" 
-                        elif 2 <= sisa <= 5: color_code = "#B8860B" 
+                        elif 3 <= sisa <= 5: color_code = "#B8860B" 
                         else: color_code = "#962D2D" 
                     except:
                         color_code = "#444"; sisa = "?"
