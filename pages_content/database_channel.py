@@ -659,21 +659,29 @@ def tampilkan_database_channel():
                     html_masterpiece = f"""
                     <style>
                         @media print {{
-                            @page {{ size: A4 portrait; margin: 0.5cm 1cm; }} /* Margin atas bawah dikecilin biar muat */
+                            /* 1. Paksa kertas pake margin super tipis (0.3cm) biar space buat tabel luas */
+                            @page {{ size: A4 portrait; margin: 0.3cm 0.8cm; }} 
                             * {{ box-sizing: border-box; }}
                             body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                            .print-container {{ width: 100%; max-width: 750px; margin: 0 auto; }}
+                            .print-container {{ width: 100%; max-width: 800px; margin: 0 auto; }}
                             .page-break {{ page-break-after: always; }}
-                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 10px; padding-bottom: 5px; }}
+
+                            /* 2. Header dibikin compact (rapat) biar gak makan tempat */
+                            .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 5px; padding-bottom: 2px; }}
+                            h2 {{ font-size: 20px; margin: 0; padding: 0; color: #000; }}
+                            .sub {{ font-size: 12px; color: #555; margin: 0; }}
                             
+                            /* 3. Tabel: Font Gede & Baris Tinggi (Padding 10px) */
                             table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
-                            /* Font tetep gede (12px-13px) tapi padding gue press ke 5px biar 9 HP muat */
-                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 6px; border: 1px solid #CCC; font-size: 13px; font-weight: bold; -webkit-print-color-adjust: exact; }}
-                            td {{ border: 1px solid #CCC; padding: 5px 10px; font-size: 13px; color: #111; line-height: 1.1; }}
+                            th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 8px; border: 1px solid #CCC; font-size: 13px; font-weight: bold; -webkit-print-color-adjust: exact; }}
                             
-                            .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; font-size: 15px; }}
-                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
-                            .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
+                            /* INI KUNCINYA: Padding 10px bikin baris lebih tinggi/lega */
+                            td {{ border: 1px solid #CCC; padding: 10px 8px; font-size: 14px; color: #111; line-height: 1.2; }}
+                            
+                            /* 4. Detail Kolom */
+                            .col-hp {{ width: 10%; text-align: center; font-weight: 900; background-color: #F8F8F8 !important; font-size: 16px; border-right: 1.5px solid #333 !important; }}
+                            .col-ch {{ text-align: left; font-weight: 500; padding-left: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
+                            .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; font-size: 14px; }}
                         }}
                     </style>
                     {html_all_pages}
