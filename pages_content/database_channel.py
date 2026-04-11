@@ -769,7 +769,7 @@ def tampilkan_database_channel():
                         sc1, sc2 = st.columns(2)
                         sc1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>📅 EXPIRED</p><code style='font-size:11px;'>{r['MASA_AKTIF']}</code>", unsafe_allow_html=True)
                         
-                        sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa < 2 else "#ffffff"
+                        sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa <= 2 else "#ffffff"
                         sc2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⏳ SISA</p><b style='font-size:14px; color:{sisa_color};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
                         # --- FITUR EDIT (Pake id_target biar gak salah alamat) ---
