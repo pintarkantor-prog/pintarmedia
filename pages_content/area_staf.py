@@ -368,26 +368,25 @@ def tampilkan_area_staf():
                     
             st.write("") # Spacing
 
-            # --- CARD 3: BANK NARASI KHUSUS (LINEAR VIEW - ANTI BINGUNG) ---
+            # --- CARD 3: ATURAN DIALOG ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
                 
                 col_kiri, col_kanan = st.columns(2)
 
                 with col_kiri:
-                    st.markdown("**📂 File Pendukung:**")
+                    st.markdown("**📂 Link Panduan Utama:**")
                     
-                    # 1. Pastikan URL GitHub lo arahnya ke file .pdf (Link RAW)
-                    url_pdf = "https://raw.githubusercontent.com/USER/REPO/main/format_dialog.pdf"
+                    # LINK GOOGLE DOCS LO (Pastikan aksesnya 'Anyone with the link' sebagai Viewer)
+                    url_gdocs = "https://docs.google.com/document/d/KODE_DOCS_LO/edit?usp=sharing"
                     
-                    st.download_button(
-                        label="📥 DOWNLOAD FORMAT DIALOG (PDF)",
-                        data=url_pdf,
-                        file_name="FORMAT_DIALOG_PINTAR_LAB.pdf", # Pastikan akhiran .pdf
-                        mime="application/pdf", # <-- INI WAJIB DIGANTI UNTUK PDF
+                    # Pake st.link_button biar tampilannya tetep tombol profesional
+                    st.link_button(
+                        label="📖 BUKA FORMAT DIALOG (GOOGLE DOCS)",
+                        url=url_gdocs,
                         use_container_width=True
                     )
-                    st.caption("💡 Klik untuk mengunduh panduan lengkap dalam format PDF.")
+                    st.caption("💡 Klik untuk melihat daftar dialog terbaru. Tidak perlu download.")
 
                 with col_kanan:
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
