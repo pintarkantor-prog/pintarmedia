@@ -1099,7 +1099,7 @@ def tampilkan_halaman():
                 "Sitting on the ground on top of a flattened cardboard box. "
                 "The background is the trunk of a tall Gnetum gnemon tree (pohon melinjo) and a dense thicket of wild shrubs. "
                 "The floor is covered in small yellowish melinjo seeds and dry, crunchy leaves. "
-                "Surrounding objects: a bamboo basket (tenggok) for gathering leaves, a rusted sickle (arit), and an old radio on a stone."
+                "Surrounding objects: a bamboo basket (tenggok) for gathering leaves, and an old radio on a stone."
             ),
             "Pojok Genteng Tua": (
                 "Sitting on a low wooden plank leaning against a massive stack of old, mossy terracotta roof tiles (genteng tanah liat). "
@@ -1123,13 +1123,13 @@ def tampilkan_halaman():
                 "Sitting on a fallen log in the middle of a dense cassava plantation. "
                 "The background is a wall of vertical cassava stems and large, palmate green leaves. "
                 "The ground is covered in dark, loose soil with realistic root bumps and dry weeds. "
-                "Surrounding objects: a pile of harvested cassava roots with clinging dirt, a rusted sickle (arit), and a worn-out conical straw hat (caping)."
+                "Surrounding objects: a pile of harvested cassava roots with clinging dirt, and a worn-out conical straw hat (caping)."
             ),
             "Gubuk Alat Tani": (
                 "Sitting on a stack of old burlap sacks inside a small, open-air tool shed. "
                 "The background is a solid wall of vertically arranged bamboo poles with farm tools hanging from rusty nails. "
                 "The floor is covered in a layer of fine dust, dry grass, and old fertilizer bags. "
-                "Surrounding objects: a rusted plow (luku), a bamboo rake (garu), and an old radio playing static on a wooden crate."
+                "Surrounding objects: a bamboo rake (garu), and an old radio playing static on a wooden crate."
             ),
             "Kebun Semangka": (
                 "Sitting on a flat wooden plank in the middle of a sprawling watermelon field. "
@@ -1141,7 +1141,7 @@ def tampilkan_halaman():
                 "Sitting on a low stool inside a greenhouse or open melon farm with vertical bamboo trellises (ajir). "
                 "The background is a wall of hanging green melons supported by small plastic nets and climbing vines. "
                 "The floor is covered in black plastic mulch (mulsa) with small holes where the stems grow out. "
-                "Surrounding objects: a pair of garden shears, a small notebook for recording harvest, and a discarded fertilizer bag."
+                "Surrounding objects: a small notebook for recording harvest, and a discarded fertilizer bag."
             ),
             "Kebun Nanas": (
                 "Sitting on a clear patch of earth surrounded by sharp, spiky pineapple plants. "
@@ -1159,7 +1159,7 @@ def tampilkan_halaman():
                 "Sitting on a small wooden plank in a highland strawberry farm. "
                 "The background features rows of black polybags or elevated wooden planters filled with green strawberry plants and small white flowers. "
                 "The floor is covered in dry pine needles or straw mulch to keep the fruits clean. "
-                "Surrounding objects: several bright red strawberries hanging from the vines, a small plastic basket for picking, and a rusted hand trowel."
+                "Surrounding objects: several bright red strawberries hanging from the vines, and a small plastic basket for picking."
             ),
             "Kebun Jeruk": (
                 "Sitting on a low stool under the dense canopy of orange trees. "
@@ -1177,13 +1177,13 @@ def tampilkan_halaman():
                 "Sitting on a wooden bench under a low-hanging bamboo trellis covered in grapevine leaves. "
                 "The background features heavy clusters of purple and green grapes hanging directly above the diorama. "
                 "The floor is a mix of pebbles and fine sand with fallen vine tendrils and dry leaves. "
-                "Surrounding objects: a pair of small pruning shears, a glass of tea on a wooden box, and a traditional conical hat (caping)."
+                "Surrounding objects: a glass of tea on a wooden box, and a traditional conical hat (caping)."
             ),
             "Kebun Pisang": (
                 "Sitting on a fallen, rotting banana trunk (gedebog) in a dense, humid grove. "
                 "The background is a solid wall of massive green banana leaves, some tattered and frayed by wind, mixed with hanging dry brown leaves (klaras). "
                 "The floor is damp, dark soil covered in decaying organic matter and small wild mushrooms. "
-                "Surrounding objects: a bunch of harvested green bananas (pisang kepok), a rusted long-handled sickle (arit), and a discarded plastic tarp."
+                "Surrounding objects: a bunch of harvested green bananas (pisang kepok), and a discarded plastic tarp."
             ),
             "Pojok Jantung Pisang": (
                 "Sitting on a low wooden stool directly under a low-hanging purple banana blossom (jantung pisang). "
@@ -1195,7 +1195,7 @@ def tampilkan_halaman():
                 "Sitting on a bamboo mat in a clearing surrounded by banana trees. "
                 "The background features several large, fresh banana leaves laid out on the ground or leaning against a fence to dry. "
                 "The floor is a mix of dry soil and scattered banana leaf stalks (pelepah). "
-                "Surrounding objects: a bundle of tied banana leaves, a small knife for trimming, and a traditional conical hat (caping) resting on the ground."
+                "Surrounding objects: a bundle of tied banana leaves, and a traditional conical hat (caping) resting on the ground."
             ),
             "Gubuk Tambak Udang/Ikan": (
                 "Sitting on a fragile wooden jetty of a small bamboo hut (saung) over a vast brackish water pond. "
@@ -1231,7 +1231,7 @@ def tampilkan_halaman():
                 "Sitting on a woven bamboo mat surrounded by hundreds of thin bamboo strips (atan). "
                 "The background features several half-finished 'besek' and 'tampah' stacked against a gedek wall. "
                 "The floor is covered in small bamboo fibers and offcuts. "
-                "Surrounding objects: a sharp small knife (pisau raut), a bundle of raw bamboo poles, and a bowl of water for soaking the strips."
+                "Surrounding objects: a bundle of raw bamboo poles, and a bowl of water for soaking the strips."
             ),
             "Gudang Barang Antik Desa": (
                 "Sitting on an old dusty trunk in a dark corner filled with forgotten village heirlooms. "
@@ -1261,7 +1261,7 @@ def tampilkan_halaman():
                 "Sitting on a soot-covered wooden stump inside a traditional blacksmith workshop. "
                 "The background features a large stone furnace, a heavy iron anvil, and various raw iron scraps. "
                 "The floor is covered in a thick layer of black charcoal dust, fine iron filings, and grey ash. "
-                "Surrounding objects: a heavy hammer, a bucket of dark cooling water, and a pile of finished sickles (arit)."
+                "Surrounding objects: a heavy hammer, and a bucket of dark cooling water."
             ),
             "Teras Rumah Panggung Kayu": (
                 "Sitting on the top step of a weathered wooden staircase leading to a traditional stilt house. "
@@ -1303,7 +1303,7 @@ def tampilkan_halaman():
                 "Sitting on a low stack of flattened cardboard boxes. "
                 "The background is a solid wall of towering, neatly tied stacks of brown corrugated cardboard boxes with visible shipping labels and torn tape. "
                 "The floor is covered in fine paper dust, cardboard scraps, and loose packing strings. "
-                "Surrounding objects: a large manual weighing scale, a box cutter knife, and a pile of old newspapers used as padding."
+                "Surrounding objects: a large manual weighing scale, and a pile of old newspapers used as padding."
             ),
             "Pojok Tumpukan Koran": (
                 "Sitting on a wooden crate surrounded by yellowed, dusty stacks of old newspapers and vintage magazines. "
@@ -1345,7 +1345,7 @@ def tampilkan_halaman():
                 "Sitting on a flat stone in a small backyard 'Apotek Hidup' (herbal garden). "
                 "The background is a lush mix of ginger plants, turmeric leaves, and tall lemongrass stalks. "
                 "The floor is rich, dark damp soil with patches of green moss and fallen leaves. "
-                "Surrounding objects: a small clay mortar and pestle (ulekan), a woven basket for gathering herbs, and an old pair of garden shears."
+                "Surrounding objects: a small clay mortar and pestle (ulekan), and a woven basket for gathering herbs."
             ),
             "Sudut Taman Pot Gantung": (
                 "Sitting on a plastic stool under a wooden trellis filled with hanging plants like 'Anggrek' (orchids) and ferns. "
@@ -1512,66 +1512,86 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-        # --- LOGIC GENERATOR ---
+        # --- LOGIC GENERATOR (ANTI-HALUSINASI VERSION: GENDER & WARDROBE LOCK) ---
         if btn_gen:
+            # 1. POSISI MATI LESEHAN (Tetap)
             posisi_nenek = "sitting cross-legged on the ground (lesehan)"
             
+            # 2. KUNCI LIGHTING & VISUAL (Tetap)
             scene_context = (
                 f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW PHOTO. NO TEXT, NO SUBTITLES. "
-                # --- UPDATE LIGHTING: THE SOULFUL RIM LIGHT (SOLUSI 3) ---
-                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. The air is clear but non-glaring, creating a delicate warm rim light that outlines the character's silhouette and the model without any harsh brightness. "
-                # --- UPDATE CONTRAST: DRAMATIC BUT GENTLE ---
-                f"CONTRAST: Rich, deep contrast where the mosque's LED lights create an intense glowing focal point, making the humble recycled materials look surprisingly beautiful and moving. "
+                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. The air is clear but non-glaring, creating a delicate warm rim light. "
+                f"CONTRAST: Rich, deep contrast where the mosque's LED lights create an intense glowing focal point. "
                 f"CAMERA: Close-up 1 meter, strictly STATIC camera, locked tripod, perfectly level eye-level. "
                 f"DEEP FOCUS: F/16 Aperture, CRYSTAL CLEAR from mosque to background, zero blur."
             )
 
+            # 3. AMBIL DATA MASTER (Tetap)
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
+            
+            # Ambil Pakaian dari Master Wardrobe lo
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
-            
-            ANATOMY_LOCK = "STRICTLY TWO HUMAN HANDS, five fingers each. No ghost limbs."
-            MANDATORY_LOCK = "MANDATORY: FULL HIJAB. NO HAIR SHOWING. FULLY COVERED MODEST CLOTHING."
 
-            # --- FILTER PEMBERSIH ---
+            # --- 4. THE MAGIC MAGIC GENDER & WARDROBE LOCK (INI RAHASIANYA DIAN!) ---
+            ANATOMY_LOCK = "STRICTLY TWO HUMAN HANDS, five fingers each. No ghost limbs."
+            
+            # --- CEK GENDER SECARA OTOMATIS BERDASARKAN KARAKTER ---
+            # Logic ini nahan AI biar nggak nambahin jenggot ke Nenek atau Hijab ke Kakek.
+            is_perempuan = any(x in pilihan_user.lower() for x in ["nenek", "ibu", "juminah", "sikem", "dulah", "sartini", "tinah", "wati"])
+            
+            if is_perempuan:
+                gender_lock = (
+                    "PHYSICAL MANDATORY: Elderly Indonesian woman, smooth aged skin, NO BEARD, NO MUSTACHE, clean face. "
+                    "GENDER WARDROBE: Full Hijab covering all hair and neck. No male clothing."
+                )
+            else:
+                gender_lock = (
+                    "PHYSICAL MANDATORY: Elderly Indonesian man, weathered skin, clean-shaven face or neatly trimmed mustache (NO BEARD). "
+                    "GENDER WARDROBE: Traditional Indonesian Kopiah/Peci cap on head. No hijab, no female daster."
+                )
+
+            # 5. FILTER PEMBERSIH (HANYA AMBIL DALAM KURUNG) - TETAP ADA!
             aksi_final = pilih_aksi.split('(')[-1].strip(')') if '(' in pilih_aksi else pilih_aksi
             mood_final = pilih_mood.split('(')[-1].strip(')') if '(' in pilih_mood else pilih_mood
             logat_final = pilih_logat.split('(')[-1].strip(')') if '(' in pilih_logat else pilih_logat
                 
-            # --- THE MAGIC INJECTION: LINKING MOOD TO AUDIO PERFORMANCE ---
+            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
             if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Add a heavy crying undertone, voice cracking on vowels, with long shaky gasps between sentences."
+                audio_emotion = "MANDATORY AUDIO: Add a subtle crying undertone, voice cracking slightly on vowels. Deep emotional sincerity without being overdramatic."
             elif "Pasrah" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Deliver with extreme low energy, whispery, hollow breath, and profound spiritual surrender."
+                audio_emotion = "MANDATORY AUDIO: Deliver with calm energy, soft whispery tones, and a peaceful spiritual surrender."
             elif "Iba" in pilih_mood or "Berharap" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Shivering voice, rising intonation like a plea, sounding overwhelmed by grace and sorrow."
+                audio_emotion = "MANDATORY AUDIO: Soft shivering voice, gentle rising intonation like a humble plea, full of hope and soul."
             else:
                 audio_emotion = "MANDATORY AUDIO: Natural, steady breathing and calm pacing."
 
-            # --- FINAL ASSEMBLY (FIXED: SYAHDU & EMOTIONAL SYNC) ---
+            # --- 5. FINAL ASSEMBLY (SINKRON GENDER & EMOSI) ---
             final_ai_prompt = (
-                f"{scene_context} \n\n" # Ini manggil Lighting Golden Rim Light lo yang baru
+                f"{scene_context} \n\n"
                 
-                f"CHARACTER DNA: {soul_desc}. {ANATOMY_LOCK} {MANDATORY_LOCK} \n"
+                # Manggil soul_desc, ANATOMY_LOCK, dan gender_lock (hasil filter gender di atas)
+                f"CHARACTER DNA: {soul_desc}. {ANATOMY_LOCK}. \n"
+                f"{gender_lock} \n"
                 f"WARDROBE: {baju_desc}. \n"
-                f"ENVIRONMENT: {env_detail}. \n"
+                f"ENVIRONMENT: {env_detail}. \n\n"
                 
-                # Fokus ke interaksi tangan ke miniatur & raut wajah
+                # Menggunakan hasil Filter Pembersih (aksi_final, mood_final)
                 f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. Focus on the interaction between hands and miniature. \n" 
                 f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
                 
-                # --- AUDIO ENGINE: KUNCI BIAR SUARA GAK FLAT ---
                 f"AUDIO CONFIGURATION: \n"
                 f"- Primary Accent: {logat_final} \n"
                 f"- Emotional Layer: {audio_emotion} \n"
                 f"- Dialog Content: '{user_dialog}' \n"
                 f"- Delivery Instruction: Use deep pauses and natural breath sounds to convey profound sincerity. \n\n"
                 
-                f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture. Static locked camera. "
-                f"VISUAL QUALITY: Ultra-sharp 8K, cinematic high-contrast, zero motion blur, realistic textures. \n"
+                f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture. Static locked camera. \n"
+                f"VISUAL QUALITY: Ultra-sharp 8K, cinematic high-contrast, zero motion blur, realistic textures. \n\n"
                 
-                f"NEGATIVE PROMPT: thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
+                f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
+                f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
                 f"blurry, bokeh, shaky, chair, table, watermark, text, subtitles, captions."
             )
 
