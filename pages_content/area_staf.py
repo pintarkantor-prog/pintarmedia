@@ -371,32 +371,30 @@ def tampilkan_area_staf():
             # --- CARD 3: BANK NARASI KHUSUS (LINEAR VIEW - ANTI BINGUNG) ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
-                st.error("❗ **PENTING:** Staff wajib mengganti kata yang bertanda **[ ]** sesuai dengan bahan pembuatan masjid di video!")
+                
+                # Script buat narik file dari GitHub lo (Ganti URL-nya ke link RAW file lo)
+                url_dialog = "https://raw.githubusercontent.com/USER_LO/REPO_LO/main/format_dialog.txt"
+                
+                # Teks cadangan kalau internet lagi lemot atau link mati
+                dialog_content = "Gagal memuat file, hubungi Admin."
+                
+                # Tombol Download Asli Streamlit
+                st.download_button(
+                    label="📥 DOWNLOAD FORMAT DIALOG TERBARU",
+                    data=url_dialog, # Lo bisa isi teks langsung atau variabel file
+                    file_name="FORMAT_DIALOG_PINTAR_LAB.txt",
+                    mime="text/plain"
+                )
 
-                # --- KATEGORI 1: MAKANAN ---
-                st.markdown("**🍓 JIKA BAHAN ADALAH BUAH / MAKANAN (Strawberry, Jeruk, Mie, dll):**")
-                st.code("""
-- "Maafin nenek ya... mungkin masjid dari [BAHAN MAKANAN] ini jelek. Nenek ikhlas kalau kalian engga mau like dan subscribe. Pesen nenek, jangan tinggalin solat ya cu..."
-- "Maafin nenek ya... miniatur masjid [BAHAN MAKANAN] buatan nenek jelek... Nenek selalu berdoa, semoga yang sudah like dan subscribe, kalian semua masuk surga..."
-                """, language="text")
+                st.write("") 
 
-                # --- KATEGORI 2: MEKAH ---
-                st.markdown("---")
-                st.markdown("**🕋 JIKA VISUAL ADALAH KA'BAH / MEKAH:**")
-                st.code("""
-- "Cucuku yang baik hati... miniatur Mekah ini nenek buat sambil berdoa, semoga yang like dan subscribe, Allah panggil kalian ke tanah suci secepatnya. Amin..."
-- "Nenek ikhlas miniatur Ka'bah ini engga ada yang like. Nenek cuma mau ingetin, Ka'bah itu arah solat kita, jangan pernah kalian tinggalin solat 5 waktu ya cu..."
-                """, language="text")
-
-                # --- KATEGORI 3: BEKAS ---
-                st.markdown("---")
-                st.markdown("**🪵 JIKA BAHAN ADALAH BARANG BEKAS (Koran, Kaleng, Korek, Kayu, dll):**")
-                st.code("""
-- "Maafin nenek ya... mungkin masjid dari [BAHAN BEKAS] ini jelek. Nenek ikhlas kalau kalian engga mau like dan subscribe. Pesen nenek, jangan tinggalin solat ya cu..."
-- "Cucuku yang baik hati... kalau jari kalian engga berat, bantu sebarkan keindahan masjid [BAHAN BEKAS] ini ya... satu subscribe dari kalian semangat buat nenek..."
-                """, language="text")
-
-            st.write("") # Spacing
+                # --- INSTRUKSI PENYESUAIAN BAHAN ---
+                st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
+                st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
+                st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
+                st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
+                
+                st.caption("💡 Dialog yang tidak nyambung dengan bahan visual akan langsung REJECT!")
 
             # --- HEADER JALUR PENYERAHAN ---
             st.markdown("#### 4️⃣ Alur Penyerahan Hasil Kerja")
