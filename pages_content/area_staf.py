@@ -372,22 +372,22 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
                 
-                # Samakan pembagian kolomnya (2 kolom standar 50:50)
                 col_kiri, col_kanan = st.columns(2)
 
                 with col_kiri:
                     st.markdown("**📂 File Pendukung:**")
-                    # Ganti url_raw dengan link RAW file lo
-                    url_raw = "https://raw.githubusercontent.com/USER/REPO/main/dialog.txt"
+                    
+                    # 1. Pastikan URL GitHub lo arahnya ke file .pdf (Link RAW)
+                    url_pdf = "https://raw.githubusercontent.com/USER/REPO/main/format_dialog.pdf"
                     
                     st.download_button(
-                        label="📥 DOWNLOAD FORMAT DIALOG TERBARU",
-                        data=url_raw,
-                        file_name="FORMAT_DIALOG_PINTAR_LAB.txt",
-                        mime="text/plain",
-                        use_container_width=True # Supaya tombolnya penuh & gagah
+                        label="📥 DOWNLOAD FORMAT DIALOG (PDF)",
+                        data=url_pdf,
+                        file_name="FORMAT_DIALOG_PINTAR_LAB.pdf", # Pastikan akhiran .pdf
+                        mime="application/pdf", # <-- INI WAJIB DIGANTI UNTUK PDF
+                        use_container_width=True
                     )
-                    st.caption("💡 Selalu gunakan format terbaru dari Owner.")
+                    st.caption("💡 Klik untuk mengunduh panduan lengkap dalam format PDF.")
 
                 with col_kanan:
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
@@ -395,7 +395,6 @@ def tampilkan_area_staf():
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
                     
-                    # --- WARNING BOX DI BAWAH TEKS ---
                     st.warning("⚠️ Dialog yang tidak nyambung dengan bahan visual akan langsung **REJECT**!")
 
             # --- HEADER JALUR PENYERAHAN ---
