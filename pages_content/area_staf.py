@@ -372,12 +372,12 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
                 
-                # Kita bagi jadi 2 kolom biar gak kosong di kanan
-                col_dl, col_instruksi = st.columns([1, 1.5]) # Kolom kanan agak lebar dikit biar teks instruksi muat
+                # Samakan pembagian kolomnya (2 kolom standar 50:50)
+                col_kiri, col_kanan = st.columns(2)
 
-                with col_dl:
-                    st.markdown("**📥 File Pendukung:**")
-                    # Ganti url_raw dengan link RAW GitHub lo
+                with col_kiri:
+                    st.markdown("**📂 File Pendukung:**")
+                    # Ganti url_raw dengan link RAW file lo
                     url_raw = "https://raw.githubusercontent.com/USER/REPO/main/dialog.txt"
                     
                     st.download_button(
@@ -385,16 +385,17 @@ def tampilkan_area_staf():
                         data=url_raw,
                         file_name="FORMAT_DIALOG_PINTAR_LAB.txt",
                         mime="text/plain",
-                        use_container_width=True # Biar tombolnya penuh di kolom ini
+                        use_container_width=True # Supaya tombolnya penuh & gagah
                     )
                     st.caption("💡 Selalu gunakan format terbaru dari Owner.")
 
-                with col_instruksi:
+                with col_kanan:
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
                     
+                    # --- WARNING BOX DI BAWAH TEKS ---
                     st.warning("⚠️ Dialog yang tidak nyambung dengan bahan visual akan langsung **REJECT**!")
 
             # --- HEADER JALUR PENYERAHAN ---
