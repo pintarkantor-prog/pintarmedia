@@ -352,21 +352,19 @@ def tampilkan_area_staf():
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
-                    st.markdown("**🛡️ Sterilisasi & Bypass Metadata:**")
+                    st.markdown("**🛡️ Bypass Metadata:**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
                     st.write("- Tool otomatis menghapus jejak software (Filmora/Premiere) & Device PC.")
                     st.write("- Metadata identik di banyak HP = Akun kena suspend massal!")
                 
                 with col_meta2:
-                    st.markdown("**🆔 Variasi Visual & Nama File:**")
-                    st.write("- Tool otomatis mengacak Zoom (1.01-1.08) & Filter Warna (Unique DNA).")
+                    st.markdown("**🆔 Variasi Nama File:**")
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
-                    
-                    # --- PENJELASAN FORMAT TANGGAL JAM ---
-                    st.success(f"📌 **Format Baru:** `VID_{sekarang.strftime('%Y%m%d_%H%M%S')}.mp4` ")
-                    st.caption("Keterangan: `YYYY` (Tahun), `MM` (Bulan), `DD` (Tanggal), `HH` (Jam), `MM` (Menit), `SS` (Detik)")
+                    # --- TAMPILAN FORMAT YANG LO MAU ---
+                    st.success(f"📌 **Format Baru:** `VID_tahunbulantanggal_jammenitdetik.mp4` ")
+                    st.info("💡 **Cara Baca:** Misal `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
 
             st.write("") # Spacing
 
