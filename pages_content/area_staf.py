@@ -370,23 +370,32 @@ def tampilkan_area_staf():
 
             # --- CARD 3: ATURAN DIALOG ---
             with st.container(border=True):
-                st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
+                st.markdown("#### 3️⃣ Amunisi & Aturan Produksi (Wajib Download)")
                 
+                # Samakan pembagian kolom 50:50 biar lurus sama Card 2
                 col_kiri, col_kanan = st.columns(2)
 
                 with col_kiri:
-                    st.markdown("**📂 Link Panduan Utama:**")
+                    st.markdown("**📥 Alat Tempur Editor:**")
                     
-                    # LINK GOOGLE DOCS LO (Pastikan aksesnya 'Anyone with the link' sebagai Viewer)
-                    url_gdocs = "https://docs.google.com/document/d/KODE_DOCS_LO/edit?usp=sharing"
-                    
-                    # Pake st.link_button biar tampilannya tetep tombol profesional
+                    # 1. Link Google Docs/Drive untuk Dialog
+                    url_dialog = "LINK_GOOGLE_DRIVE_DIALOG_LO"
                     st.link_button(
-                        label="📖 BUKA FORMAT DIALOG (GOOGLE DOCS)",
-                        url=url_gdocs,
+                        label="📖 BUKA FORMAT DIALOG (GOOGLE DRIVE)",
+                        url=url_dialog,
                         use_container_width=True
                     )
-                    st.caption("💡 Klik untuk melihat daftar dialog terbaru. Tidak perlu download.")
+                    
+                    st.write("") # Spacing biar gak nempel
+
+                    # 2. Link Direct Download File Bypass (.bat) dari Drive
+                    url_bypass = "LINK_GOOGLE_DRIVE_FILE_BYPASS_LO"
+                    st.link_button(
+                        label="🛡️ DOWNLOAD BYPASS DNA (METADATA.bat)",
+                        url=url_bypass,
+                        use_container_width=True
+                    )
+                    st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari Drive.")
 
                 with col_kanan:
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
@@ -394,6 +403,7 @@ def tampilkan_area_staf():
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
                     
+                    # Box warning biar makin galak
                     st.warning("⚠️ Dialog yang tidak nyambung dengan bahan visual akan langsung **REJECT**!")
 
             # --- HEADER JALUR PENYERAHAN ---
