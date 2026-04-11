@@ -342,9 +342,7 @@ def tampilkan_area_staf():
                 st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian:")
                 st.write("- Selalu koordinasi dengan Admin buat tau stok video mana yang mau habis.")
                 st.write("- Wajib bikin video harian sesuai kebutuhan stok kantor.")
-                st.write("- Dahulukan membuat stok untuk Konten yang stok videonya paling sedikit.")
-                st.warning("⚠️ **GENDER LOCK:** Cek teliti! Kakek wajib Peci (No Hijab), Nenek wajib Hijab (No Jenggot/Kumis). Salah gender = REJECT.")
-            
+                st.write("- Dahulukan membuat stok untuk Konten yang stok videonya paling sedikit.")            
             st.write("") # Spacing
 
             # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
