@@ -1552,10 +1552,21 @@ def tampilkan_halaman():
                     "GENDER WARDROBE: Traditional Indonesian Kopiah/Peci cap on head. No hijab, no female daster."
                 )
 
-            # 5. FILTER PEMBERSIH (HANYA AMBIL DALAM KURUNG) - TETAP ADA!
-            aksi_final = pilih_aksi.split('(')[-1].strip(')') if '(' in pilih_aksi else pilih_aksi
-            mood_final = pilih_mood.split('(')[-1].strip(')') if '(' in pilih_mood else pilih_mood
-            logat_final = pilih_logat.split('(')[-1].strip(')') if '(' in pilih_logat else pilih_logat
+            # --- 5. FILTER PEMBERSIH (HANYA AMBIL ISI DALAM KURUNG) ---
+            def bersihkan_teks(teks):
+                if '(' in teks and ')' in teks:
+                    # Ambil teks tepat setelah kurung buka '(', lalu ambil sebelum kurung tutup ')'
+                    return teks.split('(')[1].split(')')[0].strip()
+                return teks.strip()
+
+            aksi_final = bersihkan_teks(pilih_aksi)
+            mood_final = bersihkan_teks(pilih_mood)
+            
+            # Khusus Logat, kita ambil penjelasan setelah kurung tutup agar lebih detail
+            if ')' in pilih_logat:
+                logat_final = pilih_logat.split(')')[-1].strip(': ').strip()
+            else:
+                logat_final = pilih_logat
                 
             # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
             if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
@@ -1567,29 +1578,30 @@ def tampilkan_halaman():
             else:
                 audio_emotion = "MANDATORY AUDIO: Natural, steady breathing and calm pacing."
 
-            # --- 5. FINAL ASSEMBLY (SINKRON GENDER & EMOSI) ---
+            # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
             final_ai_prompt = (
                 f"{scene_context} \n\n"
                 
-                # Manggil soul_desc, ANATOMY_LOCK, dan gender_lock (hasil filter gender di atas)
-                f"CHARACTER DNA: {soul_desc}. {ANATOMY_LOCK}. \n"
-                f"{gender_lock} \n"
+                # Kita gabung Soul & Gender Lock biar instruksi wajahnya gak konflik
+                f"CHARACTER: {soul_desc}. {gender_lock} \n"
+                f"ANATOMY: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
                 f"ENVIRONMENT: {env_detail}. \n\n"
                 
-                # Menggunakan hasil Filter Pembersih (aksi_final, mood_final)
-                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. Focus on the interaction between hands and miniature. \n" 
+                # Kita panggil aksi_final & mood_final (hasil filter pembersih lo)
+                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. Focus on interaction. \n" 
                 f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
                 
+                # Kita ringkas Audio biar tokennya sisa banyak buat visual
                 f"AUDIO CONFIGURATION: \n"
-                f"- Primary Accent: {logat_final} \n"
-                f"- Emotional Layer: {audio_emotion} \n"
-                f"- Dialog Content: '{user_dialog}' \n"
-                f"- Delivery Instruction: Use deep pauses and natural breath sounds to convey profound sincerity. \n\n"
+                f"- Style: {logat_final} \n"
+                f"- Emotion: {audio_emotion} \n"
+                f"- Dialog: '{user_dialog}' \n"
+                f"- Instruction: Use deep pauses and natural breath sounds. \n\n"
                 
-                f"TECHNICAL SPECS: Shot on ARRI Alexa 65, 24mm lens, F/16 Aperture. Static locked camera. \n"
-                f"VISUAL QUALITY: Ultra-sharp 8K, cinematic high-contrast, zero motion blur, realistic textures. \n\n"
+                f"TECHNICAL: ARRI Alexa 65, 24mm, F/16, Static Camera, Ultra-sharp 8K. \n"
                 
+                # Negative prompt lo yang lama, tinggal panggil string-nya aja
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
                 f"blurry, bokeh, shaky, chair, table, watermark, text, subtitles, captions."
