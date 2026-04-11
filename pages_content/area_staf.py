@@ -355,15 +355,15 @@ def tampilkan_area_staf():
                     st.markdown("**🛡️ Cara Manipulasi Metadata:**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
-                    st.write("- Tool otomatis menghapus jejak software (Filmora/Premiere) & Device PC.")
-                    st.write("- Metadata identik di banyak HP = Akun kena suspend massal!")
+                    st.write("- Tool otomatis menghapus jejak software (Filmora/Capcut) & Device PC.")
+                    st.write("- Metadata identik di banyak HP = Resiko akun kena suspend massal!")
                 
                 with col_meta2:
                     st.markdown("**🆔 Variasi Nama File:**")
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     # --- TAMPILAN FORMAT YANG LO MAU ---
-                    st.success(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
+                    st.info(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
                     st.caption("💡 **Misalnya:** `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
                     
             st.write("") # Spacing
