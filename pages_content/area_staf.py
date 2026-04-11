@@ -372,29 +372,30 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
                 
-                # Script buat narik file dari GitHub lo (Ganti URL-nya ke link RAW file lo)
-                url_dialog = "https://raw.githubusercontent.com/USER_LO/REPO_LO/main/format_dialog.txt"
-                
-                # Teks cadangan kalau internet lagi lemot atau link mati
-                dialog_content = "Gagal memuat file, hubungi Admin."
-                
-                # Tombol Download Asli Streamlit
-                st.download_button(
-                    label="📥 DOWNLOAD FORMAT DIALOG TERBARU",
-                    data=url_dialog, # Lo bisa isi teks langsung atau variabel file
-                    file_name="FORMAT_DIALOG_PINTAR_LAB.txt",
-                    mime="text/plain"
-                )
+                # Kita bagi jadi 2 kolom biar gak kosong di kanan
+                col_dl, col_instruksi = st.columns([1, 1.5]) # Kolom kanan agak lebar dikit biar teks instruksi muat
 
-                st.write("") 
+                with col_dl:
+                    st.markdown("**📥 File Pendukung:**")
+                    # Ganti url_raw dengan link RAW GitHub lo
+                    url_raw = "https://raw.githubusercontent.com/USER/REPO/main/dialog.txt"
+                    
+                    st.download_button(
+                        label="📥 DOWNLOAD FORMAT DIALOG TERBARU",
+                        data=url_raw,
+                        file_name="FORMAT_DIALOG_PINTAR_LAB.txt",
+                        mime="text/plain",
+                        use_container_width=True # Biar tombolnya penuh di kolom ini
+                    )
+                    st.caption("💡 Selalu gunakan format terbaru dari Owner.")
 
-                # --- INSTRUKSI PENYESUAIAN BAHAN ---
-                st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
-                st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
-                st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
-                st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
-                
-                st.caption("💡 Dialog yang tidak nyambung dengan bahan visual akan langsung REJECT!")
+                with col_instruksi:
+                    st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
+                    st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
+                    st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
+                    st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
+                    
+                    st.warning("⚠️ Dialog yang tidak nyambung dengan bahan visual akan langsung **REJECT**!")
 
             # --- HEADER JALUR PENYERAHAN ---
             st.markdown("#### 4️⃣ Alur Penyerahan Hasil Kerja")
