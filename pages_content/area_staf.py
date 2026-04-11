@@ -363,8 +363,8 @@ def tampilkan_area_staf():
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     # --- TAMPILAN FORMAT YANG LO MAU ---
-                    st.success(f"📌 **Format Baru:** `VID_tahunbulantanggal_jammenitdetik.mp4` ")
-                    st.caption("💡 **Cara Baca:** Misal `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
+                    st.success(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
+                    st.caption("💡 **Misalnya:** `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
                     
             st.write("") # Spacing
 
