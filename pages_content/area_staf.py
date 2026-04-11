@@ -369,12 +369,42 @@ def tampilkan_area_staf():
 
             st.write("") # Spacing
 
+            # --- CARD 3: BANK NARASI KHUSUS (LINEAR VIEW - ANTI BINGUNG) ---
+            with st.container(border=True):
+                st.markdown("#### 3️⃣ Aturan Dialog (Wajib Sesuaikan Bahan Visual!)")
+                st.error("❗ **PENTING:** Staff wajib mengganti kata yang bertanda **[ ]** sesuai dengan bahan pembuatan masjid di video!")
+
+                # --- KATEGORI 1: MAKANAN ---
+                st.markdown("**🍓 JIKA BAHAN ADALAH BUAH / MAKANAN (Strawberry, Jeruk, Mie, dll):**")
+                st.code("""
+- "Maafin nenek ya... mungkin masjid dari [BAHAN MAKANAN] ini jelek. Nenek ikhlas kalau kalian engga mau like dan subscribe. Pesen nenek, jangan tinggalin solat ya cu..."
+- "Maafin nenek ya... miniatur masjid [BAHAN MAKANAN] buatan nenek jelek... Nenek selalu berdoa, semoga yang sudah like dan subscribe, kalian semua masuk surga..."
+                """, language="text")
+
+                # --- KATEGORI 2: MEKAH ---
+                st.markdown("---")
+                st.markdown("**🕋 JIKA VISUAL ADALAH KA'BAH / MEKAH:**")
+                st.code("""
+- "Cucuku yang baik hati... miniatur Mekah ini nenek buat sambil berdoa, semoga yang like dan subscribe, Allah panggil kalian ke tanah suci secepatnya. Amin..."
+- "Nenek ikhlas miniatur Ka'bah ini engga ada yang like. Nenek cuma mau ingetin, Ka'bah itu arah solat kita, jangan pernah kalian tinggalin solat 5 waktu ya cu..."
+                """, language="text")
+
+                # --- KATEGORI 3: BEKAS ---
+                st.markdown("---")
+                st.markdown("**🪵 JIKA BAHAN ADALAH BARANG BEKAS (Koran, Kaleng, Korek, Kayu, dll):**")
+                st.code("""
+- "Maafin nenek ya... mungkin masjid dari [BAHAN BEKAS] ini jelek. Nenek ikhlas kalau kalian engga mau like dan subscribe. Pesen nenek, jangan tinggalin solat ya cu..."
+- "Cucuku yang baik hati... kalau jari kalian engga berat, bantu sebarkan keindahan masjid [BAHAN BEKAS] ini ya... satu subscribe dari kalian semangat buat nenek..."
+                """, language="text")
+
+            st.write("") # Spacing
+
             # --- HEADER JALUR PENYERAHAN ---
-            st.markdown("#### 3️⃣ Alur Penyerahan Hasil Kerja")
+            st.markdown("#### 4️⃣ Alur Penyerahan Hasil Kerja")
             
             col_jalur1, col_jalur2 = st.columns(2)
             
-            # --- CARD 3: JALUR A (KIRI) ---
+            # --- CARD 4: JALUR A (KIRI) ---
             with col_jalur1:
                 with st.container(border=True):
                     st.info("📂 **JALUR A: STOK HARIAN (OFFLINE)**")
@@ -385,7 +415,7 @@ def tampilkan_area_staf():
                     st.write("- Copy file dari folder `SIAP TEMPUR` ke **Flashdisk (FD)**.")
                     st.write("- Serahkan ke **Admin** untuk QC & pindah ke folder Stok.")
 
-            # --- CARD 4: JALUR B (KANAN) ---
+            # --- CARD 5: JALUR B (KANAN) ---
             with col_jalur2:
                 with st.container(border=True):
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
