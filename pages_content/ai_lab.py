@@ -1552,22 +1552,23 @@ def tampilkan_halaman():
                     "GENDER WARDROBE: Traditional Indonesian Kopiah/Peci cap on head. No hijab, no female daster."
                 )
 
-            # --- 5. FILTER PEMBERSIH (VERSI ANTI-BOCOR) ---
+            # --- 5. FILTER PEMBERSIH (VERSI ANTI-BOCOR TOTAL) ---
             def bersihkan_teks(teks):
-                # Cek apakah ada kurung buka
-                if '(' in teks:
-                    # Kita ambil HANYA teks yang ada di dalam kurung buka '(' dan kurung tutup ')'
-                    # Teks di luar kurung (Bahasa Indo & Titik Dua) bakal dibuang paksa
-                    return teks.split('(')[1].split(')')[0].strip()
+                # Cari posisi kurung buka pertama
+                if '(' in teks and ')' in teks:
+                    # Ambil teks HANYA di antara kurung '(' dan ')'
+                    # Teks Bahasa Indo & Titik Dua di luar kurung bakal dibuang paksa
+                    start = teks.find('(') + 1
+                    end = teks.find(')')
+                    return teks[start:end].strip()
                 return teks.strip()
 
             aksi_final = bersihkan_teks(pilih_aksi)
             mood_final = bersihkan_teks(pilih_mood)
             
-            # Khusus Logat, kita bersihkan juga kalau ada tanda kurung
+            # Khusus Logat, kita bersihkan juga biar gak belepotan
             if '(' in pilih_logat:
-                # Ambil penjelasan Inggrisnya saja (biasanya setelah kurung atau titik dua)
-                logat_final = pilih_logat.split(')')[-1].split(':')[-1].strip()
+                logat_final = bersihkan_teks(pilih_logat)
             else:
                 logat_final = pilih_logat
                 
