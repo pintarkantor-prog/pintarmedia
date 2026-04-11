@@ -352,7 +352,7 @@ def tampilkan_area_staf():
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
-                    st.markdown("**🛡️ Bypass Metadata:**")
+                    st.markdown("**🛡️ Cara Manipulasi Metadata:**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
                     st.write("- Tool otomatis menghapus jejak software (Filmora/Premiere) & Device PC.")
