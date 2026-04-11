@@ -1552,25 +1552,23 @@ def tampilkan_halaman():
                     "GENDER WARDROBE: Traditional Indonesian Kopiah/Peci cap on head. No hijab, no female daster."
                 )
 
-            # --- 5. FILTER PEMBERSIH (VERSI ANTI-BOCOR TOTAL) ---
+            # --- 5. FILTER PEMBERSIH (LOGIKA SETELAH TITIK DUA) ---
             def bersihkan_teks(teks):
-                # Cari posisi kurung buka pertama
-                if '(' in teks and ')' in teks:
-                    # Ambil teks HANYA di antara kurung '(' dan ')'
-                    # Teks Bahasa Indo & Titik Dua di luar kurung bakal dibuang paksa
-                    start = teks.find('(') + 1
-                    end = teks.find(')')
-                    return teks[start:end].strip()
+                # Kita cari tanda titik dua paling kanan
+                if ':' in teks:
+                    # Ambil semua teks di sebelah kanan titik dua paling akhir
+                    return teks.split(':')[-1].strip()
+                # Kalau gak ada titik dua, baru cari di dalam kurung (buat jaga-jaga)
+                elif '(' in teks and ')' in teks:
+                    return teks.split('(')[1].split(')')[0].strip()
                 return teks.strip()
 
             aksi_final = bersihkan_teks(pilih_aksi)
             mood_final = bersihkan_teks(pilih_mood)
             
-            # Khusus Logat, kita bersihkan juga biar gak belepotan
-            if '(' in pilih_logat:
-                logat_final = bersihkan_teks(pilih_logat)
-            else:
-                logat_final = pilih_logat
+            # Khusus Logat, karena ada embel-embel "Napas Tua (The Fading Echo):"
+            # Kita split di titik dua paling akhir biar cuma dapet deskripsi Inggrisnya
+            logat_final = pilih_logat.split(':')[-1].strip()
                 
             # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
             if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
