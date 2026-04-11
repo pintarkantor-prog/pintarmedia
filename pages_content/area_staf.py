@@ -347,22 +347,24 @@ def tampilkan_area_staf():
             
             st.write("") # Spacing
 
-            # --- CARD 2: MANIPULASI METADATA & ANTI-SUSPEND (NEW!) ---
+            # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
             with st.container(border=True):
-                st.markdown("#### 2️⃣ Manipulasi Metadata (Anti-Suspend System)")
+                st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
                 st.error("❗ **WAJIB: Jangan kirim file 'mentah' langsung dari software editing!**")
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
-                    st.markdown("**🛡️ Sterilisasi Metadata:**")
-                    st.write("- Masukkan SEMUA video ke tool **Metadata Stripper/Remover**.")
-                    st.write("- Hapus jejak 'Software: Filmora/Premiere' atau 'Device: Windows PC'.")
-                    st.write("- Metadata yang identik di banyak HP = Akun kena suspend massal!")
+                    st.markdown("**🛡️ Sterilisasi & Bypass DNA:**")
+                    st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
+                    st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
+                    st.write("- Tool otomatis menghapus jejak software (Filmora/Premiere) & Device PC.")
+                    st.write("- Metadata identik di banyak HP = Akun kena suspend massal!")
                 
                 with col_meta2:
-                    st.markdown("**🆔 Unique File Name:**")
-                    st.write("- Dilarang pakai nama urut (konten1, konten2, dsb).")
-                    st.write("- Gunakan format acak hasil rekaman HP (Timestamp).")
+                    st.markdown("**🆔 Variasi Visual & Nama:**")
+                    st.write("- Tool otomatis mengacak Zoom (1.01-1.08) & Filter Warna (Unique DNA).")
+                    st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
+                    st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     st.success(f"📌 **Format Baru:** `VID_{sekarang.strftime('%Y%m%d_%H%M%S')}.mp4` ")
 
             st.write("") # Spacing
@@ -379,8 +381,8 @@ def tampilkan_area_staf():
                     st.markdown("**Target:** Video rutin harian untuk stok HP.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- **Tidak perlu** input data ke sistem/web ini.")
-                    st.write("- **WAJIB:** Pastikan audio nyesek natural, **TIDAK ASMA**.")
-                    st.write("- Copy file dari PC ke **Flashdisk (FD)**.")
+                    st.write("- **WAJIB:** Pastikan audio nyesek natural, **SYNC PAS**, & **TIDAK ASMA**.")
+                    st.write("- Copy file dari folder `SIAP TEMPUR` ke **Flashdisk (FD)**.")
                     st.write("- Serahkan ke **Admin** untuk QC & pindah ke folder Stok.")
 
             # --- CARD 4: JALUR B (KANAN) ---
@@ -389,7 +391,7 @@ def tampilkan_area_staf():
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
                     st.markdown("**Target:** Instruksi khusus Owner di Tab Tugas.")
                     st.markdown("**Langkah Kerja:**")
-                    st.write("- Upload file ke **Google Drive** (Folder Project).")
+                    st.write("- Upload file `SIAP TEMPUR` ke **Google Drive**.")
                     st.write("- Setting link ke: *'Anyone with the link'*.")
                     st.write("- Buka Tab **TUGAS KERJA**, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
