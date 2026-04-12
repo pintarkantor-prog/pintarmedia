@@ -9,12 +9,27 @@ from modules.database import supabase
 
 def kirim_notif_wa(pesan):
     token = "f4CApLBAJDTPrVHHZCDF"
-    target = "120363407726656878@g.us"
+    target = "120363407726656878@g.us" # Ini ID Group ya
     url = "https://api.fonnte.com/send"
-    payload = {'target': target, 'message': pesan, 'countryCode': '62'}
-    headers = {'Authorization': token}
-    try: requests.post(url, data=payload, headers=headers, timeout=5)
-    except: pass
+    
+    payload = {
+        'target': target,
+        'message': pesan,
+        'countryCode': '62'
+    }
+    
+    headers = {
+        'Authorization': token  # Pastikan tidak ada spasi di awal/akhir token
+    }
+    
+    try:
+        response = requests.post(url, data=payload, headers=headers, timeout=10)
+        # Hapus 'pass', kita intip responnya di console/logs
+        # print(f"Respon Fonnte: {response.text}") 
+        return response.json()
+    except Exception as e:
+        # print(f"Koneksi Gagal: {e}")
+        return None
 
 def tampilkan_area_staf():
     st.title("📘 Pusat Informasi")
