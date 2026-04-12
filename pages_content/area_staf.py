@@ -623,28 +623,25 @@ def tampilkan_area_staf():
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP! dan **WAJIB** Lakukan Sterilisasi serta Karantina setiap akun baru!")
             st.write("") # Spacing
 
-            st.markdown("#### 🔍 8️⃣ **AUDIT KESEHATAN & EKSEKUSI AKUN BUSUK**")
+            st.markdown("#### 🔍 8️⃣ **AUDIT KELAYAKAN CHANNEL YOUTUBE**")
             # --- BAGIAN 1: AUDIT (CEK KONDISI) ---
             col_audit1, col_audit2 = st.columns(2)
             
             with col_audit1:
                 with st.container(border=True):
-                    st.success("**✅ Kategori Pertahankan (Keep):**")
-                    st.write("- **View Stabil:** Masih ada view (meskipun puluhan/ratusan).")
-                    st.write("- **Grafik Aktif:** Ada pergerakan di Realtime YT Studio (48 jam).")
+                    st.success("**✅ Kategori Channel Bagus:**")
+                    st.write("- **View Stabil:** Masih ada view ( *meskipun puluhan/ratusan* ).")
+                    st.write("- **Grafik Aktif:** Ada pergerakan view di `Realtime YT Studio`.")
                     st.write("- **Interaksi:** Masih ada Like/Komentar masuk.")
-                    st.write("- **Tindakan:** Coba ganti Jam Upload atau Riset Judul baru.")
 
             with col_audit2:
                 with st.container(border=True):
-                    st.error("**❌ Kategori Busuk (Ganti):**")
-                    st.write("- **Stuck 0 View:** Sudah upload 5 video berturut-turut tetap 0 view.")
-                    st.write("- **Pelanggaran:** Ada teguran Hak Cipta / Pedoman Komunitas.")
-                    st.write("- **Grafik Mati:** Grafik Realtime benar-benar garis lurus (3 hari).")
-                    st.write("- **Tindakan:** Wajib Hapus & Ganti sesuai prosedur di bawah.")
+                    st.error("**❌ Kategori Channel Busuk ( Wajib Ganti ):**")
+                    st.write("- Pertama Upload `Stuck 0 View` Sudah lebih dari 1 jam upload.")
+                    st.write("- Channel yang terkena pelanggaran atau suspend.")
+                    st.write("- Upload di hari ke 2 dan 3 view dibawah 5, bisa ganti channel / hapus video saja.")
 
             # --- BAGIAN 2: PROSEDUR EKSEKUSI (CARA GANTI) ---
-            st.markdown("---")           
             col_ex1, col_ex2 = st.columns(2)
             
             with col_ex1:
