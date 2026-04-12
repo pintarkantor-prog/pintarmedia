@@ -348,7 +348,7 @@ def tampilkan_area_staf():
             # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
-                st.error("❗Jangan kirim file 'mentah' langsung dari hasil web AI / software editing!**")
+                st.error("❗**Jangan kirim file 'mentah' langsung dari hasil web AI / software editing!**")
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
