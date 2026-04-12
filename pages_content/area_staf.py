@@ -359,7 +359,7 @@ def tampilkan_area_staf():
                     st.write("- Metadata identik di banyak HP = Resiko akun kena suspend massal!")
                 
                 with col_meta2:
-                    st.markdown("**🆔 Variasi Nama File:**")
+                    st.markdown("**🆔 Variasi Nama File & Caption:**")
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     # --- TAMPILAN FORMAT YANG LO MAU ---
