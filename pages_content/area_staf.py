@@ -468,24 +468,24 @@ def tampilkan_area_staf():
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")
-                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola *bot uploader atau akun ternak*.")
+                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola *bot uploader* atau *akun ternak*.")
             
                 # --- BARIS ATAS: PROSEDUR TEKNIS (2 KOLOM) ---
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
-                    st.write("**🎥 Step-by-Step Upload:**")
-                    st.write("1. **Upload Video:** Klik [+] lalu pilih file video yang sudah disiapkan.")
-                    st.write("2. **Optimasi Thumbnail:** Wajib geser slider ke frame paling menarik/kontroversial (CTR Booster).")
-                    st.write("3. **Input Judul:** Ambil salah satu referensi dari daftar di bawah.")
-                    st.write("4. **Kualitas:** Pastikan visual thumbnail jelas, tidak blur, dan objek utama menonjol.")
+                    st.write("**📱 Langkah Eksekusi (HP):**")
+                    st.write("1. **Pemilihan File:** Tekan ikon **[+]** > **Unggah Video** > Pilih file yang sudah melewati proses *Metadata Bypass*.")
+                    st.write("2. **Penentuan Thumbnail:** Geser slider ke detik video yang paling 'menjual' atau unik. Ini kunci agar video tidak di-skip penonton.")
+                    st.write("3. **Input Identitas:** Masukkan judul dari daftar referensi di bawah. Pastikan judul sinkron dengan isi video.")
+                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **'Bukan untuk Anak-anak'** agar kolom komentar dan fitur rekomendasi Shorts terbuka luas.")
 
                 with col_up2:
-                    st.write("**🛡️ Validasi Sistem (Checks):**")
-                    st.write("- **Waiting for Checks:** Dilarang keras klik 'Publish' jika status 'Checks' (Hak Cipta) belum centang hijau.")
-                    st.write("- **Indeksing Server:** Tunggu indikator proses selesai 100% agar video tidak tertahan (View 0) oleh sistem.")
-                    st.write("- **Set Publik:** Atur visibilitas ke 'Publik' hanya jika langkah 1-4 dan validasi server sudah beres.")
-                    st.write("- **Final Check:** Pastikan settingan konten 'Bukan untuk Anak-anak'.")
+                    st.write("**🛡️ Protokol Keamanan (Server):**")
+                    st.write("- **Proses Indeksing:** Jangan buru-buru. Tunggu status *'Processing'* mencapai 100% agar resolusi video tajam (HD) saat tayang.")
+                    st.write("- **Fitur Checks:** Wajib tunggu centang hijau pada bagian **Copyright/Hak Cipta**. Jika muncul peringatan, ganti file video segera.")
+                    st.write("- **Final Publishing:** Klik **'Publikasikan'** HANYA jika status pengecekan sudah bersih dan durasi tunggu (loading) selesai.")
+                    st.write("- **Verifikasi Akhir:** Pastikan visibilitas sudah benar-benar set ke **Publik**, bukan 'Tidak Publik' atau 'Pribadi'.")
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
