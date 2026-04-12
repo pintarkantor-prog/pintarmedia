@@ -500,7 +500,7 @@ def tampilkan_area_staf():
                 col_j1, col_j2, col_j3 = st.columns(3)
                 
                 with col_j1:
-                    st.markdown("- *Miniatur Masjid Buatan Nenek + Emoji* ")
+                    st.markdown("* `Miniatur Masjid Buatan Nenek + Emoji` ")
                     st.markdown("* `Masjid Buatan Nenek Dari [XXXX] + Emoji`")
                     st.markdown("* `Miniatur Masjid Dari [XXXX] Buatan Nenek`")
                     st.markdown("* `Masjid Miniatur Nenek Dari [XXXX]`")
@@ -509,7 +509,7 @@ def tampilkan_area_staf():
                 with col_j2:
                     st.markdown("* `Masjid Indah Dari [XXXX] Buatan Nenek` ")
                     st.markdown("* `Miniatur Masjid Indah Buatan Nenek [XXXX]`")
-                    st.markdown("* `Masjid Indah Dari [XXXX] Nenek`")
+                    st.markdown("* `Masjid Indah Dari [XXXX] Bikinan Nenek`")
                     st.markdown("* `Nenek Bikin Miniatur Masjid Dari [XXXX]`")
                     st.markdown("* `Masya Allah! Miniatur Masjid Buatan Nenek`")
                 
