@@ -478,8 +478,7 @@ def tampilkan_area_staf():
                     st.write("1. Tekan ikon **`[+] > Unggah Video >`** Pilih file yang ada di HP.")
                     st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
                     st.write("3. Masukkan judul dari daftar referensi di bawah (*Pastikan judul sinkron dengan isi video*).")
-                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **`Bukan untuk anak-anak`**.")
-                    st.write("5. Jika video menggunakan visual AI, wajib pilih **`Konten Modifikasi > Ya`**.")
+                    st.write("4. Wajib pilih opsi **`Bukan untuk anak-anak`** dan **`Konten Modifikasi > Ya`**.")
 
                 with col_up2:
                     st.write("**🛡️ Protokol Keamanan (Anti-Bot System):**")
