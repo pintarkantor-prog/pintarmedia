@@ -433,30 +433,50 @@ def tampilkan_area_staf():
 
         # --- FUNGSI MODULAR PANDUAN UPLOADER (SOP SISTEMATIS) ---
         def panduan_ritual_upload():            
-            # --- CARD 1: ISOLASI IDENTITAS (FULL WIDTH) ---
+            # --- CARD 1: FASE 1 - ISOLASI IDENTITAS (FULL WIDTH) ---
             with st.container(border=True):
                 st.markdown("#### 1️⃣ Fase 1: Sterilisasi & Reset Identitas (Wajib)")
-                st.write("- **Airplane Mode Ritual:** Aktifkan Mode Pesawat minimal 10 detik setiap sebelum ganti akun.")
-                st.write("- **Clear Cache Total:** Wajib hapus cache aplikasi YouTube di setelan HP setiap pindah akun.")
-                st.write("- **Data Seluler Only:** Dilarang keras pakai WiFi! Wajib pakai data seluler masing-masing HP.")
-                st.caption("💡 Logika: Reset IP dan Clear Cache memutus hubungan identitas antar akun lama dan baru.")
+                st.error("🛡️ **PENTING: Putus Hubungan Digital Antar Akun**")
+                st.write("- **Airplane Mode Ritual:** Wajib aktifkan Mode Pesawat minimal 10 detik setiap sebelum ganti akun/channel.")
+                st.write("- **Reset Alamat IP:** Tujuannya agar HP mendapatkan identitas jaringan baru dari tower provider.")
+                st.write("- **Clear Cache Total:** Masuk ke Setelan HP > Aplikasi > YouTube > Hapus Memori/Cache.")
+                st.write("- **Data Seluler Only:** Dilarang keras menyalakan WiFi! Satu WiFi untuk banyak HP = Suspend Massal.")
+                st.caption("💡 Logika: Reset IP dan Clear Cache mencegah Google mendeteksi adanya 'Pabrik Akun' di satu lokasi.")
             st.write("") # Spacing
 
-            # --- CARD 2: MICRO-WARM UP (FULL WIDTH) ---
-            with st.container(border=True):
-                st.markdown("#### 2️⃣ Fase 2: Micro-Warm Up (Kilat 1 Menit)")
-                st.write("- **Login & Search:** Cari satu channel besar yang relevan di kolom search (jangan klik link).")
-                st.write("- **Shorts Interaction:** Tonton Shorts orang lain minimal 30-60 detik dan berikan 1 Like.")
-                st.write("- **Tujuan:** Meyakinkan server YouTube bahwa aktivitas dilakukan oleh manusia (bukan bot).")
+            # --- FASE 2 & 3: PEMANASAN & EKSEKUSI (TWO COLUMNS) ---
+            col_up1, col_up2 = st.columns(2)
+
+            with col_up1:
+                with st.container(border=True):
+                    st.markdown("#### 2️⃣ Fase 2: Micro-Warm Up")
+                    st.warning("🔥 **Pancing Aktivitas Manusia**")
+                    st.write("- **Search Manual:** Cari satu channel besar yang relevan di kolom search (Jangan klik link).")
+                    st.write("- **Shorts Interaction:** Tonton video Shorts orang lain 30-60 detik dan berikan 1 Like.")
+                    st.write("- **Ciptakan Jejak:** Teknik ini meyakinkan sistem bahwa aktivitas dilakukan oleh manusia asli, bukan bot.")
+            
+            with col_up2:
+                with st.container(border=True):
+                    st.markdown("#### 3️⃣ Fase 3: Eksekusi Upload")
+                    st.success("✅ **Monitoring & Jadwal**")
+                    st.write("- **Thumbnail:** Pilih cover manual yang paling memancing rasa penasaran (CTR Tinggi).")
+                    st.write("- **Check Status:** Tunggu indikator 'Checks Complete' muncul sebelum klik Publish.")
+                    st.write("- **Selisih 2 Jam:** Wajib jeda antar akun di unit HP yang sama sesuai jadwal.")
             st.write("") # Spacing
 
-            # --- CARD 3: EKSEKUSI & MONITORING (FULL WIDTH) ---
+            # --- CARD 4: MAINTENANCE & EMERGENCY (FULL WIDTH) ---
             with st.container(border=True):
-                st.markdown("#### 3️⃣ Fase 3: Eksekusi Upload & Jadwal Ketat")
-                st.write("- **Prosedur:** Pilih Thumbnail manual paling menarik & tunggu 'Checks Complete' sebelum Publish.")
-                st.write("- **Selisih 2 Jam:** Wajib jeda antar akun di HP yang sama sesuai jadwal yang ditentukan.")
-                st.write("- **Post-Upload:** Jangan langsung tutup aplikasi, biarkan standby di background 1-2 menit.")
-                st.info("📌 **Fix View 0:** Jika view stagnan di angka 0 setelah 2 jam, segera lapor ke Admin.")
+                st.markdown("#### 4️⃣ Fase 4: Maintenance Unit & Penanganan Darurat")
+                st.info("🚨 **PROSEDUR KEAMANAN ASET**")
+                col_m1, col_m2 = st.columns(2)
+                with col_m1:
+                    st.write("**🛡️ Penanganan Masalah:**")
+                    st.write("- **Fix View 0:** Jika view tetap 0 setelah 4 jam, segera lapor nomor unit HP ke Admin.")
+                    st.write("- **Karantina:** Jika 1 channel suspend, STOP upload akun lain di HP tersebut selama 24 jam.")
+                with col_m2:
+                    st.write("**⚙️ Perawatan Unit:**")
+                    st.write("- Hapus video sukses upload & kosongkan folder sampah galeri setiap sore.")
+                    st.write("- Wajib Restart HP & pastikan HP selalu standby dicolok charger (Jangan lowbat).")
             st.write("") # Spacing
 
         def panduan_rawat_hp():
