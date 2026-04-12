@@ -467,9 +467,7 @@ def tampilkan_area_staf():
 
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
             with st.container(border=True):
-                st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")
-                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola *bot uploader* atau *akun ternak*.")
-            
+                st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")            
                 # --- BARIS ATAS: PROSEDUR TEKNIS (2 KOLOM) ---
                 col_up1, col_up2 = st.columns(2)
             
@@ -489,7 +487,7 @@ def tampilkan_area_staf():
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
-                st.success("##### 📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
+                st.success("📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
             
                 col_judul1, col_judul2 = st.columns(2)
             
