@@ -8,7 +8,7 @@ import requests
 from modules.database import supabase
 
 def kirim_notif_wa(pesan):
-    token = "f4CApLBAJDTPrVHHZCDF"
+    token = "r6ZXJWDQPybPQqWDj67L"
     target = "120363407726656878@g.us"
     url = "https://api.fonnte.com/send"
     payload = {'target': target, 'message': pesan, 'countryCode': '62'}
@@ -158,12 +158,12 @@ def tampilkan_area_staf():
                                 "Deadline": sekarang.strftime("%Y-%m-%d")
                             }).execute()
                             
-                            # 4. Kirim Notifikasi WA (ID di bawah Tugas Baru)
+                            # 4. Kirim Notifikasi WA (Ditambah Tanggal)
                             kirim_notif_wa(
                                 f"🔔 *TUGAS BARU*\n"
                                 f"🆔 *ID:* {new_id_gede}\n"
+                                f"📅 *Tanggal:* {sekarang.strftime('%d %B %Y')}\n"  # Format: 13 April 2026
                                 f"👤 *Untuk:* {staf_tujuan}\n"
-                                f"📝 *Detail:* {instr_wa}"
                             )
                             
                             st.success(f"✅ Tugas {new_id_gede} Terkirim!")
