@@ -585,8 +585,7 @@ def tampilkan_area_staf():
             st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         def panduan_keamanan_akun():
-            st.markdown("#### 🔐 PROSEDUR LOGIN & PENGAMANAN AKUN BELI")
-            
+            st.markdown("#### 🔐 Prosedur Login dan Keamanan Akun Baru")
             col_aman1, col_aman2 = st.columns(2)
             
             # --- CARD 1: STERILISASI LOGIN (KIRI) ---
@@ -602,11 +601,10 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.success("**🛡️ Proteksi & Verifikasi Keamanan**")
                     st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
-                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di `Kelola Perangkat`.")
+                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di `Manage Device` atau`Kelola Perangkat`.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
 
             st.markdown("#### 📥 Prosedur Karantina & Pemanasan Akun Baru Beli")
-            
             col_kar1, col_kar2 = st.columns(2)
             
             # --- CARD 1: MASA KARANTINA (KIRI) ---
