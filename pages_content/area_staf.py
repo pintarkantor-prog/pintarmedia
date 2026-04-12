@@ -593,9 +593,9 @@ def tampilkan_area_staf():
             with col_aman1:
                 with st.container(border=True):
                     st.info("**🛠️ Prosedur Login & Sterilisasi Setiap Akun Baru**")
-                    st.write("- Hapus cache aplikasi `**YouTube & Google Play Services.**`")
-                    st.write("- Wajib ON-OFF Mode Pesawat 10 detik setiap mau login akun baru (Ganti IP).")
-                    st.write("- Login via *Settings > Akun & Sinkronisasi > Tambahkan Akun Google.")
+                    st.write("- Hapus cache aplikasi `YouTube & Google Play Services`.")
+                    st.write("- Wajib ON-OFF `Mode Pesawat` 10 detik setiap mau login akun baru (Ganti IP).")
+                    st.write("- Login via `Settings > Akun & Sinkronisasi > Tambahkan Akun Google`.")
                     st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
 
             # --- CARD 2: PENGAMANAN DATA (KANAN) ---
