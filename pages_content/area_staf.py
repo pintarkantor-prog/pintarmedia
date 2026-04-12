@@ -344,22 +344,20 @@ def tampilkan_area_staf():
                 st.write("- Wajib bikin video harian sesuai kebutuhan stok kantor.")
                 st.write("- Dahulukan membuat stok untuk Konten yang stok videonya paling sedikit.")            
             st.write("") # Spacing
-
-            # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
+                    
+            st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
             with st.container(border=True):
-                st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
-                st.warning("🚨 Jangan kirim **file mentah** langsung dari hasil web AI / software editing.")
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
-                    st.markdown("**🛡️ Cara Manipulasi Metadata:**")
+                    st.info("**🛡️ Cara Manipulasi Metadata:**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
                     st.write("- Tool otomatis menghapus jejak software (Filmora/Capcut) & Device PC.")
                     st.write("- **Metadata identik di banyak HP** = *Resiko akun kena suspend massal*!")
                 
                 with col_meta2:
-                    st.markdown("**🆔 Variasi Nama File & Caption:**")
+                    st.success("**🆔 Variasi Nama File & Caption:**")
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     # --- TAMPILAN FORMAT YANG LO MAU ---
@@ -368,15 +366,13 @@ def tampilkan_area_staf():
                     
             st.write("") # Spacing
 
-            # --- CARD 3: ATURAN DIALOG ---
-            with st.container(border=True):
-                st.markdown("#### 3️⃣ Alat Pendukung & Aturan Dialog Masjid")
-                
+            st.markdown("#### 3️⃣ Alat Pendukung & Aturan Dialog Masjid")
+            with st.container(border=True):                
                 # Samakan pembagian kolom 50:50 biar lurus sama Card 2
-                col_kiri, col_kanan = st.columns(2)
+                col_kiriii, col_kanannn = st.columns(2)
 
-                with col_kiri:
-                    st.markdown("**📥 Alat Tempur Editor:**")
+                with col_kiriii:
+                    st.info("**📥 Alat Tempur Editor:**")
                     
                     # 1. Link Google Docs/Drive untuk Dialog
                     url_dialog = "https://docs.google.com/document/d/1itFxRuNkQSgZHQq1MZ9fEo-MCj876MlC4Uw60Ksa7as/edit?usp=sharing"
@@ -397,8 +393,8 @@ def tampilkan_area_staf():
                     )
                     st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari GDrive.")
 
-                with col_kanan:
-                    st.markdown("**📢 INFO PENTING PENYESUAIAN DIALOG:**")
+                with col_kanannn:
+                    st.success("**📢 INFO PENTING PENYESUAIAN DIALOG:**")
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, Hanya gunakan dialog tentang **Ka'bah/Mekah**.")
