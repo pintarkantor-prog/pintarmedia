@@ -415,7 +415,7 @@ def tampilkan_area_staf():
                     st.markdown("**Target:** Video rutin harian untuk stok HP.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- **Tidak perlu** input data ke sistem/web ini.")
-                    st.write("- **WAJIB:** Pastikan audio nyesek natural, **SYNC PAS**, & **TIDAK ASMA**.")
+                    st.write("- Pastikan audio & visual sudah OKE, **SYNC PAS**.")
                     st.write("- Copy file dari folder `SIAP TEMPUR` ke **Flashdisk (FD)**.")
                     st.write("- Serahkan ke **Admin** untuk QC & pindah ke folder Stok.")
 
@@ -423,7 +423,7 @@ def tampilkan_area_staf():
             with col_jalur2:
                 with st.container(border=True):
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
-                    st.markdown("**Target:** Instruksi khusus Owner di Tab Tugas.")
+                    st.markdown("**Target:** Instruksi khusus di Tab Tugas.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- Upload file `SIAP TEMPUR` ke **Google Drive**.")
                     st.write("- Setting link ke: *'Anyone with the link'*.")
