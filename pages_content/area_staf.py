@@ -495,7 +495,7 @@ def tampilkan_area_staf():
                     st.markdown(" * Jika karakter video adalah *'Kakek'*, ubah kata *'Nenek'* menjadi *'Kakek'*.")
                     st.markdown(" * Bagian **[ XXXX ]** wajib diganti dengan bahan masjid (**Contoh:** *Kardus Bekas, Buah Melon, Daun Pisang, Dll*).")
                     st.markdown(" * Bagian **+ Emoji** wajib diganti dengan emoji asli (**Contoh:** 🕌, ✨, 😍, 🔥, *Dll*).")
-                    st.markdown(" * Wajib ditambahkan 3 hastag, dipilih secara acak.")
+                    st.markdown(" * Wajib ditambahkan 3 hastag (*acak*), **Contoh:** 'Nenek Buat Masjid Miniatur Dari Strawberry🕌 #shorts #masyaallah #aivideo'")
 
                 # Daftar Judul dengan 3 Kolom agar Padat & Rapi
                 col_j1, col_j2, col_j3 = st.columns(3)
@@ -512,7 +512,7 @@ def tampilkan_area_staf():
                     st.markdown("🔹 <kbd>:grey[Miniatur Masjid Indah Buatan Nenek [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Bikinan Nenek]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:grey[Nenek Bikin Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                    st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek] + Emoji</kbd>", unsafe_allow_html=True)
                 
                 with col_j3:
                     st.markdown("🔹 <kbd>:grey[Nenek Buat Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
