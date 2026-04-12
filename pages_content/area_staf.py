@@ -669,79 +669,62 @@ def tampilkan_area_staf():
             # --- CARD 1: KAPAN HARUS BELI (KIRI) ---
             with col_beli1:
                 with st.container(border=True):
-                    st.info("**🚨 Stock Alert & Timing:**")
-                    st.write("- **Safety Stock:** Wajib beli akun baru jika stok akun 'Standby' di web sisa **20%**.")
-                    st.write("- **Jeda Karantina:** Ingat! Akun butuh 3 hari karantina. Jangan beli pas stok sudah nol.")
-                    st.write("- **Kapasitas Unit:** Beli sesuai jumlah unit HP yang kosong/ada akun busuk.")
-                    st.write("- **Batch Buying:** Disarankan beli dalam jumlah grosir (Batch) untuk dapet harga miring.")
+                    st.info("**🚨 Stock Alert & Prosedur Pembelian**")
+                    st.write("- Rutin beli akun baru setiap hari ( *10 - 20 Akun* ).")
+                    st.write("- Jika seller baru, wajib bayar per 3 Akun ( *Biasanya Penjual minta TF dulu* ). ")
+                    st.write("- Usahakan selalu cari seller baru di Grup-grup FB, Transaksi wajib via WA Kerja.")
+                    st.write("- Harga per Akun ( *akun baru 2rb - 3 rb, akun 2025 kebawah 3rb - 5rb, usahakan Nego* ).")
+
 
             # --- CARD 2: KRITERIA AKUN LAYAK (KANAN) ---
             with col_beli2:
                 with st.container(border=True):
                     st.success("**💎 Kriteria Akun (QC Pass):**")
-                    st.write("- **Umur Akun:** Prioritaskan akun 'Old' (Tua) atau minimal akun hasil ternak yang sudah lewat masa *verif phone*.")
-                    st.write("- **Riwayat Bersih:** Pastikan akun belum pernah dibuat channel YT atau belum pernah kena pelanggaran.")
-                    st.write("- **Garansi:** Wajib beli dari seller yang kasih garansi login & garansi ganti data.")
-                    st.write("- **Kelengkapan:** Akun harus menyertakan Email, Password, dan Email Pemulihan awal.")
+                    st.write("- Prioritaskan akun 'Old' ( *Tua* ) atau minimal akun baru umur 2 minggu.")
+                    st.write("- Pastikan akun belum pernah dibuat channel YT atau belum pernah kena pelanggaran.")
+                    st.write("- Wajib beli dari seller yang kasih garansi login & garansi ganti akun jika bermasalah.")
+                    st.write("- Akun harus mulus login, bisa ganti password, bisa ganti nomer pemulihan.")
 
-            # --- BAGIAN BAWAH: CHECKLIST PENERIMAAN ---
-            st.markdown("---")
-            with st.container(border=True):
-                st.write("**📋 Checklist Penerimaan Akun (Tugas Admin):**")
-                col_cek1, col_cek2 = st.columns(2)
-                with col_cek1:
-                    st.write("1. **Cek Login:** Tes login 1-2 sampel akun pake IP berbeda (Mode Pesawat).")
-                    st.write("2. **Cek Status:** Pastikan tidak ada tulisan 'Action Required' atau akun dinonaktifkan.")
-                with col_cek2:
-                    st.write("3. **Input Log Manual:** Masukkan ke daftar 'Karantina' (Jangan langsung ke Web).")
-                    st.write("4. **Pembayaran:** Bayar seller HANYA jika sampel akun sudah terbukti aman/sesuai janji.")
-
-            st.error("**🚨 PRINSIP PEMBELIAN PINTAR MEDIA:** Lebih baik mahal dikit tapi akun awet, daripada murah tapi 1 hari langsung *Die* massal. Kualitas Amunisi = Kualitas Produksi!")
+                st.write("") # Spacing
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
-            # --- CARD 1: PRODUKSI & STOK CHANNEL (PABRIK CHANNEL) ---
-            with st.container(border=True):
-                st.markdown("#### 🏗️ Produksi & Stok Channel Standby")
-                st.info("💡 **Tugas Utama:** Admin adalah penyedia akun agar operasional tidak berhenti.")
-                st.write("- Mencari akun Google fresh/tua untuk bahan channel baru.")
-                st.write("- Membuat channel-channel baru secara berkala untuk stok standby.")
-                st.write("- Memastikan channel standby sudah siap (setting dasar YT sudah oke).")
-                st.write("- Segera masukkan data channel baru ke sistem agar siap digunakan.")
-
-            st.write("") # Spacing
-
-            # --- CARD 2: KONTROL OPERASIONAL ---
-            with st.container(border=True):
-                st.markdown("#### 🔄 Rutinitas & Rekap Harian")
-                # --- POIN REQUEST DIAN ---
-                st.write("- Wajib mengganti channel yang sudah **Busuk** atau **Tembus** dengan channel baru dari stok standby *(umur channel pengganti minimal 4 hari)*.")
-                st.write("- Memastikan channel standby selalu update statusnya (siap/digunakan).")
-                st.write("- Update jadwal harian untuk uploader setiap sore.")
-                st.write("- Update stok video di masing-masing HP secara berkala.")
-                st.write("- Memastikan seluruh kegiatan kantor berjalan efektif tanpa hambatan teknis.")
-
-            st.write("") # Spacing
-
-            # --- CARD 3: STANDAR OPERASIONAL (SOP) ---
-            st.markdown("#### 📝 Standar Operasional Admin")
+            st.markdown("#### 🏛️ 9️⃣ **ADMIN COMMAND CENTER (LOGISTIK & KONTROL)**")
+            
             col_adm1, col_adm2 = st.columns(2)
             
+            # --- CARD 1: LOGISTIK & UNIT (KIRI) ---
             with col_adm1:
                 with st.container(border=True):
-                    st.info("🔍 **Pengecekan Logistik**")
-                    st.write("- Rutin cek kuota internet, listrik, dan kondisi unit HP.")
-                    st.write("- Data Channel wajib di-update secara real-time (No Delay).")
-                    st.write("- Akurasi data channel wajib 99% (No Error).")
+                    st.info("**🔍 Pengecekan Logistik & Aset:**")
+                    st.write("- **Koneksi:** Rutin cek sisa kuota internet tiap modem/kartu (Jangan sampai mati).")
+                    st.write("- **Daya:** Cek fisik unit HP, pastikan suhu aman dan charger tercolok stabil.")
+                    st.write("- **Real-Time Data:** Wajib update status channel di Web (No Delay) jika ada akun ganti.")
+                    st.write("- **Akurasi 99%:** Pastikan data di dashboard sama persis dengan yang ada di HP.")
 
+            # --- CARD 2: KEUANGAN & KOMANDO (KANAN) ---
             with col_adm2:
                 with st.container(border=True):
-                    st.success("💰 **Keuangan & Koordinasi**")
-                    st.write("- Mencatat setiap pengeluaran operasional (beli akun, kuota, dll).")
-                    st.write("- Wajib cerewet ingetin Editor soal stok dan Uploader soal jadwal.")
-                    st.write("- Data keuangan tidak boleh ada selisih sedikit pun.")
+                    st.success("**💰 Keuangan & Koordinasi Staff:**")
+                    st.write("- **Cashflow:** Catat setiap pengeluaran (Beli akun, Listrik, Kuota) di sistem.")
+                    st.write("- **Zero Error:** Data keuangan tidak boleh ada selisih sedikit pun (Wajib Balance).")
+                    st.write("- **Komando Editor:** Wajib cerewet ingetin Editor soal stok video yang menipis.")
+                    st.write("- **Komando Uploader:** Pantau jadwal upload, pastikan tidak ada jam yang terlewat.")
 
-            st.warning("⚠️ Admin adalah jantung data kantor. Kelalaian data Admin berakibat fatal pada performa seluruh tim!")
+            # --- BAGIAN BAWAH: TANGGUNG JAWAB UTAMA ---
+            st.markdown("---")
+            with st.container(border=True):
+                st.write("**⚠️ TANGGUNG JAWAB UTAMA ADMIN:**")
+                col_tugas1, col_tugas2 = st.columns(2)
+                with col_tugas1:
+                    st.write("1. **Penjaga Gawang:** Menjamin operasional kantor tetap jalan meski Owner tidak ada.")
+                    st.write("2. **Quality Control:** Cek hasil upload staff, pastikan judul & hashtag sudah sesuai SOP.")
+                with col_tugas2:
+                    st.write("3. **Troubleshooter:** Jika ada kendala teknis/akun, Admin adalah orang pertama yang menangani.")
+                    st.write("4. **Bridge:** Jembatan komunikasi antara kebutuhan Editor dan eksekusi Uploader.")
+
+            st.error("**🚨 PRINSIP ADMIN PINTAR MEDIA:** No Delay, No Error, No Selisih. Jika ada kendala fatal yang tidak bisa diatasi, wajib langsung lapor Owner!")
+            st.write("") # Spacing
                 
         # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
         if user_level in ["OWNER", "ADMIN"]:
