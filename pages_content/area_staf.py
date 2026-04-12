@@ -560,7 +560,6 @@ def tampilkan_area_staf():
 
                 st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
             st.write("") # Spacing
-            st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! Segera hubungi Admin/Owner.")
             
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
@@ -582,6 +581,8 @@ def tampilkan_area_staf():
                     st.write("- Update aplikasi YT dan Google secara berkala ( *minimal 3 hari sekali* ).")
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
+
+            st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
