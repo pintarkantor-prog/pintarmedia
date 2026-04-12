@@ -495,7 +495,7 @@ def tampilkan_area_staf():
                     st.markdown(" * Jika karakter video adalah *'Kakek'*, ubah kata *'Nenek'* menjadi *'Kakek'*.")
                     st.markdown(" * Bagian **[ XXXX ]** wajib diganti dengan bahan masjid (**Contoh:** *Kardus Bekas, Buah Melon, Daun Pisang, Dll*).")
                     st.markdown(" * Bagian **+ Emoji** wajib diganti dengan emoji asli (**Contoh:** 🕌, ✨, 😍, 🔥, *Dll*).")
-                    st.markdown(" * Wajib ditambahkan 3 hastag (*acak*), **Contoh:** 'Nenek Buat Masjid Miniatur Dari Strawberry🕌 #shorts #masyaallah #aivideo'")
+                    st.markdown(" * Wajib ditambahkan 3 hastag (*pilih secara acak*), **Contoh:** `Nenek Buat Masjid Miniatur Dari Strawberry🕌 #shorts #masyaallah #aivideo`")
 
                 # Daftar Judul dengan 3 Kolom agar Padat & Rapi
                 col_j1, col_j2, col_j3 = st.columns(3)
