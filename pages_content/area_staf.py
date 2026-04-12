@@ -431,24 +431,44 @@ def tampilkan_area_staf():
                     st.write("- Buka Tab **TUGAS KERJA**, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
-        # --- FUNGSI MODULAR PANDUAN UPLOADER (MODEL CARD SYSTEM) ---
+        # --- FUNGSI MODULAR PANDUAN UPLOADER (SOP SISTEMATIS) ---
         def panduan_ritual_upload():            
-            # --- CARD 1: RITUAL PEMANASAN ---
+            # --- FASE 1: ISOLASI IDENTITAS (SEBELUM BUKA APLIKASI) ---
             with st.container(border=True):
-                st.warning("⚠️ **Pemanasan Akun (Ritual Wajib):**")
-                st.write("- **Sebelum Upload:** Buka aplikasi YT, tonton video Shorts orang lain minimal 15 detik (pancing aktivitas manusia).")
-                st.write("- **Setelah Upload:** Jangan langsung tutup aplikasi! Tonton lagi 1-2 video orang lain sebentar baru keluar/close aplikasi.")
-                st.info("💡 **Tujuan:** Biar akun dianggap 'Manusia' oleh sistem YouTube dan video lebih gampang masuk rekomendasi (FYP).")
+                st.error("🛡️ **FASE 1: ISOLASI & RESET IDENTITAS (WAJIB)**")
+                st.markdown("""
+                Sebelum berpindah antar akun di HP yang sama, lakukan ritual **'Ghosting'** ini:
+                1. **Airplane Mode Ritual:** Aktifkan Mode Pesawat minimal 10 detik. Matikan kembali untuk mendapatkan IP baru dari provider seluler.
+                2. **Clear Cache Total:** Masuk ke *Settings HP > Apps > YouTube > Storage > Clear Cache*.
+                3. **Pastikan Data Seluler:** Dilarang keras menyalakan WiFi! Gunakan data dari kartu masing-masing HP.
+                """)
+                st.caption("💡 Logika: Reset IP dan Clear Cache memutus hubungan 'identitas' antara akun lama dan akun baru.")
 
-            st.write("") # Spacing
-
-            # --- CARD 2: OPTIMASI KONTEN ---
+            # --- FASE 2: MICRO-WARM UP (PANCING ALGORITMA) ---
             with st.container(border=True):
-                st.markdown("#### 📝 Langkah Optimasi & Jadwal")
-                st.write("- Wajib upload tepat waktu sesuai jadwal upload harian.")
-                st.write("- Wajib pilih Thumbnail yang paling bikin penasaran, kaget, atau fokus ke karakter utama.")
-                st.write("- Judul & Deskripsi wajib mengikuti arahan WA Kerja atau kembangkan secara manual pada konten tertentu.")
-                st.write("- Selesai upload, pastikan video sudah muncul di tab 'Your Videos' sebelum berpindah ke HP lain.")
+                st.warning("🔥 **FASE 2: MICRO-WARM UP (KILAT 1 MENIT)**")
+                st.markdown("""
+                Jangan biarkan akun 'Dingin'. Lakukan interaksi kilat sebelum upload:
+                1. **Login & Search:** Login ke akun, lalu cari satu channel besar/kompetitor di kolom search.
+                2. **Shorts Interaction:** Tonton 1-2 video Shorts orang lain (minimal 30 detik), berikan **1 Like**.
+                3. **Tujuan:** Meyakinkan server YouTube bahwa aktivitas ini dilakukan oleh manusia (Human-Like Behavior), bukan bot uploader.
+                """)
+
+            # --- FASE 3: UPLOAD & MONITORING (STRATEGI 2 JAM) ---
+            with st.container(border=True):
+                st.success("✅ **FASE 3: EKSEKUSI UPLOAD & JADWAL**")
+                col_up1, col_up2 = st.columns(2)
+                with col_up1:
+                    st.markdown("**Prosedur Upload:**")
+                    st.write("- Pilih Thumbnail manual yang paling 'klik'.")
+                    st.write("- Tunggu indikator 'Checks Complete' selesai.")
+                    st.write("- **Publish!**")
+                with col_up2:
+                    st.markdown("**Aturan Main:**")
+                    st.write("- **Selisih 2 Jam:** Wajib jeda 2 jam sebelum masuk ke akun berikutnya di HP yang sama.")
+                    st.write("- **Post-Upload:** Jangan langsung tutup aplikasi. Biarkan standby 1-2 menit di background.")
+                
+                st.info("📌 **Fix View 0:** Jika view stagnan di angka 0 setelah 2 jam, laporkan ke Admin untuk evaluasi judul/konten.")
 
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ MAINTENANCE UNIT HP")
