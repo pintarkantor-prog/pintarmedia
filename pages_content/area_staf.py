@@ -435,7 +435,7 @@ def tampilkan_area_staf():
         def panduan_ritual_upload():            
             # --- FASE 1: ISOLASI IDENTITAS (SEBELUM BUKA APLIKASI) ---
             with st.container(border=True):
-                st.error("🛡️ **1️⃣ FASE 1: ISOLASI & RESET IDENTITAS (WAJIB)**")
+                st.markdow("🛡️ **1️⃣ FASE 1: ISOLASI & RESET IDENTITAS (WAJIB)**")
                 st.markdown("""
                 Sebelum berpindah antar akun di HP yang sama, lakukan ritual **'Ghosting'** ini:
                 1. **Airplane Mode Ritual:** Aktifkan Mode Pesawat minimal **10 detik**. Matikan kembali untuk mendapatkan IP baru dari provider seluler.
