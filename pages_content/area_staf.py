@@ -1165,7 +1165,6 @@ def tampilkan_area_staf():
                             st.toast("Kontrak Berhasil Disahkan!", icon="🚀")
                             
                             # Kasih jeda dikit biar staf lo liat suksesnya
-                            import time
                             time.sleep(2)
                             st.rerun()
                             
