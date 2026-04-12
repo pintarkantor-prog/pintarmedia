@@ -544,8 +544,8 @@ def tampilkan_area_staf():
                     st.markdown("<kbd>#masyaallah</kbd>", unsafe_allow_html=True)
                 
                 with col_hastag6:
-                    st.markdown("🔹 <kbd>#bome</kbd>", unsafe_allow_html=True)
-                    st.markdown("🔹 <kbd>#liriklagu</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>#bome</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>#liriklagu</kbd>", unsafe_allow_html=True)
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap akun di unit HP yang sama!")
             st.write("") # Spacing
