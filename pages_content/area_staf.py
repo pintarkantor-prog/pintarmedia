@@ -524,6 +524,8 @@ def tampilkan_area_staf():
                 col_hastag1, col_hastag2, col_hastag3, col_hastag4, col_hastag5, col_hastag6 = st.columns(6)
 
                 with col_hastag1:
+                    st.markdown("<kbd>:grey[*#shorts*</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>#shortsviral</kbd>", unsafe_allow_html=True)
                     st.markdown("<kbd>#shorts</kbd>", unsafe_allow_html=True)
                     st.markdown("<kbd>#shortsviral</kbd>", unsafe_allow_html=True)
                 
