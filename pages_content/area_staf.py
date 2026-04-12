@@ -348,7 +348,7 @@ def tampilkan_area_staf():
             # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
-                st.error("🚨**Jangan kirim file 'mentah' langsung dari hasil web AI / software editing!**")
+                st.warning("🚨 Jangan kirim **file mentah** langsung dari hasil web AI / software editing.")
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
@@ -468,7 +468,7 @@ def tampilkan_area_staf():
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")
-                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola akun ternak.")
+                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola *bot uploader atau akun ternak*.")
             
                 # --- BARIS ATAS: PROSEDUR TEKNIS (2 KOLOM) ---
                 col_up1, col_up2 = st.columns(2)
@@ -495,19 +495,19 @@ def tampilkan_area_staf():
             
                 with col_judul1:
                     with st.container(border=True):
-                        st.markdown("`📌 Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas`")
+                        st.markdown("📌 Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
                     with st.container(border=True):
-                        st.markdown("`🕌 Skill Dewa! Proses Pembuatan Miniatur Masjid Megah`")
+                        st.markdown("🕌 Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
                     with st.container(border=True):
-                        st.markdown("`🤖 Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI`")
+                        st.markdown("🤖 Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
             
                 with col_judul2:
                     with st.container(border=True):
-                        st.markdown("`🔍 Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya`")
+                        st.markdown("🔍 Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
                     with st.container(border=True):
-                        st.markdown("`🎨 Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik`")
+                        st.markdown("🎨 Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
                     with st.container(border=True):
-                        st.markdown("`🎥 Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya`")
+                        st.markdown("🎥 Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
