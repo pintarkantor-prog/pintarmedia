@@ -47,8 +47,8 @@ def tampilkan_area_staf():
             ],
             "sop": [
                 "**Standar Kualitas:** `Resolusi 1080p` ( *Full HD* ) & Frame Rate stabil.",
-                "**Format Visual:** Rasio 9:16 ( *Vertical* ) khusus untuk YouTube Shorts.",
-                "**Wajib Bypass Metadata:** Eksekusi 'METADATA.bat' pada semua file sebelum setor.",
+                "**Format Visual:** `Rasio 9:16` ( *Vertical* ) khusus untuk YouTube Shorts.",
+                "**Wajib Bypass Metadata:** Eksekusi `METADATA.bat` pada semua file sebelum setor.",
                 "**Aturan Dialog:** Wajib sinkron antara visual AI dengan Dialog.",
             ]
         },
@@ -62,7 +62,7 @@ def tampilkan_area_staf():
                 "Daily Maintenance unit ( `Clear cache YT` dan `Google Play Services` )."
             ],
             "sop": [
-                "**HARAM** menggunakan WiFi kantor ( *Wajib Data Seluler per HP* ).",
+                "**HARAM** menggunakan `WiFi kantor` ( *Wajib Data Seluler per HP* ).",
                 "Wajib ritual `Mode Pesawat` ( *ON-OFF* ) setiap akan upload.",
                 "Optimasi Metadata: Judul dan Hashtag sesuai prosedur.",
                 "Sterilisasi HP setiap akan memulai aktifitas Upload.",
@@ -82,7 +82,7 @@ def tampilkan_area_staf():
                 "Eksekusi prosedur login & sterilisasi perangkat ( *Mode Pesawat & Clear Cache* ).",
                 "Manajemen Karantina & Pemanasan akun baru ( *Min. 3 hari sebelum input web* ).",
                 "Pencatatan arus kas ( *Cashflow* ) & inventaris akun.",
-                "Menjaga akurasi data sistem 99.9% ( *Sinkronisasi HP dan Database* ).",
+                "Menjaga akurasi data `sistem 99.9%` ( *Sinkronisasi HP dan Database* ).",
                 "Menjamin `ritme operasional` tetap `high-performance` meski tanpa pengawasan Owner."
             ]
         }
