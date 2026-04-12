@@ -352,8 +352,8 @@ def tampilkan_area_staf():
                 with col_meta1:
                     st.info("**🛡️ Cara Manipulasi Metadata**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
-                    st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
-                    st.write("- Tool otomatis menghapus jejak software (Filmora/Capcut) & Device PC.")
+                    st.write("- Jalankan `METADATA.bat` (Wajib jalankan ini untuk buang sidik jari AI).")
+                    st.write("- Tool otomatis menghapus jejak software ( *Filmora/Capcut* ) & Device PC.")
                     st.write("- **Metadata identik di banyak HP** = *Resiko akun kena suspend massal*!")
                 
                 with col_meta2:
@@ -423,7 +423,7 @@ def tampilkan_area_staf():
                     st.markdown("**Target:** Instruksi khusus di Tab Tugas.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- Upload `FILE VIDEO` ke **Google Drive**.")
-                    st.write("- Setting link ke: *`Anyone with the link`*.")
+                    st.write("- Setting link ke: `Anyone with the link`.")
                     st.write("- Buka Tab **TUGAS KERJA**, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
@@ -434,9 +434,9 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint`, agar HP dianggap `Baru` oleh server Google.")
                 st.write("- **Wajib Restart HP** setiap pagi sebelum upload pertama kali.")
-                st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Aplikasi > YouTube & Google Play Services`**.")
-                st.write("- Matikan Data Seluler *(`Mode Pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
-                st.write("- Pastikan GPS Lokasi dalam keadaan **Mati/OFF** (*Jangan biarkan Google merekam lokasi setiap HP Kerja*).")
+                st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke `Settingan HP > Aplikasi > YouTube & Google Play Services`.")
+                st.write("- Matikan Data Seluler (`Mode Pesawat`) selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
+                st.write("- Pastikan `GPS Lokasi` dalam keadaan **Mati/OFF** ( *Jangan biarkan Google merekam lokasi setiap HP Kerja* ).")
                 st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.") 
             st.write("") # Spacing
 
@@ -454,9 +454,9 @@ def tampilkan_area_staf():
 
                 with col_warm2:
                     st.success("**📱 2. Langkah Transisi ke Upload**")
-                    st.write("- Lakukan scroll pelan (skip tonton) pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
+                    st.write("- Lakukan scroll pelan ( *skip tonton* ) pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
                     st.write("- Setelah selesai scroll, diamkan aplikasi di beranda selama *10-20 detik* ( *jangan langsung klik upload!* ).")
-                    st.write("- Baru kemudian klik ikon **[+]** atau **tombol upload video**.")
+                    st.write("- Baru kemudian klik ikon `[+]` atau `tombol upload video`.")
 
             st.warning("💡 **PASTIKAN** Ritual 1️⃣ dan 2️⃣ Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             st.write("") # Spacing
@@ -468,15 +468,15 @@ def tampilkan_area_staf():
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
-                    st.info("**📱 Langkah Eksekusi (Proses Upload):**")
-                    st.write("1. Tekan ikon **`[+] > Unggah Video >`** Pilih file yang ada di HP.")
+                    st.info("**📱 Langkah Eksekusi (Proses Upload)**")
+                    st.write("1. Tekan ikon `[+] > Unggah Video >` Pilih file yang ada di HP.")
                     st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
                     st.write("3. Masukkan judul dari daftar referensi di bawah (*Pastikan judul sinkron dengan isi video*).")
-                    st.write("4. Wajib pilih opsi **`Bukan untuk anak-anak`** dan **`Konten Modifikasi > Ya`**.")
+                    st.write("4. Wajib pilih opsi `Bukan untuk anak-anak` dan `Konten Modifikasi > YA`.")
 
                 with col_up2:
-                    st.success("**🛡️ Protokol Keamanan (Anti-Bot System):**")
-                    st.write("- Tunggu status *`Processing 100%`*. Ini memastikan resolusi video maksimal (HD).")
+                    st.success("**🛡️ Protokol Keamanan (Anti-Bot System)**")
+                    st.write("- Tunggu status `Processing 100%`. Ini memastikan resolusi video maksimal (HD).")
                     st.write("- Pastikan visibilitas sudah benar-benar set ke `Publik`, bukan `Tidak Publik` atau `Pribadi`.")
                     st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
                     st.write("- Klik **'Publish'** HANYA jika status durasi tunggu ( *loading* ) selesai.")
