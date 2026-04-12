@@ -658,9 +658,9 @@ def tampilkan_area_staf():
                     st.write("1. **Random Pick:** Pilih akun acak dari stok standby ( `Umur 4 Hari+` ).")
                     st.write("2. **Login HP:** Masukkan akun baru ke HP yang sudah bersih tadi.")
                     st.write("3. Update channel dari status `Standby` ke `Proses`.")
-                    st.caption("Wajib Lakukan `Sterilisasi Device` setiap login akun baru di HP.")
+                    st.caption("💡 *WAJIB* Lakukan `Sterilisasi Device` setiap login akun baru di HP.")
 
-            st.warning("**📢 PRINSIP UTAMA:** Jangan ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama (Shadowban) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
+            st.warning("**📢 Jangan ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama ( *0 view atau suspend* ) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
