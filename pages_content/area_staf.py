@@ -474,11 +474,12 @@ def tampilkan_area_staf():
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
-                    st.write("**📱 Langkah Eksekusi (HP):**")
-                    st.write("1. **Pemilihan File:** Tekan ikon **[+]** > **Unggah Video** > Pilih file yang sudah melewati proses *Metadata Bypass*.")
-                    st.write("2. **Penentuan Thumbnail:** Geser slider ke detik video yang paling 'menjual' atau unik. Ini kunci agar video tidak di-skip penonton.")
-                    st.write("3. **Input Identitas:** Masukkan judul dari daftar referensi di bawah. Pastikan judul sinkron dengan isi video.")
-                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **'Bukan untuk Anak-anak'** agar kolom komentar dan fitur rekomendasi Shorts terbuka luas.")
+                    st.write("**📱 Langkah Eksekusi (Proses Upload):**")
+                    st.write("1. Tekan ikon **[+]** > **Unggah Video** > Pilih file yang ada di HP.")
+                    st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
+                    st.write("3. Masukkan judul dari daftar referensi di bawah. Pastikan judul sinkron dengan isi video.")
+                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **'Bukan untuk Anak-anak'**.")
+                    st.write("5. Jika video menggunakan visual AI, wajib pilih **'Konten modifikasi' > Ya**.")
 
                 with col_up2:
                     st.write("**🛡️ Protokol Keamanan (Server):**")
