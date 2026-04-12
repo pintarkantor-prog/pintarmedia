@@ -42,14 +42,14 @@ def tampilkan_area_staf():
             "rutinitas": [
                 "Produksi video harian sesuai kebutuhan Kantor.",
                 "Koordinasi dengan Admin terkait Stok Harian.",
-                "Jika stok harian, tanpa perlu kirim tugas *(langsung serahkan hasil ke Admin via FD)*.",
+                "Jika stok harian, tanpa perlu kirim tugas ( *langsung serahkan hasil ke Admin via FD* ).",
                 "Jika ada tugas khusus dari owner, wajib setor hasil tugas via Form Tugas Khusus."
             ],
             "sop": [
                 "**Kualitas:** Minimal 1080p Full HD.",
                 "**Ratio:** Format 9:16 ( Vertical ).",
-                "Manipulasi Metadata & Produksi Konten *(detail cek panduan kerja)*.",
-                "Aturan Dialog & Alur Penyerahan File *(detail cek panduan kerja)*."
+                "Manipulasi Metadata & Produksi Konten ( *detail cek panduan kerja* ).",
+                "Aturan Dialog & Alur Penyerahan File (* detail cek panduan kerja* )."
             ]
         },
         "UPLOADER": {
@@ -58,32 +58,32 @@ def tampilkan_area_staf():
                 "Upload tepat waktu sesuai jadwal yang tersedia",
                 "Hapus file video yang sudah di Upload ( termasuk di folder sampah ).",
                 "Koordinasi dengan Admin terkait stok video di HP.",
-                "Isi daya setiap HP ( Jangan sampai lowbat ).",
-                "Hapus pesan di HP, Restart HP, Update Aplikasi YT secara berkala ( 2 hari sekali )."
+                "Isi daya setiap HP ( *Jangan sampai lowbat* ).",
+                "Maintenance unit HP sesuai panduan kerja."
             ],
             "sop": [
                 "**DILARANG** menautkan wifi kantor ke HP kerja.",
-                "Judul & Deskripsi mengikuti WA Kerja, atau isi manual pada konten-konten tertentu.",
-                "Pilih thumbnail yang jelas! utamakan kejadian atau fokus ke karakter.",
-                "Sebelum upload, wajib tonton video Youtube orang lain beberapa detik.",
-                "Selesai upload, tonton dulu video Youtube orang lain, baru close YT nya."
+                "Judul & Hastag mengikuti prosedur Upload dan Optimasi Metadata.",
+                "Wajib Sterilisasi HP sesuai panduan kerja.",
+                "Wajib ritual pemanasan akun sesuai panduan kerja.",
+                "Pastikan prosedur panduan kerja sudah dijalankan dengan baik."
             ]
         },
         "ADMIN": {
             "judul": "ADMIN", "ikon": "📊",
             "rutinitas": [
                 "Memastikan channel standby selalu update.",
-                "Update dan Rekap database channel & HP ( Hapus Login ).",
+                "Audit Kelayakan Channel ( Cek n Ricek / Hapus Login ).",
                 "Update stok video di masing-masing HP.",
                 "Memastikan kegiatan operasional kantor berjalan efektif dan efisien.",
-                "Tugas lain disesuaikan kebutuhan kantor."
+                "Selalu koordinasi dengan staff lain terkait stok video, jadwal, channel, dll."
             ],
             "sop": [
-                "Cek stok channel, video, kuota, listrik, dll.",
-                "Data Channel wajib selalu update ( real-time ).",
-                "Mencatat arus kas operasional kantor.",
-                "Akurasi data channel dan keuangan 100% (No Error).",
-                "Selalu koordinasi dengan staff lain terkait stok video, jadwal, channel, dll."
+                "Menjalankan dengan baik prosedur login & keamanan akun",
+                "Menjalankan dengan baik prosedur karantina & pemanasan akun.",
+                "Mencatat arus kas operasional kantor ( Cashflow ).",
+                "Akurasi data channel dan keuangan 99.9% ( No Error ).",
+                "Memastikan operasional kantor tetap berjalan, meski Owner tidak ada."
             ]
         }
     }
@@ -679,7 +679,7 @@ def tampilkan_area_staf():
             # --- CARD 2: KRITERIA AKUN LAYAK (KANAN) ---
             with col_beli2:
                 with st.container(border=True):
-                    st.success("**💎 Kriteria Akun (QC Pass):**")
+                    st.success("**💎 Kriteria Akun ( Quality Control ):**")
                     st.write("- Prioritaskan akun 'Old' ( *Tua* ) atau minimal akun baru umur 2 minggu.")
                     st.write("- Pastikan akun belum pernah dibuat channel YT atau belum pernah kena pelanggaran.")
                     st.write("- Wajib beli dari seller yang kasih garansi login & garansi ganti akun jika bermasalah.")
@@ -707,12 +707,11 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.success("**💰 Keuangan & Koordinasi Staff**")
                     st.write("- **Cashflow:** Catat setiap pengeluaran ( *Beli akun, Listrik, Kuota, Dll* ).")
-                    st.write("- **Zero Error:** Data keuangan tidak boleh ada selisih sedikit pun (Wajib Balance).")
+                    st.write("- **Zero Error:** Data keuangan tidak boleh ada selisih sedikit pun ( Wajib Balance ).")
                     st.write("- **Komando Editor:** Wajib cerewet ingetin Editor soal stok video yang menipis.")
                     st.write("- **Komando Uploader:** Pantau jadwal upload, Pastikan tidak ada jadwal yang terlewat.")
 
             # --- BAGIAN BAWAH: TANGGUNG JAWAB UTAMA ---
-            st.markdown("---")
             with st.container(border=True):
                 st.write("**⚠️ TANGGUNG JAWAB UTAMA ADMIN:**")
                 col_tugas1, col_tugas2 = st.columns(2)
