@@ -447,7 +447,7 @@ def tampilkan_area_staf():
             # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
-                st.info("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
+                st.warning("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             
                 col_warm1, col_warm2 = st.columns(2)
             
@@ -474,7 +474,7 @@ def tampilkan_area_staf():
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")
-                st.warning("🚨 Wajib diperhatikan! Agar sistem Youtube tidak mendeteksi pola akun ternak.")
+                st.error("🚨 **WAJIB DIPERHATIKAN!** Agar sistem Youtube tidak mendeteksi pola akun ternak.")
             
                 # --- BARIS ATAS: PROSEDUR TEKNIS (2 KOLOM) ---
                 col_up1, col_up2 = st.columns(2)
