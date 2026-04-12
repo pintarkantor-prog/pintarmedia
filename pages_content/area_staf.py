@@ -49,7 +49,7 @@ def tampilkan_area_staf():
                 "**Kualitas:** Minimal 1080p Full HD.",
                 "**Ratio:** Format 9:16 ( Vertical ).",
                 "Manipulasi Metadata & Produksi Konten ( *detail cek panduan kerja* ).",
-                "Aturan Dialog & Alur Penyerahan File (* detail cek panduan kerja* )."
+                "Aturan Dialog & Alur Penyerahan File ( *detail cek panduan kerja* )."
             ]
         },
         "UPLOADER": {
@@ -72,18 +72,18 @@ def tampilkan_area_staf():
         "ADMIN": {
             "judul": "ADMIN", "ikon": "📊",
             "rutinitas": [
-                "Memastikan channel standby selalu update.",
-                "Audit Kelayakan Channel ( Cek n Ricek / Hapus Login ).",
-                "Update stok video di masing-masing HP.",
-                "Memastikan kegiatan operasional kantor berjalan efektif dan efisien.",
-                "Selalu koordinasi dengan staff lain terkait stok video, jadwal, channel, dll."
+                "Update Real-Time database channel standby ( *No Delay* ).",
+                "Audit harian kelayakan channel ( *Filter akun busuk* ).",
+                "Monitoring distribusi stok video ke masing-masing HP uploader.",
+                "Cek fisik & logistik ( *Suhu HP, Sisa Kuota, Listrik, dan Kebersihan Kantor* ).",
+                "Koordinasi antar staff ( *Editor & Uploader* ) terkait target harian."
             ],
             "sop": [
-                "Menjalankan dengan baik prosedur login & keamanan akun",
-                "Menjalankan dengan baik prosedur karantina & pemanasan akun.",
-                "Mencatat arus kas operasional kantor ( Cashflow ).",
-                "Akurasi data channel dan keuangan 99.9% ( No Error ).",
-                "Memastikan operasional kantor tetap berjalan, meski Owner tidak ada."
+                "Eksekusi prosedur login & sterilisasi perangkat ( *Mode Pesawat & Clear Cache* ).",
+                "Manajemen Karantina & Pemanasan akun baru ( *Min. 3 hari sebelum input web* ).",
+                "Pencatatan arus kas (Cashflow) & inventaris akun.",
+                "Menjaga akurasi data sistem 99.9% ( *Sinkronisasi HP dan Database* ).",
+                "Menjamin ritme operasional tetap high-performance meski tanpa pengawasan Owner."
             ]
         }
     }
