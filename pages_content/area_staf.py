@@ -452,23 +452,17 @@ def tampilkan_area_staf():
                 col_warm1, col_warm2 = st.columns(2)
             
                 with col_warm1:
-                    st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
+                    st.write("**🔍 1. Interaksi Organik (Aktivitas)**")
                     st.write("- Ketik manual kata kunci sesuai tema (**Contoh:** `Miniatur Masjid, Masjid Nenek, Drama Sakura`).")
-                    st.write("- Klik salah satu video dari hasil cari, lalu tonton 20 - 30 detik.")
-                    st.caption("- **Tujuan:** *Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload*.")
+                    st.write("- Klik salah satu video dari hasil cari, lalu tonton sampai selesai.")
+                    st.write("- Balik ke tab Shorts, tonton lagi 2 video orang lain *20-30 detik* dan kasih **1 Like Acak**.")          
 
                 with col_warm2:
-                    st.write("**📱 2. Interaksi Organik (Aktivitas)**")
-                    st.write("- Masuk ke tab Shorts, tonton 1 video orang lain sampai selesai dan kasih **1 Like**.")
-                    st.write("- Lakukan scroll pelan pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
-                    st.caption("- **Tujuan:** *Validasi bahwa akun dipegang manusia asli, bukan bot uploader*.")
+                    st.write("**📱 2. Langkah Transisi ke Upload**")
+                    st.write("- Lakukan scroll pelan (skip tonton) pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
+                    st.write("- Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
+                    st.write("- Baru kemudian klik ikon **[+]** atau **tombol upload video**.")
             
-                # --- TRANSISI KE UPLOAD ---
-                st.write("---")
-                st.markdown("**🎥 3. Langkah Transisi ke Upload:**")
-                st.write("1. Pastikan Langkah 1 dan 2 sudah dilakukan, baru ke langkah 3.")
-                st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
-                st.write("3. Baru kemudian klik ikon **[+]** atau **Upload Video**.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
@@ -493,21 +487,28 @@ def tampilkan_area_staf():
                     st.write("- **Set Publik:** Atur visibilitas ke 'Publik' hanya jika langkah 1-4 dan validasi server sudah beres.")
                     st.write("- **Final Check:** Pastikan settingan konten 'Bukan untuk Anak-anak'.")
 
-                # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK INFO) ---
+                # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
                 st.markdown("#### 📌 Daftar Referensi Judul")
-                st.info("Pilih salah satu judul di bawah. Gunakan judul yang berbeda untuk setiap akun.")
-                
+            
                 col_judul1, col_judul2 = st.columns(2)
+            
                 with col_judul1:
-                    st.info("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
-                    st.info("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
-                    st.info("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
+                    with st.container(border=True):
+                        st.markdown("`📌 Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas`")
+                    with st.container(border=True):
+                        st.markdown("`🕌 Skill Dewa! Proses Pembuatan Miniatur Masjid Megah`")
+                    with st.container(border=True):
+                        st.markdown("`🤖 Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI`")
+            
                 with col_judul2:
-                    st.info("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
-                    st.info("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
-                    st.info("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
-                
+                    with st.container(border=True):
+                        st.markdown("`🔍 Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya`")
+                    with st.container(border=True):
+                        st.markdown("`🎨 Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik`")
+                    with st.container(border=True):
+                        st.markdown("`🎥 Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya`")
+
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
 
