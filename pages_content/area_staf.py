@@ -489,25 +489,25 @@ def tampilkan_area_staf():
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
-                st.markdown("#### 📌 Daftar Referensi Judul")
+                st.markdown("##### 📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
             
                 col_judul1, col_judul2 = st.columns(2)
             
                 with col_judul1:
                     with st.container(border=True):
-                        st.markdown("📌 Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
+                        st.markdown("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
                     with st.container(border=True):
-                        st.markdown("🕌 Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
+                        st.markdown("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
                     with st.container(border=True):
-                        st.markdown("🤖 Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
+                        st.markdown("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
             
                 with col_judul2:
                     with st.container(border=True):
-                        st.markdown("🔍 Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
+                        st.markdown("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
                     with st.container(border=True):
-                        st.markdown("🎨 Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
+                        st.markdown("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
                     with st.container(border=True):
-                        st.markdown("🎥 Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
+                        st.markdown("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
