@@ -356,7 +356,7 @@ def tampilkan_area_staf():
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
                     st.write("- Tool otomatis menghapus jejak software (Filmora/Capcut) & Device PC.")
-                    st.write("- Metadata identik di banyak HP = Resiko akun kena suspend massal!")
+                    st.write("- **Metadata identik di banyak HP** = *Resiko akun kena suspend massal*!")
                 
                 with col_meta2:
                     st.markdown("**🆔 Variasi Nama File & Caption:**")
@@ -438,16 +438,16 @@ def tampilkan_area_staf():
                 st.markdown("#### 1️⃣ Ritual Sterilisasi HP")
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint`, agar HP dianggap `Baru` oleh server Google.")
                 st.write("- **Wajib Restart HP** setiap pagi sebelum upload pertama kali.")
-                st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Applikasi > YouTube & Google Play Services`**.")
+                st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Aplikasi > YouTube & Google Play Services`**.")
                 st.write("- Matikan Data Seluler *(`mode pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
-                st.write("- Matikan GPS Lokasi. *Jangan biarkan Google merekam lokasi setiap HP Kerja*.")
+                st.write("- Pastikan GPS Lokasi dalam keadaan **Mati/OFF** (*Jangan biarkan Google merekam lokasi setiap HP Kerja*).")
                 st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.") 
             st.write("") # Spacing
 
             # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
-                st.success("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
+                st.info("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             
                 col_warm1, col_warm2 = st.columns(2)
             
@@ -466,9 +466,9 @@ def tampilkan_area_staf():
                 # --- TRANSISI KE UPLOAD ---
                 st.write("---")
                 st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
-                st.write("1. Pastikan total aktivitas di atas sudah mencapai **minimal 3 menit**.")
-                st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **5-10 detik** (jangan langsung klik tombol +).")
-                st.write("3. Baru kemudian klik ikon **[+]** dan pilih **'Upload a Video'** atau **'Create a Short'**.")
+                st.write("1. Pastikan Langkah 1 dan 2 sudah dilakukan, baru ke langkah 3.")
+                st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
+                st.write("3. Baru kemudian pilih **'Upload Video'**.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
