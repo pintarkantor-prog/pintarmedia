@@ -585,25 +585,26 @@ def tampilkan_area_staf():
             st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         def panduan_keamanan_akun():
-            st.markdown("#### 🔐 5️⃣ **SECURITY & LOGIN PROTOCOL (AKUN BARU)**")
+            st.markdown("#### 🔐 PROSEDUR LOGIN & PENGAMANAN AKUN BELI")
             
             col_aman1, col_aman2 = st.columns(2)
             
             # --- CARD 1: STERILISASI LOGIN (KIRI) ---
             with col_aman1:
                 with st.container(border=True):
-                    st.info("**🛠️ Prosedur Login & Sterilisasi:**")
-                    st.write("- **Mode Pesawat:** Wajib ON-OFF setiap mau login akun baru (Ganti IP).")
-                    st.write("- **Logout Penjual:** Segera kick semua device lama di menu *Manage Devices*.")
+                    st.info("**🛠️ Prosedur Login & Sterilisasi Setiap Akun Baru**")
+                    st.write("- Hapus cache aplikasi `**YouTube & Google Play Services.**`")
+                    st.write("- Wajib ON-OFF Mode Pesawat 10 detik setiap mau login akun baru (Ganti IP).")
+                    st.write("- Login via *Settings > Akun & Sinkronisasi > Tambahkan Akun Google.")
                     st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
 
             # --- CARD 2: PENGAMANAN DATA (KANAN) ---
             with col_aman2:
                 with st.container(border=True):
                     st.success("**🛡️ Proteksi & Verifikasi:**")
-                    st.write("- **No. Telp:** Ganti nomor HP lama dengan nomor fisik yang kita pegang.")
-                    st.write("- **Email Recovery:** Masukkan email pemulihan internal kita sebagai cadangan.")
-                    st.write("- **Jeda Aksi:** Jangan ganti PW dan No. HP sekaligus, beri jeda minimal 15 menit.")
+                    st.write("- **No Recovery:** Ganti nomor HP lama dengan nomor fisik yang kita pegang.")
+                    st.write("- **Nomer H Recovery:** Masukkan email pemulihan internal kita sebagai cadangan.")
+                    st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
 
             st.error("**🚨 PENTING:** Kapasitas maksimal **10-15 akun per HP**. Jangan dipaksa lebih agar tidak terkena *Chain Ban* (Ban Massal)!")
     
