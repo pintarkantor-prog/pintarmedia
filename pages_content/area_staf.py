@@ -454,14 +454,14 @@ def tampilkan_area_staf():
                 with col_warm1:
                     st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
                     st.write("- Ketik manual kata kunci sesuai tema (Contoh: *Miniatur Masjid, Masjid AI Nenek*).")
-                    st.write("- Klik salah satu video dari hasil cari, tonton 30 - 50 detik.")
-                    st.write("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload.")
+                    st.write("- Klik salah satu video dari hasil cari, lalu tonton 20 - 30 detik.")
+                    st.caption("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload.")
 
                 with col_warm2:
                     st.write("**📱 2. Interaksi Organik (Aktivitas)**")
-                    st.write("- Masuk ke tab Shorts, tonton 2 video orang lain sampai selesai (hingga putar ulang) dan kasih **1 Like** acak.")
-                    st.write("- Lakukan scroll pelan pada beberapa video berikutnya untuk **meniru perilaku manusia** yang sedang memilih konten.")
-                    st.write("- **Tujuan:** Validasi bahwa akun dipegang manusia asli, bukan bot uploader.")
+                    st.write("- Masuk ke tab Shorts, tonton 1 video orang lain sampai selesai dan kasih **1 Like**.")
+                    st.write("- Lakukan scroll pelan pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
+                    st.caption("- **Tujuan:** Validasi bahwa akun dipegang manusia asli, bukan bot uploader.")
             
                 # --- TRANSISI KE UPLOAD ---
                 st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
