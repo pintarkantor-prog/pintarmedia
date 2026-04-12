@@ -50,6 +50,7 @@ def tampilkan_area_staf():
                 "**Format Visual:** Rasio 9:16 ( *Vertical* ) khusus untuk YouTube Shorts.",
                 "**Wajib Bypass Metadata:** Eksekusi 'METADATA.bat' pada semua file sebelum setor.",
                 "**Aturan Dialog:** Wajib sinkron antara visual AI dengan Dialog.",
+            ]
         },
         "UPLOADER": {
             "judul": "UPLOADER", "ikon": "📲",
