@@ -623,7 +623,7 @@ def tampilkan_area_staf():
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP! dan **WAJIB** Lakukan Sterilisasi serta Karantina setiap akun baru!")
             st.write("") # Spacing
 
-            st.markdown("#### 🔄 **Audit Kelayakan Channel**")
+            st.markdown("#### 🔄 **Audit Kelayakan Channel ( Cek n Ricek )**")
             # --- BAGIAN 1: AUDIT (CEK KONDISI) ---
             col_audit1, col_audit2 = st.columns(2)
             
@@ -661,6 +661,42 @@ def tampilkan_area_staf():
                     st.caption("💡 *WAJIB* Lakukan `Sterilisasi Device` setiap login akun baru di HP.")
 
             st.warning("**📢 **JANGAN** ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama ( *0 view atau suspend* ) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
+
+            st.write("") # Spacing
+            st.markdown("#### 📦 Kriteria dan Prosedur Pembelian Akun**")
+            col_beli1, col_beli2 = st.columns(2)
+            
+            # --- CARD 1: KAPAN HARUS BELI (KIRI) ---
+            with col_beli1:
+                with st.container(border=True):
+                    st.info("**🚨 Stock Alert & Timing:**")
+                    st.write("- **Safety Stock:** Wajib beli akun baru jika stok akun 'Standby' di web sisa **20%**.")
+                    st.write("- **Jeda Karantina:** Ingat! Akun butuh 3 hari karantina. Jangan beli pas stok sudah nol.")
+                    st.write("- **Kapasitas Unit:** Beli sesuai jumlah unit HP yang kosong/ada akun busuk.")
+                    st.write("- **Batch Buying:** Disarankan beli dalam jumlah grosir (Batch) untuk dapet harga miring.")
+
+            # --- CARD 2: KRITERIA AKUN LAYAK (KANAN) ---
+            with col_beli2:
+                with st.container(border=True):
+                    st.success("**💎 Kriteria Akun (QC Pass):**")
+                    st.write("- **Umur Akun:** Prioritaskan akun 'Old' (Tua) atau minimal akun hasil ternak yang sudah lewat masa *verif phone*.")
+                    st.write("- **Riwayat Bersih:** Pastikan akun belum pernah dibuat channel YT atau belum pernah kena pelanggaran.")
+                    st.write("- **Garansi:** Wajib beli dari seller yang kasih garansi login & garansi ganti data.")
+                    st.write("- **Kelengkapan:** Akun harus menyertakan Email, Password, dan Email Pemulihan awal.")
+
+            # --- BAGIAN BAWAH: CHECKLIST PENERIMAAN ---
+            st.markdown("---")
+            with st.container(border=True):
+                st.write("**📋 Checklist Penerimaan Akun (Tugas Admin):**")
+                col_cek1, col_cek2 = st.columns(2)
+                with col_cek1:
+                    st.write("1. **Cek Login:** Tes login 1-2 sampel akun pake IP berbeda (Mode Pesawat).")
+                    st.write("2. **Cek Status:** Pastikan tidak ada tulisan 'Action Required' atau akun dinonaktifkan.")
+                with col_cek2:
+                    st.write("3. **Input Log Manual:** Masukkan ke daftar 'Karantina' (Jangan langsung ke Web).")
+                    st.write("4. **Pembayaran:** Bayar seller HANYA jika sampel akun sudah terbukti aman/sesuai janji.")
+
+            st.error("**🚨 PRINSIP PEMBELIAN PINTAR MEDIA:** Lebih baik mahal dikit tapi akun awet, daripada murah tapi 1 hari langsung *Die* massal. Kualitas Amunisi = Kualitas Produksi!")
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
