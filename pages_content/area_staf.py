@@ -435,7 +435,7 @@ def tampilkan_area_staf():
         def panduan_ritual_upload():            
             # --- FASE 1: NETWORK & DEVICE SANITIZATION (MENIT 0-2) ---
             with st.container(border=True):
-                st.markdown("#### 1️⃣ Rutinitas Sterilisasi HP")
+                st.markdown("#### 1️⃣ Ritual Sterilisasi HP")
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint`, agar HP dianggap `Baru` oleh server Google.")
                 st.write("- **Wajib Restart HP** setiap pagi sebelum upload pertama kali.")
                 st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Applikasi > YouTube & Google Play Services`**.")
@@ -446,8 +446,8 @@ def tampilkan_area_staf():
 
             # --- FASE 2: HUMAN EMULATION / WARM-UP (MENIT 2-5) ---
             with st.container(border=True):
-                st.warning("🔥 **2️⃣ FASE 2: RITUAL WARM-UP (PANCINGAN ALGORITMA)**")
-                st.markdown("#### Tujuan: Membangun 'Trust Score' Akun agar tidak dianggap Bot Uploader.")
+                st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
+                st.caption("💡 **Tujuan:** Membangun `Trust Score` Akun agar tidak dianggap Bot Uploader.")
                 st.write("- **Natural Search Query (60 Detik):** Buka YouTube, ketik manual nama channel besar atau kompetitor di kolom Search. Jangan pernah klik link langsung (Direct Link).")
                 st.write("- **Organic Interaction (60 Detik):** Tonton minimal 2 Shorts orang lain sampai habis (Full Watch Time), berikan **1 Like** pada salah satunya, dan scroll 2-3 Shorts lagi tanpa interaksi.")
                 st.write("- **Simulasi Manusia Gabut:** Biarkan akun memiliki 'History' tontonan sebelum mulai memproduksi konten. Ini membuktikan akun dipegang oleh manusia asli yang sedang mencari hiburan.")
