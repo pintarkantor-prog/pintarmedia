@@ -42,14 +42,14 @@ def tampilkan_area_staf():
             "rutinitas": [
                 "Produksi video harian sesuai kebutuhan Kantor.",
                 "Koordinasi dengan Admin terkait Stok Harian.",
-                "Jika stok harian, tanpa perlu kirim tugas ( langsung serahkan hasil ke Admin via FD ).",
+                "Jika stok harian, tanpa perlu kirim tugas *(langsung serahkan hasil ke Admin via FD)*.",
                 "Jika ada tugas khusus dari owner, wajib setor hasil tugas via Form Tugas Khusus."
             ],
             "sop": [
                 "**Kualitas:** Minimal 1080p Full HD.",
                 "**Ratio:** Format 9:16 ( Vertical ).",
-                "**Manipulasi Metadata & Produksi Konten.",
-                "**Aturan Dialog & Alur Penyerahan File"
+                "Manipulasi Metadata & Produksi Konten *(detail cek panduan kerja)*.",
+                "Aturan Dialog & Alur Penyerahan File *(detail cek panduan kerja)*."
             ]
         },
         "UPLOADER": {
