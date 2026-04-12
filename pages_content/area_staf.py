@@ -223,8 +223,13 @@ def tampilkan_area_staf():
                                     olah = st.toggle("🔍 Buka Detail", key=f"tgl_{id_gede}")
                                     if olah:
                                         st.divider()
-                                        if t.get("CATATAN_REVISI"):
-                                            st.warning(f"⚠️ **REVISI:** {t['CATATAN_REVISI']}")
+                                        # Ambil datanya dulu pake .get() biar gak error kalau kolom gak ada
+                                        rev_val = t.get("CATATAN_REVISI")
+                                        
+                                        # Filter: Tampilkan hanya jika ada isinya DAN bukan tulisan 'nan'
+                                        if rev_val and str(rev_val).lower() != "nan":
+                                            st.warning(f"⚠️ **REVISI:** {rev_val}")
+                                            
                                         st.write(f"📝 {t.get('INSTRUKSI', '-')}")
                                         
                                         # PANEL QC (OWNER)
