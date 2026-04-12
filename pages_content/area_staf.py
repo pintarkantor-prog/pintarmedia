@@ -554,9 +554,9 @@ def tampilkan_area_staf():
                     st.markdown("<kbd>:grey[*#shortsvideo*]</kbd>", unsafe_allow_html=True)
 
                 st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
-                st.write("") # Spacing
             
         def panduan_rawat_hp():
+            st.write("") # Spacing
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP**")
             
             col_hp1, col_hp2 = st.columns(2)
@@ -564,7 +564,7 @@ def tampilkan_area_staf():
             # --- CARD 3: KEBERSIHAN DATA (KIRI) ---
             with col_hp1:
                 with st.container(border=True):
-                    st.info("**🧹 Pembersihan Memori:**")
+                    st.info("**🧹 Pembersihan Memori HP**")
                     st.write("- Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
                     st.write("- Wajib cek folder `Recently Deleted / Sampah` di galeri dan kosongkan secara berkala.")
                     st.write("- Hapus pesan sms atau chat di HP yang sudah tidak diperlukan.")
@@ -572,8 +572,8 @@ def tampilkan_area_staf():
             # --- CARD 4: PERFORMA UNIT (KANAN) ---
             with col_hp2:
                 with st.container(border=True):
-                    st.success("**⚡ Performa & Daya:**")
-                    st.write("- Update aplikasi YT dan Google secara berkala ( *minimal 3 hari sekali* ).")
+                    st.success("**⚡ Performa & Daya HP**")
+                    st.write("- Update aplikasi `Youtube` dan `Google` secara berkala ( *minimal 3 hari sekali* ).")
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
 
