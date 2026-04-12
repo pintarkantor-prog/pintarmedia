@@ -594,19 +594,18 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.info("**🛠️ Prosedur Login & Sterilisasi Setiap Akun Baru**")
                     st.write("- Hapus cache aplikasi `YouTube & Google Play Services`.")
-                    st.write("- Wajib ON-OFF `Mode Pesawat` 10 detik setiap mau login akun baru (Ganti IP).")
+                    st.write("- Wajib ON-OFF `Mode Pesawat` 10 detik setiap mau login akun baru ( *Reset IP* ).")
                     st.write("- Login via `Settings > Akun & Sinkronisasi > Tambahkan Akun Google`.")
-                    st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
 
             # --- CARD 2: PENGAMANAN DATA (KANAN) ---
             with col_aman2:
                 with st.container(border=True):
                     st.success("**🛡️ Proteksi & Verifikasi:**")
-                    st.write("- **No Recovery:** Ganti nomor HP lama dengan nomor fisik yang kita pegang.")
-                    st.write("- **Nomer H Recovery:** Masukkan email pemulihan internal kita sebagai cadangan.")
-                    st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
+                    st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
+                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
+                    st.write("- Ganti password ke standar kantor langsung setelah login.")
 
-            st.error("**🚨 PENTING:** Kapasitas maksimal **10-15 akun per HP**. Jangan dipaksa lebih agar tidak terkena *Chain Ban* (Ban Massal)!")
+            st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP!")
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
