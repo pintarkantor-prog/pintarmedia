@@ -500,15 +500,16 @@ def tampilkan_area_staf():
                 
                 col_judul1, col_judul2 = st.columns(2)
                 with col_judul1:
-                    st.info("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
-                    st.info("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
-                    st.info("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
+                    st.caption("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
+                    st.caption("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
+                    st.caption("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
                 with col_judul2:
-                    st.info("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
-                    st.info("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
-                    st.info("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
+                    st.caption("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
+                    st.caption("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
+                    st.caption("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
                 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
+                st.write("") # Spacing
 
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
