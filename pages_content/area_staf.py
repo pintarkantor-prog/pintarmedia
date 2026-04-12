@@ -439,7 +439,7 @@ def tampilkan_area_staf():
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint`, agar HP dianggap `Baru` oleh server Google.")
                 st.write("- **Wajib Restart HP** setiap pagi sebelum upload pertama kali.")
                 st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Aplikasi > YouTube & Google Play Services`**.")
-                st.write("- Matikan Data Seluler *(`mode pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
+                st.write("- Matikan Data Seluler *(`Mode Pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
                 st.write("- Pastikan GPS Lokasi dalam keadaan **Mati/OFF** (*Jangan biarkan Google merekam lokasi setiap HP Kerja*).")
                 st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.") 
             st.write("") # Spacing
@@ -492,45 +492,32 @@ def tampilkan_area_staf():
                 # Blok Aturan Modifikasi (Abu-abu & Jelas)
                 with st.container(border=True):
                     st.write("**⚙️ Aturan Modifikasi (Wajib Adaptasi):**")
-                    st.markdown("> * Jika karakter video adalah **Kakek**, ubah kata 'Nenek' menjadi **'Kakek'**.")
-                    st.markdown("> * Bagian **[XXXX]** wajib diganti dengan bahan masjid (Contoh: Kardus Bekas, Buah Melon, Daun Pisang, Dll).")
-                    st.markdown("> * Bagian **+ Emoji** wajib diganti dengan emoji asli (Contoh: 🕌, ✨, 😍, 🔥, Dll).")
+                    st.markdown(" * Jika karakter video adalah **Kakek**, ubah kata 'Nenek' menjadi **'Kakek'**.")
+                    st.markdown(" * Bagian **[XXXX]** wajib diganti dengan bahan masjid (Contoh: Kardus Bekas, Buah Melon, Daun Pisang, Dll).")
+                    st.markdown(" * Bagian **+ Emoji** wajib diganti dengan emoji asli (Contoh: 🕌, ✨, 😍, 🔥, Dll).")
 
-                col_judul1, col_judul2 = st.columns(2)
+                # Daftar Judul dengan 3 Kolom agar Padat & Rapi
+                col_j1, col_j2, col_j3 = st.columns(3)
                 
-                with col_judul1:
-                    with st.container(border=True):
-                        st.markdown("> Miniatur Masjid Buatan Nenek + Emoji")
-                    with st.container(border=True):
-                        st.markdown("> Masjid Buatan Nenek Dari [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Miniatur Masjid Dari [XXXX] Buatan Nenek + Emoji")
-                    with st.container(border=True):
-                        st.markdown("> Masjid Miniatur Nenek Dari [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Masjid Indah Dari [XXXX] Buatan Nenek")
-                    with st.container(border=True):
-                        st.markdown("> Miniatur Masjid Indah Buatan Nenek [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Nenek Bikin Miniatur Masjid Dari [XXXX]")
+                with col_j1:
+                    st.markdown("* `Miniatur Masjid Buatan Nenek + Emoji` ")
+                    st.markdown("* `Masjid Buatan Nenek Dari [XXXX]`")
+                    st.markdown("* `Nenek Bikin Miniatur Masjid Dari [XXXX]`")
+                    st.markdown("* `Nenek Bikin Masjid Miniatur + Emoji` ")
                 
-                with col_judul2:
-                    with st.container(border=True):
-                        st.markdown("> Nenek Buat Miniatur Masjid Dari [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Masjid Miniatur Buatan Nenek + Emoji")
-                    with st.container(border=True):
-                        st.markdown("> Masjid Miniatur Dibuat Nenek dari [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji")
-                    with st.container(border=True):
-                        st.markdown("> Nenek Membuat Masjid Miniatur Dari [XXXX]")
-                    with st.container(border=True):
-                        st.markdown("> Masya Allah! Miniatur Masjid Buatan Nenek")
-                    with st.container(border=True):
-                        st.markdown("> Nenek Bikin Masjid Miniatur + Emoji")
+                with col_j2:
+                    st.markdown("* `Miniatur Masjid Dari [XXXX] Nenek` ")
+                    st.markdown("* `Masjid Miniatur Nenek Dari [XXXX]`")
+                    st.markdown("* `Masjid Indah Dari [XXXX] Nenek`")
+                    st.markdown("* `Masya Allah! Miniatur Masjid Nenek` ")
+                
+                with col_j3:
+                    st.markdown("* `Nenek Buat Miniatur Masjid [XXXX]`")
+                    st.markdown("* `Masjid Miniatur Buatan Nenek + Emoji` ")
+                    st.markdown("* `Nenek Buat Masjid Miniatur [XXXX]`")
+                    st.markdown("* `Nenek Membuat Masjid Miniatur [XXXX]`")
 
-                st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
+                st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap akun di unit HP yang sama!")
             st.write("") # Spacing
 
         def panduan_rawat_hp():
