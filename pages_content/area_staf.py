@@ -453,21 +453,18 @@ def tampilkan_area_staf():
             
                 with col_warm1:
                     st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
-                    st.write("- **Aksi:** Ketik manual kata kunci sesuai tema (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura*).")
-                    st.write("- **Teknis:** Buka minimal 1 video dari hasil pencarian, tonton 10-15 detik, lalu kembali ke beranda.")
-                    st.write("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini adalah peminat niche tersebut.")
-                    st.write("- **Durasi:** 1-2 Menit.")
+                    st.write("- Ketik manual kata kunci sesuai tema (Contoh: *Miniatur Masjid, Masjid AI Nenek*).")
+                    st.write("- Klik salah satu video dari hasil cari, tonton 30 - 50 detik.")
+                    st.write("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload.")
 
                 with col_warm2:
-                    st.write("**📱 2. Interaksi Manusiawi (Aktivitas)**")
-                    st.write("- **Aksi:** Masuk ke tab Shorts, tonton 2 video sampai selesai (putar ulang) dan berikan **1 Like** acak.")
-                    st.write("- **Teknis:** Lakukan scroll cepat (skip) pada 3-5 video berikutnya tanpa interaksi apa pun.")
-                    st.write("- **Tujuan:** Meniru perilaku pengguna asli yang sedang memilih konten (menghindari pola mesin).")
-                    st.write("- **Durasi:** 1-2 Menit.")
+                    st.write("**📱 2. Interaksi Organik (Aktivitas)**")
+                    st.write("- Masuk ke tab Shorts, tonton 2 video orang lain sampai selesai (hingga putar ulang) dan kasih **1 Like** acak.")
+                    st.write("- Lakukan scroll pelan pada beberapa video berikutnya untuk **meniru perilaku manusia** yang sedang memilih konten.")
+                    st.write("- **Tujuan:** Validasi bahwa akun dipegang manusia asli, bukan bot uploader.")
             
                 # --- TRANSISI KE UPLOAD ---
-                st.write("---")
-                st.markdown("**🚀 Langkah Transisi ke Upload:**")
+                st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
                 st.write("1. Pastikan total aktivitas di atas sudah mencapai **minimal 3 menit**.")
                 st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **5-10 detik** (jangan langsung klik tombol +).")
                 st.write("3. Baru kemudian klik ikon **[+]** dan pilih **'Upload a Video'** atau **'Create a Short'**.")
