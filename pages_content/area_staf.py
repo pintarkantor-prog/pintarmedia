@@ -486,77 +486,77 @@ def tampilkan_area_staf():
             # Blok Aturan Modifikasi (Abu-abu & Jelas)
             st.subheader(":blue[📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi] :sunglasses:")
             with st.container(border=True):
-                st.subheader(":blue[📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi] :sunglasses:")
                 st.markdown(" * Jika karakter video adalah *'Kakek'*, ubah kata *'Nenek'* menjadi *'Kakek'*.")
                 st.markdown(" * Bagian **[ XXXX ]** wajib diganti dengan bahan masjid (**Contoh:** *Kardus Bekas, Buah Melon, Daun Pisang, Dll*).")
                 st.markdown(" * Bagian **+ Emoji** wajib diganti dengan emoji asli (**Contoh:** 🕌, ✨, 😍, 🔥, *Dll*).")
                 st.markdown(" * Wajib ditambahkan 3 hastag (*pilih secara acak*), **Contoh:** `Nenek Buat Masjid Miniatur Dari Strawberry🕌 #shorts #masyaallah #aivideo`")
 
                 # Daftar Judul dengan 3 Kolom agar Padat & Rapi
-            col_j1, col_j2, col_j3 = st.columns(3)
+                st.write("---")
+                col_j1, col_j2, col_j3 = st.columns(3)
                 
-            with col_j1:
-                st.markdown("🔹 <kbd>:grey[Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masjid Buatan Nenek Dari [ *XXXX* ] Emoji]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Miniatur Masjid Dari [ *XXXX* ] Buatan Nenek]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masjid Miniatur Nenek Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Nenek Membuat Masjid Miniatur Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                with col_j1:
+                    st.markdown("🔹 <kbd>:grey[Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masjid Buatan Nenek Dari [ *XXXX* ] Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Miniatur Masjid Dari [ *XXXX* ] Buatan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masjid Miniatur Nenek Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Nenek Membuat Masjid Miniatur Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
                 
-            with col_j2:
-                st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Buatan Nenek]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Miniatur Masjid Indah Buatan Nenek [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Bikinan Nenek]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Nenek Bikin Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
+                with col_j2:
+                    st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Buatan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Miniatur Masjid Indah Buatan Nenek [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Bikinan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Nenek Bikin Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
                 
-            with col_j3:
-                st.markdown("🔹 <kbd>:grey[Nenek Buat Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masjid Miniatur Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Masjid Miniatur Dibuat Nenek dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Nenek Buat Masjid Miniatur Dari [ *XXXX* ] + Emoji]</kbd>", unsafe_allow_html=True)
-                st.markdown("🔹 <kbd>:grey[Nenek Bikin Masjid Miniatur + Emoji]</kbd>", unsafe_allow_html=True)
+                with col_j3:
+                    st.markdown("🔹 <kbd>:grey[Nenek Buat Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masjid Miniatur Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masjid Miniatur Dibuat Nenek dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Nenek Buat Masjid Miniatur Dari [ *XXXX* ] + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Nenek Bikin Masjid Miniatur + Emoji]</kbd>", unsafe_allow_html=True)
                     
-            st.write("---")
-            col_hastag1, col_hastag2, col_hastag3, col_hastag4, col_hastag5, col_hastag6 = st.columns(6)
+                st.write("---")
+                col_hastag1, col_hastag2, col_hastag3, col_hastag4, col_hastag5, col_hastag6 = st.columns(6)
 
-            with col_hastag1:
-                st.markdown("<kbd>:grey[*#miniaturmasjid*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#masjid*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#shortsviral*]</kbd>", unsafe_allow_html=True)
+                with col_hastag1:
+                    st.markdown("<kbd>:grey[*#miniaturmasjid*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#masjid*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shortsviral*]</kbd>", unsafe_allow_html=True)
                 
-            with col_hastag2:
-                st.markdown("<kbd>:grey[*#trending*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#foryou*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#fyp*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#miniature*]</kbd>", unsafe_allow_html=True)
+                with col_hastag2:
+                    st.markdown("<kbd>:grey[*#trending*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#foryou*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#fyp*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#miniature*]</kbd>", unsafe_allow_html=True)
                 
-            with col_hastag3:
-                st.markdown("<kbd>:grey[*#diycrafts*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#kerajinantangan*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#storytelling*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#masyaallah*]</kbd>", unsafe_allow_html=True)
+                with col_hastag3:
+                    st.markdown("<kbd>:grey[*#diycrafts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#kerajinantangan*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#storytelling*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#masyaallah*]</kbd>", unsafe_allow_html=True)
 
-            with col_hastag4:
-                st.markdown("<kbd>:grey[*#nenekkreatif*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#aivideo*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#handmade*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#masjidindah*]</kbd>", unsafe_allow_html=True)
+                with col_hastag4:
+                    st.markdown("<kbd>:grey[*#nenekkreatif*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#aivideo*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#handmade*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#masjidindah*]</kbd>", unsafe_allow_html=True)
                 
-            with col_hastag5:
-                st.markdown("<kbd>:grey[*#islamicart*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#satisfying*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#liriklagu*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#jumpstyle*]</kbd>", unsafe_allow_html=True)
+                with col_hastag5:
+                    st.markdown("<kbd>:grey[*#islamicart*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#satisfying*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#liriklagu*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#jumpstyle*]</kbd>", unsafe_allow_html=True)
                 
-            with col_hastag6:
-                st.markdown("<kbd>:grey[*#bome*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#fyptiktok*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#relatable*]</kbd>", unsafe_allow_html=True)
-                st.markdown("<kbd>:grey[*#shortsvideo*]</kbd>", unsafe_allow_html=True)
+                with col_hastag6:
+                    st.markdown("<kbd>:grey[*#bome*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#fyptiktok*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#relatable*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shortsvideo*]</kbd>", unsafe_allow_html=True)
 
-            st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
-            st.write("") # Spacing
+                st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
+                st.write("") # Spacing
             
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP**")
