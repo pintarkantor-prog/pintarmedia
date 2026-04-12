@@ -515,7 +515,7 @@ def tampilkan_area_staf():
                 
                 with col_j3:
                     st.markdown("🔹 :rainbow-background[Nenek Buat Miniatur Masjid Dari [XXXX]]")
-                    st.markdown("🔹 <kbd>Masjid Miniatur Buatan Nenek + Emoji</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 :rainbow-background[Masjid Miniatur Buatan Nenek + Emoji]")
                     st.markdown("🔹 <kbd>Masjid Miniatur Dibuat Nenek dari [XXXX]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>Nenek Bikin Masjid Miniatur + Emoji</kbd>", unsafe_allow_html=True)
