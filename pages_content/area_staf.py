@@ -489,7 +489,7 @@ def tampilkan_area_staf():
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
-                st.markdown("##### 📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
+                st.success("##### 📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
             
                 col_judul1, col_judul2 = st.columns(2)
             
