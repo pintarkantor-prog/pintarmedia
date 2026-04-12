@@ -560,7 +560,7 @@ def tampilkan_area_staf():
                     st.markdown("<kbd>:grey[*#relatable*]</kbd>", unsafe_allow_html=True)
                     st.markdown("<kbd>:grey[*#shortsvideo*]</kbd>", unsafe_allow_html=True)
 
-                st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap akun di unit HP yang sama!")
+                st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
             st.write("") # Spacing
 
         def panduan_rawat_hp():
