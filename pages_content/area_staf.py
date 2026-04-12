@@ -575,9 +575,9 @@ def tampilkan_area_staf():
                     st.success("**⚡ Performa & Daya HP**")
                     st.write("- Update aplikasi `Youtube` dan `Google` secara berkala ( *minimal 3 hari sekali* ).")
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
-                    st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
+                    st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke *Admin/Owner*.")
 
-            st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
+            st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka atau tombol **'YES'**! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         def panduan_keamanan_akun():
             st.markdown("#### 🔐 Prosedur Login & Keamanan Akun Baru")
