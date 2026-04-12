@@ -698,7 +698,7 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.info("**🔍 Pengecekan Logistik & Aset**")
                     st.write("- Cek kebutuhan kantor ( *air galon, kopi, teh, mie, dll* ).")
-                    st.write("- Rutin `cek sisa kuota` internet tiap HP ( *Jangan sampai mati* ).")
+                    st.write("- Rutin `Cek Sisa Kuota` internet tiap HP ( *Jangan sampai mati* ).")
                     st.write("- **Real-Time Data:** Wajib update status channel di Database Website ( *No Delay* ).")
                     st.write("- `Akurasi 99,9%` Pastikan data di Database sama persis dengan yang ada di HP.")
 
