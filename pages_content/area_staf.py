@@ -436,7 +436,7 @@ def tampilkan_area_staf():
             # --- FASE 1: NETWORK & DEVICE SANITIZATION (MENIT 0-2) ---
             with st.container(border=True):
                 st.markdown("#### 1️⃣ Rutinitas Sterilisasi Device")
-                st.caption("💡 Tujuan: Menghapus jejak *`Device Fingerprint`* agar HP dianggap 'Baru' oleh server Google.")
+                st.caption("💡 **Tujuan:** Menghapus jejak *`Device Fingerprint`* agar HP dianggap *`Baru`* oleh server Google.")
                 st.write("- **Airplane Mode Ritual (15-20 Detik):** Wajib! Jangan cuma sekejap. Matikan jaringan selama 15 detik untuk memaksa provider melepaskan IP lama dan memberikan **Dynamic IP** yang benar-benar baru saat nyala kembali.")
                 st.write("- **Deep Cleaning Cache & Data:** Jangan cuma YouTube. Masuk ke *Settings > Apps > YouTube & Google Play Services*. Hapus Cache keduanya. Google melacak keterkaitan antar akun melalui *Play Services*.")
                 st.write("- **Location & Connectivity Kill:** Matikan GPS/Lokasi, Bluetooth, dan NFC. Jangan biarkan Google merekam koordinat 24 HP di satu titik meja yang sama (Farming Cluster Detection).")
