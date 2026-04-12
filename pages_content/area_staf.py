@@ -487,7 +487,7 @@ def tampilkan_area_staf():
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (DENGAN LOGIKA MODIFIKASI) ---
                 st.write("---")
-                st.markdown("#### 📌 Daftar Referensi Judul & Aturan Modifikasi")
+                st.markdown("#### 📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi")
                 
                 # Blok Aturan Modifikasi (Abu-abu & Jelas)
                 with st.container(border=True):
