@@ -602,10 +602,10 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.success("**🛡️ Proteksi & Verifikasi Keamanan**")
                     st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
-                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
+                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di `Kelola Perangkat`.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
 
-            st.markdown("#### 📥 6️⃣ **ALUR KARANTINA & PANEN AKUN (READY STOCK)**")
+            st.markdown("#### 📥 Prosedur Karantina & Pemanasan Akun Baru Beli")
             
             col_kar1, col_kar2 = st.columns(2)
             
