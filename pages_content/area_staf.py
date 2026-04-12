@@ -500,15 +500,13 @@ def tampilkan_area_staf():
                 
                 col_judul1, col_judul2 = st.columns(2)
                 with col_judul1:
-                    st.code("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", language=None)
-                    st.code("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", language=None)
-                    st.code("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", language=None)
-                    st.code("Gak Nyangka! Bahan Ini Bisa Jadi Miniatur Masjid", language=None)
+                    st.info("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
+                    st.info("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
+                    st.info("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
                 with col_judul2:
-                    st.code("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", language=None)
-                    st.code("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", language=None)
-                    st.code("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", language=None)
-                    st.code("Inspirasi Seni: Membangun Miniatur Masjid Detail", language=None)
+                    st.info("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
+                    st.info("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
+                    st.info("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
                 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
 
