@@ -350,18 +350,18 @@ def tampilkan_area_staf():
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
-                    st.info("**🛡️ Cara Manipulasi Metadata:**")
+                    st.info("**🛡️ Cara Manipulasi Metadata**")
                     st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                     st.write("- Jalankan **`METADATA.bat`** (Wajib jalankan ini untuk buang sidik jari AI).")
                     st.write("- Tool otomatis menghapus jejak software (Filmora/Capcut) & Device PC.")
                     st.write("- **Metadata identik di banyak HP** = *Resiko akun kena suspend massal*!")
                 
                 with col_meta2:
-                    st.success("**🆔 Variasi Nama File & Caption:**")
+                    st.success("**🆔 Variasi Nama File & Caption**")
                     st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
                     st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
                     # --- TAMPILAN FORMAT YANG LO MAU ---
-                    st.info(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
+                    st.warning(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
                     st.caption("💡 **Misalnya:** `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
                     
             st.write("") # Spacing
@@ -372,7 +372,7 @@ def tampilkan_area_staf():
                 col_kiriii, col_kanannn = st.columns(2)
 
                 with col_kiriii:
-                    st.info("**📥 Alat Tempur Editor:**")
+                    st.info("**📥 Alat Pendukung Editor**")
                     
                     # 1. Link Google Docs/Drive untuk Dialog
                     url_dialog = "https://docs.google.com/document/d/1itFxRuNkQSgZHQq1MZ9fEo-MCj876MlC4Uw60Ksa7as/edit?usp=sharing"
@@ -394,7 +394,7 @@ def tampilkan_area_staf():
                     st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari GDrive.")
 
                 with col_kanannn:
-                    st.success("**📢 INFO PENTING PENYESUAIAN DIALOG:**")
+                    st.success("**📢 INFO PENTING PENYESUAIAN DIALOG**")
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, Hanya gunakan dialog tentang **Ka'bah/Mekah**.")
