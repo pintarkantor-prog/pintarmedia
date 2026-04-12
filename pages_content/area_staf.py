@@ -560,7 +560,8 @@ def tampilkan_area_staf():
 
                 st.warning("⚠️ **Perhatian:** Gunakan judul, emoji, hastag yang berbeda untuk tiap Channel di unit HP yang sama!")
             st.write("") # Spacing
-
+            st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! Segera hubungi Admin/Owner.")
+            
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
             
@@ -656,8 +657,8 @@ def tampilkan_area_staf():
                 panduan_ritual_upload()
                 panduan_rawat_hp()
             elif pilihan == "ADMIN": 
-                panduan_kontrol_admin()
                 panduan_keamanan_akun() # <-- Muncul di monitoring Owner/Admin
+                panduan_kontrol_admin()
             
         elif user_level == "UPLOADER":
             panduan_ritual_upload()
