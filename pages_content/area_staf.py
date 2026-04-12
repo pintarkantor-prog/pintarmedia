@@ -644,9 +644,7 @@ def tampilkan_area_staf():
                     st.write("- **Tindakan:** Wajib Hapus & Ganti sesuai prosedur di bawah.")
 
             # --- BAGIAN 2: PROSEDUR EKSEKUSI (CARA GANTI) ---
-            st.markdown("---")
-            st.markdown("##### 🗑️ **PROSEDUR PENGGANTIAN AMUNISI (WAJIB)**")
-            
+            st.markdown("---")           
             col_ex1, col_ex2 = st.columns(2)
             
             with col_ex1:
