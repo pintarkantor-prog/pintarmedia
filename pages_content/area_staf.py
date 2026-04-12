@@ -177,7 +177,8 @@ def tampilkan_area_staf():
                             kirim_notif_wa(
                                 f"🔔 *TUGAS BARU* {sekarang.strftime('%d %B %Y')}\n"
                                 f"🆔 *ID:* {new_id_gede}\n"
-                                f"👤 *Untuk:* {staf_tujuan}\n"
+                                f"👤 *Untuk:* {staf_tujuan}\n\n"
+                                f"Silahkan cek *Area Staf* untuk detail lengkapnya."
                             )
                             
                             st.success(f"✅ Tugas {new_id_gede} Terkirim!")
