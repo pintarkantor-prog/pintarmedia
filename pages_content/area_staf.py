@@ -501,25 +501,25 @@ def tampilkan_area_staf():
                 
                 with col_j1:
                     st.markdown("🔹 <kbd>:blue[Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
-                    st.markdown("🔹 :grey[Masjid Buatan Nenek Dari [XXXX] + Emoji]")
-                    st.markdown("🔹 :grey[Miniatur Masjid Dari [XXXX] Buatan Nenek]")
-                    st.markdown("🔹 :grey[Masjid Miniatur Nenek Dari [XXXX]]")
-                    st.markdown("🔹 :grey[Nenek Membuat Masjid Miniatur Dari [XXXX]]")
+                    st.markdown("🔹 <kbd>:blue[Masjid Buatan Nenek Dari [XXXX] + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Miniatur Masjid Dari [XXXX] Buatan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masjid Miniatur Nenek Dari [XXXX]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Nenek Membuat Masjid Miniatur Dari [XXXX]]</kbd>", unsafe_allow_html=True)
                 
                 with col_j2:
-                    st.markdown("🔹 :grey[Masjid Indah Dari [XXXX] Buatan Nenek]")
-                    st.markdown("🔹 :grey[Miniatur Masjid Indah Buatan Nenek [XXXX]]")
-                    st.markdown("🔹 :grey[Masjid Indah Dari [XXXX] Bikinan Nenek]")
-                    st.markdown("🔹 :grey[Nenek Bikin Miniatur Masjid Dari [XXXX]]")
-                    st.markdown("🔹 :grey[Masya Allah! Miniatur Masjid Buatan Nenek]")
+                    st.markdown("🔹 <kbd>:blue[Masjid Indah Dari [XXXX] Buatan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Miniatur Masjid Indah Buatan Nenek [XXXX]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masjid Indah Dari [XXXX] Bikinan Nenek]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Nenek Bikin Miniatur Masjid Dari [XXXX]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masya Allah! Miniatur Masjid Buatan Nenek]</kbd>", unsafe_allow_html=True)
                 
                 with col_j3:
-                    st.markdown("🔹 :grey[Nenek Buat Miniatur Masjid Dari [XXXX]]")
-                    st.markdown("🔹 :grey[Masjid Miniatur Buatan Nenek + Emoji]")
-                    st.markdown("🔹 :grey[Masjid Miniatur Dibuat Nenek dari [XXXX]]")
-                    st.markdown("🔹 :grey[Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji]")
-                    st.markdown("🔹 :grey[Nenek Bikin Masjid Miniatur + Emoji]")
-
+                    st.markdown("🔹 <kbd>:blue[Nenek Buat Miniatur Masjid Dari [XXXX]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masjid Miniatur Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masjid Miniatur Dibuat Nenek dari [XXXX]]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Nenek Bikin Masjid Miniatur + Emoji]</kbd>", unsafe_allow_html=True)
+                    
                 st.write("---")
                 col_hastag1, col_hastag2, col_hastag3, col_hastag4, col_hastag5, col_hastag6 = st.columns(6)
 
