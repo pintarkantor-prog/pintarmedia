@@ -444,35 +444,31 @@ def tampilkan_area_staf():
                 st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
             st.write("") # Spacing
 
-            # --- FASE 2: HUMAN EMULATION / WARM-UP (MENIT 2-5) ---
+            # --- FASE 2: RITUAL PEMANASAN AKUN (TWO COLUMNS) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
                 st.caption("💡 **Tujuan:** Membangun kredibilitas akun, agar tidak dianggap Bot Uploader.")
-                st.write("- **Pencarian Kata Kunci Relevan:** Buka kolom pencarian YouTube, ketik manual kata kunci yang sesuai dengan tema konten (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura, atau Sakura School Simulator*). Wajib mengetik sesuai niche konten agar sistem mengenali minat akun tersebut.")
-                st.write("- **Simulasi Manusia Gabut:** Biarkan akun memiliki 'History' tontonan sebelum mulai memproduksi konten. Ini membuktikan akun dipegang oleh manusia asli yang sedang mencari hiburan.")
-                st.caption("💡 Estimasi: 3 Menit | Output: Akun memiliki kredibilitas (Trust Score) untuk direkomendasikan.")
-            st.write("") # Spacing
+            
+                col_pemanasan1, col_pemanasan2 = st.columns(2)
+            
+                with col_pemanasan1:
+                    st.write("**🔍 Pencarian Manual (1 Menit):**")
+                    st.write("- Ketik kata kunci sesuai **Niche/Tema** (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura*).")
+                    st.write("- **Wajib Ketik Manual** di kolom cari agar sistem mengenali minat akun tersebut.")
+                
+                    st.write("**📱 Interaksi Shorts (1 Menit):**")
+                    st.write("- Tonton minimal 2 Shorts hasil pencarian sampai selesai (hingga putar ulang).")
+                    st.write("- Berikan **1 Like** secara acak sebagai bukti aktivitas manusia asli.")
 
-            # --- FASE 2: RITUAL PEMANASAN AKUN (PANCINGAN ALGORITMA) ---
-            with st.container(border=True):
-                st.warning("🔥 **2️⃣ FASE 2: RITUAL PEMANASAN AKUN (WAJIB)**")
-                st.markdown("#### Tujuan: Membangun Skor Kepercayaan (Trust Score) Akun.")
+                with col_pemanasan2:
+                    st.write("**🔄 Penjelajahan Beranda (1 Menit):**")
+                    st.write("- Scroll beranda 2-3 kali tanpa interaksi untuk menciptakan jejak aktivitas yang acak.")
+                    st.write("- Tindakan ini mencegah akun terdeteksi sebagai uploader otomatis (bot).")
+                
+                    st.write("**⏱️ Total Durasi Pemanasan:**")
+                    st.write("- Lakukan ritual ini minimal **3-5 menit** sebelum masuk ke menu unggah.")
+                    st.write("- Jangan terburu-buru; biarkan sistem merekam jejak pencarian lo secara alami.")
             
-                # --- POIN 1: PENCARIAN ---
-                st.write("**🔍 Pencarian Manual (1 Menit):**")
-                st.write("- Ketik kata kunci sesuai **Niche/Tema** (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura*).")
-                st.write("- **Wajib Ketik Manual** di kolom cari agar sistem mengenali minat akun tersebut.")
-            
-                # --- POIN 2: INTERAKSI ---
-                st.write("**📱 Interaksi Shorts (1 Menit):**")
-                st.write("- Tonton minimal 2 Shorts hasil pencarian sampai selesai (hingga putar ulang).")
-                st.write("- Berikan **1 Like** secara acak sebagai bukti aktivitas manusia asli.")
-            
-                # --- POIN 3: JELAJAH ---
-                st.write("**🔄 Penjelajahan Beranda (1 Menit):**")
-                st.write("- Scroll beranda 2-3 kali tanpa interaksi untuk menciptakan jejak aktivitas yang tidak kaku.")
-            
-                st.caption("💡 Estimasi: 3 Menit | Output: Akun siap melakukan publikasi video.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
