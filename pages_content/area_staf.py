@@ -455,7 +455,7 @@ def tampilkan_area_staf():
                 with col_warm2:
                     st.success("**📱 2. Langkah Transisi ke Upload**")
                     st.write("- Lakukan scroll pelan (skip tonton) pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
-                    st.write("- Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
+                    st.write("- Setelah selesai scroll, diamkan aplikasi di beranda selama *10-20 detik* ( *jangan langsung klik upload!* ).")
                     st.write("- Baru kemudian klik ikon **[+]** atau **tombol upload video**.")
 
             st.warning("💡 **PASTIKAN** Ritual 1️⃣ dan 2️⃣ Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
@@ -476,10 +476,10 @@ def tampilkan_area_staf():
 
                 with col_up2:
                     st.success("**🛡️ Protokol Keamanan (Anti-Bot System):**")
-                    st.write("- Tunggu status *'Processing'* 100%. Ini memastikan resolusi video maksimal (HD).")
-                    st.write("- Pastikan visibilitas sudah benar-benar set ke **Publik**, bukan 'Tidak Publik' atau 'Pribadi'.")
+                    st.write("- Tunggu status *`Processing 100%`*. Ini memastikan resolusi video maksimal (HD).")
+                    st.write("- Pastikan visibilitas sudah benar-benar set ke `Publik`, bukan `Tidak Publik` atau `Pribadi`.")
                     st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
-                    st.write("- Klik **'Publish'** HANYA jika status durasi tunggu (loading) selesai.")
+                    st.write("- Klik **'Publish'** HANYA jika status durasi tunggu ( *loading* ) selesai.")
 
             # Blok Aturan Modifikasi (Abu-abu & Jelas)
             st.markdown("#### 📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi :sunglasses:") 
