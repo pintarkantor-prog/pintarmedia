@@ -447,23 +447,32 @@ def tampilkan_area_staf():
             # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
-                st.caption("💡 **Tujuan:** Membangun kredibilitas akun, agar tidak dianggap Bot Uploader.")
+                st.info("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             
                 col_warm1, col_warm2 = st.columns(2)
             
                 with col_warm1:
-                    st.write("**🔍 Penyelarasan Algoritma (Pencarian)**")
-                    st.write("- Ketik manual kata kunci yang sesuai tema (Contoh: *Miniatur Masjid, Masjid Nenek, Drama Sakura*).")
-                    st.write("- Scroll beranda pelan pelan tanpa interaksi agar terlihat natural.")
-                    st.write("- **Durasi:** Lakukan aktivitas pencarian aktif selama 1-2 menit.")
+                    st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
+                    st.write("- **Aksi:** Ketik manual kata kunci sesuai tema (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura*).")
+                    st.write("- **Teknis:** Buka minimal 1 video dari hasil pencarian, tonton 10-15 detik, lalu kembali ke beranda.")
+                    st.write("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini adalah peminat niche tersebut.")
+                    st.write("- **Durasi:** 1-2 Menit.")
 
                 with col_warm2:
-                    st.write("**📱 Interaksi Manual (Aktivitas)**")
-                    st.write("- Tonton minimal 2 Shorts hasil pencarian sampai selesaidan berikan **1 Like dan Komen** acak.")
-                    st.write("- Scroll beranda Shorts 2-3 kali tanpa interaksi untuk menciptakan jejak aktivitas yang tidak kaku/bot.")
-                    st.write("- **Durasi:** Minimal 1-2 menit interaksi organik.")
+                    st.write("**📱 2. Interaksi Manusiawi (Aktivitas)**")
+                    st.write("- **Aksi:** Masuk ke tab Shorts, tonton 2 video sampai selesai (putar ulang) dan berikan **1 Like** acak.")
+                    st.write("- **Teknis:** Lakukan scroll cepat (skip) pada 3-5 video berikutnya tanpa interaksi apa pun.")
+                    st.write("- **Tujuan:** Meniru perilaku pengguna asli yang sedang memilih konten (menghindari pola mesin).")
+                    st.write("- **Durasi:** 1-2 Menit.")
             
-                st.info("💡 **Total Ritual:** Lakukan minimal 3-5 menit. Jangan terburu-buru agar 'Trust Score' akun meningkat.")
+                # --- TRANSISI KE UPLOAD ---
+                st.write("---")
+                st.markdown("**🚀 Langkah Transisi ke Upload:**")
+                st.write("1. Pastikan total aktivitas di atas sudah mencapai **minimal 3 menit**.")
+                st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **5-10 detik** (jangan langsung klik tombol +).")
+                st.write("3. Baru kemudian klik ikon **[+]** dan pilih **'Upload a Video'** atau **'Create a Short'**.")
+            
+                st.info("💡 **Catatan:** Jangan pernah login langsung upload. YouTube sangat sensitif terhadap akun yang tidak memiliki riwayat aktivitas sebelum posting.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
