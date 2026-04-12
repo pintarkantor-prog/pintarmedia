@@ -468,7 +468,7 @@ def tampilkan_area_staf():
                 st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
                 st.write("1. Pastikan Langkah 1 dan 2 sudah dilakukan, baru ke langkah 3.")
                 st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
-                st.write("3. Baru kemudian pilih **'Upload Video'**.")
+                st.write("3. Baru kemudian klik ikon **[+]** atau **'Upload Video'**.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
