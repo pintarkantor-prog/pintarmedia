@@ -8,7 +8,7 @@ import requests
 from modules.database import supabase
 
 def kirim_notif_wa(pesan):
-    token = "r6ZXJWDQPybPQqWDj67L"
+    token = "f4CApLBAJDTPrVHHZCDF"
     target = "120363407726656878@g.us"
     url = "https://api.fonnte.com/send"
     payload = {'target': target, 'message': pesan, 'countryCode': '62'}
