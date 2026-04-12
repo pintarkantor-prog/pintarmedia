@@ -478,15 +478,15 @@ def tampilkan_area_staf():
                     st.write("1. Tekan ikon **`[+] > Unggah Video >`** Pilih file yang ada di HP.")
                     st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
                     st.write("3. Masukkan judul dari daftar referensi di bawah (*Pastikan judul sinkron dengan isi video*).")
-                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **`Bukan untuk Anak-anak`**.")
-                    st.write("5. Jika video menggunakan visual AI, wajib pilih **`Konten modifikasi > Ya`**.")
+                    st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **`Bukan untuk anak-anak`**.")
+                    st.write("5. Jika video menggunakan visual AI, wajib pilih **`Konten Modifikasi > Ya`**.")
 
                 with col_up2:
-                    st.write("**🛡️ Protokol Keamanan (Server):**")
-                    st.write("- **Proses Indeksing:** Jangan buru-buru. Tunggu status *'Processing'* mencapai 100% agar resolusi video tajam (HD) saat tayang.")
-                    st.write("- **Fitur Checks:** Wajib tunggu centang hijau pada bagian **Copyright/Hak Cipta**. Jika muncul peringatan, ganti file video segera.")
-                    st.write("- **Final Publishing:** Klik **'Publikasikan'** HANYA jika status pengecekan sudah bersih dan durasi tunggu (loading) selesai.")
-                    st.write("- **Verifikasi Akhir:** Pastikan visibilitas sudah benar-benar set ke **Publik**, bukan 'Tidak Publik' atau 'Pribadi'.")
+                    st.write("**🛡️ Protokol Keamanan (Anti-Bot System):**")
+                    st.write("- Tunggu status *'Processing'* 100%. Ini memastikan resolusi video maksimal (HD).")
+                    st.write("- Pastikan visibilitas sudah benar-benar set ke **Publik**, bukan 'Tidak Publik' atau 'Pribadi'.")
+                    st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
+                    st.write("- Klik **'Publish'** HANYA jika status durasi tunggu (loading) selesai.")
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
