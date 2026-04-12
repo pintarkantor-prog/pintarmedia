@@ -444,31 +444,26 @@ def tampilkan_area_staf():
                 st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
             st.write("") # Spacing
 
-            # --- FASE 2: RITUAL PEMANASAN AKUN (TWO COLUMNS) ---
+            # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
                 st.caption("💡 **Tujuan:** Membangun kredibilitas akun, agar tidak dianggap Bot Uploader.")
             
-                col_pemanasan1, col_pemanasan2 = st.columns(2)
+                col_warm1, col_warm2 = st.columns(2)
             
-                with col_pemanasan1:
-                    st.write("**🔍 Pencarian Manual (1 Menit):**")
-                    st.write("- Ketik kata kunci sesuai **Niche/Tema** (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura*).")
-                    st.write("- **Wajib Ketik Manual** di kolom cari agar sistem mengenali minat akun tersebut.")
-                
-                    st.write("**📱 Interaksi Shorts (1 Menit):**")
-                    st.write("- Tonton minimal 2 Shorts hasil pencarian sampai selesai (hingga putar ulang).")
-                    st.write("- Berikan **1 Like** secara acak sebagai bukti aktivitas manusia asli.")
+                with col_warm1:
+                    st.write("**🔍 Penyelarasan Algoritma (Pencarian)**")
+                    st.write("- Ketik manual kata kunci yang sesuai tema (Contoh: *Miniatur Masjid, Masjid Nenek, Drama Sakura*).")
+                    st.write("- Scroll beranda pelan pelan tanpa interaksi agar terlihat natural.")
+                    st.write("- **Durasi:** Lakukan aktivitas pencarian aktif selama 1-2 menit.")
 
-                with col_pemanasan2:
-                    st.write("**🔄 Penjelajahan Beranda (1 Menit):**")
-                    st.write("- Scroll beranda 2-3 kali tanpa interaksi untuk menciptakan jejak aktivitas yang acak.")
-                    st.write("- Tindakan ini mencegah akun terdeteksi sebagai uploader otomatis (bot).")
-                
-                    st.write("**⏱️ Total Durasi Pemanasan:**")
-                    st.write("- Lakukan ritual ini minimal **3-5 menit** sebelum masuk ke menu unggah.")
-                    st.write("- Jangan terburu-buru; biarkan sistem merekam jejak pencarian lo secara alami.")
+                with col_warm2:
+                    st.write("**📱 Interaksi Manual (Aktivitas)**")
+                    st.write("- Tonton minimal 2 Shorts hasil pencarian sampai selesaidan berikan **1 Like dan Komen** acak.")
+                    st.write("- Scroll beranda Shorts 2-3 kali tanpa interaksi untuk menciptakan jejak aktivitas yang tidak kaku/bot.")
+                    st.write("- **Durasi:** Minimal 1-2 menit interaksi organik.")
             
+                st.info("💡 **Total Ritual:** Lakukan minimal 3-5 menit. Jangan terburu-buru agar 'Trust Score' akun meningkat.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
