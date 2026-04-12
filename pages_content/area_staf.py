@@ -438,7 +438,7 @@ def tampilkan_area_staf():
                 st.markdown("#### 1️⃣ Rutinitas Sterilisasi Device")
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint`, agar HP dianggap `Baru` oleh server Google.")
                 st.write("- Matikan Data Seluler *(`mode pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru.")
-                st.write("- **Bersihkan Cache & Data:** Masuk ke **`Settingan HP > Apps > YouTube & Google Play Services`**. Hapus Cache keduanya.")
+                st.write("- **Bersihkan Cache & Data:** Masuk ke **`Settingan HP > Applikasi > YouTube & Google Play Services`**. Hapus Cache keduanya.")
                 st.write("- Matikan GPS/Lokasi. Jangan biarkan Google merekam lokasi setiap HP Kerja.")
                 st.write("- Dilarang keras menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
             st.write("") # Spacing
