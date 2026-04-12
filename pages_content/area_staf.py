@@ -436,61 +436,50 @@ def tampilkan_area_staf():
             # --- FASE 1: NETWORK & DEVICE SANITIZATION (MENIT 0-2) ---
             with st.container(border=True):
                 st.error("🛡️ **1️⃣ FASE 1: STERILISASI TOTAL (PRE-LOGIN)**")
-                st.markdown("""
-                **Tujuan:** Menghapus jejak 'Digital Footprint' dan 'Device Fingerprinting' dari akun sebelumnya.
-                - **Airplane Mode Ritual (15-20 Detik):** Wajib! Jangan cuma sekejap. Matikan jaringan selama 15 detik untuk memaksa provider melepaskan IP lama dan memberikan **Dynamic IP** yang benar-benar baru saat nyala kembali.
-                - **Deep Cleaning Cache & Data:** Jangan cuma YouTube. Masuk ke *Settings > Apps > YouTube & Google Play Services*. Hapus Cache keduanya. Google melacak keterkaitan antar akun melalui *Play Services*.
-                - **Location & Connectivity Kill:** Matikan GPS/Lokasi, Bluetooth, dan NFC. Jangan biarkan Google merekam koordinat 24 HP di satu titik meja yang sama (Farming Cluster Detection).
-                - **Network Isolation:** Dilarang keras menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.
-                """)
+                st.markdown("#### Tujuan: Menghapus jejak 'Digital Footprint' dan 'Device Fingerprinting' dari akun sebelumnya.")
+                st.write("- **Airplane Mode Ritual (15-20 Detik):** Wajib! Jangan cuma sekejap. Matikan jaringan selama 15 detik untuk memaksa provider melepaskan IP lama dan memberikan **Dynamic IP** yang benar-benar baru saat nyala kembali.")
+                st.write("- **Deep Cleaning Cache & Data:** Jangan cuma YouTube. Masuk ke *Settings > Apps > YouTube & Google Play Services*. Hapus Cache keduanya. Google melacak keterkaitan antar akun melalui *Play Services*.")
+                st.write("- **Location & Connectivity Kill:** Matikan GPS/Lokasi, Bluetooth, dan NFC. Jangan biarkan Google merekam koordinat 24 HP di satu titik meja yang sama (Farming Cluster Detection).")
+                st.write("- **Network Isolation:** Dilarang keras menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
                 st.caption("💡 Estimasi: 2 Menit | Output: Perangkat dianggap 'Bersih' dan 'Baru' oleh server Google.")
             st.write("") # Spacing
 
             # --- FASE 2: HUMAN EMULATION / WARM-UP (MENIT 2-5) ---
             with st.container(border=True):
                 st.warning("🔥 **2️⃣ FASE 2: RITUAL WARM-UP (PANCINGAN ALGORITMA)**")
-                st.markdown("""
-                **Tujuan:** Membangun 'Trust Score' akun. Akun yang Login > Upload > Out akan langsung ditandai sebagai Bot/Spam.
-                - **Natural Search Query (60 Detik):** Buka YouTube, ketik manual nama channel besar atau kompetitor di kolom Search. Jangan pernah klik link langsung (Direct Link).
-                - **Organic Interaction (60 Detik):** Tonton minimal 2 Shorts orang lain sampai habis (Full Watch Time), berikan **1 Like** pada salah satunya, dan scroll 2-3 Shorts lagi tanpa interaksi.
-                - **Simulasi Manusia Gabut:** Biarkan akun memiliki 'History' tontonan sebelum mulai memproduksi konten. Ini membuktikan akun dipegang oleh manusia asli yang sedang mencari hiburan.
-                """)
+                st.markdown("#### Tujuan: Membangun 'Trust Score' Akun agar tidak dianggap Bot Uploader.")
+                st.write("- **Natural Search Query (60 Detik):** Buka YouTube, ketik manual nama channel besar atau kompetitor di kolom Search. Jangan pernah klik link langsung (Direct Link).")
+                st.write("- **Organic Interaction (60 Detik):** Tonton minimal 2 Shorts orang lain sampai habis (Full Watch Time), berikan **1 Like** pada salah satunya, dan scroll 2-3 Shorts lagi tanpa interaksi.")
+                st.write("- **Simulasi Manusia Gabut:** Biarkan akun memiliki 'History' tontonan sebelum mulai memproduksi konten. Ini membuktikan akun dipegang oleh manusia asli yang sedang mencari hiburan.")
                 st.caption("💡 Estimasi: 3 Menit | Output: Akun memiliki kredibilitas (Trust Score) untuk direkomendasikan.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
-            col_up1, col_up2 = st.columns(2)
-            with col_up1:
-                with st.container(border=True):
-                    st.success("✅ **3️⃣ FASE 3: PROSEDUR UPLOAD**")
-                    st.markdown("""
-                    **Optimasi Metadata & Visual:**
-                    - **Thumbnail Manual:** Geser slider secara teliti ke frame yang paling memancing rasa penasaran atau 'kontroversial' (CTR Booster).
-                    - **Metadata Diversity:** Gunakan variasi Judul yang unik. Dilarang keras melakukan duplikasi Judul antar akun di HP yang sama.
-                    - **Waiting for Checks:** Dilarang klik 'Publish' jika status 'Checks' (Copyright & Ad-Suitability) belum centang hijau. 
-                    """)
-            
-            with col_up2:
-                # --- FASE 4: POST-UPLOAD GHOSTING (MENIT 10-12) ---
-                with st.container(border=True):
-                    st.info("🚨 **4️⃣ FASE 4: PASCA-UPLOAD**")
-                    st.markdown("""
-                    **Sinyal Distribusi Alami:**
-                    - **Background Stay:** Setelah klik Publish, biarkan aplikasi YouTube tetap terbuka di background selama 2-3 menit. Jangan langsung tutup paksa (Force Close).
-                    - **Traffic Isolation:** Dilarang membagikan link video ke platform luar (WA/IG). Biarkan trafik datang murni dari *Shorts Feed* atau *Internal Search*.
-                    - **Ghosting Total:** Setelah proses selesai, biarkan HP 'istirahat' selama jeda waktu yang ditentukan.
-                    """)
+            with st.container(border=True):
+                st.success("✅ **3️⃣ FASE 3: PROSEDUR UPLOAD & OPTIMASI METADATA**")
+                st.markdown("#### Tujuan: Memastikan Video terindeks sempurna tanpa 'Hold' (View 0).")
+                st.write("- **Thumbnail Selection:** Geser slider secara teliti ke frame yang paling memancing rasa penasaran atau 'kontroversial' (CTR Booster).")
+                st.write("- **Metadata Diversity:** Gunakan variasi Judul yang unik. Dilarang keras melakukan duplikasi Judul antar akun di HP yang sama.")
+                st.write("- **Waiting for Checks:** Dilarang klik 'Publish' jika status 'Checks' (Copyright & Ad-Suitability) belum centang hijau. Tunggu sampai server selesai memproses metadata.")
+                st.caption("💡 Estimasi: 5 Menit | Output: Video siap didistribusikan ke Shorts Feed secara luas.")
             st.write("") # Spacing
 
-            # --- FASE 5: JADWAL KETAT & EMERGENCY (STRATEGI JANGKA PANJANG) ---
+            # --- FASE 4: PASCA-UPLOAD GHOSTING (MENIT 10-12) ---
+            with st.container(border=True):
+                st.info("🚨 **4️⃣ FASE 4: GHOSTING STRATEGIS (SETELAH UPLOAD)**")
+                st.markdown("#### Tujuan: Memperkuat sinyal distribusi video ke Shorts Feed secara alami.")
+                st.write("- **Background Persistence:** Setelah klik Publish, biarkan aplikasi YouTube tetap terbuka di background selama 2-3 menit. Jangan langsung tutup paksa (Force Close).")
+                st.write("- **Traffic Isolation:** Dilarang membagikan link video ke platform luar (WA/IG). Biarkan trafik datang murni dari *Shorts Feed* atau *Internal Search*.")
+                st.write("- **Selisih 2 Jam (Cooldown):** Akun berikutnya di HP yang sama wajib selisih minimal 2 jam. Gunakan menit acak (Contoh: Akun 1 jam 08:05, Akun 2 jam 10:12).")
+                st.caption("💡 Estimasi: 2 Menit (Stay) + Jeda 2 Jam | Output: Menghindari Flagging Spam Injection.")
+            st.write("") # Spacing
+
+            # --- FASE 5: EMERGENCY & MAINTENANCE ---
             with st.container(border=True):
                 st.markdown("#### 🚨 5️⃣ FASE 5: MANAJEMEN RISIKO & KARANTINA")
-                st.markdown("""
-                - **Selisih 2 Jam (Cooldown):** Akun berikutnya di HP yang sama wajib selisih minimal 2 jam. Gunakan menit acak (Contoh: Akun 1 jam 08:05, Akun 2 jam 10:12) agar tidak terbaca pola mesin uploader.
-                - **Shadowban Detection:** Jika view tetap 0 (nol) setelah 4 jam, segera lapor nomor unit HP (1-24) ke Admin untuk evaluasi kartu provider atau kesehatan device.
-                - **Suspend Isolation:** Jika satu akun kena suspend, **STOP** semua aktivitas upload di unit HP tersebut selama 48 jam untuk menghindari 'Hardware ID Banned'.
-                - **Daily Maintenance:** Wajib Restart HP setiap pagi sebelum kloter pertama dan hapus file video yang sudah sukses terupload di galeri untuk menjaga RAM tetap lega.
-                """)
+                st.write("- **Shadowban Detection:** Jika view tetap 0 setelah 4 jam, segera lapor nomor unit HP (1-24) ke Admin untuk evaluasi kartu provider atau kesehatan device.")
+                st.write("- **Suspend Isolation:** Jika satu akun kena suspend, **STOP** semua aktivitas upload di unit HP tersebut selama 48 jam untuk menghindari Hardware ID Banned.")
+                st.write("- **Daily Maintenance:** Wajib Restart HP setiap pagi sebelum kloter pertama dan hapus file video yang sudah sukses terupload di galeri agar RAM tetap lega.")
                 st.caption("💡 Fokus: Keamanan Aset (Device & Akun) adalah prioritas utama daripada kecepatan upload.")
             st.write("") # Spacing
 
