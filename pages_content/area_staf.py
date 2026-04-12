@@ -509,7 +509,7 @@ def tampilkan_area_staf():
                     st.caption("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
                 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
-                st.write("") # Spacing
+            st.write("") # Spacing
 
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
