@@ -493,24 +493,24 @@ def tampilkan_area_staf():
                     st.write("- **Set Publik:** Atur visibilitas ke 'Publik' hanya jika langkah 1-4 dan validasi server sudah beres.")
                     st.write("- **Final Check:** Pastikan settingan konten 'Bukan untuk Anak-anak'.")
 
-                # --- BARIS BAWAH: REFERENSI JUDUL (FULL WIDTH / 1 KOLOM) ---
-                with st.container(border=True):
-                    st.write("**📌 Daftar Referensi Judul (Pilih 1 - Wajib Berbeda tiap Akun):**")
-                    col_judul1, col_judul2 = st.columns(2) # Kita bagi dua kolom di dalam sini biar hemat ruang
-                    with col_judul1:
-                        st.write("- Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
-                        st.write("- Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
-                        st.write("- Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
-                        st.write("- Gak Nyangka! Bahan Ini Bisa Jadi Miniatur Masjid")
-                    with col_judul2:
-                        st.write("- Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
-                        st.write("- Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
-                        st.write("- Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
-                        st.write("- Inspirasi Seni: Membangun Miniatur Masjid Detail")
-                    st.caption("⚠️ **Peringatan Owner:** Dilarang menggunakan judul yang sama persis untuk akun yang berada dalam satu unit HP!")
-            
-                st.caption("💡 Estimasi: 5 Menit | Fokus: Variasi judul menentukan performa awal video di rak Shorts.")
-            st.write("") # Spacing
+                # --- BARIS BAWAH: REFERENSI JUDUL (FULL WIDTH) ---
+                st.write("---")
+                st.markdown("#### 📌 Daftar Referensi Judul")
+                st.info("Klik ikon di pojok kanan kotak judul untuk menyalin (Copy) judul secara instan.")
+                
+                col_judul1, col_judul2 = st.columns(2)
+                with col_judul1:
+                    st.code("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", language=None)
+                    st.code("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", language=None)
+                    st.code("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", language=None)
+                    st.code("Gak Nyangka! Bahan Ini Bisa Jadi Miniatur Masjid", language=None)
+                with col_judul2:
+                    st.code("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", language=None)
+                    st.code("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", language=None)
+                    st.code("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", language=None)
+                    st.code("Inspirasi Seni: Membangun Miniatur Masjid Detail", language=None)
+                
+                st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
 
         def panduan_rawat_hp():
             st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
