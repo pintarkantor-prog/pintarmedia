@@ -370,7 +370,7 @@ def tampilkan_area_staf():
 
             # --- CARD 3: ATURAN DIALOG ---
             with st.container(border=True):
-                st.markdown("#### 3️⃣ Amunisi & Aturan Produksi (Wajib Download)")
+                st.markdown("#### 3️⃣ Alat Pendukung & Aturan Dialog Masjid")
                 
                 # Samakan pembagian kolom 50:50 biar lurus sama Card 2
                 col_kiri, col_kanan = st.columns(2)
@@ -398,7 +398,7 @@ def tampilkan_area_staf():
                     st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari GDrive.")
 
                 with col_kanan:
-                    st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
+                    st.markdown("**📢 INFO PENTING PENYESUAIAN DIALOG:**")
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, Hanya gunakan dialog tentang **Ka'bah/Mekah**.")
