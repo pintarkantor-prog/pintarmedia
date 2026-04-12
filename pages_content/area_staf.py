@@ -636,7 +636,7 @@ def tampilkan_area_staf():
                     st.write("- **Reset IP:** Wajib Mode Pesawat (ON/OFF) sebelum memasukkan akun pengganti.")
 
             # --- CARD 2: PENGGANTIAN (KANAN) ---
-            with col_j2: # Pakai col_sus2 jika variabelnya tadi col_sus2
+            with col_sus2:
                 with st.container(border=True):
                     st.success("**🔄 Tahap 2: Input Amunisi Baru:**")
                     st.write("- **Cek Umur:** Pilih akun dari list manual yang sudah berumur **Minimal 4 Hari**.")
