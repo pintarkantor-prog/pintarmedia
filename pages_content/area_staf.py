@@ -585,55 +585,28 @@ def tampilkan_area_staf():
             st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         def panduan_keamanan_akun():
-            st.markdown("#### 🔐 PROSEDUR PENGAMANAN AKUN")
+            st.markdown("#### 🔐 5️⃣ **SECURITY & LOGIN PROTOCOL (AKUN BARU)**")
             
-            with st.container(border=True):
-                st.markdown("##### 1️⃣ Prosedur Login (Anti-Deteksi)")
-                st.write("Dilarang keras login akun baru tanpa melakukan reset IP!")
-                
-                col_log1, col_log2 = st.columns(2)
-                with col_log1:
-                    st.write("**📱 Persiapan HP:**")
-                    st.write("- **Mode Pesawat:** Wajib ON-OFF sebelum login setiap 1 akun baru.")
-                    st.write("- **Clear Cache:** Hapus cache aplikasi YouTube & Google Play Services.")
-                
-                with col_log2:
-                    st.write("**🔑 Batas Device:**")
-                    st.write("- **Max 10-15 Akun** per 1 HP fisik.")
-                    st.write("- Login dilakukan langsung melalui menu **Settings > Google > Add Account** (bukan di browser).")
+            col_aman1, col_aman2 = st.columns(2)
+            
+            # --- CARD 1: STERILISASI LOGIN (KIRI) ---
+            with col_aman1:
+                with st.container(border=True):
+                    st.info("**🛠️ Prosedur Login & Sterilisasi:**")
+                    st.write("- **Mode Pesawat:** Wajib ON-OFF setiap mau login akun baru (Ganti IP).")
+                    st.write("- **Logout Penjual:** Segera kick semua device lama di menu *Manage Devices*.")
+                    st.write("- **Ganti Password:** Ubah password ke standar kantor langsung setelah login.")
 
-            with st.container(border=True):
-                st.markdown("##### 2️⃣ Urutan Ganti Data (Jeda Keamanan)")
-                st.write("Jangan ganti semua data sekaligus! Ikuti urutan dan jeda waktu berikut:")
-                
-                # Tabel agar staff mudah baca urutan
-                st.markdown("""
-                | Urutan | Tindakan | Penjelasan | Jeda Waktu |
-                | :--- | :--- | :--- | :--- |
-                | **I** | **Ganti Password** | Gunakan kombinasi unik (bukan password standar). | Langsung saat login |
-                | **II** | **Logout Device Lama** | Kick semua HP penjual di 'Manage Devices'. | Setelah ganti PW |
-                | **III** | **Ganti No. Telepon** | Masukkan nomor HP fisik yang kita pegang. | Tunggu 15 Menit |
-                | **IV** | **Email Pemulihan** | Tambahkan email pemulihan internal kita. | Tunggu 30 Menit |
-                """)
+            # --- CARD 2: PENGAMANAN DATA (KANAN) ---
+            with col_aman2:
+                with st.container(border=True):
+                    st.success("**🛡️ Proteksi & Verifikasi:**")
+                    st.write("- **No. Telp:** Ganti nomor HP lama dengan nomor fisik yang kita pegang.")
+                    st.write("- **Email Recovery:** Masukkan email pemulihan internal kita sebagai cadangan.")
+                    st.write("- **Jeda Aksi:** Jangan ganti PW dan No. HP sekaligus, beri jeda minimal 15 menit.")
 
-            with st.container(border=True):
-                st.markdown("##### 3️⃣ Verifikasi Keamanan Akhir")
-                col_cek1, col_cek2 = st.columns(2)
-                
-                with col_cek1:
-                    st.write("**✅ Step Ganti No. Telp:**")
-                    st.write("1. Masuk ke *Personal Info* > *Contact Info*.")
-                    st.write("2. Hapus nomor lama (jika ada) dan *Add Now* nomor kita.")
-                    st.write("3. Verifikasi kode OTP yang masuk ke HP admin.")
-
-                with col_cek2:
-                    st.write("**✅ Step Ganti Password:**")
-                    st.write("1. Masuk ke *Security* > *Password*.")
-                    st.write("2. Masukkan password baru.")
-                    st.write("3. Catat di database kita sebelum lanjut ke akun berikutnya.")
-
-            st.error("⚠️ **PENTING:** Jika saat ganti nomor muncul pesan 'Internal Error' atau 'Try again later', **STOP!** Jangan dipaksa. Diamkan akun selama 24 jam baru coba lagi.")
-
+            st.error("**🚨 PENTING:** Kapasitas maksimal **10-15 akun per HP**. Jangan dipaksa lebih agar tidak terkena *Chain Ban* (Ban Massal)!")
+    
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
             # --- CARD 1: PRODUKSI & STOK CHANNEL (PABRIK CHANNEL) ---
