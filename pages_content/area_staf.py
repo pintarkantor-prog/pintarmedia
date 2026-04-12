@@ -453,7 +453,7 @@ def tampilkan_area_staf():
             
                 with col_warm1:
                     st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
-                    st.write("- Ketik manual kata kunci sesuai tema (Contoh: *Miniatur Masjid, Masjid AI Nenek*).")
+                    st.write("- Ketik manual kata kunci sesuai tema (**Contoh:** `Miniatur Masjid, Masjid Nenek, Drama Sakura`).")
                     st.write("- Klik salah satu video dari hasil cari, lalu tonton 20 - 30 detik.")
                     st.caption("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload.")
 
