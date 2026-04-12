@@ -401,7 +401,7 @@ def tampilkan_area_staf():
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
-                    st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
+                    st.write("- Jika visual **Ka'bah/Mekah**, Hanya gunakan dialog **Ka'bah/Mekah**.")
 
             # --- HEADER JALUR PENYERAHAN ---
             st.markdown("#### 4️⃣ Alur Penyerahan Hasil Kerja")
