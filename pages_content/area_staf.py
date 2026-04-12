@@ -431,14 +431,14 @@ def tampilkan_area_staf():
                     st.write("- Buka Tab **TUGAS KERJA**, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
 
-        # --- FUNGSI MODULAR PANDUAN UPLOADER (SOP SISTEMATIS) ---
+        # --- FUNGSI MODULAR PANDUAN UPLOADER (STRATEGI ANTI-SHADOWBAN) ---
         def panduan_ritual_upload():            
             # --- FASE 1: ISOLASI IDENTITAS (SEBELUM BUKA APLIKASI) ---
             with st.container(border=True):
-                st.error("🛡️ **FASE 1: ISOLASI & RESET IDENTITAS (WAJIB)**")
+                st.error("🛡️ **1️⃣ FASE 1: ISOLASI & RESET IDENTITAS (WAJIB)**")
                 st.markdown("""
                 Sebelum berpindah antar akun di HP yang sama, lakukan ritual **'Ghosting'** ini:
-                1. **Airplane Mode Ritual:** Aktifkan Mode Pesawat minimal 10 detik. Matikan kembali untuk mendapatkan IP baru dari provider seluler.
+                1. **Airplane Mode Ritual:** Aktifkan Mode Pesawat minimal **10 detik**. Matikan kembali untuk mendapatkan IP baru dari provider seluler.
                 2. **Clear Cache Total:** Masuk ke *Settings HP > Apps > YouTube > Storage > Clear Cache*.
                 3. **Pastikan Data Seluler:** Dilarang keras menyalakan WiFi! Gunakan data dari kartu masing-masing HP.
                 """)
@@ -446,7 +446,7 @@ def tampilkan_area_staf():
 
             # --- FASE 2: MICRO-WARM UP (PANCING ALGORITMA) ---
             with st.container(border=True):
-                st.warning("🔥 **FASE 2: MICRO-WARM UP (KILAT 1 MENIT)**")
+                st.warning("🔥 **2️⃣ FASE 2: MICRO-WARM UP (KILAT 1 MENIT)**")
                 st.markdown("""
                 Jangan biarkan akun 'Dingin'. Lakukan interaksi kilat sebelum upload:
                 1. **Login & Search:** Login ke akun, lalu cari satu channel besar/kompetitor di kolom search.
@@ -456,7 +456,7 @@ def tampilkan_area_staf():
 
             # --- FASE 3: UPLOAD & MONITORING (STRATEGI 2 JAM) ---
             with st.container(border=True):
-                st.success("✅ **FASE 3: EKSEKUSI UPLOAD & JADWAL**")
+                st.success("✅ **3️⃣ FASE 3: EKSEKUSI UPLOAD & JADWAL**")
                 col_up1, col_up2 = st.columns(2)
                 with col_up1:
                     st.markdown("**Prosedur Upload:**")
@@ -471,7 +471,7 @@ def tampilkan_area_staf():
                 st.info("📌 **Fix View 0:** Jika view stagnan di angka 0 setelah 2 jam, laporkan ke Admin untuk evaluasi judul/konten.")
 
         def panduan_rawat_hp():
-            st.markdown("#### ⚙️ MAINTENANCE UNIT HP")
+            st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
             
             col_hp1, col_hp2 = st.columns(2)
             
