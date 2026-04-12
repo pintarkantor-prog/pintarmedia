@@ -525,29 +525,39 @@ def tampilkan_area_staf():
 
                 with col_hastag1:
                     st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#shortsviral</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#shorts</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#shortsviral</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
                 
                 with col_hastag2:
-                    st.markdown("<kbd>#trending", unsafe_allow_html=True)
-                    st.markdown("<kbd>#foryou</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
                 
                 with col_hastag3:
-                    st.markdown("<kbd>#fyp</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#miniature</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
 
                 with col_hastag4:
-                    st.markdown("<kbd>#diycrafts</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#kreatif</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
                 
                 with col_hastag5:
-                    st.markdown("<kbd>#kerajinantangan</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#masyaallah</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
                 
                 with col_hastag6:
-                    st.markdown("<kbd>#bome</kbd>", unsafe_allow_html=True)
-                    st.markdown("<kbd>#liriklagu</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
+                    st.markdown("<kbd>:grey[*#shorts*]</kbd>", unsafe_allow_html=True)
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap akun di unit HP yang sama!")
             st.write("") # Spacing
