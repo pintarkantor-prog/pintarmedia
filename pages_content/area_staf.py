@@ -447,7 +447,7 @@ def tampilkan_area_staf():
             # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
-                st.info("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
+                st.success("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             
                 col_warm1, col_warm2 = st.columns(2)
             
@@ -455,21 +455,20 @@ def tampilkan_area_staf():
                     st.write("**🔍 1. Penyelarasan Algoritma (Pencarian)**")
                     st.write("- Ketik manual kata kunci sesuai tema (**Contoh:** `Miniatur Masjid, Masjid Nenek, Drama Sakura`).")
                     st.write("- Klik salah satu video dari hasil cari, lalu tonton 20 - 30 detik.")
-                    st.caption("- **Tujuan:** Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload.")
+                    st.caption("- **Tujuan:** *Memberikan sinyal ke YouTube bahwa akun ini relevan dengan tema yang akan di-upload*.")
 
                 with col_warm2:
                     st.write("**📱 2. Interaksi Organik (Aktivitas)**")
                     st.write("- Masuk ke tab Shorts, tonton 1 video orang lain sampai selesai dan kasih **1 Like**.")
                     st.write("- Lakukan scroll pelan pada beberapa video berikutnya untuk **meniru perilaku manusia**.")
-                    st.caption("- **Tujuan:** Validasi bahwa akun dipegang manusia asli, bukan bot uploader.")
+                    st.caption("- **Tujuan:** *Validasi bahwa akun dipegang manusia asli, bukan bot uploader*.")
             
                 # --- TRANSISI KE UPLOAD ---
+                st.write("---")
                 st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
                 st.write("1. Pastikan total aktivitas di atas sudah mencapai **minimal 3 menit**.")
                 st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **5-10 detik** (jangan langsung klik tombol +).")
                 st.write("3. Baru kemudian klik ikon **[+]** dan pilih **'Upload a Video'** atau **'Create a Short'**.")
-            
-                st.info("💡 **Catatan:** Jangan pernah login langsung upload. YouTube sangat sensitif terhadap akun yang tidak memiliki riwayat aktivitas sebelum posting.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
