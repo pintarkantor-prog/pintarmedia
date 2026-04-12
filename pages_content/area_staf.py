@@ -623,28 +623,49 @@ def tampilkan_area_staf():
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP! dan **WAJIB** Lakukan Sterilisasi serta Karantina setiap akun baru!")
             st.write("") # Spacing
 
-            st.markdown("#### 🗑️ 7️⃣ **PROSEDUR AKUN SUSPEND / BUSUK (GANTI AMUNISI)**")
-            col_sus1, col_sus2 = st.columns(2)
+            st.markdown("#### 🔍 8️⃣ **AUDIT KESEHATAN & EKSEKUSI AKUN BUSUK**")
+            # --- BAGIAN 1: AUDIT (CEK KONDISI) ---
+            col_audit1, col_audit2 = st.columns(2)
             
-            # --- CARD 1: STERILISASI HP (KIRI) ---
-            with col_sus1:
+            with col_audit1:
                 with st.container(border=True):
-                    st.info("**🧹 Tahap 1: Pembersihan Akun Busuk:**")
-                    st.write("- **Hapus Akun:** Segera hapus email akun yang suspend dari menu *Settings > Google* di HP.")
-                    st.write("- **Hapus Channel:** Jika masih bisa diakses, pastikan channel lamanya dihapus total.")
-                    st.write("- **Wajib Clear Cache:** Hapus cache aplikasi YouTube & Google Play Services setelah akun dibuang.")
-                    st.write("- **Reset IP:** Wajib Mode Pesawat (ON/OFF) sebelum memasukkan akun pengganti.")
+                    st.success("**✅ Kategori Pertahankan (Keep):**")
+                    st.write("- **View Stabil:** Masih ada view (meskipun puluhan/ratusan).")
+                    st.write("- **Grafik Aktif:** Ada pergerakan di Realtime YT Studio (48 jam).")
+                    st.write("- **Interaksi:** Masih ada Like/Komentar masuk.")
+                    st.write("- **Tindakan:** Coba ganti Jam Upload atau Riset Judul baru.")
 
-            # --- CARD 2: PENGGANTIAN (KANAN) ---
-            with col_sus2:
+            with col_audit2:
                 with st.container(border=True):
-                    st.success("**🔄 Tahap 2: Input Amunisi Baru:**")
-                    st.write("- **Cek Umur:** Pilih akun dari list manual yang sudah berumur **Minimal 4 Hari**.")
-                    st.write("- **Random Pick:** Ambil akun secara acak (Random), jangan urut berdasarkan email agar tidak polanya tidak terbaca.")
-                    st.write("- **Input Dashboard:** Setelah login sukses di HP, segera update data akun baru tersebut ke Website.")
-                    st.write("- **Status Baru:** Aktifkan kembali status akun menjadi **'Siap Gas'** di sistem.")
+                    st.error("**❌ Kategori Busuk (Ganti):**")
+                    st.write("- **Stuck 0 View:** Sudah upload 5 video berturut-turut tetap 0 view.")
+                    st.write("- **Pelanggaran:** Ada teguran Hak Cipta / Pedoman Komunitas.")
+                    st.write("- **Grafik Mati:** Grafik Realtime benar-benar garis lurus (3 hari).")
+                    st.write("- **Tindakan:** Wajib Hapus & Ganti sesuai prosedur di bawah.")
 
-            st.error("**🚨 PERINGATAN KERAS:** Jangan langsung ganti akun baru di HP yang sama tanpa melakukan *Clear Cache* dan *Reset IP*. Jejak akun yang suspend bisa menular ke akun baru!")
+            # --- BAGIAN 2: PROSEDUR EKSEKUSI (CARA GANTI) ---
+            st.markdown("---")
+            st.markdown("##### 🗑️ **PROSEDUR PENGGANTIAN AMUNISI (WAJIB)**")
+            
+            col_ex1, col_ex2 = st.columns(2)
+            
+            with col_ex1:
+                with st.container(border=True):
+                    st.info("**🧹 Tahap 1: Sterilisasi Device**")
+                    st.write("1. **Hapus Channel:** Jika bisa, hapus channel lamanya dulu.")
+                    st.write("2. **Hapus Akun:** Logout email busuk dari *Settings > Google* di HP.")
+                    st.write("3. **Clear Cache:** Wajib hapus cache YouTube & Google Play Services.")
+                    st.write("4. **Reset IP:** Wajib Mode Pesawat (ON/OFF) sebelum login baru.")
+
+            with col_ex2:
+                with st.container(border=True):
+                    st.success("**🔄 Tahap 2: Input Akun Pengganti**")
+                    st.write("1. **Random Pick:** Pilih akun acak dari stok manual (Umur 4 Hari+).")
+                    st.write("2. **Login HP:** Masukkan akun baru ke HP yang sudah bersih tadi.")
+                    st.write("3. **Update Website:** Input data akun baru ke Dashboard Website.")
+                    st.write("4. **Set Status:** Aktifkan kembali status menjadi **'Siap Gas'**.")
+
+            st.warning("**📢 PRINSIP UTAMA:** Jangan ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama (Shadowban) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
