@@ -481,10 +481,8 @@ def tampilkan_area_staf():
                     st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
                     st.write("- Klik **'Publish'** HANYA jika status durasi tunggu (loading) selesai.")
 
-                # --- BARIS BAWAH: REFERENSI JUDUL (DENGAN LOGIKA MODIFIKASI) ---
-            st.write("---")                
             # Blok Aturan Modifikasi (Abu-abu & Jelas)
-            st.subheader(":blue[📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi] :sunglasses:")
+            st.markdown("#### 📌 Daftar Referensi Judul, Hastag & Aturan Modifikasi :sunglasses:") 
             with st.container(border=True):
                 st.markdown(" * Jika karakter video adalah *'Kakek'*, ubah kata *'Nenek'* menjadi *'Kakek'*.")
                 st.markdown(" * Bagian **[ XXXX ]** wajib diganti dengan bahan masjid (**Contoh:** *Kardus Bekas, Buah Melon, Daun Pisang, Dll*).")
