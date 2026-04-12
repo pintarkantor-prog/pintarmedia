@@ -475,7 +475,7 @@ def tampilkan_area_staf():
             
                 with col_up1:
                     st.write("**📱 Langkah Eksekusi (Proses Upload):**")
-                    st.write("1. Tekan ikon **[+]** > **Unggah Video** > Pilih file yang ada di HP.")
+                    st.write("1. Tekan ikon `**[+]** > **Unggah Video** > Pilih file yang ada di HP`.")
                     st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
                     st.write("3. Masukkan judul dari daftar referensi di bawah. Pastikan judul sinkron dengan isi video.")
                     st.write("4. **Konfigurasi Audiens:** Wajib pilih opsi **'Bukan untuk Anak-anak'**.")
