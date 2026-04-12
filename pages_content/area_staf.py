@@ -40,50 +40,49 @@ def tampilkan_area_staf():
         "STAFF": { 
             "judul": "EDITOR", "ikon": "🎬",
             "rutinitas": [
-                "Produksi video harian sesuai kebutuhan Kantor.",
-                "Koordinasi dengan Admin terkait Stok Harian.",
-                "Jika stok harian, tanpa perlu kirim tugas ( *langsung serahkan hasil ke Admin via FD* ).",
-                "Jika ada tugas khusus dari owner, wajib setor hasil tugas via Form Tugas Khusus."
+                "Produksi video harian sesuai kuota & target stok kantor.",
+                "Monitoring stok harian via Admin agar tidak terjadi kekosongan konten.",
+                "Serah terima hasil rutin via Flashdisk ( *FD* ) langsung ke Admin.",
+                "Wajib setor hasil via `Form Tugas Khusus` jika ada instruksi dari Owner.",
             ],
             "sop": [
-                "**Kualitas:** Minimal 1080p Full HD.",
-                "**Ratio:** Format 9:16 ( Vertical ).",
-                "Manipulasi Metadata & Produksi Konten ( *detail cek panduan kerja* ).",
-                "Aturan Dialog & Alur Penyerahan File ( *detail cek panduan kerja* )."
-            ]
+                "**Standar Kualitas:** `Resolusi 1080p` ( *Full HD* ) & Frame Rate stabil.",
+                "**Format Visual:** Rasio 9:16 ( *Vertical* ) khusus untuk YouTube Shorts.",
+                "**Wajib Bypass Metadata:** Eksekusi 'METADATA.bat' pada semua file sebelum setor.",
+                "**Aturan Dialog:** Wajib sinkron antara visual AI dengan Dialog.",
         },
         "UPLOADER": {
             "judul": "UPLOADER", "ikon": "📲",
             "rutinitas": [
-                "Upload tepat waktu sesuai jadwal yang tersedia",
-                "Hapus file video yang sudah di Upload ( termasuk di folder sampah ).",
-                "Koordinasi dengan Admin terkait stok video di HP.",
-                "Isi daya setiap HP ( *Jangan sampai lowbat* ).",
-                "Maintenance unit HP sesuai panduan kerja."
+                "Eksekusi upload tepat waktu sesuai jadwal.",
+                "Wajib hapus video sukses upload & kosongkan folder sampah/bin.",
+                "Lapor sisa stok video di setiap HP ke Admin secara berkala.",
+                "Menjaga daya baterai HP ( *Jangan sampai drop atau overheat* ).",
+                "Daily Maintenance unit ( `Clear cache YT` dan `Google Play Services` )."
             ],
             "sop": [
-                "**DILARANG** menautkan wifi kantor ke HP kerja.",
-                "Judul & Hastag mengikuti prosedur Upload dan Optimasi Metadata.",
-                "Wajib Sterilisasi HP sesuai panduan kerja.",
-                "Wajib ritual pemanasan akun sesuai panduan kerja.",
-                "Pastikan prosedur panduan kerja sudah dijalankan dengan baik."
+                "**HARAM** menggunakan WiFi kantor ( *Wajib Data Seluler per HP* ).",
+                "Wajib ritual `Mode Pesawat` ( *ON-OFF* ) setiap akan upload.",
+                "Optimasi Metadata: Judul dan Hashtag sesuai prosedur.",
+                "Sterilisasi HP setiap akan memulai aktifitas Upload.",
+                "Pemanasan akun ( `Scrolling & Like` ) sebelum masuk jadwal upload."
             ]
         },
         "ADMIN": {
             "judul": "ADMIN", "ikon": "📊",
             "rutinitas": [
-                "Update Real-Time database channel standby ( *No Delay* ).",
+                "Update `Real-Time database` channel standby ( *No Delay* ).",
                 "Audit harian kelayakan channel ( *Filter akun busuk* ).",
                 "Monitoring distribusi stok video ke masing-masing HP uploader.",
-                "Cek fisik & logistik ( *Suhu HP, Sisa Kuota, Listrik, dan Kebersihan Kantor* ).",
+                "Cek fisik & logistik ( *HP, Sisa Kuota, Listrik, Kebersihan Kantor, Dll* ).",
                 "Koordinasi antar staff ( *Editor & Uploader* ) terkait target harian."
             ],
             "sop": [
                 "Eksekusi prosedur login & sterilisasi perangkat ( *Mode Pesawat & Clear Cache* ).",
                 "Manajemen Karantina & Pemanasan akun baru ( *Min. 3 hari sebelum input web* ).",
-                "Pencatatan arus kas (Cashflow) & inventaris akun.",
+                "Pencatatan arus kas ( *Cashflow* ) & inventaris akun.",
                 "Menjaga akurasi data sistem 99.9% ( *Sinkronisasi HP dan Database* ).",
-                "Menjamin ritme operasional tetap high-performance meski tanpa pengawasan Owner."
+                "Menjamin `ritme operasional` tetap `high-performance` meski tanpa pengawasan Owner."
             ]
         }
     }
