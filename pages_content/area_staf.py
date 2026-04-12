@@ -562,7 +562,7 @@ def tampilkan_area_staf():
             st.write("") # Spacing
             
         def panduan_rawat_hp():
-            st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP (DAILY CHECK)**")
+            st.markdown("#### ⚙️ 4️⃣ **MAINTENANCE UNIT HP**")
             
             col_hp1, col_hp2 = st.columns(2)
             
@@ -600,10 +600,18 @@ def tampilkan_area_staf():
             # --- CARD 2: PENGAMANAN DATA (KANAN) ---
             with col_aman2:
                 with st.container(border=True):
-                    st.success("**🛡️ Proteksi & Verifikasi:**")
+                    st.success("**🛡️ Proteksi & Verifikasi Keamanan**")
                     st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
                     st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
+
+            with st.container(border=True):
+                st.markdown("#### 🏗️ Produksi & Stok Channel Standby")
+                st.info("💡 **Tugas Utama:** Admin adalah penyedia akun agar operasional tidak berhenti.")
+                st.write("- Mencari akun Google fresh/tua untuk bahan channel baru.")
+                st.write("- Membuat channel-channel baru secara berkala untuk stok standby.")
+                st.write("- Memastikan channel standby sudah siap (setting dasar YT sudah oke).")
+                st.write("- Segera masukkan data channel baru ke sistem agar siap digunakan.")
 
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP!")
     
