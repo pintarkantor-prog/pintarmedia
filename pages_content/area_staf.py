@@ -604,7 +604,8 @@ def tampilkan_area_staf():
                     st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
                     st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
-
+                    
+            st.write("") # Spacing
             with st.container(border=True):
                 st.markdown("#### 🏗️ Produksi & Stok Channel Standby")
                 st.info("💡 **Tugas Utama:** Admin adalah penyedia akun agar operasional tidak berhenti.")
