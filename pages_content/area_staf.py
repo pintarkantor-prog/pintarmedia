@@ -336,10 +336,10 @@ def tampilkan_area_staf():
     # ==============================================================================
     with tab_panduan:        
         # --- FUNGSI MODULAR PANDUAN EDITOR (MODEL CARD SYSTEM) ---
-        def panduan_setor_tugas():            
-            # --- CARD 1: RUTINITAS (FULL WIDTH) ---
+        def panduan_setor_tugas():
+            
+            st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian")
             with st.container(border=True):
-                st.markdown("#### 1️⃣ Rutinitas & Koordinasi Harian:")
                 st.write("- Selalu koordinasi dengan Admin buat tau stok video mana yang mau habis.")
                 st.write("- Wajib bikin video harian sesuai kebutuhan stok kantor.")
                 st.write("- Dahulukan membuat stok untuk Konten yang stok videonya paling sedikit.")            
@@ -585,7 +585,7 @@ def tampilkan_area_staf():
             st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
         def panduan_keamanan_akun():
-            st.markdown("#### 🔐 Prosedur Login dan Keamanan Akun Baru")
+            st.markdown("#### 🔐 Prosedur Login & Keamanan Akun Baru")
             col_aman1, col_aman2 = st.columns(2)
             
             # --- CARD 1: STERILISASI LOGIN (KIRI) ---
@@ -604,7 +604,7 @@ def tampilkan_area_staf():
                     st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di `Manage Device` atau`Kelola Perangkat`.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
 
-            st.markdown("#### 📥 Prosedur Karantina & Pemanasan Akun Baru Beli")
+            st.markdown("#### 📥 Prosedur Karantina & Pemanasan (Warm-Up)")
             col_kar1, col_kar2 = st.columns(2)
             
             # --- CARD 1: MASA KARANTINA (KIRI) ---
