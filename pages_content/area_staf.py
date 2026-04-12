@@ -426,7 +426,7 @@ def tampilkan_area_staf():
                     st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
                     st.markdown("**Target:** Instruksi khusus di Tab Tugas.")
                     st.markdown("**Langkah Kerja:**")
-                    st.write("- Upload file `SIAP TEMPUR` ke **Google Drive**.")
+                    st.write("- Upload `FILE VIDEO` ke **Google Drive**.")
                     st.write("- Setting link ke: *'Anyone with the link'*.")
                     st.write("- Buka Tab **TUGAS KERJA**, cari ID tugasmu.")
                     st.write("- Klik **🔍 Buka Detail**, tempel link G-Drive, lalu klik **SETOR**.")
