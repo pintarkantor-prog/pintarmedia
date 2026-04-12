@@ -510,7 +510,7 @@ def tampilkan_area_staf():
                     st.markdown("🔹 <kbd>:grey[Miniatur Masjid Indah Buatan Nenek [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:grey[Masjid Indah Dari [ *XXXX* ] Bikinan Nenek]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:grey[Nenek Bikin Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
-                    st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek] + Emoji</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:grey[Masya Allah! Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
                 
                 with col_j3:
                     st.markdown("🔹 <kbd>:grey[Nenek Buat Miniatur Masjid Dari [ *XXXX* ]]</kbd>", unsafe_allow_html=True)
@@ -646,6 +646,45 @@ def tampilkan_area_staf():
                     st.write("1. **JANGAN** asal tekan angka/tombol 'YES'.")
                     st.write("2. **JANGAN** isi kode sembarangan.")
                     st.write("3. **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
+
+            st.markdown("#### 🔐 PROSEDUR AMUNISI (KEAMANAN AKUN TERNAK)")
+            
+            with st.container(border=True):
+                st.markdown("##### 📱 Aturan Penggunaan Device (HP)")
+                col_hp1, col_hp2 = st.columns(2)
+                
+                with col_hp1:
+                    st.write("**📦 Kapasitas Maksimal:**")
+                    st.write("- **Maksimal 10-15 Akun** per HP. Jangan lebih!")
+                    st.write("- *Lebih dari itu, resiko satu akun kena ban, semua akun di HP itu ikut mati (Chain Ban).*")
+                
+                with col_hp2:
+                    st.write("**📡 Koneksi Internet:**")
+                    st.write("- **Dilarang pake WiFi Kantor** untuk login/upload massal.")
+                    st.write("- *Wajib pake Data Seluler + Mode Pesawat (ON/OFF) tiap mau ganti akun.*")
+
+            with st.container(border=True):
+                st.markdown("##### 🛠️ Proses Sterilisasi Akun Baru (Beli)")
+                col_data1, col_data2 = st.columns(2)
+                
+                with col_data1:
+                    st.write("**✅ Yang WAJIB Ditambahkan:**")
+                    st.write("- **Email Pemulihan Aktif:** Masukkan email pemulihan dari list admin.")
+                    st.write("- **Verifikasi 2 Langkah (2FA):** Aktifkan pake nomor HP yang kita pegang.")
+                    st.write("- **Alamat Rumah:** Isi alamat random (biar akun kelihatan akun manusia asli).")
+
+                with col_data2:
+                    st.write("**❌ Yang WAJIB Diganti/Hapus:**")
+                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
+                    st.write("- **Ganti Password:** Ganti ke password standar perusahaan kita.")
+                    st.write("- **Putus Aplikasi:** Cek 'Third-party apps with account access', hapus yang mencurigakan.")
+
+            with st.info("💡 **Jadwal 'Pemanasan' Akun:**"):
+                st.write("- **Hari 1:** Login, Logout Device lama, Ganti Password. Lalu diamkan.")
+                st.write("- **Hari 2:** Ganti Email Pemulihan & Aktifkan 2FA. Nonton Shorts 5 menit.")
+                st.write("- **Hari 3:** Akun siap digunakan untuk Upload pertama kali.")
+
+            st.warning("⚠️ **Tindakan Terlarang:** Login massal di PC (Browser) tanpa Proxy/RDP. Akun ternak jauh lebih aman di HP asli!")
                 
         # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
         if user_level in ["OWNER", "ADMIN"]:
