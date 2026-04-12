@@ -471,51 +471,45 @@ def tampilkan_area_staf():
                 st.write("3. Baru kemudian klik ikon **[+]** atau **Upload Video**.")
             st.write("") # Spacing
 
-            # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI (TWO COLUMNS) ---
+            # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
             with st.container(border=True):
                 st.markdown("#### 3️⃣ Prosedur Upload dan Optimasi Metadata")
-                st.warning("🚨 Wajib diperhatikan! Agar sistem Youtube tidak mendeteksi akun bot/ternak.")
+                st.warning("🚨 Wajib diperhatikan! Agar sistem Youtube tidak mendeteksi pola akun ternak.")
             
+                # --- BARIS ATAS: PROSEDUR TEKNIS (2 KOLOM) ---
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
                     st.write("**🖼️ Step-by-Step Upload:**")
                     st.write("1. **Upload Video:** Klik [+] lalu pilih file video yang sudah disiapkan.")
                     st.write("2. **Optimasi Thumbnail:** Wajib geser slider ke frame paling menarik/kontroversial (CTR Booster).")
-                    st.write("3. **Input Judul:** Gunakan salah satu referensi judul di bawah (Wajib Berbeda tiap Akun).")
+                    st.write("3. **Input Judul:** Ambil salah satu referensi dari daftar di bawah.")
                     st.write("4. **Kualitas:** Pastikan visual thumbnail jelas, tidak blur, dan objek utama menonjol.")
-                
-                    # --- CONTAINER DAFTAR JUDUL (GANTI EXPANDER) ---
-                    with st.container(border=True):
-                        st.write("**📌 Referensi Judul (Pilih 1):**")
-                        st.write("- Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
-                        st.write("- Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
-                        st.write("- Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
-                        st.write("- Gak Nyangka! Bahan Ini Bisa Jadi Miniatur Masjid")
-                        st.write("- Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
-                        st.write("- Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
-                        st.caption("⚠️ Dilarang menggunakan judul yang sama dalam 1 HP!")
 
                 with col_up2:
                     st.write("**🛡️ Validasi Sistem (Checks):**")
                     st.write("- **Waiting for Checks:** Dilarang keras klik 'Publish' jika status 'Checks' (Hak Cipta) belum centang hijau.")
                     st.write("- **Indeksing Server:** Tunggu indikator proses selesai 100% agar video tidak tertahan (View 0) oleh sistem.")
                     st.write("- **Set Publik:** Atur visibilitas ke 'Publik' hanya jika langkah 1-4 dan validasi server sudah beres.")
-                    st.write("- **Final Check:** Cek kembali deskripsi (jika ada) dan setting 'Bukan untuk Anak-anak'.")
-                
-                    st.info("📌 **Tips Tambahan:** Pastikan judul yang dipilih sesuai dengan visual video agar penonton tidak merasa tertipu (Clickbait Sehat).")
+                    st.write("- **Final Check:** Pastikan settingan konten 'Bukan untuk Anak-anak'.")
+
+                # --- BARIS BAWAH: REFERENSI JUDUL (FULL WIDTH / 1 KOLOM) ---
+                with st.container(border=True):
+                    st.write("**📌 Daftar Referensi Judul (Pilih 1 - Wajib Berbeda tiap Akun):**")
+                    col_judul1, col_judul2 = st.columns(2) # Kita bagi dua kolom di dalam sini biar hemat ruang
+                    with col_judul1:
+                        st.write("- Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
+                        st.write("- Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
+                        st.write("- Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
+                        st.write("- Gak Nyangka! Bahan Ini Bisa Jadi Miniatur Masjid")
+                    with col_judul2:
+                        st.write("- Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
+                        st.write("- Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
+                        st.write("- Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
+                        st.write("- Inspirasi Seni: Membangun Miniatur Masjid Detail")
+                    st.caption("⚠️ **Peringatan Owner:** Dilarang menggunakan judul yang sama persis untuk akun yang berada dalam satu unit HP!")
             
-                st.caption("💡 Estimasi: 5 Menit | Fokus: Variasi judul dan ketepatan waktu Publish menentukan performa awal video.")
-            st.write("") # Spacing
-            
-            # --- FASE 3: EKSEKUSI TEKNIS UPLOAD (MENIT 5-10) ---
-            with st.container(border=True):
-                st.success("✅ **3️⃣ FASE 3: PROSEDUR UPLOAD & OPTIMASI METADATA**")
-                st.markdown("#### Tujuan: Memastikan Video terindeks sempurna tanpa 'Hold' (View 0).")
-                st.write("- **Thumbnail Selection:** Geser slider secara teliti ke frame yang paling memancing rasa penasaran atau 'kontroversial' (CTR Booster).")
-                st.write("- **Metadata Diversity:** Gunakan variasi Judul yang unik. Dilarang keras melakukan duplikasi Judul antar akun di HP yang sama.")
-                st.write("- **Waiting for Checks:** Dilarang klik 'Publish' jika status 'Checks' (Copyright & Ad-Suitability) belum centang hijau. Tunggu sampai server selesai memproses metadata.")
-                st.caption("💡 Estimasi: 5 Menit | Output: Video siap didistribusikan ke Shorts Feed secara luas.")
+                st.caption("💡 Estimasi: 5 Menit | Fokus: Variasi judul menentukan performa awal video di rak Shorts.")
             st.write("") # Spacing
 
         def panduan_rawat_hp():
