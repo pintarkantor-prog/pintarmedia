@@ -175,9 +175,8 @@ def tampilkan_area_staf():
                             
                             # 4. Kirim Notifikasi WA (Ditambah Tanggal)
                             kirim_notif_wa(
-                                f"🔔 *TUGAS BARU*\n"
+                                f"🔔 *TUGAS BARU* {sekarang.strftime('%d %B %Y')}\n"
                                 f"🆔 *ID:* {new_id_gede}\n"
-                                f"📅 *Tanggal:* {sekarang.strftime('%d %B %Y')}\n"  # Format: 13 April 2026
                                 f"👤 *Untuk:* {staf_tujuan}\n"
                             )
                             
