@@ -632,14 +632,14 @@ def tampilkan_area_staf():
                     st.success("**✅ Kategori Channel Bagus:**")
                     st.write("- **View Stabil:** Masih ada view ( *meskipun puluhan/ratusan* ).")
                     st.write("- **Grafik Aktif:** Ada pergerakan view di `Realtime YT Studio`.")
-                    st.write("- **Interaksi:** Masih ada Like/Komentar masuk.")
+                    st.write("- **Interaksi:** Masih ada Like atau Komentar masuk.")
 
             with col_audit2:
                 with st.container(border=True):
                     st.error("**❌ Kategori Channel Busuk ( Wajib Ganti ):**")
                     st.write("- Pertama Upload `Stuck 0 View` Sudah lebih dari 1 jam upload.")
                     st.write("- Channel yang terkena pelanggaran atau suspend.")
-                    st.write("- Upload di hari ke 2 dan 3 view dibawah 5, bisa ganti channel / hapus video saja.")
+                    st.write("- Upload di hari ke 2 dan 3 view dibawah 5, bisa *ganti channel* atau *hapus video saja*.")
 
             # --- BAGIAN 2: PROSEDUR EKSEKUSI (CARA GANTI) ---
             col_ex1, col_ex2 = st.columns(2)
@@ -647,18 +647,18 @@ def tampilkan_area_staf():
             with col_ex1:
                 with st.container(border=True):
                     st.info("**🧹 Tahap 1: Sterilisasi Device**")
-                    st.write("1. **Hapus Channel:** Jika bisa, hapus channel lamanya dulu.")
-                    st.write("2. **Hapus Akun:** Logout email busuk dari *Settings > Google* di HP.")
-                    st.write("3. **Clear Cache:** Wajib hapus cache YouTube & Google Play Services.")
-                    st.write("4. **Reset IP:** Wajib Mode Pesawat (ON/OFF) sebelum login baru.")
+                    st.write("1. **Hapus Channel:** wajib hapus `channel busuknya` dulu.")
+                    st.write("2. Hapus email busuk dari `Settings > Akun & Sinkronisasi > Tambahkan Akun Google`.")
+                    st.write("3. Wajib `hapus cache` YouTube & Google Play Services.")
+                    st.write("4. Wajib `Mode Pesawat` ( *ON/OFF* ) sebelum login baru ( *Reset IP* ).")
 
             with col_ex2:
                 with st.container(border=True):
                     st.success("**🔄 Tahap 2: Input Akun Pengganti**")
-                    st.write("1. **Random Pick:** Pilih akun acak dari stok manual (Umur 4 Hari+).")
+                    st.write("1. **Random Pick:** Pilih akun acak dari stok standby ( `Umur 4 Hari+` ).")
                     st.write("2. **Login HP:** Masukkan akun baru ke HP yang sudah bersih tadi.")
-                    st.write("3. **Update Website:** Input data akun baru ke Dashboard Website.")
-                    st.write("4. **Set Status:** Aktifkan kembali status menjadi **'Siap Gas'**.")
+                    st.write("3. Update channel dari status `Standby` ke `Proses`.")
+                    st.caption("Wajib Lakukan `Sterilisasi Device` setiap login akun baru di HP.")
 
             st.warning("**📢 PRINSIP UTAMA:** Jangan ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama (Shadowban) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
     
