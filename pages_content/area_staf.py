@@ -573,14 +573,14 @@ def tampilkan_area_staf():
                 with st.container(border=True):
                     st.info("**🧹 Pembersihan Memori:**")
                     st.write("- Segera hapus file video yang sudah sukses di-upload agar memori tidak penuh.")
-                    st.write("- Wajib cek folder 'Recently Deleted / Sampah' di galeri dan kosongkan secara berkala.")
+                    st.write("- Wajib cek folder `Recently Deleted / Sampah` di galeri dan kosongkan secara berkala.")
                     st.write("- Hapus pesan sms atau chat di HP yang sudah tidak diperlukan.")
 
             # --- CARD 4: PERFORMA UNIT (KANAN) ---
             with col_hp2:
                 with st.container(border=True):
                     st.success("**⚡ Performa & Daya:**")
-                    st.write("- Wajib **Restart HP** dan Update aplikasi YT secara berkala (minimal 2 hari sekali).")
+                    st.write("- Update aplikasi YT dan Google secara berkala ( *minimal 3 hari sekali* ).")
                     st.write("- Pastikan HP selalu standby dicolok charger. **Jangan sampai Lowbat atau mati total!**")
                     st.write("- Jika ada kendala terkait HP atau Channel, segera laporkan ke Admin/Owner.")
 
