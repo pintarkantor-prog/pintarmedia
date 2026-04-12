@@ -584,6 +584,56 @@ def tampilkan_area_staf():
 
             st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):** Jangan asal tekan angka/tombol 'YES'! **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
 
+        def panduan_keamanan_akun():
+            st.markdown("#### 🔐 PROSEDUR PENGAMANAN AKUN")
+            
+            with st.container(border=True):
+                st.markdown("##### 1️⃣ Prosedur Login (Anti-Deteksi)")
+                st.write("Dilarang keras login akun baru tanpa melakukan reset IP!")
+                
+                col_log1, col_log2 = st.columns(2)
+                with col_log1:
+                    st.write("**📱 Persiapan HP:**")
+                    st.write("- **Mode Pesawat:** Wajib ON-OFF sebelum login setiap 1 akun baru.")
+                    st.write("- **Clear Cache:** Hapus cache aplikasi YouTube & Google Play Services.")
+                
+                with col_log2:
+                    st.write("**🔑 Batas Device:**")
+                    st.write("- **Max 10-15 Akun** per 1 HP fisik.")
+                    st.write("- Login dilakukan langsung melalui menu **Settings > Google > Add Account** (bukan di browser).")
+
+            with st.container(border=True):
+                st.markdown("##### 2️⃣ Urutan Ganti Data (Jeda Keamanan)")
+                st.write("Jangan ganti semua data sekaligus! Ikuti urutan dan jeda waktu berikut:")
+                
+                # Tabel agar staff mudah baca urutan
+                st.markdown("""
+                | Urutan | Tindakan | Penjelasan | Jeda Waktu |
+                | :--- | :--- | :--- | :--- |
+                | **I** | **Ganti Password** | Gunakan kombinasi unik (bukan password standar). | Langsung saat login |
+                | **II** | **Logout Device Lama** | Kick semua HP penjual di 'Manage Devices'. | Setelah ganti PW |
+                | **III** | **Ganti No. Telepon** | Masukkan nomor HP fisik yang kita pegang. | Tunggu 15 Menit |
+                | **IV** | **Email Pemulihan** | Tambahkan email pemulihan internal kita. | Tunggu 30 Menit |
+                """)
+
+            with st.container(border=True):
+                st.markdown("##### 3️⃣ Verifikasi Keamanan Akhir")
+                col_cek1, col_cek2 = st.columns(2)
+                
+                with col_cek1:
+                    st.write("**✅ Step Ganti No. Telp:**")
+                    st.write("1. Masuk ke *Personal Info* > *Contact Info*.")
+                    st.write("2. Hapus nomor lama (jika ada) dan *Add Now* nomor kita.")
+                    st.write("3. Verifikasi kode OTP yang masuk ke HP admin.")
+
+                with col_cek2:
+                    st.write("**✅ Step Ganti Password:**")
+                    st.write("1. Masuk ke *Security* > *Password*.")
+                    st.write("2. Masukkan password baru.")
+                    st.write("3. Catat di database kita sebelum lanjut ke akun berikutnya.")
+
+            st.error("⚠️ **PENTING:** Jika saat ganti nomor muncul pesan 'Internal Error' atau 'Try again later', **STOP!** Jangan dipaksa. Diamkan akun selama 24 jam baru coba lagi.")
+
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
             # --- CARD 1: PRODUKSI & STOK CHANNEL (PABRIK CHANNEL) ---
@@ -628,64 +678,6 @@ def tampilkan_area_staf():
                     st.write("- Data keuangan tidak boleh ada selisih sedikit pun.")
 
             st.warning("⚠️ Admin adalah jantung data kantor. Kelalaian data Admin berakibat fatal pada performa seluruh tim!")
-
-        def panduan_keamanan_akun():
-            st.markdown("#### 🔐 PROSEDUR KEAMANAN AKUN GOOGLE")
-            with st.container(border=True):
-                col_sec1, col_sec2 = st.columns(2)
-                
-                with col_sec1:
-                    st.success("**🛡️ Aturan Penggunaan Akun:**")
-                    st.write("- **Dilarang Keras** login akun Google kantor di perangkat pribadi (Laptop/HP sendiri).")
-                    st.write("- Wajib pasang Nomor HP yang aktif di semua Akun Google.")
-                    st.write("- Pastikan semua akun google telah diganti password saat pembelian.")
-                    st.write("- Pastikan semua data akun google ter-input dengan benar di Sistem.")
-                
-                with col_sec2:
-                    st.error("**🚨 JIKA MUNCUL VERIFIKASI (OTP):**")
-                    st.write("Jika HP tiba-tiba minta klik angka atau masukkan kode verifikasi:")
-                    st.write("1. **JANGAN** asal tekan angka/tombol 'YES'.")
-                    st.write("2. **JANGAN** isi kode sembarangan.")
-                    st.write("3. **WAJIB** hubungi Admin atau Owner untuk konfirmasi.")
-
-            st.markdown("#### 🔐 PROSEDUR AMUNISI (KEAMANAN AKUN TERNAK)")
-            
-            with st.container(border=True):
-                st.markdown("##### 📱 Aturan Penggunaan Device (HP)")
-                col_hp1, col_hp2 = st.columns(2)
-                
-                with col_hp1:
-                    st.write("**📦 Kapasitas Maksimal:**")
-                    st.write("- **Maksimal 10-15 Akun** per HP. Jangan lebih!")
-                    st.write("- *Lebih dari itu, resiko satu akun kena ban, semua akun di HP itu ikut mati (Chain Ban).*")
-                
-                with col_hp2:
-                    st.write("**📡 Koneksi Internet:**")
-                    st.write("- **Dilarang pake WiFi Kantor** untuk login/upload massal.")
-                    st.write("- *Wajib pake Data Seluler + Mode Pesawat (ON/OFF) tiap mau ganti akun.*")
-
-            with st.container(border=True):
-                st.markdown("##### 🛠️ Proses Sterilisasi Akun Baru (Beli)")
-                col_data1, col_data2 = st.columns(2)
-                
-                with col_data1:
-                    st.write("**✅ Yang WAJIB Ditambahkan:**")
-                    st.write("- **Email Pemulihan Aktif:** Masukkan email pemulihan dari list admin.")
-                    st.write("- **Verifikasi 2 Langkah (2FA):** Aktifkan pake nomor HP yang kita pegang.")
-                    st.write("- **Alamat Rumah:** Isi alamat random (biar akun kelihatan akun manusia asli).")
-
-                with col_data2:
-                    st.write("**❌ Yang WAJIB Diganti/Hapus:**")
-                    st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
-                    st.write("- **Ganti Password:** Ganti ke password standar perusahaan kita.")
-                    st.write("- **Putus Aplikasi:** Cek 'Third-party apps with account access', hapus yang mencurigakan.")
-
-            with st.info("💡 **Jadwal 'Pemanasan' Akun:**"):
-                st.write("- **Hari 1:** Login, Logout Device lama, Ganti Password. Lalu diamkan.")
-                st.write("- **Hari 2:** Ganti Email Pemulihan & Aktifkan 2FA. Nonton Shorts 5 menit.")
-                st.write("- **Hari 3:** Akun siap digunakan untuk Upload pertama kali.")
-
-            st.warning("⚠️ **Tindakan Terlarang:** Login massal di PC (Browser) tanpa Proxy/RDP. Akun ternak jauh lebih aman di HP asli!")
                 
         # --- LOGIKA PENAMPILAN (THE GATEKEEPER) ---
         if user_level in ["OWNER", "ADMIN"]:
