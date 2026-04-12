@@ -402,9 +402,6 @@ def tampilkan_area_staf():
                     st.write("- Jika masjid dari **Strawberry**, isi dialog wajib menyebut **Strawberry**.")
                     st.write("- Jika masjid dari **Barang Bekas**, isi dialog sesuai bahan (Koran/Kaleng/dll).")
                     st.write("- Jika visual **Ka'bah/Mekah**, gunakan dialog doa **Tanah Suci**.")
-                    
-                    # Box warning biar makin galak
-                    st.warning("⚠️ Dialog yang tidak nyambung dengan bahan visual akan langsung **REJECT**!")
 
             # --- HEADER JALUR PENYERAHAN ---
             st.markdown("#### 4️⃣ Alur Penyerahan Hasil Kerja")
