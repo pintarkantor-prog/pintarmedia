@@ -458,7 +458,7 @@ def tampilkan_area_staf():
                     st.write("- Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
                     st.write("- Baru kemudian klik ikon **[+]** atau **tombol upload video**.")
 
-            st.warning("💡 Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
+            st.warning("💡 **PASTIKAN** Ritual 1️⃣ dan 2️⃣ Dilakukan **SEBELUM** masuk ke menu upload, agar tidak dianggap Bot Uploader.")
             st.write("") # Spacing
 
             # --- FASE 3: EKSEKUSI PUBLIKASI & OPTIMASI ---
