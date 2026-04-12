@@ -348,7 +348,7 @@ def tampilkan_area_staf():
             # --- CARD 2: MANIPULASI METADATA & BYPASS DNA (NEW!) ---
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Manipulasi Metadata & Produksi Konten")
-                st.error("❗**Jangan kirim file 'mentah' langsung dari hasil web AI / software editing!**")
+                st.error("🚨**Jangan kirim file 'mentah' langsung dari hasil web AI / software editing!**")
                 
                 col_meta1, col_meta2 = st.columns(2)
                 with col_meta1:
@@ -437,8 +437,8 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 1️⃣ Rutinitas Sterilisasi Device")
                 st.caption("💡 **Tujuan:** Menghapus jejak `Device Fingerprint` agar HP dianggap `Baru` oleh server Google.")
-                st.write("- **Airplane Mode:** Matikan jaringan selama 15 - 20 detik agar **`Dynamic IP`** benar-benar baru.")
-                st.write("- **Deep Cleaning Cache & Data:** Jangan cuma YouTube. Masuk ke *Settings > Apps > YouTube & Google Play Services*. Hapus Cache keduanya. Google melacak keterkaitan antar akun melalui *Play Services*.")
+                st.write("- **Airplane Mode:** Matikan jaringan *( `mode pesawat` )* selama 15 - 20 detik agar `Dynamic IP` benar-benar baru.")
+                st.write("- **Bersihkan Cache & Data:** Jangan cuma YouTube. Masuk ke *Settings > Apps > YouTube & Google Play Services*. Hapus Cache keduanya. Google melacak keterkaitan antar akun melalui *Play Services*.")
                 st.write("- **Location & Connectivity Kill:** Matikan GPS/Lokasi, Bluetooth, dan NFC. Jangan biarkan Google merekam koordinat 24 HP di satu titik meja yang sama (Farming Cluster Detection).")
                 st.write("- **Network Isolation:** Dilarang keras menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
             st.write("") # Spacing
