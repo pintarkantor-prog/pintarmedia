@@ -491,7 +491,7 @@ def tampilkan_area_staf():
                 
                 # Blok Aturan Modifikasi (Abu-abu & Jelas)
                 with st.container(border=True):
-                    st.write("**⚙️ Aturan Modifikasi Judul Video dan Hastag:**")
+                    st.badge("Home",⚙️ Aturan Modifikasi Judul Video dan Hastag:, color="blue")
                     st.markdown(" * Jika karakter video adalah *'Kakek'*, ubah kata *'Nenek'* menjadi *'Kakek'*.")
                     st.markdown(" * Bagian **[ XXXX ]** wajib diganti dengan bahan masjid (**Contoh:** *Kardus Bekas, Buah Melon, Daun Pisang, Dll*).")
                     st.markdown(" * Bagian **+ Emoji** wajib diganti dengan emoji asli (**Contoh:** 🕌, ✨, 😍, 🔥, *Dll*).")
