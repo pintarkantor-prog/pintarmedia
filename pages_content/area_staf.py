@@ -623,7 +623,7 @@ def tampilkan_area_staf():
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP! dan **WAJIB** Lakukan Sterilisasi serta Karantina setiap akun baru!")
             st.write("") # Spacing
 
-            st.markdown("#### 🔍 8️⃣ **AUDIT KELAYAKAN CHANNEL YOUTUBE**")
+            st.markdown("#### 🔄 **Audit Kelayakan Channel**")
             # --- BAGIAN 1: AUDIT (CEK KONDISI) ---
             col_audit1, col_audit2 = st.columns(2)
             
@@ -660,7 +660,7 @@ def tampilkan_area_staf():
                     st.write("3. Update channel dari status `Standby` ke `Proses`.")
                     st.caption("💡 *WAJIB* Lakukan `Sterilisasi Device` setiap login akun baru di HP.")
 
-            st.warning("**📢 Jangan ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama ( *0 view atau suspend* ) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
+            st.warning("**📢 **JANGAN** ganti akun tanpa *Clear Cache* dan *Reset IP*. Penyakit akun lama ( *0 view atau suspend* ) bisa menular ke akun baru jika jejak digital tidak dibersihkan!")
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
