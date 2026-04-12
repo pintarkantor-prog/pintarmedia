@@ -381,7 +381,7 @@ def tampilkan_area_staf():
                     # 1. Link Google Docs/Drive untuk Dialog
                     url_dialog = "https://docs.google.com/document/d/1itFxRuNkQSgZHQq1MZ9fEo-MCj876MlC4Uw60Ksa7as/edit?usp=sharing"
                     st.link_button(
-                        label="📖 BUKA FORMAT DIALOG (GOOGLE DRIVE)",
+                        label="📖 DOWNLOAD FORMAT DIALOG NENEK",
                         url=url_dialog,
                         use_container_width=True
                     ) 
