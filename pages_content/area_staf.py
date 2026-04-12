@@ -604,6 +604,28 @@ def tampilkan_area_staf():
                     st.write("- Hapus nomor lama ( *jika ada* ) dan `Tambah nomer pemulihan` kita.")
                     st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di 'Manage Devices'.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
+
+            st.markdown("#### 📥 6️⃣ **ALUR KARANTINA & PANEN AKUN (READY STOCK)**")
+            
+            col_kar1, col_kar2 = st.columns(2)
+            
+            # --- CARD 1: MASA KARANTINA (KIRI) ---
+            with col_kar1:
+                with st.container(border=True):
+                    st.info("**⏳ Tahap 1: Karantina (Hari 1-2)**")
+                    st.write("- **Catatan Luar:** Akun yang baru login **DILARANG** diinput ke website dulu.")
+                    st.write("- **Log Manual:** Catat di buku/Excel manual (Email, PW, HP ke-berapa).")
+                    st.write("- **Interaksi:** Gunakan akun untuk scrolling Shorts & Like video orang lain secara acak.")
+                    st.write("- **Tujuan:** Membangun *Trust Score* agar tidak dianggap bot oleh Google.")
+
+            # --- CARD 2: PENITIPAN & INPUT (KANAN) ---
+            with col_kar2:
+                with st.container(border=True):
+                    st.success("**🚀 Tahap 2: Panen & Input (Hari 3+)**")
+                    st.write("- **Pembuatan Channel:** Di hari ke-3, baru buat Channel YT & sesuaikan nama/foto profile.")
+                    st.write("- **Input Website:** Jika channel sudah aktif & aman, baru input ke database **PINTAR MEDIA**.")
+                    st.write("- **Status:** Set akun sebagai **'Standby / Siap Gas'** di dalam dashboard.")
+                    st.write("- **Final Check:** Pastikan sudah tidak ada notifikasi keamanan yang muncul.")
                     
             with st.container(border=True):
                 st.markdown("#### 📥 Prosedur Karantina & Pemanasan Akun Baru Beli")
