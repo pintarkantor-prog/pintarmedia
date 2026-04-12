@@ -501,7 +501,7 @@ def tampilkan_area_staf():
                 
                 with col_j1:
                     st.markdown("🔹 <kbd>:blue[Miniatur Masjid Buatan Nenek + Emoji]</kbd>", unsafe_allow_html=True)
-                    st.markdown("🔹 <kbd>:blue[Masjid Buatan Nenek Dari [XXXX] + Emoji]</kbd>", unsafe_allow_html=True)
+                    st.markdown("🔹 <kbd>:blue[Masjid Buatan Nenek Dari] :orange[ XXXX ]] :blue+ Emoji]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:blue[Miniatur Masjid Dari [XXXX] Buatan Nenek]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:blue[Masjid Miniatur Nenek Dari [XXXX]]</kbd>", unsafe_allow_html=True)
                     st.markdown("🔹 <kbd>:blue[Nenek Membuat Masjid Miniatur Dari [XXXX]]</kbd>", unsafe_allow_html=True)
