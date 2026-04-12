@@ -408,7 +408,7 @@ def tampilkan_area_staf():
             # --- CARD 4: JALUR A (KIRI) ---
             with col_jalur1:
                 with st.container(border=True):
-                    st.info("📂 **JALUR A: STOK HARIAN (OFFLINE)**")
+                    st.info("📂 **JALUR A: STOK HARIAN ( OFFLINE )**")
                     st.markdown("**Target:** Video rutin harian untuk stok HP.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- **Tidak perlu** input data ke sistem/web ini.")
@@ -419,7 +419,7 @@ def tampilkan_area_staf():
             # --- CARD 5: JALUR B (KANAN) ---
             with col_jalur2:
                 with st.container(border=True):
-                    st.success("🚀 **JALUR B: TUGAS KHUSUS (ONLINE)**")
+                    st.success("🚀 **JALUR B: TUGAS KHUSUS ( ONLINE )**")
                     st.markdown("**Target:** Instruksi khusus di Tab Tugas.")
                     st.markdown("**Langkah Kerja:**")
                     st.write("- Upload `FILE VIDEO` ke **Google Drive**.")
@@ -441,13 +441,13 @@ def tampilkan_area_staf():
             st.write("") # Spacing
 
             # --- FASE 2: RITUAL PEMANASAN AKUN (LEBUR 2 KOLOM) ---
-            st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
+            st.markdown("#### 2️⃣ Ritual Pemanasan ( Pancingan Alogritma )")
             with st.container(border=True):
             
                 col_warm1, col_warm2 = st.columns(2)
             
                 with col_warm1:
-                    st.info("**🔍 1. Interaksi Organik (Aktivitas)**")
+                    st.info("**🔍 1. Interaksi Organik ( Aktivitas )**")
                     st.write("- Ketik manual kata kunci sesuai tema (**Contoh:** `Miniatur Masjid, Masjid Nenek, Drama Sakura`).")
                     st.write("- Klik salah satu video dari hasil cari, lalu tonton sampai selesai.")
                     st.write("- Balik ke tab Shorts, tonton lagi 2 video orang lain *20-30 detik* dan kasih **1 Like Acak**.")          
@@ -468,14 +468,14 @@ def tampilkan_area_staf():
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
-                    st.info("**📱 Langkah Eksekusi (Proses Upload)**")
+                    st.info("**📱 Langkah Eksekusi ( Proses Upload )**")
                     st.write("1. Tekan ikon `[+] > Unggah Video >` Pilih file yang ada di HP.")
                     st.write("2. Pilih Thumbnail yang jelas, tidak blur, dan objek atau karakter utama menonjol.")
                     st.write("3. Masukkan judul dari daftar referensi di bawah (*Pastikan judul sinkron dengan isi video*).")
                     st.write("4. Wajib pilih opsi `Bukan untuk anak-anak` dan `Konten Modifikasi > YA`.")
 
                 with col_up2:
-                    st.success("**🛡️ Protokol Keamanan (Anti-Bot System)**")
+                    st.success("**🛡️ Protokol Keamanan ( Anti-Bot System )**")
                     st.write("- Tunggu status `Processing 100%`. Ini memastikan resolusi video maksimal (HD).")
                     st.write("- Pastikan visibilitas sudah benar-benar set ke `Publik`, bukan `Tidak Publik` atau `Pribadi`.")
                     st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
@@ -599,37 +599,29 @@ def tampilkan_area_staf():
                     st.write("- **Logout Device Penjual:** Hapus akses semua HP penjual di `Manage Device` atau`Kelola Perangkat`.")
                     st.write("- Ganti password ke standar kantor langsung setelah login.")
 
-            st.markdown("#### 📥 Prosedur Karantina & Pemanasan (Warm-Up)")
+            st.markdown("#### 📥 Prosedur Karantina & Pemanasan ( Warm-Up )")
             col_kar1, col_kar2 = st.columns(2)
             
             # --- CARD 1: MASA KARANTINA (KIRI) ---
             with col_kar1:
                 with st.container(border=True):
-                    st.info("**⏳ Tahap 1: Karantina (Hari 1-2)**")
-                    st.write("- **Catatan Luar:** Akun yang baru login **DILARANG** diinput ke website dulu.")
-                    st.write("- **Log Manual:** Catat di buku/Excel manual (Email, PW, HP ke-berapa).")
-                    st.write("- **Interaksi:** Gunakan akun untuk scrolling Shorts & Like video orang lain secara acak.")
-                    st.write("- **Tujuan:** Membangun *Trust Score* agar tidak dianggap bot oleh Google.")
+                    st.info("**⏳ Tahap 1: Masa Karantina ( Hari ke 1 - 2 )**")
+                    st.write("- Akun yang baru login **DILARANG** diinput ke website dulu.")
+                    st.write("- **Log Manual:** Catat di `Gsheet` secara manual.")
+                    st.write("- Gunakan akun baru untuk `baca berita google` atau `scrolling Shorts`.")
+                    st.caption("- **Tujuan:** untuk membangun `Trust Score` agar tidak dianggap bot oleh Google.")
 
             # --- CARD 2: PENITIPAN & INPUT (KANAN) ---
             with col_kar2:
                 with st.container(border=True):
-                    st.success("**🚀 Tahap 2: Panen & Input (Hari 3+)**")
+                    st.success("**🚀 Tahap 2: Input Ke Database( Hari ke 3+ )**")
                     st.write("- **Pembuatan Channel:** Di hari ke-3, baru buat Channel YT & sesuaikan nama/foto profile.")
-                    st.write("- **Input Website:** Jika channel sudah aktif & aman, baru input ke database **PINTAR MEDIA**.")
-                    st.write("- **Status:** Set akun sebagai **'Standby / Siap Gas'** di dalam dashboard.")
-                    st.write("- **Final Check:** Pastikan sudah tidak ada notifikasi keamanan yang muncul.")
+                    st.write("- Jika channel sudah aktif & aman, baru `input ke database channel` website **PINTAR MEDIA**.")
+                    st.write("- **Status:** Set akun sebagai 'Standby' di dalam dashboard database channel.")
+                    st.caption("- **Final Check:** Logout atau hapus akun tersebut dari HP.")
                     
-            with st.container(border=True):
-                st.markdown("#### 📥 Prosedur Karantina & Pemanasan Akun Baru Beli")
-                st.write("- Akun yang baru beli dicatat di Gsheet terlebih dahulu")
-                st.write("- Di Hari ke-2, Gunakan akun tersebut untuk baca berita di Google secara normal ( *Tetap gunakan Reset IP setiap ganti Akun* ).")
-                st.write("- Di hari ke-3, baru buat Channel YT & sesuaikan nama/foto profile.")
-                st.write("- Input Data Akun ke Database Pintar Media ( *status channel Standby* ).")
-                st.write("- Hapus akun yang sudah di Input di HP Login, lalu bersihkan cache dan restart HP.")
-
-
             st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP!")
+            st.write("") # Spacing
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
         def panduan_kontrol_admin():            
