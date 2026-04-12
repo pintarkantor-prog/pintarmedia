@@ -440,8 +440,8 @@ def tampilkan_area_staf():
                 st.write("- **Wajib Restart HP** setiap pagi sebelum upload pertama kali.")
                 st.write("- **Hapus Cache & Data:** setiap pagi setelah restart HP. Masuk ke **`Settingan HP > Applikasi > YouTube & Google Play Services`**.")
                 st.write("- Matikan Data Seluler *(`mode pesawat`)* selama 15 - 20 detik, agar `Dynamic IP` benar-benar baru, **setiap akan upload**.")
-                st.write("- Matikan GPS/Lokasi. Jangan biarkan Google merekam lokasi setiap HP Kerja.")
-                st.write("- Dilarang keras menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
+                st.write("- Matikan GPS Lokasi. *Jangan biarkan Google merekam lokasi setiap HP Kerja*.")
+                st.write("- **Dilarang keras** menggunakan WiFi Kantor! Wajib 100% menggunakan Data Seluler per unit HP.")
             st.write("") # Spacing
 
             # --- FASE 2: HUMAN EMULATION / WARM-UP (MENIT 2-5) ---
