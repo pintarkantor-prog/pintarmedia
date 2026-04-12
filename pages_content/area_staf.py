@@ -485,12 +485,19 @@ def tampilkan_area_staf():
                     st.write("- **Jangan langsung klik Publish!**. Berikan jeda **30-60 detik** di halaman Upload.")
                     st.write("- Klik **'Publish'** HANYA jika status durasi tunggu (loading) selesai.")
 
-                # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
+                # --- BARIS BAWAH: REFERENSI JUDUL (DENGAN LOGIKA MODIFIKASI) ---
                 st.write("---")
-                st.success("📌 Daftar Referensi Judul Khusus Konten 🕌 Miniatur Masjid")
-            
+                st.markdown("#### 📌 Daftar Referensi Judul & Aturan Modifikasi")
+                
+                # Blok Aturan Modifikasi (Abu-abu & Jelas)
+                with st.container(border=True):
+                    st.write("**⚙️ Aturan Modifikasi (Wajib Adaptasi):**")
+                    st.markdown("> * Jika karakter video adalah **Kakek**, ubah kata 'Nenek' menjadi **'Kakek'**.")
+                    st.markdown("> * Bagian **[XXXX]** wajib diganti dengan bahan masjid (Contoh: Kardus Bekas, Buah Melon, Daun Pisang, Dll).")
+                    st.markdown("> * Bagian **+ Emoji** wajib diganti dengan emoji asli (Contoh: 🕌, ✨, 😍, 🔥, Dll).")
+
                 col_judul1, col_judul2 = st.columns(2)
-            
+                
                 with col_judul1:
                     with st.container(border=True):
                         st.markdown("> Miniatur Masjid Buatan Nenek + Emoji")
@@ -506,7 +513,7 @@ def tampilkan_area_staf():
                         st.markdown("> Miniatur Masjid Indah Buatan Nenek [XXXX]")
                     with st.container(border=True):
                         st.markdown("> Nenek Bikin Miniatur Masjid Dari [XXXX]")
-            
+                
                 with col_judul2:
                     with st.container(border=True):
                         st.markdown("> Nenek Buat Miniatur Masjid Dari [XXXX]")
