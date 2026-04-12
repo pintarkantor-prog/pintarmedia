@@ -229,8 +229,14 @@ def tampilkan_area_staf():
                                         
                                         # PANEL QC (OWNER)
                                         if user_level in ["OWNER", "ADMIN"]:
-                                            if t.get("LINK_HASIL") and t["LINK_HASIL"] != "-":
-                                                st.link_button("🚀 BUKA VIDEO (QC)", t['LINK_HASIL'], use_container_width=True)
+                                            # --- PERBAIKAN DI SINI ---
+                                            # Kita pake .get() biar aman, dan nama kolom WAJIB KAPITAL
+                                            link_video = t.get("LINK_HASIL")
+                                            
+                                            if link_video and str(link_video).strip() not in ["-", "", "None"]:
+                                                st.link_button("🚀 BUKA VIDEO (QC)", str(link_video), use_container_width=True)
+                                            else:
+                                                st.caption("⚠️ Link belum tersedia atau tidak valid.")
                                             
                                             st.divider()
                                             cat_admin = st.text_area("Catatan:", key=f"cat_{id_gede}")
@@ -241,6 +247,7 @@ def tampilkan_area_staf():
                                                 kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {id_gede}")
                                                 st.rerun()
                                             if b2.button("🔴 REV", key=f"rev_{id_gede}", use_container_width=True):
+                                                # Pastikan kolom database namanya sesuai: Catatan_Revisi
                                                 database.supabase.table("Tugas").update({"Status": "REVISI", "Catatan_Revisi": cat_admin}).eq("ID", id_gede).execute()
                                                 kirim_notif_wa(f"⚠️ *REVISI*\n🆔 *ID:* {id_gede}\n📝: {cat_admin}")
                                                 st.rerun()
