@@ -465,7 +465,7 @@ def tampilkan_area_staf():
             
                 # --- TRANSISI KE UPLOAD ---
                 st.write("---")
-                st.markdown("**🚀 3. Langkah Transisi ke Upload:**")
+                st.markdown("**🎥 3. Langkah Transisi ke Upload:**")
                 st.write("1. Pastikan Langkah 1 dan 2 sudah dilakukan, baru ke langkah 3.")
                 st.write("2. Setelah selesai scroll, diamkan aplikasi di beranda selama **10 detik** (jangan langsung klik upload!).")
                 st.write("3. Baru kemudian klik ikon **[+]** atau **Upload Video**.")
@@ -480,7 +480,7 @@ def tampilkan_area_staf():
                 col_up1, col_up2 = st.columns(2)
             
                 with col_up1:
-                    st.write("**🖼️ Step-by-Step Upload:**")
+                    st.write("**🎥 Step-by-Step Upload:**")
                     st.write("1. **Upload Video:** Klik [+] lalu pilih file video yang sudah disiapkan.")
                     st.write("2. **Optimasi Thumbnail:** Wajib geser slider ke frame paling menarik/kontroversial (CTR Booster).")
                     st.write("3. **Input Judul:** Ambil salah satu referensi dari daftar di bawah.")
@@ -500,13 +500,13 @@ def tampilkan_area_staf():
                 
                 col_judul1, col_judul2 = st.columns(2)
                 with col_judul1:
-                    st.caption("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
-                    st.caption("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
-                    st.caption("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
+                    st.caption("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
+                    st.caption("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
+                    st.caption("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
                 with col_judul2:
-                    st.caption("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
-                    st.caption("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
-                    st.caption("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
+                    st.caption("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
+                    st.caption("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
+                    st.caption("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
                 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
