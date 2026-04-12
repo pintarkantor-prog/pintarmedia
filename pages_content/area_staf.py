@@ -389,13 +389,13 @@ def tampilkan_area_staf():
                     st.write("") # Spacing biar gak nempel
 
                     # 2. Link Direct Download File Bypass (.bat) dari Drive
-                    url_bypass = "LINK_GOOGLE_DRIVE_FILE_BYPASS_LO"
+                    url_bypass = "https://drive.google.com/file/d/1z0bGr2HsT60V-vlryPaAiQxg_W7sxAg0/view?usp=sharing"
                     st.link_button(
-                        label="🛡️ DOWNLOAD BYPASS DNA (METADATA.bat)",
+                        label="🛡️ DOWNLOAD BYPASS METADATA.bat",
                         url=url_bypass,
                         use_container_width=True
                     )
-                    st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari Drive.")
+                    st.caption("💡 Klik tombol di atas untuk membuka/mengunduh file dari GDrive.")
 
                 with col_kanan:
                     st.markdown("**📢 INFO PENTING PENYESUAIAN:**")
