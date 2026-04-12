@@ -379,7 +379,7 @@ def tampilkan_area_staf():
                     st.markdown("**📥 Alat Tempur Editor:**")
                     
                     # 1. Link Google Docs/Drive untuk Dialog
-                    url_dialog = "LINK_GOOGLE_DRIVE_DIALOG_LO"
+                    url_dialog = "https://docs.google.com/document/d/1itFxRuNkQSgZHQq1MZ9fEo-MCj876MlC4Uw60Ksa7as/edit?usp=sharing"
                     st.link_button(
                         label="📖 BUKA FORMAT DIALOG (GOOGLE DRIVE)",
                         url=url_dialog,
