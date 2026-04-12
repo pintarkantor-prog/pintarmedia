@@ -448,7 +448,7 @@ def tampilkan_area_staf():
             with st.container(border=True):
                 st.markdown("#### 2️⃣ Ritual Pemanasan (Pancingan Alogritma)")
                 st.caption("💡 **Tujuan:** Membangun kredibilitas akun, agar tidak dianggap Bot Uploader.")
-                st.write("- **Pencarian Kata Kunci Relevan (1 Menit):** Buka kolom pencarian YouTube, ketik manual kata kunci yang sesuai dengan tema konten (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura, atau Sakura School Simulator*). Wajib mengetik sesuai niche konten agar sistem mengenali minat akun tersebut.")                st.write("- **Organic Interaction (60 Detik):** Tonton minimal 2 Shorts orang lain sampai habis (Full Watch Time), berikan **1 Like** pada salah satunya, dan scroll 2-3 Shorts lagi tanpa interaksi.")
+                st.write("- **Pencarian Kata Kunci Relevan (1 Menit):** Buka kolom pencarian YouTube, ketik manual kata kunci yang sesuai dengan tema konten (Contoh: *Miniatur Masjid, Masjid AI Nenek, Drama Sakura, atau Sakura School Simulator*). Wajib mengetik sesuai niche konten agar sistem mengenali minat akun tersebut.")
                 st.write("- **Simulasi Manusia Gabut:** Biarkan akun memiliki 'History' tontonan sebelum mulai memproduksi konten. Ini membuktikan akun dipegang oleh manusia asli yang sedang mencari hiburan.")
                 st.caption("💡 Estimasi: 3 Menit | Output: Akun memiliki kredibilitas (Trust Score) untuk direkomendasikan.")
             st.write("") # Spacing
