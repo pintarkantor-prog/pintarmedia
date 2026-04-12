@@ -501,21 +501,24 @@ def tampilkan_area_staf():
                 
                 with col_j1:
                     st.markdown("* `Miniatur Masjid Buatan Nenek + Emoji` ")
-                    st.markdown("* `Masjid Buatan Nenek Dari [XXXX]`")
-                    st.markdown("* `Nenek Bikin Miniatur Masjid Dari [XXXX]`")
-                    st.markdown("* `Nenek Bikin Masjid Miniatur + Emoji` ")
+                    st.markdown("* `Masjid Buatan Nenek Dari [XXXX] + Emoji`")
+                    st.markdown("* `Miniatur Masjid Dari [XXXX] Buatan Nenek`")
+                    st.markdown("* `Masjid Miniatur Nenek Dari [XXXX]`")
+                    st.markdown("* `Nenek Membuat Masjid Miniatur Dari [XXXX]`")
                 
                 with col_j2:
-                    st.markdown("* `Miniatur Masjid Dari [XXXX] Nenek` ")
-                    st.markdown("* `Masjid Miniatur Nenek Dari [XXXX]`")
+                    st.markdown("* `Masjid Indah Dari [XXXX] Buatan Nenek` ")
+                    st.markdown("* `Miniatur Masjid Indah Buatan Nenek [XXXX]`")
                     st.markdown("* `Masjid Indah Dari [XXXX] Nenek`")
-                    st.markdown("* `Masya Allah! Miniatur Masjid Nenek` ")
+                    st.markdown("* `Nenek Bikin Miniatur Masjid Dari [XXXX]`")
+                    st.markdown("* `Masya Allah! Miniatur Masjid Buatan Nenek`")
                 
                 with col_j3:
-                    st.markdown("* `Nenek Buat Miniatur Masjid [XXXX]`")
+                    st.markdown("* `Nenek Buat Miniatur Masjid Dari [XXXX]`")
                     st.markdown("* `Masjid Miniatur Buatan Nenek + Emoji` ")
-                    st.markdown("* `Nenek Buat Masjid Miniatur [XXXX]`")
-                    st.markdown("* `Nenek Membuat Masjid Miniatur [XXXX]`")
+                    st.markdown("* `Masjid Miniatur Dibuat Nenek dari [XXXX]`")
+                    st.markdown("* `Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji`")
+                    st.markdown("* `Nenek Bikin Masjid Miniatur + Emoji`")
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap akun di unit HP yang sama!")
             st.write("") # Spacing
