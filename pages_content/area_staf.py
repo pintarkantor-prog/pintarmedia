@@ -609,7 +609,7 @@ def tampilkan_area_staf():
                     st.write("- Akun yang baru login **DILARANG** diinput ke website dulu.")
                     st.write("- **Log Manual:** Catat di `Gsheet` secara manual.")
                     st.write("- Gunakan akun baru untuk `baca berita google` atau `scrolling Shorts`.")
-                    st.caption("- **Tujuan:** untuk membangun `Trust Score` agar tidak dianggap bot oleh Google.")
+                    st.caption("💡 **Tujuan:** untuk membangun `Trust Score` agar tidak dianggap bot oleh Google.")
 
             # --- CARD 2: PENITIPAN & INPUT (KANAN) ---
             with col_kar2:
@@ -618,9 +618,9 @@ def tampilkan_area_staf():
                     st.write("- **Pembuatan Channel:** Di hari ke-3, baru buat Channel YT & sesuaikan nama/foto profile.")
                     st.write("- Jika channel sudah aktif & aman, baru `input ke database channel` website **PINTAR MEDIA**.")
                     st.write("- **Status:** Set akun sebagai 'Standby' di dalam dashboard database channel.")
-                    st.caption("- **Final Check:** Logout atau hapus akun tersebut dari HP.")
+                    st.caption("💡 **Final Check:** Logout atau hapus akun tersebut dari HP.")
                     
-            st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP!")
+            st.error("**🚨 PENTING:** Kapasitas maksimal **10 akun per HP**. Dilarang keras login akun baru tanpa melakukan reset IP! dan **WAJIB** Lakukan Sterilisasi serta Karantina setiap akun baru!")
             st.write("") # Spacing
     
         # --- FUNGSI MODULAR PANDUAN ADMIN (MODEL CARD SYSTEM) ---
