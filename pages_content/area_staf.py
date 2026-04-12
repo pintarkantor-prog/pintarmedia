@@ -487,25 +487,41 @@ def tampilkan_area_staf():
 
                 # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK BERSIH) ---
                 st.write("---")
-                st.success("📌 Daftar referensi judul khusus konten 🕌 Miniatur Masjid")
+                st.success("📌 Daftar Referensi Judul Khusus Konten 🕌 Miniatur Masjid")
             
                 col_judul1, col_judul2 = st.columns(2)
             
                 with col_judul1:
                     with st.container(border=True):
-                        st.markdown("> 📌 Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
+                        st.markdown("> Miniatur Masjid Buatan Nenek + Emoji")
                     with st.container(border=True):
-                        st.markdown("> 🕌 Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
+                        st.markdown("> Masjid Buatan Nenek Dari [XXXX]")
                     with st.container(border=True):
-                        st.markdown("> 🤖 Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
+                        st.markdown("> Miniatur Masjid Dari [XXXX] Buatan Nenek + Emoji")
+                    with st.container(border=True):
+                        st.markdown("> Masjid Miniatur Nenek Dari [XXXX]")
+                    with st.container(border=True):
+                        st.markdown("> Masjid Indah Dari [XXXX] Buatan Nenek")
+                    with st.container(border=True):
+                        st.markdown("> Miniatur Masjid Indah Buatan Nenek [XXXX]")
+                    with st.container(border=True):
+                        st.markdown("> Nenek Bikin Miniatur Masjid Dari [XXXX]")
             
                 with col_judul2:
                     with st.container(border=True):
-                        st.markdown("> 🔍 Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
+                        st.markdown("> Nenek Buat Miniatur Masjid Dari [XXXX]")
                     with st.container(border=True):
-                        st.markdown("> 🎨 Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
+                        st.markdown("> Masjid Miniatur Buatan Nenek + Emoji")
                     with st.container(border=True):
-                        st.markdown("> 🎥 Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
+                        st.markdown("> Masjid Miniatur Dibuat Nenek dari [XXXX]")
+                    with st.container(border=True):
+                        st.markdown("> Nenek Buat Masjid Miniatur Dari [XXXX] + Emoji")
+                    with st.container(border=True):
+                        st.markdown("> Nenek Membuat Masjid Miniatur Dari [XXXX]")
+                    with st.container(border=True):
+                        st.markdown("> Masya Allah! Miniatur Masjid Buatan Nenek")
+                    with st.container(border=True):
+                        st.markdown("> Nenek Bikin Masjid Miniatur + Emoji")
 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
