@@ -493,20 +493,20 @@ def tampilkan_area_staf():
                     st.write("- **Set Publik:** Atur visibilitas ke 'Publik' hanya jika langkah 1-4 dan validasi server sudah beres.")
                     st.write("- **Final Check:** Pastikan settingan konten 'Bukan untuk Anak-anak'.")
 
-                # --- BARIS BAWAH: REFERENSI JUDUL (FULL WIDTH) ---
+                # --- BARIS BAWAH: REFERENSI JUDUL (GAYA KOTAK INFO) ---
                 st.write("---")
                 st.markdown("#### 📌 Daftar Referensi Judul")
-                st.info("Klik ikon di pojok kanan kotak judul untuk menyalin (Copy) judul secara instan.")
+                st.info("Pilih salah satu judul di bawah. Gunakan judul yang berbeda untuk setiap akun.")
                 
                 col_judul1, col_judul2 = st.columns(2)
                 with col_judul1:
-                    st.caption("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas")
-                    st.caption("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah")
-                    st.caption("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI")
+                    st.info("Kreatifitas Tanpa Batas! Miniatur Masjid Bahan Bekas", icon="📌")
+                    st.info("Skill Dewa! Proses Pembuatan Miniatur Masjid Megah", icon="🕌")
+                    st.info("Modal Kecil Hasil Mewah: Tutorial Miniatur Masjid AI", icon="🤖")
                 with col_judul2:
-                    st.caption("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya")
-                    st.caption("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik")
-                    st.caption("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya")
+                    st.info("Detailnya Gila! Miniatur Masjid Paling Mirip Aslinya", icon="🔍")
+                    st.info("Skill Tangan Kreatif: Miniatur Masjid Unik & Estetik", icon="🎨")
+                    st.info("Masjid Megah dari Bahan Tak Terduga! Cek Prosesnya", icon="🎥")
                 
                 st.warning("⚠️ **Peringatan:** Gunakan judul yang berbeda untuk tiap channel di HP yang sama!")
             st.write("") # Spacing
