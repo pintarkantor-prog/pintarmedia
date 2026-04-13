@@ -263,12 +263,12 @@ def tampilkan_area_staf():
                                             
                                             if b1.button("✅ ACC", key=f"acc_{id_gede}", use_container_width=True):
                                                 database.supabase.table("Tugas").update({"Status": "FINISH"}).eq("ID", id_gede).execute()
-                                                kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {id_gede}")
+                                                kirim_notif_wa(f"✅ *TUGAS ACC*\n🆔 *ID:* {id_gede}\n👤 *Makasih:* {staf_tujuan}\n")
                                                 st.rerun()
                                             if b2.button("🔴 REV", key=f"rev_{id_gede}", use_container_width=True):
                                                 # Pastikan kolom database namanya sesuai: Catatan_Revisi
                                                 database.supabase.table("Tugas").update({"Status": "REVISI", "Catatan_Revisi": cat_admin}).eq("ID", id_gede).execute()
-                                                kirim_notif_wa(f"⚠️ *REVISI*\n🆔 *ID:* {id_gede}\n📝: {cat_admin}")
+                                                kirim_notif_wa(f"⚠️ *REVISI*\n🆔 *ID:* {id_gede}\n👤 *Cek Ulang:* {staf_tujuan}\n")
                                                 st.rerun()
                                             if b3.button("🚫 BATAL", key=f"can_{id_gede}", use_container_width=True):
                                                 database.supabase.table("Tugas").update({"Status": "CANCELED"}).eq("ID", id_gede).execute()
@@ -293,7 +293,7 @@ def tampilkan_area_staf():
                                                             "Waktu_Kirim": sekarang.strftime("%d/%m/%Y %H:%M")
                                                         }).eq("ID", id_gede).execute()
                                                         
-                                                        kirim_notif_wa(f"📤 *SETORAN*\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {id_gede}")
+                                                        kirim_notif_wa(f"📤 *SETORAN*{sekarang.strftime('%d %B %Y')}\n👤 *Dari:* {user_aktif}\n🆔 *ID:* {id_gede}")
                                                         st.success("✅ Berhasil Disetor!"); time.sleep(1); st.rerun()
                                                     else:
                                                         st.warning("⚠️ Pastikan yang ditempel adalah link GDrive!")
