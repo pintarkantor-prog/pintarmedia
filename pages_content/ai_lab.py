@@ -221,36 +221,45 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
                 "Buah Semangka Tipe 1": (
-                    "A 45cm mosque model made of 100% real watermelon. The domes are carved from ruby-red watermelon flesh. "
-                    "The pillars are green watermelon rind. The whole mosque sits on a thick wooden plank base. "
-                    "A character's hands are holding the wooden plank from the sides. "
-                    "No lights, no LEDs. Natural daylight on fresh watermelon texture."
+                    "A substantial 45cm mosque model constructed entirely from fresh watermelon, resting comfortably in a person's lap (dipangku). "
+                    "The central dome and upper structure are carved from juicy, polished ruby-red watermelon flesh, showing natural fiber textures. "
+                    "The body is made of dark-green striped watermelon rind with simple arches. "
+                    "Features four clearly defined tall minarets made of stacked thick green rind rings standing prominently. "
+                    "A character's hands are holding the base of the mosque. "
+                    "No internal lights, no LEDs, no artificial glow, only natural daylight."
                 ),
                 "Buah Semangka Tipe 2": (
-                    "A 50cm mosque model made of 100% real green watermelon rind. The walls and minarets are all dark-green striped rind. "
-                    "Only tiny windows show the red watermelon flesh inside. The mosque sits on a rustic wooden plank base. "
-                    "A character's hands are gripping the wooden plank firmly. "
-                    "No lights, no electronics. Focus on the green watermelon skin texture."
+                    "A heavy 50cm mosque miniature lifted by two hands (diangkat dua tangan). "
+                    "The exterior is 100% compuesto of deeply chiseled dark-green striped watermelon rind, looking like ancient stone blocks. "
+                    "Features two massive, prominent green rind minarets flanking the entrance. "
+                    "The vibrant ruby-red watermelon flesh is only visible through tiny, clean arched window cutouts. "
+                    "A character's hands are gripping the sides of the mosque firmly. "
+                    "No electronics, no lighting, no LEDs, no glowing parts. Natural daylight, matte texture."
                 ),
                 "Buah Semangka Tipe 3": (
-                    "A 40cm mosque model carved from the white inner-layer of a watermelon rind. Every part is white watermelon rind. "
-                    "The tall minarets are carved from this white watermelon part. The mosque sits on a dark wooden plank base. "
-                    "A character's hands are supporting the wooden plank from underneath. "
-                    "No LEDs, no glowing. Natural daylight on the white watermelon surface."
+                    "An elegant 40cm miniature mosque precisely carved from the white inner layer of a watermelon rind, resting in a lap (dipangku). "
+                    "The structure looks like carved organic ivory. "
+                    "Features very thin, tall white minarets with hand-carved lattice geometric holes, standing prominently. "
+                    "The main dome is a smooth spherical piece of white rind. "
+                    "A character's hands are supporting the base gently. "
+                    "No internal lights, no LEDs, no glowing effects, natural daylight."
                 ),
                 "Buah Semangka Tipe 4": (
-                    "A 45cm mosque model made of red watermelon flesh with thousands of black watermelon seeds stuck on the walls. "
-                    "The towers are red watermelon columns with black seeds. The mosque sits on a light wooden plank base. "
-                    "A character's hands are holding the plank from the edges. "
-                    "No artificial lights. Focus on red watermelon and black seed contrast."
+                    "A unique 45cm mosque made of carved red watermelon flesh, held by a person's hands. "
+                    "The red exterior walls are decorated with thousands of real, organic black watermelon seeds embedded manually in intricate geometric patterns. "
+                    "The minarets are tall red columns with spiral patterns made of black seeds. "
+                    "A character's hands are holding the base of the mosque firmly. "
+                    "No artificial lights. Natural organic daylight highlighting the high contrast between red fruit and black seeds."
                 ),
                 "Buah Semangka Tipe 5": (
-                    "A 50cm mosque model showing all parts of a watermelon: green rind base, white rind walls, and red flesh domes. "
-                    "Every component is 100% watermelon. The entire mosque sits on a natural wooden plank base. "
-                    "A character's hands are holding the wooden plank securely. "
-                    "No lights, no LEDs. Pure watermelon anatomy in natural light."
+                    "A substantial 50cm architectural mosque model held in a lap (dipangku). "
+                    "The structure shows clear definition with layered watermelon anatomy: dark green striped rind base, "
+                    "white rind layer mid-section, and vibrant red flesh main domes. "
+                    "Features multiple small green minarets standing prominently at the corners. "
+                    "A character's hands are holding the layered base. "
+                    "No lighting, no electronics, strictly fruit textures in natural daylight."
                 ),
-                "Buah Semangka": (
+                "Buah Semangka Tipe 6": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
                     "The walls are composed of millions of pressurized, ruby-red watermelon cubes with a glistening, high-moisture finish. "
                     "The main dome is a sphere of translucent, polished watermelon flesh, glowing with a soft, internal 'Ember Amber' LED light that reveals the organic cellular structure. "
