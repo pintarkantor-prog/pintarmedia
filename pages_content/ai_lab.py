@@ -220,32 +220,13 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Pahatan Semangka Utuh": (
-                    "A dominant, architectural model of a mosque with towering minarets and a central dome, clearly defined. " # <-- KUNCI: Struktur Dulu
-                    "The entire structure is constructed from high-quality whole watermelon carving, scaled to about 50cm and resting in a lap (dipangku). "
-                    "The main body features the dark green striped rind, deeply chiseled to create precise geometric patterns and sharp arches. "
-                    "The central dome is a smooth, ruby-red sphere of polished watermelon flesh. "
-                    "The minarets are tall, slender columns made from thick, stacked green rind sections, standing prominently. " # <-- KUNCI: Menara Ditegasin
-                    "No internal lights, no LEDs, no artificial glow. "
-                    "Natural daylight, macro photography, focusing on the organic textures and the structural integrity of the carving."
-                ),
-                "Kubah Nanas Bersusun": (
-                    "A substantial 45cm architectural model of a mosque, diangkat dua tangan (lifted by two hands). "
-                    "The main dome is a perfect sphere precisely trimmed from the leafy green top of a pineapple. "
-                    "The minarets stand prominently as tall, slender spires carved from the hard pineapple core and yellow flesh, looking like structured columns. " # <-- KUNCI: Pake kata Spires & Columns
-                    "The main body is stacked pineapple rings, creating a clear, layered facade with simple arched windows cut out. "
-                    "The vibrant yellow and green colors are from the natural fruit. "
-                    "No electronics, no lighting, no LEDs, no glowing parts. "
-                    "Focus strictly on the detailed craftsmanship and the clear mosque shape made of fruit."
-                ),
-                "Menara Labu Madu": (
-                    "A precisely carved 40cm miniature mosque made from rich dark-orange butternut squash, dipangku (resting in a lap). "
-                    "It features clean, structural Islamic lines. "
-                    "The minarets are tall, precisely defined towers, looking like they were turned on a lathe from the squash neck. " # <-- KUNCI: Menara rapi
-                    "The main dome is a smooth, polished orange sphere. "
-                    "No internal lights, no LEDs, no glowing effects, no artificial lighting. "
-                    "The focus is strictly on the craftsmanship, the smooth orange surface, and the intricate, hand-carved fretwork patterns. "
-                    "Macro shot, natural organic textures, clear mosque definition."
+                "Tipe 1: Full Red Flesh (Kubah Merah Dominan)": (
+                    "A substantial 45cm mosque model constructed entirely from fresh watermelon, resting on a rustic wooden plank base. "
+                    "The entire central dome and upper structure are carved from juicy, polished ruby-red watermelon flesh, showing natural fiber textures. "
+                    "The base and main body are made of dark-green striped watermelon rind. "
+                    "Features four clearly defined tall minarets made of stacked thick green rind rings standing prominently. "
+                    "A character's hands are holding the edges of the wooden plank from underneath. "
+                    "No internal lights, no LEDs, no glowing effects, only natural daylight, macro photography."
                 ),
                 "Buah Semangka": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
