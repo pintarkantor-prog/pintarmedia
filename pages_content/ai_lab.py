@@ -41,19 +41,20 @@ def tampilkan_halaman():
     # ==========================================================================
     with t_masjid_v1:
         with st.container(border=True):
-                
+            
             col_meta1, col_meta2 = st.columns(2)
             with col_meta1:
-                st.info("**💡 Panduan Teknis Produksi**")
-                st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
-                st.write("- Jalankan `METADATA.bat` (Wajib jalankan ini untuk buang sidik jari AI).")
-                st.write("- Tool otomatis menghapus jejak software ( *Filmora/Capcut* ) & Device PC.")
+                st.info("**💡 SOP PENGGUNAAN GENERATOR**")
+                st.write("- **WAJIB ACAK PILIHAN:** Jangan pakai kombinasi yang itu-itu saja. Putar semua opsi (Karakter, Mood, Logat, Action) agar konten unik.")
+                st.write("- **DOWNLOAD GAMBAR (2K):** Utamakan kualitas 2K. Hanya boleh pakai 1K jika limit harian sudah tercapai.")
+                st.write("- **DOWNLOAD VIDEO (720p):** Di Grok/Video Tool, pastikan download di resolusi 720p untuk keseimbangan kualitas & durasi.")
                 
             with col_meta2:
-                st.success("**🛡️ Variasi Nama File & Caption**")
-                st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
-                st.write("- Jalankan `METADATA.bat` (Wajib jalankan ini untuk buang sidik jari AI).")
-                st.write("- Tool otomatis menghapus jejak software ( *Filmora/Capcut* ) & Device PC.")
+                st.success("**🛡️ QUALITY CONTROL (WAJIB CEK)**")
+                st.write("- **DETAIL MASJID:** Cek apakah arsitektur masjid rapi, tidak ada tiang melayang atau kubah yang aneh.")
+                st.write("- **SINKRONISASI SUARA:** Pastikan suara kakek/nenek sesuai dengan wajah. Jangan sampai suara bocah/gadis.")
+                st.write("- **ANTI-GAIB:** Cek setiap adegan. Jangan sampai ada 'penampakan' (tangan lebih dari dua, jari enam, atau bayangan aneh).")
+                st.write("- **CLEANING:** Tetap jalankan `METADATA.bat` untuk hapus sidik jari AI & jejak software.")
                     
         st.write("") # Spacing
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
