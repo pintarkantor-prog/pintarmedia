@@ -44,19 +44,16 @@ def tampilkan_halaman():
                 
             col_meta1, col_meta2 = st.columns(2)
             with col_meta1:
-                st.info("**🛡️ Cara Manipulasi Metadata**")
+                st.info("**💡 Panduan Teknis Produksi**")
                 st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
                 st.write("- Jalankan `METADATA.bat` (Wajib jalankan ini untuk buang sidik jari AI).")
                 st.write("- Tool otomatis menghapus jejak software ( *Filmora/Capcut* ) & Device PC.")
-                st.write("- **Metadata identik di banyak HP** = *Resiko akun kena suspend massal*!")
                 
             with col_meta2:
-                st.success("**🆔 Variasi Nama File & Caption**")
-                st.write("- Nama file sudah otomatis dibuat acak ala rekaman HP asli.")
-                st.write("- Pastikan posisi subtitle atau elemen penting tidak terlalu mepet ke pinggir frame.")
-                    # --- TAMPILAN FORMAT YANG LO MAU ---
-                st.warning(f"📌 **Format Manual:** `VID_tahun-bulan-tanggal_jam-menit-detik.mp4` ")
-                st.caption("💡 **Misalnya:** `VID_20260412_053015.mp4` berarti Tahun 2026, Bulan 04, Tgl 12, Jam 05:30:15")
+                st.success("**🛡️ Variasi Nama File & Caption**")
+                st.write("- Masukkan semua video ke folder `FILE MENTAH`.")
+                st.write("- Jalankan `METADATA.bat` (Wajib jalankan ini untuk buang sidik jari AI).")
+                st.write("- Tool otomatis menghapus jejak software ( *Filmora/Capcut* ) & Device PC.")
                     
         st.write("") # Spacing
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
