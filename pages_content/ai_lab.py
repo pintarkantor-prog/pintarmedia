@@ -40,7 +40,7 @@ def tampilkan_halaman():
     # TAB 1: MINIATUR MASJID
     # ==========================================================================
     with t_masjid_v1:
-     with st.container(border=True):
+        with st.container(border=True):
                 
             col_meta1, col_meta2 = st.columns(2)
             with col_meta1:
