@@ -2839,7 +2839,7 @@ def tampilkan_halaman():
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
     # ==========================================================================
     with t_masjid_v2:
-        st.warning("💡 Masih Tahap Pengembangan...")
+        st.status("Sedang tahap pengembangan...", expanded=False)
         # --- 1. DATA MASTER DNA V8 (KUNCI NATURAL) ---
         MASTER_DNA_V2 = {
             "KARAKTER": {
