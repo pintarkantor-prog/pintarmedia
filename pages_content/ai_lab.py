@@ -2762,13 +2762,25 @@ def tampilkan_halaman():
                 
             # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
             if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Add a subtle crying undertone, voice cracking slightly on vowels. Deep emotional sincerity without being overdramatic."
+                # Menghubungkan "Eyes Glassy" dengan "Voice Cracking"
+                audio_emotion = (
+                    "MANDATORY AUDIO: Match the fragile facial expression. Voice must be thin, cracking on vowels, "
+                    "with audible shaky breaths as if holding back tears. Deep emotional sincerity, very slow pace."
+                )
             elif "Pasrah" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Deliver with calm energy, soft whispery tones, and a peaceful spiritual surrender."
+                # Menghubungkan "Serene but Weary" dengan "Whispery"
+                audio_emotion = (
+                    "MANDATORY AUDIO: Deliver with a peaceful spiritual surrender. Soft, airy, and whispery tones. "
+                    "The voice should sound weary but calm, reflecting absolute inner peace."
+                )
             elif "Iba" in pilih_mood or "Berharap" in pilih_mood:
-                audio_emotion = "MANDATORY AUDIO: Soft shivering voice, gentle rising intonation like a humble plea, full of hope and soul."
+                # Menghubungkan "Hopeful Glimmer" dengan "Rising Intonation"
+                audio_emotion = (
+                    "MANDATORY AUDIO: Shivering voice with a gentle rising intonation, like a humble plea. "
+                    "Full of soul and hope, matching the upward hopeful gaze. Soft and fragile."
+                )
             else:
-                audio_emotion = "MANDATORY AUDIO: Natural, steady breathing and calm pacing."
+                audio_emotion = "MANDATORY AUDIO: Natural, steady breathing, calm and grounded pacing."
 
             # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
             final_ai_prompt = (
