@@ -2836,10 +2836,10 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
                 
     # ==========================================================================
-    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & OTOMATIS)
+    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & FULL WIDTH UI)
     # ==========================================================================
     with t_masjid_v2:
-        # --- 1. DATA MASTER DNA KHUSUS V2 (DATA MURNI INGGRIS - ANTI BOCOR) ---
+        # --- 1. DATA MASTER DNA KHUSUS V2 (ANTIBOCOR) ---
         MASTER_DNA_V2 = {
             "KARAKTER": {
                 "Kakek Tua (Pejuang)": "An Indonesian old man, sun-baked leather-like skin, deep-set eyes, white stubble, wearing a weathered black songkok/peci.",
@@ -2860,7 +2860,7 @@ def tampilkan_halaman():
                 "Masjid Agung Jawa (Kayu)": "a traditional Javanese miniature mosque with a triple-tiered wooden roof (atap tumpuk).",
                 "Masjid Kubah Emas": "a majestic miniature mosque with a large golden dome and four tall minarets."
             },
-            "LOGAT_ONLY": { # Khusus buat audio, ambil deskripsi murninya aja
+            "LOGAT_ONLY": {
                 "Suara Kecil (High)": "A very thin, high-pitched elder voice, sharp yet brittle.",
                 "Suara Berat (Low)": "A deep, booming bass resonance with a heavy Javanese lilt.",
                 "Suara Ompong (Whistling)": "A tiny voice with a soft whistling texture on 'S' and 'T' sounds."
@@ -2881,22 +2881,25 @@ def tampilkan_halaman():
 
             st.divider()
 
-            c3_v2, c4_v2 = st.columns([2, 1])
+            # --- BARIS PILIHAN MASJID & AUDIO ---
+            c3_v2, c4_v2 = st.columns(2)
             with c3_v2:
-                st.markdown('<p class="small-label">DETAIL MINIATUR & DIALOG</p>', unsafe_allow_html=True)
-                pilih_masjid_v2 = st.selectbox("Bentuk Miniatur Masjid", list(MASTER_DNA_V2["MASJID"].keys()), key="dna_obj_v2")
-                user_dialog_v2 = st.text_area("Input Dialog (Adegan B)", placeholder="Tulis dialog minta bantuan...", height=150, key="input_dialog_v2")
-            
+                st.markdown('<p class="small-label">BENTUK MINIATUR MASJID</p>', unsafe_allow_html=True)
+                pilih_masjid_v2 = st.selectbox("Select Mosque", list(MASTER_DNA_V2["MASJID"].keys()), label_visibility="collapsed", key="dna_obj_v2")
             with c4_v2:
                 st.markdown('<p class="small-label">AUDIO PERFORMANCE</p>', unsafe_allow_html=True)
-                # Cuma pilih logat, sisanya kita suntik otomatis di bawah!
-                logat_v2 = st.selectbox("Pilih Karakter Suara", list(MASTER_DNA_V2["LOGAT_ONLY"].keys()), key="v2_logat_key")
+                logat_v2 = st.selectbox("Select Audio Character", list(MASTER_DNA_V2["LOGAT_ONLY"].keys()), label_visibility="collapsed", key="v2_logat_key")
 
+            # --- INPUT DIALOG FULL WIDTH (MENTOK KANAN KIRI) ---
+            st.write("")
+            st.markdown('<p class="small-label">✍️ INPUT DIALOG (ADEGAN B)</p>', unsafe_allow_html=True)
+            user_dialog_v2 = st.text_area("Dialog Area", placeholder="Tulis dialog minta bantuan di sini...", height=150, label_visibility="collapsed", key="input_dialog_v2")
+            
+            st.write("")
             btn_gen_v2 = st.button("🚀 GENERATE ALL SEQUENCES", type="primary", use_container_width=True, key="btn_gen_v2")
 
         if btn_gen_v2:
-            # --- AUTO-INJECTION PERFORMANCE DNA ---
-            # Kita kunci otomatis biar gak bocor dari V1
+            # --- AUTO PERFORMANCE ---
             MOOD_TRAGEDY = "Shocked, eyes wide with disbelief, trembling facial muscles."
             MOOD_PLEA = "Deeply sorrowful, glistening eyes (NO tears), humble tired gaze."
             MOOD_SUCCESS = "Peaceful, thin sincere smile, radiating pure gratitude and relief."
@@ -2905,37 +2908,41 @@ def tampilkan_halaman():
             ACTION_PLEA = "Looking at camera, shaky hands gesturing a humble plea."
             ACTION_SUCCESS = "Final touch on the craft, then looking up to meet the camera gaze."
 
-            # Master DNA String
-            char_desc_v2 = MASTER_DNA_V2["KARAKTER"][pilih_char_v2]
-            baju_desc_v2 = MASTER_DNA_V2["PAKAIAN"][pilih_baju_v2]
-            set_desc_v2 = MASTER_DNA_V2["LOKASI"][pilih_set_v2]
-            car_desc_v2 = MASTER_DNA_V2["KENDARAAN"][pilih_car_v2]
-            masjid_desc_v2 = MASTER_DNA_V2["MASJID"][pilih_masjid_v2]
-            logat_desc_v2 = MASTER_DNA_V2["LOGAT_ONLY"][logat_v2]
+            # Ambil Data
+            dna_char = MASTER_DNA_V2["KARAKTER"][pilih_char_v2]
+            dna_baju = MASTER_DNA_V2["PAKAIAN"][pilih_baju_v2]
+            dna_set = MASTER_DNA_V2["LOKASI"][pilih_set_v2]
+            dna_car = MASTER_DNA_V2["KENDARAAN"][pilih_car_v2]
+            dna_masjid = MASTER_DNA_V2["MASJID"][pilih_masjid_v2]
+            dna_logat = MASTER_DNA_V2["LOGAT_ONLY"][logat_v2]
 
-            DNA_LOCK_V2 = f"{char_desc_v2} wearing {baju_desc_v2}. Located at {set_desc_v2}."
+            DNA_LOCK = f"{dna_char}\nWearing: {dna_baju}\nLocation: {dna_set}"
 
-            st.success("🔥 PROMPT SEQUENCE V2 GENERATED (ZERO LEAKAGE)!")
+            st.success("🔥 ALL SEQUENCES GENERATED!")
 
-            # 1. GEMINI MASTER
+            # 1. GEMINI
             with st.container(border=True):
                 st.subheader("📸 1. Gemini Master Image")
-                st.code(f"ULTRA-HD 2K. {DNA_LOCK_V2} Sitting on the ground, finishing 80% {masjid_desc_v2}. Golden-hour, dusty air.", language="text")
+                p_gemini = f"ULTRA-HD 2K RESOLUTION.\n\n{DNA_LOCK}\n\nSCENE: Sitting on the ground, finishing 80% {dna_masjid}.\nLIGHTING: Golden-hour, dusty air."
+                st.code(p_gemini, language="text")
 
             # 2. GROK A
             with st.container(border=True):
                 st.subheader("🎥 2. Adegan A: Tragedy")
-                st.code(f"[Reference Image] {DNA_LOCK_V2} Performance: {ACTION_TRAGEDY} Mood: {MOOD_TRAGEDY}. Suddenly, a {car_desc_v2} speeds past (off-screen), wind gust shatters the 80% {masjid_desc_v2}.", language="text")
+                p_grok_a = f"[Reference Image Used]\n\n{DNA_LOCK}\n\nPERFORMANCE: {ACTION_TRAGEDY}\nMOOD: {MOOD_TRAGEDY}\n\nINCIDENT: Suddenly, a {dna_car} speeds past (off-screen), creating a massive blast of wind that shatters the 80% {dna_masjid}."
+                st.code(p_grok_a, language="text")
 
             # 3. GROK B
             with st.container(border=True):
                 st.subheader("🎥 3. Adegan B: Plea")
-                st.code(f"[Reference Image] Close-up emotional. {DNA_LOCK_V2} Mood: {MOOD_PLEA}. Action: {ACTION_PLEA}. Mouth moves: '{user_dialog_v2}'. Audio Style: {logat_desc_v2}.", language="text")
+                p_grok_b = f"[Reference Image Used]\n\nCLOSE-UP EMOTIONAL SHOT.\n\n{DNA_LOCK}\n\nMOOD: {MOOD_PLEA}\nACTION: {ACTION_PLEA}\n\nDIALOG: '{user_dialog_v2}'\nAUDIO STYLE: {dna_logat}"
+                st.code(p_grok_b, language="text")
 
             # 4. GROK C
             with st.container(border=True):
                 st.subheader("🎥 4. Adegan C: Success")
-                st.code(f"[Reference Image] Montage. {DNA_LOCK_V2} Repairing {masjid_desc_v2}. Ending with 100% finished and glowing. Mood: {MOOD_SUCCESS}. Action: {ACTION_SUCCESS}.", language="text")
+                p_grok_c = f"[Reference Image Used]\n\nFAST MONTAGE REDEMPTION.\n\n{DNA_LOCK}\n\nREPAIRING: Deeply focusing on finishing {dna_masjid}.\nENDING: 100% finished, glowing and perfect.\nMOOD: {MOOD_SUCCESS}\nACTION: {ACTION_SUCCESS}"
+                st.code(p_grok_c, language="text")
 
     # ==========================================================================
     # TAB 3: ROBLOX
