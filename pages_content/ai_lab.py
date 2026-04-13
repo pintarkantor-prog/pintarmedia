@@ -2622,29 +2622,31 @@ def tampilkan_halaman():
                 "Surrounding objects: a worn-out backpack, a pair of heavy boots, and a small handheld radio."
             )
         }
-        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (REWRITTEN: SENSORY & TEXTURE) ---
+        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "Buluh Retak (Pitch: High): A very thin, high-pitched elder voice that sounds sharp yet brittle. It mimics the sound of wind whistling through a crack in old wood. Infused with rapid micro-tremors and a 'cracking' texture, making it sound extremely fragile and helpless.",
-                "Gema Purba (Pitch: Very Low): A deep, booming bass resonance from a hollow chest. The delivery is slow with a heavy Javanese lilt. The texture is 'wet' and gravelly, as if every word is being pulled from a well of long-forgotten sorrow.",
-                "Bisikan Berdebu (Pitch: Mid-Flat): A flat, toneless mid-range voice with zero energy. It is 90% breath and 10% vocal cord vibration. Every word is blurred and 'dry', sounding like a weary soul who has completely surrendered to their fate.",
-                "Siulan Ompong (Pitch: Tiny & High): A tiny, high-pitched voice that sounds like an innocent child trapped in an ancient body. Characterized by a 'slushy' and whistling texture on 'S' and 'T' sounds due to missing teeth. It radiates pure vulnerability.",
-                "Isak Tersumbat (Pitch: Low-Mid): A heavy, congested voice with a thick 'rattling' texture (vocal fry). It sounds as if the speaker is perpetually swallowing tears. The pitch is unstable, shifting with deep, rhythmic gasps for air between Javanese words.",
-                "Getaran Arwah (Pitch: High-Tremolo): A high-pitched, ghostly voice that fluctuates with a wide, slow tremolo. It sounds physically cold and thin, as if the speaker is shivering in isolation. The vibration is shaky and lacks any solid 'body'.",
-                "Gumam Doa (Pitch: Mid-Low): A low-frequency, muffled mumble with soft articulation. It sounds like a quiet moan or a private prayer. The cadence is exceptionally slow, with a gentle, melodic Javanese lilt that fades at the end of every sentence.",
-                "Seruling Bambu Pecah (Pitch: High-Airy): A high-pitched voice that sounds like a cracked bamboo flute. The tone is airy and frequently 'breaks' or cuts out mid-sentence. It carries an audible wheeze, conveying a profound sense of physical exhaustion and loneliness."
+                "Suara Datar (Pitch: Mid-Flat): A flat, toneless mid-range voice with very low energy. The voice is 'dusty' and dry, lacking any youthful resonance. Every word is slightly blurred and weary, sounding like a soul that has found peace in silence without gasping.",
+                "Suara Kecil (Pitch: High): A very thin, high-pitched elder voice, sharp yet brittle. It sounds like a fragile thread about to snap. Infused with rapid micro-tremors and a 'cracking' texture in the throat. No heavy breathing, just a weak, shivering tone.",
+                "Suara Berat (Pitch: Very Low): A deep, booming bass resonance coming from the stomach, not the lungs. The delivery is slow with a heavy Javanese medok lilt. The texture is 'grainy' and low, like grinding stones, conveying a deep, grounded sorrow.",
+                "Suara Ompong (Pitch: Tiny & High): A tiny, high-pitched voice of a very old person. Characterized by a 'slushy' and soft whistling texture on 'S' and 'T' sounds due to missing teeth. The voice is light and innocent, radiating pure vulnerability without audible huffing.",
+                "Suara Sedih (Pitch: Low-Mid): A heavy, congested voice with a thick 'vocal fry' texture. It sounds as if the speaker is perpetually swallowing tears. The pitch is unstable and emotionally heavy, focusing on the 'cracking' of the voice rather than the intake of air.",
+                "Suara Lirih (Pitch: High-Tremolo): A high-pitched, ghostly voice that fluctuates with a wide, slow tremolo. It sounds thin and weightless, as if the speaker is a soft vibration in the air. The vibration is in the vocal cords, not the chest.",
+                "Suara Gumam (Pitch: Mid-Low): A low-frequency, muffled mumble with soft, melodic Javanese articulation. It sounds like a quiet, internal moan. The cadence is exceptionally slow, fading out gently like a candle flame, very calm and steady.",
+                "Suara Ringkih (Pitch: High-Airy): A high-pitched voice with a 'cracked' flute quality. The tone frequently 'breaks' or dips into a raspy whisper. It sounds physically fragile and exhausted, but the exhaustion is shown through the breaking of the voice, not heavy gasping."
             ],
             "Mood": [
-                "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience.",
-                "Sedih & Lirih: A fragile facial expression, eyes slightly glassy as if holding back tears, with a heavy and tired gaze that deeply moves the viewer's heart.",
-                "Pasrah & Syukur: A deeply submissive and calm look, reflecting total acceptance of a difficult life. The face is serene but weary, showing spiritual peace.",
-                "Iba & Berharap: A gentle yet sorrowful expression, with eyes that look upward with a faint, hopeful glimmer in the middle of deep exhaustion."
+                "Natural & Ikhlas: A calm, neutral facial expression with deep, sun-baked wrinkles and leather-like skin texture. The eyes are soft and peaceful, looking slightly off-camera with a sense of 'nrimo'. A very thin, wise smile that barely moves the lips, reflecting a lifetime of patience.",
+                "Sedih & Lirih: A fragile expression with a heavy, tired gaze. The eyes are slightly glistening (wet look) but strictly NO tears falling. Deep bags under the eyes and a subtle furrow in the brow. The face is static and dignified, capturing a hidden sorrow that is felt rather than seen.",
+                "Pasrah & Syukur: A weary, weather-beaten face showing total acceptance of a hard life. The eyelids are slightly heavy (half-closed), reflecting deep exhaustion but spiritual peace. A humble, slight chin-tuck (menunduk dikit) that conveys absolute submission to fate.",
+                "Iba & Berharap: A gentle, sorrowful expression with eyes looking slightly upward toward the light. A faint, hopeful glimmer in the pupils despite the deep exhaustion. The mouth is closed and relaxed, showing no teeth, just a steady and dignified plea for grace."
             ],
             "Physical Action": [
-                "Menyentuh Bagian Atas/Kubah dengan Lembut: Gently touching the top surface or the dome of the miniature with trembling fingers, then slowly shifting the gaze to look at the camera with a thin, tired, but sincere smile.",
-                "Membelai Sisi Miniatur dengan Tulus: Softly stroking the side walls or the texture of the craft while looking directly into the camera with glistening eyes.",
-                "Menatap Khusyuk sambil Memegang Alas: Hands gently supporting or holding the base of the model, looking down with intense focus before slowly looking up to meet the camera's gaze with watery-eyed gratitude.",
-                "Mengusap Debu dari Miniatur: Gently wiping a tiny speck of dust from the miniature's surface with a shaky hand, then looking warmly at the camera with a peaceful expression."
+                "Menatap Detail & Menoleh Perlahan: Staring intensely at a specific small detail of the miniature mosque, then slowly turning the head to meet the camera's gaze with a thin, tired, but proud smile.",
+                "Menangkupkan Tangan di Sisi Miniatur: Both hands resting near the base of the mosque as if protecting it, looking down at the craft with a nostalgic gaze before slowly looking up to meet the camera's eyes.",
+                "Menunjuk Bagian Kubah: Pointing a shaky hand toward the dome of the miniature mosque while looking at it, then shifting the gaze to the camera with a faint, hopeful glimmer in the eyes.",
+                "Sentuhan Ujung Jari yang Gemetar: Gently touching a tiny corner of the miniature with a shaky index finger, then slowly pulling the hand back and looking at the camera with eyes that reflect quiet peace.",
+                "Mengagumi Karya dari Dekat: Leaning the face closer to the miniature as if inspecting the craftsmanship, then slowly straightening up to look at the camera with a humble and soulful expression.",
+                "Mengusap Debu Imajiner: Using a thumb to very gently wipe a spot on the miniature, then looking warmly at the camera with a steady, peaceful gaze, showing a deep bond with the craft."
             ]
         }
 
@@ -2762,25 +2764,25 @@ def tampilkan_halaman():
                 
             # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
             if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
-                # Menghubungkan "Eyes Glassy" dengan "Voice Cracking"
+                # Kita ganti 'shaky breath' jadi 'voice trembling'
                 audio_emotion = (
-                    "MANDATORY AUDIO: Match the fragile facial expression. Voice must be thin, cracking on vowels, "
-                    "with audible shaky breaths as if holding back tears. Deep emotional sincerity, very slow pace."
+                    "MANDATORY AUDIO: Add a subtle crying undertone. The voice should be 'trembling' and 'fragile', "
+                    "not gasping. Focus on a cracking texture in the throat rather than heavy breathing. Very slow pace."
                 )
             elif "Pasrah" in pilih_mood:
-                # Menghubungkan "Serene but Weary" dengan "Whispery"
+                # Kita ganti 'airy' jadi 'soft resonance' biar gak kayak bisikan asma
                 audio_emotion = (
-                    "MANDATORY AUDIO: Deliver with a peaceful spiritual surrender. Soft, airy, and whispery tones. "
-                    "The voice should sound weary but calm, reflecting absolute inner peace."
+                    "MANDATORY AUDIO: Deliver with a calm, spiritual surrender. Use a soft, grounded resonance. "
+                    "Minimize audible breathing, focus on a thin and weary vocal tone."
                 )
             elif "Iba" in pilih_mood or "Berharap" in pilih_mood:
-                # Menghubungkan "Hopeful Glimmer" dengan "Rising Intonation"
+                # Kita fokus ke 'pleading tone'
                 audio_emotion = (
-                    "MANDATORY AUDIO: Shivering voice with a gentle rising intonation, like a humble plea. "
-                    "Full of soul and hope, matching the upward hopeful gaze. Soft and fragile."
+                    "MANDATORY AUDIO: A gentle rising intonation like a humble plea. "
+                    "The voice is small and light, with a faint emotional shimmer, avoiding any heavy gasping sounds."
                 )
             else:
-                audio_emotion = "MANDATORY AUDIO: Natural, steady breathing, calm and grounded pacing."
+                audio_emotion = "MANDATORY AUDIO: Natural, steady delivery with calm and controlled pacing."
 
             # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
             final_ai_prompt = (
