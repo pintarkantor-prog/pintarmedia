@@ -220,29 +220,34 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Gothic Black Stone": (
-                    "A intricate, small 20cm gothic-islamic fusion mosque miniature being held in a character's calloused hands. "
-                    "The structure is carved from dark, weathered volcanic stone with rough, matte textures. "
-                    "Features towering, needle-like conical spires and nested domes, all meticulously hand-carved with thousands of tiny, geometric patterns. "
-                    "The windows are small and deep-set, without glass. No internal lights, no LEDs, no artificial glowing effects. "
-                    "The entire piece has a heavy, ancient, and aged feel. "
-                    "Cinematic macro shot focused on the rough stone and the character's fingers."
+                "Pahatan Semangka Utuh": (
+                    "A substantial, 45cm mosque miniature precisely carved from a single, whole red watermelon. "
+                    "The structure is being gently held in a character's lap (dipangku). "
+                    "The outer walls are composed of the green striped rind, deeply carved to reveal geometric Islamic patterns and simple arches. "
+                    "The main dome is a smooth sphere carved from the ruby-red flesh, showing natural juicy textures. "
+                    "Small black seeds are embedded manually as natural decorative accents along the green walls. "
+                    "No internal lights, no LEDs, no glowing effects, no artificial illumination. "
+                    "Natural daylight, macro photography, focusing on the organic textures and the character's hands on the fruit."
                 ),
-                "Watermelon Rind Carving": (
-                    "A delicate 15cm mosque miniature made of carved watermelon rind, held gently in a person's palm. "
-                    "The walls feature the natural dark-green striped pattern of the watermelon's outer skin. "
-                    "The main dome is carved into a smooth, spherical shape from the rind, showing natural fiber textures. "
-                    "Decorative geometric filigree is chiseled manually into the green skin, revealing the light-green flesh underneath. "
-                    "No internal illumination; it is a food-carving masterpiece shown in soft daylight. "
-                    "Close-up, focused on the precise cuts and the organic green colors."
+                "Kubah Nanas Bersusun": (
+                    "A sturdy, 50cm mosque model constructed entirely from fresh pineapple. "
+                    "It is being lifted up by a character's two hands (diangkat). "
+                    "The main body is stacked pineapple rings, creating a layered, textured effect. "
+                    "The primary dome is the leafy green top of a pineapple, precisely trimmed into a perfect spherical shape with tiny, hand-carved fretwork. "
+                    "Minarets are made of carved pineapple cores with thin strips of the yellow flesh. "
+                    "No electronics, no lighting, no LEDs, no glowing parts. "
+                    "The beauty comes from the vibrant yellow and green colors and the complex natural textures. "
+                    "Focused on the intricate pineapple carvings and the character's grip."
                 ),
-                "Polished Dark Wood": (
-                    "A beautiful 25cm miniature mosque carved from a single piece of dark walnut wood, being admired in hands. "
-                    "The architecture is classic Islamic design with clean lines and geometric fretwork. "
-                    "The wood has a deep, rich brown color and is highly polished to a natural, semi-gloss sheen, highlighting the wood grain. "
-                    "The tiny spires are precisely turned on a lathe. No lighting, no electronics, no LEDs. "
-                    "The beauty comes from the precise cuts and the inherent richness of the material. "
-                    "Focused on the polished wood texture and the intricate hand-carved patterns."
+                "Menara Labu Madu": (
+                    "A beautiful, 40cm mosque miniature carved from dark-orange butternut squash. "
+                    "It rests comfortably in a person's lap (dipangku). "
+                    "The architecture features clean Islamic lines and simple geometric fretwork carved into the smooth, firm squash skin. "
+                    "The menarets are tall and precisely turned on a lathe from the squash neck. "
+                    "The main dome is a smooth, polished orange sphere. "
+                    "No internal illumination, no LEDs, no glowing effects. "
+                    "The focus is strictly on the craftsmanship, the smooth orange surface, and the intricate lattice carvings. "
+                    "Close-up, shallow depth of field, natural orange colors."
                 ),
                 "Buah Semangka": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
