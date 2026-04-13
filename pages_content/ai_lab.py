@@ -220,6 +220,30 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
+                "Gothic Black Stone": (
+                    "A intricate, small 20cm gothic-islamic fusion mosque miniature being held in a character's calloused hands. "
+                    "The structure is carved from dark, weathered volcanic stone with rough, matte textures. "
+                    "Features towering, needle-like conical spires and nested domes, all meticulously hand-carved with thousands of tiny, geometric patterns. "
+                    "The windows are small and deep-set, without glass. No internal lights, no LEDs, no artificial glowing effects. "
+                    "The entire piece has a heavy, ancient, and aged feel. "
+                    "Cinematic macro shot focused on the rough stone and the character's fingers."
+                ),
+                "Watermelon Rind Carving": (
+                    "A delicate 15cm mosque miniature made of carved watermelon rind, held gently in a person's palm. "
+                    "The walls feature the natural dark-green striped pattern of the watermelon's outer skin. "
+                    "The main dome is carved into a smooth, spherical shape from the rind, showing natural fiber textures. "
+                    "Decorative geometric filigree is chiseled manually into the green skin, revealing the light-green flesh underneath. "
+                    "No internal illumination; it is a food-carving masterpiece shown in soft daylight. "
+                    "Close-up, focused on the precise cuts and the organic green colors."
+                ),
+                "Polished Dark Wood": (
+                    "A beautiful 25cm miniature mosque carved from a single piece of dark walnut wood, being admired in hands. "
+                    "The architecture is classic Islamic design with clean lines and geometric fretwork. "
+                    "The wood has a deep, rich brown color and is highly polished to a natural, semi-gloss sheen, highlighting the wood grain. "
+                    "The tiny spires are precisely turned on a lathe. No lighting, no electronics, no LEDs. "
+                    "The beauty comes from the precise cuts and the inherent richness of the material. "
+                    "Focused on the polished wood texture and the intricate hand-carved patterns."
+                ),
                 "Buah Semangka": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
                     "The walls are composed of millions of pressurized, ruby-red watermelon cubes with a glistening, high-moisture finish. "
