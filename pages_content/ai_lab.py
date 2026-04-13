@@ -220,13 +220,35 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Tipe 1: Full Red Flesh (Kubah Merah Dominan)": (
-                    "A substantial 45cm mosque model constructed entirely from fresh watermelon, resting on a rustic wooden plank base. "
-                    "The entire central dome and upper structure are carved from juicy, polished ruby-red watermelon flesh, showing natural fiber textures. "
-                    "The base and main body are made of dark-green striped watermelon rind. "
-                    "Features four clearly defined tall minarets made of stacked thick green rind rings standing prominently. "
-                    "A character's hands are holding the edges of the wooden plank from underneath. "
-                    "No internal lights, no LEDs, no glowing effects, only natural daylight, macro photography."
+                "Buah Semangka Tipe 1": (
+                    "A 45cm mosque model made of 100% real watermelon. The domes are carved from ruby-red watermelon flesh. "
+                    "The pillars are green watermelon rind. The whole mosque sits on a thick wooden plank base. "
+                    "A character's hands are holding the wooden plank from the sides. "
+                    "No lights, no LEDs. Natural daylight on fresh watermelon texture."
+                ),
+                "Buah Semangka Tipe 2": (
+                    "A 50cm mosque model made of 100% real green watermelon rind. The walls and minarets are all dark-green striped rind. "
+                    "Only tiny windows show the red watermelon flesh inside. The mosque sits on a rustic wooden plank base. "
+                    "A character's hands are gripping the wooden plank firmly. "
+                    "No lights, no electronics. Focus on the green watermelon skin texture."
+                ),
+                "Buah Semangka Tipe 3": (
+                    "A 40cm mosque model carved from the white inner-layer of a watermelon rind. Every part is white watermelon rind. "
+                    "The tall minarets are carved from this white watermelon part. The mosque sits on a dark wooden plank base. "
+                    "A character's hands are supporting the wooden plank from underneath. "
+                    "No LEDs, no glowing. Natural daylight on the white watermelon surface."
+                ),
+                "Buah Semangka Tipe 4": (
+                    "A 45cm mosque model made of red watermelon flesh with thousands of black watermelon seeds stuck on the walls. "
+                    "The towers are red watermelon columns with black seeds. The mosque sits on a light wooden plank base. "
+                    "A character's hands are holding the plank from the edges. "
+                    "No artificial lights. Focus on red watermelon and black seed contrast."
+                ),
+                "Buah Semangka Tipe 5": (
+                    "A 50cm mosque model showing all parts of a watermelon: green rind base, white rind walls, and red flesh domes. "
+                    "Every component is 100% watermelon. The entire mosque sits on a natural wooden plank base. "
+                    "A character's hands are holding the wooden plank securely. "
+                    "No lights, no LEDs. Pure watermelon anatomy in natural light."
                 ),
                 "Buah Semangka": (
                     "A monumental 1-meter mosque diorama built with architectural precision from watermelon anatomy. "
