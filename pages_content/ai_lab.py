@@ -221,7 +221,7 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
                 "Buah Semangka Tipe 1": (
-                    "A substantial 45cm mosque model constructed entirely from fresh watermelon, resting comfortably in a person's lap (dipangku). "
+                    "A substantial 60cm mosque model constructed entirely from fresh watermelon, resting comfortably in a person's lap (dipangku). "
                     "The central dome and upper structure are carved from juicy, polished ruby-red watermelon flesh, showing natural fiber textures. "
                     "The body is made of dark-green striped watermelon rind with simple arches. "
                     "Features four clearly defined tall minarets made of stacked thick green rind rings standing prominently. "
@@ -229,7 +229,7 @@ def tampilkan_halaman():
                     "No internal lights, no LEDs, no artificial glow, only natural daylight."
                 ),
                 "Buah Semangka Tipe 2": (
-                    "A heavy 50cm mosque miniature lifted by two hands (diangkat dua tangan). "
+                    "A heavy 60cm mosque miniature lifted by two hands (diangkat dua tangan). "
                     "The exterior is 100% compuesto of deeply chiseled dark-green striped watermelon rind, looking like ancient stone blocks. "
                     "Features two massive, prominent green rind minarets flanking the entrance. "
                     "The vibrant ruby-red watermelon flesh is only visible through tiny, clean arched window cutouts. "
@@ -237,7 +237,7 @@ def tampilkan_halaman():
                     "No electronics, no lighting, no LEDs, no glowing parts. Natural daylight, matte texture."
                 ),
                 "Buah Semangka Tipe 3": (
-                    "An elegant 40cm miniature mosque precisely carved from the white inner layer of a watermelon rind, resting in a lap (dipangku). "
+                    "An elegant 60cm miniature mosque precisely carved from the white inner layer of a watermelon rind, resting in a lap (dipangku). "
                     "The structure looks like carved organic ivory. "
                     "Features very thin, tall white minarets with hand-carved lattice geometric holes, standing prominently. "
                     "The main dome is a smooth spherical piece of white rind. "
@@ -245,14 +245,14 @@ def tampilkan_halaman():
                     "No internal lights, no LEDs, no glowing effects, natural daylight."
                 ),
                 "Buah Semangka Tipe 4": (
-                    "A unique 45cm mosque made of carved red watermelon flesh, held by a person's hands. "
+                    "A unique 60cm mosque made of carved red watermelon flesh, held by a person's hands. "
                     "The red exterior walls are decorated with thousands of real, organic black watermelon seeds embedded manually in intricate geometric patterns. "
                     "The minarets are tall red columns with spiral patterns made of black seeds. "
                     "A character's hands are holding the base of the mosque firmly. "
                     "No artificial lights. Natural organic daylight highlighting the high contrast between red fruit and black seeds."
                 ),
                 "Buah Semangka Tipe 5": (
-                    "A substantial 50cm architectural mosque model held in a lap (dipangku). "
+                    "A substantial 60cm architectural mosque model held in a lap (dipangku). "
                     "The structure shows clear definition with layered watermelon anatomy: dark green striped rind base, "
                     "white rind layer mid-section, and vibrant red flesh main domes. "
                     "Features multiple small green minarets standing prominently at the corners. "
@@ -267,33 +267,236 @@ def tampilkan_halaman():
                     "Minarets of dark-green striped rind are subtly traced with thin, steady warm-white fiber-optic lines, avoiding aggressive flickering. "
                     "The lighting is cinematic and moody, seeping through the red fruit like a glowing hearth."
                 ),
-                "Buah Strawberry": (
+                "Buah Pepaya Tipe 1": (
+                    "A 60cm mosque model carved entirely from a ripe papaya, resting in a person's lap (dipangku). "
+                    "The main dome is a smooth, vibrant orange sphere carved from the papaya's internal flesh. "
+                    "The pillars are made of the smooth yellow-green outer skin. "
+                    "Features four clearly defined minarets standing tall, carved from firm papaya sections. "
+                    "No internal lights, no LEDs. Natural daylight on the matte orange fruit texture."
+                ),
+                "Buah Pepaya Tipe 2": (
+                    "A sturdy 60cm mosque miniature made of 100% green unripened papaya skin, lifted by two hands. "
+                    "The exterior is all smooth green skin, chiseled into blocks. "
+                    "Features two thick, prominent minarets flanking the entrance made of solid green papaya. "
+                    "The orange flesh is only visible through small arched windows. "
+                    "No electronics, no lighting, no LEDs. Focus on the smooth green organic surface."
+                ),
+                "Buah Pepaya Tipe 3": (
+                    "A unique 60cm mosque carved from orange papaya, held in a character's hands. "
+                    "The walls are decorated with clusters of real black, wet papaya seeds arranged in geometric patterns. "
+                    "The minarets are tall orange towers with black seed rings at the top. "
+                    "No lights, no glowing effects. High contrast between the orange flesh and the shiny black seeds."
+                ),
+                "Buah Pepaya Tipe 4": (
+                    "A beautiful 60cm mosque model carved from a fully ripe yellow-skinned papaya, resting in a lap. "
+                    "The architecture is simple and clean, using the bright yellow outer skin for the domes. "
+                    "Features tall, slender minarets standing prominently at the corners. "
+                    "Character's hands are holding the base of the fruit mosque. "
+                    "No LEDs, no artificial glow. Natural sunlight highlighting the bright yellow fruit."
+                ),
+                "Buah Pepaya Tipe 5": (
+                    "A 60cm architectural mosque model held securely by hands, showing layered papaya anatomy. "
+                    "The base is green skin, the walls are bright orange flesh, and the minarets are decorated with black seeds. "
+                    "All components are 100% papaya. "
+                    "Features multiple small minarets standing prominently. "
+                    "No lighting, no electronics. Pure organic textures in natural light."
+                ),
+                "Buah Naga Tipe 1": (
+                    "A dominant 60cm mosque model constructed from whole vibrant pink dragon fruit skins, resting in a person's lap (dipangku). "
+                    "The structure is defined by the striking pink leather-like skin with the iconic green scaled 'fins' prominently featured along the walls and domes. "
+                    "Features four tall minarets made of stacked pink dragon fruit rind sections. "
+                    "A character's hands are holding the detailed scaled base of the mosque. "
+                    "No internal lights, no LEDs, no artificial glow, only natural daylight on the intense pink fruit skin."
+                ),
+                "Buah Naga Tipe 2": (
+                    "A unique 60cm mosque carved precisely from the internal white flesh of a dragon fruit, held by a character's hands. "
+                    "The walls and domes have a speckled black-and-white mosaic pattern from thousands of tiny black seeds embedded in the white flesh. "
+                    "Features two prominent, tall white minarets with intricate geometric fretwork cutouts. "
+                    "The vibrant pink skin is only visible as thin trim at the bottom edges. "
+                    "No electronics, no lighting, no LEDs. Pure organic fruit texture in natural light."
+                ),
+                "Buah Naga Tipe 3": (
+                    "A striking 60cm mosque model resting in a lap, made from deep magenta (red-fleshed) dragon fruit. "
+                    "The main dome is a smooth, vibrant deep-purple-pink sphere carved from the flesh, showing the embedded black seed textures. "
+                    "The base is made of the bright pink skin with green scale details. "
+                    "Features multiple small green minarets standing prominently at the corners, carved from the rind scales. "
+                    "No lights, no glowing effects. High color contrast, natural daylight."
+                ),
+                "Buah Naga Tipe 4": (
+                    "A substantial 60cm architectural mosque model held in a lap (dipangku). "
+                    "The exterior is 100% composed of deeply layered, scaled dragon fruit skin, looking like a robust pink fortress. "
+                    "Features two massive, prominent pink minarets flanking the main entrance, made of thick stacked scales. "
+                    "No flesh is visible; strictly focus on the detailed pink and green scaled textures and heavy structure. "
+                    "No electronics, no lighting, no LEDs. Macro shot, matte organic finish."
+                ),
+                "Buah Naga Tipe 5": (
+                    "A 60cm detailed mosque model held securely by hands, showing layered dragon fruit anatomy. "
+                    "The base is thick pink skin, the walls are patterned white seed-flesh, and the main domes are carved deep magenta flesh. "
+                    "Every component is 100% dragon fruit. Features multiple small minarets standing prominently at the corners. "
+                    "No lighting, no electronics, no LEDs, no glowing parts. Pure organic textures, natural daylight, macro photography."
+                ),
+                "Buah Naga Tipe 6": (
+                    "A monumental 1-meter mosque object built from the vibrant anatomy of Dragonfruit. "
+                    "The walls are covered in overlapping magenta rind scales with lime-green tips, creating a futuristic 'organic armor' look. "
+                    "The colossal main dome is a sphere of translucent white dragonfruit flesh, embedded with millions of tiny black seeds that create a natural 'stardust' texture. "
+                    "Inside, a 'Cyber-Violet' internal LED glow pulses slowly, making the seeds look like a floating galaxy trapped in ice. "
+                    "Minarets are built from twisted magenta rinds, illuminated with thin, steady electric-pink fiber-optic lines that accentuate the sharp scales."
+                ),
+                "Buah Labu Tipe 1": (
+                    "A 60cm mosque model carved from a large orange pumpkin, resting in a person's lap (dipangku). "
+                    "The entire structure is made of the bright orange outer skin. "
+                    "Features a large central dome and four tall minarets standing prominently, carved from thick pumpkin sections. "
+                    "The character's hands are holding the base of the orange pumpkin mosque. "
+                    "No internal lights, no LEDs, no artificial glow. Natural daylight on the smooth orange skin."
+                ),
+                "Buah Labu Tipe 2": (
+                    "A substantial 60cm mosque miniature carved from the dense internal orange flesh of a butternut squash, held by hands. "
+                    "The walls have a rich, matte, and slightly fibrous orange texture. "
+                    "Features two tall, sturdy minarets that are clearly defined and standing tall. "
+                    "The outer pale-yellow skin is only visible as small decorative accents at the base. "
+                    "No electronics, no lighting, no LEDs. Pure organic fruit craftsmanship in natural light."
+                ),
+                "Buah Labu Tipe 3": (
+                    "A sturdy 60cm mosque model made of 100% green Kabocha pumpkin rind, lifted by two hands. "
+                    "The exterior is dark green with rough, bumpy textures like ancient stone. "
+                    "Features prominent green minarets flanking the entrance, looking like strong towers. "
+                    "A character's hands are gripping the sides of the green pumpkin mosque firmly. "
+                    "No lights, no glowing effects. Focus on the rugged green organic texture."
+                ),
+                "Buah Labu Tipe 4": (
+                    "A unique 60cm mosque carved from a pumpkin, resting in a lap. "
+                    "The arched windows and doors are decorated with real, dried white pumpkin seeds arranged in patterns. "
+                    "The minarets are tall orange towers with white seed rings at the top. "
+                    "The character's hands are supporting the base gently. "
+                    "No artificial lights. High contrast between the orange flesh and the white seeds."
+                ),
+                "Buah Labu Tipe 5": (
+                    "A 60cm architectural mosque model held securely by hands, showing layered squash anatomy. "
+                    "The base is the tough outer rind, the walls are deep orange flesh, and the domes are polished smooth. "
+                    "Features multiple small minarets standing prominently at the corners. "
+                    "No lighting, no electronics, no LEDs, no glowing parts. Pure organic textures in natural daylight."
+                ),
+                "Buah Strawberry Tipe 1": (
+                    "A substantial 60cm mosque model constructed from giant ripe strawberries, lifted up by two hands (diangkat). "
+                    "The exterior walls and domes are vibrant red with distinct yellow seed pores on the surface. "
+                    "Features four tall minarets made of stacked strawberry sections, standing prominently. "
+                    "The character's hands are gripping the base of the red fruit mosque firmly. "
+                    "No internal lights, no LEDs, no artificial glow. Natural daylight on the seedy fruit texture."
+                ),
+                "Buah Strawberry Tipe 2": (
+                    "A 60cm mosque miniature made of fresh strawberry, held by a character's hands (dipegang). "
+                    "The main dome is made from the green leafy top (sepals) of a strawberry, precisely trimmed into a dome shape. "
+                    "The body is carved from juicy red strawberry flesh. "
+                    "Features two prominent minarets standing tall at the front. "
+                    "No electronics, no lighting, no LEDs. Pure organic craftsmanship in natural daylight."
+                ),
+                "Buah Strawberry Tipe 3": (
+                    "A unique 60cm mosque carved from the white-ish internal flesh of a strawberry, lifted by hands. "
+                    "The walls have a pale pink and white gradient texture, looking very organic and soft. "
+                    "The minarets are tall towers carved from the firmer white core of the strawberry. "
+                    "The character's hands are supporting the structure from the sides. "
+                    "No lights, no glowing effects. Focus on the internal fruit fibers and natural colors."
+                ),
+                "Buah Strawberry Tipe 4": (
+                    "A detailed 60cm mosque model where the exterior is entirely covered in the textured yellow seeds of a strawberry. "
+                    "The architecture is simple, but the surface pattern is highly complex and organic. "
+                    "Features four clearly defined minarets standing prominently at the corners. "
+                    "A character is lifting the mosque up to chest height. "
+                    "No artificial lights. High contrast between the red skin and yellow seeds."
+                ),
+                "Buah Strawberry Tipe 5": (
+                    "A 60cm architectural mosque model showing all parts of a strawberry: green leaves for accents, red skin for the body, and white flesh for windows. "
+                    "Every component is 100% strawberry fruit. It is being held securely by two hands. "
+                    "Features multiple small minarets standing prominently at the corners. "
+                    "No lighting, no electronics, no LEDs, no glowing parts. Macro photography of fruit textures."
+                ),
+                "Buah Strawberry Tipe 6": (
                     "A gigantic 1-meter mosque model constructed from high-density strawberry slices. "
                     "The facade is a masterwork of texture, featuring the pitted red skin of the fruit with thousands of tiny yellow seeds acting as natural golden rivets. "
                     "The colossal dome is made of translucent strawberry-infused crystal gelatin, illuminated by a deep 'Crimson Dusk' internal wash light that creates a soft, diffused halo. "
                     "Instead of bright neon, the arches are outlined with a dim, steady rose-gold glow that accentuates the fruit's natural curves. "
                     "The minarets are capped with fresh green leaves, illuminated from below by subtle warm-white spotlights, creating a sophisticated and organic masterpiece."
                 ),
-                "Buah Nanas": (
+                "Buah Nanas Tipe 1": (
+                    "A grand 60cm mosque model constructed from fresh pineapple, being lifted up by two hands. "
+                    "The main dome is made from the green leafy crown of the pineapple, trimmed into a perfect sphere. "
+                    "The body features the yellow-orange hexagonal skin patterns, resembling ancient tiles. "
+                    "Features four tall, clearly defined minarets carved from solid pineapple cores, standing prominently. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the rough, scaly texture of the fruit."
+                ),
+                "Buah Nanas Tipe 2": (
+                    "A massive 60cm mosque miniature carved from the bright yellow internal flesh of a pineapple, held firmly by hands. "
+                    "The walls have a fibrous, juicy yellow texture with horizontal carving lines. "
+                    "Features two towering minarets standing prominently at the front, looking very structural and solid. "
+                    "The character is lifting the heavy 60cm fruit mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the vibrant yellow organic surface."
+                ),
+                "Buah Nanas Tipe 3": (
+                    "A sturdy 60cm mosque fortress made entirely of the dark brown and green pineapple rind. "
+                    "The natural hexagonal patterns of the skin act as the building blocks for the walls. "
+                    "Features massive, thick minarets made of stacked pineapple rind cylinders, standing tall. "
+                    "Hands are gripping the sides of the heavy 60cm structure. "
+                    "No lights, no glowing effects. A very rugged and detailed organic stone-like look."
+                ),
+                "Buah Nanas Tipe 4": (
+                    "A unique 60cm mosque model where the minarets and arches are decorated with the sharp, spiky green leaves of the pineapple. "
+                    "The architecture is bold and sharp, using the fruit's natural spikes as decorative finials. "
+                    "The main dome is polished yellow flesh. It is being lifted up by a character. "
+                    "No artificial lights. High contrast between the green spikes and the yellow fruit body."
+                ),
+                "Buah Nanas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all layers: green leaves for the top, hexagonal rind for the walls, and yellow flesh for the domes. "
+                    "Every part is 100% pineapple. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure fruit craftsmanship in bright natural light."
+                ),
+                "Buah Nanas Tipe 6": (
                     "A grand 1-meter standalone mosque object built from interlocking geometric pineapple rind segments. "
                     "The diamond-patterned skin creates a rugged, golden-brown architectural armor. "
                     "The main dome is a massive sphere of carved, succulent yellow pineapple, glowing with a 'Champagne Solar' internal LED that highlights the fibrous golden veins of the fruit. "
                     "The sharp, spiked green crowns of the pineapple form the minaret towers, lit with a very dim, steady emerald-green wash from the base. "
                     "No neon strips; instead, the light 'bleeds' naturally through the gaps in the rind, creating a rhythmic and high-luxury play of light and shadow."
                 ),
-                "Buah Melon": (
+                "Buah Melon Tipe 1": (
+                    "A grand 60cm mosque model made of 100% real honeydew melon, lifted up by two hands. "
+                    "The exterior walls feature the natural white netted 'web' pattern of the green melon skin, looking like complex carvings. "
+                    "The domes are smooth spheres of light-green melon flesh. "
+                    "Features four tall minarets standing prominently, carved from solid melon rind. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the textured skin and juicy flesh."
+                ),
+                "Buah Melon Tipe 2": (
+                    "A massive 60cm mosque miniature carved from the vibrant orange flesh of a Cantaloupe melon, held firmly by hands. "
+                    "The walls have a dense, matte orange fruit texture with clean architectural lines. "
+                    "Features two towering minarets standing prominently at the front, looking very solid. "
+                    "The character is lifting the 60cm fruit mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the bright orange organic surface."
+                ),
+                "Buah Melon Tipe 3": (
+                    "A sturdy 60cm mosque model made entirely of bright yellow 'Golden Melon' skin. "
+                    "The exterior is smooth, shiny, and vibrant yellow, chiseled with simple Islamic geometric patterns. "
+                    "Features prominent yellow minarets standing tall at each corner. "
+                    "Hands are gripping the base of the heavy 60cm structure. "
+                    "No lights, no glowing effects. A very clean and premium organic look."
+                ),
+                "Buah Melon Tipe 4": (
+                    "A unique 60cm mosque model where the skin of the melon is partially peeled to create a white and green lattice effect. "
+                    "The architecture is intricate, showing the layers of the melon rind. "
+                    "The main dome is a large, polished sphere of pale-green flesh. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. High contrast between the outer skin and inner flesh."
+                ),
+                "Buah Melon Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all layers: the textured outer net-skin, the firm white rind, and the soft colored flesh. "
+                    "Every part is 100% melon fruit. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at the corners. "
+                    "No lighting, no electronics, no LEDs. Pure fruit craftsmanship in natural light."
+                ),
+                "Buah Melon Tipe 6": (
                     "A colossal 1-meter diorama built from honeydew and cantaloupe melon. "
                     "The walls showcase the intricate, reticulated 'net' texture of the rind, looking like aged ivory carvings. "
                     "The colossal main dome is made of translucent pale-jade melon flesh, filled with a 'Starlight Mint' internal lighting scheme—thousands of micro-fiber optic points that twinkle like a distant galaxy. "
                     "The minarets are smooth, polished rinds with a soft, steady turquoise glow emanating from the window slits. "
                     "The overall lighting is soft, ethereal, and diffused, making the mosque appear like a glowing emerald sanctuary in a quiet, twilight atmosphere."
-                ),
-                "Buah Naga": (
-                    "A monumental 1-meter mosque object built from the vibrant anatomy of Dragonfruit. "
-                    "The walls are covered in overlapping magenta rind scales with lime-green tips, creating a futuristic 'organic armor' look. "
-                    "The colossal main dome is a sphere of translucent white dragonfruit flesh, embedded with millions of tiny black seeds that create a natural 'stardust' texture. "
-                    "Inside, a 'Cyber-Violet' internal LED glow pulses slowly, making the seeds look like a floating galaxy trapped in ice. "
-                    "Minarets are built from twisted magenta rinds, illuminated with thin, steady electric-pink fiber-optic lines that accentuate the sharp scales."
                 ),
                 "Buah Salak": (
                     "A grand 1-meter mosque model constructed entirely from snake-fruit (salak) scales. "
@@ -316,14 +519,84 @@ def tampilkan_halaman():
                     "The light bleeds through the translucent green flesh, highlighting every tiny fiber. "
                     "Minarets are smooth, carved kiwi wood capped with vibrant green slices, lit with steady mint-colored fiber-optics for a fresh, serene architectural vibe."
                 ),
-                "Buah Pisang": (
+                "Buah Pisang Tipe 1": (
+                    "A grand 60cm mosque model constructed entirely from fresh yellow bananas, lifted up by two hands. "
+                    "The exterior walls are made of smooth, vibrant yellow banana peels, looking like polished golden plates. "
+                    "The main dome is a large sphere carved from a cluster of banana fruit. "
+                    "Features four tall minarets standing prominently, made of long, straight unpeeled bananas. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the smooth yellow organic texture."
+                ),
+                "Buah Pisang Tipe 2": (
+                    "A massive 60cm mosque miniature carved from the firm white internal flesh of bananas, held firmly by hands. "
+                    "The walls have a dense, creamy white fruit texture with vertical carving lines. "
+                    "Features two towering minarets standing prominently at the front, looking solid and structural. "
+                    "The character is lifting the 60cm white fruit mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the clean white organic surface."
+                ),
+                "Buah Pisang Tipe 3": (
+                    "A sturdy 60cm mosque model made of 100% green unripened banana skin. "
+                    "The exterior is a solid dark green with a matte, slightly ridged texture. "
+                    "Features prominent green minarets made of thick, straight green banana sections. "
+                    "Hands are gripping the sides of the heavy 60cm green structure. "
+                    "No lights, no glowing effects. A very rugged and firm organic look."
+                ),
+                "Buah Pisang Tipe 4)": (
+                    "A unique 60cm mosque model where the yellow banana skins are etched with geometric Islamic patterns, revealing the white flesh underneath. "
+                    "The architecture is intricate, showing high contrast between yellow skin and white interior. "
+                    "The main dome is a large, polished yellow sphere. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. High contrast and detailed hand-carved fruit textures."
+                ),
+                "Buah Pisang Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts of the banana: the yellow outer peel for the base, "
+                    "the white fruit for the walls, and the stem sections for decorative pillars. "
+                    "Every component is 100% banana. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure fruit craftsmanship in natural light."
+                ),
+                "Buah Pisang Tipe 6": (
                     "A monumental 1-meter mosque diorama built from the complete anatomy of a banana tree. "
                     "The walls are crafted from layers of fresh, waxy green banana leaves with deep, parallel ribbing textures. "
                     "The colossal main dome is a sphere made of thousands of curved, bright yellow banana slices, glowing from within with a 'Soft Canary' LED scheme that highlights the tiny black seeds in the center. "
                     "Tall minarets are built from the textured, fibrous stalks of the banana bunch, wrapped in steady warm-white fiber-optic lines. "
                     "All entrance arches are outlined with a dim, steady lime-green neon glow, reflecting off the glossy, organic surface of the leaves."
                 ),
-                "Buah Manggis": (
+                "Buah Manggis Tipe 1": (
+                    "A grand 60cm mosque model constructed entirely from dark purple mangosteen rinds, lifted up by two hands. "
+                    "The exterior walls are made of thick, smooth, deep-purple mangosteen skins with a matte finish. "
+                    "The main dome is a large sphere carved from the purple rind, featuring the iconic star-shaped fruit bottom as a decorative crest. "
+                    "Features four tall minarets standing prominently, made of stacked purple rind sections. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the rich purple organic texture."
+                ),
+                "Buah Manggis Tipe 2": (
+                    "A massive 60cm mosque miniature carved from the pristine white internal segments of mangosteen, held firmly by hands. "
+                    "The walls have a soft, juicy, and bright white fruit texture, looking like pure snow. "
+                    "Features two towering minarets standing prominently at the front, looking very structural and solid. "
+                    "The character is lifting the 60cm white fruit mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the clean white organic surface."
+                ),
+                "Buah Manggis Tipe 3": (
+                    "A sturdy 60cm mosque model featuring the thick green sepals (leaves) of the mangosteen as decorative elements. "
+                    "The body is made of dark purple rind, while the minaret tops and dome accents are made of the sturdy green fruit stems. "
+                    "Features prominent minarets standing tall at each corner. "
+                    "Hands are gripping the sides of the heavy 60cm purple and green structure. "
+                    "No lights, no glowing effects. A very vibrant and detailed organic look."
+                ),
+                "Buah Manggis Tipe 4": (
+                    "A unique 60cm mosque model where the dark purple skin is partially carved away to reveal the white flesh segments underneath. "
+                    "The architecture shows high contrast between the thick purple walls and the white interior rooms visible through arched windows. "
+                    "The main dome is a large, polished purple sphere. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. High contrast and detailed hand-carved fruit textures."
+                ),
+                "Buah Manggis Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts: the dark purple outer rind for the walls, "
+                    "the green stem for the pillars, and the white segments for the domes. "
+                    "Every component is 100% mangosteen. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure fruit craftsmanship in natural light."
+                ),
+                "Buah Manggis Tipe 6": (
                     "A monumental 1-meter mosque model built from Mangosteen anatomy. "
                     "The walls are thick, matte-textured rinds in deep royal purple. "
                     "The main dome is a sphere of snow-white mangosteen segments with a high-gloss finish, glowing from within with a 'Celestial White' LED that makes it look like polished marble. "
@@ -349,12 +622,76 @@ def tampilkan_halaman():
                     "Tall minarets are crafted from stacked purple grapes, wrapped in intensely flickering colorful LED fairy lights and framed by intense multi-colored RGB neon strips. "
                     "The entire fruity surface glows powerfully against the dark background, casting a magical, colorful wash over the intricate sugary craftsmanship."
                 ),
-                "Kelapa": (
+                "Batok Kelapa Tipe 1": (
+                    "A grand 60cm mosque model made of 100% polished dark brown coconut shells, lifted up by two hands. "
+                    "The exterior walls and domes are made of smooth, deep-brown shell sections with a natural glossy finish. "
+                    "Features four tall minarets standing prominently, made of precisely turned coconut shell cylinders. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the rich woody texture and smooth surface."
+                ),
+                "Batok Kelapa Tipe 2": (
+                    "A massive 60cm mosque miniature featuring the rough, hairy fibrous texture of an unpolished coconut shell. "
+                    "The architecture looks ancient and organic, with visible coconut fibers on the walls. "
+                    "Features two towering minarets standing prominently at the front, looking very structural. "
+                    "The character is lifting the 60cm heavy structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, earthy organic surface."
+                ),
+                "Batok Kelapa Tipe 3": (
+                    "A unique 60cm mosque model where the dark shell is carved to reveal the bright white coconut meat inside. "
+                    "The domes are smooth white spheres of coconut meat, while the walls are dark brown shell. "
+                    "Features prominent brown minarets standing tall at each corner. "
+                    "Hands are gripping the sides of the heavy 60cm structure. "
+                    "No lights, no glowing effects. High contrast between the dark shell and white interior."
+                ),
+                "Batok Kelapa Tipe 4": (
+                    "A detailed 60cm mosque model constructed from thousands of small, hand-cut coconut shell squares in a mosaic pattern. "
+                    "The architecture is complex, featuring intricate geometric Islamic fretwork carved into the shell. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the craftsmanship and the natural dark brown shades."
+                ),
+                "Batok Kelapa Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts: polished shell for the domes, rough husk for the base, and white meat for the windows. "
+                    "Every component is 100% coconut. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure organic craftsmanship in natural light."
+                ),
+                "Batok Kelapa Tipe 6": (
                     "A monumental 1-meter mosque diorama built from the rugged anatomy of Coconuts. "
                     "The walls feature the raw, fibrous brown texture of coconut husks (sabut) and polished dark-brown coconut shells (batok). "
                     "The colossal main dome is made of translucent, snowy-white coconut flesh with a high-gloss finish, glowing from within with a 'Crystal White' LED that highlights the organic ridges. "
                     "Minarets are crafted from stacked coconut shells, wrapped in steady warm-white fiber-optic lines that accentuate the rough fibers. "
                     "The lighting is humble yet dignified, seeping through the fibrous cracks of the husk against a dark, moody background."
+                ),
+                "Serabut Kelapa Tipe 1": (
+                    "A grand 60cm mosque model made entirely from raw brown coconut husk fibers, lifted up by two hands. "
+                    "The walls and domes are constructed from densely packed and shaped coconut fibers, giving a fuzzy and organic appearance. "
+                    "Features four tall minarets standing prominently, made of tightly bound fiber columns. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the messy yet structured fibrous texture."
+                ),
+                "Serabut Kelapa Tipe 2": (
+                    "A massive 60cm mosque miniature featuring intricate patterns made of braided coconut fibers. "
+                    "The architecture is defined by thick, woven ropes of husk that form the arches and domes. "
+                    "Features two towering minarets standing prominently, looking like solid woven pillars. "
+                    "The character is lifting the 60cm heavy fiber mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the complex woven organic surface."
+                ),
+                "Serabut Kelapa Tipe 3": (
+                    "A sturdy 60cm mosque model made of sun-dried golden-yellow coconut husks. "
+                    "The exterior has a lighter, brighter tone with a very dry and coarse texture. "
+                    "Features prominent golden fiber minarets standing tall at each corner. "
+                    "Hands are gripping the sides of the heavy 60cm structure. "
+                    "No lights, no glowing effects. A very rustic, earthy, and sun-kissed organic look."
+                ),
+                "Serabut Kelapa Tipe 4": (
+                    "A detailed 60cm mosque model where the coconut husk is compressed into solid blocks before being carved. "
+                    "The architecture shows clean lines but with the visible texture of thousands of tiny overlapping fibers. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the density of the fiber and the hand-crafted mosque shape."
+                ),
+                "Serabut Kelapa Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing a mix of loose fibers for the domes and compressed husk for the walls. "
+                    "Every part is 100% coconut husk and fiber material. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure organic craftsmanship in natural light."
                 ),
                 "Buah Markisa": (
                     "A gigantic 1-meter mosque model built from Passionfruit anatomy. "
@@ -363,7 +700,41 @@ def tampilkan_halaman():
                     "Inside, a 'Solar Flare' golden LED scheme makes the seeds look like a floating nebula trapped in glass. "
                     "Every minaret is a pillar of purple rind wrapped in thin, steady violet neon strips, casting a powerful, saturated glow over the wet, glossy fruity interior."
                 ),
-                "Daun Pisang": (
+                "Daun Pisang Tipe 1": (
+                    "A grand 60cm mosque model constructed entirely from fresh vibrant green banana leaves, lifted up by two hands. "
+                    "The structure is made of expertly folded and layered leaf sections, showing the natural parallel vein textures. "
+                    "The domes are large spheres made of overlapping leaf strips. "
+                    "Features four tall minarets standing prominently, made of tightly rolled green leaves. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the waxy green surface."
+                ),
+                "Daun Pisang Tipe 2": (
+                    "A majestic 60cm mosque miniature made from ripening yellow banana leaves, held firmly by hands. "
+                    "The architecture has a bright golden-yellow tone with soft organic textures. "
+                    "Features two towering minarets standing prominently, made of bundled yellow leaf midribs. "
+                    "The character is lifting the 60cm yellow structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the smooth yellow organic surface."
+                ),
+                "Daun Pisang Tipe 3": (
+                    "A unique 60cm mosque model featuring a mix of fresh green and naturally dried brown banana leaves. "
+                    "The architecture shows a beautiful contrast between the flexible green walls and the crisp brown domes. "
+                    "Features prominent minarets standing tall at each corner with alternating textures. "
+                    "Hands are gripping the sides of the heavy 60cm folded leaf structure. "
+                    "No lights, no glowing effects. High contrast between fresh and dried leaf textures."
+                ),
+                "Daun Pisang Tipe 4": (
+                    "A detailed 60cm mosque model where the frame is made of thick banana leaf midribs and covered in thin leaf layers. "
+                    "The architecture is sharp and sturdy, showing the thick structural veins of the banana leaf. "
+                    "Features four clearly defined minarets made of straight, bundled leaf ribs. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the craftsmanship and the natural green shades."
+                ),
+                "Daun Pisang Tipe 5": (
+                    "A rustic 60cm architectural mosque model made entirely of sun-dried, papery brown banana leaves. "
+                    "The texture is crisp, featuring the iconic shredded edges of old banana leaves. "
+                    "Every part is 100% dried banana leaf. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure organic craftsmanship in natural light."
+                ),
+                "Daun Pisang Tipe 6": (
                     "A monumental 1-meter mosque model built from layers of fresh and dried banana leaves. "
                     "The walls feature the deep, rhythmic parallel ribbing of waxy green leaves. "
                     "The main dome is a colossal sphere of tightly woven young banana leaves (janur), glowing with an internal 'Forest Mint' LED that highlights the translucent green veins. "
@@ -383,7 +754,40 @@ def tampilkan_halaman():
                     "The colossal dome is a dense weave of delicate fern leaves, illuminated by a 'Neon Lime' internal wash that creates complex shadows. "
                     "Tall minarets are crafted from upright fern stalks wrapped in thin, silver-white fiber-optic lines, looking like a glowing jungle sanctuary."
                 ),
-                "Daun Kelapa": (
+                "Daun Kelapa Tipe 1": (
+                    "A grand 60cm mosque model intricately woven from young yellow coconut leaves (janur), lifted up by two hands. "
+                    "The entire structure features complex traditional weaving patterns, with a bright pale-yellow color. "
+                    "The domes are smooth, woven spheres, and the four tall minarets are tightly braided yellow leaf strips standing prominently. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the fresh, flexible organic texture."
+                ),
+                "Daun Kelapa Tipe 2": (
+                    "A sturdy 60cm mosque miniature made from mature dark-green coconut leaves, held firmly by hands. "
+                    "The walls are made of layered green leaf sections, looking like organic shingles or tiles. "
+                    "Features two towering minarets standing prominently, made of thick, bundled green leaf ribs (lidi). "
+                    "The character is lifting the 60cm green structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the vibrant green organic surface."
+                ),
+                "Daun Kelapa Tipe 3": (
+                    "A unique 60cm mosque model featuring a mix of young yellow janur and mature green leaves. "
+                    "The architecture shows a beautiful color gradient, with green bases and yellow woven domes. "
+                    "Features prominent minarets standing tall at each corner with alternating green and yellow patterns. "
+                    "Hands are gripping the sides of the 60cm woven structure. "
+                    "No lights, no glowing effects. High contrast between the yellow and green leaf textures."
+                ),
+                "Daun Kelapa Tipe 4": (
+                    "A detailed 60cm mosque model where the framework is made of coconut leaf midribs (lidi) and covered in thin leaf strips. "
+                    "The architecture is sharp and skeletal yet elegant, showing the strength of the leaf ribs. "
+                    "Features four clearly defined, very straight minarets made of bundled lidi. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the craftsmanship and the natural light-brown and green shades."
+                ),
+                "Daun Kelapa Tipe 5": (
+                    "A majestic 60cm architectural mosque model made of sun-dried brown coconut leaves. "
+                    "The texture is crisp and papery, giving an ancient, rustic look like a traditional temple. "
+                    "Every part is 100% dried coconut leaf. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure organic craftsmanship in natural light."
+                ),
+                "Daun Kelapa Tipe 6": (
                     "A monumental 1-meter mosque diorama built from the complete anatomy of Coconut leaves. "
                     "The walls are constructed from millions of dry, brown coconut leaflets arranged in a sharp, rhythmic chevron pattern. "
                     "The colossal main dome is a masterwork of 'Janur' (young yellow coconut leaves), woven into an intricate, tight diamond-mesh pattern. "
@@ -673,7 +1077,40 @@ def tampilkan_halaman():
                     "The main dome is a sphere of polished soybeans, glowing with a 'Vanilla Gold' internal LED that creates a soft, diffused halo. "
                     "The look is serene, clean, and highlights the perfect roundness of each individual grain."
                 ),
-                "Anyaman Bambu": (
+                "Anyaman Bambu Tipe 1": (
+                    "A grand 60cm mosque model made of finely woven natural bamboo strips, lifted up by two hands. "
+                    "The exterior walls feature a tight, diagonal weaving pattern (besek style) with a light beige color. "
+                    "The domes are perfectly spherical woven bamboo baskets. "
+                    "Features four tall minarets standing prominently, made of hollow bamboo tubes wrapped in thin strips. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the intricate hand-woven texture."
+                ),
+                "Anyaman Bambu Tipe 2": (
+                    "A massive 60cm mosque miniature made from dark, smoke-roasted bamboo. "
+                    "The architecture has a rich dark-brown tone with a slightly glossy, burnt finish. "
+                    "Features two towering minarets standing prominently, made of thick solid bamboo poles. "
+                    "The character is lifting the 60cm heavy structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the polished dark woody surface."
+                ),
+                "Anyaman Bambu Tipe 3": (
+                    "A sturdy 60cm mosque model constructed from freshly split green bamboo skins. "
+                    "The exterior shows a vibrant green, waxy texture with visible bamboo nodes as decorative elements. "
+                    "Features prominent green minarets standing tall at each corner, made of straight bamboo slats. "
+                    "Hands are gripping the sides of the heavy 60cm bamboo structure. "
+                    "No lights, no glowing effects. A very fresh, raw, and organic architectural look."
+                ),
+                "Anyaman Bambu Tipe 4": (
+                    "A detailed 60cm mosque model where the walls are made of open-weave bamboo lattice, allowing light to pass through. "
+                    "The architecture is intricate and airy, showing high craftsmanship in the hollow fretwork. "
+                    "Features four clearly defined minarets made of bundled thin bamboo sticks. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the shadows and the natural light-tan bamboo shades."
+                ),
+                "Anyaman Bambu Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all forms of bamboo: thick poles for the base, thin split strips for the walls, and fine shavings for the dome. "
+                    "Every component is 100% bamboo. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure bamboo craftsmanship in bright natural daylight."
+                ),
+                "Anyaman Bambu Tipe 6": (
                     "A fragile 1-meter mosque diorama built from weathered 'Gedhek' (woven bamboo) walls. "
                     "The bamboo is old, showing realistic greyish-brown discoloration and frayed splinters. "
                     "The colossal main dome is a sphere of loosely woven bamboo strips, glowing from within with a flickering 'Kerosene Lamp' amber LED. "
@@ -685,11 +1122,143 @@ def tampilkan_halaman():
                     "The main dome is a thick, thatched hay roof glowing with a dim 'Candle-light' warm orange LED. "
                     "This looks like a sanctuary built from the remnants of a harvest, looking extremely fragile and poetic."
                 ),
-                "Tanah Liat": (
+                "Tanah Liat Tipe 1": (
+                    "A grand 60cm mosque model constructed entirely from rustic terracotta clay, lifted up by two hands. "
+                    "The exterior walls and domes are unglazed with a warm reddish-orange color. "
+                    "The surface shows smooth, matte, and porous terracotta pottery textures. "
+                    "Features four clearly defined tall minarets standing prominently, made of stacked clay sections. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the warm, earthy texture of the clay."
+                ),
+                "Tanah Liat Tipe 2": (
+                    "A massive 60cm mosque miniature made from thick, rough, dark-brown wet clay. "
+                    "The architecture is defined by heavy, rounded shapes with visible finger marks and hand-carved details. "
+                    "Features two towering minarets standing prominently at the front, looking very structural and solid. "
+                    "The character is lifting the 60cm heavy structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, matte organic surface."
+                ),
+                "Tanah Liat Tipe 3": (
+                    "A unique 60cm mosque model made of earthen terracotta with some glazed patterns in turquoise and white. "
+                    "The architecture shows a mix of matte brown clay base and shiny, reflective glazed ceramic sections on the domes. "
+                    "Features prominent minarets standing tall at each corner with alternating matte and glazed textures. "
+                    "Hands are gripping the sides of the heavy 60cm structure. "
+                    "No lights, no glowing effects. High contrast between the earthy clay and smooth glaze."
+                ),
+                "Tanah Liat Tipe 4": (
+                    "A detailed 60cm mosque model where the clay is sculpted into open-work lattice patterns, allowing light to pass through. "
+                    "The architecture is intricate yet heavy, showing complex hand-sculpted Islamic geometric fretwork. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the shadows and the natural light-tan clay shades."
+                ),
+                "Tanah Liat Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all forms of clay: unglazed base, polished body, and incised domes. "
+                    "Every component is 100% clay. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure organic craftsmanship in bright natural daylight."
+                ),
+                "Tanah Liat Tipe 6": (
                     "A monumental 1-meter mosque built from raw, sun-dried clay and coconut fibers. "
                     "The walls feature intense, hyper-detailed 'Cracked Earth' textures with realistic fissures and dusty debris. "
                     "The main dome is a sphere of baked terracotta, glowing with a 'Smoldering Ember' red LED seeping through the cracks. "
                     "The look is ancient, rugged, and deeply connected to the land, matching the weary faces of the elderly characters."
+                ),
+                "Koran Bekas Tipe 1": (
+                    "A grand 60cm mosque model made entirely from crumpled and recycled old newspapers, lifted up by two hands. "
+                    "The walls and domes show a natural messy texture of folded paper with visible black headlines and tiny news columns. "
+                    "The paper has a slightly yellowish aged tint. Features four tall minarets made of tightly rolled old newspaper tubes. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the matte, recycled paper texture."
+                ),
+                "Koran Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature featuring complex origami-style folds from greyish old newsprint. "
+                    "The architecture is defined by sharp paper edges and layered paper sheets. "
+                    "Visible fragments of black-and-white newspaper photos are scattered across the domes. "
+                    "The character is lifting the 60cm paper structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, aged paper surface."
+                ),
+                "Koran Bekas Tipe 3": (
+                    "A unique 60cm mosque model constructed from thousands of tightly rolled old newspaper sticks. "
+                    "The walls look like a log cabin but made of paper tubes with visible printed text spirals. "
+                    "Features prominent minarets standing tall at each corner, made of thick bundled newspaper rolls. "
+                    "Hands are gripping the base of the heavy 60cm paper structure. "
+                    "No lights, no glowing effects. High contrast between the white paper and black ink."
+                ),
+                "Koran Bekas Tipe 4": (
+                    "A detailed 60cm mosque model where the exterior is covered in small, torn pieces of old newspaper for a feathered effect. "
+                    "The architecture looks soft and highly textured, with torn paper edges visible everywhere. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "The paper shows signs of aging with slightly yellowed edges. No artificial lights."
+                ),
+                "Koran Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all forms of recycled paper: flat sheets for walls, crumpled pulp for domes, and rolled tubes for pillars. "
+                    "Every part is 100% old, used newspaper. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure recycled craftsmanship in natural light."
+                ),
+                "Kardus Bekas Tipe 1": (
+                    "A grand 60cm mosque model made of 100% old, used brown cardboard boxes, lifted up by two hands. "
+                    "The exterior features visible wear and tear, with creases and slightly frayed edges for a natural used look. "
+                    "The domes are constructed from curved sections of weathered cardboard showing the corrugated inner layers. "
+                    "Features four tall minarets standing prominently, made of rolled used cardboard tubes. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the matte, dusty brown texture."
+                ),
+                "Kardus Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature where parts of the outer cardboard layer are peeled off to reveal the wavy corrugated middle layer. "
+                    "The architecture looks rugged and highly textured, with a mix of smooth and ribbed brown paper surfaces. "
+                    "Features two towering minarets standing prominently at the front, looking solid and structural. "
+                    "The character is lifting the 60cm heavy cardboard structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, recycled cardboard surface."
+                ),
+                "Kardus Bekas Tipe 3": (
+                    "A unique 60cm mosque model constructed from layered pieces of used shipping boxes. "
+                    "Faint remnants of old black shipping ink or stamps are visible on the dull brown surface. "
+                    "Features prominent minarets standing tall at each corner, made of stacked square cardboard cutouts. "
+                    "Hands are gripping the base of the 60cm structure firmly. "
+                    "No lights, no glowing effects. A very authentic, hand-crafted DIY look."
+                ),
+                "Kardus Bekas Tipe 4": (
+                    "A detailed 60cm mosque model featuring deep fold lines and slight scratches on the cardboard surface to emphasize it is reused material. "
+                    "The architecture is sharp but shows the natural imperfections of old paperboard. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the matte brown shades and the shadows in the creases."
+                ),
+                "Kardus Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing different shades of used cardboard, from light tan to dark muddy brown. "
+                    "Every part is 100% recycled cardboard. It is being held securely in the air by two hands. "
+                    "The domes are made of many small overlapping cardboard scales. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure recycled craftsmanship in natural light."
+                ),
+                "Kaleng Bekas Tipe 1": (
+                    "A grand 60cm mosque model made from old rusted tin cans, lifted up by two hands. "
+                    "The exterior features dark orange rust spots and weathered metallic textures. "
+                    "The domes are made of curved scrap metal from old soda cans. "
+                    "Features four tall minarets standing prominently, made of stacked cylindrical food cans. "
+                    "No internal lights, no LEDs. Natural daylight highlighting the rough, oxidized metal surface."
+                ),
+                "Kaleng Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature made of recycled aluminum cans with visible dents and scratches. "
+                    "The architecture is defined by metallic grey surfaces that are no longer shiny, looking aged and used. "
+                    "Features two towering minarets standing prominently, made of elongated metal tubes from used spray cans. "
+                    "The character is lifting the 60cm heavy metal structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, industrial recycled surface."
+                ),
+                "Kaleng Bekas Tipe 3": (
+                    "A unique 60cm mosque model constructed from used tin cans with remnants of old colorful paint and peeling paper labels. "
+                    "Faint branding and logos are visible but weathered and faded on the metallic walls. "
+                    "Features prominent minarets standing tall at each corner, made of stacked tuna cans. "
+                    "Hands are gripping the base of the heavy 60cm metal structure. "
+                    "No lights, no glowing effects. A very authentic, hand-crafted scrap metal look."
+                ),
+                "Kaleng Bekas Tipe 4": (
+                    "A detailed 60cm mosque model where the exterior is covered in small, hand-cut squares of silver tin cans. "
+                    "The architecture features sharp edges and a patchwork pattern of different metal shades. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "No artificial lights. Focus on the reflections of natural light on the dull, scratched silver surfaces."
+                ),
+                "Kaleng Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all forms of used metal: lids for domes, cylindrical bodies for walls, and pull-tabs for decorative accents. "
+                    "Every part is 100% recycled tin and aluminum. It is being held securely in the air by two hands. "
+                    "Features multiple small minarets standing prominently at every corner. "
+                    "No lighting, no electronics, no LEDs. Pure scrap metal craftsmanship in natural light."
                 ),
                 "Kayu Lapuk": (
                     "A grand 1-meter mosque object made from weathered, rotting wood and soft green moss. "
@@ -715,6 +1284,39 @@ def tampilkan_halaman():
                     "The main dome is a sphere of radiating brick patterns, glowing with a 'Deep Ochre' internal LED that seeps through the porous clay. "
                     "The look is sturdy, warm, and reminiscent of ancient Majapahit architecture."
                 ),
+                "Botol Aqua Bekas Tipe 1": (
+                    "A grand 60cm mosque model made of hundreds of used transparent plastic water bottles, lifted by two hands. "
+                    "The walls are constructed from flattened plastic bottles, showing a lot of wrinkles, creases, and a slightly foggy, aged texture. "
+                    "The domes are made of the rounded top sections of the bottles. "
+                    "Features four tall minarets made of stacked transparent bottle bodies. "
+                    "No internal lights, no LEDs. Natural daylight creating realistic reflections on the distorted plastic."
+                ),
+                "Botol Aqua Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature featuring fragments of iconic blue plastic mineral water labels. "
+                    "The architecture is mostly clear plastic but decorated with torn blue strips of brand labels. "
+                    "Features two towering minarets standing prominently at the front, looking like recycled towers. "
+                    "The character is lifting the 60cm heavy plastic mosque to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, scratched recycled surface."
+                ),
+                "Botol Aqua Bekas Tipe 3": (
+                    "A unique 60cm mosque model where the walls and domes are covered in thousands of blue and white plastic bottle caps. "
+                    "The architecture is dense and colorful, with the circular patterns of the caps creating a unique texture. "
+                    "Features prominent minarets standing tall at each corner, made of stacked blue bottle caps. "
+                    "Hands are gripping the base of the heavy 60cm structure. "
+                    "No lights, no glowing effects. A very detailed, hand-crafted plastic look."
+                ),
+                "Botol Aqua Bekas Tipe 4": (
+                    "A detailed 60cm mosque model where the clear plastic is cut into thin strips and woven into lattice patterns. "
+                    "The architecture looks airy and complex, showing high contrast between the shadows and the translucent plastic. "
+                    "Features four clearly defined minarets standing tall. It is being lifted by a character. "
+                    "The plastic shows scratches and a matte finish to emphasize it is old material. No artificial lights."
+                ),
+                "Botol Aqua Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts of a plastic bottle: caps for decoration, labels for color, and the clear body for the main structure. "
+                    "Every part is 100% recycled plastic bottles. It is being held securely in the air by two hands. "
+                    "Visible signs of wear, dust, and minor scratches on the plastic surfaces. "
+                    "No lighting, no electronics, no LEDs. Pure recycled craftsmanship in natural light."
+                ),
                 "Ijuk Aren": (
                     "A gigantic 1-meter mosque diorama built from the tough, black fibers of the Sugar Palm tree (Ijuk). "
                     "The texture is intensely dark, wiry, and bristly, resembling thousands of black needles. "
@@ -738,6 +1340,39 @@ def tampilkan_halaman():
                     "The walls feature a vertical rhythmic texture of smooth, glossy bamboo segments. "
                     "The main dome is a sphere of steam-bent bamboo ribs, glowing from within with a 'Zen Amber' LED that highlights the natural wood nodes. "
                     "The look is clean, artistic, and reflects a high-end traditional craftsmanship."
+                ),
+                "Bungkus Bekas Tipe 1": (
+                    "A grand 60cm mosque model constructed from thousands of colorful used coffee sachets, lifted up by two hands. "
+                    "The exterior walls feature a patchwork of various coffee brands with visible logos like 'Kopi' and 'Coffee' in faded colors. "
+                    "The plastic texture is crinkled and matte, showing signs of being reused. "
+                    "Features four tall minarets made of tightly rolled sachet tubes. "
+                    "No internal lights, no LEDs. Natural daylight reflecting on the crinkled plastic surface."
+                ),
+                "Bungkus Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature where the silver foil interior of coffee sachets is used as the primary material. "
+                    "The architecture looks like dull, wrinkled silver metal with occasional pops of colorful brand graphics. "
+                    "Features two towering minarets standing prominently at the front, looking like structural silver pillars. "
+                    "The character is lifting the 60cm heavy plastic structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the wrinkled, recycled foil texture."
+                ),
+                "Bungkus Bekas Tipe 3": (
+                    "A unique 60cm mosque model made of coffee sachets cut into strips and woven into complex patterns. "
+                    "The walls show a dense, textured plastic weave with a mix of red, black, and brown colors from various coffee packaging. "
+                    "Features prominent minarets standing tall at each corner, made of bundled plastic strips. "
+                    "Hands are gripping the base of the 60cm woven structure. "
+                    "No lights, no glowing effects. A very detailed, hand-crafted recycled look."
+                ),
+                "Bungkus Bekas Tipe 4": (
+                    "A detailed 60cm mosque model where the exterior is covered in overlapping small squares of coffee sachets, resembling roof shingles. "
+                    "The domes are rounded and covered in hundreds of tiny, weathered plastic pieces. "
+                    "Features four clearly defined minarets standing tall. It is being lifted up by a character. "
+                    "The plastic shows creases and small tears to emphasize it is old material. No artificial lights."
+                ),
+                "Bungkus Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts: rolled sachets for minarets, flat sheets for walls, and crinkled foil for the domes. "
+                    "Every part is 100% recycled coffee packaging. It is being held securely in the air by two hands. "
+                    "Visible remnants of barcodes and expired dates on the weathered plastic surfaces. "
+                    "No lighting, no electronics, no LEDs. Pure recycled craftsmanship in natural light."
                 ),
                 "Batu Cadas": (
                     "A grand 1-meter mosque diorama carved from raw white sandstone (batu cadas) and intertwined with gnarled tree roots. "
@@ -862,7 +1497,40 @@ def tampilkan_halaman():
                     "The main dome is a skeletal structure of burnt paper fragments, glowing with a flickering 'Candlelight' LED that leaks through the holes. "
                     "This creates a hauntingly beautiful, historic, and deeply melancholic classic atmosphere."
                 ),
-                "Bungkus Mie Bekas": (
+                "Bungkus Mie Bekas Tipe 1": (
+                    "A grand 60cm mosque model made of thousands of recycled instant noodle wrappers, lifted by two hands. "
+                    "The exterior is a colorful collage of red, yellow, and white plastic, with fragmented images of noodles and brand text visible. "
+                    "The plastic texture is distinctly crinkled and oily, looking authentically reused. "
+                    "Features four tall minarets made of tightly rolled plastic wrappers. "
+                    "No internal lights, no LEDs. Natural daylight reflecting on the wrinkled plastic surface."
+                ),
+                "Bungkus Mie Bekas Tipe 2": (
+                    "A massive 60cm mosque miniature primarily using the silver seasoning sachets found inside noodle packs. "
+                    "The architecture has a dull, metallic silver finish with countless small wrinkles and creases. "
+                    "Features two towering minarets standing prominently at the front, looking like recycled industrial towers. "
+                    "A character is lifting the 60cm structure to chest height. "
+                    "No electronics, no lighting, no LEDs. Focus on the raw, crinkled foil texture."
+                ),
+                "Bungkus Mie Bekas Tipe 3": (
+                    "A unique 60cm mosque model constructed from instant noodle wrappers cut into long strips and woven together. "
+                    "The walls show a dense, vibrant plastic weave with a chaotic mix of colors from seasoning and noodle packs. "
+                    "Features prominent minarets standing tall at each corner, made of bundled plastic braids. "
+                    "Hands are gripping the base of the heavy 60cm woven structure. "
+                    "No lights, no glowing effects. A very detailed, hand-crafted recycled look."
+                ),
+                "Bungkus Mie Bekas Tipe 4": (
+                    "A detailed 60cm mosque model where the exterior is covered in small, overlapping square pieces of noodle wrappers. "
+                    "The domes are rounded and covered in hundreds of tiny, weathered plastic 'scales' showing bits of noodle graphics. "
+                    "The plastic shows creases, small tears, and a matte finish to emphasize it is old material. "
+                    "Features four clearly defined minarets standing tall. It is being lifted by a character."
+                ),
+                "Bungkus Mie Bekas Tipe 5": (
+                    "A majestic 60cm architectural mosque model showing all parts of noodle packaging: outer wrappers for walls, silver foil for domes, and bundled plastic for pillars. "
+                    "Every part is 100% recycled noodle packaging. It is being held securely in the air by two hands. "
+                    "Visible remnants of price tags or barcodes on the weathered plastic surfaces. "
+                    "No lighting, no electronics, no LEDs. Pure recycled craftsmanship in natural light."
+                ),
+                "Bungkus Mie Bekas Tipe 6": (
                     "A heartbreaking 1-meter mosque model built from hundreds of crumpled, sun-faded instant noodle and snack wrappers. "
                     "The plastic is worn, dusty, and lost its shine, representing the remnants of a very humble life. "
                     "The lighting is a dim, struggling 'Oil-Lamp Amber' LED that flickers weakly, as if it might go out. "
