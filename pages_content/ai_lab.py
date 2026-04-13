@@ -55,7 +55,7 @@ def tampilkan_halaman():
                 st.write("- Download gambar di `GEMINI FLOW` pilih yang ukuran 2K, boleh pilih 1K *jika akun limit*.")
                 st.write("- Download hasil video di `GROK` wajib ukuran minimal `720p` ( *Tidak boleh 480p* ).")
         
-        st.warning("**💡 Pisahkan Hasil Video Kakek dan Nenek ( Jangan dijadikan satu )**")           
+        st.warning("💡 *Saat setor ke Admin*, Pisahkan Hasil Video Kakek dan Nenek ( *Jangan dijadikan satu* )")           
         st.write("") # Spacing
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
