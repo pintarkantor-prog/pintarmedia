@@ -2836,10 +2836,56 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
                 
     # ==========================================================================
-    # TAB 2: MASJID VERSI BARU
+    # TAB 2: MASJID VERSI BARU (ALUR TRAGEDI & HARAPAN)
     # ==========================================================================
     with t_masjid_v2:
-        st.status("Sedang proses pembuatan...", expanded=False)
+        with st.container(border=True):
+            st.subheader("🧬 Master DNA Konten (Tragedy to Success)")
+            
+            # --- SEKSI 1: MASTER DNA ---
+            col_dna1, col_dna2 = st.columns(2)
+            with col_dna1:
+                dna_tokoh = st.selectbox("DNA Karakter:", ["Kakek (Sun-baked, Kerutan Dalam, Peci Lusuh)", "Nenek (Wajah Teduh, Jilbab Sederhana, Batik Kuno)"])
+                dna_pakaian = st.text_input("Detail Pakaian DNA:", "Kemeja flanel lusuh warna abu-abu")
+                dna_lokasi = st.text_input("DNA Lokasi:", "Pinggir jalan raya Pantura yang berdebu")
+            
+            with col_dna2:
+                dna_masjid = st.text_input("DNA Miniatur Masjid:", "Miniatur Masjid Agung dengan atap tumpuk kayu")
+                dna_kendaraan = st.selectbox("DNA Kendaraan Perusak:", ["Truk Gandeng", "Bus Malam", "Mobil Box"])
+                input_dialog_b = st.text_area("✍️ Dialog Adegan B (Hanya untuk Adegan Emosi):", 
+                                            placeholder="Contoh: Nak, tolong bantu kakek bangun masjid ini lagi dengan tekan tombol like dan subscribe ya...")
+
+            if st.button("🚀 Generate Master DNA Sequence"):
+                # LOGIC DNA CONSISTENCY
+                char_base = "An old man" if "Kakek" in dna_tokoh else "An old woman"
+                dna_desc = f"{char_base} with {dna_tokoh.split('(')[1].replace(')', '')}, wearing {dna_pakaian}. Sitting at {dna_lokasi}."
+
+                # --- 1. PROMPT GEMINI (MASTER DNA IMAGE) ---
+                st.markdown("### 📸 1. Prompt Master Visual (Gemini)")
+                st.info("Hasilkan gambar Master DNA ini sebagai referensi utama di Grok.")
+                master_prompt = f"Hyper-realistic 2K photo of {dna_desc}. Holding an 80% finished {dna_masjid}. Cinematic lighting, morning sun, dusty atmosphere. Highly detailed wood texture. Background blurred road."
+                st.code(master_prompt)
+
+                st.divider()
+
+                # --- 2. PROMPT GROK (VIDEO SEQUENCE) ---
+                st.markdown("### 🎥 2. Video Sequence (Grok - Reference Enabled)")
+                
+                # ADEGAN A: TRAGEDI
+                with st.expander("🎬 ADEGAN A: THE INCIDENT (TRAGEDY)", expanded=True):
+                    adegan_a = f"[Reference Image] High motion. {dna_desc} is adjusting {dna_masjid}. Suddenly, a {dna_kendaraan} speed past (off-screen), creating a massive wind gust. The 80% finished {dna_masjid} collapses and shatters. The character looks devastated."
+                    st.code(adegan_a)
+
+                # ADEGAN B: EMOSI + DIALOG (INJECTED)
+                with st.expander("🎬 ADEGAN B: THE PLEA (EMOTION & DIALOG)", expanded=True):
+                    st.write(f"**💬 Dialog Terdeteksi:** *{input_dialog_b}*")
+                    adegan_b = f"[Reference Image] Close-up emotional shot. {dna_desc} looks directly at the camera with glistening eyes. Mouth moves as if saying: '{input_dialog_b}'. Shaky hands gesturing a humble plea for like and subscribe. Heartbreaking atmosphere."
+                    st.code(adegan_b)
+
+                # ADEGAN C: REDEMPTION
+                with st.expander("🎬 ADEGAN C: THE SUCCESS (REPAIR)", expanded=True):
+                    adegan_c = f"[Reference Image] Fast-paced montage. {dna_desc} carefully repairing {dna_masjid}. Ending with the {dna_masjid} 100% finished and perfect. Character gives a faint, peaceful smile of gratitude to the camera."
+                    st.code(adegan_c)
 
     # ==========================================================================
     # TAB 3: ROBLOX
