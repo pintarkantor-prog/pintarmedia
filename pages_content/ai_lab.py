@@ -2836,7 +2836,7 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
                 
     # ==========================================================================
-    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & REVISI LOGIC V2)
+    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & REVISI LOGIC V3 - 4 SCENES)
     # ==========================================================================
     with t_masjid_v2:
         # --- 1. DATA MASTER DNA KHUSUS V2 (ANTIBOCOR & NATURAL) ---
@@ -2847,28 +2847,26 @@ def tampilkan_halaman():
             },
             "PAKAIAN": {
                 "Batik Cokelat Kuno": "a very old brown batik shirt with faded patterns, thin fabric texture.",
-                "Kemeja Flanel Abu": "a faded grey flannel shirt, worn-out and dusty texture.",
                 "Kebaya Jawa Lusuh": "a simple dark grey traditional kebaya, looking humble and aged."
             },
             "LOKASI": {
-                "Pinggir Jalan Pantura": "the dusty roadside of a busy Indonesian highway, asphalt road, blurred vehicles in the distant background, golden-hour light."
+                "Pinggir Jalan Pantura": "the dusty roadside of a busy Indonesian highway, asphalt road, blurred yellow-green truck parked in the distant background, golden-hour light."
             },
             "KENDARAAN": {
-                "Truk Hijau-Kuning": "the yellow-green truck already visible in the background",
-                "Bus Antar Kota": "the intercity bus visible in the background",
-                "Mobil Box Putih": "the white delivery truck in the background"
+                "Truk yang Terparkir": "the EXACT yellow-green truck already visible in the background",
+                "Bus yang Terparkir": "the EXACT intercity bus already visible in the background"
             },
             "MASJID": {
                 "Masjid Agung Jawa (Kayu)": "a traditional Javanese miniature mosque with a triple-tiered wooden roof (atap tumpuk) made of dark brown wood.",
                 "Masjid Kubah Emas": "a majestic miniature mosque with a large golden dome and white marble-textured walls."
             },
             "LOGAT_ONLY": {
-                "Napas Tua (The Fading Echo)": "MANDATORY AUDIO: Cracking elderly texture, very slow pace, trembling and fragile voice (NO gasping/asthma).",
+                "Napas Tua (The Fading Echo)": "MANDATORY AUDIO: Cracking elderly texture, very slow pace, trembling and fragile voice.",
                 "Suara Ompong (Whistling)": "MANDATORY AUDIO: Small whistling texture on 'S' and 'T' sounds, light and humble rising intonation."
             }
         }
 
-        with st.expander("🕌 PINTAR MASJID ENGINE V2 (FIXED LOGIC)", expanded=True):
+        with st.expander("🕌 PINTAR MASJID ENGINE V2 (FIXED LOGIC V3)", expanded=True):
             st.markdown('<p class="small-label">🧬 MASTER DNA SELECTION (ANTIBOCOR)</p>', unsafe_allow_html=True)
             
             c1_v2, c2_v2 = st.columns(2)
@@ -2907,31 +2905,37 @@ def tampilkan_halaman():
 
             DNA_LOCK_V2 = f"CHARACTER: {char_dna}\nWARDROBE: {baju_dna}\nLOCATION: {set_dna}"
 
-            st.success("🔥 SEQUENTIAL PROMPTS GENERATED!")
+            st.success("🔥 SEQUENTIAL PROMPTS V3 READY!")
 
             # 1. GEMINI MASTER IMAGE
             with st.container(border=True):
-                st.subheader("📸 1. Gemini Master Image (Face Camera)")
-                p_gemini = f"ULTRA-HD 2K RESOLUTION. RAW PHOTO.\n\n{DNA_LOCK_V2}\n\nACTION: Sitting on the ground facing the camera, meticulously building an 80% finished {masjid_dna}.\nENVIRONMENT: A {car_dna} is visible but blurred in the distant background.\nLIGHTING: Soft 5 PM golden-hour, dusty air, hyper-realistic skin texture."
+                st.subheader("📸 1. Gemini Master Image")
+                p_gemini = f"ULTRA-HD 2K RESOLUTION.\n\n{DNA_LOCK_V2}\n\nACTION: Sitting on the ground facing the camera, finishing an 80% finished {masjid_dna}.\nENVIRONMENT: {car_dna} is already visible and stationary in the distant background.\nLIGHTING: Golden-hour morning sun, dusty air."
                 st.code(p_gemini, language="text")
 
             # 2. GROK ADEGAN A
             with st.container(border=True):
-                st.subheader("🎥 2. Adegan A: Tragedy (The Gust)")
-                p_grok_a = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTATIC CAMERA. {DNA_LOCK_V2}\n\nINCIDENT: The {car_dna} in the background moves forward quickly. As it speeds past, it creates a massive, violent gust of wind and dust.\nEFFECT: The {masjid_dna} wobbles and naturally collapses/crumbles (NO explosion). The character looks down, shifting from focus to a deeply saddened and disheartened expression."
+                st.subheader("🎥 2. Adegan A: Tragedy (Truk Background Bergerak)")
+                p_grok_a = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTATIC CAMERA. {DNA_LOCK_V2}\n\nACTION: The {car_dna} that was stationary in the background now begins to move and speed past quickly. The massive wind pressure from the passing truck causes the 80% finished {masjid_dna} to wobble and naturally collapse into pieces on the mat. The character stops working, looking deeply saddened at the ruined craft."
                 st.code(p_grok_a, language="text")
 
             # 3. GROK ADEGAN B
             with st.container(border=True):
-                st.subheader("🎥 3. Adegan B: Plea (The Interaction)")
-                p_grok_b = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSLOW CLOSE-UP CRAWL TO FACE. {DNA_LOCK_V2}\n\nMOOD: Profoundly sorrowful, glistening watery eyes (ZERO kaget expression). Lips trembling while saying: '{user_dialog_v2}'.\nACTION: Shaky hands held in a humble pleading gesture. Focus on weathered skin and soulful emotion.\nAUDIO: {audio_dna}"
+                st.subheader("🎥 3. Adegan B: Plea (Dialog Karakter)")
+                p_grok_b = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nVERY SLOW CINEMATIC ZOOM TO FACE. {DNA_LOCK_V2}\n\nMOOD: Profoundly sorrowful, eyes glistening. Lips move naturally synchronizing with the dialog: '{user_dialog_v2}'.\nACTION: Character looks directly into the lens, shaky hands pleading. Focus on facial emotions, not narration.\nAUDIO: {audio_dna}"
                 st.code(p_grok_b, language="text")
 
             # 4. GROK ADEGAN C
             with st.container(border=True):
-                st.subheader("🎥 4. Adegan C: Success (Redemption)")
-                p_grok_c = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTRICT CHARACTER CONSISTENCY. STATIC CAMERA.\n\nACTION: Fast-paced montage of her weathered hands rebuilding the {masjid_dna} from scratch.\nENDING: The {masjid_dna} is now 100% finished, perfect, and glowing with tiny lights. The character looks up with a thin, peaceful smile of relief and gratitude."
+                st.subheader("🎥 4. Adegan C: Reconstruction (Proses 0-100%)")
+                p_grok_c = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTRICT CHARACTER CONSISTENCY. {DNA_LOCK_V2}\n\nACTION: Hand-focused montage of carefully rebuilding the {masjid_dna} from zero to 100%. The character is building it piece by piece with deep focus. Natural pacing of reconstruction."
                 st.code(p_grok_c, language="text")
+            
+            # 5. GROK ADEGAN D
+            with st.container(border=True):
+                st.subheader("🎥 5. Adegan D: Final Success (Mengangkat Masjid)")
+                p_grok_d = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\n{DNA_LOCK_V2}\n\nACTION: The {masjid_dna} is now 100% finished and glowing. The character gently Lifts the finished miniature with both hands, showing it to the camera with a thin, peaceful, and sincere smile of gratitude. Perfect and majestic ending."
+                st.code(p_grok_d, language="text")
 
     # ==========================================================================
     # TAB 3: ROBLOX
