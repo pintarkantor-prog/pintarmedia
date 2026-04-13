@@ -43,6 +43,42 @@ def tampilkan_halaman():
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
+            "Nenek Aminah": (
+                "A kind-hearted elderly Javanese woman with a soft oval face. "
+                "Her expression is gentle and serene, with a slight, warm smile. "
+                "The skin is naturally aged with fine, soft wrinkles that look like delicate silk folds. "
+                "Warm bronze skin tone with natural sun-kissed glowing patches. "
+                "Her eyes are bright, clear, and full of wisdom, with gentle laugh lines at the corners. "
+                "Neat, thin grey hair pulled back. The overall look is peaceful, motherly, and very approachable. "
+                "Hyper-realistic skin texture without looking scary or harsh."
+            ),
+
+            "Nenek Siti": (
+                "A joyful, petite Javanese elder with a plump, round face and rosy undertones on her cheeks. "
+                "She has deep dimples when she smiles, and her mouth is slightly curved upward. "
+                "Her skin texture is soft and supple despite the many fine wrinkles. "
+                "A small, friendly button nose and narrow twinkling eyes that radiate happiness. "
+                "Visible small moles around the neck and a very clean, well-cared-for weathered skin. "
+                "The look of a cheerful grandmother who loves to tell stories. Very friendly and bright."
+            ),
+
+            "Nenek Marsi": (
+                "A tiny, frail but very sweet Javanese grandmother with a shrunken, heart-shaped face. "
+                "Her face has that classic 'toothless' look that makes her chin slightly closer to her nose, giving her an adorable, innocent expression. "
+                "Skin is very thin and deeply creased but has a soft, matte texture. "
+                "Huge, expressive dark eyes that look humble and sincere. "
+                "Visible thin white peach fuzz on the cheeks. A very fragile, precious, and endearing village elder look. "
+                "Focus on the 'sweet' and 'fragile' aspect, strictly avoiding any scary features."
+            ),
+
+            "Nenek Ponirah": (
+                "A dignified and calm Javanese elder with a wide, symmetrical facial structure. "
+                "Her skin is like burnished copper, smooth but covered in a network of wise, horizontal aging lines. "
+                "Strong, flat nose and a wide, friendly mouth. "
+                "Her gaze is steady, protective, and calm—the true matriarch of the family. "
+                "Texture shows realistic fine pores and faint, natural sunspots, looking like a hard-working but happy village woman. "
+                "No harsh shadows, only soft natural lighting to emphasize her peaceful and sturdy face."
+            ),
             "Nenek Juminah": (
                 "An extremely lean and thin-faced Javanese elderly woman. "
                 "Sunken cheeks with very prominent, high cheekbones and a sharp, bony jawline. "
@@ -99,6 +135,41 @@ def tampilkan_halaman():
                 "Prominent blue veins on her temples. An almost ethereal presence of quiet heartbreak. "
                 "No smoothing, 100% realistic tired face, looking deeply tired and exhausted."
             ),
+            "Kakek Marto": (
+                "A lean, elderly Javanese man with an elongated and thin facial structure. "
+                "His face is deeply lined with 'wisdom wrinkles' that follow his natural bone structure. "
+                "A long, thin nose and a very kind, calm expression in his dark brown eyes. "
+                "He has a sparse, wispy white goatee and a thin mustache that adds to his scholarly village look. "
+                "Skin texture is dry and sun-parched but clean, with realistic fine age spots. "
+                "The overall aura is that of a quiet, humble, and highly respected village elder."
+            ),
+
+            "Kakek Somo": (
+                "A jolly elderly Javanese man with a round, friendly face and slightly chubby cheeks. "
+                "He has heavy laugh lines around his eyes (crow's feet) that squint when he smiles. "
+                "His skin is a warm tan with a soft, weathered texture. "
+                "A wide, friendly mouth and a small, flat nose. "
+                "Visible grey stubble along his jawline that looks soft, not coarse. "
+                "He radiates a cheerful, grandfatherly energy, looking very approachable and full of life."
+            ),
+
+            "Kakek Joyo": (
+                "A sturdy Javanese elder with a broad forehead and a strong, square jawline. "
+                "Despite his firm bone structure, his eyes are incredibly soft and protective. "
+                "Deep horizontal furrows on his forehead that show decades of hard work, but with a peaceful rest of the face. "
+                "His skin is like dark burnished bronze, very masculine but naturally aged. "
+                "Large, thick ears and a neat, short-cropped grey hair. "
+                "The look of a hardworking farmer who has found total inner peace in his old age."
+            ),
+
+            "Kakek Hardi": (
+                "A very petite and thin Javanese elder with a small, narrow face. "
+                "His skin is very thin, almost like parchment, showing the gentle movement of muscles underneath. "
+                "Large, expressive eyes that look slightly watery and very sincere. "
+                "The mouth is slightly shrunken, giving him a sweet and innocent elderly expression. "
+                "Faint white eyebrows and a very clean, translucent skin texture with natural pigmentation. "
+                "He looks fragile and precious, like a grandfather who deeply appreciates the art he is holding."
+            ),
             "Kakek Sableng": (
                 "A distinguished elderly Indonesian man in his late 70s with a sharp, noble facial structure. "
                 "High, prominent forehead with deep horizontal wisdom lines. His nose is straight and firm. "
@@ -133,87 +204,151 @@ def tampilkan_halaman():
         # --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
+            "Nenek Aminah": {
+                "Daster Arab Polos (No Lace)": "Wearing a very simple, oversized rayon 'Daster Arab' in faded emerald green. No gold embroidery or lace, just basic stitching. The fabric is thin and shows heavy water-splash stains around the chest, paired with a dusty black instant bergo hijab.",
+                "Daster Kaos Motif Karat / Abstrak": "Wearing a stretched-out cotton daster with a blurry, faded abstract pattern in earthy brown tones. The armholes are loose (melar), paired with a simple navy blue jersey hijab that is tucked into the neckline for a practical home look.",
+                "Setelan Celana Rayon (One-Set Desa)": "Wearing a matching long-sleeved shirt and loose trousers set made of cheap, thin rayon with a small polka-dot pattern. The colors are faded from sun exposure. Complemented by a simple white instant hijab with a soft, worn-out foam pad.",
+                "Kaos Souvenir / Partai & Sarung Lilit": "Wearing a faded orange promotional cotton t-shirt (Kaos Souvenir) with cracked printed text on the back. Paired with a dark purple batik sarong wrapped tightly at the waist and a simple grey square hijab pinned with a small safety pin.",
+                "Daster Kancing Bobok & Handuk Leher": "Wearing a traditional front-opening 'Daster Kancing Bobok' in faded maroon with a small checkered pattern. A worn-out, thin white towel is draped around her neck, over her simple maroon instant hijab, looking like she's busy with household chores.",
+                "Baju Tidur Babydoll Katun Kusam": "Wearing a very modest, loose-fitting 'Babydoll' style cotton set in faded pastel blue. The fabric has a stiff, weathered texture. Paired with a simple black jersey hijab that shows realistic weight and drape over the shoulders."
+            },
+            "Nenek Siti": {
+                "Daster Daster Sogan Klasik": "Wearing a traditional Javanese 'Sogan' pattern rayon daster with intricate brown and black batik motifs. The fabric is thin and limp (jatuh), looking well-worn. Paired with a simple cream-colored instant bergo hijab that has a slightly loose chin area.",
+                "Daster Kaos Motif Bunga Kecil": "Wearing a short-sleeved cotton-jersey daster in faded mint green, covered in tiny pink floral patterns (motif bunga kecil). The fabric shows realistic pilling. Paired with matching long hand-sleeves (manset) and a dusty pink jersey hijab tucked into the collar.",
+                "Daster Pelangi Luntur (Tie-Dye)": "Wearing a loose 'Tie-Dye' or 'Daster Pelangi' in faded purple and yellow. The colors are muted and washed out. Complemented by a simple white instant hijab that looks soft and thin, showing a very casual and humble village home-stay look.",
+                "Daster Karakter Kartun Kusam": "Wearing an oversized cotton daster with a large, faded, and cracked cartoon character print on the chest. The base color is a dull sky blue. Paired with a simple navy blue bergo hijab. A very realistic daily look for a grandmother at home.",
+                "Daster Batas Dada Motif Etnik": "Wearing a 'Daster Kerut' or 'Daster Batas Dada' with a simple ethnic geometric pattern in faded maroon and black. The elastic around the chest looks stretched out. Complemented by a simple grey cotton hijab tied loosely under the chin.",
+                "Daster Kaos Polos & Handuk Bahu": "Wearing a very plain, oversized mustard yellow cotton-jersey daster with a slightly stretched neckline. A small, frayed green hand towel is draped over her left shoulder, paired with a simple black instant hijab that shows natural fabric weight."
+            },
+            "Nenek Marsi": {
+                "Daster Rayon Motif Batik Lawasan": "Wearing an oversized, thin rayon daster with a faded 'Lawasan' batik pattern in muted brown and cream. The fabric looks very limp and soft from years of washing. Paired with a simple, slightly oversized white instant hijab that frames her small face gently.",
+                "Kaos Oblong Lengan Panjang & Jarik": "Wearing a very thin, plain long-sleeved cotton shirt in faded lilac. The fabric is almost translucent due to age. Paired with a dark-toned batik jarik cloth wrapped high around her waist and a simple grey jersey hijab pinned tightly under the chin.",
+                "Daster Kancing Serut Motif Polkadot": "Wearing a front-buttoned daster with a small white polkadot pattern on a faded navy background. The elastic around the waist is loose. Complemented by a simple maroon bergo hijab that looks a bit too big for her small head, adding to her fragile look.",
+                "Tunik Katun Tipis & Celana Santai": "Wearing a very simple, short-sleeved cotton tunic in a faded dusty rose color with a few visible mended spots (bekas jahitan tangan). Paired with loose black batik trousers and a soft white instant hijab that drapes naturally over her narrow shoulders.",
+                "Daster Kaos Motif Daun (Leafy Pattern)": "Wearing a soft cotton-jersey daster with a faded green leafy pattern. The neckline is slightly stretched. A small, frayed white towel is tucked into her simple black instant hijab. The overall look is very humble and grandmotherly.",
+                "Baju Kurung Katun Lawas & Kerudung Segi Empat": "Wearing a classic, loose-fitting baju kurung made of old, faded yellow cotton. The fabric is stiff and weathered. Paired with a simple square cotton hijab (hijab segi empat) folded simply and fastened with a small, rusted safety pin under her chin."
+            },
+            "Nenek Ponirah": {
+                "Daster Kaos Motif Mega Mendung (Faded)": "Wearing a sturdy, oversized cotton-jersey daster with a large 'Mega Mendung' cloud pattern in faded navy and grey. The fabric has a heavy, realistic drape. Paired with a dark black jersey bergo hijab with a firm foam pad (pet) that looks well-worn but neat.",
+                "Setelan Celana Batik Kulot (Daily Set)": "Wearing a matching set of a short-sleeved top and loose 'kulot' trousers made of thick, non-shiny rayon in a deep chocolate brown with ethnic circle patterns. The colors are muted. Complemented by a dusty grey instant hijab that covers her shoulders perfectly.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a practical front-buttoned daster in a dark maroon color with simple white geometric diamond patterns. The fabric is thick and weathered. Paired with a simple white instant hijab pinned tightly under the chin, looking like a strong, capable village matriarch.",
+                "Tunik Katun Oxford & Jarik Cokelat": "Wearing a modest long-sleeved tunic made of thick, faded sky-blue Oxford cotton. Paired with a dark, heavy-weight brown batik jarik cloth wrapped securely at the waist and a simple navy blue jersey hijab tucked into the collar.",
+                "Daster Rayon Motif Daun Lebar": "Wearing a loose rayon daster with a large, bold green leaf pattern on a black background. The fabric is slightly shiny but wrinkled from daily wear. A small, thin white towel is draped neatly over her shoulder, over her simple black instant hijab.",
+                "Kaos Polo Lengan Panjang & Sarung Lawasan": "Wearing a modest, oversized long-sleeved polo shirt in a faded forest green. The fabric is thick cotton. Paired with a weathered 'Lawasan' batik sarong and a simple, breathable white instant hijab that frames her wide, calm face."
+            },
             "Nenek Juminah": {
-                "Kebaya Nenek Katun Jadul": "Wearing a very thin, semi-translucent white cotton kebaya with vintage embroidery patterns, fastened by three small rustic safety pins. The fabric shows significant aging and yellowing, paired with a dark brown batik sarong that has a rough, starched texture.",
-                "Daster Rayon Kusut & Handuk Leher": "Wearing a limp, faded navy blue rayon daster with large blurry floral prints, showing heavy realistic wrinkles. A small, frayed white hand towel is draped around her neck, tucked slightly into her simple grey jersey bergo hijab.",
-                "Baju Kurung Satin Kusam & Kain Lilit": "Wearing a modest, oversized long-sleeved baju kurung made of dull, non-shiny vintage satin in muted olive. The fabric has visible snags and pulls. Paired with a thick, hand-woven cotton cloth wrapped simply over her head as a rustic village hijab.",
+                "Daster Rayon Kusut & Handuk Leher": "Wearing a limp, faded navy blue rayon daster with large blurry floral prints, showing heavy realistic wrinkles. A small, frayed white hand towel is draped around her neck, tucked slightly into her simple grey jersey bergo hijab. The fabric looks very thin on her bony shoulders.",
                 "Kaos Haji Putih & Sarung Lawasan": "Wearing a classic Indonesian 'Kaos Haji' (white long-sleeved undershirt with a small pocket) that looks grayish from many washes. Paired with an extremely faded 'Lawasan' batik sarong and a thin, breathable white instant hijab pinned tightly under the chin.",
-                "Tunik Katun Plisket & Bergo Renda": "Wearing a front-buttoned tunic with a unique pleated (plisket) texture in a dusty rose color. The fabric is stiff and weathered. Paired with an old-fashioned instant bergo hijab that has small, yellowed lace (renda) edges around the face.",
-                "Daster Kaos Melar & Kerudung Segi Empat": "Wearing an oversized, stretched-out (melar) soft cotton t-shirt style daster in faded maroon. Complemented by a simple square cotton hijab (hijab segi empat) that is folded haphazardly and tied loosely behind her neck, showing a very casual home-stay look."
+                "Daster Kaos Melar & Kerudung Segi Empat": "Wearing an oversized, stretched-out (melar) soft cotton t-shirt style daster in faded maroon. Complemented by a simple square cotton hijab (hijab segi empat) that is folded haphazardly and tied loosely behind her neck, showing a very casual home-stay look.",
+                "Kebaya Katun Jadul Polos": "Wearing a very thin, semi-translucent white cotton kebaya without embroidery, fastened by a single rusty safety pin. The fabric shows significant aging and yellowing, paired with a dark brown batik sarong that has a rough, starched texture.",
+                "Daster Kancing Serut Motif Garis": "Wearing a front-buttoned daily daster with faded vertical stripes in muted green. The fabric is thin and looks soft from years of use. Paired with a simple black instant hijab that frames her thin, sunken cheeks perfectly.",
+                "Kaos Lengan Panjang Souvenir & Jarik": "Wearing an oversized long-sleeved cotton souvenir t-shirt in faded yellow with cracked printed text. Paired with a dark chocolate-toned batik jarik and a simple white jersey hijab. The oversized shirt emphasizes her lean and fragile frame."
             },
             "Nenek Sikem": {
-                "Kebaya Lurik Kasar & Jarik Lawas": "Wearing a heavy, hand-woven striped 'Lurik' cotton kebaya in dark brown and black, showing a rough and stiff fabric texture. Paired with an extremely weathered, nearly white-faded 'Lawasan' batik jarik and a thin, crumpled cotton scarf wrapped as a makeshift hijab.",
-                "Kaos Kerah & Rompi Rajut Tua": "Wearing a modest long-sleeved polo shirt with a collar, layered with a pilling, hand-knitted wool vest in a faded moss green. Complemented by a simple jersey bergo hijab and a thick batik sarong tied high at the waist.",
-                "Daster Kancing & Jaket Usang": "Wearing a front-buttoned floral daster, layered with an oversized, thin vintage parachute jacket in a faded navy color. The jacket shows realistic salt-stains and creases. Paired with a simple black instant hijab tucked inside the jacket.",
-                "Baju Kurung Beludru Kusam & Kain Lilit": "Wearing a rare, old-fashioned dull velvet (beludru) baju kurung in dark maroon that has lost its shine. The fabric shows heavy wear at the elbows. Paired with a simple thin calico cloth wrapped loosely around her head as a daily hijab.",
-                "Kaos Double-Layer & Jarik Cokelat": "Wearing two layers of thin cotton shirts (white inside, faded yellow outside) showing realistic overlapping collars. Paired with a dark chocolate-toned batik jarik with a dense, small-scale pattern and a practical jersey instant bergo.",
-                "Kebaya Kutu Baru Polos & Selendang ": "Wearing a very plain, dyed cotton Kutu Baru kebaya in a deep forest green, fastened with a large rusted brooch. A long, frayed 'Slendang' batik cloth is draped diagonally across her chest and shoulder, over her simple white hijab."
+                "Daster Kaos Karakter & Bergo": "Wearing an oversized, stretched-out cotton daster in faded sky blue with a large, cracked cartoon character print on the chest. The fabric shows heavy pilling. Paired with a simple black jersey bergo hijab with a soft, worn-out foam pad (pet).",
+                "Kaos Souvenir Toko Bangunan & Sarung": "Wearing a faded orange long-sleeved promotional t-shirt (Kaos Souvenir) with a cracked black logo of a local hardware store on the back. Paired with a dark purple batik sarong wrapped tightly at the waist and a simple grey instant hijab.",
+                "Daster Kelelawar Motif Bunga Besar": "Wearing a loose 'Kelelawar' style rayon daster with large, blurry orange floral prints on a dark brown background. The fabric is very limp and wrinkled. Complemented by a dusty maroon instant hijab pinned simply under the chin.",
+                "Daster Kancing Dada Motif Polkadot": "Wearing a practical front-buttoned short-sleeved daster in faded navy blue with small white polkadot patterns. A small black plastic coin purse is tucked into the side pocket. Paired with a simple white instant hijab that looks soft and thin.",
+                "Daster Pelangi Luntur (Tie-Dye)": "Wearing a loose, sleeveless tie-dye daster (Daster Pelangi) in muted purple and yellow that has faded from sun exposure. Layered with long black matching hand-sleeves (manset) and a simple navy blue jersey hijab.",
+                "Kaos Olahraga Sekolah & Jarik": "Wearing an old, oversized long-sleeved school sports t-shirt (Kaos Olahraga) in faded red with blurry school text on the back. The fabric is thin and weathered. Paired with a dark chocolate-toned batik jarik and a simple grey bergo hijab."
             },
             "Nenek Dulah": {
-                "Daster Kaos Bertekstur & Handuk Kecil": "Wearing a thick, oversized daily cotton-jersey daster in a faded mustard yellow with tiny pilling textures. A small, well-worn blue hand towel is draped around her neck, tucked into a simple grey instant jersey hijab that shows realistic fabric weight.",
-                "Kebaya Nenek Motif Garis & Sarung": "Wearing a very simple, old-fashioned short-sleeved cotton kebaya with thin vertical stripes (motif garis), fastened by a single large silver safety pin. Paired with a dark, mud-stained batik sarong and a thin cotton scarf wrapped tightly around her head.",
-                "Kaos Kerah Lengan Panjang & Celana Batik": "Wearing a modest long-sleeved polo shirt in a faded sage green color with a slightly stretched collar. Paired with loose, comfortable batik-patterned cotton trousers and a practical white instant hijab that looks soft and well-washed.",
-                "Daster Rayon Kancing & Kerudung Bawal": "Wearing a loose, front-buttoned rayon daster in a dark floral print that has a limp and heavily wrinkled texture. Complemented by a simple square cotton 'bawal' hijab folded into a triangle and tied loosely under her chin, showing a traditional village look.",
-                "Tunik Katun Oxford & Sarung Lawasan": "Wearing a sturdy but aged long-sleeved tunic made of thick Oxford cotton in a faded sky blue. Paired with a weathered, yellowish-faded 'Lawasan' batik sarong and a simple black jersey hijab that covers her chest.",
-                "Baju Kurung Katun Kasar & Jilbab Slup": "Wearing a humble, loose-fitting baju kurung made of raw, unbleached cotton (katun kasar) in off-white. The fabric shows natural husks and textures. Paired with a practical dark brown 'slup' instant hijab for a quiet, grandmotherly home-stay vibe."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a short-sleeved cotton-jersey daster in faded mint green, covered in tiny pink floral patterns. The fabric shows realistic pilling and a stretched neckline. Paired with a simple grey instant jersey hijab that shows realistic fabric weight.",
+                "Daster Rayon Motif Sogan Jawa": "Wearing a traditional Javanese 'Sogan' style rayon daster with dense brown and black batik patterns. The fabric is thin, limp, and heavily wrinkled. Complemented by a simple black bergo hijab with a soft, worn-out foam pad (pet).",
+                "Kaos Lengan Panjang Hadiah Toko Mas": "Wearing a faded red long-sleeved promotional t-shirt with a cracked gold-colored logo of a local jewelry store on the chest. Paired with a dark-toned batik sarong and a simple white instant hijab pinned tightly under the chin.",
+                "Daster Kancing Dada Motif Batik Abstrak": "Wearing a front-buttoned daily daster in faded purple with a blurry, white abstract batik print. The fabric is weathered and thin. Paired with a simple navy blue instant hijab that looks soft and well-washed.",
+                "Daster Kaos Garis-Garis & Handuk Leher": "Wearing an oversized striped cotton-jersey daster in faded blue and white. A small, well-worn blue hand towel is draped around her neck, tucked into a simple maroon instant hijab, looking like she's ready for her daily market trip.",
+                "Kaos Olahraga Desa & Jarik Cokelat": "Wearing a modest long-sleeved village sports t-shirt (Kaos Senam) in faded orange with blurry text on the back. Paired with a dark chocolate-toned batik jarik and a practical grey 'slup' instant hijab for a quiet, grandmotherly home-stay vibe."
             },
             "Nenek Sartini": {
-                "Baju Kurung Teluk Belanga Usang": "Wearing an old-school, faded Baju Kurung Teluk Belanga made of stiff, weathered cotton in a muted mustard color. The neckline shows minor fraying. Paired with a dark, hand-woven songket sarong that has lost its gold-glitter and a simple white cotton bawal hijab pinned tightly.",
-                "Kebaya Labuh Brokat Berudul": "Wearing a long, modest Kebaya Labuh made of old-fashioned heavy brocade fabric that is visibly 'berudul' (pilling and fuzzy). The fabric is a dusty lavender color, paired with a faded floral sarong and a thin georgette scarf wrapped loosely around her head.",
-                "Tunik Viskosa Kusut & Hijab Bergo": "Wearing a long-sleeved tunic made of limp, heavily wrinkled viscose fabric in a dark forest green. The fabric has a slight oily sheen. Paired with a simple, well-worn grey jersey bergo hijab and a thick cotton sarong wrapped at the waist.",
-                "Baju Kurung Pesak Motif Tabur": "Wearing a classic loose Baju Kurung Pesak with a small 'motif tabur' (scattered floral) pattern that has almost faded away. Made of soft, thin cotton. Complemented by a practical black instant hijab that shows a matte, dusty texture.",
-                "Kaos Haji Panjang & Kain Panjang Lilit": "Wearing a modest long-sleeved white cotton Kaos Haji (undershirt) showing yellowish sweat stains around the collar. Paired with a dark-toned kain panjang lilit and a simple, breathable white instant hijab pinned under the chin.",
-                "Daster Kaos Melayu & Kerudung Bawal Slup": "Wearing a very loose long-sleeved cotton-jersey daster with traditional bold patterns in faded maroon. Paired with a square 'bawal' hijab that is already stitched under the chin (slup style), made of stiff, semi-transparent voile fabric."
+                "Daster Rayon Motif Bunga Matahari": "Wearing a loose rayon daster in faded yellow with large, blurry brown sunflower prints. The fabric is very limp and shows heavy wrinkles around the waist. Paired with a simple, well-worn grey jersey bergo hijab that frames her face naturally.",
+                "Daster Kaos Motif Batik Pesisiran": "Wearing a short-sleeved cotton-jersey daster with a bright but faded red 'Pesisiran' batik pattern. The fabric shows realistic pilling and a loose neckline. Complemented by a simple black instant hijab that drapes over her shoulders.",
+                "Kaos Lengan Panjang Oleh-Oleh": "Wearing an oversized long-sleeved white cotton t-shirt with a cracked, faded souvenir print of a famous landmark on the chest. The fabric is thin and weathered. Paired with a dark-toned floral sarong and a simple navy blue instant hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a practical front-buttoned daster in faded emerald green with simple white geometric patterns. A small black plastic coin purse is visible in her side pocket. Paired with a thin, breathable white instant hijab pinned simply under the chin.",
+                "Daster Kaos Polos & Manset Lengan": "Wearing a very plain, oversized faded maroon cotton-jersey daster. Paired with mismatched long black hand-sleeves (manset) and a simple grey square hijab folded into a triangle and tied loosely behind her neck.",
+                "Daster Rayon Motif Batik Cap": "Wearing a humble, loose-fitting rayon daster with a dark purple 'Batik Cap' pattern that has almost faded away. The fabric is soft and heavily creased. Paired with a practical dark brown 'slup' instant hijab, looking like she's ready for a quick trip to the neighbor's house."
             },
             "Nenek Tinah": {
-                "Baju Kurung Tulang Belut & Sarung Pudar": "Wearing an old-school Baju Kurung with 'Tulang Belut' stitching around the neck, made of thin, faded cotton in a dusty teal color. The fabric is so worn it looks slightly shiny at the seams. Paired with a red-toned batik sarong that has almost lost its pattern from years of washing.",
-                "Kaos Lengan Panjang Melar & Jilbab Slup": "Wearing an oversized, stretched-out (melar) long-sleeved cotton t-shirt in a faded cream color with a small, cracked graphic print on the chest. Paired with a simple black 'slup' instant hijab and a dark-colored daily sarong tied loosely at her waist.",
-                "Kebaya Labuh Katun Kasar & Kain Lilit": "Wearing a long-length, modest Kebaya Labuh made of thick but soft raw cotton (katun kasar) in a muted mustard shade. The fabric shows a prominent weave texture. Paired with a thin cotton scarf wrapped twice around her head as a simple, rustic village hijab.",
-                "Tunik Rayon Floral & Bergo Kaos": "Wearing a limp, heavily wrinkled rayon tunic with a blurry floral motif in faded purple. The material hangs loosely on her fragile body. Paired with a well-worn grey instant bergo hijab that has a small, faded watermark on the side.",
-                "Baju Kurung Pesak & Selendang Batik": "Wearing a classic, wide-fitting Baju Kurung Pesak in a solid, dusty olive color. Instead of a modern hijab, a long, thin batik 'selendang' is wrapped meticulously around her head and pinned under the chin in an old-fashioned way.",
-                "Daster Kaos & Jaket Kardigan Tua": "Wearing a daily cotton daster, layered with an old, pilling knitted cardigan in a faded charcoal color. The cardigan has one missing button. Paired with a simple white jersey hijab tucked inside the cardigan, looking very humble and realistic."
+                "Daster Kaos Motif Karakter Kartun Kusam": "Wearing an oversized cotton-jersey daster in faded sky blue with a large, cracked cartoon character print on the chest. The fabric is stretched out and shows heavy pilling. Paired with a simple black instant bergo hijab that looks soft and well-worn.",
+                "Daster Rayon Motif Batik Daun": "Wearing a loose, limp rayon daster in faded forest green with large white leaf patterns. The fabric is heavily wrinkled and shows realistic water-splash stains around the hem. Complemented by a dusty grey instant hijab pinned simply under the chin.",
+                "Kaos Lengan Panjang Toko Pupuk Pertanian": "Wearing a faded yellow long-sleeved promotional t-shirt with a cracked black logo of a local fertilizer shop on the back. Paired with a dark-toned traditional batik sarong and a thin, breathable white instant hijab that frames her face naturally.",
+                "Daster Kancing Dada Motif Garis-Garis": "Wearing a practical front-buttoned short-sleeved daster with faded vertical stripes in muted maroon and white. The neckline is slightly loose. Paired with a simple navy blue jersey hijab that drapes over her shoulders for a daily village look.",
+                "Daster Kaos Polos & Handuk Leher": "Wearing a very plain, oversized faded orange cotton-jersey daster. A small, frayed white hand towel is draped around her neck, tucked into her simple maroon instant hijab, looking like she's busy with her morning house errands.",
+                "Daster Rayon Motif Abstrak Pelangi": "Wearing a humble, loose-fitting rayon daster with a faded 'Tie-Dye' or rainbow abstract pattern in muted purple and pink. The colors are washed out from sun exposure. Paired with a practical dark brown 'slup' instant hijab for a quiet, grandmotherly home-stay vibe."
             },
             "Nenek Wati": {
-                "Daster Kaos & Celemek Kain Usang": "Wearing a thick cotton-jersey daster in a faded brick-red color, covered by a handmade waist apron (celemek) made from a recycled flour sack with faded blue markings. The daster shows heavy pilling and realistic fabric folds at the lap.",
-                "Kaos Polo Pudar & Sarung Kotak": "Wearing a modest long-sleeved polo shirt in a deeply faded charcoal color with a frayed collar. Paired with a thick, traditional checked 'sarung pelikat' in dark green and a simple grey instant jersey hijab that covers her shoulders.",
-                "Kebaya Nenek Motif Polkadot & Handuk Kecil": "Wearing a very old-fashioned short-sleeved cotton kebaya with a faded white polkadot pattern on a navy base, fastened by a rusty gold brooch. A small, well-worn white hand towel is draped over her shoulder, paired with a thin cotton hijab.",
-                "Tunik Katun Oxford & Kerudung Ikat": "Wearing a sturdy but heavily wrinkled long-sleeved tunic made of thick Oxford cotton in a faded olive green. Instead of an instant hijab, she wears a square cotton scarf wrapped and tied haphazardly behind her neck, showing a very authentic rural home look.",
-                "Baju Kurung Rayon & Jilbab Slup": "Wearing a limp, semi-translucent baju kurung made of old rayon fabric in a blurry floral print. The fabric has visible snags and a slight oily sheen from age. Paired with a simple black 'slup' instant hijab that looks soft and well-washed.",
-                "Kaos Haji & Rompi Katun Tua": "Wearing a classic white 'Kaos Haji' (long-sleeved undershirt) with a visible small pocket, layered with a thin, faded tan cotton vest. Paired with a dark-brown batik sarong and a simple, breathable white instant hijab pinned tightly under her chin."
+                "Daster Kaos Motif Batik Parang Kusam": "Wearing an oversized cotton-jersey daster with a classic 'Parang' batik pattern in faded brown and white. The fabric shows heavy pilling and a stretched-out collar. Paired with a simple black instant bergo hijab that has a soft, worn-out foam pad.",
+                "Kaos Lengan Panjang Jalan Sehat": "Wearing a faded red long-sleeved t-shirt from a village fun-walk event ('Jalan Sehat') with blurry white text on the chest. The fabric is thin and weathered. Paired with a dark-toned batik sarong and a simple white instant hijab pinned tightly.",
+                "Daster Rayon Motif Kembang Besar": "Wearing a loose, limp rayon daster with large, faded purple flower prints (motif kembang) on a dark navy background. The fabric is heavily wrinkled at the hem. Complemented by a dusty grey instant hijab that drapes naturally over her shoulders.",
+                "Daster Kancing Depan Motif Kotak-Kotak": "Wearing a practical front-buttoned short-sleeved daster with a small checkered pattern in faded green and white. A small black plastic coin purse is clutched in her hand. Paired with a simple navy blue jersey hijab for a daily market-goer look.",
+                "Daster Kaos Polos & Handuk Bahu": "Wearing a very plain, oversized faded mustard yellow cotton-jersey daster. A small, frayed green hand towel is draped over her left shoulder, tucked into her simple maroon instant hijab, looking like she just finished chores.",
+                "Daster Rayon Motif Batik Cap Luntur": "Wearing a humble, loose-fitting rayon daster with a dark maroon 'Batik Cap' pattern that has almost faded away from frequent washing. The fabric is soft and thin. Paired with a practical dark brown 'slup' instant hijab for a peaceful village home-stay vibe."
             },
 
             # --- KELOMPOK KAKEK ---
+            "Kakek Marto": {
+                "Kaos Berkerah (Polo) Kusam & Sarung": "Wearing a faded green short-sleeved polo shirt with a slightly curled and stretched collar. The fabric shows light pilling. Paired with a classic multicolored checkered sarong tied high at the waist and a well-worn black velvet peci that looks slightly dusty.",
+                "Kaos Partai Lengan Panjang & Celana Bahan": "Wearing a faded yellow long-sleeved promotional t-shirt (Kaos Partai) with blurry political text on the chest. The fabric is thin and wrinkled. Paired with loose black cotton trousers and a white knitted skullcap (peci rajut) that frames his long, thin face.",
+                "Kemeja Flanel Kotak & Sarung Batik": "Wearing an unbuttoned, oversized flannel shirt in muted blue and grey over a thin white cotton undershirt. Paired with a dark chocolate-toned batik sarong and a faded black peci. The sleeves are rolled up to the elbows, showing a rustic daily village look.",
+                "Kaos Oblong Putih & Sarung Wadimor": "Wearing a classic thin white cotton undershirt (kaos oblong) with a small chest pocket. The fabric looks yellowish from age. Paired with a maroon checkered sarong and a simple batik cloth slung over his shoulder, looking like he's ready for a chat at the warung.",
+                "Baju Kurung Katun & Peci Haji": "Wearing a very simple, short-sleeved brown cotton shirt with two large pockets at the bottom. The fabric is stiff and weathered. Paired with a blue checkered sarong and a white hajj cap (peci haji) that looks soft and well-washed.",
+                "Kemeja Batik Pasar & Celana Komprang": "Wearing an oversized, faded batik shirt with a simple repetitive pattern in earthy tones. The fabric is thin and limp. Paired with loose black ankle-length trousers (sirwal) and a simple black peci, looking like a humble and wise village elder."
+            },
+            "Kakek Somo": {
+                "Kaos Berkerah Hadiah Toko Bangunan": "Wearing a short-sleeved faded orange polo shirt with a cracked black logo of a local hardware store on the chest. The fabric is stretched out around the waist. Paired with a dark green checkered sarong and a black velvet peci that is tilted slightly back on his round head.",
+                "Kaos Oblong Putih & Handuk Bahu": "Wearing a classic, thin white cotton undershirt (kaos oblong) that looks yellowish and soft from frequent use. A small, frayed green hand towel is draped over his shoulder. Paired with a brown batik sarong and no headwear, showing his sparse grey hair.",
+                "Kemeja Pendek Motif Kotak & Sarung": "Wearing a short-sleeved, oversized button-down shirt with a large checkered pattern in faded blue and white. Only the middle buttons are fastened. Paired with a maroon sarong and a white hajj cap (peci haji) that looks soft and well-worn.",
+                "Kaos Souvenir Jalan Sehat & Celana Kolor": "Wearing a faded red t-shirt from a village fun-walk event with blurry white text. Paired with loose, dark grey cotton drawstring trousers (celana kolor) and a simple batik cloth slung over his shoulder like a sash.",
+                "Kaos Polo Garis-Garis & Peci Rajut": "Wearing a horizontal striped polo shirt in faded navy and grey. The collar is curled and weathered. Paired with a classic checkered sarong in muted tones and a white knitted skullcap (peci rajut) that sits snugly on his head.",
+                "Baju Koko Santai & Sarung Batik": "Wearing a very simple, short-sleeved light blue 'Baju Koko' with simple embroidery that has started to fray. The fabric is thin and wrinkled. Paired with a dark chocolate-toned batik sarong and a faded black peci, looking like a cheerful grandfather ready for a chat."
+            },
+            "Kakek Joyo": {
+                "Kemeja Pendek Polos & Sarung Wadimor": "Wearing a simple, short-sleeved cotton shirt in faded forest green with two large chest pockets. The fabric is stiff and weathered. Paired with a classic multicolored checkered sarong tied neatly and a black velvet peci that looks well-maintained but old.",
+                "Kaos Polo Tebal & Celana Bahan": "Wearing a sturdy, short-sleeved polo shirt in deep navy blue with a slightly faded collar. The fabric has a heavy, realistic drape over his sturdy frame. Paired with loose black cotton trousers and a white knitted skullcap (peci rajut).",
+                "Baju Takwa Sederhana & Sarung Batik": "Wearing a very basic, short-sleeved white 'Baju Takwa' with simple stitching. The fabric is slightly yellowish and heavily wrinkled. Paired with a dark chocolate-toned batik sarong and a faded black peci, looking like a dignified village patriarch.",
+                "Kaos Lengan Panjang 'Kelompok Tani'": "Wearing a faded maroon long-sleeved promotional t-shirt from a local 'Kelompok Tani' (farmers group). The fabric is thick and weathered. Paired with a dark green checkered sarong and a simple batik cloth slung over his shoulder.",
+                "Kemeja Batik Katun Kasar & Sarung": "Wearing an oversized, short-sleeved batik shirt with a large, repetitive pattern in earthy brown tones. The fabric is a bit rough and non-shiny. Paired with a plain navy blue sarong and a white hajj cap (peci haji) that looks soft from frequent washing.",
+                "Kaos Oblong Putih & Jaket Kemeja": "Wearing a classic thin white cotton undershirt (kaos oblong), layered with an unbuttoned, faded grey work shirt used as a light jacket. Paired with a dark-toned batik sarong and a black peci, looking like a hardworking elder taking a rest."
+            },
+            "Kakek Hardi": {
+                "Kaos Oblong Putih Tipis & Sarung": "Wearing a very thin, oversized white cotton undershirt (kaos oblong) that looks almost translucent and yellowish from age. The fabric drapes loosely over his narrow shoulders. Paired with a faded blue checkered sarong tied high and a white knitted skullcap (peci rajut).",
+                "Kemeja Pendek Lungsuran & Peci Haji": "Wearing a short-sleeved, oversized button-down shirt in faded sky blue that looks too big for his small frame. The fabric is limp and wrinkled. Paired with a dark brown batik sarong and a soft white hajj cap (peci haji) that sits low on his forehead.",
+                "Kaos Lengan Panjang Hadiah Toko Pupuk": "Wearing a faded green long-sleeved promotional t-shirt with a cracked yellow logo of a local fertilizer shop. The sleeves are a bit too long for him. Paired with a maroon checkered sarong and a simple batik cloth draped around his neck like a scarf.",
+                "Baju Koko Anak Muda Lungsuran": "Wearing a modest, long-sleeved white 'Baju Koko' that clearly looks like a hand-me-down, showing a slightly large fit on his frail body. The fabric is thin and well-washed. Paired with a dark-toned batik sarong and a faded black velvet peci.",
+                "Kaos Polo Garis-Garis & Celana Komprang": "Wearing an oversized horizontal striped polo shirt in faded grey and white. The fabric shows heavy pilling. Paired with loose black ankle-length trousers (sirwal) and a simple white peci rajut, looking like a very humble and fragile village elder.",
+                "Kemeja Batik Lawasan & Sarung Batik": "Wearing an old, thin batik shirt with a small repetitive pattern in muted earthy tones. The fabric is soft and weathered. Paired with a matching dark chocolate-toned batik sarong and a simple white hajj cap, looking innocent and sincere as he holds his craft."
+            },
             "Kakek Sableng": {
-                "Kemeja Batik Sogan & Peci": "Wearing an old, long-sleeved batik shirt with a faded brown Sogan pattern, looking stiff and weathered. Paired with a classic black velvet Peci that shows signs of dust, and a dark sarong tied high.",
-                "Baju Koko Putih & Sajadah Bahu": "Wearing a humble white cotton Baju Koko with subtle embroidery, fabric showing grayish discoloration from age. A thin green prayer mat is draped over his left shoulder, paired with a black Peci.",
-                "Jas Tua (Vintage) & Sarung": "Wearing an oversized, dusty dark vintage blazer over a plain white undershirt. The sleeves are slightly too long for his thin arms, paired with a faded checked sarong, looking dignified but lonely.",
-                "Kaos Haji & Sorban Sampir": "Wearing a classic white 'Kaos Haji' with a small front pocket. A long, thin white turban (sorban) is loosely draped over his shoulders. Paired with a dark-toned sarong, looking very spiritual and elderly.",
-                "Tunik Katun & Celana Komprang": "Wearing a modest, loose-fitting long-sleeved cotton tunic in faded tan. Paired with traditional black loose trousers (komprang) and a weathered sarong slung over his shoulder.",
-                "Baju Kurung Lelaki & Peci Putih": "Wearing a very simple, loose-fitting Malay-style Baju Kurung in a faded olive color. Paired with a simple white prayer cap (kupluk) and a dark batik sarong, looking fatherly."
+                "Kaos Oblong Putih & Jaket Tipis (Peci Hitam)": "Wearing a thin white cotton undershirt (kaos oblong) layered with an unbuttoned, faded navy windbreaker jacket that looks oversized. Paired with a dark-toned batik sarong tied haphazardly at the waist. On his head is a well-worn black velvet peci tilted sharply to the side, looking slightly mischievous.",
+                "Kaos Partai Luntur & Sarung (Peci Haji)": "Wearing a faded orange long-sleeved promotional t-shirt (Kaos Partai) with a blurry, cracked logo on the chest. The fabric is stretched out. Paired with a multicolored checkered sarong and a soft white hajj cap (peci haji) that sits slightly loose on his head, showing his playful village elder vibe.",
+                "Kemeja Flanel Berantakan & Peci Hitam": "Wearing an unbuttoned, oversized checkered flannel shirt in faded red over a bare chest or thin undershirt. The sleeves are rolled up unevenly. Paired with a dark green sarong and an old black peci that has turned slightly greyish from dust and age.",
+                "Kaos Souvenir Jalan Sehat (Peci Haji)": "Wearing a faded red t-shirt from a local village event with blurry text. A small, frayed green hand towel is draped over his head, covered by a white hajj cap (peci haji). Paired with loose black cotton trousers and a batik cloth slung over his shoulder like a cape.",
+                "Daster Lungsuran & Peci Hitam (Nyeleneh)": "Wearing an oversized, faded floral daster that clearly looks like a hand-me-down from his wife, showing a funny but humble daily look. Paired with loose grey trousers underneath and a classic black velvet peci, radiating a 'Sableng' yet friendly aura.",
+                "Kaos Polo Garis-Garis & Sarung (Peci Haji)": "Wearing a horizontal striped polo shirt in faded navy and white with a curled collar. One side of the shirt is tucked into his sarong while the other is out. Paired with a maroon checkered sarong and a simple white hajj cap, looking like a cheerful, eccentric grandfather."
             },
             "Kakek Sinto": {
-                "Kaos Singlet Kuning & Sarung": "Wearing a thin, yellowed-white ribbed singlet (singlet swan) that shows his fragile collarbones and bony shoulders. Paired with a soft, extremely faded 'Lawasan' batik sarong wrapped high around his chest.",
-                "Kaos Haji & Kupluk Putih": "Wearing a grayish, well-worn white 'Kaos Haji' showing pilling textures. Paired with a thin white knitted prayer cap (kupluk) and a simple brown sarong that looks too large for his shrunken frame.",
-                "Kemeja Katun Tipis & Peci Miring": "Wearing a very thin, short-sleeved cotton shirt in faded beige with one button missing. A weathered black Peci is perched slightly tilted on his head, showing a weary and fragile village look.",
-                "Sarung Sampir & Dada Terbuka": "He is shirtless but has an old, faded batik cloth draped over his thin shoulders like a shawl. Paired with a weathered sarong tied with a simple piece of plastic string at the waist.",
-                "Baju Lurik Usang & Caping": "Wearing an old, dark-striped 'Lurik' jacket with frayed cuffs. He holds a traditional straw 'caping' hat. The fabric looks rough and heavy on his thin body, paired with a faded dark sarong.",
-                "Kaos Panjang Melar & Sarung Pelikat": "Wearing a charcoal grey long-sleeved t-shirt with a stretched-out (melar) collar. Paired with a patterned 'sarung pelikat' in muted blue and green checks that looks dusty and worn-out."
+                "Kemeja Batik Pasar & Peci Hitam": "Wearing an oversized, faded batik shirt with a repetitive simple pattern in muted brown. The shirt is unbuttoned at the top, showing a thin white undershirt. Paired with a dark-toned sarong and a black velvet peci that looks slightly greyish from dust.",
+                "Kaos Lengan Panjang 'Koperasi' & Peci Haji": "Wearing a faded navy blue long-sleeved t-shirt with a cracked white logo of a local 'Koperasi' on the chest. Paired with a multicolored checkered sarong tied high and a white hajj cap (peci haji) that looks soft and thin.",
+                "Kaos Oblong & Jaket Bahan (Peci Hitam)": "Wearing a classic thin white cotton undershirt (kaos oblong) layered with an old, faded grey zip-up jacket. Paired with a dark chocolate-toned batik sarong and a well-worn black peci tilted forward on his forehead.",
+                "Baju Koko Harian & Peci Haji": "Wearing a very simple, short-sleeved light grey 'Baju Koko' made of thin cotton. The fabric is heavily wrinkled and shows minor stains from daily activities. Paired with a maroon sarong and a simple white hajj cap (peci haji) that sits snugly.",
+                "Kaos Kerah Garis-Garis & Peci Hitam": "Wearing a faded green and white horizontal striped polo shirt with a curled collar. Paired with a dark green sarong and a classic black velvet peci. A small batik cloth is slung diagonally across his chest like a sash.",
+                "Kaos Partai & Jaket Parasut (Peci Haji)": "Wearing a faded yellow promotional t-shirt (Kaos Partai) layered with a thin, old navy parachute jacket. The jacket shows realistic creases and salt-stains. Paired with a simple brown sarong and a white hajj cap (peci haji) sitting slightly crooked."
             },
             "Kakek Wiryo": {
-                "Kaos Oblong Abu & Handuk Leher": "Wearing a sweat-stained charcoal grey cotton t-shirt with visible pilling. A small, frayed red-and-white checkered towel is draped around his neck. Paired with a thick, dark-colored sarong.",
-                "Kemeja Flanel & Sarung Wadimor": "Wearing a rugged, short-sleeved plaid flannnel shirt in faded red and black checks. Paired with a patterned 'Wadimor' daily sarong in dark blue tied tightly at his waist, looking resilient.",
-                "Baju Koko Putih & Peci Hitam": "Wearing a sturdy but stained white Baju Koko showing grease marks from work. Paired with a classic black Peci and a dark checked sarong, showing the look of a hardworking grandfather.",
-                "Kaos Kerah & Jaket Parka Tua": "Wearing a faded navy polo shirt layered with an old, thin vintage parka jacket in olive green. The jacket shows realistic salt-stains and creases, paired with a sturdy dark sarong.",
-                "Kemeja Safari & Peci Haji": "Wearing a short-sleeved khaki safari shirt with multiple pockets, looking very old-school. Paired with a simple white prayer cap and a patterned sarong in muted brown tones.",
-                "Kaos Putih & Sarung Gajah Duduk": "Wearing a simple plain white cotton t-shirt that looks thin and grayish. Paired with a classic 'Gajah Duduk' checked sarong in muted green and orange tied traditionally at the waist."
+                "Kaos Lengan Panjang Toko Benih (Peci Hitam)": "Wearing a faded green long-sleeved promotional t-shirt with a cracked yellow logo of a local seed shop (Toko Benih) on the back. The fabric is thin and pilling. Paired with a dark chocolate-toned batik sarong and a dusty black velvet peci.",
+                "Kemeja Safari Jadul & Sarung (Peci Haji)": "Wearing an old-fashioned, short-sleeved safari shirt in faded khaki with four front pockets. The fabric is stiff and weathered. Paired with a multicolored checkered sarong and a soft white hajj cap (peci haji) that looks well-washed.",
+                "Kaos Oblong Putih & Handuk Bahu (Peci Hitam)": "Wearing a classic thin white cotton undershirt (kaos oblong) that is slightly yellowish around the collar. A small blue hand towel is draped over his shoulder. Paired with a dark green sarong and a classic black peci tilted slightly forward.",
+                "Kemeja Flanel Kusam & Sarung (Peci Haji)": "Wearing an oversized, unbuttoned flannel shirt in faded brown and grey over a bare chest. The sleeves are rolled up to the elbows. Paired with a maroon checkered sarong and a simple white hajj cap (peci haji) pinned with a small safety pin.",
+                "Kaos Polo Garis-Garis & Peci Hitam": "Wearing a horizontal striped polo shirt in faded navy and mustard yellow. The collar is curled and stretched. Paired with a dark-toned batik sarong and a well-worn black velvet peci that shows realistic fabric age.",
+                "Kaos Partai & Celana Komprang (Peci Haji)": "Wearing a faded orange promotional t-shirt (Kaos Partai) with a blurry logo. Paired with loose black ankle-length trousers (sirwal) and a simple white hajj cap, looking like a humble grandfather resting after his morning activities."
             },
             "Kakek Usman": {
-                "Baju Koko Biru & Peci Berdebu": "Wearing a heavily wrinkled, dark blue Baju Koko made of soft rayon fabric. His black Peci looks dusty and misshapen. Paired with a dark-toned sarong that looks disheveled and untidy.",
-                "Kemeja Cokelat & Tasbih Kayu": "Wearing a plain, faded brown cotton shirt with two missing buttons. He holds a string of dark wooden prayer beads (tasbih) in his trembling hands. Paired with a weathered, dark-grey sarong.",
-                "Kaos Panjang Putih & Jilbab Sampir": "Wearing a grayish, well-worn white long-sleeved t-shirt. A faded batik cloth is draped over his head and shoulders like a makeshift shawl, emphasizing his deep vulnerability and grief.",
-                "Tunik Katun Kusut & Sarung Pudar": "Wearing a long-sleeved cotton tunic in a faded charcoal color that hangs loosely. Paired with an extremely faded, soft batik sarong that has lost its pattern, looking very poor and sad.",
-                "Daster Kaos & Jaket Rajut Tua": "Wearing a simple daily cotton daster (unisex home wear), layered with an old, pilling knitted cardigan in a faded charcoal color. Paired with a simple white Peci, looking very humble and lonely.",
-                "Kaos Oblong Putih & Sarung Melintir": "Wearing a thin, grayish white oblong t-shirt with a stretched collar. His sarong is tied haphazardly and looks twisted (melintir) at the waist. His expression is one of complete despair."
+                "Baju Koko Katun Putih & Sarung (Peci Hitam)": "Wearing a very simple, short-sleeved white cotton 'Baju Koko' with minimal embroidery. The fabric looks soft, yellowish from age, and heavily wrinkled. Paired with a dark chocolate-toned batik sarong and a well-worn black velvet peci that looks slightly dusty.",
+                "Baju Koko Kurta Kusam & Peci Haji": "Wearing a modest, long-sleeved 'Kurta' style baju koko in faded sage green. The fabric is thin and shows realistic pilling. Paired with a multicolored checkered sarong and a soft white hajj cap (peci haji) that sits comfortably on his forehead.",
+                "Kaos Oblong & Baju Koko Terbuka (Peci Hitam)": "Wearing a classic thin white cotton undershirt (kaos oblong), layered with an unbuttoned white baju koko used like a light jacket. Paired with a maroon sarong and a classic black peci tilted slightly back, looking like a relaxed village elder.",
+                "Baju Koko Biru Muda & Sarung (Peci Haji)": "Wearing a simple, short-sleeved baju koko in faded sky blue with a small chest pocket. The fabric is stiff and weathered. Paired with a dark green checkered sarong and a simple white hajj cap (peci haji) that looks thin and breathable.",
+                "Kaos Lengan Panjang Toko Bangunan (Peci Hitam)": "Wearing a faded orange promotional t-shirt from a local hardware store with cracked black logos. Paired with a dark-toned batik sarong and a dusty black velvet peci, showing his humble daily look for going to the warung.",
+                "Baju Koko Cokelat Tua & Peci Haji": "Wearing a very basic, short-sleeved baju koko in a deep chocolate brown color. The fabric is limp and heavily creased. Paired with a classic multicolored sarong and a white hajj cap (peci haji), radiating a calm and spiritual village grandfather vibe."
             }
         }
 
@@ -1706,6 +1841,192 @@ def tampilkan_halaman():
 
         # --- 3. MASTER LOKASI (FIXED: NATURAL CLUTTER & SOLID BACKDROP) ---
         MASTER_GRANDMA_SETTING = {
+            "Depan Warung Desa": (
+                "Sitting on a long wooden bench in front of a small village kiosk (warung). "
+                "The background is a simple wooden wall covered with small hanging sachets of coffee and snacks. "
+                "The ground is hard-packed dirt with discarded bottle caps and dry sand. "
+                "Surrounding objects: a stack of wooden soda crates, an old chalkboard with handwritten prices, and a dusty radio on a high shelf."
+            ),
+            "Pinggir Jalan Aspal Rusak": (
+                "Sitting on a rustic bamboo bench (lincak) at the edge of a narrow village road with broken asphalt and potholes. "
+                "The background features a dusty motorbike (Supra or Astrea) passing by, leaving a slight blur of movement. "
+                "The ground is a mix of weathered grey asphalt, dry sand, and patches of wild grass. "
+                "Surrounding objects: a pile of gravel for road repair, a weathered electric pole with tangled wires, and a small blue plastic trash bin."
+            ),
+            "Jalan Tanah Merah & Kebun": (
+                "Sitting on a large flat stone by a red dirt path (jalan tanah) leading to the fields. "
+                "The background is a dense bamboo grove and banana trees, with a glimpse of a neighbor's motorbike parked under a shed. "
+                "The ground is uneven red soil with tire tracks and scattered dry leaves. "
+                "Surrounding objects: a classic bicycle leaning against a tree, a wooden signpost, and a few chickens crossing the road."
+            ),
+            "Pertigaan Kampung (Pos Ronda)": (
+                "Sitting on the wooden porch of a small village guard post (Pos Ronda) at a junction. "
+                "The background shows the daily activity of the village, with a blurred image of a resident riding a motorbike in the distance. "
+                "The ground is hard-packed dirt with scattered pebbles and dry cigarette butts. "
+                "Surrounding objects: a large wooden slit drum (kentongan), a pile of old tires, and a dusty village map painted on a board."
+            ),
+            "Pinggir Jalan Depan Pagar Bambu": (
+                "Sitting on a plastic chair on the shoulder of a quiet village street. "
+                "The background is a long, rustic bamboo fence (pagar gedeg) with a passing motorbike rider wearing a typical village helmet. "
+                "The floor is a mix of sun-baked soil and thin patches of moss near the drainage ditch. "
+                "Surrounding objects: a large stone used for sitting, a plastic bucket of water, and a few stray dogs resting in the shade."
+            ),
+            "Jalan Gang Sempit (Paving Block)": (
+                "Sitting on a low cement step in a narrow residential alleyway (gang). "
+                "The background shows the tight space between houses with a parked motorbike partially blocking the way. "
+                "The ground is made of mossy, cracked paving blocks with weeds growing in the gaps. "
+                "Surrounding objects: a row of potted plants in recycled cans, a hanging laundry line, and a kid's plastic tricycle nearby."
+            ),
+            "Pinggir Jalan Utama Desa": (
+                "Sitting on a wooden bench under a large flamboyant tree by the main village road. "
+                "The background features the hustle and bustle of the village with a couple of motorbikes and a bicycle passing by in the distance. "
+                "The ground is dusty grey earth with scattered fallen red flowers. "
+                "Surrounding objects: a stack of wooden crates, an old public bench, and a small wooden kiosk (warung) visible in the background."
+            ),
+            "Gubug Tengah Sawah": (
+                "Sitting on the edge of a small, weathered wooden hut (gubug) in the middle of a vast rice field. "
+                "The background features endless green rice stalks swaying in the wind under a bright sky. "
+                "The floor is made of rough bamboo slats (lupuh) with a dusty texture. "
+                "Surrounding objects: a pair of muddy rubber boots, a rusted sickle (arit), and a plastic water jug wrapped in a wet cloth."
+            ),
+            "Pematang Sawah (Galengan)": (
+                "Sitting on a low wooden stool on a narrow, muddy path (pematang) between rice plots. "
+                "The background shows farmers in the distance wearing conical hats (caping) working in the mud. "
+                "The ground is dark, wet clay with visible footprints and small patches of wild grass. "
+                "Surrounding objects: a bamboo basket (tenggok) filled with harvested weeds, a traditional hoe (cangkul) stuck in the mud, and a passing dragonfly."
+            ),
+            "Pinggir Irigasi Sawah": (
+                "Sitting on a concrete ledge of a small irrigation canal at the edge of the fields. "
+                "The background is a mix of rice fields and a few coconut trees lining the horizon. "
+                "The water in the canal is murky brown, flowing slowly over mossy stones. "
+                "Surrounding objects: a discarded snack wrapper, a plastic bucket, and a pile of dry hay (jerami) nearby."
+            ),
+            "Tempat Perontokan Padi": (
+                "Sitting on a pile of dry rice straw (jerami) under a temporary blue tarpaulin tent. "
+                "The background is a wide open field with piles of harvested rice stalks waiting to be processed. "
+                "The ground is covered in golden rice husks (sekam) and dry dust. "
+                "Surrounding objects: a traditional wooden rice thresher, several large white sacks (karung) filled with grain, and a dusty bicycle."
+            ),
+            "Batas Sawah & Jalan Desa": (
+                "Sitting on a large rock where the rice field meets a dusty dirt road. "
+                "The background features a muddy motorbike parked by the road and a vast expanse of young green rice plants. "
+                "The ground is a transition between dry gravel and wet, dark soil. "
+                "Surrounding objects: a conical bamboo hat (caping) resting on the rock, a wooden rake, and a plastic bottle of iced tea."
+            ),
+            "Jembatan Kayu Kecil": (
+                "Sitting on a simple, creaky wooden bridge crossing a small stream between two rice fields. "
+                "The background is a lush, overgrown riverbank with banana leaves and tall reeds. "
+                "The floor of the bridge is made of grey, weathered wood planks with gaps showing the water below. "
+                "Surrounding objects: a stack of freshly cut grass for livestock, a small fishing net, and a blue plastic bucket."
+            ),
+            "Tengah Kebun Mangga Lebat": (
+                "Sitting on a low wooden stool, surrounded by a dense forest of mango trees with low-hanging branches full of green and yellow mangoes. "
+                "The background is a solid wall of thick green leaves, completely obscuring the sky. "
+                "The ground is dark, damp soil covered in a carpet of dry brown leaves and fallen rotting fruits. "
+                "Surrounding objects: a large bamboo ladder leaning against a branch right next to her, several overflowing bamboo baskets (tenggok), and a long harvesting pole (genter)."
+            ),
+            "Hutan Pisang & Jantung Pisang": (
+                "Sitting on a pile of dry banana leaves in the heart of a chaotic, dense banana plantation. "
+                "The background is dominated by massive, overlapping tattered green banana leaves and purple banana hearts hanging everywhere. "
+                "The ground is soft and muddy with decaying banana trunks and scattered weeds. "
+                "Surrounding objects: a rusted machete (parang) stuck in a soft trunk, a bunch of harvested green bananas, and a few chickens pecking in the shadows."
+            ),
+            "Kebun Rambutan Rimbun": (
+                "Sitting on a woven mat in a shady area completely enclosed by rambutan trees laden with bright red, hairy fruits. "
+                "The background is a sea of red fruits and dark green foliage, creating a warm, filtered light. "
+                "The floor is dry earth with scattered red fruit skins and broken twigs. "
+                "Surrounding objects: a large pile of freshly picked rambutan branches, an old plastic bucket, and a conical bamboo hat (caping) resting on the ground."
+            ),
+            "Lorong Kebun Pepaya & Cabai": (
+                "Sitting on a plastic chair in a narrow path between rows of tall papaya trees with clusters of fruit on their trunks. "
+                "The background shows layers of green papaya leaves and chili bushes filled with bright red peppers. "
+                "The ground is dark fertile soil with visible irrigation ridges and dry grass. "
+                "Surrounding objects: a watering can made from a large jerrycan, a wooden crate for fruit collection, and a rolled-up black garden hose."
+            ),
+            "Kebun Salak Berduri": (
+                "Sitting on a flat stone at the edge of a dense, thorny Salak (Snakefruit) grove. "
+                "The background is a prickly wall of sharp, fan-like palm leaves, looking very rustic and wild. "
+                "The ground is covered in dry palm fronds and clusters of brown, scaly snakefruits near the roots. "
+                "Surrounding objects: a pair of thick work gloves, a small harvesting knife, and a bamboo basket half-filled with salak."
+            ),
+            "Rumpun Bambu & Pohon Nangka": (
+                "Sitting on a bamboo bench surrounded by giant bamboo stalks and heavy jackfruit trees (Nangka). "
+                "The background features enormous jackfruits hanging directly from the thick trunks, covered in textured green skin. "
+                "The ground is a mix of dry sand and bamboo leaf litter. "
+                "Surrounding objects: a large sack (karung) filled with jackfruit seeds, a wooden mallet, and an old bicycle leaning against a bamboo pole."
+            ),
+            "Kebun Stroberi (Bedengan Mulsa)": (
+                "Sitting on a low plastic stool in the middle of a neat strawberry farm. "
+                "The background features long rows of raised soil beds covered in shiny silver plastic mulch (mulsa), with bright red strawberries peeking from green leaves. "
+                "The ground between the rows is dry, hard-packed earth with scattered straws. "
+                "Surrounding objects: a small plastic crate filled with fresh strawberries, a pair of garden shears, and a small sun-hat resting nearby."
+            ),
+            "Ladang Nanas Berduri": (
+                "Sitting on a flat rock at the edge of a vast pineapple field. "
+                "The background is filled with low-growing, sharp-edged pineapple plants with ripening fruits on central stalks under a blazing sun. "
+                "The ground is sandy, dry red soil with thin patches of dry grass. "
+                "Surrounding objects: a pair of thick protective gloves, a long harvesting knife, and a plastic water bottle half-buried in the sand."
+            ),
+            "Kebun Cabe Merah (Siap Panen)": (
+                "Sitting on a wooden crate in a dense chili plantation. "
+                "The background is a sea of green bushes heavily laden with bright, shiny red chilies pointing upwards. "
+                "The ground is dark fertile soil with visible white fertilizer specks and dry weeds. "
+                "Surrounding objects: a large bamboo basket (tenggok) overflowing with red chilies, a small handheld sprayer, and a frayed straw mat."
+            ),
+            "Kebun Pisang Lebat": (
+                "Sitting on a fallen, decaying banana trunk in a dense, shady banana grove. "
+                "The background is dominated by massive green banana leaves and heavy bunches of green bananas hanging low. "
+                "The ground is soft and damp, covered with brown rotting banana leaves and small mushrooms. "
+                "Surrounding objects: a rusted machete (parang) stuck in a stump, a bunch of harvested bananas, and a few chickens pecking in the shadows."
+            ),
+            "Ladang Semangka (Merambat)": (
+                "Sitting on a large wooden plank in the middle of a wide-open watermelon field. "
+                "The background is a carpet of green vines crawling across the ground with large, round striped watermelons laying everywhere. "
+                "The ground is sun-baked grey earth with cracks and dry vine tendrils. "
+                "Surrounding objects: a pile of harvested watermelons, a large jug of tea, and a simple bamboo rake."
+            ),
+            "Kebun Sayur Campuran": (
+                "Sitting on a low bench surrounded by a mix of long beans on bamboo trellises and ripening papayas. "
+                "The background is a vibrant mix of various green foliage and textures. "
+                "The ground is dark soil with realistic irrigation furrows and scattered garden tools. "
+                "Surrounding objects: a watering can made from a large jerrycan, a pile of harvested long beans, and a conical bamboo hat (caping)."
+            ),
+            "Kebun Bunga Matahari": (
+                "Sitting on a wooden bench surrounded by towering, bright yellow sunflowers. "
+                "The background is a solid wall of large green leaves and massive sunflower heads facing the sun. "
+                "The ground is dry earth with fallen yellow petals and scattered dry leaves. "
+                "Surrounding objects: a large watering can, a pair of garden gloves on the bench, and a few butterflies hovering around the flowers."
+            ),
+            "Taman Bunga Warna-Warni (Pekarangan)": (
+                "Sitting on a low cement step in a garden filled with blooming marigolds, jasmines, and red hibiscus. "
+                "The background is a vibrant mix of orange, white, and red flowers against a backdrop of dark green shrubs. "
+                "The floor is a mix of weathered terracotta tiles and small pebbles. "
+                "Surrounding objects: a stack of terracotta flower pots, a small hand trowel, and a plastic bucket of water."
+            ),
+            "Kebun Sayur Mayur (Lahan Bedengan)": (
+                "Sitting on a low plastic stool in a productive vegetable garden. "
+                "The background shows neat rows of green spinach, mustard greens (sawi), and bushy kale plants. "
+                "The ground is dark, moist fertile soil with visible white fertilizer specks. "
+                "Surrounding objects: a bamboo basket (tenggok) filled with freshly picked greens, a small handheld sprayer, and a pair of worn-out rubber sandals."
+            ),
+            "Lorong Sayur Rambat (Pare & Kacang Panjang)": (
+                "Sitting on a bamboo bench under a simple trellis (parapara) made of bamboo poles. "
+                "The background is a shaded tunnel of hanging long beans and bitter gourds (pare) with their textured green skin. "
+                "The floor is shaded soil with patches of moss and dry grass. "
+                "Surrounding objects: a pile of harvested long beans, a rusted sickle (arit) on a wooden post, and a bottle of iced tea."
+            ),
+            "Kebun Terong & Tomat": (
+                "Sitting on a wooden crate between rows of heavy-laden purple eggplant bushes and ripening red tomatoes. "
+                "The background features layers of large green leaves and shiny, colorful vegetables hanging low. "
+                "The ground is sun-baked earth with dry vine tendrils and visible irrigation furrows. "
+                "Surrounding objects: a plastic crate for vegetable collection, a conical bamboo hat (caping), and a garden hose."
+            ),
+            "Kebun Jagung Rimbun": (
+                "Sitting on a flat stone at the edge of a dense, tall cornfield. "
+                "The background is a sea of tall, rustling corn stalks with large leaves and visible corn cobs with silky hair. "
+                "The ground is dry, dusty soil with scattered corn husks (klobot). "
+                "Surrounding objects: a large burlap sack (karung goni), a small wooden stool, and an old bicycle leaning against the corn stalks."
+            ),
             "Sudut Dapur Tungku": (
                 "Sitting on a low wooden stool (dingklik) next to a traditional clay wood-fire stove (tungku). "
                 "The background is a solid wall of soot-covered bricks (tembok pawon) with deep black carbon stains and rough mortar. "
@@ -1742,6 +2063,42 @@ def tampilkan_halaman():
                 "The background is a vast green paddy field with swaying rice stalks. "
                 "Surrounding objects: a worn-out conical straw hat (caping), a rusty sickle stuck in a bamboo post, and a plastic water bottle wrapped in a damp cloth."
             ),
+            "Teras Pos Kamling (Malam/Sore)": (
+                "Sitting on a long wooden bench inside a village guard post (Pos Kamling). "
+                "The background is a wooden wall decorated with a faded duty roster and a large wooden slit drum (kentongan). "
+                "The floor is hard-packed dirt with scattered dry peanut shells and a few cigarette butts. "
+                "Surrounding objects: a dusty kerosene lamp (off), a deck of worn-out playing cards on the bench, and an old sarong hanging on a nail."
+            ),
+            "Pangkalan Angkot Pedesaan": (
+                "Sitting on a plastic chair under a rusty corrugated iron shelter at a village transport hub. "
+                "The background features a faded blue or yellow public minivan (Angkot) parked nearby with mud-splattered tires. "
+                "The ground is cracked asphalt with puddles of murky water and discarded snack wrappers. "
+                "Surrounding objects: a stack of used tires, a small wooden kiosk selling cigarettes, and a weathered public transport sign."
+            ),
+            "Pinggir Rel Kereta (Area Pemukiman)": (
+                "Sitting on a low cement wall very close to a railway track that cuts through a village. "
+                "The background shows the backs of small village houses with laundry hanging on lines and overgrown weeds. "
+                "The ground is covered in grey ballast stones and patches of oil-stained dirt. "
+                "Surrounding objects: a rusty signal pole, a discarded plastic bucket, and a small vegetable patch grown right next to the tracks."
+            ),
+            "Halaman Bengkel Las / Pandai Besi": (
+                "Sitting on a wooden crate in front of a traditional blacksmith (Pandai Besi) workshop. "
+                "The background is a dark, soot-covered shed with glowing embers and various iron tools hanging on the wall. "
+                "The floor is covered in black charcoal dust and metallic scraps. "
+                "Surrounding objects: a heavy anvil on a log, a pile of raw iron bars, and a large bucket of murky cooling water."
+            ),
+            "Bawah Pohon Beringin Besar": (
+                "Sitting on a large, gnarled tree root of a massive, ancient Banyan tree (Pohon Beringin). "
+                "The background is filled with thick, hanging aerial roots and dense dark green foliage, creating a mysterious atmosphere. "
+                "The ground is covered in a thick layer of dry leaves and mossy stones. "
+                "Surrounding objects: a small stone shrine with dry flower offerings (sesaji), an old bicycle, and a weathered wooden bench."
+            ),
+            "Depan Penggilingan Kerupuk": (
+                "Sitting on a stool in front of a home-based cracker factory (Pabrik Kerupuk). "
+                "The background shows hundreds of round bamboo trays (tampah) filled with colorful raw crackers drying in the sun. "
+                "The ground is sun-baked white cement with a thin layer of flour dust. "
+                "Surrounding objects: a large frying wok (wajan), several stacked tins of crackers (kaleng kerupuk), and a dusty delivery motorbike."
+            ),
             "Gubuk Deru Hujan": (
                 "Sitting inside a small field hut with a thick, shaggy thatched roof (atap rumbia). "
                 "The floor is wet bamboo with realistic water puddles and mud stains. "
@@ -1771,6 +2128,36 @@ def tampilkan_halaman():
                 "The background is a solid wall of old red bricks covered in thick green moss and ferns. "
                 "The floor is wet grey cement with realistic puddles and water stains. "
                 "Surrounding objects: a black rubber bucket with a frayed rope, a bar of soap on a stone, and a pair of wooden clogs (gapyak)."
+            ),
+            "Pinggir Lapangan Voli Desa": (
+                "Sitting on a weathered wooden bench at the edge of a dusty, hard-packed dirt volleyball court. "
+                "The background features a sagging net and a few village youths playing in soft focus. "
+                "The ground is dry, dusty earth with white chalk lines for the court boundaries. "
+                "Surrounding objects: a plastic water gallon, a few scattered sandals, and a rusty bicycle leaning against a tree."
+            ),
+            "Tempat Pembuatan Batu Bata (Lio)": (
+                "Sitting on a stack of unbaked grey clay bricks inside a large open-walled shed. "
+                "The background shows rows of thousands of red bricks stacked in a pyramid shape. "
+                "The floor is covered in fine red brick dust and dry straw used for firing. "
+                "Surrounding objects: a wooden brick mold, a pile of wet dark clay, and a soot-covered furnace in the distance."
+            ),
+            "Halaman Jemuran Baju semrawut": (
+                "Sitting on a plastic chair in a narrow backyard filled with hanging laundry. "
+                "The background is a solid wall of colorful clothes, sarongs, and towels hanging on makeshift bamboo poles. "
+                "The ground is damp cement with patches of green moss and soap suds. "
+                "Surrounding objects: a plastic laundry basin, a tangled garden hose, and a few stray kittens playing nearby."
+            ),
+            "Pinggir Hutan Bambu & Sungai": (
+                "Sitting on a large mossy rock where a bamboo forest meets a small stream. "
+                "The background is a dense, dark green thicket with sunlight barely breaking through the bamboo leaves. "
+                "The ground is a mix of wet river sand, smooth pebbles, and decaying bamboo leaves. "
+                "Surrounding objects: a bamboo fishing rod, a blue plastic bucket, and a pile of river stones."
+            ),
+            "Tempat Pembuatan Batu Bata (Lio)": (
+                "Sitting on a stack of unbaked grey clay bricks inside a large open-walled shed. "
+                "The background shows rows of thousands of red bricks stacked in a pyramid shape. "
+                "The floor is covered in fine red brick dust and dry straw used for firing. "
+                "Surrounding objects: a wooden brick mold, a pile of wet dark clay, and a soot-covered furnace in the distance."
             ),
             "Pinggir Sungai Berbatu": (
                 "Sitting on a massive flat grey river stone. "
@@ -1892,11 +2279,107 @@ def tampilkan_halaman():
                 "The floor is damp, dark soil covered in decaying organic matter and small wild mushrooms. "
                 "Surrounding objects: a bunch of harvested green bananas (pisang kepok), and a discarded plastic tarp."
             ),
+            "Pojok Pasar Tradisional": (
+                "Sitting on a low wooden bench in a crowded, narrow aisle of a traditional village market. "
+                "The background is a blur of colorful hanging goods, stacks of baskets, and other traders in the distance. "
+                "The ground is damp, dark cement with scattered vegetable scraps and discarded plastic bags. "
+                "Surrounding objects: a large pile of coconuts, a hanging scale (timbangan dacin), and a stack of wooden egg crates."
+            ),
+            "Pinggir Sungai Desa": (
+                "Sitting on a large, smooth river stone by the edge of a shallow, rocky river. "
+                "The background features lush green bamboo trees leaning over the water and a glimpse of a small concrete bridge. "
+                "The water is clear, flowing over mossy stones with realistic reflections of the sky. "
+                "Surrounding objects: a colorful plastic laundry basin, a bar of soap on a rock, and a pile of wet clothes being sun-dried."
+            ),
+            "Pangkalan Ojek / Pos Ronda": (
+                "Sitting on a long wooden bench (lincak) inside a small, open-walled village guard post. "
+                "The background shows a quiet village crossroads with a dusty motorbike parked nearby. "
+                "The floor is hard-packed dirt with scattered dry leaves and a few cigarette butts. "
+                "Surrounding objects: a large wooden slit drum (kentongan), a dusty village announcement board, and an old wall calendar hanging on a post."
+            ),
+            "Halaman Sekolah Desa": (
+                "Sitting on a cement bench under a large flamboyant tree in a quiet school yard. "
+                "The background features a simple white-and-red school building with long corridors and a flagpole. "
+                "The ground is a mix of sun-baked soil and patches of thin grass. "
+                "Surrounding objects: a few scattered plastic snack wrappers, a rusty bicycle, and a colorful mural painted on a low wall."
+            ),
+            "Teras Balai Desa / Balai RW": (
+                "Sitting on a plastic chair on the wide, tiled terrace of a village community hall. "
+                "The background features a solid white wall with a large village map and several wooden announcement boards. "
+                "The floor is made of clean but old grey cement tiles with realistic reflections. "
+                "Surrounding objects: a tall flagpole with a fluttering red and white flag, a stack of plastic chairs in the corner, and a large clay water pot (gentong)."
+            ),
+            "Jembatan Bambu (Sesek)": (
+                "Sitting on the edge of a creaky bamboo bridge crossing a small ravine or stream. "
+                "The background is a dense green thicket of bamboo and tropical ferns under a soft morning mist. "
+                "The bridge surface is made of woven bamboo (sesek) with visible gaps and weathered textures. "
+                "Surrounding objects: a long bamboo pole used for balance, a stack of harvested firewood, and a plastic bucket."
+            ),
             "Pojok Jantung Pisang": (
                 "Sitting on a low wooden stool directly under a low-hanging purple banana blossom (jantung pisang). "
                 "The background features several thick, moist banana trunks with realistic layered textures and water-stain patterns. "
                 "The ground is covered in dry banana fibers and fallen purple blossom petals. "
                 "Surrounding objects: a woven bamboo basket (tenggok) filled with banana hearts, a pair of muddy rubber boots, and a wooden crate."
+            ),
+            "Pojok Bengkel Motor Desa": (
+                "Sitting on an old tire in front of a small, cluttered village motorcycle repair shop. "
+                "The background is a dark interior filled with hanging spare parts, tools, and oily rags. "
+                "The ground is dark, oil-stained cement with scattered metal scraps and bolts. "
+                "Surrounding objects: a stack of used tires, a rusted air compressor, and an old calendar with a vintage motorbike picture."
+            ),
+            "Dermaga Kayu Kecil": (
+                "Sitting on the edge of a weathered wooden jetty overlooking a calm river or lake. "
+                "The background features a few small traditional wooden boats (sampan) moored nearby and a distant line of trees. "
+                "The floor is made of grey, sun-bleached wood planks with visible gaps and rusted nails. "
+                "Surrounding objects: a tangled fishing net, a plastic bucket, and a coil of frayed rope."
+            ),
+            "Pinggir Tambak Ikan": (
+                "Sitting on a narrow grassy embankment between two large fish ponds (tambak). "
+                "The background features the shimmering surface of the water reflecting the sky and a small bamboo hut for the caretaker. "
+                "The ground is damp soil with patches of thick grass and small white stones. "
+                "Surrounding objects: a bag of fish feed, a bamboo scoop net (seser), and a pair of muddy rubber sandals."
+            ),
+            "Jembatan Gantung Desa": (
+                "Sitting at the entrance of a narrow suspension bridge with wooden slats and rusted cables. "
+                "The background is a deep green valley with the tops of coconut trees visible below. "
+                "The ground is a mix of hard dirt and large concrete anchor blocks for the bridge cables. "
+                "Surrounding objects: a rusty bicycle leaning against the cable, a small wooden sign, and scattered dry leaves."
+            ),
+            "Pinggir Waduk / Bendungan": (
+                "Sitting on a large concrete block at the edge of a massive village reservoir (waduk). "
+                "The background is a vast expanse of still water with mountains or hills in the far distance under a soft haze. "
+                "The ground is dry, cracked earth near the water's edge with small shells and pebbles. "
+                "Surrounding objects: a simple bamboo fishing rod, a plastic bottle, and an old hat resting on the concrete."
+            ),
+            "Tanggul Sungai Besar": (
+                "Sitting on a grassy slope of a high river embankment (tanggul). "
+                "The background shows a wide brown river flowing below and the roofs of village houses on the other side. "
+                "The ground is covered in wild, overgrown grass and small purple wildflowers. "
+                "Surrounding objects: a grazing goat tied to a wooden stake, a pile of harvested grass, and a simple wooden bench."
+            ),
+            "Halaman Belakang Pabrik Tahu": (
+                "Sitting on a low stool near a small drainage canal behind a traditional village tofu factory. "
+                "The background features white steam rising from the building and stacks of firewood. "
+                "The floor is wet, dark cement with a thin layer of white soy residue and moss. "
+                "Surrounding objects: several large plastic barrels, a stack of wooden molds, and a bicycle parked nearby."
+            ),
+            "Puing Bangunan Tua (Rumah Roboh)": (
+                "Sitting on a pile of mossy red bricks from a ruined house. "
+                "The background is a solid wall of weathered bricks and twisted rusted rebars partially covered by overgrown vines and wild shrubs. "
+                "The ground is a mix of broken tiles (pecahan genteng), dry mortar dust, and weeds. "
+                "Surrounding objects: an old wooden door leaning against the debris, a cracked clay pot, and a few lizards on the stones."
+            ),
+            "Pinggir Hutan Jati (Musim Gugur)": (
+                "Sitting on a fallen teak log at the edge of a dry teak forest. "
+                "The background is a dense vertical line of grey teak trunks with no leaves, creating a stark, moody atmosphere. "
+                "The ground is completely buried under a thick layer of large, crunchy brown teak leaves. "
+                "Surrounding objects: a pile of gathered dry branches, a rusted axe (kapak), and a small bamboo basket for mushrooms."
+            ),
+            "Pinggir Tambang Pasir Manual": (
+                "Sitting on a wooden crate at the edge of a small village sand mine by the river. "
+                "The background is a steep wall of layered grey sand and river stones with visible shovel marks. "
+                "The ground is fine, loose grey sand with scattered pebbles and deep tire tracks from a truck. "
+                "Surrounding objects: a large sieve for sand (ayakan), a rusty shovel, and a plastic jug of water."
             ),
             "Jemuran Daun Pisang": (
                 "Sitting on a bamboo mat in a clearing surrounded by banana trees. "
@@ -2142,14 +2625,14 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (REWRITTEN: SENSORY & TEXTURE) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "Napas Tua (The Fading Echo): A voice like a dying candle in a large, silent room. It feels weightless and 'hollow', not just shaky, but shivering as if from a deep inner chill. Every word is a struggle to survive, sounding like a faint ghost of a memory.",
-                "Pasrah (The Sacred Ache): A voice that sounds like old, dry parchment rubbing together. There is a 'heavy lump' of swallowed tears in every vowel, making it sound warm but deeply bruised. It carries no ego, just a raw, stripped-back sincerity.",
-                "Getaran Qalbu (The Grainy Prayer): A voice with a 'grainy' and 'dusty' texture, like sand falling on wood. It lacks any smoothness. The words drop one by one, heavy with silence, conveying a soul that has found peace in total emptiness.",
-                "Jawa Nrimo (The Earthy Hum): A low, grounded voice that sounds like it’s coming from deep within the earth. The 'dh' and 'th' are heavy, rhythmic thuds of a heart that has waited forever. It’s a thick, honey-like slow cadence of absolute patience.",
-                "Jawa Sepuh (The Dried Leaf): A voice as thin and brittle as a dried autumn leaf. It carries a soft, apologetic air, sounding like it’s afraid the mere act of speaking will break the silence. Every pause is a silent prayer, deeply fragile.",
-                "Jawa Melas (The Infinite Sigh): A voice dominated by the sound of air, not tone. It sounds like a continuous, weary sigh that has been turned into speech. The words are soft and blurred at the edges, sounding profoundly lonely.",
-                "Sunda Mendayu (The Mountain Weep): A melodic rhythm that flows like water through mist. It’s airy and ghost-like, with vowel endings that stretch out like a quiet sob that never quite breaks. It feels weightless and deeply sorrowful.",
-                "Sunda Parahyangan (The Whispering Grace): A whispery lilt that feels like a cold breeze at dawn. It’s exceptionally light, without a physical body, sounding like a soul that is now just a soft, grateful vibration in the air."
+                "Frekuensi Sub-Bass (The Earth Rumble): Focus purely on low-end frequencies. A deep, vibrating rumble that feels like it’s coming from the stomach. Extremely slow, heavy, and 'woody'. Zero high-pitch or sharp sounds. It’s a thick, muddy, and grounded resonance.",
+                "Frekuensi High-Treble (The Shattered Glass): A very thin, high-pitched, and screechy voice. It sounds like air whistling through a tight straw. No bass or warmth at all. It feels sharp, fragile, and piercing, like a very old, tiny person.",
+                "Tekstur Kering Kerontang (The Desert Sand): A mid-range voice that is 100% dry. No resonance, no echo, no moisture. It sounds 'flat' and grainy, like someone whispering through a mouthful of sand. It’s the sound of a parched, dusty throat.",
+                "Tekstur Lendir Berat (The Muddy Swamp): A low-mid voice dominated by a 'wet' gurgle. It sounds like there is constant phlegm blocking the air. Very heavy, congested, and rattling. Every vowel sounds damp and 'sticky'.",
+                "Cadence Tersendat (The Broken Engine): A voice with an irregular, jerky rhythm. It’s not about the pitch, but the 'timing'. Speech comes in short, jagged bursts with long, wheezy gaps in between. It sounds like a machine that keeps stalling.",
+                "Resonansi Hidung (The Nasal Twang): A pinched, narrow voice that resonates entirely in the nasal cavity. It sounds slightly annoying, high-pitched, and 'tight'. It mimics the voice of a very thin, cynical, or grumpy elder.",
+                "Suara Hantu (The Breathless Ghost): A voice that is 90% breath and 10% tone. It’s a literal whisper that barely has any vocal cord vibration. It sounds weightless, airy, and profoundly lonely—as if the person is fading away.",
+                "Gemetar Distorsi (The Electric Nerve): A voice that sounds like it’s vibrating at 100Hz. It’s a rapid-fire, tiny shaking in every single vowel. It sounds high-strung, nervous, and extremely old, like a vibrating wire."
             ],
             "Mood": [
                 "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience.",
