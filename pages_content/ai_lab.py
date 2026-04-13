@@ -45,15 +45,15 @@ def tampilkan_halaman():
             col_meta1, col_meta2 = st.columns(2)
             with col_meta1:
                 st.info("**💡 SOP PENGGUNAAN GENERATOR PROMP**")
-                st.write("- **WAJIB** Selalu acak pilihan `Karakter, Bahan Masjid, Pakaian Lokasi`.")
-                st.write("- Pada `ACTING & PERFORMANCE` juga di acak pilihan `logat, mood dan gerakan tubuh`.")
-                st.write("- Bagian `Dialog` juga diacak, disesuaikan denga update dialog terbaru.")
+                st.write("- **WAJIB** Selalu acak pilihan `Karakter`, `Bahan Masjid`, `Pakaian` dan `Lokasi`.")
+                st.write("- Pada `ACTING & PERFORMANCE` juga di acak pilihan `Logat`, `Mood` dan `Gerakan Tubuh`.")
+                st.write("- Bagian `DIALOG` juga diacak, disesuaikan dengan update dialog terbaru.")
                 
             with col_meta2:
                 st.success("**🛡️ QUALITY CONTROL (WAJIB CEK)**")
-                st.write("- Cek setiap hasil video, Apakah ada `penampakan aneh` ( *masjidnya, suaranya, tangan, jari, dll* ).")
-                st.write("- Utamakan download gambar di `Gemini Flow` pilih yang ukuran 2K, boleh pilih 1K jika akun limit.")
-                st.write("- Tetap jalankan `METADATA.bat` untuk hapus sidik jari AI & jejak software `Filmora` atau `Capcut`.")
+                st.write("- Cek hasil video, Apakah ada `Penampakan Aneh` ( *masjidnya, suaranya, tangan, jari, dll* ).")
+                st.write("- Download gambar di `Gemini Flow` pilih yang ukuran 2K, boleh pilih 1K *jika akun limit*.")
+                st.write("- Jalankan `METADATA.bat` untuk hapus sidik jari AI & jejak software `FILMORA` atau `CAPCUT`.")
                     
         st.write("") # Spacing
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
