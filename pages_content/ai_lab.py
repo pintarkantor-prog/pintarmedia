@@ -2625,14 +2625,14 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (REWRITTEN: SENSORY & TEXTURE) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "Frekuensi Sub-Bass (The Earth Rumble): Focus purely on low-end frequencies. A deep, vibrating rumble that feels like it’s coming from the stomach. Extremely slow, heavy, and 'woody'. Zero high-pitch or sharp sounds. It’s a thick, muddy, and grounded resonance.",
-                "Frekuensi High-Treble (The Shattered Glass): A very thin, high-pitched, and screechy voice. It sounds like air whistling through a tight straw. No bass or warmth at all. It feels sharp, fragile, and piercing, like a very old, tiny person.",
-                "Tekstur Kering Kerontang (The Desert Sand): A mid-range voice that is 100% dry. No resonance, no echo, no moisture. It sounds 'flat' and grainy, like someone whispering through a mouthful of sand. It’s the sound of a parched, dusty throat.",
-                "Tekstur Lendir Berat (The Muddy Swamp): A low-mid voice dominated by a 'wet' gurgle. It sounds like there is constant phlegm blocking the air. Very heavy, congested, and rattling. Every vowel sounds damp and 'sticky'.",
-                "Cadence Tersendat (The Broken Engine): A voice with an irregular, jerky rhythm. It’s not about the pitch, but the 'timing'. Speech comes in short, jagged bursts with long, wheezy gaps in between. It sounds like a machine that keeps stalling.",
-                "Resonansi Hidung (The Nasal Twang): A pinched, narrow voice that resonates entirely in the nasal cavity. It sounds slightly annoying, high-pitched, and 'tight'. It mimics the voice of a very thin, cynical, or grumpy elder.",
-                "Suara Hantu (The Breathless Ghost): A voice that is 90% breath and 10% tone. It’s a literal whisper that barely has any vocal cord vibration. It sounds weightless, airy, and profoundly lonely—as if the person is fading away.",
-                "Gemetar Distorsi (The Electric Nerve): A voice that sounds like it’s vibrating at 100Hz. It’s a rapid-fire, tiny shaking in every single vowel. It sounds high-strung, nervous, and extremely old, like a vibrating wire."
+                "Buluh Retak (Pitch: High): A very thin, high-pitched elder voice that sounds sharp yet brittle. It mimics the sound of wind whistling through a crack in old wood. Infused with rapid micro-tremors and a 'cracking' texture, making it sound extremely fragile and helpless.",
+                "Gema Purba (Pitch: Very Low): A deep, booming bass resonance from a hollow chest. The delivery is slow with a heavy Javanese lilt. The texture is 'wet' and gravelly, as if every word is being pulled from a well of long-forgotten sorrow.",
+                "Bisikan Berdebu (Pitch: Mid-Flat): A flat, toneless mid-range voice with zero energy. It is 90% breath and 10% vocal cord vibration. Every word is blurred and 'dry', sounding like a weary soul who has completely surrendered to their fate.",
+                "Siulan Ompong (Pitch: Tiny & High): A tiny, high-pitched voice that sounds like an innocent child trapped in an ancient body. Characterized by a 'slushy' and whistling texture on 'S' and 'T' sounds due to missing teeth. It radiates pure vulnerability.",
+                "Isak Tersumbat (Pitch: Low-Mid): A heavy, congested voice with a thick 'rattling' texture (vocal fry). It sounds as if the speaker is perpetually swallowing tears. The pitch is unstable, shifting with deep, rhythmic gasps for air between Javanese words.",
+                "Getaran Arwah (Pitch: High-Tremolo): A high-pitched, ghostly voice that fluctuates with a wide, slow tremolo. It sounds physically cold and thin, as if the speaker is shivering in isolation. The vibration is shaky and lacks any solid 'body'.",
+                "Gumam Doa (Pitch: Mid-Low): A low-frequency, muffled mumble with soft articulation. It sounds like a quiet moan or a private prayer. The cadence is exceptionally slow, with a gentle, melodic Javanese lilt that fades at the end of every sentence.",
+                "Seruling Bambu Pecah (Pitch: High-Airy): A high-pitched voice that sounds like a cracked bamboo flute. The tone is airy and frequently 'breaks' or cuts out mid-sentence. It carries an audible wheeze, conveying a profound sense of physical exhaustion and loneliness."
             ],
             "Mood": [
                 "Natural & Ikhlas: A calm, neutral facial expression with a faint, thin smile. The face reflects deep inner peace and a lifetime of patience.",
