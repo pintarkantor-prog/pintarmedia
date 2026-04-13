@@ -2636,17 +2636,17 @@ def tampilkan_halaman():
             ],
             "Mood": [
                 "Natural & Ikhlas: A calm, neutral facial expression with deep, sun-baked wrinkles and leather-like skin texture. The eyes are soft and peaceful, looking slightly off-camera with a sense of 'nrimo'. A very thin, wise smile that barely moves the lips, reflecting a lifetime of patience.",
-                "Sedih & Lirih: A fragile expression with a heavy, tired gaze. The eyes are slightly glistening (wet look) but strictly NO tears falling. Deep bags under the eyes and a subtle furrow in the brow. The face is static and dignified, capturing a hidden sorrow that is felt rather than seen.",
                 "Pasrah & Syukur: A weary, weather-beaten face showing total acceptance of a hard life. The eyelids are slightly heavy (half-closed), reflecting deep exhaustion but spiritual peace. A humble, slight chin-tuck (menunduk dikit) that conveys absolute submission to fate.",
-                "Iba & Berharap: A gentle, sorrowful expression with eyes looking slightly upward toward the light. A faint, hopeful glimmer in the pupils despite the deep exhaustion. The mouth is closed and relaxed, showing no teeth, just a steady and dignified plea for grace."
+                "Iba & Berharap: A gentle, sorrowful expression with eyes looking slightly upward toward the light. A faint, hopeful glimmer in the pupils despite the deep exhaustion. The mouth is closed and relaxed, showing no teeth, just a steady and dignified plea for grace.",
+                "Sedih & Lirih: A fragile expression with a heavy, tired gaze. The eyes are slightly glistening (wet look) but strictly NO tears falling. Deep bags under the eyes and a subtle furrow in the brow. The face is static and dignified, capturing a hidden sorrow that is felt rather than seen."
             ],
             "Physical Action": [
+                "Mengusap Debu Imajiner: Using a thumb to very gently wipe a spot on the miniature, then looking warmly at the camera with a steady, peaceful gaze, showing a deep bond with the craft.",
                 "Menatap Detail & Menoleh Perlahan: Staring intensely at a specific small detail of the miniature mosque, then slowly turning the head to meet the camera's gaze with a thin, tired, but proud smile.",
                 "Menangkupkan Tangan di Sisi Miniatur: Both hands resting near the base of the mosque as if protecting it, looking down at the craft with a nostalgic gaze before slowly looking up to meet the camera's eyes.",
                 "Menunjuk Bagian Kubah: Pointing a shaky hand toward the dome of the miniature mosque while looking at it, then shifting the gaze to the camera with a faint, hopeful glimmer in the eyes.",
                 "Sentuhan Ujung Jari yang Gemetar: Gently touching a tiny corner of the miniature with a shaky index finger, then slowly pulling the hand back and looking at the camera with eyes that reflect quiet peace.",
-                "Mengagumi Karya dari Dekat: Leaning the face closer to the miniature as if inspecting the craftsmanship, then slowly straightening up to look at the camera with a humble and soulful expression.",
-                "Mengusap Debu Imajiner: Using a thumb to very gently wipe a spot on the miniature, then looking warmly at the camera with a steady, peaceful gaze, showing a deep bond with the craft."
+                "Mengagumi Karya dari Dekat: Leaning the face closer to the miniature as if inspecting the craftsmanship, then slowly straightening up to look at the camera with a humble and soulful expression."
             ]
         }
 
