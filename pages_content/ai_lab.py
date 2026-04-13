@@ -2836,13 +2836,13 @@ def tampilkan_halaman():
             st.code(final_ai_prompt, language="text")
                 
     # ==========================================================================
-    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & REVISI LOGIC V3 - 4 SCENES)
+    # TAB 2: MASJID VERSI BARU (ULTRA-STERIL & REVISI LOGIC V5 - ROAD POSITION)
     # ==========================================================================
     with t_masjid_v2:
-        # --- 1. DATA MASTER DNA KHUSUS V2 (ANTIBOCOR & NATURAL) ---
+        # --- 1. DATA MASTER DNA KHUSUS V2 (SPATIAL & ROAD LOCK) ---
         MASTER_DNA_V2 = {
             "KARAKTER": {
-                "Nenek Tua (Sabar)": "An Indonesian elderly woman, brown traditional headscarf (hijab), weary kind face, deep wrinkles around eyes, warm skin tone.",
+                "Nenek Tua (Sabar)": "An Indonesian elderly woman, brown traditional headscarf (hijab), weary kind face, deep wrinkles, warm skin tone.",
                 "Kakek Tua (Pejuang)": "An Indonesian elderly man, weathered sun-baked skin, wearing a simple black skullcap (peci) and a faded traditional shirt.",
             },
             "PAKAIAN": {
@@ -2850,11 +2850,11 @@ def tampilkan_halaman():
                 "Kebaya Jawa Lusuh": "a simple dark grey traditional kebaya, looking humble and aged."
             },
             "LOKASI": {
-                "Pinggir Jalan Pantura": "the dusty roadside of a busy Indonesian highway, asphalt road, blurred yellow-green truck parked in the distant background, golden-hour light."
+                "Pinggir Jalan Pantura": "the dusty roadside edge of a busy Indonesian highway (Pantura). A clear asphalt road is visible behind the character."
             },
             "KENDARAAN": {
-                "Truk yang Terparkir": "the EXACT yellow-green truck already visible in the background",
-                "Bus yang Terparkir": "the EXACT intercity bus already visible in the background"
+                "Truk di Aspal": "the EXACT yellow-green truck already driving on the asphalt road in the distance",
+                "Bus di Aspal": "the EXACT intercity bus already driving on the asphalt road in the distance"
             },
             "MASJID": {
                 "Masjid Agung Jawa (Kayu)": "a traditional Javanese miniature mosque with a triple-tiered wooden roof (atap tumpuk) made of dark brown wood.",
@@ -2866,8 +2866,8 @@ def tampilkan_halaman():
             }
         }
 
-        with st.expander("🕌 PINTAR MASJID ENGINE V2 (FIXED LOGIC V3)", expanded=True):
-            st.markdown('<p class="small-label">🧬 MASTER DNA SELECTION (ANTIBOCOR)</p>', unsafe_allow_html=True)
+        with st.expander("🕌 PINTAR MASJID ENGINE V2 (FIXED LOGIC V5)", expanded=True):
+            st.markdown('<p class="small-label">🧬 MASTER DNA SELECTION (ROAD POSITION LOCK)</p>', unsafe_allow_html=True)
             
             c1_v2, c2_v2 = st.columns(2)
             with c1_v2:
@@ -2880,6 +2880,7 @@ def tampilkan_halaman():
 
             st.divider()
 
+            # --- BARIS PILIHAN MASJID & AUDIO ---
             c3_v2, c4_v2 = st.columns(2)
             with c3_v2:
                 st.markdown('<p class="small-label">BENTUK MINIATUR MASJID</p>', unsafe_allow_html=True)
@@ -2888,55 +2889,57 @@ def tampilkan_halaman():
                 st.markdown('<p class="small-label">AUDIO PERFORMANCE</p>', unsafe_allow_html=True)
                 logat_v2 = st.selectbox("Select Audio Character", list(MASTER_DNA_V2["LOGAT_ONLY"].keys()), label_visibility="collapsed", key="v2_logat_key")
 
+            # --- INPUT DIALOG FULL WIDTH ---
             st.write("")
             st.markdown('<p class="small-label">✍️ INPUT DIALOG (ADEGAN B)</p>', unsafe_allow_html=True)
             user_dialog_v2 = st.text_area("Dialog Area", placeholder="Tulis dialog minta bantuan di sini...", height=120, label_visibility="collapsed", key="input_dialog_v2")
             
-            btn_gen_v2 = st.button("🚀 GENERATE SEQUENTIAL PROMPTS", type="primary", use_container_width=True, key="btn_gen_v2")
+            st.write("")
+            btn_gen_v2 = st.button("🚀 GENERATE SEQUENTIAL PROMPTS V5", type="primary", use_container_width=True, key="btn_gen_v2")
 
         if btn_gen_v2:
-            # --- INTERNAL LOGIC ---
+            # Mapping Data
             char_dna = MASTER_DNA_V2["KARAKTER"][pilih_char_v2]
             baju_dna = MASTER_DNA_V2["PAKAIAN"][pilih_baju_v2]
             set_dna = MASTER_DNA_V2["LOKASI"][pilih_set_v2]
             car_dna = MASTER_DNA_V2["KENDARAAN"][pilih_car_v2]
             masjid_dna = MASTER_DNA_V2["MASJID"][pilih_masjid_v2]
-            audio_dna = MASTER_DNA_V2["LOGAT_ONLY"][logat_v2]
+            dna_logat = MASTER_DNA_V2["LOGAT_ONLY"][logat_v2]
 
-            DNA_LOCK_V2 = f"CHARACTER: {char_dna}\nWARDROBE: {baju_dna}\nLOCATION: {set_dna}"
+            # LOCK POSITION: Side Profile & Road Position
+            DNA_LOCK_V2 = f"CHARACTER: {char_dna}\nWARDROBE: {baju_dna}\nLOCATION: {set_dna}\nCAMERA: Side profile view."
 
-            st.success("🔥 SEQUENTIAL PROMPTS V3 READY!")
+            st.success("🔥 SEQUENTIAL PROMPTS V5 READY (ROAD POSITION LOCK)!")
 
             # 1. GEMINI MASTER IMAGE
             with st.container(border=True):
                 st.subheader("📸 1. Gemini Master Image")
-                p_gemini = f"ULTRA-HD 2K RESOLUTION.\n\n{DNA_LOCK_V2}\n\nACTION: Sitting on the ground facing the camera, finishing an 80% finished {masjid_dna}.\nENVIRONMENT: {car_dna} is already visible and stationary in the distant background.\nLIGHTING: Golden-hour morning sun, dusty air."
+                p_gemini = f"ULTRA-HD 2K RESOLUTION.\n\n{DNA_LOCK_V2}\n\nSCENE: Character is sitting on the dusty ground edge, side profile, meticulously working on an 80% finished {masjid_dna}.\nBACKGROUND: {car_dna} is visible in the distance, already on the asphalt lane, moving toward the camera position.\nLIGHTING: Golden-hour, atmospheric dust."
                 st.code(p_gemini, language="text")
 
             # 2. GROK ADEGAN A
             with st.container(border=True):
-                st.subheader("🎥 2. Adegan A: Tragedy (Truk Background Bergerak)")
-                p_grok_a = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTATIC CAMERA. {DNA_LOCK_V2}\n\nACTION: The {car_dna} that was stationary in the background now begins to move and speed past quickly. The massive wind pressure from the passing truck causes the 80% finished {masjid_dna} to wobble and naturally collapse into pieces on the mat. The character stops working, looking deeply saddened at the ruined craft."
+                st.subheader("🎥 2. Adegan A: Tragedy (Truk Melaju di Aspal)")
+                p_grok_a = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTATIC CAMERA.\n\nACTION: The {car_dna} that was in the distance now speeds past quickly along the asphalt road. The resulting heavy wind gust hits the {masjid_dna}.\nEFFECT: The {masjid_dna} wobbles and naturally collapses/crumbles on the mat. The character freezes, looking down at the ruined craft with deep sorrow."
                 st.code(p_grok_a, language="text")
 
-            # 3. GROK ADEGAN B
+            # 3. GROK ADEGAN B (ADEGAN B, C, D tetep sama logic-nya)
             with st.container(border=True):
-                st.subheader("🎥 3. Adegan B: Plea (Dialog Karakter)")
-                p_grok_b = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nVERY SLOW CINEMATIC ZOOM TO FACE. {DNA_LOCK_V2}\n\nMOOD: Profoundly sorrowful, eyes glistening. Lips move naturally synchronizing with the dialog: '{user_dialog_v2}'.\nACTION: Character looks directly into the lens, shaky hands pleading. Focus on facial emotions, not narration.\nAUDIO: {audio_dna}"
+                st.subheader("🎥 3. Adegan B: Plea (Talking to Camera)")
+                p_grok_b = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nVERY SLOW CINEMATIC ZOOM. Character turns head to look into the camera.\nMOOD: Profoundly sorrowful, eyes glistening. Lips move: '{user_dialog_v2}'.\nACTION: Pleading gesture. Ruined {masjid_dna} in foreground.\nAUDIO: {dna_logat}"
                 st.code(p_grok_b, language="text")
 
             # 4. GROK ADEGAN C
             with st.container(border=True):
-                st.subheader("🎥 4. Adegan C: Reconstruction (Proses 0-100%)")
-                p_grok_c = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTRICT CHARACTER CONSISTENCY. {DNA_LOCK_V2}\n\nACTION: Hand-focused montage of carefully rebuilding the {masjid_dna} from zero to 100%. The character is building it piece by piece with deep focus. Natural pacing of reconstruction."
+                st.subheader("🎥 4. Adegan C: Reconstruction (Piece by Piece)")
+                p_grok_c = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nSTRICT CHARACTER CONSISTENCY. CLOSE-UP ON HANDS.\n\nACTION: Montage of rebuilding the {masjid_dna} from zero to 100%. Natural pacing showing hard work."
                 st.code(p_grok_c, language="text")
             
             # 5. GROK ADEGAN D
             with st.container(border=True):
                 st.subheader("🎥 5. Adegan D: Final Success (Mengangkat Masjid)")
-                p_grok_d = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\n{DNA_LOCK_V2}\n\nACTION: The {masjid_dna} is now 100% finished and glowing. The character gently Lifts the finished miniature with both hands, showing it to the camera with a thin, peaceful, and sincere smile of gratitude. Perfect and majestic ending."
+                p_grok_d = f"[REQUIRED: USE MASTER IMAGE AS REFERENCE]\n\nACTION: Character GENTLY LIFTS the 100% finished {masjid_dna} with both hands. Thin, peaceful smile of gratitude to camera."
                 st.code(p_grok_d, language="text")
-
     # ==========================================================================
     # TAB 3: ROBLOX
     # ==========================================================================
