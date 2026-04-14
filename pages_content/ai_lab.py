@@ -409,7 +409,7 @@ def tampilkan_halaman():
                     "A stunning finished mosque made of ivory-flesh melon, placed on a high table. "
                     "The four minarets are thin, tall, and made of pale green melon rind. "
                     "The composition forces the mosque to be the foreground focal point, sharing the frame with the character's face."
-                ),
+                )
             },        
             "📦 Miniatur Bahan Sederhana": {
                 "Al-Aqsa dari Tanah Liat": (
@@ -423,7 +423,8 @@ def tampilkan_halaman():
                     "The walls glow like a sapphire mosaic, while the dome is a sphere of amber glass. "
                     "The base is made of smooth river stones and dry sand. "
                     "Lighting: Internal 'Cool Moonwhite' LED lighting refracts through the glass, creating a soft, ethereal glow that looks like a glowing lantern in the middle of a dark village night."
-                ),
+                )
+            },
             "✨ Miniatur Megah ( LED )": {
                 "Al-Aqsa dari Tanah Liat": (
                     "A heartbreaking 1-meter Al-Aqsa diorama built from raw, sun-dried village clay. "
