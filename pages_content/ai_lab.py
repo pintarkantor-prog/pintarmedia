@@ -1844,28 +1844,13 @@ def tampilkan_halaman():
 
             },        
             "📦 Miniatur Bahan Sederhana": {
-                "Kardus Bekas: Diorama Monumental (Center-Position Lock)": (
-                    "A monumental 1-meter-long grand mosque diorama made of recycled cardboard, positioned precisely in the absolute center of the frame. "
-                    "The immense cardboard structure is situated directly in front of the elderly carver, acting as the primary foreground object between the character and the camera. "
-                    "The shot is a perfectly symmetrical, straight-on eye-level view, with the 1-meter wide building filling the bottom half of the frame. "
-                    "The central dome and towers are perfectly centered. The elderly character is seated exactly behind the middle of the diorama, visible from the chest up. "
-                    "The wooden table is heavily cluttered across the entire front workspace only with cardboard scraps and shredded brown paper debris. "
-                    "Strictly no whole cardboard boxes, no knives, no scissors, and no sharp objects on the table. "
-                    "The colossal brown structure fills the horizontal frame in ultra-high fidelity, reflecting natural golden hour light with no internal glow."
+                "XXXXX": (
+                    "YYYYY."
                 )
             },
             "✨ Miniatur Megah ( LED )": {
-                "Al-Aqsa dari Tanah Liat": (
-                    "A heartbreaking 1-meter Al-Aqsa diorama built from raw, sun-dried village clay. "
-                    "The octagonal structure has a rugged, weathered texture with realistic cracks and fissures. "
-                    "The dome is painted with a matte mustard-yellow clay pigment to represent the golden dome in a humble, poor setting. "
-                    "Lighting: A dim 'Candlelight' amber LED flickers weakly from inside the clay structure, symbolizing a resilient hope in the face of struggle."
-                ),
-                "Al-Aqsa dari Botol": (
-                    "A unique 1-meter Al-Aqsa diorama made from thousands of blue and clear glass bottle shards. "
-                    "The walls glow like a sapphire mosaic, while the dome is a sphere of amber glass. "
-                    "The base is made of smooth river stones and dry sand. "
-                    "Lighting: Internal 'Cool Moonwhite' LED lighting refracts through the glass, creating a soft, ethereal glow that looks like a glowing lantern in the middle of a dark village night."
+                "XXXXX": (
+                    "YYYYY."
                 )
             }
         }
