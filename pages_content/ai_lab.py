@@ -394,22 +394,20 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Miniatur Masjid Semangka: Tipe Merah Klasik (Miniature Detailing)": (
-                    "A completed miniature mosque on a high wooden table at chest-level. "
-                    # --- KUNCI KONSTRUKSI (ANTI-TUMPUK) ---
-                    "Construction is integrated carving, not simple stacking. "
-                    # --- KUNCI KUBAH DAGING (PULPED FLESH) ---
-                    "The single large central dome is carved from juicy, pulpy ruby-red watermelon flesh, polished to look glistening and moist, showing organic fibers. "
-                    # --- KUNCI MENARA KOMBINASI (RIND & FLESH) ---
-                    "Architecture features four asymmetrical minarets. Each minaret has alternating sections of dark green rind rings and vibrant red flesh rings, creating a striped effect. "
-                    # --- DETAIL DINDING & TEKSTUR ---
-                    "The walls are made of dark green rind with white intricate geometric calligraphy etched into the skin. Red flesh is visible in every window cutout. "
+                "Miniatur Semangka: Tipe Pahatan Fasad Murni (Clean)": (
+                    "A finished miniature mosque on a high wooden table at chest-level. "
+                    # --- KUNCI FASAD GEDUNG (CLEAN ARCHITECTURE) ---
+                    "Architecture features precise geometric carving to create building facades. The central large dome is a smooth watermelon rind showing the distinctive green striped pattern. "
+                    # --- DETAIL PINTU & JENDELA (NO TEXTURE, ONLY CARVED PANEL LINES) ---
+                    "The walls are dark green rind, but precisely carved with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are juicy, glistening ruby-red flesh, **strictly with no etched text or calligraphy.** "
+                    # --- KUNCI MENARA KOMBINASI (RIND MENARA) ---
+                    "Featuring multiple (at least four) smooth cylindrical minarets on different levels, topped with smaller green rind domes and tiny spires, connected by precise carved rind arches. "
                     # --- DETAIL SAMPAH MEJA (CLUTTER) ---
-                    "Table clutter: Realistic glistening ruby-red flesh scraps, seed clusters, and green rind shavings are scattered naturally on the table surface. "
+                    "Table clutter: The wooden table surface is scattered with small, realistic glistening red flesh scraps, seed clusters, and fine green rind shavings. "
                     # --- POSISI FOKUS (CHEST-LEVEL) ---
-                    "The miniature is positioned under the character's chin, sharing the frame 50/50 with the character's torso and face."
+                    "The completed miniature is positioned right under the character's chin, sharing the frame with the character's torso and face. A full whole watermelon sits beside the miniature on the table. "
                     # --- LIGHTING FOKUS TEXTURE ---
-                    "Golden hour light focuses on the moist texture of the red flesh, making it glisten like gems. Zero LEDs, purely organic interaction with light."
+                    "Natural golden hour daylight focuses on the glistening moist texture of the red flesh, making it look organic and real. Zero LEDs, pure interaction with natural light."
                 ),
 
                 "Masjid Semangka: Tipe Hijau Ukir": (
