@@ -394,13 +394,15 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Masjid Semangka: Tipe Merah Klasik": (
+                "Masjid Semangka: Tipe Permata Merah (High-Detail Rind & Flesh)": (
                     "A 100% finished 60cm mosque on a high wooden table at chest-level. "
-                    "Design: The main large dome is pure ruby-red watermelon flesh, polished and organic. "
-                    "The four tall minarets are dark-green striped rind. "
-                    "Strictly no internal lights, no LEDs, no artificial glow. Natural daylight only. "
-                    "Table clutter: Small rind scraps and a small traditional carving tool. "
-                    "Composition: Mosque is positioned right under the character's chin."
+                    "Construction is integrated carving, not simple stacking. "
+                    "The single massive central dome is carved from juicy, pulpy ruby-red watermelon flesh, polished to look glistening and moist, showing organic fibers. "
+                    "Architecture features four asymmetrical minarets. Each minaret has alternating sections of dark green rind rings and vibrant red flesh rings, creating a striped effect. "
+                    "The walls are made of dark green rind with white intricate geometric calligraphy etched into the skin. Red flesh is visible in every window cutout. "
+                    "Table clutter: Realistic glistening ruby-red flesh scraps, seed clusters, and green rind shavings are scattered naturally on the table surface. "
+                    "The mosque is positioned under the character's chin, sharing the frame 50/50 with the character's torso and face."
+                    "Golden hour light focuses on the moist texture of the red flesh, making it glisten like gems. Zero LEDs, purely organic interaction with light."
                 ),
 
                 "Masjid Semangka: Tipe Hijau Ukir": (
