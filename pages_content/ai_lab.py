@@ -394,46 +394,33 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Miniatur Semangka: Tipe Pahatan Fasad Murni (Clean)": (
+                "Semangka: Pahatan Murni": (
                     "A finished miniature mosque on a high wooden table at chest-level. "
-                    # --- KUNCI FASAD GEDUNG (CLEAN ARCHITECTURE) ---
                     "Architecture features precise geometric carving to create building facades. The central large dome is a smooth watermelon rind showing the distinctive green striped pattern. "
-                    # --- DETAIL PINTU & JENDELA (NO TEXTURE, ONLY CARVED PANEL LINES) ---
                     "The walls are dark green rind, but precisely carved with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are juicy, glistening ruby-red flesh, **strictly with no etched text or calligraphy.** "
-                    # --- KUNCI MENARA KOMBINASI (RIND MENARA) ---
                     "Featuring multiple (at least four) smooth cylindrical minarets on different levels, topped with smaller green rind domes and tiny spires, connected by precise carved rind arches. "
-                    # --- DETAIL SAMPAH MEJA (CLUTTER) ---
                     "Table clutter: The wooden table surface is scattered with small, realistic glistening red flesh scraps, seed clusters, and fine green rind shavings. "
-                    # --- POSISI FOKUS (CHEST-LEVEL) ---
                     "The completed miniature is positioned right under the character's chin, sharing the frame with the character's torso and face. A full whole watermelon sits beside the miniature on the table. "
-                    # --- LIGHTING FOKUS TEXTURE ---
                     "Natural golden hour daylight focuses on the glistening moist texture of the red flesh, making it look organic and real. Zero LEDs, pure interaction with natural light."
                 ),
-
-                "Masjid Semangka: Tipe Hijau Ukir": (
-                    "A 100% completed majestic 60cm mosque made of watermelon on a chest-high table. "
-                    "Design: Entire exterior is dark-green rind with white Arabic calligraphy patterns. "
-                    "No electronics, no lighting, matte and organic texture. "
-                    "Red flesh only visible through window cutouts. "
-                    "Table clutter: Fine rind shavings and a thin wooden crafting stylus. "
-                    "Four symmetrical minarets with pointed tips."
+                "Semangka: Kubah Kulit Hijau": (
+                    "A completed miniature mosque on a high wooden table at chest-level. "
+                    "Architecture features precise geometric carving to create clean facades. "
+                    "The single massive central dome is a smooth watermelon rind showing the distinctive green striped pattern. "
+                    "The walls are dark green rind, precisely carved with deep recessed arched doorways and windows showing juicy, glistening ruby-red flesh inside. **Strictly with no etched text or calligraphy.** "
+                    "Table clutter: Small glistening red flesh fragments and green rind trimmings. "
+                    "A full whole watermelon sits beside the miniature. Golden hour natural daylight focuses on the moist texture of the exposed red flesh in doorways."
                 ),
-
-                "Masjid Semangka: Tipe Kristal Air": (
-                    "A 100% finished high-detail 60cm watermelon mosque on a high table at chest-level. "
-                    "Design: Body carved entirely from juicy, glistening red flesh showing organic fibers. "
-                    "No glowing parts, no LEDs. Interaction with natural golden hour light only. "
-                    "Table clutter: Juice stains and a small handmade sculpting pick. "
-                    "The atmosphere is humble and raw."
-                ),
-
-                "Masjid Semangka: Tipe Menara Tinggi": (
-                    "A 100% completed 60cm mosque masterpiece on a chest-high table. "
-                    "Design: Two massive, extra-tall minarets made of stacked rind rings. "
-                    "The central red dome is solid and clean. No internal lighting. "
-                    "Table clutter: Rind fragments and a simple artisan crafting needle. "
-                    "Framing: Tight chest-up shot ensuring the tall towers are fully visible."
+                "Semangka: Kubah Daging Merah": (
+                    "A finished miniature mosque on a high wooden table at chest-level. "
+                    "Architecture features precise geometric carving to create building facades. The walls and minaret structures are made of smooth dark green rind, topped with smaller green rind domes. "
+                    "The central main dome is a massive carved block of juicy, pulpy ruby-red watermelon flesh, polished to look glistening and moist, showing organic fibers. **Strictly with no etched text or calligraphy.** "
+                    "Walls feature precisely carved out deep recessed arched doors and windows, revealing the juicy ruby-red flesh inside. "
+                    "Table clutter: Scattering of glistening red flesh scraps, seed clusters, and fine green rind shavings scattered naturally on the table. "
+                    "The completed miniature is positioned right under the character's chin, sharing the frame with the character's torso and face. A full whole watermelon sits beside the miniature. "
+                    "Golden hour daylight focuses on the glistening moist texture of the main red flesh dome, making it glisten like gems. Zero LEDs, pure interaction with natural light."
                 )
+
             },        
             "📦 Miniatur Bahan Sederhana": {
                 "Al-Aqsa dari Tanah Liat": (
