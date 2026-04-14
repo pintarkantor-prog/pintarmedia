@@ -405,7 +405,7 @@ def tampilkan_halaman():
                     "Pure ornamental structure with strictly no text or calligraphy. "
                     "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is scattered with realistic watermelon debris: glistening red flesh chunks, loose seeds, and wet juice marks. "
-                    "The miniature is positioned right under the character's chin, sharing the frame in crisp detail."
+                    "The 1-meter wide structure is positioned precisely in the absolute center of the foreground table, situated directly between the camera lens and the character's torso, creating a perfectly symmetrical composition that partially obscures the character's chest."
                 ),
                 "Semangka: Kubah Merah": (
                     "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
@@ -419,7 +419,7 @@ def tampilkan_halaman():
                     "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
                     "Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic watermelon debris: red flesh chunks, loose seeds, and wet juice marks. "
-                    "The miniature is positioned right under the character's chin for a close-up framing."
+                    "The 1-meter wide structure is positioned precisely in the absolute center of the foreground table, situated directly between the camera lens and the character's torso, creating a perfectly symmetrical composition that partially obscures the character's chest."
                 ),
                 "Semangka: Arsitektur Berlapis": (
                     "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
@@ -430,7 +430,7 @@ def tampilkan_halaman():
                     "Deep-carved arched windows and doors with sharp-edged precision. Pure architectural shapes with strictly no text or calligraphy. "
                     "Sharp focus on all layers, no motion blur, no soft-focus on the miniature. "
                     "Table surface is scattered with mixed debris: red flesh chunks, white rind strips, green rind shavings, and wet juice marks. "
-                    "Positioned right under the character's chin, sharing the frame with high-fidelity detail."
+                    "The 1-meter wide structure is positioned precisely in the absolute center of the foreground table, situated directly between the camera lens and the character's torso, creating a perfectly symmetrical composition that partially obscures the character's chest."
                 ),
                 "Semangka: Ukiran Tipis": (
                     "An ultra-precise miniature mosque carved from a whole watermelon, resting on a high wooden table at chest-level. "
