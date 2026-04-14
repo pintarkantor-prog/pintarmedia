@@ -87,7 +87,7 @@ def tampilkan_area_staf():
         "ADMIN": {
             "judul": "ADMIN", "ikon": "📊",
             "rutinitas": [
-                "Update `Real-Time database` channel standby ( *No Delay* ).",
+                "Update `Real-Time Database` channel standby ( *No Delay* ).",
                 "Audit harian kelayakan channel ( *Filter akun busuk* ).",
                 "Monitoring distribusi stok video ke masing-masing HP uploader.",
                 "Cek fisik & logistik ( *HP, Sisa Kuota, Listrik, Kebersihan Kantor, Dll* ).",
@@ -98,7 +98,7 @@ def tampilkan_area_staf():
                 "Manajemen Karantina & Pemanasan akun baru ( *Min. 3 hari sebelum input web* ).",
                 "Pencatatan arus kas ( *Cashflow* ) & inventaris akun.",
                 "Menjaga akurasi data `sistem 99.9%` ( *Sinkronisasi HP dan Database* ).",
-                "Menjamin `ritme operasional` tetap `high-performance` meski tanpa pengawasan Owner."
+                "Menjamin `Ritme Operasional` tetap `High-Performance` meski tanpa pengawasan Owner."
             ]
         }
     }
