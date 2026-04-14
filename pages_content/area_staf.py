@@ -97,7 +97,7 @@ def tampilkan_area_staf():
                 "Eksekusi prosedur login & sterilisasi perangkat ( *Mode Pesawat & Clear Cache* ).",
                 "Manajemen Karantina & Pemanasan akun baru ( *Min. 3 hari sebelum input web* ).",
                 "Pencatatan arus kas ( *Cashflow* ) & inventaris akun.",
-                "Menjaga akurasi data `sistem 99.9%` ( *Sinkronisasi HP dan Database* ).",
+                "Menjaga akurasi data `Sistem 99.9%` ( *Sinkronisasi HP dan Database* ).",
                 "Menjamin `Ritme Operasional` tetap `High-Performance` meski tanpa pengawasan Owner."
             ]
         }
