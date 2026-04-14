@@ -1927,15 +1927,38 @@ def tampilkan_halaman():
         }
 
         MASTER_GRANDMA_SETTING = {
-            "Kebun Semangka Colossal": (
-                "The character is seated on a low weathered wooden crate behind the workspace. "
-                "The setting is a vast outdoor Indonesian watermelon farm under the natural golden hour daylight. "
-                "Background: rows of monumental, colossal watermelons still attached to thick tangled green vines spread across the frame. "
-                "The diorama is positioned exactly between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
-                "The long wooden table is heavily cluttered only with realistic construction debris from the carving: thousands of fresh, glistening rich-ruby-red watermelon flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and moist juice. "
-                "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No text or calligraphy. "
-                "The structure's deeply recessed entrances show the dense, glistening ruby-red interior flesh reflecting the soft, natural golden hour sunlight. No internal lighting Mechanisms. "
-                "The floor is hard-packed grey earth with natural uneven textures and dry leaves."
+            "Kebun Semangka: Pasca Hujan": (
+                "The character is seated on a low weathered wooden crate behind the workspace, nestled within a sprawling, unkempt Indonesian watermelon farm after a rain shower. "
+                "Background: The landscape is defined by dark, rich, damp brown mud with visible puddles in the tire tracks and furrow lines. "
+                "Colossal watermelons rest directly on the muddy earth, some covered in fine wet soil. The tangled green vines are lush and glistening with natural rainwater, sprawling unevenly across the field with realistic, sparse density and patches of wild weeds. "
+                "Atmosphere: Authentic rural tropical environment. Surrounding objects: A stack of empty, weathered plastic fruit crates and a discarded blue tarpaulin sheet near the drainage ditch. Natural daylight reflects off the wet surfaces, creating a moist, fresh ambiance."
+            ),
+
+            "Kebun Semangka: Gubuk Panen": (
+                "The character is seated on a simple weathered wooden bench behind the workspace, set next to a rustic, temporary harvest shed at the edge of the watermelon field. "
+                "Background: A tumble-down lean-to structure made of bamboo and tattered tarpaulin. The farm floor is dry, greyish-brown soil with sparse, wild watermelon vines sprawling unevenly. "
+                "Colossal watermelons are scattered naturally, some partially buried in the dirt and others tangled under thin, dry-green vines. Clutter: A high pile of newly harvested watermelons stacked messily under the shed's shade, a couple of old jute sacks, and a rustic wooden handcart parked nearby. "
+                "Lighting: Warm, side golden hour daylight highlighting the textures of raw bamboo, burlap, and dusty fruit. Zero artificial elements or manicured rows."
+            ),
+
+            "Kebun Semangka: Tepian Sungai": (
+                "The character is seated on a large flat river stone or low wooden crate behind the workspace, by a muddy path at the edge of a watermelon farm that borders a wide, slow-moving tropical river. "
+                "Background: Dense, lush bamboo thickets and tattered banana leaves lining the riverbank in the distant background. "
+                "The farm floor is a sandy-brown soil mixed with river stones. Colossal watermelons are nestled naturally among loose, wild green vines and tall river weeds. Realistic clutter: A rustic wooden canoe partially visible moored to a post in the river and a pile of river rocks and old fishing nets near the garden edge. "
+                "The setting captures the wild, unkempt nature of a rural Indonesian riverside garden under natural daylight. No whole watermelons or tools on the table."
+            ),
+            "Kebun Semangka: Panen Colossal": (
+                "The character is seated on a simple weathered wooden crate behind the workspace, nestled in the heart of a bustling Indonesian watermelon farm during a massive harvest. "
+                "The expansive field is a realistic mix of greyish-brown soil and patches of wild green vines. Colossal watermelons are scattered naturally, some partially buried. "
+                "Background activity: A few distant Indonesian farm workers (wearing typical conical hats and rolled-up long-sleeve shirts) are scattered across the farm. They are actively lifting a colossal watermelon, using a crude wooden handcart, with visible effort. Real-world clutter: a long row of burlap sacks over-stuffed with picked fruit and a discarded blue tarpaulin near the dry irrigation ditch. "
+                "Lighting: Warm, natural golden hour sunlight from the side, creating long shadows and highlighting the dusty textures of burlap, skin pores, and fuzzy vines. Atmospheric: Fine dust particles caught in the golden light."
+            ),
+
+            "Kebun Semangka: Perawatan": (
+                "The character is seated on a low wooden crate behind the workspace by a dusty red dirt path at the edge of a watermelon farm that borders a wide tropical garden. "
+                "Background: Rows of monumental watermelons on dry, grey-brown soil. "
+                "Background activity: A single distant Indonesian farm worker is walking slowly through the rows, wearing a faded pesticide backpack sprayer and a protective face cloth. A faint, real-world misty cloud of natural fertilizer is partially visible near the worker, catching the light. Realistic clutter: A rustic wooden handcart parked near the garden edge and a few river stones. "
+                "Lighting: Natural daytime sunlight, highlighting the fuzzy vines and dusty ground. The structure's deeply recessed portals show the glistening ruby-red interior flesh under natural daylight. No internal lighting Mechanisms."
             )
         }
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
