@@ -2936,21 +2936,19 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "RUH LELUHUR (85th+): Extremely thin, ghostly voice. Pacing is slow and deliberate. MANDATORY: Lips and jaw must move in sharp synchronization with every syllable. High-pitched, steady but very weak. NO audio flickering, NO digital cutting.",
-                "SERAK KERTAS KERING (80th+): High-pitched, scratchy voice with a dry 'vocal fry' texture. MANDATORY: The jaw moves with visible effort for each word. Every word is enunciated clearly despite the raspy tone. Clear of any mumbles.",
-                "GUMAM MENDEM (75th+): Deep, muffled resonance from the throat. Sound is 'recessed' (mendem). MANDATORY: Subtle but clear lip-sync. Speech is slow and heavy with a deep Javanese lilt, but articulation remains understandable.",
-                "SESEPUH BATU (80th+): Deep, grainy, and 'grinding' bass. MANDATORY: Wide and slow-motion mouth opening to match the stony voice. Pacing is rhythmic with long natural pauses. No lung power, strictly vocal cord vibration.",
-                "RINTIHAN TEDUH (75th+): Mid-to-high pitch voice that is perpetually 'breaking' emotionally. MANDATORY: Constant micro-quivering of the lips during speech. Every word is delivered with a fragile, clear intonation.",
-                "SULING BAMBU TUA (80th+): Hollow, breathy timber. MANDATORY: Visible exhales between sentences. The mouth moves precisely, catching the light as it speaks directly to the lens. Clear, unpolished, and raw.",
-                "ISAKAN BERAT (85th+): Thick, heavy, and congested texture. MANDATORY: Visible nasal flare and labored jaw movement. Every word feels weighted but the articulation is kept sharp to prevent mumbling.",
-                "WIRIDAN SUNYI (80th+): Calm, steady, and meditative hum. MANDATORY: Precise, soft, and rhythmic lip movements. The character maintains intense eye-level contact, speaking with a clear, ancient resonance."
+                "The Ancient Village-Authentic (80th+): A raw, fragile voice with a flat, honest intonation. It carries a very slow, 'broken' cadence of a centenarian, sounding deeply sincere with a dry, dusty texture that is thin and weak.",
+                "Old Javanese Sage (85th+): Extremely slow and deliberate with a heavy, vibrating 'dh' and 'th'. The tone is a low-register, shaky chest voice (gemetar) that sounds like a calm, ancient rhythmic hum.",
+                "Frail Sundanese Elder (80th+): A melodic but very faint undulating rhythm (mendayu). The voice is extremely airy and breathy, characterized by a thin, high-frequency flow that sounds like a weary whisper.",
+                "Coastal Ancestor Cadence (85th+): Slow-paced and rhythmic with a very dry, gravelly 'serak' texture. The intonation is direct but weary, sounding like a weathered voice shaped by a century of sea salt air.",
+                "Village-Elder 'Kering' Voice (80th+): A very thin, cracked, and perpetually shaky voice. It carries the texture of a dry throat with high-register raspiness and mandatory long pauses for breath between phrases.",
+                "The Serene Matriarch (90th+): The slowest tempo possible, almost a spiritual whisper. The voice is fragile and thin, with soft guttural friction in the throat that sounds like the final echoes of a long life."
             ],
             
             "Mood": [
-                "Nrimo & Tabah: Static but 'living' face with deeply etched wrinkles. Lips are thin, pale, and pressed in a flat line—strictly NO smile. Eyes are looking directly into the camera with a hollow, distant gaze of silent endurance.",
-                "Pasrah & Lelah: Weather-beaten face showing heavy physical exhaustion. Eyelids are slightly drooping (half-closed). The face moves naturally with the speech, showing the physical labor of producing sound at an old age.",
-                "Iba & Mengharap: Gentle but sorrowful expression. Eyes are glistening with a tiny, hopeful glimmer amidst a tired face. The mouth is shrunken and moves with a desperate, silent plea for grace during the dialogue.",
-                "Nyesek & Lirih: Fragile, haunting expression. Intense 'sayu' (melancholic) eyes with a 'wet look' (strictly NO tears falling). Brows are subtly furrowed in worry, moving slightly in sync with the emotional weight of the voice."
+                "Nrimo & Tabah: Deeply wrinkled face with a hollow, distant gaze. The mouth area is relaxed and clear, focusing entirely on the spoken dialogue. Strictly NO smile, showing silent endurance.",
+                "Pasrah & Lelah: Heavy physical exhaustion with slightly drooping eyelids. The jaw moves naturally with the speech, showing the effort of an old soul. Authentic weathered skin texture.",
+                "Iba & Mengharap: Sorrowful expression with glistening, hopeful eyes. The mouth is shrunken but active, moving in perfect sync with the pleading dialogue. Deeply emotional but clear.",
+                "Nyesek & Lirih: Intense melancholic 'sayu' eyes with a wet look. The brows are subtly furrowed in worry, while the lips and jaw follow the emotional rhythm of the voice perfectly."
             ],
             
             "Physical Action": [                
@@ -3084,30 +3082,29 @@ def tampilkan_halaman():
             # Kita split di titik dua paling akhir biar cuma dapet deskripsi Inggrisnya
             logat_final = pilih_logat.split(':')[-1].strip()
                 
-            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (75-80yo REALISM) ---
+            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED FOR CLARITY) ---
             if any(mood in pilih_mood for mood in ["Sedih", "Nyesek", "Lirih"]):
                 audio_emotion = (
-                    "MANDATORY AUDIO: Emotional 'breaking' voice with a thick crying undertone, but NO audible sobbing. "
-                    "The vocal cords must sound 'brittle' and 'cracked' (heavy vocal fry). "
-                    "STRICTLY NO audible breathing, gasping, or air intake sounds. "
-                    "Delivery is painfully slow, emphasizing the deep internal heartbreak in every syllable."
+                    "MANDATORY AUDIO: Emotional breaking voice with a sincere, weary tone. "
+                    "Maintain clear enunciation of every word despite the fragile, shaky texture. " # Kunci biar gak belepotan
+                    "STRICTLY NO audible gasping or heavy breathing. The pace is slow and heavy with emotion."
                 )
             elif any(mood in pilih_mood for mood in ["Pasrah", "Nrimo"]):
                 audio_emotion = (
-                    "MANDATORY AUDIO: Deliver with a weary, hollow, and flat spiritual surrender. "
-                    "The resonance is thin and 'recessed' (mendem), as if the voice comes from deep within a fragile chest. "
-                    "ZERO audible breathing. Focus on a faded, dusty, and dry vocal texture that feels ancient and exhausted."
+                    "MANDATORY AUDIO: Deliver with a weary, thin, and hollow spiritual surrender. "
+                    "The voice is soft but every syllable must be distinct and intelligible. " # Paksa AI buat jelas
+                    "ZERO audible breathing. Focus on a dry, aged vocal resonance that feels calm and humble."
                 )
             elif any(mood in pilih_mood for mood in ["Iba", "Mengharap"]):
                 audio_emotion = (
-                    "MANDATORY AUDIO: Gentle, high-pitched 'pleading intonation' like a humble prayer. "
-                    "The voice is small and fragile, with a faint 'micro-shaking' (vocal tremor) at the end of every sentence. "
-                    "ABSOLUTELY NO air intake or gasping sounds. Keep the audio pure, light, and emotionally vulnerable."
+                    "MANDATORY AUDIO: Gentle, high-pitched pleading intonation like a humble request. "
+                    "The voice is small and fragile with a faint emotional tremor, but articulation remains sharp. " # Sharp biar gak kumur-kumur
+                    "ABSOLUTELY NO air intake sounds. Keep the audio pure, focused, and deeply vulnerable."
                 )
             else:
                 audio_emotion = (
-                    "MANDATORY AUDIO: Natural, steady elderly delivery. Calm, weary pacing with zero youthful resonance. "
-                    "Clear articulation with a focus on dry, aged vocal cord vibrations."
+                    "MANDATORY AUDIO: Natural, steady elderly delivery. Calm, weary pacing. "
+                    "Focus on clear, unpolished articulation with a dry, aged vocal cord vibration."
                 )
 
             # --- FINAL ASSEMBLY (V25: THE CHEST-LEVEL MASTERY) ---
@@ -3142,7 +3139,7 @@ def tampilkan_halaman():
                 f"- Vocal Nuance: {audio_emotion} \n" # Kunci Tekstur Anti-Asma
                 f"- Dialog Content: '{user_dialog}' \n"
                 # Gabungin ENFORCEMENT di sini biar nempel ke prompt
-                f"AUDIO ENFORCEMENT: Perfect lip-sync, clear enunciation of every Javanese-Indonesian syllable, strictly NO digital distortion or stuttering. Voice must be aged but intelligible. \n\n"
+                f"AUDIO ENFORCEMENT: Voice must be extremely aged and frail but MAINTAIN clear articulation and perfect lip-sync. \n\n"
             
                 # 8. Technical Specs Final (Kunci Framing)
                 f"TECHNICAL SPEC: Eye-level Tight Medium-Shot (Bust-up). Both hands visible. Soft natural bokeh background. \n\n"
