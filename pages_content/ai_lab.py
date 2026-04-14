@@ -412,14 +412,22 @@ def tampilkan_halaman():
                     "Strictly photorealistic food carving, non-stylized, no fantasy elements, no decorative lighting, no artificial enhancement. "
                     "Pure ornamental structure with no text or calligraphy."
                 ),
-                "Masjid Semangka: Tipe Merah Klasik (Clean Reference)": (
-                    "A completed miniature mosque carved entirely from watermelon, strictly following the architectural composition of image_1.png. "
-                    "Architecture features precise geometric carving to create building facades. The central main dome is a smooth watermelon rind dome showing the distinctive green striped pattern. "
-                    "Architecture features multiple (at least four) cylindrical minarets on different levels, connected by carved rind arches, strictly matching the placement in image_1.png. Minarets are made of smooth rind. "
-                    "The walls are dark green rind, precisely carved out with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are juicy, glistening ruby-red flesh, strictly with **no etched text or calligraphy.** "
-                    "Table clutter: Small glistening red flesh fragments, seed clusters, and green rind shavings scattered naturally on the table, matching the messy look of image_1.png. "
-                    "The completed miniature is positioned right under the character's chin, sharing the frame 50/50 with the character's torso and face. A full whole watermelon sits beside the miniature. "
-                    "Natural golden hour light focuses on the glistening moist texture of the exposed red flesh, making it look organic and real. Zero LEDs, pure interaction with daylight."
+                "Semangka: Kubah Daging Merah Ultra Strict": (
+                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
+                    "The central dome is formed from exposed watermelon flesh, carefully shaped into a smooth rounded structure with dense, fibrous texture, visible grain, and natural moisture variations. "
+                    "The red flesh dome appears physically solid, opaque, and completely non-translucent, with a matte wet surface that reflects light minimally and never emits or transmits light. "
+                    "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick green rind, each cylindrical and topped with finely carved spires. "
+                    "The structural walls are made from green rind, deeply carved with precise Islamic arches, windows, and recessed doorways, exposing layered transitions between rind and flesh. "
+                    "All exposed flesh areas show realistic fruit behavior: uneven fiber density, seed pockets, subtle juice residue, and organic imperfections. "
+                    "Surface response follows real-world food material physics: no internal scattering, no subsurface glow, no translucency, no emission. "
+                    "Lighting is strictly external and natural, behaving like real daylight interacting with a carved fruit surface. "
+                    "No internal lighting mechanisms exist within the structure under any circumstances. "
+                    "No glow, no bloom, no light leaks, no volumetric lighting, no rim lighting from inside, no stylized illumination, no cinematic lighting effects. "
+                    "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strict symmetry and precision. "
+                    "Clean, sharp carving edges with slight natural imperfections consistent with hand carving. "
+                    "The wooden table surface is scattered with irregular watermelon debris: uneven chunks of red flesh, loose seeds, wet juice marks, and thin curled rind shavings. "
+                    "Strictly photorealistic food carving, non-stylized, no fantasy elements, no decorative lighting, no artificial enhancement. "
+                    "Pure ornamental structure with no text or calligraphy."
                 ),
                 "Semangka: Kubah Kulit Hijau": (
                     "A completed miniature mosque on a high wooden table at chest-level. "
