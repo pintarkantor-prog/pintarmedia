@@ -395,1447 +395,1522 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
                 "Semangka: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, resting on a high wooden table. "
                     "The structure features a large central dome from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
                     "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind with sharp edges. "
                     "The walls are thick green rind, deeply carved with recessed arched doorways and windows, revealing dense, vibrant ruby-red watermelon flesh inside. "
                     "The inner carved sections show a realistic juicy watermelon flesh with a natural fibrous structure and visible grain. "
-                    "The red flesh surface is glistening and moist, catching natural external light with vivid color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural golden hour daylight. "
-                    "Pure ornamental structure with strictly no text or calligraphy. "
-                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The red flesh surface is glistening and moist with high-fidelity detail. "
+                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
                     "The wooden table is scattered with realistic watermelon debris: glistening red flesh chunks, loose seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Kubah Merah": (
-                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant ruby-red watermelon flesh, shaped into a smooth rounded structure with dense fibrous texture, visible grain, and glistening natural moisture. "
-                    "The red flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick green rind, each topped with finely carved spires. "
                     "The structural walls are made from green rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and flesh. "
                     "All exposed flesh areas show realistic fruit behavior: fiber density, seed pockets, and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, no internal scattering. "
-                    "Lighting is strictly external natural daylight, creating sharp contrast and clear textures. "
-                    "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "Clean, sharp carving edges with extreme clarity. Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic watermelon debris: red flesh chunks, loose seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Arsitektur Berlapis": (
-                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table. "
                     "The structure emphasizes layered construction: dark green outer rind, pale white inner rind, and dense ruby-red flesh. "
                     "The central dome and minarets are carved to expose these alternating layers, creating a natural multi-tone architectural depth with high color contrast. "
-                    "All sections reveal realistic fruit structure with visible fibers and moisture. The red flesh is vibrant, solid, and glistening, strictly non-translucent. "
-                    "Surface follows real-world food physics: no subsurface glow, no internal scattering, and no emission. Lighting is strictly external natural daylight. "
+                    "All sections reveal realistic fruit structure with visible fibers and moisture. The red flesh is vibrant, solid, and glistening. "
                     "Deep-carved arched windows and doors with sharp-edged precision. Pure architectural shapes with strictly no text or calligraphy. "
-                    "Sharp focus on all layers, no motion blur, no soft-focus on the miniature. "
+                    "Sharp focus on all layers with high-fidelity detail. "
                     "Table surface is scattered with mixed debris: red flesh chunks, white rind strips, green rind shavings, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Semangka: Ukiran Tipis": (
-                    "An ultra-precise miniature mosque carved from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An ultra-precise miniature mosque carved from a whole watermelon, resting on a high wooden table. "
                     "The structure is defined by extremely thin carving work, with green rind shaved down to delicate architectural thickness. "
                     "Domes and minarets are slender and refined, featuring very fine, sharp edges and highly controlled carving depth. "
                     "Sections reveal thin layers of white rind above vibrant red flesh. The red flesh is dense, solid, and glistening with natural moisture. "
-                    "Strictly non-translucent: no internal glow, no subsurface lighting, and no light emission. Surface reflects only natural daylight. "
                     "Clean, sharp carving edges with high-fidelity architectural detail in sharp focus. Strictly no motion blur or soft textures on the mosque. "
                     "Pure ornamental structure with strictly no text or calligraphy. "
                     "Table surface is covered with fine carving residue: thin curled rind shavings, micro shavings, and scattered seeds. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Ukiran Tradisional": (
-                    "A roughly carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "A roughly carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table. "
                     "The structure features visibly uneven carving and imperfect geometry, reflecting authentic traditional hand-cut techniques. "
                     "Green rind walls are thick and irregular, with arches and openings carved in a raw, organic manner with visible tool traces. "
-                    "Exposed red flesh appears rough and fibrous with visible tearing and natural juice pooling. The flesh is dense, opaque, and strictly non-translucent. "
-                    "Surface behavior follows real-world fruit physics: no subsurface glow, no emission, and no internal lighting. "
-                    "Lighting is strictly external natural daylight interacting with rough, uneven surfaces to create realistic shadows. "
+                    "Exposed red flesh appears rough and fibrous with visible tearing and natural juice pooling. The flesh is dense, opaque, and glistening. "
                     "Sharp focus on the raw carving marks and organic imperfections. Strictly no text or calligraphy. "
                     "The wooden table is heavily messy, covered with large chunks of red flesh, broken rind pieces, and deep juice stains. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Modular Block": (
-                    "A completed miniature mosque constructed from multiple carved watermelon pieces assembled into a cohesive structure, resting on a high wooden table at chest-level. "
+                    "A completed miniature mosque constructed from multiple carved watermelon pieces assembled into a cohesive structure, resting on a high wooden table. "
                     "The architecture appears modular, with distinct blocks of green rind and red flesh forming walls, domes, and minarets. "
                     "The central dome is assembled from curved segments of rind fitted together, while smaller domes and minarets are built from stacked cylindrical pieces. "
-                    "Joints between pieces are visible, showing natural seams and slight misalignment, reinforcing a hand-assembled construction style. Exposed red flesh is dense, fibrous, and strictly non-translucent. "
-                    "Surface behavior follows real fruit physics: no subsurface glow, no emission, and no internal lighting. "
-                    "Lighting is strictly external natural daylight interacting with the assembled surfaces to create realistic shadows in the seams. "
+                    "Joints between pieces are visible, showing natural seams and slight misalignment, reinforcing a hand-assembled construction style. "
+                    "Exposed red flesh is dense, fibrous, and glistening with natural moisture. "
                     "Sharp focus on the raw assembly marks and organic imperfections. Strictly no text or calligraphy. "
                     "The wooden table is heavily messy, covered with cut fragments, loose segments, seeds, and juice marks from the assembly process. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Kompleks Masjid": (
-                    "A large-scale miniature mosque complex carved from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "A large-scale miniature mosque complex carved from a whole watermelon, resting on a high wooden table. "
                     "The structure includes a central grand mosque surrounded by smaller satellite buildings, courtyards, and multiple clustered minarets, creating a dense architectural layout. "
                     "All elements are carved from green rind with exposed red flesh used for depth accents and inner sections. "
-                    "The red flesh is dense, fibrous, and vibrant, strictly non-translucent with no internal glow, no subsurface scattering, and no emission. "
-                    "Lighting is strictly external natural daylight, highlighting the complex architectural layers and shadows. "
+                    "The red flesh is dense, fibrous, and vibrant with natural glistening moisture. "
                     "Clean, sharp carving edges across the entire complex. Every tiny satellite building and minaret must be in sharp focus with high-fidelity detail. "
                     "Pure architectural structure with strictly no text or calligraphy. "
                     "The wooden table is widely covered with extensive carving debris: flesh chunks, rind fragments, seeds, and juice stains, reflecting a massive project. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Ukiran Utuh": (
-                    "A whole intact round watermelon with its natural spherical shape preserved, resting on a high wooden table at chest-level. "
+                    "A whole intact round watermelon with its natural spherical shape preserved, resting on a high wooden table. "
                     "A miniature mosque is intricately carved directly into the surface as a recessed architectural relief, embedded into the rind. "
                     "The mosque features a central dome and minarets carved inward, following the natural curve of the fruit, maintaining the original round volume. "
-                    "Carved sections reveal vibrant, glistening ruby-red flesh forming depth within windows and arches. The flesh is dense, fibrous, and strictly non-translucent. "
-                    "Surface behavior follows real-world food physics: no subsurface glow, no emission, and no internal lighting. "
-                    "Lighting is strictly external natural daylight, creating realistic shadows inside the recessed carvings of the curved rind. "
+                    "Carved sections reveal vibrant, glistening ruby-red flesh forming depth within windows and arches. The flesh is dense and fibrous. "
                     "Sharp focus on the carving edges and the smooth green striped texture of the whole watermelon. Strictly no text or calligraphy. "
                     "The wooden table surface is scattered with realistic carving debris: rind shavings, red flesh fragments, and juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table. "
                     "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
                     "The walls are thick dark green rind, meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. **Strictly with no etched text or calligraphy.** "
+                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. Strictly with no etched text or calligraphy. "
                     "The watermelon surface is realistic with a rough rind texture and naturally glistening red flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
-                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. A full whole watermelon sits beside the miniature. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Semangka: LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table. "
                     "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
                     "The walls are thick dark green rind, meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. **Strictly with no etched text or calligraphy.** "
-                    "The inner carved sections reveal dense red flesh, illuminated by a subtle, soft crimson and golden amber LED glow from within the doorways and windows. The light creates a luxurious golden aura that emphasizes the moist, fibrous texture of the red flesh. "
-                    "Surface response follows real fruit physics: the LED light reflects naturally on the moist, glistening red flesh textures without being overpowering. The carving edges are clean, sharp, and highly defined. "
-                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. A full whole watermelon sits beside the miniature. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. "
+                    "The watermelon surface is realistic with a rough rind texture and naturally glistening red flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
+                    "Pure ornamental structure with strictly no text or calligraphy. "
+                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a fresh dragon fruit, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a fresh dragon fruit, resting on a high wooden table. "
                     "Architecture features precise geometric carving to create building facades. The walls and multiple symmetrical minarets are made of the bright pinkish-purple dragon fruit skin, with its natural distinct green-tipped scales forming decorative textures. "
-                    "Walls are bright pink, precisely carved out with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are the contrasting glistening white dragon fruit flesh filled with tiny natural black seeds, strictly with **no etched text or calligraphy.** "
-                    "The central main dome is a large structure made of smooth pinkish rind with symmetrical scales. Topped with small domes and tiny spires connected by precise carved arches. "
-                    "Table clutter: Realistic glistening white flesh fragments (with black seeds) and pink rind shavings scattered naturally on the table surface. A full whole dragon fruit sits beside the miniature. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Walls are bright pink, precisely carved out with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are the contrasting glistening white dragon fruit flesh filled with tiny natural black seeds. "
+                    "The central main dome is a large structure made of smooth pinkish rind with symmetrical scales, topped with small domes and tiny spires. "
+                    "Pure architectural structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
+                    "Table clutter: Realistic glistening white flesh fragments with black seeds and pink rind shavings scattered naturally on the table surface. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Kubah Putih": (
-                    "An intricately carved miniature mosque sculpted from a whole dragon fruit, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole dragon fruit, resting on a high wooden table. "
                     "The central dome is formed from exposed white dragon fruit flesh, carefully shaped into a smooth rounded structure with dense, moist texture and visible tiny black seeds embedded throughout. "
-                    "The white flesh dome appears physically solid and opaque, with a glistening wet surface that catches natural light, strictly with no internal glow or emission. "
+                    "The white flesh dome appears physically solid and opaque, with a glistening wet surface that catches natural daylight. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick bright pink dragon fruit rind with distinct green-tipped scales. "
                     "The structural walls are made from pink rind, deeply carved with precise arches and recessed doorways, revealing the layered transitions between pink rind and white seeded flesh. "
-                    "Surface behavior follows real fruit physics: no subsurface glow, no translucency, no light emission. Lighting is strictly external natural daylight. "
-                    "Clean, sharp carving edges in sharp focus. Pure ornamental structure with strictly no text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail. Pure ornamental structure with strictly no text or calligraphy. "
                     "Table surface is scattered with realistic white flesh fragments, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Buah Naga: Kubah Merah": (
-                    "An intricately carved miniature mosque sculpted from a red-fleshed dragon fruit, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a red-fleshed dragon fruit, resting on a high wooden table. "
                     "The central dome is a massive carved block of deep, vibrant purple-red dragon fruit flesh, glistening and moist, filled with tiny natural black seeds. "
-                    "The purple flesh appears solid, opaque, and non-translucent, reflecting golden hour light with high color saturation. "
+                    "The purple flesh appears solid and catches natural external daylight with high color saturation. "
                     "Structural walls and minarets are made of bright pink rind with green scales, creating a monochrome yet high-contrast purple-pink aesthetic. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface scattering. Sharp, clean carving edges in sharp focus. "
-                    "Table clutter: Glistening purple flesh scraps, juice marks, and pink rind debris. No text or calligraphy."
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "All exposed flesh areas show natural moist texture and visible seed patterns. "
+                    "Clean, sharp carving edges with extreme clarity. Strictly no text or calligraphy. "
+                    "Table clutter: Glistening purple flesh scraps, juice marks, and pink rind debris. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Arsitektur Berlapis": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole dragon fruit, placed on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole dragon fruit, placed on a high wooden table. "
                     "The structure emphasizes layered construction using all parts of the dragon fruit: bright pinkish-purple skin with distinct green-tipped scales, thin white inner rind, and contrasting white dragon fruit flesh filled with tiny natural black seeds. "
                     "The central dome is a masterpiece of material gradation, with a base of pink skin and an upper structure deeply carved to reveal alternating layers of the white rind and the glistening seeded white flesh, creating a striking natural multi-tone architectural effect. "
                     "The structural walls are made from pink rind, deeply carved with precise geometric patterns and recessed arched doorways. Carved sections are carefully composed to expose the transition between pink outer skin and white seeded flesh inside, providing depth and contrast without text or calligraphy. "
-                    "All materials remain physically solid and opaque, strictly non-translucent with no subsurface glow, no light emission, and no internal lighting under any circumstances. Glistening natural moisture and organic fibers of the flesh with black seeds are visible. "
-                    "Lighting is strictly external and natural golden hour daylight, highlighting the intricate layered shapes and shadows. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
-                    "The wooden table surface is widely covered with extensive carving debris indicating massive work: flesh chunks, pink rind fragments, seeds, and juice stains. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Glistening natural moisture and organic fibers of the flesh with black seeds are visible, reflecting natural golden hour daylight. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table surface is widely covered with extensive carving debris: flesh chunks, pink rind fragments, seeds, and juice stains. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Kompleks Masjid": (
-                    "A large-scale miniature mosque complex intricately carved from a single large dragon fruit, placed on a high wooden table at chest-level. "
+                    "A large-scale miniature mosque complex intricately carved from a single large dragon fruit, placed on a high wooden table. "
                     "The structure includes a central grand mosque surrounded by smaller satellite buildings, courtyards, and multiple clustered minarets, creating a dense architectural layout. "
                     "All elements are carved from the pink rind with its distinct green-tipped scales forming decorative textures. "
-                    "The complex walls are bright pink, deeply carved out with recessed arched doorways and windows, revealing contrasting glistening white dragon fruit flesh filled with tiny natural black seeds, strictly with **no etched text or calligraphy.** "
-                    "Central main dome is smooth pink skin with symmetrical scales. Topped with small domes and tiny spires connected by precise carved arches. "
-                    "Table clutter: Extensive scattering of glistening white flesh fragments (with black seeds), seeds, and pink rind shavings, indicating massive work. A whole dragon fruit sits beside the miniature. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The complex walls are bright pink, deeply carved out with recessed arched doorways and windows, revealing contrasting glistening white dragon fruit flesh filled with tiny natural black seeds, strictly with no text or calligraphy. "
+                    "Central main dome is smooth pink skin with symmetrical scales, topped with small domes and tiny spires. "
+                    "Table clutter: Extensive scattering of glistening white flesh fragments with black seeds, seeds, and pink rind shavings, indicating massive work. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright pink rind with distinct green-tipped scales. "
                     "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches, showcasing high-level craftsmanship. "
-                    "The inner carved sections reveal vibrant white dragon fruit flesh filled with tiny natural black seeds, glistening like moist marble under natural light. "
-                    "The white flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The inner carved sections reveal vibrant white dragon fruit flesh filled with tiny natural black seeds, glistening like moist marble under natural golden hour daylight. "
                     "Each doorway and window is precisely carved to show the sharp transition between pink rind and seeded flesh. Strictly no text or calligraphy. "
-                    "Lighting is strictly external natural golden hour daylight, creating deep shadows and highlighting the organic textures. "
                     "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "Table surface is scattered with realistic dragon fruit debris: white flesh chunks, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
-                "Buah Naga: LED Glow)": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table at chest-level. "
+                
+                "Buah Naga: LED Glow": (
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright pink rind with distinct green-tipped scales. "
                     "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "The inner carved sections reveal dense white flesh with black seeds, illuminated by a subtle, soft magenta and cool violet LED glow from within the windows. "
-                    "The light creates an elegant atmospheric aura that emphasizes the moist, glistening texture of the seeded flesh without being overpowering. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist flesh and black seeds. "
-                    "Strictly external natural lighting combined with the soft internal violet glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "The inner carved sections reveal dense white flesh with black seeds, glistening like moist marble under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist flesh and black seeds. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic dragon fruit debris: white flesh chunks, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole honeydew melon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole honeydew melon, resting on a high wooden table. "
                     "The structure features a large central dome made from the natural netted tan-colored rind of the melon. "
                     "The walls and multiple symmetrical minarets are precisely carved from the thick melon rind, showcasing the distinct rough texture of the outer skin. "
                     "Walls are deeply carved with recessed arched doorways and windows, revealing the succulent, vibrant pale-green melon flesh inside. "
-                    "The inner carved sections show realistic juicy melon texture with a smooth, glistening surface that catches natural light. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural golden hour daylight with vivid color saturation. "
+                    "The inner carved sections show realistic juicy melon texture with a smooth, glistening surface that catches natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is scattered with realistic melon debris: glistening pale-green flesh fragments, small slippery seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Kubah Hijau Muda": (
-                    "An intricately carved miniature mosque sculpted from a whole honeydew melon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole honeydew melon, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant pale-green melon flesh, shaped into a smooth rounded structure with dense fibrous texture, visible grain, and glistening natural moisture. "
-                    "The green flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The green flesh appears solid and opaque, catching natural daylight with vivid saturation. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick netted tan-colored rind, each topped with finely carved spires. "
-                    "The structural walls are made from the textured melon rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and flesh. "
-                    "All exposed flesh areas show realistic fruit behavior: fiber density, small slippery seed pockets, and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, no internal scattering. "
-                    "Lighting is strictly external natural daylight, creating sharp contrast and clear textures on the netted rind. "
-                    "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "The structural walls are made from the textured melon rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and pale-green flesh. "
+                    "All exposed flesh areas show realistic fruit behavior: fiber density, seed pockets, and subtle juice residue. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic melon debris: pale-green flesh chunks, slippery seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Kubah Orange": (
-                    "An intricately carved miniature mosque sculpted from a whole cantaloupe melon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole cantaloupe melon, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant orange melon flesh, shaped into a smooth rounded structure with dense fibrous texture, visible grain, and glistening natural moisture. "
-                    "The orange flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The orange flesh appears solid and opaque, catching natural daylight with vivid saturation. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick netted tan-colored rind, each topped with finely carved spires. "
-                    "The structural walls are made from the textured melon rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and orange flesh. "
-                    "All exposed flesh areas show realistic fruit behavior: fiber density, small slippery seed pockets, and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, no internal scattering. "
-                    "Lighting is strictly external natural daylight, creating sharp contrast and clear textures on the netted rind. "
-                    "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "The structural walls are made from the textured melon rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and vibrant orange flesh. "
+                    "All exposed flesh areas show realistic fruit behavior: fiber density, seed pockets, and subtle juice residue. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic melon debris: orange flesh chunks, slippery seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Melon: Ukiran Elite": (
-                    "An intricately full-carved miniature mosque sculpted from a whole cantaloupe melon, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole cantaloupe melon, resting on a high wooden table. "
                     "The entire surface of the melon is covered in deep, precise architectural carvings, leaving no part of the rind untouched, creating a highly detailed lace-like effect on the tan netted skin. "
                     "The structure features a massive central dome and tiered minarets, all intricately engraved with complex geometric Islamic patterns and sharp-edged textures. "
-                    "The walls are thick textured rind, deeply recessed to reveal the vibrant, rich-orange melon flesh inside, which appears dense, moist, and glistening with natural juices. "
-                    "The orange flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
+                    "The walls are thick textured rind, deeply recessed to reveal the vibrant, rich-orange melon flesh inside, which appears dense, moist, and glistening with natural daylight. "
                     "Each doorway and arched window is a masterpiece of precision, showing the transition between the rough tan rind and the smooth orange interior. "
-                    "Pure architectural structure with strictly no text or calligraphy. "
+                    "Pure architectural structure with strictly no text or calligraphy. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is covered with fine carving debris: orange flesh fragments, thin rind shavings, and small slippery seeds. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Dual-Tone": (
-                    "An incredible miniature mosque constructed from two different types of melons: a honeydew and a cantaloupe, combined into one structure on a high wooden table at chest-level. "
+                    "An incredible miniature mosque constructed from two different types of melons: a honeydew and a cantaloupe, combined into one structure on a high wooden table. "
                     "The central grand dome is carved from the tan-netted rind revealing vibrant orange flesh, while the surrounding minarets and satellite domes are carved from green-fleshed melon. "
                     "The structure emphasizes the sharp color contrast between the emerald-green and the rich-orange fruit flesh, creating a natural jewel-like architectural masterpiece. "
-                    "All sections are dense, opaque, and glistening with natural moisture. Strictly no internal lighting or LEDs. "
-                    "Table clutter: a mix of orange and green flesh fragments, seeds, and rind shavings. No text or calligraphy. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "All sections are dense, opaque, and glistening with natural moisture, reflecting external daylight. No text or calligraphy. "
+                    "Table clutter: a mix of orange and green flesh fragments, seeds, and rind shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Kubah Kristal": (
-                    "A unique miniature mosque where the entire upper structure and domes are carved from de-skinned melon flesh, resting on a high wooden table at chest-level. "
-                    "The domes are massive spheres of glistening pale-green melon flesh, meticulously shaped to look like smooth, solid emerald stone. "
+                    "A unique miniature mosque where the entire upper structure and domes are carved from de-skinned melon flesh, resting on a high wooden table. "
+                    "The domes are massive spheres of glistening pale-green melon flesh, meticulously shaped to look like smooth, solid emerald stone, catching natural daylight with high saturation. "
                     "The base of the mosque and the lower walls maintain the tan-netted rind for structural contrast. "
-                    "The exposed flesh is moist and fibrous, reflecting natural sunlight with high saturation. No translucency, no subsurface glow, and strictly no LEDs. "
-                    "Clean, sharp carving edges with high-fidelity detail. Table surface is wet with melon juice, seeds, and large chunks of flesh. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The exposed flesh is moist and fibrous. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "Table surface is wet with melon juice, seeds, and large chunks of flesh. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole Cantaloupe melon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole Cantaloupe melon, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the tan netted rind. "
                     "The walls are thick textured rind, meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange Cantaloupe flesh which is dense, moist, and glistening like liquid gold. **Strictly with no etched text or calligraphy.** "
-                    "The watermelon surface is realistic with a rough netted rind texture and naturally glistening orange flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
-                    "Table clutter:scattering of small, glistening orange flesh shards, tiny seed clusters, and curled fine rind shavings scattered naturally on the table. A whole whole melon sits beside the miniature. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange Cantaloupe flesh which is dense, moist, and glistening with natural daylight. Strictly with no text or calligraphy. "
+                    "The rough netted rind texture and naturally glistening orange flesh show organic fibers with extreme clarity. "
+                    "Table clutter: scattering of small, glistening orange flesh shards, tiny seed clusters, and curled fine rind shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Emerald Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a whole honeydew melon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a whole honeydew melon, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the tan netted rind. "
                     "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "The inner carved sections reveal vibrant pale-green melon flesh, illuminated by a subtle, soft emerald-green LED glow from within the doorways and windows. "
-                    "The light is elegant and atmospheric, naturally blending with the green flesh color without being overpowering. "
-                    "Surface response follows real fruit physics: the LED light reflects naturally on the moist, glistening flesh textures. "
-                    "Strictly external natural lighting combined with the soft internal LED glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "The inner carved sections reveal vibrant pale-green melon flesh, glistening like moist emerald under natural golden hour daylight. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic melon debris: green flesh chunks, slippery seeds, and juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Melon: Golden Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a whole cantaloupe melon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a whole cantaloupe melon, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the tan netted rind. "
                     "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "The inner carved sections reveal rich orange cantaloupe flesh, illuminated by a warm amber and golden LED glow from within the doorways and windows. "
-                    "The light creates a luxurious golden aura that emphasizes the moist, fibrous texture of the orange flesh. "
-                    "Surface response follows real fruit physics: the warm LED light interacts realistically with the natural moisture and grain of the fruit. "
-                    "Strictly external natural lighting combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "Table surface is scattered with realistic orange melon debris: orange chunks, slippery seeds, and juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections reveal rich orange cantaloupe flesh, glistening like liquid gold under natural golden hour daylight. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
+                    "Table clutter: scattered naturally with realistic orange melon debris: orange chunks, slippery seeds, and juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a flawless whole mango, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a flawless whole mango, resting on a high wooden table. "
                     "The structure features a large central dome made from the natural smooth yellow and green rind of the mango. "
                     "The walls and multiple symmetrical minarets are precisely carved from the thick mango rind, showcasing the distinct smooth texture of the outer skin. "
                     "Walls are deeply carved with recessed arched doorways and windows, revealing the succulent, vibrant rich-orange mango flesh inside. "
-                    "The inner carved sections show realistic juicy mango texture with a smooth, glistening surface that catches natural light. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural golden hour daylight with vivid color saturation. "
+                    "The inner carved sections show realistic juicy mango texture with a smooth, glistening surface that catches natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
-                    "The wooden table is widely covered with extensive carving debris indicating massive work: a whole intact mango sitting on the table, glistening rich-orange mango flesh chunks scattered naturally, curled mango rind shavings, and large pieces of removed mango skin, all wet with juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is covered with extensive carving debris indicating massive work: glistening rich-orange mango flesh chunks scattered naturally, curled mango rind shavings, and large pieces of removed mango skin, all wet with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Kubah Daging Orange": (
-                    "An intricately carved miniature mosque sculpted from a flawless whole mango, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a flawless whole mango, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant rich-orange mango flesh, shaped into a smooth rounded structure with natural succulent texture and glistening natural moisture. "
-                    "The orange flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The orange flesh appears solid and catches natural external daylight with vivid saturation. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick smooth yellow and green rind, each topped with finely carved spires. "
-                    "The structural walls are made from the smooth mango rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and flesh. "
+                    "The structural walls are made from the smooth mango rind, deeply carved with precise arches and recessed doorways, revealing the transition between rind and rich-orange flesh. "
                     "All exposed flesh areas show realistic fruit behavior: dense fiber density, juicy texture, and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, no internal scattering. "
-                    "Lighting is strictly external natural daylight, creating sharp contrast and clear textures on the smooth rind and flesh. "
-                    "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "Table surface is scattered with realistic mango debris: a whole intact mango, glistening rich-orange flesh chunks, curled rind shavings, and removed mango skin with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
+                    "Table surface is scattered with realistic mango debris: glistening rich-orange flesh chunks, curled rind shavings, and removed mango skin with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Full Ukiran Elite": (
-                    "An intricately full-carved miniature mosque sculpted from a flawless whole mango, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a flawless whole mango, resting on a high wooden table. "
                     "The entire smooth surface of the yellow and green mango rind is covered in deep, precise architectural carvings, leaving no part untouched, creating a highly detailed lace-like effect on the skin. "
                     "The structure features a massive central dome and tiered minarets, all intricately engraved with complex geometric Islamic patterns and sharp-edged textures. "
-                    "The walls are thick textured rind, deeply recessed to reveal the vibrant, rich-orange mango flesh inside, which appears dense, succulent, and glistening with natural juices. "
-                    "The orange flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
+                    "The walls are thick textured rind, deeply recessed to reveal the vibrant, rich-orange mango flesh inside, which appears dense, succulent, and glistening with natural daylight. "
                     "Each doorway and arched window is a masterpiece of precision, showing the transition between the smooth rind and the moist orange interior. "
-                    "Pure architectural structure with strictly no text or calligraphy. "
-                    "The wooden table is widely covered with extensive carving debris indicating massive work: a whole intact mango, glistening rich-orange flesh chunks, curled rind shavings, and large pieces of removed mango skin with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Pure architectural structure with strictly no text or calligraphy. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is covered with extensive carving debris indicating massive work: glistening rich-orange mango flesh chunks, curled rind shavings, and large pieces of removed mango skin with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Mangga: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium mango, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium mango, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the smooth yellow-green rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange mango flesh which is dense, succulent, and glistening like liquid gold under natural light. "
-                    "The orange flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp transition between the polished rind and the moist, fibrous interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no artificial lighting. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows and highlighting the organic textures of the fruit. "
-                    "Pure architectural structure with strictly no text or calligraphy. "
-                    "The wooden table is scattered with high-detail mango debris: a whole intact mango, glistening rich-orange flesh shards, fine curled rind shavings, and large pieces of removed skin with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange mango flesh which is dense, succulent, and glistening with natural daylight. "
+                    "The orange flesh appears solid and opaque. The carving edges are clean, sharp, and highly defined, showcasing the sharp transition between the polished rind and the moist, fibrous interior. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows and highlighting the organic textures of the fruit. No text or calligraphy. "
+                    "The wooden table is scattered with high-detail mango debris: glistening rich-orange flesh shards, fine curled rind shavings, and large pieces of removed skin with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium mango, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium mango, resting on a high wooden table. "
                     "The structure features a towering central grand dome made from the smooth yellow-green rind and multiple complex symmetrical minarets with slender, fine-spires. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches sculpted from the thick mango rind. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, rich-orange mango flesh with visible succulent texture. "
-                    "The inner carved sections and deep recesses are illuminated by a subtle, soft amber and golden LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the moist, glistening texture of the orange flesh like liquid gold. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist, rich-orange flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail mango debris indicating extensive work: a whole intact mango, glistening rich-orange flesh shards, fine curled rind shavings, and large removed skin pieces with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, rich-orange mango flesh glistening like liquid gold under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: the natural light reflects naturally on the moist, rich-orange flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is widely covered with high-detail mango debris indicating extensive work: glistening rich-orange flesh shards, fine curled rind shavings, and large removed skin pieces with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole fresh pineapple, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole fresh pineapple, resting on a high wooden table. "
                     "The structure features a large central dome and multiple symmetrical minarets precisely carved from the rough, golden-brown spiked pineapple rind. "
                     "The walls are made of the textured pineapple skin, deeply carved with recessed arched doorways and windows revealing dense, vibrant yellow pineapple flesh inside. "
-                    "The inner carved sections show realistic succulent pineapple texture with its natural fibrous grain and glistening surface. "
-                    "The yellow flesh is moist, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The pineapple's green leafy crown is partially visible as a decorative background element. Strictly no text or calligraphy. "
-                    "Clean, sharp carving edges in sharp focus. Surface reflects only natural golden hour daylight. "
-                    "The wooden table is scattered with realistic pineapple debris: a whole intact pineapple, glistening yellow flesh chunks, rough spiked rind fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show realistic succulent pineapple texture with its natural fibrous grain and glistening surface catching natural daylight. "
+                    "The green leafy crown is partially visible as a decorative architectural element. Clean, sharp carving edges in sharp focus. No text or calligraphy. "
+                    "The wooden table is scattered with realistic pineapple debris: glistening yellow flesh chunks, rough spiked rind fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Kubah Daging Kuning": (
-                    "An intricately carved miniature mosque sculpted from a whole pineapple, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole pineapple, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant yellow pineapple flesh, shaped into a smooth rounded structure with dense fibrous texture and glistening natural moisture. "
-                    "The yellow flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The yellow flesh appears solid and catches natural external daylight with vivid saturation. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from the thick golden-brown spiked rind. "
                     "The structural walls are made from the rough pineapple skin, deeply carved with precise arches revealing the transition between the spiked rind and the succulent yellow flesh. "
-                    "All exposed flesh areas show realistic fruit behavior: visible core fibers and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
+                    "All exposed flesh areas show realistic fruit behavior: visible core fibers and subtle juice residue. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "Table surface is scattered with realistic pineapple debris: yellow flesh chunks, spiked rind fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Ukiran Elite": (
-                    "An intricately full-carved miniature mosque sculpted from a whole pineapple, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole pineapple, resting on a high wooden table. "
                     "The entire rough, spiked surface of the pineapple rind is covered in deep, precise architectural carvings, transforming the natural scales into complex geometric Islamic patterns. "
                     "The structure features a massive central dome and tiered minarets, all intricately engraved with sharp-edged textures and high-level craftsmanship. "
-                    "The walls are thick textured rind, deeply recessed to reveal the vibrant yellow pineapple flesh inside, which appears succulent and glistening. "
-                    "The yellow flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the rugged spiked rind and the moist yellow interior. "
-                    "The wooden table is widely covered with extensive carving debris: a whole intact pineapple, yellow flesh chunks, and many spiked skin fragments with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The walls are thick textured rind, deeply recessed to reveal the vibrant yellow pineapple flesh inside, which appears succulent and glistening with natural daylight. "
+                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the rugged spiked rind and the moist yellow interior. No text or calligraphy. "
+                    "The wooden table is widely covered with extensive carving debris indicating massive work: yellow flesh chunks, and many spiked skin fragments with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium pineapple, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium pineapple, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the golden-brown pineapple rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant yellow pineapple flesh which is dense, fibrous, and glistening like gold under natural light. "
-                    "The yellow flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the rugged spiked exterior and the succulent yellow interior. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant yellow pineapple flesh which is dense, fibrous, and glistening like gold under natural daylight. "
+                    "The green leafy crown is sculpted into elegant, symmetrical minaret spires. Clean, sharp carving edges showcase the sharp contrast between the rugged spiked exterior and the succulent yellow interior. "
                     "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail pineapple debris: a whole intact pineapple, glistening yellow flesh shards, and spiked rind shavings with juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with high-detail pineapple debris: glistening yellow flesh shards, and spiked rind shavings with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Nanas: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium pineapple, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium pineapple, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the rough golden-brown spiked rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner vibrant yellow pineapple flesh illuminated by a subtle, soft amber and golden LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the moist, fibrous texture of the yellow flesh, making it glow like a warm lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist yellow fibers without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail pineapple debris: a whole intact pineapple, yellow flesh shards, spiked rind fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner vibrant yellow pineapple flesh glistening naturally like sunset gold under daylight. "
+                    "Surface response follows real fruit physics: the natural light reflects naturally on the moist yellow fibers. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is widely covered with high-detail pineapple debris: glistening yellow flesh shards, spiked rind fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole fresh papaya, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole fresh papaya, resting on a high wooden table. "
                     "The structure features a large central dome and multiple symmetrical minarets precisely carved from the smooth green and orange-blushed rind. "
                     "The walls are made of the thick papaya skin, deeply carved with recessed arched doorways and windows revealing dense, vibrant orange papaya flesh inside. "
-                    "The inner carved sections show realistic succulent papaya texture with its natural smooth, soft fibrous grain and glistening surface. "
-                    "The orange flesh is moist, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The inner carved sections show realistic succulent papaya texture with its natural smooth, soft fibrous grain and glistening surface catching natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with realistic papaya debris: a whole intact papaya, glistening orange flesh chunks, small round black seeds, and smooth rind shavings with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with realistic papaya debris: glistening orange flesh chunks, scattered small black seeds, and smooth rind shavings with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Kubah Daging Oranye": (
-                    "An intricately carved miniature mosque sculpted from a whole papaya, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole papaya, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant deep-orange papaya flesh, shaped into a smooth rounded structure with dense succulent texture and glistening natural moisture. "
-                    "The orange flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The orange flesh appears solid and catches natural external daylight with vivid saturation. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from the thick smooth green rind. "
-                    "The structural walls are made from the papaya skin, deeply carved with precise arches revealing the transition between the green rind and the succulent orange flesh. "
-                    "All exposed flesh areas show realistic fruit behavior: visible soft fiber density and subtle juice residue. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic papaya debris: orange flesh chunks, scattered small black seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the papaya skin, deeply carved with precise arches revealing the transition between the green rind and the succulent deep-orange flesh. "
+                    "All exposed flesh areas show realistic fruit behavior: visible soft fiber density and subtle juice residue. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "Table surface is scattered with realistic papaya debris: glistening orange flesh chunks, scattered small black seeds, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Full Ukiran": (
-                    "An intricately full-carved miniature mosque sculpted from a whole large papaya, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole large papaya, resting on a high wooden table. "
                     "The entire smooth surface of the green and yellow-blushed papaya rind is covered in deep, precise architectural carvings, leaving no part untouched, creating a highly detailed lace-like effect on the skin. "
                     "The structure features a massive central dome and tiered minarets, all intricately engraved with complex geometric Islamic patterns and sharp-edged textures. "
-                    "The walls are thick textured rind, deeply recessed to reveal the vibrant orange papaya flesh inside, which appears succulent and glistening with natural juices. "
-                    "The orange flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the smooth rind and the moist orange interior. "
-                    "The wooden table is widely covered with extensive carving debris: a whole intact papaya, orange flesh chunks, small black seeds, and large pieces of removed skin with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The walls are thick textured rind, deeply recessed to reveal the vibrant orange papaya flesh inside, which appears succulent and glistening with natural daylight. "
+                    "The orange flesh is physically solid and opaque. Each doorway and arched window is a masterpiece of precision, showing the transition between the smooth rind and the moist orange interior. No text or calligraphy. "
+                    "The wooden table is widely covered with extensive carving debris indicating massive work: glistening orange flesh chunks, scattered small black seeds, and large pieces of removed skin with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium papaya, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium papaya, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the smooth green-orange rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange papaya flesh which is dense, succulent, and glistening like sunset gold under natural light. "
-                    "The orange flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the polished rind and the moist interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth rind. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail papaya debris: a whole intact papaya, glistening orange flesh shards, small black seeds, and fine rind shavings with juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant, rich-orange papaya flesh which is dense, succulent, and glistening like sunset gold under natural daylight. "
+                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the polished rind and the moist interior. No text or calligraphy. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth rind. "
+                    "The wooden table is scattered with high-detail papaya debris: glistening orange flesh shards, scattered small black seeds, and fine rind shavings with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium papaya, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole premium papaya, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth green and yellow-blushed rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner vibrant orange papaya flesh illuminated by a subtle, soft sunset-amber LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the moist, succulent texture of the orange flesh, making it glow like a warm, holy lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist orange flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail papaya debris: a whole intact papaya, orange flesh shards, scattered black seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner vibrant orange papaya flesh glistening naturally like warm sunset gold under daylight. "
+                    "Surface response follows real fruit physics: the natural daylight reflects naturally on the moist orange flesh. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is widely covered with high-detail papaya debris indicating massive work: glistening orange flesh shards, scattered black seeds, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Salak: Pahatan Murni": (
-                    "An intricately carved super-micro miniature mosque sculpted entirely from a large fresh snake fruit (salak), resting on a high wooden table at chest-level. "
+                    "An intricately carved super-micro miniature mosque sculpted entirely from a large fresh snake fruit (salak), resting on a high wooden table. "
                     "The structure features a central dome and tiny minarets precisely carved from the dark brown, scaly, snake-like skin of the salak. "
                     "The walls are made of the thin scaly rind, deeply carved with micro-arched doorways revealing the firm, pale-white fruit flesh inside. "
-                    "The inner carved sections show the realistic dense and matte texture of the salak flesh with a glistening moist finish. "
-                    "The pale-white flesh is opaque, catching natural external light with subtle saturation, strictly no internal glow and no emission. "
+                    "The inner carved sections show the realistic dense and matte texture of the salak flesh with a glistening moist finish catching natural daylight. "
                     "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with micro debris: whole salak fruits, small pieces of brown scaly skin, and tiny fragments of white flesh with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with micro debris: small pieces of brown scaly skin and tiny fragments of white flesh with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Kubah Daging Putih": (
-                    "An intricately carved micro miniature mosque sculpted from a whole salak fruit, resting on a high wooden table at chest-level. "
+                    "An intricately carved micro miniature mosque sculpted from a whole salak fruit, resting on a high wooden table. "
                     "The central dome is carved from exposed firm, pale-white salak flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture. "
-                    "The white flesh appears solid and opaque, catching natural external light realistically, strictly no internal glow and no emission. "
+                    "The white flesh appears solid and catches natural external daylight realistically. "
                     "Surrounding the main dome are smaller structures crafted from the dark brown scaly skin, creating a high contrast between brown and white. "
                     "The structural walls are made from the scaly salak rind, deeply carved with precise arches revealing the transition to the solid white interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
                     "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
                     "Table surface is scattered with realistic salak debris: white flesh shards, brown scaly skin fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a whole salak fruit, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a whole salak fruit, resting on a high wooden table. "
                     "The entire dark brown scaly surface of the salak is covered in deep, precise micro-architectural carvings, transforming the scales into geometric patterns. "
                     "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick scaly rind, deeply recessed to reveal the firm pale-white flesh inside, which appears solid and glistening. "
-                    "The white flesh is physically solid and opaque, reflecting only natural golden hour sunlight. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and window is a masterpiece of precision, showing the transition between the rough brown scales and the smooth white interior. "
-                    "The wooden table is widely covered with extensive micro-carving debris: whole salak fruits, brown scaly skin fragments, and white flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The walls are thick scaly rind, deeply recessed to reveal the firm pale-white flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Each doorway and window is a masterpiece of precision, showing the transition between the rough brown scales and the smooth white interior. No text or calligraphy. "
+                    "The wooden table is widely covered with extensive micro-carving debris: brown scaly skin fragments and white flesh shards. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large salak, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large salak, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the dark brown scaly rind. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite its small size. "
-                    "Each door and window is precisely carved outward, revealing the inner pale-white salak flesh which is dense and glistening like carved ivory under natural light. "
-                    "The white flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite its size. "
+                    "Each door and window is precisely carved outward, revealing the inner pale-white salak flesh which is dense and glistening like carved ivory under natural daylight. "
+                    "The white flesh appears solid and catches natural external light with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark scales and the ivory-white interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the scaly texture. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail salak debris: whole fruits, white flesh shards, and fine scaly skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the scaly texture. "
+                    "The wooden table is scattered with high-detail salak debris: white flesh shards and fine scaly skin fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large salak, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large salak, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the dark brown scaly rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pale-white flesh illuminated by a subtle, soft warm-white LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, ivory-like texture of the white flesh, making it glow like a small holy lamp. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist white flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal warm glow. Clean, sharp carving edges in sharp focus. "
+                    "Each doorway and window is precisely carved, revealing the inner pale-white flesh glistening naturally like ivory under warm natural golden hour daylight. "
+                    "The natural light emphasizes the dense, ivory-like texture of the white flesh. Clean, sharp carving edges in sharp focus. "
                     "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail salak debris: whole fruits, white flesh shards, and dark scaly fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is widely covered with high-detail salak debris: white flesh shards and dark scaly fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a large fresh banana, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a large fresh banana, resting on a high wooden table. "
                     "The structure follows the natural curved shape of the fruit, featuring a central dome and slender minarets precisely carved from the smooth yellow banana peel. "
                     "The walls are made of the thick yellow rind, deeply carved with recessed arched doorways revealing the firm, pale-cream fruit flesh inside. "
-                    "The inner carved sections show the realistic dense, soft-fibrous texture of the banana flesh with a moist, glistening finish. "
-                    "The pale-cream flesh is opaque, catching natural external light with subtle saturation, strictly no internal glow and no emission. "
+                    "The inner carved sections show the realistic dense, soft-fibrous texture of the banana flesh with a moist, glistening finish under natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with realistic banana debris: a whole intact banana, small slices of cream-colored flesh, and curled yellow peel shavings with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with realistic banana debris: small slices of cream-colored flesh and curled yellow peel shavings with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Kubah Daging Krem": (
-                    "An intricately carved miniature mosque sculpted from a whole banana, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole banana, resting on a high wooden table. "
                     "The central dome is carved from exposed firm, pale-cream banana flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture. "
-                    "The cream-colored flesh appears solid and opaque, catching natural external light realistically, strictly no internal glow and no emission. "
+                    "The cream-colored flesh appears solid and catches natural external daylight realistically. "
                     "Surrounding the main dome are smaller structures crafted from the bright yellow peel, creating a soft but clear contrast. "
                     "The structural walls are made from the smooth yellow rind, deeply carved with precise arches revealing the transition to the solid cream interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
                     "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
                     "Table surface is scattered with realistic banana debris: cream flesh chunks, yellow peel fragments, and wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Full Ukiran": (
-                    "An intricately full-carved miniature mosque sculpted from a whole banana, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole banana, resting on a high wooden table. "
                     "The entire smooth yellow surface of the banana peel is covered in deep, precise architectural carvings, transforming the skin into complex geometric Islamic patterns. "
-                    "The structure features a tiered central dome and slender minarets, all intricately engraved with sharp-edged textures and high-level craftsmanship following the fruit's curve. "
-                    "The walls are thick yellow rind, deeply recessed to reveal the pale-cream flesh inside, which appears solid, fibrous, and glistening. "
-                    "The cream flesh is physically solid and opaque, reflecting only natural golden hour sunlight. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and window is a masterpiece of precision, showing the transition between the smooth yellow peel and the moist cream interior. "
-                    "The wooden table is widely covered with extensive carving debris: whole bananas, yellow peel fragments, and cream-colored flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and slender minarets, all intricately engraved with sharp-edged textures following the fruit's curve. "
+                    "The walls are thick yellow rind, deeply recessed to reveal the pale-cream flesh inside, which appears solid, fibrous, and glistening under natural daylight. "
+                    "Each doorway and window is a masterpiece of precision, showing the transition between the smooth yellow peel and the moist cream interior. No text or calligraphy. "
+                    "The wooden table is widely covered with extensive carving debris: yellow peel fragments and cream-colored flesh shards. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Pisang: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large banana, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large banana, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth bright yellow rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
-                    "Each door and window is precisely carved outward, revealing the inner pale-cream banana flesh which is dense and glistening like carved ivory under natural light. "
-                    "The cream flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "Each door and window is precisely carved outward, revealing the inner pale-cream banana flesh which is dense and glistening like carved ivory under natural daylight. "
+                    "The cream flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the polished yellow skin and the ivory-like interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth texture. No text or calligraphy. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth texture. "
                     "The wooden table is scattered with high-detail banana debris: whole fruits, cream flesh shards, and fine yellow peel shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large banana, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large banana, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth yellow rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pale-cream flesh illuminated by a subtle, soft pale-gold LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, soft-fibrous texture of the cream flesh, making it glow like a warm silk lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist cream flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "Each doorway and window is precisely carved, revealing the inner pale-cream flesh glistening naturally like warm silk under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: the natural daylight reflects naturally on the moist cream flesh. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is widely covered with high-detail banana debris: whole bananas, cream flesh shards, and yellow peel fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Pahatan Murni": (
-                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh rambutan, resting on a high wooden table at chest-level. "
-                    "The structure features a central dome and tiny minarets carved from the red leathery skin, with the natural soft green and red spines (hairs) forming a wild decorative exterior. "
-                    "The walls are made of the red hairy rind, deeply carved with micro-arched doorways revealing the pearly-white, translucent fruit flesh inside. "
-                    "The inner carved sections show the realistic smooth, succulent texture of the rambutan flesh with a glistening, wet finish. "
-                    "The white flesh is semi-opaque, catching natural external light with a soft glow, strictly no internal light and no emission. "
-                    "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
+                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh rambutan, resting on a high wooden table. "
+                    "The structure features a central dome and tiny minarets carved from the red leathery skin, with the natural soft green and red spines forming a wild decorative exterior. "
+                    "The walls are made of the red hairy rind, deeply carved with micro-arched doorways revealing the pearly-white fruit flesh inside. "
+                    "The inner carved sections show the realistic smooth, succulent texture of the rambutan flesh with a glistening, wet finish catching natural daylight. "
+                    "The white flesh is semi-opaque, strictly semi-opaque. Clean, sharp carving edges in sharp focus. No text or calligraphy. "
                     "The wooden table is scattered with micro debris: whole rambutan fruits with soft spines, pieces of red hairy skin, and tiny fragments of pearly flesh. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Kubah Daging Buah": (
-                    "An intricately carved micro miniature mosque sculpted from a whole rambutan fruit, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed succulent, pearly-white rambutan flesh, shaped into a smooth rounded structure with a glistening natural moisture and firm texture. "
-                    "The white flesh catches natural external light realistically, appearing like a carved pearl, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a whole rambutan fruit, resting on a high wooden table. "
+                    "The central dome is carved from exposed succulent, pearly-white rambutan flesh, shaped into a smooth rounded structure with a glistening natural moisture and firm texture catching external daylight. "
+                    "The white flesh catches daylight realistically, appearing like a carved pearl. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the red rind with its natural soft spines, creating a high-contrast red and white aesthetic. "
-                    "The structural walls are made from the hairy red rind, deeply carved with precise arches revealing the solid pearly interior. "
-                    "Surface response follows real-world food physics: no artificial subsurface glow and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic rambutan debris: pearly flesh shards, red hairy skin fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the hairy red rind, deeply carved with precise arches revealing the solid pearly interior. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Table surface is scattered with realistic rambutan debris: pearly flesh shards, red hairy skin fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a whole rambutan, resting on a high wooden table at chest-level. "
-                    "The red leathery surface is covered in deep, precise micro-architectural carvings, with the natural soft hairs (spines) carefully integrated into the design as organic ornaments. "
-                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick red rind, deeply recessed to reveal the succulent pearly-white flesh inside, which appears solid and glistening. "
-                    "The white flesh is semi-opaque, reflecting only natural golden hour sunlight with zero translucency in the carving edges. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the hairy red skin and the smooth white interior. "
+                    "An intricately full-carved micro mosque sculpted from a whole rambutan, resting on a high wooden table. "
+                    "The red leathery surface is covered in deep, precise micro-architectural carvings, with the natural soft hairs carefully integrated into the design as organic ornaments. "
+                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick red rind, deeply recessed to reveal the succulent pearly-white flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Strictly no internal lighting mechanisms. Each doorway and window shows the transition between the hairy red skin and the smooth white interior. No text or calligraphy. "
                     "The wooden table is widely covered with extensive micro-carving debris: whole rambutans, red hairy skin fragments, and pearly flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large rambutan, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large rambutan, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the red leathery rind, with soft spines acting as natural architectural detail. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite the small fruit size. "
-                    "Each door and window is precisely carved outward, revealing the inner pearly-white flesh which is dense and glistening like carved opal under natural light. "
-                    "The white flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
+                    "Each door and window is precisely carved outward, revealing the inner pearly-white flesh which is dense and glistening like carved opal under natural golden hour daylight. "
+                    "The white flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the hairy red exterior and the smooth pearly interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the hairy texture. No text or calligraphy. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the hairy texture. "
                     "The wooden table is scattered with high-detail rambutan debris: whole fruits, pearly flesh shards, and fine red hairy skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large rambutan, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large rambutan, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the red leathery rind with soft spines. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pearly-white flesh illuminated by a subtle, soft cool-white LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the succulent, pearl-like texture of the white flesh, making it glow like a small mystical lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist pearly flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal white glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "Each doorway and window is precisely carved, revealing the inner pearly-white flesh glistening naturally like smooth carved opal under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist pearly flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is widely covered with high-detail rambutan debris: whole rambutans, pearly flesh shards, and red hairy fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a large fresh avocado, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a large fresh avocado, resting on a high wooden table. "
                     "The structure features a large central dome and multiple symmetrical minarets precisely carved from the dark green, pebbly textured avocado rind. "
                     "The walls are made of the thick dark rind, deeply carved with recessed arched doorways revealing the smooth, vibrant lime-green and pale-yellow avocado flesh inside. "
-                    "The inner carved sections show realistic creamy avocado texture with its natural buttery density and glistening moist surface. "
-                    "The flesh is opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with realistic avocado debris: a whole intact avocado, creamy green flesh chunks, dark pebbly rind fragments, and the large brown seed sitting nearby. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show realistic creamy avocado texture with its natural buttery density and glistening moist surface under natural golden hour daylight. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is scattered with realistic avocado debris: whole intact avocado sitting nearby, creamy green flesh chunks, and dark pebbly rind fragments wet with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Kubah Daging Mentega": (
-                    "An intricately carved miniature mosque sculpted from a whole avocado, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed vibrant pale-yellow avocado flesh, shaped into a smooth rounded structure with dense buttery texture and glistening natural moisture. "
-                    "The yellow-green flesh appears solid and opaque, catching natural external light realistically, strictly no internal glow and no emission. "
+                    "An intricately carved miniature mosque sculpted from a whole avocado, resting on a high wooden table. "
+                    "The central dome is carved from exposed vibrant pale-yellow avocado flesh, shaped into a smooth rounded structure with dense buttery butter-like texture and glistening natural moisture catching daylight. "
+                    "The yellow-green flesh appears solid and opaque, catching natural external light realistically. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from the dark green pebbly rind. "
-                    "The structural walls are made from the rough avocado skin, deeply carved with precise arches revealing the transition from dark rind to the smooth, creamy interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic avocado debris: creamy flesh chunks, dark rind fragments, and wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the rough avocado skin, deeply carved with precise arches revealing the transition from dark rind to the smooth, creamy butter-like interior. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Table surface is scattered with realistic avocado debris: creamy flesh chunks, dark rind fragments, and wet marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Full Ukiran": (
-                    "An intricately full-carved miniature mosque sculpted from a whole avocado, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole avocado, resting on a high wooden table. "
                     "The entire dark green pebbly surface of the avocado rind is covered in deep, precise architectural carvings, transforming the rough skin into complex geometric Islamic patterns. "
-                    "The structure features a massive central dome and tiered minarets, all intricately engraved with sharp-edged textures and high-level craftsmanship. "
-                    "The walls are thick textured rind, deeply recessed to reveal the vibrant creamy green flesh inside, which appears dense and glistening. "
-                    "The flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the rough dark rind and the smooth buttery interior. "
-                    "The wooden table is widely covered with extensive carving debris: a whole intact avocado, creamy green chunks, and dark skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a massive central dome and tiered minarets, all intricately engraved with sharp-edged textures follow the fruit shape. "
+                    "The walls are thick textured rind, deeply recessed to reveal the vibrant creamy butter-like green flesh inside, which appears dense and glistening under natural golden hour daylight. No text or calligraphy. "
+                    "Each doorway and arched window shows the transition between the rough dark rind and the smooth butter-like interior. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. The wooden table is widely covered with extensive carving debris: creamy green chunks, dark skin fragments wet with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Alpukat: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large avocado, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large avocado, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the dark pebbly rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant pale-yellow and lime-green flesh which is dense, creamy, and glistening like organic gold under natural light. "
-                    "The flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant pale-yellow and lime-green flesh which is dense, creamy, and glistening like organic gold under natural golden hour daylight. "
+                    "The flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the contrast between the dark exterior and the smooth buttery interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail avocado debris: a whole intact avocado, creamy flesh shards, the large brown pit, and fine rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. "
+                    "The wooden table is scattered with high-detail avocado debris: glistening creamy flesh shards, the large brown pit, and fine rind shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large avocado, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large avocado, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the dark green pebbly rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner creamy green flesh illuminated by a subtle, soft lime-green and warm yellow LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, buttery texture of the flesh, making it glow like a soft, organic jade lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist, creamy flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail avocado debris: a whole intact avocado, creamy flesh shards, dark rind fragments, and the brown seed. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner creamy green flesh glistening naturally like smooth organic jade under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist, creamy flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is widely covered with high-detail avocado debris indicating massive work: glistening creamy flesh shards, dark rind fragments, and the brown seed. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a large whole pumpkin, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a large whole pumpkin, resting on a high wooden table. "
                     "The structure features a massive central dome and multiple symmetrical minarets precisely carved from the thick, smooth orange rind with natural vertical ridges. "
-                    "The walls are made of the sturdy orange skin, deeply carved with recessed arched doorways revealing the dense, vibrant orange pumpkin flesh inside. "
-                    "The inner carved sections show realistic pumpkin texture with its natural fibrous grain and glistening moist surface. "
-                    "The orange flesh is opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The walls are made of the sturdy orange skin, deeply carved with recessed arched doorways reveals dense, vibrant orange pumpkin flesh inside. "
+                    "The inner carved sections show realistic pumpkin texture with its natural fibrous grain and glistening surface catching natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with realistic pumpkin debris: a whole intact pumpkin, orange flesh chunks, flat seeds, and thick rind shavings with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with realistic pumpkin debris: glistening orange flesh chunks, scattered flat seeds, and thick rind shavings wet with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Kubah Daging Oranye": (
-                    "An intricately carved miniature mosque sculpted from a whole pumpkin, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed vibrant deep-orange pumpkin flesh, shaped into a smooth rounded structure with dense fibrous texture and glistening natural moisture. "
-                    "The orange flesh appears solid and opaque, catching natural external light realistically, strictly no internal glow and no emission. "
-                    "Surrounding the main dome are smaller structures crafted from the thick orange rind, utilizing the natural ridges as architectural pillars. "
-                    "The structural walls are made from the sturdy pumpkin skin, deeply carved with precise arches revealing the transition from tough rind to the succulent interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic pumpkin debris: orange flesh chunks, flat seeds, and wet rind fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "An intricately carved miniature mosque sculpted from a whole pumpkin, resting on a high wooden table. "
+                    "The central dome is carved from exposed vibrant deep-orange pumpkin flesh, shaped into a smooth rounded structure with dense fibrous texture and glistening natural moisture catching daylight. "
+                    "The orange flesh appears solid and catches natural external daylight with vivid saturation. "
+                    "Surrounding the main dome are smaller structures crafted from the thick orange rind, utilizing the natural ridges as architectural pillars. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Table surface is scattered with realistic pumpkin debris: glistening orange flesh chunks, scattered flat seeds, and wet rind fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Full Ukiran": (
-                    "An intricately full-carved miniature mosque sculpted from a massive whole pumpkin, resting on a high wooden table at chest-level. "
-                    "The entire orange surface of the pumpkin rind is covered in deep, precise architectural carvings, transforming the natural ridges into complex geometric Islamic patterns and filigree. "
-                    "The structure features a tiered central dome and tall minarets, all intricately engraved with sharp-edged textures and high-level craftsmanship. "
-                    "The walls are thick orange rind, deeply recessed to reveal the vibrant orange flesh inside, which appears dense and glistening with natural moisture. "
-                    "The flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the sturdy rind and the moist orange interior. "
-                    "The wooden table is widely covered with extensive carving debris: orange flesh fragments, flat seeds, and large rind pieces. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "An intricately full-carved miniature mosque sculpted from a massive whole pumpkin, resting on a high wooden table. "
+                    "The entire orange surface of the pumpkin rind is covered in deep, precise architectural carvings follow the natural vertical ridges into complex geometric Islamic patterns and filigree. "
+                    "The structure features a tiered central dome and tall minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick orange rind, deeply recessed to reveal the vibrant orange flesh inside, which appears dense and glistening under natural golden hour daylight. No text or calligraphy. "
+                    "Each doorway and arched window shows the transition between the sturdy rind and the moist orange interior. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. The wooden table is widely covered with extensive carving debris: orange flesh fragments, scattered flat seeds, and large rind pieces. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large pumpkin, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large pumpkin, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the vibrant orange rind. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant orange pumpkin flesh which is dense and glistening like carved amber under natural light. "
-                    "The flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel follow the fruit ridges. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant orange pumpkin flesh which is dense and glistening like carved amber under natural daylight. "
+                    "The orange flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the contrast between the polished orange skin and the succulent interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the ridged texture. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail pumpkin debris: orange flesh shards, flat seeds, and fine rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the ridged texture. "
+                    "The wooden table is scattered with high-detail pumpkin debris: glistening orange flesh shards, scattered flat seeds, and fine rind shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large pumpkin, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large pumpkin, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the thick orange rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner vibrant orange flesh illuminated by a subtle, soft deep-amber and warm golden LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, fibrous texture of the flesh, making it glow like a majestic, holy lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist orange flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail pumpkin debris: orange flesh shards, flat seeds, and thick orange rind fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner vibrant orange flesh glistening naturally like warm carved amber under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist orange flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is widely covered with high-detail pumpkin debris indicating massive work: glistening orange flesh shards, scattered flat seeds, and thick orange rind fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Anggur: Pahatan Murni": (
-                    "An intricately carved super-micro miniature mosque sculpted entirely from a single large fresh grape, resting on a high wooden table at chest-level. "
+                    "An intricately carved super-micro miniature mosque sculpted entirely from a single large fresh grape, resting on a high wooden table. "
                     "The structure features a central dome and tiny minarets precisely carved from the thin, smooth purple-black skin of the grape. "
                     "The walls are made of the delicate rind, deeply carved with micro-arched doorways revealing the translucent, pale-green fruit flesh inside. "
-                    "The inner carved sections show the realistic succulent and watery texture of the grape flesh with a glistening, moist finish. "
-                    "The flesh is semi-translucent but appears solid in the structure, catching natural external light with a soft glow, strictly no internal glow and no emission. "
-                    "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "The wooden table is scattered with micro debris: whole grapes, tiny pieces of thin purple skin, and glistening droplets of grape juice. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show the realistic succulent and watery texture of the grape flesh with a glistening, moist finish catching natural daylight. "
+                    "The flesh is opaque within the structure, catching natural external light with a soft glow. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. The wooden table is scattered with micro debris: tiny pieces of thin purple skin and glistening droplets of grape juice. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Kubah Daging Bening": (
-                    "An intricately carved micro miniature mosque sculpted from a single grape, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed succulent, pale-green grape flesh, shaped into a smooth rounded structure with a glistening natural moisture and firm translucent texture. "
-                    "The flesh catches natural external light realistically, appearing like a carved emerald or jade stone, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a single grape, resting on a high wooden table. "
+                    "The central dome is carved from exposed succulent, pale-green grape flesh, shaped into a smooth rounded structure with a glistening natural moisture and firm texture catching daylight. "
+                    "The flesh catches natural external light realistically, appearing like a carved emerald or jade stone. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the dark purple skin, creating a high-contrast aesthetic. "
-                    "The structural walls are made from the thin grape rind, deeply carved with precise arches revealing the glistening interior. "
-                    "Surface response follows real-world food physics: no artificial subsurface glow and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "Table surface is scattered with realistic grape debris: glistening flesh shards and tiny purple skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the thin grape rind, deeply carved with precise arches revealing the glistening interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. Table surface is scattered with realistic grape debris: glistening flesh shards and tiny purple skin fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a single large grape, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a single large grape, resting on a high wooden table. "
                     "The entire smooth purple surface of the grape skin is covered in deep, precise micro-architectural carvings, transforming the thin rind into complex geometric patterns. "
-                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are delicate purple rind, deeply recessed to reveal the succulent pale-green flesh inside, which appears solid and glistening. "
-                    "The flesh reflects only natural golden hour sunlight with zero artificial translucency in the carving edges. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the dark skin and the moist interior. "
-                    "The wooden table is covered with extensive micro-carving debris: whole grapes and tiny skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are delicate purple rind, deeply recessed to reveal the succulent pale-green flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Strictly no internal lighting mechanisms. Each doorway and window shows the transition between the dark skin and the moist interior. No text or calligraphy. "
+                    "The wooden table is covered with extensive micro-carving debris: tiny skin fragments and juice droplets. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large grape, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large grape, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth purple-black rind. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite the micro size. "
-                    "Each door and window is precisely carved outward, revealing the inner pale-green flesh which is dense and glistening like carved crystal under natural light. "
-                    "The flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
+                    "Each door and window is precisely carved outward, revealing the inner pale-green flesh which is dense and glistening like carved crystal under natural golden hour daylight. "
+                    "The flesh appears solid and catches natural external light with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark exterior and the crystal-like interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth texture. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail grape debris: whole fruits and fine purple skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth texture. "
+                    "The wooden table is scattered with high-detail grape debris: fine purple skin fragments and glistening juice drops. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large grape, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large grape, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth purple rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pale-green flesh illuminated by a subtle, soft violet and cool-white LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the succulent, crystal-like texture of the flesh, making it glow like a tiny mystical lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal violet glow. Clean, sharp carving edges in extreme macro focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail grape debris: whole grapes and purple skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner pale-green flesh glistening naturally like smooth carved crystal under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist, crystal-like flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. "
+                    "The wooden table is widely covered with high-detail grape debris: purple skin fragments and glistening juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Pahatan Murni": (
-                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh strawberry, resting on a high wooden table at chest-level. "
+                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh strawberry, resting on a high wooden table. "
                     "The structure features a central dome and tiny minarets precisely carved from the bright red pitted skin, with natural yellow seeds still embedded as organic ornaments. "
                     "The walls are made of the red leathery skin, deeply carved with micro-arched doorways revealing the pale-pink and white fruit flesh inside. "
-                    "The inner carved sections show the realistic dense, succulent texture of the strawberry flesh with a glistening, moist finish. "
-                    "The flesh is opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "The wooden table is scattered with micro debris: whole strawberries, small pieces of red pitted skin, and tiny fragments of pinkish flesh with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show the realistic dense, succulent texture of the strawberry flesh with a glistening, moist finish under natural golden hour daylight. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. The wooden table is scattered with micro debris: small pieces of red pitted skin and tiny fragments of pinkish flesh with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Kubah Daging Pink-Putih": (
-                    "An intricately carved micro miniature mosque sculpted from a single large strawberry, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed firm, pale-pink and white strawberry flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture. "
-                    "The pale flesh appears solid and opaque, catching natural external light realistically, appearing like a carved rose-quartz stone, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a single large strawberry, resting on a high wooden table. "
+                    "The central dome is carved from exposed firm, pale-pink and white strawberry flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture catching daylight. "
+                    "The pale flesh appears solid and opaque, catching natural external light realistically, appearing like a carved rose-quartz stone. No internal lighting. "
                     "Surrounding the main dome are smaller structures crafted from the bright red pitted skin, creating a high-contrast red and pink aesthetic. "
-                    "The structural walls are made from the red strawberry rind, deeply carved with precise arches revealing the transition to the solid pale interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic strawberry debris: pink flesh shards, red skin fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the red strawberry skin, deeply carved with precise arches revealing the transition to the solid pale interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in sharp focus. Table surface is scattered with realistic strawberry debris: pink flesh shards, red skin fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a large whole strawberry, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a large whole strawberry, resting on a high wooden table. "
                     "The entire bright red surface of the strawberry is covered in deep, precise micro-architectural carvings, with the natural yellow seeds integrated into the geometric patterns. "
-                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick red skin, deeply recessed to reveal the succulent pale-pink flesh inside, which appears solid and glistening. "
-                    "The pinkish flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the pitted red skin and the moist pink interior. "
-                    "The wooden table is covered with extensive micro-carving debris: whole strawberries, red skin fragments, and tiny flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick red skin, deeply recessed to reveal the succulent pale-pink flesh inside, which appears solid and glistening under natural golden hour daylight. No text or calligraphy. "
+                    "Each doorway and window shows the transition between the pitted red skin and the moist pink interior. "
+                    "The wooden table is covered with extensive micro-carving debris: red skin fragments and tiny pink flesh shards. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo strawberry, resting on a high wooden table at chest-level. "
-                    "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright red pitted rind. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite the micro size. "
-                    "Each door and window is precisely carved outward, revealing the inner pale-pink flesh which is dense and glistening like carved marble under natural light. "
-                    "The flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo strawberry, resting on a high wooden table. "
+                    "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright red pitted skin. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite the size. "
+                    "Each door and window is precisely carved outward, revealing the inner pale-pink flesh which is dense and glistening like carved rose-quartz marble under natural golden hour daylight. "
+                    "The flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the pitted red exterior and the smooth pink interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured skin. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail strawberry debris: whole fruits, pink flesh shards, and fine red skin shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured skin. "
+                    "The wooden table is scattered with high-detail strawberry debris: pink flesh shards and fine red skin shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Strawberry: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo strawberry, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo strawberry, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright red pitted rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pale-pink flesh illuminated by a subtle, soft crimson and rose-pink LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the succulent texture of the flesh, making it glow like a small, holy ruby lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal glow. Clean, sharp carving edges in extreme macro focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail strawberry debris: whole fruits, pink flesh shards, and red skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner pale-pink flesh glistening naturally under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: the natural light reflects naturally on the moist flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. The wooden table is widely covered with high-detail strawberry debris: pink flesh shards and red skin fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a large fresh orange, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a large fresh orange, resting on a high wooden table. "
                     "The structure features a large central dome and multiple symmetrical minarets precisely carved from the thick, textured orange rind. "
                     "The walls are made of the porous orange skin, deeply carved with recessed arched doorways revealing the vibrant, juicy orange fruit segments inside. "
-                    "The inner carved sections show realistic citrus texture with glistening juice vesicles and natural fibrous membranes. "
-                    "The orange flesh is moist, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "The inner carved sections show realistic citrus texture with glistening juice vesicles and natural fibrous membranes catching natural daylight. "
                     "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "The wooden table is scattered with realistic orange debris: a whole intact orange, glistening orange pulp fragments, curled peel shavings, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is scattered with realistic orange debris: glistening orange pulp fragments, curled peel shavings, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Kubah Daging Bulir": (
-                    "An intricately carved miniature mosque sculpted from a whole orange, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed vibrant orange fruit segments, shaped into a smooth rounded structure with visible juice vesicles and glistening natural moisture. "
-                    "The orange flesh appears solid but textured, catching natural external light realistically like a cluster of tiny crystals, strictly no internal glow and no emission. "
+                    "An intricately carved miniature mosque sculpted from a whole orange, resting on a high wooden table. "
+                    "The central dome is carved from exposed vibrant orange fruit segments, shaped into a smooth rounded structure with visible juice vesicles and glistening natural moisture catching daylight. "
+                    "The orange flesh appears solid but textured, catching natural external light realistically like a cluster of tiny crystals. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the thick textured orange rind. "
-                    "The structural walls are made from the pitted orange skin, deeply carved with precise arches revealing the transition to the succulent interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic orange debris: orange pulp chunks, peel fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the pitted orange skin, deeply carved with precise arches revealing the transition to the succulent interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in sharp focus. Table surface is scattered with realistic orange debris: orange pulp chunks, peel fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Full Ukiran": (
-                    "An intricately full-carved miniature mosque sculpted from a whole large orange, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved miniature mosque sculpted from a whole large orange, resting on a high wooden table. "
                     "The entire porous surface of the orange rind is covered in deep, precise architectural carvings, transforming the dimpled skin into complex geometric Islamic patterns. "
-                    "The structure features a tiered central dome and tall minarets, all intricately engraved with sharp-edged textures and high-level craftsmanship. "
-                    "The walls are thick orange rind, deeply recessed to reveal the vibrant orange pulp inside, which appears succulent and glistening. "
-                    "The flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "Each doorway and arched window is a masterpiece of precision, showing the transition between the textured rind and the moist orange interior. "
+                    "The structure features a tiered central dome and tall minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick orange rind, deeply recessed to reveal the vibrant orange pulp inside, which appears succulent and glistening under natural golden hour daylight. "
+                    "The flesh is physically solid and opaque. Each doorway and arched window is a masterpiece of precision, showing the transition between the textured rind and the moist orange interior. No text or calligraphy. "
                     "The wooden table is widely covered with extensive carving debris: orange pulp fragments and thick rind pieces with wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Mewah Elegan": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large orange, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large orange, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the bright orange rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive architectural feel. "
-                    "Each door and window is precisely carved outward, revealing the inner vibrant orange pulp which is dense and glistening like carved amber under natural light. "
-                    "The flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "Each door and window is precisely carved outward, revealing the inner vibrant orange pulp which is dense and glistening like carved amber under natural golden hour daylight. "
+                    "The flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the contrast between the pitted orange skin and the succulent interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail orange debris: a whole intact orange, glistening pulp shards, and fine peel shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. "
+                    "The wooden table is scattered with high-detail orange debris: glistening pulp shards and fine peel shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Mewah LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a premium large orange, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a premium large orange, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the thick orange rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner vibrant orange pulp illuminated by a subtle, soft warm-orange and amber LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the succulent bulir-bulir texture of the flesh, making it glow like a warm citrus lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist orange pulp without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in sharp focus. "
-                    "Pure architectural structure with no text or calligraphy. "
+                    "Each doorway and window is precisely carved, revealing the inner vibrant orange pulp glistening naturally like warm carved amber under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist orange pulp. No text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is widely covered with high-detail orange debris: orange pulp shards, peel fragments, and wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Durian: Pahatan Murni": (
-                    "An intricately carved micro miniature mosque sculpted entirely from a massive whole durian, resting on a high wooden table at chest-level. "
+                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh durian, resting on a high wooden table. "
                     "The structure features towering grand domes and multiple symmetrical minarets precisely carved from the rugged, golden-brown spiked durian rind. "
-                    "The exterior architecture is extremely complex, with natural sharp thorns carefully integrated into the mosque's design as organic defenses. "
+                    "The exterior architecture is extremely complex, with natural sharp thorns carefully integrated into the mosque's design. "
                     "The walls are made of the sturdy spiked rind, deeply carved with recessed micro-arched doorways revealing the thick, custard-like yellow durian flesh inside. "
-                    "The inner carved sections show the realistic dense, smooth, and creamy texture of the durian flesh with a glistening moist finish. "
-                    "The yellow flesh is opaque, catching natural external light realistically like soft butter, strictly no internal glow and no emission. "
+                    "The inner carved sections show the realistic dense, smooth, and creamy texture of the durian flesh with a glistening moist finish catching natural daylight. "
                     "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "The wooden table is widely covered with extensive durian debris indicating a massive work: a whole intact durian, large sharp rind fragments, thick spiked skin pieces, and glistening chunks of rich-yellow flesh with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The wooden table is widely covered with extensive durian debris: sharp rind fragments, thick spiked skin pieces, and glistening chunks of rich-yellow flesh with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Kubah Daging Mentega": (
-                    "An intricately carved micro miniature mosque sculpted from a whole durian, resting on a high wooden table at chest-level. "
-                    "The central massive dome is carved from exposed vibrant rich-yellow durian flesh, shaped into a smooth rounded structure with dense buttery texture and glistening natural moisture. "
-                    "The yellow flesh catches natural external light realistically like carved ivory, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a whole durian, resting on a high wooden table. "
+                    "The central massive dome is carved from exposed vibrant rich-yellow durian flesh, shaped into a smooth rounded structure with dense buttery texture and glistening natural moisture catching daylight. "
+                    "The yellow flesh catches natural external daylight realistically like carved ivory. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the dark brown spiked rind, creating a high-contrast aesthetic. "
-                    "The structural walls are made from the rough spiked rind, deeply carved with precise arches revealing the transition to the solid yellow interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "Table surface is scattered with realistic durian debris: yellow flesh shards, thick spiked skin fragments, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the rough spiked rind, deeply carved with precise arches revealing the transition to the solid yellow interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. Table surface is scattered with realistic durian debris: yellow flesh shards, thick spiked skin fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a huge whole durian, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a huge whole durian, resting on a high wooden table. "
                     "The entire dark brown spiked surface of the durian rind is covered in deep, precise micro-architectural carvings, transforming the natural thorns into geometric patterns. "
-                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick spiked rind, deeply recessed to reveal the dense rich-yellow durian flesh inside, which appears solid and glistening. "
-                    "The yellow flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the rugged brown scales and the smooth yellow interior. "
-                    "The wooden table is covered with extensive micro-carving debris: whole durians, brown skin fragments, and yellow flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick spiked rind, deeply recessed to reveal the dense rich-yellow durian flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Strictly no internal lighting mechanisms. Each doorway and window shows the transition between the rugged brown scales and the smooth yellow interior. No text or calligraphy. "
+                    "The wooden table is covered with extensive micro-carving debris: brown spiked skin fragments and yellow flesh shards. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo durian, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo durian, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright golden-brown durian rind with natural spiked texture. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel despite the micro size. "
-                    "Each door and window is precisely carved outward, revealing the inner rich-yellow durian flesh which is dense and glistening like carved ivory under natural light. "
-                    "The yellow flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark exterior and the ivory-like interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the scaly texture. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail durian debris: whole fruits, yellow flesh shards, and fine scaly skin fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
+                    "Each door and window is precisely carved outward, revealing the inner rich-yellow durian flesh which is dense and glistening like carved ivory under natural golden hour daylight. "
+                    "The yellow flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
+                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark spiked exterior and the ivory-like interior. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the spiked texture. "
+                    "The wooden table is scattered with high-detail durian debris: yellow flesh shards and fine spiked skin fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo durian, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium jumbo durian, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the rugged dark brown spiked rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner rich-yellow durian flesh illuminated by a subtle, soft golden and warm yellow LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, buttery texture of the yellow flesh, making it glow like a small holy lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist yellow flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal warm glow. Clean, sharp carving edges in extreme macro focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail durian debris: whole durians, yellow flesh shards, and dark scaly fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner rich-yellow durian flesh glistening naturally like warm carved ivory under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist yellow flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. "
+                    "The wooden table is widely covered with high-detail durian debris: yellow flesh shards and dark spiked fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Manggis: Pahatan Murni": (
-                    "An intricately carved super-micro miniature mosque sculpted entirely from a large fresh mangosteen, resting on a high wooden table at chest-level. "
+                    "An intricately carved super-micro miniature mosque sculpted entirely from a large fresh mangosteen, resting on a high wooden table. "
                     "The structure features a towering grand dome and multiple complex symmetrical minarets precisely carved from the thick, smooth purple-black mangosteen rind. "
                     "The walls are made of the sturdy purple skin, deeply carved with recessed arched doorways revealing the vibrant, pearly-white mangosteen flesh inside. "
-                    "The inner carved sections show realistic translucent mangosteen texture with its natural succulent structure and glistening, wet finish. "
-                    "The white flesh is semi-translucent but appears solid in the structure, catching natural external light with a soft glow, strictly no internal glow and no emission. "
-                    "Pure ornamental micro-structure with strictly no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "The wooden table is scattered with micro debris: a whole intact mangosteen, small pieces of purple-black rind, and glistening fragments of pearly-white flesh with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show realistic translucent mangosteen texture with its natural succulent structure and glistening, wet finish catching natural daylight. "
+                    "The white flesh is semi-opaque, catching natural external light with a soft glow. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. The wooden table is scattered with micro debris: small pieces of purple-black rind and glistening fragments of pearly-white flesh with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Manggis: Kubah Daging Mutiara": (
-                    "An intricately carved micro miniature mosque sculpted from a single mangosteen, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed succulent, pearly-white mangosteen flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture. "
-                    "The white flesh catches natural external light realistically like carved ivory or jade, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a single mangosteen, resting on a high wooden table. "
+                    "The central dome is carved from exposed succulent, pearly-white mangosteen flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture catching daylight. "
+                    "The white flesh catches natural external daylight realistically like carved ivory or jade stone. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the thick purple-black skin, creating a high-contrast purple and white aesthetic. "
-                    "The structural walls are made from the purple mangosteen rind, deeply carved with precise arches revealing the transition to the solid white interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic mangosteen debris: white flesh shards, purple skin fragments, and wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the purple mangosteen rind, deeply carved with precise arches revealing the transition to the solid white interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in sharp focus. Table surface is scattered with realistic mangosteen debris: white flesh shards, purple skin fragments, and wet juice marks."
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Manggis: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a single large mangosteen, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a single large mangosteen, resting on a high wooden table. "
                     "The entire thick purple-black surface of the mangosteen rind is covered in deep, precise micro-architectural carvings, transforming the smooth skin into complex geometric Islamic patterns. "
-                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick textured rind, deeply recessed to reveal the dense rich-white flesh inside, which appears solid, succulent, and glistening. "
-                    "The rich-white flesh is physically solid and opaque, reflecting only natural golden hour sunlight with high color saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the dark skin and the moist white interior. "
-                    "The wooden table is widely covered with extensive micro-carving debris: whole mangosteens, purple skin fragments, and white flesh shards with juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and micro minarets, all intricately engraved with sharp-edged textures. "
+                    "The walls are thick textured rind, deeply recessed to reveal the dense rich-white flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Strictly no internal lighting mechanisms. Each doorway and window shows the transition between the dark skin and the moist white interior. No text or calligraphy. "
+                    "The wooden table is covered with extensive micro-carving debris: purple skin fragments and white flesh shards with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Manggis: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large mangosteen, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large mangosteen, resting on a high wooden table. "
                     "The structure features a towering central grand dome made from the thick, smooth purple-black rind and multiple complex symmetrical minarets with slender, fine-spires. "
-                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches sculpted from the thick mangosteen rind. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, rich-white mangosteen flesh which is dense, succulent, and glistening like carved ivory under natural light. "
-                    "The rich-white flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark exterior and the moist interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the textured rind. No text or calligraphy. "
-                    "The wooden table is widely covered with high-detail mangosteen debris indicating massive work: a whole intact fruit, glistening rich-white flesh shards, and fine rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
+                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, rich-white mangosteen flesh which is dense and glistening like carved ivory under natural golden hour daylight. "
+                    "The rich-white flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
+                    "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the dark exterior and the ivory-like interior. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the rind. "
+                    "The wooden table is widely covered with high-detail mangosteen debris: glistening rich-white flesh shards and fine rind shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Manggis: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large mangosteen, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large mangosteen, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth purple rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner vibrant rich-white flesh illuminated by a subtle, soft violet and cool-white LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the succulent, crystal-like texture of the rich-white flesh, making it glow like a mystical jade lantern. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist, rich-white flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal golden glow. Clean, sharp carving edges in extreme macro focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail mangosteen debris: whole mangosteens, white flesh shards, and purple rind fragments with juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner vibrant rich-white flesh glistening naturally like smooth carved ivory under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist, rich-white flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. "
+                    "The wooden table is widely covered with high-detail mangosteen debris: white flesh shards and purple rind fragments with juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Apel: Pahatan Murni": (
-                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh red apple, resting on a high wooden table at chest-level. "
+                    "An intricately carved micro miniature mosque sculpted entirely from a large fresh red apple, resting on a high wooden table. "
                     "The structure features a large central dome and multiple symmetrical minarets precisely carved from the smooth, glossy red skin of the apple. "
                     "The walls are made of the crisp red rind, deeply carved with recessed arched doorways revealing the firm, pale-white apple flesh inside. "
-                    "The inner carved sections show realistic apple texture with its natural fine grain and glistening moist surface. "
-                    "The pale-white flesh is opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges in extreme macro focus. "
-                    "The wooden table is scattered with realistic apple debris: a whole intact red apple, glistening white flesh chunks, and curled red peel shavings with wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The inner carved sections show realistic apple texture with its natural fine grain and glistening moist surface under natural golden hour daylight. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. The wooden table is scattered with realistic apple debris: glistening white flesh chunks and curled red peel shavings with wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Apel: Kubah Daging Putih Bersih": (
-                    "An intricately carved micro miniature mosque sculpted from a single large apple, resting on a high wooden table at chest-level. "
-                    "The central dome is carved from exposed firm, pale-white apple flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture. "
-                    "The white flesh appears solid and opaque, catching natural external light realistically like carved ivory, strictly no internal glow and no emission. "
+                    "An intricately carved micro miniature mosque sculpted from a single large apple, resting on a high wooden table. "
+                    "The central dome is carved from exposed firm, pale-white apple flesh, shaped into a smooth rounded structure with dense texture and glistening natural moisture catching daylight. "
+                    "The white flesh catches natural external daylight realistically like carved ivory stone. No internal lighting or glow. "
                     "Surrounding the main dome are smaller structures crafted from the bright red skin, creating a high-contrast red and white aesthetic. "
-                    "The structural walls are made from the smooth red rind, deeply carved with precise arches revealing the transition to the solid white interior. "
-                    "Surface response follows real-world food physics: no subsurface glow, no translucency, and strictly no internal lighting. "
-                    "Pure architectural structure with no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table surface is scattered with realistic apple debris: white flesh shards, red peel fragments, and wet marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structural walls are made from the smooth red rind, deeply carved with precise arches revealing the transition to the solid white interior. No text or calligraphy. "
+                    "Clean, sharp carving edges in sharp focus. Table surface is scattered with realistic apple debris: white flesh shards, red peel fragments, and wet juice marks. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Apel: Full Ukiran": (
-                    "An intricately full-carved micro mosque sculpted from a whole red apple, resting on a high wooden table at chest-level. "
+                    "An intricately full-carved micro mosque sculpted from a whole red apple, resting on a high wooden table. "
                     "The entire smooth red surface of the apple skin is covered in deep, precise micro-architectural carvings, transforming the skin into complex geometric Islamic patterns. "
-                    "The structure features a tiered central dome and slender minarets, all intricately engraved with sharp-edged textures and high-level micro-craftsmanship. "
-                    "The walls are thick red rind, deeply recessed to reveal the succulent pale-white flesh inside, which appears solid and glistening. "
-                    "The white flesh is physically solid and opaque, reflecting only natural golden hour sunlight. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Each doorway and window shows the transition between the glossy red skin and the moist interior. "
-                    "The wooden table is widely covered with extensive micro-carving debris: whole apples, red peel fragments, and white flesh shards. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and slender minarets, all intricately engraved with sharp-edged textures follow the fruit curve. "
+                    "The walls are thick red rind, deeply recessed to reveal the succulent pale-white flesh inside, which appears solid and glistening under natural golden hour daylight. "
+                    "Strictly no internal lighting mechanisms. Each doorway and window shows the transition between the glossy red skin and the moist interior. No text or calligraphy. "
+                    "The wooden table is covered with extensive micro-carving debris: red peel fragments and white flesh shards. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Apel: Mewah Elegan": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large red apple, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large red apple, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth ruby-red rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches for a massive feel. "
-                    "Each door and window is precisely carved outward, revealing the inner pale-white apple flesh which is dense and glistening like carved marble under natural light. "
-                    "The white flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
+                    "Each door and window is precisely carved outward, revealing the inner pale-white apple flesh which is dense and glistening like carved ivory under natural golden hour daylight. "
+                    "The white flesh appears solid and catches natural external daylight with vivid saturation. No text or calligraphy. "
                     "The carving edges are clean, sharp, and highly defined, showcasing the sharp contrast between the polished red skin and the ivory-like interior. "
-                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the smooth texture. No text or calligraphy. "
-                    "The wooden table is scattered with high-detail apple debris: whole fruits, white flesh shards, and fine red peel shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Lighting is strictly natural golden hour daylight, creating deep, luxurious shadows on the rind. "
+                    "The wooden table is scattered with high-detail apple debris: white flesh shards and fine red peel shavings. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Apel: Mewah LED Glow": (
-                    "An intricate, large-scale micro mosque carved entirely from a premium large red apple, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale micro mosque carved entirely from a premium large red apple, resting on a high wooden table. "
                     "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the smooth red rind. "
                     "The walls are meticulously detailed with multi-layered intricate geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved, revealing the inner pale-white flesh illuminated by a subtle, soft cool-white and pale-yellow LED glow from within. "
-                    "The light creates an elegant atmospheric aura that emphasizes the dense, crisp texture of the white flesh, making it glow like a small holy lamp. "
-                    "Surface response follows real fruit physics: the soft LED light reflects naturally on the moist white flesh without being overpowering. "
-                    "Strictly external natural golden hour daylight combined with the soft internal glow. Clean, sharp carving edges in extreme macro focus. "
-                    "Pure architectural structure with no text or calligraphy. "
-                    "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Each doorway and window is precisely carved, revealing the inner pale-white flesh glistening naturally like smooth carved ivory under natural golden hour daylight. "
+                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist, crisp white flesh texture. No text or calligraphy. "
+                    "Clean, sharp carving edges in extreme macro focus. "
+                    "The wooden table is widely covered with high-detail apple debris: white flesh shards and red peel fragments. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid watermelon, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, with the immense fruit building centered between the character and the camera. "
-                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid watermelon, resting on a high wooden table. "
+                    "The immense fruit building is centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade follow the fruit stripes. "
                     "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris from the carving: thousands of fresh rich-ruby-red watermelon flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and glistening juice. "
-                    "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening ruby-red interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of glistening ruby-red watermelon flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds wet with juice marks. "
+                    "Strictly nowhole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. No text or calligraphy. "
+                    "Deeply recessed entrances show the dense, glistening ruby-red interior flesh under natural golden hour daylight. No internal lighting. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid melon, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, with the immense fruit building centered between the character and the camera. "
-                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid melon, resting on a high wooden table. "
+                    "The immense fruit building is centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade follow the tan-netted rind texture. "
                     "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of fresh rich-orange melon flesh chunks, large fragments of removed tan-netted rind, and wet juice marks with seeds. "
-                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of glistening rich-orange melon flesh chunks, large fragments of removed tan-netted rind, and wet juice marks with seeds. "
+                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. No text or calligraphy. "
+                    "Deeply recessed entrances show the dense, glistening orange interior flesh under natural golden hour daylight. No internal lighting. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Semangka: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal watermelon, featuring full-surface deep engravings over the entire green rind. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal watermelon, featuring full-surface deep engravings follow the fruit curve over the entire green rind. "
                     "Every millimeter of the green striped surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
                     "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening red flesh chunks and fine-carved green rind shavings with wet juice marks. "
-                    "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the dense, glistening ruby-red interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening ruby-red watermelon flesh chunks and fine-carved green rind shavings wet with juice marks. "
+                    "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. No text or calligraphy. "
+                    "The deep architectural portals reveal the dense, glistening ruby-red interior flesh reflecting natural golden hour daylight. No internal lighting mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Melon: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal melon, featuring full-surface deep architectural carvings over the entire tan-netted rind. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal melon, featuring full-surface deep architectural carvings follow the fruit curve over the entire tan-netted rind. "
                     "The exterior is completely covered in complex geometric relief and lace-like textures, creating an extreme level of multi-layered craftsmanship on every part of the skin. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: large piles of orange flesh fragments, fine-edged rind shavings, and wet juice marks. "
-                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the vibrant rich-orange interior flesh under natural daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: large piles of glistening rich-orange melon flesh fragments, fine-edged rind shavings, and wet juice marks. "
+                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. No text or calligraphy. "
+                    "Deeply recessed openings reveal the vibrant rich-orange interior flesh under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Buah Naga: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid dragon fruit, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
-                    "The architecture features a wide rectangular tiered foundation and utilizes the bright pink rind and green-tipped scales as distinct structural elements of the grand facade. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid dragon fruit, resting on a high wooden table. "
+                    "The immense fruit building centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide rectangular tiered foundation and utilizes the bright pink rind and green-tipped scales as distinct structural elements follow the fruit texture on the grand facade. "
                     "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant white flesh chunks filled with black seeds, large fragments of removed pink rind, and wet juice marks. "
-                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the glistening white interior flesh with black seeds under natural golden hour daylight, strictly no internal lighting and no LEDs. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris indicating colossal work: thousands of vibrant white flesh chunks filled with black seeds, large fragments of removed pink rind, and wet juice marks. No text or calligraphy. "
+                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pineapple, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
-                    "The architecture features a wide rectangular tiered foundation, utilizing the golden-brown rugged spiked rind as a textured stone-like facade. "
-                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all carved with high-fidelity architectural details. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of succulent yellow pineapple flesh chunks, large fragments of removed spiked rind, and wet juice marks. "
-                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening yellow interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pineapple, resting on a high wooden table. "
+                    "The immense fruit building is centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide rectangular tiered foundation, utilizing the golden-brown rugged spiked rind follow the fruit curve as a textured stone-like facade. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all carved with high-fidelity architectural details. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of succulent yellow pineapple flesh chunks, large fragments of removed spiked rind, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mango, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
-                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth yellow-green rind. "
-                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant orange mango flesh chunks, large fragments of removed smooth rind, curled shavings, and wet juice marks. "
-                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mango, resting on a high wooden table. "
+                    "The immense fruit building is centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth yellow-green rind follow the fruit shape. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of vibrant orange mango flesh chunks, large fragments of removed smooth rind, curled shavings, and wet juice marks. "
+                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Buah Naga: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal dragon fruit, featuring full-surface deep engravings over the entire pink scaled rind. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal dragon fruit, featuring full-surface deep engravings follow the fruit curve over the entire pink scaled rind. "
                     "Every millimeter of the pink skin and green-tipped scales is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part untouched. "
-                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: glistening white flesh chunks with black seeds, fine-carved pink rind fragments, and wet juice marks. "
-                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the glistening white interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. No text or calligraphy. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris indicating monumental work: glistening white flesh chunks with black seeds, fine-carved pink rind fragments, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Nanas: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pineapple, featuring full-surface deep engravings over the rugged spiked rind. "
-                    "The entire golden-brown surface is transformed into hyper-detailed geometric relief and lace-like textures, integrating the natural thorns into the architectural design. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pineapple, featuring full-surface deep engravings follow the fruit curve over the rugged spiked rind. "
+                    "The entire golden-brown surface is transformed into hyper-detailed geometric relief and lace-like textures, integrating the natural thorns into the architectural design. No text or calligraphy. "
                     "The structure features a towering central dome and colossal minarets showcasing extreme multi-layered relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening yellow flesh chunks and fine-carved spiked rind shavings. "
-                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the dense, glistening yellow interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris indicating monumental work: thousands of glistening yellow flesh chunks and fine-carved spiked rind shavings. "
+                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Mangga: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal mango, featuring full-surface deep engravings over the entire yellow-green rind. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal mango, featuring full-surface deep engravings follow the fruit shape over the entire yellow-green rind. "
                     "Every millimeter of the smooth skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part of the rind untouched. "
-                    "The structure features a massive tiered dome and soaring minarets with high-fidelity architectural detail, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening orange flesh chunks and fine-carved mango rind shavings. "
-                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the dense, glistening rich-orange interior flesh reflecting natural golden hour sunlight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a massive tiered dome and soaring minarets with high-fidelity architectural detail, positioned precisely in front of the elderly Indonesian carver. No text or calligraphy. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris indicating monumental work: thousands of glistening orange flesh chunks and fine-carved mango rind shavings under natural golden hour sunlight. "
+                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Pepaya: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid papaya, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
-                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth green-orange rind. "
-                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant orange papaya flesh chunks, scattered black seeds, large fragments of removed smooth rind, and wet juice marks. "
-                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening orange interior flesh and small black seeds under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid papaya, resting on a high wooden table. "
+                    "The immense fruit building centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth green-orange rind follow the fruit shape. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris indicating colossal work: thousands of vibrant orange papaya flesh chunks, scattered black seeds, large fragments of removed smooth rind, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid snake fruit (salak), positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, with the dark brown scaly rind acting as a natural textured stone facade along the 1-meter width. "
-                    "The architecture features a grand central dome and soaring minarets, all intricately detailed to show the overlap of natural scales integrated into the design. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of firm ivory-white flesh chunks, large fragments of removed dark brown scaly skin, and wet marks. "
-                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the firm, glistening ivory-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid snake fruit (salak), resting on a high wooden table. "
+                    "The dark brown scaly rind acting as a natural textured stone facade follow the fruit curve along the 1-meter width, centered between the character and the camera. "
+                    "The architecture features a grand central dome and soaring minarets, all intricately detailed to show the overlap of natural scales integrated into the design. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris indicating colossal work: thousands of firm ivory-white flesh chunks, large fragments of removed dark brown scaly skin, and wet marks. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid banana, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, featuring a unique organic architectural layout carved from the smooth yellow rind. "
-                    "The structure features a series of majestic domes and slender minarets, with the wide foundation showing multi-layered architectural details. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of soft pale-yellow banana flesh chunks, large fragments of removed yellow peel, and glistening moist marks. "
-                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the dense, glistening pale-yellow interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid banana, resting on a high wooden table. "
+                    "The diorama spans 1 meter wide, featuring a unique organic architectural layout carved from the smooth yellow rind follow the fruit curve, centered between the character and the camera. "
+                    "The structure features a series of majestic domes and slender minarets, with the wide foundation showing multi-layered architectural details. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris indicating colossal work: thousands of soft pale-yellow banana flesh chunks, large fragments of removed yellow peel, and glistening moist marks under natural golden hour daylight. "
+                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pepaya: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal papaya, featuring full-surface deep engravings over the entire smooth green-orange rind. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal papaya, featuring full-surface deep engravings follow the fruit shape over the entire smooth green-orange rind. "
                     "Every millimeter of the skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part of the rind untouched. "
-                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening orange flesh chunks, scattered black seeds, and fine-carved rind shavings. "
-                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the dense, glistening orange interior flesh reflecting natural golden hour sunlight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. No text or calligraphy. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris indicating monumental work: thousands of glistening orange flesh chunks, scattered black seeds, and fine-carved rind shavings under natural golden hour sunlight. "
+                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Salak: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal snake fruit (salak), featuring full-surface deep engravings over the dark brown scaly rind. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal snake fruit (salak), featuring full-surface deep engravings follow the fruit curve over the dark brown scaly rind. "
                     "Every single scale on the skin is meticulously carved into intricate decorative patterns, creating a complex multi-layered architectural facade along the 1-meter width. "
-                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: firm ivory-white flesh chunks and fine-carved dark scaly skin shavings. "
-                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the firm, glistening ivory-white interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. No text or calligraphy. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris indicating monumental work: firm ivory-white flesh chunks and fine-carved dark scaly skin shavings. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Pisang: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal banana, featuring full-surface deep engravings over the entire yellow peel. "
-                    "The smooth yellow surface is completely transformed into hyper-detailed geometric relief and lace-like textures, leaving no part of the peel untouched. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal banana, featuring full-surface deep engravings follow the fruit curve over the entire yellow peel. "
+                    "The smooth yellow surface is completely transformed into hyper-detailed geometric relief and lace-like textures, leaving no part of the peel untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of pale-yellow flesh fragments, fine-edged yellow peel shavings, and moist marks. "
-                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening pale-yellow interior flesh under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris indicating monumental work: thousands of pale-yellow flesh fragments, fine-edged yellow peel shavings, and moist marks under natural daylight. "
+                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid rambutan fruit, positioned precisely in front of the elderly Indonesian carver. "
-                    "The architecture spans 1 meter wide, utilizing the bright red skin and soft organic hair-like spines as a unique decorative facade. "
-                    "The structure features a wide rectangular foundation and a grand central dome with soaring minarets, all intricately carved to integrate the fruit's natural texture into the walls. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of translucent-white succulent flesh chunks, large fragments of removed hairy red rind, and wet juice marks. "
-                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the translucent, glistening white interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid rambutan fruit, resting on a high wooden table. "
+                    "The architecture spans 1 meter wide, centered between the elderly Indonesian carver and the camera, utilizing the bright red skin and soft organic hair-like spines follow the fruit texture as a unique decorative facade. "
+                    "The structure features a wide rectangular foundation and a grand central dome with soaring minarets, all intricately carved to integrate the fruit's natural texture into the walls. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris indicating colossal work: thousands of translucent-white succulent flesh chunks, large fragments of removed hairy red rind, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid avocado, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the straight-on horizontal frame, with the dark green pebbled rind acting as a natural textured stone facade along the 1-meter width. "
-                    "The architecture features a grand arched entrance with thick pillars and a massive central dome. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy light-green and yellow flesh chunks, large fragments of removed rough dark rind, and moist marks. "
-                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, buttery, and glistening interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid avocado, resting on a high wooden table. "
+                    "The diorama fills the straight-on horizontal frame centered between the character and the camera, with the dark green pebbled rind acting as a natural textured stone facade follow the fruit curve along the 1-meter width. "
+                    "The architecture features a grand arched entrance portal with thick pillars and a massive central dome flanked by soarimg minarets. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris indicating colossal work: thousands of glistening creamy light-green and yellow flesh chunks, large fragments of removed rough dark rind, and moist marks under natural golden hour daylight. "
+                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Labu: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pumpkin, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, featuring a massive and grand horizontal layout carved from the thick orange rind. "
-                    "The structure features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of dense orange pumpkin flesh chunks, large fragments of removed thick rind, and wet juice marks with seeds. "
-                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pumpkin, resting on a high wooden table. "
+                    "The immense fruit building centered between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the thick orange rind follow the natural vertical ridges. "
+                    "The massive central dome is flanked by multiple high minarets, all intricately detailed with deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with realistic construction debris: thousands of dense orange pumpkin flesh chunks, large fragments of removed thick rind, and wet juice marks with seeds under natural golden hour daylight. "
+                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Rambutan: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal rambutan, featuring full-surface deep engravings over the red hairy rind. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal rambutan, featuring full-surface deep engravings follow the fruit curve over the red hairy rind. "
                     "Every millimeter of the red skin and every organic spine is meticulously carved into intricate decorative patterns, creating a complex multi-layered architectural facade. "
-                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-white flesh chunks and fine-carved hairy rind shavings. "
-                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the succulent, glistening white interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. No text or calligraphy. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-white flesh chunks and fine-carved hairy rind shavings wet with juice under natural golden hour daylight. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Alpukat: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal avocado, featuring full-surface deep engravings over the rough pebbled dark green rind. "
-                    "The entire textured surface is transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal avocado, featuring full-surface deep engravings follow the fruit curve over the rough pebbled dark green rind. "
+                    "The entire textured surface is transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: creamy light-green flesh fragments, fine-edged rough rind shavings, and moist marks. "
-                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, buttery interior flesh under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: creamy light-green flesh fragments, fine-edged rough rind shavings, and moist marks under natural golden hour daylight. "
+                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Labu: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pumpkin, featuring full-surface deep engravings over the entire thick orange rind. "
-                    "Every millimeter of the smooth orange skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pumpkin, featuring full-surface deep engravings follow the fruit shape over the entire thick orange rind. "
+                    "Every millimeter of the smooth orange skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of dense orange flesh fragments, fine-edged rind shavings, pumpkin seeds, and wet juice marks. "
-                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening orange interior flesh under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of dense orange flesh fragments, fine-edged rind shavings, pumpkin seeds, and wet juice marks under natural golden hour sunlight. "
+                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid grape material, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the horizontal frame, featuring a wide facade carved from the smooth purple-black skin of a giant grape. "
-                    "The architecture includes a grand central dome and soaring minarets, all intricately detailed with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of translucent-green succulent flesh chunks, large fragments of removed smooth purple skin, and wet juice marks. "
-                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the translucent, glistening green interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid grape material, resting on a high wooden table. "
+                    "The diorama fills the horizontal frame centered between the character and the camera, featuring a wide facade carved from the smooth purple-black skin follow the fruit shape. "
+                    "The architecture includes a grand central dome and soaring minarets, all intricately detailed with deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of translucent-green succulent flesh chunks, large fragments of removed smooth purple skin, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid strawberry, positioned precisely in front of the elderly Indonesian carver. "
-                    "The architecture spans 1 meter wide, utilizing the bright red seeded skin as a unique textured facade. "
-                    "The structure features a wide tiered foundation and a grand central dome with soaring minarets, all intricately carved to integrate the tiny seeds into the architectural patterns. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of pale-red and white succulent flesh chunks, large fragments of removed red seeded skin, and wet juice marks. "
-                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening pale-red interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid strawberry, resting on a high wooden table. "
+                    "The architecture spans 1 meter wide centered between the character and the camera, utilizing the bright red pitted skin follow the fruit shape as a unique textured facade. "
+                    "The structure features a wide tiered foundation and a grand central dome with soaring minarets, all intricately carved to integrate the tiny seeds into the architectural patterns. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of pale-red and white succulent flesh chunks, large fragments of removed red seeded skin, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Jeruk: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid orange (citrus), positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, featuring a massive horizontal layout carved from the porous orange rind. "
-                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant orange juice vesicles (pulps), large fragments of removed porous rind, and wet juice marks. "
-                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the glistening orange pulps under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid orange, resting on a high wooden table. "
+                    "The diorama spans 1 meter wide, featuring a massive horizontal layout carved from the porous orange rind follow the fruit curve, centered between the elderly Indonesian carver and the camera. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris indicating colossal work: thousands of vibrant orange juice vesicles, large fragments of removed porous rind, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid durian, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, utilizing the rugged golden-brown spiked rind as a massive, aggressive stone-like stone facade. "
-                    "The architecture features a towering central dome and multiple high minarets, with the natural sharp thorns integrated into the geometric pillars and walls. "
-                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy-yellow custard-like flesh chunks, large fragments of removed thick spiked rind, and wet marks. "
-                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, buttery, and glistening yellow interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid durian, resting on a high wooden table. "
+                    "The diorama spans 1 meter wide, utilizing the rugged golden-brown spiked rind follow the fruit shape as a massive, aggressive stone-like facade, centered between the character and the camera. "
+                    "The architecture features a towering central dome and multiple high minarets, with the natural sharp thorns integrated into the geometric pillars and walls. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy-yellow custard-like flesh chunks, large fragments of removed thick spiked rind, and wet marks under natural golden hour daylight. "
+                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Anggur: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal giant grape, featuring full-surface deep engravings over the smooth purple skin. "
-                    "Every millimeter of the surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal giant grape, featuring full-surface deep engravings follow the fruit curve over the smooth purple skin. "
+                    "Every millimeter of the surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-green flesh chunks and fine-carved purple skin shavings. "
-                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the succulent, glistening green interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-green flesh chunks and fine-carved purple skin shavings wet with juice marks under natural golden hour daylight. "
+                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Strawberry: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal strawberry, featuring full-surface deep engravings over the red seeded skin. "
-                    "The entire red surface and the tiny seeds are meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part untouched. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal strawberry, featuring full-surface deep engravings follow the fruit shape over the red seeded skin. "
+                    "The entire red surface and the tiny seeds are meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: pale-red and white flesh fragments, fine-edged red skin shavings, and moist marks. "
-                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening pale-red interior flesh under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris indicating monumental work: pale-red and white flesh fragments, fine-edged red skin shavings, and moist marks under natural golden hour daylight. "
+                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Jeruk: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal orange, featuring full-surface deep engravings over the entire porous orange rind. "
-                    "Every millimeter of the textured skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal orange, featuring full-surface deep engravings follow the fruit curve over the entire porous orange rind. "
+                    "Every millimeter of the textured skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of orange pulps, fine-edged rind shavings, and wet juice marks. "
-                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening orange interior pulps under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris indicating monumental work: thousands of orange pulps, fine-edged rind shavings, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Durian: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal durian, featuring full-surface deep engravings over the thick golden-brown spiked rind. "
-                    "Every millimeter of the rugged skin and every sharp thorn is meticulously transformed into hyper-detailed geometric relief and complex architectural patterns. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of creamy-yellow flesh fragments, fine-carved thick spiked rind shavings, and wet marks. "
-                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, buttery yellow interior flesh under natural golden hour light. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
-                ),
-                "Manggis: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mangosteen, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama fills the horizontal frame, featuring a wide facade carved from the thick, smooth purple-black rind along the 1-meter span. "
-                    "The architecture includes a massive central dome and soaring symmetrical minarets, all intricately detailed with deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of pearly-white succulent flesh chunks, large fragments of removed thick purple-black rind, and wet juice marks. "
-                    "Strictly no whole mangosteens, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances show the dense, glistening pearly-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
-                ),
-                "Apel: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid red apple, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, featuring a majestic horizontal layout carved from the smooth, glossy red rind. "
-                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of pale-white crisp apple flesh chunks, large fragments of removed glossy red peel, and wet juice marks. "
-                    "Strictly no whole apples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the dense, glistening pale-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
-                ),
-                "Kiwi: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid kiwi fruit, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, utilizing the fuzzy brown skin as a unique textured facade. "
-                    "The structure features a towering central dome and multiple high minarets, with the wide tiered foundation showing multi-layered architectural details. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant green flesh chunks with tiny black seeds, large fragments of removed fuzzy brown skin, and moist marks. "
-                    "Strictly no whole kiwis, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the glistening green interior flesh and patterns of tiny black seeds under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
-                ),
-                "Manggis: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal mangosteen, featuring full-surface deep engravings over the thick purple-black rind. "
-                    "Every millimeter of the surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal durian, featuring full-surface deep engravings follow the fruit curve over the thick golden-brown spiked rind. "
+                    "Every millimeter of the rugged skin and every sharp thorn is meticulously transformed into hyper-detailed geometric relief and complex architectural patterns. No text or calligraphy. "
                     "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw fruit construction debris: pearly-white flesh chunks and fine-carved purple rind shavings. "
-                    "Strictly no whole mangosteens, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "The deep architectural portals reveal the succulent, glistening white interior flesh reflecting natural golden hour daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy-yellow flesh fragments and fine-carved thick spiked rind shavings wet with juice marks. "
+                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
-                "Apel: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal red apple, featuring full-surface deep engravings over the glossy red rind. "
-                    "The entire red surface is meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: pale-white flesh fragments, fine-edged red peel shavings, and moist marks. "
-                    "Strictly no whole apples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening pale-white interior flesh under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+
+                "Manggis: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mangosteen, resting on a high wooden table. "
+                    "The diorama spans 1 meter wide centered between the elderly Indonesian carver and the camera, featuring a wide facade carved from the thick, smooth purple-black rind follow the fruit shape. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all intricately detailed with deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of pearly-white succulent flesh chunks, large fragments of removed thick purple-black rind, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole mangosteens, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
+                "Apel: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid red apple, resting on a high wooden table. "
+                    "The diorama spans 1 meter wide centered between the elderly Indonesian carver and the camera, featuring a majestic horizontal layout carved from the smooth, glossy red rind follow the fruit curve. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered across the workspace only with realistic construction debris indicating colossal work: thousands of pale-white crisp apple flesh chunks, large fragments of removed glossy red peel, and wet juice marks under natural golden hour daylight. "
+                    "Strictly no whole apples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+                ),
+
                 "Kiwi: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal kiwi fruit, featuring full-surface deep engravings over the fuzzy brown skin. "
-                    "The entire textured surface is transformed into hyper-detailed geometric relief and complex architectural patterns, leaving no part untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of green flesh fragments with black seeds, fine-carved fuzzy skin shavings, and moist marks. "
-                    "Strictly no whole kiwis, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the vibrant green interior flesh and black seed patterns under natural daylight. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "An architectural masterpiece of a mosque sculpted from a colossal kiwi fruit, featuring full-surface deep engravings follow the fruit curve over the fuzzy brown skin. "
+                    "The entire textured surface is transformed into hyper-detailed geometric relief and complex architectural patterns. No text or calligraphy. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of green flesh fragments with black seeds and fine-carved fuzzy skin shavings under natural golden hour daylight. "
+                    "Strictly no whole kiwis, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Biji Jagung: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of solid yellow corn kernels, positioned precisely in front of the elderly Indonesian carver. "
+                    "A monumental, complete grand mosque building constructed entirely from millions of solid yellow corn kernels, positioned precisely in front of the elderly Indonesian carver. "
                     "The structure spans 1 meter wide, with the kernels tightly packed to form a massive golden-yellow mosaic facade. "
-                    "The architecture features a wide rectangular foundation and a grand central dome flanked by four soaring minarets, all showing a dense organic texture. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw material debris: thousands of loose yellow corn kernels and small fragments of broken maize. "
-                    "Strictly no whole corn cobs, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
-                    "Deeply recessed entrances show the solid, matte yellow texture under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The architecture features a wide rectangular foundation and a grand central dome flanked by four soaring minarets, showing a dense organic texture. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose yellow corn kernels and small fragments of broken maize. "
+                    "Strictly no whole corn cobs, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Biji Kacang Ijo: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of small solid green mung beans, positioned precisely in front of the elderly Indonesian carver. "
+                    "A monumental, complete grand mosque building constructed entirely from millions of small solid green mung beans, positioned precisely in front of the elderly Indonesian carver. "
                     "The diorama fills the horizontal frame, featuring a wide facade with a dense green matte texture along the 1-meter span. "
-                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed green beans. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed green beans. No text or calligraphy. "
                     "The long wooden table is heavily cluttered only with raw material debris: thousands of loose green mung beans scattered across the workspace. "
-                    "Strictly no whole bean pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw bean material debris. "
-                    "Deeply recessed entrances show the dense, earthy green texture under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Strictly no whole bean pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw bean material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Cabe: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mass of red chili peppers, positioned precisely in front of the elderly Indonesian carver. "
-                    "The architecture spans 1 meter wide, utilizing the bright waxy red skin of the chili as a vibrant decorative facade. "
-                    "The structure features a towering central dome and multiple high minarets with the natural curves of the chili integrated into the pillars. "
+                    "A monumental, complete grand mosque building sculpted entirely from a colossal solid mass of red chili peppers, positioned precisely in front of the elderly Indonesian carver. "
+                    "The architecture spans 1 meter wide, utilizing the bright waxy red skin follow the fruit shape as a vibrant decorative facade. "
+                    "The structure features a towering central dome and multiple high minarets with natural curves integrated into the pillars. No text or calligraphy. "
                     "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of sliced red chili pieces, scattered white seeds, and wet juice marks. "
-                    "Strictly no whole intact chilies, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the glistening red interior and white seeds under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "Strictly no whole intact chilies, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Tomat: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid tomato, positioned precisely in front of the elderly Indonesian carver. "
-                    "The diorama spans 1 meter wide, featuring a majestic horizontal layout carved from the smooth, glossy red tomato skin. "
-                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant red tomato flesh chunks, clusters of watery seeds, and wet juice marks. "
-                    "Strictly no whole tomatoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed entrances reveal the dense, glistening red interior flesh and watery seeds under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "A monumental, complete grand mosque building sculpted entirely from a colossal solid tomato, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a majestic horizontal layout carved from the smooth, glossy red tomato skin follow the fruit shape. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of vibrant red tomato flesh chunks, clusters of watery seeds, and wet juice marks. "
+                    "Strictly no whole tomatoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris under natural golden hour daylight. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+                
                 "Biji Kedelai Hitam: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of solid black soybean grains, positioned precisely in front of the elderly Indonesian carver. "
+                    "A monumental, complete grand mosque building constructed entirely from millions of solid black soybean grains, positioned precisely in front of the elderly Indonesian carver. "
                     "The structure spans 1 meter wide, with the small black beans tightly packed to form a massive, deep-black glossy mosaic facade. "
-                    "The architecture features a wide rectangular tiered foundation and a grand central dome flanked by four soaring minarets, all showing a dense organic black texture. "
-                    "The long wooden table is heavily cluttered across the entire workspace only with raw material debris: thousands of loose black soybeans scattered across the surface. "
-                    "Strictly no whole pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
-                    "Deeply recessed entrances show the solid, dark-onyx texture under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The architecture features a wide rectangular tiered foundation and a grand central dome flanked by four soaring minarets, all showing a dense organic black texture. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose black soybeans scattered under natural golden hour daylight. "
+                    "Strictly no whole pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
+
                 "Biji Kuaci: Diorama Monumental": (
-                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of sunflower seeds (kuaci), positioned precisely in front of the elderly Indonesian carver. "
+                    "A monumental, complete grand mosque building constructed entirely from millions of sunflower seeds (kuaci), positioned precisely in front of the elderly Indonesian carver. "
                     "The diorama fills the horizontal frame, featuring a wide facade with the natural black-and-white striped patterns of the seeds along the 1-meter span. "
-                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed striped seeds. "
-                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose sunflower seeds and broken seed shells scattered across the workspace. "
-                    "Strictly no whole sunflowers, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
-                    "Deeply recessed entrances show the dense, organic striped texture under natural golden hour daylight, strictly no internal lighting. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed striped seeds. No text or calligraphy. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose sunflower seeds and broken seed shells scattered under natural golden hour daylight. "
+                    "Strictly no whole sunflowers, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. No internal lighting Mechanisms. "
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
+                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 )
 
             },        
@@ -1851,783 +1926,16 @@ def tampilkan_halaman():
             }
         }
 
-        # --- 3. MASTER LOKASI (FIXED: NATURAL CLUTTER & SOLID BACKDROP) ---
         MASTER_GRANDMA_SETTING = {
-            "Bengkel Kerja Warung": (
-                "The character is seated on a simple wooden stool behind the workspace. "
-                "Background: a humble village warung with weathered wooden walls and hanging coffee sachets. "
-                "The atmosphere is cozy and traditional with natural light coming from the open front."
-            ),
-            "Lincak Bambu Depan Rumah": (
-                "The character is seated on a wide rustic bamboo bench (lincak) behind the workspace. "
-                "Background: a weathered red brick wall of a village house and an old dusty motorbike parked to the side. "
-                "The scene is set outdoors under a porch with natural rural lighting."
-            ),
-            "Jalan Tanah Merah & Kebun": (
-                "The character is seated on a large flat stone or a low wooden crate behind the workspace by a red dirt path. "
-                "Background: dense bamboo trees, lush banana leaves, and a raw outdoor garden environment. "
-                "The ground shows tire tracks and scattered dry leaves under natural daylight."
-            ),
-            "Pertigaan Kampung (Pos Ronda)": (
-                "The character is seated on the built-in wooden bench of a village guard post (Pos Ronda). "
-                "Background: a quiet village junction with a distant blurred road and a large wooden kentongan (slit drum) nearby. "
-                "The setting captures the quiet daily life of a rural Indonesian neighborhood."
-            ),
-            "Pinggir Jalan Depan Pagar Bambu": (
-                "Sitting on a plastic chair on the shoulder of a quiet village street. "
-                "The background is a long, rustic bamboo fence (pagar gedeg) with a passing motorbike rider wearing a typical village helmet. "
-                "The floor is a mix of sun-baked soil and thin patches of moss near the drainage ditch. "
-                "Surrounding objects: a large stone used for sitting, a plastic bucket of water, and a few stray dogs resting in the shade."
-            ),
-            "Jalan Gang Sempit (Paving Block)": (
-                "Sitting on a low cement step in a narrow residential alleyway (gang). "
-                "The background shows the tight space between houses with a parked motorbike partially blocking the way. "
-                "The ground is made of mossy, cracked paving blocks with weeds growing in the gaps. "
-                "Surrounding objects: a row of potted plants in recycled cans, a hanging laundry line, and a kid's plastic tricycle nearby."
-            ),
-            "Pinggir Jalan Utama Desa": (
-                "Sitting on a wooden bench under a large flamboyant tree by the main village road. "
-                "The background features the hustle and bustle of the village with a couple of motorbikes and a bicycle passing by in the distance. "
-                "The ground is dusty grey earth with scattered fallen red flowers. "
-                "Surrounding objects: a stack of wooden crates, an old public bench, and a small wooden kiosk (warung) visible in the background."
-            ),
-            "Gubug Tengah Sawah": (
-                "Sitting on the edge of a small, weathered wooden hut (gubug) in the middle of a vast rice field. "
-                "The background features endless green rice stalks swaying in the wind under a bright sky. "
-                "The floor is made of rough bamboo slats (lupuh) with a dusty texture. "
-                "Surrounding objects: a pair of muddy rubber boots, a rusted sickle (arit), and a plastic water jug wrapped in a wet cloth."
-            ),
-            "Pematang Sawah (Galengan)": (
-                "Sitting on a low wooden stool on a narrow, muddy path (pematang) between rice plots. "
-                "The background shows farmers in the distance wearing conical hats (caping) working in the mud. "
-                "The ground is dark, wet clay with visible footprints and small patches of wild grass. "
-                "Surrounding objects: a bamboo basket (tenggok) filled with harvested weeds, a traditional hoe (cangkul) stuck in the mud, and a passing dragonfly."
-            ),
-            "Pinggir Irigasi Sawah": (
-                "Sitting on a concrete ledge of a small irrigation canal at the edge of the fields. "
-                "The background is a mix of rice fields and a few coconut trees lining the horizon. "
-                "The water in the canal is murky brown, flowing slowly over mossy stones. "
-                "Surrounding objects: a discarded snack wrapper, a plastic bucket, and a pile of dry hay (jerami) nearby."
-            ),
-            "Tempat Perontokan Padi": (
-                "Sitting on a pile of dry rice straw (jerami) under a temporary blue tarpaulin tent. "
-                "The background is a wide open field with piles of harvested rice stalks waiting to be processed. "
-                "The ground is covered in golden rice husks (sekam) and dry dust. "
-                "Surrounding objects: a traditional wooden rice thresher, several large white sacks (karung) filled with grain, and a dusty bicycle."
-            ),
-            "Batas Sawah & Jalan Desa": (
-                "Sitting on a large rock where the rice field meets a dusty dirt road. "
-                "The background features a muddy motorbike parked by the road and a vast expanse of young green rice plants. "
-                "The ground is a transition between dry gravel and wet, dark soil. "
-                "Surrounding objects: a conical bamboo hat (caping) resting on the rock, a wooden rake, and a plastic bottle of iced tea."
-            ),
-            "Jembatan Kayu Kecil": (
-                "Sitting on a simple, creaky wooden bridge crossing a small stream between two rice fields. "
-                "The background is a lush, overgrown riverbank with banana leaves and tall reeds. "
-                "The floor of the bridge is made of grey, weathered wood planks with gaps showing the water below. "
-                "Surrounding objects: a stack of freshly cut grass for livestock, a small fishing net, and a blue plastic bucket."
-            ),
-            "Tengah Kebun Mangga Lebat": (
-                "Sitting on a low wooden stool, surrounded by a dense forest of mango trees with low-hanging branches full of green and yellow mangoes. "
-                "The background is a solid wall of thick green leaves, completely obscuring the sky. "
-                "The ground is dark, damp soil covered in a carpet of dry brown leaves and fallen rotting fruits. "
-                "Surrounding objects: a large bamboo ladder leaning against a branch right next to her, several overflowing bamboo baskets (tenggok), and a long harvesting pole (genter)."
-            ),
-            "Hutan Pisang & Jantung Pisang": (
-                "Sitting on a pile of dry banana leaves in the heart of a chaotic, dense banana plantation. "
-                "The background is dominated by massive, overlapping tattered green banana leaves and purple banana hearts hanging everywhere. "
-                "The ground is soft and muddy with decaying banana trunks and scattered weeds. "
-                "Surrounding objects: a rusted machete (parang) stuck in a soft trunk, a bunch of harvested green bananas, and a few chickens pecking in the shadows."
-            ),
-            "Kebun Rambutan Rimbun": (
-                "Sitting on a woven mat in a shady area completely enclosed by rambutan trees laden with bright red, hairy fruits. "
-                "The background is a sea of red fruits and dark green foliage, creating a warm, filtered light. "
-                "The floor is dry earth with scattered red fruit skins and broken twigs. "
-                "Surrounding objects: a large pile of freshly picked rambutan branches, an old plastic bucket, and a conical bamboo hat (caping) resting on the ground."
-            ),
-            "Lorong Kebun Pepaya & Cabai": (
-                "Sitting on a plastic chair in a narrow path between rows of tall papaya trees with clusters of fruit on their trunks. "
-                "The background shows layers of green papaya leaves and chili bushes filled with bright red peppers. "
-                "The ground is dark fertile soil with visible irrigation ridges and dry grass. "
-                "Surrounding objects: a watering can made from a large jerrycan, a wooden crate for fruit collection, and a rolled-up black garden hose."
-            ),
-            "Kebun Salak Berduri": (
-                "Sitting on a flat stone at the edge of a dense, thorny Salak (Snakefruit) grove. "
-                "The background is a prickly wall of sharp, fan-like palm leaves, looking very rustic and wild. "
-                "The ground is covered in dry palm fronds and clusters of brown, scaly snakefruits near the roots. "
-                "Surrounding objects: a pair of thick work gloves, a small harvesting knife, and a bamboo basket half-filled with salak."
-            ),
-            "Rumpun Bambu & Pohon Nangka": (
-                "Sitting on a bamboo bench surrounded by giant bamboo stalks and heavy jackfruit trees (Nangka). "
-                "The background features enormous jackfruits hanging directly from the thick trunks, covered in textured green skin. "
-                "The ground is a mix of dry sand and bamboo leaf litter. "
-                "Surrounding objects: a large sack (karung) filled with jackfruit seeds, a wooden mallet, and an old bicycle leaning against a bamboo pole."
-            ),
-            "Kebun Stroberi (Bedengan Mulsa)": (
-                "Sitting on a low plastic stool in the middle of a neat strawberry farm. "
-                "The background features long rows of raised soil beds covered in shiny silver plastic mulch (mulsa), with bright red strawberries peeking from green leaves. "
-                "The ground between the rows is dry, hard-packed earth with scattered straws. "
-                "Surrounding objects: a small plastic crate filled with fresh strawberries, a pair of garden shears, and a small sun-hat resting nearby."
-            ),
-            "Ladang Nanas Berduri": (
-                "Sitting on a flat rock at the edge of a vast pineapple field. "
-                "The background is filled with low-growing, sharp-edged pineapple plants with ripening fruits on central stalks under a blazing sun. "
-                "The ground is sandy, dry red soil with thin patches of dry grass. "
-                "Surrounding objects: a pair of thick protective gloves, a long harvesting knife, and a plastic water bottle half-buried in the sand."
-            ),
-            "Kebun Cabe Merah (Siap Panen)": (
-                "Sitting on a wooden crate in a dense chili plantation. "
-                "The background is a sea of green bushes heavily laden with bright, shiny red chilies pointing upwards. "
-                "The ground is dark fertile soil with visible white fertilizer specks and dry weeds. "
-                "Surrounding objects: a large bamboo basket (tenggok) overflowing with red chilies, a small handheld sprayer, and a frayed straw mat."
-            ),
-            "Kebun Pisang Lebat": (
-                "Sitting on a fallen, decaying banana trunk in a dense, shady banana grove. "
-                "The background is dominated by massive green banana leaves and heavy bunches of green bananas hanging low. "
-                "The ground is soft and damp, covered with brown rotting banana leaves and small mushrooms. "
-                "Surrounding objects: a rusted machete (parang) stuck in a stump, a bunch of harvested bananas, and a few chickens pecking in the shadows."
-            ),
-            "Ladang Semangka (Merambat)": (
-                "Sitting on a large wooden plank in the middle of a wide-open watermelon field. "
-                "The background is a carpet of green vines crawling across the ground with large, round striped watermelons laying everywhere. "
-                "The ground is sun-baked grey earth with cracks and dry vine tendrils. "
-                "Surrounding objects: a pile of harvested watermelons, a large jug of tea, and a simple bamboo rake."
-            ),
-            "Kebun Sayur Campuran": (
-                "Sitting on a low bench surrounded by a mix of long beans on bamboo trellises and ripening papayas. "
-                "The background is a vibrant mix of various green foliage and textures. "
-                "The ground is dark soil with realistic irrigation furrows and scattered garden tools. "
-                "Surrounding objects: a watering can made from a large jerrycan, a pile of harvested long beans, and a conical bamboo hat (caping)."
-            ),
-            "Kebun Bunga Matahari": (
-                "Sitting on a wooden bench surrounded by towering, bright yellow sunflowers. "
-                "The background is a solid wall of large green leaves and massive sunflower heads facing the sun. "
-                "The ground is dry earth with fallen yellow petals and scattered dry leaves. "
-                "Surrounding objects: a large watering can, a pair of garden gloves on the bench, and a few butterflies hovering around the flowers."
-            ),
-            "Taman Bunga Warna-Warni (Pekarangan)": (
-                "Sitting on a low cement step in a garden filled with blooming marigolds, jasmines, and red hibiscus. "
-                "The background is a vibrant mix of orange, white, and red flowers against a backdrop of dark green shrubs. "
-                "The floor is a mix of weathered terracotta tiles and small pebbles. "
-                "Surrounding objects: a stack of terracotta flower pots, a small hand trowel, and a plastic bucket of water."
-            ),
-            "Kebun Sayur Mayur (Lahan Bedengan)": (
-                "Sitting on a low plastic stool in a productive vegetable garden. "
-                "The background shows neat rows of green spinach, mustard greens (sawi), and bushy kale plants. "
-                "The ground is dark, moist fertile soil with visible white fertilizer specks. "
-                "Surrounding objects: a bamboo basket (tenggok) filled with freshly picked greens, a small handheld sprayer, and a pair of worn-out rubber sandals."
-            ),
-            "Lorong Sayur Rambat (Pare & Kacang Panjang)": (
-                "Sitting on a bamboo bench under a simple trellis (parapara) made of bamboo poles. "
-                "The background is a shaded tunnel of hanging long beans and bitter gourds (pare) with their textured green skin. "
-                "The floor is shaded soil with patches of moss and dry grass. "
-                "Surrounding objects: a pile of harvested long beans, a rusted sickle (arit) on a wooden post, and a bottle of iced tea."
-            ),
-            "Kebun Terong & Tomat": (
-                "Sitting on a wooden crate between rows of heavy-laden purple eggplant bushes and ripening red tomatoes. "
-                "The background features layers of large green leaves and shiny, colorful vegetables hanging low. "
-                "The ground is sun-baked earth with dry vine tendrils and visible irrigation furrows. "
-                "Surrounding objects: a plastic crate for vegetable collection, a conical bamboo hat (caping), and a garden hose."
-            ),
-            "Kebun Jagung Rimbun": (
-                "Sitting on a flat stone at the edge of a dense, tall cornfield. "
-                "The background is a sea of tall, rustling corn stalks with large leaves and visible corn cobs with silky hair. "
-                "The ground is dry, dusty soil with scattered corn husks (klobot). "
-                "Surrounding objects: a large burlap sack (karung goni), a small wooden stool, and an old bicycle leaning against the corn stalks."
-            ),
-            "Sudut Dapur Tungku": (
-                "Sitting on a low wooden stool (dingklik) next to a traditional clay wood-fire stove (tungku). "
-                "The background is a solid wall of soot-covered bricks (tembok pawon) with deep black carbon stains and rough mortar. "
-                "The floor is hard-packed earth with scattered white wood ash, burnt charcoal bits, and dry twigs. "
-                "Surrounding objects: a soot-blackened aluminum kettle, a pile of split firewood, and an old coconut shell dipper (gayung batok) on a wooden bucket."
-            ),
-            "Teras Bambu & Lincak": (
-                "Sitting on a creaky, polished bamboo platform (lincak) under a low-hanging thatched roof made of dried palm leaves. "
-                "The background is a solid wall of old, woven bamboo sheets (gedek) with visible greyish fading fibers. "
-                "The floor is unpolished grey cement with fine sandy textures. "
-                "Surrounding objects: a hand-woven leaf fan (kipas bambu), an old sarong draped on a wooden rail, a coil of mosquito coil with its white ash, and a chipped enamel mug."
-            ),
-            "Gudang Kayu Tua": (
-                "Sitting on a floor made of rough timber planks inside a dark shed. "
-                "The background is a solid wall of aged, uneven wood boards with visible woodworm holes, peeling bark, and dusty cobwebs in the corners. "
-                "The floor is covered in a layer of fine sawdust, dry teak leaves, and wood shavings. "
-                "Surrounding objects: a rusted sickle (arit) leaning against a post, a stack of old burlap sacks (karung goni), and a broken wooden ladder."
-            ),
-            "Lantai Ubin Motif Jadul": (
-                "Sitting on a floor of classic 'Ubin PC' (vintage cement tiles) with faded floral patterns and weathered cracks. "
-                "The background is a solid whitewashed brick wall with realistic peeling paint and damp mossy patches near the base. "
-                "The environment is clean but aged. "
-                "Surrounding objects: a small wooden vintage radio, a plate of steamed bananas, and an old pair of rubber 'Sandal Jepit' with a wire repair."
-            ),
-            "Bawah Pohon Sawo": (
-                "Sitting directly on the dry ground in a shaded backyard. "
-                "The floor is a realistic mix of dark soil, small grey river stones, and crunchy fallen brown leaves. "
-                "The background is the thick, gnarled trunk of an old fruit tree with rough, deeply textured bark. "
-                "Surrounding objects: a bamboo rake (garu), an old plastic bucket, and a few chickens wandering in the background."
-            ),
-            "Gubuk Tengah Sawah": (
-                "Sitting on a raised platform of a small bamboo 'Gubug' (hut). "
-                "The floor is made of uneven bamboo slats (pancuh) with visible gaps showing the muddy earth and weeds below. "
-                "The background is a vast green paddy field with swaying rice stalks. "
-                "Surrounding objects: a worn-out conical straw hat (caping), a rusty sickle stuck in a bamboo post, and a plastic water bottle wrapped in a damp cloth."
-            ),
-            "Teras Pos Kamling (Malam/Sore)": (
-                "Sitting on a long wooden bench inside a village guard post (Pos Kamling). "
-                "The background is a wooden wall decorated with a faded duty roster and a large wooden slit drum (kentongan). "
-                "The floor is hard-packed dirt with scattered dry peanut shells and a few cigarette butts. "
-                "Surrounding objects: a dusty kerosene lamp (off), a deck of worn-out playing cards on the bench, and an old sarong hanging on a nail."
-            ),
-            "Pangkalan Angkot Pedesaan": (
-                "Sitting on a plastic chair under a rusty corrugated iron shelter at a village transport hub. "
-                "The background features a faded blue or yellow public minivan (Angkot) parked nearby with mud-splattered tires. "
-                "The ground is cracked asphalt with puddles of murky water and discarded snack wrappers. "
-                "Surrounding objects: a stack of used tires, a small wooden kiosk selling cigarettes, and a weathered public transport sign."
-            ),
-            "Pinggir Rel Kereta (Area Pemukiman)": (
-                "Sitting on a low cement wall very close to a railway track that cuts through a village. "
-                "The background shows the backs of small village houses with laundry hanging on lines and overgrown weeds. "
-                "The ground is covered in grey ballast stones and patches of oil-stained dirt. "
-                "Surrounding objects: a rusty signal pole, a discarded plastic bucket, and a small vegetable patch grown right next to the tracks."
-            ),
-            "Halaman Bengkel Las / Pandai Besi": (
-                "Sitting on a wooden crate in front of a traditional blacksmith (Pandai Besi) workshop. "
-                "The background is a dark, soot-covered shed with glowing embers and various iron tools hanging on the wall. "
-                "The floor is covered in black charcoal dust and metallic scraps. "
-                "Surrounding objects: a heavy anvil on a log, a pile of raw iron bars, and a large bucket of murky cooling water."
-            ),
-            "Bawah Pohon Beringin Besar": (
-                "Sitting on a large, gnarled tree root of a massive, ancient Banyan tree (Pohon Beringin). "
-                "The background is filled with thick, hanging aerial roots and dense dark green foliage, creating a mysterious atmosphere. "
-                "The ground is covered in a thick layer of dry leaves and mossy stones. "
-                "Surrounding objects: a small stone shrine with dry flower offerings (sesaji), an old bicycle, and a weathered wooden bench."
-            ),
-            "Depan Penggilingan Kerupuk": (
-                "Sitting on a stool in front of a home-based cracker factory (Pabrik Kerupuk). "
-                "The background shows hundreds of round bamboo trays (tampah) filled with colorful raw crackers drying in the sun. "
-                "The ground is sun-baked white cement with a thin layer of flour dust. "
-                "Surrounding objects: a large frying wok (wajan), several stacked tins of crackers (kaleng kerupuk), and a dusty delivery motorbike."
-            ),
-            "Gubuk Deru Hujan": (
-                "Sitting inside a small field hut with a thick, shaggy thatched roof (atap rumbia). "
-                "The floor is wet bamboo with realistic water puddles and mud stains. "
-                "The background is a misty view of rain falling on the rice fields. "
-                "Surrounding objects: an old burlap sack used as a raincoat, a clay pot for boiling water, and a pair of mud-stained rubber boots."
-            ),
-            "Gubuk Panen Jerami": (
-                "Sitting on a thick pile of dry, golden rice stalks (jerami) inside a rough teak-wood hut. "
-                "The background is a harvested rice field with scattered hay stacks. "
-                "The environment is filled with loose straw and golden husks. "
-                "Surrounding objects: a large woven basket (tenggok) filled with unhusked rice, a traditional wooden rake, and a stained enamel plate."
-            ),
-            "Kandang Kambing Kayu": (
-                "Sitting on a weathered wooden plank platform next to an empty livestock pen. "
-                "The background is a solid wall of vertical dark teak wood slats with visible wood grain and gaps. "
-                "The floor is a mix of dry soil and scattered hay. "
-                "Surrounding objects: an old woven grass basket (kranjang rumput), a rusted metal bucket, and a hanging kerosene lantern (without light)."
-            ),
-            "Bawah Pohon Bambu": (
-                "Sitting on a pile of dry, crunchy bamboo leaves (klaras) in a secluded grove. "
-                "The background is a dense thicket of green and yellow bamboo poles (Pring Petung). "
-                "The floor is dark, damp soil mixed with fallen organic debris. "
-                "Surrounding objects: a pile of bamboo shoots (rebung), an old rusty bicycle carrier, and a small birdcage hanging from a branch."
-            ),
-            "Sumur Tua Berlumut": (
-                "Sitting on a low mossy stone wall next to a traditional village well (sumur timba). "
-                "The background is a solid wall of old red bricks covered in thick green moss and ferns. "
-                "The floor is wet grey cement with realistic puddles and water stains. "
-                "Surrounding objects: a black rubber bucket with a frayed rope, a bar of soap on a stone, and a pair of wooden clogs (gapyak)."
-            ),
-            "Pinggir Lapangan Voli Desa": (
-                "Sitting on a weathered wooden bench at the edge of a dusty, hard-packed dirt volleyball court. "
-                "The background features a sagging net and a few village youths playing in soft focus. "
-                "The ground is dry, dusty earth with white chalk lines for the court boundaries. "
-                "Surrounding objects: a plastic water gallon, a few scattered sandals, and a rusty bicycle leaning against a tree."
-            ),
-            "Tempat Pembuatan Batu Bata (Lio)": (
-                "Sitting on a stack of unbaked grey clay bricks inside a large open-walled shed. "
-                "The background shows rows of thousands of red bricks stacked in a pyramid shape. "
-                "The floor is covered in fine red brick dust and dry straw used for firing. "
-                "Surrounding objects: a wooden brick mold, a pile of wet dark clay, and a soot-covered furnace in the distance."
-            ),
-            "Halaman Jemuran Baju semrawut": (
-                "Sitting on a plastic chair in a narrow backyard filled with hanging laundry. "
-                "The background is a solid wall of colorful clothes, sarongs, and towels hanging on makeshift bamboo poles. "
-                "The ground is damp cement with patches of green moss and soap suds. "
-                "Surrounding objects: a plastic laundry basin, a tangled garden hose, and a few stray kittens playing nearby."
-            ),
-            "Pinggir Hutan Bambu & Sungai": (
-                "Sitting on a large mossy rock where a bamboo forest meets a small stream. "
-                "The background is a dense, dark green thicket with sunlight barely breaking through the bamboo leaves. "
-                "The ground is a mix of wet river sand, smooth pebbles, and decaying bamboo leaves. "
-                "Surrounding objects: a bamboo fishing rod, a blue plastic bucket, and a pile of river stones."
-            ),
-            "Tempat Pembuatan Batu Bata (Lio)": (
-                "Sitting on a stack of unbaked grey clay bricks inside a large open-walled shed. "
-                "The background shows rows of thousands of red bricks stacked in a pyramid shape. "
-                "The floor is covered in fine red brick dust and dry straw used for firing. "
-                "Surrounding objects: a wooden brick mold, a pile of wet dark clay, and a soot-covered furnace in the distance."
-            ),
-            "Pinggir Sungai Berbatu": (
-                "Sitting on a massive flat grey river stone. "
-                "The background is a flowing river with white water splashes and smooth boulders. "
-                "The floor is a mix of rounded pebbles, fine sand, and sun-bleached drift-wood. "
-                "Surrounding objects: a bamboo fishing rod, a small plastic bucket, and a sarong laid out to dry on a rock."
-            ),
-            "Lantai Tanah & Jemuran Gabah": (
-                "Sitting on a low plastic stool on a flat, swept dirt floor (tanah liat). "
-                "The background is a solid wall of old red bricks with mossy patches and white salt stains. "
-                "The floor is covered by a large blue plastic tarp used for drying unhusked rice (gabah). "
-                "Surrounding objects: a bamboo broom (sapu lidi), a wooden rake, and a few scattered chickens picking at the grain."
-            ),
-            "Pojok Gudang Kayu Bakar": (
-                "Sitting on a stack of rough timber planks in a shed. "
-                "The background is a massive pile of split firewood (kayu bakar) stacked unevenly reaching the ceiling. "
-                "The floor is covered in dry bark, wood chips, and fine sawdust. "
-                "Surrounding objects: an old rusted axe, a pile of dry coconut husks (sepet), and a dusty spiderweb in the corner."
-            ),
-            "Samping Kandang Ayam": (
-                "Sitting on a wooden crate next to a bamboo chicken coop (kandang ayam petelur). "
-                "The background is a wall of bamboo slats with visible wire mesh and feathers stuck in the gaps. "
-                "The floor is dark soil mixed with dry straw and grain husks. "
-                "Surrounding objects: a plastic feed bucket, a pile of old bamboo poles, and a discarded rubber tire used as a planter."
-            ),
-            "Teras Belakang & Cucian Piring": (
-                "Sitting on a cold cement steps near a backyard washing area. "
-                "The background is a solid wall of unpainted cement with green water stains and mold. "
-                "The floor is wet and slippery with realistic soap suds and puddles. "
-                "Surrounding objects: a stack of enamel plates, a blackened cooking pot, a pair of worn-out sandals (sandal jepit), and a plastic basin."
-            ),
-            "Bawah Pohon Melinjo": (
-                "Sitting on the ground on top of a flattened cardboard box. "
-                "The background is the trunk of a tall Gnetum gnemon tree (pohon melinjo) and a dense thicket of wild shrubs. "
-                "The floor is covered in small yellowish melinjo seeds and dry, crunchy leaves. "
-                "Surrounding objects: a bamboo basket (tenggok) for gathering leaves, and an old radio on a stone."
-            ),
-            "Pojok Genteng Tua": (
-                "Sitting on a low wooden plank leaning against a massive stack of old, mossy terracotta roof tiles (genteng tanah liat). "
-                "The background is a solid wall of stacks of tiles with realistic chips, cracks, and patches of grey lichen. "
-                "The floor is dark, damp soil with scattered broken tile fragments and small ferns. "
-                "Surrounding objects: an old bamboo ladder, a rusted watering can, and a pile of dry coconut husks (sepet)."
-            ),
-            "Selasar Kandang Sapi": (
-                "Sitting on a thick timber beam next to a traditional village cattle pen made of heavy teak logs. "
-                "The background is a solid wall of dark, weathered wood with visible rope tie-marks and animal-rubbed textures. "
-                "The floor is a mix of packed earth and dried yellow straw (jerami). "
-                "Surrounding objects: a large woven bamboo basket (tenggok) filled with grass, a plastic bucket, and an old salt-lick block on a stump."
-            ),
-            "Jemuran Pakaian Belakang": (
-                "Sitting on a low stone next to a simple clothesline made of frayed plastic rope tied between two trees. "
-                "The background is a solid wall of unpainted, weathered grey cement with water stains and peeling moss. "
-                "The floor is uneven dirt with small puddles of soapy water and a few plastic clothespins scattered around. "
-                "Surrounding objects: a pile of wet laundry in a plastic basin, a pair of wooden clogs (bakiak), and a small cat playing with a thread."
-            ),
-            "Pojok Kebun Singkong": (
-                "Sitting on a fallen log in the middle of a dense cassava plantation. "
-                "The background is a wall of vertical cassava stems and large, palmate green leaves. "
-                "The ground is covered in dark, loose soil with realistic root bumps and dry weeds. "
-                "Surrounding objects: a pile of harvested cassava roots with clinging dirt, and a worn-out conical straw hat (caping)."
-            ),
-            "Gubuk Alat Tani": (
-                "Sitting on a stack of old burlap sacks inside a small, open-air tool shed. "
-                "The background is a solid wall of vertically arranged bamboo poles with farm tools hanging from rusty nails. "
-                "The floor is covered in a layer of fine dust, dry grass, and old fertilizer bags. "
-                "Surrounding objects: a bamboo rake (garu), and an old radio playing static on a wooden crate."
-            ),
-            "Kebun Semangka": (
-                "Sitting on a flat wooden plank in the middle of a sprawling watermelon field. "
-                "The background is a solid carpet of large, lobed green leaves and tangled curly vines (sulur) spreading across the ground. "
-                "The floor is dry, sandy soil with realistic cracks and scattered straw mulch. "
-                "Surrounding objects: several large striped watermelons still attached to vines, a pile of harvested fruit, and an old plastic bucket for watering."
-            ),
-            "Kebun Melon": (
-                "Sitting on a low stool inside a greenhouse or open melon farm with vertical bamboo trellises (ajir). "
-                "The background is a wall of hanging green melons supported by small plastic nets and climbing vines. "
-                "The floor is covered in black plastic mulch (mulsa) with small holes where the stems grow out. "
-                "Surrounding objects: a small notebook for recording harvest, and a discarded fertilizer bag."
-            ),
-            "Kebun Nanas": (
-                "Sitting on a clear patch of earth surrounded by sharp, spiky pineapple plants. "
-                "The background is a dense sea of long, serrated grey-green leaves with a few pineapples growing from the centers. "
-                "The floor is reddish-brown volcanic soil with small pebbles and dry weeds. "
-                "Surrounding objects: a thick pair of protective gloves, a large woven basket (tenggok), and a wooden crate for fruit."
-            ),
-            "Kebun Buah Naga": (
-                "Sitting on a stone against a background of concrete pillars covered in sprawling Dragon Fruit cactus vines. "
-                "The facade features long, triangular green cactus arms hanging down like organic curtains. "
-                "The floor is dry dirt with fallen pink flower petals and small stone fragments. "
-                "Surrounding objects: a long bamboo pole for harvesting, a plastic crate, and an old wide-brimmed straw hat (caping)."
-            ),
-            "Kebun Strawberry": (
-                "Sitting on a small wooden plank in a highland strawberry farm. "
-                "The background features rows of black polybags or elevated wooden planters filled with green strawberry plants and small white flowers. "
-                "The floor is covered in dry pine needles or straw mulch to keep the fruits clean. "
-                "Surrounding objects: several bright red strawberries hanging from the vines, and a small plastic basket for picking."
-            ),
-            "Kebun Jeruk": (
-                "Sitting on a low stool under the dense canopy of orange trees. "
-                "The background is a wall of dark green waxy leaves and dozens of round yellow oranges hanging from the branches. "
-                "The floor is dark soil mixed with fallen orange leaves and a few overripe fruits on the ground. "
-                "Surrounding objects: a long bamboo harvesting pole (galah), a large woven bamboo basket (tenggok), and an old plastic crate."
-            ),
-            "Kebun Pepaya": (
-                "Sitting on a fallen papaya trunk against a background of tall, slender papaya trees with large star-shaped leaves. "
-                "The facade features bunches of green and ripening orange papayas clustered near the top of the trunks. "
-                "The ground is covered in dry greyish leaves and loose soil with realistic root bumps. "
-                "Surrounding objects: a wooden ladder leaning against a tree, a pile of harvested fruit, and an old 'arit' (sickle) on the ground."
-            ),
-            "Kebun Anggur": (
-                "Sitting on a wooden bench under a low-hanging bamboo trellis covered in grapevine leaves. "
-                "The background features heavy clusters of purple and green grapes hanging directly above the diorama. "
-                "The floor is a mix of pebbles and fine sand with fallen vine tendrils and dry leaves. "
-                "Surrounding objects: a glass of tea on a wooden box, and a traditional conical hat (caping)."
-            ),
-            "Kebun Pisang": (
-                "Sitting on a fallen, rotting banana trunk (gedebog) in a dense, humid grove. "
-                "The background is a solid wall of massive green banana leaves, some tattered and frayed by wind, mixed with hanging dry brown leaves (klaras). "
-                "The floor is damp, dark soil covered in decaying organic matter and small wild mushrooms. "
-                "Surrounding objects: a bunch of harvested green bananas (pisang kepok), and a discarded plastic tarp."
-            ),
-            "Pojok Pasar Tradisional": (
-                "Sitting on a low wooden bench in a crowded, narrow aisle of a traditional village market. "
-                "The background is a blur of colorful hanging goods, stacks of baskets, and other traders in the distance. "
-                "The ground is damp, dark cement with scattered vegetable scraps and discarded plastic bags. "
-                "Surrounding objects: a large pile of coconuts, a hanging scale (timbangan dacin), and a stack of wooden egg crates."
-            ),
-            "Pinggir Sungai Desa": (
-                "Sitting on a large, smooth river stone by the edge of a shallow, rocky river. "
-                "The background features lush green bamboo trees leaning over the water and a glimpse of a small concrete bridge. "
-                "The water is clear, flowing over mossy stones with realistic reflections of the sky. "
-                "Surrounding objects: a colorful plastic laundry basin, a bar of soap on a rock, and a pile of wet clothes being sun-dried."
-            ),
-            "Pangkalan Ojek / Pos Ronda": (
-                "Sitting on a long wooden bench (lincak) inside a small, open-walled village guard post. "
-                "The background shows a quiet village crossroads with a dusty motorbike parked nearby. "
-                "The floor is hard-packed dirt with scattered dry leaves and a few cigarette butts. "
-                "Surrounding objects: a large wooden slit drum (kentongan), a dusty village announcement board, and an old wall calendar hanging on a post."
-            ),
-            "Halaman Sekolah Desa": (
-                "Sitting on a cement bench under a large flamboyant tree in a quiet school yard. "
-                "The background features a simple white-and-red school building with long corridors and a flagpole. "
-                "The ground is a mix of sun-baked soil and patches of thin grass. "
-                "Surrounding objects: a few scattered plastic snack wrappers, a rusty bicycle, and a colorful mural painted on a low wall."
-            ),
-            "Teras Balai Desa / Balai RW": (
-                "Sitting on a plastic chair on the wide, tiled terrace of a village community hall. "
-                "The background features a solid white wall with a large village map and several wooden announcement boards. "
-                "The floor is made of clean but old grey cement tiles with realistic reflections. "
-                "Surrounding objects: a tall flagpole with a fluttering red and white flag, a stack of plastic chairs in the corner, and a large clay water pot (gentong)."
-            ),
-            "Jembatan Bambu (Sesek)": (
-                "Sitting on the edge of a creaky bamboo bridge crossing a small ravine or stream. "
-                "The background is a dense green thicket of bamboo and tropical ferns under a soft morning mist. "
-                "The bridge surface is made of woven bamboo (sesek) with visible gaps and weathered textures. "
-                "Surrounding objects: a long bamboo pole used for balance, a stack of harvested firewood, and a plastic bucket."
-            ),
-            "Pojok Jantung Pisang": (
-                "Sitting on a low wooden stool directly under a low-hanging purple banana blossom (jantung pisang). "
-                "The background features several thick, moist banana trunks with realistic layered textures and water-stain patterns. "
-                "The ground is covered in dry banana fibers and fallen purple blossom petals. "
-                "Surrounding objects: a woven bamboo basket (tenggok) filled with banana hearts, a pair of muddy rubber boots, and a wooden crate."
-            ),
-            "Pojok Bengkel Motor Desa": (
-                "Sitting on an old tire in front of a small, cluttered village motorcycle repair shop. "
-                "The background is a dark interior filled with hanging spare parts, tools, and oily rags. "
-                "The ground is dark, oil-stained cement with scattered metal scraps and bolts. "
-                "Surrounding objects: a stack of used tires, a rusted air compressor, and an old calendar with a vintage motorbike picture."
-            ),
-            "Dermaga Kayu Kecil": (
-                "Sitting on the edge of a weathered wooden jetty overlooking a calm river or lake. "
-                "The background features a few small traditional wooden boats (sampan) moored nearby and a distant line of trees. "
-                "The floor is made of grey, sun-bleached wood planks with visible gaps and rusted nails. "
-                "Surrounding objects: a tangled fishing net, a plastic bucket, and a coil of frayed rope."
-            ),
-            "Pinggir Tambak Ikan": (
-                "Sitting on a narrow grassy embankment between two large fish ponds (tambak). "
-                "The background features the shimmering surface of the water reflecting the sky and a small bamboo hut for the caretaker. "
-                "The ground is damp soil with patches of thick grass and small white stones. "
-                "Surrounding objects: a bag of fish feed, a bamboo scoop net (seser), and a pair of muddy rubber sandals."
-            ),
-            "Jembatan Gantung Desa": (
-                "Sitting at the entrance of a narrow suspension bridge with wooden slats and rusted cables. "
-                "The background is a deep green valley with the tops of coconut trees visible below. "
-                "The ground is a mix of hard dirt and large concrete anchor blocks for the bridge cables. "
-                "Surrounding objects: a rusty bicycle leaning against the cable, a small wooden sign, and scattered dry leaves."
-            ),
-            "Pinggir Waduk / Bendungan": (
-                "Sitting on a large concrete block at the edge of a massive village reservoir (waduk). "
-                "The background is a vast expanse of still water with mountains or hills in the far distance under a soft haze. "
-                "The ground is dry, cracked earth near the water's edge with small shells and pebbles. "
-                "Surrounding objects: a simple bamboo fishing rod, a plastic bottle, and an old hat resting on the concrete."
-            ),
-            "Tanggul Sungai Besar": (
-                "Sitting on a grassy slope of a high river embankment (tanggul). "
-                "The background shows a wide brown river flowing below and the roofs of village houses on the other side. "
-                "The ground is covered in wild, overgrown grass and small purple wildflowers. "
-                "Surrounding objects: a grazing goat tied to a wooden stake, a pile of harvested grass, and a simple wooden bench."
-            ),
-            "Halaman Belakang Pabrik Tahu": (
-                "Sitting on a low stool near a small drainage canal behind a traditional village tofu factory. "
-                "The background features white steam rising from the building and stacks of firewood. "
-                "The floor is wet, dark cement with a thin layer of white soy residue and moss. "
-                "Surrounding objects: several large plastic barrels, a stack of wooden molds, and a bicycle parked nearby."
-            ),
-            "Puing Bangunan Tua (Rumah Roboh)": (
-                "Sitting on a pile of mossy red bricks from a ruined house. "
-                "The background is a solid wall of weathered bricks and twisted rusted rebars partially covered by overgrown vines and wild shrubs. "
-                "The ground is a mix of broken tiles (pecahan genteng), dry mortar dust, and weeds. "
-                "Surrounding objects: an old wooden door leaning against the debris, a cracked clay pot, and a few lizards on the stones."
-            ),
-            "Pinggir Hutan Jati (Musim Gugur)": (
-                "Sitting on a fallen teak log at the edge of a dry teak forest. "
-                "The background is a dense vertical line of grey teak trunks with no leaves, creating a stark, moody atmosphere. "
-                "The ground is completely buried under a thick layer of large, crunchy brown teak leaves. "
-                "Surrounding objects: a pile of gathered dry branches, a rusted axe (kapak), and a small bamboo basket for mushrooms."
-            ),
-            "Pinggir Tambang Pasir Manual": (
-                "Sitting on a wooden crate at the edge of a small village sand mine by the river. "
-                "The background is a steep wall of layered grey sand and river stones with visible shovel marks. "
-                "The ground is fine, loose grey sand with scattered pebbles and deep tire tracks from a truck. "
-                "Surrounding objects: a large sieve for sand (ayakan), a rusty shovel, and a plastic jug of water."
-            ),
-            "Jemuran Daun Pisang": (
-                "Sitting on a bamboo mat in a clearing surrounded by banana trees. "
-                "The background features several large, fresh banana leaves laid out on the ground or leaning against a fence to dry. "
-                "The floor is a mix of dry soil and scattered banana leaf stalks (pelepah). "
-                "Surrounding objects: a bundle of tied banana leaves, and a traditional conical hat (caping) resting on the ground."
-            ),
-            "Gubuk Tambak Udang/Ikan": (
-                "Sitting on a fragile wooden jetty of a small bamboo hut (saung) over a vast brackish water pond. "
-                "The background features the open water of the pond with a few wooden aerators (kincir air) in the distance. "
-                "The floor is made of old, sun-bleached timber planks with salt crusts and small dried algae. "
-                "Surrounding objects: a large fishing net (jala), a plastic bucket for fish feed, and an old lifebuoy hanging on a bamboo post."
-            ),
-            "Pinggir Kolam Ikan Koi": (
-                "Sitting on a flat decorative river stone at the edge of a clear garden pond. "
-                "The background is the water surface filled with vibrant, colorful Koi fish (orange, white, and calico) swimming near the surface. "
-                "The floor is a mix of smooth pebbles, green mossy rocks, and small water plants like lilies. "
-                "Surrounding objects: a small wooden bridge in the distance, a ceramic bowl of fish food, and a pair of traditional wooden clogs (gapyak)."
-            ),
-            "Belakang Aquarium Ikan Hias": (
-                "Sitting on a small stool directly behind a massive, long glass aquarium filled with colorful tropical fish. "
-                "The background is the interior of the tank with green aquatic plants, white sand, and glowing neon fish swimming across. "
-                "The floor is clean indoor tiles with a small rug. "
-                "Surrounding objects: an air pump with bubbling sounds (visualized as bubbles), a fish net, and containers of fish flakes on a side table."
-            ),
-            "Pojok Kolam Ikan Hias": (
-                "Sitting on a low concrete ledge next to a small backyard pond with a mini waterfall feature. "
-                "The background features colorful goldfish and comets darting through floating duckweed (mata lele). "
-                "The floor is wet terracotta tiles with realistic water splashes and damp patches. "
-                "Surrounding objects: a stone statue of a frog, a watering can, and a small bamboo water fountain (shishi-odoshi)."
-            ),
-            "Bengkel Kayu Tradisional": (
-                "Sitting on a thick, unfinished timber block inside a rustic carpentry workshop. "
-                "The background is a solid wall of hanging hand tools: saws, chisels, and wooden mallets on a pegboard. "
-                "The floor is buried under a thick layer of curly wood shavings (tatal) and fine sawdust. "
-                "Surrounding objects: a half-finished wooden chair, a bottle of wood glue, and a pile of teak planks."
-            ),
-            "Pojok Anyaman Bambu": (
-                "Sitting on a woven bamboo mat surrounded by hundreds of thin bamboo strips (atan). "
-                "The background features several half-finished 'besek' and 'tampah' stacked against a gedek wall. "
-                "The floor is covered in small bamboo fibers and offcuts. "
-                "Surrounding objects: a bundle of raw bamboo poles, and a bowl of water for soaking the strips."
-            ),
-            "Gudang Barang Antik Desa": (
-                "Sitting on an old dusty trunk in a dark corner filled with forgotten village heirlooms. "
-                "The background features a stack of old clay jars (gentong), a rusted manual sewing machine, and a vintage bicycle. "
-                "The floor is dark stone with layers of realistic dust and cobwebs. "
-                "Surrounding objects: an old kerosene lantern, a pile of vintage batik cloths, and a moth-eaten wooden cupboard."
-            ),
-            "Pinggir Rel Kereta Desa": (
-                "Sitting on a large ballast stone near a quiet, single-track railway line passing through a village. "
-                "The background features the perspective of the iron rails disappearing into the green bushes. "
-                "The floor is a mix of coarse grey gravel (ballast), dry grass, and rusted iron scraps. "
-                "Surrounding objects: an old signal post, a discarded plastic bottle, and a small wildflower patch between the tracks."
-            ),
-            "Halaman Jemuran Kerupuk": (
-                "Sitting on a low stool in a vast yard filled with hundreds of wooden trays (widik) drying colorful raw crackers. "
-                "The background is a sea of pink, yellow, and white crackers arranged in geometric rows. "
-                "The floor is dry, swept cement with realistic cracks. "
-                "Surrounding objects: a large bamboo pole for carrying the trays, a stray chicken, and a conical hat (caping) on a post."
-            ),
-            "Pojok Pasar Desa": (
-                "Sitting on a low wooden bench in a quiet corner of a traditional village market. "
-                "The background features stacks of empty wooden crates, woven bamboo baskets (bronjong), and old burlap sacks. "
-                "The floor is a mix of damp cement and scattered organic waste like onion skins and dry corn husks. "
-                "Surrounding objects: a rusted manual scale, a stray cat, and a discarded cardboard box for 'Mie Instan'."
-            ),
-            "Gubuk Pandai Besi": (
-                "Sitting on a soot-covered wooden stump inside a traditional blacksmith workshop. "
-                "The background features a large stone furnace, a heavy iron anvil, and various raw iron scraps. "
-                "The floor is covered in a thick layer of black charcoal dust, fine iron filings, and grey ash. "
-                "Surrounding objects: a heavy hammer, and a bucket of dark cooling water."
-            ),
-            "Teras Rumah Panggung Kayu": (
-                "Sitting on the top step of a weathered wooden staircase leading to a traditional stilt house. "
-                "The background is a solid wall of dark, unpainted timber planks with deep wood grain and lichen. "
-                "The floor (the steps) shows realistic wear-and-tear and mud-stained footprints. "
-                "Surrounding objects: a pair of old wooden clogs (bakiak), a broom made of palm leaf ribs (sapu lidi), and a plastic basin for washing feet."
-            ),
-            "Pojok Penggilingan Padi": (
-                "Sitting on a stack of plastic sacks inside a noisy rice mill shed. "
-                "The background is filled with massive piles of rice husks (sekam) and heavy machinery parts. "
-                "The air is hazy with floating fine rice dust, and the floor is covered in golden husks and white flour particles. "
-                "Surrounding objects: a large metal funnel, a plastic shovel, and a tattered sarong used as a dust mask."
-            ),
-            "Gunung Sampah TPA": (
-                "Sitting on a flattened cardboard box at the base of a massive mountain of assorted waste. "
-                "The background is a solid wall of colorful but faded plastic bags, crushed plastic bottles, and organic waste layers. "
-                "The floor is a mix of dark, muddy soil and scattered colorful scrap fragments. "
-                "Surrounding objects: a long bamboo hook (pengait sampah), a large woven plastic sack (karung rongsok), and a swarm of out-of-focus flies."
-            ),
-            "Gudang Pengepul Rongsok": (
-                "Sitting on a rusted oil drum inside a cluttered scrap metal yard. "
-                "The background is a solid wall of stacked rusted iron pipes, old bicycle frames, and crumpled sheet metal. "
-                "The floor is dark, oil-stained concrete with scattered rusty nails and metallic dust. "
-                "Surrounding objects: a heavy manual scale, a pile of copper wires, and a pair of thick industrial gloves."
-            ),
-            "Pojok Tumpukan Botol Plastik": (
-                "Sitting on a low stool surrounded by thousands of transparent and colorful plastic bottles packed in large nets. "
-                "The background is a translucent wall of plastic textures, showing realistic reflections and crinkled surfaces. "
-                "The floor is swept cement with scattered plastic caps and labels. "
-                "Surrounding objects: a manual bottle crusher, a large white plastic sack, and an old radio on a wooden crate."
-            ),
-            "Bawah Pohon Samping TPA": (
-                "Sitting on the dry ground at the edge of a landfill under a dusty tree. "
-                "The background features the silhouette of an excavator and a pile of old discarded tires. "
-                "The floor is dry dirt mixed with small bits of windblown plastic and dry leaves. "
-                "Surrounding objects: a tattered umbrella, a plastic water gallon, and a pair of worn-out boots with holes."
-            ),
-            "Gudang Kardus Bekas": (
-                "Sitting on a low stack of flattened cardboard boxes. "
-                "The background is a solid wall of towering, neatly tied stacks of brown corrugated cardboard boxes with visible shipping labels and torn tape. "
-                "The floor is covered in fine paper dust, cardboard scraps, and loose packing strings. "
-                "Surrounding objects: a large manual weighing scale, and a pile of old newspapers used as padding."
-            ),
-            "Pojok Tumpukan Koran": (
-                "Sitting on a wooden crate surrounded by yellowed, dusty stacks of old newspapers and vintage magazines. "
-                "The background features walls of paper bundles tied with plastic twine, showing realistic frayed edges and ink-stained textures. "
-                "The floor is dark cement with scattered loose pages and paper confetti. "
-                "Surrounding objects: an old pair of glasses, a glass of black coffee on a stack of newsprint, and a small hand-trolley (hand-truck)."
-            ),
-            "Lapak Rongsok Campuran": (
-                "Sitting in a crowded yard filled with a chaotic mix of scrap materials. "
-                "The background features a wall of compressed plastic blocks, tangled copper wires, and old electronic circuit boards. "
-                "The floor is gritty soil mixed with metallic fragments, plastic caps, and small rusted bolts. "
-                "Surrounding objects: a large magnetic wand for sorting metal, a massive white sack (karung jumbo) filled with cans, and a rusted bicycle frame."
-            ),
-            "Gubuk Sortir Sampah Kertas": (
-                "Sitting inside a small open-air hut dedicated to sorting scrap paper. "
-                "The background features various types of paper waste: egg cartons, cement bags, and office paper piles. "
-                "The floor is a mix of packed earth and layers of discarded paper fibers. "
-                "Surrounding objects: a large bamboo basket (tenggok) for sorting, a plastic water gallon, and a pair of worn-out work gloves."
-            ),
-            "Teras Samping Toko Kelontong": (
-                "Sitting on a wooden bench on the side of a small village 'Warung'. "
-                "The background features stacks of empty glass soda bottles in plastic crates and a few hanging snack sachets. "
-                "The floor is grey cement with realistic wear-and-tear. "
-                "Surrounding objects: a vintage bicycle leaning against the wall, a wooden crate, and an old glass jar filled with crackers (peyek)."
-            ),
-            "Pojok Perpustakaan Desa": (
-                "Sitting on the floor in a small, humble community reading corner. "
-                "The background is a simple wooden bookshelf filled with old, mismatched books and magazines. "
-                "The floor is covered in a clean, cheap plastic carpet with a simple pattern. "
-                "Surrounding objects: a small desk, a pair of reading glasses, and a stack of newspapers."
-            ),
-            "Taman Bunga Depan Rumah": (
-                "Sitting on a low wooden bench surrounded by dozens of colorful plants in recycled containers. "
-                "The background features bright red hibiscus, yellow marigolds, and pink bougainvillea. "
-                "The floor is swept gravel and small white stones with realistic sandy textures. "
-                "Surrounding objects: potted plants in old tin biscuit cans, a plastic watering can, and a small bamboo fence."
-            ),
-            "Taman Tanaman Obat": (
-                "Sitting on a flat stone in a small backyard 'Apotek Hidup' (herbal garden). "
-                "The background is a lush mix of ginger plants, turmeric leaves, and tall lemongrass stalks. "
-                "The floor is rich, dark damp soil with patches of green moss and fallen leaves. "
-                "Surrounding objects: a small clay mortar and pestle (ulekan), and a woven basket for gathering herbs."
-            ),
-            "Sudut Taman Pot Gantung": (
-                "Sitting on a plastic stool under a wooden trellis filled with hanging plants like 'Anggrek' (orchids) and ferns. "
-                "The background features several hanging pots made of halved coconut shells and plastic bottles. "
-                "The floor is clean grey cement with realistic water stains from plant irrigation. "
-                "Surrounding objects: a wooden birdcage hanging nearby, a small glass of tea on a table, and a pile of potting soil in a sack."
-            ),
-            "Taman Sayur Mini": (
-                "Sitting on a wooden crate next to small patches of chili plants, mustard greens (sawi), and spring onions. "
-                "The background is a mix of vibrant green leafy vegetables and vertical bamboo stakes (ajir). "
-                "The ground is covered in dark compost and dry rice husks (sekam). "
-                "Surrounding objects: a small hand trowel, a plastic bucket, and several red chili peppers drying on a bamboo tray (tampah)."
-            ),
-            "Gubuk Pinggir Rel Kereta Kota": (
-                "Sitting on a wooden crate next to a railway track in a crowded city slum. "
-                "The background features a solid wall of rusted corrugated iron sheets (seng) and graffiti-covered concrete. "
-                "The floor is a mix of coarse grey gravel, oil-stained soil, and scattered plastic trash. "
-                "Surrounding objects: a pile of old tires, a plastic gallon of water, and overhead messy electrical wires."
-            ),
-            "Teras Kontrakan Sempit": (
-                "Sitting on a thin floor mat in a very narrow city alleyway (gang sempit). "
-                "The background is a solid wall of unpainted cement bricks with mossy water leaks from upper floors. "
-                "The floor is cracked, uneven asphalt with small puddles of soapy water. "
-                "Surrounding objects: a row of laundry hanging on a plastic rope, a gas cylinder (LPG 3kg), and a pair of worn-out sneakers."
-            ),
-            "Kolong Jembatan Beton": (
-                "Sitting on a flattened cardboard box under a massive, weathered concrete bridge structure. "
-                "The background features the grey, stained pillars of the bridge with realistic soot and exhaust smoke marks. "
-                "The floor is dusty, dry dirt mixed with broken glass and old newspapers. "
-                "Surrounding objects: a makeshift bed made of sacks, an old bicycle, and a small portable stove."
-            ),
-            "Taman Mawar & Melati": (
-                "Sitting on a white-painted vintage bench surrounded by dense bushes of red roses and white jasmine. "
-                "The background is a vibrant wall of flowers with soft petals and green leaves. "
-                "The floor is covered in fallen white and red petals with clean stone paths. "
-                "Surrounding objects: a classic watering can, a small butterfly net, and a wooden basket of freshly cut flowers."
-            ),
-            "Kebun Bunga Warna-Warni": (
-                "Sitting on a flat stone in the middle of a field of sunflowers, zinnias, and lavender. "
-                "The background is a chaotic but beautiful explosion of yellow, purple, and orange blooms. "
-                "The floor is a mix of rich brown soil and small pebbles. "
-                "Surrounding objects: a wide-brimmed straw hat with a ribbon, a glass of iced tea, and a small garden shovel."
-            ),
-            "Sudut Taman Anggrek": (
-                "Sitting on a low stool under a wooden trellis draped with various hanging orchids. "
-                "The background features hanging coconut shell pots and mossy wooden slabs where orchids grow. "
-                "The floor is damp grey cement with realistic water reflections. "
-                "Surrounding objects: a mist sprayer bottle, a small wooden birdcage, and a pile of charcoal for planting."
-            ),
-            "Pinggiran Rel Kereta Jakarta": (
-                "Sitting on a stack of old tires near a busy railway track in a crowded Jakarta district. "
-                "The background is a solid wall of rusted corrugated iron sheets and grey concrete walls with peeling posters. "
-                "The floor is coarse grey gravel mixed with plastic scrap and oil stains. "
-                "Surrounding objects: messy overhead electrical cables, a plastic water gallon, and a discarded 'Mie Instan' box."
-            ),
-            "Gang Sempit Jakarta": (
-                "Sitting on a thin mat in a very narrow alleyway between tall, unpainted brick buildings. "
-                "The background is a wall of messy pipes, air conditioning units, and colorful laundry hanging overhead. "
-                "The floor is cracked, uneven asphalt with puddles of soapy water. "
-                "Surrounding objects: a 3kg LPG gas cylinder, a row of worn-out sandals, and a bucket of washing water."
-            ),
-            "Teras Kontrakan Padat": (
-                "Sitting on a small wooden bench in a very narrow, sunless alleyway (gang sempit) between tall brick houses. "
-                "The background is a wall of messy AC outdoor units, tangled cables, and damp mossy patches near the drainage. "
-                "The floor is cracked asphalt with small soapy puddles from nearby laundry. "
-                "Surrounding objects: a 3kg LPG cylinder, a row of worn-out sandals, and a bucket of washing water."
-            ),
-            "Puncak Gunung Berkabut": (
-                "Sitting on a jagged volcanic rock at the edge of a high mountain peak. "
-                "The background is a vast sea of white clouds (samudera awan) with silhouettes of distant peaks. "
-                "The floor is dark volcanic sand and small pumice stones with realistic dry, gritty textures. "
-                "Surrounding objects: a small camping stove, a metal mug with steam, and a sturdy wooden hiking pole."
-            ),
-            "Hutan Pinus Pegunungan": (
-                "Sitting on a fallen pine trunk in a dense, misty forest. "
-                "The background is a wall of tall, slender pine trees disappearing into thick white fog. "
-                "The floor is covered in a thick, crunchy layer of dry pine needles and small pine cones. "
-                "Surrounding objects: a kerosene lantern, a small stack of firewood, and an old wool blanket."
-            ),
-            "Lereng Gunung Berbatu": (
-                "Sitting on a large boulder on a steep, treeless mountain slope. "
-                "The background is a vast view of a valley below with tiny, twinkling village lights in the far distance. "
-                "The ground is rough grey gravel and yellowed mountain grass (edelweiss style). "
-                "Surrounding objects: a worn-out backpack, a pair of heavy boots, and a small handheld radio."
+            "Kebun Semangka Colossal": (
+                "The character is seated on a low weathered wooden crate behind the workspace. "
+                "The setting is a vast outdoor Indonesian watermelon farm under the natural golden hour daylight. "
+                "Background: rows of monumental, colossal watermelons still attached to thick tangled green vines spread across the frame. "
+                "The diorama is positioned exactly between the elderly Indonesian carver and the camera, filling the straight-on horizontal frame. "
+                "The long wooden table is heavily cluttered only with realistic construction debris from the carving: thousands of fresh, glistening rich-ruby-red watermelon flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and moist juice. "
+                "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. No text or calligraphy. "
+                "The structure's deeply recessed entrances show the dense, glistening ruby-red interior flesh reflecting the soft, natural golden hour sunlight. No internal lighting Mechanisms. "
+                "The floor is hard-packed grey earth with natural uneven textures and dry leaves."
             )
         }
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
