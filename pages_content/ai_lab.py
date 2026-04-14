@@ -404,7 +404,7 @@ def tampilkan_halaman():
                     "highly detailed Islamic architecture style, symmetrical composition, "
                     "fine handcrafted texture, ornate patterns, clean sharp carving edges, "
                     "realistic fruit surface with natural moisture, ultra detailed, high fidelity, "
-                    "resting on a high wooden table at chest-level, no background, isolated object."
+                    "resting on a high wooden table at chest-level."
                 ),
                 "Semangka: Pahatan Murni": (
                     "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
