@@ -2837,20 +2837,22 @@ def tampilkan_halaman():
 
             # --- FINAL ASSEMBLY (V22: THE 'SS' COMPOSITION LOCK) ---
             final_ai_prompt = (
-                # Kita ubah dari Waist-Up ke framing yang lebih spesifik
-                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. "
-                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light on the elderly's wrinkled skin and the mosque's edges. \n\n"
+                # Kita ubah total scene_context ke Close-Up
+                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC PHOTO. NO TEXT. "
+                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light focusing strictly on the elderly's heavily wrinkled skin. "
+                f"CONTRAST: Rich, deep contrast where the elderly's eyes are deeply shadowed, reflecting a profound sadness. \n\n"
                 
-                # Gabungan Soul & Gender agar wajah konsisten
+                # Karakter & Gender Lock tetep
                 f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
                 f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
                 f"ENVIRONMENT: {env_detail}. \n\n"
                 
-                # Fokus pada interaksi ngenes & hasil miniatur
-                f"PERFORMANCE & INTERACTION: {aksi_final}. \n"
-                f"MOOD & EMOTION: {mood_final}. Strictly focus on a soulful, humble, and pleading connection with the viewer. \n"
-                f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
+                # Aksi & Mood diubah: Fokus ke Micro-expressions & Hand Touch
+                f"PERFORMANCE & INTERACTION: {aksi_final}. "
+                f"Aksi final diubah menjadi: One highly detailed, veiny, frail hand is gently resting near the chin/face, holding a tiny piece of sandpaper, not the whole mosque. "
+                f"Mood: Strictly focus on a soulful, humble, and pleading connection with the viewer. \n"
+                f"THE MASTERPIECE: A tiny, high-detail fragment of the miniature mosque's dome is visible below the chin. \n\n"
                 
                 # Audio Configuration (Dibersihkan dari pemicu Bengek/Asma)
                 f"AUDIO CONFIGURATION: \n"
@@ -2859,16 +2861,16 @@ def tampilkan_halaman():
                 f"- Dialog Content: '{user_dialog}' \n"
                 f"- Delivery: Use long, heavy pauses. Focus on vocal cord tremors. STRICTLY NO gasping or heavy air intake. \n\n"
                 
-                # UPDATE KUNCI: Pakai komposisi spesifik biar persis kayak SS awal lo.
-                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens for natural proportions, F/11, Eye-level. "
-                f"FRAMING KEY: Strict Waist-Up framing. Frame must clearly show the elderly person from the waist-up, ensuring BOTH veiny hands, BOTH elbows, and the ENTIRE miniature mosque are visible and perfectly centered. This matches the desired starting composition exactly. \n\n"
+                # UPDATE KUNCI: Pakai 50mm Lens (Natural Portrait) untuk Close-up yang 'soulful'
+                f"TECHNICAL SPEC: ARRI Alexa 65, 50mm lens for natural portrait, F/5.6 for intimate shallow depth of field, Close-up Shot (wajah & bahu), Eye-level, Ultra-sharp 8K raw photo. \n\n"
                 
                 # Negative Prompt yang lebih galak biar gak ditarik jauh
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
                 f"smiling, laughing, teeth showing, aggressive expression, yelling, "
-                f"wide shot, legs showing, feet showing, top-down view, "
+                f"wide shot, medium shot, legs showing, feet showing, top-down view, " # Tambahan biar gak ditarik jauh
+                f"entire mosque visible, clear mosque, " # Biar AI gak halu nampilin masjid utuh
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
-                f"blurry, heavy bokeh, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
+                f"blurry, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
             )
 
             # --- 7. TAMPILKAN HASIL ---
