@@ -394,14 +394,26 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Semangka: Pahatan Murni": (
-                    "A finished miniature mosque on a high wooden table at chest-level. "
-                    "Architecture features precise geometric carving to create building facades. The central large dome is a smooth watermelon rind showing the distinctive green striped pattern. "
-                    "The walls are dark green rind, but precisely carved with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are juicy, glistening ruby-red flesh, **strictly with no etched text or calligraphy.** "
-                    "Featuring multiple (at least four) smooth cylindrical minarets on different levels, topped with smaller green rind domes and tiny spires, connected by precise carved rind arches. "
-                    "Table clutter: The wooden table surface is scattered with small, realistic glistening red flesh scraps, seed clusters, and fine green rind shavings. "
-                    "The completed miniature is positioned right under the character's chin, sharing the frame with the character's torso and face. A full whole watermelon sits beside the miniature on the table. "
-                    "Natural golden hour daylight focuses on the glistening moist texture of the red flesh, making it look organic and real. Zero LEDs, pure interaction with natural light."
+                "Masjid Semangka: Merah Klasik": (
+                    "Intricately carved miniature mosque sculpted from a whole watermelon, "
+                    "featuring a central large dome with geometric Islamic patterns, "
+                    "surrounded by smaller domes and symmetrical minarets, "
+                    "detailed arches and ornamental carvings embedded into the watermelon rind, "
+                    "exposing the vibrant red flesh as inner architectural accents, "
+                    "green rind used as structural walls and decorative motifs, "
+                    "highly detailed Islamic architecture style, symmetrical composition, "
+                    "fine handcrafted texture, ornate patterns, clean sharp carving edges, "
+                    "realistic fruit surface with natural moisture, ultra detailed, high fidelity, "
+                    "resting on a high wooden table at chest-level, no background, isolated object."
+                ),
+                "Masjid Semangka: Tipe Merah Klasik (Clean Reference)": (
+                    "A completed miniature mosque carved entirely from watermelon, strictly following the architectural composition of image_1.png. "
+                    "Architecture features precise geometric carving to create building facades. The central main dome is a smooth watermelon rind dome showing the distinctive green striped pattern. "
+                    "Architecture features multiple (at least four) cylindrical minarets on different levels, connected by carved rind arches, strictly matching the placement in image_1.png. Minarets are made of smooth rind. "
+                    "The walls are dark green rind, precisely carved out with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are juicy, glistening ruby-red flesh, strictly with **no etched text or calligraphy.** "
+                    "Table clutter: Small glistening red flesh fragments, seed clusters, and green rind shavings scattered naturally on the table, matching the messy look of image_1.png. "
+                    "The completed miniature is positioned right under the character's chin, sharing the frame 50/50 with the character's torso and face. A full whole watermelon sits beside the miniature. "
+                    "Natural golden hour light focuses on the glistening moist texture of the exposed red flesh, making it look organic and real. Zero LEDs, pure interaction with daylight."
                 ),
                 "Semangka: Kubah Kulit Hijau": (
                     "A completed miniature mosque on a high wooden table at chest-level. "
