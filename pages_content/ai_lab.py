@@ -517,7 +517,7 @@ def tampilkan_halaman():
                     "Strictly photorealistic, non-stylized, no cinematic or artificial effects. "
                     "Pure ornamental structure with no text or calligraphy."
                 ),
-                "Semangka: Ukiran Dalam Buah Utuh": (
+                "Semangka: Ukiran Utuh": (
                     "A whole intact round watermelon with its natural spherical shape preserved, placed on a rustic wooden table. "
                     "A miniature mosque is intricately carved directly into the surface of the watermelon, as a recessed architectural relief rather than a separate structure. "
                     "The mosque design is embedded into the rind, featuring a central dome, smaller domes, and multiple minarets carved inward into the curved surface of the fruit. "
