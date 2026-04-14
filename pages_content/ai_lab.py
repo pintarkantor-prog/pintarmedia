@@ -415,6 +415,7 @@ def tampilkan_halaman():
                     "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
                     "Clean, sharp carving edges, handcrafted appearance, ultra-detailed texture, realistic fruit surface with natural moisture and organic imperfections. "
                     "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, adding a natural carving process detail. "
+                    "No internal lighting, no LEDs, no artificial light sources within the structure; the watermelon flesh is not glowing and remains naturally textured and organic. "
                     "Pure ornamental structure with no text or calligraphy."
                 ),
                 "Masjid Semangka: Tipe Merah Klasik (Clean Reference)": (
