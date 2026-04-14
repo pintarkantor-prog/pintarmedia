@@ -1457,7 +1457,7 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: Monumental": (
+                "Semangka: Diorama Monumental": (
                     "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid watermelon, positioned precisely in front of the elderly Indonesian carver. "
                     "The diorama fills the straight-on horizontal frame, with the immense fruit building centered between the character and the camera. "
                     "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade. "
@@ -1466,21 +1466,469 @@ def tampilkan_halaman():
                     "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
                     "Deeply recessed entrances show the dense, glistening ruby-red interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
                     "The colossal watermelon structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Melon: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid melon, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, with the immense fruit building centered between the character and the camera. "
+                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of fresh rich-orange melon flesh chunks, large fragments of removed tan-netted rind, and wet juice marks with seeds. "
+                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
+                    "The colossal melon structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Semangka: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal watermelon, featuring full-surface deep engravings over the entire green rind. "
+                    "Every millimeter of the green striped surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
+                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening red flesh chunks and fine-carved green rind shavings with wet juice marks. "
+                    "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the dense, glistening ruby-red interior flesh reflecting natural golden hour daylight. "
+                    "The entire colossal structure fills the horizontal frame between the character and the camera, highlighting the extreme level of organic craftsmanship."
+                ),
+                "Melon: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal melon, featuring full-surface deep architectural carvings over the entire tan-netted rind. "
+                    "The exterior is completely covered in complex geometric relief and lace-like textures, creating an extreme level of multi-layered craftsmanship on every part of the skin. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: large piles of orange flesh fragments, fine-edged rind shavings, and wet juice marks. "
+                    "Strictly no whole melons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the vibrant rich-orange interior flesh under natural daylight, strictly no internal lighting. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Buah Naga: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid dragon fruit, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
+                    "The architecture features a wide rectangular tiered foundation and utilizes the bright pink rind and green-tipped scales as distinct structural elements of the grand facade. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant white flesh chunks filled with black seeds, large fragments of removed pink rind, and wet juice marks. "
+                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the glistening white interior flesh with black seeds under natural golden hour daylight, strictly no internal lighting and no LEDs. "
+                    "The colossal pink structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Nanas: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pineapple, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
+                    "The architecture features a wide rectangular tiered foundation, utilizing the golden-brown rugged spiked rind as a textured stone-like facade. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all carved with high-fidelity architectural details. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of succulent yellow pineapple flesh chunks, large fragments of removed spiked rind, and wet juice marks. "
+                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening yellow interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
+                    "The colossal golden structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Mangga: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mango, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
+                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth yellow-green rind. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant orange mango flesh chunks, large fragments of removed smooth rind, curled shavings, and wet juice marks. "
+                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
+                    "The colossal orange structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Buah Naga: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal dragon fruit, featuring full-surface deep engravings over the entire pink scaled rind. "
+                    "Every millimeter of the pink skin and green-tipped scales is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: glistening white flesh chunks with black seeds, fine-carved pink rind fragments, and wet juice marks. "
+                    "Strictly no whole dragon fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the glistening white interior flesh reflecting natural golden hour daylight. "
+                    "The entire colossal pink structure fills the horizontal frame, highlighting the extreme level of organic craftsmanship between the character and camera."
+                ),
+                "Nanas: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pineapple, featuring full-surface deep engravings over the rugged spiked rind. "
+                    "The entire golden-brown surface is transformed into hyper-detailed geometric relief and lace-like textures, integrating the natural thorns into the architectural design. "
+                    "The structure features a towering central dome and colossal minarets showcasing extreme multi-layered relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening yellow flesh chunks and fine-carved spiked rind shavings. "
+                    "Strictly no whole pineapples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the dense, glistening yellow interior flesh reflecting natural golden hour daylight. "
+                    "The colossal golden structure fills the horizontal frame, highlighting the massive scale and extreme organic detail."
+                ),
+                "Mangga: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal mango, featuring full-surface deep engravings over the entire yellow-green rind. "
+                    "Every millimeter of the smooth skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part of the rind untouched. "
+                    "The structure features a massive tiered dome and soaring minarets with high-fidelity architectural detail, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening orange flesh chunks and fine-carved mango rind shavings. "
+                    "Strictly no whole mangoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the dense, glistening rich-orange interior flesh reflecting natural golden hour sunlight. "
+                    "The colossal orange structure fills the horizontal frame, capturing the extreme level of fine-edged craftsmanship in high fidelity."
+                ),
+                "Pepaya: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid papaya, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, centered between the character and the camera. "
+                    "The architecture features a wide rectangular tiered foundation and a grand entrance portal carved from the smooth green-orange rind. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of vibrant orange papaya flesh chunks, scattered black seeds, large fragments of removed smooth rind, and wet juice marks. "
+                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening orange interior flesh and small black seeds under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Salak: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid snake fruit (salak), positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, with the dark brown scaly rind acting as a natural textured stone facade along the 1-meter width. "
+                    "The architecture features a grand central dome and soaring minarets, all intricately detailed to show the overlap of natural scales integrated into the design. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of firm ivory-white flesh chunks, large fragments of removed dark brown scaly skin, and wet marks. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the firm, glistening ivory-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal dark structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Pisang: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid banana, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a unique organic architectural layout carved from the smooth yellow rind. "
+                    "The structure features a series of majestic domes and slender minarets, with the wide foundation showing multi-layered architectural details. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of soft pale-yellow banana flesh chunks, large fragments of removed yellow peel, and glistening moist marks. "
+                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the dense, glistening pale-yellow interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal yellow structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Pepaya: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal papaya, featuring full-surface deep engravings over the entire smooth green-orange rind. "
+                    "Every millimeter of the skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part of the rind untouched. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: thousands of glistening orange flesh chunks, scattered black seeds, and fine-carved rind shavings. "
+                    "Strictly no whole papayas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the dense, glistening orange interior flesh reflecting natural golden hour sunlight. "
+                    "The entire colossal structure fills the horizontal frame, highlighting the extreme level of fine-edged organic craftsmanship."
+                ),
+                "Salak: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal snake fruit (salak), featuring full-surface deep engravings over the dark brown scaly rind. "
+                    "Every single scale on the skin is meticulously carved into intricate decorative patterns, creating a complex multi-layered architectural facade along the 1-meter width. "
+                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: firm ivory-white flesh chunks and fine-carved dark scaly skin shavings. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the firm, glistening ivory-white interior flesh reflecting natural golden hour daylight. "
+                    "The colossal structure fills the frame in ultra-high fidelity, highlighting the massive scale and extreme organic detail."
+                ),
+                "Pisang: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal banana, featuring full-surface deep engravings over the entire yellow peel. "
+                    "The smooth yellow surface is completely transformed into hyper-detailed geometric relief and lace-like textures, leaving no part of the peel untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of pale-yellow flesh fragments, fine-edged yellow peel shavings, and moist marks. "
+                    "Strictly no whole bananas, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening pale-yellow interior flesh under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Rambutan: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid rambutan fruit, positioned precisely in front of the elderly Indonesian carver. "
+                    "The architecture spans 1 meter wide, utilizing the bright red skin and soft organic hair-like spines as a unique decorative facade. "
+                    "The structure features a wide rectangular foundation and a grand central dome with soaring minarets, all intricately carved to integrate the fruit's natural texture into the walls. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of translucent-white succulent flesh chunks, large fragments of removed hairy red rind, and wet juice marks. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the translucent, glistening white interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal red structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Alpukat: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid avocado, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, with the dark green pebbled rind acting as a natural textured stone facade along the 1-meter width. "
+                    "The architecture features a grand arched entrance with thick pillars and a massive central dome. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy light-green and yellow flesh chunks, large fragments of removed rough dark rind, and moist marks. "
+                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, buttery, and glistening interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal dark-green structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Labu: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid pumpkin, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a massive and grand horizontal layout carved from the thick orange rind. "
+                    "The structure features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of dense orange pumpkin flesh chunks, large fragments of removed thick rind, and wet juice marks with seeds. "
+                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the dense, glistening orange interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal orange structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Rambutan: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal rambutan, featuring full-surface deep engravings over the red hairy rind. "
+                    "Every millimeter of the red skin and every organic spine is meticulously carved into intricate decorative patterns, creating a complex multi-layered architectural facade. "
+                    "The structure features a tiered central dome and colossal minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-white flesh chunks and fine-carved hairy rind shavings. "
+                    "Strictly no whole fruits, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the succulent, glistening white interior flesh reflecting natural golden hour daylight. "
+                    "The colossal structure fills the frame in ultra-high fidelity, highlighting the massive scale and extreme organic detail."
+                ),
+                "Alpukat: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal avocado, featuring full-surface deep engravings over the rough pebbled dark green rind. "
+                    "The entire textured surface is transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: creamy light-green flesh fragments, fine-edged rough rind shavings, and moist marks. "
+                    "Strictly no whole avocados, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, buttery interior flesh under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Labu: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal pumpkin, featuring full-surface deep engravings over the entire thick orange rind. "
+                    "Every millimeter of the smooth orange skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of dense orange flesh fragments, fine-edged rind shavings, pumpkin seeds, and wet juice marks. "
+                    "Strictly no whole pumpkins, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening orange interior flesh under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, highlighting the extreme level of fine-edged craftsmanship."
+                ),
+                "Anggur: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid grape material, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the horizontal frame, featuring a wide facade carved from the smooth purple-black skin of a giant grape. "
+                    "The architecture includes a grand central dome and soaring minarets, all intricately detailed with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of translucent-green succulent flesh chunks, large fragments of removed smooth purple skin, and wet juice marks. "
+                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the translucent, glistening green interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal purple structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Strawberry: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid strawberry, positioned precisely in front of the elderly Indonesian carver. "
+                    "The architecture spans 1 meter wide, utilizing the bright red seeded skin as a unique textured facade. "
+                    "The structure features a wide tiered foundation and a grand central dome with soaring minarets, all intricately carved to integrate the tiny seeds into the architectural patterns. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of pale-red and white succulent flesh chunks, large fragments of removed red seeded skin, and wet juice marks. "
+                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening pale-red interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal red structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Jeruk: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid orange (citrus), positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a massive horizontal layout carved from the porous orange rind. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant orange juice vesicles (pulps), large fragments of removed porous rind, and wet juice marks. "
+                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the glistening orange pulps under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal orange structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Durian: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid durian, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, utilizing the rugged golden-brown spiked rind as a massive, aggressive stone-like stone facade. "
+                    "The architecture features a towering central dome and multiple high minarets, with the natural sharp thorns integrated into the geometric pillars and walls. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of creamy-yellow custard-like flesh chunks, large fragments of removed thick spiked rind, and wet marks. "
+                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, buttery, and glistening yellow interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal spiked structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Anggur: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal giant grape, featuring full-surface deep engravings over the smooth purple skin. "
+                    "Every millimeter of the surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: translucent-green flesh chunks and fine-carved purple skin shavings. "
+                    "Strictly no whole grapes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the succulent, glistening green interior flesh reflecting natural golden hour daylight. "
+                    "The colossal structure fills the frame in ultra-high fidelity, highlighting the massive scale and extreme organic detail."
+                ),
+                "Strawberry: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal strawberry, featuring full-surface deep engravings over the red seeded skin. "
+                    "The entire red surface and the tiny seeds are meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: pale-red and white flesh fragments, fine-edged red skin shavings, and moist marks. "
+                    "Strictly no whole strawberries, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening pale-red interior flesh under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Jeruk: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal orange, featuring full-surface deep engravings over the entire porous orange rind. "
+                    "Every millimeter of the textured skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of orange pulps, fine-edged rind shavings, and wet juice marks. "
+                    "Strictly no whole oranges, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening orange interior pulps under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, highlighting the extreme level of fine-edged craftsmanship."
+                ),
+                "Durian: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal durian, featuring full-surface deep engravings over the thick golden-brown spiked rind. "
+                    "Every millimeter of the rugged skin and every sharp thorn is meticulously transformed into hyper-detailed geometric relief and complex architectural patterns. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of creamy-yellow flesh fragments, fine-carved thick spiked rind shavings, and wet marks. "
+                    "Strictly no whole durians, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, buttery yellow interior flesh under natural golden hour light. "
+                    "The colossal spiked structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged architectural detail."
+                ),
+                "Manggis: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mangosteen, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the horizontal frame, featuring a wide facade carved from the thick, smooth purple-black rind along the 1-meter span. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all intricately detailed with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of pearly-white succulent flesh chunks, large fragments of removed thick purple-black rind, and wet juice marks. "
+                    "Strictly no whole mangosteens, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening pearly-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal purple-black structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Apel: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid red apple, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a majestic horizontal layout carved from the smooth, glossy red rind. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris: thousands of pale-white crisp apple flesh chunks, large fragments of removed glossy red peel, and wet juice marks. "
+                    "Strictly no whole apples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the dense, glistening pale-white interior flesh under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal ruby-red structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Kiwi: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid kiwi fruit, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, utilizing the fuzzy brown skin as a unique textured facade. "
+                    "The structure features a towering central dome and multiple high minarets, with the wide tiered foundation showing multi-layered architectural details. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant green flesh chunks with tiny black seeds, large fragments of removed fuzzy brown skin, and moist marks. "
+                    "Strictly no whole kiwis, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the glistening green interior flesh and patterns of tiny black seeds under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal brown-and-green structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Manggis: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal mangosteen, featuring full-surface deep engravings over the thick purple-black rind. "
+                    "Every millimeter of the surface is transformed into hyper-detailed geometric Islamic patterns and lace-like filigree, leaving no part of the skin untouched. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme relief carvings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw fruit construction debris: pearly-white flesh chunks and fine-carved purple rind shavings. "
+                    "Strictly no whole mangosteens, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "The deep architectural portals reveal the succulent, glistening white interior flesh reflecting natural golden hour daylight. "
+                    "The colossal structure fills the frame in ultra-high fidelity, highlighting the massive scale and extreme organic detail."
+                ),
+                "Apel: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal red apple, featuring full-surface deep engravings over the glossy red rind. "
+                    "The entire red surface is meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: pale-white flesh fragments, fine-edged red peel shavings, and moist marks. "
+                    "Strictly no whole apples, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening pale-white interior flesh under natural daylight. "
+                    "The colossal red structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Kiwi: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal kiwi fruit, featuring full-surface deep engravings over the fuzzy brown skin. "
+                    "The entire textured surface is transformed into hyper-detailed geometric relief and complex architectural patterns, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of green flesh fragments with black seeds, fine-carved fuzzy skin shavings, and moist marks. "
+                    "Strictly no whole kiwis, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the vibrant green interior flesh and black seed patterns under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, highlighting the extreme level of fine-edged craftsmanship."
+                ),
+                "Biji Jagung: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of solid yellow corn kernels, positioned precisely in front of the elderly Indonesian carver. "
+                    "The structure spans 1 meter wide, with the kernels tightly packed to form a massive golden-yellow mosaic facade. "
+                    "The architecture features a wide rectangular foundation and a grand central dome flanked by four soaring minarets, all showing a dense organic texture. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw material debris: thousands of loose yellow corn kernels and small fragments of broken maize. "
+                    "Strictly no whole corn cobs, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
+                    "Deeply recessed entrances show the solid, matte yellow texture under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal golden structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Biji Kacang Ijo: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of small solid green mung beans, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the horizontal frame, featuring a wide facade with a dense green matte texture along the 1-meter span. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed green beans. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose green mung beans scattered across the workspace. "
+                    "Strictly no whole bean pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw bean material debris. "
+                    "Deeply recessed entrances show the dense, earthy green texture under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal green structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Cabe: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid mass of red chili peppers, positioned precisely in front of the elderly Indonesian carver. "
+                    "The architecture spans 1 meter wide, utilizing the bright waxy red skin of the chili as a vibrant decorative facade. "
+                    "The structure features a towering central dome and multiple high minarets with the natural curves of the chili integrated into the pillars. "
+                    "The long wooden table is heavily cluttered only with raw fruit construction debris: thousands of sliced red chili pieces, scattered white seeds, and wet juice marks. "
+                    "Strictly no whole intact chilies, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the glistening red interior and white seeds under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal red structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Tomat: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid tomato, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama spans 1 meter wide, featuring a majestic horizontal layout carved from the smooth, glossy red tomato skin. "
+                    "The architecture features a towering central dome and multiple high minarets, with the wide tiered foundation showing deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw fruit debris: thousands of vibrant red tomato flesh chunks, clusters of watery seeds, and wet juice marks. "
+                    "Strictly no whole tomatoes, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances reveal the dense, glistening red interior flesh and watery seeds under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal ruby-red structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Biji Jagung: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of corn kernels, featuring full-surface architectural engravings across the golden yellow mosaic. "
+                    "Every millimeter of the packed kernel surface is transformed into hyper-detailed geometric Islamic patterns, creating a complex relief along the 1-meter width. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw material debris: thousands of loose yellow corn kernels and crushed maize fragments. "
+                    "Strictly no whole corn cobs, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
+                    "The deep architectural portals reveal the dense yellow texture reflecting natural golden hour daylight. "
+                    "The colossal golden structure fills the frame in ultra-high fidelity, highlighting the massive scale of the grain assembly."
+                ),
+                "Biji Kacang Ijo: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of green mung beans, featuring full-surface architectural relief carvings over the green matte surface. "
+                    "The entire bean-packed surface is meticulously transformed into hyper-detailed geometric patterns and lace-like textures, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose small green mung beans. "
+                    "Strictly no whole pods, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
+                    "Deeply recessed openings reveal the dense earthy green texture under natural daylight. "
+                    "The colossal green structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged architectural detail."
+                ),
+                "Cabe: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal solid chili mass, featuring full-surface deep engravings over the waxy red skin. "
+                    "Every millimeter of the skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of sliced red chili pieces and scattered white seeds. "
+                    "Strictly no whole chilies, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the glistening red interior flesh and seeds under natural daylight. "
+                    "The colossal red structure fills the horizontal frame in ultra-high fidelity, highlighting the extreme level of fine-edged craftsmanship."
+                ),
+                "Tomat: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal tomato, featuring full-surface deep engravings over the glossy red rind. "
+                    "The entire smooth red surface is meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw fruit debris: vibrant red tomato flesh fragments, watery seed clusters, and fine peel shavings. "
+                    "Strictly no whole tomatoes, no sharp objects, no knives, and no carving tools on the table. Only raw fruit material debris. "
+                    "Deeply recessed openings reveal the dense, glistening red interior flesh and seeds under natural daylight. "
+                    "The colossal red structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
+                ),
+                "Biji Kedelai Hitam: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of solid black soybean grains, positioned precisely in front of the elderly Indonesian carver. "
+                    "The structure spans 1 meter wide, with the small black beans tightly packed to form a massive, deep-black glossy mosaic facade. "
+                    "The architecture features a wide rectangular tiered foundation and a grand central dome flanked by four soaring minarets, all showing a dense organic black texture. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with raw material debris: thousands of loose black soybeans scattered across the surface. "
+                    "Strictly no whole pods, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
+                    "Deeply recessed entrances show the solid, dark-onyx texture under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal black structure fills the entire frame in extreme, high-fidelity focus."
+                ),
+                "Biji Bunga Matahari: Diorama Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of sunflower seeds (kuaci), positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the horizontal frame, featuring a wide facade with the natural black-and-white striped patterns of the seeds along the 1-meter span. "
+                    "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed striped seeds. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose sunflower seeds and broken seed shells scattered across the workspace. "
+                    "Strictly no whole sunflowers, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
+                    "Deeply recessed entrances show the dense, organic striped texture under natural golden hour daylight, strictly no internal lighting. "
+                    "The colossal structure fills the frame in extreme, high-fidelity focus."
+                ),
+                "Biji Kedelai Hitam: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of black soybeans, featuring full-surface architectural engravings across the deep black mosaic. "
+                    "Every millimeter of the packed black bean surface is transformed into hyper-detailed geometric Islamic patterns, creating a complex relief along the 1-meter width. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily littered only with raw material debris: thousands of loose black soybeans and fragments. "
+                    "Strictly no whole pods, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
+                    "The deep architectural portals reveal the dense black texture reflecting natural golden hour daylight. "
+                    "The colossal black structure fills the frame in ultra-high fidelity, highlighting the massive scale of the grain assembly."
+                ),
+                "Biji Bunga Matahari: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of sunflower seeds, featuring full-surface architectural relief carvings over the striped seed surface. "
+                    "The entire surface of tightly packed seeds is meticulously transformed into hyper-detailed geometric patterns and lace-like textures, leaving no part untouched. "
+                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose sunflower seeds and fine-edged broken shells. "
+                    "Strictly no whole sunflowers, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
+                    "Deeply recessed openings reveal the dense striped organic texture under natural daylight. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged architectural detail."
                 )
 
             },        
             "📦 Miniatur Bahan Sederhana": {
-                "Al-Aqsa dari Tanah Liat": (
-                    "A heartbreaking 1-meter Al-Aqsa diorama built from raw, sun-dried village clay. "
-                    "The octagonal structure has a rugged, weathered texture with realistic cracks and fissures. "
-                    "The dome is painted with a matte mustard-yellow clay pigment to represent the golden dome in a humble, poor setting. "
-                    "Lighting: A dim 'Candlelight' amber LED flickers weakly from inside the clay structure, symbolizing a resilient hope in the face of struggle."
+                "Kardus Bekas: Diorama Monumental": (
+                    "A monumental, 1-meter-long grand mosque building with full architectural integrity, constructed entirely from recycled corrugated cardboard, positioned precisely in front of the elderly carver. "
+                    "The structure features a wide tiered foundation and a grand central dome flanked by four soaring minarets, all showing the natural brown paper texture and visible corrugated edges. "
+                    "The architecture includes multi-layered facade details and deep-recessed windows revealing the hollow interior of the cardboard structure. "
+                    "The long wooden table is heavily cluttered only with realistic construction debris: hundreds of small cardboard scraps, shredded brown paper, and dried glue marks. "
+                    "Strictly no whole cardboard boxes and strictly no sharp objects, no knives, and no scissors on the table. "
+                    "The colossal brown structure fills the horizontal frame in a straight-on, eye-level cinematic shot under natural golden hour light, reflecting no internal glow."
                 ),
-                "Al-Aqsa dari Botol": (
-                    "A unique 1-meter Al-Aqsa diorama made from thousands of blue and clear glass bottle shards. "
-                    "The walls glow like a sapphire mosaic, while the dome is a sphere of amber glass. "
-                    "The base is made of smooth river stones and dry sand. "
-                    "Lighting: Internal 'Cool Moonwhite' LED lighting refracts through the glass, creating a soft, ethereal glow that looks like a glowing lantern in the middle of a dark village night."
+                "Koran Bekas: Diorama Monumental": (
+                    "A monumental, 1-meter-long grand mosque building with full architectural integrity, constructed entirely from tightly rolled and folded recycled newspapers, positioned precisely in front of the elderly carver. "
+                    "The structure features a massive horizontal layout with a giant central dome and a sequence of arched galleries, all showing the dense texture of grey newsprint and blurred black text. "
+                    "The architecture includes towering minarets made from spiraled newspaper rolls and wide balconies. "
+                    "The long wooden table is heavily cluttered only with realistic construction debris: hundreds of crumpled newspaper scraps, tiny paper confetti, and paper strips. "
+                    "Strictly no whole unread newspapers and strictly no sharp objects, no knives, and no scissors on the table. "
+                    "The colossal grey-textured structure fills the horizontal frame in extreme, sharp focus under natural daylight, highlighting the recycled craftsmanship."
+                ),
+                "Kardus Bekas: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from recycled cardboard, featuring full-surface intricate relief carvings over the brown paper exterior. "
+                    "Every millimeter of the cardboard surface is transformed into hyper-detailed geometric Islamic patterns, with the top layer of paper peeled away to reveal the inner corrugated ribs as part of the design. "
+                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly carver. "
+                    "The long wooden table is heavily littered only with construction debris: fine cardboard shavings, paper dust, and small brown scraps. "
+                    "Strictly no whole boxes and strictly no sharp objects, no knives, and no carving tools on the table. "
+                    "The colossal structure fills the horizontal frame in ultra-high fidelity, highlighting the massive scale and extreme level of paper-craft detail."
+                ),
+                "Koran Bekas: Ukiran Monumental": (
+                    "A 1-meter-long architectural masterpiece of a mosque constructed from compressed recycled newspapers, featuring full-surface intricate relief carvings over the newsprint surface. "
+                    "The entire exterior is meticulously carved into hyper-detailed geometric patterns and lace-like textures, with the grey paper and black ink creating a unique marbled effect. "
+                    "The architecture features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
+                    "The long wooden table is heavily cluttered only with raw paper debris: thousands of tiny newspaper fragments and paper dust. "
+                    "Strictly no whole newspapers and strictly no sharp objects, no knives, and no scissors on the table. "
+                    "The colossal grey structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged paper carving detail."
                 )
             },
             "✨ Miniatur Megah ( LED )": {
