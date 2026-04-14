@@ -1457,47 +1457,25 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: 1 Meter Susunan Maestro": (
-                    "A massive 1-meter-tall grand mosque structure constructed from hundreds of individual whole and carved watermelons, resting on a high wooden table at chest-level. "
-                    "The grand central dome is a giant assembly of polished green rind segments, while the towering minarets are built from stacked cylindrical watermelon carvings. "
-                    "The architectural walls are made from a mosaic of thick green rind blocks, deeply recessed to reveal a massive interior made of vibrant, rich-ruby-red watermelon flesh. "
-                    "The structure shows realistic assembly: thousands of precisely cut fruit pieces fitted together to form arches and tiered balconies. "
-                    "The red flesh surfaces are dense, fibrous, and glistening with natural moisture, reflecting only natural golden hour daylight. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface response follows real-world food physics. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Ultra-sharp focus showing the individual fruit textures and tool marks. "
-                    "The wooden table is widely covered with massive debris from the construction: dozens of whole watermelons, hundreds of red flesh chunks, large piles of thick green rind, and wet juice marks with loose seeds. "
+                "Semangka: 1 Meter Solid Maestro": (
+                    "A massive, 1-meter-tall solid architectural masterpiece sculpted from a colossal whole watermelon, resting on a high wooden table at chest-level. "
+                    "The structure features a towering central dome and multiple complex symmetrical minarets with slender spires, all carved from the thick, polished green striped rind. "
+                    "The architectural walls are deep and solid, featuring hundreds of multi-layered geometric patterns and recessed ornate arches that reveal the dense, vibrant ruby-red watermelon flesh inside. "
+                    "The red flesh is succulent, fibrous, and glistening with natural moisture, reflecting only natural golden hour daylight. "
+                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface response follows real-world food physics with zero translucency. "
+                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges with ultra-high fidelity detail in sharp focus. "
+                    "The wooden table is widely covered with extensive and realistic watermelon debris: whole intact watermelons, glistening red flesh chunks, large pieces of removed thick green rind, curled shavings, and wet juice marks with loose seeds. "
                     "The miniature is positioned right under the character's chin, sharing the frame in crisp detail."
                 ),
-                "Semangka: 1 Meter Full Ukiran Susun": (
-                    "A majestic 1-meter-tall mosque built from a complex assembly of intricately full-carved watermelons, resting on a high wooden table at chest-level. "
-                    "Every single fruit used in the construction has its rind fully engraved with complex geometric Islamic patterns before being stacked into the grand structure. "
-                    "The mosque features multi-layered tiered domes and colossal minarets, all showing the lace-like filigree carved into the green striped skins. "
-                    "Deep architectural recesses reveal the succulent ruby-red interior flesh of the stacked fruits, glistening with natural juices. "
+                "Semangka: 1 Meter Full Ukiran Elite": (
+                    "A majestic 1-meter-tall mosque sculpted from a colossal whole watermelon, featuring a full-surface intricate engraving over the entire green rind. "
+                    "The exterior is covered in deep, precise architectural carvings, transforming the natural skin into complex geometric Islamic patterns and lace-like filigree. "
+                    "The structure features a tiered central dome and colossal minarets, all showing the complex relief carvings on the green striped rind. "
+                    "Deep recesses reveal the vibrant rich-ruby-red interior flesh, glistening with natural juices under the sun. "
                     "The red flesh is physically solid and opaque, reflecting natural external light with high saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics with zero translucency. "
-                    "The wooden table is widely covered with extensive debris: whole watermelons, glistening red flesh fragments, large removed rind pieces, and loose seeds. "
-                    "The miniature is captured in ultra-sharp focus, showing the massive scale of the fruit assembly under the character's chin."
-                ),
-                "Melon: 1 Meter Susunan Maestro": (
-                    "A massive 1-meter-tall grand mosque structure constructed from hundreds of individual whole and carved melons, resting on a high wooden table at chest-level. "
-                    "The grand central dome is a giant assembly of tan-netted rind segments, while the towering minarets are built from stacked spherical melon carvings. "
-                    "The walls are a complex mosaic of precisely cut melon rind blocks, creating deep architectural arches that reveal the vibrant orange interior flesh. "
-                    "The structure shows a realistic assembly of hundreds of fruit parts fitted together to form a colossal architectural masterpiece. "
-                    "The orange flesh surfaces are moist and fibrous, reflecting only natural golden hour daylight with vivid saturation. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural light. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp edges showing the individual fruit assembly. "
-                    "The wooden table is widely covered with massive debris: dozens of whole melons, glistening orange flesh chunks, piles of removed tan-netted rind, and wet juice marks with seeds. "
-                    "The miniature is positioned right under the character's chin in crisp, cinematic close-up framing."
-                ),
-                "Melon: 1 Meter Full Ukiran Susun": (
-                    "A majestic 1-meter-tall mosque built from a complex assembly of intricately full-carved melons, resting on a high wooden table at chest-level. "
-                    "Each individual melon rind in the assembly is fully engraved with deep geometric Islamic patterns and lace-like textures before being stacked. "
-                    "The mosque features multi-tiered grand domes and massive minarets, all showcasing the complex relief carvings on the tan-netted skins. "
-                    "Deep recesses reveal the vibrant orange interior flesh of the stacked melons, glistening under natural sunlight. "
-                    "The orange flesh is physically solid and opaque, reflecting natural external light with high saturation. "
                     "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics. "
-                    "The wooden table is widely covered with extensive debris: whole melons, glistening orange flesh fragments, large removed rind pieces, and seeds with wet marks. "
-                    "The miniature is captured in ultra-sharp focus, showing the massive scale of the fruit assembly under the character's chin."
+                    "The wooden table is widely covered with extensive debris: whole watermelons, glistening red flesh fragments, large removed rind pieces, and loose seeds. "
+                    "The miniature is captured in ultra-sharp focus, showing the massive scale of the carving under the character's chin."
                 )
 
             },        
