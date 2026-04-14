@@ -395,21 +395,17 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
                 "Semangka: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
-                    "The structure features a large central dome made from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
-                    "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind. "
-                    "The walls are formed from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
-                    "The inner carved sections reveal dense watermelon flesh with a natural fibrous structure, visible grain, irregular moisture distribution, and embedded seeds. "
-                    "The red flesh appears physically solid, opaque, and fully non-translucent, with a matte wet surface that reflects light minimally and never emits or transmits light. "
-                    "Surface response follows real-world food material behavior: no internal scattering, no subsurface glow, no translucency, no emission. "
-                    "Lighting is strictly external and natural, behaving like real daylight interacting with a carved fruit surface. "
-                    "No internal lighting mechanisms exist within the structure under any circumstances. "
-                    "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strict symmetry and precision. "
-                    "Clean, sharp carving edges with slight natural imperfections consistent with hand carving. "
-                    "Realistic fruit surface with micro texture variation, subtle moisture, and organic irregularities typical of freshly cut watermelon. "
-                    "The wooden table surface is scattered with irregular watermelon debris: uneven chunks of red flesh, loose seeds, wet juice marks, and thin curled rind shavings. "
-                    "Strictly photorealistic food carving, non-stylized, no fantasy elements, no decorative lighting, no artificial enhancement. "
-                    "Pure ornamental structure with no text or calligraphy."
+                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "The structure features a large central dome from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
+                    "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind with sharp edges. "
+                    "The walls are thick green rind, deeply carved with recessed arched doorways and windows, revealing dense, vibrant ruby-red watermelon flesh inside. "
+                    "The inner carved sections show a realistic juicy watermelon flesh with a natural fibrous structure and visible grain. "
+                    "The red flesh surface is glistening and moist, catching natural external light with vivid color saturation. "
+                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural golden hour daylight. "
+                    "Pure ornamental structure with strictly no text or calligraphy. "
+                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
+                    "The wooden table is scattered with realistic watermelon debris: glistening red flesh chunks, loose seeds, and wet juice marks. "
+                    "The miniature is positioned right under the character's chin, sharing the frame in crisp detail."
                 ),
                 "Semangka: Kubah Merah": (
                     "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
