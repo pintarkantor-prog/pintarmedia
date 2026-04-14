@@ -1457,25 +1457,35 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: Maestro Lebar": (
-                    "A massive, wide-scale 1-meter-long architectural masterpiece of a grand mosque, sculpted from a colossal solid watermelon, resting on a long wooden table. "
-                    "The structure spans 1 meter in width, featuring a horizontal panoramic layout with a majestic central grand dome and a series of smaller flanking domes stretching along the wide facade. "
-                    "The mosque includes wide colonnaded hallways and tall symmetrical minarets at the far ends of the 1-meter span. "
-                    "Every architectural detail is carved from the thick green striped rind, with hundreds of deep-recessed windows and wide arched portals revealing the dense, vibrant ruby-red watermelon flesh inside. "
-                    "The red flesh is succulent and glistening, reflecting only natural golden hour daylight; strictly no internal lighting and no LEDs. "
-                    "Surface response follows real-world food physics with zero translucency. Pure architectural structure with no text. "
-                    "The long wooden table is heavily covered with extensive realistic debris: multiple whole watermelons, huge piles of red flesh chunks, large pieces of removed thick rind, and wet juice marks with loose seeds scattered across the 1-meter workspace. "
-                    "The wide 1-meter structure is positioned right under the character's chin, filling the horizontal frame in a crisp cinematic landscape shot."
+                "Semangka: Monumental 1-Meter Diorama": (
+                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid watermelon. "
+                    "The architecture looks massive and grand, featuring a wide horizontal span with hundreds of tiny, detailed fruit-texture patterns that suggest a giant scale. "
+                    "The main central dome is a colossal, perfectly rounded sphere carved from the thick green striped rind, flanked by four towering symmetrical minarets at the corners. "
+                    "Every entrance arch is precisely deep-carved, showing the transition from the polished green skin to the vibrant, rich-ruby-red watermelon flesh inside. "
+                    "The shot is a straight-on, eye-level view of the massive watermelon building, showcasing its immense size and intricate organic craftsmanship. "
+                    "Strictly no internal lighting, no LEDs, and no artificial glow. The red flesh is dense, succulent, and glistening naturally under external golden hour sunlight. "
+                    "The long wooden table is heavily cluttered with realistic construction debris: whole watermelons, huge piles of red flesh chunks, large pieces of removed thick rind, and wet juice marks with loose seeds. "
+                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
                 ),
-                "Melon: Maestro Lebar": (
-                    "A massive, wide-scale 1-meter-long architectural masterpiece of a grand mosque, sculpted from a colossal solid melon, resting on a long wooden table. "
-                    "The structure spans 1 meter in width, designed with a wide horizontal panoramic facade featuring a grand central dome and a rhythmic sequence of arched galleries extending to the sides. "
-                    "The architecture features a tiered wide foundation and multiple tall minarets positioned along the 1-meter wide structure. "
-                    "All exterior walls are carved from the tan-netted melon rind, showing intricate multi-layered geometric relief carvings. "
-                    "The deep architectural recesses reveal the vibrant, rich-orange melon flesh inside, which appears succulent and glistening under natural light. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural light with high color saturation. "
-                    "The long wooden table is heavily cluttered with massive realistic debris: whole intact melons, large piles of orange flesh fragments, removed rind pieces, and wet juice marks with seeds. "
-                    "The wide 1-meter structure is positioned right under the character's chin, filling the horizontal frame in a crisp cinematic landscape shot."
+                "Melon: Monumental 1-Meter Diorama": (
+                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid melon. "
+                    "The architecture looks massive and grand, with a wide horizontal panoramic layout and thousands of tiny, detailed geometric patterns carved into the tan-netted rind. "
+                    "The structure features a giant central grand dome and a rhythmic sequence of high-arched galleries extending along the 1-meter span. "
+                    "The walls are deep and solid, with every arched portal revealing the inner vibrant, rich-orange melon flesh which appears dense, succulent, and glistening. "
+                    "The shot is a straight-on, eye-level view of the massive melon building, highlighting its immense scale and high-fidelity organic textures. "
+                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface reflects only natural light with high color saturation. "
+                    "The long wooden table is widely covered with massive debris: whole intact melons, large piles of orange flesh fragments, removed rind pieces, and wet juice marks with seeds. "
+                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
+                ),
+                "Buah Naga: Monumental 1-Meter Diorama": (
+                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid dragon fruit. "
+                    "The architecture looks massive and grand, utilizing the bright pink rind and green-tipped scales as complex decorative facade elements along the 1-meter width. "
+                    "The structure features multiple tiered domes and soaring symmetrical minarets, all intricately engraved with multi-layered architectural details. "
+                    "Deeply recessed entrance arches reveal the vibrant white dragon fruit flesh filled with thousands of tiny black seeds, appearing dense and glistening like organic marble. "
+                    "The shot is a straight-on, eye-level view of the massive pink building, showing its immense size and the sharp contrast between the scales and the inner flesh. "
+                    "Strictly no internal lighting, no LEDs, and no artificial glow. The white flesh reflects only natural external sunlight. "
+                    "The long wooden table is heavily cluttered with realistic debris: whole intact dragon fruits, white flesh chunks with black seeds, large pieces of removed pink rind, and wet juice marks. "
+                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
                 )
 
             },        
