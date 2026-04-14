@@ -1457,35 +1457,35 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: Monumental 1-Meter Diorama": (
-                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid watermelon. "
-                    "The architecture looks massive and grand, featuring a wide horizontal span with hundreds of tiny, detailed fruit-texture patterns that suggest a giant scale. "
-                    "The main central dome is a colossal, perfectly rounded sphere carved from the thick green striped rind, flanked by four towering symmetrical minarets at the corners. "
-                    "Every entrance arch is precisely deep-carved, showing the transition from the polished green skin to the vibrant, rich-ruby-red watermelon flesh inside. "
-                    "The shot is a straight-on, eye-level view of the massive watermelon building, showcasing its immense size and intricate organic craftsmanship. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. The red flesh is dense, succulent, and glistening naturally under external golden hour sunlight. "
-                    "The long wooden table is heavily cluttered with realistic construction debris: whole watermelons, huge piles of red flesh chunks, large pieces of removed thick rind, and wet juice marks with loose seeds. "
-                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
+                "Semangka: Monumental 1-Meter Diorama (Presisi Depan)": (
+                    "A monumental, large-scale 1-meter-long mosque diorama sculpted entirely from a colossal solid watermelon, positioned precisely in front of the elderly Indonesian carver. "
+                    "The shot is a straight-on, eye-level cinematic photograph, with the immense fruit building filling the foreground directly between the character and the camera. "
+                    "The architecture looks massive and grand, featuring a wide horizontal span with hundreds of tiny, detailed fruit-texture patterns on the green striped rind. "
+                    "The main central dome is flanked by four towering symmetrical minarets at the corners of the 1-meter width. "
+                    "The long wooden table is heavily and realistically cluttered across the entire workspace in front of the character: at least one prominent whole intact watermelon sits to the side, surrounded by huge piles of fresh red flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and glistening juice. "
+                    "The character (grandparent) is seated directly behind this messy 1-meter diorama and the cluttered workspace, looking on with pride. "
+                    "The deep architectural recesses show the succulent rich-ruby-red interior flesh glistening naturally under golden hour sunlight, strictly no internal lighting and no LEDs. "
+                    "The entire colossal structure fills the horizontal frame in extreme, sharp detail."
                 ),
-                "Melon: Monumental 1-Meter Diorama": (
-                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid melon. "
-                    "The architecture looks massive and grand, with a wide horizontal panoramic layout and thousands of tiny, detailed geometric patterns carved into the tan-netted rind. "
-                    "The structure features a giant central grand dome and a rhythmic sequence of high-arched galleries extending along the 1-meter span. "
-                    "The walls are deep and solid, with every arched portal revealing the inner vibrant, rich-orange melon flesh which appears dense, succulent, and glistening. "
-                    "The shot is a straight-on, eye-level view of the massive melon building, highlighting its immense scale and high-fidelity organic textures. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface reflects only natural light with high color saturation. "
-                    "The long wooden table is widely covered with massive debris: whole intact melons, large piles of orange flesh fragments, removed rind pieces, and wet juice marks with seeds. "
-                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
+                "Melon: Monumental 1-Meter Diorama (Presisi Depan)": (
+                    "A monumental, large-scale 1-meter-long mosque diorama sculpted entirely from a colossal solid melon, positioned precisely in front of the elderly Indonesian carver. "
+                    "The shot is a straight-on, eye-level cinematic photograph, with the immense fruit building filling the foreground directly between the character and the camera. "
+                    "The architecture looks massive and grand, with thousands of tiny, complex geometric patterns carved into the tan-netted melon rind along the wide 1-meter span. "
+                    "The central grand dome and symmetrical minarets define the wide panoramic structure. "
+                    "The long wooden table workspace in front of the character is heavily cluttered and messy: at least one prominent whole intact melon, large piles of orange flesh fragments, scattered removed rind pieces, seeds, and glistening wet juice marks cover the surface. "
+                    "The character (grandparent) is seated directly behind this messy 1-meter diorama and the cluttered workspace, looking on with pride. "
+                    "Deeply recessed openings reveal the dense, glistening rich-orange interior flesh under natural golden hour light, strictly no internal lighting and no LEDs. "
+                    "The colossal melon structure fills the horizontal frame in extreme, sharp focus."
                 ),
-                "Buah Naga: Monumental 1-Meter Diorama": (
-                    "A monumental, large-scale 1-meter mosque diorama sculpted entirely from a colossal solid dragon fruit. "
-                    "The architecture looks massive and grand, utilizing the bright pink rind and green-tipped scales as complex decorative facade elements along the 1-meter width. "
-                    "The structure features multiple tiered domes and soaring symmetrical minarets, all intricately engraved with multi-layered architectural details. "
-                    "Deeply recessed entrance arches reveal the vibrant white dragon fruit flesh filled with thousands of tiny black seeds, appearing dense and glistening like organic marble. "
-                    "The shot is a straight-on, eye-level view of the massive pink building, showing its immense size and the sharp contrast between the scales and the inner flesh. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. The white flesh reflects only natural external sunlight. "
-                    "The long wooden table is heavily cluttered with realistic debris: whole intact dragon fruits, white flesh chunks with black seeds, large pieces of removed pink rind, and wet juice marks. "
-                    "The massive 1-meter building is positioned right under the character's chin, filling the frame in a crisp, cinematic landscape shot."
+                "Buah Naga: Monumental 1-Meter Diorama (Presisi Depan)": (
+                    "A monumental, large-scale 1-meter-long mosque diorama sculpted entirely from a colossal solid dragon fruit, positioned precisely in front of the elderly Indonesian carver. "
+                    "The shot is a straight-on, eye-level cinematic photograph, with the immense pink building filling the foreground directly between the character and the camera. "
+                    "The architecture utilizes the bright pink rind and green-tipped scales as intricate facade elements along the wide horizontal span. "
+                    "Multiple tiered domes and soaring symmetrical minarets showcase the high-fidelity multi-layered craftsmanship. "
+                    "The long wooden table workspace in front of the character is heavily cluttered and messy: prominent whole intact dragon fruits, huge piles of white flesh chunks with thousands of black seeds, scattered removed pink rind pieces, and glistening wet juice marks cover the surface. "
+                    "The character (grandparent) is seated directly behind this messy 1-meter diorama and the cluttered workspace, looking on with pride. "
+                    "Deeply recessed openings reveal the glistening white dragon fruit flesh filled with black seeds under natural daylight, strictly no internal lighting and no LEDs. "
+                    "The entire 1-meter structure fills the horizontal frame in crisp, cinematic focus."
                 )
 
             },        
