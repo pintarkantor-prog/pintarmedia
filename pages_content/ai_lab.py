@@ -2737,19 +2737,21 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-        # --- LOGIC GENERATOR (ANTI-HALUSINASI VERSION: GENDER & WARDROBE LOCK) ---
+        # --- LOGIC GENERATOR (V26: THE HIGH-TABLE SYNC) ---
         if btn_gen:
-            # 1. POSISI MATI LESEHAN (Tetap)
-            posisi_nenek = "sitting cross-legged on the ground (lesehan)"
+            # 1. UBAH DARI LESEHAN KE POSISI MEJA TINGGI
+            # Ini kunci agar objek sejajar dengan dada, bukan di kaki.
+            posisi_nenek = "sitting behind a high rustic wooden table (meja tinggi)"
             
-            # 2. KUNCI LIGHTING & VISUAL (Tetap)
+            # 2. KUNCI LIGHTING & VISUAL (REFINED FOR CLOSE-UP)
             scene_context = (
-                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. NO TEXT. "
+                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. "
                 f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light on the elderly's wrinkled skin and the mosque's edges. "
                 f"CONTRAST: Rich, deep contrast where the mosque's internal LED lights create an intense glowing focal point. "
-                # Jarak diubah ke 1.5 - 2 meter (Medium Close-Up) agar lebih proporsional
-                f"CAMERA: Medium Close-up at 2 meters distance. Eye-level shot. "
-                # Menambahkan gerakan zoom yang sangat halus (slow-crawl) agar tidak kaku
+                # Jarak dikunci 1.2 - 1.5 meter agar terasa intim tapi tidak memotong objek
+                f"CAMERA: Tight Medium-Shot (Chest-up). Eye-level shot. "
+                # Fokus pada "Chest-Level" agar Masjid & Wajah satu frame
+                f"COMPOSITION: The miniature mosque is placed on the table at chest-height, sharing the frame 50/50 with the character's torso and face. "
                 f"MOTION: Extremely subtle, almost imperceptible slow zoom-in toward the face, 0.1x speed. "
                 f"DEEP FOCUS: F/11 Aperture, CRYSTAL CLEAR focus on both the elderly person and the miniature mosque, zero blur."
             )
