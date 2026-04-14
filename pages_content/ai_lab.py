@@ -2835,9 +2835,11 @@ def tampilkan_halaman():
                     "MANDATORY AUDIO: Natural, steady elderly delivery. Calm and weary pacing with zero youthful energy."
                 )
 
-            # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
+            # --- FINAL ASSEMBLY (V22: THE 'SS' COMPOSITION LOCK) ---
             final_ai_prompt = (
-                f"{scene_context} \n\n" # Sudah mengandung 8K, Golden Hour, & Slow Zoom
+                # Kita ubah dari Waist-Up ke framing yang lebih spesifik
+                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. "
+                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light on the elderly's wrinkled skin and the mosque's edges. \n\n"
                 
                 # Gabungan Soul & Gender agar wajah konsisten
                 f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
@@ -2857,13 +2859,14 @@ def tampilkan_halaman():
                 f"- Dialog Content: '{user_dialog}' \n"
                 f"- Delivery: Use long, heavy pauses. Focus on vocal cord tremors. STRICTLY NO gasping or heavy air intake. \n\n"
                 
-                # UPDATE: Pakai 50mm Lens (Natural Portrait) untuk jarak dekat yang 'cinematic'
-                f"TECHNICAL SPEC: ARRI Alexa 65, 50mm lens for soulful natural portrait, F/8 for intimate depth of field, Bust Shot (Chest-up), Eye-level, Ultra-sharp 8K raw footage. \n\n"
+                # UPDATE KUNCI: Pakai komposisi spesifik biar persis kayak SS awal lo.
+                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens for natural proportions, F/11, Eye-level. "
+                f"FRAMING KEY: Strict Waist-Up framing. Frame must clearly show the elderly person from the waist-up, ensuring BOTH veiny hands, BOTH elbows, and the ENTIRE miniature mosque are visible and perfectly centered. This matches the desired starting composition exactly. \n\n"
                 
-                # Negative Prompt yang lebih galak biar gak ada 'halu'
+                # Negative Prompt yang lebih galak biar gak ditarik jauh
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
                 f"smiling, laughing, teeth showing, aggressive expression, yelling, "
-                f"wide shot, medium shot, legs showing, feet showing, top-down view, " # Tambahan biar gak ditarik jauh
+                f"wide shot, legs showing, feet showing, top-down view, "
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
                 f"blurry, heavy bokeh, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
             )
