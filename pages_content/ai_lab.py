@@ -405,7 +405,7 @@ def tampilkan_halaman():
                     "Pure ornamental structure with strictly no text or calligraphy. "
                     "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is scattered with realistic watermelon debris: glistening red flesh chunks, loose seeds, and wet juice marks. "
-                    "The 1-meter wide structure is positioned precisely in the absolute center of the foreground table, situated directly between the camera lens and the character's torso, creating a perfectly symmetrical composition that partially obscures the character's chest."
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
                 "Semangka: Kubah Merah": (
                     "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
@@ -419,7 +419,7 @@ def tampilkan_halaman():
                     "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
                     "Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic watermelon debris: red flesh chunks, loose seeds, and wet juice marks. "
-                    "The 1-meter wide structure is positioned precisely in the absolute center of the foreground table, situated directly between the camera lens and the character's torso, creating a perfectly symmetrical composition that partially obscures the character's chest."
+                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
                 ),
                 "Semangka: Arsitektur Berlapis": (
                     "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
