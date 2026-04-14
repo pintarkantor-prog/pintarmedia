@@ -395,7 +395,8 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
                 "Semangka: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, positioned precisely in the absolute center of the frame. "
+                    "The diorama is situated directly between the camera lens and the elderly character, placed on a wooden table in a perfectly symmetrical composition. "
                     "The structure features a large central dome from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
                     "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind with sharp edges. "
                     "The walls are thick green rind, deeply carved with recessed arched doorways and windows, revealing dense, vibrant ruby-red watermelon flesh inside. "
@@ -405,10 +406,12 @@ def tampilkan_halaman():
                     "Pure ornamental structure with strictly no text or calligraphy. "
                     "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
                     "The wooden table is scattered with realistic watermelon debris: glistening red flesh chunks, loose seeds, and wet juice marks. "
-                    "The miniature is positioned right under the character's chin, sharing the frame in crisp detail."
+                    "The colossal 1-meter-wide miniature is centered in the foreground, partially obscuring the character's chest, filling the frame in crisp detail."
                 ),
+
                 "Semangka: Kubah Merah": (
-                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole watermelon, positioned precisely in the absolute center of the frame. "
+                    "The shot is a perfectly symmetrical, straight-on eye-level view where the mosque is the primary foreground object directly in front of the character. "
                     "The central dome is carved from exposed vibrant ruby-red watermelon flesh, shaped into a smooth rounded structure with dense fibrous texture, visible grain, and glistening natural moisture. "
                     "The red flesh appears solid and opaque, catching natural external light with vivid saturation, strictly no internal glow and no emission. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick green rind, each topped with finely carved spires. "
@@ -419,10 +422,12 @@ def tampilkan_halaman():
                     "Strictly no internal lighting mechanisms. Clean, sharp carving edges in sharp focus. "
                     "Pure architectural structure with no text or calligraphy. "
                     "Table surface is scattered with realistic watermelon debris: red flesh chunks, loose seeds, and wet juice marks. "
-                    "The miniature is positioned right under the character's chin for a close-up framing."
+                    "The miniature fills the horizontal center of the frame, positioned directly between the camera and the character's midsection."
                 ),
+
                 "Semangka: Arsitektur Berlapis": (
-                    "An intricately carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricately carved miniature mosque sculpted from a whole watermelon, positioned precisely in the absolute center of the frame as the central focal point. "
+                    "The immense structure is situated directly in front of the elderly carver, creating a symmetrical balance between the character and the camera lens. "
                     "The structure emphasizes layered construction: dark green outer rind, pale white inner rind, and dense ruby-red flesh. "
                     "The central dome and minarets are carved to expose these alternating layers, creating a natural multi-tone architectural depth with high color contrast. "
                     "All sections reveal realistic fruit structure with visible fibers and moisture. The red flesh is vibrant, solid, and glistening, strictly non-translucent. "
@@ -430,10 +435,12 @@ def tampilkan_halaman():
                     "Deep-carved arched windows and doors with sharp-edged precision. Pure architectural shapes with strictly no text or calligraphy. "
                     "Sharp focus on all layers, no motion blur, no soft-focus on the miniature. "
                     "Table surface is scattered with mixed debris: red flesh chunks, white rind strips, green rind shavings, and wet juice marks. "
-                    "Positioned right under the character's chin, sharing the frame with high-fidelity detail."
+                    "The 1-meter wide structure spans the center foreground, filling the frame and partially obscuring the character's torso in high-fidelity detail."
                 ),
+
                 "Semangka: Ukiran Tipis": (
-                    "An ultra-precise miniature mosque carved from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "An ultra-precise miniature mosque carved from a whole watermelon, positioned precisely in the absolute center of the frame. "
+                    "The diorama is situated directly in front of the elderly Indonesian carver, filling the foreground between the camera and the character's torso. "
                     "The structure is defined by extremely thin carving work, with green rind shaved down to delicate architectural thickness. "
                     "Domes and minarets are slender and refined, featuring very fine, sharp edges and highly controlled carving depth. "
                     "Sections reveal thin layers of white rind above vibrant red flesh. The red flesh is dense, solid, and glistening with natural moisture. "
@@ -441,10 +448,12 @@ def tampilkan_halaman():
                     "Clean, sharp carving edges with high-fidelity architectural detail in sharp focus. Strictly no motion blur or soft textures on the mosque. "
                     "Pure ornamental structure with strictly no text or calligraphy. "
                     "Table surface is covered with fine carving residue: thin curled rind shavings, micro shavings, and scattered seeds. "
-                    "The miniature is positioned right under the character's chin, sharing the frame with extreme clarity."
+                    "The wide 1-meter structure is centered symmetrically in the frame, partially obscuring the character's chest with extreme clarity."
                 ),
+
                 "Semangka: Ukiran Tradisional": (
-                    "A roughly carved miniature mosque sculpted from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "A roughly carved miniature mosque sculpted from a whole watermelon, positioned precisely in the absolute center of the frame as the primary foreground object. "
+                    "The immense diorama is situated directly in front of the elderly carver, centered between the camera lens and the character's midsection. "
                     "The structure features visibly uneven carving and imperfect geometry, reflecting authentic traditional hand-cut techniques. "
                     "Green rind walls are thick and irregular, with arches and openings carved in a raw, organic manner with visible tool traces. "
                     "Exposed red flesh appears rough and fibrous with visible tearing and natural juice pooling. The flesh is dense, opaque, and strictly non-translucent. "
@@ -452,10 +461,12 @@ def tampilkan_halaman():
                     "Lighting is strictly external natural daylight interacting with rough, uneven surfaces to create realistic shadows. "
                     "Sharp focus on the raw carving marks and organic imperfections. Strictly no text or calligraphy. "
                     "The wooden table is heavily messy, covered with large chunks of red flesh, broken rind pieces, and deep juice stains. "
-                    "Positioned right under the character's chin, sharing the frame with a humble and realistic atmosphere."
+                    "The mosque spans the horizontal center, filling the frame and partially obscuring the character's torso with a humble and realistic atmosphere."
                 ),
+                
                 "Semangka: Modular Block": (
-                    "A completed miniature mosque constructed from multiple carved watermelon pieces assembled into a cohesive structure, resting on a high wooden table at chest-level. "
+                    "A completed miniature mosque constructed from multiple carved watermelon pieces assembled into a cohesive structure, positioned precisely in the absolute center of the frame. "
+                    "The diorama is situated directly in front of the elderly carver, centered between the camera lens and the character's torso in a symmetrical composition. "
                     "The architecture appears modular, with distinct blocks of green rind and red flesh forming walls, domes, and minarets. "
                     "The central dome is assembled from curved segments of rind fitted together, while smaller domes and minarets are built from stacked cylindrical pieces. "
                     "Joints between pieces are visible, showing natural seams and slight misalignment, reinforcing a hand-assembled construction style. Exposed red flesh is dense, fibrous, and strictly non-translucent. "
@@ -463,21 +474,25 @@ def tampilkan_halaman():
                     "Lighting is strictly external natural daylight interacting with the assembled surfaces to create realistic shadows in the seams. "
                     "Sharp focus on the raw assembly marks and organic imperfections. Strictly no text or calligraphy. "
                     "The wooden table is heavily messy, covered with cut fragments, loose segments, seeds, and juice marks from the assembly process. "
-                    "Positioned right under the character's chin, sharing the frame with a humble and realistic atmosphere."
+                    "The 1-meter wide structure spans the center foreground, filling the horizontal frame and partially obscuring the character's midsection."
                 ),
+
                 "Semangka: Kompleks Masjid": (
-                    "A large-scale miniature mosque complex carved from a whole watermelon, resting on a high wooden table at chest-level. "
+                    "A large-scale 1-meter wide miniature mosque complex carved from a whole watermelon, positioned precisely in the absolute center of the frame as the primary foreground object. "
+                    "The immense diorama is situated directly in front of the elderly carver, creating a symmetrical balance between the character and the camera lens. "
                     "The structure includes a central grand mosque surrounded by smaller satellite buildings, courtyards, and multiple clustered minarets, creating a dense architectural layout. "
                     "All elements are carved from green rind with exposed red flesh used for depth accents and inner sections. "
                     "The red flesh is dense, fibrous, and vibrant, strictly non-translucent with no internal glow, no subsurface scattering, and no emission. "
                     "Lighting is strictly external natural daylight, highlighting the complex architectural layers and shadows. "
                     "Clean, sharp carving edges across the entire complex. Every tiny satellite building and minaret must be in sharp focus with high-fidelity detail. "
                     "Pure architectural structure with strictly no text or calligraphy. "
-                    "The wooden table is widely covered with extensive carving debris: flesh chunks, rind fragments, seeds, and juice stains, reflecting a massive project. "
-                    "Positioned right under the character's chin, sharing the frame with a grand and humble atmosphere."
+                    "The wooden table is widely covered with extensive carving debris: flesh chunks, rind fragments, seeds, and juice stains. "
+                    "The entire colossal complex spans the horizontal center, filling the frame and partially obscuring the character's torso."
                 ),
+
                 "Semangka: Ukiran Utuh": (
-                    "A whole intact round watermelon with its natural spherical shape preserved, resting on a high wooden table at chest-level. "
+                    "A whole intact round watermelon with its natural spherical shape preserved, positioned precisely in the absolute center of the frame. "
+                    "The fruit is situated directly in front of the elderly Indonesian carver, centered between the camera lens and the character's midsection. "
                     "A miniature mosque is intricately carved directly into the surface as a recessed architectural relief, embedded into the rind. "
                     "The mosque features a central dome and minarets carved inward, following the natural curve of the fruit, maintaining the original round volume. "
                     "Carved sections reveal vibrant, glistening ruby-red flesh forming depth within windows and arches. The flesh is dense, fibrous, and strictly non-translucent. "
@@ -485,18 +500,21 @@ def tampilkan_halaman():
                     "Lighting is strictly external natural daylight, creating realistic shadows inside the recessed carvings of the curved rind. "
                     "Sharp focus on the carving edges and the smooth green striped texture of the whole watermelon. Strictly no text or calligraphy. "
                     "The wooden table surface is scattered with realistic carving debris: rind shavings, red flesh fragments, and juice marks. "
-                    "Positioned right under the character's chin, sharing the frame with a high-fidelity handcrafted atmosphere."
+                    "The centered 1-meter structure fills the foreground, partially obscuring the character's chest in a high-fidelity handcrafted atmosphere."
                 ),
+
                 "Semangka: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table at chest-level. "
+                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, positioned precisely in the absolute center of the frame. "
+                    "The diorama is situated directly in front of the elderly carver, creating a perfectly symmetrical composition between the camera and the character. "
                     "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
                     "The walls are thick dark green rind, meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. **Strictly with no etched text or calligraphy.** "
+                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. Strictly with no etched text or calligraphy. "
                     "The watermelon surface is realistic with a rough rind texture and naturally glistening red flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
-                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. A full whole watermelon sits beside the miniature. "
-                    "The completed miniature is positioned right under the character's chin, sharing the frame 50/50 with the character's torso and face. "
-                    "Natural golden hour light focuses on the glistening moist texture of the rich ruby-red flesh, making it appear deeply saturated and opulent without any internal lighting."
+                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. "
+                    "Strictly no whole watermelons beside the miniature to maintain the 1-meter scale focus. "
+                    "The completed 1-meter structure spans the center foreground, filling the frame and partially obscuring the character's chest under natural golden hour light."
                 ),
+                
                 "Semangka: LED Glow": (
                     "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table at chest-level. "
                     "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
