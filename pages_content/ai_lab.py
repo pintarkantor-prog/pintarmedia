@@ -2936,28 +2936,31 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "The Ancient Village-Authentic (80th+): A raw, fragile voice with a flat, honest intonation. It carries a very slow, 'broken' cadence of a centenarian, sounding deeply sincere with a dry, dusty texture that is thin and weak.",
-                "Old Javanese Sage (85th+): Extremely slow and deliberate with a heavy, vibrating 'dh' and 'th'. The tone is a low-register, shaky chest voice (gemetar) that sounds like a calm, ancient rhythmic hum.",
-                "Frail Sundanese Elder (80th+): A melodic but very faint undulating rhythm (mendayu). The voice is extremely airy and breathy, characterized by a thin, high-frequency flow that sounds like a weary whisper.",
-                "Coastal Ancestor Cadence (85th+): Slow-paced and rhythmic with a very dry, gravelly 'serak' texture. The intonation is direct but weary, sounding like a weathered voice shaped by a century of sea salt air.",
-                "Village-Elder 'Kering' Voice (80th+): A very thin, cracked, and perpetually shaky voice. It carries the texture of a dry throat with high-register raspiness and mandatory long pauses for breath between phrases.",
-                "The Serene Matriarch (90th+): The slowest tempo possible, almost a spiritual whisper. The voice is fragile and thin, with soft guttural friction in the throat that sounds like the final echoes of a long life."
+                "Natural Village-Authentic: A raw, unpolished voice with a flat, honest intonation. It carries a rhythmic 'broken' cadence, sounding deeply sincere and unpretentious with a texture that is slightly dry and dusty, lacking any urban polish.",
+                "Old Javanese Phonetic: Slow and deliberate with a heavy, vibrating 'dh' and 'th' percussion. The tone is deeply humble, featuring a low-register chest voice that sounds like a calm, rhythmic hum.",
+                "Soft Sundanese Lilt: A melodic, undulating rhythm (mendayu) with a gentle rising and falling pitch. The voice is airy and breathy, characterized by a smooth, high-frequency flow with no harsh edges.",
+                "Coastal Melayu Cadence: Quick-paced and rhythmic with a dry, gravelly texture. The intonation is punchy and direct, sounding like a weathered voice shaped by salt air and open spaces.",
+                "Village-Common 'Kering' Voice: A thin, cracked, and slightly shaky (gemetar) voice. It carries the texture of a dry throat, with high-register raspiness and frequent breathy pauses between phrases.",
+                "The Serene Matriarch: Extremely slow tempo, almost a whisper. The voice is calm, stable, and deeply reverent, with soft guttural friction in the throat that suggests a lifetime of silent prayer."
             ],
-            
             "Mood": [
-                "Nrimo & Tabah: Deeply wrinkled face with a hollow, distant gaze. The mouth area is relaxed and clear, focusing entirely on the spoken dialogue. Strictly NO smile, showing silent endurance.",
-                "Pasrah & Lelah: Heavy physical exhaustion with slightly drooping eyelids. The jaw moves naturally with the speech, showing the effort of an old soul. Authentic weathered skin texture.",
-                "Iba & Mengharap: Sorrowful expression with glistening, hopeful eyes. The mouth is shrunken but active, moving in perfect sync with the pleading dialogue. Deeply emotional but clear.",
-                "Nyesek & Lirih: Intense melancholic 'sayu' eyes with a wet look. The brows are subtly furrowed in worry, while the lips and jaw follow the emotional rhythm of the voice perfectly."
+                "Sedih & Sayu (Quiet Vulnerability - Steady gaze, eyes heavy with deep emotion)",
+                "Tenang & Bengong (Pensive Stillness - Calm facial expression, long natural pauses)",
+                "Damai Sejahtera (Graceful Serenity - Serene and peaceful look, slow breathing)",
+                "Tulus Ikhlas (Humble Devotion - Gentle and sincere facial expression)",
+                "Tegar & Bijak (Stoic Calmness - A steady, wise face reflecting years of memories)",
+                "Fokus Khusyuk (Sacred Focus - Deeply focused expression, absolute sincerity)",
+                "Penuh Harapan (Peaceful Hope - A calm, hopeful look in the eyes)"
             ],
-            
-            "Physical Action": [                
-                "Pasrah di Meja: Both shaky, veiny hands are resting flat on the table on either side of the miniature. The character's shoulders are slumped in deep fatigue. Without moving the hands, the character blinks slowly and stares into the camera with a deep 'nrimo' gaze, keeping the mouth area completely visible for speech.",
-                "Menyodorkan & Pasrah: Using both frail hands to very slowly slide the miniature a fraction of an inch toward the camera as if offering it. Afterward, hands remain on the table with a soft, persistent tremor. The character looks at the lens with a subtle, fragile tilt of the head.",
-                "Mengusap & Kontak Mata: Gently caressing the sides of the miniature with shaky fingertips, then using the thumb to softly polish the dome. Mid-sentence, the character lifts their gaze to make intense, soulful eye contact with the camera before looking back down at the work.",
-                "Menepis Debu & Hela Napas: Using the back of a frail hand to slowly sweep away imaginary dust from the empty table space next to the miniature. Followed by a visible, heavy shoulder slump (deep sigh) while locking eyes with the lens in a silent plea.",
-                "Mendekap Samping: Placing both hands near the base corners of the miniature as if to protect it. The character leans in slightly without obscuring the face, staring into the camera lens with intensely melancholic eyes.",
-                "Menyentuh Kubah & Menoleh: One hand rests on the table, the other gently touches the top of the miniature dome. The character speaks while looking at the work, then slowly turns their entire face to look directly into the camera lens for final emotional emphasis."
+            "Physical Action": [
+                "Menyentuh kubah dengan lembut sambil sesekali menatap kamera (Gently touching the mosque's dome, occasionally shifting gaze to look warmly at the camera)",
+                "Menatap tajam detail lalu mendongak tersenyum (Holding a focused gaze on the details, then briefly looking up at the camera with a subtle smile)",
+                "Mata berkaca-kaca menatap kamera dengan tulus (Looking directly at the camera with glistening eyes and a deeply soulful, hopeful expression)",
+                "Tangan bersedekap di pangkuan menatap penuh doa (Hands resting on the lap in a prayerful pose, looking at the camera with silent devotion)",
+                "Tersenyum tipis ke arah kamera sambil memegang miniatur (A peaceful smile while looking directly at the camera, hands gently supporting the model)",
+                "Mengusap debu lalu menatap puas ke kamera (Gently wiping a speck of dust, then looking at the camera with a satisfied and contented expression)",
+                "Memejamkan mata bersyukur lalu membukanya menatap kamera (Closing eyes in gratitude, then opening them to look warmly at the camera)",
+                "Menunduk khusyuk merakit sesekali melirik kamera (Looking down with intense focus on the craft, occasionally glancing at the camera with a confident smile)"
             ]
         }
 
@@ -3077,35 +3080,8 @@ def tampilkan_halaman():
 
             aksi_final = bersihkan_teks(pilih_aksi)
             mood_final = bersihkan_teks(pilih_mood)
-            
-            # Khusus Logat, karena ada embel-embel "Napas Tua (The Fading Echo):"
-            # Kita split di titik dua paling akhir biar cuma dapet deskripsi Inggrisnya
             logat_final = pilih_logat.split(':')[-1].strip()
                 
-            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED FOR CLARITY) ---
-            if any(mood in pilih_mood for mood in ["Sedih", "Nyesek", "Lirih"]):
-                audio_emotion = (
-                    "MANDATORY AUDIO: Emotional breaking voice with a sincere, weary tone. "
-                    "Maintain clear enunciation of every word despite the fragile, shaky texture. " # Kunci biar gak belepotan
-                    "STRICTLY NO audible gasping or heavy breathing. The pace is slow and heavy with emotion."
-                )
-            elif any(mood in pilih_mood for mood in ["Pasrah", "Nrimo"]):
-                audio_emotion = (
-                    "MANDATORY AUDIO: Deliver with a weary, thin, and hollow spiritual surrender. "
-                    "The voice is soft but every syllable must be distinct and intelligible. " # Paksa AI buat jelas
-                    "ZERO audible breathing. Focus on a dry, aged vocal resonance that feels calm and humble."
-                )
-            elif any(mood in pilih_mood for mood in ["Iba", "Mengharap"]):
-                audio_emotion = (
-                    "MANDATORY AUDIO: Gentle, high-pitched pleading intonation like a humble request. "
-                    "The voice is small and fragile with a faint emotional tremor, but articulation remains sharp. " # Sharp biar gak kumur-kumur
-                    "ABSOLUTELY NO air intake sounds. Keep the audio pure, focused, and deeply vulnerable."
-                )
-            else:
-                audio_emotion = (
-                    "MANDATORY AUDIO: Natural, steady elderly delivery. Calm, weary pacing. "
-                    "Focus on clear, unpolished articulation with a dry, aged vocal cord vibration."
-                )
 
             # --- FINAL ASSEMBLY (V25: THE CHEST-LEVEL MASTERY) ---
             final_ai_prompt = (
@@ -3134,11 +3110,7 @@ def tampilkan_halaman():
                 f"THE MASTERPIECE: {deskripsi_teknis}. The 60cm fruit-carved mosque sits on the table at chest-height. \n\n"
             
                 # 7. Audio & Dialog
-                f"AUDIO CONFIGURATION: \n"
-                f"- Voice Profile: {logat_final} \n"   # Kunci Visual Sync
-                f"- Vocal Nuance: {audio_emotion} \n" # Kunci Tekstur Anti-Asma
-                f"- Dialog Content: '{user_dialog}' \n"
-                # Gabungin ENFORCEMENT di sini biar nempel ke prompt
+                f"DIALOG CONTEXT: '{user_dialog}' delivered with {logat_final} accent. \n\n"
                 f"AUDIO ENFORCEMENT: Voice must be extremely aged and frail but MAINTAIN clear articulation and perfect lip-sync. \n\n"
             
                 # 8. Technical Specs Final (Kunci Framing)
