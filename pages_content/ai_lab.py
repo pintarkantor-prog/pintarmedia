@@ -516,6 +516,22 @@ def tampilkan_halaman():
                     "The wooden table is scattered with irregular debris: softened rind pieces, crushed flesh, seeds, and juice marks. "
                     "Strictly photorealistic, non-stylized, no cinematic or artificial effects. "
                     "Pure ornamental structure with no text or calligraphy."
+                ),
+                "Semangka: Ukiran Dalam Buah Utuh": (
+                    "A whole intact round watermelon with its natural spherical shape preserved, placed on a rustic wooden table. "
+                    "A miniature mosque is intricately carved directly into the surface of the watermelon, as a recessed architectural relief rather than a separate structure. "
+                    "The mosque design is embedded into the rind, featuring a central dome, smaller domes, and multiple minarets carved inward into the curved surface of the fruit. "
+                    "The outer green rind remains dominant and continuous, maintaining the original round volume of the watermelon. "
+                    "Carved sections cut into the rind reveal the inner red flesh, forming depth within arches, windows, and architectural recesses. "
+                    "The dome and minarets are shaped as part of the surface carving, slightly raised or recessed but still fully integrated into the spherical fruit body. "
+                    "Exposed red flesh appears dense, fibrous, naturally moist, with visible grain and seeds, remaining fully opaque and non-translucent. "
+                    "Surface behavior follows real fruit physics: no glow, no subsurface scattering, no translucency, no emission. "
+                    "Lighting is strictly external and natural, interacting with the curved watermelon surface and carved recesses realistically. "
+                    "Highly detailed geometric Islamic patterns are engraved into the rind with strong symmetry adapted to the curved surface. "
+                    "Clean carving edges with slight natural imperfections consistent with hand carving on a curved fruit. "
+                    "The wooden table surface is scattered with watermelon carving debris: rind shavings, red flesh fragments, seeds, and light juice marks. "
+                    "Strictly photorealistic food carving, non-stylized, no artificial lighting or decorative effects. "
+                    "Pure ornamental carving with no text or calligraphy."
                 )
 
             },        
