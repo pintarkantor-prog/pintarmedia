@@ -2936,14 +2936,14 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "RUH LELUHUR (85th+): Extremely thin, ghostly voice that frequently 'cuts out' due to short breath. MANDATORY: Visible jaw trembling and subtle lip movements synchronized with the flickering sound. The character looks directly at the camera, ensuring no narration feel.",
-                "SERAK KERTAS KERING (80th+): High-pitched, scratchy voice like old parchment. Features heavy 'vocal fry' and a dry, raspy texture. MANDATORY: The character's throat and jaw move visibly as they struggle to produce each word. Articulation is clear but weary.",
-                "GUMAM MENDEM (75th+): Low-frequency, muffled mumble from deep inside the throat. Sound is 'recessed' (mendem). MANDATORY: Minimal but visible lip movement with a heavy Javanese lilt. The mouth stays slightly open after speaking, catching breath.",
-                "SESEPUH BATU (80th+): Deep, stony, and 'grainy' bass that 'grinds' instead of booms. MANDATORY: Slow, deliberate mouth movements. The character takes long, visible inhalations before speaking, making it clear the sound is organic.",
-                "RINTIHAN TEDUH (75th+): Mid-to-high pitch voice that is perpetually 'breaking' with natural tremors. MANDATORY: Glistening 'sayu' eyes that blink slowly in sync with the vocal cracks. Subtle lip quivering as they speak directly to the lens.",
-                "SULING BAMBU TUA (80th+): Hollow, breathy, and 'flute-like' quality. MANDATORY: Visible exhales and a subtle shoulder slump as the character finishes speaking. The mouth remains in a 'speaking' position to avoid looking like a narrator.",
-                "ISAKAN BERAT (85th+): Thick, heavy, and 'congested' texture. MANDATORY: Nostrils flare slightly during deep, labored inhalations between short phrases. Every word feels weighted, with visible effort in the facial muscles.",
-                "WIRIDAN SUNYI (80th+): Calm, steady, and meditative with a low-energy hum. MANDATORY: Precise but very soft lip movements. The character maintains intense, soulful eye contact throughout the dialogue."
+                "RUH LELUHUR (85th+): Extremely thin, ghostly voice. Pacing is slow and deliberate. MANDATORY: Lips and jaw must move in sharp synchronization with every syllable. High-pitched, steady but very weak. NO audio flickering, NO digital cutting.",
+                "SERAK KERTAS KERING (80th+): High-pitched, scratchy voice with a dry 'vocal fry' texture. MANDATORY: The jaw moves with visible effort for each word. Every word is enunciated clearly despite the raspy tone. Clear of any mumbles.",
+                "GUMAM MENDEM (75th+): Deep, muffled resonance from the throat. Sound is 'recessed' (mendem). MANDATORY: Subtle but clear lip-sync. Speech is slow and heavy with a deep Javanese lilt, but articulation remains understandable.",
+                "SESEPUH BATU (80th+): Deep, grainy, and 'grinding' bass. MANDATORY: Wide and slow-motion mouth opening to match the stony voice. Pacing is rhythmic with long natural pauses. No lung power, strictly vocal cord vibration.",
+                "RINTIHAN TEDUH (75th+): Mid-to-high pitch voice that is perpetually 'breaking' emotionally. MANDATORY: Constant micro-quivering of the lips during speech. Every word is delivered with a fragile, clear intonation.",
+                "SULING BAMBU TUA (80th+): Hollow, breathy timber. MANDATORY: Visible exhales between sentences. The mouth moves precisely, catching the light as it speaks directly to the lens. Clear, unpolished, and raw.",
+                "ISAKAN BERAT (85th+): Thick, heavy, and congested texture. MANDATORY: Visible nasal flare and labored jaw movement. Every word feels weighted but the articulation is kept sharp to prevent mumbling.",
+                "WIRIDAN SUNYI (80th+): Calm, steady, and meditative hum. MANDATORY: Precise, soft, and rhythmic lip movements. The character maintains intense eye-level contact, speaking with a clear, ancient resonance."
             ],
             
             "Mood": [
@@ -2953,14 +2953,13 @@ def tampilkan_halaman():
                 "Nyesek & Lirih: Fragile, haunting expression. Intense 'sayu' (melancholic) eyes with a 'wet look' (strictly NO tears falling). Brows are subtly furrowed in worry, moving slightly in sync with the emotional weight of the voice."
             ],
             
-            "Physical Action": [
-                # SEMUA AKSI TANPA PISAU/ALAT - FOKUS PADA TANGAN & MINIATUR
-                "Menyodorkan & Pasrah: Using both frail, veiny hands to very slowly slide the miniature a fraction of an inch toward the camera as if offering it. Afterward, hands remain on the table with a soft, persistent tremor. The character looks at the lens with a subtle, fragile tilt of the head.",
-                "Mengusap & Kontak Mata: Gently caressing the sides of the miniature with shaky fingertips, then using the thumb to softly polish the dome. Mid-sentence, the character lifts their gaze to make intense, soulful eye contact with the camera before looking back at the work.",
-                "Menopang Dagu & Lelah: Resting one shaky elbow on the table, supporting a weary chin with a bony, wrinkled hand. The other hand stays protective near the miniature's base. The character blinks slowly at the camera, showing a deep 'nrimo' gaze.",
+            "Physical Action": [                
+                "Pasrah di Meja: Both shaky, veiny hands are resting flat on the table on either side of the miniature. The character's shoulders are slumped in deep fatigue. Without moving the hands, the character blinks slowly and stares into the camera with a deep 'nrimo' gaze, keeping the mouth area completely visible for speech.",
+                "Menyodorkan & Pasrah: Using both frail hands to very slowly slide the miniature a fraction of an inch toward the camera as if offering it. Afterward, hands remain on the table with a soft, persistent tremor. The character looks at the lens with a subtle, fragile tilt of the head.",
+                "Mengusap & Kontak Mata: Gently caressing the sides of the miniature with shaky fingertips, then using the thumb to softly polish the dome. Mid-sentence, the character lifts their gaze to make intense, soulful eye contact with the camera before looking back down at the work.",
                 "Menepis Debu & Hela Napas: Using the back of a frail hand to slowly sweep away imaginary dust from the empty table space next to the miniature. Followed by a visible, heavy shoulder slump (deep sigh) while locking eyes with the lens in a silent plea.",
-                "Mendekap & Tatapan Sayu: Placing both hands around the corners of the miniature as if to hug or protect it. The character leans in slightly, staring into the camera lens with intensely melancholic eyes, making the audience feel their deep connection to the work.",
-                "Menyentuh Kubah & Menoleh: One hand rests on the table, the other gently touches the top of the miniature. The character speaks while looking at the work, then slowly turns their face to look directly into the camera lens for a final, emotional emphasis."
+                "Mendekap Samping: Placing both hands near the base corners of the miniature as if to protect it. The character leans in slightly without obscuring the face, staring into the camera lens with intensely melancholic eyes.",
+                "Menyentuh Kubah & Menoleh: One hand rests on the table, the other gently touches the top of the miniature dome. The character speaks while looking at the work, then slowly turns their entire face to look directly into the camera lens for final emotional emphasis."
             ]
         }
 
@@ -3139,16 +3138,18 @@ def tampilkan_halaman():
             
                 # 7. Audio & Dialog
                 f"AUDIO CONFIGURATION: \n"
-                f"- Voice Profile: {logat_final} \n"   # Ini yang isi MANDATORY Visual Sync
-                f"- Vocal Nuance: {audio_emotion} \n" # Ini yang isi MANDATORY Audio Texture (Anti-Asma)
+                f"- Voice Profile: {logat_final} \n"   # Kunci Visual Sync
+                f"- Vocal Nuance: {audio_emotion} \n" # Kunci Tekstur Anti-Asma
                 f"- Dialog Content: '{user_dialog}' \n"
+                # Gabungin ENFORCEMENT di sini biar nempel ke prompt
+                f"AUDIO ENFORCEMENT: Perfect lip-sync, clear enunciation of every Javanese-Indonesian syllable, strictly NO digital distortion or stuttering. Voice must be aged but intelligible. \n\n"
             
                 # 8. Technical Specs Final (Kunci Framing)
                 f"TECHNICAL SPEC: Eye-level Tight Medium-Shot (Bust-up). Both hands visible. Soft natural bokeh background. \n\n"
             
                 # 9. Negative Prompt
                 f"NEGATIVE PROMPT: knife, blade, tools on table, blood, smiling, laughing, teeth, "
-                f"beard on woman, mustache on woman, wide shot, full body, watermark, text."
+                f"beard on woman, mustache on woman, wide shot, full body, watermark, text, caption."
             )
 
             # --- 7. TAMPILKAN HASIL ---
