@@ -2837,29 +2837,33 @@ def tampilkan_halaman():
 
             # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
             final_ai_prompt = (
-                f"{scene_context} \n\n" # Kunci: Medium Shot / Waist-up
+                f"{scene_context} \n\n" # Sudah mengandung 8K, Golden Hour, & Slow Zoom
                 
+                # Gabungan Soul & Gender agar wajah konsisten
                 f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
                 f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
                 f"ENVIRONMENT: {env_detail}. \n\n"
                 
+                # Fokus pada interaksi ngenes & hasil miniatur
                 f"PERFORMANCE & INTERACTION: {aksi_final}. \n"
                 f"MOOD & EMOTION: {mood_final}. Strictly focus on a soulful, humble, and pleading connection with the viewer. \n"
                 f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
                 
+                # Audio Configuration (Dibersihkan dari pemicu Bengek/Asma)
                 f"AUDIO CONFIGURATION: \n"
                 f"- Style & Age: {logat_final} \n"
                 f"- Vocal Emotion: {audio_emotion} \n"
                 f"- Dialog Content: '{user_dialog}' \n"
                 f"- Delivery: Use long, heavy pauses. Focus on vocal cord tremors. STRICTLY NO gasping or heavy air intake. \n\n"
                 
-                # Update di sini: Pakai 35mm atau 50mm biar proporsi setengah badan 'cinematic'
-                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens for natural proportions, F/11, Waist-up Medium Shot, Eye-level, Ultra-sharp 8K raw footage. \n\n"
+                # UPDATE: Pakai 50mm Lens (Natural Portrait) untuk jarak dekat yang 'cinematic'
+                f"TECHNICAL SPEC: ARRI Alexa 65, 50mm lens for soulful natural portrait, F/8 for intimate depth of field, Bust Shot (Chest-up), Eye-level, Ultra-sharp 8K raw footage. \n\n"
                 
+                # Negative Prompt yang lebih galak biar gak ada 'halu'
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
                 f"smiling, laughing, teeth showing, aggressive expression, yelling, "
-                f"wide shot, legs showing, feet showing, top-down view, " # Tambahan biar gak jadi Full Body
+                f"wide shot, medium shot, legs showing, feet showing, top-down view, " # Tambahan biar gak ditarik jauh
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
                 f"blurry, heavy bokeh, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
             )
