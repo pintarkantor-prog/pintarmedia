@@ -1457,25 +1457,25 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: 1 Meter Solid Maestro": (
-                    "A massive, 1-meter-tall solid architectural masterpiece sculpted from a colossal whole watermelon, resting on a high wooden table at chest-level. "
-                    "The structure features a towering central dome and multiple complex symmetrical minarets with slender spires, all carved from the thick, polished green striped rind. "
-                    "The architectural walls are deep and solid, featuring hundreds of multi-layered geometric patterns and recessed ornate arches that reveal the dense, vibrant ruby-red watermelon flesh inside. "
-                    "The red flesh is succulent, fibrous, and glistening with natural moisture, reflecting only natural golden hour daylight. "
-                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface response follows real-world food physics with zero translucency. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges with ultra-high fidelity detail in sharp focus. "
-                    "The wooden table is widely covered with extensive and realistic watermelon debris: whole intact watermelons, glistening red flesh chunks, large pieces of removed thick green rind, curled shavings, and wet juice marks with loose seeds. "
-                    "The miniature is positioned right under the character's chin, sharing the frame in crisp detail."
+                "Semangka: Maestro Lebar": (
+                    "A massive, wide-scale 1-meter-long architectural masterpiece of a grand mosque, sculpted from a colossal solid watermelon, resting on a long wooden table. "
+                    "The structure spans 1 meter in width, featuring a horizontal panoramic layout with a majestic central grand dome and a series of smaller flanking domes stretching along the wide facade. "
+                    "The mosque includes wide colonnaded hallways and tall symmetrical minarets at the far ends of the 1-meter span. "
+                    "Every architectural detail is carved from the thick green striped rind, with hundreds of deep-recessed windows and wide arched portals revealing the dense, vibrant ruby-red watermelon flesh inside. "
+                    "The red flesh is succulent and glistening, reflecting only natural golden hour daylight; strictly no internal lighting and no LEDs. "
+                    "Surface response follows real-world food physics with zero translucency. Pure architectural structure with no text. "
+                    "The long wooden table is heavily covered with extensive realistic debris: multiple whole watermelons, huge piles of red flesh chunks, large pieces of removed thick rind, and wet juice marks with loose seeds scattered across the 1-meter workspace. "
+                    "The wide 1-meter structure is positioned right under the character's chin, filling the horizontal frame in a crisp cinematic landscape shot."
                 ),
-                "Semangka: 1 Meter Full Ukiran Elite": (
-                    "A majestic 1-meter-tall mosque sculpted from a colossal whole watermelon, featuring a full-surface intricate engraving over the entire green rind. "
-                    "The exterior is covered in deep, precise architectural carvings, transforming the natural skin into complex geometric Islamic patterns and lace-like filigree. "
-                    "The structure features a tiered central dome and colossal minarets, all showing the complex relief carvings on the green striped rind. "
-                    "Deep recesses reveal the vibrant rich-ruby-red interior flesh, glistening with natural juices under the sun. "
-                    "The red flesh is physically solid and opaque, reflecting natural external light with high saturation. "
-                    "Strictly no internal lighting, no LEDs, and no artificial glow. Surface response follows real-world food physics. "
-                    "The wooden table is widely covered with extensive debris: whole watermelons, glistening red flesh fragments, large removed rind pieces, and loose seeds. "
-                    "The miniature is captured in ultra-sharp focus, showing the massive scale of the carving under the character's chin."
+                "Melon: Maestro Lebar": (
+                    "A massive, wide-scale 1-meter-long architectural masterpiece of a grand mosque, sculpted from a colossal solid melon, resting on a long wooden table. "
+                    "The structure spans 1 meter in width, designed with a wide horizontal panoramic facade featuring a grand central dome and a rhythmic sequence of arched galleries extending to the sides. "
+                    "The architecture features a tiered wide foundation and multiple tall minarets positioned along the 1-meter wide structure. "
+                    "All exterior walls are carved from the tan-netted melon rind, showing intricate multi-layered geometric relief carvings. "
+                    "The deep architectural recesses reveal the vibrant, rich-orange melon flesh inside, which appears succulent and glistening under natural light. "
+                    "Strictly no internal lighting, no LEDs, and no subsurface glow. Surface reflects only natural light with high color saturation. "
+                    "The long wooden table is heavily cluttered with massive realistic debris: whole intact melons, large piles of orange flesh fragments, removed rind pieces, and wet juice marks with seeds. "
+                    "The wide 1-meter structure is positioned right under the character's chin, filling the horizontal frame in a crisp cinematic landscape shot."
                 )
 
             },        
