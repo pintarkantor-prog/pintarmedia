@@ -1823,42 +1823,6 @@ def tampilkan_halaman():
                     "Deeply recessed entrances reveal the dense, glistening red interior flesh and watery seeds under natural golden hour daylight, strictly no internal lighting. "
                     "The colossal ruby-red structure fills the entire frame in extreme, high-fidelity focus."
                 ),
-                "Biji Jagung: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of corn kernels, featuring full-surface architectural engravings across the golden yellow mosaic. "
-                    "Every millimeter of the packed kernel surface is transformed into hyper-detailed geometric Islamic patterns, creating a complex relief along the 1-meter width. "
-                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw material debris: thousands of loose yellow corn kernels and crushed maize fragments. "
-                    "Strictly no whole corn cobs, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
-                    "The deep architectural portals reveal the dense yellow texture reflecting natural golden hour daylight. "
-                    "The colossal golden structure fills the frame in ultra-high fidelity, highlighting the massive scale of the grain assembly."
-                ),
-                "Biji Kacang Ijo: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of green mung beans, featuring full-surface architectural relief carvings over the green matte surface. "
-                    "The entire bean-packed surface is meticulously transformed into hyper-detailed geometric patterns and lace-like textures, leaving no part untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose small green mung beans. "
-                    "Strictly no whole pods, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
-                    "Deeply recessed openings reveal the dense earthy green texture under natural daylight. "
-                    "The colossal green structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged architectural detail."
-                ),
-                "Cabe: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal solid chili mass, featuring full-surface deep engravings over the waxy red skin. "
-                    "Every millimeter of the skin is transformed into hyper-detailed geometric Islamic patterns and complex relief carvings, leaving no part untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: thousands of sliced red chili pieces and scattered white seeds. "
-                    "Strictly no whole chilies, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the glistening red interior flesh and seeds under natural daylight. "
-                    "The colossal red structure fills the horizontal frame in ultra-high fidelity, highlighting the extreme level of fine-edged craftsmanship."
-                ),
-                "Tomat: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque sculpted from a colossal tomato, featuring full-surface deep engravings over the glossy red rind. "
-                    "The entire smooth red surface is meticulously transformed into hyper-detailed geometric relief and lace-like patterns, leaving no part of the skin untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw fruit debris: vibrant red tomato flesh fragments, watery seed clusters, and fine peel shavings. "
-                    "Strictly no whole tomatoes, no sharp objects, no knives, and no carving tools on the table. Only raw fruit material debris. "
-                    "Deeply recessed openings reveal the dense, glistening red interior flesh and seeds under natural daylight. "
-                    "The colossal red structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged carving detail."
-                ),
                 "Biji Kedelai Hitam: Diorama Monumental": (
                     "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of solid black soybean grains, positioned precisely in front of the elderly Indonesian carver. "
                     "The structure spans 1 meter wide, with the small black beans tightly packed to form a massive, deep-black glossy mosaic facade. "
@@ -1868,7 +1832,7 @@ def tampilkan_halaman():
                     "Deeply recessed entrances show the solid, dark-onyx texture under natural golden hour daylight, strictly no internal lighting. "
                     "The colossal black structure fills the entire frame in extreme, high-fidelity focus."
                 ),
-                "Biji Bunga Matahari: Diorama Monumental": (
+                "Biji Kuaci: Diorama Monumental": (
                     "A monumental, complete grand mosque building with full architectural structural integrity, constructed entirely from millions of sunflower seeds (kuaci), positioned precisely in front of the elderly Indonesian carver. "
                     "The diorama fills the horizontal frame, featuring a wide facade with the natural black-and-white striped patterns of the seeds along the 1-meter span. "
                     "The architecture includes a massive central dome and soaring symmetrical minarets, all built from tightly packed striped seeds. "
@@ -1876,59 +1840,18 @@ def tampilkan_halaman():
                     "Strictly no whole sunflowers, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw material debris. "
                     "Deeply recessed entrances show the dense, organic striped texture under natural golden hour daylight, strictly no internal lighting. "
                     "The colossal structure fills the frame in extreme, high-fidelity focus."
-                ),
-                "Biji Kedelai Hitam: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of black soybeans, featuring full-surface architectural engravings across the deep black mosaic. "
-                    "Every millimeter of the packed black bean surface is transformed into hyper-detailed geometric Islamic patterns, creating a complex relief along the 1-meter width. "
-                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily littered only with raw material debris: thousands of loose black soybeans and fragments. "
-                    "Strictly no whole pods, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
-                    "The deep architectural portals reveal the dense black texture reflecting natural golden hour daylight. "
-                    "The colossal black structure fills the frame in ultra-high fidelity, highlighting the massive scale of the grain assembly."
-                ),
-                "Biji Bunga Matahari: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from millions of sunflower seeds, featuring full-surface architectural relief carvings over the striped seed surface. "
-                    "The entire surface of tightly packed seeds is meticulously transformed into hyper-detailed geometric patterns and lace-like textures, leaving no part untouched. "
-                    "The structure features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw material debris: thousands of loose sunflower seeds and fine-edged broken shells. "
-                    "Strictly no whole sunflowers, no sharp objects, no knives, and no carving tools on the table. Only raw material debris. "
-                    "Deeply recessed openings reveal the dense striped organic texture under natural daylight. "
-                    "The colossal structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged architectural detail."
                 )
 
             },        
             "📦 Miniatur Bahan Sederhana": {
-                "Kardus Bekas: Diorama Monumental": (
-                    "A monumental, 1-meter-long grand mosque building with full architectural integrity, constructed entirely from recycled corrugated cardboard, positioned precisely in front of the elderly carver. "
-                    "The structure features a wide tiered foundation and a grand central dome flanked by four soaring minarets, all showing the natural brown paper texture and visible corrugated edges. "
-                    "The architecture includes multi-layered facade details and deep-recessed windows revealing the hollow interior of the cardboard structure. "
-                    "The long wooden table is heavily cluttered only with realistic construction debris: hundreds of small cardboard scraps, shredded brown paper, and dried glue marks. "
-                    "Strictly no whole cardboard boxes and strictly no sharp objects, no knives, and no scissors on the table. "
-                    "The colossal brown structure fills the horizontal frame in a straight-on, eye-level cinematic shot under natural golden hour light, reflecting no internal glow."
-                ),
-                "Koran Bekas: Diorama Monumental": (
-                    "A monumental, 1-meter-long grand mosque building with full architectural integrity, constructed entirely from tightly rolled and folded recycled newspapers, positioned precisely in front of the elderly carver. "
-                    "The structure features a massive horizontal layout with a giant central dome and a sequence of arched galleries, all showing the dense texture of grey newsprint and blurred black text. "
-                    "The architecture includes towering minarets made from spiraled newspaper rolls and wide balconies. "
-                    "The long wooden table is heavily cluttered only with realistic construction debris: hundreds of crumpled newspaper scraps, tiny paper confetti, and paper strips. "
-                    "Strictly no whole unread newspapers and strictly no sharp objects, no knives, and no scissors on the table. "
-                    "The colossal grey-textured structure fills the horizontal frame in extreme, sharp focus under natural daylight, highlighting the recycled craftsmanship."
-                ),
-                "Kardus Bekas: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from recycled cardboard, featuring full-surface intricate relief carvings over the brown paper exterior. "
-                    "Every millimeter of the cardboard surface is transformed into hyper-detailed geometric Islamic patterns, with the top layer of paper peeled away to reveal the inner corrugated ribs as part of the design. "
-                    "The structure features multiple tiered domes and soaring minarets showcasing extreme craftsmanship, positioned precisely in front of the elderly carver. "
-                    "The long wooden table is heavily littered only with construction debris: fine cardboard shavings, paper dust, and small brown scraps. "
-                    "Strictly no whole boxes and strictly no sharp objects, no knives, and no carving tools on the table. "
-                    "The colossal structure fills the horizontal frame in ultra-high fidelity, highlighting the massive scale and extreme level of paper-craft detail."
-                ),
-                "Koran Bekas: Ukiran Monumental": (
-                    "A 1-meter-long architectural masterpiece of a mosque constructed from compressed recycled newspapers, featuring full-surface intricate relief carvings over the newsprint surface. "
-                    "The entire exterior is meticulously carved into hyper-detailed geometric patterns and lace-like textures, with the grey paper and black ink creating a unique marbled effect. "
-                    "The architecture features multiple tiered domes and soaring minarets with high-relief engravings, positioned precisely in front of the elderly Indonesian carver. "
-                    "The long wooden table is heavily cluttered only with raw paper debris: thousands of tiny newspaper fragments and paper dust. "
-                    "Strictly no whole newspapers and strictly no sharp objects, no knives, and no scissors on the table. "
-                    "The colossal grey structure fills the horizontal frame in ultra-high fidelity, capturing every fine-edged paper carving detail."
+                "Kardus Bekas: Diorama Monumental (Center-Position Lock)": (
+                    "A monumental 1-meter-long grand mosque diorama made of recycled cardboard, positioned precisely in the absolute center of the frame. "
+                    "The immense cardboard structure is situated directly in front of the elderly carver, acting as the primary foreground object between the character and the camera. "
+                    "The shot is a perfectly symmetrical, straight-on eye-level view, with the 1-meter wide building filling the bottom half of the frame. "
+                    "The central dome and towers are perfectly centered. The elderly character is seated exactly behind the middle of the diorama, visible from the chest up. "
+                    "The wooden table is heavily cluttered across the entire front workspace only with cardboard scraps and shredded brown paper debris. "
+                    "Strictly no whole cardboard boxes, no knives, no scissors, and no sharp objects on the table. "
+                    "The colossal brown structure fills the horizontal frame in ultra-high fidelity, reflecting natural golden hour light with no internal glow."
                 )
             },
             "✨ Miniatur Megah ( LED )": {
