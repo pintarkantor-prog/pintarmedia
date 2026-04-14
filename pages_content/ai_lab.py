@@ -3102,16 +3102,13 @@ def tampilkan_halaman():
                 f"ENVIRONMENT: {env_detail}. A high rustic wooden table is positioned directly in front of the character's chest. \n\n"
             
                 # 5. Performance & Lip-Sync
-                f"PERFORMANCE & INTERACTION: {aksi_final}. \n"
-                f"MOOD & EMOTION: {mood_final}. Strictly focus on a soulful, humble, and pleading connection with the viewer. "
-                f"MANDATORY: Mouth, jaw, and throat must move in perfect lip-sync with the dialogue. \n\n"
-            
-                # 6. Detail Objek
-                f"THE MASTERPIECE: {deskripsi_teknis}. The 60cm fruit-carved mosque sits on the table at chest-height. \n\n"
-            
-                # 7. Audio & Dialog
+                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. \n" 
+
+                # 6. Audio & Dialog
                 f"DIALOG CONTEXT: '{user_dialog}' delivered with {logat_final} accent. \n\n"
-                f"AUDIO ENFORCEMENT: Voice must be extremely aged and frail but MAINTAIN clear articulation and perfect lip-sync. \n\n"
+            
+                # 7. Detail Objek
+                f"THE MASTERPIECE: {deskripsi_teknis}. The 60cm fruit-carved mosque sits on the table at chest-height. \n\n"
             
                 # 8. Technical Specs Final (Kunci Framing)
                 f"TECHNICAL SPEC: Eye-level Tight Medium-Shot (Bust-up). Both hands visible. Soft natural bokeh background. \n\n"
