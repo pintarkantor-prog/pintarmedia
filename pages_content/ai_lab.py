@@ -394,21 +394,16 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🕌 Miniatur Masjid": {
-                "Buah Semangka Tipe 1": (
-                    "A substantial 60cm mosque model constructed entirely from fresh watermelon, resting comfortably in a person's lap (dipangku). "
-                    "The central dome and upper structure are carved from juicy, polished ruby-red watermelon flesh, showing natural fiber textures. "
-                    "The body is made of dark-green striped watermelon rind with simple arches. "
-                    "Features four clearly defined tall minarets made of stacked thick green rind rings standing prominently. "
-                    "A character's hands are holding the base of the mosque. "
-                    "No internal lights, no LEDs, no artificial glow, only natural daylight."
+                "Semangka Tipe Meja (Proses)": (
+                    "A substantial 60cm mosque model made of fresh watermelon, placed on a high rustic wooden table directly in front of the character's chest. "
+                    "The dome is carved from ruby-red flesh, while the body is dark-green rind. "
+                    "Positioned at chest-level so the character can work on it comfortably. "
+                    "Natural daylight, no LEDs, no artificial glow."
                 ),
-                "Buah Semangka Tipe 2": (
-                    "A heavy 60cm mosque miniature lifted by two hands (diangkat dua tangan). "
-                    "The exterior is 100% compuesto of deeply chiseled dark-green striped watermelon rind, looking like ancient stone blocks. "
-                    "Features two massive, prominent green rind minarets flanking the entrance. "
-                    "The vibrant ruby-red watermelon flesh is only visible through tiny, clean arched window cutouts. "
-                    "A character's hands are gripping the sides of the mosque firmly. "
-                    "No electronics, no lighting, no LEDs, no glowing parts. Natural daylight, matte texture."
+                "Semangka Tipe Jadi (Display)": (
+                    "A finished 60cm watermelon mosque masterpiece, resting on a high wooden table at chest-level. "
+                    "The character's hands are resting on the table beside the mosque. "
+                    "The composition ensures the mosque is tall enough to be in the same frame as the character's torso and head."
                 ),
                 "Buah Semangka Tipe 3": (
                     "An elegant 60cm miniature mosque precisely carved from the white inner layer of a watermelon rind, resting in a lap (dipangku). "
@@ -1880,17 +1875,16 @@ def tampilkan_halaman():
 
         # --- 3. MASTER LOKASI (FIXED: NATURAL CLUTTER & SOLID BACKDROP) ---
         MASTER_GRANDMA_SETTING = {
-            "Depan Warung Desa": (
-                "Sitting on a long wooden bench in front of a small village kiosk (warung). "
-                "The background is a simple wooden wall covered with small hanging sachets of coffee and snacks. "
-                "The ground is hard-packed dirt with discarded bottle caps and dry sand. "
-                "Surrounding objects: a stack of wooden soda crates, an old chalkboard with handwritten prices, and a dusty radio on a high shelf."
+            "Bengkel Kerja Warung": (
+                "Sitting behind a high wooden table in front of a village warung. "
+                "The table is cluttered with small rind scraps and carving tools. "
+                "Background: simple wooden wall with hanging coffee sachets. "
+                "The high table position allows a tight shot of both the character and the mosque."
             ),
-            "Pinggir Jalan Aspal Rusak": (
-                "Sitting on a rustic bamboo bench (lincak) at the edge of a narrow village road with broken asphalt and potholes. "
-                "The background features a dusty motorbike (Supra or Astrea) passing by, leaving a slight blur of movement. "
-                "The ground is a mix of weathered grey asphalt, dry sand, and patches of wild grass. "
-                "Surrounding objects: a pile of gravel for road repair, a weathered electric pole with tangled wires, and a small blue plastic trash bin."
+            "Lincak Bambu Depan Rumah": (
+                "Sitting on a rustic bamboo bench with a tall bamboo table in front. "
+                "The background is a weathered brick wall and a dusty old motorbike. "
+                "High-table setup ensuring the mosque is positioned at chest-height."
             ),
             "Jalan Tanah Merah & Kebun": (
                 "Sitting on a large flat stone by a red dirt path (jalan tanah) leading to the fields. "
@@ -2835,38 +2829,38 @@ def tampilkan_halaman():
                     "MANDATORY AUDIO: Natural, steady elderly delivery. Calm and weary pacing with zero youthful energy."
                 )
 
-            # --- FINAL ASSEMBLY (V24: THE 'SS' COMPOSITION LOCK - NO DISAPPEAR MOSQUE) ---
+            # --- FINAL ASSEMBLY (V25: THE CHEST-LEVEL MASTERY) ---
             final_ai_prompt = (
-                # Kita ubah dari Waist-Up ke framing yang lebih spesifik
-                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. "
-                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light on the elderly's wrinkled skin and the mosque's edges. \n\n"
+                f"{scene_context} \n\n" 
                 
-                # Gabungan Soul & Gender agar wajah konsisten
                 f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
                 f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
-                f"ENVIRONMENT: {env_detail}. \n\n"
                 
-                # Fokus pada interaksi ngenes & hasil miniatur
+                # --- KUNCI 1: Pastikan Environment nyebut MEJA TINGGI ---
+                f"ENVIRONMENT: {env_detail}. A high rustic wooden table is positioned directly in front of the character's chest. \n\n"
+                
                 f"PERFORMANCE & INTERACTION: {aksi_final}. \n"
                 f"MOOD & EMOTION: {mood_final}. Strictly focus on a soulful, humble, and pleading connection with the viewer. \n"
-                f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
                 
-                # Audio Configuration (Dibersihkan dari pemicu Bengek/Asma)
+                # --- KUNCI 2: Pastikan Deskripsi Masjid nyebut POSISI DI MEJA ---
+                f"THE MASTERPIECE: {deskripsi_teknis}. The 60cm mosque sits on the table at chest-height, sharing the frame with the character's torso and face. \n\n"
+                
                 f"AUDIO CONFIGURATION: \n"
                 f"- Style & Age: {logat_final} \n"
                 f"- Vocal Emotion: {audio_emotion} \n"
                 f"- Dialog Content: '{user_dialog}' \n"
                 f"- Delivery: Use long, heavy pauses. Focus on vocal cord tremors. STRICTLY NO gasping or heavy air intake. \n\n"
                 
-                # UPDATE KUNCI: Pakai komposisi spesifik biar persis kayak SS awal lo.
-                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens for natural proportions, F/11, Eye-level. "
-                f"FRAMING KEY: Strict Waist-Up framing. Frame must clearly show the elderly person from the waist-up, ensuring BOTH veiny hands, BOTH elbows, and the ENTIRE miniature mosque are visible and perfectly centered. This matches the desired starting composition exactly. \n\n"
+                # --- KUNCI 3: TECHNICAL SPEC UNTUK KOMPOSISI SEPERTI SS ---
+                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens, F/11, Eye-level. "
+                f"FRAMING: Tight Medium-Shot (Bust to Waist). "
+                f"COMPOSITION: The camera is close, capturing the elderly's face and the mosque at chest-level simultaneously. "
+                f"Both hands must be visible touching or working on the mosque. Perfect balance between the person and the craft. \n\n"
                 
-                # Negative Prompt yang lebih galak biar gak ditarik jauh
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
                 f"smiling, laughing, teeth showing, aggressive expression, yelling, "
-                f"wide shot, legs showing, feet showing, top-down view, "
+                f"wide shot, full body, legs showing, feet showing, top-down view, "
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
                 f"blurry, heavy bokeh, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
             )
