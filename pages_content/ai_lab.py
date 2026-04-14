@@ -2680,12 +2680,12 @@ def tampilkan_halaman():
                 "Nyesek & Lirih: A fragile, haunting expression. The eyes are intensely 'sayu' (melancholic) and glistening with heavy moisture (wet look)—but strictly NO tears falling. The brow is subtly furrowed in a permanent state of worry. The face is completely static, capturing a deep, hidden heartbreak."
             ],
             "Physical Action": [
-                "Menunjukkan Kubah ke Kamera: Using a heavily trembling thumb and index finger to very gently point to the main dome of the finished miniature, then looking slowly and directly into the camera with glazed (glassy look) eyes, reflecting a silent plea for acknowledgement.",           
-                "Merapikan Posisi dengan Harapan: Rest both frail, detailed with veins, hands near the base of the mosque. Using shaky hands to slowly adjust its position on a wooden table, then slowly raising the head to make intense, weary, and humble eye contact with the viewer.",
-                "Sentuhan & Menatap Mengharap: Gently touching a tiny corner of the 100% finished miniature with a shaky index finger as if to say 'this is it'. Then slowly pulling the hand back as if defeated, and looking into the camera with soulful and haunting heartbreak.",
-                "Mendekat Membisikkan Doa & Menoleh: Leaning the face closer to the finished dome as if saying a silent prayer, eyes closed tight for a second. Then slowly straightening up to look at the camera with a fragile, soulful, and hollow expression that looks deeply tired.",
-                "Mengarahkan Pandangan Penonton: Pointing a shaky hand toward the completed minarets, then shifting the gaze to the camera with a faint, desperate glimmer of hope amid exhaustion, as if inviting the viewer to appreciate the final result.",
-                "Mengusap Debu Terakhir & Menyerahkan: Using a trembling thumb to very gently and hesitantly wipe a spot on the miniature. After wiping, slowly looking at the camera with eyes that show a profound, nrimo, and deeply weathered facial structure, like offering the craft to the world."
+                "Mengusap Lembut & Menunduk: Both frail hands are gently caressing the side of the finished mosque with deep affection. Then slowly dropping the head (menunduk lesu) in exhaustion before making a brief, watery eye contact with the camera.",             
+                "Menopang Dagu & Menatap Kosong: Resting one shaky elbow on the table, supporting a weary chin with a veiny hand. The other hand rests on the mosque's base. Staring at the camera with a hollow, 'nrimo' gaze that tells a story of a lifetime of struggle.",
+                "Merapikan Letak dengan Tenaga Sisa: Using both hands to very slowly and shakily push the miniature an inch forward as if offering it to the viewer. After the effort, the hands stay trembling on the table, and the eyes meet the camera with a soulful, pleading look.",
+                "Menepis Debu Imajiner & Menghela Napas: A very slow, frail gesture of blowing slightly at the dome, followed by a visible, heavy shoulder slump (menghela napas berat). Looking at the camera with eyes that reflect a haunting, quiet heartbreak.",
+                "Menyentuh Kubah & Menoleh Lambat: Resting the fingertips of one hand on the very top of the dome, not pointing, but just feeling it. Slowly turning the face from the mosque to the camera with a faint, desperate glimmer of hope and deeply weathered skin.",
+                "Mendekap Sisi Miniatur: Placing both hands around the corners of the mosque as if to hug it or protect it from the world. Looking into the camera lens with intense, weary eye contact, conveying a silent message: 'This is all I have left'."
             ]
         }
 
