@@ -423,7 +423,7 @@ def tampilkan_halaman():
                     "The walls glow like a sapphire mosaic, while the dome is a sphere of amber glass. "
                     "The base is made of smooth river stones and dry sand. "
                     "Lighting: Internal 'Cool Moonwhite' LED lighting refracts through the glass, creating a soft, ethereal glow that looks like a glowing lantern in the middle of a dark village night."
-                )
+                ),
             "✨ Miniatur Megah ( LED )": {
                 "Al-Aqsa dari Tanah Liat": (
                     "A heartbreaking 1-meter Al-Aqsa diorama built from raw, sun-dried village clay. "
