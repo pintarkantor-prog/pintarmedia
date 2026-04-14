@@ -1858,27 +1858,24 @@ def tampilkan_halaman():
         # --- 3. MASTER LOKASI (FIXED: NATURAL CLUTTER & SOLID BACKDROP) ---
         MASTER_GRANDMA_SETTING = {
             "Bengkel Kerja Warung": (
-                "Sitting behind a high wooden table in front of a village warung. "
-                "The table is cluttered with small rind scraps and carving tools. "
-                "Background: simple wooden wall with hanging coffee sachets. "
-                "The high table position allows a tight shot of both the character and the mosque."
+                "The character is seated on a simple wooden stool behind the workspace. "
+                "Background: a humble village warung with weathered wooden walls and hanging coffee sachets. "
+                "The atmosphere is cozy and traditional with natural light coming from the open front."
             ),
             "Lincak Bambu Depan Rumah": (
-                "Sitting on a rustic bamboo bench with a tall bamboo table in front. "
-                "The background is a weathered brick wall and a dusty old motorbike. "
-                "High-table setup ensuring the mosque is positioned at chest-height."
+                "The character is seated on a wide rustic bamboo bench (lincak) behind the workspace. "
+                "Background: a weathered red brick wall of a village house and an old dusty motorbike parked to the side. "
+                "The scene is set outdoors under a porch with natural rural lighting."
             ),
             "Jalan Tanah Merah & Kebun": (
-                "Sitting on a large flat stone by a red dirt path (jalan tanah) leading to the fields. "
-                "The background is a dense bamboo grove and banana trees, with a glimpse of a neighbor's motorbike parked under a shed. "
-                "The ground is uneven red soil with tire tracks and scattered dry leaves. "
-                "Surrounding objects: a classic bicycle leaning against a tree, a wooden signpost, and a few chickens crossing the road."
+                "The character is seated on a large flat stone or a low wooden crate behind the workspace by a red dirt path. "
+                "Background: dense bamboo trees, lush banana leaves, and a raw outdoor garden environment. "
+                "The ground shows tire tracks and scattered dry leaves under natural daylight."
             ),
             "Pertigaan Kampung (Pos Ronda)": (
-                "Sitting on the wooden porch of a small village guard post (Pos Ronda) at a junction. "
-                "The background shows the daily activity of the village, with a blurred image of a resident riding a motorbike in the distance. "
-                "The ground is hard-packed dirt with scattered pebbles and dry cigarette butts. "
-                "Surrounding objects: a large wooden slit drum (kentongan), a pile of old tires, and a dusty village map painted on a board."
+                "The character is seated on the built-in wooden bench of a village guard post (Pos Ronda). "
+                "Background: a quiet village junction with a distant blurred road and a large wooden kentongan (slit drum) nearby. "
+                "The setting captures the quiet daily life of a rural Indonesian neighborhood."
             ),
             "Pinggir Jalan Depan Pagar Bambu": (
                 "Sitting on a plastic chair on the shoulder of a quiet village street. "
