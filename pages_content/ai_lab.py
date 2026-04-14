@@ -1457,14 +1457,15 @@ def tampilkan_halaman():
                     "The wooden table is widely covered with high-detail apple debris: whole apples, white flesh shards, and red peel fragments. "
                     "The miniature is positioned right under the character's chin, sharing the frame in ultra-sharp macro focus."
                 ),
-                "Semangka: Monumental 1-Meter Diorama (Depan, No Whole Fruit)": (
-                    "A monumental, large-scale 1-meter-long mosque diorama sculpted entirely from a colossal solid watermelon, positioned precisely in front of the elderly Indonesian carver. "
-                    "The shot is a straight-on, eye-level cinematic photograph, with the immense fruit building filling the foreground directly between the character and the camera. "
-                    "The architecture looks massive and grand, with hundreds of tiny, complex geometric patterns carved into the green striped rind along the wide 1-meter span. "
-                    "The central grand dome and symmetrical minarets are intricately detailed. "
-                    "The long wooden table is heavily littered with only realistic construction debris from the carving process: no whole watermelons are present, but hundreds of large, glistening fresh red flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and glistening juice are scattered across the entire surface. "
-                    "Deeply recessed entrance arches reveal the succulent rich-ruby-red interior flesh under natural golden hour light, strictly no internal lighting and no LEDs. "
-                    "The entire colossal structure fills the horizontal frame in extreme, sharp focus."
+                "Semangka: Monumental": (
+                    "A monumental, complete grand mosque building with full architectural structural integrity, sculpted entirely from a colossal solid watermelon, positioned precisely in front of the elderly Indonesian carver. "
+                    "The diorama fills the straight-on horizontal frame, with the immense fruit building centered between the character and the camera. "
+                    "The architecture features a wide, rectangular tiered foundation and a grand arched entrance portal flanked by thick pillars and multi-layered facade. "
+                    "The massive central dome is flanked by four soaring symmetrical minarets at the corners, all intricately detailed with deep-recessed windows. "
+                    "The long wooden table is heavily cluttered across the entire workspace only with realistic construction debris from the carving: thousands of fresh rich-ruby-red watermelon flesh chunks, large fragments of removed green rind, curled shavings, and loose seeds with wet marks and glistening juice. "
+                    "Strictly no whole watermelons, no sharp objects, no knives, no carving tools, and no metal on the table. Only raw fruit material debris. "
+                    "Deeply recessed entrances show the dense, glistening ruby-red interior flesh under natural golden hour daylight, strictly no internal lighting and no LEDs. "
+                    "The colossal watermelon structure fills the entire frame in extreme, high-fidelity focus."
                 )
 
             },        
