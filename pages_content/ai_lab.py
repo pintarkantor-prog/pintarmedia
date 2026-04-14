@@ -406,6 +406,17 @@ def tampilkan_halaman():
                     "realistic fruit surface with natural moisture, ultra detailed, high fidelity, "
                     "resting on a high wooden table at chest-level, no background, isolated object."
                 ),
+                "Semangka: Pahatan Murni": (
+                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
+                    "The structure features a large central dome made from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
+                    "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind. "
+                    "The walls are formed from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
+                    "The inner carved sections reveal the vibrant ruby-red watermelon flesh, creating natural contrast as architectural accents. "
+                    "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
+                    "Clean, sharp carving edges, handcrafted appearance, ultra-detailed texture, realistic fruit surface with natural moisture and organic imperfections. "
+                    "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, adding a natural carving process detail. "
+                    "Pure ornamental structure with no text or calligraphy."
+                ),
                 "Masjid Semangka: Tipe Merah Klasik (Clean Reference)": (
                     "A completed miniature mosque carved entirely from watermelon, strictly following the architectural composition of image_1.png. "
                     "Architecture features precise geometric carving to create building facades. The central main dome is a smooth watermelon rind dome showing the distinctive green striped pattern. "
