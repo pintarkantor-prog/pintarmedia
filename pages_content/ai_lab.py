@@ -62,43 +62,32 @@ def tampilkan_halaman():
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
             "Nenek Aminah": (
                 "A kind-hearted elderly Javanese woman, strictly aged 75-80 years old, with a soft oval face. "
-                "The skin is deeply weathered with pronounced wrinkles, saggy cheeks, and thin 'papery' texture typical of an 80-year-old. "
-                "Her expression is gentle and serene, with a slight, warm but weary smile. "
-                "Warm bronze skin tone with natural age spots (lentigines) and sun-kissed glowing patches. "
-                "Her eyes are watery, clear, and full of wisdom, with heavy hooded eyelids and deep laugh lines. "
-                "Neat, very thin snow-white hair visible under her headscarf. "
-                "The overall look is peaceful, frail yet dignified, and motherly. "
-                "Hyper-realistic skin texture, 8k resolution, maintaining a soft and approachable look without being harsh."
+                "The skin is deeply weathered with pronounced wrinkles and thin 'papery' texture. "
+                "Her expression is gentle and serene. NEUTRAL RELAXED MOUTH position for natural speech movement. " # KUNCI 1
+                "Warm bronze skin tone with natural age spots. Watery, clear eyes with heavy hooded eyelids. "
+                "Hyper-realistic skin texture, 8k resolution, maintain approachable look without harshness."
             ),
             "Nenek Siti": (
-                "A joyful, petite Javanese elder, strictly 75-80 years old, with a plump, round face and aged rosy undertones. "
-                "The skin is deeply weathered with many fine, crossing wrinkles and visible sagging at the jawline. "
-                "She has very deep dimples and pronounced nasolabial folds when she smiles. "
-                "Her skin has a soft, thin 'crepe' texture, very well-cared-for but showing clear signs of advanced age. "
-                "A small button nose and narrow, twinkling 'hooded' eyes with deep crow's feet that radiate happiness. "
-                "Visible small moles and age spots around the neck and cheeks. "
-                "The look of a very elderly, cheerful grandmother, frail but full of life. "
-                "Hyper-realistic 8k texture, soft cinematic lighting, extremely detailed aged skin."
+                "A joyful, petite Javanese elder, strictly 75-80 years old, with a plump, round face. "
+                "The skin is deeply weathered with many fine wrinkles and visible sagging at the jawline. "
+                "Deep nasolabial folds. RELAXED MOUTH for clear dialogue, strictly NO frozen smile. " # KUNCI 2
+                "A small button nose and twinkling 'hooded' eyes that radiate happiness. "
+                "Visible small moles and age spots. Hyper-realistic 8k texture, soft cinematic lighting."
             ),
             "Nenek Marsi": (
-                "A tiny, very frail Javanese grandmother, strictly 80-85 years old, with a shrunken, heart-shaped face. "
-                "Classic 'toothless' facial structure where the jaw is slightly recessed, bringing the chin closer to the nose, creating an innocent and endearing look. "
-                "Skin is extremely thin, translucent, and deeply creased with hundreds of fine 'paper-crinkle' wrinkles. "
-                "Soft matte skin texture with visible age spots and faint white peach fuzz on the sunken cheeks. "
-                "Huge, expressive dark eyes that are slightly watery and look incredibly humble and sincere. "
-                "A very fragile, precious, and weathered village elder look, looking very tiny in her clothes. "
-                "Focus on the 'sweetness' of old age, strictly avoiding any scary or harsh features. "
-                "Hyper-realistic 8k resolution, detailed weathered skin, cinematic soft lighting."
+                "A tiny, very frail Javanese grandmother, strictly 80-85 years old, with a shrunken face. "
+                "Classic aged facial structure. MANDATORY: The jaw and lips must remain fully functional and flexible for clear lip-sync. " # KUNCI 3
+                "Skin is extremely thin, translucent, and deeply creased with fine 'paper-crinkle' wrinkles. "
+                "Huge, expressive dark eyes that look incredibly humble and sincere. "
+                "Very fragile, precious village elder look. Hyper-realistic 8k resolution."
             ),
             "Nenek Ponirah": (
-                "A dignified and calm Javanese elder, strictly 75-80 years old, with a wide, symmetrical facial structure. "
-                "Her skin is like burnished copper, weathered and leathery from years of working under the sun, yet clean and healthy. "
-                "Deep horizontal wise aging lines across the forehead and pronounced crow's feet. "
-                "A strong, flat nose and a wide, friendly mouth with thin, calm lips. "
-                "Her gaze is steady, protective, and incredibly calm—the true matriarch of the family. "
-                "Texture shows realistic deep pores, fine wrinkles, and natural sunspots (lentigines). "
-                "The look of a sturdy, hard-working village woman who is respected by everyone. "
-                "Soft natural lighting, hyper-realistic 8k skin texture, capturing a peaceful and sturdy face without harsh shadows."
+                "A dignified and calm Javanese elder, strictly 75-80 years old, wide symmetrical face. "
+                "Her skin is like burnished copper, weathered and leathery. "
+                "Deep horizontal wise aging lines and pronounced crow's feet. "
+                "A strong, flat nose and a wide mouth with RELAXED NEUTRAL LIPS for natural enunciation. " # KUNCI 4
+                "Her gaze is steady and protective. Texture shows realistic deep pores and fine wrinkles. "
+                "Soft natural lighting, hyper-realistic 8k skin texture."
             ),
             "Nenek Juminah": (
                 "An extremely lean and thin-faced Javanese elderly woman, strictly 80-85 years old. "
