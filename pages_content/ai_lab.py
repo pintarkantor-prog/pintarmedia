@@ -61,75 +61,84 @@ def tampilkan_halaman():
         MASTER_FAMILY_SOUL = {
             # ========================== KELOMPOK NENEK (Teduh & Berwibawa) ==========================
             "Nenek Aminah": (
-                "A kind-hearted elderly Javanese woman with a soft oval face. "
-                "Her expression is gentle and serene, with a slight, warm smile. "
-                "The skin is naturally aged with fine, soft wrinkles that look like delicate silk folds. "
-                "Warm bronze skin tone with natural sun-kissed glowing patches. "
-                "Her eyes are bright, clear, and full of wisdom, with gentle laugh lines at the corners. "
-                "Neat, thin grey hair pulled back. The overall look is peaceful, motherly, and very approachable. "
-                "Hyper-realistic skin texture without looking scary or harsh."
+                "A kind-hearted elderly Javanese woman, strictly aged 75-80 years old, with a soft oval face. "
+                "The skin is deeply weathered with pronounced wrinkles, saggy cheeks, and thin 'papery' texture typical of an 80-year-old. "
+                "Her expression is gentle and serene, with a slight, warm but weary smile. "
+                "Warm bronze skin tone with natural age spots (lentigines) and sun-kissed glowing patches. "
+                "Her eyes are watery, clear, and full of wisdom, with heavy hooded eyelids and deep laugh lines. "
+                "Neat, very thin snow-white hair visible under her headscarf. "
+                "The overall look is peaceful, frail yet dignified, and motherly. "
+                "Hyper-realistic skin texture, 8k resolution, maintaining a soft and approachable look without being harsh."
             ),
-
             "Nenek Siti": (
-                "A joyful, petite Javanese elder with a plump, round face and rosy undertones on her cheeks. "
-                "She has deep dimples when she smiles, and her mouth is slightly curved upward. "
-                "Her skin texture is soft and supple despite the many fine wrinkles. "
-                "A small, friendly button nose and narrow twinkling eyes that radiate happiness. "
-                "Visible small moles around the neck and a very clean, well-cared-for weathered skin. "
-                "The look of a cheerful grandmother who loves to tell stories. Very friendly and bright."
+                "A joyful, petite Javanese elder, strictly 75-80 years old, with a plump, round face and aged rosy undertones. "
+                "The skin is deeply weathered with many fine, crossing wrinkles and visible sagging at the jawline. "
+                "She has very deep dimples and pronounced nasolabial folds when she smiles. "
+                "Her skin has a soft, thin 'crepe' texture, very well-cared-for but showing clear signs of advanced age. "
+                "A small button nose and narrow, twinkling 'hooded' eyes with deep crow's feet that radiate happiness. "
+                "Visible small moles and age spots around the neck and cheeks. "
+                "The look of a very elderly, cheerful grandmother, frail but full of life. "
+                "Hyper-realistic 8k texture, soft cinematic lighting, extremely detailed aged skin."
             ),
-
             "Nenek Marsi": (
-                "A tiny, frail but very sweet Javanese grandmother with a shrunken, heart-shaped face. "
-                "Her face has that classic 'toothless' look that makes her chin slightly closer to her nose, giving her an adorable, innocent expression. "
-                "Skin is very thin and deeply creased but has a soft, matte texture. "
-                "Huge, expressive dark eyes that look humble and sincere. "
-                "Visible thin white peach fuzz on the cheeks. A very fragile, precious, and endearing village elder look. "
-                "Focus on the 'sweet' and 'fragile' aspect, strictly avoiding any scary features."
+                "A tiny, very frail Javanese grandmother, strictly 80-85 years old, with a shrunken, heart-shaped face. "
+                "Classic 'toothless' facial structure where the jaw is slightly recessed, bringing the chin closer to the nose, creating an innocent and endearing look. "
+                "Skin is extremely thin, translucent, and deeply creased with hundreds of fine 'paper-crinkle' wrinkles. "
+                "Soft matte skin texture with visible age spots and faint white peach fuzz on the sunken cheeks. "
+                "Huge, expressive dark eyes that are slightly watery and look incredibly humble and sincere. "
+                "A very fragile, precious, and weathered village elder look, looking very tiny in her clothes. "
+                "Focus on the 'sweetness' of old age, strictly avoiding any scary or harsh features. "
+                "Hyper-realistic 8k resolution, detailed weathered skin, cinematic soft lighting."
             ),
-
             "Nenek Ponirah": (
-                "A dignified and calm Javanese elder with a wide, symmetrical facial structure. "
-                "Her skin is like burnished copper, smooth but covered in a network of wise, horizontal aging lines. "
-                "Strong, flat nose and a wide, friendly mouth. "
-                "Her gaze is steady, protective, and calm—the true matriarch of the family. "
-                "Texture shows realistic fine pores and faint, natural sunspots, looking like a hard-working but happy village woman. "
-                "No harsh shadows, only soft natural lighting to emphasize her peaceful and sturdy face."
+                "A dignified and calm Javanese elder, strictly 75-80 years old, with a wide, symmetrical facial structure. "
+                "Her skin is like burnished copper, weathered and leathery from years of working under the sun, yet clean and healthy. "
+                "Deep horizontal wise aging lines across the forehead and pronounced crow's feet. "
+                "A strong, flat nose and a wide, friendly mouth with thin, calm lips. "
+                "Her gaze is steady, protective, and incredibly calm—the true matriarch of the family. "
+                "Texture shows realistic deep pores, fine wrinkles, and natural sunspots (lentigines). "
+                "The look of a sturdy, hard-working village woman who is respected by everyone. "
+                "Soft natural lighting, hyper-realistic 8k skin texture, capturing a peaceful and sturdy face without harsh shadows."
             ),
             "Nenek Juminah": (
-                "An extremely lean and thin-faced Javanese elderly woman. "
-                "Sunken cheeks with very prominent, high cheekbones and a sharp, bony jawline. "
-                "Her skin is like parchment paper, tightly stretched over her facial structure but deeply creased with hundreds of fine, dry wrinkles. "
-                "Visible hollows around the temples and eyes. Large, expressive but weary dark eyes with heavy crow's feet. "
-                "Authentic weathered skin with deep sun-damage, fine moles, and uneven pigmentation. "
-                "No soft volume, strictly bony and thin facial structure for a fragile look."
+                "An extremely lean and thin-faced Javanese elderly woman, strictly 80-85 years old. "
+                "Sunken cheeks with very prominent, high cheekbones and a sharp, bony jawline that shows her frail structure. "
+                "Her skin is like ancient parchment paper, tightly stretched over her bones but deeply creased with thousands of fine, dry 'crackle' wrinkles. "
+                "Visible hollows around the temples and deep-set, weary dark eyes with heavy hooded eyelids and thick crow's feet. "
+                "Authentic weathered skin with significant sun-damage, scattered age spots (lentigines), and uneven pigmentation from years of outdoor life. "
+                "No facial fat or soft volume, strictly bony and gaunt facial structure to emphasize a fragile, hard-working look. "
+                "Hyper-realistic 8k resolution, detailed skin pores, cinematic natural lighting, very humble and sincere expression."
             ),
             "Nenek Sikem": (
-                "An incredibly frail Javanese elder with a very small, shrunken facial structure. "
-                "Her skin is extremely dry and flaky, with deep vertical fissures on her cheeks and forehead. "
-                "Eyelids are severely drooping, creating a weary but resilient look. "
-                "Visible salt-and-pepper peach fuzz on her chin and upper lip. "
-                "The texture is raw and uneven, with prominent sun-spots and thick, leathery patches on the forehead. "
-                "Neck skin is severely loose and sagging in thin, delicate folds. "
-                "Masterpiece detail on the interaction between bone structure and sagging skin. No filters."
+                "An incredibly frail Javanese elder, strictly 85-90 years old, with a very small, shrunken facial structure. "
+                "Her skin is extremely dry, almost translucent, with deep vertical fissures and 'cracked earth' wrinkles on her cheeks and forehead. "
+                "Severely drooping hooded eyelids that almost cover her pupils, creating a weary but resilient and stoic look. "
+                "Visible salt-and-pepper peach fuzz on her chin and upper lip typical of very advanced age. "
+                "The skin texture is raw, uneven, and covered in prominent large sun-spots (lentigines) and thick, leathery patches. "
+                "Neck skin is severely loose, hanging in thin, delicate 'turkey-neck' folds. "
+                "A masterpiece of hyper-realistic aging, showing the harsh interaction between sharp bone structure and sagging, papery skin. "
+                "No filters, raw 8k skin texture, cinematic lighting that emphasizes every deep crease and age spot."
             ),
             "Nenek Dulah": (
-                "An elderly Sundanese woman with a soft heart-shaped face that has significantly lost its firmness. "
-                "The skin is pale and delicate, hanging in soft, heavy folds along the jawline. "
-                "Distinct 'sayu' almond-shaped eyes with very thin, sparse eyebrows and heavy, drooping upper lids. "
-                "Her nose is refined but the skin around the nostrils is deeply creased. "
-                "Texture is focused on 'fine-cracked' wrinkles (like old porcelain) rather than deep canyons. "
-                "Authentic age spots are faint but numerous. Her mouth is small, with a soft, trembling upper lip. "
-                "No harsh edges, focusing on a fragile, soft, and aristocratic aged Sundanese look."
+                "An elderly Sundanese woman, strictly 75-80 years old, with a soft heart-shaped face that has significantly lost its firmness. "
+                "The skin is pale, delicate, and translucent, hanging in soft, heavy 'jowl' folds along the jawline. "
+                "Distinct 'sayu' almond-shaped eyes that look weary and emotional, with very thin, sparse white eyebrows and heavy, drooping upper lids. "
+                "Her nose is refined but the skin around the nostrils is deeply creased with age. "
+                "Texture is focused on 'fine-cracked' wrinkles, resembling old porcelain, with thousands of delicate micro-creases rather than deep canyons. "
+                "Authentic faint but numerous age spots (lentigines) across the cheeks. "
+                "Her mouth is small, with a soft, slightly trembling upper lip typical of a fragile state. "
+                "No harsh edges, focusing on a fragile, soft, and aristocratic aged Sundanese look. "
+                "Hyper-realistic 8k resolution, soft natural lighting, extremely detailed papery skin texture."
             ),
             "Nenek Sartini": (
-                "An elderly Sundanese grandmother with a wider, rounder facial base and high, flat cheekbones. "
-                "Significant sagging in the lower face, creating deep marionette lines that reach the chin. "
-                "Her eyes are constantly moist and reddened, suggesting chronic fatigue, with puffy, dark eye bags. "
-                "The skin texture is matte, slightly oily in the T-zone, with visible large pores and broken capillaries on the cheeks. "
-                "A very realistic double-chin with loose, crepey skin texture. "
-                "Her expression is one of deep, silent endurance. Raw and unpolished cinematic detail. "
-                "Focusing on the heavy, sagging volume of an aged rural Sundanese face."
+                "An elderly Sundanese grandmother, strictly 75-80 years old, with a wider, rounder facial base and high, flat cheekbones. "
+                "Significant sagging in the lower face, creating deep, heavy marionette lines that reach the chin. "
+                "Her eyes are constantly moist and slightly reddened, suggesting chronic fatigue, with puffy, dark eye bags and sagging lower lids. "
+                "The skin texture is matte, showing visible large pores and broken capillaries (telangiectasia) on the fleshy cheeks. "
+                "A very realistic double-chin with loose, 'crepey' skin texture that hangs naturally. "
+                "Her expression is one of deep, silent endurance and maternal strength. "
+                "Raw and unpolished cinematic detail, focusing on the heavy, sagging volume of an aged rural Sundanese face. "
+                "Hyper-realistic 8k resolution, natural lighting that emphasizes skin gravity and weight, authentic sun-damaged skin."
             ),
             "Nenek Tinah": (
                 "An incredibly broken Javanese elderly woman appearing in her late 80s. "
@@ -143,78 +152,91 @@ def tampilkan_halaman():
                 "Raw, unpolished, zero smoothing filters. The look of a soul crushed by grief."
             ),
             "Nenek Wati": (
-                "A tiny, terribly frail Sundanese grandmother appearing extremely fragile. "
-                "Her small, oval face is consumed by deep, vertical worry lines and incredibly sagging jowls. "
-                "Eyes are deeply recessed, looking intensely 'sayu', with heavily reddened and drooping eyelids that show significant bags. "
-                "The skin texture is pale, translucent like porcelain, and covered in fine white, dry flakes. "
-                "Her lips are thin and pressed tightly together, forming a melancholic, pensive line that emphasizes her quiet suffering. "
-                "Neck skin is severely loose, forming multiple deep folds along her shrunken throat. "
-                "Prominent blue veins on her temples. An almost ethereal presence of quiet heartbreak. "
-                "No smoothing, 100% realistic tired face, looking deeply tired and exhausted."
+                "A tiny, terribly frail Sundanese grandmother, strictly 80-85 years old, appearing extremely fragile. "
+                "Her small, oval face is consumed by deep, vertical worry lines and incredibly sagging, thin jowls. "
+                "Eyes are deeply recessed and hollow, looking intensely 'sayu', with heavily reddened, sore-looking, and drooping eyelids that show significant bags. "
+                "The skin texture is pale, translucent like thin porcelain, and covered in fine white, dry 'flaky' textures typical of very aged skin. "
+                "Her lips are thin, pale, and pressed tightly together, forming a melancholic, pensive line that emphasizes her quiet suffering. "
+                "Neck skin is severely loose and translucent, forming multiple deep, papery folds along her shrunken throat. "
+                "Prominent branching blue veins (venous mapping) clearly visible on her thin temples. "
+                "An almost ethereal presence of quiet heartbreak, looking deeply tired and physically exhausted. "
+                "Hyper-realistic 8k resolution, raw weathered skin, no smoothing, natural soft lighting to show the translucent skin quality."
             ),
             "Kakek Marto": (
-                "A lean, elderly Javanese man with an elongated and thin facial structure. "
-                "His face is deeply lined with 'wisdom wrinkles' that follow his natural bone structure. "
-                "A long, thin nose and a very kind, calm expression in his dark brown eyes. "
-                "He has a sparse, wispy white goatee and a thin mustache that adds to his scholarly village look. "
-                "Skin texture is dry and sun-parched but clean, with realistic fine age spots. "
-                "The overall aura is that of a quiet, humble, and highly respected village elder."
+                "A lean, elderly Javanese man, strictly 75-80 years old, with an elongated and thin facial structure. "
+                "His face is deeply lined with 'wisdom wrinkles' and deep vertical creases that follow his sharp, bony structure. "
+                "A long, thin refined nose and a very kind, serene expression in his slightly watery dark brown eyes. "
+                "He has a sparse, wispy snow-white goatee and a very thin mustache that adds to his scholarly village elder look. "
+                "Skin texture is dry, sun-parched, and leathery but well-cared-for, with realistic fine age spots and visible pores. "
+                "Sunken temples and a high forehead that emphasize his intellectual and humble aura. "
+                "The overall look is that of a quiet, respected village patriarch. "
+                "Hyper-realistic 8k texture, soft natural golden-hour lighting, extremely detailed weathered skin."
             ),
-
             "Kakek Somo": (
-                "A jolly elderly Javanese man with a round, friendly face and slightly chubby cheeks. "
-                "He has heavy laugh lines around his eyes (crow's feet) that squint when he smiles. "
-                "His skin is a warm tan with a soft, weathered texture. "
-                "A wide, friendly mouth and a small, flat nose. "
-                "Visible grey stubble along his jawline that looks soft, not coarse. "
-                "He radiates a cheerful, grandfatherly energy, looking very approachable and full of life."
+                "A jolly elderly Javanese man, strictly 75-80 years old, with a round, friendly face and aged chubby cheeks that show slight sagging at the jawline. "
+                "He has heavy, deep-set laugh lines around his eyes (crow's feet) that cause his eyes to squint into happy slits when he smiles. "
+                "His skin is a warm, sun-kissed tan with a soft, weathered 'crepe' texture, showing fine pores and age spots. "
+                "A wide, friendly mouth and a small, flat nose with natural creases around the nostrils. "
+                "Visible soft grey stubble (short white beard) along his jawline, looking natural and well-groomed. "
+                "He radiates a cheerful, approachable grandfatherly energy, looking full of life and kind. "
+                "Hyper-realistic 8k resolution, soft natural lighting, capturing the warm and friendly texture of an aged cheerful face."
             ),
-
             "Kakek Joyo": (
-                "A sturdy Javanese elder with a broad forehead and a strong, square jawline. "
-                "Despite his firm bone structure, his eyes are incredibly soft and protective. "
-                "Deep horizontal furrows on his forehead that show decades of hard work, but with a peaceful rest of the face. "
-                "His skin is like dark burnished bronze, very masculine but naturally aged. "
-                "Large, thick ears and a neat, short-cropped grey hair. "
-                "The look of a hardworking farmer who has found total inner peace in his old age."
+                "A sturdy Javanese elder, strictly 75-80 years old, with a broad forehead and a strong, square jawline. "
+                "Despite his firm bone structure, his eyes are incredibly soft, watery, and protective, with heavy drooping lids. "
+                "Deep horizontal furrows on his forehead that show decades of hard work, with thick skin texture and prominent brow ridges. "
+                "His skin is like dark burnished bronze, leathery and weathered from the sun, showing deep realistic creases. "
+                "Large, thick ears and neat, short-cropped salt-and-pepper hair that is thinning at the top. "
+                "The look of a hardworking retired farmer who has found inner peace, looking resilient yet humble. "
+                "Hyper-realistic 8k resolution, detailed pores, natural sunlight, emphasizing a masculine but naturally aged face."
             ),
-
             "Kakek Hardi": (
-                "A very petite and thin Javanese elder with a small, narrow face. "
-                "His skin is very thin, almost like parchment, showing the gentle movement of muscles underneath. "
-                "Large, expressive eyes that look slightly watery and very sincere. "
-                "The mouth is slightly shrunken, giving him a sweet and innocent elderly expression. "
-                "Faint white eyebrows and a very clean, translucent skin texture with natural pigmentation. "
-                "He looks fragile and precious, like a grandfather who deeply appreciates the art he is holding."
+                "A very petite and thin Javanese elder, strictly 80-85 years old, with a small, narrow, and shrunken facial structure. "
+                "His skin is extremely thin, like aged translucent parchment, showing the subtle movement of muscles and faint blue veins underneath. "
+                "Large, expressive eyes that are slightly watery, deeply recessed, and look intensely sincere and humble. "
+                "The mouth is slightly shrunken and recessed (toothless structure), giving him a very sweet, innocent, and fragile elderly expression. "
+                "Faint, sparse white eyebrows and a very clean, translucent skin texture with natural age spots and uneven pigmentation. "
+                "He looks incredibly fragile and precious, with a hollow temple and bony jawline that emphasizes his advanced age. "
+                "The overall aura is that of a gentle soul who deeply appreciates his craft. "
+                "Hyper-realistic 8k resolution, raw weathered skin texture, cinematic soft lighting to highlight the translucent skin quality."
             ),
             "Kakek Sableng": (
-                "A distinguished elderly Indonesian man in his late 70s with a sharp, noble facial structure. "
-                "High, prominent forehead with deep horizontal wisdom lines. His nose is straight and firm. "
-                "The skin is like old leather, showing deep sun-damage, fine silver-white stubble on a strong jawline. "
-                "Eyes are sharp but kind, with heavy lids and dark, realistic eye bags. "
-                "Thin silver hair neatly combed back. No filters, strictly raw aged masculinity."
+                "A distinguished elderly Indonesian man, strictly 75-80 years old, with a sharp, noble, and bony facial structure. "
+                "High, prominent forehead with deep, etched horizontal wisdom lines and visible temporal veins. "
+                "His nose is straight, firm, and aristocratic. The jawline is strong but the skin hangs in thin, aged folds. "
+                "The skin is like dark, weathered leather, showing extensive deep sun-damage, fine age spots, and uneven pigmentation. "
+                "Eyes are sharp, piercing but kind, with heavy drooping lids and dark, realistic puffy eye bags that show deep fatigue. "
+                "Thin, wispy silver-white hair neatly combed back, revealing a high hairline. "
+                "Visible fine silver-white stubble on a strong, rugged jawline. No filters, strictly raw aged masculinity. "
+                "Hyper-realistic 8k texture, cinematic contrast lighting to emphasize the sharp facial angles and leathery skin."
             ),
             "Kakek Sinto": (
-                "An extremely aged Javanese man, appearing over 85 years old and very frail. "
-                "His face is deeply sunken, showing significant muscle loss and a skeletal bone structure. "
-                "Skin is paper-thin and translucent, covered in thousands of fine cross-hatched wrinkles and dark liver spots. "
-                "Hollowed cheeks and temples. His eyes are cloudy with cataracts, looking tired and distant. "
-                "A thin, wispy white beard and moustache. A profoundly vulnerable and heartbreaking elderly presence."
+                "An extremely aged Javanese man, strictly 85-90 years old, appearing profoundly frail and skeletal. "
+                "His face is deeply sunken, showing total loss of facial volume with a visible bony skull structure underneath. "
+                "Skin is paper-thin, translucent, and 'parchment-like', covered in thousands of fine cross-hatched wrinkles and large dark liver spots (lentigines). "
+                "Hollowed cheeks and deeply sunken temples that emphasize his extreme age. "
+                "His eyes are cloudy with visible milky white cataracts, looking incredibly tired, distant, and emotional. "
+                "A very thin, wispy snow-white beard and a fragile moustache that looks like soft silk threads. "
+                "Profoundly vulnerable, heartbreaking presence, with loose sagging neck skin in multiple thin folds. "
+                "Hyper-realistic 8k texture, raw skin detail, no smoothing, cinematic soft lighting to show the depth of the wrinkles."
             ),
             "Kakek Wiryo": (
-                "A sturdy, square-faced elderly man in his 60s with a rugged, leathery complexion. "
-                "Broad nose and a very strong, thick jawline. His skin is deeply tanned and rough, with large visible pores and sweat-beads. "
-                "Deep nasolabial folds and thick, calloused-looking skin on the neck. "
-                "Short, messy salt-and-pepper hair. His expression is focused and resilient, showing a lifetime of physical labor. "
-                "Raw, unpolished cinematic details focusing on grit and muscle definition."
+                "A sturdy, square-faced elderly Javanese man, strictly 70-75 years old, with a rugged, leathery complexion. "
+                "Broad nose and an incredibly strong, thick jawline with visible masseter muscle definition. "
+                "His skin is deeply sun-baked, dark bronze, and rough, featuring large visible pores, deep pits, and realistic sweat-beads. "
+                "Deep, heavy nasolabial folds and thick, calloused-looking 'turkey-neck' skin with prominent tendons. "
+                "Short, messy salt-and-pepper hair, thinning and coarse. "
+                "His expression is intensely focused and resilient, showing the grit of a lifetime of heavy physical labor. "
+                "Raw, unpolished cinematic details, no skin smoothing, 8k resolution, high-contrast lighting to emphasize muscle and deep skin texture."
             ),
             "Kakek Usman": (
-                "An elderly grandfather with a small, narrow face contorted in deep grief. "
-                "His most striking feature is his reddened, swollen eyes, glistening with heavy moisture and tears. "
-                "The skin around his eyes and cheeks is puffy and inflamed from crying. "
-                "Deeply furrowed brow and a trembling, quivering lower lip. "
-                "Thin, disheveled white hair and a sparse beard. The look of a man who has lost everything. "
-                "100% emotional realism, haunting and raw."
+                "An elderly Indonesian grandfather, strictly 75-80 years old, with a small, narrow face contorted in profound grief. "
+                "His most striking feature is his raw, reddened, and severely swollen eyes, glistening with heavy moisture and thick, realistic tears rolling down. "
+                "The skin around his eyes and hollow cheeks is puffy, tender, and slightly inflamed from prolonged crying. "
+                "Deeply furrowed brow with intense vertical worry lines and a visibly trembling, quivering lower lip. "
+                "Thin, disheveled snow-white hair and a sparse, unkempt beard that adds to his look of total despair. "
+                "The look of a man who has lost everything, heart-wrenching and vulnerable. "
+                "100% emotional realism, 8k resolution, raw skin texture with salty tear streaks, haunting and cinematic lighting."
             )
         }
 
@@ -2642,28 +2664,28 @@ def tampilkan_halaman():
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "Suara Datar (Pitch: Mid-Flat): A flat, toneless mid-range voice with very low energy. The voice is 'dusty' and dry, lacking any youthful resonance. Every word is slightly blurred and weary, sounding like a soul that has found peace in silence without gasping.",
-                "Suara Kecil (Pitch: High): A very thin, high-pitched elder voice, sharp yet brittle. It sounds like a fragile thread about to snap. Infused with rapid micro-tremors and a 'cracking' texture in the throat. No heavy breathing, just a weak, shivering tone.",
-                "Suara Berat (Pitch: Very Low): A deep, booming bass resonance coming from the stomach, not the lungs. The delivery is slow with a heavy Javanese medok lilt. The texture is 'grainy' and low, like grinding stones, conveying a deep, grounded sorrow.",
-                "Suara Ompong (Pitch: Tiny & High): A tiny, high-pitched voice of a very old person. Characterized by a 'slushy' and soft whistling texture on 'S' and 'T' sounds due to missing teeth. The voice is light and innocent, radiating pure vulnerability without audible huffing.",
-                "Suara Sedih (Pitch: Low-Mid): A heavy, congested voice with a thick 'vocal fry' texture. It sounds as if the speaker is perpetually swallowing tears. The pitch is unstable and emotionally heavy, focusing on the 'cracking' of the voice rather than the intake of air.",
-                "Suara Lirih (Pitch: High-Tremolo): A high-pitched, ghostly voice that fluctuates with a wide, slow tremolo. It sounds thin and weightless, as if the speaker is a soft vibration in the air. The vibration is in the vocal cords, not the chest.",
-                "Suara Gumam (Pitch: Mid-Low): A low-frequency, muffled mumble with soft, melodic Javanese articulation. It sounds like a quiet, internal moan. The cadence is exceptionally slow, fading out gently like a candle flame, very calm and steady.",
-                "Suara Ringkih (Pitch: High-Airy): A high-pitched voice with a 'cracked' flute quality. The tone frequently 'breaks' or dips into a raspy whisper. It sounds physically fragile and exhausted, but the exhaustion is shown through the breaking of the voice, not heavy gasping."
+                "RUH LELUHUR (85th+): Extremely thin, weightless, and ghostly. Voice frequently 'cuts out' due to very short breath. High-pitched with a wide, slow-motion tremolo. Sounds like a faint vibration of a 90-year-old soul. NO chest power.",
+                "SERAK KERTAS KERING (80th+): High-pitched, scratchy voice like old paper rubbing together. Features 'vocal fry' and a dry, raspy texture in every syllable. Very brittle and sharp, showing extreme vocal cord dehydration.",
+                "GUMAM MENDEM (75th+): Low-frequency, muffled mumble from deep inside a shrunken mouth. Sound is 'recessed' (mendem). Articulation is blurred and slow, typical of very weak facial muscles. Heavy Javanese lilt.",
+                "SIULAN OMPONG (85th+): High-pitched and tiny. Mandatory 'slushy' whistling texture on S, T, and C sounds. Voice is soft and lacks resonance due to collapsed mouth structure from missing teeth. Pure vulnerability.",     
+                "SESEPUH BATU (80th+): Deep, stony, and 'grainy' bass. It doesn't boom; it 'grinds'. Like stones rubbing together. Very slow delivery with long pauses as if gathering strength to speak. No lung power.",
+                "RINTIHAN GEMETER (75th+): Mid-to-high pitch voice that is perpetually 'breaking'. Unstable frequency with rapid micro-shaking. Sounds as if the speaker is perpetually on the verge of crying. High emotional vulnerability.",    
+                "SULING BAMBU TUA (80th+): Cracked, 'flute-like' quality. Voice is breathy but very weak. Hollow timber, sounding like air passing through a dry bamboo pipe. Very weary, dusty, and unpolished raw texture.", 
+                "ISAKAN BERAT (85th+): Thick, heavy, and 'congested' texture but without the strength to cough. Sounds 'clogged' and weary. Every word feels heavy and labored, carrying the weight of a century."
             ],
             "Mood": [
-                "Natural & Ikhlas: A calm, neutral facial expression with deep, sun-baked wrinkles and leather-like skin texture. The eyes are soft and peaceful, looking slightly off-camera with a sense of 'nrimo'. A very thin, wise smile that barely moves the lips, reflecting a lifetime of patience.",
-                "Pasrah & Syukur: A weary, weather-beaten face showing total acceptance of a hard life. The eyelids are slightly heavy (half-closed), reflecting deep exhaustion but spiritual peace. A humble, slight chin-tuck (menunduk dikit) that conveys absolute submission to fate.",
-                "Iba & Berharap: A gentle, sorrowful expression with eyes looking slightly upward toward the light. A faint, hopeful glimmer in the pupils despite the deep exhaustion. The mouth is closed and relaxed, showing no teeth, just a steady and dignified plea for grace.",
-                "Sedih & Lirih: A fragile expression with a heavy, tired gaze. The eyes are slightly glistening (wet look) but strictly NO tears falling. Deep bags under the eyes and a subtle furrow in the brow. The face is static and dignified, capturing a hidden sorrow that is felt rather than seen."
+                "Nrimo & Tabah: A weary, static facial expression with deeply etched wrinkles. The lips are thin, pale, and pressed tightly in a flat line—strictly NO smile. Eyes are looking off-camera with a hollow, distant gaze, reflecting a soul that has endured too much in silence.",             
+                "Pasrah & Lelah: A weather-beaten face showing heavy physical exhaustion. The eyelids are slightly drooping (half-closed), suggesting deep fatigue. The chin is slightly tucked down (menunduk), creating a humble and submissive silhouette that looks fragile and broken yet dignified.", 
+                "Iba & Mengharap: A gentle but sorrowful expression with eyes looking slightly upward toward a faint light source. The pupils have a tiny, hopeful glimmer amidst a tired, weathered face. The mouth is slightly shrunken and closed, conveying a silent, desperate plea for grace without a single word.",
+                "Nyesek & Lirih: A fragile, haunting expression. The eyes are intensely 'sayu' (melancholic) and glistening with heavy moisture (wet look)—but strictly NO tears falling. The brow is subtly furrowed in a permanent state of worry. The face is completely static, capturing a deep, hidden heartbreak."
             ],
             "Physical Action": [
-                "Mengusap Debu Imajiner: Using a thumb to very gently wipe a spot on the miniature, then looking warmly at the camera with a steady, peaceful gaze, showing a deep bond with the craft.",
-                "Menatap Detail & Menoleh Perlahan: Staring intensely at a specific small detail of the miniature mosque, then slowly turning the head to meet the camera's gaze with a thin, tired, but proud smile.",
-                "Menangkupkan Tangan di Sisi Miniatur: Both hands resting near the base of the mosque as if protecting it, looking down at the craft with a nostalgic gaze before slowly looking up to meet the camera's eyes.",
-                "Menunjuk Bagian Kubah: Pointing a shaky hand toward the dome of the miniature mosque while looking at it, then shifting the gaze to the camera with a faint, hopeful glimmer in the eyes.",
-                "Sentuhan Ujung Jari yang Gemetar: Gently touching a tiny corner of the miniature with a shaky index finger, then slowly pulling the hand back and looking at the camera with eyes that reflect quiet peace.",
-                "Mengagumi Karya dari Dekat: Leaning the face closer to the miniature as if inspecting the craftsmanship, then slowly straightening up to look at the camera with a humble and soulful expression."
+                "Menunjukkan Kubah ke Kamera: Using a heavily trembling thumb and index finger to very gently point to the main dome of the finished miniature, then looking slowly and directly into the camera with glazed (glassy look) eyes, reflecting a silent plea for acknowledgement.",           
+                "Merapikan Posisi dengan Harapan: Rest both frail, detailed with veins, hands near the base of the mosque. Using shaky hands to slowly adjust its position on a wooden table, then slowly raising the head to make intense, weary, and humble eye contact with the viewer.",
+                "Sentuhan & Menatap Mengharap: Gently touching a tiny corner of the 100% finished miniature with a shaky index finger as if to say 'this is it'. Then slowly pulling the hand back as if defeated, and looking into the camera with soulful and haunting heartbreak.",
+                "Mendekat Membisikkan Doa & Menoleh: Leaning the face closer to the finished dome as if saying a silent prayer, eyes closed tight for a second. Then slowly straightening up to look at the camera with a fragile, soulful, and hollow expression that looks deeply tired.",
+                "Mengarahkan Pandangan Penonton: Pointing a shaky hand toward the completed minarets, then shifting the gaze to the camera with a faint, desperate glimmer of hope amid exhaustion, as if inviting the viewer to appreciate the final result.",
+                "Mengusap Debu Terakhir & Menyerahkan: Using a trembling thumb to very gently and hesitantly wipe a spot on the miniature. After wiping, slowly looking at the camera with eyes that show a profound, nrimo, and deeply weathered facial structure, like offering the craft to the world."
             ]
         }
 
@@ -2728,11 +2750,14 @@ def tampilkan_halaman():
             
             # 2. KUNCI LIGHTING & VISUAL (Tetap)
             scene_context = (
-                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW PHOTO. NO TEXT, NO SUBTITLES. "
-                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. The air is clear but non-glaring, creating a delicate warm rim light. "
-                f"CONTRAST: Rich, deep contrast where the mosque's LED lights create an intense glowing focal point. "
-                f"CAMERA: Close-up 1 meter, strictly STATIC camera, locked tripod, perfectly level eye-level. "
-                f"DEEP FOCUS: F/16 Aperture, CRYSTAL CLEAR from mosque to background, zero blur."
+                f"ULTRA-HD 8K RESOLUTION. HYPER-REALISTIC RAW CINEMATIC FOOTAGE. NO TEXT. "
+                f"LIGHTING: Very soft, gentle 5 PM golden-hour side lighting. Delicate warm rim light on the elderly's wrinkled skin and the mosque's edges. "
+                f"CONTRAST: Rich, deep contrast where the mosque's internal LED lights create an intense glowing focal point. "
+                # Jarak diubah ke 1.5 - 2 meter (Medium Close-Up) agar lebih proporsional
+                f"CAMERA: Medium Close-up at 2 meters distance. Eye-level shot. "
+                # Menambahkan gerakan zoom yang sangat halus (slow-crawl) agar tidak kaku
+                f"MOTION: Extremely subtle, almost imperceptible slow zoom-in toward the face, 0.1x speed. "
+                f"DEEP FOCUS: F/11 Aperture, CRYSTAL CLEAR focus on both the elderly person and the miniature mosque, zero blur."
             )
 
             # 3. AMBIL DATA MASTER (Tetap)
@@ -2752,13 +2777,15 @@ def tampilkan_halaman():
             
             if is_perempuan:
                 gender_lock = (
-                    "PHYSICAL MANDATORY: Elderly Indonesian woman, smooth aged skin, NO BEARD, NO MUSTACHE, clean face. "
-                    "GENDER WARDROBE: Full Hijab covering all hair and neck. No male clothing."
+                    "PHYSICAL MANDATORY: Elderly Indonesian woman, 100% hairless face, NO BEARD, NO MUSTACHE, clean face. "
+                    "SKIN TEXTURE: Deeply wrinkled and aged, naturally sagging skin, NO smoothing filters. "
+                    "GENDER WARDROBE: Full Indonesian Hijab/Kerudung covering all hair and neck. Wearing a simple elderly woman's house dress (Daster) or Kebaya."
                 )
             else:
                 gender_lock = (
-                    "PHYSICAL MANDATORY: Elderly Indonesian man, weathered skin, clean-shaven face or neatly trimmed mustache (NO BEARD). "
-                    "GENDER WARDROBE: Traditional Indonesian Kopiah/Peci cap on head. No hijab, no female daster."
+                    "PHYSICAL MANDATORY: Elderly Indonesian man, weathered skin, clean-shaven face or very sparse stubble. "
+                    "SKIN TEXTURE: Deeply wrinkled, sun-parched leathery skin. "
+                    "GENDER WARDROBE: Traditional Indonesian Black Kopiah/Peci cap on head. Wearing a simple Koko shirt or a worn-out daily shirt. No hijab, no female daster."
                 )
 
             # --- 5. FILTER PEMBERSIH (LOGIKA SETELAH TITIK DUA) ---
@@ -2779,55 +2806,65 @@ def tampilkan_halaman():
             # Kita split di titik dua paling akhir biar cuma dapet deskripsi Inggrisnya
             logat_final = pilih_logat.split(':')[-1].strip()
                 
-            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (REFINED) ---
-            if "Sedih" in pilih_mood or "Lirih" in pilih_mood:
-                # Kita ganti 'shaky breath' jadi 'voice trembling'
+            # --- THE MAGIC INJECTION: ANTI-ASMA VERSION (75-80yo REALISM) ---
+            if "Sedih" in pilih_mood or "Nyesek" in pilih_mood or "Lirih" in pilih_mood:
+                # Fokus pada getaran pita suara yang hancur, bukan napas.
                 audio_emotion = (
-                    "MANDATORY AUDIO: Add a subtle crying undertone. The voice should be 'trembling' and 'fragile', "
-                    "not gasping. Focus on a cracking texture in the throat rather than heavy breathing. Very slow pace."
+                    "MANDATORY AUDIO: Add a thick 'crying undertone' without audible sobbing. "
+                    "The voice must be 'trembling' (slow tremolo) and 'brittle'. "
+                    "Focus on a cracking, dry texture in the throat. STRICLTY NO heavy breathing or gasping. "
+                    "The pace is painfully slow, with emotional weight in every word."
                 )
-            elif "Pasrah" in pilih_mood:
-                # Kita ganti 'airy' jadi 'soft resonance' biar gak kayak bisikan asma
+            elif "Pasrah" in pilih_mood or "Nrimo" in pilih_mood:
+                # Fokus pada suara yang tipis dan lelah (weary).
                 audio_emotion = (
-                    "MANDATORY AUDIO: Deliver with a calm, spiritual surrender. Use a soft, grounded resonance. "
-                    "Minimize audible breathing, focus on a thin and weary vocal tone."
+                    "MANDATORY AUDIO: Deliver with a weary, flat spiritual surrender. "
+                    "Use a very thin, soft resonance. The voice sounds 'hollow' and 'recessed' (mendem). "
+                    "Zero audible breathing. Focus on a faded, dusty vocal tone that is barely holding on."
                 )
-            elif "Iba" in pilih_mood or "Berharap" in pilih_mood:
-                # Kita fokus ke 'pleading tone'
+            elif "Iba" in pilih_mood or "Mengharap" in pilih_mood:
+                # Fokus pada intonasi yang memohon (pleading).
                 audio_emotion = (
-                    "MANDATORY AUDIO: A gentle rising intonation like a humble plea. "
-                    "The voice is small and light, with a faint emotional shimmer, avoiding any heavy gasping sounds."
+                    "MANDATORY AUDIO: Use a gentle, 'pleading intonation' like a humble request. "
+                    "The voice is very small, light, and high-pitched. "
+                    "Add a faint 'emotional shimmer' (micro-shaking) at the end of sentences. "
+                    "Avoid any heavy air intake, keep the sound pure and fragile."
                 )
             else:
-                audio_emotion = "MANDATORY AUDIO: Natural, steady delivery with calm and controlled pacing."
+                audio_emotion = (
+                    "MANDATORY AUDIO: Natural, steady elderly delivery. Calm and weary pacing with zero youthful energy."
+                )
 
             # --- FINAL ASSEMBLY (LEAN & POWERFUL: NO NEW VARS) ---
             final_ai_prompt = (
-                f"{scene_context} \n\n"
+                f"{scene_context} \n\n" # Sudah mengandung 8K, Golden Hour, & Slow Zoom
                 
-                # Kita gabung Soul & Gender Lock biar instruksi wajahnya gak konflik
-                f"CHARACTER: {soul_desc}. {gender_lock} \n"
-                f"ANATOMY: {ANATOMY_LOCK} \n"
+                # Gabungan Soul & Gender agar wajah konsisten
+                f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
+                f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
                 f"ENVIRONMENT: {env_detail}. \n\n"
                 
-                # Kita panggil aksi_final & mood_final (hasil filter pembersih lo)
-                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. Focus on interaction. \n" 
+                # Fokus pada interaksi ngenes & hasil miniatur
+                f"PERFORMANCE & INTERACTION: {aksi_final}. \n"
+                f"MOOD & EMOTION: {mood_final}. Strictly focus on a soulful, humble, and pleading connection with the viewer. \n"
                 f"THE MASTERPIECE: {deskripsi_teknis}. \n\n"
                 
-                # Kita ringkas Audio biar tokennya sisa banyak buat visual
+                # Audio Configuration (Dibersihkan dari pemicu Bengek/Asma)
                 f"AUDIO CONFIGURATION: \n"
-                f"- Style: {logat_final} \n"
-                f"- Emotion: {audio_emotion} \n"
-                f"- Dialog: '{user_dialog}' \n"
-                f"- Instruction: Use deep pauses and natural breath sounds. \n\n"
+                f"- Style & Age: {logat_final} \n"
+                f"- Vocal Emotion: {audio_emotion} \n"
+                f"- Dialog Content: '{user_dialog}' \n"
+                f"- Delivery: Use long, heavy pauses. Focus on vocal cord tremors. STRICTLY NO gasping or heavy air intake. \n\n"
                 
-                f"TECHNICAL: ARRI Alexa 65, 24mm, F/16, Static Camera, Ultra-sharp 8K. \n"
+                # Penyelarasan teknis agar tidak konflik dengan scene_context
+                f"TECHNICAL SPEC: ARRI Alexa 65, 35mm lens for natural proportions, F/11, Eye-level, Ultra-sharp 8K raw footage. \n\n"
                 
-                # Negative prompt lo yang lama, tinggal panggil string-nya aja
+                # Negative Prompt yang lebih galak biar gak ada 'halu'
                 f"NEGATIVE PROMPT: beard on woman, mustache on woman, hijab on man, hair showing on woman, "
+                f"smiling, laughing, teeth showing, aggressive expression, yelling, "
                 f"thunderstorm, rain, cloudy grey, dark gloom, sunlight glare, harsh shadows, "
-                f"blurry, bokeh, shaky, chair, table, watermark, text, subtitles, captions."
+                f"blurry, heavy bokeh, shaky camera, artificial lighting, watermark, text, subtitles, captions, 3D render, cartoon, illustration."
             )
 
             # --- 7. TAMPILKAN HASIL ---
