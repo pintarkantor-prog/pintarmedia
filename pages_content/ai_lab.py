@@ -401,22 +401,22 @@ def tampilkan_halaman():
                     "Table clutter: Small rind scraps and a carving knife. "
                     "Composition: Mosque is positioned right under the character's chin, sharing the frame."
                 ),
-                "Masjid Semangka: Tipe Hijau Ukir": (
-                    "A majestic 60cm mosque made of watermelon on a chest-high table. "
+                "Masid Semangka: Tipe Hijau Ukir": (
+                    "A 100% completed majestic 60cm mosque made of watermelon on a chest-high table. "
                     "Design: The entire exterior (including the dome) is made of dark-green rind with white Arabic calligraphy patterns carved into the skin. "
                     "The red flesh is only visible through the arched window cutouts. "
                     "Four symmetrical minarets with pointed tips. "
                     "Texture: Matte and organic rind texture."
                 ),
-                "Masjid Semangka: Tipe Kristal Air": (
-                    "A high-detail 60cm watermelon mosque on a high table. "
+                "Masid Semangka: Tipe Kristal Air": (
+                    "A 100% finished high-detail 60cm watermelon mosque on a high table at chest-level. "
                     "Design: The body of the mosque is carved entirely from juicy red flesh, looks glistening and moist. "
                     "The base and the windows are framed with thin green rind for contrast. "
                     "A subtle 'juice stain' is visible on the wooden table. "
                     "Lighting: Soft golden hour light catching the moist red fibers."
                 ),
                 "Masjid Semangka: Tipe Menara Tinggi": (
-                    "A 60cm mosque masterpiece on a chest-high table. "
+                    "A 100% completed 60cm mosque masterpiece on a chest-high table. "
                     "Design: Features two massive, extra-tall minarets flanking a smaller central red dome. "
                     "The minarets are made of stacked watermelon rind rings. "
                     "The character's hands are resting near the tall towers. "
@@ -1285,19 +1285,17 @@ def tampilkan_halaman():
             
             c3, c4 = st.columns(2)
             with c3:
-                # --- PILIHAN 1: KATEGORI UTAMA ---
-                st.markdown('<p class="small-label">PILIH KATEGORI BAHAN</p>', unsafe_allow_html=True)
-                kategori_list = list(MASTER_KONTEN_ALL.keys())
-                pilihan_kategori = st.selectbox("Select Category", kategori_list, label_visibility="collapsed")
-
-                # --- PILIHAN 2: DETAIL OBJEK (Dinamis berdasarkan Kategori) ---
+                # --- LANGSUNG KE DETAIL OBJEK ---
                 st.markdown('<p class="small-label">DETAIL OBJEK / KARYA</p>', unsafe_allow_html=True)
-                # List objek otomatis berubah ngikutin kategori yang dipilih di atas
-                objek_list = list(MASTER_KONTEN_ALL[pilihan_kategori].keys())
+                
+                # List objek otomatis ambil dari 'modus_konten' yang dipilih di paling atas UI
+                objek_list = list(MASTER_KONTEN_ALL[modus_konten].keys())
+                
+                # User tinggal milih detailnya (Merah Klasik, Hijau Ukir, dll)
                 pilihan_objek = st.selectbox("Select Detail", objek_list, label_visibility="collapsed")
     
-                # Ambil deskripsinya
-                deskripsi_teknis = MASTER_KONTEN_ALL[pilihan_kategori][pilihan_objek]
+                # Ambil deskripsi teknisnya untuk dikirim ke Grok
+                deskripsi_teknis = MASTER_KONTEN_ALL[modus_konten][pilihan_objek]
             with c4:
                 st.markdown('<p class="small-label">SETTING LOKASI</p>', unsafe_allow_html=True)
                 pilihan_set = st.selectbox("Select Environment", list(MASTER_GRANDMA_SETTING.keys()), label_visibility="collapsed")
