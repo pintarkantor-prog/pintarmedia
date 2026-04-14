@@ -394,28 +394,28 @@ def tampilkan_halaman():
         # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Masjid Semangka: Tipe Merah Klasik": (
+                "Semangka: Tipe Merah Klasik": (
                     "A 100% finished 60cm mosque on a high wooden table at chest-level. "
                     "Design: The main large dome is pure ruby-red watermelon flesh, polished and glowing. "
                     "The four tall minarets are dark-green striped rind. "
                     "Table clutter: Small rind scraps and a carving knife. "
                     "Composition: Mosque is positioned right under the character's chin, sharing the frame."
                 ),
-                "Masid Semangka: Tipe Hijau Ukir": (
+                "Semangka: Tipe Hijau Ukir": (
                     "A 100% completed majestic 60cm mosque made of watermelon on a chest-high table. "
                     "Design: The entire exterior (including the dome) is made of dark-green rind with white Arabic calligraphy patterns carved into the skin. "
                     "The red flesh is only visible through the arched window cutouts. "
                     "Four symmetrical minarets with pointed tips. "
                     "Texture: Matte and organic rind texture."
                 ),
-                "Masid Semangka: Tipe Kristal Air": (
+                "Semangka: Tipe Kristal Air": (
                     "A 100% finished high-detail 60cm watermelon mosque on a high table at chest-level. "
                     "Design: The body of the mosque is carved entirely from juicy red flesh, looks glistening and moist. "
                     "The base and the windows are framed with thin green rind for contrast. "
                     "A subtle 'juice stain' is visible on the wooden table. "
                     "Lighting: Soft golden hour light catching the moist red fibers."
                 ),
-                "Masjid Semangka: Tipe Menara Tinggi": (
+                "Semangka: Tipe Menara Tinggi": (
                     "A 100% completed 60cm mosque masterpiece on a chest-high table. "
                     "Design: Features two massive, extra-tall minarets flanking a smaller central red dome. "
                     "The minarets are made of stacked watermelon rind rings. "
