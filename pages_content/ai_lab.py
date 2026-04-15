@@ -3137,97 +3137,96 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-				final_ai_prompt = f"""
-			{GLOBAL_QUALITY_LOCK}
+            final_ai_prompt = f"""
+        {GLOBAL_QUALITY_LOCK}
+		
+		ULTRA 8K MACRO PRIORITY:
+        	- Primary subject: handcrafted miniature object (60% frame dominance)
+        	- Object must be the SHARPEST element in frame
+        	- Character face is secondary but still detailed
+        	- True physical realism only (NO CGI, NO AI look, NO plastic texture
 
-			ULTRA 8K MACRO PRIORITY:
-			- Primary subject: handcrafted miniature object (60% frame dominance)
-			- Object must be the SHARPEST element in frame
-			- Character face is secondary but still detailed
-			- True physical realism only (NO CGI, NO AI look, NO plastic texture)
+		CAMERA SYSTEM:
+		- 50mm macro cinematic lens
+		- Aperture f/4 (natural optical depth)
+		- Eye-level composition
+		- Tight medium shot
+		- Locked focus on object (primary focus priority)
+		- Natural depth layering only (foreground object → mid face → background)
+		- No focus hunting, no artificial blur
 
-			CAMERA SYSTEM:
-			- 50mm macro cinematic lens
-			- Aperture f/4 (natural optical depth)
-			- Eye-level composition
-			- Tight medium shot
-			- Locked focus on object (primary focus priority)
-			- Natural depth layering only (foreground object → mid face → background)
-			- No focus hunting, no artificial blur
+		CINEMATIC CAMERA MOTION:
+		- Extremely slow natural push-in (almost static)
+		- Micro handheld realism (subtle human operator feel)
+		- Stable frame, no jitter, no shake
+		- Object remains perfectly sharp at all times
 
-			CINEMATIC CAMERA MOTION:
-			- Extremely slow natural push-in (almost static)
-			- Micro handheld realism (subtle human operator feel)
-			- Stable frame, no jitter, no shake
-			- Object remains perfectly sharp at all times
+		CHARACTER:
+		{soul_desc}
+		{gender_lock}
+		- Hyper-realistic aged skin (wrinkles, pores, sun damage)
+		- Thin fragile elderly body
+		- Natural tired expression (NO smile, NO exaggeration)
+		- Pure documentary realism
 
-			CHARACTER:
-			{soul_desc}
-			{gender_lock}
-			- Hyper-realistic aged skin (wrinkles, pores, sun damage)
-			- Thin fragile elderly body
-			- Natural tired expression (NO smile, NO exaggeration)
-			- Pure documentary realism
+		ENVIRONMENT:
+		{env_detail}
+		- High rustic wooden table positioned at chest level.
 
-			ENVIRONMENT:
-			{env_detail}
-			- High rustic wooden table positioned at chest level.
+		PERFORMANCE:
+		{aksi_final}
+		Mood: {mood_final}
+		- Minimal, natural movement
+		- Eyes naturally alternate between object and camera
+		- No acting exaggeration
 
-			PERFORMANCE:
-			{aksi_final}
-			Mood: {mood_final}
-			- Minimal, natural movement
-			- Eyes naturally alternate between object and camera
-			- No acting exaggeration
+		EMOTIONAL MICRO EXPRESSION:
+		- Slight watery eyes (NOT crying)
+		- Subtle eye shimmer under natural light
+		- Slow elderly blinking rhythm
+		- Mild facial tension around eyes and mouth
+		- Dry lips, slightly pressed
+		- Emotion stays internal, not theatrical
 
-			EMOTIONAL MICRO EXPRESSION:
-			- Slight watery eyes (NOT crying)
-			- Subtle eye shimmer under natural light
-			- Slow elderly blinking rhythm
-			- Mild facial tension around eyes and mouth
-			- Dry lips, slightly pressed
-			- Emotion stays internal, not theatrical
+		VOICE SYSTEM (ELDERLY NATURAL PROFILE):
+		- Age: 80–90 Indonesian rural elder
+		- Tone: soft, thin, slightly shaky
+		- Speed: slow natural (0.7x–0.8x)
+		- Breathing: natural pauses between phrases
+		- Clarity: fully understandable speech
 
-			VOICE SYSTEM (ELDERLY NATURAL PROFILE):
-			- Age: 80–90 Indonesian rural elder
-			- Tone: soft, thin, slightly shaky
-			- Speed: slow natural (0.7x–0.8x)
-			- Breathing: natural pauses between phrases
-			- Clarity: fully understandable speech
+		SPEECH RULES:
+		- Natural sentence flow (NO robotic separation)
+		- Short natural phrases allowed (not forced)
+		- Gentle pauses at commas or emotional breaks
+		- No stuttering, no mumbling, no glitch
+		- No exaggerated articulation
 
-			SPEECH RULES:
-			- Natural sentence flow (NO robotic separation)
-			- Short natural phrases allowed (not forced)
-			- Gentle pauses at commas or emotional breaks
-			- No stuttering, no mumbling, no glitch
-			- No exaggerated articulation
+		VOICE STYLE:
+		{logat_final}
+		
+		DIALOG: {user_dialog}
 
-			VOICE STYLE:
-			{logat_final}
+		OBJECT DETAIL:{deskripsi_teknis}
 
-			DIALOG:
-			{user_dialog}
+		ULTRA DETAIL ENFORCEMENT:
+		- Hyper-real carving precision
+		- Real fruit fiber texture
+		- Moist reflective surfaces
+		- Visible imperfections and realism
+		- No smoothing, no simplification
 
-			OBJECT DETAIL:
-			{deskripsi_teknis}
-
-			ULTRA DETAIL ENFORCEMENT:
-			- Hyper-real carving precision
-			- Real fruit fiber texture
-			- Moist reflective surfaces
-			- Visible imperfections and realism
-			- No smoothing, no simplification
-
-			NEGATIVE PROMPT:
-			blurry, soft focus, low detail, CGI, AI look, plastic texture,
-			overprocessed lighting, fake depth, cartoon style,
-			audio glitch, mumbling, unclear speech, fast talking,
-			lip sync error, exaggerated mouth movement, shouting
-			"""
-				
-				st.success("🔥 PROMPT MASJID READY!")
-				st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
-				st.code(final_ai_prompt, language="text")
+		NEGATIVE PROMPT:
+		blurry, soft focus, low detail, CGI, AI look, plastic texture,
+		overprocessed lighting, fake depth, cartoon style,
+		audio glitch, mumbling, unclear speech, fast talking,
+		lip sync error, exaggerated mouth movement, shouting
+        """
+            
+            # --- 7. TAMPILKAN HASIL ---
+            st.success("🔥 PROMPT MASJID READY!")
+            st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
+            st.code(final_ai_prompt, language="text")
                        
     # ==========================================================================
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
