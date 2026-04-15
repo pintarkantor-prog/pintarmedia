@@ -3091,7 +3091,7 @@ def tampilkan_halaman():
 
 		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-			scene_context = (
+            scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
                 f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 70% frame dominance on the craft. NO wide shot, NO high angle.\n"
                 f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
@@ -3112,7 +3112,7 @@ def tampilkan_halaman():
                 "sikem","dulah","sartini","tinah","wati"
             ])
 
-			if is_perempuan:
+            if is_perempuan:
                 gender_lock = (
                     "IDENTITY: Fragile Indonesian grandmother (80+). "
                     "FACE: Deeply weathered skin, organic wrinkles, NO facial hair. "
@@ -3137,7 +3137,7 @@ def tampilkan_halaman():
                 "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
             )
 
-			# --- ASSEMBLY PROMPT (V.30 - FULL STABLE VERSION) ---
+            # --- ASSEMBLY PROMPT (V.31 - STABLE MACRO) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
@@ -3162,7 +3162,7 @@ def tampilkan_halaman():
                 f"- Stable frame, no shake\n"
                 f"- Object always perfectly sharp\n\n"
                 
-				f"CHARACTER IDENTITY:\n"
+                f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
@@ -3209,7 +3209,7 @@ def tampilkan_halaman():
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
                 f"audio glitch, unclear speech, fast talking, smiling, laughing, "
-				f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot"
+                f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot"
             )
 
             # --- 7. TAMPILKAN HASIL ---
