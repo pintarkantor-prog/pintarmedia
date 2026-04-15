@@ -486,7 +486,7 @@ def tampilkan_halaman():
                     "Atmosphere: Placed on a rough, weathered wooden table covered in carving debris, rind scraps, and red juice stains. ONLY THE CHARACTER'S BARE HANDS ARE VISIBLE. " # Hanya Tangan Kosong
                     "Composition: The miniature mosque dominates the foreground, centered and frontal, partially obscuring the character's chest. "
                     "Strictly NO CGI, NO artificial gloss, NO text. 8k cinematic macro realism with authentic organic imperfections."
-                ),
+				),
 				"Semangka: Kubah Merah": (
 					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon, emphasizing a red-flesh dome as the central architectural focus. "
 					"The central dome is formed from exposed ruby-red watermelon flesh, shaped into a smooth architectural dome with visible fibrous structure and natural moisture. "
