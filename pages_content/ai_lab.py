@@ -385,6 +385,999 @@ def tampilkan_halaman():
     				"Highly intricate geometric carvings with dense detail distribution across all surfaces. "
     				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong focal clarity, enhanced subject isolation, high surface contrast and strong edge separation, ultra rich natural color contrast with deep green and intense red tones, intense material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, cinematic presence, vivid yet natural color without artificial glow. "
     				"The wooden table surface is scattered only with watermelon debris: flesh chunks, rind pieces, seeds, and natural residue."
+				),
+				
+				"Semangka: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole watermelon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is uniquely formed from exposed watermelon flesh, shaped into a smooth rounded structure with a deep rich ruby-red tone and natural moist texture, acting as the main focal point of the architecture. "
+    				"Surrounding the main dome are smaller domes and tall symmetrical minarets carved from dark green rind with natural striped patterns. "
+    				"The structure maintains a clear mosque silhouette with strong proportions and balanced architectural hierarchy. "
+    				"The walls are formed from thick green rind, deeply carved with ornate Islamic arches, recessed doorways, and layered structural details. "
+    				"Carved sections reveal strong contrast between deep red flesh, pale inner rind, and dark green outer rind, enhancing depth and material separation. "
+    				"Highly detailed geometric Islamic carvings with precise symmetry and dense micro-detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, ultra rich natural color contrast with deep green and intense red tones, enhanced material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with watermelon debris: flesh chunks, rind pieces, seeds, and natural juice residue."
+				),
+
+				"Buah Naga: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole dragon fruit, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome, supporting domes, and tall symmetrical minarets. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure uses magenta-red scaly rind as the main surface, with carved openings revealing white or pink fibrous flesh filled with small black seeds. "
+    				"Strong natural contrast between vibrant magenta rind and soft inner flesh enhances architectural readability. "
+    				"Highly detailed geometric carvings with precise symmetry and clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast with magenta and white tones, enhanced color separation between rind and flesh, highly detailed texture fidelity, realistic organic surface response, fine grain detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with dragon fruit debris: flesh chunks, rind pieces, seeds, and natural juice residue."
+				),
+
+				"Buah Naga: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole dragon fruit, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, multiple layered secondary domes, and tall symmetrical minarets forming a strong vertical hierarchy. "
+    				"The structure has a powerful three-dimensional presence with clearly defined mass, depth, and spatial layering. "
+    				"The outer structure is formed from magenta scaly rind, deeply carved into recessed arches and layered surfaces. "
+    				"Deep carved openings reveal white or pink fibrous flesh with visible seeds, creating strong depth separation. "
+    				"Complex geometric carvings are deeply engraved with layered detail. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong depth definition, enhanced structural layering, high surface contrast and strong edge separation, ultra rich natural color contrast with magenta and white tones, enhanced tonal depth and material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with dragon fruit debris."
+				),
+
+				"Buah Naga: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole dragon fruit, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome as the primary focal point, surrounded by layered domes and tall minarets. "
+    				"The structure has strong visual hierarchy guiding attention to the center. "
+    				"Low-angle macro perspective enhances scale and visual impact. "
+    				"The outer structure is formed from magenta scaly rind, carved with deep recessed arches and intricate details. "
+    				"Carved openings reveal soft fibrous flesh with black seeds, creating strong contrast. "
+    				"Highly intricate carvings with dense detail distribution. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong focal clarity, high surface contrast and strong edge separation, ultra rich natural color contrast with magenta and white tones, highly refined texture fidelity, visually striking, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with dragon fruit debris."
+				),
+
+				"Buah Naga: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole dragon fruit, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from exposed white or pink fibrous flesh, shaped into a smooth rounded structure with visible black seeds, acting as the main focal point. "
+    				"Surrounding structures and minarets are carved from magenta scaly rind. "
+    				"The structure maintains a clear mosque silhouette with balanced proportions. "
+    				"Carved sections reveal strong contrast between textured rind and soft seeded flesh. "
+    				"Highly detailed geometric carvings across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, ultra rich natural color contrast with magenta and white tones, enhanced material separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with dragon fruit debris."
+				),
+
+				"Melon: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole melon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome and symmetrical minarets. "
+    				"The structure uses outer rind with carved openings revealing smooth pale inner flesh. "
+    				"Strong natural contrast enhances readability. "
+    				"Highly detailed carvings with clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with melon debris."
+				),
+
+				"Melon: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole melon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Layered architectural composition with deep carved structures and multiple domes. "
+    				"Outer rind carved into layered forms revealing inner flesh. "
+    				"Strong depth and dimensional structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong edge separation, rich natural color contrast, highly refined texture fidelity, realistic organic surface response. "
+    				"The wooden table surface is scattered only with melon debris."
+				),
+
+				"Melon: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole melon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with dominant dome and strong focal hierarchy. "
+    				"Low-angle perspective enhances scale. "
+    				"Outer rind carved with deep detail revealing inner flesh. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong edge separation, visually striking, vivid yet natural color. "
+    				"The wooden table surface is scattered only with melon debris."
+				),
+
+				"Melon: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole melon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from smooth inner melon flesh, acting as the focal point. "
+    				"Outer structure and minarets carved from rind. "
+    				"Strong contrast between soft flesh and outer rind. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with melon debris."
+				),
+				
+				"Labu: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole pumpkin, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with central dome and symmetrical minarets. "
+    				"The structure uses thick orange skin with carved openings revealing fibrous inner flesh. "
+    				"Strong natural contrast enhances readability. "
+    				"Highly detailed carvings with clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast with deep orange tones, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pumpkin debris."
+				),
+
+				"Labu: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole pumpkin, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Layered and deep architectural carving with multiple domes and strong hierarchy. "
+    				"Outer skin carved into layered structures revealing fibrous interior. "
+    				"Strong depth and dimensional structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong edge separation, rich natural orange tones, highly refined texture fidelity, realistic organic surface response. "
+    				"The wooden table surface is scattered only with pumpkin debris."
+				),
+
+				"Labu: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole pumpkin, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with strong central dome focus and dramatic visual hierarchy. "
+    				"Low-angle perspective enhances scale and impact. "
+    				"Deep carvings reveal fibrous pumpkin interior. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong edge separation, visually striking, vivid yet natural color. "
+    				"The wooden table surface is scattered only with pumpkin debris."
+				),
+
+				"Labu: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole pumpkin, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from dense inner pumpkin flesh, acting as the main focal point. "
+    				"Outer structures carved from thick orange skin. "
+    				"Strong contrast between outer shell and inner fibrous flesh. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, rich natural orange tones, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pumpkin debris."
+				),
+
+				"Rambutan: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple rambutans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome, supporting domes, and tall symmetrical minarets formed by carefully arranged fruit units. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure is built by tightly assembling whole rambutans, forming dense textured surfaces with their natural red spiky skins. "
+    				"Subtle openings reveal the soft translucent white flesh inside, creating natural material contrast. "
+    				"Strong repetition and modular arrangement enhance architectural readability. "
+    				"High visual clarity, ultra crisp detail definition, strong micro-detail visibility, sharp surface definition, high surface contrast and clean separation between fruit elements, rich natural color contrast with deep red and white tones, enhanced texture visibility, realistic organic surface response, fine grain detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with rambutan debris: loose fruits, peels, and natural residue."
+				),
+
+				"Rambutan: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple rambutans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, multiple layered secondary domes, and tall minarets forming a strong vertical hierarchy. "
+    				"The structure has a powerful three-dimensional presence with clearly defined mass and depth. "
+    				"Rambutans are stacked and layered to create recessed arches, elevated platforms, and structural relief. "
+    				"Dense clustered arrangements form thick walls, while gaps reveal inner white flesh, enhancing depth separation. "
+    				"Strong modular repetition creates rhythm and architectural complexity. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, enhanced structural layering, high surface contrast and strong separation between fruit elements, ultra rich natural color contrast with red and white tones, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with rambutan debris."
+				),
+
+				"Rambutan: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple rambutans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome formed from a dense cluster of rambutans as the main focal point. "
+    				"Layered surrounding domes and vertical minarets emphasize strong visual hierarchy. "
+    				"Low-angle macro perspective enhances the perceived scale, making the structure appear monumental. "
+    				"The outer structure is composed of tightly packed rambutans, with their spiky red surfaces creating intense texture. "
+    				"Subtle openings reveal soft white flesh, adding contrast and visual interest. "
+    				"Highly dense detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong separation between fruit elements, ultra rich natural color contrast with red and white tones, highly refined texture fidelity, visually striking, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with rambutan debris."
+				),
+
+				"Rambutan: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple rambutans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is uniquely formed from peeled rambutans, exposing smooth translucent white flesh, creating a clean rounded dome as the focal point. "
+    				"Surrounding structures and minarets are built from whole rambutans with red spiky skins, forming strong contrast. "
+    				"The structure maintains a clear mosque silhouette with balanced proportions. "
+    				"Layered arrangement of peeled and unpeeled rambutans creates strong material separation and depth. "
+    				"Highly detailed arrangement ensures clarity of architectural form. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong separation between red skin and white flesh, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with rambutan debris."
+				),
+
+				"Pepaya: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole papaya, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome, supporting domes, and tall symmetrical minarets. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure uses smooth orange outer skin with carved openings revealing soft orange flesh and dark seeds inside. "
+    				"Strong natural contrast between outer skin and inner flesh enhances architectural readability. "
+    				"Highly detailed geometric carvings with precise symmetry and clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast with warm orange tones and dark seed accents, enhanced texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with papaya debris: flesh chunks, seeds, skin pieces, and natural residue."
+				),
+
+				"Pepaya: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole papaya, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with layered domes and tall minarets forming a strong vertical hierarchy. "
+    				"Deep carved structures create strong dimensional layering and recessed architectural forms. "
+    				"The outer skin is carved into layered surfaces revealing inner orange flesh and clustered seeds. "
+    				"Strong depth separation enhances structural readability. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong separation, rich natural orange tones with dark seed contrast, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with papaya debris."
+				),
+
+				"Pepaya: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole papaya, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome as the focal point and strong visual hierarchy. "
+    				"Low-angle macro perspective enhances scale and presence. "
+    				"The structure is carved from orange papaya skin with deep openings revealing flesh and seeds. "
+    				"Strong contrast and dense detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong edge separation, visually striking, vivid yet natural orange tones without artificial glow. "
+    				"The wooden table surface is scattered only with papaya debris."
+				),
+
+				"Pepaya: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole papaya, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from smooth orange papaya flesh, creating a rounded focal point with visible natural moisture and embedded dark seeds nearby. "
+    				"Outer structures and minarets are carved from the papaya skin. "
+    				"Strong contrast between soft inner flesh and outer skin enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong separation, rich natural orange tones with dark seed accents, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with papaya debris."
+				),
+
+				"Pisang: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from multiple bananas and banana segments, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome and symmetrical minarets formed by arranged banana elements. "
+    				"The structure combines whole bananas and cut sections to form curved architectural shapes. "
+    				"Outer yellow peel contrasts with soft pale inner flesh. "
+    				"Strong modular arrangement enhances readability. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural yellow tones with soft inner flesh contrast, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris: peels, slices, and soft residue."
+				),
+
+				"Pisang: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered banana elements, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Layered architectural composition with stacked banana segments forming domes, arches, and towers. "
+    				"Curved banana forms create natural flowing architectural lines. "
+    				"Strong depth and structure from repeated arrangement. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris."
+				),
+
+				"Pisang: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from bananas, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome formed from curved banana segments. "
+    				"Strong visual hierarchy and low-angle perspective enhance impact. "
+    				"Yellow peel and pale flesh create contrast and visual focus. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, vivid yet natural yellow tones. "
+    				"The wooden table surface is scattered only with banana debris."
+				),
+
+				"Pisang: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from bananas, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from smooth exposed banana flesh, creating a soft rounded focal point. "
+    				"Outer structures are formed from yellow banana peel elements. "
+    				"Strong contrast between peel and flesh enhances visual depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris."
+				),
+
+				"Jeruk: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from multiple oranges and orange segments, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with domes and minarets formed from assembled orange units. "
+    				"Outer orange peel contrasts with juicy segmented flesh. "
+    				"Strong modular repetition enhances architectural clarity. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural orange tones with bright inner flesh highlights, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with orange debris: peels, segments, and juice residue."
+				),
+
+				"Jeruk: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered orange elements, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Layered domes and structural forms built from stacked oranges and segments. "
+    				"Strong depth and dimensional arrangement. "
+    				"Outer peel and inner segments create contrast and structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural orange tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with orange debris."
+				),
+
+				"Jeruk: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from oranges, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant dome formed from clustered orange segments. "
+    				"Strong focal hierarchy and visual impact. "
+    				"Bright juicy segments create natural highlights and contrast. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, vivid yet natural orange tones. "
+    				"The wooden table surface is scattered only with orange debris."
+				),
+
+				"Jeruk: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from oranges, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from exposed orange segments, creating a vibrant juicy rounded structure as the focal point. "
+    				"Outer structures use orange peel elements. "
+    				"Strong contrast between peel and inner segments enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with orange debris."
+				),
+
+				"Salak: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple salak fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome, supporting domes, and tall symmetrical minarets formed by carefully arranged fruit units. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure is built from whole salak fruits with distinctive dark brown scaly skin, forming dense textured surfaces. "
+    				"Subtle openings reveal the pale inner flesh, creating natural material contrast. "
+    				"Strong modular repetition enhances architectural readability. "
+    				"High visual clarity, ultra crisp detail definition, strong micro-detail visibility, sharp surface definition, high surface contrast and clean separation between fruit elements, rich natural color contrast with dark brown and pale tones, enhanced texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with salak debris: whole fruits, peeled skins, and natural residue."
+				),
+
+				"Salak: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered salak fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, layered secondary domes, and tall minarets forming strong hierarchy. "
+    				"Salak fruits are stacked and arranged into layered structural forms with recessed depth. "
+    				"Scaly skin textures create strong surface richness and depth variation. "
+    				"Open sections reveal inner flesh, enhancing contrast and dimensional separation. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong separation, rich natural brown tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with salak debris."
+				),
+
+				"Salak: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from salak fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome formed from tightly clustered salak fruits. "
+    				"Strong visual hierarchy and low-angle perspective enhance impact. "
+    				"The unique scaly texture creates a striking and highly recognizable surface. "
+    				"Subtle openings reveal inner flesh for contrast. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, rich natural brown tones, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with salak debris."
+				),
+
+				"Salak: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from salak fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from peeled salak fruits, exposing smooth pale inner flesh as a rounded focal point. "
+    				"Outer structures and minarets are built from whole salak fruits with scaly skin. "
+    				"Strong contrast between dark textured skin and smooth inner flesh enhances depth and readability. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with salak debris."
+				),
+
+				"Anggur: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple grapes, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with domes and minarets formed from clustered grape units. "
+    				"The structure is built from tightly packed grapes forming smooth rounded surfaces. "
+    				"Natural translucency and gloss create soft highlights and depth. "
+    				"Strong modular repetition enhances clarity and structure. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural color tones, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with grape debris: loose grapes and juice residue."
+				),
+
+				"Anggur: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered grape clusters, firmly placed on a rustic wooden table surface. "
+    				"Layered domes and structural forms built from stacked grape clusters. "
+    				"Strong depth and dimensional arrangement created by overlapping spherical forms. "
+    				"Natural translucency enhances internal depth and visual richness. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with grape debris."
+				),
+
+				"Anggur: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from grapes, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant dome formed from dense grape clusters. "
+    				"Strong focal hierarchy and low-angle perspective enhance visual impact. "
+    				"Glossy grape surfaces create natural highlights and visual appeal. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with grape debris."
+				),
+
+				"Anggur: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from grapes, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from peeled or cut grapes, exposing translucent juicy interiors as a glowing-like but natural focal point. "
+    				"Outer structures use whole grapes for contrast. "
+    				"Strong contrast between glossy skin and inner flesh enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with grape debris."
+				),
+
+				"Nanas: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a pineapple, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome and symmetrical minarets. "
+    				"The structure uses the rough spiky pineapple skin as the main surface, carved into architectural forms. "
+    				"Carved openings reveal juicy yellow flesh inside. "
+    				"Strong natural contrast between rough outer skin and soft inner flesh enhances readability. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural yellow and brown tones, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pineapple debris: skin pieces, flesh chunks, and natural residue."
+				),
+
+				"Nanas: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a pineapple, firmly placed on a rustic wooden table surface. "
+    				"Grand layered architectural composition with deep carvings forming domes and structural depth. "
+    				"Thick outer skin is carved into layered architectural surfaces revealing inner yellow flesh. "
+    				"Strong depth and dimensional structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong separation, rich natural yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pineapple debris."
+				),
+
+				"Nanas: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a pineapple, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant dome and strong vertical presence. "
+    				"The pineapple crown leaves subtly enhance the silhouette like natural spires. "
+    				"Low-angle perspective enhances scale and visual impact. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pineapple debris."
+				),
+
+				"Nanas: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a pineapple, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from exposed juicy yellow pineapple flesh, shaped into a smooth rounded structure as the focal point. "
+    				"Outer structures and minarets are carved from the rough pineapple skin. "
+    				"Strong contrast between textured outer skin and juicy inner flesh enhances depth and structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, rich natural yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with pineapple debris."
+				),
+
+				"Durian: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole durian, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome, supporting domes, and tall symmetrical minarets. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure uses the thick spiky durian shell as the main surface, carved into architectural forms. "
+    				"Carved openings reveal soft pale yellow flesh inside. "
+    				"Strong contrast between rough spiky shell and smooth inner flesh enhances readability. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural green and yellow tones, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with durian debris: shell fragments, flesh chunks, and natural residue."
+				),
+
+				"Durian: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a durian, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered architectural composition with deep carvings forming domes, arches, and structural depth. "
+    				"The thick durian shell is carved into layered surfaces and recessed forms. "
+    				"Openings reveal dense yellow flesh creating strong depth separation. "
+    				"The spiky texture creates extreme surface richness and visual complexity. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong separation, rich natural tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with durian debris."
+				),
+
+				"Durian: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a durian, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome and strong vertical hierarchy. "
+    				"The extreme spiky surface creates a bold and striking silhouette. "
+    				"Low-angle macro perspective enhances scale and intensity. "
+    				"Openings reveal soft inner flesh, creating contrast. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with durian debris."
+				),
+
+				"Durian: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a durian, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from exposed soft yellow durian flesh, shaped into a smooth rounded focal structure. "
+    				"Outer structures and minarets are carved from the spiky durian shell. "
+    				"Strong contrast between sharp outer shell and soft inner flesh enhances depth and readability. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and strong separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with durian debris."
+				),
+
+				"Kiwi: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from kiwi fruits and kiwi slices, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome and symmetrical minarets formed from assembled kiwi elements. "
+    				"Outer brown fuzzy skin contrasts with vibrant green inner flesh and radial black seeds. "
+    				"The radial seed patterns enhance visual detail and symmetry. "
+    				"Strong modular arrangement creates architectural clarity. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural green tones with dark seed patterns, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with kiwi debris: slices, skins, and seeds."
+				),
+
+				"Kiwi: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered kiwi elements, firmly placed on a rustic wooden table surface. "
+    				"Layered domes and structures formed from stacked kiwi slices and whole fruits. "
+    				"The radial seed pattern creates repeating visual rhythm and depth. "
+    				"Strong dimensional layering enhances structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural green tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with kiwi debris."
+				),
+
+				"Kiwi: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from kiwi fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant dome formed from kiwi slices displaying radial seed patterns. "
+    				"Strong focal hierarchy and low-angle perspective enhance visual impact. "
+    				"Bright green flesh creates strong visual attraction. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with kiwi debris."
+				),
+
+				"Kiwi: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from kiwi fruits, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from smooth exposed kiwi flesh with radial seed patterns, creating a vivid green focal point. "
+    				"Outer structures are formed from kiwi skin elements. "
+    				"Strong contrast between brown fuzzy skin and bright green flesh enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with kiwi debris."
+				),
+
+				"Strawberry: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from multiple strawberries, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with domes and minarets formed from arranged strawberry units. "
+    				"The structure uses red strawberry surfaces with visible seeds and green leaf tops. "
+    				"Strong contrast between red flesh and green leaf elements enhances readability. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural red tones with seed texture, highly detailed texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with strawberry debris: fruits, slices, leaves, and juice residue."
+				),
+
+				"Strawberry: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered strawberry elements, firmly placed on a rustic wooden table surface. "
+    				"Layered domes and structures formed from stacked strawberries and slices. "
+    				"Seeds and surface texture create rich visual detail. "
+    				"Strong depth and dimensional structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural red tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with strawberry debris."
+				),
+
+				"Strawberry: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from strawberries, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome formed from clustered strawberries. "
+    				"Strong visual hierarchy and low-angle perspective enhance impact. "
+    				"Bright red tones create strong visual attraction. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with strawberry debris."
+				),
+
+				"Strawberry: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from strawberries, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from sliced strawberries exposing juicy red interiors with visible seed patterns. "
+    				"Outer structures are formed from whole strawberries with green tops. "
+    				"Strong contrast between outer surface and inner flesh enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with strawberry debris."
+				),
+
+				"Kelapa: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a coconut, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome, supporting domes, and symmetrical minarets. "
+    				"The structure uses hard brown coconut shell as the outer surface with carved openings revealing clean white coconut flesh inside. "
+    				"Strong contrast between dark shell and bright white flesh enhances clarity. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, high surface contrast and clean edge separation, rich natural tones, highly detailed texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with coconut debris: shell fragments, flesh pieces, and natural residue."
+				),
+
+				"Kelapa: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a coconut, firmly placed on a rustic wooden table surface. "
+    				"Layered architectural carving with deep recessed structures forming domes and towers. "
+    				"Outer shell carved into multi-layer surfaces revealing white flesh beneath. "
+    				"Strong depth and dimensional layering. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural tones, highly refined texture fidelity. "
+    				"The wooden table surface is scattered only with coconut debris."
+				),
+
+				"Kelapa: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a coconut, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome and strong visual hierarchy. "
+    				"Low-angle perspective enhances scale and impact. "
+    				"High contrast between shell and flesh creates strong focal clarity. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, high surface contrast, visually striking, vivid yet natural tones. "
+    				"The wooden table surface is scattered only with coconut debris."
+				),
+
+				"Kelapa: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a coconut, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from smooth white coconut flesh, creating a clean rounded focal point. "
+    				"Outer structures are carved from the hard brown shell. "
+    				"Strong contrast between shell and flesh enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast, highly refined texture fidelity. "
+    				"The wooden table surface is scattered only with coconut debris."
+				),
+
+				"Blueberry: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed entirely from multiple blueberries, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture formed from tightly clustered blueberry units. "
+    				"Smooth glossy surfaces create subtle reflections and depth. "
+    				"Strong modular repetition enhances structure. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural deep blue tones, highly refined texture fidelity, vivid yet natural color. "
+    				"The wooden table surface is scattered only with blueberry debris."
+				),
+
+				"Blueberry: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered blueberry clusters, firmly placed on a rustic wooden table surface. "
+    				"Layered domes and structures formed from stacked blueberries. "
+    				"Strong depth and dimensional arrangement. "
+    				"Ultra high visual clarity, extreme sharpness, strong depth definition, high surface contrast and separation, highly refined texture fidelity. "
+    				"The wooden table surface is scattered only with blueberry debris."
+				),
+
+				"Blueberry: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from blueberries, firmly placed on a rustic wooden table surface. "
+    				"Cinematic composition with dominant dome formed from dense blueberry cluster. "
+    				"Glossy surfaces enhance focal clarity. "
+    				"Ultra high visual clarity, extreme sharpness, strong focal clarity, high surface contrast, visually striking. "
+    				"The wooden table surface is scattered only with blueberry debris."
+				),
+
+				"Blueberry: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from blueberries, firmly placed on a rustic wooden table surface. "
+    				"The central dome is formed from crushed or cut blueberries, revealing deep purple juicy interiors. "
+    				"Outer structures use whole blueberries. "
+    				"Strong contrast enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, strong surface definition, high surface contrast. "
+    				"The wooden table surface is scattered only with blueberry debris."
+				),
+
+				"Jagung: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from corn cobs and kernels, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture formed from tightly packed rows of corn kernels. "
+    				"Natural repeating kernel pattern creates strong visual rhythm. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and separation, rich natural yellow tones, highly refined texture fidelity. "
+    				"The wooden table surface is scattered only with corn debris."
+				),
+
+				"Jagung: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered corn structures, firmly placed on a rustic wooden table surface. "
+    				"Layered architectural composition using stacked kernels and cob sections. "
+    				"Strong depth and repetition. "
+    				"Ultra high visual clarity, extreme sharpness, strong depth definition, high surface contrast. "
+    				"The wooden table surface is scattered only with corn debris."
+				),
+
+				"Jagung: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from corn, firmly placed on a rustic wooden table surface. "
+    				"Cinematic composition with a dominant dome formed from curved corn rows. "
+    				"Pattern creates strong visual impact. "
+    				"Ultra high visual clarity, extreme sharpness, strong focal clarity. "
+    				"The wooden table surface is scattered only with corn debris."
+				),
+
+				"Jagung: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from corn, firmly placed on a rustic wooden table surface. "
+    				"The central dome is formed from exposed corn kernels, creating a dense textured surface. "
+    				"Outer structures use cob sections. "
+    				"Strong contrast enhances depth. "
+    				"Ultra high visual clarity, extreme sharpness, strong surface definition. "
+    				"The wooden table surface is scattered only with corn debris."
+				),
+
+				"Sirsak: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a soursop fruit, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Structure uses spiky green skin with carved openings revealing soft white fibrous flesh. "
+    				"Strong texture contrast enhances readability. "
+    				"High visual clarity, ultra crisp carving edges, strong surface contrast, rich natural green tones, highly refined texture fidelity. "
+    				"The wooden table surface is scattered only with soursop debris."
+				),
+				
+				"Tomat: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from tomatoes, firmly placed on a rustic wooden table surface. "
+    				"Glossy red surface and juicy interior create strong visual contrast. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast, vivid natural red tones. "
+    				"The wooden table surface is scattered only with tomato debris."
+				),
+				
+				"Kelapa Tua: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a mature coconut with rough fibrous shell, firmly placed on a rustic wooden table surface. "
+    				"The structure uses coarse brown fibers and hard shell, with carved openings revealing white flesh. "
+    				"Strong texture contrast creates depth and realism. "
+    				"High visual clarity, ultra crisp edges, strong surface contrast, highly detailed texture fidelity. "
+    				"The wooden table surface is scattered only with coconut debris."
+				),
+
+				"Ceri: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from multiple cherries, firmly placed on a rustic wooden table surface. "
+    				"Glossy red fruits arranged into domes and towers. "
+    				"Strong modular structure with reflective surfaces. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast, vivid natural red tones. "
+    				"The wooden table surface is scattered only with cherry debris."
+				),
+
+				"Mangga: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole mango, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome, supporting domes, and tall symmetrical minarets. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure uses smooth mango skin with natural green to yellow gradients as the main surface, with carved openings revealing rich golden-yellow juicy flesh. "
+    				"Strong natural contrast between outer skin and inner flesh enhances architectural readability. "
+    				"Highly detailed geometric carvings with precise symmetry and clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast with green, yellow, and orange tones, enhanced color separation between skin and flesh, highly detailed texture fidelity, realistic organic surface response, fine grain detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mango debris: flesh chunks, skin pieces, and natural juice residue."
+				),
+
+				"Mangga: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole mango, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, multiple layered secondary domes, and tall symmetrical minarets forming a strong vertical hierarchy. "
+    				"The structure has a powerful three-dimensional presence with clearly defined mass, depth, and spatial layering, creating a monumental miniature silhouette. "
+    				"The outer structure is formed from mango skin, deeply carved into recessed arches, layered surfaces, and structural reliefs. "
+    				"Deep carved openings reveal rich golden-yellow juicy flesh, creating strong depth separation between outer skin and inner layers. "
+    				"Complex geometric carvings are deeply engraved with multi-layered detail, enhancing structural readability. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong depth definition, enhanced structural layering, high surface contrast and strong edge separation, ultra rich natural color contrast with green, yellow, and orange tones, enhanced tonal depth and material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mango debris: flesh chunks, skin pieces, and juice residue."
+				),
+
+				"Mangga: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole mango, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome as the primary focal point, surrounded by layered secondary domes and tall symmetrical minarets with strong vertical emphasis. "
+    				"The structure has a powerful visual hierarchy that guides the eye directly to the central dome, creating a striking and iconic silhouette. "
+    				"Low-angle macro perspective enhances the perceived scale, making the miniature appear monumental and visually impactful. "
+    				"The outer structure is formed from mango skin with natural gradient tones, carved with deep recessed arches and intricate layered details. "
+    				"Carved openings reveal rich golden-yellow juicy flesh, creating strong contrast and depth separation. "
+    				"Highly intricate geometric carvings with dense detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong focal clarity, enhanced subject isolation, high surface contrast and strong edge separation, ultra rich natural color contrast with green, yellow, and orange tones, intense material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, cinematic presence, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mango debris: flesh chunks, skin pieces, and juice residue."
+				),
+
+				"Mangga: Kubah Daging": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole mango, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from exposed mango flesh, shaped into a smooth rounded structure with rich golden-yellow color and natural juicy texture, acting as the main focal point. "
+    				"Surrounding domes and tall symmetrical minarets are carved from mango skin with natural gradient tones. "
+    				"The structure maintains a clear mosque silhouette with strong proportions and balanced architectural hierarchy. "
+    				"The walls are formed from mango skin, deeply carved with ornate arches, recessed doorways, and layered structural details. "
+    				"Carved sections reveal strong contrast between juicy flesh and outer skin, enhancing depth and material separation. "
+    				"Highly detailed geometric carvings with precise symmetry and dense micro-detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, ultra rich natural color contrast with golden-yellow and green tones, enhanced material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mango debris: flesh chunks, skin pieces, and natural juice residue."
+				),
+
+				"Cabe Merah: Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from multiple red chili peppers, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome, supporting domes, and tall symmetrical minarets formed by carefully arranged chili elements. "
+    				"The elongated curved shape of the chilies is used to create arches, domes, and vertical structures with strong architectural readability. "
+    				"Glossy red chili skin forms the outer surface, with sliced sections revealing lighter inner flesh and seeds. "
+    				"Strong natural contrast between deep red skin and pale inner flesh enhances clarity. "
+    				"Highly detailed arrangement with precise symmetry and clean structural composition. "
+    				"High visual clarity, ultra crisp detail definition, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural red tones, enhanced material separation, highly detailed texture fidelity, realistic organic surface response, fine grain detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with red chili debris: cut chili segments, seeds, and natural juice residue."
+				),
+
+				"Cabe Merah: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from layered red chili peppers, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, multiple layered secondary domes, and tall symmetrical minarets built from stacked and interwoven chili elements. "
+    				"The curved chili forms create layered arches and structural depth, forming a complex and dynamic miniature silhouette. "
+    				"Multiple layers of chili surfaces create strong depth and dimensional hierarchy. "
+    				"Sliced chili sections reveal inner flesh and seeds, adding contrast and detail variation. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, enhanced structural layering, high surface contrast and strong edge separation, ultra rich natural red tones with subtle variations, enhanced tonal depth and material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with red chili debris: cut pieces, seeds, and residue."
+				),
+
+				"Cabe Merah: Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from red chili peppers, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome formed from tightly arranged curved chilies, surrounded by tall vertical minarets created from elongated chili forms. "
+    				"The structure has a strong visual hierarchy that emphasizes height and curvature, creating a bold and striking silhouette. "
+    				"Low-angle macro perspective enhances scale, making the structure appear monumental despite its small components. "
+    				"The glossy red surfaces create strong highlights and visual focus. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, enhanced subject isolation, high surface contrast and strong edge separation, ultra rich natural red tones, intense material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, cinematic presence, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with red chili debris: segments, seeds, and juice marks."
+				),
+
+				"Cabe Merah: Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from red chili peppers, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from densely packed sliced chili sections, exposing the inner flesh and seeds to create a textured dome with rich organic detail. "
+    				"Surrounding structures and minarets are formed from whole curved chilies, creating strong vertical lines and architectural balance. "
+    				"The combination of glossy outer skin and exposed inner flesh creates strong visual contrast and depth. "
+    				"Highly structured arrangement ensures a clear mosque silhouette despite the organic shapes. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed arrangement precision, ultra crisp edges, strong surface definition, high surface contrast and strong edge separation, ultra rich natural red tones with subtle variations, enhanced material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with red chili debris: sliced sections, seeds, and natural residue."
+				),
+
+				"Pisang: MIX Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from bananas, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome made from layered banana leaves, supported by smaller domes and tall symmetrical minarets formed from banana fruit segments. "
+    				"The structure uses smooth yellow banana surfaces as the main material, while wide green banana leaves are shaped into curved dome structures. "
+    				"Strong natural contrast between bright yellow fruit and deep green leaves enhances architectural clarity. "
+    				"Highly detailed arrangement with precise symmetry and clean structural composition. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural yellow and green tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris: fruit pieces, peel strips, and torn leaf fragments."
+				),
+
+				"Pisang: MIX Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from bananas and banana leaves, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered architecture with a dominant central dome made from folded banana leaves, surrounded by multiple layered domes and tall minarets built from stacked banana segments. "
+    				"The leaves form elegant curved surfaces, while the fruit provides structural mass. "
+    				"Layered composition creates strong depth and dimensional hierarchy. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and strong separation, rich natural yellow and green tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris: fruit chunks, peel layers, and leaf fragments."
+				),
+
+				"Pisang: MIX Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from bananas and banana leaves, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome made from large curved banana leaves acting as the main focal point. "
+    				"Banana fruits form supporting structures and vertical minarets. "
+    				"The strong contrast between green leaf dome and yellow structure creates a striking visual identity. "
+    				"Low-angle macro perspective enhances scale and presence. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris: fruit pieces, peel strips, and leaf fragments."
+				),
+
+				"Pisang: MIX Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from bananas and banana leaves, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from tightly layered banana leaves with visible veins and natural curvature, creating a smooth organic dome shape. "
+    				"The main structure and minarets are built from banana fruit, with sliced sections revealing soft pale interior flesh. "
+    				"Strong contrast between leaf texture and fruit flesh enhances depth and readability. "
+    				"Highly structured composition maintains a clear mosque silhouette. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, rich natural green and yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with banana debris: fruit chunks, peel pieces, and leaf fragments."
+				),
+
+				"Kelapa: MIX Tajam Natural": (
+    				"A hyper-realistic miniature mosque constructed from coconut materials, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome made from woven young coconut leaves (janur), supported by smaller domes and tall symmetrical minarets. "
+    				"The main structure uses hard coconut shell elements, while flexible green-yellow janur leaves are intricately woven into architectural surfaces. "
+    				"Strong contrast between rough shell texture and smooth woven leaves enhances clarity. "
+    				"Highly detailed craftsmanship with precise symmetry and clean structural composition. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural brown, green, and yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with coconut debris: shell fragments, leaf strips, and natural residue."
+				),
+
+				"Kelapa: MIX Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed from coconut shell and woven janur leaves, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered architecture with a dominant central dome woven from janur, surrounded by multiple layered domes and tall minarets formed from coconut shell and leaf structures. "
+    				"The woven leaf patterns create intricate layered surfaces and depth. "
+    				"Strong dimensional hierarchy and structural complexity. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong depth definition, high surface contrast and separation, rich natural brown and green-yellow tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with coconut debris: shell pieces, woven leaf fragments, and residue."
+				),
+
+				"Kelapa: MIX Fokus Ikonik": (
+    				"A hyper-realistic miniature mosque constructed from coconut shell and janur leaves, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome made from intricately woven janur leaves acting as the main focal point. "
+    				"Coconut shell forms the structural base and vertical minarets. "
+    				"The contrast between woven leaf textures and solid shell creates a strong visual identity. "
+    				"Low-angle macro perspective enhances scale and visual impact. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, visually striking, highly refined texture fidelity, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with coconut debris: shell fragments, leaf strips, and residue."
+				),
+
+				"Kelapa: MIX Kubah Daging": (
+    				"A hyper-realistic miniature mosque constructed from coconut materials, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The central dome is formed from tightly woven janur leaves, shaped into a smooth rounded dome with visible natural leaf patterns. "
+    				"The main structure and minarets are built from coconut shell and inner flesh elements. "
+    				"Strong contrast between fibrous shell, soft white flesh, and woven leaves enhances depth and readability. "
+    				"Highly structured composition maintains a clear mosque silhouette. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong surface definition, high surface contrast and separation, rich natural tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with coconut debris: shell fragments, flesh pieces, and leaf strips."
+				),
+
+				"Biji Jagung: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed entirely from corn kernels, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered mosque architecture with a dominant central dome, multiple secondary domes, and tall symmetrical minarets built from densely packed corn kernels. "
+    				"The repeating kernel pattern creates strong geometric rhythm and structured surfaces across the entire architecture. "
+    				"Layered arrangement forms clear depth, volume, and architectural hierarchy despite the small modular elements. "
+    				"High structural density ensures a clearly readable mosque silhouette with strong proportions. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp detail definition, strong micro-detail visibility, high surface contrast and strong edge separation, rich natural yellow tones, enhanced pattern repetition, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with corn kernel debris: loose kernels and fragments."
+				),
+
+				"Biji Jagung: Megah Ikonik": (
+    				"A hyper-realistic miniature mosque constructed entirely from corn kernels, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic monumental composition with a dominant central dome formed from tightly clustered kernels, supported by layered domes and tall vertical minarets. "
+    				"The dense arrangement of kernels creates smooth curved architectural surfaces while maintaining visible granular detail. "
+    				"Strong vertical emphasis and symmetrical layout produce a bold and iconic mosque silhouette. "
+    				"Low-angle macro perspective enhances scale, making the structure appear grand and monumental. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong separation, rich natural golden-yellow tones, intense material definition, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with corn kernel debris."
+				),
+
+				"Biji Kacang Hijau: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed entirely from mung beans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered mosque architecture with a dominant central dome, multiple supporting domes, and tall symmetrical minarets built from tightly arranged green beans. "
+    				"The small oval shapes create smooth yet detailed surfaces with subtle organic variation. "
+    				"Layered arrangement forms strong depth and architectural clarity with a clearly readable mosque silhouette. "
+    				"The uniform green tone creates a calm but highly structured visual composition. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp detail definition, strong micro-detail visibility, high surface contrast and clean edge separation, rich natural green tones, enhanced pattern density, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mung bean debris: loose beans and fragments."
+				),
+
+				"Biji Kacang Hijau: Megah Ikonik": (
+    				"A hyper-realistic miniature mosque constructed entirely from mung beans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome and tall vertical minarets, all formed from densely packed green beans. "
+    				"The tight clustering creates smooth dome curvature while preserving fine granular detail. "
+    				"Strong symmetry and vertical emphasis produce a clear and iconic mosque silhouette. "
+    				"Low-angle macro perspective enhances the monumental appearance of the structure. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and separation, rich natural green tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mung bean debris."
+				),
+
+				"Biji Kedelai Hitam: Megah Berlapis": (
+    				"A hyper-realistic miniature mosque constructed entirely from black soybeans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand layered mosque architecture with a dominant central dome, multiple secondary domes, and tall symmetrical minarets formed from densely packed black soybeans. "
+    				"The smooth rounded beans create compact surfaces with subtle reflective highlights. "
+    				"Layered structure produces strong depth and a clearly readable mosque silhouette. "
+    				"The deep black tone creates a bold and premium visual presence. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp detail definition, strong micro-detail visibility, high surface contrast and strong edge separation, deep natural black tones with subtle highlights, enhanced density and material separation, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with black soybean debris: loose beans and fragments."
+				),
+
+				"Biji Kedelai Hitam: Megah Ikonik": (
+    				"A hyper-realistic miniature mosque constructed entirely from black soybeans, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic monumental composition with a dominant central dome and tall vertical minarets, all formed from tightly packed soybeans. "
+    				"The dense arrangement creates smooth architectural curves with fine granular detail. "
+    				"Strong symmetry and vertical emphasis produce a powerful and iconic mosque silhouette. "
+    				"Low-angle macro perspective enhances scale and visual impact. "
+    				"Ultra high visual clarity, extreme sharpness, ultra crisp edges, strong focal clarity, high surface contrast and strong separation, deep black tones with subtle reflective highlights, intense material definition, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with black soybean debris."
+				),
+
+				"Mix Buah: Kontras Segar": (
+    				"A hyper-realistic miniature mosque constructed from a combination of watermelon, kiwi, and blueberries, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome made from vibrant red watermelon flesh, supported by smaller domes and tall symmetrical minarets. "
+    				"The main structural walls are formed from green kiwi slices with visible radial seed patterns, creating strong texture and color contrast. "
+    				"Blueberries are used as fine detail elements, forming accents, edges, and decorative architectural features. "
+    				"Strong material zoning ensures each fruit occupies a clear structural role, maintaining a readable mosque silhouette. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural red, green, and deep blue tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mixed fruit debris: watermelon chunks, kiwi slices, and blueberries."
+				),
+
+				"Mix Buah: Tropis Premium": (
+    				"A hyper-realistic miniature mosque constructed from a combination of coconut, mango, and grapes, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome formed from rich golden mango flesh, acting as the main focal point. "
+    				"The structural walls and main body are built from hard coconut shell and white flesh, providing a strong architectural base. "
+    				"Grapes are used as modular decorative elements, forming small domes, accents, and surface details. "
+    				"Strong material separation ensures clarity between structural elements and decorative components. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural brown, white, yellow, and purple tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mixed fruit debris: coconut shell fragments, mango flesh pieces, and grapes."
+				),
+
+				"Mix Buah: Tropis Klasik": (
+    				"A hyper-realistic miniature mosque constructed from a combination of pineapple, banana, and coconut, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome formed from layered banana slices, creating a smooth rounded shape. "
+    				"The structural walls are carved from pineapple skin, providing a rough geometric texture and strong architectural presence. "
+    				"Coconut elements are used for supporting structures and detailing, including minarets and surface accents. "
+    				"Strong contrast between rough pineapple texture, smooth banana surfaces, and coconut materials enhances depth and readability. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural yellow, green, and brown tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mixed fruit debris: pineapple skin pieces, banana slices, and coconut fragments."
+				),
+
+				"Mix Buah: Aesthetic Cerah": (
+    				"A hyper-realistic miniature mosque constructed from a combination of strawberries, blueberries, and kiwi, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome formed from strawberries, creating a bold red focal point. "
+    				"The structural walls are formed from kiwi slices with visible seed patterns, adding texture and structure. "
+    				"Blueberries are used as detailed modular accents across domes, minarets, and edges. "
+    				"The combination creates a balanced and vibrant composition with strong color separation. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural red, green, and deep blue tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mixed fruit debris: strawberry pieces, kiwi slices, and blueberries."
+				),
+
+				"Mix Buah: Manis Hangat": (
+    				"A hyper-realistic miniature mosque constructed from a combination of watermelon, mango, and banana, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a central dome formed from mango flesh, creating a smooth and vibrant golden focal point. "
+    				"The structural walls are carved from watermelon rind and flesh, providing strong green and red contrast. "
+    				"Banana elements are used for supporting domes, arches, and vertical structures. "
+    				"The composition creates a warm and inviting visual tone with clear architectural readability. "
+    				"High visual clarity, ultra crisp detail definition, strong surface contrast and clean edge separation, rich natural red, green, yellow, and orange tones, highly refined texture fidelity, realistic organic surface response, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with mixed fruit debris: watermelon chunks, mango pieces, and banana slices."
+				),
+
+				"Mix Organik: Megah Diorama Raya": (
+    				"A hyper-realistic large-scale miniature mosque diorama constructed from a combination of seeds, leaves, and flowers, firmly placed on a wide rustic wooden table surface, with the entire base clearly resting on the table. "
+    				"The structure is designed at an approximate 1-meter scale miniature, giving it a monumental and highly detailed architectural presence. "
+    				"Clearly structured grand mosque architecture featuring a dominant central dome, multiple secondary domes, expansive courtyards, and tall symmetrical minarets arranged in a cohesive layout. "
+    				"Structural base and walls are densely formed from tightly packed seeds, creating solid architectural mass and fine granular detail. "
+    				"Large leaves are used as curved architectural elements, forming domes, canopies, and layered roof structures with smooth organic surfaces. "
+    				"Flowers are used selectively as ornamental accents on domes, edges, and focal points, adding color highlights without disrupting structural clarity. "
+    				"Strong material zoning ensures each element (seeds, leaves, flowers) has a clear architectural role, maintaining a readable and realistic mosque silhouette. "
+    				"Layered composition creates strong depth, spatial hierarchy, and a complete environmental diorama feel. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed construction, ultra crisp edges, strong structural readability, high surface contrast and clean edge separation, rich natural color variation across organic materials, highly refined texture fidelity, realistic organic surface response, fine micro-detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with organic debris: loose seeds, torn leaf fragments, and fallen flower petals."
+				),
+
+				"Mix Organik: Megah Diorama Ikonik": (
+    				"A hyper-realistic monumental mosque diorama constructed from a complex combination of seeds, leaves, and flowers, firmly placed on a large rustic wooden table surface, with the full base clearly grounded on the table. "
+    				"The structure is built at an approximate 1-meter miniature scale, appearing massive, dense, and highly intricate. "
+    				"Cinematic grand mosque architecture with a dominant oversized central dome, multiple layered domes, expansive terraces, and very tall symmetrical minarets creating a powerful vertical and horizontal presence. "
+    				"The base structure is formed from extremely dense seed packing, creating solid architectural mass with ultra fine granular texture. "
+    				"Large organic leaves are shaped and layered into sweeping curved domes and roofing structures, adding smooth contrast to the dense seed surfaces. "
+    				"Flowers are integrated as high-impact focal accents, placed strategically on domes, entrances, and key architectural nodes, enhancing visual richness without overwhelming the structure. "
+    				"Extremely strong structural hierarchy ensures the mosque silhouette is bold, clear, and instantly recognizable despite the complex materials. "
+    				"Multi-layered composition with deep spatial separation creates a full cinematic diorama environment with strong depth and perspective. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-dense detail distribution, ultra crisp edges, strong focal clarity, enhanced subject dominance, high surface contrast and strong edge separation, ultra rich natural color variation, intense material differentiation between seeds, leaves, and flowers, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, cinematic presence, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with organic debris: loose seeds, leaf fragments, flower petals, and natural residue."
+				),
+
+				"Mix Buah: Diorama Megah Kontras": (
+    				"A hyper-realistic monumental mosque diorama constructed from a combination of watermelon, mango, and kiwi, firmly placed on a wide rustic wooden table surface, with the entire base clearly resting on the table. "
+    				"The structure is designed at an approximate 1-meter miniature scale, creating a massive and highly detailed architectural presence. "
+    				"Clearly structured grand mosque architecture featuring a dominant central dome, multiple layered domes, expansive courtyards, and tall symmetrical minarets arranged in a cohesive layout. "
+    				"The central dome is formed from smooth mango flesh, creating a bold golden focal point. "
+    				"The main structural walls and mass are carved from watermelon rind and flesh, providing strong green and red contrast with deep carved architectural depth. "
+    				"Kiwi slices are used as detailed surface elements and decorative panels, adding fine texture and radial seed patterns. "
+    				"Strong material zoning ensures each fruit has a clear architectural role, maintaining a readable and realistic mosque silhouette. "
+    				"Layered composition creates strong depth, spatial hierarchy, and a complete environmental diorama feel. "
+    				"Monumental scale presence, grand architectural mass, strong silhouette dominance, highly structured composition. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong depth definition, high surface contrast and strong edge separation, ultra rich natural color contrast with green, red, and golden tones, enhanced material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with fruit debris: watermelon chunks, mango pieces, and kiwi slices."
+				),
+
+				"Mix Buah: Diorama Megah Tropis": (
+    				"A hyper-realistic monumental mosque diorama constructed from a combination of pineapple, banana, and coconut, firmly placed on a wide rustic wooden table surface, with the entire base clearly resting on the table. "
+    				"The structure is built at an approximate 1-meter miniature scale, appearing dense, complex, and architecturally massive. "
+    				"Clearly structured grand mosque architecture featuring a dominant central dome, multiple layered domes, terraces, and tall symmetrical minarets forming a powerful composition. "
+    				"The central dome is formed from layered banana slices, creating a smooth rounded organic surface. "
+    				"The main structural walls are carved from pineapple skin, providing rough geometric texture and strong architectural definition. "
+    				"Coconut shell and flesh are used for structural support elements, columns, and minarets, adding contrast between hard and soft materials. "
+    				"Strong material separation ensures clear readability between structural mass and detailing elements. "
+    				"Layered architectural composition creates deep spatial hierarchy and a complete cinematic diorama environment. "
+    				"Monumental scale presence, grand architectural mass, strong silhouette dominance, highly structured composition. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-dense detail distribution, ultra crisp edges, strong depth definition, high surface contrast and strong edge separation, rich natural yellow, brown, and green tones, enhanced material differentiation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with fruit debris: pineapple skin pieces, banana slices, and coconut fragments."
+				),
+
+				"Mix Buah: Diorama Megah Cerah": (
+    				"A hyper-realistic monumental mosque diorama constructed from a combination of strawberries, blueberries, and kiwi, firmly placed on a wide rustic wooden table surface, with the entire base clearly resting on the table. "
+    				"The structure is designed at an approximate 1-meter miniature scale, giving it a bold, vibrant, and highly detailed presence. "
+    				"Clearly structured grand mosque architecture featuring a dominant central dome, multiple supporting domes, and tall symmetrical minarets arranged across a cohesive layout. "
+    				"The central dome is formed from strawberries, creating a strong red focal point with organic surface detail. "
+    				"The structural walls are formed from kiwi slices, adding green contrast with visible seed patterns and fine texture. "
+    				"Blueberries are used as modular decorative elements across domes, edges, and minarets, adding dense micro-detail accents. "
+    				"Strong material zoning maintains a clear mosque silhouette and prevents visual chaos. "
+    				"Layered composition creates depth, spatial hierarchy, and a complete diorama environment. "
+    				"Monumental scale presence, grand architectural mass, strong silhouette dominance, highly structured composition. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed construction, ultra crisp edges, strong focal clarity, high surface contrast and strong edge separation, ultra rich natural red, green, and deep blue tones, enhanced color separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with fruit debris: strawberry pieces, kiwi slices, and blueberries."
 				)
 				
 
