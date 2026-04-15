@@ -2883,38 +2883,38 @@ def tampilkan_halaman():
             )
             
         }
-        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ANTI-ASMA & HIGH-VULNERABILITY) ---
+        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
             "Logat": [
-                "The Ancient Village-Authentic (85th+): A raw, extremely frail voice of an 85-year-old with a flat, honest intonation. It carries a shaky, 'broken' cadence of advanced age, sounding deeply sincere with a dry, dusty, and thin vocal texture.",
-                "Old Javanese Sage (80th+): Extremely slow 80-year-old voice with a heavy, vibrating 'dh' and 'th'. The tone is a low-register, trembling chest voice (gemetar) that sounds like a calm, ancient rhythmic hum from a weathered throat.",
-                "Frail Sundanese Elder (80th+): A melodic but very thin 80-year-old undulating rhythm (mendayu). The voice is high-pitched, airy, and breathy, characterized by a weak, high-frequency flow that sounds like a weary village grandmother.",
-                "Coastal Ancestor Cadence (85th+): Slow and rhythmic 85-year-old voice with a very dry, gravelly 'serak' texture. The intonation is direct but exhausted, sounding like a weathered, cracking voice shaped by a century of sea air.",
-                "Village-Common 'Kering' Voice (90th+): An extremely thin, cracked, and perpetually shaky 90-year-old voice. It carries the texture of a parched throat with high-register raspiness and mandatory long, weak pauses for breath between phrases.",
-                "The Serene Matriarch (85th+): The slowest 85-year-old tempo possible, a fragile spiritual whisper. The voice is thin and hollow, with soft guttural friction in the throat that suggests a very advanced age and a lifetime of prayer."
+                "Elderly Female Soft (80+ fragile, thin, slow, clear articulation)",
+                "Elderly Female Raspy (85+ dry, broken, airy but controlled)",
+                "Elderly Female Whisper (90+ very slow, breathy but still clear)",
+                "Elderly Male Deep (80+ low, slow, stable pronunciation)",
+                "Elderly Male Dry (85+ cracked, thin, controlled pacing)",
+                "Elderly Male Trembling (90+ shaky voice but words remain clear)"
             ],
+
             "Mood": [
-                "Sedih & Sayu: Quiet Vulnerability. Voice is emotional, thin, and breaking. Eyes are heavy and hollow with deep, unshed sorrow. MANDATORY: Aged 80+ vocal tone.",
-                "Tenang & Bengong: Pensive Stillness. A distant, blank stare (bengong) as if lost in memories. Voice carries long natural pauses and a weary 80-year-old resonance.",
-                "Damai Sejahtera: Graceful Serenity. A fragile 80-year-old look, slow shallow breathing showing physical weakness. Voice is a peaceful but parched whisper.",
-                "Tulus Ikhlas: Humble Devotion. A fragile and sincere elderly expression. Voice is small, thin, and shaky, reflecting a pure and honest soul.",
-                "Tegar & Bijak: Stoic Calmness. A steady, weary 80-year-old face. Voice is firm but raspy and weathered by decades of hardship.",
-                "Fokus Khusyuk: Sacred Focus. Deeply focused 80-year-old expression of silent endurance. Voice is low, steady, and ancient.",
-                "Pasrah & Lelah: Complete Surrender. Shoulders slump in exhaustion, eyes are downcast. Voice is a weary 80-year-old murmur of acceptance."
+                "Sad and fragile",
+                "Calm and empty",
+                "Peaceful and sincere",
+                "Tired and resigned",
+                "Focused and quiet",
+                "Stoic and wise"
             ],
+
             "Physical Action": [
-                "The character's shaky fingers slowly trace the edges and fine details of the craft on the table, then they slowly lift their head to lock hollow, weary eyes with the camera lens while speaking.",
-                "Holding a focused gaze on the miniature's intricate parts with a trembling hand, then briefly looking up at the camera with a heavy, pensive 'sayu' expression. Visible sigh of exhaustion.",
-                "Looking directly at the camera lens with glistening, weary eyes and a deeply soulful, pensive expression. No smile, just a look of profound, silent endurance while hands stay protective near the craft.",
-                "Hands resting shakily on the lap in a prayerful pose near the object. The character tilts their head slightly while looking at the camera with a hollow, distant gaze of silent devotion.",
-                "Both frail hands gently support the sides of the miniature with a protective touch. The character looks directly at the camera with a weary, peaceful, yet intensely tired 80-year-old face.",
-                "Gently wiping a speck of dust from the craft with a frail finger, then looking at the camera with a weary but persistent gaze that shows years of hard-working fatigue.",
-                "Closing eyes slowly in a moment of weary gratitude near their work, then opening them to look at the camera with a hollow, distant, and intensely humble expression.",
-                "Looking down with intense focus, hands trembling slightly as they adjust a small part of the craft. Occasionally glancing at the camera with a weary, sincere, and confident gaze of an old soul."
+                "Slowly touching the miniature with trembling fingers, then briefly looking at the camera.",
+                "Holding the object gently while looking down, then glancing up slowly.",
+                "Keeping both hands on the object while maintaining a quiet, tired gaze.",
+                "Slowly adjusting a small detail on the object with shaky hands.",
+                "Looking at the object in silence, then shifting eyes softly toward the camera.",
+                "Gently brushing dust off the object, then pausing with a tired expression."
             ]
         }
 
-        # --- UI LAYOUT ---        
+
+        # --- UI LAYOUT ---
         with st.expander("🕌 PINTAR MASJID ENGINE", expanded=True):
             st.markdown('<p class="small-label">PILIH MODUS KONTEN</p>', unsafe_allow_html=True)
             modus_konten = st.selectbox("Select Mode", list(MASTER_KONTEN_ALL.keys()), label_visibility="collapsed")
@@ -2933,26 +2933,20 @@ def tampilkan_halaman():
                 else:
                     baju_options = ["Standard Daily Wear"]
                 baju_pilihan = st.selectbox("Select Wardrobe", baju_options, label_visibility="collapsed")
-            
+    
             c3, c4 = st.columns(2)
             with c3:
-                # --- LANGSUNG KE DETAIL OBJEK ---
                 st.markdown('<p class="small-label">DETAIL OBJEK / KARYA</p>', unsafe_allow_html=True)
-                
-                # List objek otomatis ambil dari 'modus_konten' yang dipilih di paling atas UI
                 objek_list = list(MASTER_KONTEN_ALL[modus_konten].keys())
-                
-                # User tinggal milih detailnya (Merah Klasik, Hijau Ukir, dll)
                 pilihan_objek = st.selectbox("Select Detail", objek_list, label_visibility="collapsed")
-    
-                # Ambil deskripsi teknisnya untuk dikirim ke Grok
                 deskripsi_teknis = MASTER_KONTEN_ALL[modus_konten][pilihan_objek]
+
             with c4:
                 st.markdown('<p class="small-label">SETTING LOKASI</p>', unsafe_allow_html=True)
                 pilihan_set = st.selectbox("Select Environment", list(MASTER_GRANDMA_SETTING.keys()), label_visibility="collapsed")
-            
+
             st.divider()
-            
+    
             c5, c6 = st.columns([2, 1])
             with c5:
                 st.markdown('<p class="small-label">DIALOG (NATURAL INDONESIAN)</p>', unsafe_allow_html=True)
@@ -2974,107 +2968,105 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-        # --- LOGIC GENERATOR (V26: THE HIGH-TABLE SYNC) ---
+
+        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-            # 1. UBAH DARI LESEHAN KE POSISI MEJA TINGGI
-            # Ini kunci agar objek sejajar dengan dada, bukan di kaki.
-            posisi_nenek = "sitting behind a high rustic wooden table (meja tinggi)"
-            
+
             scene_context = (
-                f"LIGHTING: Very soft 5 PM golden-hour side lighting creating a delicate warm rim light on the character's weathered skin. "
-                f"COMPOSITION: Eye-level Tight Medium-Shot. Balanced 50/50 frame share between the character and the handcrafted craft on the table. "
-                f"MOTION: A barely perceptible, soulful slow-motion zoom-in toward the character's eyes. Extremely smooth and steady camera movement. "
-                f"FOCUS: Razor-sharp deep focus (f/5.6) ensuring every wrinkle on the face and every intricate detail of the craft are clearly visible."
+                "LIGHTING: Natural golden hour side light, soft shadows, real-world exposure.\n"
+                "COMPOSITION: Tight medium shot, object dominant in frame.\n"
+                "FOCUS SYSTEM: Dual-plane focus (object + face both sharp).\n"
+                "CAMERA: Stable, no shake, no cinematic exaggeration.\n"
             )
 
-            # 3. AMBIL DATA MASTER (Tetap)
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
-            
-            # Ambil Pakaian dari Master Wardrobe lo
+    
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
 
-            # --- 4. THE MAGIC MAGIC GENDER & WARDROBE LOCK (INI RAHASIANYA DIAN!) ---
-            ANATOMY_LOCK = "STRICTLY TWO HUMAN HANDS, five fingers each. No ghost limbs."
-            
-            # --- CEK GENDER SECARA OTOMATIS BERDASARKAN KARAKTER ---
-            # Logic ini nahan AI biar nggak nambahin jenggot ke Nenek atau Hijab ke Kakek.
-            is_perempuan = any(x in pilihan_user.lower() for x in ["nenek", "ibu", "aminah", "siti", "marsi", "ponirah", "juminah", "sikem", "dulah", "sartini", "tinah", "wati"])
-            
+            ANATOMY_LOCK = "STRICTLY TWO HANDS, no extra fingers, no distortion."
+
+            is_perempuan = any(x in pilihan_user.lower() for x in ["nenek","ibu","siti","wati","aminah"])
+
             if is_perempuan:
                 gender_lock = (
-                    f"PHYSICAL MANDATORY: A fragile elderly Indonesian grandmother (Nenek), appearing deeply weary. "
-                    f"FACE LOCK: Strictly 100% hairless face, NO beard, NO mustache, NO facial hair. Natural aged female jawline. "
-                    f"SKIN TEXTURE: Hyper-realistic deeply wrinkled skin, sagging weary textures, large liver spots, and authentic aged sun-damage. NO smoothing, 100% RAW skin. "
-                    f"GENDER WARDROBE: Wearing a simple, weathered traditional Indonesian Hijab (Kerudung) that fully covers hair and neck. Outfit: Modest, worn-out village woman's clothing."
+                    "Elderly Indonesian grandmother (80+), extremely wrinkled skin, fragile body, no facial hair, wearing hijab."
                 )
             else:
                 gender_lock = (
-                    f"PHYSICAL MANDATORY: A frail elderly Indonesian grandfather (Kakek), looking physically exhausted. "
-                    f"FACE LOCK: Weathered masculine face, hollow cheeks, bony structure. NO hijab, NO female garments. "
-                    f"SKIN TEXTURE: Deeply wrinkled, leathery, sun-parched skin with prominent veins on temples and hands. Rough, raw texture. "
-                    f"GENDER WARDROBE: Wearing a classic Indonesian Black Kopiah (Peci) on the head. Outfit: A plain, faded, and worn-out daily village shirt (Koko or Kemeja)."
+                    "Elderly Indonesian grandfather (80+), thin, wrinkled, wearing kopiah, no feminine traits."
                 )
 
-            # --- 5. FILTER PEMBERSIH (LOGIKA SETELAH TITIK DUA) ---
-            def bersihkan_teks(teks):
-                # Kita cari tanda titik dua paling kanan
-                if ':' in teks:
-                    # Ambil semua teks di sebelah kanan titik dua paling akhir
-                    return teks.split(':')[-1].strip()
-                # Kalau gak ada titik dua, baru cari di dalam kurung (buat jaga-jaga)
-                elif '(' in teks and ')' in teks:
-                    return teks.split('(')[1].split(')')[0].strip()
-                return teks.strip()
+            aksi_final = pilih_aksi
+            mood_final = pilih_mood
+            logat_final = pilih_logat
 
-            aksi_final = bersihkan_teks(pilih_aksi)
-            mood_final = bersihkan_teks(pilih_mood)
-            logat_final = pilih_logat.split(':')[-1].strip()
-
-            # --- FINAL ASSEMBLY (V26: SOULFUL & ORGANIC VERSION) ---
-            final_ai_prompt = (
-                # 1. Fondasi Gaya (Visual Mahal & Deep Focus)
-                f"CINEMATIC STYLE: Cinematic photography, shot on 35mm lens, f/5.6 aperture. " 
-                f"High-end documentary aesthetic, authentic rural Indonesian color grading. "
-                f"Hyper-realistic 8k resolution, highly detailed skin pores, wrinkles, and authentic material textures. \n\n"
-
-                # 2. Scene Context (Cahaya & Zoom Halus Tanpa Kaku)
-                f"SCENE CONTEXT: {scene_context} \n\n" 
-            
-                # 3. Identitas & Gender (Pagar Karakter)
-                f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
-                f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
-                f"WARDROBE: {baju_desc}. \n"
-            
-                # 4. Environment (Setting Lokasi)
-                f"ENVIRONMENT: {env_detail}. A high rustic wooden table is positioned directly in front of the character's chest. \n\n"
-            
-                # 5. Performance (HIDUP & ORGANIK - ANTI PATUNG)
-                f"PERFORMANCE: {aksi_final} " # Ini manggil aksi nengok bawah-atas biar gak melotot
-                f"The character's emotional state is {mood_final}. " # Sinkronisasi Mood ke ekspresi wajah
-                f"MANDATORY: Facial expressions must fluidly match the emotional soul. "
-                f"NATURAL SPEECH: Mouth and jaw move with the weary, fragile effort of an 80-year-old; NO exaggerated lip-sync. "
-                f"NO staring; the eyes must shift naturally between the craft and the lens with soulful blinking. \n\n"
-
-                # 6. Audio & Dialog (Logat Tua 80+)
-                f"AUDIO CONFIGURATION: Voice Style: {logat_final}. Dialog Content: '{user_dialog}'. "
-                f"ENFORCEMENT: Strictly 80-90 years old Indonesian rural voice. Clear and intelligible aged texture. \n\n"
-            
-                # 7. Objek (Universal Craft)
-                f"THE MASTERPIECE: {deskripsi_teknis}. The intricate handcrafted craft sits on the table at chest-height. "
-                f"MANDATORY: The character's frail, shaky hands must be clearly visible on the sides of the craft, interacting with it. \n\n"
-            
-                # 8. Technical Specs (Framing & Background)
-                f"TECHNICAL SPEC: Eye-level Tight Medium-Shot (Bust-up). Both hands visible on the table. "
-                f"Natural soft background bokeh, keeping everything on the table razor-sharp. \n\n"
-            
-                # 9. Negative Prompt (Satpam Visual & Audio)
-                f"NEGATIVE PROMPT: knife, blade, tools, blood, smiling, laughing, teeth, "
-                f"beard on woman, mustache on woman, wide shot, full body, watermark, text, "
-                f"over-exaggerated mouth movement, cartoonish lip-sync, unnatural jaw stretching, "
-                f"stuttering audio, mumble, digital distortion, frozen mouth, blurry foreground."
+            GLOBAL_QUALITY_LOCK = (
+                "ULTRA REALISM LOCK: Must look like real camera footage. "
+                "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
+
+            final_ai_prompt = f"""
+        {GLOBAL_QUALITY_LOCK}
+
+        ULTRA 8K MACRO PRIORITY:
+        - Object is PRIMARY SUBJECT (60% frame)
+        - Face is SECONDARY (40%)
+        - Extreme micro-detail visibility
+        - Every texture must be physically real
+
+        CAMERA:
+        - 50mm macro lens
+        - f/4 dual focus system
+        - NO blur on object
+        - NO focus hunting
+
+        CHARACTER:
+        {soul_desc}
+        {gender_lock}
+        - Real aging skin
+        - No beauty filter
+        - Natural tired expression
+
+        ENVIRONMENT:
+        {env_detail}
+        Wooden table at chest level
+
+        PERFORMANCE:
+        {aksi_final}
+        Mood: {mood_final}
+        Slow, minimal, realistic movement
+
+        VOICE LOCK (ANTI-BELEPOTAN SYSTEM):
+        - Age: 80-90 years old
+        - Speed: VERY SLOW (0.65x)
+        - PRONUNCIATION: CLEAR PER WORD
+        - NO SLURRING
+        - NO MUMBLING
+        - STRONG syllable separation
+        - NATURAL BREATH PAUSE BETWEEN WORD GROUPS
+        - Stable audio, no glitch, no distortion
+
+        VOICE STYLE:
+        {logat_final}
+
+        DIALOG:
+        "{user_dialog}"
+
+        OBJECT DETAIL:
+        {deskripsi_teknis}
+
+        ULTRA DETAIL:
+        - Hyper realistic carving
+        - Real fruit texture
+        - Wet surface reflections
+        - Depth and imperfections visible
+
+        NEGATIVE:
+        blurry, soft focus, low detail, CGI, AI look, plastic texture,
+        audio glitch, mumbling, unclear speech, fast talking, lip sync error
+        """
             
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
