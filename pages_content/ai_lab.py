@@ -3031,45 +3031,49 @@ def tampilkan_halaman():
             aksi_final = bersihkan_teks(pilih_aksi)
             mood_final = bersihkan_teks(pilih_mood)
             logat_final = pilih_logat.split(':')[-1].strip()
-                
 
-            # --- FINAL ASSEMBLY (V26: CLEAN & POWERFUL) ---
+            # --- FINAL ASSEMBLY (V26: SOULFUL & ORGANIC VERSION) ---
             final_ai_prompt = (
-                # 1. Fondasi Gaya (Kunci Visual Mahal di Awal)
+                # 1. Fondasi Gaya (Visual Mahal & Deep Focus)
                 f"CINEMATIC STYLE: Cinematic photography, shot on 35mm lens, f/5.6 aperture. " 
                 f"High-end documentary aesthetic, authentic rural Indonesian color grading. "
                 f"Hyper-realistic 8k resolution, highly detailed skin pores, wrinkles, and authentic material textures. \n\n"
 
-                # 2. Scene Context (Lampu, Gerak & Fokus Tajam)
+                # 2. Scene Context (Cahaya & Zoom Halus Tanpa Kaku)
                 f"SCENE CONTEXT: {scene_context} \n\n" 
             
-                # 3. Identitas & Gender
+                # 3. Identitas & Gender (Pagar Karakter)
                 f"CHARACTER IDENTITY: {soul_desc}. {gender_lock} \n"
                 f"ANATOMY LOCK: {ANATOMY_LOCK} \n"
                 f"WARDROBE: {baju_desc}. \n"
             
-                # 4. Environment
+                # 4. Environment (Setting Lokasi)
                 f"ENVIRONMENT: {env_detail}. A high rustic wooden table is positioned directly in front of the character's chest. \n\n"
             
-                # 5. Performance & Lip-Sync
-                f"PERFORMANCE: {aksi_final}. Mood: {mood_final}. "
-                f"MANDATORY: Visible and sharp lip-sync synchronization. The mouth must open and close naturally according to the audio. \n\n" 
+                # 5. Performance (HIDUP & ORGANIK - ANTI PATUNG)
+                f"PERFORMANCE: {aksi_final} " # Ini manggil aksi nengok bawah-atas biar gak melotot
+                f"The character's emotional state is {mood_final}. " # Sinkronisasi Mood ke ekspresi wajah
+                f"MANDATORY: Facial expressions must fluidly match the emotional soul. "
+                f"NATURAL SPEECH: Mouth and jaw move with the weary, fragile effort of an 80-year-old; NO exaggerated lip-sync. "
+                f"NO staring; the eyes must shift naturally between the craft and the lens with soulful blinking. \n\n"
 
-                # 6. Audio & Dialog
+                # 6. Audio & Dialog (Logat Tua 80+)
                 f"AUDIO CONFIGURATION: Voice Style: {logat_final}. Dialog Content: '{user_dialog}'. "
                 f"ENFORCEMENT: Strictly 80-90 years old Indonesian rural voice. Clear and intelligible aged texture. \n\n"
             
                 # 7. Objek (Universal Craft)
-                f"THE MASTERPIECE: {deskripsi_teknis}. The intricate handcrafted craft sits on the table at chest-height. \n\n"
+                f"THE MASTERPIECE: {deskripsi_teknis}. The intricate handcrafted craft sits on the table at chest-height. "
+                f"MANDATORY: The character's frail, shaky hands must be clearly visible on the sides of the craft, interacting with it. \n\n"
             
                 # 8. Technical Specs (Framing & Background)
                 f"TECHNICAL SPEC: Eye-level Tight Medium-Shot (Bust-up). Both hands visible on the table. "
-                f"Natural soft background bokeh, keeping everything on the table razor-sharp. \n\n" # Pengulangan halus
+                f"Natural soft background bokeh, keeping everything on the table razor-sharp. \n\n"
             
-                # 9. Negative Prompt
+                # 9. Negative Prompt (Satpam Visual & Audio)
                 f"NEGATIVE PROMPT: knife, blade, tools, blood, smiling, laughing, teeth, "
                 f"beard on woman, mustache on woman, wide shot, full body, watermark, text, "
-                f"stuttering audio, mumble, digital distortion, frozen mouth."
+                f"over-exaggerated mouth movement, cartoonish lip-sync, unnatural jaw stretching, "
+                f"stuttering audio, mumble, digital distortion, frozen mouth, blurry foreground."
             )
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
