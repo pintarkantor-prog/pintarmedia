@@ -394,8 +394,6 @@ def tampilkan_halaman():
                     "All materials behave as real dragon fruit: fibrous, seed-filled, moist, fully opaque and non-translucent. "
                     "Visible organic carving marks, uneven grooves, and natural imperfections from hand carving. "
                     "Realistic small black seeds embedded within the flesh, with subtle juice residue and moisture variation. "
-                    "Lighting behaves naturally and externally, interacting with the fruit surface without artificial enhancement. "
-                    "No glow, no translucency, no subsurface scattering, no internal lighting, no artificial illumination. "
                     "Placed on a rough weathered wooden table scattered with rind scraps, fruit debris, seeds, and juice stains."
                 ),
                 "Buah Naga: Kubah Daging Utama": (
@@ -404,11 +402,8 @@ def tampilkan_halaman():
                     "The silhouette strongly matches traditional mosque architecture when viewed from a distance. "
                     "The entire structure is carved from one intact fruit, maintaining continuous organic form. "
                     "The central dome is shaped from dense white or pink fibrous flesh, while surrounding structures are carved from magenta-red scaly rind. "
-                    "All exposed flesh appears dense, fibrous, moist, and fully opaque with embedded black seeds, showing no translucency. "
-                    "Surface behavior follows real fruit physics: no emission, no subsurface scattering, no glow. "
+                    "All exposed flesh appears dense, fibrous, moist, and fully opaque with embedded black seeds. "
                     "Fine carving details, natural imperfections, and visible tool marks enhance realism. "
-                    "Lighting is purely external and natural, interacting realistically with the fruit surface. "
-                    "No internal lighting, no LEDs, no artificial illumination. "
                     "Placed on a rough wooden table covered with carving debris, rind scraps, seeds, and juice stains."
                 ),
                 "Buah Naga: Arsitektur Berlapis": (
@@ -419,9 +414,7 @@ def tampilkan_halaman():
                     "Carved sections reveal distinct material layers: magenta-red outer rind, thin inner rind, and dense white or pink fibrous flesh. "
                     "Layer transitions are natural, uneven, and organic, enhancing depth and realism. "
                     "All materials remain physically solid, opaque, fibrous, and non-translucent with visible black seeds. "
-                    "Surface follows real fruit physics: no glow, no translucency, no subsurface lighting, no artificial effects. "
                     "Intricate geometric carving details with slight imperfections from hand craftsmanship. "
-                    "Lighting is external and natural only. "
                     "Placed on a rustic wooden table scattered with rind fragments, flesh pieces, seeds, and juice residue."
                 ),
                 "Buah Naga: Masjid Kerajaan Detail Tinggi": (
@@ -430,11 +423,8 @@ def tampilkan_halaman():
                     "The silhouette strongly matches a grand traditional mosque when viewed from a distance. "
                     "The entire structure is carved from one intact fruit, maintaining continuous organic structure. "
                     "Outer magenta scaly rind is intricately carved with dense ornamental patterns, while deeper cuts expose fibrous white or pink flesh. "
-                    "All exposed flesh is dense, moist, seed-filled, fully opaque, and non-translucent. "
-                    "Surface behavior strictly follows real fruit material: no glow, no emission, no subsurface scattering. "
+                    "All exposed flesh is dense, moist, seed-filled, fully opaque and non-translucent. "
                     "Extremely fine carving details combined with natural irregularities from manual carving. "
-                    "Lighting is strictly external and natural, interacting with the fruit surface realistically. "
-                    "No internal lighting, no LEDs, no artificial effects. "
                     "Placed on a rough weathered wooden table covered with heavy carving debris, rind scraps, seeds, and juice stains."
                 ),
                 "Melon: Kubah Hijau Muda": (
