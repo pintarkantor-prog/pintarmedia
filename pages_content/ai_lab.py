@@ -354,10 +354,11 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
                 "Semangka: Pahatan Murni": (
-                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon. "
-                    "Outer structure carved from dark green rind, inner parts revealing bright red fibrous flesh with natural black seeds. "
-                    "Visible hand-carved grooves, organic texture, and subtle moisture on the surface."
-                ),
+    				"A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon. "
+    				"Outer walls and domes carved from dark green rind, arched windows and doorways revealing bright red fibrous flesh with natural black seeds. "
+    				"Visible organic carving grooves, uneven ridges, glistening moist red flesh, realistic black seeds, and natural juice droplets. "
+    				"Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
+				),
                 "Semangka: Kubah Merah": (
                     "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon with strong emphasis on the red dome. "
                     "Central dome formed from exposed ruby-red watermelon flesh, secondary domes and minarets carved from green rind. "
