@@ -358,23 +358,26 @@ def tampilkan_halaman():
                     "The structure features a large central dome made from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
                     "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind. "
                     "The walls are formed from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
-                    "The inner carved sections reveal the vibrant ruby-red watermelon flesh, creating natural contrast as architectural accents. "
+                    "The inner carved sections reveal vibrant ruby-red watermelon flesh, creating strong natural color contrast against the deep green rind. "
                     "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
-                    "Clean, sharp carving edges, handcrafted appearance, ultra-detailed texture, realistic fruit surface with natural moisture and organic imperfections. "
+                    "Extremely sharp carving edges, high micro-detail visibility, crisp surface definition, and enhanced separation between rind and flesh textures. "
+                    "Rich natural color saturation with deep greens and intense reds, maintaining realistic organic tones without artificial appearance. "
+                    "Fine surface texture shows subtle moisture variation, fibrous flesh structure, and natural imperfections. "
                     "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, adding a natural carving process detail. "
-                    "No internal lighting, no LEDs, no artificial light sources within the structure; the watermelon flesh is not glowing and remains naturally textured and organic. "
                     "Pure ornamental structure with no text or calligraphy."
                 ),
-				"Semangka: Kubah Daging Merah": (
+
+                "Semangka: Kubah Daging Merah": (
                     "An intricately carved miniature mosque sculpted from a whole watermelon, placed on a rustic wooden table. "
-                    "The central dome is uniquely formed from the exposed watermelon flesh, shaped into a smooth rounded structure with a rich ruby-red color and natural moist texture. "
+                    "The central dome is uniquely formed from exposed watermelon flesh, shaped into a smooth rounded structure with a deep rich ruby-red tone and natural moist texture. "
                     "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from the green rind, each cylindrical and topped with finely carved spires. "
                     "The structural walls are made from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
-                    "Carved sections reveal layered contrast between the deep red flesh and pale inner rind, enhancing the architectural depth. "
+                    "Carved sections reveal strong layered contrast between deep red flesh, pale inner rind, and dark green outer rind, enhancing architectural depth. "
                     "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
-                    "Clean, sharp carving edges, handcrafted appearance, ultra-detailed texture, realistic fruit surface with visible moisture and organic imperfections. "
+                    "Ultra crisp carving edges, high-definition surface detail, and strong micro-texture clarity across all materials. "
+                    "Enhanced natural color contrast with vivid reds, clean green tones, and clear separation between material layers. "
+                    "Visible fibrous flesh structure, subtle moisture variation, and organic imperfections for realism. "
                     "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, reinforcing the natural carving process. "
-                    "No internal lighting, no LEDs, no artificial light sources within the structure; the red flesh remains natural in color without any glow. "
                     "Pure ornamental structure with no text or calligraphy."
                 )
 
