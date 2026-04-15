@@ -3093,12 +3093,12 @@ def tampilkan_halaman():
 
         # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-            scene_context = (
-                "LIGHTING: Natural golden hour side lighting, soft realistic shadows, true outdoor exposure.\n"
-                "COMPOSITION: Tight medium shot with clear object dominance (primary subject 60% frame).\n"
-                "FOCUS SYSTEM: Primary focus locked on object (ultra sharp), secondary focus on face (still clear but slightly softer).\n"
-                "CAMERA: Stable real-world handheld realism, no shake, no cinematic exaggeration, no artificial movement.\n"
-                "DEPTH: Natural optical depth layering (foreground object, mid face, background environment).\n"
+			scene_context = (
+                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
+                f"COMPOSITION: Eye-level Tight Medium-Shot. 60% frame dominance on the handcrafted craft. Balanced spatial relationship between character and object.\n"
+                f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
+                f"CAMERA: Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
+                f"COLOR GRADING: Authentic 35mm film scan aesthetic. Faded earth tones, desaturated greens, and natural warm skin tones. NO oversaturation, NO neon colors."
             )
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
@@ -3114,17 +3114,19 @@ def tampilkan_halaman():
                 "sikem","dulah","sartini","tinah","wati"
             ])
 
-            if is_perempuan:
+			if is_perempuan:
                 gender_lock = (
-                    "Elderly Indonesian grandmother (80+), deeply weathered face with unique individual wrinkles, "
-                    "fragile thin body posture, natural aging skin texture (not smooth), no facial hair, wearing simple hijab. "
-                    "Expression: calm, tired, emotionally soft but not exaggerated."
+                    "PHYSICAL: Fragile elderly Indonesian grandmother (80+). "
+                    "FACE: Deeply weathered skin with individual organic wrinkles, NO facial hair, NO smoothing. "
+                    "WARDROBE: Wearing a simple, faded village hijab (kerudung) covering hair and neck. "
+                    "EXPRESSION: Weary, soulful 'sayu' eyes, profound silent endurance."
                 )
             else:
                 gender_lock = (
-                    "Elderly Indonesian grandfather (80+), distinct facial structure with visible cheekbones, "
-                    "thin aged body, rough sun-aged skin with unique wrinkles, wearing kopiah. "
-                    "Expression: calm, grounded, slightly tired but stable."
+                    "PHYSICAL: Frail elderly Indonesian grandfather (80+). "
+                    "FACE: Rough sun-parched skin, visible bony cheekbones, hollow weary cheeks. "
+                    "WARDROBE: Wearing a classic weathered black Indonesian kopiah/peci. "
+                    "EXPRESSION: Calm, grounded, showing decades of hard work and fatigue."
                 )
 
             aksi_final = pilih_aksi.strip()
@@ -3132,21 +3134,23 @@ def tampilkan_halaman():
             logat_final = pilih_logat.strip()
 
 			# --- FONDASI QUALITY ---
-            GLOBAL_QUALITY_LOCK = (
-                "ULTRA REALISM LOCK: Must look like real documentary camera footage, "
-                "natural lighting, physically accurate materials, true optical depth. "
-                "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
+			GLOBAL_QUALITY_LOCK = (
+                "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
+                "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
+                "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
+                "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
             )
 
-            # --- ASSEMBLY PROMPT (Pake f-string clean) ---
+			# --- ASSEMBLY PROMPT (Optimasi Suara & Emosi) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
+
                 f"ULTRA 8K MACRO PRIORITY:\n"
                 f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
                 f"- Object must be the SHARPEST element in frame\n"
                 f"- Character face is secondary but still detailed\n"
                 f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-                
+
                 f"CAMERA SYSTEM:\n"
                 f"- 50mm macro cinematic lens\n"
                 f"- Aperture f/4 (natural optical depth)\n"
@@ -3155,60 +3159,37 @@ def tampilkan_halaman():
                 f"- Locked focus on object (primary focus priority)\n"
                 f"- Natural depth layering only (foreground → subject → background)\n"
                 f"- No focus hunting, no artificial blur\n\n"
-                
-                f"CINEMATIC CAMERA MOTION:\n"
-                f"- Extremely slow natural push-in\n"
-                f"- Micro handheld realism\n"
-                f"- Stable frame, no shake\n"
-                f"- Object always perfectly sharp\n\n"
-                
+
                 f"CHARACTER:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"- Thin fragile elderly body\n"
                 f"- Natural tired expression (NO smile)\n"
                 f"- Documentary realism, ultra detailed skin\n\n"
-                
-                f"ENVIRONMENT:\n"
-                f"{env_detail}\n"
-                f"High rustic wooden table at chest level.\n\n"
-                
+
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
                 f"- Minimal natural movement\n"
-                f"- Eyes alternate between object and camera\n\n"
-                
-                f"EMOTIONAL MICRO EXPRESSION:\n"
-                f"- Slight watery eyes (not crying)\n"
-                f"- Slow blinking\n"
-                f"- Subtle facial tension\n"
-                f"- Emotion stays internal\n\n"
-                
+                f"- Eyes naturally alternate between object and camera lens\n\n"
+
                 f"VOICE PROFILE:\n"
-                f"Elderly Female A (80+, soft spoken village grandmother, slow natural speech)\n\n"
-                
+                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent, shaky and thin vocal texture, slow natural cadence)\n\n"
+
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
-                
+
                 f"DIALOG DELIVERY RULE:\n"
-                f"- Must be spoken naturally, not read like instruction\n"
-                f"- Treat as direct speech only\n"
-                f"- No robotic separation\n\n"
-                
+                f"- Treat as direct natural speech only\n"
+                f"- Emotional pauses allowed, NO robotic cadence\n\n"
+
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
-                
-                f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Hyper-real carving precision\n"
-                f"- Real fruit fiber texture\n"
-                f"- Moist reflective surfaces\n"
-                f"- Visible imperfections\n\n"
-                
+
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
-                f"audio glitch, unclear speech, fast talking"
+                f"audio glitch, unclear speech, fast talking, smiling, laughing"
             )
 
             # --- 7. TAMPILKAN HASIL ---
