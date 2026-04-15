@@ -353,57 +353,40 @@ def tampilkan_halaman():
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Semangka: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole watermelon, placed on a rustic wooden table. "
-                    "The structure features a large central dome made from smooth green rind with natural striped patterns, surrounded by smaller domes and multiple symmetrical minarets. "
-                    "Each minaret is cylindrical, topped with small domes and fine spires, all precisely carved from the rind. "
-                    "The walls are formed from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
-                    "The inner carved sections reveal vibrant ruby-red watermelon flesh, creating strong natural color contrast against the deep green rind. "
-                    "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
-                    "Extremely sharp carving edges, high micro-detail visibility, crisp surface definition, and enhanced separation between rind and flesh textures. "
-                    "Rich natural color saturation with deep greens and intense reds, maintaining realistic organic tones without artificial appearance. "
-                    "Fine surface texture shows subtle moisture variation, fibrous flesh structure, and natural imperfections. "
-                    "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, adding a natural carving process detail. "
-                    "Pure ornamental structure with no text or calligraphy."
-                ),
+				"Semangka: Tajam Natural": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole watermelon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome, supporting domes, and tall symmetrical minarets. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and hierarchy. "
+    				"The structure uses dark green rind with natural striped patterns as the main surface, with carved openings revealing vibrant ruby-red juicy flesh. "
+    				"Strong natural contrast between deep green rind and rich red flesh enhances architectural readability. "
+    				"Highly detailed geometric carvings with precise symmetry and clean execution. "
+    				"High visual clarity, ultra crisp carving edges, strong micro-detail visibility, sharp surface definition, high surface contrast and clean edge separation, rich natural color contrast with deep green and intense red tones, enhanced color separation between rind and flesh, highly detailed texture fidelity, realistic organic surface response, fine grain detail visibility, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with watermelon debris: flesh chunks, rind pieces, seeds, and natural juice residue."
+				),
 
-                "Semangka: Kubah Daging Merah": (
-                    "An intricately carved miniature mosque sculpted from a whole watermelon, placed on a rustic wooden table. "
-                    "The central dome is uniquely formed from exposed watermelon flesh, shaped into a smooth rounded structure with a deep rich ruby-red tone and natural moist texture. "
-                    "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from the green rind, each cylindrical and topped with finely carved spires. "
-                    "The structural walls are made from thick green rind, deeply carved with ornate Islamic arches, windows, and recessed doorways. "
-                    "Carved sections reveal strong layered contrast between deep red flesh, pale inner rind, and dark green outer rind, enhancing architectural depth. "
-                    "Highly detailed geometric Islamic patterns are engraved into the rind surfaces with strong symmetry and precision. "
-                    "Ultra crisp carving edges, high-definition surface detail, and strong micro-texture clarity across all materials. "
-                    "Enhanced natural color contrast with vivid reds, clean green tones, and clear separation between material layers. "
-                    "Visible fibrous flesh structure, subtle moisture variation, and organic imperfections for realism. "
-                    "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, reinforcing the natural carving process. "
-                    "Pure ornamental structure with no text or calligraphy."
-                ),
+				"Semangka: Megah Berlapis": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole watermelon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Grand architectural composition with a dominant central dome, multiple layered secondary domes, and tall symmetrical minarets forming a strong vertical hierarchy. "
+    				"The structure has a powerful three-dimensional presence with clearly defined mass, depth, and spatial layering, creating a monumental miniature silhouette. "
+    				"The outer structure is formed from dark green striped watermelon rind, deeply carved into recessed arches, layered surfaces, and structural reliefs. "
+    				"Deep carved openings reveal vibrant ruby-red juicy flesh, creating strong depth separation between outer rind and inner layers. "
+    				"Complex geometric Islamic patterns are deeply engraved with multi-layered carving depth, enhancing structural readability. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong depth definition, enhanced structural layering, high surface contrast and strong edge separation, ultra rich natural color contrast with deep green and intense red tones, enhanced tonal depth and material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with watermelon debris: flesh chunks, rind pieces, seeds, and natural residue."
+				),
+
+				"Semangka: Fokus Ikonik": (
+    				"A hyper-realistic hand-carved miniature mosque made from a whole watermelon, firmly placed on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Cinematic composition with a dominant central dome as the primary focal point, surrounded by layered secondary domes and tall symmetrical minarets with strong vertical emphasis. "
+    				"The structure has a powerful visual hierarchy that guides the eye directly to the central dome, creating a striking and iconic silhouette. "
+    				"Low-angle macro perspective enhances the perceived scale, making the miniature appear monumental and visually impactful. "
+    				"The outer structure is formed from dark green watermelon rind with natural striped patterns, carved with deep recessed arches and intricate layered details. "
+    				"Carved openings reveal vibrant ruby-red juicy flesh, creating strong contrast and depth separation. "
+    				"Highly intricate geometric carvings with dense detail distribution across all surfaces. "
+    				"Ultra high visual clarity, extreme sharpness, hyper-detailed carving precision, ultra crisp edges, strong focal clarity, enhanced subject isolation, high surface contrast and strong edge separation, ultra rich natural color contrast with deep green and intense red tones, intense material separation, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, visually striking, cinematic presence, vivid yet natural color without artificial glow. "
+    				"The wooden table surface is scattered only with watermelon debris: flesh chunks, rind pieces, seeds, and natural residue."
+				)
 				
-				"Semangka: Sederhana": (
-                    "A hyper-realistic hand-carved miniature mosque made from a single whole watermelon, placed on a rustic wooden table. "
-                    "Clearly structured mosque architecture with a central dome, smaller supporting domes, and symmetrical minarets. "
-                    "The silhouette is clean and clearly recognizable as a traditional mosque with balanced proportions. "
-                    "The entire structure is carved from one intact watermelon, maintaining a simple and cohesive organic form. "
-                    "Outer green rind defines the structure, with carved openings revealing vibrant ruby-red flesh inside. "
-                    "High visual clarity, crisp carving edges, and strong micro-detail visibility. "
-                    "Natural color contrast between deep green rind and rich red flesh appears vivid yet realistic. "
-                    "Subtle carving imperfections and organic texture enhance authenticity. "
-                    "The wooden table surface is scattered with watermelon debris: small chunks of red flesh, seeds, and thin green rind shavings."
-                ),
-
-                "Semangka: Diorama": (
-                    "A hyper-realistic miniature mosque diorama constructed entirely from multiple watermelon elements, placed on a rustic wooden table. "
-                    "Clearly structured mosque architecture featuring a central dome, multiple smaller domes, and several tall minarets arranged in a coherent layout. "
-                    "The scene forms a complete miniature environment, where different carved watermelon pieces act as buildings, platforms, and structural components. "
-                    "All elements are made only from watermelon parts, including green rind blocks and red flesh sections, assembled into a unified architectural composition. "
-                    "Strong silhouette and clear mosque identity with balanced proportions across the diorama. "
-                    "High visual clarity, crisp edges, and strong micro-detail definition across all carved surfaces. "
-                    "Rich natural color contrast between green rind and red flesh enhances depth and separation of structures. "
-                    "Visible organic textures, fibrous flesh details, seeds, and natural imperfections across all elements. "
-                    "The wooden table surface is scattered with watermelon debris: irregular flesh chunks, rind pieces, seeds, and juice residue."
-                )
 
             },        
             "📦 Miniatur Bahan Sederhana": {
