@@ -2180,20 +2180,23 @@ def tampilkan_halaman():
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-            is_perempuan = any(x in pilihan_user.lower() for x in ["nenek","ibu","aminah","siti","marsi","ponirah","juminah","sikem","dulah","sartini","tinah","wati"])
-
+            is_perempuan = any(x in pilihan_user.lower() for x in [
+                "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
+                "sikem","dulah","sartini","tinah","wati"
+            ])
+           
+            # Gender Lock yang sangat ringan (ini penting supaya wajah tidak mirip-mirip)
             if is_perempuan:
-                gender_lock = "Extremely frail 90-94 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, hollow cheeks, and fragile posture."
+                gender_lock = "Elderly Javanese grandmother."
             else:
-                gender_lock = "Extremely frail 88-93 year old Indonesian grandfather with deep wrinkles, sun-parched rough skin, prominent age spots, thin white hair, sunken weary eyes, and fragile frame."
+                gender_lock = "Elderly Javanese grandfather."
 
+            # --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
                 "EXTREMELY SHARP 8K DOCUMENTARY STYLE: Real optical film footage with maximum clarity and micro-detail. "
                 "Razor sharp focus on the elderly character's skin texture, deep wrinkles, age spots, hands, eyes, and the handcrafted miniature mosque. "
-                "Rich natural color saturation with warm gentle undertone — make the fruit colors (rind, flesh, juice droplets, seeds) look juicy and vibrant, "
-                "while keeping the elderly skin alive with natural warmth and blood circulation undertone. "
-                "Strong depth, realistic contrast, and dimensional lighting. "
-                "NO AI smoothing, NO plastic textures, NO CGI look, NO flat or pale colors, NO overexposure, NO washed-out look."
+                "Rich natural color saturation with warm gentle undertone. "
+                "NO AI smoothing, NO plastic textures, NO CGI look, NO flat or pale colors, NO overexposure."
             )
 
             final_ai_prompt = (
@@ -2202,7 +2205,7 @@ def tampilkan_halaman():
                 f"ULTRA 8K REALISM & SHARPNESS PRIORITY:\n"
                 f"- The handcrafted miniature mosque is the primary focal point with strong frame dominance\n"
                 f"- Extremely sharp 8K detail on the miniature mosque: clear carving lines, natural material texture, juicy realistic colors, moist reflections, and organic imperfections\n"
-                f"- Character's face, eyes, hands, and skin must also be razor sharp with authentic elderly texture, deep wrinkles, age spots, and natural skin details\n"
+                f"- Character's face, eyes, hands, and skin must also be razor sharp with authentic elderly texture, deep wrinkles, age spots, and natural details\n"
                 f"- High natural contrast and vivid but realistic colors between the miniature mosque and the elderly character\n"
                 f"- True documentary realism: looks like real 8K film footage, NO CGI, NO plastic look, NO over-smoothed skin, NO artificial glow, NO cartoon style\n\n"
 
@@ -2216,8 +2219,8 @@ def tampilkan_halaman():
                 f"{env_detail}\n\n"
 
                 f"LIGHTING & ATMOSPHERE:\n"
-                f"Soft diffused natural daylight with warm gentle undertone, slightly overcast sky. "
-                f"Warm color balance that makes the elderly skin look alive with natural subtle warmth, "
+                f"Soft late afternoon natural daylight with warm gentle golden undertone, slightly diffused. "
+                f"Warm rich lighting that brings out the natural glow on the elderly character's skin with healthy warm undertone, "
                 f"while making the colors of the handcrafted miniature mosque (fruit rind, juicy flesh, juice droplets, seeds) look vibrant, rich, and highly realistic. "
                 f"Balanced soft contrast, good color saturation, no cold bluish cast, no pale or washed-out look.\n\n"
 
@@ -2242,7 +2245,7 @@ def tampilkan_halaman():
                 f"Voice cracks frequently, quivers on almost every word, very raspy and hoarse, breathy and airy. "
                 f"Extremely slow delivery with long weary pauses and natural tired breathing effort. "
                 f"Breathing sounds weak and realistic — not exaggerated or heavy. "
-                f"Sounds physically exhausted and delicate like a real 92-95 year old nenek/kakek Jawa kampung with very weak lungs and vocal cords.\n\n"
+                f"Sounds physically exhausted and delicate like a real 90+ year old nenek/kakek Jawa kampung with very weak lungs and vocal cords.\n\n"
 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
