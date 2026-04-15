@@ -3005,8 +3005,7 @@ def tampilkan_halaman():
                 "Background activity: Kids are seen gathered around buying snacks. A few motorbikes are passing by on the street. "
                 "The floor is a mix of mossy paving blocks and dry earth. "
                 "Atmosphere: Authentic, lively, and nostalgic village street scene under natural daylight."
-            )
-            
+            )         
         }
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
