@@ -3141,14 +3141,16 @@ def tampilkan_halaman():
                 "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
             )
 
-            # --- ASSEMBLY PROMPT (Optimasi Suara & Emosi) ---
+			# --- ASSEMBLY PROMPT (V.30 - FULL STABLE VERSION) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
+                
                 f"ULTRA 8K MACRO PRIORITY:\n"
                 f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
                 f"- Object must be the SHARPEST element in frame\n"
                 f"- Character face is secondary but still detailed\n"
                 f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
+                
                 f"CAMERA SYSTEM:\n"
                 f"- 50mm macro cinematic lens\n"
                 f"- Aperture f/4 (natural optical depth)\n"
@@ -3157,26 +3159,57 @@ def tampilkan_halaman():
                 f"- Locked focus on object (primary focus priority)\n"
                 f"- Natural depth layering only (foreground → subject → background)\n"
                 f"- No focus hunting, no artificial blur\n\n"
+                
+                f"CINEMATIC CAMERA MOTION:\n"
+                f"- Extremely slow natural push-in\n"
+                f"- Micro handheld realism\n"
+                f"- Stable frame, no shake\n"
+                f"- Object always perfectly sharp\n\n"
+                
                 f"CHARACTER:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"- Thin fragile elderly body\n"
                 f"- Natural tired expression (NO smile)\n"
                 f"- Documentary realism, ultra detailed skin\n\n"
+                
+                f"ENVIRONMENT:\n"
+                f"{env_detail}\n" # LOKASI LO UDAH BALIK DI SINI, COK!
+                f"- Setting Atmosphere: {scene_context}\n" # Biar lighting-nya nyambung sama kebun
+                f"- High rustic wooden table at chest level.\n\n"
+                
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
                 f"- Minimal natural movement\n"
-                f"- Eyes naturally alternate between object and camera lens\n\n"
+                f"- Eyes naturally alternate between object and camera\n\n"
+                
+                f"EMOTIONAL MICRO EXPRESSION:\n"
+                f"- Slight watery eyes (not crying)\n"
+                f"- Slow blinking\n"
+                f"- Subtle facial tension\n"
+                f"- Emotion stays internal\n\n"
+                
                 f"VOICE PROFILE:\n"
                 f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent, shaky and thin vocal texture, slow natural cadence)\n\n"
+                
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
+                
                 f"DIALOG DELIVERY RULE:\n"
-                f"- Treat as direct natural speech only\n"
-                f"- Emotional pauses allowed, NO robotic cadence\n\n"
+                f"- Must be spoken naturally, not read like instruction\n"
+                f"- Treat as direct speech only\n"
+                f"- No robotic separation\n\n"
+                
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
+                
+                f"ULTRA DETAIL ENFORCEMENT:\n"
+                f"- Hyper-real carving precision\n"
+                f"- Real fruit fiber texture\n"
+                f"- Moist reflective surfaces\n"
+                f"- Visible imperfections\n\n"
+                
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
