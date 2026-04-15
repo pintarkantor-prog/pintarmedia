@@ -69,10 +69,10 @@ def tampilkan_halaman():
                 "MOUTH: Thin lips with gentle downward sagging at the corners and fine vertical lines above the upper lip."
             ),
             "Nenek Siti": (
-                "IDENTITY: Extremely frail 93-year-old petite Javanese grandmother. "
-                "FACE: Very small round face with soft full cheeks that sag noticeably, creating gentle folds from nose to mouth. "
-                "EYES: Large round eyes that look tired due to heavy eyelid droop and mild under-eye puffiness. "
-                "BODY: Tiny delicate shrunken body with short neck and rounded soft shoulders. "
+                "IDENTITY: Frail 78-year-old petite Javanese grandmother. "
+                "FACE: Very small round face with full cheeks that sag noticeably due to age, creating gentle folds from nose to mouth. "
+                "EYES: Large round eyes with heavy eyelid droop and mild under-eye puffiness. "
+                "BODY: Tiny delicate frame with short neck and rounded soft shoulders, still has some remaining softness. "
                 "MOUTH: Plump lower lip that sags softly with loose skin at the corners."
             ),
             "Nenek Marsi": (
@@ -83,35 +83,35 @@ def tampilkan_halaman():
                 "MOUTH: Wide mouth with deep folds running from the nose down toward the chin."
             ),
             "Nenek Ponirah": (
-                "IDENTITY: Extremely frail 91-year-old Javanese grandmother. "
-                "FACE: Heart-shaped face with soft pointed chin, deep smile lines at rest, and thin skin showing many fine wrinkles. "
+                "IDENTITY: Frail 82-year-old Javanese grandmother with plump face. "
+                "FACE: Heart-shaped face with full round cheeks that sag heavily due to age, soft pointed chin, and many fine wrinkles. "
                 "EYES: Almond-shaped eyes with noticeable lower eye bags and slightly drooping outer corners. "
-                "BODY: Slender bony frame with visible collarbones and delicate thin wrists. "
+                "BODY: Previously plump but now shrunken frame with loose skin on arms and neck. "
                 "MOUTH: Naturally curved lips surrounded by fine radiating wrinkles."
             ),
             "Nenek Juminah": (
-                "IDENTITY: Extremely frail 92-year-old very thin Javanese grandmother. "
-                "FACE: Sharp angular face with sunken temples, high forehead, and prominent nose bridge from lost fat. "
+                "IDENTITY: Extremely frail 91-year-old very thin Javanese grandmother. "
+                "FACE: Sharp angular face with sunken temples, high forehead, and prominent nose bridge from weight loss. "
                 "EYES: Deep-set eyes with thin eyelids and soft dark circles underneath. "
                 "BODY: Extremely thin and bony frame with long thin neck and visible shoulder bones. "
                 "MOUTH: Very thin lips with fine vertical wrinkles above and below."
             ),
             "Nenek Sikem": (
-                "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
-                "FACE: Very round flat face with heavy lower cheeks and multiple soft folds under the chin. "
+                "IDENTITY: Frail 85-year-old Javanese grandmother with round face. "
+                "FACE: Very round full face with heavy lower cheeks and multiple soft folds under the chin from aging. "
                 "EYES: Small eyes almost hidden under thick puffy eyelids. "
-                "BODY: Short rounded shrunken frame with soft loose skin on the upper arms. "
+                "BODY: Short rounded frame with remaining softness but clear signs of frailty. "
                 "MOUTH: Wide loose mouth with noticeable sagging of the lower lip."
             ),
             "Nenek Dulah": (
-                "IDENTITY: Extremely frail 90-year-old Sundanese grandmother. "
+                "IDENTITY: Frail 79-year-old Sundanese grandmother. "
                 "FACE: Soft oval face with naturally full cheeks that sag gently along the jawline. "
                 "EYES: Gentle almond eyes with soft under-eye hollows. "
                 "BODY: Soft fragile frame with rounded shoulders and thin arms. "
                 "MOUTH: Full lips that sag softly at the corners."
             ),
             "Nenek Sartini": (
-                "IDENTITY: Extremely frail 89-year-old Sundanese grandmother. "
+                "IDENTITY: Frail 87-year-old Sundanese grandmother with plump cheeks. "
                 "FACE: Wide round face with heavy sagging cheeks and deep gentle folds from nose to mouth. "
                 "EYES: Wide-set eyes with heavy upper lids and calm tired expression. "
                 "BODY: Plump but frail frame with loose skin on the upper arms. "
@@ -125,10 +125,10 @@ def tampilkan_halaman():
                 "MOUTH: Thin lips with many fine vertical wrinkles."
             ),
             "Nenek Wati": (
-                "IDENTITY: Extremely frail 91-year-old small Sundanese grandmother. "
+                "IDENTITY: Frail 76-year-old small Sundanese grandmother. "
                 "FACE: Small delicate face with fine bone structure and soft heavy sagging skin on the cheeks. "
                 "EYES: Large gentle eyes with heavy drooping lids and soft under-eye bags. "
-                "BODY: Very small and delicate shrunken frame with thin wrists and hands. "
+                "BODY: Very small and delicate frame with thin wrists and hands, still has some youthful roundness. "
                 "MOUTH: Small mouth with subtle sagging of the lower lip."
             ),
 
@@ -141,7 +141,7 @@ def tampilkan_halaman():
                 "MOUTH: Wide mouth with thick aged lips and deep lines at the corners."
             ),
             "Kakek Somo": (
-                "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
+                "IDENTITY: Frail 82-year-old Javanese grandfather. "
                 "FACE: Round soft face with heavy jowls and multiple soft folds under the chin. "
                 "EYES: Small tired eyes almost hidden under puffy eyelids. "
                 "BODY: Short rounded fragile frame with loose skin on the neck. "
@@ -162,7 +162,7 @@ def tampilkan_halaman():
                 "MOUTH: Thin stretched lips with tight skin around the mouth."
             ),
             "Kakek Sableng": (
-                "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
+                "IDENTITY: Frail 84-year-old Javanese grandfather. "
                 "FACE: Broad face with high cheekbones, deep eye bags, and heavy fatigue lines across the forehead and cheeks. "
                 "EYES: Tired eyes with heavy lower lids and slightly downturned outer corners. "
                 "BODY: Lean frame with slightly hunched posture and thin arms. "
@@ -176,7 +176,7 @@ def tampilkan_halaman():
                 "MOUTH: Thin stretched lips with tight skin around the mouth."
             ),
             "Kakek Wiryo": (
-                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
+                "IDENTITY: Frail 80-year-old Javanese grandfather. "
                 "FACE: Broad labor-worn face with high cheekbones, deep pores, and rough sun-exposed skin. "
                 "EYES: Tired eyes with heavy lower lids and steady expression. "
                 "BODY: Lean weathered frame with slightly hunched shoulders from years of labor. "
@@ -2188,9 +2188,12 @@ def tampilkan_halaman():
                 gender_lock = "Extremely frail 88-93 year old Indonesian grandfather with deep wrinkles, sun-parched rough skin, prominent age spots, thin white hair, sunken weary eyes, and fragile frame."
 
             GLOBAL_QUALITY_LOCK = (
-                "RAW CINEMATIC FOOTAGE LOCK: Must look like real unedited 8K documentary footage shot on film. "
-                "EXTREMELY SHARP DETAIL on both the handcrafted miniature mosque and the elderly character, rich natural contrast, "
-                "NO AI smoothing, NO CGI look, NO plastic textures, NO over-sharpening, capture true optical imperfections, subtle film grain, and natural lens breathing."
+                "EXTREMELY SHARP 8K DOCUMENTARY STYLE: Real optical film footage with maximum clarity and micro-detail. "
+                "Razor sharp focus on the elderly character's skin texture, deep wrinkles, age spots, hands, eyes, and the handcrafted miniature mosque. "
+                "Rich natural color saturation with warm gentle undertone — make the fruit colors (rind, flesh, juice droplets, seeds) look juicy and vibrant, "
+                "while keeping the elderly skin alive with natural warmth and blood circulation undertone. "
+                "Strong depth, realistic contrast, and dimensional lighting. "
+                "NO AI smoothing, NO plastic textures, NO CGI look, NO flat or pale colors, NO overexposure, NO washed-out look."
             )
 
             final_ai_prompt = (
@@ -2198,8 +2201,8 @@ def tampilkan_halaman():
 
                 f"ULTRA 8K REALISM & SHARPNESS PRIORITY:\n"
                 f"- The handcrafted miniature mosque is the primary focal point with strong frame dominance\n"
-                f"- Extremely sharp 8K detail on the miniature mosque: clear carving lines, natural material texture, realistic colors, moist reflections, and organic imperfections\n"
-                f"- Character's face, eyes, hands, and skin must also be razor sharp with authentic elderly texture, deep wrinkles, age spots, and natural details\n"
+                f"- Extremely sharp 8K detail on the miniature mosque: clear carving lines, natural material texture, juicy realistic colors, moist reflections, and organic imperfections\n"
+                f"- Character's face, eyes, hands, and skin must also be razor sharp with authentic elderly texture, deep wrinkles, age spots, and natural skin details\n"
                 f"- High natural contrast and vivid but realistic colors between the miniature mosque and the elderly character\n"
                 f"- True documentary realism: looks like real 8K film footage, NO CGI, NO plastic look, NO over-smoothed skin, NO artificial glow, NO cartoon style\n\n"
 
@@ -2207,22 +2210,23 @@ def tampilkan_halaman():
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Hyper-realistic elderly skin texture, deep wrinkles, prominent age spots, sunken tired eyes, fragile appearance, NO face smoothing, NO smile.\n\n"
+                f"MANDATORY: Hyper-realistic elderly skin texture with deep wrinkles, prominent age spots, sunken tired eyes, fragile appearance, NO face smoothing, NO smile.\n\n"
 
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n\n"
 
                 f"LIGHTING & ATMOSPHERE:\n"
                 f"Soft diffused natural daylight with warm gentle undertone, slightly overcast sky. "
-                f"Lighting that makes the elderly character's skin look alive with natural subtle warmth, "
-                f"while making the colors of the handcrafted miniature mosque (fruit rind, flesh, juice droplets, seeds) look vibrant, juicy, and highly realistic. "
-                f"Balanced soft contrast, rich but natural color saturation, no cold bluish cast, no pale or washed-out look.\n\n"
+                f"Warm color balance that makes the elderly skin look alive with natural subtle warmth, "
+                f"while making the colors of the handcrafted miniature mosque (fruit rind, juicy flesh, juice droplets, seeds) look vibrant, rich, and highly realistic. "
+                f"Balanced soft contrast, good color saturation, no cold bluish cast, no pale or washed-out look.\n\n"
 
                 f"CAMERA & MOTION:\n"
-                f"Eye-level tight medium shot with chest-level camera height. "
-                f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque and character's hands. "
-                f"Both the miniature mosque and the character's face/hands stay razor sharp throughout the shot. "
-                f"NO sudden camera moves, NO static locked camera, NO high angle.\n\n"
+                f"Eye-level straight frontal composition. Tight medium shot. "
+                f"The miniature mosque is positioned in the foreground, centered and dominant in frame. "
+                f"The elderly character is positioned directly behind the miniature mosque, slightly visible from the chest up, facing forward. "
+                f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque while keeping both the mosque and character's face/hands razor sharp throughout the shot. "
+                f"NO sudden camera moves, NO static locked camera, NO high angle, NO low angle.\n\n"
 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
@@ -2251,14 +2255,14 @@ def tampilkan_halaman():
                 f"{deskripsi_teknis}\n\n"
 
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Razor sharp 8K detail on every carving line, material texture, juice droplets, and skin wrinkles\n"
+                f"- Razor sharp 8K detail on every carving line, material texture, juice droplets, skin wrinkles, and wooden table surface\n"
                 f"- Natural moist reflections, visible imperfections, realistic light interaction\n\n"
 
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, motion blur, AI look, CGI, plastic texture, over-smooth skin, waxy skin, "
                 f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, smiling, laughing, "
-                f"wide shot, high angle, text, watermark, subtitles, on-screen text"
+                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, pale skin, washed-out colors, "
+                f"smiling, laughing, wide shot, high angle, text, watermark, subtitles, on-screen text"
             )
 
             # --- TAMPILKAN HASIL ---
