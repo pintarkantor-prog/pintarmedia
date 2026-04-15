@@ -60,89 +60,83 @@ def tampilkan_halaman():
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             "Nenek Aminah": (
-                "80-year-old fragile Javanese woman with thin but proportionate facial structure. "
-                "Soft aged skin with natural deep wrinkles and realistic texture. "
-                "Eyes are dull and slightly sayu, showing calm tiredness. "
-                "PERSONALITY VISUAL: calm presence, steady and composed body language. "
-                "MOUTH: natural relaxed position for speech, no smile, fully functional lips. "
-                "Ultra-realistic documentary photography, 8k resolution, soft natural lighting."
+                "IDENTITY: Elderly Javanese woman (80+). "
+                "FACE: Thin structure, weathered skin with authentic deep wrinkles and dark liver spots. "
+                "EYES: Dull, weary 'sayu' gaze showing decades of silent endurance. "
+                "BODY: Fragile, slightly trembling but composed posture. "
+                "MOUTH: Natural relaxed lips with subtle micro-movements of age during speech."
             ),
 
             "Nenek Siti": (
-                "80-year-old very petite Javanese elder with small fragile body structure. "
-                "Pale translucent skin with soft sagging cheeks and natural aging folds. "
-                "Eyes appear distant and quiet, with low emotional intensity. "
-                "PERSONALITY VISUAL: withdrawn posture, minimal facial reaction. "
-                "MOUTH: relaxed natural speech position, no stiffness or smile. "
-                "Cinematic documentary realism, 8k, soft lighting."
+                "IDENTITY: Petite Javanese elder (80+). "
+                "FACE: Small fragile structure, pale translucent skin with soft sagging cheeks and natural aging folds. "
+                "EYES: Distant, quiet, and hollow, reflecting a life of solitude. "
+                "BODY: Very small shrunken frame, withdrawn and humble posture. "
+                "MOUTH: Loose, natural speech position, showing realistic muscle laxity of extreme old age."
             ),
 
             "Nenek Marsi": (
-                "85-year-old Javanese grandmother with shrunken facial structure and pronounced aging. "
-                "Deep wrinkles, sunken cheeks, and realistic skin texture with age spots. "
-                "Eyes are heavy and lowered, showing fatigue and acceptance. "
-                "PERSONALITY VISUAL: passive body language, still and calm presence. "
-                "MOUTH: natural speech movement enabled, no frozen expression. "
-                "Ultra-realistic 8k cinematic documentary style."
+                "IDENTITY: Elderly Javanese grandmother (85+). "
+                "FACE: Shrunken facial structure, dry parchment-like skin texture with sunken cheeks and age spots. "
+                "EYES: Heavy, lowered eyelids, thick with fatigue and quiet acceptance. "
+                "BODY: Passive, still body language, extremely fragile bone structure visible through the skin. "
+                "MOUTH: Sagging corners, fully enabled for slow, heavy natural speech movement."
             ),
 
             "Nenek Ponirah": (
-                "80-year-old Javanese elder with broad face and realistic aged skin texture. "
-                "Gentle wrinkles with natural sun exposure and soft skin sagging. "
-                "Eyes are calm, hollow, and slightly sayu with neutral emotional tone. "
-                "PERSONALITY VISUAL: stable posture, quiet and observant presence. "
-                "MOUTH: relaxed for natural dialogue, no smile. "
-                "Soft cinematic documentary lighting, 8k realism."
+                "IDENTITY: Javanese elder (80+). "
+                "FACE: Broad facial structure, weathered skin with realistic sun-damage texture and deep furrowed brow wrinkles. "
+                "EYES: Calm but hollow, slightly sayu with a heavy neutral stare. "
+                "BODY: Stable but frail posture, showing the weight of years of hard labor. "
+                "MOUTH: Firm but relaxed for dialogue, deep nasolabial folds surrounding the mouth showing heavy age."
             ),
 
             "Nenek Juminah": (
-                "85-year-old extremely thin Javanese woman with sharp bone structure and sunken cheeks. "
-                "Highly detailed aged skin with realistic wrinkles and natural imperfections. "
-                "Eyes are low and tired, showing quiet endurance. "
-                "PERSONALITY VISUAL: minimal movement, slow and controlled gestures. "
-                "MOUTH: natural speech movement, fully functional lips. "
-                "Hyper-realistic 8k documentary realism."
+                "IDENTITY: Extremely thin Javanese woman (85+). "
+                "FACE: Sharp bone structure, highly detailed aged skin with realistic grooves and visible liver spots. "
+                "EYES: Low, weary, and heavily tired lids showing quiet endurance. "
+                "BODY: Minimal movement, slow and controlled gestures with fragile hands. "
+                "MOUTH: Natural speech movement, capturing the realistic thinning and trembling of aged lips."
             ),
 
             "Nenek Sikem": (
-                "85–90-year-old very frail Javanese elder with extremely small facial structure. "
-                "Dry, deeply folded skin with realistic aged texture and natural sagging. "
-                "Eyes are slow, heavy, and calm with very low emotional expression. "
-                "PERSONALITY VISUAL: extremely passive, minimal movement, grounded presence. "
-                "MOUTH: fully functional for speech, natural lip movement. "
-                "Ultra-realistic cinematic documentary style, soft lighting, 8k resolution."
+                "IDENTITY: Very frail Javanese elder (85–90). "
+                "FACE: Extremely small facial structure, dry and deeply folded skin with heavy natural sagging. "
+                "EYES: Slow, heavy lids, showing very low emotional intensity and calm fatigue. "
+                "BODY: Extremely passive, grounded and shrunken elderly frame. "
+                "MOUTH: Fully functional for speech, showing natural lip movement without tension."
             ),
-            
+
             "Nenek Dulah": (
-                "80-year-old Sundanese woman with soft rounded face and naturally sunken cheeks. "
-                "Loose sagging skin around jaw with realistic aging folds. "
-                "Deep-set almond eyes with calm tired gaze and low emotional intensity. "
-                "Natural aged skin with fine wrinkles and subtle sun exposure. "
-                "Neutral relaxed mouth for speech, no smile, documentary realism, 8k."
+                "IDENTITY: Sundanese woman (80+). "
+                "FACE: Soft rounded face, naturally sunken cheeks with realistic aging folds and subtle sun exposure spots. "
+                "EYES: Deep-set almond eyes with a calm, tired gaze and hollow undereyes. "
+                "BODY: Fragile and gentle presence, showing subtle age-related instability. "
+                "MOUTH: Neutral relaxed mouth for dialogue, capturing the natural muscle slackness."
             ),
 
             "Nenek Sartini": (
-                "75–80-year-old Sundanese grandmother with wider round face and visible facial sagging. "
-                "Deep marionette lines and soft double chin with realistic skin looseness. "
-                "Tired eyes with slightly heavy lids and calm expression. "
-                "Natural skin texture with age spots and soft wrinkles. "
-                "Neutral mouth position for dialogue, no emotional exaggeration, 8k cinematic realism."
+                "IDENTITY: Sundanese grandmother (75–80). "
+                "FACE: Wider round face, visible facial sagging with deep marionette lines and skin looseness. "
+                "EYES: Tired eyes with slightly heavy lids and a calm, blank expression. "
+                "BODY: Stable but elderly posture, showing heavy movement. "
+                "MOUTH: Neutral mouth position for speech, capturing the realistic sagging of the lower facial muscles."
             ),
 
             "Nenek Tinah": (
-                "Late 80s Javanese elderly woman with thin fragile facial structure and sunken cheeks. "
-                "Severe natural aging wrinkles and realistic skin folds. "
-                "Dull heavy eyes with low gaze and minimal expression. "
-                "Dry aged skin with visible texture and natural imperfections. "
-                "Relaxed mouth for speech, no stiffness, documentary 8k realism."
+                "IDENTITY: Thin Javanese elderly woman (late 80s). "
+                "FACE: Fragile facial structure, severe natural aging wrinkles, sunken hollow cheeks, and dry aged skin. "
+                "EYES: Dull, heavy eyes with a low gaze and minimal facial reaction. "
+                "BODY: Shrunken and frail body structure, showing extreme age. "
+                "MOUTH: Relaxed mouth for speech, capturing the natural thinning of the lips."
             ),
 
             "Nenek Wati": (
-                "80–85-year-old Sundanese grandmother with small fragile face and thin bone structure. "
-                "Soft sagging skin with fine wrinkles and natural vein visibility. "
-                "Calm tired eyes with gentle melancholic gaze. "
-                "Light aged skin texture with realistic softness and imperfection. "
-                "Neutral mouth for speaking, stable expression, cinematic 8k documentary style."
+                "IDENTITY: Small Sundanese grandmother (80–85). "
+                "FACE: Small fragile face, thin bone structure with soft sagging skin and realistic natural vein visibility. "
+                "EYES: Calm, tired eyes with a gentle melancholic and lonely gaze. "
+                "BODY: Small-framed, very delicate, and still. "
+                "MOUTH: Neutral mouth for speaking, capturing the subtle trembling of the lower jaw."
             ),
             "Kakek Marto": (
                 "A lean 80-year-old Javanese elder with an elongated, fragile facial structure. "
@@ -153,67 +147,60 @@ def tampilkan_halaman():
                 "8K ultra-realistic cinematic documentary lighting, dry sun-weathered skin texture."
             ),
 
-            "Kakek Somo": (
-                "A small and fragile 80-year-old Javanese elder with rounded soft facial structure now aged and exhausted. "
-                "Drooping eyelids and softened cheek volume. "
-                "EYES: tired, calm, slightly empty gaze (NO tears, NO exaggeration). "
-                "PERSONALITY SIGNATURE: gentle, passive, emotionally soft-spoken. "
-                "MANDATORY SPEECH: neutral relaxed mouth, natural articulation for dialogue. "
-                "8K cinematic realism, soft natural lighting, realistic skin creases."
+			"Kakek Somo": (
+                "IDENTITY: Elderly Javanese man (80+). "
+                "FACE: Rounded soft facial structure now aged and exhausted, drooping eyelids with softened cheek volume and realistic skin creases. "
+                "EYES: Tired, calm, and slightly empty gaze showing a quiet, passive fatigue. "
+                "BODY: Small and fragile frame, gentle and slow-moving presence. "
+                "MOUTH: Neutral relaxed mouth with natural muscle laxity for synchronized dialogue."
             ),
 
             "Kakek Joyo": (
-                "A sturdy but weary 80-year-old Javanese elder with square jaw structure. "
-                "Deep forehead furrows and leathery sun-baked skin. "
-                "EYES: protective, pensive 'sayu' gaze with emotional weight (NO tears). "
-                "PERSONALITY SIGNATURE: resilient but emotionally burdened, calm leadership tone. "
-                "MANDATORY SPEECH: jaw fully flexible for synchronized lip movement, no clenching. "
-                "8K hyper-real cinematic realism, strong natural contrast lighting."
+                "IDENTITY: Sturdy but weary Javanese elder (80+). "
+                "FACE: Square jaw structure, leathery sun-baked skin with deep forehead furrows and thick skin texture. "
+                "EYES: Protective, pensive 'sayu' gaze with significant emotional weight. "
+                "BODY: Once strong but now burdened posture, steady but slow movements. "
+                "MOUTH: Flexible jaw for synchronized lip movement, no clenching, showing aged lip texture."
             ),
 
             "Kakek Hardi": (
-                "A very frail 85-year-old Javanese elder with shrunken facial structure and thin parchment skin. "
-                "Hollow cheeks and visible bone structure under skin. "
-                "EYES: deeply tired, soft distant gaze (NO tears). "
-                "PERSONALITY SIGNATURE: fragile, sincere, almost whisper-like presence. "
-                "MANDATORY SPEECH: relaxed mouth, fully functional lips for clear dialogue. "
-                "8K ultra-realistic documentary rendering, soft diffused lighting."
+                "IDENTITY: Very frail Javanese elder (85+). "
+                "FACE: Shrunken facial structure with thin parchment-like skin, hollow cheeks, and visible bone structure. "
+                "EYES: Deeply tired, soft distant gaze reflecting a sincere but fading presence. "
+                "BODY: Extremely fragile and thin frame, whisper-like movements. "
+                "MOUTH: Relaxed mouth with paper-thin lips, fully functional for clear, slow dialogue."
             ),
 
             "Kakek Sableng": (
-                "An 80-year-old Javanese elder with strong bony facial structure and noble stern presence. "
-                "Heavy eye bags and deep facial fatigue lines. "
-                "EYES: sharp but emotionally wounded 'sayu' gaze (NO tears). "
-                "PERSONALITY SIGNATURE: stoic, emotionally restrained, strong exterior but broken inside. "
-                "MANDATORY SPEECH: natural jaw movement, no clenching, synchronized lip motion. "
-                "8K cinematic realism, dramatic but natural lighting."
+                "IDENTITY: Noble Javanese elder (80+). "
+                "FACE: Strong bony facial structure, heavy eye bags, and deep fatigue lines across the face. "
+                "EYES: Sharp but emotionally wounded 'sayu' gaze showing internal brokenness. "
+                "BODY: Stoic and emotionally restrained posture, shrunken but still showing a trace of stern presence. "
+                "MOUTH: Natural jaw movement, no clenching, showing subtle tension in the lips during speech."
             ),
 
             "Kakek Sinto": (
-                "An extremely frail 85–90-year-old Javanese elder with deeply sunken skeletal facial structure. "
-                "Paper-thin translucent skin with heavy wrinkle density. "
-                "EYES: cloudy distant gaze with emotional depth (NO tears). "
-                "PERSONALITY SIGNATURE: nearing silence, spiritually detached, calm acceptance. "
-                "MANDATORY SPEECH: fully flexible lips for dialogue, no frozen expression. "
-                "8K ultra-real documentary realism, soft natural lighting."
+                "IDENTITY: Extremely frail Javanese elder (85–90). "
+                "FACE: Deeply sunken skeletal facial structure with paper-thin translucent skin and heavy wrinkle density. "
+                "EYES: Cloudy distant gaze with profound emotional depth and calm acceptance. "
+                "BODY: Nearing silence, spiritually detached, extremely shrunken and delicate frame. "
+                "MOUTH: Fully flexible lips for dialogue, showing the natural sag of extreme old age."
             ),
 
             "Kakek Wiryo": (
-                "A 75-year-old Javanese elder with strong labor-worn facial structure and dark bronze skin. "
-                "Deep pores and sun-exposed rough texture. "
-                "EYES: tired but steady, grounded 'nrimo' gaze (NO tears). "
-                "PERSONALITY SIGNATURE: hardworking, stoic, grounded acceptance of life. "
-                "MANDATORY SPEECH: relaxed jaw, natural speech articulation, no teeth clenching. "
-                "8K realistic cinematic lighting, high texture fidelity."
+                "IDENTITY: Javanese laborer elder (75+). "
+                "FACE: Strong labor-worn facial structure, dark bronze sun-exposed skin with deep pores and rough texture. "
+                "EYES: Tired but steady, grounded 'nrimo' gaze showing decades of hard work. "
+                "BODY: Hardworking, stoic, and grounded posture with weathered hands. "
+                "MOUTH: Relaxed jaw, natural speech articulation, no teeth clenching, capturing realistic lip-sync."
             ),
 
             "Kakek Usman": (
-                "An 75–80-year-old Indonesian elder with deeply wrinkled face and emotional fatigue lines. "
-                "Thin white hair and sun-damaged skin texture. "
-                "EYES: emotional, heavy gaze with subtle moisture reflection (NO tears). "
-                "PERSONALITY SIGNATURE: emotionally burdened but sincere, expressive speaker. "
-                "MANDATORY SPEECH: natural lip sync, relaxed jaw movement for clear dialogue. "
-                "8K hyper-real cinematic documentary style, soft dramatic lighting."
+                "IDENTITY: Indonesian elder (75–80). "
+                "FACE: Deeply wrinkled face with emotional fatigue lines, sun-damaged skin texture, and thin white hair. "
+                "EYES: Emotional, heavy gaze with subtle moisture reflection and weary lids. "
+                "BODY: Emotionally burdened but sincere posture, expressive but slow gestures. "
+                "MOUTH: Natural lip sync with relaxed jaw movement, showing realistic aged skin movement around the lips."
             )
         }
 
