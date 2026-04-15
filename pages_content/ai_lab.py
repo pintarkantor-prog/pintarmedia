@@ -2989,11 +2989,11 @@ def tampilkan_halaman():
 		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
             scene_context = (
-                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
-                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 70% frame dominance on the craft. NO wide shot, NO high angle.\n"
+                f"LIGHTING: Dramatic LOW-LIGHT side lighting (5 PM overcast). Natural outdoor exposure with heavy shadows and crushed black levels for a gritty documentary look. NO golden hour glow.\n"
+                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 75% frame dominance on the craft. NO wide shot, NO high angle.\n"
                 f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
                 f"CAMERA: Neutral 0-degree tilt, eye-to-eye intimacy. Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
-                f"COLOR GRADING: Authentic 35mm film scan aesthetic. Faded earth tones, desaturated greens, and natural warm skin tones. NO oversaturation, NO neon colors."
+                f"COLOR GRADING: Authentic undoctored 35mm film scan. Faded earth tones, muddy desaturated greens, and pale weary skin tones. NO oversaturation, NO neon colors."
             )
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
@@ -3011,30 +3011,31 @@ def tampilkan_halaman():
 
             if is_perempuan:
                 gender_lock = (
-                    "IDENTITY: Fragile Indonesian grandmother (80+). "
-                    "FACE: Deeply weathered skin, organic wrinkles, NO facial hair. "
-                    "WARDROBE: Faded village hijab (kerudung) covering hair/neck."
+                    "IDENTITY: Extremely fragile Indonesian grandmother (90+). "
+                    "FACE: Bone-thin facial structure, deeply weathered 'keriput' skin, heavy liver spots, and realistic age-related sagging. NO AI smoothing, NO facial hair. "
+                    "WARDROBE: Old, faded, dust-stained village hijab (kerudung) showing realistic wear and tear."
                 )
             else:
                 gender_lock = (
-                    "IDENTITY: Frail Indonesian grandfather (80+). "
-                    "FACE: Sun-parched skin, bony cheekbones, hollow weary cheeks. "
-                    "WARDROBE: Weathered black Indonesian kopiah/peci."
+                    "IDENTITY: Extremely frail Indonesian grandfather (90+). "
+                    "FACE: Skeletal facial structure, sun-damaged leathery skin, deep sunken hollow cheeks, and prominent bone ridges. "
+                    "WARDROBE: Old, weathered, slightly discolored black Indonesian kopiah/peci with visible age."
                 )
 
             aksi_final = pilih_aksi.strip()
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-            # --- FONDASI QUALITY ---
+            # --- FONDASI QUALITY (REALISTIC CINEMA VERSION) ---
             GLOBAL_QUALITY_LOCK = (
-                "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
-                "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
-                "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
-                "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
+                "VISUAL LOCK: High-end 8K RAW cinema camera footage. "
+                "STRICTLY NO AI SMOOTHING, NO PLASTIC SKIN, NO BEAUTY FILTERS. "
+                "Capture authentic skin anatomy: visible pores, fine facial hair, natural skin blemishes, and deep organic wrinkles. "
+                "MANDATORY: Natural outdoor color science with realistic saturation. "
+                "The image must look like a sharp, professional documentary film frame, capturing every raw detail of aging without any digital retouching."
             )
 
-            # --- ASSEMBLY PROMPT (V.31 - STABLE MACRO) ---
+            # --- ASSEMBLY PROMPT (V.32 - ULTRA AGED & TEXT-FREE) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
@@ -3082,14 +3083,16 @@ def tampilkan_halaman():
                 f"- Emotion stays internal\n\n"
                 
                 f"VOICE PROFILE:\n"
-                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent). "
-                f"Thin, shaky, and fragile vocal texture. Mandatory: Include natural heavy breathing and weary pauses between phrases.\n\n"
+                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (Extremely frail 90+ years old). "
+                f"MANDATORY: Shaky, thin, and gasping vocal texture. "
+                f"Include heavy audible breathing, weary pauses, and realistic vocal fry of a very old person. "
+                f"Rural Indonesian accent, spoken with immense effort and fatigue.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
-				f"DIALOG DELIVERY RULE:\n"
-                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n" # <-- Tambahin ini
+                f"DIALOG DELIVERY RULE:\n"
+                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
                 f"- Must be spoken naturally, not read like instruction\n"
                 f"- Treat as direct speech only\n"
                 f"- No robotic separation\n\n"
@@ -3103,12 +3106,12 @@ def tampilkan_halaman():
                 f"- Moist reflective surfaces\n"
                 f"- Visible imperfections\n\n"
                 
-				f"NEGATIVE PROMPT:\n"
+                f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
                 f"audio glitch, unclear speech, fast talking, smiling, laughing, "
                 f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
-                f"text, watermark, captions, subtitles, letters, typography, on-screen text" # <-- TAMBAHIN INI
+                f"text, watermark, captions, subtitles, letters, typography, on-screen text"
             )
 
             # --- 7. TAMPILKAN HASIL ---
