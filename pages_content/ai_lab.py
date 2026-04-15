@@ -3137,7 +3137,7 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-			final_ai_prompt = f"""
+				final_ai_prompt = f"""
 			{GLOBAL_QUALITY_LOCK}
 
 			ULTRA 8K MACRO PRIORITY:
