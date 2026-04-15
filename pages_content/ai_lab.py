@@ -385,177 +385,38 @@ def tampilkan_halaman():
                     "Visible glistening moisture, realistic black seeds, and natural juice droplets on the surface. "
                     "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
                 ),
-				"Semangka: Ukiran Tipis": (
-					"An ultra-detailed MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon with extremely thin precision carving. "
-					"The mosque structure is refined with thin rind walls, delicate domes, and slender minarets maintaining strict architectural proportions. "
-					"Carving depth is shallow but precise, revealing layered rind and dense red flesh underneath. "
-					"All surfaces show high micro-detail: fine fibers, juice sheen, and sharp structural edges. "
-					"Placed on a wooden table with fine carving residue: thin rind shavings, micro fragments, and scattered seeds. "
-					"STRICT COMPOSITION RULE: perfectly centered frontal macro shot, mosque dominates frame and blocks character torso. "
-					"NO text, NO symbols, NO stylization. 8k ultra macro realism."
-				),
-				"Semangka: Ukiran Tradisional": (
-					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon using traditional rough hand-carving technique. "
-					"The structure maintains mosque architecture but with imperfect, organic geometry and visible hand-cut marks. "
-					"Green rind is thick and uneven, forming rough domes and minarets. Arches are asymmetrical but still readable as mosque structure. "
-					"Exposed red flesh is rough, fibrous, and naturally torn with visible juice pooling. "
-					"Texture emphasizes raw craftsmanship: knife marks, uneven surfaces, and organic imperfections. "
-					"Placed on a messy wooden table with large flesh chunks, broken rind pieces, and heavy juice stains. "
-					"STRICT COMPOSITION RULE: centered frontal framing, strong foreground dominance over character. "
-					"NO text, NO calligraphy, NO decorative fantasy. 8k raw cinematic realism."
-				),
-
-                "Semangka: Modular Block": (
-                    "A completed miniature mosque constructed from multiple carved watermelon pieces assembled into a cohesive structure, resting on a high wooden table. "
-                    "The architecture appears modular, with distinct blocks of green rind and red flesh forming walls, domes, and minarets. "
-                    "The central dome is assembled from curved segments of rind fitted together, while smaller domes and minarets are built from stacked cylindrical pieces. "
-                    "Joints between pieces are visible, showing natural seams and slight misalignment, reinforcing a hand-assembled construction style. "
-                    "Exposed red flesh is dense, fibrous, and glistening with natural moisture. "
-                    "Sharp focus on the raw assembly marks and organic imperfections. Strictly no text or calligraphy. "
-                    "The wooden table is heavily messy, covered with cut fragments, loose segments, seeds, and juice marks from the assembly process. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+				"Buah Naga: Masjid Megah Klasik": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole dragon fruit in grand classical style. "
+                    "Architectural Precision: A clear building model featuring one large central dome, four smaller domes, and tall symmetrical minarets. "
+                    "Material Interaction: Outer magenta-red scaly rind with intricate carvings, while arched windows and doorways reveal the soft white or pinkish fibrous flesh inside. "
+                    "Handmade Texture: Visible hand-carved grooves and uneven ridges showing it was crafted by hand. "
+                    "Visible organic texture, glistening moisture, realistic small black seeds, and natural juice droplets on the surface. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and juice stains."
                 ),
-
-                "Semangka: Kompleks Masjid": (
-                    "A large-scale miniature mosque complex carved from a whole watermelon, resting on a high wooden table. "
-                    "The structure includes a central grand mosque surrounded by smaller satellite buildings, courtyards, and multiple clustered minarets, creating a dense architectural layout. "
-                    "All elements are carved from green rind with exposed red flesh used for depth accents and inner sections. "
-                    "The red flesh is dense, fibrous, and vibrant with natural glistening moisture. "
-                    "Clean, sharp carving edges across the entire complex. Every tiny satellite building and minaret must be in sharp focus with high-fidelity detail. "
-                    "Pure architectural structure with strictly no text or calligraphy. "
-                    "The wooden table is widely covered with extensive carving debris: flesh chunks, rind fragments, seeds, and juice stains, reflecting a massive project. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+                "Buah Naga: Kubah Merah Megah": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole dragon fruit with dramatic emphasis on the large pink dome. "
+                    "Architectural Precision: Prominent central dome formed from soft pinkish-white dragon fruit flesh, surrounded by smaller magenta scaly rind domes and tall elegant minarets. "
+                    "Material Interaction: Clear contrast between magenta scaly outer skin and soft inner flesh. "
+                    "Handmade Texture: Visible hand-carved details on the pink dome with organic fibrous texture. "
+                    "Visible glistening moisture, realistic small black seeds, and natural juice droplets throughout the structure. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and juice stains."
                 ),
-
-                "Semangka: Ukiran Utuh": (
-                    "A whole intact round watermelon with its natural spherical shape preserved, resting on a high wooden table. "
-                    "A miniature mosque is intricately carved directly into the surface as a recessed architectural relief, embedded into the rind. "
-                    "The mosque features a central dome and minarets carved inward, following the natural curve of the fruit, maintaining the original round volume. "
-                    "Carved sections reveal vibrant, glistening ruby-red flesh forming depth within windows and arches. The flesh is dense and fibrous. "
-                    "Sharp focus on the carving edges and the smooth green striped texture of the whole watermelon. Strictly no text or calligraphy. "
-                    "The wooden table surface is scattered with realistic carving debris: rind shavings, red flesh fragments, and juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+                "Buah Naga: Arsitektur Berlapis Megah": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole dragon fruit showcasing beautiful layered architecture. "
+                    "Architectural Precision: Grand symmetrical design with prominent central dome, multiple smaller domes, and tall minarets. "
+                    "Material Interaction: Clearly visible layers - magenta-red scaly outer rind, thin inner layer, and soft white or pink fibrous flesh. "
+                    "Handmade Texture: Visible hand-carved details revealing the natural layers of the dragon fruit. "
+                    "Visible organic grooves, glistening moisture, realistic small black seeds, and natural juice droplets. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and juice stains."
                 ),
-
-                "Semangka: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table. "
-                    "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
-                    "The walls are thick dark green rind, meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. Strictly with no etched text or calligraphy. "
-                    "The watermelon surface is realistic with a rough rind texture and naturally glistening red flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
-                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
+                "Buah Naga: Masjid Kerajaan": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole dragon fruit in luxurious royal style. "
+                    "Architectural Precision: Very large majestic central dome with highly detailed carvings, surrounded by four smaller domes and four tall ornate minarets. "
+                    "Material Interaction: Outer magenta scaly rind features intricate patterns, inner soft flesh dramatically exposed through wide arched openings. "
+                    "Handmade Texture: Visible intricate hand-carved details and organic texture throughout. "
+                    "Visible glistening moisture, realistic small black seeds, and natural juice droplets on the surface. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and juice stains."
                 ),
-                
-                "Semangka: LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole watermelon, resting on a high wooden table. "
-                    "The structure features a towering central main dome with natural striped patterns and multiple complex symmetrical minarets with slender, fine-spires, all sculpted from the thick green rind. "
-                    "The walls are thick dark green rind, meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "Each doorway and window is precisely carved outward, revealing the inner vibrant, dense, glistening ruby-red watermelon flesh which is packed with tiny seeds. "
-                    "The watermelon surface is realistic with a rough rind texture and naturally glistening red flesh showing organic fibers. The carving edges are clean, sharp, and highly defined for maximum clarity. "
-                    "Pure ornamental structure with strictly no text or calligraphy. "
-                    "Table clutter: Small, realistic glistening red flesh chunks, tiny seed clusters, and curled rind shavings scattered naturally on the table. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Buah Naga: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a fresh dragon fruit, resting on a high wooden table. "
-                    "Architecture features precise geometric carving to create building facades. The walls and multiple symmetrical minarets are made of the bright pinkish-purple dragon fruit skin, with its natural distinct green-tipped scales forming decorative textures. "
-                    "Walls are bright pink, precisely carved out with deep, recessed arched doorways and windows. The exposed surfaces within the doors and windows are the contrasting glistening white dragon fruit flesh filled with tiny natural black seeds. "
-                    "The central main dome is a large structure made of smooth pinkish rind with symmetrical scales, topped with small domes and tiny spires. "
-                    "Pure architectural structure with strictly no text or calligraphy. Clean, sharp carving edges in sharp focus. "
-                    "Table clutter: Realistic glistening white flesh fragments with black seeds and pink rind shavings scattered naturally on the table surface. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Buah Naga: Kubah Putih": (
-                    "An intricately carved miniature mosque sculpted from a whole dragon fruit, resting on a high wooden table. "
-                    "The central dome is formed from exposed white dragon fruit flesh, carefully shaped into a smooth rounded structure with dense, moist texture and visible tiny black seeds embedded throughout. "
-                    "The white flesh dome appears physically solid and opaque, with a glistening wet surface that catches natural daylight. "
-                    "Surrounding the main dome are smaller domes and multiple symmetrical minarets crafted from thick bright pink dragon fruit rind with distinct green-tipped scales. "
-                    "The structural walls are made from pink rind, deeply carved with precise arches and recessed doorways, revealing the layered transitions between pink rind and white seeded flesh. "
-                    "Clean, sharp carving edges with high-fidelity detail. Pure ornamental structure with strictly no text or calligraphy. "
-                    "Table surface is scattered with realistic white flesh fragments, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-                
-                "Buah Naga: Kubah Merah": (
-                    "An intricately carved miniature mosque sculpted from a red-fleshed dragon fruit, resting on a high wooden table. "
-                    "The central dome is a massive carved block of deep, vibrant purple-red dragon fruit flesh, glistening and moist, filled with tiny natural black seeds. "
-                    "The purple flesh appears solid and catches natural external daylight with high color saturation. "
-                    "Structural walls and minarets are made of bright pink rind with green scales, creating a monochrome yet high-contrast purple-pink aesthetic. "
-                    "All exposed flesh areas show natural moist texture and visible seed patterns. "
-                    "Clean, sharp carving edges with extreme clarity. Strictly no text or calligraphy. "
-                    "Table clutter: Glistening purple flesh scraps, juice marks, and pink rind debris. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Buah Naga: Arsitektur Berlapis": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole dragon fruit, placed on a high wooden table. "
-                    "The structure emphasizes layered construction using all parts of the dragon fruit: bright pinkish-purple skin with distinct green-tipped scales, thin white inner rind, and contrasting white dragon fruit flesh filled with tiny natural black seeds. "
-                    "The central dome is a masterpiece of material gradation, with a base of pink skin and an upper structure deeply carved to reveal alternating layers of the white rind and the glistening seeded white flesh, creating a striking natural multi-tone architectural effect. "
-                    "The structural walls are made from pink rind, deeply carved with precise geometric patterns and recessed arched doorways. Carved sections are carefully composed to expose the transition between pink outer skin and white seeded flesh inside, providing depth and contrast without text or calligraphy. "
-                    "Glistening natural moisture and organic fibers of the flesh with black seeds are visible, reflecting natural golden hour daylight. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
-                    "The wooden table surface is widely covered with extensive carving debris: flesh chunks, pink rind fragments, seeds, and juice stains. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Buah Naga: Kompleks Masjid": (
-                    "A large-scale miniature mosque complex intricately carved from a single large dragon fruit, placed on a high wooden table. "
-                    "The structure includes a central grand mosque surrounded by smaller satellite buildings, courtyards, and multiple clustered minarets, creating a dense architectural layout. "
-                    "All elements are carved from the pink rind with its distinct green-tipped scales forming decorative textures. "
-                    "The complex walls are bright pink, deeply carved out with recessed arched doorways and windows, revealing contrasting glistening white dragon fruit flesh filled with tiny natural black seeds, strictly with no text or calligraphy. "
-                    "Central main dome is smooth pink skin with symmetrical scales, topped with small domes and tiny spires. "
-                    "Table clutter: Extensive scattering of glistening white flesh fragments with black seeds, seeds, and pink rind shavings, indicating massive work. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Buah Naga: Tipe Mewah": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table. "
-                    "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright pink rind with distinct green-tipped scales. "
-                    "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches, showcasing high-level craftsmanship. "
-                    "The inner carved sections reveal vibrant white dragon fruit flesh filled with tiny natural black seeds, glistening like moist marble under natural golden hour daylight. "
-                    "Each doorway and window is precisely carved to show the sharp transition between pink rind and seeded flesh. Strictly no text or calligraphy. "
-                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
-                    "Table surface is scattered with realistic dragon fruit debris: white flesh chunks, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-                
-                "Buah Naga: LED Glow": (
-                    "An intricate, large-scale miniature mosque carved entirely from a flawless whole dragon fruit, resting on a high wooden table. "
-                    "The structure features a towering central grand dome and multiple complex symmetrical minarets sculpted from the bright pink rind with distinct green-tipped scales. "
-                    "The walls are meticulously detailed with multi-layered geometric patterns and deep-recessed ornate arches. "
-                    "The inner carved sections reveal dense white flesh with black seeds, glistening like moist marble under natural golden hour daylight. "
-                    "Surface response follows real fruit physics: natural daylight reflects naturally on the moist flesh and black seeds. "
-                    "Clean, sharp carving edges with high-fidelity detail, in sharp focus. Pure architectural structure with no text or calligraphy. "
-                    "Table surface is scattered with realistic dragon fruit debris: white flesh chunks, black seeds, and pink rind shavings. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
-                "Melon: Pahatan Murni": (
-                    "An intricately carved miniature mosque sculpted entirely from a whole honeydew melon, resting on a high wooden table. "
-                    "The structure features a large central dome made from the natural netted tan-colored rind of the melon. "
-                    "The walls and multiple symmetrical minarets are precisely carved from the thick melon rind, showcasing the distinct rough texture of the outer skin. "
-                    "Walls are deeply carved with recessed arched doorways and windows, revealing the succulent, vibrant pale-green melon flesh inside. "
-                    "The inner carved sections show realistic juicy melon texture with a smooth, glistening surface that catches natural daylight. "
-                    "Pure ornamental structure with strictly no text or calligraphy. Clean, sharp carving edges with high-fidelity detail, in sharp focus. "
-                    "The wooden table is scattered with realistic melon debris: glistening pale-green flesh fragments, small slippery seeds, and wet juice marks. "
-                    "The structure is positioned precisely in the absolute center foreground, situated directly between the camera lens and the character's body in a perfectly straight-on, symmetrical composition. "
-                    "The structure is fixed firmly on the central wooden table at chest-level, physically obscuring the character's midsection and torso to create a dominating presence and intimate close-up framing with no lateral gap."
-                ),
-
                 "Melon: Kubah Hijau Muda": (
                     "An intricately carved miniature mosque sculpted from a whole honeydew melon, resting on a high wooden table. "
                     "The central dome is carved from exposed vibrant pale-green melon flesh, shaped into a smooth rounded structure with dense fibrous texture, visible grain, and glistening natural moisture. "
