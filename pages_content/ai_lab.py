@@ -2193,10 +2193,11 @@ def tampilkan_halaman():
 
             # --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREMELY SHARP 8K DOCUMENTARY STYLE: Real optical film footage with maximum clarity and micro-detail. "
-                "Razor sharp focus on the elderly character's skin texture, deep wrinkles, age spots, hands, eyes, and the handcrafted miniature mosque. "
-                "Rich natural color saturation with warm gentle undertone. "
-                "NO AI smoothing, NO plastic textures, NO CGI look, NO flat or pale colors, NO overexposure."
+                "EXTREME 8K SHARPNESS DOCUMENTARY LOOK: Maximum micro-detail and clarity like real film. "
+                "MANDATORY: Rich warm skin tones with healthy blood undertone and natural glow — completely reject any pale, grey, or lifeless skin. "
+                "Vivid juicy colors on the miniature mosque, deep natural contrast, and rich organic texture. "
+                "Razor sharp on wrinkles, age spots, fruit flesh, juice droplets, and wood grain. "
+                "NO pale skin, NO washed-out colors, NO flat lighting, NO AI smoothing, NO plastic look."
             )
 
             final_ai_prompt = (
@@ -2219,17 +2220,18 @@ def tampilkan_halaman():
                 f"{env_detail}\n\n"
 
                 f"LIGHTING & ATMOSPHERE:\n"
-                f"Soft late afternoon natural daylight with warm gentle golden undertone, slightly diffused. "
-                f"Warm rich lighting that brings out the natural glow on the elderly character's skin with healthy warm undertone, "
-                f"while making the colors of the handcrafted miniature mosque (fruit rind, juicy flesh, juice droplets, seeds) look vibrant, rich, and highly realistic. "
-                f"Balanced soft contrast, good color saturation, no cold bluish cast, no pale or washed-out look.\n\n"
+                f"Soft late afternoon natural daylight with rich warm golden undertone, slightly diffused but vibrant. "
+                f"Warm golden lighting that gives healthy natural glow and warm blood undertone to the elderly skin, "
+                f"while making the miniature mosque colors (fruit rind, juicy flesh, juice droplets, seeds) look extremely rich, vivid, and mouthwatering. "
+                f"Strong but natural color saturation, good depth and dimension, no cold tones, no pale skin, no washed-out or flat colors.\n\n"
 
                 f"CAMERA & MOTION:\n"
-                f"Eye-level straight frontal composition. Tight medium shot. "
-                f"The miniature mosque is positioned in the foreground, centered and dominant in frame. "
-                f"The elderly character is positioned directly behind the miniature mosque, slightly visible from the chest up, facing forward. "
-                f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque while keeping both the mosque and character's face/hands razor sharp throughout the shot. "
-                f"NO sudden camera moves, NO static locked camera, NO high angle, NO low angle.\n\n"
+                f"Strict eye-level straight frontal shot. Tight medium composition. "
+                f"The miniature mosque must be in the foreground, perfectly centered and taking up most of the frame. "
+                f"The elderly character stands directly behind the mosque, only the upper chest and head slightly visible, facing the camera directly. "
+                f"Very slow, smooth, organic handheld movement with subtle natural breathing sway. "
+                f"Extremely slow and gentle push-in toward the miniature mosque, maintaining razor sharp focus on both the mosque and the character's face/hands the entire time. "
+                f"Absolutely NO high angle, NO low angle, NO static camera, NO sudden moves.\n\n"
 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
@@ -2258,14 +2260,16 @@ def tampilkan_halaman():
                 f"{deskripsi_teknis}\n\n"
 
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Razor sharp 8K detail on every carving line, material texture, juice droplets, skin wrinkles, and wooden table surface\n"
-                f"- Natural moist reflections, visible imperfections, realistic light interaction\n\n"
+                f"- Razor sharp 8K detail on every carving line, fruit fiber texture, juice droplets, skin pores, deep wrinkles, age spots, hand veins, and wooden table surface\n"
+                f"- Rich natural moist reflections, visible organic imperfections, realistic light interaction, and vivid but natural color saturation\n"
+                f"- The miniature mosque and the elderly character's skin must both look extremely sharp, alive, and physically real\n\n"
 
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, motion blur, AI look, CGI, plastic texture, over-smooth skin, waxy skin, "
                 f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, pale skin, washed-out colors, "
-                f"smiling, laughing, wide shot, high angle, text, watermark, subtitles, on-screen text"
+                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, "
+                f"pale skin, washed-out colors, greyish skin, flat lighting, dull colors, overexposed, "
+                f"smiling, laughing, wide shot, high angle, low angle, text, watermark, subtitles, on-screen text"
             )
 
             # --- TAMPILKAN HASIL ---
