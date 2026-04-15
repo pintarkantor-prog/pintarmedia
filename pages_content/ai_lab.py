@@ -3091,9 +3091,9 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
+		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-			scene_context = (
+            scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
                 f"COMPOSITION: Eye-level Tight Medium-Shot. 60% frame dominance on the handcrafted craft. Balanced spatial relationship between character and object.\n"
                 f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
@@ -3103,7 +3103,7 @@ def tampilkan_halaman():
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
-    
+            
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
 
@@ -3114,7 +3114,7 @@ def tampilkan_halaman():
                 "sikem","dulah","sartini","tinah","wati"
             ])
 
-			if is_perempuan:
+            if is_perempuan:
                 gender_lock = (
                     "PHYSICAL: Fragile elderly Indonesian grandmother (80+). "
                     "FACE: Deeply weathered skin with individual organic wrinkles, NO facial hair, NO smoothing. "
@@ -3133,7 +3133,7 @@ def tampilkan_halaman():
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-			# --- FONDASI QUALITY ---
+            # --- FONDASI QUALITY ---
             GLOBAL_QUALITY_LOCK = (
                 "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
                 "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
@@ -3144,13 +3144,11 @@ def tampilkan_halaman():
             # --- ASSEMBLY PROMPT (Optimasi Suara & Emosi) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
-
                 f"ULTRA 8K MACRO PRIORITY:\n"
                 f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
                 f"- Object must be the SHARPEST element in frame\n"
                 f"- Character face is secondary but still detailed\n"
                 f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-
                 f"CAMERA SYSTEM:\n"
                 f"- 50mm macro cinematic lens\n"
                 f"- Aperture f/4 (natural optical depth)\n"
@@ -3159,33 +3157,26 @@ def tampilkan_halaman():
                 f"- Locked focus on object (primary focus priority)\n"
                 f"- Natural depth layering only (foreground → subject → background)\n"
                 f"- No focus hunting, no artificial blur\n\n"
-
                 f"CHARACTER:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"- Thin fragile elderly body\n"
                 f"- Natural tired expression (NO smile)\n"
                 f"- Documentary realism, ultra detailed skin\n\n"
-
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
                 f"- Minimal natural movement\n"
                 f"- Eyes naturally alternate between object and camera lens\n\n"
-
                 f"VOICE PROFILE:\n"
                 f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent, shaky and thin vocal texture, slow natural cadence)\n\n"
-
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
-
                 f"DIALOG DELIVERY RULE:\n"
                 f"- Treat as direct natural speech only\n"
                 f"- Emotional pauses allowed, NO robotic cadence\n\n"
-
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
-
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
