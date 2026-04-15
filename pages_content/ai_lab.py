@@ -3170,7 +3170,7 @@ def tampilkan_halaman():
 		- Natural tired expression (NO smile, NO exaggeration)
 		- Pure documentary realism
 
-		"ENVIRONMENT:
+		ENVIRONMENT:
 		{env_detail}
 		- High rustic wooden table positioned at chest level.
 
@@ -3203,7 +3203,7 @@ def tampilkan_halaman():
 		- No stuttering, no mumbling, no glitch
 		- No exaggerated articulation
 
-		"VOICE STYLE:
+		VOICE STYLE:
 		{logat_final}
 		
 		DIALOG: {user_dialog}
