@@ -2993,15 +2993,12 @@ def tampilkan_halaman():
 
         # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
+            # Scene context yang sudah dikurangi (hanya lighting + environment dasar)
             scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting with natural contrast. "
-                f"Natural outdoor exposure, flat documentary film look, rich but realistic color grading.\n"
+                f"Natural outdoor exposure, flat documentary film look.\n"
                 f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height locked at chest-level. "
-                f"Strong frame dominance on the handcrafted miniature mosque. NO wide shot, NO high angle.\n"
-                f"FOCUS SYSTEM: Realistic optical deep focus. Extremely sharp on the miniature mosque and weathered elderly hands. "
-                f"Character's face also remains sharp as secondary focus. NO artificial bokeh.\n"
-                f"CAMERA: Subtle organic handheld realism with very slow natural movement. "
-                f"Slow gentle push-in and micro sway. NO static camera, NO sudden movement, NO cinematic jitter."
+                f"Strong frame dominance on the handcrafted miniature mosque. NO wide shot, NO high angle."
             )
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
@@ -3050,7 +3047,7 @@ def tampilkan_halaman():
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n"
                 f"- High rustic wooden table at chest level.\n"
-                f"- Setting Atmosphere: {scene_context}\n\n"
+                f"Lighting and Atmosphere: {scene_context}\n\n"
                 
                 f"CAMERA & MOTION:\n"
                 f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque and character's hands. "
@@ -3066,7 +3063,7 @@ def tampilkan_halaman():
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
                 f"Delivery style: {mood_final}. Speak extremely slowly with heavy vocal tremor, constant quivering, raspy breathy tone, "
-                f"frequent voice cracks, long weary pauses, very low energy, physically weak and fragile like a real 90-year-old nenek/kakek.\n\n"
+                f"frequent voice cracks, long weary pauses and breathing effort, very low energy, physically weak and fragile like a real 90-year-old nenek/kakek.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
@@ -3079,7 +3076,7 @@ def tampilkan_halaman():
                 f"{deskripsi_teknis}\n\n"
                 
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Razor sharp 8K detail on every carving line, material texture, and skin wrinkles\n"
+                f"- Razor sharp 8K detail on every carving line, material texture, juice droplets, and skin wrinkles\n"
                 f"- Natural moist reflections, visible imperfections, realistic light interaction\n\n"
                 
                 f"NEGATIVE PROMPT:\n"
