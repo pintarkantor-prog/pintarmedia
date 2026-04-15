@@ -3139,83 +3139,89 @@ def tampilkan_halaman():
 
             final_ai_prompt = f"""
         {GLOBAL_QUALITY_LOCK}
+		
+		ULTRA 8K MACRO PRIORITY:
+        - Primary subject: handcrafted miniature object (60% frame dominance)
+        - Object must be the SHARPEST element in frame
+        - Character face is secondary but still detailed
+        - True physical realism only (NO CGI, NO AI look, NO plastic texture
 
-        ULTRA 8K MACRO PRIORITY:
-        - Object is PRIMARY SUBJECT (60% frame)
-        - Face is SECONDARY (40%)
-        - Extreme micro-detail visibility
-        - Every texture must be physically real
 
-        CAMERA:
-        - 50mm macro lens
-        - f/4 dual focus system
-        - NO blur on object
-        - NO focus hunting
-        - Focus priority strictly locked on the object
-        - Face remains secondary but still sharp
-        - Object must NEVER lose sharpness under any condition
+		CAMERA SYSTEM:
+		- 50mm macro cinematic lens
+		- Aperture f/4 (natural optical depth)
+		- Eye-level composition
+		- Tight medium shot
+		- Locked focus on object (primary focus priority)
+		- Natural depth layering only (foreground object → mid face → background)
+		- No focus hunting, no artificial blur
 
-        CHARACTER:
-        {soul_desc}
-        {gender_lock}
-        - Real aging skin
-        - No beauty filter
-        - Natural tired expression
+		CINEMATIC CAMERA MOTION:
+		- Extremely slow natural push-in (almost static)
+		- Micro handheld realism (subtle human operator feel)
+		- Stable frame, no jitter, no shake
+		- Object remains perfectly sharp at all times
 
-        ENVIRONMENT:
-        {env_detail}
-        The character is seated upright behind a high rustic wooden table at chest level.
+		CHARACTER:
+		{soul_desc}
+		{gender_lock}
+		- Hyper-realistic aged skin (wrinkles, pores, sun damage)
+		- Thin fragile elderly body
+		- Natural tired expression (NO smile, NO exaggeration)
+		- Pure documentary realism
 
-        PERFORMANCE:
-        {aksi_final}
-        Mood: {mood_final}
-        Slow, minimal, realistic movement
+		"ENVIRONMENT:
+		{env_detail}
+		- High rustic wooden table positioned at chest level.
 
-        VOICE LOCK (NATURAL ELDERLY SYSTEM):
-        - Age: 80–90 years old Indonesian
-        - Speed: Slow and natural (0.7x–0.8x)
-        - Tone: Soft, thin, slightly shaky
-        - Breath: Weak, with natural pauses between phrases (NOT every word)
+		PERFORMANCE:
+		{aksi_final}
+		Mood: {mood_final}
+		- Minimal, natural movement
+		- Eyes naturally alternate between object and camera
+		- No acting exaggeration
 
-        SPEECH BEHAVIOR:
-        - Words flow naturally (NO per-word separation)
-        - Slight slurring is allowed but still intelligible
-        - Gentle breath pauses at commas or sentence breaks
-        - No forced articulation
-        - No robotic pacing
-        - No exaggerated pauses
-        - No stuttering, no glitch
+		EMOTIONAL MICRO EXPRESSION:
+		- Slight watery eyes (NOT crying)
+		- Subtle eye shimmer under natural light
+		- Slow elderly blinking rhythm
+		- Mild facial tension around eyes and mouth
+		- Dry lips, slightly pressed
+		- Emotion stays internal, not theatrical
 
-        DELIVERY STYLE:
-        - Speak like a tired elderly person telling a story
-        - Emotional but controlled
-        - Slight vocal tremble (natural age effect)
-        - Consistent volume, no sudden spikes
+		VOICE SYSTEM (ELDERLY NATURAL PROFILE):
+		- Age: 80–90 Indonesian rural elder
+		- Tone: soft, thin, slightly shaky
+		- Speed: slow natural (0.7x–0.8x)
+		- Breathing: natural pauses between phrases
+		- Clarity: fully understandable speech
 
-        VOICE STYLE:
-        {logat_final}
+		SPEECH RULES:
+		- Natural sentence flow (NO robotic separation)
+		- Short natural phrases allowed (not forced)
+		- Gentle pauses at commas or emotional breaks
+		- No stuttering, no mumbling, no glitch
+		- No exaggerated articulation
 
-        DIALOG:
-        "{user_dialog}"
+		"VOICE STYLE:
+		{logat_final}
+		
+		DIALOG: {user_dialog}
 
-        OBJECT DETAIL:
-        {deskripsi_teknis}
+		OBJECT DETAIL:{deskripsi_teknis}
 
-        ULTRA DETAIL:
-        - Hyper realistic carving
-        - Real fruit texture
-        - Wet surface reflections
-        - Depth and imperfections visible
-        
-        REAL CAMERA DEPTH:
-        - Natural lens compression
-        - Real-world depth layering (foreground object, mid face, background environment)
-        - No flat rendering
-        - True optical depth, not digital blur
+		ULTRA DETAIL ENFORCEMENT:
+		- Hyper-real carving precision
+		- Real fruit fiber texture
+		- Moist reflective surfaces
+		- Visible imperfections and realism
+		- No smoothing, no simplification
 
-        NEGATIVE:
-        blurry, soft focus, low detail, CGI, AI look, plastic texture,
-        audio glitch, mumbling, unclear speech, fast talking, lip sync error
+		NEGATIVE PROMPT:
+		blurry, soft focus, low detail, CGI, AI look, plastic texture,
+		overprocessed lighting, fake depth, cartoon style,
+		audio glitch, mumbling, unclear speech, fast talking,
+		lip sync error, exaggerated mouth movement, shouting
         """
             
             # --- 7. TAMPILKAN HASIL ---
