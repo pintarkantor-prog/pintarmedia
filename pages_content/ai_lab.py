@@ -379,6 +379,30 @@ def tampilkan_halaman():
                     "Visible fibrous flesh structure, subtle moisture variation, and organic imperfections for realism. "
                     "The wooden table surface is scattered with fresh watermelon slices, small chunks of red flesh, seeds, and thin green rind shavings, reinforcing the natural carving process. "
                     "Pure ornamental structure with no text or calligraphy."
+                ),
+				
+				"Semangka: Sederhana": (
+                    "A hyper-realistic hand-carved miniature mosque made from a single whole watermelon, placed on a rustic wooden table. "
+                    "Clearly structured mosque architecture with a central dome, smaller supporting domes, and symmetrical minarets. "
+                    "The silhouette is clean and clearly recognizable as a traditional mosque with balanced proportions. "
+                    "The entire structure is carved from one intact watermelon, maintaining a simple and cohesive organic form. "
+                    "Outer green rind defines the structure, with carved openings revealing vibrant ruby-red flesh inside. "
+                    "High visual clarity, crisp carving edges, and strong micro-detail visibility. "
+                    "Natural color contrast between deep green rind and rich red flesh appears vivid yet realistic. "
+                    "Subtle carving imperfections and organic texture enhance authenticity. "
+                    "The wooden table surface is scattered with watermelon debris: small chunks of red flesh, seeds, and thin green rind shavings."
+                ),
+
+                "Semangka: Diorama": (
+                    "A hyper-realistic miniature mosque diorama constructed entirely from multiple watermelon elements, placed on a rustic wooden table. "
+                    "Clearly structured mosque architecture featuring a central dome, multiple smaller domes, and several tall minarets arranged in a coherent layout. "
+                    "The scene forms a complete miniature environment, where different carved watermelon pieces act as buildings, platforms, and structural components. "
+                    "All elements are made only from watermelon parts, including green rind blocks and red flesh sections, assembled into a unified architectural composition. "
+                    "Strong silhouette and clear mosque identity with balanced proportions across the diorama. "
+                    "High visual clarity, crisp edges, and strong micro-detail definition across all carved surfaces. "
+                    "Rich natural color contrast between green rind and red flesh enhances depth and separation of structures. "
+                    "Visible organic textures, fibrous flesh details, seeds, and natural imperfections across all elements. "
+                    "The wooden table surface is scattered with watermelon debris: irregular flesh chunks, rind pieces, seeds, and juice residue."
                 )
 
             },        
