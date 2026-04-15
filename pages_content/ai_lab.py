@@ -3045,8 +3045,16 @@ def tampilkan_halaman():
             logat_final = pilih_logat.strip()
 
             # --- ASSEMBLY PROMPT (V.32 - IMPROVED VOICE LOCK) ---
+            GLOBAL_QUALITY_LOCK = (
+                "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
+                "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
+                "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
+                "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
+            )
+
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
+                
                 f"ULTRA 8K MACRO PRIORITY:\n"
                 f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
                 f"- Object must be the SHARPEST element in frame\n"
