@@ -3088,7 +3088,8 @@ def tampilkan_halaman():
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
-                f"DIALOG DELIVERY RULE:\n"
+				f"DIALOG DELIVERY RULE:\n"
+                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n" # <-- Tambahin ini
                 f"- Must be spoken naturally, not read like instruction\n"
                 f"- Treat as direct speech only\n"
                 f"- No robotic separation\n\n"
@@ -3102,11 +3103,12 @@ def tampilkan_halaman():
                 f"- Moist reflective surfaces\n"
                 f"- Visible imperfections\n\n"
                 
-                f"NEGATIVE PROMPT:\n"
+				f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
                 f"audio glitch, unclear speech, fast talking, smiling, laughing, "
-                f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot"
+                f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
+                f"text, watermark, captions, subtitles, letters, typography, on-screen text" # <-- TAMBAHIN INI
             )
 
             # --- 7. TAMPILKAN HASIL ---
