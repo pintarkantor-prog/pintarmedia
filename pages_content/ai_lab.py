@@ -478,17 +478,15 @@ def tampilkan_halaman():
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
 				"Semangka: Pahatan Murni": (
-					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon, designed as a true scaled-down building model. "
-					"The structure must clearly read as a proper mosque with correct architectural hierarchy: one central dome, smaller secondary domes, and multiple symmetrical minarets. "
-					"All architectural elements are fully integrated into watermelon material: "
-					"- Green rind forms the outer walls, dome shells, and minaret structures "
-					"- Red watermelon flesh is exposed inside arches, windows, and interior cavities "
-					"The carving shows precise architectural features: arched doorways, columns, window recesses, and dome curvature with clean symmetry. "
-					"Texture is ultra-realistic: fibrous red flesh, visible seeds, natural juice moisture, and organic rind grain. "
-					"Placed on a wooden table with scattered watermelon debris (chunks, seeds, juice stains). "
-					"STRICT COMPOSITION RULE: centered, frontal, symmetrical composition. The miniature mosque dominates the foreground and partially blocks the character’s torso at chest level. "
-					"NO text, NO calligraphy, NO decorative fantasy elements. 8k cinematic macro realism."
-				),
+                    "A HYPER-REALISTIC HAND-CARVED MINIATURE MOSQUE made from a fresh whole watermelon. "
+                    "Architectural Precision: A clear building model featuring one main central dome, smaller side domes, and symmetrical minarets. "
+                    "Material Interaction: Outer walls and domes are carved from the dark green rind, while arched windows and open doorways reveal the raw, fibrous red watermelon flesh inside. "
+                    "Handmade Texture: Visible organic texture of hand-carved grooves and uneven ridges, showing it was crafted by hand. STRICTLY NO KNIVES, NO TOOLS, NO BLADES IN FRAME. " # Larangan Keras Ada Pisau
+                    "Texture: Glistening moist red flesh, realistic scattered black seeds embedded in the walls, and natural juice droplets clinging to the rind. "
+                    "Atmosphere: Placed on a rough, weathered wooden table covered in carving debris, rind scraps, and red juice stains. ONLY THE CHARACTER'S BARE HANDS ARE VISIBLE. " # Hanya Tangan Kosong
+                    "Composition: The miniature mosque dominates the foreground, centered and frontal, partially obscuring the character's chest. "
+                    "Strictly NO CGI, NO artificial gloss, NO text. 8k cinematic macro realism with authentic organic imperfections."
+                ),
 				"Semangka: Kubah Merah": (
 					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon, emphasizing a red-flesh dome as the central architectural focus. "
 					"The central dome is formed from exposed ruby-red watermelon flesh, shaped into a smooth architectural dome with visible fibrous structure and natural moisture. "
@@ -3093,11 +3091,11 @@ def tampilkan_halaman():
 
 		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-            scene_context = (
+			scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
-                f"COMPOSITION: Eye-level Tight Medium-Shot. 60% frame dominance on the handcrafted craft. Balanced spatial relationship between character and object.\n"
+                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 70% frame dominance on the craft. NO wide shot, NO high angle.\n"
                 f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
-                f"CAMERA: Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
+                f"CAMERA: Neutral 0-degree tilt, eye-to-eye intimacy. Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
                 f"COLOR GRADING: Authentic 35mm film scan aesthetic. Faded earth tones, desaturated greens, and natural warm skin tones. NO oversaturation, NO neon colors."
             )
 
@@ -3114,19 +3112,17 @@ def tampilkan_halaman():
                 "sikem","dulah","sartini","tinah","wati"
             ])
 
-            if is_perempuan:
+			if is_perempuan:
                 gender_lock = (
-                    "PHYSICAL: Fragile elderly Indonesian grandmother (80+). "
-                    "FACE: Deeply weathered skin with individual organic wrinkles, NO facial hair, NO smoothing. "
-                    "WARDROBE: Wearing a simple, faded village hijab (kerudung) covering hair and neck. "
-                    "EXPRESSION: Weary, soulful 'sayu' eyes, profound silent endurance."
+                    "IDENTITY: Fragile Indonesian grandmother (80+). "
+                    "FACE: Deeply weathered skin, organic wrinkles, NO facial hair. "
+                    "WARDROBE: Faded village hijab (kerudung) covering hair/neck."
                 )
             else:
                 gender_lock = (
-                    "PHYSICAL: Frail elderly Indonesian grandfather (80+). "
-                    "FACE: Rough sun-parched skin, visible bony cheekbones, hollow weary cheeks. "
-                    "WARDROBE: Wearing a classic weathered black Indonesian kopiah/peci. "
-                    "EXPRESSION: Calm, grounded, showing decades of hard work and fatigue."
+                    "IDENTITY: Frail Indonesian grandfather (80+). "
+                    "FACE: Sun-parched skin, bony cheekbones, hollow weary cheeks. "
+                    "WARDROBE: Weathered black Indonesian kopiah/peci."
                 )
 
             aksi_final = pilih_aksi.strip()
@@ -3166,16 +3162,14 @@ def tampilkan_halaman():
                 f"- Stable frame, no shake\n"
                 f"- Object always perfectly sharp\n\n"
                 
-                f"CHARACTER:\n"
+				f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
-                f"- Thin fragile elderly body\n"
-                f"- Natural tired expression (NO smile)\n"
-                f"- Documentary realism, ultra detailed skin\n\n"
-                
+                f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
+
                 f"ENVIRONMENT:\n"
-                f"{env_detail}\n" # LOKASI LO UDAH BALIK DI SINI, COK!
-                f"- Setting Atmosphere: {scene_context}\n" # Biar lighting-nya nyambung sama kebun
+                f"{env_detail}\n"
+                f"- Setting Atmosphere: {scene_context}\n"
                 f"- High rustic wooden table at chest level.\n\n"
                 
                 f"PERFORMANCE:\n"
@@ -3191,7 +3185,8 @@ def tampilkan_halaman():
                 f"- Emotion stays internal\n\n"
                 
                 f"VOICE PROFILE:\n"
-                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent, shaky and thin vocal texture, slow natural cadence)\n\n"
+                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent). "
+                f"Thin, shaky, and fragile vocal texture. Mandatory: Include natural heavy breathing and weary pauses between phrases.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
@@ -3213,7 +3208,8 @@ def tampilkan_halaman():
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
-                f"audio glitch, unclear speech, fast talking, smiling, laughing"
+                f"audio glitch, unclear speech, fast talking, smiling, laughing, "
+				f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot"
             )
 
             # --- 7. TAMPILKAN HASIL ---
