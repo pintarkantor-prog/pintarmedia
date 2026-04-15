@@ -3134,14 +3134,14 @@ def tampilkan_halaman():
             logat_final = pilih_logat.strip()
 
 			# --- FONDASI QUALITY ---
-			GLOBAL_QUALITY_LOCK = (
+            GLOBAL_QUALITY_LOCK = (
                 "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
                 "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
                 "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
                 "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
             )
 
-			# --- ASSEMBLY PROMPT (Optimasi Suara & Emosi) ---
+            # --- ASSEMBLY PROMPT (Optimasi Suara & Emosi) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
 
