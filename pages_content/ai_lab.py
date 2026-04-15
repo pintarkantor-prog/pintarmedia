@@ -2986,7 +2986,7 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
+        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
 		if btn_gen:
 			scene_context = (
 				f"LIGHTING: Dramatic LOW-LIGHT side lighting (5 PM overcast). Natural outdoor exposure with heavy shadows and crushed black levels for a gritty documentary look. NO golden hour glow.\n"
@@ -3038,13 +3038,11 @@ def tampilkan_halaman():
 			# --- ASSEMBLY PROMPT (V.32 - ULTRA AGED & TEXT-FREE) ---
 			final_ai_prompt = (
 				f"{GLOBAL_QUALITY_LOCK}\n\n"
-				
 				f"ULTRA 8K MACRO PRIORITY:\n"
 				f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
 				f"- Object must be the SHARPEST element in frame\n"
 				f"- Character face is secondary but still detailed\n"
 				f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-				
 				f"CAMERA SYSTEM:\n"
 				f"- 50mm macro cinematic lens\n"
 				f"- Aperture f/4 (natural optical depth)\n"
@@ -3053,60 +3051,49 @@ def tampilkan_halaman():
 				f"- Locked focus on object (primary focus priority)\n"
 				f"- Natural depth layering only (foreground → subject → background)\n"
 				f"- No focus hunting, no artificial blur\n\n"
-				
 				f"CINEMATIC CAMERA MOTION:\n"
 				f"- Extremely slow natural push-in\n"
 				f"- Micro handheld realism\n"
 				f"- Stable frame, no shake\n"
 				f"- Object always perfectly sharp\n\n"
-				
 				f"CHARACTER IDENTITY:\n"
 				f"{soul_desc}\n"
 				f"{gender_lock}\n"
 				f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
-
 				f"ENVIRONMENT:\n"
 				f"{env_detail}\n"
 				f"- Setting Atmosphere: {scene_context}\n"
 				f"- High rustic wooden table at chest level.\n\n"
-				
 				f"PERFORMANCE:\n"
 				f"{aksi_final}\n"
 				f"Mood: {mood_final}\n"
 				f"- Minimal natural movement\n"
 				f"- Eyes naturally alternate between object and camera\n\n"
-				
 				f"EMOTIONAL MICRO EXPRESSION:\n"
 				f"- Slight watery eyes (not crying)\n"
 				f"- Slow blinking\n"
 				f"- Subtle facial tension\n"
 				f"- Emotion stays internal\n\n"
-				
 				f"VOICE PROFILE:\n"
 				f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (Extremely frail 90+ years old). "
 				f"MANDATORY: Shaky, thin, and gasping vocal texture. "
 				f"Include heavy audible breathing, weary pauses, and realistic vocal fry of a very old person. "
 				f"Rural Indonesian accent, spoken with immense effort and fatigue.\n\n"
-				
 				f"SPOKEN DIALOG:\n"
 				f"\"{user_dialog}\"\n\n"
-				
 				f"DIALOG DELIVERY RULE:\n"
 				f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
 				f"- Must be spoken naturally, not read like instruction\n"
 				f"- Treat as direct speech only\n"
 				f"- No robotic separation\n\n"
-				
 				f"OBJECT DETAIL:\n"
 				f"{deskripsi_teknis}\n\n"
-				
 				f"ULTRA DETAIL ENFORCEMENT:\n"
 				f"- {ANATOMY_LOCK}\n"
 				f"- Hyper-real carving precision\n"
 				f"- Real fruit fiber texture\n"
 				f"- Moist reflective surfaces\n"
 				f"- Visible imperfections\n\n"
-				
 				f"NEGATIVE PROMPT:\n"
 				f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
 				f"overprocessed lighting, fake depth, cartoon style, "
