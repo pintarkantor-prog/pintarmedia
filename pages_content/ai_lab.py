@@ -62,130 +62,130 @@ def tampilkan_halaman():
         MASTER_FAMILY_SOUL = {
             # === NENEK ===
             "Nenek Aminah": (
-                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
-                "FACE: Long narrow face with high cheekbones, deep vertical wrinkles on the cheeks, heavy sagging skin along the jawline, and scattered dark liver spots. "
+                "IDENTITY: Frail 88-year-old Javanese grandmother. "
+                "FACE: Long narrow face with high cheekbones, deep vertical wrinkles on the cheeks, heavy sagging skin along the jawline, warm sawo matang skin with golden undertone and scattered dark liver spots. "
                 "EYES: Deeply sunken eyes with heavy drooping upper eyelids and soft lower eye bags. "
                 "BODY: Tall but severely shrunken and thin frame, slightly hunched shoulders, thin neck with visible tendons. "
-                "MOUTH: Thin lips with gentle downward sagging at the corners and fine vertical lines above the upper lip."
+                "MOUTH: Thin lips with gentle downward sagging at the corners."
             ),
             "Nenek Siti": (
-                "IDENTITY: Frail 78-year-old petite Javanese grandmother. "
-                "FACE: Very small round face with full cheeks that sag noticeably due to age, creating gentle folds from nose to mouth. "
+                "IDENTITY: Frail 73-year-old petite Javanese grandmother. "
+                "FACE: Small round plump face with full soft cheeks that sag due to age, warm langsat skin with yellowish undertone and natural glow. "
                 "EYES: Large round eyes with heavy eyelid droop and mild under-eye puffiness. "
-                "BODY: Tiny delicate frame with short neck and rounded soft shoulders, still has some remaining softness. "
+                "BODY: Tiny delicate frame with short neck and still some remaining softness. "
                 "MOUTH: Plump lower lip that sags softly with loose skin at the corners."
             ),
             "Nenek Marsi": (
-                "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
-                "FACE: Wide square face with prominent cheekbones, deep horizontal forehead wrinkles, and loose skin under the chin. "
+                "IDENTITY: Frail 94-year-old Javanese grandmother. "
+                "FACE: Wide square face with prominent cheekbones, deep horizontal forehead wrinkles, loose skin under the chin, deep warm sawo matang skin with many age spots and golden undertone. "
                 "EYES: Narrow eyes mostly covered by thick heavy upper lids. "
-                "BODY: Broad shoulders but very thin arms and chest, frail and slightly hunched posture. "
-                "MOUTH: Wide mouth with deep folds running from the nose down toward the chin."
+                "BODY: Broad shoulders but very thin arms and chest, frail hunched posture. "
+                "MOUTH: Wide mouth with deep folds from nose to chin."
             ),
             "Nenek Ponirah": (
-                "IDENTITY: Frail 82-year-old Javanese grandmother with plump face. "
-                "FACE: Heart-shaped face with full round cheeks that sag heavily due to age, soft pointed chin, and many fine wrinkles. "
-                "EYES: Almond-shaped eyes with noticeable lower eye bags and slightly drooping outer corners. "
-                "BODY: Previously plump but now shrunken frame with loose skin on arms and neck. "
+                "IDENTITY: Frail 80-year-old Javanese grandmother. "
+                "FACE: Round full face with heavy sagging cheeks and soft jawline, warm brownish skin with natural sun-kissed tone. "
+                "EYES: Almond-shaped eyes with noticeable lower eye bags. "
+                "BODY: Sedang plump but shrunken frame with loose skin on arms and neck. "
                 "MOUTH: Naturally curved lips surrounded by fine radiating wrinkles."
             ),
             "Nenek Juminah": (
-                "IDENTITY: Extremely frail 91-year-old very thin Javanese grandmother. "
-                "FACE: Sharp angular face with sunken temples, high forehead, and prominent nose bridge from weight loss. "
-                "EYES: Deep-set eyes with thin eyelids and soft dark circles underneath. "
-                "BODY: Extremely thin and bony frame with long thin neck and visible shoulder bones. "
-                "MOUTH: Very thin lips with fine vertical wrinkles above and below."
+                "IDENTITY: Frail 91-year-old very thin Javanese grandmother. "
+                "FACE: Sharp angular tirus face with sunken temples, high forehead, warm tan skin with golden undertone stretched over bones. "
+                "EYES: Deep-set eyes with thin eyelids and soft dark circles. "
+                "BODY: Extremely thin bony frame with long thin neck and visible shoulder bones. "
+                "MOUTH: Very thin lips with fine vertical wrinkles."
             ),
             "Nenek Sikem": (
-                "IDENTITY: Frail 85-year-old Javanese grandmother with round face. "
-                "FACE: Very round full face with heavy lower cheeks and multiple soft folds under the chin from aging. "
+                "IDENTITY: Frail 76-year-old Javanese grandmother. "
+                "FACE: Very round plump face with heavy lower cheeks and multiple soft folds under the chin, warm sawo matang skin with golden undertone. "
                 "EYES: Small eyes almost hidden under thick puffy eyelids. "
-                "BODY: Short rounded frame with remaining softness but clear signs of frailty. "
+                "BODY: Short rounded frame with remaining softness but clear frailty. "
                 "MOUTH: Wide loose mouth with noticeable sagging of the lower lip."
             ),
             "Nenek Dulah": (
-                "IDENTITY: Frail 79-year-old Sundanese grandmother. "
-                "FACE: Soft oval face with naturally full cheeks that sag gently along the jawline. "
+                "IDENTITY: Frail 68-year-old Sundanese grandmother. "
+                "FACE: Soft oval face with naturally full cheeks that sag gently, bright warm langsat skin with yellowish golden undertone. "
                 "EYES: Gentle almond eyes with soft under-eye hollows. "
                 "BODY: Soft fragile frame with rounded shoulders and thin arms. "
                 "MOUTH: Full lips that sag softly at the corners."
             ),
             "Nenek Sartini": (
-                "IDENTITY: Frail 87-year-old Sundanese grandmother with plump cheeks. "
-                "FACE: Wide round face with heavy sagging cheeks and deep gentle folds from nose to mouth. "
+                "IDENTITY: Frail 84-year-old Sundanese grandmother. "
+                "FACE: Wide round face with heavy sagging cheeks and deep gentle folds from nose to mouth on warm brownish skin with golden undertone. "
                 "EYES: Wide-set eyes with heavy upper lids and calm tired expression. "
-                "BODY: Plump but frail frame with loose skin on the upper arms. "
+                "BODY: Plump but frail frame with loose skin on upper arms. "
                 "MOUTH: Broad mouth with loose corners and soft wrinkles."
             ),
             "Nenek Tinah": (
-                "IDENTITY: Extremely frail 93-year-old thin Javanese grandmother. "
-                "FACE: Long oval face with deeply sunken cheeks and sharp jawline from weight loss. "
+                "IDENTITY: Frail 93-year-old thin Javanese grandmother. "
+                "FACE: Long oval tirus face with deeply sunken cheeks and sharp jawline on warm tan skin with golden undertone. "
                 "EYES: Deep sunken eyes with heavy lids and minimal surrounding fat. "
                 "BODY: Very thin elongated shrunken frame with prominent bones. "
                 "MOUTH: Thin lips with many fine vertical wrinkles."
             ),
             "Nenek Wati": (
-                "IDENTITY: Frail 76-year-old small Sundanese grandmother. "
-                "FACE: Small delicate face with fine bone structure and soft heavy sagging skin on the cheeks. "
+                "IDENTITY: Frail 64-year-old small Sundanese grandmother. "
+                "FACE: Small delicate round face with soft heavy sagging skin on the cheeks and warm langsat tone with golden undertone. "
                 "EYES: Large gentle eyes with heavy drooping lids and soft under-eye bags. "
-                "BODY: Very small and delicate frame with thin wrists and hands, still has some youthful roundness. "
+                "BODY: Very small delicate frame with thin wrists, still has some youthful roundness. "
                 "MOUTH: Small mouth with subtle sagging of the lower lip."
             ),
 
             # === KAKEK ===
             "Kakek Marto": (
-                "IDENTITY: Extremely frail 91-year-old Javanese grandfather. "
-                "FACE: Long rectangular face with strong jawline, deep forehead wrinkles, and rough sun-damaged skin. "
+                "IDENTITY: Frail 87-year-old Javanese grandfather. "
+                "FACE: Long rectangular face with strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone. "
                 "EYES: Deep-set eyes with thick brows and heavy lower lids. "
                 "BODY: Lean bony frame with slightly hunched shoulders and thin arms. "
-                "MOUTH: Wide mouth with thick aged lips and deep lines at the corners."
+                "MOUTH: Wide mouth with thick aged lips."
             ),
             "Kakek Somo": (
-                "IDENTITY: Frail 82-year-old Javanese grandfather. "
-                "FACE: Round soft face with heavy jowls and multiple soft folds under the chin. "
+                "IDENTITY: Frail 79-year-old Javanese grandfather. "
+                "FACE: Round soft face with heavy jowls and multiple soft folds under the chin on warm brownish skin with golden undertone. "
                 "EYES: Small tired eyes almost hidden under puffy eyelids. "
                 "BODY: Short rounded fragile frame with loose skin on the neck. "
-                "MOUTH: Full sagging lips with loose jaw skin."
+                "MOUTH: Full sagging lips."
             ),
             "Kakek Joyo": (
-                "IDENTITY: Extremely frail 89-year-old Javanese grandfather. "
-                "FACE: Square face with prominent brow ridge, deep wrinkles across the forehead, and leathery rough skin. "
-                "EYES: Narrow eyes with heavy lids and strong brow shadow. "
+                "IDENTITY: Frail 90-year-old Javanese grandfather. "
+                "FACE: Square face with prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin with golden undertone. "
+                "EYES: Narrow eyes with heavy lids. "
                 "BODY: Once sturdy but now shrunken frame with visible shoulder bones. "
-                "MOUTH: Wide firm mouth with deep wrinkles around the lips."
+                "MOUTH: Wide firm mouth with deep wrinkles."
             ),
             "Kakek Hardi": (
-                "IDENTITY: Extremely frail 93-year-old Javanese grandfather. "
-                "FACE: Extremely shrunken face with hollow cheeks, thin translucent skin, and prominent cheekbones. "
+                "IDENTITY: Extremely frail 95-year-old Javanese grandfather. "
+                "FACE: Extremely shrunken face with hollow cheeks, thin translucent warm tan skin with golden undertone. "
                 "EYES: Deep sunken cloudy eyes with thin eyelids. "
-                "BODY: Very thin and delicate frame with prominent collarbones. "
-                "MOUTH: Thin stretched lips with tight skin around the mouth."
+                "BODY: Very thin delicate frame with prominent collarbones. "
+                "MOUTH: Thin stretched lips."
             ),
             "Kakek Sableng": (
-                "IDENTITY: Frail 84-year-old Javanese grandfather. "
-                "FACE: Broad face with high cheekbones, deep eye bags, and heavy fatigue lines across the forehead and cheeks. "
-                "EYES: Tired eyes with heavy lower lids and slightly downturned outer corners. "
-                "BODY: Lean frame with slightly hunched posture and thin arms. "
-                "MOUTH: Wide mouth with noticeable sagging at the corners."
+                "IDENTITY: Frail 83-year-old Javanese grandfather. "
+                "FACE: Broad face with high cheekbones and heavy fatigue lines on warm tan skin with golden undertone. "
+                "EYES: Tired eyes with heavy lower lids. "
+                "BODY: Lean frame with slightly hunched posture. "
+                "MOUTH: Wide mouth with noticeable sagging."
             ),
             "Kakek Sinto": (
                 "IDENTITY: Extremely frail 94-year-old Javanese grandfather. "
-                "FACE: Deeply sunken skeletal face with hollow cheeks, thin translucent skin, and prominent cheekbones. "
+                "FACE: Deeply sunken skeletal face with hollow cheeks and thin warm tan skin with golden undertone. "
                 "EYES: Deep sunken cloudy eyes with thin eyelids. "
-                "BODY: Very thin and delicate frame with prominent collarbones and bony hands. "
-                "MOUTH: Thin stretched lips with tight skin around the mouth."
+                "BODY: Very thin delicate frame with bony hands. "
+                "MOUTH: Thin stretched lips."
             ),
             "Kakek Wiryo": (
-                "IDENTITY: Frail 80-year-old Javanese grandfather. "
-                "FACE: Broad labor-worn face with high cheekbones, deep pores, and rough sun-exposed skin. "
-                "EYES: Tired eyes with heavy lower lids and steady expression. "
-                "BODY: Lean weathered frame with slightly hunched shoulders from years of labor. "
+                "IDENTITY: Frail 74-year-old Javanese grandfather. "
+                "FACE: Broad labor-worn face with high cheekbones, deep pores, rough warm sawo matang skin with golden undertone. "
+                "EYES: Tired eyes with heavy lower lids. "
+                "BODY: Lean weathered frame with slightly hunched shoulders. "
                 "MOUTH: Wide mouth with thick aged lips."
             ),
             "Kakek Usman": (
-                "IDENTITY: Extremely frail 89-year-old Indonesian grandfather. "
-                "FACE: Deeply wrinkled face with prominent fatigue lines around the eyes and mouth, sunken cheeks. "
-                "EYES: Heavy-lidded eyes with subtle moisture and weary appearance. "
+                "IDENTITY: Frail 86-year-old Indonesian grandfather. "
+                "FACE: Deeply wrinkled face with prominent fatigue lines and sunken cheeks on warm brownish skin with golden undertone. "
+                "EYES: Heavy-lidded eyes with weary appearance. "
                 "BODY: Thin frame with slow movements and slightly rounded shoulders. "
                 "MOUTH: Relaxed mouth with natural aged lip texture."
             )
