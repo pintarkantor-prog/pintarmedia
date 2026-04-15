@@ -3092,7 +3092,6 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-
         # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
             scene_context = (
@@ -3139,7 +3138,7 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-        final_ai_prompt = f"""
+        	final_ai_prompt = f"""
         {GLOBAL_QUALITY_LOCK}
 
         ULTRA 8K MACRO PRIORITY:
