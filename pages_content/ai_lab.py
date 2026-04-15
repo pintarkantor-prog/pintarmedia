@@ -2902,35 +2902,46 @@ def tampilkan_halaman():
                 "Atmosphere: Authentic, lively, and nostalgic village street scene under natural daylight."
             )         
         }
-        # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
-        MASTER_AUDIO_STYLE = {
-            "Logat": [
-                "Elderly Female A (80+, soft spoken village grandmother, slow natural speech, gentle fragile tone)",
-                "Elderly Female B (85+, slightly raspy, tired but warm voice, calm emotional delivery)",
-                "Elderly Female C (90+, very weak voice, whisper-like but still understandable, deeply aged tone)",
-                "Elderly Male A (80+, deep calm elder voice, slow steady speech, grounded tone)",
-                "Elderly Male B (85+, dry cracked voice, slightly shaky but still stable, weathered tone)",
-                "Elderly Male C (90+, trembling old man voice, weak breath but clear words, very aged tone)"
-            ],
+		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
+		MASTER_AUDIO_STYLE = {
+    		"Logat_Nenek": [
+        		"85-year-old very frail Indonesian village grandmother, extremely weak and shaky high-pitched voice, constant vocal tremor, raspy and hoarse from old age, thin breathy quality, frequent voice cracks and wobbles on almost every word, speaks extremely slowly with long pauses and breathing effort, sounds physically tired and delicate like a real 80-92 year old nenek tua",
+        
+        		"88-year-old super elderly Javanese nenek, deeply aged thin trembling voice full of instability, breathy and whispery at times, heavy age-related vocal tremor, very low volume, slow shaky delivery around 55-70 words per minute, frequent cracking and quivering, authentic old age vocal deterioration, no energy left",
+        
+        		"90+ year old extremely frail Indonesian grandma, very weak raspy voice with strong quivering tremor, hoarse dry cracked tone, thin wobbly resonance, labored slow speech with many micro-pauses for breath, voice sounds fragile and like it's about to break, zero youthful vitality whatsoever",
+        
+        	"87-year-old frail nenek tua, constantly shaking elderly female voice, high-frequency vocal tremor, breathy hoarse quality, very slow and weak delivery, frequent voice cracks, sounds exhausted and physically fragile like a real 85-93 year old grandmother with weak lungs and vocal cords"
+    		],
 
-            "Mood": [
-                "Sad and fragile",
-                "Calm and empty",
-                "Peaceful and sincere",
-                "Tired and resigned",
-                "Focused and quiet",
-                "Stoic and wise"
-            ],
+    		"Logat_Kakek": [
+        		"85-year-old frail Indonesian village grandfather, deep but very weak and raspy old man voice, noticeable vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses, breathy and tired quality, sounds like a real 80-90 year old kakek with weathered vocal cords",
+        
+        		"88-year-old very old Javanese kakek, low-pitched trembling elderly male voice, heavy age-related wobble and instability, hoarse and rough texture, very slow speech around 60 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
+        
+        		"90+ year old extremely frail Indonesian grandfather, thin shaky old man voice despite low pitch, strong vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking, authentic 90-year-old kakek voice",
+        
+        		"86-year-old frail kakek tua, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real elderly grandfather"
+    		],
 
-            "Physical Action": [
-                "Slowly touching the miniature with trembling fingers, then briefly looking at the camera.",
-                "Holding the object gently while looking down, then glancing up slowly.",
-                "Keeping both hands on the object while maintaining a quiet, tired gaze.",
-                "Slowly adjusting a small detail on the object with shaky hands.",
-                "Looking at the object in silence, then shifting eyes softly toward the camera.",
-                "Gently brushing dust off the object, then pausing with a tired expression."
-            ]
-        }
+    		"Mood": [
+        		"Sad and physically fragile",
+        		"Tired and resigned with heavy voice tremor",
+        		"Calm but extremely weak and shaky",
+        		"Peaceful yet exhausted with quivering voice",
+        		"Emotional but delivered with old age frailty",
+        		"Stoic with noticeable vocal instability and weakness"
+    		],
+
+    		"Physical Action": [
+        		"Slowly touching the object with trembling frail fingers, hands shaking visibly due to old age.",
+        		"Holding the object gently while looking down with tired eyes, then slowly glancing up with effort.",
+        		"Keeping both shaky hands on the object, maintaining a quiet and exhausted gaze.",
+        		"Slowly adjusting a small detail on the object with very unsteady, trembling hands.",
+        		"Looking at the object in silence with a frail expression, then slowly shifting weak eyes toward the camera.",
+        		"Gently brushing dust off the object with shaky fingers, then pausing with a tired, aged expression."
+    		]
+		}
 
         # --- UI LAYOUT ---
         with st.expander("🕌 PINTAR MASJID ENGINE", expanded=True):
@@ -2942,7 +2953,7 @@ def tampilkan_halaman():
             with c1:
                 st.markdown('<p class="small-label">PILIH KARAKTER</p>', unsafe_allow_html=True)
                 pilihan_user = st.selectbox("Select Character", list(MASTER_FAMILY_SOUL.keys()), label_visibility="collapsed")
-                char_key = pilihan_user 
+                char_key = pilihan_user
 
             with c2:
                 st.markdown(f'<p class="small-label">PAKAIAN {char_key.split(" (")[0].upper()}</p>', unsafe_allow_html=True)
@@ -2951,7 +2962,7 @@ def tampilkan_halaman():
                 else:
                     baju_options = ["Standard Daily Wear"]
                 baju_pilihan = st.selectbox("Select Wardrobe", baju_options, label_visibility="collapsed")
-    
+
             c3, c4 = st.columns(2)
             with c3:
                 st.markdown('<p class="small-label">DETAIL OBJEK / KARYA</p>', unsafe_allow_html=True)
@@ -2964,29 +2975,42 @@ def tampilkan_halaman():
                 pilihan_set = st.selectbox("Select Environment", list(MASTER_GRANDMA_SETTING.keys()), label_visibility="collapsed")
 
             st.divider()
-    
+
             c5, c6 = st.columns([2, 1])
             with c5:
                 st.markdown('<p class="small-label">DIALOG (NATURAL INDONESIAN)</p>', unsafe_allow_html=True)
                 user_dialog = st.text_area(
-                    "Input Dialog", 
+                    "Input Dialog",
                     placeholder=f"Tulis dialog {char_key.split(' (')[0]} di sini...",
-                    height=250, 
+                    height=250,
                     label_visibility="collapsed",
                     key="input_dialog_key"
-                )  
+                )
                 st.session_state.current_dialog = user_dialog
 
             with c6:
                 st.markdown('<p class="small-label">ACTING & PERFORMANCE</p>', unsafe_allow_html=True)
-                pilih_logat = st.selectbox("Pilih Logat", MASTER_AUDIO_STYLE["Logat"])
-                pilih_mood = st.selectbox("Pilih Mood", MASTER_AUDIO_STYLE["Mood"])
-                pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"])
+                
+                # Pilih Logat berdasarkan jenis kelamin
+                is_perempuan = any(x in pilihan_user.lower() for x in [
+                    "nenek", "ibu", "aminah", "siti", "marsi", "ponirah", "juminah",
+                    "sikem", "dulah", "sartini", "tinah", "wati"
+                ])
+
+                if is_perempuan:
+                    pilih_logat = st.selectbox("Pilih Logat Suara", MASTER_AUDIO_STYLE["Logat_Nenek"], 
+                                              key="logat_nenek")
+                else:
+                    pilih_logat = st.selectbox("Pilih Logat Suara", MASTER_AUDIO_STYLE["Logat_Kakek"], 
+                                              key="logat_kakek")
+
+                pilih_mood = st.selectbox("Pilih Mood", MASTER_AUDIO_STYLE["Mood"], key="mood_select")
+                pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"], key="aksi_select")
 
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
+        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
             scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
@@ -2998,12 +3022,12 @@ def tampilkan_halaman():
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
-            
+           
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
-
             ANATOMY_LOCK = "STRICTLY TWO HANDS, no extra fingers, no distortion."
 
+            # Gender & Visual Identity Lock (diperbaiki)
             is_perempuan = any(x in pilihan_user.lower() for x in [
                 "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
                 "sikem","dulah","sartini","tinah","wati"
@@ -3011,15 +3035,17 @@ def tampilkan_halaman():
 
             if is_perempuan:
                 gender_lock = (
-                    "IDENTITY: Fragile Indonesian grandmother (80+). "
-                    "FACE: Deeply weathered skin, organic wrinkles, NO facial hair. "
-                    "WARDROBE: Faded village hijab (kerudung) covering hair/neck."
+                    "IDENTITY: Extremely frail 85-92 year old Indonesian grandmother (nenek tua). "
+                    "FACE: Deeply wrinkled sagging skin, prominent age spots, very thin white hair barely visible under hijab, "
+                    "sunken tired eyes, hollow cheeks, extremely weathered and fragile facial features, authentic 80+ year old appearance. "
+                    "WARDROBE: Faded and worn village hijab (kerudung) covering thin white hair and neck, simple old kebaya or batik blouse."
                 )
             else:
                 gender_lock = (
-                    "IDENTITY: Frail Indonesian grandfather (80+). "
-                    "FACE: Sun-parched skin, bony cheekbones, hollow weary cheeks. "
-                    "WARDROBE: Weathered black Indonesian kopiah/peci."
+                    "IDENTITY: Extremely frail 85-92 year old Indonesian grandfather (kakek tua). "
+                    "FACE: Deep wrinkles, sun-parched and leathery skin, prominent age spots, very thin white hair and beard, "
+                    "sunken weary eyes, hollow bony cheeks, extremely aged and fragile facial structure, authentic 80+ year old appearance. "
+                    "WARDROBE: Weathered black Indonesian kopiah/peci on thin white hair, old faded shirt or sarong."
                 )
 
             aksi_final = pilih_aksi.strip()
@@ -3034,16 +3060,16 @@ def tampilkan_halaman():
                 "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
             )
 
-            # --- ASSEMBLY PROMPT (V.31 - STABLE MACRO) ---
+            # --- ASSEMBLY PROMPT (V.32 - IMPROVED VOICE LOCK) ---
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
-                
+               
                 f"ULTRA 8K MACRO PRIORITY:\n"
                 f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
                 f"- Object must be the SHARPEST element in frame\n"
                 f"- Character face is secondary but still detailed\n"
                 f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-                
+               
                 f"CAMERA SYSTEM:\n"
                 f"- 50mm macro cinematic lens\n"
                 f"- Aperture f/4 (natural optical depth)\n"
@@ -3052,65 +3078,71 @@ def tampilkan_halaman():
                 f"- Locked focus on object (primary focus priority)\n"
                 f"- Natural depth layering only (foreground → subject → background)\n"
                 f"- No focus hunting, no artificial blur\n\n"
-                
+               
                 f"CINEMATIC CAMERA MOTION:\n"
                 f"- Extremely slow natural push-in\n"
                 f"- Micro handheld realism\n"
                 f"- Stable frame, no shake\n"
                 f"- Object always perfectly sharp\n\n"
-                
+               
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
-
+               
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n"
                 f"- Setting Atmosphere: {scene_context}\n"
                 f"- High rustic wooden table at chest level.\n\n"
-                
+               
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
                 f"- Minimal natural movement\n"
                 f"- Eyes naturally alternate between object and camera\n\n"
-                
+               
                 f"EMOTIONAL MICRO EXPRESSION:\n"
                 f"- Slight watery eyes (not crying)\n"
                 f"- Slow blinking\n"
                 f"- Subtle facial tension\n"
                 f"- Emotion stays internal\n\n"
-                
+               
                 f"VOICE PROFILE:\n"
-                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent). "
-                f"Thin, shaky, and fragile vocal texture. Mandatory: Include natural heavy breathing and weary pauses between phrases.\n\n"
-                
+                f"{logat_final}\n"
+                f"Mood and delivery: {mood_final}\n"
+                f"STRICT RULES FOR AUDIO:\n"
+                f"- Speak extremely slowly with heavy vocal tremor and instability\n"
+                f"- Thin, raspy, breathy, and fragile voice full of age-related cracks and wobbles\n"
+                f"- Very low energy, tired, and physically weak delivery\n"
+                f"- Include natural weary pauses, micro voice cracks, and shaky breathing\n"
+                f"- Authentic 85-92 year old frail elderly voice, NO middle-aged energy, NO clear youthful tone\n\n"
+               
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
-                
-				f"DIALOG DELIVERY RULE:\n"
-                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n" # <-- Tambahin ini
-                f"- Must be spoken naturally, not read like instruction\n"
+               
+                f"DIALOG DELIVERY RULE:\n"
+                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
+                f"- Must be spoken naturally as real conversation, not read like instruction\n"
                 f"- Treat as direct speech only\n"
                 f"- No robotic separation\n\n"
-                
+               
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
-                
+               
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Hyper-real carving precision\n"
+                f"- Hyper-realistic carving precision\n"
                 f"- Real fruit fiber texture\n"
                 f"- Moist reflective surfaces\n"
                 f"- Visible imperfections\n\n"
-                
-				f"NEGATIVE PROMPT:\n"
+               
+                f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
                 f"overprocessed lighting, fake depth, cartoon style, "
-                f"audio glitch, unclear speech, fast talking, smiling, laughing, "
+                f"audio glitch, unclear speech, fast talking, energetic voice, "
+                f"young voice, middle-aged voice, clear strong voice, smiling, laughing, "
                 f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
-                f"text, watermark, captions, subtitles, letters, typography, on-screen text" # <-- TAMBAHIN INI
+                f"text, watermark, captions, subtitles, letters, typography, on-screen text"
             )
-
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
