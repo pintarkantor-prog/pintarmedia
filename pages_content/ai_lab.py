@@ -3223,10 +3223,10 @@ def tampilkan_halaman():
 				"lip sync error, exaggerated mouth movement, shouting"
 			)
             
-            	# --- 7. TAMPILKAN HASIL ---
-            	st.success("🔥 PROMPT MASJID READY!")
-            	st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
-            	st.code(final_ai_prompt, language="text")
+            		# --- 7. TAMPILKAN HASIL ---
+            		st.success("🔥 PROMPT MASJID READY!")
+            		st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
+            		st.code(final_ai_prompt, language="text")
                        
     # ==========================================================================
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
