@@ -3131,85 +3131,86 @@ def tampilkan_halaman():
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
+			# --- FONDASI QUALITY ---
             GLOBAL_QUALITY_LOCK = (
                 "ULTRA REALISM LOCK: Must look like real documentary camera footage, "
                 "natural lighting, physically accurate materials, true optical depth. "
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-			final_ai_prompt = f"""
-{GLOBAL_QUALITY_LOCK}
+            # --- ASSEMBLY PROMPT (Pake f-string clean) ---
+            final_ai_prompt = (
+                f"{GLOBAL_QUALITY_LOCK}\n\n"
+                f"ULTRA 8K MACRO PRIORITY:\n"
+                f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
+                f"- Object must be the SHARPEST element in frame\n"
+                f"- Character face is secondary but still detailed\n"
+                f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
+                
+                f"CAMERA SYSTEM:\n"
+                f"- 50mm macro cinematic lens\n"
+                f"- Aperture f/4 (natural optical depth)\n"
+                f"- Eye-level composition\n"
+                f"- Tight medium shot\n"
+                f"- Locked focus on object (primary focus priority)\n"
+                f"- Natural depth layering only (foreground → subject → background)\n"
+                f"- No focus hunting, no artificial blur\n\n"
+                
+                f"CINEMATIC CAMERA MOTION:\n"
+                f"- Extremely slow natural push-in\n"
+                f"- Micro handheld realism\n"
+                f"- Stable frame, no shake\n"
+                f"- Object always perfectly sharp\n\n"
+                
+                f"CHARACTER:\n"
+                f"{soul_desc}\n"
+                f"{gender_lock}\n"
+                f"- Thin fragile elderly body\n"
+                f"- Natural tired expression (NO smile)\n"
+                f"- Documentary realism, ultra detailed skin\n\n"
+                
+                f"ENVIRONMENT:\n"
+                f"{env_detail}\n"
+                f"High rustic wooden table at chest level.\n\n"
+                
+                f"PERFORMANCE:\n"
+                f"{aksi_final}\n"
+                f"Mood: {mood_final}\n"
+                f"- Minimal natural movement\n"
+                f"- Eyes alternate between object and camera\n\n"
+                
+                f"EMOTIONAL MICRO EXPRESSION:\n"
+                f"- Slight watery eyes (not crying)\n"
+                f"- Slow blinking\n"
+                f"- Subtle facial tension\n"
+                f"- Emotion stays internal\n\n"
+                
+                f"VOICE PROFILE:\n"
+                f"Elderly Female A (80+, soft spoken village grandmother, slow natural speech)\n\n"
+                
+                f"SPOKEN DIALOG:\n"
+                f"\"{user_dialog}\"\n\n"
+                
+                f"DIALOG DELIVERY RULE:\n"
+                f"- Must be spoken naturally, not read like instruction\n"
+                f"- Treat as direct speech only\n"
+                f"- No robotic separation\n\n"
+                
+                f"OBJECT DETAIL:\n"
+                f"{deskripsi_teknis}\n\n"
+                
+                f"ULTRA DETAIL ENFORCEMENT:\n"
+                f"- Hyper-real carving precision\n"
+                f"- Real fruit fiber texture\n"
+                f"- Moist reflective surfaces\n"
+                f"- Visible imperfections\n\n"
+                
+                f"NEGATIVE PROMPT:\n"
+                f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
+                f"overprocessed lighting, fake depth, cartoon style, "
+                f"audio glitch, unclear speech, fast talking"
+            )
 
-ULTRA 8K MACRO PRIORITY:
-- Primary subject: handcrafted miniature object (60% frame dominance)
-- Object must be the SHARPEST element in frame
-- Character face is secondary but still detailed
-- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)
-
-CAMERA SYSTEM:
-- 50mm macro cinematic lens
-- Aperture f/4 (natural optical depth)
-- Eye-level composition
-- Tight medium shot
-- Locked focus on object (primary focus priority)
-- Natural depth layering only (foreground → subject → background)
-- No focus hunting, no artificial blur
-
-CINEMATIC CAMERA MOTION:
-- Extremely slow natural push-in
-- Micro handheld realism
-- Stable frame, no shake
-- Object always perfectly sharp
-
-CHARACTER:
-{soul_desc}
-{gender_lock}
-- Thin fragile elderly body
-- Natural tired expression (NO smile)
-- Documentary realism, ultra detailed skin
-
-ENVIRONMENT:
-{env_detail}
-High rustic wooden table at chest level.
-
-PERFORMANCE:
-{aksi_final}
-Mood: {mood_final}
-- Minimal natural movement
-- Eyes alternate between object and camera
-
-EMOTIONAL MICRO EXPRESSION:
-- Slight watery eyes (not crying)
-- Slow blinking
-- Subtle facial tension
-- Emotion stays internal
-
-VOICE PROFILE:
-Elderly Female A (80+, soft spoken village grandmother, slow natural speech)
-
-SPOKEN DIALOG:
-"{user_dialog}"
-
-DIALOG DELIVERY RULE:
-- Must be spoken naturally, not read like instruction
-- Treat as direct speech only
-- No robotic separation
-
-OBJECT DETAIL:
-{deskripsi_teknis}
-
-ULTRA DETAIL ENFORCEMENT:
-- Hyper-real carving precision
-- Real fruit fiber texture
-- Moist reflective surfaces
-- Visible imperfections
-
-NEGATIVE PROMPT:
-blurry, soft focus, low detail, CGI, AI look, plastic texture,
-overprocessed lighting, fake depth, cartoon style,
-audio glitch, unclear speech, fast talking
-"""
-            
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
