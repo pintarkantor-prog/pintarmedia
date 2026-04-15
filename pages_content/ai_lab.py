@@ -3137,7 +3137,8 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-            final_ai_prompt = f"""{GLOBAL_QUALITY_LOCK}
+			final_ai_prompt = f"""
+{GLOBAL_QUALITY_LOCK}
 
 ULTRA 8K MACRO PRIORITY:
 - Primary subject: handcrafted miniature object (60% frame dominance)
@@ -3183,11 +3184,16 @@ EMOTIONAL MICRO EXPRESSION:
 - Subtle facial tension
 - Emotion stays internal
 
-VOICE SYSTEM:
-{logat_final}
+VOICE PROFILE:
+Elderly Female A (80+, soft spoken village grandmother, slow natural speech)
 
-DIALOG:
-{user_dialog}
+SPOKEN DIALOG:
+"{user_dialog}"
+
+DIALOG DELIVERY RULE:
+- Must be spoken naturally, not read like instruction
+- Treat as direct speech only
+- No robotic separation
 
 OBJECT DETAIL:
 {deskripsi_teknis}
@@ -3201,7 +3207,7 @@ ULTRA DETAIL ENFORCEMENT:
 NEGATIVE PROMPT:
 blurry, soft focus, low detail, CGI, AI look, plastic texture,
 overprocessed lighting, fake depth, cartoon style,
-audio glitch, unclear speech, fast talking, lip sync error
+audio glitch, unclear speech, fast talking
 """
             
             # --- 7. TAMPILKAN HASIL ---
