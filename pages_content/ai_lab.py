@@ -60,147 +60,132 @@ def tampilkan_halaman():
         # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             "Nenek Aminah": (
-                "IDENTITY: Elderly Javanese woman (80+). "
-                "FACE: Thin structure, weathered skin with authentic deep wrinkles and dark liver spots. "
-                "EYES: Dull, weary 'sayu' gaze showing decades of silent endurance. "
-                "BODY: Fragile, slightly trembling but composed posture. "
-                "MOUTH: Natural relaxed lips with subtle micro-movements of age during speech."
+                "IDENTITY: Extremely frail 90-year-old Javanese grandmother. "
+                "FACE: Extremely thin delicate facial structure with very deep dense wrinkles, heavy sagging skin, prominent dark liver spots, and dry parchment-like texture. "
+                "EYES: Deeply sunken dull weary 'sayu' gaze with heavy drooping eyelids showing extreme fatigue. "
+                "BODY: Very fragile shrunken frame, slightly trembling posture, visible bone structure under thin skin. "
+                "MOUTH: Thin relaxed lips with noticeable micro-tremor and age-related sagging during slow speech."
             ),
-
             "Nenek Siti": (
-                "IDENTITY: Petite Javanese elder (80+). "
-                "FACE: Small fragile structure, pale translucent skin with soft sagging cheeks and natural aging folds. "
-                "EYES: Distant, quiet, and hollow, reflecting a life of solitude. "
-                "BODY: Very small shrunken frame, withdrawn and humble posture. "
-                "MOUTH: Loose, natural speech position, showing realistic muscle laxity of extreme old age."
+                "IDENTITY: Extremely frail 91-year-old petite Javanese grandmother. "
+                "FACE: Very small shrunken facial structure, pale translucent heavily sagging skin with deep natural folds and numerous age spots. "
+                "EYES: Distant hollow eyes with heavy lids reflecting long solitude and advanced old age. "
+                "BODY: Tiny delicate shrunken frame, very passive and humble elderly posture. "
+                "MOUTH: Loose sagging mouth with realistic severe muscle laxity of extreme old age."
             ),
-
             "Nenek Marsi": (
-                "IDENTITY: Elderly Javanese grandmother (85+). "
-                "FACE: Shrunken facial structure, dry parchment-like skin texture with sunken cheeks and age spots. "
-                "EYES: Heavy, lowered eyelids, thick with fatigue and quiet acceptance. "
-                "BODY: Passive, still body language, extremely fragile bone structure visible through the skin. "
-                "MOUTH: Sagging corners, fully enabled for slow, heavy natural speech movement."
+                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
+                "FACE: Heavily shrunken facial structure, dry parchment-like skin with deep sunken cheeks and many prominent age spots. "
+                "EYES: Heavy lowered eyelids, thick with fatigue and quiet acceptance of very advanced age. "
+                "BODY: Passive extremely fragile bone structure, almost motionless shrunken elderly frame. "
+                "MOUTH: Sagging corners with slow heavy natural speech movement."
             ),
-
             "Nenek Ponirah": (
-                "IDENTITY: Javanese elder (80+). "
-                "FACE: Broad facial structure, weathered skin with realistic sun-damage texture and deep furrowed brow wrinkles. "
-                "EYES: Calm but hollow, slightly sayu with a heavy neutral stare. "
-                "BODY: Stable but frail posture, showing the weight of years of hard labor. "
-                "MOUTH: Firm but relaxed for dialogue, deep nasolabial folds surrounding the mouth showing heavy age."
+                "IDENTITY: Extremely frail 89-year-old Javanese grandmother. "
+                "FACE: Broad facial structure with heavily weathered sun-damaged skin, very deep furrowed wrinkles, and visible age spots. "
+                "EYES: Calm but deeply hollow 'sayu' gaze with heavy neutral stare of extreme old age. "
+                "BODY: Stable but very frail posture showing decades of hard labor and physical decline. "
+                "MOUTH: Firm yet relaxed for dialogue, surrounded by deep nasolabial folds of advanced age."
             ),
-
             "Nenek Juminah": (
-                "IDENTITY: Extremely thin Javanese woman (85+). "
-                "FACE: Sharp bone structure, highly detailed aged skin with realistic grooves and visible liver spots. "
-                "EYES: Low, weary, and heavily tired lids showing quiet endurance. "
-                "BODY: Minimal movement, slow and controlled gestures with fragile hands. "
-                "MOUTH: Natural speech movement, capturing the realistic thinning and trembling of aged lips."
+                "IDENTITY: Extremely frail 90-year-old very thin Javanese grandmother. "
+                "FACE: Sharp prominent bone structure with highly detailed aged skin, deep grooves, and numerous liver spots. "
+                "EYES: Low weary heavily tired lids showing quiet endurance of extreme old age. "
+                "BODY: Minimal movement, slow controlled gestures with extremely fragile thin hands. "
+                "MOUTH: Natural speech movement with realistic thinning and trembling of aged lips."
             ),
-
             "Nenek Sikem": (
-                "IDENTITY: Very frail Javanese elder (85–90). "
-                "FACE: Extremely small facial structure, dry and deeply folded skin with heavy natural sagging. "
-                "EYES: Slow, heavy lids, showing very low emotional intensity and calm fatigue. "
-                "BODY: Extremely passive, grounded and shrunken elderly frame. "
-                "MOUTH: Fully functional for speech, showing natural lip movement without tension."
+                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
+                "FACE: Extremely small facial structure, dry deeply folded sagging skin with heavy natural wrinkles and age spots. "
+                "EYES: Slow heavy lids showing very low emotional intensity and calm fatigue of advanced age. "
+                "BODY: Extremely passive, grounded, and severely shrunken elderly frame. "
+                "MOUTH: Fully functional for speech with natural lip movement and subtle tremor."
             ),
-
             "Nenek Dulah": (
-                "IDENTITY: Sundanese woman (80+). "
-                "FACE: Soft rounded face, naturally sunken cheeks with realistic aging folds and subtle sun exposure spots. "
-                "EYES: Deep-set almond eyes with a calm, tired gaze and hollow undereyes. "
-                "BODY: Fragile and gentle presence, showing subtle age-related instability. "
-                "MOUTH: Neutral relaxed mouth for dialogue, capturing the natural muscle slackness."
+                "IDENTITY: Extremely frail 88-year-old Sundanese grandmother. "
+                "FACE: Soft rounded face with naturally sunken cheeks, realistic heavy aging folds, and subtle age spots. "
+                "EYES: Deep-set almond eyes with calm tired gaze and hollow undereyes of extreme old age. "
+                "BODY: Fragile gentle presence with subtle age-related instability and trembling. "
+                "MOUTH: Neutral relaxed mouth showing natural severe muscle slackness."
             ),
-
             "Nenek Sartini": (
-                "IDENTITY: Sundanese grandmother (75–80). "
-                "FACE: Wider round face, visible facial sagging with deep marionette lines and skin looseness. "
-                "EYES: Tired eyes with slightly heavy lids and a calm, blank expression. "
-                "BODY: Stable but elderly posture, showing heavy movement. "
-                "MOUTH: Neutral mouth position for speech, capturing the realistic sagging of the lower facial muscles."
+                "IDENTITY: Extremely frail 87-year-old Sundanese grandmother. "
+                "FACE: Wider round face with visible heavy sagging skin, deep marionette lines, and loose aged texture. "
+                "EYES: Tired eyes with heavy lids and calm blank expression of advanced old age. "
+                "BODY: Stable but clearly elderly and frail posture. "
+                "MOUTH: Neutral mouth position capturing realistic sagging of lower facial muscles."
             ),
-
             "Nenek Tinah": (
-                "IDENTITY: Thin Javanese elderly woman (late 80s). "
-                "FACE: Fragile facial structure, severe natural aging wrinkles, sunken hollow cheeks, and dry aged skin. "
-                "EYES: Dull, heavy eyes with a low gaze and minimal facial reaction. "
-                "BODY: Shrunken and frail body structure, showing extreme age. "
-                "MOUTH: Relaxed mouth for speech, capturing the natural thinning of the lips."
+                "IDENTITY: Extremely frail 91-year-old thin Javanese grandmother. "
+                "FACE: Fragile facial structure with severe deep natural aging wrinkles, deeply sunken hollow cheeks, and dry aged skin. "
+                "EYES: Dull heavy eyes with low gaze and minimal facial reaction. "
+                "BODY: Shrunken and very frail body structure showing extreme old age. "
+                "MOUTH: Relaxed mouth for speech with natural thinning of the lips."
             ),
-
             "Nenek Wati": (
-                "IDENTITY: Small Sundanese grandmother (80–85). "
-                "FACE: Small fragile face, thin bone structure with soft sagging skin and realistic natural vein visibility. "
-                "EYES: Calm, tired eyes with a gentle melancholic and lonely gaze. "
-                "BODY: Small-framed, very delicate, and still. "
-                "MOUTH: Neutral mouth for speaking, capturing the subtle trembling of the lower jaw."
-            ),
-			
-			"Kakek Marto": (
-                "IDENTITY: Elderly Javanese man (80+). "
-                "FACE: Elongated and fragile facial structure, sunken temples, high forehead ridge, and deep wisdom lines across the forehead and cheeks. "
-                "EYES: Dull, distant 'sayu' gaze with profound emotional depth and weary eyelids. "
-                "BODY: Lean and fragile frame, quiet endurance, showing a reflective and withdrawn posture. "
-                "MOUTH: Relaxed jaw and lips for clear dialogue, capturing natural aged mouth movement and subtle lip-thinning."
+                "IDENTITY: Extremely frail 89-year-old small Sundanese grandmother. "
+                "FACE: Small fragile face with thin bone structure, soft heavy sagging skin, and visible natural veins. "
+                "EYES: Calm tired eyes with gentle melancholic lonely gaze of very old age. "
+                "BODY: Small-framed, very delicate and still elderly posture. "
+                "MOUTH: Neutral mouth for speaking with subtle trembling of the lower jaw."
             ),
 
-			"Kakek Somo": (
-                "IDENTITY: Elderly Javanese man (80+). "
-                "FACE: Rounded soft facial structure now aged and exhausted, drooping eyelids with softened cheek volume and realistic skin creases. "
-                "EYES: Tired, calm, and slightly empty gaze showing a quiet, passive fatigue. "
-                "BODY: Small and fragile frame, gentle and slow-moving presence. "
-                "MOUTH: Neutral relaxed mouth with natural muscle laxity for synchronized dialogue."
+            # === KAKEK ===
+            "Kakek Marto": (
+                "IDENTITY: Extremely frail 89-year-old Javanese grandfather. "
+                "FACE: Elongated fragile facial structure with sunken temples, high forehead ridge, and very deep wisdom lines. "
+                "EYES: Dull distant 'sayu' gaze with profound weary eyelids of advanced age. "
+                "BODY: Lean fragile frame with quiet endurance and withdrawn posture. "
+                "MOUTH: Relaxed jaw and lips with natural aged movement and subtle lip-thinning."
             ),
-
+            "Kakek Somo": (
+                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
+                "FACE: Rounded soft facial structure now heavily aged and exhausted with drooping eyelids and deep skin creases. "
+                "EYES: Tired calm slightly empty gaze showing quiet passive fatigue of extreme old age. "
+                "BODY: Small fragile frame with gentle slow-moving presence. "
+                "MOUTH: Neutral relaxed mouth with natural muscle laxity."
+            ),
             "Kakek Joyo": (
-                "IDENTITY: Sturdy but weary Javanese elder (80+). "
-                "FACE: Square jaw structure, leathery sun-baked skin with deep forehead furrows and thick skin texture. "
-                "EYES: Protective, pensive 'sayu' gaze with significant emotional weight. "
-                "BODY: Once strong but now burdened posture, steady but slow movements. "
-                "MOUTH: Flexible jaw for synchronized lip movement, no clenching, showing aged lip texture."
+                "IDENTITY: Extremely frail 87-year-old Javanese grandfather. "
+                "FACE: Square jaw structure with leathery sun-baked skin, very deep forehead furrows, and thick aged texture. "
+                "EYES: Protective pensive 'sayu' gaze with significant emotional weight of old age. "
+                "BODY: Once strong but now heavily burdened and frail posture with slow movements. "
+                "MOUTH: Flexible jaw showing aged lip texture."
             ),
-
             "Kakek Hardi": (
-                "IDENTITY: Very frail Javanese elder (85+). "
+                "IDENTITY: Extremely frail 92-year-old Javanese grandfather. "
                 "FACE: Shrunken facial structure with thin parchment-like skin, hollow cheeks, and visible bone structure. "
-                "EYES: Deeply tired, soft distant gaze reflecting a sincere but fading presence. "
-                "BODY: Extremely fragile and thin frame, whisper-like movements. "
-                "MOUTH: Relaxed mouth with paper-thin lips, fully functional for clear, slow dialogue."
+                "EYES: Deeply tired soft distant gaze reflecting sincere but fading presence. "
+                "BODY: Extremely fragile and thin frame with whisper-like movements. "
+                "MOUTH: Relaxed mouth with paper-thin lips."
             ),
-
             "Kakek Sableng": (
-                "IDENTITY: Noble Javanese elder (80+). "
-                "FACE: Strong bony facial structure, heavy eye bags, and deep fatigue lines across the face. "
-                "EYES: Sharp but emotionally wounded 'sayu' gaze showing internal brokenness. "
-                "BODY: Stoic and emotionally restrained posture, shrunken but still showing a trace of stern presence. "
-                "MOUTH: Natural jaw movement, no clenching, showing subtle tension in the lips during speech."
+                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
+                "FACE: Strong bony facial structure with heavy eye bags and deep fatigue lines across the face. "
+                "EYES: Sharp but emotionally wounded 'sayu' gaze showing internal brokenness of old age. "
+                "BODY: Stoic and emotionally restrained but clearly shrunken elderly frame. "
+                "MOUTH: Natural jaw movement with subtle tension in aged lips."
             ),
-
             "Kakek Sinto": (
-                "IDENTITY: Extremely frail Javanese elder (85–90). "
+                "IDENTITY: Extremely frail 93-year-old Javanese grandfather. "
                 "FACE: Deeply sunken skeletal facial structure with paper-thin translucent skin and heavy wrinkle density. "
                 "EYES: Cloudy distant gaze with profound emotional depth and calm acceptance. "
                 "BODY: Nearing silence, spiritually detached, extremely shrunken and delicate frame. "
-                "MOUTH: Fully flexible lips for dialogue, showing the natural sag of extreme old age."
+                "MOUTH: Fully flexible lips showing natural sag of extreme old age."
             ),
-
             "Kakek Wiryo": (
-                "IDENTITY: Javanese laborer elder (75+). "
-                "FACE: Strong labor-worn facial structure, dark bronze sun-exposed skin with deep pores and rough texture. "
-                "EYES: Tired but steady, grounded 'nrimo' gaze showing decades of hard work. "
-                "BODY: Hardworking, stoic, and grounded posture with weathered hands. "
-                "MOUTH: Relaxed jaw, natural speech articulation, no teeth clenching, capturing realistic lip-sync."
+                "IDENTITY: Extremely frail 86-year-old Javanese grandfather. "
+                "FACE: Strong labor-worn facial structure with dark bronze sun-exposed skin, deep pores, and rough aged texture. "
+                "EYES: Tired but steady 'nrimo' gaze showing decades of hard work. "
+                "BODY: Hardworking stoic but now very frail and weathered posture. "
+                "MOUTH: Relaxed jaw with natural speech articulation and aged lip texture."
             ),
-
             "Kakek Usman": (
-                "IDENTITY: Indonesian elder (75–80). "
+                "IDENTITY: Extremely frail 87-year-old Indonesian grandfather. "
                 "FACE: Deeply wrinkled face with emotional fatigue lines, sun-damaged skin texture, and thin white hair. "
-                "EYES: Emotional, heavy gaze with subtle moisture reflection and weary lids. "
-                "BODY: Emotionally burdened but sincere posture, expressive but slow gestures. "
-                "MOUTH: Natural lip sync with relaxed jaw movement, showing realistic aged skin movement around the lips."
+                "EYES: Emotional heavy gaze with subtle moisture reflection and weary lids. "
+                "BODY: Emotionally burdened but sincere and slow elderly posture. "
+                "MOUTH: Natural lip sync with relaxed jaw showing realistic aged skin movement."
             )
         }
 
@@ -2906,35 +2891,40 @@ def tampilkan_halaman():
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
             "Logat_Nenek": [
-                "85-year-old very frail Indonesian village grandmother, extremely weak and shaky high-pitched voice, constant vocal tremor, raspy and hoarse from old age, thin breathy quality, frequent voice cracks and wobbles on almost every word, speaks extremely slowly with long pauses and breathing effort, sounds physically tired and delicate like a real 80-92 year old nenek tua",
-                "88-year-old super elderly Javanese nenek, deeply aged thin trembling voice full of instability, breathy and whispery at times, heavy age-related vocal tremor, very low volume, slow shaky delivery around 55-70 words per minute, frequent cracking and quivering, authentic old age vocal deterioration, no energy left",
-                "90+ year old extremely frail Indonesian grandma, very weak raspy voice with strong quivering tremor, hoarse dry cracked tone, thin wobbly resonance, labored slow speech with many micro-pauses for breath, voice sounds fragile and like it's about to break, zero youthful vitality whatsoever",
-                "87-year-old frail nenek tua, constantly shaking elderly female voice, high-frequency vocal tremor, breathy hoarse quality, very slow and weak delivery, frequent voice cracks, sounds exhausted and physically fragile like a real 85-93 year old grandmother with weak lungs and vocal cords"
+                "Extremely frail 90-year-old Indonesian village grandmother, extremely weak and shaky high-pitched voice, constant heavy vocal tremor, very raspy and hoarse from advanced old age, thin breathy quality, frequent voice cracks and wobbles on almost every word, speaks extremely slowly with long weary pauses and visible breathing effort, sounds physically exhausted and delicate like a real 90+ year old nenek tua with weak lungs",               
+                "Super elderly 91-year-old Javanese nenek, deeply aged thin trembling voice full of instability, breathy and whispery at times, heavy age-related vocal tremor, very low volume, extremely slow shaky delivery around 50-65 words per minute, frequent cracking and quivering, authentic vocal deterioration of extreme old age, almost no energy left",
+                "92+ year old extremely frail Indonesian grandma, very weak raspy voice with strong constant quivering tremor, hoarse dry cracked tone, thin wobbly resonance, labored slow speech with many micro-pauses for breath, voice sounds fragile and like it's about to break, zero youthful vitality whatsoever",
+                "89-year-old extremely frail nenek tua, constantly shaking elderly female voice with high-frequency vocal tremor, breathy hoarse quality, very slow and weak delivery, frequent voice cracks and instability, sounds exhausted and physically fragile like a real 90-year-old grandmother with severely weakened lungs and vocal cords"
             ],
             "Logat_Kakek": [
-                "85-year-old frail Indonesian village grandfather, deep but very weak and raspy old man voice, noticeable vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses, breathy and tired quality, sounds like a real 80-90 year old kakek with weathered vocal cords",
-                "88-year-old very old Javanese kakek, low-pitched trembling elderly male voice, heavy age-related wobble and instability, hoarse and rough texture, very slow speech around 60 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
-                "90+ year old extremely frail Indonesian grandfather, thin shaky old man voice despite low pitch, strong vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking, authentic 90-year-old kakek voice",                
-                "86-year-old frail kakek tua, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real elderly grandfather"
+                "Extremely frail 89-year-old Indonesian village grandfather, deep but very weak and raspy old man voice, noticeable heavy vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds like a real 90+ year old kakek with weathered and tired vocal cords",
+                "Very old 90-year-old Javanese kakek, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow speech around 55 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
+                "92+ year old extremely frail Indonesian grandfather, thin shaky old man voice despite low pitch, strong constant vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking, authentic 90+ year old kakek voice",
+                "88-year-old extremely frail kakek tua, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real 90-year-old grandfather"
             ],
-            "Mood": [
-                "Sad and physically fragile",
-                "Tired and resigned with heavy voice tremor",
-                "Calm but extremely weak and shaky",
-                "Peaceful yet exhausted with quivering voice",
-                "Emotional but delivered with old age frailty",
-                "Stoic with noticeable vocal instability and weakness"
+			
+			"Mood": [
+                "Sad and deeply fragile",
+                "Tired and resigned with heavy exhaustion",
+                "Calm but physically very weak",
+                "Peaceful with quiet melancholy",
+                "Emotional yet extremely tired",
+                "Stoic with visible physical frailty",
+                "Gentle and nostalgic with shaky delivery",
+                "Resigned and accepting with weary tone"
             ],
+
             "Physical Action": [
-                "Slowly touching the object with trembling frail fingers, hands shaking visibly due to old age.",
-                "Holding the object gently while looking down with tired eyes, then slowly glancing up with effort.",
-                "Keeping both shaky hands on the object, maintaining a quiet and exhausted gaze.",
-                "Slowly adjusting a small detail on the object with very unsteady, trembling hands.",
-                "Looking at the object in silence with a frail expression, then slowly shifting weak eyes toward the camera.",
-                "Gently brushing dust off the object with shaky fingers, then pausing with a tired, aged expression."
+                "Gently holding the miniature mosque with both trembling hands, slowly turning it slightly while looking at it with tired eyes.",
+                "Carefully touching the carved dome with shaky fingertips, then slowly tracing the edge with great care.",
+                "Holding the watermelon mosque close to her chest with frail arms, then slowly lowering it onto the table while breathing heavily.",
+                "Using one shaky hand to gently adjust the position of the miniature while the other hand supports it from below.",
+                "Slowly lifting one trembling hand to point at a small detail on the mosque, then lowering it back with visible effort.",
+                "Cradling the carved mosque in her lap with both hands, gently rotating it while gazing at it quietly.",
+                "Softly brushing away tiny rind scraps from the base of the mosque using her frail fingers, movements slow and unsteady.",
+                "Holding the object with both hands, slowly bringing it closer to her face to look at it more clearly, then lowering it again."
             ]
         }
-
 
         # --- UI LAYOUT ---
         with st.expander("🕌 PINTAR MASJID ENGINE", expanded=True):
@@ -2984,7 +2974,6 @@ def tampilkan_halaman():
             with c6:
                 st.markdown('<p class="small-label">ACTING & PERFORMANCE</p>', unsafe_allow_html=True)
                 
-                # Pilih Logat berdasarkan jenis kelamin
                 is_perempuan = any(x in pilihan_user.lower() for x in [
                     "nenek", "ibu", "aminah", "siti", "marsi", "ponirah", "juminah",
                     "sikem", "dulah", "sartini", "tinah", "wati"
@@ -3005,20 +2994,22 @@ def tampilkan_halaman():
         # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
             scene_context = (
-                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
-                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 70% frame dominance on the craft. NO wide shot, NO high angle.\n"
-                f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
-                f"CAMERA: Neutral 0-degree tilt, eye-to-eye intimacy. Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
-                f"COLOR GRADING: Authentic 35mm film scan aesthetic. Faded earth tones, desaturated greens, and natural warm skin tones. NO oversaturation, NO neon colors."
+                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting with natural contrast. "
+                f"Natural outdoor exposure, flat documentary film look, rich but realistic color grading.\n"
+                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height locked at chest-level. "
+                f"Strong frame dominance on the handcrafted miniature mosque. NO wide shot, NO high angle.\n"
+                f"FOCUS SYSTEM: Realistic optical deep focus. Extremely sharp on the miniature mosque and weathered elderly hands. "
+                f"Character's face also remains sharp as secondary focus. NO artificial bokeh.\n"
+                f"CAMERA: Subtle organic handheld realism with very slow natural movement. "
+                f"Slow gentle push-in and micro sway. NO static camera, NO sudden movement, NO cinematic jitter."
             )
-            
+
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
             soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
             
             wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
             baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
-            ANATOMY_LOCK = "STRICTLY TWO HANDS, no extra fingers, no distortion."
-            
+
             # Gender & Visual Identity Lock
             is_perempuan = any(x in pilihan_user.lower() for x in [
                 "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
@@ -3026,113 +3017,76 @@ def tampilkan_halaman():
             ])
             
             if is_perempuan:
-                gender_lock = (
-                    "IDENTITY: Extremely frail 85-92 year old Indonesian grandmother (nenek tua). "
-                    "FACE: Deeply wrinkled sagging skin, prominent age spots, very thin white hair barely visible under hijab, "
-                    "sunken tired eyes, hollow cheeks, extremely weathered and fragile facial features, authentic 80+ year old appearance. "
-                    "WARDROBE: Faded and worn village hijab (kerudung) covering thin white hair and neck, simple old kebaya or batik blouse."
-                )
+                gender_lock = "Extremely frail 88-92 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, fragile posture."
             else:
-                gender_lock = (
-                    "IDENTITY: Extremely frail 85-92 year old Indonesian grandfather (kakek tua). "
-                    "FACE: Deep wrinkles, sun-parched and leathery skin, prominent age spots, very thin white hair and beard, "
-                    "sunken weary eyes, hollow bony cheeks, extremely aged and fragile facial structure, authentic 80+ year old appearance. "
-                    "WARDROBE: Weathered black Indonesian kopiah/peci on thin white hair, old faded shirt or sarong."
-                )
-            
+                gender_lock = "Extremely frail 88-92 year old Indonesian grandfather with deep wrinkles, sun-parched skin, prominent age spots, thin white hair, sunken weary eyes, fragile frame."
+
             aksi_final = pilih_aksi.strip()
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-            # --- ASSEMBLY PROMPT (V.32 - IMPROVED VOICE LOCK) ---
+            # --- ASSEMBLY PROMPT (V.36 - FINAL OPTIMIZED FOR GROK) ---
             GLOBAL_QUALITY_LOCK = (
-                "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
-                "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
-                "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
-                "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
+                "RAW CINEMATIC FOOTAGE LOCK: Must look like real unedited 8K documentary footage shot on film. "
+                "EXTREMELY SHARP DETAIL, rich natural contrast, NO AI smoothing, NO CGI look, NO plastic textures, "
+                "NO over-sharpening, capture true optical imperfections, subtle film grain, and natural lens breathing."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-                f"ULTRA 8K MACRO PRIORITY:\n"
-                f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
-                f"- Object must be the SHARPEST element in frame\n"
-                f"- Character face is secondary but still detailed\n"
-                f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-                
-                f"CAMERA SYSTEM:\n"
-                f"- 50mm macro cinematic lens\n"
-                f"- Aperture f/4 (natural optical depth)\n"
-                f"- Eye-level composition\n"
-                f"- Tight medium shot\n"
-                f"- Locked focus on object (primary focus priority)\n"
-                f"- Natural depth layering only (foreground → subject → background)\n"
-                f"- No focus hunting, no artificial blur\n\n"
-                
-                f"CINEMATIC CAMERA MOTION:\n"
-                f"- Extremely slow natural push-in\n"
-                f"- Micro handheld realism\n"
-                f"- Stable frame, no shake\n"
-                f"- Object always perfectly sharp\n\n"
+                f"ULTRA 8K REALISM & SHARPNESS PRIORITY:\n"
+                f"- The handcrafted miniature mosque is the primary focal point with strong frame dominance\n"
+                f"- Extremely sharp 8K detail on the miniature mosque: clear carving lines, natural material texture, realistic colors, moist reflections, and organic imperfections\n"
+                f"- Character's face, eyes, and weathered hands must also be razor sharp with authentic elderly skin texture, deep wrinkles, age spots, and natural skin details\n"
+                f"- High natural contrast between the miniature mosque and the elderly character\n"
+                f"- True documentary realism: looks like real 8K film footage, NO CGI, NO plastic look, NO over-smoothed skin, NO artificial glow, NO cartoon style\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
-                f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
+                f"MANDATORY: Hyper-realistic elderly skin texture with deep wrinkles and age spots, fragile appearance, NO face smoothing, NO smile.\n\n"
                 
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n"
-                f"- Setting Atmosphere: {scene_context}\n"
-                f"- High rustic wooden table at chest level.\n\n"
+                f"- High rustic wooden table at chest level.\n"
+                f"- Setting Atmosphere: {scene_context}\n\n"
+                
+                f"CAMERA & MOTION:\n"
+                f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque and character's hands. "
+                f"Natural micro movements only. Both the miniature mosque and the character's face/hands stay razor sharp throughout the shot. "
+                f"NO sudden camera moves, NO fast zoom, NO static locked camera.\n\n"
                 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
-                f"- Minimal natural movement\n"
-                f"- Eyes naturally alternate between object and camera\n\n"
-                
-                f"EMOTIONAL MICRO EXPRESSION:\n"
-                f"- Slight watery eyes (not crying)\n"
-                f"- Slow blinking\n"
-                f"- Subtle facial tension\n"
-                f"- Emotion stays internal\n\n"
+                f"- Minimal but natural elderly movement\n"
+                f"- Eyes slowly alternate between the miniature mosque and camera with tired expression\n\n"
                 
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
-                f"Mood and delivery: {mood_final}\n"
-                f"STRICT RULES FOR AUDIO:\n"
-                f"- Speak extremely slowly with heavy vocal tremor and instability\n"
-                f"- Thin, raspy, breathy, and fragile voice full of age-related cracks and wobbles\n"
-                f"- Very low energy, tired, and physically weak delivery\n"
-                f"- Include natural weary pauses, micro voice cracks, and shaky breathing\n"
-                f"- Authentic 85-92 year old frail elderly voice, NO middle-aged energy, NO clear youthful tone\n\n"
+                f"Delivery style: {mood_final}. Speak extremely slowly with heavy vocal tremor, constant quivering, raspy breathy tone, "
+                f"frequent voice cracks, long weary pauses, very low energy, physically weak and fragile like a real 90-year-old nenek/kakek.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
                 f"DIALOG DELIVERY RULE:\n"
-                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
-                f"- Must be spoken naturally as real conversation, not read like instruction\n"
-                f"- Treat as direct speech only\n"
-                f"- No robotic separation\n\n"
+                f"- AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
+                f"- Spoken naturally with real elderly shaky voice and breathing effort\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Hyper-realistic carving precision\n"
-                f"- Real fruit fiber texture\n"
-                f"- Moist reflective surfaces\n"
-                f"- Visible imperfections\n\n"
+                f"- Razor sharp 8K detail on every carving line, material texture, and skin wrinkles\n"
+                f"- Natural moist reflections, visible imperfections, realistic light interaction\n\n"
                 
                 f"NEGATIVE PROMPT:\n"
-                f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
-                f"overprocessed lighting, fake depth, cartoon style, "
-                f"audio glitch, unclear speech, fast talking, energetic voice, "
-                f"young voice, middle-aged voice, clear strong voice, smiling, laughing, "
-                f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
-                f"text, watermark, captions, subtitles, letters, typography, on-screen text"
+                f"blurry, soft focus, low detail, motion blur, AI look, CGI, plastic texture, over-smooth skin, waxy skin, "
+                f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
+                f"energetic voice, young voice, middle-aged voice, smiling, laughing, wide shot, high angle, "
+                f"text, watermark, subtitles, on-screen text"
             )
 
             # --- 7. TAMPILKAN HASIL ---
