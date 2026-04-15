@@ -57,73 +57,74 @@ def tampilkan_halaman():
         
         st.warning("💡 **Saat setor ke Admin**, Pisahkan hasil video kakek dan nenek ( *jangan dijadikan satu folder* )")           
         st.write("") # Spacing
-        # --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
+		
+		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
             "Nenek Aminah": (
-                "IDENTITY: Extremely frail 90-year-old Javanese grandmother. "
+                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
                 "FACE: Extremely thin delicate facial structure with very deep dense wrinkles, heavy sagging skin, prominent dark liver spots, and dry parchment-like texture. "
                 "EYES: Deeply sunken dull weary 'sayu' gaze with heavy drooping eyelids showing extreme fatigue. "
                 "BODY: Very fragile shrunken frame, slightly trembling posture, visible bone structure under thin skin. "
                 "MOUTH: Thin relaxed lips with noticeable micro-tremor and age-related sagging during slow speech."
             ),
             "Nenek Siti": (
-                "IDENTITY: Extremely frail 91-year-old petite Javanese grandmother. "
+                "IDENTITY: Extremely frail 93-year-old petite Javanese grandmother. "
                 "FACE: Very small shrunken facial structure, pale translucent heavily sagging skin with deep natural folds and numerous age spots. "
-                "EYES: Distant hollow eyes with heavy lids reflecting long solitude and advanced old age. "
+                "EYES: Distant hollow eyes with heavy lids reflecting long solitude and extreme old age. "
                 "BODY: Tiny delicate shrunken frame, very passive and humble elderly posture. "
                 "MOUTH: Loose sagging mouth with realistic severe muscle laxity of extreme old age."
             ),
             "Nenek Marsi": (
-                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
+                "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
                 "FACE: Heavily shrunken facial structure, dry parchment-like skin with deep sunken cheeks and many prominent age spots. "
                 "EYES: Heavy lowered eyelids, thick with fatigue and quiet acceptance of very advanced age. "
                 "BODY: Passive extremely fragile bone structure, almost motionless shrunken elderly frame. "
                 "MOUTH: Sagging corners with slow heavy natural speech movement."
             ),
             "Nenek Ponirah": (
-                "IDENTITY: Extremely frail 89-year-old Javanese grandmother. "
+                "IDENTITY: Extremely frail 91-year-old Javanese grandmother. "
                 "FACE: Broad facial structure with heavily weathered sun-damaged skin, very deep furrowed wrinkles, and visible age spots. "
                 "EYES: Calm but deeply hollow 'sayu' gaze with heavy neutral stare of extreme old age. "
                 "BODY: Stable but very frail posture showing decades of hard labor and physical decline. "
                 "MOUTH: Firm yet relaxed for dialogue, surrounded by deep nasolabial folds of advanced age."
             ),
             "Nenek Juminah": (
-                "IDENTITY: Extremely frail 90-year-old very thin Javanese grandmother. "
+                "IDENTITY: Extremely frail 92-year-old very thin Javanese grandmother. "
                 "FACE: Sharp prominent bone structure with highly detailed aged skin, deep grooves, and numerous liver spots. "
                 "EYES: Low weary heavily tired lids showing quiet endurance of extreme old age. "
                 "BODY: Minimal movement, slow controlled gestures with extremely fragile thin hands. "
                 "MOUTH: Natural speech movement with realistic thinning and trembling of aged lips."
             ),
             "Nenek Sikem": (
-                "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
+                "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
                 "FACE: Extremely small facial structure, dry deeply folded sagging skin with heavy natural wrinkles and age spots. "
                 "EYES: Slow heavy lids showing very low emotional intensity and calm fatigue of advanced age. "
                 "BODY: Extremely passive, grounded, and severely shrunken elderly frame. "
                 "MOUTH: Fully functional for speech with natural lip movement and subtle tremor."
             ),
             "Nenek Dulah": (
-                "IDENTITY: Extremely frail 88-year-old Sundanese grandmother. "
+                "IDENTITY: Extremely frail 90-year-old Sundanese grandmother. "
                 "FACE: Soft rounded face with naturally sunken cheeks, realistic heavy aging folds, and subtle age spots. "
                 "EYES: Deep-set almond eyes with calm tired gaze and hollow undereyes of extreme old age. "
                 "BODY: Fragile gentle presence with subtle age-related instability and trembling. "
                 "MOUTH: Neutral relaxed mouth showing natural severe muscle slackness."
             ),
             "Nenek Sartini": (
-                "IDENTITY: Extremely frail 87-year-old Sundanese grandmother. "
+                "IDENTITY: Extremely frail 89-year-old Sundanese grandmother. "
                 "FACE: Wider round face with visible heavy sagging skin, deep marionette lines, and loose aged texture. "
                 "EYES: Tired eyes with heavy lids and calm blank expression of advanced old age. "
                 "BODY: Stable but clearly elderly and frail posture. "
                 "MOUTH: Neutral mouth position capturing realistic sagging of lower facial muscles."
             ),
             "Nenek Tinah": (
-                "IDENTITY: Extremely frail 91-year-old thin Javanese grandmother. "
+                "IDENTITY: Extremely frail 93-year-old thin Javanese grandmother. "
                 "FACE: Fragile facial structure with severe deep natural aging wrinkles, deeply sunken hollow cheeks, and dry aged skin. "
                 "EYES: Dull heavy eyes with low gaze and minimal facial reaction. "
                 "BODY: Shrunken and very frail body structure showing extreme old age. "
                 "MOUTH: Relaxed mouth for speech with natural thinning of the lips."
             ),
             "Nenek Wati": (
-                "IDENTITY: Extremely frail 89-year-old small Sundanese grandmother. "
+                "IDENTITY: Extremely frail 91-year-old small Sundanese grandmother. "
                 "FACE: Small fragile face with thin bone structure, soft heavy sagging skin, and visible natural veins. "
                 "EYES: Calm tired eyes with gentle melancholic lonely gaze of very old age. "
                 "BODY: Small-framed, very delicate and still elderly posture. "
@@ -132,263 +133,241 @@ def tampilkan_halaman():
 
             # === KAKEK ===
             "Kakek Marto": (
-                "IDENTITY: Extremely frail 89-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 91-year-old Javanese grandfather. "
                 "FACE: Elongated fragile facial structure with sunken temples, high forehead ridge, and very deep wisdom lines. "
                 "EYES: Dull distant 'sayu' gaze with profound weary eyelids of advanced age. "
                 "BODY: Lean fragile frame with quiet endurance and withdrawn posture. "
                 "MOUTH: Relaxed jaw and lips with natural aged movement and subtle lip-thinning."
             ),
             "Kakek Somo": (
-                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
                 "FACE: Rounded soft facial structure now heavily aged and exhausted with drooping eyelids and deep skin creases. "
                 "EYES: Tired calm slightly empty gaze showing quiet passive fatigue of extreme old age. "
                 "BODY: Small fragile frame with gentle slow-moving presence. "
                 "MOUTH: Neutral relaxed mouth with natural muscle laxity."
             ),
             "Kakek Joyo": (
-                "IDENTITY: Extremely frail 87-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 89-year-old Javanese grandfather. "
                 "FACE: Square jaw structure with leathery sun-baked skin, very deep forehead furrows, and thick aged texture. "
                 "EYES: Protective pensive 'sayu' gaze with significant emotional weight of old age. "
                 "BODY: Once strong but now heavily burdened and frail posture with slow movements. "
                 "MOUTH: Flexible jaw showing aged lip texture."
             ),
             "Kakek Hardi": (
-                "IDENTITY: Extremely frail 92-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 93-year-old Javanese grandfather. "
                 "FACE: Shrunken facial structure with thin parchment-like skin, hollow cheeks, and visible bone structure. "
                 "EYES: Deeply tired soft distant gaze reflecting sincere but fading presence. "
                 "BODY: Extremely fragile and thin frame with whisper-like movements. "
                 "MOUTH: Relaxed mouth with paper-thin lips."
             ),
             "Kakek Sableng": (
-                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
                 "FACE: Strong bony facial structure with heavy eye bags and deep fatigue lines across the face. "
                 "EYES: Sharp but emotionally wounded 'sayu' gaze showing internal brokenness of old age. "
                 "BODY: Stoic and emotionally restrained but clearly shrunken elderly frame. "
                 "MOUTH: Natural jaw movement with subtle tension in aged lips."
             ),
             "Kakek Sinto": (
-                "IDENTITY: Extremely frail 93-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 94-year-old Javanese grandfather. "
                 "FACE: Deeply sunken skeletal facial structure with paper-thin translucent skin and heavy wrinkle density. "
                 "EYES: Cloudy distant gaze with profound emotional depth and calm acceptance. "
                 "BODY: Nearing silence, spiritually detached, extremely shrunken and delicate frame. "
                 "MOUTH: Fully flexible lips showing natural sag of extreme old age."
             ),
             "Kakek Wiryo": (
-                "IDENTITY: Extremely frail 86-year-old Javanese grandfather. "
+                "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
                 "FACE: Strong labor-worn facial structure with dark bronze sun-exposed skin, deep pores, and rough aged texture. "
                 "EYES: Tired but steady 'nrimo' gaze showing decades of hard work. "
                 "BODY: Hardworking stoic but now very frail and weathered posture. "
                 "MOUTH: Relaxed jaw with natural speech articulation and aged lip texture."
             ),
             "Kakek Usman": (
-                "IDENTITY: Extremely frail 87-year-old Indonesian grandfather. "
+                "IDENTITY: Extremely frail 89-year-old Indonesian grandfather. "
                 "FACE: Deeply wrinkled face with emotional fatigue lines, sun-damaged skin texture, and thin white hair. "
                 "EYES: Emotional heavy gaze with subtle moisture reflection and weary lids. "
                 "BODY: Emotionally burdened but sincere and slow elderly posture. "
                 "MOUTH: Natural lip sync with relaxed jaw showing realistic aged skin movement."
             )
         }
-
-        # --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
+# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
+
             "Nenek Aminah": {
-                "Daster Rayon Polos Lembut": "Wearing a very simple oversized rayon daster in faded emerald green or earth tone. Thin breathable fabric with natural wrinkles and loose fit from long daily use. Paired with a plain black instant bergo hijab. Pure elderly homewear, no decoration.",        
-                "Daster Kaos Motif Luntur": "Wearing a stretched cotton jersey daster with faded abstract or floral pattern in dull brown or muted colors. Slight pilling and loose armholes. Paired with simple navy or grey hijab, very natural daily home clothing.",
-                "Setelan Rumah Rayon (Atasan + Celana)": "Wearing a matching loose rayon set (long sleeve top and loose pants) in faded pastel colors. Fabric looks soft, thin, and slightly sagging from age. Paired with simple white instant hijab.",
-                "Kaos Rumah Oversize + Rok Batik": "Wearing an oversized plain cotton t-shirt paired with a simple worn batik skirt. Very common elderly home outfit in Indonesia. No prints or styling. Paired with simple grey hijab.",
-                "Daster Kancing Depan Sederhana": "Wearing a front-button cotton daster in faded maroon or brown tones. Loose and practical fit for daily house activities. Paired with plain dark hijab, natural elderly wear.",
-                "Baju Tidur Katun Lembut": "Wearing a very modest loose cotton sleepwear set in faded soft colors. Lightweight fabric with natural wrinkles from sleep. Pure functional elderly nightwear, no decoration."
+                "Daster Rayon Motif Floral Lembut": "Wearing a loose soft rayon daster with delicate muted floral pattern in faded sage green and cream tones. Lightweight breathable fabric with natural soft drape. Paired with a simple cream instant bergo hijab.",
+                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton daster with subtle faded brown parang batik pattern. Soft and comfortable fabric. Paired with a light brown jersey hijab.",
+                "Daster Polos Katun Harian": "Wearing a plain faded emerald green cotton daster with smooth texture and loose comfortable fit. Paired with a simple grey instant hijab.",
+                "Kaos Lengan Panjang + Sarung Batik": "Wearing a loose long-sleeved soft beige cotton shirt paired with a classic brown batik sarong. Paired with a soft white instant hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button rayon daster in muted maroon with subtle geometric pattern. Lightweight and modest daily wear. Paired with a navy instant hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif on a light base. Comfortable with natural fabric movement. Paired with a simple black bergo hijab."
             },
 
             "Nenek Siti": {
-                "Daster Sogan Lawas": "Wearing a traditional Javanese sogan batik rayon daster in faded brown tones. Thin and soft fabric with natural drape from long use. Paired with cream or beige instant hijab.",
-                "Daster Bunga Kecil Luntur": "Wearing a cotton daster with tiny floral pattern in faded pastel colors. Slight fabric pilling and stretched neckline. Paired with dusty pink hijab.",       
-                "Kaos Rumah + Sarung Santai": "Wearing a loose cotton t-shirt paired with a simple batik sarong wrapped casually for home use. Very common elderly village clothing. Paired with soft grey hijab.",       
-                "Daster Polos Harian": "Wearing a plain cotton daster in faded green or blue. Lightweight and slightly loose fit. No accessories. Paired with simple white hijab.",      
-                "Tunik Katun Lawas": "Wearing a loose old cotton tunic in muted colors with visible wear and soft wrinkles. Comfortable daily home clothing. Paired with neutral hijab.",      
-                "Setelan Rumah Santai": "Wearing a simple matching home set (top and pants) in faded colors. Very practical elderly indoor clothing with natural fabric wear. Paired with simple hijab."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in pastel colors. Lightweight and comfortable for daily use. Paired with a dusty pink instant hijab.",
+                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft brown Sogan batik pattern. Thin and gentle fabric drape. Paired with a cream bergo hijab.",
+                "Daster Polos Katun": "Wearing a plain faded mint green cotton daster with loose comfortable fit. Paired with a simple white instant hijab.",
+                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved beige cotton shirt paired with a dark brown jarik cloth. Paired with a soft grey hijab.",
+                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with faded subtle stripe pattern. Lightweight daily wear. Paired with a navy instant hijab.",
+                "Daster Rayon Motif Abstrak Lembut": "Wearing a loose rayon daster with soft faded abstract pattern in muted tones. Comfortable home outfit. Paired with a simple maroon hijab."
             },
 
             "Nenek Marsi": {
-                "Daster Batik Lawasan Lembut": "Wearing a thin faded batik rayon daster in soft brown and cream tones. Very light fabric with natural aging texture. Paired with simple white hijab.",
-                "Kaos Panjang + Jarik": "Wearing a long sleeve cotton shirt paired with a simple batik jarik cloth wrapped at waist. Traditional elderly home outfit. Paired with grey hijab.",
-                "Daster Polos Tipis": "Wearing a plain soft cotton daster in faded pastel colors. Loose fit with natural wrinkles. Paired with simple hijab.",
-                "Tunik Rumah Sederhana": "Wearing a loose cotton tunic in faded dusty rose or beige tones. Natural worn fabric texture. Paired with soft hijab.",
-                "Kaos Oversize Rumah": "Wearing an oversized plain cotton t-shirt for home use. No prints, no decoration. Very common elderly daily wear. Paired with simple hijab.",
-                "Baju Kurung Lawas": "Wearing a classic loose baju kurung made of old cotton fabric in faded earthy tones. Simple and modest elderly homewear. Paired with square hijab folded naturally."
+                "Daster Batik Lembut": "Wearing a thin soft batik rayon daster in muted brown and cream tones. Light fabric with natural drape. Paired with a simple white instant hijab.",
+                "Kaos Panjang + Jarik": "Wearing a long sleeve soft cotton shirt paired with a simple batik jarik. Traditional modest home outfit. Paired with a grey hijab.",
+                "Daster Polos Katun Tipis": "Wearing a plain soft pastel cotton daster with loose fit. Paired with a simple hijab.",
+                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in faded dusty rose tone. Comfortable and modest daily wear. Paired with a soft hijab.",
+                "Daster Kancing Depan": "Wearing a front-button cotton daster in faded maroon. Simple and practical. Paired with a navy instant hijab.",
+                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in muted colors. Paired with a simple black bergo hijab."
             },
-            
+
             "Nenek Ponirah": {
-                "Daster Kaos Motif Mega Mendung (Faded)": "Wearing a sturdy oversized cotton-jersey daster with a large faded 'Mega Mendung' cloud pattern in muted navy and grey. Heavy natural fabric drape, slightly stretched at the shoulders. Paired with a simple black jersey bergo hijab with soft worn foam padding, modest and practical daily wear.",
-                "Setelan Celana Batik Kulot (Daily Set)": "Wearing a matching long-sleeved top and loose culotte trousers made of thick faded rayon in deep chocolate brown with subtle ethnic circular patterns. Fully modest and loose fit, designed for daily home use. Paired with a plain grey instant hijab, simple and functional.",
-                "Daster Kancing Depan Motif Geometris": "Wearing a practical front-buttoned cotton daster in dark maroon with faded white geometric diamond patterns. Fabric looks thick, softened by long-term washing. Paired with a simple white instant hijab pinned neatly under the chin.",
-                "Tunik Katun Oxford & Jarik Cokelat": "Wearing a modest long-sleeved tunic made of thick faded sky-blue Oxford cotton. Paired with a dark brown batik jarik cloth wrapped securely at the waist. Simple navy jersey hijab, clean daily village home attire.",
-                "Daster Rayon Motif Daun Lebar": "Wearing a loose rayon daster with large faded green leaf pattern on a black base. Slightly wrinkled and soft from wear. Paired with a simple black instant hijab, natural daily home outfit.",
-                "Kaos Polo Lengan Panjang & Sarung Lawasan": "Wearing a modest oversized long-sleeved cotton polo shirt in faded forest green. Paired with a worn dark batik sarong (lawasan style). Simple white instant hijab, clean and practical elderly home wear."
+                "Daster Kaos Motif Mega Mendung": "Wearing an oversized cotton daster with faded soft Mega Mendung pattern in muted navy and grey. Comfortable fabric with natural drape. Paired with a simple black jersey bergo hijab.",
+                "Setelan Rumah Rayon": "Wearing a matching loose rayon top and pants in faded chocolate brown with subtle pattern. Modest and practical daily wear. Paired with a plain grey instant hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster in dark maroon with faded geometric pattern. Lightweight daily outfit. Paired with a simple white hijab.",
+                "Tunik Katun + Jarik": "Wearing a modest long-sleeved tunic in faded sky blue paired with a dark brown batik jarik. Paired with a simple navy hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with large faded green leaf pattern. Comfortable home wear. Paired with a simple black instant hijab.",
+                "Kaos Polo Lengan Panjang + Sarung": "Wearing a modest long-sleeved cotton polo in faded forest green paired with a dark batik sarong. Paired with a simple white hijab."
             },
 
             "Nenek Juminah": {
-                "Daster Rayon Kusut Motif Floral": "Wearing a limp faded navy rayon daster with blurry floral patterns and stretched neckline. Soft worn fabric showing age. Paired with a simple grey jersey bergo hijab, fully modest daily home outfit.",
-                "Kaos Haji Putih & Sarung Lawasan": "Wearing a long-sleeved white cotton undershirt (Kaos Haji style) slightly greyed from washing. Paired with faded batik sarong in dark tones. Simple white instant hijab pinned under the chin, modest daily wear.",
-                "Daster Kaos Melar": "Wearing an oversized stretched cotton t-shirt style daster in faded maroon. Loose and relaxed fit, very simple village home clothing. Paired with a plain grey cotton hijab.",
-                "Kebaya Katun Jadul Polos": "Wearing a very simple thin white cotton kebaya without embroidery, slightly yellowed from age. Paired with dark brown batik sarong. Modest and traditional elderly home outfit.",
-                "Daster Kancing Serut Motif Garis": "Wearing a front-buttoned daily daster with faded vertical stripes in muted green. Soft worn cotton fabric. Paired with a simple black instant hijab.",
-                "Kaos Lengan Panjang Souvenir": "Wearing an oversized long-sleeved cotton souvenir t-shirt in faded yellow with cracked text. Paired with a dark batik sarong. Simple white jersey hijab, relaxed village home wear."
+                "Daster Rayon Motif Floral": "Wearing a loose rayon daster with soft faded floral pattern in muted navy tones. Lightweight and comfortable. Paired with a simple grey jersey bergo hijab.",
+                "Kaos Lengan Panjang + Sarung": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik sarong. Simple daily home outfit. Paired with a white instant hijab.",
+                "Daster Kaos Polos": "Wearing a plain faded maroon cotton daster with loose fit. Paired with a plain grey cotton hijab.",
+                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with faded vertical stripes. Lightweight daily wear. Paired with a navy instant hijab.",
+                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in faded dusty rose. Modest and comfortable. Paired with a soft white hijab.",
+                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with soft faded abstract pattern. Paired with a simple black bergo hijab."
             },
 
             "Nenek Sikem": {
-                "Daster Kaos Karakter Sederhana": "Wearing an oversized stretched cotton daster in faded blue with a worn-out abstract print. Soft pilled fabric, very old but clean. Paired with a simple black jersey bergo hijab, modest daily home clothing.",
-                "Kaos Souvenir Lengan Panjang": "Wearing a faded long-sleeved cotton souvenir t-shirt with cracked printed logo. Paired with dark batik sarong. Simple grey instant hijab, practical and modest.",
-                "Daster Motif Bunga Besar": "Wearing a loose rayon daster with large faded floral patterns in muted tones. Soft wrinkled fabric from long use. Paired with a simple maroon instant hijab.",
-                "Daster Kancing Dada Polos": "Wearing a front-buttoned plain cotton daster in faded navy. Simple daily wear, slightly loose fit. Paired with a white instant hijab.",
-                "Daster Pelangi Luntur": "Wearing a faded tie-dye cotton daster in soft purple and yellow tones. Loose and comfortable home wear. Paired with a navy jersey hijab.",
-                "Kaos Olahraga Desa & Jarik": "Wearing an old long-sleeved cotton village sports shirt in faded orange tones. Paired with dark batik sarong. Simple grey instant hijab, everyday elderly home outfit."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in muted blue tones. Lightweight daily wear. Paired with a simple black jersey bergo hijab.",
+                "Daster Polos Katun": "Wearing a plain faded green cotton daster with loose comfortable fit. Paired with a simple grey hijab.",
+                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik jarik. Paired with a soft grey hijab.",
+                "Daster Kancing Depan": "Wearing a front-button cotton daster in faded navy. Simple and practical. Paired with a white instant hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif. Comfortable home wear. Paired with a simple maroon hijab.",
+                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in muted tones. Paired with a simple black bergo hijab."
             },
 
             "Nenek Dulah": {
-                "Daster Kaos Motif Bunga Kecil": "Wearing a short-sleeved cotton jersey daster in faded mint green with small floral patterns. Slightly stretched neckline and soft worn fabric. Paired with a simple grey jersey instant hijab, modest daily wear.",
-                "Daster Rayon Motif Sogan Jawa": "Wearing a traditional Javanese rayon daster with faded brown Sogan batik patterns. Thin soft fabric from long use. Paired with a simple black bergo hijab.",
-                "Kaos Lengan Panjang Souvenir": "Wearing a faded long-sleeved cotton souvenir t-shirt in muted red with worn printed text. Paired with dark batik sarong. Simple white instant hijab, daily home clothing.",
-                "Daster Kancing Dada Motif Abstrak": "Wearing a front-buttoned cotton daster in faded purple with abstract batik patterns. Light worn fabric. Paired with a navy instant hijab.",
-                "Daster Kaos Garis-Garis": "Wearing a striped cotton jersey daster in faded blue and white tones. Loose comfortable fit. Paired with a simple maroon instant hijab.",
-                "Kaos Olahraga Desa & Jarik": "Wearing a long-sleeved village sports shirt in faded orange tone. Paired with dark batik sarong. Simple grey hijab, everyday home wear."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a short-sleeved cotton jersey daster in faded mint green with small floral patterns. Comfortable daily wear. Paired with a simple grey jersey instant hijab.",
+                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft brown Sogan pattern. Paired with a simple black bergo hijab.",
+                "Kaos Lengan Panjang + Sarung": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik sarong. Paired with a simple white instant hijab.",
+                "Daster Kancing Depan Motif Abstrak": "Wearing a front-button cotton daster in faded purple with subtle abstract pattern. Paired with a navy instant hijab.",
+                "Daster Kaos Garis Halus": "Wearing a striped cotton jersey daster in faded blue and white. Loose comfortable fit. Paired with a simple maroon instant hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif. Paired with a simple grey hijab."
             },
-            
+
             "Nenek Sartini": {
-                "Daster Rayon Motif Bunga Matahari": "Wearing a loose rayon daster in faded yellow with large soft sunflower prints. Light wrinkled fabric, natural worn home dress. Paired with a simple grey jersey bergo hijab, modest daily wear.",
-                "Daster Kaos Motif Batik Pesisiran": "Wearing a short-sleeved cotton-jersey daster with faded red coastal batik pattern. Soft pilled fabric and relaxed fit. Paired with a simple black instant hijab.",
-                "Kaos Lengan Panjang Polos & Sarung": "Wearing a plain long-sleeved cotton t-shirt in faded white. Paired with a dark simple batik sarong. Simple navy instant hijab, daily home outfit.",
-                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster in faded emerald green with simple geometric patterns. Soft worn fabric. Paired with a white instant hijab.",
-                "Daster Kaos Polos Lengan Pendek": "Wearing an oversized plain cotton jersey daster in faded maroon. Loose and comfortable home wear. Paired with a grey simple hijab.",
-                "Daster Rayon Motif Batik Cap": "Wearing a loose rayon daster with faded dark batik cap pattern. Soft wrinkled fabric from daily use. Paired with a simple dark brown instant hijab."
+                "Daster Rayon Motif Bunga Matahari": "Wearing a loose rayon daster in faded yellow with soft sunflower prints. Comfortable home dress. Paired with a simple grey jersey bergo hijab.",
+                "Daster Kaos Motif Batik Pesisiran": "Wearing a short-sleeved cotton daster with faded red coastal batik pattern. Paired with a simple black instant hijab.",
+                "Kaos Lengan Panjang + Sarung": "Wearing a plain long-sleeved cotton t-shirt in faded white paired with a dark batik sarong. Paired with a simple navy instant hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster in faded emerald green with subtle geometric pattern. Paired with a white instant hijab.",
+                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in faded maroon. Comfortable daily wear. Paired with a grey simple hijab.",
+                "Daster Rayon Motif Batik Cap": "Wearing a loose rayon daster with faded dark batik cap pattern. Paired with a simple dark brown instant hijab."
             },
 
             "Nenek Tinah": {
-                "Daster Kaos Motif Kartun Kusam": "Wearing an oversized cotton-jersey daster in faded blue with a worn cartoon print. Soft pilled fabric, stretched neckline. Paired with a simple black bergo hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster in faded green with large leaf pattern. Soft wrinkled daily wear fabric. Paired with a grey instant hijab.",
-                "Kaos Lengan Panjang Polos": "Wearing a plain faded yellow long-sleeved cotton shirt. Simple and modest daily clothing. Paired with a dark batik sarong and white instant hijab.",
-                "Daster Kancing Dada Garis": "Wearing a front-buttoned cotton daster with faded striped pattern in maroon and white. Soft worn fabric. Paired with a navy instant hijab.",
-                "Daster Kaos Polos Oversize": "Wearing an oversized plain cotton daster in faded orange. Very simple daily home wear. Paired with a maroon instant hijab.",
-                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with faded abstract soft color pattern. Wrinkled natural fabric. Paired with a dark brown instant hijab."
+                "Daster Kaos Motif Floral Lembut": "Wearing an oversized cotton daster in faded blue with soft floral print. Comfortable daily wear. Paired with a simple black bergo hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster in faded green with large leaf pattern. Paired with a grey instant hijab.",
+                "Kaos Lengan Panjang Polos": "Wearing a plain faded yellow long-sleeved cotton shirt paired with a dark batik sarong. Paired with a white instant hijab.",
+                "Daster Kancing Depan Garis": "Wearing a front-button cotton daster with faded striped pattern. Paired with a navy instant hijab.",
+                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in faded orange. Simple daily home wear. Paired with a maroon instant hijab.",
+                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with faded soft abstract pattern. Paired with a dark brown instant hijab."
             },
 
             "Nenek Wati": {
-                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton-jersey daster with faded parang batik pattern. Soft worn fabric and relaxed fit. Paired with a black instant bergo hijab.",
-                "Kaos Lengan Panjang Polos": "Wearing a plain faded red long-sleeved cotton shirt. Simple daily home clothing. Paired with a dark batik sarong and white hijab.",
-                "Daster Rayon Motif Kembang": "Wearing a loose rayon daster with faded flower pattern. Soft wrinkled fabric. Paired with a grey instant hijab.",
-                "Daster Kancing Depan Kotak": "Wearing a front-button cotton daster with small faded checkered pattern. Simple daily wear. Paired with a navy hijab.",
-                "Daster Kaos Polos": "Wearing a plain oversized cotton daster in faded mustard yellow. Very simple home clothing. Paired with a maroon instant hijab.",
-                "Daster Rayon Batik Luntur": "Wearing a loose rayon daster with faded batik cap pattern. Soft worn fabric. Paired with a dark brown instant hijab."
+                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton daster with faded parang batik pattern. Soft and comfortable. Paired with a black instant bergo hijab.",
+                "Kaos Lengan Panjang Polos": "Wearing a plain faded red long-sleeved cotton shirt paired with a dark batik sarong. Paired with a white hijab.",
+                "Daster Rayon Motif Kembang": "Wearing a loose rayon daster with faded flower pattern. Paired with a grey instant hijab.",
+                "Daster Kancing Depan Kotak": "Wearing a front-button cotton daster with small faded checkered pattern. Paired with a navy hijab.",
+                "Daster Kaos Polos": "Wearing a plain oversized cotton daster in faded mustard yellow. Simple home clothing. Paired with a maroon instant hijab.",
+                "Daster Rayon Motif Batik Lembut": "Wearing a loose rayon daster with faded soft batik pattern. Paired with a dark brown instant hijab."
             },
             
             # --- KELOMPOK KAKEK ---
             "Kakek Marto": {
-                "Kaos Polo Kusam & Sarung": "Wearing a faded green short-sleeved polo shirt with a slightly stretched collar. Light pilled cotton fabric. Paired with a classic checkered batik sarong and a simple black velvet peci.",
-                "Kaos Lengan Panjang Polos & Celana Bahan": "Wearing a faded yellow long-sleeved cotton t-shirt. Thin worn fabric with soft wrinkles. Paired with loose black cotton trousers and a simple white knitted peci.",
-                "Kemeja Flanel Kotak & Sarung": "Wearing a faded blue-grey flannel shirt over a thin white undershirt. Fabric is soft and worn. Paired with a dark batik sarong and a black velvet peci.",
-                "Kaos Oblong Putih & Sarung": "Wearing a thin white cotton undershirt slightly yellowed from age. Loose fit. Paired with a maroon checkered batik sarong and a black peci.",
-                "Baju Koko Sederhana & Sarung Batik": "Wearing a simple short-sleeved light brown cotton koko shirt. Slightly stiff worn fabric. Paired with a blue batik sarong and a white peci haji.",
-                "Kemeja Batik Pasar & Sarung": "Wearing a faded batik shirt in earthy tones with soft worn texture. Paired with a plain dark batik sarong and a simple black peci."
+                "Baju Koko Katun Lembut": "Wearing a simple short-sleeved light brown cotton koko shirt with soft texture and natural drape from daily use. Paired with a classic checkered batik sarong in faded brown tones and a simple black velvet peci.",
+                "Baju Koko Putih Polos": "Wearing a clean white short-sleeved cotton koko shirt with slight natural wrinkles. Paired with a dark brown batik sarong and a white peci haji.",
+                "Baju Koko Batik Faded": "Wearing a short-sleeved faded earthy batik koko shirt with soft worn texture. Paired with a navy batik sarong and a simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a soft faded green short-sleeved polo shirt with comfortable fit. Paired with a maroon checkered batik sarong and a simple white knitted peci.",
+                "Kemeja Flanel Kotak & Sarung": "Wearing a faded blue-grey flannel shirt over a thin white undershirt. Paired with a dark green batik sarong and black velvet peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple short-sleeved faded grey cotton koko shirt. Paired with a traditional faded batik sarong and a black peci."
             },
-
             "Kakek Somo": {
-                "Kaos Polo Kusam & Sarung": "Wearing a faded orange short-sleeved polo shirt with stretched collar. Soft worn cotton fabric. Paired with a dark green batik sarong and black velvet peci.",
-                "Kaos Oblong Putih & Sarung": "Wearing a thin white cotton undershirt slightly yellowed from age. Loose relaxed fit. Paired with a brown batik sarong and no accessories.",
-                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered short-sleeved shirt. Soft wrinkled cotton fabric. Paired with a maroon batik sarong and white peci haji.",
-                "Kaos Lengan Panjang Polos & Celana Komprang": "Wearing a faded red long-sleeved cotton shirt. Paired with loose dark cotton trousers and simple white peci.",
-                "Kaos Polo Garis & Sarung": "Wearing a striped navy-grey polo shirt with worn collar. Paired with a checkered batik sarong and white knitted peci.",
-                "Baju Koko Sederhana & Sarung Batik": "Wearing a simple light blue short-sleeved koko shirt with faded fabric texture. Paired with dark batik sarong and black peci."
+                "Baju Koko Katun Polos": "Wearing a soft faded beige short-sleeved cotton koko shirt with natural drape. Paired with a brown batik sarong and simple white peci.",
+                "Baju Koko Batik Lembut": "Wearing a short-sleeved faded soft brown batik koko shirt. Paired with a checkered batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a simple short-sleeved light blue cotton koko shirt. Paired with a dark maroon batik sarong and black velvet peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded orange short-sleeved polo shirt with comfortable collar. Paired with a dark green batik sarong and black peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered short-sleeved shirt. Paired with a maroon batik sarong and white peci haji.",
+                "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and simple black peci."
             },
-
             "Kakek Joyo": {
-                "Kemeja Polos & Sarung": "Wearing a faded green short-sleeved cotton shirt with chest pockets. Worn soft fabric. Paired with a checkered batik sarong and black peci.",
-                "Kaos Polo Tebal & Celana Bahan": "Wearing a faded navy polo shirt with slightly stiff collar. Paired with loose black trousers and white knitted peci.",
-                "Baju Takwa & Sarung Batik": "Wearing a simple white short-sleeved cotton takwa shirt. Slightly yellowed fabric. Paired with dark batik sarong and black peci.",
-                "Kaos Lengan Panjang Polos & Sarung": "Wearing a faded maroon long-sleeved cotton shirt. Paired with dark green batik sarong and white peci.",
-                "Kemeja Batik & Sarung": "Wearing a faded brown batik shirt with soft worn texture. Paired with plain navy sarong and white peci haji.",
-                "Kaos Oblong & Kemeja Luar": "Wearing a white cotton undershirt layered with a faded grey open shirt. Paired with batik sarong and black peci."
+                "Baju Koko Katun Tebal": "Wearing a short-sleeved light brown cotton koko shirt with soft texture. Paired with a checkered batik sarong and black velvet peci.",
+                "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt with slight natural wrinkles. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Batik Faded": "Wearing a short-sleeved faded earthy tone batik koko shirt. Paired with a navy batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded green short-sleeved polo shirt. Paired with a maroon checkered batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a dark green batik sarong and black peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional faded batik sarong and black peci."
             },
-
             "Kakek Hardi": {
-                "Kaos Oblong Tipis & Sarung": "Wearing a very thin white cotton undershirt, slightly translucent from age. Paired with faded blue batik sarong and white knitted peci.",
-                "Kemeja Pendek & Sarung": "Wearing a faded sky blue short-sleeved shirt with loose fit. Paired with dark batik sarong and white peci haji.",
-                "Kaos Lengan Panjang Polos & Sarung": "Wearing a faded green long-sleeved cotton shirt. Paired with maroon batik sarong and black peci.",
-                "Baju Koko Sederhana & Sarung": "Wearing a simple white cotton koko shirt, slightly oversized. Paired with dark batik sarong and black velvet peci.",
-                "Kaos Polo Garis & Celana Komprang": "Wearing a faded striped polo shirt in grey-white tones. Paired with loose black trousers and white peci.",
-                "Kemeja Batik Lawasan & Sarung": "Wearing a faded earthy batik shirt with soft worn texture. Paired with dark batik sarong and white peci haji."
-                
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt with soft texture. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt with natural drape. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt with comfortable fit. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             },
             "Kakek Sableng": {
-                "Kaos Oblong Putih & Jaket Tipis (Peci Hitam)": "Wearing a thin white cotton undershirt (kaos oblong) layered with an old faded navy windbreaker jacket. Paired with a dark batik sarong tied loosely at the waist. Wearing a worn black velvet peci slightly tilted to the side.",                
-                "Kaos Partai Luntur & Sarung (Peci Haji)": "Wearing a faded orange long-sleeved promotional t-shirt with a blurry cracked logo. Fabric is stretched and soft. Paired with a checkered sarong and a simple white peci haji.",
-                "Kemeja Flanel Kusam & Sarung": "Wearing an old unbuttoned flannel shirt in faded red and grey over a thin undershirt. Paired with a dark green batik sarong and a worn black peci.",                
-                "Kaos Souvenir Jalan Sehat & Sarung": "Wearing a faded red event t-shirt with blurry text. Paired with a simple batik sarong and a white peci haji.",                
-                "Daster Lungsuran & Sarung (Nyeleneh)": "Wearing an oversized faded floral daster as home wear, loose and worn. Paired with simple grey trousers and a black peci.",                
-                "Kaos Polo Garis & Sarung": "Wearing a faded striped polo shirt with curled collar. Paired with maroon checkered sarong and a white peci haji."
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved light brown cotton koko shirt with soft texture. Paired with a dark batik sarong and black velvet peci.",
+                "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt. Paired with a maroon batik sarong and white peci haji.",
+                "Baju Koko Batik Faded": "Wearing a faded earthy batik koko shirt with soft worn texture. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded green polo shirt. Paired with a dark green batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a navy batik sarong and black peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
-
             "Kakek Sinto": {
-                "Kemeja Batik Pasar & Sarung": "Wearing an oversized faded batik shirt in earthy tones. Paired with a dark batik sarong and black peci.",               
-                "Kaos Koperasi & Sarung": "Wearing a faded long-sleeved promotional shirt with cracked logo. Paired with checkered sarong and white peci haji.",                
-                "Kaos Oblong & Jaket Tipis": "Wearing a thin white undershirt layered with a faded grey jacket. Paired with batik sarong and black peci.",                   
-                "Baju Koko Harian & Sarung": "Wearing a simple light grey cotton koko shirt, slightly wrinkled. Paired with maroon sarong and white peci haji.",                
-                "Kaos Polo Garis & Sarung": "Wearing a faded striped polo shirt with worn collar. Paired with green batik sarong and black peci.",               
-                "Kaos Partai & Jaket Parasut": "Wearing a faded yellow promotional t-shirt layered with a thin old jacket. Paired with brown sarong and white peci haji."
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             },
-
             "Kakek Wiryo": {
-                "Kaos Benih & Sarung": "Wearing a faded green long-sleeved promotional shirt. Paired with batik sarong and black peci.",                
-                "Kemeja Safari & Sarung": "Wearing a worn khaki safari shirt with pockets. Paired with checkered sarong and white peci haji.",                
-                "Kaos Oblong & Sarung": "Wearing a thin white undershirt slightly yellowed. Paired with green sarong and black peci.",                
-                "Flanel Kusam & Sarung": "Wearing an unbuttoned flannel shirt in faded tones. Paired with maroon sarong and white peci haji.",                
-                "Kaos Polo Garis & Sarung": "Wearing a faded striped polo shirt. Paired with batik sarong and black peci.",                
-                "Kaos Partai & Celana Komprang": "Wearing a faded promotional t-shirt. Paired with loose black trousers and white peci haji."
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt with soft texture. Paired with a dark batik sarong and black peci.",
+                "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt. Paired with a maroon batik sarong and white peci haji.",
+                "Baju Koko Batik Faded": "Wearing a faded earthy batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded green polo shirt. Paired with a dark green batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a navy batik sarong and black peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
-
             "Kakek Usman": {
-                "Baju Koko Putih & Sarung": "Wearing a simple white cotton koko shirt slightly yellowed. Paired with batik sarong and black peci.",               
-                "Kurta Koko & Sarung": "Wearing a faded green long-sleeved kurta style shirt. Paired with checkered sarong and white peci haji.",                
-                "Kaos Oblong & Koko Terbuka": "Wearing a white undershirt layered with an open white koko shirt. Paired with maroon sarong and black peci.",                
-                "Baju Koko Biru & Sarung": "Wearing a faded sky blue koko shirt. Paired with green sarong and white peci haji.",                
-                "Kaos Toko Bangunan & Sarung": "Wearing a faded orange promotional shirt. Paired with batik sarong and black peci.",               
-                "Baju Koko Cokelat & Sarung": "Wearing a simple dark brown koko shirt. Paired with multicolored sarong and white peci haji."
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             }
         }
 
-        # --- 3. MASTER BAHAN (ARCHITECTURAL PRECISION: FRUIT LUXURY EDITION) ---
+		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-				"Semangka: Pahatan Murni": (
-                    "A HYPER-REALISTIC HAND-CARVED MINIATURE MOSQUE made from a fresh whole watermelon. "
-                    "Architectural Precision: A clear building model featuring one main central dome, smaller side domes, and symmetrical minarets. "
-                    "Material Interaction: Outer walls and domes are carved from the dark green rind, while arched windows and open doorways reveal the raw, fibrous red watermelon flesh inside. "
-                    "Handmade Texture: Visible organic texture of hand-carved grooves and uneven ridges, showing it was crafted by hand. STRICTLY NO KNIVES, NO TOOLS, NO BLADES IN FRAME. " # Larangan Keras Ada Pisau
-                    "Texture: Glistening moist red flesh, realistic scattered black seeds embedded in the walls, and natural juice droplets clinging to the rind. "
-                    "Atmosphere: Placed on a rough, weathered wooden table covered in carving debris, rind scraps, and red juice stains. ONLY THE CHARACTER'S BARE HANDS ARE VISIBLE. " # Hanya Tangan Kosong
-                    "Composition: The miniature mosque dominates the foreground, centered and frontal, partially obscuring the character's chest. "
-                    "Strictly NO CGI, NO artificial gloss, NO text. 8k cinematic macro realism with authentic organic imperfections."
-				),
-				"Semangka: Kubah Merah": (
-					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon, emphasizing a red-flesh dome as the central architectural focus. "
-					"The central dome is formed from exposed ruby-red watermelon flesh, shaped into a smooth architectural dome with visible fibrous structure and natural moisture. "
-					"Secondary domes and minarets are carved from green rind with strict symmetry and realistic proportions. "
-					"Deep arched openings reveal the contrast between green rind structure and red flesh interior. "
-					"All surfaces show authentic fruit behavior: seed pockets, juice sheen, and organic texture variation. "
-					"Placed on a wooden table with natural debris: flesh chunks, rind fragments, and juice stains. "
-					"STRICT COMPOSITION RULE: centered frontal architectural framing, mosque dominates foreground, partially occludes character behind. "
-					"NO text, NO symbols, NO ornamentation. 8k ultra-realistic cinematic macro shot."
-				),
-				"Semangka: Arsitektur Berlapis": (
-					"A REALISTIC MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon, designed to emphasize layered construction. "
-					"The structure reveals three clear material layers: outer dark green rind, inner pale rind, and exposed ruby-red flesh. "
-					"All architectural components (domes, minarets, walls) are carved to expose these layers, forming a natural color-graded mosque structure. "
-					"Arches, windows, and door recesses are precisely carved with symmetrical alignment and clean edges. "
-					"Texture is highly detailed: fibrous fruit structure, moisture, seeds, and natural rind grain. "
-					"Placed on a wooden table with mixed carving debris: red flesh, white rind strips, green shavings, and juice stains. "
-					"STRICT COMPOSITION RULE: centered, symmetrical, frontal composition with strong foreground dominance over character. "
-					"NO text, NO calligraphy, NO decorative fantasy. 8k cinematic realism."
-				),
+                "Semangka: Pahatan Murni": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon. "
+                    "Outer structure carved from dark green rind, inner parts revealing bright red fibrous flesh with natural black seeds. "
+                    "Visible hand-carved grooves, organic texture, and subtle moisture on the surface."
+                ),
+                "Semangka: Kubah Merah": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon with strong emphasis on the red dome. "
+                    "Central dome formed from exposed ruby-red watermelon flesh, secondary domes and minarets carved from green rind. "
+                    "Clear contrast between green outer structure and vibrant red interior flesh with natural seeds and moisture."
+                ),
+                "Semangka: Arsitektur Berlapis": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon showing layered construction. "
+                    "Reveals three distinct layers: dark green rind, pale inner rind, and bright red fibrous flesh. "
+                    "Architectural elements carved to expose natural color layers with symmetrical domes and minarets."
+                ),
 				"Semangka: Ukiran Tipis": (
 					"An ultra-detailed MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon with extremely thin precision carving. "
 					"The mosque structure is refined with thin rind walls, delicate domes, and slender minarets maintaining strict architectural proportions. "
