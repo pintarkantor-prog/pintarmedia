@@ -3137,91 +3137,86 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-			final_ai_prompt = (
-				f"{GLOBAL_QUALITY_LOCK}\n\n"
+            final_ai_prompt = f"""
+        {GLOBAL_QUALITY_LOCK}
 
-				"ULTRA 8K MACRO PRIORITY:\n"
-				"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
-				"- Object must be the SHARPEST element in frame\n"
-				"- Character face is secondary but still detailed\n"
-				"- True physical realism only (NO CGI, NO AI look, NO plastic texture)\n\n"
+        ULTRA 8K MACRO PRIORITY:
+        - Object is PRIMARY SUBJECT (60% frame)
+        - Face is SECONDARY (40%)
+        - Extreme micro-detail visibility
+        - Every texture must be physically real
 
-				"CAMERA SYSTEM:\n"
-				"- 50mm macro cinematic lens\n"
-				"- Aperture f/4 (natural optical depth)\n"
-				"- Eye-level composition\n"
-				"- Tight medium shot\n"
-				"- Locked focus on object (primary focus priority)\n"
-				"- Natural depth layering only (foreground object → mid face → background)\n"
-				"- No focus hunting, no artificial blur\n\n"
+        CAMERA:
+        - 50mm macro lens
+        - f/4 dual focus system
+        - NO blur on object
+        - NO focus hunting
+        - Focus priority strictly locked on the object
+        - Face remains secondary but still sharp
+        - Object must NEVER lose sharpness under any condition
 
-				"CINEMATIC CAMERA MOTION:\n"
-				"- Extremely slow natural push-in (almost static)\n"
-				"- Micro handheld realism (subtle human operator feel)\n"
-				"- Stable frame, no jitter, no shake\n"
-				"- Object remains perfectly sharp at all times\n\n"
+        CHARACTER:
+        {soul_desc}
+        {gender_lock}
+        - Real aging skin
+        - No beauty filter
+        - Natural tired expression
 
-				"CHARACTER:\n"
-				f"{soul_desc}\n"
-				f"{gender_lock}\n"
-				"- Hyper-realistic aged skin (wrinkles, pores, sun damage)\n"
-				"- Thin fragile elderly body\n"
-				"- Natural tired expression (NO smile, NO exaggeration)\n"
-				"- Pure documentary realism\n\n"
+        ENVIRONMENT:
+        {env_detail}
+        The character is seated upright behind a high rustic wooden table at chest level.
 
-				"ENVIRONMENT:\n"
-				f"{env_detail}\n"
-				"High rustic wooden table positioned at chest level.\n\n"
+        PERFORMANCE:
+        {aksi_final}
+        Mood: {mood_final}
+        Slow, minimal, realistic movement
 
-				"PERFORMANCE:\n"
-				f"{aksi_final}\n"
-				f"Mood: {mood_final}\n"
-				"- Minimal, natural movement\n"
-				"- Eyes naturally alternate between object and camera\n"
-				"- No acting exaggeration\n\n"
+        VOICE LOCK (NATURAL ELDERLY SYSTEM):
+        - Age: 80–90 years old Indonesian
+        - Speed: Slow and natural (0.7x–0.8x)
+        - Tone: Soft, thin, slightly shaky
+        - Breath: Weak, with natural pauses between phrases (NOT every word)
 
-				"EMOTIONAL MICRO EXPRESSION:\n"
-				"- Slight watery eyes (NOT crying)\n"
-				"- Subtle eye shimmer under natural light\n"
-				"- Slow elderly blinking rhythm\n"
-				"- Mild facial tension around eyes and mouth\n"
-				"- Dry lips, slightly pressed\n"
-				"- Emotion stays internal, not theatrical\n\n"
+        SPEECH BEHAVIOR:
+        - Words flow naturally (NO per-word separation)
+        - Slight slurring is allowed but still intelligible
+        - Gentle breath pauses at commas or sentence breaks
+        - No forced articulation
+        - No robotic pacing
+        - No exaggerated pauses
+        - No stuttering, no glitch
 
-				"VOICE SYSTEM (ELDERLY NATURAL PROFILE):\n"
-				"- Age: 80–90 Indonesian rural elder\n"
-				"- Tone: soft, thin, slightly shaky\n"
-				"- Speed: slow natural (0.7x–0.8x)\n"
-				"- Breathing: natural pauses between phrases\n"
-				"- Clarity: fully understandable speech\n\n"
+        DELIVERY STYLE:
+        - Speak like a tired elderly person telling a story
+        - Emotional but controlled
+        - Slight vocal tremble (natural age effect)
+        - Consistent volume, no sudden spikes
 
-				"SPEECH RULES:\n"
-				"- Natural sentence flow (NO robotic separation)\n"
-				"- Short natural phrases allowed (not forced)\n"
-				"- Gentle pauses at commas or emotional breaks\n"
-				"- No stuttering, no mumbling, no glitch\n"
-				"- No exaggerated articulation\n\n"
+        VOICE STYLE:
+        {logat_final}
 
-				"VOICE STYLE:\n"
-				f"{logat_final}\n\n"
+        DIALOG:
+        "{user_dialog}"
 
-				f"DIALOG:\n\"{user_dialog}\"\n\n"
+        OBJECT DETAIL:
+        {deskripsi_teknis}
 
-				f"OBJECT DETAIL:\n{deskripsi_teknis}\n\n"
+        ULTRA DETAIL:
+        - Hyper realistic carving
+        - Real fruit texture
+        - Wet surface reflections
+        - Depth and imperfections visible
+        
+        REAL CAMERA DEPTH:
+        - Natural lens compression
+        - Real-world depth layering (foreground object, mid face, background environment)
+        - No flat rendering
+        - True optical depth, not digital blur
 
-				"ULTRA DETAIL ENFORCEMENT:\n"
-				"- Hyper-real carving precision\n"
-				"- Real fruit fiber texture\n"
-				"- Moist reflective surfaces\n"
-				"- Visible imperfections and realism\n"
-				"- No smoothing, no simplification\n\n"
-
-				"NEGATIVE PROMPT:\n"
-				"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
-				"overprocessed lighting, fake depth, cartoon style, "
-				"audio glitch, mumbling, unclear speech, fast talking, "
-				"lip sync error, exaggerated mouth movement, shouting"
-			)
+        NEGATIVE:
+        blurry, soft focus, low detail, CGI, AI look, plastic texture,
+        audio glitch, mumbling, unclear speech, fast talking, lip sync error
+        """
             
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
