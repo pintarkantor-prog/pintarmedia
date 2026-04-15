@@ -2986,126 +2986,135 @@ def tampilkan_halaman():
             st.write("")
             btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
 
-        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
-		if btn_gen:
-			scene_context = (
-				f"LIGHTING: Dramatic LOW-LIGHT side lighting (5 PM overcast). Natural outdoor exposure with heavy shadows and crushed black levels for a gritty documentary look. NO golden hour glow.\n"
-				f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 75% frame dominance on the craft. NO wide shot, NO high angle.\n"
-				f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
-				f"CAMERA: Neutral 0-degree tilt, eye-to-eye intimacy. Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
-				f"COLOR GRADING: Authentic undoctored 35mm film scan. Faded earth tones, muddy desaturated greens, and pale weary skin tones. NO oversaturation, NO neon colors."
-			)
+		# --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
+        if btn_gen:
+            scene_context = (
+                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting. Natural outdoor exposure with lower black levels for a flat documentary film look. NO harsh artificial contrast.\n"
+                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height is locked at chest-level/table-height. 70% frame dominance on the craft. NO wide shot, NO high angle.\n"
+                f"FOCUS SYSTEM: Realistic optical deep focus (f/4.0-f/5.6). Sharpest focus on the centerpiece and weathered fingers. NO artificial digital bokeh.\n"
+                f"CAMERA: Neutral 0-degree tilt, eye-to-eye intimacy. Subtle organic micro-sway (handheld documentary realism). Soulful slow-motion zoom toward the eyes. NO cinematic jitter.\n"
+                f"COLOR GRADING: Authentic 35mm film scan aesthetic. Faded earth tones, desaturated greens, and natural warm skin tones. NO oversaturation, NO neon colors."
+            )
 
-			env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
-			soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
-			
-			wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
-			baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
+            env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
+            soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
+            
+            wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
+            baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
 
-			ANATOMY_LOCK = "STRICTLY TWO HANDS, no extra fingers, no distortion."
+            ANATOMY_LOCK = "STRICTLY TWO HANDS, no extra fingers, no distortion."
 
-			is_perempuan = any(x in pilihan_user.lower() for x in [
-				"nenek","ibu","aminah","siti","marsi","ponirah","juminah",
-				"sikem","dulah","sartini","tinah","wati"
-			])
+            is_perempuan = any(x in pilihan_user.lower() for x in [
+                "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
+                "sikem","dulah","sartini","tinah","wati"
+            ])
 
-			if is_perempuan:
-				gender_lock = (
-					"IDENTITY: Extremely fragile Indonesian grandmother (90+). "
-					"FACE: Bone-thin facial structure, deeply weathered 'keriput' skin, heavy liver spots, and realistic age-related sagging. NO AI smoothing, NO facial hair. "
-					"WARDROBE: Old, faded, dust-stained village hijab (kerudung) showing realistic wear and tear."
-				)
-			else:
-				gender_lock = (
-					"IDENTITY: Extremely frail Indonesian grandfather (90+). "
-					"FACE: Skeletal facial structure, sun-damaged leathery skin, deep sunken hollow cheeks, and prominent bone ridges. "
-					"WARDROBE: Old, weathered, slightly discolored black Indonesian kopiah/peci with visible age."
-				)
+            if is_perempuan:
+                gender_lock = (
+                    "IDENTITY: Fragile Indonesian grandmother (80+). "
+                    "FACE: Deeply weathered skin, organic wrinkles, NO facial hair. "
+                    "WARDROBE: Faded village hijab (kerudung) covering hair/neck."
+                )
+            else:
+                gender_lock = (
+                    "IDENTITY: Frail Indonesian grandfather (80+). "
+                    "FACE: Sun-parched skin, bony cheekbones, hollow weary cheeks. "
+                    "WARDROBE: Weathered black Indonesian kopiah/peci."
+                )
 
-			aksi_final = pilih_aksi.strip()
-			mood_final = pilih_mood.strip()
-			logat_final = pilih_logat.strip()
+            aksi_final = pilih_aksi.strip()
+            mood_final = pilih_mood.strip()
+            logat_final = pilih_logat.strip()
 
-			# --- FONDASI QUALITY (REALISTIC CINEMA VERSION) ---
-			GLOBAL_QUALITY_LOCK = (
-				"VISUAL LOCK: High-end 8K RAW cinema camera footage. "
-				"STRICTLY NO AI SMOOTHING, NO PLASTIC SKIN, NO BEAUTY FILTERS. "
-				"Capture authentic skin anatomy: visible pores, fine facial hair, natural skin blemishes, and deep organic wrinkles. "
-				"MANDATORY: Natural outdoor color science with realistic saturation. "
-				"The image must look like a sharp, professional documentary film frame, capturing every raw detail of aging without any digital retouching."
-			)
+            # --- FONDASI QUALITY ---
+            GLOBAL_QUALITY_LOCK = (
+                "RAW CINEMATIC FOOTAGE LOCK: Must look like an unedited 35mm film scan. "
+                "NO AI SMOOTHING, NO CGI RENDER STYLE, NO PLASTIC TEXTURES, NO ARTIFICIAL SHARPENING. "
+                "Capture true optical imperfections, subtle film grain, and natural lens breathing. "
+                "Materials must have correct physical light interaction (PBR) and realistic micro-imperfections."
+            )
 
-			# --- ASSEMBLY PROMPT (V.32 - ULTRA AGED & TEXT-FREE) ---
-			final_ai_prompt = (
-				f"{GLOBAL_QUALITY_LOCK}\n\n"
-				f"ULTRA 8K MACRO PRIORITY:\n"
-				f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
-				f"- Object must be the SHARPEST element in frame\n"
-				f"- Character face is secondary but still detailed\n"
-				f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
-				f"CAMERA SYSTEM:\n"
-				f"- 50mm macro cinematic lens\n"
-				f"- Aperture f/4 (natural optical depth)\n"
-				f"- Eye-level composition\n"
-				f"- Tight medium shot\n"
-				f"- Locked focus on object (primary focus priority)\n"
-				f"- Natural depth layering only (foreground → subject → background)\n"
-				f"- No focus hunting, no artificial blur\n\n"
-				f"CINEMATIC CAMERA MOTION:\n"
-				f"- Extremely slow natural push-in\n"
-				f"- Micro handheld realism\n"
-				f"- Stable frame, no shake\n"
-				f"- Object always perfectly sharp\n\n"
-				f"CHARACTER IDENTITY:\n"
-				f"{soul_desc}\n"
-				f"{gender_lock}\n"
-				f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
-				f"ENVIRONMENT:\n"
-				f"{env_detail}\n"
-				f"- Setting Atmosphere: {scene_context}\n"
-				f"- High rustic wooden table at chest level.\n\n"
-				f"PERFORMANCE:\n"
-				f"{aksi_final}\n"
-				f"Mood: {mood_final}\n"
-				f"- Minimal natural movement\n"
-				f"- Eyes naturally alternate between object and camera\n\n"
-				f"EMOTIONAL MICRO EXPRESSION:\n"
-				f"- Slight watery eyes (not crying)\n"
-				f"- Slow blinking\n"
-				f"- Subtle facial tension\n"
-				f"- Emotion stays internal\n\n"
-				f"VOICE PROFILE:\n"
-				f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (Extremely frail 90+ years old). "
-				f"MANDATORY: Shaky, thin, and gasping vocal texture. "
-				f"Include heavy audible breathing, weary pauses, and realistic vocal fry of a very old person. "
-				f"Rural Indonesian accent, spoken with immense effort and fatigue.\n\n"
-				f"SPOKEN DIALOG:\n"
-				f"\"{user_dialog}\"\n\n"
+            # --- ASSEMBLY PROMPT (V.31 - STABLE MACRO) ---
+            final_ai_prompt = (
+                f"{GLOBAL_QUALITY_LOCK}\n\n"
+                
+                f"ULTRA 8K MACRO PRIORITY:\n"
+                f"- Primary subject: handcrafted miniature object (60% frame dominance)\n"
+                f"- Object must be the SHARPEST element in frame\n"
+                f"- Character face is secondary but still detailed\n"
+                f"- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)\n\n"
+                
+                f"CAMERA SYSTEM:\n"
+                f"- 50mm macro cinematic lens\n"
+                f"- Aperture f/4 (natural optical depth)\n"
+                f"- Eye-level composition\n"
+                f"- Tight medium shot\n"
+                f"- Locked focus on object (primary focus priority)\n"
+                f"- Natural depth layering only (foreground → subject → background)\n"
+                f"- No focus hunting, no artificial blur\n\n"
+                
+                f"CINEMATIC CAMERA MOTION:\n"
+                f"- Extremely slow natural push-in\n"
+                f"- Micro handheld realism\n"
+                f"- Stable frame, no shake\n"
+                f"- Object always perfectly sharp\n\n"
+                
+                f"CHARACTER IDENTITY:\n"
+                f"{soul_desc}\n"
+                f"{gender_lock}\n"
+                f"MANDATORY: Hyper-realistic documentary skin texture (8k), NO smoothing, NO smile.\n\n"
+
+                f"ENVIRONMENT:\n"
+                f"{env_detail}\n"
+                f"- Setting Atmosphere: {scene_context}\n"
+                f"- High rustic wooden table at chest level.\n\n"
+                
+                f"PERFORMANCE:\n"
+                f"{aksi_final}\n"
+                f"Mood: {mood_final}\n"
+                f"- Minimal natural movement\n"
+                f"- Eyes naturally alternate between object and camera\n\n"
+                
+                f"EMOTIONAL MICRO EXPRESSION:\n"
+                f"- Slight watery eyes (not crying)\n"
+                f"- Slow blinking\n"
+                f"- Subtle facial tension\n"
+                f"- Emotion stays internal\n\n"
+                
+                f"VOICE PROFILE:\n"
+                f"{'Elderly Female' if is_perempuan else 'Elderly Male'} (80-90 years old, rural Indonesian accent). "
+                f"Thin, shaky, and fragile vocal texture. Mandatory: Include natural heavy breathing and weary pauses between phrases.\n\n"
+                
+                f"SPOKEN DIALOG:\n"
+                f"\"{user_dialog}\"\n\n"
+                
 				f"DIALOG DELIVERY RULE:\n"
-				f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
-				f"- Must be spoken naturally, not read like instruction\n"
-				f"- Treat as direct speech only\n"
-				f"- No robotic separation\n\n"
-				f"OBJECT DETAIL:\n"
-				f"{deskripsi_teknis}\n\n"
-				f"ULTRA DETAIL ENFORCEMENT:\n"
-				f"- {ANATOMY_LOCK}\n"
-				f"- Hyper-real carving precision\n"
-				f"- Real fruit fiber texture\n"
-				f"- Moist reflective surfaces\n"
-				f"- Visible imperfections\n\n"
+                f"- FOR AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n" # <-- Tambahin ini
+                f"- Must be spoken naturally, not read like instruction\n"
+                f"- Treat as direct speech only\n"
+                f"- No robotic separation\n\n"
+                
+                f"OBJECT DETAIL:\n"
+                f"{deskripsi_teknis}\n\n"
+                
+                f"ULTRA DETAIL ENFORCEMENT:\n"
+                f"- Hyper-real carving precision\n"
+                f"- Real fruit fiber texture\n"
+                f"- Moist reflective surfaces\n"
+                f"- Visible imperfections\n\n"
+                
 				f"NEGATIVE PROMPT:\n"
-				f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
-				f"overprocessed lighting, fake depth, cartoon style, "
-				f"audio glitch, unclear speech, fast talking, smiling, laughing, "
-				f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
-				f"text, watermark, captions, subtitles, letters, typography, on-screen text"
-			)
+                f"blurry, soft focus, low detail, CGI, AI look, plastic texture, "
+                f"overprocessed lighting, fake depth, cartoon style, "
+                f"audio glitch, unclear speech, fast talking, smiling, laughing, "
+                f"wide shot, aerial view, bird's eye view, high angle, distant camera, far shot, "
+                f"text, watermark, captions, subtitles, letters, typography, on-screen text" # <-- TAMBAHIN INI
+            )
 
-			# --- 7. TAMPILKAN HASIL ---
-			st.success("🔥 PROMPT MASJID READY!")
-			st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
-			st.code(final_ai_prompt, language="text")
+            # --- 7. TAMPILKAN HASIL ---
+            st.success("🔥 PROMPT MASJID READY!")
+            st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
+            st.code(final_ai_prompt, language="text")
                        
     # ==========================================================================
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
