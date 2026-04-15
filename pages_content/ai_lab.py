@@ -60,296 +60,286 @@ def tampilkan_halaman():
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
+            # === NENEK ===
             "Nenek Aminah": (
                 "IDENTITY: Extremely frail 92-year-old Javanese grandmother. "
-                "FACE: Extremely thin delicate facial structure with very deep dense wrinkles, heavy sagging skin, prominent dark liver spots, and dry parchment-like texture. "
-                "EYES: Deeply sunken dull weary 'sayu' gaze with heavy drooping eyelids showing extreme fatigue. "
-                "BODY: Very fragile shrunken frame, slightly trembling posture, visible bone structure under thin skin. "
-                "MOUTH: Thin relaxed lips with noticeable micro-tremor and age-related sagging during slow speech."
+                "FACE: Long narrow face with high cheekbones, deep vertical wrinkles on the cheeks, heavy sagging skin along the jawline, and scattered dark liver spots. "
+                "EYES: Deeply sunken eyes with heavy drooping upper eyelids and soft lower eye bags. "
+                "BODY: Tall but severely shrunken and thin frame, slightly hunched shoulders, thin neck with visible tendons. "
+                "MOUTH: Thin lips with gentle downward sagging at the corners and fine vertical lines above the upper lip."
             ),
             "Nenek Siti": (
                 "IDENTITY: Extremely frail 93-year-old petite Javanese grandmother. "
-                "FACE: Very small shrunken facial structure, pale translucent heavily sagging skin with deep natural folds and numerous age spots. "
-                "EYES: Distant hollow eyes with heavy lids reflecting long solitude and extreme old age. "
-                "BODY: Tiny delicate shrunken frame, very passive and humble elderly posture. "
-                "MOUTH: Loose sagging mouth with realistic severe muscle laxity of extreme old age."
+                "FACE: Very small round face with soft full cheeks that sag noticeably, creating gentle folds from nose to mouth. "
+                "EYES: Large round eyes that look tired due to heavy eyelid droop and mild under-eye puffiness. "
+                "BODY: Tiny delicate shrunken body with short neck and rounded soft shoulders. "
+                "MOUTH: Plump lower lip that sags softly with loose skin at the corners."
             ),
             "Nenek Marsi": (
                 "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
-                "FACE: Heavily shrunken facial structure, dry parchment-like skin with deep sunken cheeks and many prominent age spots. "
-                "EYES: Heavy lowered eyelids, thick with fatigue and quiet acceptance of very advanced age. "
-                "BODY: Passive extremely fragile bone structure, almost motionless shrunken elderly frame. "
-                "MOUTH: Sagging corners with slow heavy natural speech movement."
+                "FACE: Wide square face with prominent cheekbones, deep horizontal forehead wrinkles, and loose skin under the chin. "
+                "EYES: Narrow eyes mostly covered by thick heavy upper lids. "
+                "BODY: Broad shoulders but very thin arms and chest, frail and slightly hunched posture. "
+                "MOUTH: Wide mouth with deep folds running from the nose down toward the chin."
             ),
             "Nenek Ponirah": (
                 "IDENTITY: Extremely frail 91-year-old Javanese grandmother. "
-                "FACE: Broad facial structure with heavily weathered sun-damaged skin, very deep furrowed wrinkles, and visible age spots. "
-                "EYES: Calm but deeply hollow 'sayu' gaze with heavy neutral stare of extreme old age. "
-                "BODY: Stable but very frail posture showing decades of hard labor and physical decline. "
-                "MOUTH: Firm yet relaxed for dialogue, surrounded by deep nasolabial folds of advanced age."
+                "FACE: Heart-shaped face with soft pointed chin, deep smile lines at rest, and thin skin showing many fine wrinkles. "
+                "EYES: Almond-shaped eyes with noticeable lower eye bags and slightly drooping outer corners. "
+                "BODY: Slender bony frame with visible collarbones and delicate thin wrists. "
+                "MOUTH: Naturally curved lips surrounded by fine radiating wrinkles."
             ),
             "Nenek Juminah": (
                 "IDENTITY: Extremely frail 92-year-old very thin Javanese grandmother. "
-                "FACE: Sharp prominent bone structure with highly detailed aged skin, deep grooves, and numerous liver spots. "
-                "EYES: Low weary heavily tired lids showing quiet endurance of extreme old age. "
-                "BODY: Minimal movement, slow controlled gestures with extremely fragile thin hands. "
-                "MOUTH: Natural speech movement with realistic thinning and trembling of aged lips."
+                "FACE: Sharp angular face with sunken temples, high forehead, and prominent nose bridge from lost fat. "
+                "EYES: Deep-set eyes with thin eyelids and soft dark circles underneath. "
+                "BODY: Extremely thin and bony frame with long thin neck and visible shoulder bones. "
+                "MOUTH: Very thin lips with fine vertical wrinkles above and below."
             ),
             "Nenek Sikem": (
                 "IDENTITY: Extremely frail 94-year-old Javanese grandmother. "
-                "FACE: Extremely small facial structure, dry deeply folded sagging skin with heavy natural wrinkles and age spots. "
-                "EYES: Slow heavy lids showing very low emotional intensity and calm fatigue of advanced age. "
-                "BODY: Extremely passive, grounded, and severely shrunken elderly frame. "
-                "MOUTH: Fully functional for speech with natural lip movement and subtle tremor."
+                "FACE: Very round flat face with heavy lower cheeks and multiple soft folds under the chin. "
+                "EYES: Small eyes almost hidden under thick puffy eyelids. "
+                "BODY: Short rounded shrunken frame with soft loose skin on the upper arms. "
+                "MOUTH: Wide loose mouth with noticeable sagging of the lower lip."
             ),
             "Nenek Dulah": (
                 "IDENTITY: Extremely frail 90-year-old Sundanese grandmother. "
-                "FACE: Soft rounded face with naturally sunken cheeks, realistic heavy aging folds, and subtle age spots. "
-                "EYES: Deep-set almond eyes with calm tired gaze and hollow undereyes of extreme old age. "
-                "BODY: Fragile gentle presence with subtle age-related instability and trembling. "
-                "MOUTH: Neutral relaxed mouth showing natural severe muscle slackness."
+                "FACE: Soft oval face with naturally full cheeks that sag gently along the jawline. "
+                "EYES: Gentle almond eyes with soft under-eye hollows. "
+                "BODY: Soft fragile frame with rounded shoulders and thin arms. "
+                "MOUTH: Full lips that sag softly at the corners."
             ),
             "Nenek Sartini": (
                 "IDENTITY: Extremely frail 89-year-old Sundanese grandmother. "
-                "FACE: Wider round face with visible heavy sagging skin, deep marionette lines, and loose aged texture. "
-                "EYES: Tired eyes with heavy lids and calm blank expression of advanced old age. "
-                "BODY: Stable but clearly elderly and frail posture. "
-                "MOUTH: Neutral mouth position capturing realistic sagging of lower facial muscles."
+                "FACE: Wide round face with heavy sagging cheeks and deep gentle folds from nose to mouth. "
+                "EYES: Wide-set eyes with heavy upper lids and calm tired expression. "
+                "BODY: Plump but frail frame with loose skin on the upper arms. "
+                "MOUTH: Broad mouth with loose corners and soft wrinkles."
             ),
             "Nenek Tinah": (
                 "IDENTITY: Extremely frail 93-year-old thin Javanese grandmother. "
-                "FACE: Fragile facial structure with severe deep natural aging wrinkles, deeply sunken hollow cheeks, and dry aged skin. "
-                "EYES: Dull heavy eyes with low gaze and minimal facial reaction. "
-                "BODY: Shrunken and very frail body structure showing extreme old age. "
-                "MOUTH: Relaxed mouth for speech with natural thinning of the lips."
+                "FACE: Long oval face with deeply sunken cheeks and sharp jawline from weight loss. "
+                "EYES: Deep sunken eyes with heavy lids and minimal surrounding fat. "
+                "BODY: Very thin elongated shrunken frame with prominent bones. "
+                "MOUTH: Thin lips with many fine vertical wrinkles."
             ),
             "Nenek Wati": (
                 "IDENTITY: Extremely frail 91-year-old small Sundanese grandmother. "
-                "FACE: Small fragile face with thin bone structure, soft heavy sagging skin, and visible natural veins. "
-                "EYES: Calm tired eyes with gentle melancholic lonely gaze of very old age. "
-                "BODY: Small-framed, very delicate and still elderly posture. "
-                "MOUTH: Neutral mouth for speaking with subtle trembling of the lower jaw."
+                "FACE: Small delicate face with fine bone structure and soft heavy sagging skin on the cheeks. "
+                "EYES: Large gentle eyes with heavy drooping lids and soft under-eye bags. "
+                "BODY: Very small and delicate shrunken frame with thin wrists and hands. "
+                "MOUTH: Small mouth with subtle sagging of the lower lip."
             ),
 
             # === KAKEK ===
             "Kakek Marto": (
                 "IDENTITY: Extremely frail 91-year-old Javanese grandfather. "
-                "FACE: Elongated fragile facial structure with sunken temples, high forehead ridge, and very deep wisdom lines. "
-                "EYES: Dull distant 'sayu' gaze with profound weary eyelids of advanced age. "
-                "BODY: Lean fragile frame with quiet endurance and withdrawn posture. "
-                "MOUTH: Relaxed jaw and lips with natural aged movement and subtle lip-thinning."
+                "FACE: Long rectangular face with strong jawline, deep forehead wrinkles, and rough sun-damaged skin. "
+                "EYES: Deep-set eyes with thick brows and heavy lower lids. "
+                "BODY: Lean bony frame with slightly hunched shoulders and thin arms. "
+                "MOUTH: Wide mouth with thick aged lips and deep lines at the corners."
             ),
             "Kakek Somo": (
                 "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
-                "FACE: Rounded soft facial structure now heavily aged and exhausted with drooping eyelids and deep skin creases. "
-                "EYES: Tired calm slightly empty gaze showing quiet passive fatigue of extreme old age. "
-                "BODY: Small fragile frame with gentle slow-moving presence. "
-                "MOUTH: Neutral relaxed mouth with natural muscle laxity."
+                "FACE: Round soft face with heavy jowls and multiple soft folds under the chin. "
+                "EYES: Small tired eyes almost hidden under puffy eyelids. "
+                "BODY: Short rounded fragile frame with loose skin on the neck. "
+                "MOUTH: Full sagging lips with loose jaw skin."
             ),
             "Kakek Joyo": (
                 "IDENTITY: Extremely frail 89-year-old Javanese grandfather. "
-                "FACE: Square jaw structure with leathery sun-baked skin, very deep forehead furrows, and thick aged texture. "
-                "EYES: Protective pensive 'sayu' gaze with significant emotional weight of old age. "
-                "BODY: Once strong but now heavily burdened and frail posture with slow movements. "
-                "MOUTH: Flexible jaw showing aged lip texture."
+                "FACE: Square face with prominent brow ridge, deep wrinkles across the forehead, and leathery rough skin. "
+                "EYES: Narrow eyes with heavy lids and strong brow shadow. "
+                "BODY: Once sturdy but now shrunken frame with visible shoulder bones. "
+                "MOUTH: Wide firm mouth with deep wrinkles around the lips."
             ),
             "Kakek Hardi": (
                 "IDENTITY: Extremely frail 93-year-old Javanese grandfather. "
-                "FACE: Shrunken facial structure with thin parchment-like skin, hollow cheeks, and visible bone structure. "
-                "EYES: Deeply tired soft distant gaze reflecting sincere but fading presence. "
-                "BODY: Extremely fragile and thin frame with whisper-like movements. "
-                "MOUTH: Relaxed mouth with paper-thin lips."
+                "FACE: Extremely shrunken face with hollow cheeks, thin translucent skin, and prominent cheekbones. "
+                "EYES: Deep sunken cloudy eyes with thin eyelids. "
+                "BODY: Very thin and delicate frame with prominent collarbones. "
+                "MOUTH: Thin stretched lips with tight skin around the mouth."
             ),
             "Kakek Sableng": (
                 "IDENTITY: Extremely frail 90-year-old Javanese grandfather. "
-                "FACE: Strong bony facial structure with heavy eye bags and deep fatigue lines across the face. "
-                "EYES: Sharp but emotionally wounded 'sayu' gaze showing internal brokenness of old age. "
-                "BODY: Stoic and emotionally restrained but clearly shrunken elderly frame. "
-                "MOUTH: Natural jaw movement with subtle tension in aged lips."
+                "FACE: Broad face with high cheekbones, deep eye bags, and heavy fatigue lines across the forehead and cheeks. "
+                "EYES: Tired eyes with heavy lower lids and slightly downturned outer corners. "
+                "BODY: Lean frame with slightly hunched posture and thin arms. "
+                "MOUTH: Wide mouth with noticeable sagging at the corners."
             ),
             "Kakek Sinto": (
                 "IDENTITY: Extremely frail 94-year-old Javanese grandfather. "
-                "FACE: Deeply sunken skeletal facial structure with paper-thin translucent skin and heavy wrinkle density. "
-                "EYES: Cloudy distant gaze with profound emotional depth and calm acceptance. "
-                "BODY: Nearing silence, spiritually detached, extremely shrunken and delicate frame. "
-                "MOUTH: Fully flexible lips showing natural sag of extreme old age."
+                "FACE: Deeply sunken skeletal face with hollow cheeks, thin translucent skin, and prominent cheekbones. "
+                "EYES: Deep sunken cloudy eyes with thin eyelids. "
+                "BODY: Very thin and delicate frame with prominent collarbones and bony hands. "
+                "MOUTH: Thin stretched lips with tight skin around the mouth."
             ),
             "Kakek Wiryo": (
                 "IDENTITY: Extremely frail 88-year-old Javanese grandfather. "
-                "FACE: Strong labor-worn facial structure with dark bronze sun-exposed skin, deep pores, and rough aged texture. "
-                "EYES: Tired but steady 'nrimo' gaze showing decades of hard work. "
-                "BODY: Hardworking stoic but now very frail and weathered posture. "
-                "MOUTH: Relaxed jaw with natural speech articulation and aged lip texture."
+                "FACE: Broad labor-worn face with high cheekbones, deep pores, and rough sun-exposed skin. "
+                "EYES: Tired eyes with heavy lower lids and steady expression. "
+                "BODY: Lean weathered frame with slightly hunched shoulders from years of labor. "
+                "MOUTH: Wide mouth with thick aged lips."
             ),
             "Kakek Usman": (
                 "IDENTITY: Extremely frail 89-year-old Indonesian grandfather. "
-                "FACE: Deeply wrinkled face with emotional fatigue lines, sun-damaged skin texture, and thin white hair. "
-                "EYES: Emotional heavy gaze with subtle moisture reflection and weary lids. "
-                "BODY: Emotionally burdened but sincere and slow elderly posture. "
-                "MOUTH: Natural lip sync with relaxed jaw showing realistic aged skin movement."
+                "FACE: Deeply wrinkled face with prominent fatigue lines around the eyes and mouth, sunken cheeks. "
+                "EYES: Heavy-lidded eyes with subtle moisture and weary appearance. "
+                "BODY: Thin frame with slow movements and slightly rounded shoulders. "
+                "MOUTH: Relaxed mouth with natural aged lip texture."
             )
         }
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
-
             "Nenek Aminah": {
-                "Daster Rayon Motif Floral Lembut": "Wearing a loose soft rayon daster with delicate muted floral pattern in faded sage green and cream tones. Lightweight breathable fabric with natural soft drape. Paired with a simple cream instant bergo hijab.",
-                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton daster with subtle faded brown parang batik pattern. Soft and comfortable fabric. Paired with a light brown jersey hijab.",
-                "Daster Polos Katun Harian": "Wearing a plain faded emerald green cotton daster with smooth texture and loose comfortable fit. Paired with a simple grey instant hijab.",
-                "Kaos Lengan Panjang + Sarung Batik": "Wearing a loose long-sleeved soft beige cotton shirt paired with a classic brown batik sarong. Paired with a soft white instant hijab.",
-                "Daster Kancing Depan Motif Geometris": "Wearing a front-button rayon daster in muted maroon with subtle geometric pattern. Lightweight and modest daily wear. Paired with a navy instant hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif on a light base. Comfortable with natural fabric movement. Paired with a simple black bergo hijab."
+                "Daster Rayon Motif Floral Lembut": "Wearing a loose soft rayon daster with delicate faded floral pattern in gentle natural tones. Lightweight breathable fabric with soft drape. Paired with a simple matching instant bergo hijab.",
+                "Daster Kaos Motif Batik Parang": "Wearing an oversized soft cotton daster with subtle faded parang batik pattern. Comfortable daily fabric. Paired with a simple neutral jersey hijab.",
+                "Daster Polos Katun Harian": "Wearing a plain faded cotton daster in soft natural color with loose comfortable fit. Paired with a simple instant hijab.",
+                "Kaos Lengan Panjang + Sarung Batik": "Wearing a loose long-sleeved soft cotton shirt paired with a classic faded batik sarong. Paired with a simple neutral hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button rayon daster with subtle geometric pattern in muted natural tones. Lightweight and modest. Paired with a simple instant hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft faded leaf motif in gentle natural colors. Comfortable home outfit. Paired with a simple bergo hijab."
             },
-
             "Nenek Siti": {
-                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in pastel colors. Lightweight and comfortable for daily use. Paired with a dusty pink instant hijab.",
-                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft brown Sogan batik pattern. Thin and gentle fabric drape. Paired with a cream bergo hijab.",
-                "Daster Polos Katun": "Wearing a plain faded mint green cotton daster with loose comfortable fit. Paired with a simple white instant hijab.",
-                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved beige cotton shirt paired with a dark brown jarik cloth. Paired with a soft grey hijab.",
-                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with faded subtle stripe pattern. Lightweight daily wear. Paired with a navy instant hijab.",
-                "Daster Rayon Motif Abstrak Lembut": "Wearing a loose rayon daster with soft faded abstract pattern in muted tones. Comfortable home outfit. Paired with a simple maroon hijab."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in soft natural tones. Lightweight and comfortable. Paired with a simple neutral hijab.",
+                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft Sogan batik pattern. Gentle fabric drape. Paired with a simple instant hijab.",
+                "Daster Polos Katun": "Wearing a plain faded cotton daster in soft natural color with loose fit. Paired with a simple hijab.",
+                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved soft cotton shirt paired with a faded batik jarik. Paired with a simple neutral hijab.",
+                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with subtle faded stripe pattern. Lightweight daily wear. Paired with a simple hijab.",
+                "Daster Rayon Motif Abstrak Lembut": "Wearing a loose rayon daster with soft faded abstract pattern in gentle natural tones. Comfortable home outfit. Paired with a simple hijab."
             },
-
             "Nenek Marsi": {
-                "Daster Batik Lembut": "Wearing a thin soft batik rayon daster in muted brown and cream tones. Light fabric with natural drape. Paired with a simple white instant hijab.",
-                "Kaos Panjang + Jarik": "Wearing a long sleeve soft cotton shirt paired with a simple batik jarik. Traditional modest home outfit. Paired with a grey hijab.",
-                "Daster Polos Katun Tipis": "Wearing a plain soft pastel cotton daster with loose fit. Paired with a simple hijab.",
-                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in faded dusty rose tone. Comfortable and modest daily wear. Paired with a soft hijab.",
-                "Daster Kancing Depan": "Wearing a front-button cotton daster in faded maroon. Simple and practical. Paired with a navy instant hijab.",
-                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in muted colors. Paired with a simple black bergo hijab."
+                "Daster Batik Lembut": "Wearing a thin soft batik rayon daster in muted traditional tones. Light fabric with natural drape. Paired with a simple instant hijab.",
+                "Kaos Panjang + Jarik": "Wearing a loose long-sleeved soft cotton shirt paired with a faded batik jarik. Traditional modest home outfit. Paired with a simple hijab.",
+                "Daster Polos Katun Tipis": "Wearing a plain soft cotton daster with loose comfortable fit. Paired with a simple hijab.",
+                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in soft faded natural tones. Modest and comfortable daily wear. Paired with a simple hijab.",
+                "Daster Kancing Depan": "Wearing a front-button cotton daster in muted natural color. Simple and practical. Paired with a simple hijab.",
+                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in gentle natural tones. Paired with a simple hijab."
             },
-
             "Nenek Ponirah": {
-                "Daster Kaos Motif Mega Mendung": "Wearing an oversized cotton daster with faded soft Mega Mendung pattern in muted navy and grey. Comfortable fabric with natural drape. Paired with a simple black jersey bergo hijab.",
-                "Setelan Rumah Rayon": "Wearing a matching loose rayon top and pants in faded chocolate brown with subtle pattern. Modest and practical daily wear. Paired with a plain grey instant hijab.",
-                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster in dark maroon with faded geometric pattern. Lightweight daily outfit. Paired with a simple white hijab.",
-                "Tunik Katun + Jarik": "Wearing a modest long-sleeved tunic in faded sky blue paired with a dark brown batik jarik. Paired with a simple navy hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with large faded green leaf pattern. Comfortable home wear. Paired with a simple black instant hijab.",
-                "Kaos Polo Lengan Panjang + Sarung": "Wearing a modest long-sleeved cotton polo in faded forest green paired with a dark batik sarong. Paired with a simple white hijab."
+                "Daster Kaos Motif Mega Mendung": "Wearing an oversized cotton daster with faded soft Mega Mendung pattern in muted natural tones. Comfortable fabric. Paired with a simple bergo hijab.",
+                "Setelan Rumah Rayon": "Wearing a matching loose rayon top and pants in soft faded natural tones. Modest daily wear. Paired with a simple instant hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster with subtle geometric pattern in muted tones. Lightweight daily outfit. Paired with a simple hijab.",
+                "Tunik Katun + Jarik": "Wearing a modest long-sleeved cotton tunic paired with a faded batik jarik. Paired with a simple hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft leaf motif in gentle natural tones. Comfortable home wear. Paired with a simple hijab.",
+                "Kaos Polo Lengan Panjang + Sarung": "Wearing a modest long-sleeved cotton polo in soft natural tone paired with a faded batik sarong. Paired with a simple hijab."
             },
-
             "Nenek Juminah": {
-                "Daster Rayon Motif Floral": "Wearing a loose rayon daster with soft faded floral pattern in muted navy tones. Lightweight and comfortable. Paired with a simple grey jersey bergo hijab.",
-                "Kaos Lengan Panjang + Sarung": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik sarong. Simple daily home outfit. Paired with a white instant hijab.",
-                "Daster Kaos Polos": "Wearing a plain faded maroon cotton daster with loose fit. Paired with a plain grey cotton hijab.",
-                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with faded vertical stripes. Lightweight daily wear. Paired with a navy instant hijab.",
-                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in faded dusty rose. Modest and comfortable. Paired with a soft white hijab.",
-                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with soft faded abstract pattern. Paired with a simple black bergo hijab."
+                "Daster Rayon Motif Floral": "Wearing a loose rayon daster with soft faded floral pattern in gentle natural tones. Lightweight and comfortable. Paired with a simple hijab.",
+                "Kaos Lengan Panjang + Sarung": "Wearing a loose long-sleeved soft cotton shirt paired with a faded batik sarong. Simple daily home outfit. Paired with a simple hijab.",
+                "Daster Kaos Polos": "Wearing a plain faded cotton daster with loose fit in soft natural color. Paired with a simple hijab.",
+                "Daster Kancing Depan Motif Garis": "Wearing a front-button cotton daster with subtle faded stripe pattern. Lightweight daily wear. Paired with a simple hijab.",
+                "Tunik Katun Sederhana": "Wearing a loose cotton tunic in soft faded tone. Modest and comfortable. Paired with a simple hijab.",
+                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with soft faded abstract pattern in gentle natural tones. Paired with a simple hijab."
             },
-
             "Nenek Sikem": {
-                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in muted blue tones. Lightweight daily wear. Paired with a simple black jersey bergo hijab.",
-                "Daster Polos Katun": "Wearing a plain faded green cotton daster with loose comfortable fit. Paired with a simple grey hijab.",
-                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik jarik. Paired with a soft grey hijab.",
-                "Daster Kancing Depan": "Wearing a front-button cotton daster in faded navy. Simple and practical. Paired with a white instant hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif. Comfortable home wear. Paired with a simple maroon hijab.",
-                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in muted tones. Paired with a simple black bergo hijab."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in muted natural tones. Lightweight daily wear. Paired with a simple black jersey bergo hijab.",
+                "Daster Polos Katun": "Wearing a plain faded cotton daster with loose comfortable fit. Paired with a simple grey hijab.",
+                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved soft cotton shirt paired with a faded batik jarik. Paired with a simple neutral hijab.",
+                "Daster Kancing Depan": "Wearing a front-button cotton daster in muted natural color. Simple and practical. Paired with a simple hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft leaf motif in gentle natural tones. Comfortable home wear. Paired with a simple hijab.",
+                "Daster Motif Geometris Lembut": "Wearing a loose rayon daster with subtle geometric pattern in gentle natural tones. Paired with a simple hijab."
             },
-
             "Nenek Dulah": {
-                "Daster Kaos Motif Bunga Kecil": "Wearing a short-sleeved cotton jersey daster in faded mint green with small floral patterns. Comfortable daily wear. Paired with a simple grey jersey instant hijab.",
-                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft brown Sogan pattern. Paired with a simple black bergo hijab.",
-                "Kaos Lengan Panjang + Sarung": "Wearing a loose long-sleeved beige cotton shirt paired with a dark batik sarong. Paired with a simple white instant hijab.",
-                "Daster Kancing Depan Motif Abstrak": "Wearing a front-button cotton daster in faded purple with subtle abstract pattern. Paired with a navy instant hijab.",
-                "Daster Kaos Garis Halus": "Wearing a striped cotton jersey daster in faded blue and white. Loose comfortable fit. Paired with a simple maroon instant hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft green leaf motif. Paired with a simple grey hijab."
+                "Daster Kaos Motif Bunga Kecil": "Wearing a soft cotton daster with tiny faded floral pattern in gentle natural tones. Comfortable daily wear. Paired with a simple grey instant hijab.",
+                "Daster Rayon Motif Sogan": "Wearing a traditional Javanese rayon daster with faded soft Sogan batik pattern. Paired with a simple neutral hijab.",
+                "Kaos Lengan Panjang + Jarik": "Wearing a loose long-sleeved soft cotton shirt paired with a faded batik jarik. Paired with a simple hijab.",
+                "Daster Kancing Depan Motif Abstrak": "Wearing a front-button cotton daster with subtle abstract pattern in muted natural tones. Paired with a simple hijab.",
+                "Daster Kaos Garis Halus": "Wearing a striped cotton jersey daster in soft natural tones. Loose comfortable fit. Paired with a simple hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft leaf motif in gentle natural tones. Paired with a simple hijab."
             },
-
             "Nenek Sartini": {
-                "Daster Rayon Motif Bunga Matahari": "Wearing a loose rayon daster in faded yellow with soft sunflower prints. Comfortable home dress. Paired with a simple grey jersey bergo hijab.",
-                "Daster Kaos Motif Batik Pesisiran": "Wearing a short-sleeved cotton daster with faded red coastal batik pattern. Paired with a simple black instant hijab.",
-                "Kaos Lengan Panjang + Sarung": "Wearing a plain long-sleeved cotton t-shirt in faded white paired with a dark batik sarong. Paired with a simple navy instant hijab.",
-                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster in faded emerald green with subtle geometric pattern. Paired with a white instant hijab.",
-                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in faded maroon. Comfortable daily wear. Paired with a grey simple hijab.",
-                "Daster Rayon Motif Batik Cap": "Wearing a loose rayon daster with faded dark batik cap pattern. Paired with a simple dark brown instant hijab."
+                "Daster Rayon Motif Bunga Matahari": "Wearing a loose rayon daster with soft faded floral pattern in gentle warm tones. Comfortable home dress. Paired with a simple grey jersey bergo hijab.",
+                "Daster Kaos Motif Batik Pesisiran": "Wearing a short-sleeved cotton daster with faded traditional batik pattern. Paired with a simple black instant hijab.",
+                "Kaos Lengan Panjang + Sarung": "Wearing a plain long-sleeved cotton shirt paired with a faded batik sarong. Paired with a simple neutral hijab.",
+                "Daster Kancing Depan Motif Geometris": "Wearing a front-button cotton daster with subtle geometric pattern in muted natural tones. Paired with a simple hijab.",
+                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in soft natural tone. Comfortable daily wear. Paired with a simple hijab.",
+                "Daster Rayon Motif Batik Cap": "Wearing a loose rayon daster with faded soft batik cap pattern. Paired with a simple dark hijab."
             },
-
             "Nenek Tinah": {
-                "Daster Kaos Motif Floral Lembut": "Wearing an oversized cotton daster in faded blue with soft floral print. Comfortable daily wear. Paired with a simple black bergo hijab.",
-                "Daster Rayon Motif Daun": "Wearing a loose rayon daster in faded green with large leaf pattern. Paired with a grey instant hijab.",
-                "Kaos Lengan Panjang Polos": "Wearing a plain faded yellow long-sleeved cotton shirt paired with a dark batik sarong. Paired with a white instant hijab.",
-                "Daster Kancing Depan Garis": "Wearing a front-button cotton daster with faded striped pattern. Paired with a navy instant hijab.",
-                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in faded orange. Simple daily home wear. Paired with a maroon instant hijab.",
-                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with faded soft abstract pattern. Paired with a dark brown instant hijab."
+                "Daster Kaos Motif Floral Lembut": "Wearing an oversized cotton daster with soft faded floral pattern in gentle natural tones. Comfortable daily wear. Paired with a simple black bergo hijab.",
+                "Daster Rayon Motif Daun": "Wearing a loose rayon daster with soft leaf motif in gentle natural tones. Paired with a simple grey hijab.",
+                "Kaos Lengan Panjang Polos": "Wearing a plain faded long-sleeved cotton shirt paired with a dark batik sarong. Paired with a simple white hijab.",
+                "Daster Kancing Depan Garis": "Wearing a front-button cotton daster with subtle faded stripe pattern. Paired with a simple navy hijab.",
+                "Daster Kaos Polos": "Wearing an oversized plain cotton daster in soft natural tone. Simple daily home wear. Paired with a simple maroon hijab.",
+                "Daster Rayon Motif Abstrak": "Wearing a loose rayon daster with soft faded abstract pattern in gentle natural tones. Paired with a simple dark hijab."
+            },
+            "Nenek Wati": {
+                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton daster with faded parang batik pattern in soft earthy tones. Soft and comfortable. Paired with a simple black bergo hijab.",
+                "Kaos Lengan Panjang Polos": "Wearing a plain faded long-sleeved cotton shirt paired with a dark batik sarong. Paired with a simple white hijab.",
+                "Daster Rayon Motif Kembang": "Wearing a loose rayon daster with faded flower pattern in gentle natural tones. Paired with a simple grey hijab.",
+                "Daster Kancing Depan Kotak": "Wearing a front-button cotton daster with small faded checkered pattern. Paired with a simple navy hijab.",
+                "Daster Kaos Polos": "Wearing a plain oversized cotton daster in soft natural tone. Simple home clothing. Paired with a simple maroon hijab.",
+                "Daster Rayon Motif Batik Lembut": "Wearing a loose rayon daster with faded soft batik pattern. Paired with a simple dark brown hijab."
             },
 
-            "Nenek Wati": {
-                "Daster Kaos Motif Batik Parang": "Wearing an oversized cotton daster with faded parang batik pattern. Soft and comfortable. Paired with a black instant bergo hijab.",
-                "Kaos Lengan Panjang Polos": "Wearing a plain faded red long-sleeved cotton shirt paired with a dark batik sarong. Paired with a white hijab.",
-                "Daster Rayon Motif Kembang": "Wearing a loose rayon daster with faded flower pattern. Paired with a grey instant hijab.",
-                "Daster Kancing Depan Kotak": "Wearing a front-button cotton daster with small faded checkered pattern. Paired with a navy hijab.",
-                "Daster Kaos Polos": "Wearing a plain oversized cotton daster in faded mustard yellow. Simple home clothing. Paired with a maroon instant hijab.",
-                "Daster Rayon Motif Batik Lembut": "Wearing a loose rayon daster with faded soft batik pattern. Paired with a dark brown instant hijab."
-            },
-            
             # --- KELOMPOK KAKEK ---
             "Kakek Marto": {
-                "Baju Koko Katun Lembut": "Wearing a simple short-sleeved light brown cotton koko shirt with soft texture and natural drape from daily use. Paired with a classic checkered batik sarong in faded brown tones and a simple black velvet peci.",
-                "Baju Koko Putih Polos": "Wearing a clean white short-sleeved cotton koko shirt with slight natural wrinkles. Paired with a dark brown batik sarong and a white peci haji.",
-                "Baju Koko Batik Faded": "Wearing a short-sleeved faded earthy batik koko shirt with soft worn texture. Paired with a navy batik sarong and a simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a soft faded green short-sleeved polo shirt with comfortable fit. Paired with a maroon checkered batik sarong and a simple white knitted peci.",
-                "Kemeja Flanel Kotak & Sarung": "Wearing a faded blue-grey flannel shirt over a thin white undershirt. Paired with a dark green batik sarong and black velvet peci.",
-                "Baju Koko Abu & Sarung Lawas": "Wearing a simple short-sleeved faded grey cotton koko shirt. Paired with a traditional faded batik sarong and a black peci."
+                "Baju Koko Katun Lembut": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones with comfortable drape. Paired with a classic faded batik sarong and a simple black peci.",
+                "Baju Koko Putih Polos": "Wearing a plain white short-sleeved cotton koko shirt with natural wrinkles from daily use. Paired with a faded batik sarong and white peci.",
+                "Baju Koko Batik Faded": "Wearing a short-sleeved faded batik koko shirt in earthy tones. Paired with a dark batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a soft faded polo shirt with comfortable fit. Paired with a checkered batik sarong and simple white peci.",
+                "Kemeja Flanel Kotak & Sarung": "Wearing a faded checkered flannel shirt over a thin undershirt. Paired with a batik sarong and black peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
             "Kakek Somo": {
-                "Baju Koko Katun Polos": "Wearing a soft faded beige short-sleeved cotton koko shirt with natural drape. Paired with a brown batik sarong and simple white peci.",
-                "Baju Koko Batik Lembut": "Wearing a short-sleeved faded soft brown batik koko shirt. Paired with a checkered batik sarong and white peci haji.",
-                "Baju Koko Biru Muda": "Wearing a simple short-sleeved light blue cotton koko shirt. Paired with a dark maroon batik sarong and black velvet peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded orange short-sleeved polo shirt with comfortable collar. Paired with a dark green batik sarong and black peci.",
-                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered short-sleeved shirt. Paired with a maroon batik sarong and white peci haji.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a faded batik sarong and simple white peci.",
+                "Baju Koko Batik Lembut": "Wearing a short-sleeved faded soft batik koko shirt. Paired with a checkered batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a simple short-sleeved cotton koko shirt in soft faded tone. Paired with a dark batik sarong and black velvet peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt with comfortable collar. Paired with a dark green batik sarong and black peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded checkered short-sleeved shirt. Paired with a maroon batik sarong and white peci haji.",
                 "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and simple black peci."
             },
             "Kakek Joyo": {
-                "Baju Koko Katun Tebal": "Wearing a short-sleeved light brown cotton koko shirt with soft texture. Paired with a checkered batik sarong and black velvet peci.",
-                "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt with slight natural wrinkles. Paired with a dark batik sarong and white peci haji.",
-                "Baju Koko Batik Faded": "Wearing a short-sleeved faded earthy tone batik koko shirt. Paired with a navy batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded green short-sleeved polo shirt. Paired with a maroon checkered batik sarong and white knitted peci.",
-                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a dark green batik sarong and black peci.",
-                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional faded batik sarong and black peci."
+                "Baju Koko Katun Tebal": "Wearing a short-sleeved cotton koko shirt in soft natural tones. Paired with a checkered batik sarong and black velvet peci.",
+                "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt with natural wrinkles. Paired with a faded batik sarong and white peci haji.",
+                "Baju Koko Batik Faded": "Wearing a short-sleeved faded batik koko shirt in earthy tones. Paired with a navy batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a soft faded polo shirt. Paired with a maroon checkered batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded flannel shirt. Paired with a dark green batik sarong and black peci.",
+                "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
             "Kakek Hardi": {
-                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt with soft texture. Paired with a dark batik sarong and white peci haji.",
-                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
-                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt with natural drape. Paired with a checkered batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt with comfortable fit. Paired with a dark green batik sarong and white peci.",
-                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved cotton koko shirt in soft faded tone. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt with comfortable fit. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded checkered shirt. Paired with a maroon batik sarong and black peci.",
                 "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             },
             "Kakek Sableng": {
-                "Baju Koko Katun Polos": "Wearing a simple short-sleeved light brown cotton koko shirt with soft texture. Paired with a dark batik sarong and black velvet peci.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a dark batik sarong and black velvet peci.",
                 "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt. Paired with a maroon batik sarong and white peci haji.",
-                "Baju Koko Batik Faded": "Wearing a faded earthy batik koko shirt with soft worn texture. Paired with a checkered batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded green polo shirt. Paired with a dark green batik sarong and white knitted peci.",
-                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a navy batik sarong and black peci.",
+                "Baju Koko Batik Faded": "Wearing a faded earthy batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt. Paired with a dark green batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded flannel shirt. Paired with a navy batik sarong and black peci.",
                 "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
             "Kakek Sinto": {
-                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt. Paired with a dark batik sarong and white peci haji.",
-                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
-                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt. Paired with a dark green batik sarong and white peci.",
-                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved cotton koko shirt in soft faded tone. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded checkered shirt. Paired with a maroon batik sarong and black peci.",
                 "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             },
             "Kakek Wiryo": {
-                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt with soft texture. Paired with a dark batik sarong and black peci.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a dark batik sarong and black peci.",
                 "Baju Koko Putih Lawas": "Wearing a clean white short-sleeved cotton koko shirt. Paired with a maroon batik sarong and white peci haji.",
                 "Baju Koko Batik Faded": "Wearing a faded earthy batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded green polo shirt. Paired with a dark green batik sarong and white knitted peci.",
-                "Kemeja Flanel & Sarung": "Wearing a faded blue-grey flannel shirt. Paired with a navy batik sarong and black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt. Paired with a dark green batik sarong and white knitted peci.",
+                "Kemeja Flanel & Sarung": "Wearing a faded flannel shirt. Paired with a navy batik sarong and black peci.",
                 "Baju Koko Abu & Sarung Lawas": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and black peci."
             },
             "Kakek Usman": {
-                "Baju Koko Katun Polos": "Wearing a simple short-sleeved faded beige cotton koko shirt. Paired with a dark batik sarong and white peci haji.",
-                "Baju Koko Biru Muda": "Wearing a short-sleeved light blue cotton koko shirt. Paired with a maroon batik sarong and black velvet peci.",
-                "Baju Koko Batik Lembut": "Wearing a faded soft brown batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
-                "Kaos Polo Lembut & Sarung": "Wearing a faded navy polo shirt. Paired with a dark green batik sarong and white peci.",
-                "Kemeja Kotak & Sarung": "Wearing a faded blue checkered shirt. Paired with a maroon batik sarong and black peci.",
+                "Baju Koko Katun Polos": "Wearing a simple short-sleeved cotton koko shirt in soft natural tones. Paired with a dark batik sarong and white peci haji.",
+                "Baju Koko Biru Muda": "Wearing a short-sleeved cotton koko shirt in soft faded tone. Paired with a maroon batik sarong and black velvet peci.",
+                "Baju Koko Batik Lembut": "Wearing a faded soft batik koko shirt. Paired with a checkered batik sarong and simple black peci.",
+                "Kaos Polo Lembut & Sarung": "Wearing a faded polo shirt. Paired with a dark green batik sarong and white peci.",
+                "Kemeja Kotak & Sarung": "Wearing a faded checkered shirt. Paired with a maroon batik sarong and black peci.",
                 "Baju Koko Abu & Sarung": "Wearing a simple faded grey cotton koko shirt. Paired with a traditional batik sarong and white peci haji."
             }
         }
-
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
@@ -1417,1048 +1407,712 @@ def tampilkan_halaman():
             }
         }
 
+		# --- 4. MASTER GRANDMA SETTING (Suasana Latar) ---
         MASTER_GRANDMA_SETTING = {
-            "Kebun Semangka: Pasca Hujan": (
-                "The character is seated on a low weathered wooden crate behind the workspace, nestled within a sprawling, unkempt Indonesian watermelon farm after a rain shower. "
-                "Background: The landscape is defined by dark, rich, damp brown mud with visible puddles in the tire tracks and furrow lines. "
-                "Colossal watermelons rest directly on the muddy earth, some covered in fine wet soil. The tangled green vines are lush and glistening with natural rainwater, sprawling unevenly across the field with realistic, sparse density and patches of wild weeds. "
-                "Atmosphere: Authentic rural tropical environment. Surrounding objects: A stack of empty, weathered plastic fruit crates and a discarded blue tarpaulin sheet near the drainage ditch. Natural daylight reflects off the wet surfaces, creating a moist, fresh ambiance."
-            ),
-
-            "Kebun Semangka: Gubuk Panen": (
-                "The character is seated on a simple weathered wooden bench behind the workspace, set next to a rustic, temporary harvest shed at the edge of the watermelon field. "
-                "Background: A tumble-down lean-to structure made of bamboo and tattered tarpaulin. The farm floor is dry, greyish-brown soil with sparse, wild watermelon vines sprawling unevenly. "
-                "Colossal watermelons are scattered naturally, some partially buried in the dirt and others tangled under thin, dry-green vines. Clutter: A high pile of newly harvested watermelons stacked messily under the shed's shade, a couple of old jute sacks, and a rustic wooden handcart parked nearby. "
-                "Lighting: Warm, side golden hour daylight highlighting the textures of raw bamboo, burlap, and dusty fruit. Zero artificial elements or manicured rows."
-            ),
-
-            "Kebun Semangka: Tepian Sungai": (
-                "The character is seated on a large flat river stone or low wooden crate behind the workspace, by a muddy path at the edge of a watermelon farm that borders a wide, slow-moving tropical river. "
-                "Background: Dense, lush bamboo thickets and tattered banana leaves lining the riverbank in the distant background. "
-                "The farm floor is a sandy-brown soil mixed with river stones. Colossal watermelons are nestled naturally among loose, wild green vines and tall river weeds. Realistic clutter: A rustic wooden canoe partially visible moored to a post in the river and a pile of river rocks and old fishing nets near the garden edge. "
-                "The setting captures the wild, unkempt nature of a rural Indonesian riverside garden under natural daylight. No whole watermelons or tools on the table."
-            ),
-            "Kebun Semangka: Panen": (
-                "The character is seated on a simple weathered wooden crate behind the workspace, in an authentic Indonesian watermelon field during harvest. "
-                "The expansive field shows dry greyish-brown soil with tangled, sparse green vines. "
-                "Background activity: A few distant Indonesian farmers in conical hats are working; one is carrying a normal-sized watermelon, another is pushing a rustic wooden handcart filled with several standard harvested watermelons. "
-                "The field is cluttered naturally with dry leaves and weeds. Far in the distance, a row of burlap sacks and a tattered blue tarpaulin are visible. "
-                "Lighting: Warm, natural golden hour sunlight from the side, highlighting the dusty ground. No internal lighting in the background."
-            ),
-
-            "Kebun Semangka: Perawatan": (
-                "The character is seated on a low wooden crate behind the workspace by a dusty red dirt path at the edge of a watermelon farm that borders a wide tropical garden. "
-                "Background: Rows of monumental watermelons on dry, grey-brown soil. "
-                "Background activity: A single distant Indonesian farm worker is walking slowly through the rows, wearing a faded pesticide backpack sprayer and a protective face cloth. A faint, real-world misty cloud of natural fertilizer is partially visible near the worker, catching the light. Realistic clutter: A rustic wooden handcart parked near the garden edge and a few river stones. "
-                "Lighting: Natural daytime sunlight, highlighting the fuzzy vines and dusty ground. The structure's deeply recessed portals show the glistening ruby-red interior flesh under natural daylight. No internal lighting Mechanisms."
-            ),
-
-            "Kebun Melon: Tradisional": (
-                "The character is seated on a low weathered wooden crate behind the workspace, in the middle of a traditional Indonesian melon field. "
-                "Background: The ground is dry, sandy light-brown soil with patches of wild grass. "
-                "Normal-sized melons with tan-netted rinds are scattered naturally on the ground, partially shaded by large, wide green leaves and sprawling vines. "
-                "Authentic clutter: Several bamboo sticks (ajir) are leaning messily against each other, and an old plastic watering can is visible in the distant background. "
-                "Lighting: Natural golden hour daylight, highlighting the rough netted texture of the melons and the dusty soil."
-            ),
-
-            "Kebun Melon: Sisa Panen": (
-                "The character is seated on a simple weathered wooden stool behind the workspace. "
-                "Background: An Indonesian melon field just after harvest. The field shows dry, cracked earth with mostly withered yellow-brown vines. "
-                "A few rejected, small normal-sized melons are left scattered in the dirt. "
-                "Realistic clutter: Piles of dry vines gathered in small heaps and a few discarded burlap sacks near a rustic bamboo fence in the distance. "
-                "Atmosphere: A raw, quiet rural field under warm afternoon sunlight with deep natural shadows."
-            ),
-
-            "Kebun Melon: Penyiraman": (
-                "The character is seated on a low wooden crate behind the workspace by a dusty path at the edge of a melon farm. "
-                "Background: Rows of healthy melon plants with large green leaves. "
-                "Background activity: A distant Indonesian farmer is seen carrying two buckets of water using a traditional wooden shoulder pole (pikulan). "
-                "The ground is a mix of dry earth and damp dark patches from recent watering. Authentic clutter: A rustic wooden handcart parked near a small irrigation ditch. "
-                "Lighting: Soft morning sunlight, highlighting the moisture on the leaves and the dusty ground texture."
-            ),
-
-            "Kebun Melon: Sortir Panen": (
-                "The character is seated on a rustic bamboo bench behind the workspace, set at the edge of the field. "
-                "Background activity: A few distant Indonesian workers are seen sorting normal-sized melons into several weathered plastic fruit crates on the ground. "
-                "The farm floor is dry greyish-brown soil with scattered dry leaves and broken bamboo pieces. "
-                "Realistic clutter: A stack of empty wooden crates and a discarded blue tarpaulin sheet visible in the far distance. "
-                "Lighting: Warm, side golden hour daylight, creating an authentic rural harvest ambiance."
-            ),
-
-            "Kebun Melon: Pinggir Desa": (
-                "The character is seated on a low wooden crate behind the workspace. "
-                "Background: A small, unkempt melon garden bordering a village. Visible in the distant background are a few rustic wooden houses and tattered banana trees. "
-                "The field is messy with wild vines, normal-sized netted melons, and patches of weeds on sandy soil. "
-                "Authentic clutter: A stray chicken or two pecking at the ground in the far distance and an old bicycle leaned against a coconut tree. "
-                "Atmosphere: A slow-paced, honest tropical village environment under natural daylight."
-                
-            ),
-            "Kebun Jeruk: Rimbun": (
-                "The character is seated on a low weathered wooden stool behind the workspace, inside a lush, slightly overgrown Indonesian orange orchard. "
-                "Background: Rows of small, gnarled orange trees with dense dark-green foliage. Normal-sized bright orange fruits are hanging heavily from the branches, some nearly touching the ground. "
-                "The ground is covered in a thick layer of dry brown leaves and fallen twigs on top of dark earth. "
-                "Authentic clutter: A couple of old bamboo ladders (tangga bambu) leaning against a tree and a faded plastic bucket in the distance. "
-                "Lighting: Dappled sunlight filtering through the leaves, creating a soft, natural forest-like ambiance."
-            ),
-
-            "Kebun Jeruk: Pemetikan": (
-                "The character is seated on a low wooden crate behind the workspace in the middle of an orange grove. "
-                "Background activity: A distant Indonesian farmer in a conical hat is standing on a short bamboo ladder, carefully picking normal-sized oranges into a colorful plastic crate perched on a branch. "
-                "The orchard floor is dry earth with scattered fallen fruit. Realistic clutter: Several stacked plastic crates filled with oranges and a discarded burlap sack near the orchard edge. "
-                "Lighting: Warm, side golden hour sunlight highlighting the porous texture of the orange rinds and the dusty air."
-            ),
-
-            "Kebun Jeruk: Tepian Jalan": (
-                "The character is seated on a rustic wooden bench behind the workspace at the edge of an orange orchard. "
-                "Background: The dense green trees form a natural wall, with vibrant oranges visible among the leaves. A dusty red dirt path runs alongside the orchard. "
-                "Background activity: A distant old motorbike with two large rattan baskets (bronjong) on the back is parked under a tree. "
-                "Atmosphere: Authentic rural village life. The ground is a mix of red soil, small stones, and dry leaves under clear natural daylight."
-            ),
-
-            "Kebun Jeruk: Perawatan": (
-                "The character is seated on a simple weathered wooden crate behind the workspace. "
-                "Background: Rows of orange trees with some yellowing leaves, showing a raw, unmanicured farm look. "
-                "Background activity: A distant Indonesian worker is seen pruning branches with manual shears, wearing a faded long-sleeve shirt and a towel wrapped around the neck. "
-                "Realistic clutter: A pile of pruned branches on the ground and an old rusted watering can near an irrigation pipe. "
-                "Lighting: Natural daytime sunlight, highlighting the rough bark of the trees and the uneven soil."
-            ),
-
-            "Kebun Jeruk: Sortir": (
-                "The character is seated on a low wooden stool behind the workspace under the shade of a large orange tree. "
-                "Background activity: A few distant Indonesian women are sitting on the ground, sorting normal-sized oranges from a large pile into smaller bamboo baskets (besek) or plastic crates. "
-                "The ground is hard-packed earth with scattered orange leaves. Clutter: A rustic wooden handcart and a few stray chickens pecking at the ground in the distance. "
-                "Atmosphere: A busy but slow-paced harvest morning with natural lighting."
-            ),
-
-            "Kebun Naga: Rimbun": (
-                "The character is seated on a simple weathered wooden stool behind the workspace, inside a lush, slightly overgrown Indonesian dragon fruit farm. "
-                "Background: Rows of old, weathered concrete posts supporting heavy, tangled masses of sprawling green cactus-like dragon fruit vines. Normal-sized bright pink fruits with green scales are hanging messily from the branches, some nearly touching the ground. "
-                "The ground is covered in a mix of dry earth, small stones, and patches of wild weeds. "
-                "Authentic clutter: A couple of old bamboo sticks (ajir) leaning against a post and a faded plastic watering can in the distance. "
-                "Lighting: Dappled sunlight filtering through the cacti-like vines, creating a raw, natural forest-like ambiance."
-            ),
-
-            "Kebun Naga: Pemetikan": (
-                "The character is seated on a low wooden crate behind the workspace in the middle of a dragon fruit grove. "
-                "Background activity: A distant Indonesian farmer in a conical hat is carefully picking normal-sized pink dragon fruits into a colorful plastic crate perched on a cart. "
-                "The orchard floor is dry earth with scattered fallen leaves. Realistic clutter: Several stacked plastic crates filled with dragon fruits and a discarded burlap sack near the orchard edge. "
-                "Lighting: Warm, side golden hour sunlight highlighting the rough texture of the vines and the dusty soil."
-            ),
-
-            "Kebun Naga: Tepian Jalan": (
-                "The character is seated on a rustic wooden bench behind the workspace at the edge of a dragon fruit orchard. "
-                "Background: The dense cacti-like vines form a unique textured wall, with vibrant pink fruits visible among the green. A dusty red dirt path runs alongside the orchard. "
-                "Background activity: A distant old motorbike with two large rattan baskets (bronjong) on the back is parked under a palm tree. "
-                "Atmosphere: Authentic rural village life. The ground is a mix of red soil, small stones, and dry leaves under clear natural daylight."
-            ),
-
-            "Kebun Naga: Perawatan": (
-                "The character is seated on a simple weathered wooden crate behind the workspace. "
-                "Background: Rows of dragon fruit trees on dry, grey-brown soil. "
-                "Background activity: A single distant Indonesian farm worker is walking slowly through the field, wearing a faded pesticide backpack sprayer, with a faint natural mist catching the sunlight. "
-                "Realistic clutter: A rustic wooden handcart parked near a dry irrigation pipe and scattered river stones on the dusty soil. "
-                "Lighting: Natural daytime sunlight, highlighting the rough bark of the trees and the uneven soil."
-            ),
-
-            "Kebun Naga: Sortir": (
-                "The character is seated on a low wooden stool behind the workspace under the shade of a large mango tree near the farm. "
-                "Background activity: A few distant Indonesian women are sitting on the ground, sorting normal-sized dragon fruits from a large pile into smaller bamboo baskets (besek) or plastic crates. "
-                "The ground is hard-packed earth with scattered orange leaves. Clutter: A rustic wooden handcart and a few stray chickens pecking at the ground in the distance. "
-                "Atmosphere: A busy but slow-paced harvest morning with natural lighting."
-            ),
-
-            "Kebun Nanas: Tradisional": (
-                "The character is seated on a low weathered wooden stool behind the workspace. "
-                "Background: A vast field of low-growing pineapple plants with sharp-edged, spiky grey-green leaves. Normal-sized pineapples with rough yellow-brown skin are nestled in the center of the plants. "
-                "The ground is dry, sandy grey soil with plenty of visible earth and scattered dry grass. "
-                "Authentic clutter: A couple of old plastic crates stacked at the edge and a discarded burlap sack in the distance. "
-                "Lighting: Harsh afternoon sun creating high contrast and highlighting the jagged textures."
-            ),
-
-            "Kebun Nanas: Panen": (
-                "The character is seated on a low wooden crate behind the workspace. "
-                "Background activity: Distant Indonesian farmers in thick long-sleeve shirts are manually picking normal-sized pineapples into large rattan baskets (bronjong). "
-                "The field is messy with scattered dry leaf debris and dusty soil. "
-                "Realistic clutter: A rustic wooden handcart parked nearby, overflowing with harvested fruit. "
-                "Lighting: Warm golden hour sunlight making the yellow rinds pop against the grey-green foliage."
-            ),
-
-            "Kebun Nanas: Tepian": (
-                "The character is seated on a rustic bamboo bench behind the workspace. "
-                "Background: The spiky pineapple plants form a dense, jagged texture. A dusty red dirt path runs along the edge of the farm. "
-                "Background activity: A distant old motorbike with large wooden crates on the back is parked under a nearby coconut tree. "
-                "Atmosphere: Authentic rural tropical environment with a mix of red soil and dry leaves under clear daylight."
-            ),
-
-            "Kebun Nanas: Pemeliharaan": (
-                "The character is seated on a weathered wooden crate. "
-                "Background: Rows of pineapple plants with patches of wild weeds and dry brown leaves between them. "
-                "Background activity: A distant worker is seen clearing weeds with a small manual sickle (arit), wearing a faded conical hat. "
-                "Realistic clutter: A pile of cleared weeds and a discarded plastic bucket near a dry irrigation ditch. "
-                "Lighting: Natural daytime sunlight highlighting the rough, sharp textures of the farm floor."
-            ),
-
-            "Kebun Nanas: Sortir": (
-                "The character is seated on a low wooden stool under a simple bamboo lean-to. "
-                "Background activity: Distant workers are sitting on the ground, sorting a pile of normal-sized pineapples into bamboo baskets (besek). "
-                "The ground is hard-packed earth with scattered organic debris and dry leaves. "
-                "Atmosphere: A busy but slow-paced morning in a rural village with natural, soft lighting."
-            ),
-
-            "Kebun Pepaya: Rimbun": (
-                "The character is seated on a rustic bamboo bench behind the workspace. "
-                "Background: Tall papaya trees with straight, ring-patterned trunks and a dense canopy of large, umbrella-like leaves. Clusters of normal-sized green and yellow papayas hang high. "
-                "The ground is covered in large, dry, tattered papaya leaves and dark moist soil. "
-                "Authentic clutter: A long bamboo pole with a net (galah) leaning against a tree and an old plastic bucket. "
-                "Lighting: Soft, diffused sunlight filtering through the canopy."
-            ),
-
-            "Kebun Pepaya: Panen": (
-                "The character is seated on a low weathered wooden crate. "
-                "Background activity: A distant Indonesian worker is using a long bamboo pole (galah) to carefully reach and harvest a ripe papaya from a tall tree. "
-                "The ground is a mix of red soil and scattered dry leaves. "
-                "Realistic clutter: A rustic wooden handcart with a few harvested papayas and a pile of organic debris. "
-                "Lighting: Clear natural daylight highlighting the unique texture of the tree trunks."
-            ),
-
-            "Kebun Pepaya: Tepi Desa": (
-                "The character is seated on a low wooden stool. "
-                "Background: A messy papaya grove bordering a village with a few rustic wooden houses and banana trees in the far distance. "
-                "The field is unkempt with wild grass and fallen fruit on sandy-brown soil. "
-                "Authentic clutter: A stray chicken or two in the far background and an old bicycle leaned against a tree. "
-                "Atmosphere: A slow-paced, honest tropical village environment under natural daylight."
-            ),
-
-            "Kebun Pepaya: Sortir": (
-                "The character is seated on a simple weathered wooden bench near the trees. "
-                "Background activity: Distant workers are laying out normal-sized papayas on a bed of dry straw for sorting. "
-                "The farm floor is hard-packed earth with scattered dry leaves and old newspapers. "
-                "Realistic clutter: A stack of empty wooden fruit crates and a discarded blue tarpaulin in the far distance. "
-                "Lighting: Warm, side golden hour sunlight."
-            ),
-
-            "Kebun Pepaya: Perawatan": (
-                "The character is seated on a low wooden crate behind the workspace. "
-                "Background activity: A distant farm worker is walking slowly through the trees, carrying a faded pesticide backpack sprayer with a faint natural mist. "
-                "The ground is dusty grey earth with natural uneven textures and scattered river stones. "
-                "Lighting: Natural daytime sunlight creating long shadows on the uneven soil. Zero giant fruits in the background."
-            ),
-
-            "Kebun Pisang: Rimbun": (
-                "The character is seated on a rustic bamboo bench behind the workspace. "
-                "Background: A dense grove of tall banana trees with massive, tattered green leaves. Large bunches of normal-sized green bananas are hanging from the trees. "
-                "The ground is covered in a thick layer of large, dry, brown banana leaves and dark moist earth. "
-                "Authentic clutter: A rustic wooden ladder leaning against a trunk and an old plastic bucket. "
-                "Lighting: Soft, diffused sunlight filtering through the massive leaves."
-            ),
-            "Kebun Pisang: Panen": (
-                "The character is seated on a low weathered wooden crate. "
-                "Background activity: A distant Indonesian farmer is seen carrying a large bunch of normal-sized bananas on his shoulder. "
-                "The ground is messy with organic debris and scattered stones. "
-                "Realistic clutter: A pile of freshly cut banana hearts (jantung pisang) and a rustic wooden handcart parked nearby. "
-                "Lighting: Warm golden hour sunlight highlighting the waxy texture of the leaves."
-            ),
-            "Kebun Pisang: Pembersihan": (
-                "The character is seated on a low wooden stool. "
-                "Background activity: A distant worker is seen pruning dry leaves with a long-handled sickle (arit). "
-                "The field shows a mix of red soil and plenty of dry, curled brown leaves on the ground. "
-                "Authentic clutter: A stack of dried banana leaves gathered for wrapping and an old bicycle in the distance. "
-                "Lighting: Natural daytime sunlight with realistic shadows."
-            ),
-            "Kebun Pisang: Tepi Desa": (
-                "The character is seated on a simple weathered stool. "
-                "Background: A wild banana grove bordering a village with a few rustic wooden houses visible far behind the trees. "
-                "The floor is hard-packed earth with wild weeds and fallen debris. "
-                "Realistic clutter: A stray chicken pecking near the trees and a discarded burlap sack. "
-                "Atmosphere: A quiet, slow-paced tropical village morning."
-            ),
-            "Kebun Pisang: Sortir": (
-                "The character is seated on a weathered bench. "
-                "Background activity: Distant workers are laying out bunches of normal-sized bananas on a bed of dry leaves for sorting. "
-                "The ground is dusty grey earth with scattered organic clutter. "
-                "Realistic clutter: A few empty wooden crates and a tattered blue tarpaulin sheet. "
-                "Lighting: Warm, side golden hour sunlight."
-            ),
-
-            "Kebun Anggur: Para-Para": (
-                "The character is seated on a low wooden crate. "
-                "Background: A traditional Indonesian vineyard with low-hanging grapevines supported by a rustic bamboo overhead trellis (para-para). Normal-sized bunches of grapes hang down from the vines. "
-                "The floor is dry, sandy soil with patches of wild grass. "
-                "Authentic clutter: Several bamboo poles supporting the structure and an old watering can. "
-                "Lighting: Dappled sunlight filtering through the overhead leaves and grape clusters."
-            ),
-            "Kebun Anggur: Panen": (
-                "The character is seated on a simple weathered stool. "
-                "Background activity: A distant farmer in a conical hat is carefully clipping normal-sized grape bunches into a small bamboo basket (besek). "
-                "The ground is dusty with scattered dry leaves. "
-                "Realistic clutter: A stack of bamboo baskets and a discarded burlap sack. "
-                "Lighting: Warm golden hour daylight highlighting the translucent fruit."
-            ),
-            "Kebun Anggur: Perawatan": (
-                "The character is seated on a weathered wooden crate. "
-                "Background activity: A distant worker is seen tying young vines to the bamboo trellis. "
-                "The ground is a mix of grey earth and small river stones. "
-                "Authentic clutter: A coil of raffia string and a pair of manual shears on a nearby post. "
-                "Lighting: Natural daytime sunlight."
-            ),
-            "Kebun Anggur: Sortir": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background activity: Distant workers are sitting on low stools, sorting grapes into small plastic containers. "
-                "The floor is hard-packed earth with scattered dry leaves and organic clutter. "
-                "Realistic clutter: A rustic wooden handcart and an old blue plastic bucket. "
-                "Lighting: Soft natural light under the shade of the vines."
-            ),
-            "Kebun Anggur: Tepi Kebun": (
-                "The character is seated on a low wooden stool. "
-                "Background: The edge of the vineyard where the bamboo trellis meets a row of banana trees. "
-                "The ground is a mix of red soil and dry grass. "
-                "Authentic clutter: An old motorbike with rattan baskets (bronjong) parked nearby. "
-                "Atmosphere: Authentic rural farming environment under clear daylight."
-            ),
-
-            "Kebun Pepaya: Rimbun": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background: Tall papaya trees with ring-patterned trunks and a canopy of large, umbrella-like leaves. Normal-sized papayas are clustered at the top. "
-                "The ground is covered in large, dry, tattered papaya leaves and dark moist soil. "
-                "Authentic clutter: A long bamboo pole with a net (galah) leaning against a tree. "
-                "Lighting: Soft, diffused sunlight filtering through the canopy."
-            ),
-            "Kebun Pepaya: Panen Galah": (
-                "The character is seated on a low weathered wooden crate. "
-                "Background activity: A distant worker is using a long bamboo pole (galah) to harvest a ripe papaya. "
-                "The ground is a mix of red soil and scattered dry leaves. "
-                "Realistic clutter: A rustic wooden handcart with a few harvested fruits. "
-                "Lighting: Clear natural daylight highlighting the tree bark texture."
-            ),
-            "Kebun Pepaya: Tepi Desa": (
-                "The character is seated on a low wooden stool. "
-                "Background: A messy papaya grove bordering a village with rustic houses in the distance. "
-                "The field is unkempt with wild grass and fallen fruit on sandy-brown soil. "
-                "Authentic clutter: A stray chicken in the far background and an old bicycle. "
-                "Atmosphere: A slow-paced tropical village environment."
-            ),
-            "Kebun Pepaya: Sortir": (
-                "The character is seated on a simple weathered bench. "
-                "Background activity: Distant workers are laying out normal-sized papayas on a bed of dry straw for sorting. "
-                "The floor is hard-packed earth with scattered dry leaves and old newspapers. "
-                "Realistic clutter: A stack of empty wooden fruit crates and a discarded blue tarpaulin. "
-                "Lighting: Warm, side golden hour sunlight."
-            ),
-            "Kebun Pepaya: Perawatan": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: A distant farm worker is walking slowly through the trees with a pesticide backpack sprayer. "
-                "The ground is dusty grey earth with natural uneven textures and scattered stones. "
-                "Lighting: Natural daytime sunlight with long shadows."
-            ),
-
-            "Kebun Strawberry: Bedengan": (
-                "The character is seated on a low weathered wooden stool behind the workspace. "
-                "Background: An Indonesian highland strawberry farm with long, raised soil beds covered in weathered silver-black plastic mulch. Small, lush green strawberry plants grow from holes in the mulch. "
-                "Normal-sized bright red strawberries are visible hanging near the soil. The paths between beds are dusty grey earth with scattered dry leaves. "
-                "Authentic clutter: An old plastic watering can and a few bamboo sticks. "
-                "Lighting: Clear, cool highland morning sunlight with soft shadows."
-            ),
-            "Kebun Strawberry: Panen": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: Distant farmers in sweaters and conical hats are squatting, carefully picking strawberries into small plastic baskets. "
-                "The ground is a mix of dry earth and small stones. "
-                "Realistic clutter: A stack of small transparent plastic containers and a discarded burlap sack in the distance. "
-                "Lighting: Warm side golden hour light highlighting the seeds on the fruit's surface."
-            ),
-            "Kebun Strawberry: Terasering": (
-                "The character is seated on a rustic wooden bench. "
-                "Background: A terraced strawberry garden on a hillside with distant misty mountains visible. "
-                "The beds are messy with wild runners and weeds growing between the mulch. "
-                "Authentic clutter: A rustic bamboo fence at the edge of the terrace and a stray chicken in the far distance. "
-                "Atmosphere: Fresh, airy highland village environment under natural daylight."
-            ),
-            "Kebun Strawberry: Sortir": (
-                "The character is seated on a weathered stool. "
-                "Background activity: Distant workers are sitting under a small bamboo shack, sorting strawberries from large buckets into small baskets. "
-                "The floor is hard-packed earth with organic debris and old newspapers. "
-                "Realistic clutter: A rustic wooden handcart and a tattered blue tarpaulin sheet. "
-                "Lighting: Soft, diffused natural light under the shade."
-            ),
-            "Kebun Strawberry: Perawatan": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: A distant worker is seen spraying organic fertilizer with a manual backpack sprayer, creating a faint mist in the sunlight. "
-                "The ground is dusty with natural uneven textures. "
-                "Authentic clutter: A pile of pulled weeds and a pair of garden shears on a wooden post. "
-                "Lighting: Bright natural daylight highlighting the vibrant green leaves."
-            ),
-
-            "Kebun Salak: Rimbun Duri": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background: A dense, shadowy grove of snake fruit (Salak) trees with extremely sharp, thorny fronds arching over the workspace. "
-                "Clusters of normal-sized brown scaly fruits are growing near the base of the thorny trunks. "
-                "The ground is a thick carpet of dry, thorny brown fronds and dark moist soil. "
-                "Authentic clutter: A long bamboo pole and an old plastic bucket. "
-                "Lighting: Darker, atmospheric dappled sunlight filtering through the dense thorny canopy."
-            ),
-            "Kebun Salak: Panen Arit": (
-                "The character is seated on a low weathered wooden crate. "
-                "Background activity: A distant farmer is seen using a small sickle (arit) to carefully cut a cluster of salak, wearing thick protective gloves. "
-                "The ground is messy with dry, sharp organic debris. "
-                "Realistic clutter: A large rattan basket (bronjong) half-filled with scaly brown fruit. "
-                "Lighting: Warm afternoon light highlighting the snake-like skin texture of the fruit."
-            ),
-            "Kebun Salak: Pembersihan": (
-                "The character is seated on a low wooden stool. "
-                "Background activity: A distant worker is seen clearing dry, thorny fronds into a pile. "
-                "The floor is dark earth mixed with grey volcanic ash and dry leaves. "
-                "Authentic clutter: A smoldering small pile of leaves with faint smoke in the far distance and an old bicycle. "
-                "Lighting: Natural daytime sunlight with deep, high-contrast shadows."
-            ),
-            "Kebun Salak: Sortir": (
-                "The character is seated on a weathered wooden bench. "
-                "Background activity: Distant workers are sorting salak by hand, rubbing the scales to clean them before packing into bamboo baskets. "
-                "The ground is hard-packed earth with scattered dry thorns and leaves. "
-                "Realistic clutter: A pile of rejected small fruits and several empty bamboo besek. "
-                "Lighting: Side golden hour sunlight."
-            ),
-            "Kebun Salak: Tepi Dusun": (
-                "The character is seated on a low wooden stool. "
-                "Background: The edge of a salak plantation bordering a rustic village house made of wood and brick. "
-                "The ground is a mix of red soil and dry organic clutter. "
-                "Authentic clutter: A stray dog resting in the shade of the thorns and an old motorbike parked nearby. "
-                "Atmosphere: Quiet, honest rural Indonesian village life."
-            ),
-
-            "Kebun Apel: Rimbun": (
-                "The character is seated on a low weathered stool. "
-                "Background: A lush Indonesian apple orchard with short, gnarled trees. Normal-sized red and green apples are hanging heavily from branches supported by bamboo sticks. "
-                "The ground is covered in dry grass and fallen leaves on dark soil. "
-                "Authentic clutter: A bamboo ladder leaning against a tree and an old plastic bucket. "
-                "Lighting: Soft morning sunlight filtering through the orchard canopy."
-            ),
-            "Kebun Apel: Panen": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: A distant farmer is standing on a short wooden ladder, picking apples into a cloth bag. "
-                "The orchard floor is dry earth with scattered fallen fruit. "
-                "Realistic clutter: Several wooden crates filled with apples and a discarded burlap sack. "
-                "Lighting: Warm golden hour daylight highlighting the smooth skin of the apples."
-            ),
-            "Kebun Apel: Sortir": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background activity: Distant workers are sitting on the ground, sorting apples by color and size into wooden boxes. "
-                "The floor is hard-packed earth with scattered dry leaves and old newspapers. "
-                "Realistic clutter: A rustic wooden handcart and a stack of empty crates. "
-                "Lighting: Side natural light creating a warm harvest ambiance."
-            ),
-            "Kebun Apel: Pemangkasan": (
-                "The character is seated on a simple weathered stool. "
-                "Background activity: A distant worker is pruning the apple trees with shears, wearing a faded long-sleeve shirt. "
-                "The ground shows a mix of soil and a pile of pruned branches. "
-                "Authentic clutter: An old rusted watering can near an irrigation pipe. "
-                "Lighting: Natural daytime sunlight with realistic shadows."
-            ),
-            "Kebun Apel: Tepi Bukit": (
-                "The character is seated on a low wooden crate. "
-                "Background: The orchard edge on a slope with a distant view of other orchards and village houses. "
-                "The ground is a mix of red soil, stones, and wild grass. "
-                "Authentic clutter: An old motorbike with rattan baskets parked nearby. "
-                "Atmosphere: Authentic highland farming environment under clear daylight."
-            ),
-
-            "Kebun Cabe: Rimbun Merah": (
-                "The character is seated on a low weathered wooden stool behind the workspace. "
-                "Background: A lush, slightly messy Indonesian chili farm with low, bushy plants. Millions of normal-sized bright red and green chilies are hanging thickly from the branches. "
-                "The ground is dry greyish-brown earth with scattered dry leaves and patches of wild weeds. "
-                "Authentic clutter: A small plastic bucket for picking and a discarded burlap sack in the distance. "
-                "Lighting: Bright natural daylight highlighting the waxy, reflective skin of the chilies."
-            ),
-            "Kebun Cabe: Panen": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: A few distant Indonesian workers in conical hats are squatting between the rows, picking ripe chilies into small colorful plastic pails. "
-                "The ground is dusty with natural uneven textures. "
-                "Realistic clutter: A rustic wooden handcart parked at the edge of the field with several sacks of harvested chili. "
-                "Lighting: Warm golden hour sunlight creating long shadows through the chili bushes."
-            ),
-            "Kebun Cabe: Pemeliharaan": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background activity: A distant worker is seen spraying natural fertilizer with a manual backpack sprayer, a faint mist visible in the air. "
-                "The field shows a mix of soil and bamboo sticks (ajir) used to support the heavy plants. "
-                "Authentic clutter: An old watering can and a pile of pulled weeds. "
-                "Lighting: Clear morning sunlight with a fresh, airy tropical farm atmosphere."
-            ),
-            "Kebun Cabe: Sortir": (
-                "The character is seated on a weathered stool. "
-                "Background activity: Distant workers are sitting on a tarpaulin on the ground, sorting red chilies into large bamboo baskets (besek). "
-                "The floor is hard-packed earth with scattered organic debris. "
-                "Realistic clutter: A stack of empty baskets and a tattered blue tarpaulin sheet near the irrigation ditch. "
-                "Lighting: Soft natural light under the shade of a large tree nearby."
-            ),
-            "Kebun Cabe: Tepi Sawah": (
-                "The character is seated on a low wooden crate. "
-                "Background: The edge of a chili garden bordering a wide green rice field. A few coconut trees are visible in the far distance. "
-                "The ground is a mix of red soil, stones, and dry grass. "
-                "Authentic clutter: An old motorbike with rattan baskets parked under a tree. "
-                "Atmosphere: Authentic rural farming environment under clear daylight."
-            ),
-
-            "Kebun Tomat: Rimbun": (
-                "The character is seated on a low weathered stool. "
-                "Background: Rows of tall, bushy tomato plants supported by a messy bamboo trellis (ajir). Normal-sized clusters of red and green tomatoes are visible among the fuzzy green leaves. "
-                "The ground is dark, moist soil with scattered dry leaves. "
-                "Authentic clutter: A long bamboo pole and a faded plastic bucket. "
-                "Lighting: Dappled sunlight filtering through the trellis, highlighting the textured tomato stems."
-            ),
-            "Kebun Tomat: Panen": (
-                "The character is seated on a low wooden crate. "
-                "Background activity: Distant farmers are carefully picking ripe tomatoes and placing them into wooden fruit crates. "
-                "The orchard floor is dry earth with scattered fallen fruit. "
-                "Realistic clutter: Several stacked wooden crates filled with tomatoes and a discarded burlap sack. "
-                "Lighting: Warm golden hour daylight highlighting the smooth, round fruit."
-            ),
-            "Kebun Tomat: Sortir": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background activity: Distant workers are sitting on the ground, sorting tomatoes from a large pile into plastic crates based on ripeness. "
-                "The floor is hard-packed earth with scattered dry leaves and old newspapers. "
-                "Realistic clutter: A rustic wooden handcart and a stack of empty crates. "
-                "Lighting: Side natural light creating a warm harvest ambiance."
-            ),
-            "Kebun Tomat: Pemangkasan": (
-                "The character is seated on a simple weathered stool. "
-                "Background activity: A distant worker is seen tying vines to bamboo sticks and pruning leaves with manual shears. "
-                "The ground shows a mix of soil and a pile of pruned branches. "
-                "Authentic clutter: An old rusted watering can near an irrigation pipe. "
-                "Lighting: Natural daytime sunlight with realistic shadows."
-            ),
-            "Kebun Tomat: Tepi Desa": (
-                "The character is seated on a low wooden crate. "
-                "Background: A small tomato garden bordering a rustic village house with tattered banana trees in the background. "
-                "The ground is a mix of red soil, stones, and wild grass. "
-                "Authentic clutter: A stray chicken or two pecking at the ground in the distance. "
-                "Atmosphere: Honest rural Indonesian village life."
-            ),
-
-            "Kebun Matahari: Rimbun": (
-                "The character is seated on a low weathered wooden stool. "
-                "Background: A dense field of tall, blooming sunflowers with thick green stalks and massive yellow flower heads. The flowers are facing the sun. "
-                "The ground is dry, sandy light-brown soil with patches of wild grass. "
-                "Authentic clutter: A couple of old bamboo sticks leaning against each other. "
-                "Lighting: Bright, direct natural sunlight highlighting the vibrant yellow petals and the rough texture of the stalks."
-            ),
-            "Kebun Matahari: Panen Biji": (
-                "The character is seated on a simple weathered stool. "
-                "Background activity: Distant farmers are seen cutting large, dried sunflower heads that are heavy with black seeds. "
-                "The ground is dusty with scattered dry leaves and petals. "
-                "Realistic clutter: A stack of burlap sacks half-filled with dried sunflower heads. "
-                "Lighting: Warm golden hour daylight highlighting the seeds in the center of the flowers."
-            ),
-            "Kebun Matahari: Perawatan": (
-                "The character is seated on a weathered wooden crate. "
-                "Background activity: A distant worker is seen clearing weeds between the tall stalks. "
-                "The ground is a mix of grey earth and small river stones. "
-                "Authentic clutter: A rustic wooden handcart and an old plastic watering can. "
-                "Lighting: Natural daytime sunlight with long shadows."
-            ),
-            "Kebun Matahari: Sortir Biji": (
-                "The character is seated on a rustic bamboo bench. "
-                "Background activity: Distant workers are sitting on a tarpaulin, threshing dried sunflower heads to extract the seeds (kuaci). "
-                "The floor is hard-packed earth with scattered dry flower debris and organic clutter. "
-                "Realistic clutter: A few empty wooden fruit crates and a tattered blue tarpaulin. "
-                "Lighting: Soft natural light under a simple bamboo lean-to."
-            ),
-            "Kebun Matahari: Tepi Bukit": (
-                "The character is seated on a low wooden stool. "
-                "Background: The edge of a sunflower field on a slope with a distant view of misty mountains and village houses. "
-                "The ground is a mix of red soil and dry grass. "
-                "Authentic clutter: An old motorbike parked under a nearby tree. "
-                "Atmosphere: Authentic highland farming environment under clear daylight."
-            ),
-
-            "Kebun Sayur: Tumpang Sari": (
-                "The character is seated on a low weathered wooden stool behind the workspace, in the middle of a vibrant Indonesian vegetable garden. "
-                "Background: A mix of low-growing leafy greens like kangkung, spinach, and mustard greens (sawi) planted in several small, organic-shaped soil beds. "
-                "The ground is dark, rich moist earth with narrow muddy paths between the beds. "
-                "Authentic clutter: A couple of rustic bamboo watering poles and an old plastic bucket. "
-                "Lighting: Soft, fresh morning sunlight highlighting the dew on the green leaves."
-            ),
-
-            "Kebun Sayur: Bersih Rumput": (
-                "The character is seated on a low wooden crate behind the workspace. "
-                "Background activity: A few distant Indonesian women in conical hats are squatting, manually pulling weeds from between rows of spring onions and cabbages. "
-                "The ground is a mix of damp dark soil and piles of cleared green weeds. "
-                "Realistic clutter: A small hand-hoe (cangkul kecil) leaning against a wooden post in the distance. "
-                "Lighting: Bright natural daylight with soft shadows from nearby banana trees."
-            ),
-
-            "Kebun Sayur: Panen": (
-                "The character is seated on a rustic bamboo bench behind the workspace. "
-                "Background activity: A distant farmer is seen bundling fresh mustard greens (sawi) and placing them into a large bamboo basket (besek). "
-                "The field floor is messy with discarded outer leaves and muddy footprints. "
-                "Realistic clutter: Several overflowing bamboo baskets and a discarded burlap sack near the irrigation ditch. "
-                "Lighting: Warm, side golden hour sunlight reflecting off the moist, leafy textures."
-            ),
-
-            "Kebun Sayur: Penyiraman": (
-                "The character is seated on a simple weathered wooden crate. "
-                "Background activity: A distant worker is walking through the rows, carefully watering the plants with a manual sprayer, creating a faint, natural watery mist. "
-                "The ground shows a beautiful contrast between dry grey earth and dark, wet patches of watered soil. "
-                "Authentic clutter: A rustic wooden handcart parked near a small water well in the background. "
-                "Lighting: Natural daytime sunlight catching the mist in the air."
-            ),
-
-            "Kebun Sayur: Tepian Parit": (
-                "The character is seated on a low wooden stool by a small, slow-flowing irrigation ditch at the edge of the vegetable garden. "
-                "Background: Rows of chili plants and long beans (kacang panjang) on bamboo trellises bordering the field. "
-                "The ground is a mix of red soil, river stones, and mossy patches near the water. "
-                "Authentic clutter: A stray duck or two swimming in the ditch in the far distance and an old bicycle. "
-                "Atmosphere: A peaceful, authentic rural Indonesian farming scene under clear daylight."
-            ),
-
-            "Sawah: Hijau Royo-Royo": (
-                "The character is seated on a simple weathered wooden stool behind the workspace, overlooking a vast Indonesian rice field. "
-                "Background: Rows of young, vibrant green rice stalks growing in flooded paddies. The water surface reflects the clear sky. "
-                "The paths (pematang sawah) are narrow, made of hard-packed mud with patches of wild grass. "
-                "Authentic clutter: A small wooden scarecrow (orang-orangan sawah) in the distance and a few coconut trees on the horizon. "
-                "Lighting: Bright morning sunlight highlighting the lush, waxy texture of the rice leaves."
-            ),
-
-            "Sawah: Kuning Emas": (
-                "The character is seated on a low weathered wooden crate behind the workspace. "
-                "Background: An expansive field of mature, golden-yellow rice stalks swaying in the wind. "
-                "Background activity: Distant Indonesian farmers in conical hats are actively cutting the rice with small sickles (ani-ani or arit). "
-                "The ground is dry, dusty earth near the harvest area. Realistic clutter: A pile of harvested rice stalks and a few large burlap sacks (karung goni) stacked nearby. "
-                "Lighting: Warm, golden hour sunlight, making the whole field glow with a rich amber hue."
-            ),
-
-            "Sawah: Bajak Lumpur": (
-                "The character is seated on a rustic bamboo bench behind the workspace. "
-                "Background: A flooded rice field being prepared for planting. The landscape is dominated by thick, dark-brown mud and glistening water. "
-                "Background activity: A distant farmer is seen plowing the field with a traditional water buffalo (kerbau) or a small red tractor. "
-                "The ground around the workspace is messy with damp mud and tire tracks. Authentic clutter: A rustic wooden handcart parked nearby. "
-                "Atmosphere: A raw, honest rural farming scene with a moist, earthy ambiance under natural daylight."
-            ),
-
-            "Sawah: Tepian Irigasi": (
-                "The character is seated on a low wooden stool by a small cement or stone irrigation canal at the edge of the rice field. "
-                "Background: The field is a mix of green rice and muddy patches. A distant small wooden hut (gubuk sawah) is visible in the background. "
-                "The floor is a mix of red soil, river stones, and mossy patches near the water flow. "
-                "Authentic clutter: An old bicycle leaned against a coconut tree and a few ducks swimming in the canal in the far distance. "
-                "Lighting: Clear natural daylight, highlighting the texture of the moving water and the muddy paths."
-            ),
-
-            "Sawah: Sisa Panen": (
-                "The character is seated on a weathered wooden crate. "
-                "Background: A dry rice field after harvest, showing short straw stubble and cracked earth. "
-                "Background activity: Distant workers are seen threshing the rice manually (gebot) against a wooden board. "
-                "The ground is dusty grey earth with scattered straw and organic debris. Realistic clutter: A discarded blue tarpaulin sheet used for drying grain and several empty baskets. "
-                "Lighting: Soft, afternoon sunlight creating long shadows on the cracked soil."
-            ),
-
-            "Pinggir Jalan: Warung Tenda": (
-                "The character is seated on a low wooden stool on the dusty shoulder of a village road. "
-                "Background: Across the asphalt road, a row of traditional street food stalls (kaki lima) with colorful weathered tarpaulin tents. "
-                "Background activity: Distant customers are sitting on long benches under the tents, and a seller is busy preparing food. A few motorbikes are parked haphazardly in front of the stalls. "
-                "The ground around the character is dry grey earth with scattered gravel and a few dry leaves. "
-                "Lighting: Warm late afternoon sunlight, creating a nostalgic, busy roadside atmosphere."
-            ),
-
-            "Pinggir Jalan: Pasar Tumpah": (
-                "The character is seated on a weathered wooden crate on the edge of a bustling roadside. "
-                "Background: Across the road is a vibrant morning market scene with many umbrella-shaded vendors selling snacks and traditional cakes (jajanan pasar). "
-                "Background activity: A crowd of distant Indonesian villagers in casual wear are interacting, buying, and selling. A slow-moving old bicycle and a motorbike are passing through the narrow space. "
-                "Authentic clutter: Scattered plastic waste and organic debris on the sun-baked soil near the drainage ditch. "
-                "Atmosphere: High-energy, honest rural commerce under bright natural morning light."
-            ),
-
-            "Pinggir Jalan: Asap Sate/Ayam Bakar": (
-                "The character is seated on a simple rustic bench on the roadside shoulder. "
-                "Background: Directly across the street, a street food vendor is grilling food, with a faint, realistic cloud of white smoke drifting from the grill into the air. "
-                "Background activity: People are standing in line waiting for their food. A bright yellow 'Sate' or 'Ayam Bakar' banner is partially visible in the distance. "
-                "Lighting: Golden hour sunlight catching the drifting smoke, creating a cinematic, atmospheric hazy look. The road surface is aged, cracked asphalt."
-            ),
-
-            "Pinggir Jalan: Deretan Gerobak": (
-                "The character is seated on a low cement step by the road. "
-                "Background: Across the quiet street, three different traditional food carts (Gerobak Bakso and Gerobak Mie Ayam) are parked in a row under a large flamboyant tree. "
-                "Background activity: A few kids are buying snacks, and the sellers are chatting. A stray cat is walking near the carts. "
-                "The ground is a mix of mossy paving blocks and dry soil. Authentic clutter: A stack of empty wooden crates and a plastic bucket nearby. "
-                "Lighting: Soft dappled sunlight filtering through the tree branches."
-            ),
-
-            "Pinggir Jalan: Pertigaan Ramai": (
-                "The character is seated on a wooden crate near a village junction. "
-                "Background: Across the road is a permanent wooden kiosk (warung kelontong) flanked by small food vendors. "
-                "Background activity: Several motorbikes are passing by in the distance, and people are gathered at the kiosk talking. Some colorful snack sachets are hanging in the background warung. "
-                "The ground is dusty red soil with scattered river stones. "
-                "Atmosphere: Authentic, slow-paced but living rural Indonesian street scene under clear natural daylight."
-            ),
-
-            "Halaman Samping: Dapur Pawon": (
-                "The character is seated on a low weathered wooden stool in the dirt yard just outside an open-air traditional kitchen (pawon). "
-                "Background: A rustic stack of chopped firewood piled high against a soot-stained wooden wall. A faint, natural thin wisp of smoke drifts from a stone hearth inside the open doorway. "
-                "Background activity: A distant family member is seen carrying a basket of vegetables or tending to a large clay pot. "
-                "The floor is dark, ash-dusted earth with scattered wood shavings and dry twigs. "
-                "Lighting: Warm, atmospheric golden hour light hitting the smoke and the rough wood textures."
-            ),
-
-            "Halaman Depan: Area Jemur Gabah": (
-                "The character is seated on a wide rustic bamboo bench (lincak) in a large, open sun-baked yard. "
-                "Background: A large blue tarpaulin is spread on the ground, covered with a thin layer of golden harvested rice grain (gabah) drying in the sun. "
-                "Background activity: A distant worker or neighbor is using a wooden rake to spread the grain. Several stray chickens are pecking at the edges of the tarpaulin. "
-                "The ground is hard-packed grey earth with natural cracks and scattered straw. "
-                "Lighting: Bright, high-contrast midday sun, making the golden grain look vibrant and sharp."
-            ),
-
-            "Halaman Rumah: Sudut Kerajinan": (
-                "The character is seated on a low wooden crate in a shaded corner of the yard filled with traditional farm tools. "
-                "Background: A collection of long bamboo poles, a rustic wooden plow, and several large rattan baskets (bronjong) leaning against a fruit tree. "
-                "Background activity: A distant neighbor is seen stopping by on an old bicycle to chat. "
-                "The floor is a mix of red soil and patches of green moss near an old stone water well (sumur). "
-                "Lighting: Soft dappled sunlight filtering through tree leaves, creating a calm, productive rural vibe."
-            ),
-
-            "Teras Rumah: Kayu Jati Tua": (
-                "The character is seated on a low weathered wooden stool on the porch of a traditional Indonesian wooden house. "
-                "Background: The wall is made of aged, dark teak wood panels with beautiful natural grain. A pair of old wooden chairs with a small round table sits in the corner. "
-                "Background activity: A distant neighbor is seen walking past the house on a dusty path. A few bird cages (sangkar burung) hang from the wooden eaves. "
-                "The floor is made of smooth, dark wooden planks with natural gaps. Authentic clutter: A pair of worn-out rubber sandals (sandal jepit) near the stairs. "
-                "Lighting: Warm, soft natural light filtering through the porch roof, creating a cozy and nostalgic atmosphere."
-            ),
-
-            "Teras Rumah: Bata Merah & Motor": (
-                "The character is seated on a wide rustic bamboo bench (lincak) on a porch with unfinished red-brick walls. "
-                "Background: The weathered red-brick wall is partially covered in moss, with an old wooden door and a small window nearby. "
-                "Background activity: A distant family member is seen sitting on a plastic chair in the background, drinking tea or scrolling through a phone. "
-                "The porch floor is cracked cement with a few potted plants in recycled biscuit tins. Realistic clutter: An old dusty motorbike is parked partially visible under the porch roof. "
-                "Lighting: Side golden hour sunlight reflecting off the warm bricks, creating deep, rich shadows."
-            ),
-
-            "Teras Rumah: Halaman & Jemuran": (
-                "The character is seated on a simple weathered wooden bench on a tiled porch that overlooks a spacious dirt yard. "
-                "Background: A view of the front yard with a rustic bamboo fence. A long laundry line with colorful clothes is visible in the distant background. "
-                "Background activity: Two neighbors are seen chatting near the gate in the distance. A few stray chickens are pecking at the ground in the yard. "
-                "The porch floor is old patterned tiles with some cracks. Authentic clutter: A stack of dried coconut shells and an old bicycle leaned against a pillar. "
-                "Lighting: Bright morning sunlight illuminating the yard and casting long shadows onto the porch."
-            ),
-
-            "Gubuk: Lesehan Bambu": (
-                "The character is sitting cross-legged (lesehan) directly on the raised bamboo floor of a rustic, open-air harvest hut. "
-                "Background: The interior of the hut shows weathered bamboo pillars and a thatched roof made of dried palm leaves (rumbia). "
-                "Background activity: A distant view of the green rice fields through the open side of the hut, with a small scarecrow visible. "
-                "The workspace (miniature) is placed on the same bamboo floor in front of the character. Authentic clutter: A small woven mat (tikar pandan) and an old clay water jug (kendi). "
-                "Lighting: Soft, natural shaded light with bright sunlight visible in the distant background."
-            ),
-
-            "Gubuk: Ambane Lincak": (
-                "The character is seated on the edge of a wide, built-in bamboo platform (lincak) that serves as the hut's porch. "
-                "Background: A rustic, tumble-down shack made of rough-hewn wood and bamboo. Several dried corn husks or garlic bunches hang from the rafters. "
-                "Background activity: A distant farmer is seen walking along the narrow field path. "
-                "The floor below the platform is hard-packed earth with scattered dry leaves and organic debris. Authentic clutter: A rustic farming tool (arit) leaning against a post in the far distance. "
-                "Lighting: Warm golden hour sunlight hitting the side of the hut, creating long, deep shadows."
-            ),
-
-            "Gubuk: Tunggak Kayu": (
-                "The character is seated on a large, smooth weathered tree stump (tunggak) inside a small, rustic shelter. "
-                "Background: A simple structure with a leaky tin roof and walls made of tattered burlap and bamboo slats. "
-                "Background activity: A few stray chickens are scratching the dirt floor near the entrance. "
-                "The ground is dusty grey earth with natural uneven textures and a few river stones used as floor stabilization. "
-                "Atmosphere: A raw, honest, and humble resting place for a farm worker under natural daylight."
-            ),
-
-            "Gubuk: Tengah Sawah": (
-                "The character is sitting cross-legged (lesehan) on a raised bamboo floor of a small, open-sided harvest hut (gubuk) in the middle of a vast rice field. "
-                "Background: An expansive view of green rice paddies stretching to the horizon under a clear sky. A few coconut trees are visible in the far distance. "
-                "The hut structure is made of weathered bamboo with a thatched dried-grass roof. "
-                "The workspace is placed directly on the bamboo slats in front of the character. Authentic clutter: A small clay water jug (kendi) and an old conical hat (caping) hanging on a pillar. "
-                "Lighting: Bright, airy morning sunlight with soft reflections from the water in the rice fields."
-            ),
-
-            "Gubuk: Tengah Kebun": (
-                "The character is seated on a wide bamboo platform (lincak) inside a rustic, shady hut surrounded by dense fruit trees. "
-                "Background: A mix of banana leaves, papaya trees, and rambling vines visible through the hut's open walls. The environment feels lush and enclosed. "
-                "Inside the hut: Bunches of dried corn or garlic are hanging from the rafters. The ground below the raised floor is dark earth with scattered dry leaves. "
-                "Authentic clutter: A rustic wooden rake leaning against the hut and an old burlap sack. "
-                "Lighting: Dappled sunlight filtering through the trees and the gaps in the hut's roof, creating a cinematic hazy atmosphere."
-            ),
-
-            "Gubuk: Tepi Hutan": (
-                "The character is sitting on a smooth weathered tree stump (tunggak) inside a very simple, rugged shelter with a rusty tin roof. "
-                "Background: A wilder, unkempt environment with tall grass and large tropical trees. The hut's walls are just a few bamboo slats and tattered sacks. "
-                "The floor is hard-packed grey earth with natural cracks and small stones. "
-                "Authentic activity: A few stray chickens pecking at the dirt near the entrance. "
-                "Atmosphere: A raw, humble, and very authentic rural resting place under natural daytime sunlight."
-            ),
-
-            "Halaman Belakang: Kolam Koi Alami": (
-                "The character is seated on a low wooden stool on a shaded patio overlooking a clear koi pond built with rough river stones. "
-                "Background: The pond is filled with vibrant orange, white, and calico koi fish swimming just below the shimmering water surface. Water lilies and small mossy rocks line the edges. "
-                "The patio floor is made of aged, dark grey cement with natural cracks. "
-                "Background activity: A small bamboo water fountain (shishi odoshi style) is trickling water, creating gentle ripples. A few potted ferns are scattered around. "
-                "Lighting: Soft, diffused natural light filtering through an overhead canopy, highlighting the glistening water and the scales of the fish."
-            ),
-
-            "Halaman Belakang: Teras Kolam": (
-                "The character is seated on a wide rustic bamboo bench (lincak) right at the edge of a large, clear fish pond. "
-                "Background: The water is crystal clear, showing many colorful koi fish gathered near the character, expecting food. The far side of the pond is lined with lush tropical plants like monstera and palms. "
-                "The floor is a mix of wooden decking and smooth river pebbles. "
-                "Authentic clutter: An old ceramic bowl containing fish food sits on the floor nearby. In the distance, a laundry line is partially visible behind some trees. "
-                "Lighting: Warm afternoon sunlight hitting the water at an angle, creating beautiful caustic light patterns on the character's back."
-            ),
-
-            "Halaman Belakang: Kolam Semen Tradisional": (
-                "The character is seated on a low weathered wooden crate next to a rectangular cement fish pond in a humble backyard. "
-                "Background: The pond walls are slightly mossy grey cement. Inside, large koi fish in bright red and gold colors are swimming actively. "
-                "The backyard floor is hard-packed earth with a few patches of moss and fallen leaves near the pond. "
-                "Authentic clutter: A plastic bucket and a small hand-net leaning against the pond wall. A few stray chickens are pecking at the ground in the distant yard. "
-                "Atmosphere: A peaceful, honest, and cool backyard environment under natural daylight."
-            ),
-
-            "Halaman: Jemuran Hasil Bumi": (
-                "The character is seated on a low weathered wooden stool in a large, open sun-baked dirt yard. "
-                "Background: A large, tattered blue tarpaulin is spread on the ground, covered with a thin layer of drying golden rice grain (gabah) or brown coffee beans. "
-                "Background activity: A distant family member is using a wooden rake to spread the grain evenly. A few stray chickens are pecking at the edges. "
-                "The floor is hard-packed grey earth with natural cracks. Authentic clutter: A stack of empty burlap sacks and a rustic wooden broom leaning against a tree. "
-                "Lighting: Bright, high-contrast midday sun, making the golden grains look vibrant and sharp."
-            ),
-
-            "Halaman Belakang: Tepian Sungai": (
-                "The character is seated on a large flat river stone or low wooden crate behind the house, overlooking a slow-moving shallow river. "
-                "Background: The riverbank is lined with lush bamboo thickets and tattered banana leaves. The water is clear with visible river stones. "
-                "Background activity: A distant neighbor is seen washing a motorbike or fetching water. A few ducks are swimming by. "
-                "The ground around the character is sandy soil mixed with river pebbles and moss. "
-                "Atmosphere: Cool, fresh, and serene tropical riverside environment under natural daylight."
-            ),
-
-            "Halaman Samping: Tumpukan Kayu": (
-                "The character is seated on a low weathered wooden crate in the shady side-yard of a traditional house. "
-                "Background: A massive, rustic pile of chopped firewood stacked unevenly against an old soot-stained wooden wall. "
-                "Background activity: A faint wisp of natural smoke drifts from an open-air kitchen (pawon) nearby. A distant person is seen carrying a basket of coconut shells. "
-                "The floor is dark, ash-dusted earth with scattered wood shavings and dry twigs. "
-                "Lighting: Warm, cinematic golden hour light filtering through the trees, hitting the smoke and the rough wood textures."
-            ),
-
-            "Halaman: Bengkel Anyaman": (
-                "The character is seated on a low wooden stool in a shaded side-yard used for bamboo crafting. "
-                "Background: Stacks of long bamboo poles leaning against a rustic wooden wall, with several half-finished woven baskets (besek) or mats (tikar) scattered around. "
-                "Background activity: A distant family member is seen stripping a bamboo pole into thin slats. Fine bamboo shavings are scattered on the ground. "
-                "The floor is dark earth mixed with dry leaves and wood shavings. "
-                "Lighting: Soft dappled sunlight filtering through a simple bamboo trellis overhead."
-            ),
-
-            "Halaman: Bawah Pohon Kelapa": (
-                "The character is seated on a rustic lincak (bamboo bench) in a yard dominated by several tall, leaning coconut trees. "
-                "Background: A view of a neighbor's house behind a simple bamboo fence. On the ground, a pile of dry coconut husks (sabut) and shells is stacked near an old tree trunk. "
-                "Background activity: A distant neighbor is seen pulling a small wooden cart or riding a bicycle on a sandy path. "
-                "The ground is sandy-brown soil with scattered dry palm fronds and small river stones. "
-                "Lighting: Bright, high-contrast sunlight with long, dramatic shadows from the coconut trees."
-            ),
-
-            "Halaman Belakang: Area Sumur": (
-                "The character is seated on a low weathered wooden crate near an old stone water well with a traditional pulley system (timba). "
-                "Background: The well is covered in green moss and surrounded by large tropical leaves (talas or elephant ears). A bucket of water sits on the mossy edge. "
-                "Background activity: A distant person is seen washing clothes or rinsing vegetables near a stone slab. A few ducks are wandering nearby. "
-                "The ground is damp, dark earth with mossy patches and smooth river pebbles around the water area. "
-                "Atmosphere: Cool, humid, and deeply nostalgic rural Indonesian morning vibe."
-            ),
-
-            "Kebun Bambu: Teduh Asri": (
-                "The character is seated cross-legged (lesehan) on a raised bamboo floor, nestled inside a cozy, open-air green bamboo hut (gubuk) in the heart of a dense, lush, vibrant bamboo forest. "
-                "Background: The forest is an expansive, textured wall of living green and yellow bamboo stalks forming a deeply shadowed, cool, and tranquil sanctuary. Massive bamboo leaves create a thick canopy above. "
-                "Background activity: A distant Indonesian farmer is seen carrying natural bamboo poles on a winding forest path. Bird cages hang from the green branches. "
-                "The ground is a thick carpet of dry, thin bamboo leaves and natural earth debris. Authentic clutter: A small clay kendi (water jug) and an old conical hat (caping) near a pillar. "
-                "Lighting: Soft, natural dappled sunlight filtering through the narrow bamboo leaves, creating cool, high-contrast shadows and high depth."
-            ),
-
-            "Kebun Bunga: Bambu Hias": (
-                "The character is seated on a wide rustic bamboo platform (lincak) inside a shaded bamboo gubuk surrounded by a vibrant, rimbun (dense) tropical flower garden. "
-                "Background: Rows of living green ornamental bamboo plants create a cool, structured wall. Between the bamboo, bursts of colorful tropical flowers (orchid, monstera, bougainvillea) are densely packed. "
-                "The ground below is hard-packed earth covered in rich moss and fallen flower petals. "
-                "Authentic clutter: A rustic bamboo watering pole leaning against a gubuk post and an old woven pandan mat. A pair of worn-out rubber sandals near the stairs. "
-                "Atmosphere: High fresh, vibrant, and deeply aromatic ambiance under clear daylight, with long, cool shadows from the tall bamboo and trees."
-            ),
-
-            "Kebun: Gubuk Bambu Hijau": (
-                "The character is seated on a large smooth tree stump (tunggak) inside a humble, raw, open-air green bamboo shelter bordering a wilder garden edge. "
-                "Background: The hut is built entirely of fresh-looking green bamboo with a rumbia (thatched) roof. Behind it, wild green vines and tall native grass create a lush textured wall. "
-                "Background activity: A few distant ducks are wandering near a small muddy patch, and a distant person is fetching water from an old stone sumur (well). "
-                "The floor is dark, damp earth with mossy patches and smooth river pebbles. Clutter: A discarded blue tarpaulin sheet near a dry irrigation pipe. "
-                "Lighting: Deep, high-contrast dapple sunlight from a large overhead tree canopy, creating a cool and rugged atmosphere."
-            ),
-
-            "Depan Rumah: Jalan Setapak": (
-                "The character is seated on a low weathered wooden stool on a shaded front porch, in the foreground. "
-                "Background: Across a well-kept, lush green grass yard, a modest but charming Indonesian village house is visible in the distance. The house has clean, cream-colored plaster walls, a small terracotta tiled roof, and a neat wooden porch. It is surrounded by healthy mango and frangipani trees, creating a shaded and adem (cool) atmosphere. "
-                "Background activity: A distant neighbor is seen walking along a narrow, winding dirt path towards the house, pushing an old bicycle. "
-                "The foreground ground around the character is smooth, dark grey cement with a few potted plants in recycled tins. "
-                "Lighting: Warm, soft natural daylight, highlighting the vibrant green foliage."
-            ),
-
-            "Samping Rumah: Sumur & Moss": (
-                "The character is seated on a rustic lincak (bamboo bench) under the deep shade of a large jackfruit tree in the side-yard. "
-                "Background: In the distance, the neat, white-walled side of the modest village house is visible, showing a simple wooden door and a shaded window. The roofline is clean and terracotta. The house is surrounded by neat rows of vegetable plants and flourishing flowering bushes. "
-                "Background activity: Near the distant house, a person is seen sitting on the porch drinking tea. "
-                "The foreground features an old, moss-covered stone water well (sumur) with a traditional timba (pulley system) near a paved path of river pebbles and moss. Authentic clutter: A stack of firewood. "
-                "Lighting: Soft, shaded daylight filtering through the trees, creating a calm, cool environment."
-            ),
-
-            "Belakang Rumah: Kolam Ikan": (
-                "The character is seated on a low weathered wooden crate by the edge of a clean, rectangular cement fish pond in the backyard. "
-                "Background: Across the spacious backyard, the charming, traditional wooden rear-view of the simple village house is visible in the distance. The house features rich, dark teak-wood panels, a clean roof, and a neatly stacked wood pile under the eaves. Lush tropical plants like monstera and palms surround the house. "
-                "Background activity: Two distant family members are seen sorting vegetables on the far side of the yard. "
-                "The foreground ground around the pond is dark earth mixed with smooth river stones and scattered leaves. Authentic clutter: A small hand-net and a clay water kendi near the pond. "
-                "Lighting: Warm, side golden hour daylight, creating beautiful caustics on the water and deep, rich colors on the house."
-            ),
-
-            "Dalam Rumah: Ruang Tamu": (
-                "The character is seated on a wide rustic bamboo bench (lincak) in a spacious, clean living room of a traditional village house. "
-                "Background: The room features high ceilings with exposed wooden beams and clean cream-colored walls. In the distance, an open wooden front door reveals a glimpse of the lush green front yard. A simple wooden guest table with a lace tablecloth sits nearby. "
-                "Background activity: A distant family member is seen walking through the hallway or tidying up a wooden shelf. "
-                "Interior details: Traditional patterned floor tiles (tegel kunci) and a few framed old family photos on the wall. "
-                "Lighting: Bright natural light streaming in through the open door and large windows, creating soft, airy shadows."
-            ),
-
-            "Dalam Rumah: Dekat Jendela": (
-                "The character is seated on a low wooden stool next to a large open wooden window with classic shutters. "
-                "Background: Through the window, a vibrant green garden with banana leaves and flowering bushes is visible in the distance. Inside, the room is simple with a clean white wall and a rustic wooden cabinet. "
-                "Background activity: A distant person is seen in the backyard through the window frame. "
-                "Interior details: A small potted plant on the windowsill and a stack of old books. The floor is smooth, polished cement. "
-                "Lighting: Strong, cinematic side-lighting from the window, highlighting the character's profile and the textures of the workspace."
-            ),
-
-            "Dalam Rumah: Ruang Tengah": (
-                "The character is seated on a colorful woven pandan mat (tikar) on the floor in the center of a clean, airy room. "
-                "Background: The room opens up into a dining area with a simple wooden table and a traditional food cover (tudung saji). A doorway in the distance leads to a sunlit backyard. "
-                "Background activity: Distant family members are seen sitting around the dining table, chatting or drinking tea. "
-                "Interior details: A large wooden wall clock and a birdcage hanging near the back entrance. The floor is clean, cool patterned tiles. "
-                "Lighting: Soft, diffused indoor lighting with a bright glow coming from the distant back door."
-            ),
-
-            "Dalam Rumah: Dekat Pawon": (
-                "The character is seated on a low weathered wooden crate in a clean, spacious traditional kitchen area. "
-                "Background: A row of neatly stacked clay pots and wooden utensils on a rustic shelf. In the distance, a simple wooden back door is open, showing a green vegetable garden. "
-                "Background activity: A distant family member is seen preparing snacks or pouring water from a clay jar (kendi). "
-                "Interior details: Exposed brick accents on the lower wall and a floor made of hard-packed earth and stones near the entrance. "
-                "Lighting: Atmospheric natural light from the doorway, creating a warm, earthy, and productive vibe."
-            ),
-
-            "Dalam Rumah: Beranda Dalam": (
-                "The character is seated on a rustic bamboo chair in a semi-open inner porch that connects the main house to the back area. "
-                "Background: A view of a small indoor garden patch with a few tropical plants and a stone water feature. The neat wooden walls of the house surround the area. "
-                "Background activity: A distant neighbor is seen waving from the back gate. A cat is resting on a nearby wooden ledge. "
-                "Interior details: Hanging ferns and a floor of smooth river pebbles mixed with cement tiles. "
-                "Lighting: Overhead natural light from a skylight or open roof section, creating a bright, fresh, and very 'adem' atmosphere."
-            ),
-
-            "Alam: Kebun Bunga Asri": (
-                "The character is seated on a low weathered wooden stool on a natural dirt path, nestled inside a lush, vibrant tropical garden. "
-                "Background: The garden is a dense, colorful tapestry of blooming flowers (orchids, monstera, heloconia, bougainvillea) growing densely and naturally. Through a distant gap in the rimbun (lush) jungle canopy, a natural waterfall is visible cascading down a verdant cliff face. "
-                "Background activity: A distant Indonesian villager is seen carrying a basket of flowers or plants on a winding forest path. Bird cages hang from large tree branches. "
-                "The ground around the character is covered in a carpet of dry leaves, fallen twigs, and patches of moss. Authentic clutter: A small clay kendi (water jug) and an old conical hat near a pillar. "
-                "Lighting: Soft, natural dappled sunlight filtering through the dense leaves, creating cool, high-contrast shadows and depth."
-            ),
-
-            "Alam: Tepian Sungai Kecil": (
-                "The character is seated on a wide rustic bamboo platform (lincak) inside a shaded bamboo gubuk overlooking a clear, slow-moving river. "
-                "Background: Across the clear river, a massive, vibrant tropical forest rises, and a majestic, natural waterfall is visible in the distant background flowing down a lush cliff. The far riverbank is lined with various colorful flowering bushes and large ferns. "
-                "Background activity: Distant villagers are seen fishing or washing clothes in the distance. A few ducks are swimming by. "
-                "The foreground ground is a mix of red soil, smooth river pebbles, and moss. "
-                "Atmosphere: High fresh, vibrant, and deeply aromatic ambiance under clear daylight, with long, cool shadows from the tall trees."
-            ),
-
-            "Alam: Terasering Bunga": (
-                "The character is seated on a simple weathered stool on a shaded terrace of a sloping, unkempt flower garden. "
-                "Background: The hillside garden is covered in vibrant colorful flowers in naturally messy terraced beds. A distant, natural waterfall is visible in the far distance, cascading down a deep, forested valley. The far valley edge is bordered by dense coconut trees. "
-                "Background activity: Two distant villagers are seen carefully picking or planting flowers on the far terrace. A stray cat is wandering near the garden edge. "
-                "The ground is a mix of red soil, natural rock steps, and dry leaves.Authentic clutter: Several empty wooden fruit crates and an old bamboo watering pole nearby. "
-                "Lighting: Warm golden hour sunlight highlighting the vibrant colors and creating deep, atmospheric haze."
-            ),
-
-            "Alam: Tepi Hutan Bambu": (
-                "The character is seated on a low weathered wooden crate behind a simple rustic bamboo shelter. "
-                "Background: A view into a vast, dense green bamboo jungle on the far bank of a small stream. Through a distant clear section in the forest, a narrow, natural waterfall is visible flowing down a verdant rock face in the deep distance. Colorful flowering vines scramble over the foreground bamboo structure. "
-                "Background activity: Distant farmers are seen carrying bundles of bamboo or crops on a forest trail. A small wooden scarecrow is visible in the far field. "
-                "The ground is dusty earth mixed with river stones and dry organic debris. Authentic clutter: An old motorbike with rattan bronjong baskets parked near a tree. "
-                "Lighting: Deep, high-contrast dapple sunlight, creating a very cool and rugged atmosphere."
-            ),
-
-            "Alam: Sumur Alami Asri": (
-                "The character is seated on a low weathered wooden bench next to an old, moss-covered natural spring well with a wooden pulley. "
-                "Background: The well is nestled among large tropical leaves (talas, ferns) and colorful wild orchids. In the far distance, through the forest opening, a beautiful natural waterfall cascading down a verdant cliff is visible. "
-                "Background activity: A distant person is seen washing vegetables or filling water from the spring. "
-                "The ground around the character is damp, dark earth mixed with mossy patches and smooth river stones.Authentic clutter: A clay kendi and a rustic hand-net nearby. "
-                "Atmosphere: Very cool, humid, and deeply nostalgic rural Indonesian morning vibe under natural daylight."
-            ),
-
-            "Warkop: Teras Depan": (
-                "The character is seated on a low wooden stool on the shaded porch of a humble village coffee shop (Warkop). "
-                "Background: The warung wall is filled with hanging colorful instant coffee sachets (renceng). A few weathered wooden benches sit across from the character. "
-                "Background activity: Distant village men are seen sitting, drinking coffee, and chatting. A few motorbikes are parked in the dusty front yard. "
-                "The floor is cracked cement with scattered cigarette butts and dry leaves. Authentic clutter: A small glass jar of crackers (kaleng kerupuk) on a nearby table. "
-                "Lighting: Warm, soft natural light under the porch roof with a bright sun-drenched road in the far distance."
-            ),
-
-            "Pasar: Kios Kelontong": (
-                "The character is seated on a weathered wooden crate in front of a busy traditional market stall. "
-                "Background: The kiosk is packed with sacks of rice, colorful snack packages, and hanging bananas. "
-                "Background activity: Distant customers in casual village attire are seen bargaining and carrying plastic grocery bags. A slow-moving old bicycle passes through the narrow market aisle. "
-                "The ground is hard-packed earth with organic debris and scattered vegetable scraps. "
-                "Atmosphere: High-energy, bustling, and honest rural commerce under bright morning sunlight."
-            ),
-
-            "Pasar: Kios Sayur": (
-                "The character is seated on a simple rustic bench next to a vibrant display of vegetables. "
-                "Background: Baskets filled with red chilies, green cabbage, and orange carrots are stacked neatly behind the character. "
-                "Background activity: A distant seller is seen weighing vegetables for a customer. A stray cat is wandering near the baskets. "
-                "The floor is damp grey cement with a few puddles from the morning mist. Authentic clutter: A stack of empty bamboo baskets (besek) nearby. "
-                "Lighting: Clear, fresh morning daylight highlighting the dewy textures of the vegetables."
-            ),
-
-            "Toko: Sembako Desa": (
-                "The character is seated on a low wooden stool on the sidewalk in front of a modest village provision store. "
-                "Background: A row of large open sacks filled with various grains and flour. Colorful soap and detergent advertisements are plastered on the wooden walls. "
-                "Background activity: A distant person is seen loading goods onto a motorbike's rattan baskets (bronjong). "
-                "The ground is dusty red soil with scattered river stones. Authentic clutter: An old rusted scale and a stack of wooden crates. "
-                "Lighting: Side golden hour sunlight creating rich, deep shadows and warm tones."
-            ),
-
-            "Pasar: Kios Gorengan/Jajanan": (
-                "The character is seated on a rustic bamboo bench near a traditional snack vendor. "
-                "Background: A glass display case filled with golden fried snacks (gorengan) and traditional cakes. A faint wisp of steam or smoke drifts from a large frying wok in the distance. "
-                "Background activity: Kids are seen gathered around buying snacks. A few motorbikes are passing by on the street. "
-                "The floor is a mix of mossy paving blocks and dry earth. "
-                "Atmosphere: Authentic, lively, and nostalgic village street scene under natural daylight."
-            )         
+            "Kebun Semangka Biasa": (
+                "The character is seated on a low weathered wooden crate in a sprawling natural Indonesian watermelon farm on a normal day. "
+                "Dark brown earth with natural uneven terrain and patches of wild grass. "
+                "Ripe watermelons of normal size are scattered organically across the field, not in neat rows. "
+                "Green vines sprawl unevenly with realistic sparse density and some wild weeds. "
+                "In the far background, a few villagers can be seen harvesting watermelons by hand. "
+                "Open and airy rural farm atmosphere with wide field feeling."
+            ),
+            "Kebun Semangka dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the watermelon farm. "
+                "Dark brown earth with natural uneven terrain and patches of wild grass. "
+                "Ripe watermelons of normal size are scattered organically around the gubuk area. "
+                "Green vines sprawl unevenly with realistic sparse density and some wild weeds. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Cozy and sheltered farm atmosphere near the bamboo structure."
+            ),
+            "Kebun Buah Naga Biasa": (
+                "The character is seated on a low weathered wooden crate in a sprawling natural dragon fruit plantation on a normal day. "
+                "Dark brown earth with natural uneven terrain. "
+                "Long climbing dragon fruit vines grow on wooden poles with ripe magenta fruits hanging. "
+                "In the far background, a few villagers can be seen harvesting dragon fruit. "
+                "Tropical climbing vine plantation atmosphere."
+            ),
+            "Kebun Buah Naga dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the dragon fruit plantation. "
+                "Long climbing dragon fruit vines grow around the bamboo structure with ripe magenta fruits hanging. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Intimate plantation atmosphere near the bamboo gubuk."
+            ),
+            "Kebun Melon Biasa": (
+                "The character is seated on a low weathered wooden crate in a sprawling natural melon field on a normal day. "
+                "Dark brown earth with natural uneven terrain. "
+                "Round ripe melons are scattered organically on trailing vines. "
+                "In the far background, a few villagers can be seen harvesting melons. "
+                "Open melon patch farm atmosphere."
+            ),
+            "Kebun Melon dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the melon field. "
+                "Round ripe melons are scattered organically around the gubuk area on trailing vines. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Sheltered melon patch atmosphere near the gubuk."
+            ),
+            "Kebun Labu Biasa": (
+                "The character is seated on a low weathered wooden crate in a sprawling natural pumpkin field on a normal day. "
+                "Dark brown earth with natural uneven terrain. "
+                "Large ripe pumpkins are scattered organically on thick vines. "
+                "In the far background, a few villagers can be seen harvesting pumpkins. "
+                "Open pumpkin patch farm atmosphere."
+            ),
+            "Kebun Labu dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the pumpkin field. "
+                "Large ripe pumpkins are scattered organically around the gubuk area on thick vines. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Sheltered pumpkin patch atmosphere near the gubuk."
+            ),
+            "Kebun Rambutan Biasa": (
+                "The character is seated on a low weathered wooden crate under rambutan trees in a natural village orchard on a normal day. "
+                "Rambutan fruits hang in clusters from the trees with bright red spiky skin. "
+                "Fallen rambutan fruits and leaves are scattered on the ground. "
+                "In the far background, a few villagers can be seen harvesting rambutan. "
+                "Shady tropical orchard atmosphere."
+            ),
+            "Kebun Rambutan dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk under rambutan trees. "
+                "Rambutan fruits hang in clusters from the trees with bright red spiky skin. "
+                "Fallen rambutan fruits and leaves are scattered around the gubuk area. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Shady orchard atmosphere near the bamboo gubuk."
+            ),
+            "Kebun Pepaya Biasa": (
+                "The character is seated on a low weathered wooden crate in a natural papaya plantation on a normal day. "
+                "Tall papaya trees with large green and yellow fruits hanging from the trunks. "
+                "Fallen papaya leaves and some ripe fruits are scattered on the ground. "
+                "In the far background, a few villagers can be seen harvesting papaya. "
+                "Tall plantation atmosphere."
+            ),
+            "Kebun Pepaya dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the papaya plantation. "
+                "Tall papaya trees with large green and yellow fruits hanging near the gubuk. "
+                "Fallen papaya leaves and some ripe fruits are scattered around the gubuk area. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Tall plantation atmosphere near the gubuk."
+            ),
+            "Kebun Pisang Biasa": (
+                "The character is seated on a low weathered wooden crate in a natural banana plantation on a normal day. "
+                "Tall banana trees with large green and yellow banana bunches hanging. "
+                "Fallen banana leaves and some ripe bananas are scattered on the ground. "
+                "In the far background, a few villagers can be seen harvesting bananas. "
+                "Tall banana grove atmosphere."
+            ),
+            "Kebun Pisang dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the banana plantation. "
+                "Tall banana trees with large green and yellow banana bunches hanging near the gubuk. "
+                "Fallen banana leaves and some ripe bananas are scattered around the gubuk area. "
+                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+                "Tall banana grove atmosphere near the gubuk."
+            ),
+            "Kebun Jeruk Biasa": (
+                "The character is seated on a low weathered wooden crate under rows of mature orange trees in a sunny Javanese orchard. "
+                "Tall trees with glossy green leaves and bright orange fruits hanging heavily from the branches. "
+                "Dry fallen leaves and some ripe oranges scattered on the ground. "
+                "In the far distance, villagers are picking oranges using long bamboo poles. "
+                "Bright and airy orchard atmosphere with the scent of citrus in the air."
+            ),
+            "Kebun Jeruk Lebat": (
+                "The character is seated on a low weathered wooden crate in a dense orange orchard where trees grow close together. "
+                "Heavy clusters of ripe oranges weigh down the branches, almost touching the ground in some places. "
+                "Thick canopy creates dappled sunlight on the earth below. "
+                "In the distance, several villagers are busy filling baskets with harvested oranges. "
+                "Lush and shaded citrus orchard atmosphere."
+            ),
+            "Kebun Salak Biasa": (
+                "The character is seated on a low weathered wooden crate among salak palms in a village plantation. "
+                "Short palm trees with sharp leaves and clusters of brown scaly fruits hanging near the base. "
+                "Dry palm fronds and fallen salak fruits cover the ground. "
+                "In the far background, villagers are cutting salak clusters with knives. "
+                "Shady and humid salak palm atmosphere."
+            ),
+            "Kebun Salak Lebat": (
+                "The character is seated on a low weathered wooden crate in a thick salak plantation where palms grow densely. "
+                "Numerous brown scaly salak fruits cluster heavily at the base of the palms. "
+                "Sharp dry leaves carpet the ground almost completely. "
+                "Villagers in the distance are harvesting salak in large baskets. "
+                "Dense and prickly salak palm grove atmosphere."
+            ),
+            "Kebun Anggur Biasa": (
+                "The character is seated on a low weathered wooden crate in a traditional grape vineyard. "
+                "Grape vines climb neatly on wooden trellises with clusters of ripe green and purple grapes hanging. "
+                "Some fallen grapes and dry leaves lie on the soil. "
+                "In the far background, villagers are picking grapes into woven baskets. "
+                "Sunny vineyard atmosphere with rows of trellises."
+            ),
+            "Kebun Anggur Lebat": (
+                "The character is seated on a low weathered wooden crate in a lush grape vineyard where vines grow thickly. "
+                "Heavy clusters of ripe grapes hang low from the trellises, almost touching the ground. "
+                "Dense foliage creates shaded spots on the earth. "
+                "Villagers in the distance are carefully harvesting the heavy grape bunches. "
+                "Lush and shaded grape vineyard atmosphere."
+            ),
+            "Kebun Nanas Biasa": (
+                "The character is seated on a low weathered wooden crate in a pineapple plantation. "
+                "Low pineapple plants with spiky leaves and ripe yellow-brown fruits growing close to the ground. "
+                "Dry pineapple leaves scattered between the plants. "
+                "In the far background, villagers are cutting pineapples with long knives. "
+                "Open and sunny pineapple field atmosphere."
+            ),
+            "Kebun Nanas Lebat": (
+                "The character is seated on a low weathered wooden crate in a dense pineapple plantation. "
+                "Pineapple plants grow tightly together with many ripe fruits visible among the sharp leaves. "
+                "Thick layer of dry pineapple leaves covers the ground. "
+                "Villagers in the distance are harvesting pineapples in large numbers. "
+                "Dense and spiky pineapple field atmosphere."
+            ),
+            "Kebun Strawberry Biasa": (
+                "The character is seated on a low weathered wooden crate in a strawberry field. "
+                "Low strawberry plants with bright red ripe fruits peeking from under the leaves. "
+                "Soft soil with some dry straw mulch between the plants. "
+                "In the far background, villagers are picking strawberries into small baskets. "
+                "Low-growing berry field atmosphere."
+            ),
+            "Kebun Strawberry Lebat": (
+                "The character is seated on a low weathered wooden crate in a thick strawberry field. "
+                "Strawberry plants grow densely with abundant ripe red fruits visible everywhere. "
+                "Ground covered with straw mulch and fallen berries. "
+                "Villagers in the distance are busy harvesting strawberries. "
+                "Dense and abundant strawberry patch atmosphere."
+            ),
+            "Kebun Kelapa Biasa": (
+                "The character is seated on a low weathered wooden crate in a coconut grove. "
+                "Tall coconut trees with large green coconuts hanging high in the crowns. "
+                "Fallen coconut husks and dry leaves scattered on the ground. "
+                "In the far background, villagers are climbing trees to harvest coconuts. "
+                "Tall and breezy coconut grove atmosphere."
+            ),
+            "Kebun Kelapa Lebat": (
+                "The character is seated on a low weathered wooden crate in a dense coconut grove. "
+                "Tall coconut trees grow close together with many large green coconuts hanging heavily. "
+                "Thick layer of fallen husks and dry fronds cover the ground. "
+                "Villagers in the distance are harvesting coconuts. "
+                "Dense and shaded coconut grove atmosphere."
+            ),
+            "Kebun Jagung Biasa": (
+                "The character is seated on a low weathered wooden crate in a tall corn field on a normal day. "
+                "Tall corn stalks with ripe yellow cobs visible on the plants. "
+                "Dry corn leaves rustle in the breeze. "
+                "In the far background, villagers are harvesting corn. "
+                "Tall and open corn field atmosphere."
+            ),
+            "Kebun Jagung Lebat": (
+                "The character is seated on a low weathered wooden crate in a dense corn field. "
+                "Tall corn stalks grow very closely together with many ripe yellow cobs. "
+                "Thick canopy of corn leaves blocks much of the sunlight. "
+                "Villagers in the distance are harvesting corn. "
+                "Dense and tall corn field atmosphere."
+            ),
+            "Kebun Tomat Biasa": (
+                "The character is seated on a low weathered wooden crate in a tomato garden on a normal day. "
+                "Tomato plants with clusters of ripe red tomatoes hanging from the vines. "
+                "Some fallen tomatoes and leaves on the soil. "
+                "In the far background, villagers are picking tomatoes. "
+                "Open tomato garden atmosphere."
+            ),
+            "Kebun Tomat Lebat": (
+                "The character is seated on a low weathered wooden crate in a thick tomato garden. "
+                "Tomato plants grow densely with heavy clusters of ripe red tomatoes. "
+                "Ground covered with fallen tomatoes and leaves. "
+                "Villagers in the distance are harvesting tomatoes. "
+                "Dense and productive tomato garden atmosphere."
+            ),
+            "Kebun Cabe Biasa": (
+                "The character is seated on a low weathered wooden crate in a chili garden on a normal day. "
+                "Chili plants with bright red and green chilies hanging in clusters. "
+                "Some fallen chilies scattered on the ground. "
+                "In the far background, villagers are harvesting chilies. "
+                "Spicy and open chili garden atmosphere."
+            ),
+            "Kebun Cabe Lebat": (
+                "The character is seated on a low weathered wooden crate in a dense chili garden. "
+                "Chili plants grow thickly with abundant bright red and green chilies. "
+                "Ground covered with fallen chilies. "
+                "Villagers in the distance are harvesting chilies. "
+                "Dense and spicy chili garden atmosphere."
+            ),			
+            "Kebun Sayuran Mix Biasa": (
+                "The character is seated on a low weathered wooden crate in a mixed vegetable garden on a normal day. "
+                "Various vegetables grow together in a natural, slightly messy way: eggplants, long beans, spinach, and chili plants. "
+                "Dark brown soil with some patches of grass and scattered dry leaves. "
+                "In the far background, a few villagers are tending to the plants and picking vegetables. "
+                "Peaceful and productive mixed vegetable garden atmosphere."
+            ),
+            "Kebun Sayuran Mix dengan Sungai Kecil": (
+                "The character is seated on a low weathered wooden crate beside a small shallow stream in a mixed vegetable garden. "
+                "Clear water flows slowly beside rows of eggplants, kangkung, tomatoes, and chili plants. "
+                "Wet soil near the stream and lush green vegetables growing abundantly. "
+                "A few ducks are waddling near the water. "
+                "Calm and fresh mixed vegetable garden with a small stream atmosphere."
+            ),
+            "Kebun Sayuran Mix dengan Gubuk": (
+                "The character is seated on a low weathered wooden crate right next to a small bamboo gubuk in a mixed vegetable garden. "
+                "The gubuk is surrounded by dense vegetables: cabbage, long beans, mustard greens, and chili plants. "
+                "Some harvested vegetables are piled near the gubuk entrance. "
+                "A few chickens are pecking around the garden. "
+                "Cozy and lived-in mixed vegetable garden with a small bamboo shelter atmosphere."
+            ),
+            "Sawah Biasa": (
+                "The character is seated on a low weathered wooden crate at the edge of a wide rice paddy on a normal day. "
+                "Vast green rice fields stretch out with young rice plants swaying gently. "
+                "Narrow dirt paths separate the paddies, with some water visible in the fields. "
+                "In the far distance, several farmers are working in the rice fields. "
+                "Open and expansive rice field atmosphere."
+            ),
+            "Sawah dengan Pohon Kelapa": (
+                "The character is seated on a low weathered wooden crate at the edge of a rice paddy with tall coconut trees nearby. "
+                "Lush green rice plants fill the field, with some mature golden patches ready for harvest. "
+                "Tall coconut trees stand along the edge of the paddy, their fronds moving in the breeze. "
+                "A few farmers can be seen working in the distance. "
+                "Scenic rice paddy with coconut trees atmosphere."
+            ),
+			"Sawah dengan Gubuk di Tengah": (
+                "The character is seated on a low weathered wooden crate on a small raised platform beside a simple bamboo gubuk standing right in the middle of the rice paddy. "
+                "The gubuk is surrounded by water and young green rice plants on all sides. "
+                "Narrow dirt paths lead to the gubuk, with water reflecting the sky in the flooded fields. "
+                "Tall rice stalks sway gently around the structure, some already turning golden. "
+                "A few birds fly over the vast green sawah. "
+                "Peaceful and isolated rice field atmosphere with a lone gubuk in the middle of the paddy."
+            ),
+			"Kebun Bunga Biasa": (
+                "The character is seated on a low weathered wooden crate in a simple village flower garden on a normal day. "
+                "Various colorful flowers grow in a natural, slightly messy arrangement: roses, marigolds, jasmine, and hibiscus. "
+                "Dark brown earth with patches of grass and scattered fallen petals. "
+                "In the far background, a few villagers can be seen tending to the flowers. "
+                "Gentle and fragrant village flower garden atmosphere."
+            ),
+            "Taman Bunga dengan Gazebo Kecil": (
+                "The character is seated on a low weathered wooden crate beside a small traditional bamboo gazebo in a beautiful village flower garden. "
+                "Colorful flowers bloom abundantly around the gazebo: bright bougainvillea climbing the bamboo, roses, lilies, and orchids. "
+                "Stone path leads to the gazebo with fallen flower petals scattered on the ground. "
+                "The air feels fresh and fragrant with the scent of blooming flowers. "
+                "Peaceful and scenic village flower garden atmosphere with a small bamboo gazebo."
+            ),
+			"Pinggir Sungai Desa": (
+                "The character is seated on a low weathered wooden crate near a small clear village stream. "
+                "Gentle flowing water with smooth rocks and lush green grass on the banks. "
+                "Bamboo trees and wild ferns grow along the river. "
+                "A few women can be seen washing clothes downstream. "
+                "Calm and refreshing riverside atmosphere."
+            ),
+            "Pinggir Hutan Bambu": (
+                "The character is seated on a low weathered wooden crate at the edge of a dense bamboo forest. "
+                "Tall green bamboo stalks sway gently in the breeze, creating soft rustling sounds. "
+                "Soft sunlight filters through the canopy onto the forest floor covered with dry leaves. "
+                "A small dirt path leads deeper into the bamboo grove. "
+                "Cool and serene bamboo forest edge atmosphere."
+            ),
+            "Ladang Jagung Kuning": (
+                "The character is seated on a low weathered wooden crate in a tall golden corn field ready for harvest. "
+                "Tall dry corn stalks with ripe yellow cobs visible. "
+                "Dry corn leaves rustle loudly in the wind. "
+                "In the far distance, villagers are harvesting corn. "
+                "Warm and golden corn field atmosphere."
+            ),
+            "Pinggir Danau Kecil": (
+                "The character is seated on a low weathered wooden crate by the edge of a small calm village lake. "
+                "Clear water reflects the sky and surrounding trees. "
+                "Lotus plants and water lilies float on the surface. "
+                "A few ducks swim quietly near the shore. "
+                "Tranquil and serene small lake atmosphere."
+            ),
+            "Bukit Kecil Desa": (
+                "The character is seated on a low weathered wooden crate on a gentle grassy hill overlooking the village. "
+                "Rolling green hills with scattered trees and distant rice paddies visible below. "
+                "A light breeze blows through the grass. "
+                "A few goats graze peacefully on the hillside. "
+                "Peaceful and open hilltop atmosphere."
+            ),
+            "Pinggir Hutan Pinus": (
+                "The character is seated on a low weathered wooden crate at the edge of a pine forest. "
+                "Tall pine trees with fallen needles covering the ground. "
+                "Fresh pine scent fills the air as the trees sway gently. "
+                "Soft sunlight creates long shadows on the forest floor. "
+                "Cool and aromatic pine forest edge atmosphere."
+            ),
+            "Ladang Teh": (
+                "The character is seated on a low weathered wooden crate on the edge of a lush tea plantation. "
+                "Neat rows of tea bushes cover the rolling hills with fresh green leaves. "
+                "A light mist lingers in the air. "
+                "In the distance, workers are picking tea leaves. "
+                "Fresh and misty tea plantation atmosphere."
+            ),
+            "Pantai Desa Kecil": (
+                "The character is seated on a low weathered wooden crate on a quiet village beach. "
+                "Gentle waves lap against the sandy shore with coconut trees lining the coast. "
+                "Fishing boats are pulled up on the sand. "
+                "A few fishermen are mending nets in the distance. "
+                "Calm and breezy small village beach atmosphere."
+            ),
+            "Pinggir Gunung Kecil": (
+                "The character is seated on a low weathered wooden crate on a foothill with a view of the mountain. "
+                "Steep green slopes with rocky outcrops and wildflowers. "
+                "A small waterfall can be heard in the distance. "
+                "Cool mountain breeze blows through the area. "
+                "Fresh and majestic foothill atmosphere."
+            ),
+            "Lembah Kecil Desa": (
+                "The character is seated on a low weathered wooden crate in a quiet small valley surrounded by hills. "
+                "Green fields and scattered trees fill the valley floor. "
+                "A narrow river winds through the middle of the valley. "
+                "A few houses with smoke rising from the chimneys can be seen in the distance. "
+                "Quiet and peaceful small valley atmosphere."
+            ),
+			"Teras Rumah Jati": (
+                "The character is seated on the spacious wooden terrace of a traditional Javanese house made of dark jati wood. "
+                "Smooth aged jati planks with visible grain and natural patina from years of use. "
+                "A few simple wooden chairs and a low table are placed on the terrace. "
+                "Clothes are hanging to dry on a line at the side. "
+                "Calm and dignified jati wood terrace atmosphere."
+            ),
+            "Rumah Ukiran": (
+                "The character is seated on a low weathered wooden bench on the terrace of a beautifully carved Javanese house. "
+                "Intricate traditional wood carvings adorn the pillars and door frames. "
+                "The house has a classic joglo style with detailed ornamentation. "
+                "Soft afternoon light falls on the carved wooden details. "
+                "Elegant and traditional carved house terrace atmosphere."
+            ),
+            "Rumah Bambu Hijau": (
+                "The character is seated on a low wooden bench beside a simple house made of fresh green bamboo. "
+                "The walls and structure are built from natural bamboo poles with a thatched roof. "
+                "Green vines climb gently on the bamboo walls. "
+                "A few potted plants are placed near the entrance. "
+                "Fresh and natural bamboo house atmosphere."
+            ),
+            "Halaman Depan Rumah": (
+                "The character is seated on a low weathered wooden bench in the front yard of a modest village house. "
+                "Swept earth ground with a few flowering plants and shrubs near the entrance. "
+                "An old wooden gate with climbing bougainvillea stands at the front. "
+                "Warm and welcoming front yard atmosphere."
+            ),
+            "Halaman Belakang Rumah": (
+                "The character is seated on a low weathered wooden crate in the backyard of the village house. "
+                "Small vegetable plot with chili, long beans, and spinach growing near the back wall. "
+                "A clothesline with faded sarongs and shirts sways gently in the breeze. "
+                "Practical and everyday backyard atmosphere."
+            ),
+            "Pekarangan Rumah dengan Pohon Mangga": (
+                "The character is seated on a low weathered wooden bench under a large old mango tree in the house yard. "
+                "Thick mango tree providing shade with some fruits still hanging and fallen leaves on the ground. "
+                "A few ripe mangoes lie scattered near the bench. "
+                "Shady and fruity yard atmosphere under the mango tree."
+            ),
+            "Halaman Samping Rumah": (
+                "The character is seated on a low weathered wooden crate in the narrow side yard of the village house. "
+                "A row of potted plants and herbs lines the wall of the house. "
+                "Some drying herbs hang from a simple rack. "
+                "Quiet and functional side yard atmosphere."
+            ),
+            "Teras Belakang Rumah": (
+                "The character is seated on the back wooden terrace of the village house. "
+                "Rough weathered wooden floor overlooking the backyard. "
+                "A few simple tools and baskets are placed neatly in the corner. "
+                "Calm and private back terrace atmosphere."
+            ),
+            "Halaman Rumah dengan Tempat Cuci": (
+                "The character is seated on a low weathered wooden bench in the side yard near the outdoor washing area. "
+                "A large stone basin and several buckets are placed near the house wall. "
+                "Wet clothes hang on a line nearby. "
+                "Everyday practical yard atmosphere with washing area."
+            ),
+            "Pekarangan Rumah dengan Tanaman Obat": (
+                "The character is seated on a low weathered wooden crate in the yard where medicinal plants grow. "
+                "Various herbs like turmeric, ginger, lemongrass, and sambiloto are planted in neat but natural rows. "
+                "A small wooden rack holds drying medicinal leaves. "
+                "Fragrant and healing herbal yard atmosphere."
+            ),
+            "Ruang Tamu Rumah Jati": (
+                "The character is seated on a low wooden chair in the simple living room of a traditional Javanese house made of dark jati wood. "
+                "Aged jati furniture with visible wood grain and a low coffee table in the center. "
+                "Soft natural light enters through the wooden windows. "
+                "A few family photos and an old wall clock hang on the wall. "
+                "Calm and warm traditional jati living room atmosphere."
+            ),
+            "Dapur Rumah Kayu": (
+                "The character is seated on a low wooden stool in the simple kitchen inside the village house. "
+                "A traditional firewood stove with clay pots and hanging cooking utensils. "
+                "Some fresh vegetables and spices are placed on a wooden counter. "
+                "Faint smell of cooking lingers in the air. "
+                "Warm and functional village kitchen atmosphere."
+            ),
+            "Kamar Tidur Nenek": (
+                "The character is seated on the edge of a simple wooden bed in her modest bedroom. "
+                "A thin mattress with a faded batik bedcover and a mosquito net hanging above. "
+                "An old wooden wardrobe and a small mirror on the wall. "
+                "Soft light filters through the window with lace curtains. "
+                "Quiet and personal bedroom atmosphere."
+            ),
+            "Ruang Keluarga Kecil": (
+                "The character is seated on a low bamboo mat in the small family room inside the house. "
+                "A simple wooden TV cabinet and a few floor cushions around the room. "
+                "Family photos and a calendar hang on the wall. "
+                "Natural light comes from the side windows. "
+                "Cozy and intimate family room atmosphere."
+            ),
+            "Serambi Dalam": (
+                "The character is seated on a low wooden bench in the inner serambi of the traditional house. "
+                "Polished wooden floor with visible grain and simple carved wooden pillars. "
+                "A few rolled mats are stored neatly in the corner. "
+                "Soft diffused light enters from the open side. "
+                "Traditional and serene inner serambi atmosphere."
+            ),
+            "Ruang Makan Sederhana": (
+                "The character is seated at a low wooden dining table inside the house. "
+                "Simple wooden chairs and a few plates with glasses on the table. "
+                "A ceiling fan hangs above and basic utensils are stored on a sideboard. "
+                "Warm afternoon light comes through the window. "
+                "Simple and everyday dining area atmosphere."
+            ),
+            "Sudut Doa Rumah": (
+                "The character is seated on a prayer mat in a quiet corner of the house used for prayer. "
+                "A small wooden Quran stand and a folded prayer rug are placed neatly. "
+                "Soft light from a small window illuminates the corner. "
+                "Calm and spiritual prayer corner atmosphere."
+            ),
+            "Sudut Jahit Nenek": (
+                "The character is seated on a low wooden stool in the corner where she usually sews. "
+                "An old sewing machine on a small table with colorful threads and fabric pieces. "
+                "A basket of unfinished sewing projects sits nearby. "
+                "Gentle light falls on the sewing area. "
+                "Warm and personal sewing corner atmosphere."
+            ),
+            "Ruang Depan Dekat Pintu": (
+                "The character is seated on a low wooden bench near the main entrance inside the house. "
+                "Traditional wooden door with simple carvings and a small shoe rack. "
+                "A few daily items like an umbrella and a shopping bag hang on the wall. "
+                "Natural light enters from the open doorway. "
+                "Welcoming entrance area atmosphere."
+            ),
+            "Kamar Belakang Rumah": (
+                "The character is seated on the edge of a simple bed in the back bedroom of the village house. "
+                "A thin mattress with an old batik bedcover and a small wooden side table. "
+                "A window with simple curtains overlooking the backyard. "
+                "Quiet and private back bedroom atmosphere."
+            ),
+			"Sawah Hijau Muda": (
+                "The character is seated on a low weathered wooden crate at the edge of a vast young rice paddy. "
+                "Bright green rice plants sway gently across the flooded field. "
+                "Narrow dirt bunds separate the paddies with water reflecting the sky. "
+                "In the distance, farmers are working in the rice fields. "
+                "Fresh and expansive young rice paddy atmosphere."
+            ),
+            "Sawah Siap Panen": (
+                "The character is seated on a low weathered wooden crate at the edge of a golden rice field ready for harvest. "
+                "Mature rice stalks turn golden yellow and sway in the breeze. "
+                "Some farmers can be seen cutting rice with sickles in the distance. "
+                "Warm and bountiful harvest-ready sawah atmosphere."
+            ),
+            "Sawah dengan Gubuk di Tengah": (
+                "The character is seated on a low weathered wooden crate on a small raised platform beside a simple bamboo gubuk standing right in the middle of the rice paddy. "
+                "The gubuk is surrounded by water and green rice plants on all sides. "
+                "Narrow dirt paths lead to the gubuk. "
+                "A few birds fly over the vast green sawah. "
+                "Peaceful and isolated rice field atmosphere with a lone gubuk in the middle."
+            ),
+            "Sawah dengan Pohon Kelapa": (
+                "The character is seated on a low weathered wooden crate at the edge of a rice paddy with tall coconut trees nearby. "
+                "Green rice plants fill the field, with some mature golden patches. "
+                "Tall coconut trees stand along the edge, their fronds moving in the breeze. "
+                "Scenic rice paddy with coconut trees atmosphere."
+            ),
+            "Sawah di Lereng Bukit": (
+                "The character is seated on a low weathered wooden crate on a terraced rice paddy on a gentle hillside. "
+                "Layered rice fields follow the contour of the hill with water sparkling between terraces. "
+                "In the distance, farmers are tending the upper terraces. "
+                "Scenic and layered hillside rice paddy atmosphere."
+            ),
+			"Belakang Rumah dengan Taman Bunga": (
+                "The character is seated on a low weathered wooden bench in the backyard of the village house with a small flower garden. "
+                "Colorful flowers bloom naturally: roses, jasmine, marigolds, and hibiscus around the yard. "
+                "Fallen petals scatter on the swept earth ground. "
+                "A few potted plants are placed near the house wall. "
+                "Peaceful and fragrant backyard flower garden atmosphere."
+            ),
+            "Belakang Rumah dengan Kolam Ikan Kecil": (
+                "The character is seated on a low weathered wooden bench in the backyard beside a small fish pond. "
+                "Clear water in the shallow pond with a few goldfish swimming and water lilies floating on the surface. "
+                "Stone edging around the pond with some moss. "
+                "Soft sound of water and gentle breeze. "
+                "Calm and serene backyard with small fish pond atmosphere."
+            ),
+            "Belakang Rumah dengan Pohon Buah": (
+                "The character is seated on a low weathered wooden crate under a large mango tree in the backyard. "
+                "Thick mango tree providing shade with some ripe mangoes still hanging and fallen leaves on the ground. "
+                "A few other fruit trees like guava and papaya are also planted nearby. "
+                "Shady and fruity backyard with fruit trees atmosphere."
+            ),
+            "Belakang Rumah dengan Kebun Sayur Kecil": (
+                "The character is seated on a low weathered wooden bench in the backyard with a small vegetable plot. "
+                "Chili plants, long beans, spinach, and tomatoes grow in neat but natural rows. "
+                "A simple bamboo trellis supports the climbing vegetables. "
+                "Some harvested vegetables are placed in a basket nearby. "
+                "Practical and green backyard vegetable garden atmosphere."
+            ),
+            "Belakang Rumah dengan Area Santai": (
+                "The character is seated on a low weathered wooden bench in the quiet backyard relaxation area. "
+                "A simple bamboo pergola with climbing plants provides partial shade. "
+                "A few potted flowers and a small wooden table with a teapot are placed nearby. "
+                "Soft natural light filters through the plants. "
+                "Cozy and relaxing backyard atmosphere."
+            ),
+			"Depan Warung Kelontong": (
+                "The character is seated on a low wooden bench in front of a small village kelontong warung. "
+                "The warung has colorful snack packets, soap, and daily goods displayed on wooden shelves. "
+                "A few villagers are buying things and chatting with the owner. "
+                "Warm and lively small village shop atmosphere."
+            ),
+            "Depan Warkop Sederhana": (
+                "The character is seated on a low wooden bench in front of a simple village warkop. "
+                "Plastic chairs and tables are arranged outside with glasses of sweet tea. "
+                "A few men are sitting and talking while drinking coffee. "
+                "The smell of kopi tubruk and fried snacks fills the air. "
+                "Casual and social village coffee shop atmosphere."
+            ),
+            "Depan Kios Rokok & Pulsa": (
+                "The character is seated on a low wooden stool in front of a small kiosk selling cigarettes and phone credit. "
+                "Colorful cigarette packs and pulsa signs are displayed on the front. "
+                "A few young men are standing and buying pulsa. "
+                "Busy and everyday small kiosk atmosphere."
+            ),
+            "Pinggir Jalan dengan Penjual Gorengan": (
+                "The character is seated on a low wooden bench beside a gorengan seller on the side of the village road. "
+                "The seller is frying tempe, tahu, and pisang goreng on a small cart with smoke rising. "
+                "Several people are waiting and buying snacks. "
+                "Lively roadside fried snack stall atmosphere."
+            ),
+            "Pinggir Jalan dengan Penjual Es": (
+                "The character is seated on a low wooden bench near an es seller on the village roadside. "
+                "The cart has colorful syrup bottles and shaved ice. "
+                "Children and adults are buying colorful es dawet and es campur. "
+                "Hot afternoon roadside ice drink stall atmosphere."
+            ),
+            "Depan Warung Makan Kecil": (
+                "The character is seated on a low wooden bench in front of a tiny warung makan by the roadside. "
+                "Simple menu board with nasi goreng and mie ayam written by hand. "
+                "A few customers are eating at plastic tables outside. "
+                "The smell of fried rice and spices fills the air. "
+                "Humble roadside warung makan atmosphere."
+            ),
+            "Pinggir Jalan dengan Penjual Buah": (
+                "The character is seated on a low wooden bench beside a fruit seller on the village road. "
+                "Fresh mangoes, rambutan, and bananas are arranged on a wooden cart. "
+                "The seller is weighing fruits for customers. "
+                "Several people are stopping to buy fruits. "
+                "Fresh and colorful roadside fruit stall atmosphere."
+            ),
+            "Depan Kios Koran & Kopi": (
+                "The character is seated on a low wooden bench in front of a small kiosk selling newspapers and coffee. "
+                "Morning newspapers are displayed on a rack. "
+                "A few older men are reading newspapers while drinking coffee. "
+                "Relaxed morning village kiosk atmosphere."
+            ),
+            "Pinggir Jalan dengan Penjual Sate": (
+                "The character is seated on a low wooden bench near a sate seller on the roadside. "
+                "Smoke rises from the charcoal grill as the seller fans the sate. "
+                "The aroma of grilled chicken sate fills the air. "
+                "Several people are waiting for their order. "
+                "Lively roadside sate stall atmosphere."
+            ),
+            "Pinggir Jalan Desa Sore Hari": (
+                "The character is seated on a low wooden bench by the quiet village roadside in the late afternoon. "
+                "A few small food stalls are open with people buying snacks for maghrib. "
+                "Children are playing nearby and motorcycles pass occasionally. "
+                "Warm and relaxed late afternoon village roadside atmosphere."
+            ),
+			"Tempat Barang Bekas di Pinggir Jalan": (
+                "The character is seated on a low weathered wooden crate beside a large pile of scrap items on the village roadside. "
+                "Old tires, rusty bicycle frames, broken plastic chairs, and tangled wires are stacked messily. "
+                "A few villagers are sorting through the scraps. "
+                " Dusty and cluttered roadside scrap yard atmosphere."
+            ),
+            "Halaman Belakang dengan Tumpukan Barang Bekas": (
+                "The character is seated on a low wooden bench in the backyard filled with accumulated old items. "
+                "Broken wooden furniture, old buckets, rusty farming tools, and empty jerry cans are scattered around. "
+                "Some items are covered with tarpaulin. "
+                "Cluttered and practical backyard full of old stuff atmosphere."
+            ),
+            "Depan Gudang Barang Bekas": (
+                "The character is seated on a low stool in front of a small shed used to store scrap materials. "
+                "Piles of old metal sheets, broken electronics, and plastic bottles are stacked high near the entrance. "
+                "A weighing scale and some sacks are visible. "
+                "Busy and dusty scrap storage atmosphere."
+            ),
+            "Tempat Pembuangan Barang Bekas": (
+                "The character is seated on a low wooden crate near a large open area where villagers dump old items. "
+                "Broken televisions, old mattresses, rusty stoves, and tangled fishing nets are thrown together. "
+                "Some items are partially buried in the dirt. "
+                "Chaotic and abandoned scrap dumping ground atmosphere."
+            ),
+            "Pinggir Sungai dengan Barang Bekas": (
+                "The character is seated on a low wooden bench near the riverbank where old items have accumulated. "
+                "Plastic bottles, old sandals, broken buckets, and fishing nets are washed up along the edge. "
+                "The river flows slowly beside the trash. "
+                "Messy riverside scrap accumulation atmosphere."
+            ),
+            "Halaman Rumah Penuh Barang Bekas": (
+                "The character is seated on a low wooden chair in the front yard filled with collected old things. "
+                "Stacks of empty paint cans, old doors, broken windows, and metal pipes are arranged along the wall. "
+                "The yard looks like a small recycling collection point. "
+                "Cluttered household scrap collection atmosphere."
+            ),
+            "Tempat Besi Tua dan Rongsokan": (
+                "The character is seated on a low wooden crate in an area full of scrap metal. "
+                "Rusty iron rods, old car parts, bent metal sheets, and engine pieces are piled up. "
+                "The ground is covered with metal dust and small fragments. "
+                "Heavy and industrial scrap metal yard atmosphere."
+            ),
+            "Sudut Kampung dengan Tumpukan Plastik": (
+                "The character is seated on a low wooden bench in a corner of the village where plastic waste is collected. "
+                "Huge piles of colorful plastic bottles, bags, and containers are stacked high. "
+                "The wind occasionally blows some light plastic pieces. "
+                "Colorful but messy plastic scrap collection atmosphere."
+            ),
+            "Belakang Warung dengan Barang Bekas": (
+                "The character is seated on a low wooden stool behind a small warung filled with old inventory. "
+                "Empty cardboard boxes, old glass bottles, broken shelves, and expired goods are piled up. "
+                "Some items are being sorted for recycling. "
+                "Back alley of a shop full of old stock atmosphere."
+            ),
+            "Lapangan Kecil Penuh Barang Rongsokan": (
+                "The character is seated on a low weathered wooden crate at the edge of a small open field used as a scrap yard. "
+                "Old motorcycles, broken furniture, discarded refrigerators, and tangled wires cover the area. "
+                "A few people are searching for usable items among the pile. "
+                "Chaotic and expansive village scrap field atmosphere."
+            )
         }
 		
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
             "Logat_Nenek": [
-                "Extremely frail 92-year-old Javanese village grandmother with thick rural Jawa kampung accent, extremely weak thin and breaking voice, constant heavy vocal tremor, very raspy hoarse cracking tone, breathy and airy quality, speaks extremely slowly with long shaky pauses and visible tired breathing effort, frequent voice cracks on almost every word, sounds physically exhausted and delicate like a real 92-95 year old nenek tua with very weak lungs",
-                "Super elderly 93-year-old Javanese nenek, thick kampung ngoko accent, deeply aged thin trembling voice full of instability, whispery and breaking at times, heavy constant vocal tremor, very low volume, extremely slow shaky delivery around 45-60 words per minute, frequent cracking and quivering, authentic extreme old age vocal deterioration, almost no energy left, natural weak breathing",
-                "94+ year old extremely frail Indonesian grandma with strong Jawa kampung accent, very weak raspy voice with strong constant quivering tremor, dry cracked hoarse tone, thin wobbly resonance, labored slow speech with many long pauses for breath, voice often cracks and sounds like it's about to disappear, zero energy, sounds physically exhausted and fragile",
-                "90-year-old extremely frail nenek tua with thick rural Javanese accent, constantly shaking elderly female voice with high-frequency vocal tremor, very breathy hoarse quality, extremely slow and weak delivery, frequent voice cracks and instability, heavy tired natural breathing effort, sounds exhausted and physically fragile like a real 92+ year old grandmother with severely weakened lungs and vocal cords"
+                "Extremely frail 92-95 year old Javanese village grandmother with thick rural Jawa kampung accent, extremely weak thin breaking voice, constant heavy vocal tremor, raspy hoarse cracking tone, very breathy and airy quality, speaks extremely slowly with long shaky pauses and tired breathing effort, frequent voice cracks on almost every word, sounds physically exhausted and delicate like a real 93+ year old nenek tua with severely weakened lungs",
+                "Super elderly 93-year-old Javanese nenek with strong kampung ngoko accent, deeply aged thin trembling voice full of instability, whispery and breaking at times, heavy constant vocal tremor, very low volume, extremely slow shaky delivery, frequent cracking and quivering, authentic extreme old age vocal deterioration with almost no energy left",
+                "94+ year old extremely frail Indonesian grandma with thick Jawa kampung accent, very weak raspy voice with strong constant quivering tremor, dry cracked hoarse tone, thin wobbly resonance, labored slow speech with many long pauses for breath, voice often cracks and sounds like it's about to disappear",
+                "91-year-old frail nenek tua with thick rural Javanese accent, constantly shaking elderly female voice with high-frequency vocal tremor, very breathy hoarse quality, extremely slow and weak delivery, frequent voice cracks and sudden drops in volume, heavy tired natural breathing"
             ],
             "Logat_Kakek": [
-                "Extremely frail 89-year-old Indonesian village grandfather with thick Jawa kampung accent, deep but very weak and raspy old man voice, noticeable heavy vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds like a real 90+ year old kakek with weathered and tired vocal cords",
-                "Very old 91-year-old Javanese kakek with rural kampung accent, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow speech around 50-60 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
-                "93+ year old extremely frail Indonesian grandfather with strong Jawa accent, thin shaky old man voice despite low pitch, strong constant vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking",
-                "89-year-old extremely frail kakek tua with thick kampung accent, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real 92-year-old grandfather"
+                "Extremely frail 90-93 year old Indonesian village grandfather with thick Jawa kampung accent, deep but very weak raspy old man voice, noticeable heavy vocal tremor, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds weathered and exhausted like a real 92+ year old kakek",
+                "Very old 91-year-old Javanese kakek with rural kampung accent, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow unsteady speech with frequent voice cracks and breath breaks",
+                "93+ year old extremely frail Indonesian grandfather with strong Jawa accent, thin shaky old man voice, strong constant vocal tremor, dry cracked breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking",
+                "89-year-old frail kakek tua with thick kampung accent, deep raspy voice with constant trembling, weak resonance, slow unsteady speech with many weary pauses, hoarse from decades of use, sounds physically tired and fragile"
             ],
-
             "Mood": [
                 "Sad and deeply fragile",
                 "Tired and resigned with heavy exhaustion",
                 "Calm but physically very weak",
                 "Peaceful with quiet melancholy",
-                "Emotional yet extremely tired",
-                "Stoic with visible physical frailty",
                 "Gentle and nostalgic with shaky delivery",
-                "Resigned and accepting with weary tone"
+                "Stoic with visible physical frailty"
             ],
-
             "Physical Action": [
-                "Gently holding the miniature mosque with both trembling hands, slowly turning it slightly while looking at it with tired eyes.",
-                "Carefully touching the carved dome with shaky fingertips, then slowly tracing the edge with great care.",
-                "Holding the watermelon mosque close to her chest with frail arms, then slowly lowering it onto the table while breathing heavily.",
-                "Using one shaky hand to gently adjust the position of the miniature while the other hand supports it from below.",
-                "Slowly lifting one trembling hand to point at a small detail on the mosque, then lowering it back with visible effort.",
-                "Cradling the carved mosque in her lap with both hands, gently rotating it while gazing at it quietly.",
-                "Softly brushing away tiny rind scraps from the base of the mosque using her frail fingers, movements slow and unsteady.",
-                "Holding the object with both hands, slowly bringing it closer to her face to look at it more clearly, then lowering it again."
+                "Gently resting her trembling fingers on the edge of the miniature while looking at it quietly.",
+                "Lightly touching the carved surface with shaky fingertips, moving very slowly.",
+                "Holding the side of the miniature with both frail hands, barely moving it.",
+                "Softly tracing a small detail on the object with one unsteady finger.",
+                "Resting both trembling hands on the table near the miniature while gazing at it.",
+                "Gently placing one shaky hand on top of the miniature for a moment, then lifting it slowly.",
+                "Using her frail fingers to lightly brush away a tiny speck from the base of the object.",
+                "Keeping her shaky hands close to the miniature without lifting it, just resting nearby."
             ]
         }
 
@@ -2467,13 +2121,11 @@ def tampilkan_halaman():
             st.markdown('<p class="small-label">PILIH MODUS KONTEN</p>', unsafe_allow_html=True)
             modus_konten = st.selectbox("Select Mode", list(MASTER_KONTEN_ALL.keys()), label_visibility="collapsed")
             st.divider()
-
             c1, c2 = st.columns(2)
             with c1:
                 st.markdown('<p class="small-label">PILIH KARAKTER</p>', unsafe_allow_html=True)
                 pilihan_user = st.selectbox("Select Character", list(MASTER_FAMILY_SOUL.keys()), label_visibility="collapsed")
                 char_key = pilihan_user
-
             with c2:
                 st.markdown(f'<p class="small-label">PAKAIAN {char_key.split(" (")[0].upper()}</p>', unsafe_allow_html=True)
                 if char_key in MASTER_FAMILY_WARDROBE:
@@ -2481,20 +2133,17 @@ def tampilkan_halaman():
                 else:
                     baju_options = ["Standard Daily Wear"]
                 baju_pilihan = st.selectbox("Select Wardrobe", baju_options, label_visibility="collapsed")
-
+   
             c3, c4 = st.columns(2)
             with c3:
                 st.markdown('<p class="small-label">DETAIL OBJEK / KARYA</p>', unsafe_allow_html=True)
                 objek_list = list(MASTER_KONTEN_ALL[modus_konten].keys())
                 pilihan_objek = st.selectbox("Select Detail", objek_list, label_visibility="collapsed")
                 deskripsi_teknis = MASTER_KONTEN_ALL[modus_konten][pilihan_objek]
-
             with c4:
                 st.markdown('<p class="small-label">SETTING LOKASI</p>', unsafe_allow_html=True)
                 pilihan_set = st.selectbox("Select Environment", list(MASTER_GRANDMA_SETTING.keys()), label_visibility="collapsed")
-
             st.divider()
-
             c5, c6 = st.columns([2, 1])
             with c5:
                 st.markdown('<p class="small-label">DIALOG (NATURAL INDONESIAN)</p>', unsafe_allow_html=True)
@@ -2502,133 +2151,117 @@ def tampilkan_halaman():
                     "Input Dialog",
                     placeholder=f"Tulis dialog {char_key.split(' (')[0]} di sini...",
                     height=250,
-                    label_visibility="collapsed",
-                    key="input_dialog_key"
+                    label_visibility="collapsed"
                 )
-                st.session_state.current_dialog = user_dialog
-
             with c6:
                 st.markdown('<p class="small-label">ACTING & PERFORMANCE</p>', unsafe_allow_html=True)
-                
+               
                 is_perempuan = any(x in pilihan_user.lower() for x in [
-                    "nenek", "ibu", "aminah", "siti", "marsi", "ponirah", "juminah",
-                    "sikem", "dulah", "sartini", "tinah", "wati"
+                    "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
+                    "sikem","dulah","sartini","tinah","wati"
                 ])
-                
+               
                 if is_perempuan:
                     pilih_logat = st.selectbox("Pilih Logat Suara", MASTER_AUDIO_STYLE["Logat_Nenek"], key="logat_nenek")
                 else:
                     pilih_logat = st.selectbox("Pilih Logat Suara", MASTER_AUDIO_STYLE["Logat_Kakek"], key="logat_kakek")
-                
+               
                 pilih_mood = st.selectbox("Pilih Mood", MASTER_AUDIO_STYLE["Mood"], key="mood_select")
                 pilih_aksi = st.selectbox("Pilih Gerakan Tubuh", MASTER_AUDIO_STYLE["Physical Action"], key="aksi_select")
-
             st.write("")
-            btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True, key="btn_generate_video")
+            btn_gen = st.button("🚀 GENERATE VIDEO PROMPT", type="primary", use_container_width=True)
 
-
-        # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
+        # --- LOGIC GENERATOR + FINAL PROMPT ---
         if btn_gen:
-            scene_context = (
-                f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting with natural contrast. "
-                f"Natural outdoor exposure, flat documentary film look.\n"
-                f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height locked at chest-level. "
-                f"Strong frame dominance on the handcrafted miniature mosque."
-            )
-
-            env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
-            soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "An Indonesian person.")
-            
-            wardrobe_dict = MASTER_FAMILY_WARDROBE.get(char_key, {})
-            baju_desc = wardrobe_dict.get(baju_pilihan, "Simple modest clothes.")
-
-            # Gender & Visual Identity Lock
-            is_perempuan = any(x in pilihan_user.lower() for x in [
-                "nenek","ibu","aminah","siti","marsi","ponirah","juminah",
-                "sikem","dulah","sartini","tinah","wati"
-            ])
-            
-            if is_perempuan:
-                gender_lock = "Extremely frail 88-92 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, hollow cheeks, and fragile posture."
-            else:
-                gender_lock = "Extremely frail 88-92 year old Indonesian grandfather with deep wrinkles, sun-parched skin, prominent age spots, thin white hair and beard, sunken weary eyes, and fragile frame."
-
+            soul_desc = MASTER_FAMILY_SOUL.get(pilihan_user, "")
+            baju_desc = MASTER_FAMILY_WARDROBE.get(char_key, {}).get(baju_pilihan, "Simple modest daily clothes")
+            env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "")
             aksi_final = pilih_aksi.strip()
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-            # --- ASSEMBLY PROMPT (V.39 - HIJAB + SUPER FRAIL JAWA KAMPUNG) ---
+            is_perempuan = any(x in pilihan_user.lower() for x in ["nenek","ibu","aminah","siti","marsi","ponirah","juminah","sikem","dulah","sartini","tinah","wati"])
+
+            if is_perempuan:
+                gender_lock = "Extremely frail 90-94 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, hollow cheeks, and fragile posture."
+            else:
+                gender_lock = "Extremely frail 88-93 year old Indonesian grandfather with deep wrinkles, sun-parched rough skin, prominent age spots, thin white hair, sunken weary eyes, and fragile frame."
+
             GLOBAL_QUALITY_LOCK = (
                 "RAW CINEMATIC FOOTAGE LOCK: Must look like real unedited 8K documentary footage shot on film. "
-                "EXTREMELY SHARP DETAIL, rich natural contrast, NO AI smoothing, NO CGI look, NO plastic textures, "
-                "NO over-sharpening, capture true optical imperfections, subtle film grain, and natural lens breathing."
+                "EXTREMELY SHARP DETAIL on both the handcrafted miniature mosque and the elderly character, rich natural contrast, "
+                "NO AI smoothing, NO CGI look, NO plastic textures, NO over-sharpening, capture true optical imperfections, subtle film grain, and natural lens breathing."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
-                
+
                 f"ULTRA 8K REALISM & SHARPNESS PRIORITY:\n"
                 f"- The handcrafted miniature mosque is the primary focal point with strong frame dominance\n"
                 f"- Extremely sharp 8K detail on the miniature mosque: clear carving lines, natural material texture, realistic colors, moist reflections, and organic imperfections\n"
-                f"- Character's face, eyes, and weathered hands must also be razor sharp with authentic elderly skin texture, deep wrinkles, age spots, and natural skin details\n"
-                f"- High natural contrast between the miniature mosque and the elderly character\n"
+                f"- Character's face, eyes, hands, and skin must also be razor sharp with authentic elderly texture, deep wrinkles, age spots, and natural details\n"
+                f"- High natural contrast and vivid but realistic colors between the miniature mosque and the elderly character\n"
                 f"- True documentary realism: looks like real 8K film footage, NO CGI, NO plastic look, NO over-smoothed skin, NO artificial glow, NO cartoon style\n\n"
-                
+
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Hyper-realistic elderly skin texture with deep wrinkles, prominent age spots, sunken tired eyes, fragile appearance, NO face smoothing, NO smile, NO youthful features.\n\n"
-                
+                f"MANDATORY: Hyper-realistic elderly skin texture, deep wrinkles, prominent age spots, sunken tired eyes, fragile appearance, NO face smoothing, NO smile.\n\n"
+
                 f"ENVIRONMENT:\n"
-                f"{env_detail}\n"
-                f"- High rustic wooden table at chest level.\n"
-                f"Lighting and Atmosphere: {scene_context}\n\n"
-                
+                f"{env_detail}\n\n"
+
+                f"LIGHTING & ATMOSPHERE:\n"
+                f"Soft diffused natural daylight with warm gentle undertone, slightly overcast sky. "
+                f"Lighting that makes the elderly character's skin look alive with natural subtle warmth, "
+                f"while making the colors of the handcrafted miniature mosque (fruit rind, flesh, juice droplets, seeds) look vibrant, juicy, and highly realistic. "
+                f"Balanced soft contrast, rich but natural color saturation, no cold bluish cast, no pale or washed-out look.\n\n"
+
                 f"CAMERA & MOTION:\n"
+                f"Eye-level tight medium shot with chest-level camera height. "
                 f"Very slow organic handheld movement with subtle natural sway. Extremely slow gentle push-in toward the miniature mosque and character's hands. "
-                f"Natural micro movements only. Both the miniature mosque and the character's face/hands stay razor sharp throughout the shot. "
-                f"NO sudden camera moves, NO fast zoom, NO static locked camera.\n\n"
-                
+                f"Both the miniature mosque and the character's face/hands stay razor sharp throughout the shot. "
+                f"NO sudden camera moves, NO static locked camera, NO high angle.\n\n"
+
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n"
-                f"- Minimal but natural elderly movement\n"
+                f"- Minimal but natural elderly movement with trembling hands\n"
                 f"- Eyes slowly alternate between the miniature mosque and camera with tired expression\n\n"
-                
+
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
                 f"Delivery style: {mood_final}. "
                 f"Extremely weak, thin, and breaking voice with constant heavy vocal tremor and instability. "
-                f"Thick rural Javanese kampung accent, slow ngoko-style elderly speech pattern. "
+                f"Thick rural Javanese kampung accent, slow elderly speech pattern. "
                 f"Voice cracks frequently, quivers on almost every word, very raspy and hoarse, breathy and airy. "
                 f"Extremely slow delivery with long weary pauses and natural tired breathing effort. "
-                f"Breathing sounds weak, labored, and realistic — not exaggerated. "
-                f"Sounds physically exhausted and on the verge of fading like a real 92-95 year old nenek Jawa kampung with very weak lungs and vocal cords. "
-                f"Almost no energy, voice sounds fragile and delicate.\n\n"
-                
+                f"Breathing sounds weak and realistic — not exaggerated or heavy. "
+                f"Sounds physically exhausted and delicate like a real 92-95 year old nenek/kakek Jawa kampung with very weak lungs and vocal cords.\n\n"
+
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
-                
+
                 f"DIALOG DELIVERY RULE:\n"
                 f"- AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
-                f"- Spoken naturally with real elderly shaky Jawa kampung voice and breathing effort\n\n"
-                
+                f"- Spoken naturally as real conversation with elderly shaky Jawa kampung voice\n\n"
+
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
-                
+
                 f"ULTRA DETAIL ENFORCEMENT:\n"
                 f"- Razor sharp 8K detail on every carving line, material texture, juice droplets, and skin wrinkles\n"
                 f"- Natural moist reflections, visible imperfections, realistic light interaction\n\n"
-                
+
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, motion blur, AI look, CGI, plastic texture, over-smooth skin, waxy skin, "
                 f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, smiling, laughing, wide shot, high angle, "
-                f"text, watermark, subtitles, on-screen text"
+                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, smiling, laughing, "
+                f"wide shot, high angle, text, watermark, subtitles, on-screen text"
             )
 
-            # --- 7. TAMPILKAN HASIL ---
+            # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
             st.code(final_ai_prompt, language="text")
