@@ -189,7 +189,7 @@ def tampilkan_halaman():
                 "MOUTH: Natural lip sync with relaxed jaw showing realistic aged skin movement."
             )
         }
-# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
+		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
 
@@ -353,21 +353,37 @@ def tampilkan_halaman():
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
             "🍉 Miniatur Dari Buah": {
-                "Semangka: Pahatan Murni": (
-    				"A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon. "
-    				"Outer walls and domes carved from dark green rind, arched windows and doorways revealing bright red fibrous flesh with natural black seeds. "
-    				"Visible organic carving grooves, uneven ridges, glistening moist red flesh, realistic black seeds, and natural juice droplets. "
-    				"Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
-				),
-                "Semangka: Kubah Merah": (
-                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon with strong emphasis on the red dome. "
-                    "Central dome formed from exposed ruby-red watermelon flesh, secondary domes and minarets carved from green rind. "
-                    "Clear contrast between green outer structure and vibrant red interior flesh with natural seeds and moisture."
+                "Semangka: Masjid Megah Klasik": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon in grand classical style. "
+                    "Architectural Precision: A clear building model featuring one large central dome, four smaller domes, and tall symmetrical minarets. "
+                    "Material Interaction: Outer walls and domes carved from dark green rind with intricate geometric patterns, while arched windows and doorways reveal the vibrant red fibrous flesh inside. "
+                    "Handmade Texture: Visible hand-carved grooves and uneven ridges showing it was crafted by hand. "
+                    "Visible organic texture, glistening moisture, realistic black seeds, and natural juice droplets on the surface. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
                 ),
-                "Semangka: Arsitektur Berlapis": (
-                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon showing layered construction. "
-                    "Reveals three distinct layers: dark green rind, pale inner rind, and bright red fibrous flesh. "
-                    "Architectural elements carved to expose natural color layers with symmetrical domes and minarets."
+                "Semangka: Kubah Merah Megah": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon with dramatic emphasis on the large red dome. "
+                    "Architectural Precision: Prominent central dome formed from bright ruby-red watermelon flesh, surrounded by smaller green-rind domes and tall elegant minarets. "
+                    "Material Interaction: Clear contrast between dark green outer structure and rich red interior flesh. "
+                    "Handmade Texture: Visible hand-carved details on the red dome with organic fibrous texture. "
+                    "Visible glistening moisture, realistic black seeds, and natural juice droplets throughout the structure. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
+                ),
+                "Semangka: Arsitektur Berlapis Megah": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon showcasing beautiful layered architecture. "
+                    "Architectural Precision: Grand symmetrical design with prominent central dome, multiple smaller domes, and tall minarets. "
+                    "Material Interaction: Clearly visible three layers - dark green rind, pale inner rind, and rich red fibrous flesh exposed in domes and arches. "
+                    "Handmade Texture: Visible hand-carved details revealing the natural layers of the watermelon. "
+                    "Visible organic grooves, glistening moisture, realistic black seeds, and natural juice droplets. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
+                ),
+                "Semangka: Masjid Kerajaan": (
+                    "A hyper-realistic hand-carved miniature mosque made from a fresh whole watermelon in luxurious royal style. "
+                    "Architectural Precision: Very large majestic central dome with highly detailed carvings, surrounded by four smaller domes and four tall ornate minarets. "
+                    "Material Interaction: Outer green rind features intricate patterns, inner red flesh dramatically exposed through wide arched openings. "
+                    "Handmade Texture: Visible intricate hand-carved details and organic texture throughout. "
+                    "Visible glistening moisture, realistic black seeds, and natural juice droplets on the surface. "
+                    "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
                 ),
 				"Semangka: Ukiran Tipis": (
 					"An ultra-detailed MINIATURE MOSQUE ARCHITECTURE carved from a whole watermelon with extremely thin precision carving. "
