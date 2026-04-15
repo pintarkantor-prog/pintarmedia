@@ -385,44 +385,51 @@ def tampilkan_halaman():
                     "Visible glistening moisture, realistic black seeds, and natural juice droplets on the surface. "
                     "Atmosphere: Placed on a rough weathered wooden table covered with carving debris, rind scraps, and red juice stains."
                 ),
-                "Buah Naga: Masjid Klasik Presisi": (
+                "Buah Naga: Masjid Megah Dominan": (
                     "A hyper-realistic hand-carved miniature mosque made from a single whole dragon fruit, placed on a rustic wooden table. "
-                    "Clearly structured mosque architecture with a dominant central dome, four smaller domes, and four tall symmetrical minarets. "
-                    "The silhouette clearly reads as a traditional mosque with balanced proportions and clean geometry. "
-                    "The entire structure is carved from one intact fruit, maintaining continuous organic form without any separate assembled parts. "
-                    "Outer magenta-red scaly rind forms the main structure, with deeply carved arches, windows, and doorways exposing dense white fibrous flesh inside. "
-                    "All exposed flesh is fibrous, seed-filled, moist, and fully opaque with visible black seeds. "
-                    "Precise carving lines with slight natural imperfections from hand craftsmanship. "
-                    "The wooden table surface is scattered only with dragon fruit debris: chunks of flesh, rind scraps, seeds, and natural juice residue."
+                    "Clearly structured mosque architecture with a large dominant central dome, four supporting domes, and four tall symmetrical minarets. "
+                    "The silhouette strongly reads as a traditional mosque with clear proportions and architectural hierarchy. "
+                    "Large and dominant presence, occupying most of the composition with a monumental miniature scale. "
+                    "High visual clarity, rich natural color contrast, crisp edges, and strong micro-detail visibility. "
+                    "The entire structure is carved from one intact fruit, maintaining continuous organic form without separate parts. "
+                    "Outer magenta-red scaly rind defines the structure, with deep carved openings exposing dense white fibrous flesh inside. "
+                    "Enhanced surface definition clearly separates rind texture and inner flesh, with visible seeds and natural moisture variation. "
+                    "Natural carving marks and slight imperfections from hand craftsmanship. "
+                    "The wooden table surface is scattered only with dragon fruit debris: flesh chunks, rind scraps, seeds, and juice residue."
                 ),
 
-                "Buah Naga: Masjid Kubah Daging Dominan": (
+                "Buah Naga: Masjid Kubah Besar Fokus": (
                     "A hyper-realistic hand-carved miniature mosque made primarily from a single dragon fruit, placed on a rustic wooden table. "
-                    "Clearly structured mosque architecture with a large central dome formed from exposed white or pink flesh, supported by smaller rind domes and multiple tall minarets. "
-                    "The mosque layout is symmetrical and clearly recognizable with strong architectural proportions. "
-                    "The structure is carved from one fruit, with the dome carefully shaped from dense inner flesh while the base and towers remain from the outer rind. "
-                    "The flesh dome appears fibrous, moist, seed-filled, and fully opaque with natural texture variation. "
-                    "Fine carving details with visible tool marks and natural irregularities. "
-                    "The wooden table surface is scattered only with dragon fruit debris: torn flesh pieces, rind fragments, seeds, and juice stains."
+                    "Clearly structured mosque architecture with a very large central dome dominating the structure, supported by smaller domes and multiple tall minarets. "
+                    "The mosque silhouette is strong and instantly recognizable with balanced proportions. "
+                    "Large scale presence with the dome as the main visual focal point. "
+                    "High visual clarity, vibrant natural color contrast, sharp carving edges, and detailed surface definition. "
+                    "The central dome is formed from dense inner flesh, while the surrounding structures are carved from the outer rind. "
+                    "Clear distinction between fibrous flesh and textured rind, with visible black seeds and natural organic variation. "
+                    "Subtle carving imperfections enhance realism. "
+                    "The wooden table surface is scattered only with dragon fruit debris: torn flesh, rind fragments, seeds, and juice marks."
                 ),
 
-                "Buah Naga: Masjid Kompleks Bertingkat": (
-                    "A hyper-realistic miniature mosque complex carved primarily from a whole dragon fruit with additional carved fruit elements integrated seamlessly, placed on a rustic wooden table. "
-                    "Clearly structured mosque architecture featuring a central grand dome, multiple smaller domes, and several tall minarets arranged in a layered multi-level layout. "
-                    "The overall silhouette clearly forms a mosque complex with strong hierarchy and balanced composition. "
-                    "The main body is carved from one fruit, while extended sections and additional towers are formed from integrated carved fruit parts that remain consistent in material. "
-                    "Outer magenta rind defines structure while inner flesh is revealed in deeper carved sections, showing dense fibrous texture with embedded seeds. "
-                    "All materials remain organic, moist, and fully opaque with natural imperfections. "
-                    "The wooden table surface is scattered only with dragon fruit debris: flesh chunks, rind pieces, seeds, and visible juice marks."
+                "Buah Naga: Masjid Kompleks Megah": (
+                    "A hyper-realistic miniature mosque complex carved primarily from a whole dragon fruit with additional carved fruit elements seamlessly integrated, placed on a rustic wooden table. "
+                    "Clearly structured mosque complex featuring a grand central dome, multiple surrounding domes, and several tall minarets arranged in a layered architectural layout. "
+                    "The silhouette clearly forms a large mosque complex with strong hierarchy and symmetry. "
+                    "Large and visually dominant structure with expanded architectural scale. "
+                    "High visual clarity, strong natural color contrast, crisp details, and rich micro-texture visibility. "
+                    "The main body is carved from a single fruit, while extended sections are integrated using consistent fruit material. "
+                    "Outer rind structures contrast with exposed fibrous flesh in deeper carvings, showing seeds and organic texture. "
+                    "Natural imperfections, carving marks, and uneven edges reinforce realism. "
+                    "The wooden table surface is scattered only with dragon fruit debris: flesh chunks, rind pieces, seeds, and juice stains."
                 ),
 
-                "Buah Naga: Masjid Ukiran Dalam (Relief)": (
-                    "A hyper-realistic whole dragon fruit with a miniature mosque intricately carved directly into its surface as a recessed architectural relief, placed on a rustic wooden table. "
-                    "Clearly structured mosque design embedded into the fruit, featuring a central dome, smaller domes, and vertical minarets carved inward into the curved surface. "
-                    "The overall form of the fruit remains intact and rounded, while the mosque structure is defined through depth carving and recessed geometry. "
-                    "Carved sections expose dense white or pink fibrous flesh beneath the outer rind, with visible seeds and natural moisture. "
-                    "The architecture remains clearly readable despite being embedded into the fruit surface. "
-                    "Natural carving marks, slight asymmetry, and organic imperfections are visible throughout. "
+                "Buah Naga: Masjid Ukiran Dalam Megah": (
+                    "A hyper-realistic whole dragon fruit with a large-scale miniature mosque intricately carved into its surface, placed on a rustic wooden table. "
+                    "Clearly structured mosque design embedded into the fruit, featuring a dominant central dome, smaller domes, and vertical minarets carved into the curved surface. "
+                    "The mosque remains clearly readable despite being carved as a recessed relief. "
+                    "The fruit retains its full rounded form while the architectural carving appears deep and monumental. "
+                    "High visual clarity, rich natural contrast, sharp carving definition, and strong depth visibility. "
+                    "Carved sections reveal dense fibrous flesh beneath the rind, with visible seeds and organic texture variation. "
+                    "Natural carving marks and slight asymmetry enhance realism. "
                     "The wooden table surface is scattered only with dragon fruit debris: rind shavings, flesh fragments, seeds, and juice residue."
                 ),
                 "Melon: Kubah Hijau Muda": (
