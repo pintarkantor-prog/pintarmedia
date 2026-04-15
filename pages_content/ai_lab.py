@@ -2242,19 +2242,14 @@ def tampilkan_halaman():
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
                 f"Delivery style: {mood_final}. "
-                f"Extremely weak, thin, and breaking voice with constant heavy vocal tremor and instability. "
-                f"Thick rural Javanese kampung accent, slow elderly speech pattern. "
-                f"Voice cracks frequently, quivers on almost every word, very raspy and hoarse, breathy and airy. "
-                f"Extremely slow delivery with long weary pauses and natural tired breathing effort. "
-                f"Breathing sounds weak and realistic — not exaggerated or heavy. "
-                f"Sounds physically exhausted and delicate like a real 90+ year old nenek/kakek Jawa kampung with very weak lungs and vocal cords.\n\n"
+                f"Weak and tired elderly voice with natural trembling.\n\n"
 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
 
                 f"DIALOG DELIVERY RULE:\n"
-                f"- AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
-                f"- Spoken naturally as real conversation with elderly shaky Jawa kampung voice\n\n"
+                f"- AUDIO ONLY. NO TEXT ON SCREEN.\n"
+                f"- Spoken naturally, slow and tired elderly voice\n\n"
 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
