@@ -2891,19 +2891,19 @@ def tampilkan_halaman():
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
             "Logat_Nenek": [
-                "Extremely frail 90-year-old Indonesian village grandmother, extremely weak and shaky high-pitched voice, constant heavy vocal tremor, very raspy and hoarse from advanced old age, thin breathy quality, frequent voice cracks and wobbles on almost every word, speaks extremely slowly with long weary pauses and visible breathing effort, sounds physically exhausted and delicate like a real 90+ year old nenek tua with weak lungs",               
-                "Super elderly 91-year-old Javanese nenek, deeply aged thin trembling voice full of instability, breathy and whispery at times, heavy age-related vocal tremor, very low volume, extremely slow shaky delivery around 50-65 words per minute, frequent cracking and quivering, authentic vocal deterioration of extreme old age, almost no energy left",
-                "92+ year old extremely frail Indonesian grandma, very weak raspy voice with strong constant quivering tremor, hoarse dry cracked tone, thin wobbly resonance, labored slow speech with many micro-pauses for breath, voice sounds fragile and like it's about to break, zero youthful vitality whatsoever",
-                "89-year-old extremely frail nenek tua, constantly shaking elderly female voice with high-frequency vocal tremor, breathy hoarse quality, very slow and weak delivery, frequent voice cracks and instability, sounds exhausted and physically fragile like a real 90-year-old grandmother with severely weakened lungs and vocal cords"
+                "Extremely frail 92-year-old Javanese village grandmother with thick rural Jawa kampung accent, extremely weak thin and breaking voice, constant heavy vocal tremor, very raspy hoarse cracking tone, breathy and airy quality, speaks extremely slowly with long shaky pauses and visible tired breathing effort, frequent voice cracks on almost every word, sounds physically exhausted and delicate like a real 92-95 year old nenek tua with very weak lungs",
+                "Super elderly 93-year-old Javanese nenek, thick kampung ngoko accent, deeply aged thin trembling voice full of instability, whispery and breaking at times, heavy constant vocal tremor, very low volume, extremely slow shaky delivery around 45-60 words per minute, frequent cracking and quivering, authentic extreme old age vocal deterioration, almost no energy left, natural weak breathing",
+                "94+ year old extremely frail Indonesian grandma with strong Jawa kampung accent, very weak raspy voice with strong constant quivering tremor, dry cracked hoarse tone, thin wobbly resonance, labored slow speech with many long pauses for breath, voice often cracks and sounds like it's about to disappear, zero energy, sounds physically exhausted and fragile",
+                "90-year-old extremely frail nenek tua with thick rural Javanese accent, constantly shaking elderly female voice with high-frequency vocal tremor, very breathy hoarse quality, extremely slow and weak delivery, frequent voice cracks and instability, heavy tired natural breathing effort, sounds exhausted and physically fragile like a real 92+ year old grandmother with severely weakened lungs and vocal cords"
             ],
             "Logat_Kakek": [
-                "Extremely frail 89-year-old Indonesian village grandfather, deep but very weak and raspy old man voice, noticeable heavy vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds like a real 90+ year old kakek with weathered and tired vocal cords",
-                "Very old 90-year-old Javanese kakek, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow speech around 55 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
-                "92+ year old extremely frail Indonesian grandfather, thin shaky old man voice despite low pitch, strong constant vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking, authentic 90+ year old kakek voice",
-                "88-year-old extremely frail kakek tua, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real 90-year-old grandfather"
+                "Extremely frail 89-year-old Indonesian village grandfather with thick Jawa kampung accent, deep but very weak and raspy old man voice, noticeable heavy vocal tremor and shakiness, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds like a real 90+ year old kakek with weathered and tired vocal cords",
+                "Very old 91-year-old Javanese kakek with rural kampung accent, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow speech around 50-60 words per minute, frequent voice cracks and breath breaks, physically weak and exhausted sounding",
+                "93+ year old extremely frail Indonesian grandfather with strong Jawa accent, thin shaky old man voice despite low pitch, strong constant vocal tremor, dry cracked and breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking",
+                "89-year-old extremely frail kakek tua with thick kampung accent, deep raspy voice with constant trembling, weak resonance, slow and unsteady speech with many pauses, hoarse from decades of use, sounds physically old, tired and fragile like a real 92-year-old grandfather"
             ],
-			
-			"Mood": [
+
+            "Mood": [
                 "Sad and deeply fragile",
                 "Tired and resigned with heavy exhaustion",
                 "Calm but physically very weak",
@@ -2993,12 +2993,11 @@ def tampilkan_halaman():
 
         # --- LOGIC GENERATOR (ULTRA LOCK VERSION) ---
         if btn_gen:
-            # Scene context yang sudah dikurangi (hanya lighting + environment dasar)
             scene_context = (
                 f"LIGHTING: Soft, diffused 5 PM golden-hour side lighting with natural contrast. "
                 f"Natural outdoor exposure, flat documentary film look.\n"
                 f"COMPOSITION: STRICT LOW-ANGLE Tight Medium-Shot. Camera height locked at chest-level. "
-                f"Strong frame dominance on the handcrafted miniature mosque. NO wide shot, NO high angle."
+                f"Strong frame dominance on the handcrafted miniature mosque."
             )
 
             env_detail = MASTER_GRANDMA_SETTING.get(pilihan_set, "Natural outdoor setting.")
@@ -3014,15 +3013,15 @@ def tampilkan_halaman():
             ])
             
             if is_perempuan:
-                gender_lock = "Extremely frail 88-92 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, fragile posture."
+                gender_lock = "Extremely frail 88-92 year old Indonesian grandmother with deeply wrinkled sagging skin, prominent age spots, thin white hair, sunken tired eyes, hollow cheeks, and fragile posture."
             else:
-                gender_lock = "Extremely frail 88-92 year old Indonesian grandfather with deep wrinkles, sun-parched skin, prominent age spots, thin white hair, sunken weary eyes, fragile frame."
+                gender_lock = "Extremely frail 88-92 year old Indonesian grandfather with deep wrinkles, sun-parched skin, prominent age spots, thin white hair and beard, sunken weary eyes, and fragile frame."
 
             aksi_final = pilih_aksi.strip()
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-            # --- ASSEMBLY PROMPT (V.36 - FINAL OPTIMIZED FOR GROK) ---
+            # --- ASSEMBLY PROMPT (V.39 - HIJAB + SUPER FRAIL JAWA KAMPUNG) ---
             GLOBAL_QUALITY_LOCK = (
                 "RAW CINEMATIC FOOTAGE LOCK: Must look like real unedited 8K documentary footage shot on film. "
                 "EXTREMELY SHARP DETAIL, rich natural contrast, NO AI smoothing, NO CGI look, NO plastic textures, "
@@ -3042,7 +3041,8 @@ def tampilkan_halaman():
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
-                f"MANDATORY: Hyper-realistic elderly skin texture with deep wrinkles and age spots, fragile appearance, NO face smoothing, NO smile.\n\n"
+                f"Wardrobe: {baju_desc}\n"
+                f"MANDATORY: Hyper-realistic elderly skin texture with deep wrinkles, prominent age spots, sunken tired eyes, fragile appearance, NO face smoothing, NO smile, NO youthful features.\n\n"
                 
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n"
@@ -3062,15 +3062,21 @@ def tampilkan_halaman():
                 
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
-                f"Delivery style: {mood_final}. Speak extremely slowly with heavy vocal tremor, constant quivering, raspy breathy tone, "
-                f"frequent voice cracks, long weary pauses and breathing effort, very low energy, physically weak and fragile like a real 90-year-old nenek/kakek.\n\n"
+                f"Delivery style: {mood_final}. "
+                f"Extremely weak, thin, and breaking voice with constant heavy vocal tremor and instability. "
+                f"Thick rural Javanese kampung accent, slow ngoko-style elderly speech pattern. "
+                f"Voice cracks frequently, quivers on almost every word, very raspy and hoarse, breathy and airy. "
+                f"Extremely slow delivery with long weary pauses and natural tired breathing effort. "
+                f"Breathing sounds weak, labored, and realistic — not exaggerated. "
+                f"Sounds physically exhausted and on the verge of fading like a real 92-95 year old nenek Jawa kampung with very weak lungs and vocal cords. "
+                f"Almost no energy, voice sounds fragile and delicate.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
                 f"DIALOG DELIVERY RULE:\n"
                 f"- AUDIO ONLY. STRICTLY NO TEXT OVERLAY ON SCREEN.\n"
-                f"- Spoken naturally with real elderly shaky voice and breathing effort\n\n"
+                f"- Spoken naturally with real elderly shaky Jawa kampung voice and breathing effort\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
@@ -3090,7 +3096,7 @@ def tampilkan_halaman():
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
             st.code(final_ai_prompt, language="text")
-                       
+			
     # ==========================================================================
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
     # ==========================================================================
