@@ -3021,6 +3021,9 @@ def tampilkan_halaman():
         - f/4 dual focus system
         - NO blur on object
         - NO focus hunting
+        - Focus priority strictly locked on the object
+        - Face remains secondary but still sharp
+        - Object must NEVER lose sharpness under any condition
 
         CHARACTER:
         {soul_desc}
@@ -3031,22 +3034,33 @@ def tampilkan_halaman():
 
         ENVIRONMENT:
         {env_detail}
-        Wooden table at chest level
+        The character is seated upright behind a high rustic wooden table at chest level.
 
         PERFORMANCE:
         {aksi_final}
         Mood: {mood_final}
         Slow, minimal, realistic movement
 
-        VOICE LOCK (ANTI-BELEPOTAN SYSTEM):
-        - Age: 80-90 years old
-        - Speed: VERY SLOW (0.65x)
-        - PRONUNCIATION: CLEAR PER WORD
-        - NO SLURRING
-        - NO MUMBLING
-        - STRONG syllable separation
-        - NATURAL BREATH PAUSE BETWEEN WORD GROUPS
-        - Stable audio, no glitch, no distortion
+        VOICE LOCK (NATURAL ELDERLY SYSTEM):
+        - Age: 80–90 years old Indonesian
+        - Speed: Slow and natural (0.7x–0.8x)
+        - Tone: Soft, thin, slightly shaky
+        - Breath: Weak, with natural pauses between phrases (NOT every word)
+
+        SPEECH BEHAVIOR:
+        - Words flow naturally (NO per-word separation)
+        - Slight slurring is allowed but still intelligible
+        - Gentle breath pauses at commas or sentence breaks
+        - No forced articulation
+        - No robotic pacing
+        - No exaggerated pauses
+        - No stuttering, no glitch
+
+        DELIVERY STYLE:
+        - Speak like a tired elderly person telling a story
+        - Emotional but controlled
+        - Slight vocal tremble (natural age effect)
+        - Consistent volume, no sudden spikes
 
         VOICE STYLE:
         {logat_final}
@@ -3062,6 +3076,12 @@ def tampilkan_halaman():
         - Real fruit texture
         - Wet surface reflections
         - Depth and imperfections visible
+        
+        REAL CAMERA DEPTH:
+        - Natural lens compression
+        - Real-world depth layering (foreground object, mid face, background environment)
+        - No flat rendering
+        - True optical depth, not digital blur
 
         NEGATIVE:
         blurry, soft focus, low detail, CGI, AI look, plastic texture,
