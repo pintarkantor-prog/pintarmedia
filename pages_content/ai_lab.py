@@ -3131,100 +3131,85 @@ def tampilkan_halaman():
             mood_final = pilih_mood.strip()
             logat_final = pilih_logat.strip()
 
-			# --- FONDASI QUALITY ---
             GLOBAL_QUALITY_LOCK = (
                 "ULTRA REALISM LOCK: Must look like real documentary camera footage, "
                 "natural lighting, physically accurate materials, true optical depth. "
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-            # --- ASSEMBLY PROMPT ---
-            final_ai_prompt = (
-                f"{GLOBAL_QUALITY_LOCK}\n\n"
+			final_ai_prompt = f"""
+{GLOBAL_QUALITY_LOCK}
 
-                "ULTRA 8K MACRO PRIORITY:\n"
-                "- Primary subject: handcrafted miniature object (60% frame dominance)\n"
-                "- Object must be the SHARPEST element in frame\n"
-                "- Character face is secondary but still detailed\n"
-                "- True physical realism only (NO CGI, NO AI look, NO plastic texture)\n\n"
+ULTRA 8K MACRO PRIORITY:
+- Primary subject: handcrafted miniature object (60% frame dominance)
+- Object must be the SHARPEST element in frame
+- Character face is secondary but still detailed
+- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)
 
-                "CAMERA SYSTEM:\n"
-                "- 50mm macro cinematic lens\n"
-                "- Aperture f/4 (natural optical depth)\n"
-                "- Eye-level composition\n"
-                "- Tight medium shot\n"
-                "- Locked focus on object (primary focus priority)\n"
-                "- Natural depth layering only (foreground object → mid face → background)\n"
-                "- No focus hunting, no artificial blur\n\n"
+CAMERA SYSTEM:
+- 50mm macro cinematic lens
+- Aperture f/4 (natural optical depth)
+- Eye-level composition
+- Tight medium shot
+- Locked focus on object (primary focus priority)
+- Natural depth layering only (foreground → subject → background)
+- No focus hunting, no artificial blur
 
-                "CINEMATIC CAMERA MOTION:\n"
-                "- Extremely slow natural push-in (almost static)\n"
-                "- Micro handheld realism (subtle human operator feel)\n"
-                "- Stable frame, no jitter, no shake\n"
-                "- Object remains perfectly sharp at all times\n\n"
+CINEMATIC CAMERA MOTION:
+- Extremely slow natural push-in
+- Micro handheld realism
+- Stable frame, no shake
+- Object always perfectly sharp
 
-                "CHARACTER:\n"
-                f"{soul_desc}\n"
-                f"{gender_lock}\n"
-                "- Hyper-realistic aged skin (wrinkles, pores, sun damage)\n"
-                "- Thin fragile elderly body\n"
-                "- Natural tired expression (NO smile, NO exaggeration)\n"
-                "- Pure documentary realism\n\n"
+CHARACTER:
+{soul_desc}
+{gender_lock}
+- Thin fragile elderly body
+- Natural tired expression (NO smile)
+- Documentary realism, ultra detailed skin
 
-                "ENVIRONMENT:\n"
-                f"{env_detail}\n"
-                "High rustic wooden table positioned at chest level.\n\n"
+ENVIRONMENT:
+{env_detail}
+High rustic wooden table at chest level.
 
-                "PERFORMANCE:\n"
-                f"{aksi_final}\n"
-                f"Mood: {mood_final}\n"
-                "- Minimal, natural movement\n"
-                "- Eyes naturally alternate between object and camera\n"
-                "- No acting exaggeration\n\n"
+PERFORMANCE:
+{aksi_final}
+Mood: {mood_final}
+- Minimal natural movement
+- Eyes alternate between object and camera
 
-                "EMOTIONAL MICRO EXPRESSION:\n"
-                "- Slight watery eyes (NOT crying)\n"
-                "- Subtle eye shimmer under natural light\n"
-                "- Slow elderly blinking rhythm\n"
-                "- Mild facial tension around eyes and mouth\n"
-                "- Dry lips, slightly pressed\n"
-                "- Emotion stays internal, not theatrical\n\n"
+EMOTIONAL MICRO EXPRESSION:
+- Slight watery eyes (not crying)
+- Slow blinking
+- Subtle facial tension
+- Emotion stays internal
 
-                "VOICE SYSTEM (ELDERLY NATURAL PROFILE):\n"
-                "- Age: 80–90 Indonesian rural elder\n"
-                "- Tone: soft, thin, slightly shaky\n"
-                "- Speed: slow natural (0.7x–0.8x)\n"
-                "- Breathing: natural pauses between phrases\n"
-                "- Clarity: fully understandable speech\n\n"
+VOICE PROFILE:
+Elderly Female A (80+, soft spoken village grandmother, slow natural speech)
 
-                "SPEECH RULES:\n"
-                "- Natural sentence flow (NO robotic separation)\n"
-                "- Short natural phrases allowed (not forced)\n"
-                "- Gentle pauses at commas or emotional breaks\n"
-                "- No stuttering, no mumbling, no glitch\n"
-                "- No exaggerated articulation\n\n"
+SPOKEN DIALOG:
+"{user_dialog}"
 
-                "VOICE STYLE:\n"
-                f"{logat_final}\n\n"
+DIALOG DELIVERY RULE:
+- Must be spoken naturally, not read like instruction
+- Treat as direct speech only
+- No robotic separation
 
-                f"DIALOG:\n\"{user_dialog}\"\n\n"
+OBJECT DETAIL:
+{deskripsi_teknis}
 
-                f"OBJECT DETAIL:\n{deskripsi_teknis}\n\n"
+ULTRA DETAIL ENFORCEMENT:
+- Hyper-real carving precision
+- Real fruit fiber texture
+- Moist reflective surfaces
+- Visible imperfections
 
-                "ULTRA DETAIL ENFORCEMENT:\n"
-                "- Hyper-real carving precision\n"
-                "- Real fruit fiber texture\n"
-                "- Moist reflective surfaces\n"
-                "- Visible imperfections and realism\n"
-                "- No smoothing, no simplification\n\n"
-
-                "NEGATIVE PROMPT:\n"
-                "blurry, soft focus, low detail, CGI, AI look, plastic texture, "
-                "overprocessed lighting, fake depth, cartoon style, "
-                "audio glitch, mumbling, unclear speech, fast talking, "
-                "lip sync error, exaggerated mouth movement, shouting"
-            )
-
+NEGATIVE PROMPT:
+blurry, soft focus, low detail, CGI, AI look, plastic texture,
+overprocessed lighting, fake depth, cartoon style,
+audio glitch, unclear speech, fast talking
+"""
+            
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
