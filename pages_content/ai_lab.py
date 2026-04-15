@@ -3005,7 +3005,8 @@ def tampilkan_halaman():
                 "Background activity: Kids are seen gathered around buying snacks. A few motorbikes are passing by on the street. "
                 "The floor is a mix of mossy paving blocks and dry earth. "
                 "Atmosphere: Authentic, lively, and nostalgic village street scene under natural daylight."
-            )         
+            )
+            
         }
         # --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
@@ -3137,78 +3138,93 @@ def tampilkan_halaman():
                 "NO AI LOOK, NO CGI, NO RENDER STYLE, NO PLASTIC TEXTURE."
             )
 
-			final_ai_prompt = f"""
-{GLOBAL_QUALITY_LOCK}
+        	final_ai_prompt = f"""
+        {GLOBAL_QUALITY_LOCK}
 
-ULTRA 8K MACRO PRIORITY:
-- Primary subject: handcrafted miniature object (60% frame dominance)
-- Object must be the SHARPEST element in frame
-- Character face is secondary but still detailed
-- True physical realism only (NO CGI, NO AI LOOK, NO PLASTIC TEXTURE)
+        ULTRA 8K MACRO PRIORITY:
+        - Primary subject: handcrafted miniature object (60% frame dominance)
+        - Object must be the SHARPEST element in frame
+        - Character face is secondary but still detailed
+        - True physical realism only (NO CGI, NO AI look, NO plastic texture)
 
-CAMERA SYSTEM:
-- 50mm macro cinematic lens
-- Aperture f/4 (natural optical depth)
-- Eye-level composition
-- Tight medium shot
-- Locked focus on object (primary focus priority)
-- Natural depth layering only (foreground → subject → background)
-- No focus hunting, no artificial blur
+        CAMERA SYSTEM:
+        - 50mm macro cinematic lens
+        - Aperture f/4 (natural optical depth)
+        - Eye-level composition
+        - Tight medium shot
+        - Locked focus on object (primary focus priority)
+        - Natural depth layering only (foreground object → mid face → background)
+        - No focus hunting, no artificial blur
 
-CINEMATIC CAMERA MOTION:
-- Extremely slow natural push-in
-- Micro handheld realism
-- Stable frame, no shake
-- Object always perfectly sharp
+        CINEMATIC CAMERA MOTION:
+        - Extremely slow natural push-in (almost static)
+        - Micro handheld realism (subtle human operator feel)
+        - Stable frame, no jitter, no shake
+        - Object remains perfectly sharp at all times
 
-CHARACTER:
-{soul_desc}
-{gender_lock}
-- Thin fragile elderly body
-- Natural tired expression (NO smile)
-- Documentary realism, ultra detailed skin
+        CHARACTER:
+        {soul_desc}
+        {gender_lock}
+        - Hyper-realistic aged skin (wrinkles, pores, sun damage)
+        - Thin fragile elderly body
+        - Natural tired expression (NO smile, NO exaggeration)
+        - Pure documentary realism
 
-ENVIRONMENT:
-{env_detail}
-High rustic wooden table at chest level.
+        ENVIRONMENT:
+        {env_detail}
+        High rustic wooden table positioned at chest level.
 
-PERFORMANCE:
-{aksi_final}
-Mood: {mood_final}
-- Minimal natural movement
-- Eyes alternate between object and camera
+        PERFORMANCE:
+        {aksi_final}
+        Mood: {mood_final}
+        - Minimal, natural movement
+        - Eyes naturally alternate between object and camera
+        - No acting exaggeration
 
-EMOTIONAL MICRO EXPRESSION:
-- Slight watery eyes (not crying)
-- Slow blinking
-- Subtle facial tension
-- Emotion stays internal
+        EMOTIONAL MICRO EXPRESSION:
+        - Slight watery eyes (NOT crying)
+        - Subtle eye shimmer under natural light
+        - Slow elderly blinking rhythm
+        - Mild facial tension around eyes and mouth
+        - Dry lips, slightly pressed
+        - Emotion stays internal, not theatrical
 
-VOICE PROFILE:
-Elderly Female A (80+, soft spoken village grandmother, slow natural speech)
+        VOICE SYSTEM (ELDERLY NATURAL PROFILE):
+        - Age: 80–90 Indonesian rural elder
+        - Tone: soft, thin, slightly shaky
+        - Speed: slow natural (0.7x–0.8x)
+        - Breathing: natural pauses between phrases
+        - Clarity: fully understandable speech
 
-SPOKEN DIALOG:
-"{user_dialog}"
+        SPEECH RULES:
+        - Natural sentence flow (NO robotic separation)
+        - Short natural phrases allowed (not forced)
+        - Gentle pauses at commas or emotional breaks
+        - No stuttering, no mumbling, no glitch
+        - No exaggerated articulation
 
-DIALOG DELIVERY RULE:
-- Must be spoken naturally, not read like instruction
-- Treat as direct speech only
-- No robotic separation
+        VOICE STYLE:
+        {logat_final}
 
-OBJECT DETAIL:
-{deskripsi_teknis}
+        DIALOG:
+        "{user_dialog}"
 
-ULTRA DETAIL ENFORCEMENT:
-- Hyper-real carving precision
-- Real fruit fiber texture
-- Moist reflective surfaces
-- Visible imperfections
+        OBJECT DETAIL:
+        {deskripsi_teknis}
 
-NEGATIVE PROMPT:
-blurry, soft focus, low detail, CGI, AI look, plastic texture,
-overprocessed lighting, fake depth, cartoon style,
-audio glitch, unclear speech, fast talking
-"""
+        ULTRA DETAIL ENFORCEMENT:
+        - Hyper-real carving precision
+        - Real fruit fiber texture
+        - Moist reflective surfaces
+        - Visible imperfections and realism
+        - No smoothing, no simplification
+
+        NEGATIVE PROMPT:
+        blurry, soft focus, low detail, CGI, AI look, plastic texture,
+        overprocessed lighting, fake depth, cartoon style,
+        audio glitch, mumbling, unclear speech, fast talking,
+        lip sync error, exaggerated mouth movement, shouting
+        """
             
             # --- 7. TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
