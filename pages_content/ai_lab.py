@@ -2100,7 +2100,7 @@ def tampilkan_halaman():
                 "MANDATORY: Hyper-realistic raw textures — visible skin pores, deep organic wrinkles, age spots, rough fruit skin, juicy flesh, juice droplets, wood grain, and hand veins. "
                 "Rich warm skin tones with strong healthy blood undertone and natural subsurface scattering — completely reject any pale, greyish, plastic, or overly smooth skin. "
                 "High natural contrast, deep shadows, bright highlights, visible film grain, and authentic optical imperfections. "
-                "No AI smoothing, no digital cleanliness, no plastic textures."
+                "No AI smoothing, no digital cleanliness, no plastic textures whatsoever."
             )
 
             final_ai_prompt = (
@@ -2114,8 +2114,8 @@ def tampilkan_halaman():
                 
                 f"CAMERA & LENS:\n"
                 f"- 50mm prime lens at f/2.8 for maximum sharpness and natural optical quality\n"
-                f"- Very low angle shot, camera positioned close to the table level and significantly below eye-level, looking upward at the miniature mosque\n"
-                f"- Tight medium shot, very close distance, the miniature mosque strongly dominates the foreground and center of the frame\n"
+                f"- Very low angle shot, camera positioned very close to the table surface or slightly below table level, looking upward at the miniature mosque\n"
+                f"- Tight medium shot, very close distance, the miniature mosque strongly dominates the foreground and fills most of the frame\n"
                 f"- The elderly character sits directly behind the mosque, only upper chest and head slightly visible from this very low close angle\n"
                 f"- Very slow, organic handheld movement with subtle natural breathing sway\n"
                 f"- Extremely slow gentle push-in toward the miniature mosque while maintaining razor sharp focus on both the mosque and the character's face/hands throughout the shot\n"
