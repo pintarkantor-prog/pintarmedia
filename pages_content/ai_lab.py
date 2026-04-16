@@ -2167,7 +2167,6 @@ def tampilkan_halaman():
                 f"pale skin, washed-out colors, greyish skin, flat lighting, dull colors, overexposed, "
                 f"smiling, laughing, high angle, bird's eye view, wide shot, text, watermark, subtitles"
             )
-
             # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
