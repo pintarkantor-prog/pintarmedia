@@ -2094,8 +2094,8 @@ def tampilkan_halaman():
             else:
                 gender_lock = "Elderly Javanese grandfather."
 
-			# --- ASSEMBLY PROMPT (FIXED VERSION) ---
-			GLOBAL_QUALITY_LOCK = (
+			# --- ASSEMBLY PROMPT (V.33.4 - FINAL OPTIMIZED) ---
+            GLOBAL_QUALITY_LOCK = (
                 "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON RED V-RAPTOR: Razor-sharp optical clarity with extreme micro-detail. "
                 "MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles, age spots, and visible pores. "
                 "DEEP ORGANIC SATURATION: Colors must look rich, matured, and intensely saturated with blood-undertones (no pale skin). "
@@ -2106,13 +2106,13 @@ def tampilkan_halaman():
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-				f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
+                f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
                 f"- The handcrafted miniature mosque is the absolute central subject with dead-center frame dominance.\n"
                 f"- EXTREMELY sharp 8K detail on every carving line, fiber, and juice droplet, capturing raw texture.\n"
                 f"- Character face and weathered hands must be razor sharp with raw, bone-thin elderly texture.\n"
                 f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
                 
-				f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
+                f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
                 f"- 50mm Anamorphic Lens at f/4.0 for deep sharpness and natural optical depth.\n"
                 f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal with the mosque and character's face.\n"
                 f"- 0-DEGREE TILT: No low angle, no high angle. Perfectly straight-on documentary study.\n"
@@ -2120,7 +2120,7 @@ def tampilkan_halaman():
                 f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the mosque.\n"
                 f"- Very slow, organic handheld micro-sway with a soulful gentle push-in movement.\n\n"
                 
-				f"LIGHTING & ATMOSPHERE:\n"
+                f"LIGHTING & ATMOSPHERE:\n"
                 f"INTENSE DEEP AMBER LOW-SUN: Only intense reddish and amber light from a very low sunset. "
                 f"HARD DIRECTIONAL LIGHT: This creates long, heavy shadows (crushed blacks) that define the wrinkles. "
                 f"DEEP SATURATION: Colors must look matured and richly saturated. "
@@ -2134,13 +2134,13 @@ def tampilkan_halaman():
                 f"Skin tone must have realistic subsurface scattering and rich blood flow (NO grey/pale tones).\n\n"
                 
                 f"ENVIRONMENT:\n"
-                f"{env_detail}\n\n"
-				f"- Lighting Tone: Dark, moody, and intensely warm. No white light, no grey haze.\n\n"
+                f"{env_detail}\n"
+                f"- Lighting Tone: Dark, moody, and intensely warm. No white light, no grey haze.\n\n"
                 
                 f"PERFORMANCE & VOICE:\n"
                 f"{aksi_final}\n"
                 f"Mood and delivery: {mood_final}\n"
-                f"VOICE PROFILE: {logat_final}\n"
+                f"VOICE PROFILE: {logat_final}\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
@@ -2160,9 +2160,9 @@ def tampilkan_halaman():
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
-				f"NEGATIVE PROMPT:\n"
-                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, " # <--- ANTI PUCAT
-                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, " # <--- ANTI TERIK
+                f"NEGATIVE PROMPT:\n"
+                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
+                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
                 f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
                 f"blurry, soft focus, out of focus, motion blur, digital cleanliness, artificial sharpness, "
                 f"energetic voice, young voice, middle-aged voice, asma sound, "
@@ -2172,6 +2172,7 @@ def tampilkan_halaman():
                 f"emotional soundtrack, additional audio layer, song, rhythmic melody, "
                 f"reverb, echo, studio sound, cinematic sound effects, any music whatsoever"
             ) 
+
             # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
