@@ -2097,42 +2097,40 @@ def tampilkan_halaman():
 			# --- ASSEMBLY PROMPT (V.33.4 - FINAL OPTIMIZED) ---
             GLOBAL_QUALITY_LOCK = (
                 "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON RED V-RAPTOR: Razor-sharp optical clarity with extreme micro-detail. "
-                "MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles, age spots, and visible pores. "
-                "DEEP ORGANIC SATURATION: Colors must look rich, matured, and intensely saturated with blood-undertones (no pale skin). "
-                "HIGH CINEMATIC CONTRAST: Deep blacks, harsh heavy shadows, and controlled highlights. Visible natural film grain. "
-                "ABSOLUTELY NO AI smoothing, no plastic textures, no digital haze, no overexposure."
+                "MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles and liver spots. "
+                "DEEP COLOR PROFILE: Intense organic saturation. Deep warm skin tones with rich blood-undertones (ZERO PALE SKIN). "
+                "CRUSHED BLACKS: High cinematic contrast with heavy, deep shadows and controlled, NON-GLARING highlights. "
+                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no white light."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
                 f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-                f"- The handcrafted miniature mosque is the absolute central subject with dead-center frame dominance.\n"
-                f"- EXTREMELY sharp 8K detail on every carving line, fiber, and juice droplet, capturing raw texture.\n"
-                f"- Character face and weathered hands must be razor sharp with raw, bone-thin elderly texture.\n"
-                f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
+                f"- The handcrafted miniature is the absolute central subject with dead-center frame dominance.\n"
+                f"- EXTREMELY sharp 8K detail on every carving line, fiber, and surface texture.\n"
+                f"- Character face and weathered hands must be razor sharp with raw, bone-thin elderly texture.\n\n"
                 
                 f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
                 f"- 50mm Anamorphic Lens at f/4.0 for deep sharpness and natural optical depth.\n"
-                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal with the mosque and character's face.\n"
-                f"- 0-DEGREE TILT: No low angle, no high angle. Perfectly straight-on documentary study.\n"
-                f"- THE MINIATURE MOSQUE is the centerpiece, positioned at the exact dead center of the frame.\n"
-                f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the mosque.\n"
-                f"- Very slow, organic handheld micro-sway with a soulful gentle push-in movement.\n\n"
+                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal with the subject and character's face.\n"
+                f"- 0-DEGREE TILT: Perfectly straight-on documentary study. No high/low angles.\n"
+                f"- THE MINIATURE is positioned at the exact dead center of the frame.\n"
+                f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the object.\n\n"
                 
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"INTENSE DEEP AMBER LOW-SUN: Only intense reddish and amber light from a very low sunset. "
-                f"HARD DIRECTIONAL LIGHT: This creates long, heavy shadows (crushed blacks) that define the wrinkles. "
-                f"DEEP SATURATION: Colors must look matured and richly saturated. "
-                f"STRICTLY NO white glare, NO overexposure, NO lens flare, NO haze, NO fog.\n\n"
+                f"LIGHTING & ATMOSPHERE (ANTI-PALE & ANTI-TERIK):\n"
+                f"INTENSE DEEP AMBER SUNSET: Only intense reddish and amber light from a very low sunset. "
+                f"HEAVY CONTRAST: Long, heavy shadows (crushed blacks) that define every wrinkle and surface imperfection. "
+                f"DEEP SATURATION: Every color must look matured, dense, and richly saturated. "
+                f"STRICTLY PROHIBITED: White glare, overexposure, lens flare, haze, fog, or any washed-out appearance.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
                 f"MANDATORY: Raw hyper-realistic elderly skin with deep, rugged wrinkles. "
-                f"Skin tone must have realistic subsurface scattering and rich blood flow (NO grey/pale tones).\n\n"
-                
+                f"Skin tone must have rich blood flow undertones (NO grey/pale tones).\n\n"
+
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n"
                 f"- Lighting Tone: Dark, moody, and intensely warm. No white light, no grey haze.\n\n"
@@ -2145,17 +2143,10 @@ def tampilkan_halaman():
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
-                f"DIALOG DELIVERY RULE:\n"
-                f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-                f"- Spoken naturally and tired like a real old village elder.\n"
-                f"- Soft and fragile elderly voice with gentle trembling.\n"
-                f"- Calm and pasrah delivery with natural pauses.\n\n"
-
                 f"AUDIO INSTRUCTION (STRICT DRY AUDIO):\n"
                 f"- THIS IS STRICTLY VOICE-ONLY. ISOLATED MONO TRACK.\n"
                 f"- NO BACKGROUND MUSIC, NO BGM, NO AMBIENT PADS, NO INSTRUMENTAL.\n"
-                f"- SILENCE all background elements. Only raw character speech and breath.\n"
-                f"- Pure dry audio. No reverb, no echo, no additional audio layers.\n\n"
+                f"- SILENCE all background elements. Only raw character speech and breath.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
@@ -2164,14 +2155,9 @@ def tampilkan_halaman():
                 f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
                 f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
                 f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, out of focus, motion blur, digital cleanliness, artificial sharpness, "
-                f"energetic voice, young voice, middle-aged voice, asma sound, "
-                f"smiling, laughing, high angle, bird's eye view, wide shot, low angle, "
-                f"text, watermark, captions, subtitles, letters, typography, on-screen text, "
-                f"background music, BGM, music, musical, instrumental, ambient pads, film score, "
-                f"emotional soundtrack, additional audio layer, song, rhythmic melody, "
-                f"reverb, echo, studio sound, cinematic sound effects, any music whatsoever"
-            ) 
+                f"blurry, soft focus, smiling, laughing, high angle, low angle, wide shot, "
+                f"background music, BGM, music, instrumental, ambient pads, any music whatsoever"
+            )
 
             # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
