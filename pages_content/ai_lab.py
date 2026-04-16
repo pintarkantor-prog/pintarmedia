@@ -1913,11 +1913,11 @@ def tampilkan_halaman():
     				"A hyper-realistic handcrafted Ka'bah structure made entirely from watermelon, placed on a table as a large, heavy tabletop object with raw physical presence, clearly not a real building but substantial in size. "
     				"A strong cubic form assembled from thick, roughly cut watermelon blocks with slightly imperfect alignment but solid structural integrity. "
     				"The outer surface is composed of dark rind pieces arranged in a raw layered pattern, forming a kiswah-like appearance with organic irregularity. "
-    				Prominent knife cuts, carving marks, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"Prominent knife cuts, carving marks, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
     				"A horizontal band formed from carved inner rind runs across the upper section, slightly uneven but clearly defined. "
     				"The door is carved manually with visible depth, slightly elevated, and integrated into the rough structure. "
-    				Each component is visibly hand-cut and assembled using large fruit chunks, avoiding small fragmented pieces. "
-    				Surface texture is rich with fiber, moisture, and natural imperfections, creating a raw, tactile, and heavy visual feel. "
+    				"Each component is visibly hand-cut and assembled using large fruit chunks, avoiding small fragmented pieces. "
+    				"Surface texture is rich with fiber, moisture, and natural imperfections, creating a raw, tactile, and heavy visual feel. "
     				"The table surface shows scattered watermelon debris and cutting remnants."
 				),
 
@@ -1925,11 +1925,11 @@ def tampilkan_halaman():
     				"A hyper-realistic handcrafted Ka'bah structure made entirely from watermelon, placed on a table as a large tabletop object with clean, controlled presence, clearly not a real building but visually substantial. "
     				"A perfectly proportioned cube formed from carefully cut watermelon sections with extremely sharp edges and smooth planar surfaces. "
     				"The outer surface uses neatly aligned dark green rind panels arranged in clean horizontal layering, creating a refined kiswah-like appearance. "
-    				Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
+    				"Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
     				"A thin, perfectly straight horizontal band made from pale inner rind wraps seamlessly around the upper section. "
     				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth contrast. "
-    				All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
-    				Surface texture remains natural with fine organic detail, but controlled and clean, emphasizing premium construction quality. "
+    				"All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
+    				"Surface texture remains natural with fine organic detail, but controlled and clean, emphasizing premium construction quality. "
     				"The table surface contains subtle watermelon debris consistent with precise cutting work."
 				),
 
@@ -2233,7 +2233,7 @@ def tampilkan_halaman():
     				"The outer surface uses thin rind panels layered in horizontal alignment, forming a refined kiswah-like exterior. "
     				"Green mung beans are carefully arranged along the upper section to form a subtle horizontal band, adding fine granular detail and contrast. "
     				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth. "
-    				All components are medium-to-large blocks, avoiding fragmentation while maintaining clarity of structure. "
+    				"All components are medium-to-large blocks, avoiding fragmentation while maintaining clarity of structure. "
     				"Surface remains clean yet organic, balancing precision and natural texture. "
     				"The table surface contains melon debris and scattered mung beans."
 				),
