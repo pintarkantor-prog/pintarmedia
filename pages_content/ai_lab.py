@@ -2137,7 +2137,7 @@ def tampilkan_halaman():
 				f"PERFORMANCE & VOICE:\n"
                 f"{aksi_final}\n"
                 f"Mood and delivery: {mood_final}\n"
-                f"VOICE PROFILE: {logat_final}\n""
+                f"VOICE PROFILE: {logat_final}\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
