@@ -2129,7 +2129,7 @@ def tampilkan_halaman():
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Raw hyper-realistic elderly skin with visible pores, deep wrinkles, age spots, hand veins, and natural imperfections. NO face smoothing, NO plastic skin.\n\n"
+                f"MANDATORY: Raw documentary skin texture with visible pores, deep natural wrinkles, age spots, and hand veins. Strong film grain on skin and surfaces.\n\n"
                 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
