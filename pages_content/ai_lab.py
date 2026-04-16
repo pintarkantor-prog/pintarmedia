@@ -2096,50 +2096,44 @@ def tampilkan_halaman():
 
             # --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K DOCUMENTARY FILM SHARPNESS: Maximum micro-detail, razor-sharp clarity, and lifelike resolution like real unedited 35mm film scan. "
-                "MANDATORY: Hyper-realistic textures on skin pores, deep wrinkles, age spots, fruit fiber, juice droplets, wood grain, and hand veins. "
-                "Rich warm skin tones with strong healthy blood undertone and natural glow — absolutely no pale, greyish, washed-out, or plastic skin. "
-                "High natural contrast, vivid realistic colors, deep dimension, no softness, no blur, no AI smoothing whatsoever."
+                "EXTREME 8K RAW DOCUMENTARY FILM: Maximum micro-detail, razor-sharp optical clarity, and lifelike resolution like real unedited 35mm film scan. "
+                "MANDATORY: Hyper-realistic raw textures — visible skin pores, deep organic wrinkles, age spots, rough fruit skin, juice droplets, wood grain, and hand veins. "
+                "Rich warm skin tones with strong healthy blood undertone and natural subsurface scattering — completely reject any pale, greyish, plastic, or overly smooth skin. "
+                "High natural contrast, deep color saturation, visible film grain, optical imperfections, and authentic light falloff. No AI smoothing, no plastic look, no digital cleanliness."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
                 f"ULTRA 8K REALISM & SHARPNESS PRIORITY:\n"
-                f"- The handcrafted miniature mosque is the absolute primary focal point and must dominate the frame\n"
-                f"- EXTREMELY sharp 8K detail on the miniature mosque: every carving line, fruit texture, juice droplet, seed, and reflection must be crystal clear\n"
-                f"- Character's face, eyes, hands, and skin texture must also be razor sharp with authentic elderly details\n"
-                f"- True documentary film look: looks like real 8K footage shot on film, NO CGI, NO plastic textures, NO AI look, NO over-smoothing\n\n"
+                f"- The handcrafted miniature mosque is the absolute main subject with very strong frame dominance\n"
+                f"- Extremely sharp 8K detail on the miniature mosque: every carving line, fruit texture, juice droplet, seed, and surface imperfection must be crystal clear and tactile\n"
+                f"- Character's face, eyes, hands, skin pores, and wrinkles must also be razor sharp with raw elderly texture\n"
+                f"- True documentary film aesthetic: looks like real 8K footage shot on film, strong texture, natural imperfections, NO CGI, NO plastic, NO over-smoothing\n\n"
                 
                 f"CAMERA & LENS:\n"
-                f"- 50mm prime lens at f/2.8 for maximum sharpness and natural optical quality\n"
-                f"- Eye-level to slightly low angle shot (camera positioned lower, looking slightly upward at the miniature)\n"
-                f"- Tight medium shot with strong foreground dominance on the miniature mosque\n"
-                f"- The miniature mosque is perfectly centered, largest element in frame, extremely sharp focus\n"
-                f"- Elderly character positioned directly behind the mosque, upper chest and head slightly visible\n"
-                f"- Very slow, smooth, organic handheld movement with subtle natural breathing sway\n"
-                f"- Extremely slow gentle push-in toward the miniature mosque while keeping both the mosque and character's face/hands in razor sharp focus the entire time\n"
-                f"- NO high angle, NO bird's eye, NO static locked camera, NO sudden movements\n\n"
+                f"- 50mm prime lens at f/2.8 for maximum sharpness and natural bokeh\n"
+                f"- Slightly low angle shot, camera positioned lower than eye-level, looking slightly upward at the miniature mosque\n"
+                f"- Tight medium composition with the miniature mosque in the foreground, perfectly centered and dominating most of the frame\n"
+                f"- The elderly character is positioned directly behind the mosque, only upper chest and head slightly visible\n"
+                f"- Very slow, organic handheld movement with subtle natural sway\n"
+                f"- Extremely slow gentle push-in toward the miniature mosque while maintaining razor sharp focus on both the mosque and the character's face/hands throughout the shot\n"
+                f"- NO high angle, NO bird's eye view, NO static camera, NO sudden movements\n\n"
+                
+                f"LIGHTING & ATMOSPHERE:\n"
+                f"Soft late afternoon golden hour lighting with rich warm undertone and strong natural contrast. "
+                f"Warm directional light that enhances skin texture, deep wrinkles, and fruit details while giving healthy blood undertone and natural glow to the elderly skin. "
+                f"High color saturation with realistic depth, visible shadows and highlights, no flat lighting, no cold tones.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Hyper-realistic elderly skin with visible pores, deep wrinkles, age spots, and natural skin texture. NO face smoothing, NO plastic skin, NO smile.\n\n"
-                
-                f"ENVIRONMENT:\n"
-                f"{env_detail}\n\n"
-                
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"Soft late afternoon golden hour lighting with rich warm undertone and beautiful natural contrast. "
-                f"Warm light that brings out healthy blood undertone and natural glow on the elderly skin, "
-                f"while making the miniature mosque colors extremely vivid, juicy, and mouthwatering with strong saturation but still realistic.\n\n"
+                f"MANDATORY: Raw hyper-realistic elderly skin texture with visible pores, deep wrinkles, age spots, and natural imperfections. NO face smoothing, NO plastic skin.\n\n"
                 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
-                f"Mood: {mood_final}\n"
-                f"- Minimal natural elderly movement with trembling hands\n"
-                f"- Eyes slowly move between the miniature and camera with tired expression\n\n"
+                f"Mood: {mood_final}\n\n"
                 
                 f"VOICE PROFILE:\n"
                 f"{logat_final}\n"
@@ -2158,16 +2152,16 @@ def tampilkan_halaman():
                 f"{deskripsi_teknis}\n\n"
                 
                 f"ULTRA DETAIL ENFORCEMENT:\n"
-                f"- Razor sharp 8K detail on every single carving line, fruit fiber, juice droplets, skin pores, wrinkles, hand veins, and wooden table\n"
-                f"- Rich natural reflections, visible organic imperfections, realistic light interaction, and vivid natural color saturation\n"
-                f"- Both the miniature mosque and the elderly character's skin must look extremely sharp, alive, and physically real\n\n"
+                f"- Extreme 8K sharpness on every carving line, fruit fiber, juice droplets, skin pores, deep wrinkles, hand veins, and wooden table surface\n"
+                f"- Rich natural moist reflections, visible organic imperfections, realistic light falloff, and strong but natural color saturation\n"
+                f"- Both the miniature mosque and the elderly character's skin must look extremely sharp, textured, and physically real\n\n"
                 
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, motion blur, out of focus, shallow depth of field, AI look, CGI, plastic texture, over-smooth skin, waxy skin, "
-                f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, "
+                f"artificial sharpness, glowing edges, digital cleanliness, fast movement, sudden camera change, static camera, "
+                f"energetic voice, young voice, middle-aged voice, heavy breathing, "
                 f"pale skin, washed-out colors, greyish skin, flat lighting, dull colors, overexposed, "
-                f"smiling, laughing, high angle, bird's eye view, wide shot, text, watermark, subtitles, on-screen text"
+                f"smiling, laughing, high angle, bird's eye view, wide shot, text, watermark, subtitles"
             )
 
             # --- TAMPILKAN HASIL ---
