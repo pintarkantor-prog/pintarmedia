@@ -1334,14 +1334,1286 @@ def tampilkan_halaman():
     				"Balanced color separation with controlled saturation prevents artificial appearance. "
     				"High clarity, crisp edges, strong surface separation, visible block segmentation, realistic organic texture response, no plastic look, no synthetic material impression. "
     				"The wooden table surface is scattered with neatly cut cube fragments, rind pieces, seeds, and minimal juice residue with controlled reflectivity."
+				),
+
+				"Nanas: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple pineapple segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure follows clear mosque architecture with a central dome, supporting domes, and symmetrical minarets built from arranged fruit sections. "
+					"Pineapple skin panels form the outer structural surfaces, while exposed yellow flesh appears in controlled sections. "
+					"Each segment shows visible construction logic with layered assembly and clean joint connections between pieces. "
+					"Balanced color separation between textured skin and fibrous flesh enhances readability without excessive brightness. "
+					"High clarity, crisp edge definition, strong micro-texture visibility, realistic organic surface response, no artificial glow, no over-saturation. "
+					"The wooden table surface contains only pineapple debris: small rind fragments, fibers, and subtle juice residue with controlled reflectivity."
+				),
+
+				"Nanas: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut pineapple pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with domes and minarets formed through manual shaping. "
+					"Each element shows visible knife marks, uneven cuts, and natural imperfections reflecting real craftsmanship. "
+					"Rough pineapple skin contrasts with moist fibrous flesh, creating strong tactile variation. "
+					"Cut surfaces reveal detailed fiber structure and natural moisture with organic irregularities. "
+					"Edges remain sharp but imperfect, avoiding mechanical precision. "
+					"Controlled color balance prevents overly bright yellow tones. "
+					"The table contains irregular pineapple debris, fibers, and subtle juice traces."
+				),
+
+				"Nanas: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular pineapple blocks arranged precisely on a rustic wooden table surface. "
+					"Geometric fruit segments form domes and minarets with repeating structured patterns and strong architectural clarity. "
+					"Each block is cut into uniform shapes with clean edges while retaining natural pineapple fiber and texture. "
+					"Skin and flesh alternate in controlled geometric composition. "
+					"Visible segmentation between blocks enhances structure without losing organic realism. "
+					"Balanced color density avoids artificial brightness or synthetic appearance. "
+					"The table surface shows neatly cut pineapple cubes, fibers, and minimal juice residue with controlled reflectivity."
+				),
+				"Melon: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple melon segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered fruit components. "
+					"Outer rind panels act as structural surfaces, while inner flesh appears in controlled sections for visual contrast. "
+					"Each segment is precisely arranged with visible joints and clear assembly logic. "
+					"Soft color tones remain balanced with controlled brightness and no over-saturation. "
+					"High clarity, strong micro-texture visibility, realistic organic surface response, and fine grain detail are preserved. "
+					"The table surface contains melon fragments, seeds, and subtle juice residue with controlled reflectivity."
+				),
+
+				"Melon: Craftsmanship": (
+					"A hyper-realistic miniature mosque built from hand-cut melon pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped domes and towers. "
+					"Visible knife marks, uneven edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal moist flesh, fine fiber grain, and organic irregularities. "
+					"The contrast between soft flesh and firmer rind creates tactile depth. "
+					"Edges remain slightly irregular, avoiding mechanical precision. "
+					"Color tones are controlled and natural without excessive brightness. "
+					"The table contains irregular melon debris, seeds, and subtle juice traces."
+				),
+
+				"Melon: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular melon blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric fruit segments form domes and minarets with repeating structured patterns. "
+					"Clean edges define each block while preserving natural melon texture and moisture. "
+					"Rind and flesh alternate in controlled geometric composition, enhancing architectural clarity. "
+					"Visible segmentation between blocks reinforces modular construction without appearing artificial. "
+					"Balanced color density prevents washed-out tones or synthetic look. "
+					"The table surface shows neatly cut melon cubes, seeds, and minimal juice residue with controlled reflectivity."
+				),
+
+				"Jeruk: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple orange segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered fruit components. "
+					"Orange peel forms the outer structural surfaces, while inner juicy pulp appears in controlled sections for contrast. "
+					"Each segment is precisely arranged with visible joints and clear assembly logic. "
+					"Balanced color separation between peel and pulp enhances readability without excessive brightness. "
+					"High clarity, strong micro-texture visibility, realistic organic surface response, no artificial glow, no over-saturation. "
+					"The table surface contains orange peel fragments, pulp pieces, and subtle juice residue with controlled reflectivity."
+				),
+
+				"Jeruk: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple orange segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered fruit components. "
+					"Orange peel forms the outer structural surfaces, while inner juicy pulp appears in controlled sections for contrast. "
+					"Each segment is precisely arranged with visible joints and clear assembly logic. "
+					"Balanced color separation between peel and pulp enhances readability without excessive brightness. "
+					"High clarity, strong micro-texture visibility, realistic organic surface response, no artificial glow, no over-saturation. "
+					"The table surface contains orange peel fragments, pulp pieces, and subtle juice residue with controlled reflectivity."
+				),
+
+				"Jeruk: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut orange pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped domes and towers. "
+					"Visible knife marks, torn pulp fibers, and natural irregularities emphasize handcrafted realism. "
+					"Juicy pulp surfaces show moisture and detailed cellular texture. "
+					"Edges remain slightly uneven, reinforcing manual cutting rather than precision machining. "
+					"Color tones are vibrant but controlled without excessive brightness. "
+					"The table contains irregular orange debris, peel strips, pulp fragments, and subtle juice traces."
+				),
+
+				"Jeruk: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular orange blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric fruit segments form domes and minarets with repeating structured patterns. "
+					"Clean edges define each block while preserving natural pulp texture and moisture. "
+					"Peel and pulp alternate in controlled geometric composition. "
+					"Visible segmentation enhances structure without appearing synthetic. "
+					"Balanced color density avoids over-bright highlights or artificial glow. "
+					"The table surface shows neatly cut orange cubes, peel pieces, and minimal juice residue with controlled reflectivity."
+				),
+
+				"Pisang: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple banana segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets formed from layered banana pieces with clear assembly logic. "
+					"Outer banana peel forms structural surfaces, while soft inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and layered construction. "
+					"Soft yellow tones remain balanced without excessive brightness or washout. "
+					"Fine fiber texture and natural surface response are clearly visible. "
+					"The table surface contains banana peel strips, flesh fragments, and subtle oxidation marks."
+				),
+
+				"Pisang: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut banana pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped forms. "
+					"Visible knife marks, soft deformation, and natural imperfections reflect real handcrafted work. "
+					"Cut surfaces show delicate fiber strands and slight browning from oxidation. "
+					"Edges remain soft and slightly uneven due to the fruit texture. "
+					"Color tones remain natural and controlled. "
+					"The table contains irregular banana debris, peel pieces, and subtle oxidation details."
+				),
+
+				"Pisang: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular banana blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric banana segments form domes and towers with structured repetition. "
+					"Clean edges define each block while maintaining soft organic texture. "
+					"Peel and flesh alternate in controlled geometric layering. "
+					"Visible segmentation reinforces modular structure without synthetic appearance. "
+					"Balanced color prevents washed-out yellow tones. "
+					"The table surface shows neatly cut banana cubes, peel fragments, and minimal residue."
+				),
+
+				"Labu Siam: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple chayote segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered green fruit sections. "
+					"Smooth green skin forms outer surfaces, while pale inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Soft green tones remain balanced with controlled brightness. "
+					"Fine surface texture and natural moisture are clearly visible. "
+					"The table surface contains chayote fragments and subtle moisture residue."
+				),
+
+				"Labu Siam: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut chayote pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, uneven edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal moist, slightly fibrous texture with organic irregularities. "
+					"Edges remain imperfect, avoiding mechanical precision. "
+					"Color tones are soft and controlled. "
+					"The table contains irregular chayote debris and subtle moisture traces."
+				),
+
+				"Labu Siam: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular chayote blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Clean edges define each block while preserving natural texture and moisture. "
+					"Skin and flesh alternate in controlled geometric composition. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents dull or washed-out tones. "
+					"The table surface shows neatly cut chayote cubes and minimal residue."
+				),
+
+				"Terong: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple eggplant segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered purple fruit sections. "
+					"Glossy purple skin forms outer surfaces, while pale inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Balanced color contrast prevents excessive glare from the glossy surface. "
+					"Fine surface texture and natural moisture are preserved. "
+					"The table surface contains eggplant fragments and subtle moisture residue with controlled reflectivity."
+				),
+
+				"Terong: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut eggplant pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, uneven cuts, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal soft flesh with fine seed patterns and organic irregularities. "
+					"Edges remain slightly uneven, avoiding mechanical precision. "
+					"Color tones remain rich but controlled without excessive shine. "
+					"The table contains irregular eggplant debris and subtle moisture traces."
+				),
+
+				"Terong: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular eggplant blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Clean edges define each block while maintaining natural eggplant texture and moisture. "
+					"Purple skin and inner flesh alternate in controlled geometric composition. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents over-glossy highlights. "
+					"The table surface shows neatly cut eggplant cubes and minimal residue."
+				),
+
+				"Mangga: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple mango segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered mango pieces. "
+					"Smooth mango skin forms outer surfaces, while vibrant orange-yellow flesh appears in controlled sections. "
+					"Each segment shows visible joints and clear assembly logic. "
+					"Balanced color separation prevents excessive saturation. "
+					"Fine fiber texture and natural moisture are clearly visible. "
+					"The table surface contains mango fragments and subtle juice residue with controlled reflectivity."
+				),
+
+				"Mangga: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut mango pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, soft edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal juicy flesh with fine fiber strands and organic irregularities. "
+					"Edges remain slightly soft due to fruit texture. "
+					"Color tones remain rich but controlled. "
+					"The table contains irregular mango debris and subtle juice traces."
+				),
+
+				"Mangga: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular mango blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Clean edges define each block while preserving natural mango texture and moisture. "
+					"Skin and flesh alternate in controlled geometric composition. "
+					"Visible segmentation reinforces modular structure without synthetic appearance. "
+					"Balanced color density avoids over-saturated tones. "
+					"The table surface shows neatly cut mango cubes and minimal residue."
+				),
+
+				"Apel: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple apple segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered apple pieces. "
+					"Smooth apple skin forms outer surfaces, while pale inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Balanced color tones prevent excessive brightness from reflective skin. "
+					"Fine grain texture and subtle moisture are visible. "
+					"The table surface contains apple fragments and slight oxidation details."
+				),
+
+				"Apel: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut apple pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped elements. "
+					"Visible knife marks, slight browning, and organic imperfections emphasize handcrafted realism. "
+					"Cut surfaces show fine grain and subtle oxidation effects. "
+					"Edges remain slightly uneven. "
+					"Color tones remain natural and controlled. "
+					"The table contains irregular apple debris and subtle oxidation traces."
+				),
+
+				"Apel: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular apple blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Clean edges define each block while preserving natural apple texture. "
+					"Skin and flesh alternate in controlled geometric composition. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents overly bright reflections. "
+					"The table surface shows neatly cut apple cubes and minimal residue."
+				),
+
+				"Tomat: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple tomato segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered tomato pieces. "
+					"Smooth red skin forms outer surfaces, while inner juicy flesh appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Balanced color tones prevent over-saturation and excessive gloss. "
+					"Fine seed structure and moisture detail are clearly visible. "
+					"The table surface contains tomato fragments, seeds, and subtle juice residue."
+				),
+
+				"Tomat: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut tomato pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, soft edges, and organic imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal juicy interior with seed pockets and natural irregularities. "
+					"Edges remain soft due to fruit texture. "
+					"Color tones remain rich but controlled. "
+					"The table contains irregular tomato debris, seeds, and subtle juice traces."
+				),
+
+				"Tomat: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular tomato blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Clean edges define each block while preserving natural tomato texture and moisture. "
+					"Skin and flesh alternate in controlled geometric composition. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents excessive gloss or saturation. "
+					"The table surface shows neatly cut tomato cubes, seeds, and minimal residue."
+				),
+
+				"Durian: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple durian segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered durian components. "
+					"Thick spiky durian shell forms outer structural surfaces with sharp tactile detail, while creamy inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Extreme surface detail includes sharp spikes, fibrous flesh, and dense organic texture. "
+					"Balanced color tones prevent excessive brightness while preserving richness. "
+					"The table surface contains shell fragments and subtle residue with controlled reflectivity."
+				),
+
+				"Durian: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut durian pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, cracked shell edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal dense creamy flesh with fibrous texture and organic irregularities. "
+					"Spiky shell shows rough tactile detail with high micro-contrast. "
+					"Color tones remain controlled without artificial glow. "
+					"The table contains irregular durian shell debris and subtle residue."
+				),
+
+				"Durian: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular durian blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Spiky shell and inner flesh are arranged in controlled geometric composition. "
+					"Each block retains sharp spike detail and dense organic texture. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents over-dark or over-bright areas. "
+					"The table surface shows neatly cut durian pieces and minimal residue."
+				),
+
+				"Buah Naga: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple dragon fruit segments, firmly assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets built from layered fruit components. "
+					"Vibrant pink skin with green leaf-like scales forms outer surfaces, while speckled inner flesh appears in controlled sections. "
+					"Each segment shows visible joints and clear assembly logic. "
+					"Ultra fine seed distribution and moist texture create high micro-detail density. "
+					"Color remains vivid but controlled without over-saturation. "
+					"The table surface contains peel fragments and seed-speckled residue."
+				),
+
+				"Buah Naga: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut dragon fruit pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped forms. "
+					"Visible knife marks, soft edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal dense seed patterns and moist flesh texture. "
+					"Outer skin shows layered organic detail with subtle irregularities. "
+					"Color tones remain vibrant but balanced. "
+					"The table contains irregular dragon fruit debris and seed residue."
+				),
+
+				"Buah Naga: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular dragon fruit blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Pink skin and speckled flesh alternate in controlled geometric composition. "
+					"Fine seed distribution remains visible across each block. "
+					"Visible segmentation enhances structure while preserving organic realism. "
+					"Balanced color density avoids artificial brightness. "
+					"The table surface shows neatly cut fruit cubes and minimal residue."
+				),
+
+				"Kiwi: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple kiwi segments, firmly assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets built from layered fruit components. "
+					"Brown fuzzy skin forms outer surfaces, while bright green flesh with radial seed patterns appears in controlled sections. "
+					"Each segment shows visible joints and structured assembly logic. "
+					"Ultra fine hair texture on skin and detailed seed patterns create strong micro-detail. "
+					"Balanced color tones prevent over-bright green saturation. "
+					"The table surface contains kiwi fragments and subtle moisture residue."
+				),
+
+				"Kiwi: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut kiwi pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque form with manually shaped components. "
+					"Visible knife marks, uneven edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal radial seed patterns and moist flesh texture. "
+					"Fuzzy skin shows fine hair detail with strong tactile presence. "
+					"Color tones remain natural and controlled. "
+					"The table contains irregular kiwi debris and subtle moisture traces."
+				),
+
+				"Kiwi: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular kiwi blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition. "
+					"Fuzzy skin and green flesh alternate in controlled geometric composition. "
+					"Radial seed patterns remain visible across each block. "
+					"Visible segmentation enhances structure without synthetic appearance. "
+					"Balanced color density prevents excessive brightness. "
+					"The table surface shows neatly cut kiwi cubes and minimal residue."
+				),
+
+				"Kelapa: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple coconut components, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered coconut segments. "
+					"Hard dark shell panels form the outer structural surfaces, while dense white coconut flesh appears in controlled sections. "
+					"Fibrous husk elements introduce additional layered texture and tactile depth. "
+					"Each component is arranged with visible joints and clear construction logic, reinforcing a structured assembly rather than a carved mass. "
+					"Strong but controlled contrast between dark shell and bright flesh enhances readability without glare. "
+					"Ultra high clarity, sharp edge definition, strong micro-texture visibility, realistic organic material response, no artificial shine, no overexposure. "
+					"The wooden table surface contains coconut shell fragments, fibers, and subtle residue with controlled reflectivity."
+				),
+
+				"Kelapa: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut coconut pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped domes and towers. "
+					"Visible cutting marks, cracked shell edges, and fibrous husk irregularities emphasize handcrafted realism. "
+					"Inner flesh shows natural grain and dense texture with subtle moisture variation. "
+					"Edges remain slightly uneven, avoiding mechanical precision. "
+					"The combination of rough shell, fiber, and flesh creates strong tactile contrast. "
+					"Balanced tones prevent excessive highlight or unnatural brightness. "
+					"The table contains irregular coconut debris, fibers, and subtle residue."
+				),
+
+				"Kelapa: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular coconut blocks arranged precisely on a rustic wooden table surface. "
+					"Geometric segments form domes and minarets with structured repetition and architectural clarity. "
+					"Shell and flesh alternate in controlled geometric composition. "
+					"Each block maintains natural fiber detail, surface texture, and organic irregularity. "
+					"Visible segmentation reinforces modular construction without appearing synthetic. "
+					"Balanced contrast prevents overexposure or artificial shine. "
+					"The table surface shows neatly cut coconut blocks, fibers, and minimal residue."
+				),
+
+				"Jagung: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple corn components, firmly assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from layered rows of corn kernels and husk elements. "
+					"Golden kernels create repeating structured surfaces with strong visual rhythm. "
+					"Corn husk adds layered organic texture and directional flow. "
+					"Each section shows clear assembly logic with visible segmentation between parts. "
+					"Color remains rich but controlled, avoiding excessive brightness. "
+					"High micro-detail in kernel surfaces and fine fiber strands. "
+					"The table contains kernels, husk fragments, and subtle residue."
+				),
+
+				"Jagung: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut corn pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional proportions with manually shaped components. "
+					"Visible irregular kernel arrangement, cut marks, and husk tearing emphasize handcrafted realism. "
+					"Natural variation in kernel size and placement adds organic complexity. "
+					"Edges remain imperfect, avoiding uniform precision. "
+					"Surface detail shows subtle moisture and fiber texture. "
+					"The table contains scattered kernels and husk debris."
+				),
+
+				"Jagung: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular corn blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform kernel patterns create structured repetition across domes and towers. "
+					"Each block retains natural kernel detail and surface texture. "
+					"Visible segmentation enhances architectural clarity. "
+					"Balanced color density prevents over-bright highlights. "
+					"The table shows neatly arranged corn segments and minimal residue."
+				),
+
+				"Stroberi: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple strawberry segments, firmly assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets built from layered red fruit components. "
+					"Seed-covered outer surface forms structural elements, while inner flesh appears in controlled sections. "
+					"Fine seed distribution creates dense micro-texture across surfaces. "
+					"Each segment shows visible joints and assembly logic. "
+					"Color remains rich but controlled, avoiding over-saturation. "
+					"Moist surface detail enhances realism without artificial gloss. "
+					"The table contains strawberry fragments, seeds, and subtle residue."
+				),
+
+				"Stroberi: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut strawberry pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped components. "
+					"Visible knife marks, soft edges, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal moist flesh and detailed seed patterns. "
+					"Edges remain slightly irregular. "
+					"Surface texture shows subtle moisture and organic grain. "
+					"The table contains irregular strawberry debris and seeds."
+				),
+
+				"Stroberi: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular strawberry blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform segments form structured domes and towers with repeating patterns. "
+					"Each block retains visible seeds and organic surface texture. "
+					"Clean edges with controlled segmentation maintain realism. "
+					"Balanced color prevents artificial brightness. "
+					"The table shows neatly cut strawberry cubes and minimal residue."
+				),
+
+				"Alpukat: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple avocado segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered avocado components. "
+					"Smooth green flesh forms the primary structural surfaces, while darker outer skin appears in controlled sections. "
+					"The large avocado seed is integrated as a dominant central element, enhancing architectural hierarchy and focal balance. "
+					"Each segment is arranged with visible joints and clear construction logic, reinforcing a layered assembly rather than a carved form. "
+					"Fine surface texture includes soft grain, subtle moisture, and natural organic variation. "
+					"Color tones remain rich but controlled, avoiding washout or excessive brightness. "
+					"High clarity, strong micro-texture visibility, realistic material response, no artificial gloss or plastic appearance. "
+					"The wooden table surface contains avocado fragments, seed particles, and subtle residue with controlled reflectivity."
+				),
+
+				"Alpukat: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut avocado pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped domes and towers. "
+					"Visible knife marks, soft deformation, and natural imperfections emphasize handcrafted realism. "
+					"Cut surfaces reveal smooth creamy flesh with subtle fiber grain and natural moisture variation. "
+					"The large seed shows irregular shaping with slight tool marks and organic texture. "
+					"Edges remain slightly uneven due to the soft material, avoiding mechanical precision. "
+					"Balanced color tones prevent dullness or excessive saturation. "
+					"The table contains irregular avocado debris, seed fragments, and subtle moisture traces."
+				),
+
+				"Alpukat: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular avocado blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition and clear architectural rhythm. "
+					"Green flesh and darker skin alternate in controlled geometric composition. "
+					"Each block retains natural surface softness, fine grain detail, and subtle moisture response. "
+					"Visible segmentation reinforces modular construction without appearing synthetic. "
+					"Balanced color density prevents washed-out green tones or artificial brightness. "
+					"The table surface shows neatly cut avocado cubes, seed fragments, and minimal residue."
+				),
+
+				"Cabe: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple chili segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from layered curved chili components forming dynamic architectural shapes. "
+					"Smooth red chili skin creates flowing structural surfaces, while inner flesh appears subtly in controlled sections. "
+					"Each segment shows visible joints and clear assembly logic, forming a balanced yet expressive structure. "
+					"Natural curvature of the chili introduces unique silhouette variation and organic flow. "
+					"Surface texture includes fine gloss, subtle pores, and realistic moisture without excessive reflection. "
+					"Color remains rich and saturated but controlled, avoiding over-bright highlights. "
+					"High clarity, strong micro-detail, realistic organic material response, no artificial shine. "
+					"The wooden table surface contains chili fragments, seeds, and subtle residue with controlled reflectivity."
+				),
+
+				"Cabe: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut chili pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions while adapting to the organic curvature of the material. "
+					"Visible knife marks, irregular cuts, and slight deformation emphasize handcrafted realism. "
+					"Cut surfaces reveal inner flesh, seeds, and natural moisture with organic irregularity. "
+					"Edges remain slightly uneven, avoiding mechanical precision. "
+					"Curved forms create subtle asymmetry while preserving overall structure. "
+					"Color tones remain bold but controlled without excessive shine. "
+					"The table contains irregular chili debris, seeds, and subtle juice traces."
+				),
+
+				"Cabe: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular chili segments arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric cuts transform curved chili forms into structured building elements. "
+					"Segments are arranged with clear repetition and architectural rhythm. "
+					"Each block retains natural surface texture, subtle gloss, and organic curvature. "
+					"Visible segmentation reinforces modular construction without appearing artificial. "
+					"Balanced color density prevents over-saturation or excessive highlight reflection. "
+					"The table surface shows neatly cut chili segments, seeds, and minimal residue."
+				),
+
+				"Wortel: Susun Struktur": (
+					"A hyper-realistic miniature mosque constructed from multiple carrot segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features a central dome, supporting domes, and symmetrical minarets built from layered carrot components. "
+					"Bright orange carrot surfaces form the primary structure, with natural concentric fiber patterns visible across cut sections. "
+					"Outer skin appears slightly rough with fine texture variation, while inner flesh shows dense radial grain. "
+					"Each segment is arranged with visible joints and clear construction logic, reinforcing a structured assembly. "
+					"Strong but controlled color presence maintains vibrancy without over-saturation. "
+					"Ultra high clarity, sharp edge definition, strong micro-texture visibility, realistic organic material response, no artificial gloss. "
+					"The wooden table surface contains carrot shavings, small fragments, and subtle moisture residue with controlled reflectivity."
+				),
+
+				"Wortel: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-cut carrot pieces, assembled on a rustic wooden table surface. "
+					"The structure maintains traditional mosque proportions with manually shaped domes and towers. "
+					"Visible knife marks, uneven cuts, and fine shaving textures emphasize handcrafted realism. "
+					"Cut surfaces reveal dense fiber grain with subtle radial patterns and natural irregularities. "
+					"Edges remain slightly rough, avoiding mechanical precision. "
+					"Surface texture shows a balance between firm structure and organic detail. "
+					"Color tones remain rich but controlled, avoiding artificial brightness. "
+					"The table contains irregular carrot debris, thin shavings, and subtle residue."
+				),
+
+				"Wortel: Gaya Lego": (
+					"A hyper-realistic miniature mosque constructed from modular carrot blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric segments form domes and towers with structured repetition and architectural clarity. "
+					"Each block retains visible radial fiber patterns and natural surface texture. "
+					"Clean edges define the modular structure while preserving organic material characteristics. "
+					"Visible segmentation reinforces construction without appearing synthetic. "
+					"Balanced color density prevents overly bright or washed-out orange tones. "
+					"The table surface shows neatly cut carrot cubes, shavings, and minimal residue."
 				)
 				
 
             },        
             "📦 Miniatur Bahan Sederhana": {
-                "XXXXX": (
-                    "YYYYY."
-                )
+				"Koran Bekas: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from layered newspaper panels, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from stacked and cut newspaper sheets arranged in clean architectural layers. "
+					"Visible paper edges, thin layered stacks, and slightly uneven cuts create strong material definition. "
+					"Printed text, faded ink, and subtle discoloration remain visible across surfaces without overwhelming readability. "
+					"Each panel is aligned with clear assembly logic, maintaining structural clarity. "
+					"Fine paper fiber texture, slight curling edges, and controlled surface wear enhance realism. "
+					"Balanced tones prevent over-bright white areas or washed-out contrast. "
+					"The wooden table surface contains small paper scraps and subtle fiber debris."
+				),
+
+				"Koran Bekas: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled and re-shaped newspaper, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed paper forms with visible folds and wrinkles. "
+					"Sharp creases, layered folds, and irregular compression create strong shadow depth and tactile complexity. "
+					"Torn sections are repaired using visible tape strips and patched paper layers. "
+					"Printed text appears distorted across the folded surfaces, reinforcing material realism. "
+					"Edges remain uneven with controlled damage, avoiding chaotic destruction. "
+					"Lighting emphasizes fold depth and micro-texture without flattening detail. "
+					"The table contains wrinkled scraps, torn edges, and subtle debris."
+				),
+
+				"Koran Bekas: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular newspaper blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform folded paper units form domes and towers with structured repetition and clear architectural rhythm. "
+					"Each module shows visible folds, edges, and layered paper thickness. "
+					"Printed text fragments create subtle visual variation across the structure. "
+					"Clean segmentation reinforces modular construction while preserving organic paper texture. "
+					"Edges remain crisp but slightly imperfect, avoiding synthetic appearance. "
+					"Balanced color and contrast prevent glare or washed-out highlights. "
+					"The table surface shows neatly cut paper modules and minimal scraps."
+				),
+
+				"Kardus Bekas: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from layered cardboard panels, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from stacked cardboard sheets arranged in clear architectural layers. "
+					"Corrugated edges are visible along cut sections, revealing the inner fluted structure of the cardboard. "
+					"Surface textures include worn print marks, faded labels, and subtle stains. "
+					"Each panel is aligned with precise assembly logic, maintaining strong structural readability. "
+					"Rough edges, slight fraying, and fiber exposure enhance tactile realism. "
+					"Balanced tones prevent flat or overly dull appearance. "
+					"The table surface contains cardboard fragments and fine fiber debris."
+				),
+
+				"Kardus Bekas: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled and reshaped cardboard, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using bent and compressed cardboard forms. "
+					"Visible fold lines, crushed edges, and structural dents create strong texture and shadow depth. "
+					"Torn areas are reinforced with tape, patches, and layered cardboard repairs. "
+					"Corrugated interiors are partially exposed along broken edges. "
+					"Damage remains controlled, preserving the overall architectural clarity. "
+					"Surface detail includes worn print, scratches, and subtle dirt marks. "
+					"The table contains torn cardboard pieces and repair fragments."
+				),
+
+				"Kardus Bekas: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular cardboard blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform cardboard units form domes and towers with structured repetition and strong architectural rhythm. "
+					"Each block reveals corrugated layers, rough edges, and natural fiber texture. "
+					"Printed markings and faded labels add subtle variation across modules. "
+					"Visible segmentation reinforces modular construction without appearing artificial. "
+					"Edges remain clean but retain organic imperfections. "
+					"Balanced color tones prevent flat brown appearance. "
+					"The table surface shows neatly cut cardboard pieces and minimal debris."
+				),
+
+				"Botol Plastik Bekas (Aqua): Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from cut and layered transparent plastic bottle panels, assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets formed from flattened and shaped plastic sections. "
+					"Semi-transparent surfaces create layered depth with subtle light transmission without overexposure. "
+					"Wrinkles, minor scratches, and slight deformation from previous use are visible across the plastic. "
+					"Faded label fragments and adhesive residue remain partially attached, adding realism. "
+					"Each panel is arranged with clear structural logic, maintaining architectural readability. "
+					"Edges are clean but slightly irregular, avoiding synthetic perfection. "
+					"The table surface contains small plastic scraps and label fragments."
+				),
+
+				"Botol Plastik Bekas (Aqua): Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled and reshaped plastic bottles, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed plastic forms with visible folds and dents. "
+					"Surface shows creases, stress marks, and light scratches from repeated use. "
+					"Cut sections are reattached using visible tape and overlapping plastic layers. "
+					"Transparent areas create subtle internal reflections with controlled lighting. "
+					"Labels appear torn, partially peeled, and distorted along curved surfaces. "
+					"Damage remains controlled, preserving structural clarity. "
+					"The table contains crumpled plastic fragments, tape pieces, and residue."
+				),
+
+				"Botol Plastik Bekas (Aqua): Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular plastic bottle segments arranged precisely on a rustic wooden table surface. "
+					"Uniform cut sections form domes and towers with structured repetition. "
+					"Transparent and semi-opaque plastic pieces create layered geometric composition. "
+					"Each module retains natural plastic texture including slight scratches, thickness variation, and subtle distortion. "
+					"Visible segmentation reinforces modular construction without appearing synthetic. "
+					"Balanced reflections prevent excessive glare or unrealistic shine. "
+					"The table surface shows neatly cut plastic segments and minimal debris."
+				),
+
+				"Kaleng Bekas: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from cut and layered metal can panels, assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets formed from flattened metal sheets arranged in structured layers. "
+					"Surface shows worn paint, scratches, and areas of oxidation with realistic variation. "
+					"Edges reveal sharp but slightly irregular cuts, exposing raw metal underneath. "
+					"Subtle rust patches appear along edges and seams without overwhelming the structure. "
+					"Each panel is aligned with clear construction logic, maintaining architectural clarity. "
+					"Reflections are controlled, avoiding excessive shine. "
+					"The table contains small metal scraps and paint flakes."
+				),
+
+				"Kaleng Bekas: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from dented and reshaped metal cans, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed and bent metal forms. "
+					"Surface shows dents, creases, scratches, and layered rust with realistic texture depth. "
+					"Torn or cut sections are patched using overlapping metal pieces and visible fastening points. "
+					"Oxidation appears in layered tones, adding strong tactile detail. "
+					"Damage remains controlled, preserving overall structure. "
+					"Reflections are muted and realistic. "
+					"The table contains metal fragments, rust particles, and debris."
+				),
+
+				"Kaleng Bekas: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular metal can segments arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric pieces form domes and towers with structured repetition. "
+					"Each segment retains worn paint, scratches, and subtle rust textures. "
+					"Visible segmentation enhances architectural clarity while maintaining organic metal imperfections. "
+					"Edges are clean but not perfectly uniform. "
+					"Reflections are balanced, avoiding mirror-like surfaces. "
+					"The table surface shows neatly cut metal pieces and minimal residue."
+				),
+
+				"Sachet Kopi: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from layered used coffee sachet panels, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from flattened sachet materials arranged in clean architectural layers. "
+					"Glossy printed surfaces show wrinkles, scratches, and faded branding with partial text visibility. "
+					"Foil and plastic layers create subtle reflective variation without excessive glare. "
+					"Edges reveal thin material layering with slight fraying and irregular cuts. "
+					"Each panel is aligned with clear structural logic, maintaining readability. "
+					"Balanced reflections prevent over-bright highlights. "
+					"The table contains small sachet fragments and torn edges."
+				),
+
+				"Sachet Kopi: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled and reshaped coffee sachets, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed and folded material. "
+					"Wrinkles, creases, and compression marks create strong texture and shadow depth. "
+					"Torn areas are repaired with overlapping sachet layers and visible tape. "
+					"Printed branding appears distorted across folded surfaces. "
+					"Foil highlights remain controlled without excessive reflection. "
+					"The table contains crumpled sachet pieces and debris."
+				),
+
+				"Sachet Kopi: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular coffee sachet segments arranged precisely on a rustic wooden table surface. "
+					"Uniform cut pieces form domes and towers with structured repetition. "
+					"Printed surfaces create colorful variation across modules. "
+					"Each segment retains wrinkles, fine scratches, and material layering. "
+					"Visible segmentation reinforces modular construction. "
+					"Balanced reflection avoids glare. "
+					"The table shows neatly cut sachet pieces and minimal debris."
+				),
+
+				"Sachet Shampoo: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from layered used shampoo sachet panels, assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets built from flattened flexible plastic sheets. "
+					"Smooth glossy surfaces show subtle wrinkles, scratches, and faded print. "
+					"Colorful branding elements remain partially visible. "
+					"Edges show thin plastic layers with slight deformation. "
+					"Each panel is arranged with clear structural logic. "
+					"Reflections are controlled to avoid excessive shine. "
+					"The table contains plastic fragments and label residue."
+				),
+
+				"Sachet Shampoo: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled shampoo sachets, assembled on a rustic wooden table surface. "
+					"The structure uses compressed plastic forms with visible folds and dents. "
+					"Surface shows creases, scratches, and stretched material areas. "
+					"Torn sections are patched with tape and overlapping layers. "
+					"Gloss remains soft and controlled. "
+					"The table contains crumpled plastic pieces and residue."
+				),
+
+				"Sachet Shampoo: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular shampoo sachet pieces arranged precisely on a rustic wooden table surface. "
+					"Uniform plastic segments form structured domes and towers. "
+					"Printed colors create visual variation. "
+					"Each piece retains subtle surface wear and fine scratches. "
+					"Visible segmentation enhances structure. "
+					"Reflections are balanced. "
+					"The table shows neatly cut plastic pieces."
+				),
+
+				"Bungkus Indomie: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from layered instant noodle packaging panels, assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from flattened packaging sheets. "
+					"Glossy printed surfaces show wrinkles, folds, and faded branding details. "
+					"Bright colors remain visible but controlled to avoid oversaturation. "
+					"Edges reveal thin material layers with slight fraying. "
+					"Each panel is arranged with clear architectural logic. "
+					"The table contains packaging fragments and torn edges."
+				),
+
+				"Bungkus Indomie: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from crumpled instant noodle packaging, assembled on a rustic wooden table surface. "
+					"The structure uses compressed and folded material with visible creases and dents. "
+					"Printed graphics distort across the surface, adding visual complexity. "
+					"Torn sections are repaired with layered patches and tape. "
+					"Gloss is controlled to prevent glare. "
+					"The table contains crumpled packaging debris."
+				),
+
+				"Bungkus Indomie: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular instant noodle packaging segments arranged precisely on a rustic wooden table surface. "
+					"Uniform pieces form structured domes and towers. "
+					"Printed colors create patterned repetition. "
+					"Each segment retains wrinkles and fine surface wear. "
+					"Visible segmentation reinforces modular structure. "
+					"The table shows neatly cut packaging pieces."
+				),
+
+				"Kayu Lapuk: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from weathered decayed wood panels, assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from layered wood pieces. "
+					"Surface shows cracks, splinters, and rough grain with deep texture. "
+					"Color variation includes faded brown, gray, and natural aging marks. "
+					"Edges are irregular with visible fiber separation. "
+					"Each panel maintains structural clarity despite decay. "
+					"The table contains wood fragments and dust."
+				),
+
+				"Kayu Lapuk: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from broken and repaired decayed wood pieces. "
+					"The structure shows cracks, splits, and patched sections. "
+					"Surface texture is rough with deep grain and splintering detail. "
+					"Damage is controlled, preserving structure. "
+					"The table contains irregular wood debris."
+				),
+
+				"Kayu Lapuk: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular decayed wood blocks arranged precisely. "
+					"Each block shows cracks, rough grain, and surface aging. "
+					"Structured repetition enhances architectural clarity. "
+					"The table shows neatly arranged wood pieces."
+				),
+
+				"Bata Lapuk: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from weathered brick fragments assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from stacked brick pieces. "
+					"Surface shows chipped edges, cracks, and powdery texture. "
+					"Color variation includes faded red, brown, and gray tones. "
+					"Each piece is arranged with structural clarity. "
+					"The table contains brick dust and fragments."
+				),
+
+				"Bata Lapuk: Crumpled Repair": (
+					"A hyper-realistic miniature mosque constructed from broken and repaired brick pieces. "
+					"The structure shows cracks, chipped surfaces, and patched areas. "
+					"Texture is rough with visible grain and dust. "
+					"Damage remains controlled. "
+					"The table contains debris and dust."
+				),
+
+				"Bata Lapuk: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular brick units arranged precisely. "
+					"Each block shows chipped edges and natural wear. "
+					"Structured repetition enhances clarity. "
+					"The table shows neatly arranged brick pieces."
+				),
+
+				"Kayu Jati: Layered Panel": (
+					"A hyper-realistic miniature mosque constructed from high-quality teak wood panels assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from layered polished wood. "
+					"Rich wood grain patterns and deep natural tones are clearly visible. "
+					"Surface shows fine texture with subtle aging marks. "
+					"Edges are clean with slight natural variation. "
+					"Each panel is arranged with precision and balance. "
+					"The table contains fine wood dust."
+				),
+
+				"Kayu Jati: Craftsmanship": (
+					"A hyper-realistic miniature mosque constructed from hand-carved teak wood pieces. "
+					"Detailed carving marks, smooth surfaces, and refined grain emphasize craftsmanship. "
+					"Natural wood texture remains dominant. "
+					"The table contains fine wood shavings."
+				),
+
+				"Kayu Jati: Modular Recycled": (
+					"A hyper-realistic miniature mosque constructed from modular teak wood blocks arranged precisely. "
+					"Uniform pieces form structured architectural elements. "
+					"Grain patterns create visual variation. "
+					"The table shows neatly cut wood blocks."
+				),
+
+				"Kardus Bekas: Structural Layer Pro": (
+					"A hyper-realistic miniature mosque constructed from multi-layered cardboard structures, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets built from stacked cardboard sheets with clearly visible layered construction. "
+					"Exposed corrugated interiors reveal fluted channels and internal structure with high micro-detail clarity. "
+					"Outer surfaces show worn print, faded ink, scratches, and subtle stains from previous use. "
+					"Edges are rough with fiber separation, slight fraying, and natural tearing patterns. "
+					"Each structural layer is aligned with clear architectural logic, creating strong depth and readability. "
+					"Surface variation includes soft compression marks and subtle bending. "
+					"Balanced tones prevent flat brown appearance while preserving realistic cardboard color. "
+					"The wooden table surface contains cardboard dust, fiber particles, and small torn fragments."
+				),
+
+				"Kardus Bekas: Compressed Repair Build": (
+					"A hyper-realistic miniature mosque constructed from crushed and reshaped cardboard, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed, dented, and partially collapsed cardboard forms. "
+					"Surface shows deep fold lines, pressure dents, and structural deformation with strong shadow depth. "
+					"Torn sections are reinforced with layered cardboard patches, visible tape, and overlapping materials. "
+					"Corrugated interiors are exposed along broken edges, revealing internal texture. "
+					"Printed surfaces appear distorted and partially worn out. "
+					"Damage remains controlled, preserving overall architectural clarity. "
+					"Surface detail includes dust, fiber texture, and subtle wear patterns. "
+					"The table contains torn cardboard pieces, tape fragments, and debris."
+				),
+
+				"Kardus Bekas: Modular Block Engine": (
+					"A hyper-realistic miniature mosque constructed from modular cardboard blocks arranged precisely on a rustic wooden table surface. "
+					"Uniform geometric cardboard units form domes and towers with strong structural repetition and architectural rhythm. "
+					"Each block reveals layered cardboard structure with visible corrugated interiors and fiber texture. "
+					"Edges are clean but retain natural irregularities and slight fraying. "
+					"Printed markings, faded labels, and subtle stains create variation across modules. "
+					"Visible segmentation reinforces modular construction without appearing artificial. "
+					"Balanced color density prevents dull or flat appearance while maintaining realistic tones. "
+					"The table surface shows neatly cut cardboard pieces, dust, and minimal debris."
+				),
+
+				"Sedotan Plastik: Modular Frame": (
+					"A hyper-realistic miniature mosque constructed from modular plastic straw segments, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The structure features domes and minarets formed from aligned cylindrical straw tubes arranged in structured repetition. "
+					"Hollow interiors of the straws create visible depth and layered geometry. "
+					"Different colored straws create controlled visual variation without overwhelming the structure. "
+					"Each segment is precisely arranged with clear architectural logic and clean alignment. "
+					"Surface shows fine scratches, slight bending, and natural plastic wear. "
+					"Balanced reflections prevent excessive glare or artificial shine. "
+					"The table surface contains small straw cuttings and fragments."
+				),
+
+				"Sedotan Plastik: Linear Layer Build": (
+					"A hyper-realistic miniature mosque constructed from layered straw segments arranged in parallel formations on a rustic wooden table surface. "
+					"The structure uses horizontal and vertical straw alignment to form walls, domes, and towers. "
+					"Linear repetition creates strong architectural rhythm and depth. "
+					"Surface detail includes minor scratches, subtle deformation, and realistic plastic texture. "
+					"Edges remain slightly imperfect to maintain realism. "
+					"Color variation remains controlled and balanced. "
+					"The table contains aligned straw pieces and minimal debris."
+				),
+
+				"Sedotan Plastik: Structural Bundle": (
+					"A hyper-realistic miniature mosque constructed from bundled straw clusters forming structural components. "
+					"Multiple straws are grouped tightly to create thicker columns and domes. "
+					"Visible gaps between tubes add depth and complexity. "
+					"The structure maintains clear mosque proportions with organic modular repetition. "
+					"Surface shows subtle bending, wear, and texture variation. "
+					"Lighting emphasizes depth inside the hollow tubes. "
+					"The table surface contains bundled straw fragments."
+				),
+
+				"Karet Gelang: Interwoven Structure": (
+					"A hyper-realistic miniature mosque constructed from interwoven rubber bands stretched and layered across a structural frame, firmly placed on a rustic wooden table surface. "
+					"The structure features domes and minarets formed through tensioned rubber bands crossing and looping in controlled patterns. "
+					"Elastic strands create dynamic curves and structural tension. "
+					"Surface shows subtle rubber texture, slight matte finish, and natural stretching marks. "
+					"Each band is positioned with clear structural logic, forming stable architectural shapes. "
+					"Layered intersections create depth and shadow complexity. "
+					"The table surface contains loose rubber bands and minor debris."
+				),
+
+				"Karet Gelang: Tension Frame Build": (
+					"A hyper-realistic miniature mosque constructed from rubber bands stretched across a rigid frame, forming structural surfaces and domes. "
+					"The elastic material creates smooth curved forms with visible tension. "
+					"Layered bands form semi-transparent surfaces with controlled density. "
+					"Surface shows fine rubber grain and slight wear from stretching. "
+					"Each band contributes to the architectural structure through controlled placement. "
+					"Lighting highlights tension lines and layered intersections. "
+					"The table contains spare rubber bands and fragments."
+				),
+
+				"Karet Gelang: Modular Loop System": (
+					"A hyper-realistic miniature mosque constructed from repeating rubber band loops arranged in structured modular patterns. "
+					"Each loop connects to others, forming domes and towers through repetition and layering. "
+					"Elastic forms create organic geometry with consistent rhythm. "
+					"Surface detail includes subtle rubber texture and slight deformation. "
+					"Visible connections reinforce structural integrity. "
+					"Balanced composition prevents chaotic overlap. "
+					"The table shows grouped rubber bands and minimal debris."
+				),
+
+				"Gelas Plastik Aqua: Transparent Panel": (
+					"A hyper-realistic miniature mosque constructed from cut transparent plastic cup panels, firmly assembled on a rustic wooden table surface. "
+					"The structure features domes and minarets formed from curved transparent sheets. "
+					"Semi-transparent material creates layered depth with soft internal reflections. "
+					"Surface shows scratches, slight deformation, and subtle usage marks. "
+					"Edges reveal thin plastic thickness with natural irregularities. "
+					"Each panel is arranged with clear structural logic. "
+					"Balanced reflections prevent glare or overexposure. "
+					"The table contains plastic fragments and cut edges."
+				),
+
+				"Gelas Plastik Aqua: Crumpled Form Build": (
+					"A hyper-realistic miniature mosque constructed from crumpled and reshaped plastic cups, assembled on a rustic wooden table surface. "
+					"The structure maintains mosque proportions while using compressed and dented plastic forms. "
+					"Surface shows folds, creases, and pressure marks with strong texture depth. "
+					"Transparent areas create layered light interaction without excessive shine. "
+					"Edges are slightly warped, maintaining realism. "
+					"Each section is positioned with controlled structure. "
+					"The table contains crumpled plastic fragments."
+				),
+
+				"Gelas Plastik Aqua: Hybrid Layer Assembly": (
+					"A hyper-realistic miniature mosque constructed from a combination of flat and curved plastic cup segments arranged in layered assembly. "
+					"The structure uses both transparent panels and curved forms to build domes and walls. "
+					"Material variation creates depth, reflection, and structural complexity. "
+					"Surface detail includes scratches, subtle wear, and slight deformation. "
+					"Each component is aligned with clear architectural logic. "
+					"Balanced lighting enhances transparency without glare. "
+					"The table shows mixed plastic pieces and minimal residue."
+				),
+
+				"Mix Bekas: Recycled Hybrid Structure": (
+					"A hyper-realistic miniature mosque constructed from a combination of used cardboard, plastic bottles, and newspaper, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+					"The main structure is built from layered worn cardboard with visible corrugated interiors, rough edges, and fiber separation. "
+					"Transparent plastic bottle panels are integrated as windows and upper structural elements, showing scratches, dents, and label residue. "
+					"Newspaper fragments are used as surface layering with visible text, folds, and slight tearing. "
+					"The central dome is constructed from crumpled transparent plastic bottle material, forming a semi-transparent layered dome with subtle internal reflections. "
+					"All materials show clear signs of prior use: faded prints, scratches, stains, and structural wear. "
+					"Each component is arranged with controlled assembly logic, maintaining architectural clarity. "
+					"Balanced lighting prevents glare from plastic and avoids flattening cardboard texture. "
+					"The table surface contains mixed debris: paper scraps, plastic fragments, and cardboard fibers."
+				),
+
+				"Mix Bekas: Industrial Scrap Assembly": (
+					"A hyper-realistic miniature mosque constructed from used metal can fragments, rubber bands, and cardboard, assembled on a rustic wooden table surface. "
+					"The base structure is formed from layered cardboard panels with rough edges and exposed corrugated interiors. "
+					"Metal can pieces are integrated as structural plates, showing dents, scratches, faded paint, and controlled rust patches. "
+					"Rubber bands are stretched and interwoven across sections, creating tension-based structural elements and flexible connectors. "
+					"The central dome is constructed from layered rusted metal fragments, forming a solid dome with textured oxidation and subtle reflective variation. "
+					"Surface detail emphasizes wear: chipped paint, rust layers, stretched rubber, and fiber exposure. "
+					"Damage remains controlled, preserving clear mosque proportions. "
+					"Reflections are muted and realistic, avoiding excessive shine. "
+					"The table contains metal scraps, rubber bands, cardboard debris, and dust."
+				),
+
+				"Mix Bekas: Lightweight Patchwork Build": (
+					"A hyper-realistic miniature mosque constructed from used plastic sachets, instant noodle packaging, and thin cardboard, assembled on a rustic wooden table surface. "
+					"The structure is formed from flexible layered materials with visible folds, wrinkles, and patchwork assembly. "
+					"Sachet surfaces show faded branding, scratches, and partial tearing, with foil layers creating subtle reflective variation. "
+					"Instant noodle packaging adds colorful but worn graphic elements, distorted across folded surfaces. "
+					"Thin cardboard provides structural support with visible layering and rough edges. "
+					"The central dome is constructed from tightly folded and layered instant noodle packaging, forming a textured dome with wrinkled surface and controlled color distribution. "
+					"All materials show clear signs of usage: creases, stains, faded print, and wear marks. "
+					"Each element is arranged with clear structural intent, avoiding chaotic composition. "
+					"Balanced lighting controls reflections and preserves texture detail. "
+					"The table surface contains mixed packaging fragments, plastic scraps, and fiber debris."
+				),
+
+				"KoranKardus + Kubah Jerami": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and cardboard, firmly assembled on a rustic wooden table surface. "
+					"The structure is built from layered cardboard panels with exposed corrugated interiors and newspaper sheets showing faded text, folds, and slight tearing. "
+					"Edges are rough with fiber separation and natural wear from usage. "
+					"The central dome is constructed from tightly arranged dry straw, forming a dense organic dome with fine fibrous texture and natural irregularity. "
+					"All materials show realistic aging: wrinkles, discoloration, and structural wear. "
+					"Balanced lighting enhances texture without flattening detail. "
+					"The table contains paper scraps, cardboard fibers, and straw debris."
+				),
+
+				"KardusBotol + Kubah Plastik": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and plastic bottle material, assembled on a rustic wooden table surface. "
+					"The structure uses layered cardboard with visible corrugated channels, rough edges, and slight deformation. "
+					"Plastic bottle pieces are integrated into structural sections, showing scratches, dents, and label residue. "
+					"The central dome is formed from crumpled transparent plastic bottle material, creating a semi-transparent layered dome with controlled reflections. "
+					"All materials show wear, fading, and surface imperfections from prior use. "
+					"The table contains cardboard fragments and plastic scraps."
+				),
+
+				"KoranJerami + Kubah Jerami": (
+					"A hyper-realistic miniature mosque constructed from compressed newspaper and straw elements, assembled on a rustic wooden table surface. "
+					"The structure is formed from crumpled newspaper with visible folds, wrinkles, and distorted printed text. "
+					"Straw is integrated into the walls, adding fibrous organic texture. "
+					"The central dome is fully constructed from tightly packed straw, forming a thick textured dome with fine natural fibers. "
+					"Surface shows aging, fading ink, and slight tearing. "
+					"The table contains paper scraps and straw fragments."
+				),
+
+				"SachetIndomie + Kubah Indomie": (
+					"A hyper-realistic miniature mosque constructed from used sachet packaging and instant noodle wrappers, assembled on a rustic wooden table surface. "
+					"The structure is formed from layered sachets with wrinkles, scratches, and faded branding. "
+					"Foil and plastic layers create controlled reflective variation without glare. "
+					"The central dome is constructed from folded instant noodle packaging, forming a wrinkled dome with worn colorful print. "
+					"Surface shows clear signs of use including creases and slight tearing. "
+					"The table contains packaging fragments and plastic scraps."
+				),
+
+				"BotolKoran + Kubah Plastik": (
+					"A hyper-realistic miniature mosque constructed from used plastic bottles and newspaper, assembled on a rustic wooden table surface. "
+					"The structure combines semi-transparent plastic panels with layered newspaper showing faded text and folds. "
+					"Plastic surfaces show scratches, dents, and slight deformation. "
+					"The central dome is made from curved transparent plastic bottle material, forming a smooth layered dome with controlled reflections. "
+					"All materials show wear and realistic imperfections. "
+					"The table contains plastic fragments and paper scraps."
+				),
+
+				"GelasKardus + Kubah Gelas": (
+					"A hyper-realistic miniature mosque constructed from used plastic cups and cardboard, assembled on a rustic wooden table surface. "
+					"The structure uses cardboard as the base with visible layered edges and corrugated texture. "
+					"Plastic cup material forms curved structural elements with scratches and dents. "
+					"The central dome is formed from a reshaped plastic cup, creating a smooth curved dome with subtle transparency and deformation. "
+					"Surface detail includes wear marks, slight warping, and material fatigue. "
+					"The table contains plastic fragments and cardboard debris."
+				),
+
+				"KardusIndomie + Kubah Kardus": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and instant noodle packaging, assembled on a rustic wooden table surface. "
+					"The structure is built from layered cardboard panels with visible corrugated interiors and rough edges. "
+					"Packaging material adds colorful but worn surface detail with folds and scratches. "
+					"The central dome is constructed from layered cardboard pieces, forming a solid dome with visible fiber texture and structural depth. "
+					"Surface shows fading, creases, and natural wear. "
+					"The table contains cardboard fragments and packaging scraps."
+				),
+
+				"SachetKoran + Kubah Sachet": (
+					"A hyper-realistic miniature mosque constructed from used sachet packaging and newspaper, assembled on a rustic wooden table surface. "
+					"The structure uses layered sachet material with visible wrinkles, scratches, and faded branding combined with newspaper layers. "
+					"Printed text and graphics create subtle visual variation. "
+					"The central dome is formed from tightly folded sachet material, creating a wrinkled reflective dome with controlled highlights. "
+					"All materials show wear, folds, and slight tearing. "
+					"The table contains paper scraps and sachet fragments."
+				),
+
+				"JeramiKardus + Kubah Jerami": (
+					"A hyper-realistic miniature mosque constructed from dry straw and used cardboard, assembled on a rustic wooden table surface. "
+					"The structure combines rigid cardboard panels with organic straw layering, creating strong contrast between hard and fibrous textures. "
+					"Cardboard shows rough edges and exposed layers, while straw adds fine detail and irregularity. "
+					"The central dome is built entirely from dense straw, forming a thick organic dome with high micro-texture. "
+					"Surface shows natural aging and wear. "
+					"The table contains straw fragments and cardboard fibers."
+				),
+
+				"BotolSachet + Kubah Plastik": (
+					"A hyper-realistic miniature mosque constructed from used plastic bottles and sachet packaging, assembled on a rustic wooden table surface. "
+					"The structure uses flexible plastic layers with visible scratches, wrinkles, and faded branding. "
+					"Sachet material adds reflective variation while bottle plastic provides structure. "
+					"The central dome is formed from curved plastic bottle segments, creating a smooth semi-transparent dome with subtle deformation. "
+					"Surface shows wear, dents, and usage marks. "
+					"The table contains plastic fragments and packaging scraps."
+				),
+
+				"KoranBotol + Kubah Koran": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and discarded plastic bottle material, firmly assembled on a rustic wooden table surface. "
+					"The structure is built from layered newspaper sheets with visible folds, creases, faded ink, and partially torn edges. "
+					"Plastic bottle fragments are integrated into structural sections, showing scratches, dents, label residue, and slight deformation from prior use. "
+					"The central dome is constructed from tightly layered and crumpled newspaper, forming a soft dome with visible text patterns, wrinkles, and uneven compression. "
+					"Surface detail emphasizes wear: discoloration, dirt smudges, fiber exposure, and irregular edges. "
+					"All materials clearly appear used and aged, with no clean or pristine surfaces. "
+					"Balanced lighting preserves texture without flattening detail. "
+					"The table contains paper scraps, plastic fragments, and fiber debris."
+				),
+
+				"KardusSachet + Kubah Sachet": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and discarded sachet packaging, assembled on a rustic wooden table surface. "
+					"The structure is formed from layered cardboard panels with exposed corrugated interiors, rough torn edges, and visible compression marks. "
+					"Sachet materials are layered across surfaces, showing wrinkles, scratches, faded branding, and partially peeled print. "
+					"The central dome is constructed from tightly folded and compressed sachet material, forming a wrinkled reflective dome with distorted graphics and worn surfaces. "
+					"Surface detail includes creases, dirt marks, and material fatigue from repeated use. "
+					"All elements clearly show signs of wear and aging, avoiding any clean or new appearance. "
+					"The table contains cardboard fibers, foil fragments, and packaging debris."
+				),
+
+				"KoranGelas + Kubah Gelas": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and discarded plastic cups, assembled on a rustic wooden table surface. "
+					"The structure combines layered paper with visible folds, wrinkles, and faded printed text, alongside curved plastic cup fragments showing scratches and dents. "
+					"Plastic surfaces are slightly cloudy and worn, with subtle deformation and usage marks. "
+					"The central dome is formed from a reshaped plastic cup, creating a curved dome with visible stress marks, scratches, and uneven edges. "
+					"Surface detail emphasizes aging: paper discoloration, plastic scuffing, and structural wear. "
+					"All materials clearly appear used and imperfect. "
+					"The table contains paper scraps, plastic fragments, and minor debris."
+				),
+
+				"KardusJerami + Kubah Kardus": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and dry straw, assembled on a rustic wooden table surface. "
+					"The structure uses layered cardboard panels with exposed corrugated interiors, torn edges, and visible fiber separation. "
+					"Straw elements are loosely integrated into walls, adding fibrous organic texture with irregular direction and density. "
+					"The central dome is constructed from stacked and shaped cardboard layers, forming a rough dome with visible grain, cracks, and structural imperfections. "
+					"Surface shows aging, dirt marks, and slight deformation from use. "
+					"The table contains straw fragments, cardboard dust, and fiber debris."
+				),
+
+				"SachetBotol + Kubah Sachet": (
+					"A hyper-realistic miniature mosque constructed from discarded sachet packaging and used plastic bottle fragments, assembled on a rustic wooden table surface. "
+					"The structure combines flexible sachet layers with rigid plastic bottle segments, both showing scratches, wrinkles, and wear. "
+					"Sachet surfaces display faded branding, creases, and slight tearing, while plastic shows dents and label residue. "
+					"The central dome is constructed from tightly folded sachet material, forming a reflective but worn dome with wrinkled texture and distorted print. "
+					"Surface detail includes scuff marks, dirt, and material fatigue. "
+					"All materials clearly appear used and aged. "
+					"The table contains foil scraps, plastic fragments, and debris."
+				),
+
+				"KoranIndomie + Kubah Indomie": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and instant noodle packaging, assembled on a rustic wooden table surface. "
+					"The structure uses layered newspaper with faded text, wrinkles, and slight tearing combined with colorful but worn packaging surfaces. "
+					"Packaging shows creases, scratches, and dull areas where print has faded. "
+					"The central dome is constructed from folded instant noodle packaging, forming a wrinkled dome with distorted colors and visible wear. "
+					"Surface detail emphasizes aging and repeated use. "
+					"All materials avoid any clean or glossy appearance. "
+					"The table contains paper scraps and packaging debris."
+				),
+
+				"BotolJerami + Kubah Jerami": (
+					"A hyper-realistic miniature mosque constructed from used plastic bottle fragments and dry straw, assembled on a rustic wooden table surface. "
+					"The structure combines rigid plastic with organic straw layering, creating contrast between smooth worn surfaces and fibrous textures. "
+					"Plastic shows scratches, dents, and cloudiness from use, while straw appears dry and uneven. "
+					"The central dome is built entirely from dense straw, forming a thick fibrous dome with irregular layering and natural variation. "
+					"Surface detail includes dirt, wear, and structural imperfection. "
+					"The table contains straw debris and plastic fragments."
+				),
+
+				"KardusGelas + Kubah Gelas": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and plastic cups, assembled on a rustic wooden table surface. "
+					"The structure uses cardboard layers with rough edges, visible corrugation, and compression marks. "
+					"Plastic cup material forms curved elements with scratches, dents, and slight deformation. "
+					"The central dome is formed from a reshaped plastic cup with visible wear, stress marks, and uneven curvature. "
+					"Surface shows realistic aging and usage. "
+					"The table contains cardboard debris and plastic fragments."
+				),
+
+				"KoranKardus + Kubah Janur": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and cardboard, firmly assembled on a rustic wooden table surface. "
+					"The structure is built from layered newspaper sheets with visible folds, faded text, wrinkles, and torn edges combined with cardboard panels showing exposed corrugated interiors and rough fiber separation. "
+					"All surfaces show clear aging: discoloration, creases, dirt smudges, and structural wear from prior use. "
+					"The central dome is constructed from woven young coconut leaves (janur), forming a curved dome with layered leaf strips, visible fibers, natural bending, and slight drying at the edges. "
+					"The contrast between rigid paper structure and organic leaf dome creates strong visual hierarchy. "
+					"Lighting enhances paper texture and leaf fiber without flattening detail. "
+					"The table contains paper scraps, cardboard fibers, and leaf fragments."
+				),
+
+				"KardusBotol + Kubah Daun Pisang": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and plastic bottle fragments, assembled on a rustic wooden table surface. "
+					"The structure uses layered cardboard with visible corrugated interiors, torn edges, and compression marks, combined with plastic bottle panels showing scratches, dents, and cloudy wear. "
+					"All materials clearly appear used with faded surfaces, stains, and deformation. "
+					"The central dome is formed from large banana leaves, layered and slightly folded to create a smooth curved dome with visible veins, tears, and natural texture variation. "
+					"The leaf surface shows subtle dryness and edge imperfections, reinforcing realism. "
+					"The table contains cardboard debris, plastic fragments, and leaf pieces."
+				),
+
+				"SachetKoran + Kubah Daun Kelapa": (
+					"A hyper-realistic miniature mosque constructed from used sachet packaging and newspaper, assembled on a rustic wooden table surface. "
+					"The structure combines wrinkled sachet surfaces with faded branding and scratched foil layers, alongside newspaper sheets with folds and torn edges. "
+					"Surface detail includes creases, dirt marks, and worn textures. "
+					"The central dome is constructed from layered green coconut leaves, arranged in overlapping strips forming a dense dome with visible fibers, natural curvature, and slight edge drying. "
+					"Leaf texture contrasts with reflective sachet surfaces. "
+					"The table contains foil scraps, paper fragments, and leaf debris."
+				),
+
+				"BotolKardus + Kubah Janur": (
+					"A hyper-realistic miniature mosque constructed from used plastic bottles and cardboard, assembled on a rustic wooden table surface. "
+					"The structure features rigid cardboard panels with rough edges and exposed corrugation, combined with plastic bottle elements showing scratches, dents, and label residue. "
+					"All materials show wear and aging from prior use. "
+					"The central dome is made from woven janur leaves, forming a structured dome with visible interlacing patterns, fine fibers, and natural irregularities. "
+					"Surface detail emphasizes both material contrast and realism. "
+					"The table contains plastic fragments, cardboard fibers, and leaf strips."
+				),
+
+				"KoranIndomie + Kubah Pisang": (
+					"A hyper-realistic miniature mosque constructed from used newspaper and instant noodle packaging, assembled on a rustic wooden table surface. "
+					"The structure combines layered paper with faded text and wrinkled packaging with worn colorful print and scratches. "
+					"Surface detail includes folds, creases, and slight tearing. "
+					"The central dome is formed from layered banana leaves, curved naturally with visible veins, slight tears, and uneven edges. "
+					"The organic leaf dome contrasts with the synthetic packaging textures. "
+					"The table contains paper scraps, packaging fragments, and leaf debris."
+				),
+
+				"GelasSachet + Kubah Daun Kelapa": (
+					"A hyper-realistic miniature mosque constructed from used plastic cups and sachet packaging, assembled on a rustic wooden table surface. "
+					"The structure uses curved plastic surfaces with scratches and dents combined with wrinkled sachet layers. "
+					"Surface shows wear, fading, and slight deformation. "
+					"The central dome is constructed from layered green coconut leaves, forming a natural dome with visible fibers, bending, and organic layering. "
+					"Lighting enhances subtle transparency of plastic and texture of leaves. "
+					"The table contains plastic fragments, foil scraps, and leaf pieces."
+				),
+
+				"KardusJerami + Kubah Janur": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and dry straw, assembled on a rustic wooden table surface. "
+					"The structure uses rough cardboard panels with exposed layers and straw elements adding fibrous texture. "
+					"Surface shows aging, cracks, and fiber separation. "
+					"The central dome is made from woven janur leaves, forming a structured organic dome with visible interlacing and natural variation. "
+					"The table contains straw fragments, cardboard dust, and leaf debris."
+				),
+
+				"BotolKoran + Kubah Pisang": (
+					"A hyper-realistic miniature mosque constructed from used plastic bottle fragments and newspaper, assembled on a rustic wooden table surface. "
+					"The structure combines semi-transparent plastic with layered paper showing folds, wrinkles, and faded text. "
+					"Plastic surfaces show scratches and cloudiness. "
+					"The central dome is formed from banana leaves with visible veins, folds, and slight tearing. "
+					"Surface detail emphasizes material contrast and wear. "
+					"The table contains plastic and paper debris along with leaf fragments."
+				),
+
+				"SachetIndomie + Kubah Janur": (
+					"A hyper-realistic miniature mosque constructed from used sachet packaging and instant noodle wrappers, assembled on a rustic wooden table surface. "
+					"The structure uses layered flexible materials with wrinkles, scratches, and faded print. "
+					"Foil surfaces create subtle reflective variation. "
+					"The central dome is constructed from woven janur leaves with visible fibers, layered strips, and natural curvature. "
+					"Surface detail shows clear usage and wear. "
+					"The table contains packaging scraps and leaf debris."
+				),
+
+				"KardusSachet + Kubah Pisang": (
+					"A hyper-realistic miniature mosque constructed from used cardboard and sachet packaging, assembled on a rustic wooden table surface. "
+					"The structure uses layered cardboard with rough edges and wrinkled sachet surfaces. "
+					"Surface shows fading, scratches, and fiber exposure. "
+					"The central dome is formed from banana leaves with natural curvature, visible veins, and slight imperfections. "
+					"The table contains cardboard fibers, foil scraps, and leaf fragments."
+				)
+
             },
             "✨ Miniatur Megah ( LED )": {
                 "XXXXX": (
@@ -1723,7 +2995,7 @@ def tampilkan_halaman():
 				"The character is seated in a quiet small valley surrounded by hills. "
 				"Green fields and scattered trees fill the space with controlled density. "
 				"A narrow river flows through the valley with soft reflections. "
-							"Distant houses appear subtly with light smoke. "
+				"Distant houses appear subtly with light smoke. "
 				"The atmosphere is calm and visually balanced with natural depth."
 			),
 
@@ -2047,7 +3319,7 @@ def tampilkan_halaman():
 				"The lighting is directional and cinematic, enhancing contrast and material detail."
 			),
 
-						"Halaman Rumah Joglo Luas": (
+			"Halaman Rumah Joglo Luas": (
 				"The character is seated on a low wooden bench in the spacious front yard of a traditional joglo house. "
 				"Wide packed earth ground with subtle texture and natural irregularities. "
 				"Large wooden structure stands behind with visible carved details and deep shadows. "
@@ -2082,7 +3354,7 @@ def tampilkan_halaman():
 			"Belakang Rumah dengan Area Kayu": (
 				"The character is seated in the backyard where stacked wood and tools are arranged neatly. "
 				"Wood textures show natural grain and variation with strong detail. "
-								"The house structure provides a grounded background with subtle shadow depth. "
+				"The house structure provides a grounded background with subtle shadow depth. "
 				"The area feels functional but visually controlled. "
 				"Lighting is soft with clear separation between subject and environment."
 			),
