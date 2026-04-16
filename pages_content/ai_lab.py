@@ -2095,6 +2095,7 @@ def tampilkan_halaman():
                 gender_lock = "Elderly Javanese grandfather."
 
             # --- ASSEMBLY PROMPT ---
+            # --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
                 "EXTREME 8K RAW DOCUMENTARY FILM: Maximum micro-detail, razor-sharp optical clarity, and lifelike resolution like real unedited 35mm film scan. "
                 "MANDATORY: Hyper-realistic raw textures — visible skin pores, deep organic wrinkles, age spots, rough fruit skin, juice droplets, wood grain, and hand veins. "
@@ -2120,16 +2121,19 @@ def tampilkan_halaman():
                 f"- Extremely slow gentle push-in toward the miniature mosque while maintaining razor sharp focus on both the mosque and the character's face/hands throughout the shot\n"
                 f"- NO high angle, NO eye-level, NO bird's eye view, NO static camera, NO sudden movements\n\n"
                 
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"Soft late afternoon golden hour lighting with rich warm directional light and strong natural contrast. "
-                f"Warm light that deeply enhances skin texture, deep wrinkles, fruit details, and juice reflections while giving healthy blood undertone and natural glow to the elderly skin. "
-                f"High color saturation with realistic depth, visible shadows and highlights, no flat lighting.\n\n"
-                
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
                 f"MANDATORY: Raw documentary skin texture with visible pores, deep natural wrinkles, age spots, and hand veins. Strong film grain on skin and surfaces.\n\n"
+                
+                f"ENVIRONMENT:\n"
+                f"{env_detail}\n\n"
+                
+                f"LIGHTING & ATMOSPHERE:\n"
+                f"Soft late afternoon golden hour lighting with rich warm directional light and strong natural contrast. "
+                f"Warm light that deeply enhances skin texture, deep wrinkles, fruit details, and juice reflections while giving healthy blood undertone and natural glow to the elderly skin. "
+                f"High color saturation with realistic depth, visible shadows and highlights, no flat lighting.\n\n"
                 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
