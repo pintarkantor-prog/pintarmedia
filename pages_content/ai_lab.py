@@ -2114,9 +2114,9 @@ def tampilkan_halaman():
                 
                 f"CAMERA & LENS:\n"
                 f"- 50mm prime lens at f/2.8 for maximum sharpness and natural optical quality\n"
-                f"- Low angle shot, camera positioned significantly lower than eye-level, looking slightly upward at the miniature mosque\n"
-                f"- Tight medium composition with the miniature mosque in the foreground, perfectly centered and dominating most of the frame\n"
-                f"- The elderly character sits directly behind the mosque, only upper chest and head slightly visible from this lower perspective\n"
+                f"- Very low angle shot, camera positioned close to the table level and significantly below eye-level, looking upward at the miniature mosque\n"
+                f"- Tight medium shot, very close distance, the miniature mosque strongly dominates the foreground and center of the frame\n"
+                f"- The elderly character sits directly behind the mosque, only upper chest and head slightly visible from this very low close angle\n"
                 f"- Very slow, organic handheld movement with subtle natural breathing sway\n"
                 f"- Extremely slow gentle push-in toward the miniature mosque while maintaining razor sharp focus on both the mosque and the character's face/hands throughout the shot\n"
                 f"- NO high angle, NO eye-level, NO bird's eye view, NO static camera, NO sudden movements\n\n"
