@@ -2094,13 +2094,13 @@ def tampilkan_halaman():
             else:
                 gender_lock = "Elderly Javanese grandfather."
 
-# --- ASSEMBLY PROMPT ---
+			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Razor-sharp optical clarity, hyper-detailed micro textures. "
-                "MANDATORY: Visible skin pores, deep organic wrinkles, age spots, and hand veins with realistic subsurface scattering. "
-                "Rich warm skin tones with strong healthy blood undertones (ZERO PALE SKIN). "
-                "High natural contrast, balanced highlights, visible film grain, authentic optical imperfections. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no darkness."
+    			"EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
+    			"MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
+    			"NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
+    			"HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
+    			"ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no orange tint."
             )
 
             final_ai_prompt = (
@@ -2121,9 +2121,10 @@ def tampilkan_halaman():
                 f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
                 
                 f"LIGHTING & ATMOSPHERE:\n"
-                f"INTENSE VIBRANT SUNSET: Direct, low-angled golden-orange sunlight that floods the entire scene. "
-                f"Warm light that deeply enhances skin texture and reflections while giving healthy blood undertone. "
-                f"High color saturation with realistic depth. NO white light, NO haze, NO greyish tones, NO pitch black shadows.\n\n"
+                f"NEUTRAL AFTERNOON SUNLIGHT: Clear, crisp 3 PM directional sunlight. "
+                f"CLEAN WARMTH: The light is natural white-gold, NOT deep orange. It enhances texture without staining the colors. "
+                f"NATURAL SHADOWS: Strong directional shadows that add depth and define wrinkles. "
+                f"STRICTLY PROHIBITED: Intense orange tint, deep amber tones, reddish glow, white glare, and grey haze.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
@@ -2152,21 +2153,23 @@ def tampilkan_halaman():
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
 
                 f"AUDIO INSTRUCTION (STRICT ZERO-SIGNAL FOR VEO):\n"
-                f"- THIS IS STRICTLY VOICE-ONLY. ISOLATED MONO TRACK. NO BACKGROUND MUSIC.\n"
-                f"- ZERO-SIGNAL BACKGROUND: The background must be 100% digital silence.\n"
-                f"- NO BGM, NO SOUND EFFECTS, NO AMBIENT MUSIC, NO INSTRUMENTAL.\n"
-                f"- SILENCE all background elements except the character's voice.\n\n"
+                f"AUDIO INSTRUCTION (STRICT VOICE PRIORITY):\n"
+				f"- MANDATORY: THE CHARACTER'S SPOKEN DIALOG MUST BE CLEAR AND AUDIBLE.\n" # <-- Kunci Vokal
+				f"- PURE RAW HUMAN VOICE ONLY: No background music, no BGM, no instrumental.\n"
+				f"- DRY AUDIO TRACK: No reverb, no echo, no cinematic pads, no sound effects.\n"
+				f"- SILENCE EVERYTHING EXCEPT THE VOICE: Only the character's speech and natural breathing sounds are allowed.\n"
+				f"- The audio must be an isolated mono track of the character speaking.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
                 f"NEGATIVE PROMPT:\n"
-                f"NIGHT TIME, darkness, pitch black shadows, silhouetting, background music, BGM, soundtrack, "
-                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
-                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
-                f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, smiling, laughing, high angle, bird's eye view, wide shot, low angle, "
-                f"text, watermark, captions, subtitles, reverb, echo, studio sound, any music whatsoever"
+                f"intense orange lighting, deep amber tint, reddish glow, sunset red, " # <--- ANTI TERLALU SENJA
+                f"night time, darkness, pitch black shadows, background music, BGM, soundtrack, "
+                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, high angle, low angle, wide shot"
+				
             )
 
             # --- TAMPILKAN HASIL ---
