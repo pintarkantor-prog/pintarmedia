@@ -2014,7 +2014,7 @@ def tampilkan_halaman():
         		"Slowly tracing the surface of the miniature with shaky fingertips without lifting it",
         		"Lightly touching the carved details with weak fingers, then pausing wearily",
         		"Rubbing the edge of the miniature softly with trembling hands while gazing down",
-        		"Slowly raising both frail hands with palms facing up in a soft pleading or apologizing gesture while looking at the camera with tired eyes"
+        		"Slowly raising both frail hands with palms facing upward in a gentle apologizing gesture, as if quietly asking for forgiveness, while looking at the camera with tired and weary eyes"
     		]
         }
 
