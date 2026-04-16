@@ -2168,8 +2168,6 @@ def tampilkan_halaman():
                 f"emotional soundtrack, additional audio layer, song, rhythmic melody, "
                 f"reverb, echo, studio sound, cinematic sound effects, any music whatsoever"
             )
-				
-            )
             # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
             st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
