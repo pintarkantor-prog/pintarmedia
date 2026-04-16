@@ -3673,7 +3673,7 @@ def tampilkan_halaman():
                 
 				f"NEGATIVE PROMPT:\n"
 				f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-				f"background music, BGM, soundtrack, instrumental music, cinematic music score, "
+				f"background music, BGM, soundtrack, instrumental music, cinematic music score, emotional scoring, dramatic scoring, film scoring, background audio, ambient music, "
 				f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
 				f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
 				f"blurry, soft focus, excessive background blur, overly shallow depth of field, high angle, low angle, wide shot\n"
