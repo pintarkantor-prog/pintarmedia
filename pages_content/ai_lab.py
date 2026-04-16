@@ -2094,87 +2094,87 @@ def tampilkan_halaman():
             else:
                 gender_lock = "Elderly Javanese grandfather."
 
-		# --- ASSEMBLY PROMPT ---
-        GLOBAL_QUALITY_LOCK = (
-			"EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
-			"MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
-			"NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
-			"HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
-			"ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no orange tint."
-        )
+			# --- ASSEMBLY PROMPT ---
+        	GLOBAL_QUALITY_LOCK = (
+				"EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
+				"MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
+				"NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
+				"HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
+				"ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no orange tint."
+        	)
 
-        final_ai_prompt = (
-            f"{GLOBAL_QUALITY_LOCK}\n\n"
+        	final_ai_prompt = (
+            	f"{GLOBAL_QUALITY_LOCK}\n\n"
             
-            f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-            f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
-            f"- EXTREMELY sharp 8K detail on every carving line, fiber, and moist surface imperfection.\n"
-            f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
-            f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
+            	f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
+            	f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
+            	f"- EXTREMELY sharp 8K detail on every carving line, fiber, and moist surface imperfection.\n"
+            	f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
+            	f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
             
-            f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-            f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
-            f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
-            f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
-            f"- The elderly character sits directly behind the object, symmetrically framed.\n"
-            f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
-            f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
+            	f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
+            	f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
+            	f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
+            	f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
+            	f"- The elderly character sits directly behind the object, symmetrically framed.\n"
+            	f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
+            	f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
             
-            f"LIGHTING & ATMOSPHERE:\n"
-            f"NEUTRAL LATE AFTERNOON LIGHT: Soft directional sunlight around 3–4 PM. "
-            f"CLEAN WARMTH: Natural white-gold tone, slightly warm but NOT orange. "
-            f"BALANCED CONTRAST: Defined shadows with smooth highlight roll-off, preserving skin detail. "
-            f"NO intense sunset effect, no deep amber, no reddish glow, no color cast distortion.\n\n"
+            	f"LIGHTING & ATMOSPHERE:\n"
+            	f"NEUTRAL LATE AFTERNOON LIGHT: Soft directional sunlight around 3–4 PM. "
+            	f"CLEAN WARMTH: Natural white-gold tone, slightly warm but NOT orange. "
+            	f"BALANCED CONTRAST: Defined shadows with smooth highlight roll-off, preserving skin detail. "
+            	f"NO intense sunset effect, no deep amber, no reddish glow, no color cast distortion.\n\n"
             
-            f"CHARACTER IDENTITY:\n"
-            f"{soul_desc}\n"
-            f"{gender_lock}\n"
-            f"Wardrobe: {baju_desc}\n"
-            f"MANDATORY: Raw hyper-realistic elderly skin with visible pores and deep wrinkles. NO face smoothing, NO plastic skin.\n\n"
+            	f"CHARACTER IDENTITY:\n"
+            	f"{soul_desc}\n"
+            	f"{gender_lock}\n"
+            	f"Wardrobe: {baju_desc}\n"
+            	f"MANDATORY: Raw hyper-realistic elderly skin with visible pores and deep wrinkles. NO face smoothing, NO plastic skin.\n\n"
             
-            f"ENVIRONMENT:\n"
-            f"{env_detail}\n\n"
+            	f"ENVIRONMENT:\n"
+	            f"{env_detail}\n\n"
             
-            f"PERFORMANCE & VOICE:\n"
-            f"{aksi_final}\n"
-            f"Mood: {mood_final}\n\n"
+            	f"PERFORMANCE & VOICE:\n"
+            	f"{aksi_final}\n"
+            	f"Mood: {mood_final}\n\n"
             
-            f"VOICE PROFILE:\n"
-            f"{logat_final}\n"
-            f"Delivery style: {mood_final}.\n\n"
+            	f"VOICE PROFILE:\n"
+           	 	f"{logat_final}\n"
+            	f"Delivery style: {mood_final}.\n\n"
             
-            f"SPOKEN DIALOG:\n"
-            f"\"{user_dialog}\"\n\n"
+            	f"SPOKEN DIALOG:\n"
+            	f"\"{user_dialog}\"\n\n"
             
-            f"DIALOG DELIVERY RULE:\n"
-            f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-            f"- Spoken naturally and tired like a real old village elder.\n"
-            f"- Soft and fragile elderly voice with gentle trembling.\n"
-            f"- Calm and pasrah delivery with natural pauses.\n\n"
+            	f"DIALOG DELIVERY RULE:\n"
+            	f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
+            	f"- Spoken naturally and tired like a real old village elder.\n"
+            	f"- Soft and fragile elderly voice with gentle trembling.\n"
+            	f"- Calm and pasrah delivery with natural pauses.\n\n"
 
-            f"AUDIO INSTRUCTION (VOICE SAFE MODE):\n"
-			f"- MANDATORY: THE CHARACTER'S SPOKEN DIALOG MUST BE CLEAR AND AUDIBLE.\n"
-			f"- CLEAN DRY VOICE: No background music, no BGM, no instruments.\n"
-			f"- NO audio effects: no reverb, no echo, no cinematic processing.\n"
-			f"- Voice must remain present, centered, and dominant.\n"
-			f"- Minimal natural silence is allowed but MUST NOT mute the voice.\n\n"
+            	f"AUDIO INSTRUCTION (VOICE SAFE MODE):\n"
+				f"- MANDATORY: THE CHARACTER'S SPOKEN DIALOG MUST BE CLEAR AND AUDIBLE.\n"
+				f"- CLEAN DRY VOICE: No background music, no BGM, no instruments.\n"
+				f"- NO audio effects: no reverb, no echo, no cinematic processing.\n"
+				f"- Voice must remain present, centered, and dominant.\n"
+				f"- Minimal natural silence is allowed but MUST NOT mute the voice.\n\n"
             
-            f"OBJECT DETAIL:\n"
-            f"{deskripsi_teknis}\n\n"
+            	f"OBJECT DETAIL:\n"
+            	f"{deskripsi_teknis}\n\n"
             
-            f"NEGATIVE PROMPT:\n"
-            f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-            f"night time, darkness, pitch black shadows, background music, BGM, soundtrack, "
-            f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-            f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-            f"blurry, soft focus, high angle, low angle, wide shot"
+            	f"NEGATIVE PROMPT:\n"
+            	f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
+            	f"night time, darkness, pitch black shadows, background music, BGM, soundtrack, "
+            	f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+            	f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+            	f"blurry, soft focus, high angle, low angle, wide shot"
 			
-        )
+        	)
 
-        # --- TAMPILKAN HASIL ---
-        st.success("🔥 PROMPT MASJID READY!")
-        st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
-        st.code(final_ai_prompt, language="text")
+        	# --- TAMPILKAN HASIL ---
+        	st.success("🔥 PROMPT MASJID READY!")
+        	st.markdown('<p class="small-label">SALIN PROMPT DI BAWAH INI:</p>', unsafe_allow_html=True)
+        	st.code(final_ai_prompt, language="text")
 		
     # ==========================================================================
     # TAB 2: MASJID VERSI BARU (V8 - NATURAL ROAD MOTION)
