@@ -2120,12 +2120,13 @@ def tampilkan_halaman():
                 f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
                 f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
                 
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"NEUTRAL LATE AFTERNOON LIGHT: Soft directional sunlight around 3–4 PM. "
-                f"CLEAN WARMTH: Natural white-gold tone, slightly warm but NOT orange. "
-                f"BALANCED CONTRAST: Defined shadows with smooth highlight roll-off, preserving skin detail. "
-                f"NO intense sunset effect, no deep amber, no reddish glow, no color cast distortion.\n\n"
-                
+            	f"LIGHTING & ATMOSPHERE:\n"
+            	f"CONTROLLED GOLDEN HOUR SUNLIGHT: Low-angle warm sunlight during golden hour with soft cinematic diffusion. "
+            	f"BALANCED WARMTH: Rich golden tone with subtle orange accent, but skin tones remain natural and not over-saturated. "
+            	f"SKIN PRIORITY: Warm light enhances blood undertones without turning the skin overly orange or red. "
+            	f"DEPTH & SHADOW: Long soft shadows with smooth falloff, preserving texture and detail. "
+            	f"NO harsh orange flooding, NO extreme amber cast, NO over-saturation, NO blown highlights.\n\n"
+        
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
