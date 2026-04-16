@@ -2146,7 +2146,7 @@ def tampilkan_halaman():
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
-                f"DIALOG DELIVERY RULE:\n"
+				f"DIALOG DELIVERY RULE:\n"
                 f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
                 f"- Spoken naturally and tired like a real old village elder.\n"
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
@@ -2156,7 +2156,8 @@ def tampilkan_halaman():
                 f"- THIS IS STRICTLY VOICE-ONLY. NO BACKGROUND MUSIC AT ALL.\n"
                 f"- NO BGM, NO SOUND EFFECTS, NO AMBIENT MUSIC, NO INSTRUMENTAL, NO MUSIC OF ANY KIND.\n"
                 f"- ONLY the character's spoken dialog and natural weak breathing sounds.\n"
-                f"- Pure clean audio. Absolutely no additional audio layers allowed.\n\n"
+                f"- Pure dry audio. Isolated mono track. Absolutely no additional audio layers allowed.\n"
+                f"- SILENCE all background elements except the character's voice.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
@@ -2166,15 +2167,17 @@ def tampilkan_halaman():
                 f"- Rich natural moist reflections, visible organic imperfections, realistic light falloff, and strong but natural color saturation\n"
                 f"- Both the miniature mosque and the elderly character's skin must look extremely sharp, textured, alive, and physically real\n\n"
                 
-                f"NEGATIVE PROMPT:\n"
-                f"blurry, soft focus, low detail, motion blur, out of focus, shallow depth of field, AI look, CGI, plastic texture, over-smooth skin, waxy skin, digital cleanliness, "
+				f"NEGATIVE PROMPT:\n"
+                f"blurry, soft focus, low detail, motion blur, out of focus, shallow depth of field, "
+                f"AI look, CGI, plastic texture, over-smooth skin, waxy skin, digital cleanliness, "
                 f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, "
+                f"energetic voice, young voice, middle-aged voice, asma sound, "
                 f"pale skin, washed-out colors, greyish skin, flat lighting, dull colors, overexposed, "
                 f"smiling, laughing, high angle, bird's eye view, wide shot, "
-                f"text, watermark, subtitles, on-screen text, "
-                f"background music, BGM, music, instrumental music, ambient music, sound effects, "
-                f"atmospheric music, emotional music, film score, any additional audio"
+                f"text, watermark, captions, subtitles, letters, typography, on-screen text, "
+                f"background music, BGM, music, musical, instrumental, ambient pads, film score, "
+                f"emotional soundtrack, additional audio layer, song, rhythmic melody, "
+                f"reverb, echo, studio sound, cinematic sound effects, any music whatsoever"
 				
             )
             # --- TAMPILKAN HASIL ---
