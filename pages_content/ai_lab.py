@@ -2095,49 +2095,52 @@ def tampilkan_halaman():
                 gender_lock = "Elderly Javanese grandfather."
 
 			# --- ASSEMBLY PROMPT (FIXED VERSION) ---
-            GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON ARRI ALEXA LF: Razor-sharp optical clarity, hyper-detailed micro textures. "
-                "MANDATORY: Visible skin pores, deep organic wrinkles, age spots, and hand veins with realistic subsurface scattering. "
-                "Rich warm skin tones with strong healthy blood undertones (no pale skin). "
-                "High natural contrast, deep shadows, bright highlights, visible film grain, and authentic optical imperfections. "
-                "ABSOLUTELY NO AI smoothing, no digital cleanliness, no plastic textures, no waxy skin."
+			GLOBAL_QUALITY_LOCK = (
+                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON RED V-RAPTOR: Razor-sharp optical clarity with extreme micro-detail. "
+                "MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles, age spots, and visible pores. "
+                "DEEP ORGANIC SATURATION: Colors must look rich, matured, and intensely saturated with blood-undertones (no pale skin). "
+                "HIGH CINEMATIC CONTRAST: Deep blacks, harsh heavy shadows, and controlled highlights. Visible natural film grain. "
+                "ABSOLUTELY NO AI smoothing, no plastic textures, no digital haze, no overexposure."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-                f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
+				f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
                 f"- The handcrafted miniature mosque is the absolute central subject with dead-center frame dominance.\n"
-                f"- EXTREMELY sharp 8K detail on every carving line, fruit fiber, and juice droplet.\n"
+                f"- EXTREMELY sharp 8K detail on every carving line, fiber, and juice droplet, capturing raw texture.\n"
                 f"- Character face and weathered hands must be razor sharp with raw, bone-thin elderly texture.\n"
                 f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
                 
-                f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-                f"- 50mm Prime Lens at f/2.8 for professional optical depth.\n"
-                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly level and horizontal with the miniature mosque and character's face.\n"
-                f"- 0-DEGREE TILT: No low angle, no high angle. Perfectly straight-on documentary shot.\n"
+				f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
+                f"- 50mm Anamorphic Lens at f/4.0 for deep sharpness and natural optical depth.\n"
+                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal with the mosque and character's face.\n"
+                f"- 0-DEGREE TILT: No low angle, no high angle. Perfectly straight-on documentary study.\n"
                 f"- THE MINIATURE MOSQUE is the centerpiece, positioned at the exact dead center of the frame.\n"
                 f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the mosque.\n"
-                f"- Very slow, organic handheld micro-sway with an extremely slow gentle push-in movement.\n\n"
+                f"- Very slow, organic handheld micro-sway with a soulful gentle push-in movement.\n\n"
                 
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"Volumetric late afternoon golden hour lighting. Sunlight piercing through dusty air with visible particles. "
-                f"Rich warm directional light that enhances skin texture and fruit juice reflections. "
-                f"High color saturation with realistic depth and visible natural shadows.\n\n"
+				f"LIGHTING & ATMOSPHERE:\n"
+                f"INTENSE DEEP AMBER LOW-SUN: Only intense reddish and amber light from a very low sunset. "
+                f"HARD DIRECTIONAL LIGHT: This creates long, heavy shadows (crushed blacks) that define the wrinkles. "
+                f"DEEP SATURATION: Colors must look matured and richly saturated. "
+                f"STRICTLY NO white glare, NO overexposure, NO lens flare, NO haze, NO fog.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Raw hyper-realistic elderly skin with visible pores, deep wrinkles, age spots, hand veins, and natural imperfections. NO face smoothing, NO plastic skin.\n\n"
+                f"MANDATORY: Raw hyper-realistic elderly skin with deep, rugged wrinkles. "
+                f"Skin tone must have realistic subsurface scattering and rich blood flow (NO grey/pale tones).\n\n"
                 
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n\n"
+				f"- Lighting Tone: Dark, moody, and intensely warm. No white light, no grey haze.\n\n"
                 
                 f"PERFORMANCE & VOICE:\n"
                 f"{aksi_final}\n"
                 f"Mood and delivery: {mood_final}\n"
-                f"VOICE PROFILE: {logat_final}\n" # <-- Tanda kutip ganda di sini tadi udah gue hapus
+                f"VOICE PROFILE: {logat_final}\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
@@ -2157,11 +2160,12 @@ def tampilkan_halaman():
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
-                f"NEGATIVE PROMPT:\n"
-                f"blurry, soft focus, low detail, motion blur, out of focus, AI look, CGI, plastic texture, "
-                f"over-smooth skin, waxy skin, digital cleanliness, artificial sharpness, "
+				f"NEGATIVE PROMPT:\n"
+                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, " # <--- ANTI PUCAT
+                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, " # <--- ANTI TERIK
+                f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, out of focus, motion blur, digital cleanliness, artificial sharpness, "
                 f"energetic voice, young voice, middle-aged voice, asma sound, "
-                f"pale skin, washed-out colors, greyish skin, flat lighting, overexposed, "
                 f"smiling, laughing, high angle, bird's eye view, wide shot, low angle, "
                 f"text, watermark, captions, subtitles, letters, typography, on-screen text, "
                 f"background music, BGM, music, musical, instrumental, ambient pads, film score, "
