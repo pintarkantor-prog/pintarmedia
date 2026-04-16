@@ -2101,6 +2101,7 @@ def tampilkan_halaman():
                 "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
                 "HIGH MICRO-CONTRAST CINEMATIC: Deep contrast with rich tonal separation, enhanced texture definition, and crisp highlight-to-shadow transitions. "
                 "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast."
+				"CONTROLLED EXPOSURE: Slightly underexposed highlights to preserve color density and avoid washout. "
             )
 
             final_ai_prompt = (
