@@ -2152,11 +2152,11 @@ def tampilkan_halaman():
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
 
-				f"AUDIO INSTRUCTION:\n"
-                f"- STRICTLY AUDIO ONLY. NO BACKGROUND MUSIC AT ALL.\n"
+                f"AUDIO INSTRUCTION - VERY IMPORTANT:\n"
+                f"- THIS IS STRICTLY VOICE-ONLY. NO BACKGROUND MUSIC AT ALL.\n"
                 f"- NO BGM, NO SOUND EFFECTS, NO AMBIENT MUSIC, NO INSTRUMENTAL, NO MUSIC OF ANY KIND.\n"
-                f"- ONLY the spoken dialog from the elderly character with natural voice and breathing.\n"
-                f"- Pure clean audio with nothing else added.\n\n"
+                f"- ONLY the character's spoken dialog and natural weak breathing sounds.\n"
+                f"- Pure clean audio. Absolutely no additional audio layers allowed.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
@@ -2169,9 +2169,13 @@ def tampilkan_halaman():
                 f"NEGATIVE PROMPT:\n"
                 f"blurry, soft focus, low detail, motion blur, out of focus, shallow depth of field, AI look, CGI, plastic texture, over-smooth skin, waxy skin, digital cleanliness, "
                 f"artificial sharpness, glowing edges, fast movement, sudden camera change, static camera, "
-                f"energetic voice, young voice, middle-aged voice, heavy breathing, "
+                f"energetic voice, young voice, middle-aged voice, heavy breathing, asma sound, "
                 f"pale skin, washed-out colors, greyish skin, flat lighting, dull colors, overexposed, "
-                f"smiling, laughing, high angle, bird's eye view, wide shot, text, watermark, subtitles"
+                f"smiling, laughing, high angle, bird's eye view, wide shot, "
+                f"text, watermark, subtitles, on-screen text, "
+                f"background music, BGM, music, instrumental music, ambient music, sound effects, "
+                f"atmospheric music, emotional music, film score, any additional audio"
+				
             )
             # --- TAMPILKAN HASIL ---
             st.success("🔥 PROMPT MASJID READY!")
