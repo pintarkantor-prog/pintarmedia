@@ -1316,22 +1316,24 @@ def tampilkan_halaman():
 
 		# --- 4. MASTER GRANDMA SETTING (Suasana Latar) ---
         MASTER_GRANDMA_SETTING = {
-            "Kebun Semangka Biasa": (
-                "The character is seated on a low weathered wooden crate in a sprawling natural Indonesian watermelon farm on a normal day. "
-                "Dark brown earth with natural uneven terrain and patches of wild grass. "
-                "Ripe watermelons of normal size are scattered organically across the field, not in neat rows. "
-                "Green vines sprawl unevenly with realistic sparse density and some wild weeds. "
-                "In the far background, a few villagers can be seen harvesting watermelons by hand. "
-                "Open and airy rural farm atmosphere with wide field feeling."
-            ),
-            "Kebun Semangka dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the watermelon farm. "
-                "Dark brown earth with natural uneven terrain and patches of wild grass. "
-                "Ripe watermelons of normal size are scattered organically around the gubuk area. "
-                "Green vines sprawl unevenly with realistic sparse density and some wild weeds. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Cozy and sheltered farm atmosphere near the bamboo structure."
-            ),
+			"Kebun Semangka Biasa": (
+				"The character is seated on a low weathered wooden crate in a natural Indonesian watermelon farm. "
+				"Dark brown earth with natural uneven terrain and patches of wild grass. "
+				"Ripe watermelons of normal size are scattered organically across the field with controlled visual density. "
+				"Green vines sprawl unevenly with realistic sparse distribution and some wild weeds. "
+				"In the far background, a few villagers are gently harvesting watermelons by hand. "
+				"The environment feels open but visually balanced, with controlled brightness and no excessive glare. "
+				"Background elements remain subtle and do not overpower the subject, maintaining clear visual focus."
+			),
+			"Kebun Semangka dengan Gubuk": (
+				"The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the watermelon farm. "
+				"Dark brown earth with natural uneven terrain and patches of wild grass. "
+				"Ripe watermelons of normal size are scattered organically around the gubuk area with natural spacing. "
+				"Green vines sprawl unevenly with realistic sparse distribution and some wild weeds. "
+				"A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
+				"The atmosphere feels grounded and calm, with balanced lighting and controlled highlights. "
+				"The subject remains visually dominant with natural depth separation from the environment."
+			),
             "Kebun Buah Naga Biasa": (
                 "The character is seated on a low weathered wooden crate in a sprawling natural dragon fruit plantation on a normal day. "
                 "Dark brown earth with natural uneven terrain. "
