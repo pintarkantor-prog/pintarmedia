@@ -3668,21 +3668,22 @@ def tampilkan_halaman():
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
 
-				f"AUDIO CONTROL:\n"
-				f"- ABSOLUTE SILENCE: No background music, no soundtrack, no ambient music, no cinematic scoring.\n"
-				f"- VOICE ONLY: Only the character's natural voice is present.\n"
-				f"- NO ARTIFICIAL AUDIO: No added sound design, no emotional scoring, no enhancement audio.\n"
-				f"- RAW AUDIO: Only raw environmental sound if any, extremely subtle and natural.\n\n"
+				f"AUDIO CONTROL (STRICT VOICE-ONLY MODE):\n"
+                f"- PURE STUDIO DRY VOCAL: This video must have ZERO background music. No BGM. No soundtrack.\n"
+                f"- ABSOLUTE MUSICAL SILENCE: No instruments, no cinematic pads, no emotional scoring.\n"
+                f"- THE ONLY AUDIO STREAM is the character's raw spoken voice and their natural weak breathing.\n"
+                f"- ISOLATED MONO TRACK: No stereo effects, no ambient enhancement. 100% digital silence in the background.\n\n"
                 
-				f"OBJECT DETAIL:\n"
-				f"{deskripsi_teknis}\n\n"
+                f"OBJECT DETAIL:\n"
+                f"{deskripsi_teknis}\n\n"
                 
-				f"NEGATIVE PROMPT:\n"
-				f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-				f"background music, BGM, soundtrack, instrumental music, cinematic music score, emotional scoring, dramatic scoring, film scoring, background audio, ambient music, "
-				f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-				f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-				f"blurry, soft focus, excessive background blur, overly shallow depth of field, high angle, low angle, wide shot\n"
+                f"NEGATIVE PROMPT:\n"
+                f"BACKGROUND MUSIC, BGM, soundtrack, cinematic score, instrumental, emotional music, "
+                f"ambient music, rhythmic melody, musical pads, violin, piano, synth, audio layers, "
+                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
+                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, excessive background blur, high angle, low angle, wide shot\n"
             )
 
             # --- TAMPILKAN HASIL ---
