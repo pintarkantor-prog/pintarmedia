@@ -2140,7 +2140,7 @@ def tampilkan_halaman():
                 f"ENVIRONMENT:\n"
                 f"{env_detail}\n\n"
                 
-                f"PERFORMANCE & VOICE:\n"
+                f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
                 f"Mood: {mood_final}\n\n"
                 
@@ -2156,25 +2156,17 @@ def tampilkan_halaman():
                 f"- Spoken naturally and tired like a real old village elder.\n"
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
-
-            	f"AUDIO INSTRUCTION (STRICT VOICE ISOLATION):\n"
-				f"- ABSOLUTE PRIORITY: THE CHARACTER'S VOICE MUST BE CLEAR, FRONT, AND DOMINANT.\n"
-				f"- VOICE ONLY TRACK: Only the spoken dialogue is allowed.\n"
-				f"- NO background music, NO BGM, NO soundtrack, NO ambient sound, NO environmental noise.\n"
-				f"- NO cinematic audio, NO emotional sound design, NO artificial layers.\n"
-				f"- DRY RAW VOICE: No reverb, no echo, no spatial effects.\n"
-				f"- Studio-clean vocal isolation, as if recorded with a close microphone.\n"
-				f"- HARD RULE: Do NOT generate any sound other than the character's voice.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
-                f"NEGATIVE PROMPT:\n"
-                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-                f"night time, darkness, pitch black shadows, background music, BGM, soundtrack, "
-                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, high angle, low angle, wide shot"
+				f"NEGATIVE PROMPT:\n"
+				f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
+				f"night time, darkness, pitch black shadows, "
+				f"background music, BGM, soundtrack, instrumental, cinematic audio, ambient sound, sound effects, "
+				f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+				f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+				f"blurry, soft focus, high angle, low angle, wide shot"
             )
 
             # --- TAMPILKAN HASIL ---
