@@ -2094,13 +2094,13 @@ def tampilkan_halaman():
             else:
                 gender_lock = "Elderly Javanese grandfather."
 
-			# --- ASSEMBLY PROMPT (V.34 - NATURAL SUNSET & VOICE LOCK) ---
+			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Razor-sharp optical clarity, hyper-detailed micro textures. "
-                "MANDATORY: Visible skin pores, deep organic wrinkles, age spots, and hand veins with realistic subsurface scattering. "
-                "Rich warm skin tones with strong healthy blood undertones (ZERO PALE SKIN). "
-                "High natural contrast, balanced highlights, visible film grain, authentic optical imperfections. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no darkness."
+                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
+                "MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
+                "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
+                "HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
+                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no orange tint."
             )
 
             final_ai_prompt = (
@@ -2113,7 +2113,7 @@ def tampilkan_halaman():
                 f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
                 
                 f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-                f"- 50mm prime lens at f/4.0 for maximum sharpness and natural optical quality.\n"
+                f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
                 f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
                 f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
                 f"- The elderly character sits directly behind the object, symmetrically framed.\n"
@@ -2121,9 +2121,10 @@ def tampilkan_halaman():
                 f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
                 
                 f"LIGHTING & ATMOSPHERE:\n"
-                f"SOFT NATURAL SUNSET: Gentle, low-angled warm sunlight that naturally illuminates the scene. "
-                f"Realistic late afternoon warmth that enhances skin texture without oversaturating the orange tones. "
-                f"Neutral-warm balance. NO intense orange tint, NO deep amber glow, NO white light, NO haze.\n\n"
+                f"NEUTRAL LATE AFTERNOON LIGHT: Soft directional sunlight around 3–4 PM. "
+                f"CLEAN WARMTH: Natural white-gold tone, slightly warm but NOT orange. "
+                f"BALANCED CONTRAST: Defined shadows with smooth highlight roll-off, preserving skin detail. "
+                f"NO intense sunset effect, no deep amber, no reddish glow, no color cast distortion.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
@@ -2151,23 +2152,22 @@ def tampilkan_halaman():
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
 
-                f"AUDIO INSTRUCTION (STRICT VOICE PRIORITY):\n"
-                f"- MANDATORY: CLEAR AUDIBLE CHARACTER SPOKEN DIALOG. "
-                f"- PURE DRY HUMAN VOICE ONLY. NO BACKGROUND MUSIC, NO BGM, NO INSTRUMENTAL. "
-                f"- Isolated mono track focusing only on the character's speech and natural weak breathing. "
-                f"- SILENCE all musical elements. No cinematic pads, no background hum.\n\n"
+                f"AUDIO INSTRUCTION (VOICE SAFE MODE):\n"
+                f"- MANDATORY: THE CHARACTER'S SPOKEN DIALOG MUST BE CLEAR AND AUDIBLE.\n"
+                f"- CLEAN DRY VOICE: No background music, no BGM, no instruments.\n"
+                f"- NO audio effects: no reverb, no echo, no cinematic processing.\n"
+                f"- Voice must remain present, centered, and dominant.\n"
+                f"- Minimal natural silence is allowed but MUST NOT mute the voice.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
                 f"NEGATIVE PROMPT:\n"
-                f"intense orange lighting, deep amber glow, sunset red, deep reddish tint, "
-                f"NIGHT TIME, darkness, pitch black shadows, silhouetting, background music, BGM, soundtrack, "
-                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
-                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
-                f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, smiling, laughing, high angle, bird's eye view, wide shot, low angle, "
-                f"text, watermark, captions, subtitles, reverb, echo, studio sound, any music whatsoever"
+                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
+                f"night time, darkness, pitch black shadows, background music, BGM, soundtrack, "
+                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, high angle, low angle, wide shot"
             )
 
             # --- TAMPILKAN HASIL ---
