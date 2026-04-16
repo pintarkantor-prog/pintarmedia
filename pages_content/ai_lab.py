@@ -59,137 +59,44 @@ def tampilkan_halaman():
         st.write("") # Spacing
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
-        MASTER_FAMILY_SOUL = {
-            # === NENEK ===
-            "Nenek Aminah": (
-                "IDENTITY: Frail 88-year-old Javanese grandmother. "
-                "FACE: Long narrow face with high cheekbones, deep vertical wrinkles on the cheeks, heavy sagging skin along the jawline, warm sawo matang skin with golden undertone and scattered dark liver spots. "
-                "EYES: Deeply sunken eyes with heavy drooping upper eyelids and soft lower eye bags. "
-                "BODY: Tall but severely shrunken and thin frame, slightly hunched shoulders, thin neck with visible tendons. "
-                "MOUTH: Thin lips with gentle downward sagging at the corners."
-            ),
-            "Nenek Siti": (
-                "IDENTITY: Frail 73-year-old petite Javanese grandmother. "
-                "FACE: Small round plump face with full soft cheeks that sag due to age, warm langsat skin with yellowish undertone and natural glow. "
-                "EYES: Large round eyes with heavy eyelid droop and mild under-eye puffiness. "
-                "BODY: Tiny delicate frame with short neck and still some remaining softness. "
-                "MOUTH: Plump lower lip that sags softly with loose skin at the corners."
-            ),
-            "Nenek Marsi": (
-                "IDENTITY: Frail 94-year-old Javanese grandmother. "
-                "FACE: Wide square face with prominent cheekbones, deep horizontal forehead wrinkles, loose skin under the chin, deep warm sawo matang skin with many age spots and golden undertone. "
-                "EYES: Narrow eyes mostly covered by thick heavy upper lids. "
-                "BODY: Broad shoulders but very thin arms and chest, frail hunched posture. "
-                "MOUTH: Wide mouth with deep folds from nose to chin."
-            ),
-            "Nenek Ponirah": (
-                "IDENTITY: Frail 80-year-old Javanese grandmother. "
-                "FACE: Round full face with heavy sagging cheeks and soft jawline, warm brownish skin with natural sun-kissed tone. "
-                "EYES: Almond-shaped eyes with noticeable lower eye bags. "
-                "BODY: Sedang plump but shrunken frame with loose skin on arms and neck. "
-                "MOUTH: Naturally curved lips surrounded by fine radiating wrinkles."
-            ),
-            "Nenek Juminah": (
-                "IDENTITY: Frail 91-year-old very thin Javanese grandmother. "
-                "FACE: Sharp angular tirus face with sunken temples, high forehead, warm tan skin with golden undertone stretched over bones. "
-                "EYES: Deep-set eyes with thin eyelids and soft dark circles. "
-                "BODY: Extremely thin bony frame with long thin neck and visible shoulder bones. "
-                "MOUTH: Very thin lips with fine vertical wrinkles."
-            ),
-            "Nenek Sikem": (
-                "IDENTITY: Frail 76-year-old Javanese grandmother. "
-                "FACE: Very round plump face with heavy lower cheeks and multiple soft folds under the chin, warm sawo matang skin with golden undertone. "
-                "EYES: Small eyes almost hidden under thick puffy eyelids. "
-                "BODY: Short rounded frame with remaining softness but clear frailty. "
-                "MOUTH: Wide loose mouth with noticeable sagging of the lower lip."
-            ),
-            "Nenek Dulah": (
-                "IDENTITY: Frail 68-year-old Sundanese grandmother. "
-                "FACE: Soft oval face with naturally full cheeks that sag gently, bright warm langsat skin with yellowish golden undertone. "
-                "EYES: Gentle almond eyes with soft under-eye hollows. "
-                "BODY: Soft fragile frame with rounded shoulders and thin arms. "
-                "MOUTH: Full lips that sag softly at the corners."
-            ),
-            "Nenek Sartini": (
-                "IDENTITY: Frail 84-year-old Sundanese grandmother. "
-                "FACE: Wide round face with heavy sagging cheeks and deep gentle folds from nose to mouth on warm brownish skin with golden undertone. "
-                "EYES: Wide-set eyes with heavy upper lids and calm tired expression. "
-                "BODY: Plump but frail frame with loose skin on upper arms. "
-                "MOUTH: Broad mouth with loose corners and soft wrinkles."
-            ),
-            "Nenek Tinah": (
-                "IDENTITY: Frail 93-year-old thin Javanese grandmother. "
-                "FACE: Long oval tirus face with deeply sunken cheeks and sharp jawline on warm tan skin with golden undertone. "
-                "EYES: Deep sunken eyes with heavy lids and minimal surrounding fat. "
-                "BODY: Very thin elongated shrunken frame with prominent bones. "
-                "MOUTH: Thin lips with many fine vertical wrinkles."
-            ),
-            "Nenek Wati": (
-                "IDENTITY: Frail 64-year-old small Sundanese grandmother. "
-                "FACE: Small delicate round face with soft heavy sagging skin on the cheeks and warm langsat tone with golden undertone. "
-                "EYES: Large gentle eyes with heavy drooping lids and soft under-eye bags. "
-                "BODY: Very small delicate frame with thin wrists, still has some youthful roundness. "
-                "MOUTH: Small mouth with subtle sagging of the lower lip."
-            ),
-
-            # === KAKEK ===
-            "Kakek Marto": (
-                "IDENTITY: Frail 87-year-old Javanese grandfather. "
-                "FACE: Long rectangular face with strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone. "
-                "EYES: Deep-set eyes with thick brows and heavy lower lids. "
-                "BODY: Lean bony frame with slightly hunched shoulders and thin arms. "
-                "MOUTH: Wide mouth with thick aged lips."
-            ),
-            "Kakek Somo": (
-                "IDENTITY: Frail 79-year-old Javanese grandfather. "
-                "FACE: Round soft face with heavy jowls and multiple soft folds under the chin on warm brownish skin with golden undertone. "
-                "EYES: Small tired eyes almost hidden under puffy eyelids. "
-                "BODY: Short rounded fragile frame with loose skin on the neck. "
-                "MOUTH: Full sagging lips."
-            ),
-            "Kakek Joyo": (
-                "IDENTITY: Frail 90-year-old Javanese grandfather. "
-                "FACE: Square face with prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin with golden undertone. "
-                "EYES: Narrow eyes with heavy lids. "
-                "BODY: Once sturdy but now shrunken frame with visible shoulder bones. "
-                "MOUTH: Wide firm mouth with deep wrinkles."
-            ),
-            "Kakek Hardi": (
-                "IDENTITY: Extremely frail 95-year-old Javanese grandfather. "
-                "FACE: Extremely shrunken face with hollow cheeks, thin translucent warm tan skin with golden undertone. "
-                "EYES: Deep sunken cloudy eyes with thin eyelids. "
-                "BODY: Very thin delicate frame with prominent collarbones. "
-                "MOUTH: Thin stretched lips."
-            ),
-            "Kakek Sableng": (
-                "IDENTITY: Frail 83-year-old Javanese grandfather. "
-                "FACE: Broad face with high cheekbones and heavy fatigue lines on warm tan skin with golden undertone. "
-                "EYES: Tired eyes with heavy lower lids. "
-                "BODY: Lean frame with slightly hunched posture. "
-                "MOUTH: Wide mouth with noticeable sagging."
-            ),
-            "Kakek Sinto": (
-                "IDENTITY: Extremely frail 94-year-old Javanese grandfather. "
-                "FACE: Deeply sunken skeletal face with hollow cheeks and thin warm tan skin with golden undertone. "
-                "EYES: Deep sunken cloudy eyes with thin eyelids. "
-                "BODY: Very thin delicate frame with bony hands. "
-                "MOUTH: Thin stretched lips."
-            ),
-            "Kakek Wiryo": (
-                "IDENTITY: Frail 74-year-old Javanese grandfather. "
-                "FACE: Broad labor-worn face with high cheekbones, deep pores, rough warm sawo matang skin with golden undertone. "
-                "EYES: Tired eyes with heavy lower lids. "
-                "BODY: Lean weathered frame with slightly hunched shoulders. "
-                "MOUTH: Wide mouth with thick aged lips."
-            ),
-            "Kakek Usman": (
-                "IDENTITY: Frail 86-year-old Indonesian grandfather. "
-                "FACE: Deeply wrinkled face with prominent fatigue lines and sunken cheeks on warm brownish skin with golden undertone. "
-                "EYES: Heavy-lidded eyes with weary appearance. "
-                "BODY: Thin frame with slow movements and slightly rounded shoulders. "
-                "MOUTH: Relaxed mouth with natural aged lip texture."
-            )
-        }
+		MASTER_FAMILY_SOUL = {
+    		"Nenek Aminah": "Frail 88-year-old Javanese grandmother with long narrow face, high cheekbones, deep vertical wrinkles, heavy sagging jawline, warm sawo matang skin with golden undertone. Deep sunken eyes with heavy drooping lids. Tall but severely shrunken thin frame.",
+    
+    		"Nenek Siti": "Frail 73-year-old petite Javanese grandmother with small round plump face, full sagging cheeks, warm langsat skin with yellowish golden undertone. Large round eyes with heavy lids. Tiny delicate frame with remaining softness.",
+    
+    		"Nenek Marsi": "Frail 94-year-old Javanese grandmother with wide square face, prominent cheekbones, deep forehead wrinkles, loose skin under chin, deep warm sawo matang skin with many age spots. Narrow eyes under thick lids. Broad but frail hunched frame.",
+    
+    		"Nenek Ponirah": "Frail 80-year-old Javanese grandmother with round full face, heavy sagging cheeks, warm brownish sun-kissed skin. Almond-shaped eyes with lower eye bags. Plump but shrunken frame with loose skin on arms.",
+    
+    		"Nenek Juminah": "Frail 91-year-old very thin Javanese grandmother with sharp angular tirus face, sunken temples, warm tan skin stretched over bones. Deep-set eyes with thin eyelids. Extremely thin bony frame.",
+    
+    		"Nenek Sikem": "Frail 76-year-old Javanese grandmother with very round plump face, heavy lower cheeks, multiple soft folds, warm sawo matang skin with golden undertone. Small eyes under puffy lids. Short rounded fragile frame.",
+    
+    		"Nenek Dulah": "Frail 68-year-old Sundanese grandmother with soft oval face, naturally full sagging cheeks, bright warm langsat skin with golden undertone. Gentle almond eyes. Soft fragile frame with rounded shoulders.",
+    
+    		"Nenek Sartini": "Frail 84-year-old Sundanese grandmother with wide round face, heavy sagging cheeks, deep folds from nose to mouth, warm brownish skin with golden undertone. Wide-set eyes with heavy lids. Plump but frail frame.",
+    
+    		"Nenek Tinah": "Frail 93-year-old thin Javanese grandmother with long oval tirus face, deeply sunken cheeks, warm tan skin with golden undertone. Deep sunken eyes with heavy lids. Very thin elongated shrunken frame.",
+    
+    		"Nenek Wati": "Frail 64-year-old small Sundanese grandmother with small delicate round face, soft heavy sagging skin, warm langsat tone with golden undertone. Large gentle eyes with heavy drooping lids. Very small delicate frame.",
+    
+    		# === KAKEK ===
+    		"Kakek Marto": "Frail 87-year-old Javanese grandfather with long rectangular face, strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone. Deep-set eyes with heavy lids. Lean bony frame with hunched shoulders.",
+    
+    		"Kakek Somo": "Frail 79-year-old Javanese grandfather with round soft face, heavy jowls, multiple soft folds, warm brownish skin with golden undertone. Small tired eyes under puffy lids. Short rounded fragile frame.",
+    
+    		"Kakek Joyo": "Frail 90-year-old Javanese grandfather with square face, prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin. Narrow eyes with heavy lids. Once sturdy but now shrunken frame.",
+    
+    		"Kakek Hardi": "Extremely frail 95-year-old Javanese grandfather with extremely shrunken face, hollow cheeks, thin translucent warm tan skin with golden undertone. Deep sunken cloudy eyes. Very thin delicate bony frame.",
+    
+    		"Kakek Sableng": "Frail 83-year-old Javanese grandfather with broad face, high cheekbones, heavy fatigue lines, warm tan skin with golden undertone. Tired eyes with heavy lower lids. Lean frame with hunched posture.",
+    
+    		"Kakek Sinto": "Extremely frail 94-year-old Javanese grandfather with deeply sunken skeletal face, hollow cheeks, thin warm tan skin with golden undertone. Deep sunken cloudy eyes. Very thin delicate frame with bony hands.",
+    
+    		"Kakek Wiryo": "Frail 74-year-old Javanese grandfather with broad labor-worn face, high cheekbones, deep pores, rough warm sawo matang skin with golden undertone. Tired eyes with heavy lower lids. Lean weathered frame.",
+    
+    		"Kakek Usman": "Frail 86-year-old Indonesian grandfather with deeply wrinkled face, prominent fatigue lines, sunken cheeks, warm brownish skin with golden undertone. Heavy-lidded weary eyes. Thin frame with slow movements."
+    	}
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
             # --- KELOMPOK NENEK ---
@@ -2084,35 +1991,29 @@ def tampilkan_halaman():
 		
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
-            "Logat_Nenek": [
-                "Extremely frail 92-95 year old Javanese village grandmother with thick rural Jawa kampung accent, extremely weak thin breaking voice, constant heavy vocal tremor, raspy hoarse cracking tone, very breathy and airy quality, speaks extremely slowly with long shaky pauses and tired breathing effort, frequent voice cracks on almost every word, sounds physically exhausted and delicate like a real 93+ year old nenek tua with severely weakened lungs",
-                "Super elderly 93-year-old Javanese nenek with strong kampung ngoko accent, deeply aged thin trembling voice full of instability, whispery and breaking at times, heavy constant vocal tremor, very low volume, extremely slow shaky delivery, frequent cracking and quivering, authentic extreme old age vocal deterioration with almost no energy left",
-                "94+ year old extremely frail Indonesian grandma with thick Jawa kampung accent, very weak raspy voice with strong constant quivering tremor, dry cracked hoarse tone, thin wobbly resonance, labored slow speech with many long pauses for breath, voice often cracks and sounds like it's about to disappear",
-                "91-year-old frail nenek tua with thick rural Javanese accent, constantly shaking elderly female voice with high-frequency vocal tremor, very breathy hoarse quality, extremely slow and weak delivery, frequent voice cracks and sudden drops in volume, heavy tired natural breathing"
-            ],
-            "Logat_Kakek": [
-                "Extremely frail 90-93 year old Indonesian village grandfather with thick Jawa kampung accent, deep but very weak raspy old man voice, noticeable heavy vocal tremor, dry cracked hoarse tone, slow labored delivery with long pauses and breath effort, sounds weathered and exhausted like a real 92+ year old kakek",
-                "Very old 91-year-old Javanese kakek with rural kampung accent, low-pitched trembling elderly male voice full of instability, heavy age-related wobble, hoarse and rough texture, extremely slow unsteady speech with frequent voice cracks and breath breaks",
-                "93+ year old extremely frail Indonesian grandfather with strong Jawa accent, thin shaky old man voice, strong constant vocal tremor, dry cracked breathy tone, extremely slow and effortful delivery, sounds delicate and on the verge of breaking",
-                "89-year-old frail kakek tua with thick kampung accent, deep raspy voice with constant trembling, weak resonance, slow unsteady speech with many weary pauses, hoarse from decades of use, sounds physically tired and fragile"
-            ],
-            "Mood": [
-                "Sad and deeply fragile",
-                "Tired and resigned with heavy exhaustion",
-                "Calm but physically very weak",
-                "Peaceful with quiet melancholy",
-                "Gentle and nostalgic with shaky delivery",
-                "Stoic with visible physical frailty"
-            ],
-            "Physical Action": [
-                "Gently resting her trembling fingers on the edge of the miniature while looking at it quietly.",
-                "Lightly touching the carved surface with shaky fingertips, moving very slowly.",
-                "Holding the side of the miniature with both frail hands, barely moving it.",
-                "Softly tracing a small detail on the object with one unsteady finger.",
-                "Resting both trembling hands on the table near the miniature while gazing at it.",
-                "Gently placing one shaky hand on top of the miniature for a moment, then lifting it slowly.",
-                "Using her frail fingers to lightly brush away a tiny speck from the base of the object.",
-                "Keeping her shaky hands close to the miniature without lifting it, just resting nearby."
+			"Logat_Nenek": [
+				"Elderly Javanese nenek with strong ngoko kampung accent, soft thin old voice, calm and weary delivery",
+				"Very old frail Indonesian grandma with thick Jawa kampung accent and gentle raspy elderly voice",
+        		"Frail 92-year-old Javanese village grandmother with thick rural kampung accent and tired elderly female voice",
+        		"91+ year old nenek tua with rural Javanese accent and quiet tired elderly female voice"
+    		],
+    		"Logat_Kakek": [
+				"Elderly Javanese kakek with rural accent, hoarse low elderly male voice",
+				"Very old frail Indonesian grandfather with strong Jawa accent and weak weathered old man voice",
+        		"Frail 90-year-old Javanese village grandfather with thick kampung accent and deep tired old man voice",
+        		"89+ year old kakek tua with thick kampung accent and raspy tired elderly male voice"
+    		],
+    		"Mood": [
+        		"Tired and deeply resigned, like someone who has quietly accepted their lonely fate",
+				"Heavy sadness wrapped in sincere pasrah and weary acceptance",
+        		"Gentle sorrow mixed with soft vulnerability and quiet hope",
+        		"Fragile melancholic resignation, tired but still gently longing for kindness"
+    		],
+    		"Physical Action": [
+        		"Gently holding the miniature with both frail hands while looking at it with tired eyes",
+        		"Slowly touching the carved details with shaky fingers, then pausing wearily",
+        		"Keeping both hands on the object with a quiet tired and resigned gaze",
+        		"Holding the miniature with both frail hands, then slowly opening palms upward in a soft pleading gesture while looking at the camera with weary eyes"
             ]
         }
 
@@ -2239,17 +2140,18 @@ def tampilkan_halaman():
                 f"- Minimal but natural elderly movement with trembling hands\n"
                 f"- Eyes slowly alternate between the miniature mosque and camera with tired expression\n\n"
 
-                f"VOICE PROFILE:\n"
-                f"{logat_final}\n"
-                f"Delivery style: {mood_final}. "
-                f"Weak and tired elderly voice with natural trembling.\n\n"
+				f"VOICE PROFILE:\n"
+				f"{logat_final}\n"
+				f"Delivery style: {mood_final}.\n\n"
 
-                f"SPOKEN DIALOG:\n"
-                f"\"{user_dialog}\"\n\n"
+				f"SPOKEN DIALOG:\n"
+				f"\"{user_dialog}\"\n\n"
 
-                f"DIALOG DELIVERY RULE:\n"
-                f"- AUDIO ONLY. NO TEXT ON SCREEN.\n"
-                f"- Spoken naturally, slow and tired elderly voice\n\n"
+				f"DIALOG DELIVERY RULE:\n"
+				f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
+				f"- Spoken naturally with thick rural Jawa kampung accent.\n"
+				f"- Tired, soft, and fragile elderly voice with gentle trembling.\n"
+				f"- Calm and pasrah delivery with natural pauses.\n\n"
 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
