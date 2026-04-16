@@ -2095,13 +2095,13 @@ def tampilkan_halaman():
                 gender_lock = "Elderly Javanese grandfather."
 
 			# --- ASSEMBLY PROMPT (V.33.4 - FINAL OPTIMIZED) ---
-            GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON RED V-RAPTOR: Razor-sharp optical clarity with extreme micro-detail. "
-                "MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles and liver spots. "
-                "DEEP COLOR PROFILE: Intense organic saturation. Deep warm skin tones with rich blood-undertones (ZERO PALE SKIN). "
-                "CRUSHED BLACKS: High cinematic contrast with heavy, deep shadows and controlled, NON-GLARING highlights. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no white light."
-            )
+			GLOBAL_QUALITY_LOCK = (
+    			"EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Razor-sharp optical clarity with extreme micro-detail. "
+    			"MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles and liver spots. "
+    			"COLOR PROFILE: Vibrant organic saturation. Warm amber skin tones with rich blood-undertones (ZERO PALE SKIN). "
+    			"HIGH CONTRAST: Visible natural film grain, authentic optical depth, and balanced highlights. "
+    			"ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no darkness."
+			)
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
@@ -2119,10 +2119,10 @@ def tampilkan_halaman():
                 f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the object.\n\n"
                 
                 f"LIGHTING & ATMOSPHERE:\n"
-				f"STRICT DEEP SUNSET: Only deep crimson and burnt orange light. "
-				f"NO white light sources. NO sky visibility to prevent glare. "
-				f"CRUSHED BLACKS: Shadow areas must be 100% black to kill any white haze. "
-				f"The light should only hit the character's side, leaving the rest in deep moody darkness.\n\n"
+				f"INTENSE VIBRANT SUNSET: Direct, low-angled golden-orange sunlight that floods the scene. "
+				f"WARM SATURATED GLOW: The light must be intensely warm and reddish, saturating the character's face and the object. "
+				f"NATURAL SHADOWS: Visible shadows that add depth, but NO pitch-black darkness. "
+				f"STRICTLY PROHIBITED: White light, blue tones, grey haze, and total blackness (crushed blacks).\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
@@ -2153,15 +2153,13 @@ def tampilkan_halaman():
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
-                f"NEGATIVE PROMPT:\n"
-				f"cinematic soundtrack, background score, musical atmosphere, reverb, "
-				f"synthetic music, melodic hum, ambient noise, studio reverb, post-production audio, "
-				f"melancholy music, sad violin, pads, audio layers, extra audio tracks, ..."
-				f"background music, BGM, music, instrumental, ambient pads, any music whatsoever"
-                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
-                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
-                f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, smiling, laughing, high angle, low angle, wide shot, "
+				f"NEGATIVE PROMPT:\n"
+				f"NIGHT TIME, darkness, pitch black shadows, silhouetting, moody blue lighting, " # <--- ANTI MALAM
+				f"background music, BGM, soundtrack, cinematic score, melodic pads, violin, piano, " # <--- ANTI MUSIK
+				f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
+				f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
+				f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+				f"blurry, soft focus, smiling, laughing, high angle, low angle, wide shot"
             )
 
             # --- TAMPILKAN HASIL ---
