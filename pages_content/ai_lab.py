@@ -2099,7 +2099,7 @@ def tampilkan_halaman():
                 "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
                 "MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
                 "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
-                "HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
+                "HIGH MICRO-CONTRAST CINEMATIC: Deep contrast with rich tonal separation, enhanced texture definition, and crisp highlight-to-shadow transitions. "
                 "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast."
             )
 
@@ -2111,6 +2111,7 @@ def tampilkan_halaman():
                 f"- EXTREMELY sharp 8K detail on every carving line, fiber, and moist surface imperfection.\n"
                 f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
                 f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
+				f"- Enhanced micro texture contrast: every surface detail pops with clear depth separation and tactile realism.\n"
                 
                 f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
                 f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
@@ -2122,11 +2123,12 @@ def tampilkan_halaman():
                 
             	f"LIGHTING & ATMOSPHERE:\n"
             	f"CONTROLLED GOLDEN HOUR SUNLIGHT: Low-angle warm sunlight during golden hour with soft cinematic diffusion. "
-            	f"BALANCED WARMTH: Rich golden tone with subtle orange accent, but skin tones remain natural and not over-saturated. "
+            	f"BALANCED WARMTH: Rich golden tone with subtle orange accent and slightly elevated saturation, while preserving natural skin realism. "
             	f"SKIN PRIORITY: Warm light enhances blood undertones without turning the skin overly orange or red. "
             	f"DEPTH & SHADOW: Long soft shadows with smooth falloff, preserving texture and detail. "
             	f"NO harsh orange flooding, NO extreme amber cast, NO over-saturation, NO blown highlights.\n\n"
 				f"SUBTLE COLOR CONTRAST: Slight warm highlights with neutral shadow balance for cinematic depth.\n\n"
+				f"COLOR DENSITY BOOST: Slightly increased color depth and saturation with preserved realism, avoiding artificial vibrance.\n\n"
         
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
