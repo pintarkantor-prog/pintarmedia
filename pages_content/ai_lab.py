@@ -1991,17 +1991,17 @@ def tampilkan_halaman():
 		
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
-			"Logat_Nenek": [
-				"Elderly Javanese nenek with strong ngoko kampung accent, soft thin old voice, calm and weary delivery",
-				"Very old frail Indonesian grandma with thick Jawa kampung accent and gentle raspy elderly voice",
-        		"Frail 92-year-old Javanese village grandmother with thick rural kampung accent and tired elderly female voice",
-        		"91+ year old nenek tua with rural Javanese accent and quiet tired elderly female voice"
+    		"Logat_Nenek": [
+        		"Elderly village grandmother with thick rural kampung accent, soft thin old voice, calm and weary delivery",
+        		"Very old frail grandma with gentle Javanese accent and raspy elderly voice",
+        		"Frail 92-year-old grandmother with strong rural kampung accent and tired elderly female voice",
+        		"91+ year old nenek tua with soft natural Indonesian accent and quiet tired elderly voice"
     		],
     		"Logat_Kakek": [
-				"Elderly Javanese kakek with rural accent, hoarse low elderly male voice",
-				"Very old frail Indonesian grandfather with strong Jawa accent and weak weathered old man voice",
-        		"Frail 90-year-old Javanese village grandfather with thick kampung accent and deep tired old man voice",
-        		"89+ year old kakek tua with thick kampung accent and raspy tired elderly male voice"
+        		"Elderly village grandfather with thick rural kampung accent and deep tired old man voice",
+        		"Very old frail kakek with gentle Javanese accent, hoarse low elderly male voice",
+        		"Frail 90-year-old grandfather with strong rural kampung accent and weak weathered old man voice",
+        		"89+ year old kakek tua with soft natural Indonesian accent and raspy tired elderly male voice"
     		],
     		"Mood": [
         		"Tired and deeply resigned, like someone who has quietly accepted their lonely fate",
@@ -2009,12 +2009,13 @@ def tampilkan_halaman():
         		"Gentle sorrow mixed with soft vulnerability and quiet hope",
         		"Fragile melancholic resignation, tired but still gently longing for kindness"
     		],
-    		"Physical Action": [
-        		"Gently holding the miniature with both frail hands while looking at it with tired eyes",
-        		"Slowly touching the carved details with shaky fingers, then pausing wearily",
-        		"Keeping both hands on the object with a quiet tired and resigned gaze",
-        		"Holding the miniature with both frail hands, then slowly opening palms upward in a soft pleading gesture while looking at the camera with weary eyes"
-            ]
+			"Physical Action": [
+        		"Gently pointing at the miniature with one frail finger while looking at it tiredly",
+        		"Slowly tracing the surface of the miniature with shaky fingertips without lifting it",
+        		"Lightly touching the carved details with weak fingers, then pausing wearily",
+        		"Rubbing the edge of the miniature softly with trembling hands while gazing down",
+        		"Slowly raising both frail hands with palms facing up in a soft pleading or apologizing gesture while looking at the camera with tired eyes"
+    		]
         }
 
         # --- UI LAYOUT ---
@@ -2149,9 +2150,9 @@ def tampilkan_halaman():
 
 				f"DIALOG DELIVERY RULE:\n"
 				f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-				f"- Spoken naturally with thick rural Jawa kampung accent.\n"
-				f"- Tired, soft, and fragile elderly voice with gentle trembling.\n"
-				f"- Calm and pasrah delivery with natural pauses.\n\n"
+				f"- Spoken naturally and tired like a real old village elder.\n"
+				f"- Soft and fragile elderly voice with gentle trembling.\n"
+				f"- Calm and pasrah delivery.\n\n"
 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
