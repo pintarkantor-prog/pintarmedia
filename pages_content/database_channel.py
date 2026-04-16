@@ -316,12 +316,12 @@ def tampilkan_database_channel():
 
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### :blue[HP 1] :gray[|] :blue[3] :gray[|] :blue[9] :gray[|] :blue[10] :gray[|] :blue[18]")
+                    st.markdown("##### :blue[HP 1] :gray[|]")
 
                 with c3:
                     st.write("🕌 **KONTEN MASJID AI**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :orange[HP 2] :gray[|] :orange[4 - 8] :gray[|] :orange[11 - 17]")
+                    st.markdown("##### :orange[HP 2 sampai 18] :gray[|]")
 
                 with c4:
                     st.write("🚀 **KONTEN XXX**")
