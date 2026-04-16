@@ -3667,6 +3667,12 @@ def tampilkan_halaman():
                 f"- Spoken naturally and tired like a real old village elder.\n"
                 f"- Soft and fragile elderly voice with gentle trembling.\n"
                 f"- Calm and pasrah delivery with natural pauses.\n\n"
+
+				f"AUDIO CONTROL:\n"
+				f"- ABSOLUTE SILENCE: No background music, no soundtrack, no ambient music, no cinematic scoring.\n"
+				f"- VOICE ONLY: Only the character's natural voice is present.\n"
+				f"- NO ARTIFICIAL AUDIO: No added sound design, no emotional scoring, no enhancement audio.\n"
+				f"- RAW AUDIO: Only raw environmental sound if any, extremely subtle and natural.\n\n"
                 
 				f"OBJECT DETAIL:\n"
 				f"{deskripsi_teknis}\n\n"
