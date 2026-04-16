@@ -1895,9 +1895,408 @@ def tampilkan_halaman():
 					"Visible segmentation reinforces construction without appearing synthetic. "
 					"Balanced color density prevents overly bright or washed-out orange tones. "
 					"The table surface shows neatly cut carrot cubes, shavings, and minimal residue."
+				),
+
+				"Semangka: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from watermelon, firmly placed on a table surface as a large tabletop object with strong physical presence, clearly not a real building but dominating the table. "
+    				"A solid cube form built from large watermelon sections with sharp, precise edges and clean architectural proportions. "
+    				"The outer layer is constructed using overlapping dark green watermelon rind strips, forming a layered kiswah-like surface with subtle natural folds and fabric-like appearance. "
+    				"Clearly visible cutting marks and knife traces along edges and surfaces, emphasizing real handcrafted construction. "
+    				"A thin horizontal band made from pale inner rind wraps cleanly around the upper section. "
+    				"A slightly elevated rectangular door is carved with depth using inner rind contrast, subtle but clearly readable. "
+    				"Visually heavy, dense, and solid presence, with strong structural clarity and dominant cube silhouette. "
+    				"Large fruit segments are visibly assembled, not small fragments, reinforcing a bold and substantial build. "
+    				"The wooden table surface is scattered with watermelon debris: rind pieces, flesh fragments, seeds, and juice residue."
+				),
+
+				"Semangka: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from watermelon, placed on a table as a large, heavy tabletop object with raw physical presence, clearly not a real building but substantial in size. "
+    				"A strong cubic form assembled from thick, roughly cut watermelon blocks with slightly imperfect alignment but solid structural integrity. "
+    				"The outer surface is composed of dark rind pieces arranged in a raw layered pattern, forming a kiswah-like appearance with organic irregularity. "
+    				Prominent knife cuts, carving marks, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"A horizontal band formed from carved inner rind runs across the upper section, slightly uneven but clearly defined. "
+    				"The door is carved manually with visible depth, slightly elevated, and integrated into the rough structure. "
+    				Each component is visibly hand-cut and assembled using large fruit chunks, avoiding small fragmented pieces. "
+    				Surface texture is rich with fiber, moisture, and natural imperfections, creating a raw, tactile, and heavy visual feel. "
+    				"The table surface shows scattered watermelon debris and cutting remnants."
+				),
+
+				"Semangka: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from watermelon, placed on a table as a large tabletop object with clean, controlled presence, clearly not a real building but visually substantial. "
+    				"A perfectly proportioned cube formed from carefully cut watermelon sections with extremely sharp edges and smooth planar surfaces. "
+    				"The outer surface uses neatly aligned dark green rind panels arranged in clean horizontal layering, creating a refined kiswah-like appearance. "
+    				Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
+    				"A thin, perfectly straight horizontal band made from pale inner rind wraps seamlessly around the upper section. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth contrast. "
+    				All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
+    				Surface texture remains natural with fine organic detail, but controlled and clean, emphasizing premium construction quality. "
+    				"The table surface contains subtle watermelon debris consistent with precise cutting work."
+				),
+
+				"Melon: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from melon, firmly placed on a table as a large tabletop object with strong physical presence, clearly not a real building but dominating the table. "
+    				"A solid cube form constructed from dense melon sections with clean geometry and stable proportions. "
+    				"The outer rind is arranged in overlapping layered segments, forming a smooth kiswah-like surface with subtle organic folds and gentle curvature. "
+    				"Clearly visible knife marks and controlled carving traces appear along edges and surfaces, emphasizing real handcrafted construction. "
+    				"A pale inner melon layer forms a thin horizontal band wrapping around the upper section with consistent thickness and clean alignment. "
+    				"A slightly elevated rectangular door is carved with depth using natural contrast between rind and inner flesh. "
+    				"Large fruit sections are visibly assembled, not small fragments, reinforcing a strong and readable structure. "
+    				"Surface shows fine organic texture, light moisture, and subtle fiber detail while maintaining clean architectural clarity. "
+    				"The table surface is scattered with melon debris including rind fragments, flesh pieces, seeds, and light juice residue."
+				),
+
+				"Melon: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from melon, placed on a table as a large, heavy tabletop object with bold physical presence. "
+    				"A strong cubic form assembled from thick, roughly cut melon chunks with slightly imperfect alignment but solid structural integrity. "
+    				"The outer surface uses rind pieces arranged in a raw layered pattern, forming a kiswah-like appearance with natural irregularity. "
+    				"Prominent knife cuts, carving marks, dents, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"A horizontal band is formed from carved inner melon strips running across the upper section with slightly uneven but readable alignment. "
+    				"The door is manually carved with visible depth and slight asymmetry, integrated naturally into the rough structure. "
+    				"Each component is visibly hand-cut using large fruit chunks, avoiding overly small fragmented pieces. "
+    				"Surface texture is rich with organic fiber, moisture variation, and natural imperfections, creating a raw and tactile feel. "
+    				"The table surface shows scattered melon debris and cutting remnants."
+				),
+
+				"Melon: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from melon, placed on a table as a large tabletop object with clean and controlled architectural presence. "
+    				"A perfectly proportioned cube formed from carefully cut melon sections with extremely sharp edges and smooth planar surfaces. "
+    				"The outer surface uses neatly aligned rind panels arranged in precise horizontal layering, forming a refined kiswah-like exterior. "
+    				"Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship rather than rough cutting. "
+    				"A thin horizontal band made from pale inner melon wraps seamlessly around the upper section with perfectly straight alignment. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth contrast. "
+    				"All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
+    				"Surface texture remains natural with fine organic detail, but controlled and clean, emphasizing premium construction quality. "
+    				"The table surface contains subtle melon debris consistent with precise cutting work."
+				),
+
+				"Kelapa: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from coconut, firmly placed on a table as a large tabletop object with strong physical presence, clearly not a real building but dominating the table. "
+    				"A solid cube form constructed from dense coconut sections with strong geometric clarity and sharp edges. "
+    				"The outer surface uses layered coconut husk fibers arranged in overlapping strips, forming a textured kiswah-like surface with subtle natural folds and fiber irregularity. "
+    				"Clearly visible cutting marks, carving traces, and rough fiber edges emphasize real handcrafted construction. "
+    				"A subtle horizontal band is formed using lighter inner coconut layers, wrapping cleanly around the upper section. "
+    				"A slightly elevated rectangular door is carved with depth using natural contrast between inner and outer coconut layers. "
+    				"Large coconut segments are visibly assembled, not small fragments, reinforcing a bold and substantial build. "
+    				"Surface is rich with fibrous detail, dryness, and tactile irregularities while maintaining structural clarity. "
+    				"The table surface is scattered with coconut debris including husk fibers, shell fragments, and dust-like residue."
+				),
+
+				"Kelapa: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from coconut, placed on a table as a large and heavy tabletop object with raw physical presence. "
+    				"A strong cubic form assembled from thick, roughly cut coconut chunks with slightly imperfect alignment but solid structural integrity. "
+    				"The outer surface is composed of coarse coconut husk pieces arranged in a rough layered pattern, forming a rugged kiswah-like appearance with organic irregularity. "
+    				"Prominent knife cuts, deep carving marks, cracks, and fiber tears are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"A horizontal band is carved from lighter inner coconut layers and runs across the upper section with slightly uneven but readable alignment. "
+    				"The door is carved manually with visible depth, slightly elevated, and integrated into the rough structure with natural asymmetry. "
+    				"Each component is visibly hand-cut and assembled using large coconut chunks, avoiding small fragmented pieces. "
+    				"Surface is extremely textured, fibrous, and tactile with strong depth and roughness across every section. "
+    				"The table surface shows scattered coconut debris including husk fibers, shell pieces, and fine organic dust."
+				),
+
+				"Kelapa: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from coconut, placed on a table as a large tabletop object with clean and controlled architectural presence. "
+    				"A precisely proportioned cube formed from carefully cut coconut sections with sharp edges and clean planar surfaces. "
+    				"The outer husk is arranged in neat, controlled layers forming a refined kiswah-like exterior with consistent alignment. "
+    				"Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
+    				"A thin horizontal band made from lighter inner coconut layers wraps seamlessly around the upper section with straight alignment. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth contrast. "
+    				"All components are assembled from medium-to-large coconut sections with precise alignment and no chaotic fragmentation. "
+    				"Surface texture remains natural with fine fiber detail, but controlled and clean, emphasizing premium construction quality. "
+    				"The table surface contains subtle coconut debris consistent with precise cutting work."
+				),
+
+				"Alpukat: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from avocado, firmly placed on a table as a large tabletop object with strong physical presence, clearly not a real building but dominating the table. "
+    				"A solid cube form constructed from dense avocado sections with clean edges and balanced geometric proportions. "
+    				"The dark outer skin forms a natural kiswah-like surface with subtle organic texture and slight matte appearance. "
+    				"Clearly visible knife marks and carving traces appear along edges and surfaces, emphasizing real handcrafted construction. "
+    				"A thin horizontal band is formed using lighter inner avocado flesh, wrapping around the upper section with controlled alignment. "
+    				"A slightly elevated rectangular door is carved with depth using contrast between outer skin and inner flesh. "
+    				"Large fruit sections are visibly assembled, not small fragments, reinforcing structural clarity and scale. "
+    				"Surface shows natural softness, subtle moisture, and organic imperfections while maintaining architectural readability. "
+    				"The table surface is scattered with avocado debris including skin fragments and flesh residue."
+				),
+
+				"Alpukat: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from avocado, placed on a table as a large and heavy tabletop object with bold physical presence. "
+    				"A strong cubic form assembled from thick, roughly cut avocado chunks with slightly imperfect alignment but solid structural integrity. "
+    				"The outer surface uses dark avocado skin pieces arranged in a raw layered pattern, forming a natural kiswah-like appearance with organic irregularity. "
+    				"Prominent knife cuts, dents, soft deformation, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"A horizontal band is formed from carved inner avocado flesh running across the upper section with slightly uneven but readable alignment. "
+    				"The door is manually carved with visible depth and slight asymmetry, integrated naturally into the rough structure. "
+    				"Each component is visibly hand-cut using large fruit chunks, avoiding overly small fragmented pieces. "
+    				"Surface texture is soft, organic, and slightly moist with visible imperfections, creating a tactile and natural visual feel. "
+    				"The table surface shows scattered avocado debris and cutting remnants."
+				),
+
+				"Alpukat: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from avocado, placed on a table as a large tabletop object with clean and controlled architectural presence. "
+    				"A perfectly proportioned cube formed from carefully cut avocado sections with sharp edges and smooth planar surfaces. "
+    				"The outer skin is arranged in neat horizontal layers forming a refined kiswah-like exterior with consistent alignment. "
+    				"Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
+    				"A thin horizontal band made from lighter inner avocado flesh wraps seamlessly around the upper section with straight alignment. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth contrast. "
+    				"All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
+    				"Surface texture remains natural with fine organic detail, but controlled and clean, emphasizing premium construction quality. "
+    				"The table surface contains subtle avocado debris consistent with precise cutting work."
+				),
+
+				"Nanas: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from pineapple, firmly placed on a table as a large tabletop object with strong physical presence. "
+    				"A solid cube form constructed from dense pineapple sections with clear geometry and stable proportions. "
+    				"The outer surface uses pineapple skin arranged in layered segments, forming a patterned kiswah-like surface with strong natural texture. "
+    				"Clearly visible cutting marks and carving traces appear across edges and surfaces, emphasizing handcrafted assembly. "
+    				"A horizontal band is formed from inner pineapple flesh, wrapping around the upper section with consistent alignment. "
+    				"A slightly elevated door is carved with visible depth using contrast between outer skin and inner flesh. "
+    				"Large fruit segments are visibly assembled, not small fragments, reinforcing a bold and readable structure. "
+    				"Surface shows strong geometric pattern, fiber detail, and natural moisture variation. "
+    				"The table surface is scattered with pineapple debris including skin fragments and juice residue."
+				),
+
+				"Nanas: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from pineapple, placed on a table as a large and heavy tabletop object with bold presence. "
+    				"A strong cubic form assembled from thick, roughly cut pineapple chunks with slightly imperfect alignment but solid structure. "
+    				"The outer surface uses rough pineapple skin pieces arranged irregularly, forming a rugged kiswah-like appearance. "
+    				"Prominent knife cuts, carving marks, dents, and uneven edges are clearly visible across all surfaces. "
+    				"A horizontal band is formed from carved inner pineapple sections with slightly uneven alignment. "
+    				"The door is manually carved with visible depth and integrated into the structure with natural asymmetry. "
+    				"Each component is visibly hand-cut using large fruit chunks. "
+    				"Surface texture is highly pronounced with strong pattern repetition, moisture, and organic irregularities. "
+    				"The table surface shows scattered pineapple debris and cutting remnants."
+				),
+
+				"Nanas: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from pineapple, placed on a table as a large tabletop object with clean and controlled architectural presence. "
+    				"A precisely proportioned cube formed from carefully cut pineapple sections with sharp edges and structured surfaces. "
+    				"The outer skin is arranged in clean, aligned patterns forming a refined kiswah-like exterior. "
+    				"Visible cutting marks are minimal but present, indicating controlled craftsmanship. "
+    				"A thin horizontal band from inner pineapple wraps cleanly around the upper section. "
+    				"A well-defined elevated door is carved with crisp edges and subtle depth. "
+    				"All components are assembled from medium-to-large fruit sections with precise alignment. "
+    				"Surface texture remains rich but controlled, emphasizing premium construction quality. "
+    				"The table surface contains subtle pineapple debris consistent with precise cutting work."
+				),
+
+				"Terong: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from eggplant, firmly placed on a table as a large tabletop object with strong cinematic presence. "
+    				"A solid cube form constructed from large eggplant sections with clean edges and balanced proportions. "
+    				"The deep purple skin forms a smooth kiswah-like surface with subtle reflective quality and organic texture. "
+    				"Clearly visible cutting marks and carving traces appear along edges, emphasizing handcrafted assembly. "
+    				"A thin horizontal band is formed using lighter inner flesh, wrapping around the upper section. "
+    				"A slightly elevated door is carved with depth using subtle tonal contrast. "
+    				"Large fruit segments are visibly assembled, reinforcing structural clarity. "
+    				"Surface appears smooth, dense, and slightly glossy with natural imperfections. "
+    				"The table surface shows minimal eggplant debris and subtle moisture residue."
+				),
+
+				"Terong: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from eggplant, placed on a table as a large and heavy tabletop object with bold presence. "
+    				"A strong cubic form assembled from thick eggplant chunks with visible rough cutting and slight deformation. "
+    				"The outer surface is irregular with uneven edges, dents, and carving marks. "
+    				"Prominent knife cuts and surface disruption emphasize raw handcrafted construction. "
+    				"A horizontal band is formed with uneven but visible structure. "
+    				"The door is carved manually with depth and asymmetry. "
+    				"Surface is smooth but interrupted by organic imperfections and cutting traces. "
+    				"The table surface shows light residue and subtle organic marks."
+				),
+
+				"Terong: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from eggplant, placed on a table as a large tabletop object with refined geometric clarity. "
+    				"A precisely formed cube with sharp edges and smooth planar surfaces. "
+    				"The dark outer skin is arranged cleanly forming a refined kiswah-like exterior. "
+    				"Visible cutting marks are minimal but present, indicating controlled precision. "
+    				"A thin horizontal band wraps cleanly around the upper section. "
+    				"A well-defined elevated door is carved with crisp edges. "
+    				"Surface remains smooth with subtle organic detail. "
+    				"The table surface contains minimal debris consistent with precise cutting."
+				),
+
+				"Mangga: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from mango, firmly placed on a table as a large tabletop object with strong visual presence. "
+    				"A solid cube form constructed from dense mango sections with clean geometry. "
+    				"The outer skin forms a kiswah-like surface with natural color variation and organic texture. "
+    				"Clearly visible cutting marks and carving traces emphasize handcrafted assembly. "
+    				"A thin horizontal band is formed using lighter inner mango flesh. "
+    				"A slightly elevated door is carved with visible depth. "
+    				"Large fruit segments are visibly assembled. "
+    				"Surface shows moisture, fiber detail, and organic variation. "
+    				"The table surface is scattered with mango debris and juice residue."
+				),
+
+				"Mangga: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from mango, placed on a table as a large and heavy tabletop object with bold presence. "
+    				"A strong cubic form assembled from thick mango chunks with rough cutting and visible imperfections. "
+    				"The outer surface is irregular with uneven edges and carving marks. "
+    				"Prominent knife cuts and dents emphasize raw construction. "
+    				"A horizontal band is formed with slight irregularity. "
+    				"The door is carved manually with depth and asymmetry. "
+    				"Surface is rich with moisture and texture variation. "
+    				"The table surface shows scattered mango debris."
+				),
+
+				"Mangga: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from mango, placed on a table as a large tabletop object with clean architectural clarity. "
+    				"A precisely formed cube with sharp edges and smooth surfaces. "
+    				"The outer skin is arranged in controlled layers forming a refined exterior. "
+    				"Minimal cutting marks remain visible. "
+    				"A thin horizontal band wraps cleanly around the upper section. "
+    				"A well-defined door is carved with crisp edges. "
+    				"Surface remains controlled with natural detail. "
+    				"The table surface contains subtle mango debris."
+				),
+
+				"Pisang: Kabah Layered Kiswah Hybrid": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from banana, firmly placed on a table as a large tabletop object with strong physical presence. "
+    				"The outer surface is constructed from layered banana peels arranged in overlapping sheets, forming a fabric-like kiswah appearance with visible folds. "
+    				"A cube structure is maintained using dense banana segments underneath. "
+    				"Clearly visible cutting marks and layering seams emphasize handcrafted construction. "
+    				"A horizontal band is subtly formed using inner banana layers. "
+    				"A slightly elevated door is carved with visible depth. "
+    				"Surface is soft, organic, and layered with natural imperfections. "
+    				"The table surface shows banana peel fragments and residue."
+				),
+
+				"Pisang: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from banana, placed on a table as a large and heavy tabletop object with bold presence. "
+    				"A cube form built from thick banana chunks with visible rough cutting and deformation. "
+    				"Outer layers are uneven with folds, dents, and carving marks. "
+    				"Prominent knife traces emphasize raw construction. "
+    				"A horizontal band is formed with slight irregularity. "
+    				"The door is carved manually with visible depth. "
+    				"Surface is soft, dense, and organic with visible imperfections. "
+    				"The table surface shows scattered banana debris."
+				),
+
+				"Pisang: Kabah Precision Layered": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from banana, placed on a table as a large tabletop object with controlled structure. "
+    				"The outer surface uses carefully layered banana peel forming a clean and organized exterior with subtle folds. "
+    				"A precise cube structure is maintained with controlled alignment. "
+    				"Minimal cutting marks remain visible. "
+    				"A thin horizontal band wraps cleanly around the upper section. "
+    				"A well-defined door is carved with subtle depth. "
+    				"Surface remains soft yet structured with natural detail. "
+    				"The table surface contains subtle banana residue."
+				),
+
+				"Jeruk: Kabah Hybrid Monolithic Kiswah": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from orange fruit, firmly placed on a table as a large tabletop object with strong physical presence, clearly not a real building but dominating the table. "
+    				"A solid cube form constructed from tightly packed orange segments with clean geometry and stable proportions. "
+    				"The outer surface is formed using orange peel arranged in overlapping layered strips, creating a kiswah-like surface with subtle natural folds and textured pores. "
+    				"Clearly visible cutting marks and knife traces appear along edges and peel layers, emphasizing real handcrafted construction. "
+    				"A thin horizontal band is formed using pale inner pith, wrapping around the upper section with consistent alignment and soft contrast. "
+    				"A slightly elevated rectangular door is carved with depth using contrast between peel and inner fruit layers. "
+    				"Large fruit sections are visibly assembled, not overly fragmented, reinforcing structural clarity and bold construction. "
+    				"Surface shows natural citrus fiber, moisture, and pulp detail while maintaining clear architectural readability. "
+    				"The table surface is scattered with orange debris including peel strips, pulp fragments, juice droplets, and seeds."
+				),
+
+				"Jeruk: Kabah Massive Craftsmanship": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from orange fruit, placed on a table as a large and heavy tabletop object with bold physical presence. "
+    				"A strong cubic form assembled from thick orange chunks and compressed segments with slightly imperfect alignment but solid structural integrity. "
+    				"The outer surface uses rough orange peel pieces arranged in a raw layered pattern, forming a rugged kiswah-like appearance with organic irregularity. "
+    				"Prominent knife cuts, tearing marks, dents, and uneven edges are clearly visible across all surfaces, emphasizing bold handmade craftsmanship. "
+    				"A horizontal band is formed from torn inner pith and pulp layers running across the upper section with slightly uneven but readable alignment. "
+    				"The door is manually carved with visible depth and slight asymmetry, integrated naturally into the rough structure. "
+    				"Each component is visibly hand-cut using large fruit chunks, avoiding overly small fragmented pieces. "
+    				"Surface texture is rich with citrus fibers, pulp strands, moisture, and juice residue, creating a raw and tactile visual feel. "
+    				"The table surface shows scattered orange debris and cutting remnants."
+				),
+
+				"Jeruk: Kabah Precision Architectural": (
+    				"A hyper-realistic handcrafted Ka'bah structure made entirely from orange fruit, placed on a table as a large tabletop object with clean and controlled architectural presence. "
+    				"A perfectly proportioned cube formed from carefully arranged orange segments with sharp edges and smooth planar surfaces. "
+    				"The outer surface uses neatly aligned orange peel panels arranged in precise horizontal layering, forming a refined kiswah-like exterior with consistent texture. "
+    				"Visible cutting marks are minimal but still present, clean and controlled, indicating precise craftsmanship. "
+    				"A thin horizontal band made from pale pith wraps seamlessly around the upper section with straight alignment and subtle contrast. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and controlled depth. "
+    				"All components are assembled from medium-to-large fruit sections with precise alignment and no chaotic fragmentation. "
+    				"Surface texture remains natural with fine citrus detail, but controlled and clean, emphasizing premium construction quality. "
+    				"The table surface contains subtle orange debris consistent with precise cutting work."
+				),
+
+				"Semangka + Jagung: Kabah Hybrid Structural Block": (
+    				"A hyper-realistic handcrafted Ka'bah structure built from precisely cut watermelon flesh blocks, firmly placed on a table as a large tabletop object with strong physical presence. "
+    				"The cube form is constructed from neatly arranged rectangular watermelon blocks, aligned in a clear modular grid while maintaining visible natural fiber and moisture texture. "
+    				"Each block shows clean but visible knife cuts, with slight imperfections that reveal real handcrafted assembly. "
+    				"The outer surface is partially wrapped with dark green watermelon rind panels, forming a structured kiswah-like layer with subtle organic variation. "
+    				"Sweet corn kernels are embedded along the upper horizontal band, forming a distinct belt-like accent with warm yellow contrast. "
+    				"A slightly elevated door is carved directly into the watermelon blocks with visible depth and structural clarity. "
+    				"The block arrangement remains readable, showing clear stacking logic and weight distribution. "
+    				"Surface detail highlights natural fruit fibers, moisture, and organic imperfections without losing geometric precision. "
+    				"The table surface is scattered with watermelon debris and loose corn kernels."
+				),
+
+				"Melon + Kacang Ijo: Kabah Precision Modular Grid": (
+    				"A hyper-realistic handcrafted Ka'bah structure constructed from clean rectangular melon flesh blocks, placed on a table as a large tabletop object with controlled architectural presence. "
+    				"The cube is built using neatly aligned melon blocks forming a precise modular grid, with sharp edges and consistent spacing. "
+    				"Each block retains visible cutting marks and fine fruit fiber texture, emphasizing real material authenticity. "
+    				"The outer surface uses thin rind panels layered in horizontal alignment, forming a refined kiswah-like exterior. "
+    				"Green mung beans are carefully arranged along the upper section to form a subtle horizontal band, adding fine granular detail and contrast. "
+    				"A well-defined elevated door is carved cleanly with crisp edges and subtle depth. "
+    				All components are medium-to-large blocks, avoiding fragmentation while maintaining clarity of structure. "
+    				"Surface remains clean yet organic, balancing precision and natural texture. "
+    				"The table surface contains melon debris and scattered mung beans."
+				),
+
+				"Alpukat + Kedelai: Kabah Dense Organic Structure": (
+    				"A hyper-realistic handcrafted Ka'bah structure made from avocado flesh blocks, placed on a table as a large tabletop object with dense and grounded physical presence. "
+    				"The cube is assembled from thick avocado blocks arranged in a stable stacked formation, with clearly visible cut surfaces and soft organic edges. "
+    				"The dark avocado skin forms a natural kiswah-like outer layer, partially covering the block structure. "
+    				"Soybeans are embedded along the upper band and around structural seams, adding granular texture and subtle tonal contrast. "
+    				"Knife marks and slight deformation are visible across the avocado blocks, emphasizing raw handcrafted assembly. "
+    				"A slightly elevated door is carved with depth using contrast between skin and inner flesh. "
+    				"The structure appears heavy and tactile, with visible layering and compression between blocks. "
+    				"Surface texture shows softness, moisture, and organic imperfections. "
+    				"The table surface shows avocado residue and scattered soybeans."
+				),
+
+				"Nanas + Jagung: Kabah Massive Textured Build": (
+    				"A hyper-realistic handcrafted Ka'bah structure built from thick pineapple flesh blocks, placed on a table as a large tabletop object with bold and heavy presence. "
+    				"The cube is formed from large rectangular pineapple blocks with visible geometric cuts and strong structural stacking. "
+    				"The outer surface retains pineapple skin segments arranged in rough alignment, forming a textured kiswah-like layer. "
+    				"Sweet corn kernels are embedded across the upper horizontal band and structural joints, enhancing visual contrast and material variation. "
+    				"Prominent cutting marks and carving traces are clearly visible across all surfaces. "
+    				"A manually carved elevated door is integrated into the block structure with visible depth and asymmetry. "
+    				"The block arrangement is bold and readable, with strong visual weight and texture. "
+    				"Surface shows pronounced fiber, moisture, and organic irregularity. "
+    				"The table surface contains pineapple debris and scattered corn kernels."
+				),
+
+				"Terong + Kedelai: Kabah Dark Cinematic Structure": (
+    				"A hyper-realistic handcrafted Ka'bah structure built from eggplant flesh blocks, placed on a table as a large tabletop object with strong cinematic presence. "
+    				"The cube is constructed from smooth rectangular eggplant blocks, aligned in a clean modular arrangement with visible cutting edges. "
+    				"The deep purple skin forms a sleek kiswah-like outer surface with subtle reflectivity and dark tonal depth. "
+    				"Soybeans are embedded along the upper horizontal band, forming a soft contrasting detail against the dark surface. "
+    				"Knife marks and fine carving traces are visible along edges, maintaining handcrafted realism. "
+    				"A clean elevated door is carved with controlled depth and sharp definition. "
+    				"The structure balances smooth surfaces with subtle organic imperfections. "
+    				"The table surface shows minimal eggplant residue and scattered soybeans."
+				),
+
+				"Mangga + Kacang Ijo: Kabah Contrast Structured Build": (
+    				"A hyper-realistic handcrafted Ka'bah structure made from mango flesh blocks, placed on a table as a large tabletop object with strong visual contrast. "
+    				"The cube is assembled from clean rectangular mango blocks arranged in a stable grid with visible cutting lines. "
+    				"The outer surface uses mango skin panels layered horizontally, forming a structured kiswah-like exterior. "
+    				"Mung beans are arranged along the upper band and around edges, adding fine granular texture and color contrast. "
+    				"Visible knife marks and slight organic irregularities appear across all surfaces. "
+    				"A slightly elevated door is carved with visible depth and structural clarity. "
+    				"The block system remains readable and balanced, with clear stacking logic. "
+    				"Surface shows moisture, fiber, and natural variation. "
+    				"The table surface shows mango residue and scattered mung beans."
+				),
+
+				"Pisang + Jagung: Kabah Layered Soft Structure": (
+    				"A hyper-realistic handcrafted Ka'bah structure made from banana flesh blocks, placed on a table as a large tabletop object with soft yet dense presence. "
+    				"The cube is constructed from rectangular banana blocks arranged in layered stacking, with visible cut surfaces and slight deformation. "
+    				"The outer surface incorporates banana peel layers forming a soft kiswah-like covering with natural folds. "
+    				"Sweet corn kernels are embedded along the upper band and structural seams, adding contrast and texture. "
+    				"Knife marks and compression lines are visible across the banana blocks, emphasizing handcrafted assembly. "
+    				"A carved elevated door is integrated with soft edges and visible depth. "
+    				"The structure appears organic yet controlled, with clear block segmentation. "
+    				"Surface shows softness, moisture, and natural imperfections. "
+    				"The table surface contains banana residue and scattered corn kernels."
 				)
 				
-
             },        
             "📦 Miniatur Bahan Sederhana": {
 				"Koran Bekas: Layered Panel": (
