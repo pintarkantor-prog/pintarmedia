@@ -2100,7 +2100,7 @@ def tampilkan_halaman():
                 "MANDATORY: Hyper-detailed elderly skin texture with deep organic wrinkles and liver spots. "
                 "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
                 "HIGH CINEMATIC CONTRAST: Sharp balanced highlights, natural film grain, authentic optical depth. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no orange tint."
+                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast."
             )
 
             final_ai_prompt = (
@@ -2126,6 +2126,7 @@ def tampilkan_halaman():
             	f"SKIN PRIORITY: Warm light enhances blood undertones without turning the skin overly orange or red. "
             	f"DEPTH & SHADOW: Long soft shadows with smooth falloff, preserving texture and detail. "
             	f"NO harsh orange flooding, NO extreme amber cast, NO over-saturation, NO blown highlights.\n\n"
+				f"SUBTLE COLOR CONTRAST: Slight warm highlights with neutral shadow balance for cinematic depth.\n\n"
         
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
