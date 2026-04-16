@@ -1298,6 +1298,42 @@ def tampilkan_halaman():
     				"Monumental scale presence, grand architectural mass, strong silhouette dominance, highly structured composition. "
     				"Ultra high visual clarity, extreme sharpness, hyper-dense detail distribution, ultra crisp edges, strong depth definition, high surface contrast and strong edge separation, rich natural green and yellow tones with subtle variation, enhanced material contrast between leaf and seed textures, highly refined texture fidelity, realistic organic surface response, micro-surface irregularities, fine grain detail enhancement, vivid yet natural color without artificial glow. "
     				"The wooden table surface is scattered only with organic debris: corn kernels, mung beans, and banana leaf fragments."
+				),
+
+				"Semangka: Susun Struktur": (
+    				"A hyper-realistic miniature mosque constructed from multiple watermelon components, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"Clearly structured mosque architecture with a large central dome, supporting domes, and tall symmetrical minarets built from carefully arranged pieces. "
+    				"The silhouette strongly reads as a traditional mosque with clear proportions and layered structural hierarchy. "
+    				"Each architectural section is formed from precisely cut watermelon segments, creating visible construction logic and layered assembly instead of a single carved mass. "
+    				"Dark green rind panels act as outer structural surfaces, while selectively exposed deep red flesh appears in controlled sections for contrast. "
+    				"Balanced color separation between rind and flesh enhances readability without excessive brightness or saturation. "
+    				"Highly detailed geometric assembly with precise alignment, crisp edges, and visible joints between segments, reinforcing the constructed look. "
+    				"Ultra high clarity, strong micro-texture visibility, sharp surface definition, high surface separation, realistic organic material response, fine grain detail, controlled reflectivity, no artificial glow, no color washout. "
+    				"The wooden table surface is scattered only with watermelon debris: small rind fragments, flesh pieces, seeds, and subtle juice residue with controlled reflectivity."
+				),
+
+				"Semangka: Craftsmanship": (
+    				"A hyper-realistic miniature mosque constructed from hand-cut watermelon pieces, firmly assembled on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The structure follows a traditional mosque architecture with a central dome, supporting domes, and symmetrical minarets built from manually shaped components. "
+    				"Each element shows visible craftsmanship, with slightly uneven cuts, knife marks, and subtle imperfections that reflect real hand carving. "
+    				"Dark green rind is used as structural outer surfaces, while exposed deep red flesh appears naturally within the construction. "
+    				"Cut surfaces show realistic moisture, fine fiber texture, and natural fruit grain with tactile detail. "
+    				"Edges are sharp but not perfect, maintaining authenticity of manual work rather than machine precision. "
+    				"Strong but controlled color contrast between rind and flesh enhances readability without excessive brightness. "
+    				"High micro-texture detail, visible cutting marks, organic surface irregularities, realistic moisture response, no artificial smoothing, no plastic appearance. "
+    				"The wooden table surface is scattered only with watermelon debris: irregular rind cuts, flesh fragments, seeds, and subtle juice traces with controlled reflectivity."
+				),
+
+				"Semangka: Gaya Lego": (
+    				"A hyper-realistic miniature mosque constructed from modular watermelon blocks, precisely arranged on a rustic wooden table surface, with the base clearly resting on the table. "
+    				"The structure follows a clear mosque form with domes and minarets built from repeated geometric fruit segments. "
+    				"Each block is cut into clean, uniform shapes, forming a structured modular assembly similar to building blocks, while still retaining organic fruit properties. "
+    				"Dark green rind panels form the outer surfaces, while inner sections reveal deep red flesh in controlled geometric patterns. "
+    				"Edges are clean and precise, but still show natural fruit texture, moisture, and subtle fiber detail to maintain realism. "
+    				"The modular repetition creates strong visual rhythm and architectural clarity. "
+    				"Balanced color separation with controlled saturation prevents artificial appearance. "
+    				"High clarity, crisp edges, strong surface separation, visible block segmentation, realistic organic texture response, no plastic look, no synthetic material impression. "
+    				"The wooden table surface is scattered with neatly cut cube fragments, rind pieces, seeds, and minimal juice residue with controlled reflectivity."
 				)
 				
 
@@ -1334,661 +1370,843 @@ def tampilkan_halaman():
 				"The atmosphere feels grounded and calm, with balanced lighting and controlled highlights. "
 				"The subject remains visually dominant with natural depth separation from the environment."
 			),
-            "Kebun Buah Naga Biasa": (
-                "The character is seated on a low weathered wooden crate in a sprawling natural dragon fruit plantation on a normal day. "
-                "Dark brown earth with natural uneven terrain. "
-                "Long climbing dragon fruit vines grow on wooden poles with ripe magenta fruits hanging. "
-                "In the far background, a few villagers can be seen harvesting dragon fruit. "
-                "Tropical climbing vine plantation atmosphere."
-            ),
-            "Kebun Buah Naga dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the dragon fruit plantation. "
-                "Long climbing dragon fruit vines grow around the bamboo structure with ripe magenta fruits hanging. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Intimate plantation atmosphere near the bamboo gubuk."
-            ),
-            "Kebun Melon Biasa": (
-                "The character is seated on a low weathered wooden crate in a sprawling natural melon field on a normal day. "
-                "Dark brown earth with natural uneven terrain. "
-                "Round ripe melons are scattered organically on trailing vines. "
-                "In the far background, a few villagers can be seen harvesting melons. "
-                "Open melon patch farm atmosphere."
-            ),
-            "Kebun Melon dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the melon field. "
-                "Round ripe melons are scattered organically around the gubuk area on trailing vines. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Sheltered melon patch atmosphere near the gubuk."
-            ),
-            "Kebun Labu Biasa": (
-                "The character is seated on a low weathered wooden crate in a sprawling natural pumpkin field on a normal day. "
-                "Dark brown earth with natural uneven terrain. "
-                "Large ripe pumpkins are scattered organically on thick vines. "
-                "In the far background, a few villagers can be seen harvesting pumpkins. "
-                "Open pumpkin patch farm atmosphere."
-            ),
-            "Kebun Labu dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the pumpkin field. "
-                "Large ripe pumpkins are scattered organically around the gubuk area on thick vines. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Sheltered pumpkin patch atmosphere near the gubuk."
-            ),
-            "Kebun Rambutan Biasa": (
-                "The character is seated on a low weathered wooden crate under rambutan trees in a natural village orchard on a normal day. "
-                "Rambutan fruits hang in clusters from the trees with bright red spiky skin. "
-                "Fallen rambutan fruits and leaves are scattered on the ground. "
-                "In the far background, a few villagers can be seen harvesting rambutan. "
-                "Shady tropical orchard atmosphere."
-            ),
-            "Kebun Rambutan dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk under rambutan trees. "
-                "Rambutan fruits hang in clusters from the trees with bright red spiky skin. "
-                "Fallen rambutan fruits and leaves are scattered around the gubuk area. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Shady orchard atmosphere near the bamboo gubuk."
-            ),
-            "Kebun Pepaya Biasa": (
-                "The character is seated on a low weathered wooden crate in a natural papaya plantation on a normal day. "
-                "Tall papaya trees with large green and yellow fruits hanging from the trunks. "
-                "Fallen papaya leaves and some ripe fruits are scattered on the ground. "
-                "In the far background, a few villagers can be seen harvesting papaya. "
-                "Tall plantation atmosphere."
-            ),
-            "Kebun Pepaya dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the papaya plantation. "
-                "Tall papaya trees with large green and yellow fruits hanging near the gubuk. "
-                "Fallen papaya leaves and some ripe fruits are scattered around the gubuk area. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Tall plantation atmosphere near the gubuk."
-            ),
-            "Kebun Pisang Biasa": (
-                "The character is seated on a low weathered wooden crate in a natural banana plantation on a normal day. "
-                "Tall banana trees with large green and yellow banana bunches hanging. "
-                "Fallen banana leaves and some ripe bananas are scattered on the ground. "
-                "In the far background, a few villagers can be seen harvesting bananas. "
-                "Tall banana grove atmosphere."
-            ),
-            "Kebun Pisang dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate beside a simple fresh green bamboo gubuk in the banana plantation. "
-                "Tall banana trees with large green and yellow banana bunches hanging near the gubuk. "
-                "Fallen banana leaves and some ripe bananas are scattered around the gubuk area. "
-                "A sturdy gubuk made of fresh green bamboo poles with a thatched roof stands nearby. "
-                "Tall banana grove atmosphere near the gubuk."
-            ),
-            "Kebun Jeruk Biasa": (
-                "The character is seated on a low weathered wooden crate under rows of mature orange trees in a sunny Javanese orchard. "
-                "Tall trees with glossy green leaves and bright orange fruits hanging heavily from the branches. "
-                "Dry fallen leaves and some ripe oranges scattered on the ground. "
-                "In the far distance, villagers are picking oranges using long bamboo poles. "
-                "Bright and airy orchard atmosphere with the scent of citrus in the air."
-            ),
-            "Kebun Jeruk Lebat": (
-                "The character is seated on a low weathered wooden crate in a dense orange orchard where trees grow close together. "
-                "Heavy clusters of ripe oranges weigh down the branches, almost touching the ground in some places. "
-                "Thick canopy creates dappled sunlight on the earth below. "
-                "In the distance, several villagers are busy filling baskets with harvested oranges. "
-                "Lush and shaded citrus orchard atmosphere."
-            ),
-            "Kebun Salak Biasa": (
-                "The character is seated on a low weathered wooden crate among salak palms in a village plantation. "
-                "Short palm trees with sharp leaves and clusters of brown scaly fruits hanging near the base. "
-                "Dry palm fronds and fallen salak fruits cover the ground. "
-                "In the far background, villagers are cutting salak clusters with knives. "
-                "Shady and humid salak palm atmosphere."
-            ),
-            "Kebun Salak Lebat": (
-                "The character is seated on a low weathered wooden crate in a thick salak plantation where palms grow densely. "
-                "Numerous brown scaly salak fruits cluster heavily at the base of the palms. "
-                "Sharp dry leaves carpet the ground almost completely. "
-                "Villagers in the distance are harvesting salak in large baskets. "
-                "Dense and prickly salak palm grove atmosphere."
-            ),
-            "Kebun Anggur Biasa": (
-                "The character is seated on a low weathered wooden crate in a traditional grape vineyard. "
-                "Grape vines climb neatly on wooden trellises with clusters of ripe green and purple grapes hanging. "
-                "Some fallen grapes and dry leaves lie on the soil. "
-                "In the far background, villagers are picking grapes into woven baskets. "
-                "Sunny vineyard atmosphere with rows of trellises."
-            ),
-            "Kebun Anggur Lebat": (
-                "The character is seated on a low weathered wooden crate in a lush grape vineyard where vines grow thickly. "
-                "Heavy clusters of ripe grapes hang low from the trellises, almost touching the ground. "
-                "Dense foliage creates shaded spots on the earth. "
-                "Villagers in the distance are carefully harvesting the heavy grape bunches. "
-                "Lush and shaded grape vineyard atmosphere."
-            ),
-            "Kebun Nanas Biasa": (
-                "The character is seated on a low weathered wooden crate in a pineapple plantation. "
-                "Low pineapple plants with spiky leaves and ripe yellow-brown fruits growing close to the ground. "
-                "Dry pineapple leaves scattered between the plants. "
-                "In the far background, villagers are cutting pineapples with long knives. "
-                "Open and sunny pineapple field atmosphere."
-            ),
-            "Kebun Nanas Lebat": (
-                "The character is seated on a low weathered wooden crate in a dense pineapple plantation. "
-                "Pineapple plants grow tightly together with many ripe fruits visible among the sharp leaves. "
-                "Thick layer of dry pineapple leaves covers the ground. "
-                "Villagers in the distance are harvesting pineapples in large numbers. "
-                "Dense and spiky pineapple field atmosphere."
-            ),
-            "Kebun Strawberry Biasa": (
-                "The character is seated on a low weathered wooden crate in a strawberry field. "
-                "Low strawberry plants with bright red ripe fruits peeking from under the leaves. "
-                "Soft soil with some dry straw mulch between the plants. "
-                "In the far background, villagers are picking strawberries into small baskets. "
-                "Low-growing berry field atmosphere."
-            ),
-            "Kebun Strawberry Lebat": (
-                "The character is seated on a low weathered wooden crate in a thick strawberry field. "
-                "Strawberry plants grow densely with abundant ripe red fruits visible everywhere. "
-                "Ground covered with straw mulch and fallen berries. "
-                "Villagers in the distance are busy harvesting strawberries. "
-                "Dense and abundant strawberry patch atmosphere."
-            ),
-            "Kebun Kelapa Biasa": (
-                "The character is seated on a low weathered wooden crate in a coconut grove. "
-                "Tall coconut trees with large green coconuts hanging high in the crowns. "
-                "Fallen coconut husks and dry leaves scattered on the ground. "
-                "In the far background, villagers are climbing trees to harvest coconuts. "
-                "Tall and breezy coconut grove atmosphere."
-            ),
-            "Kebun Kelapa Lebat": (
-                "The character is seated on a low weathered wooden crate in a dense coconut grove. "
-                "Tall coconut trees grow close together with many large green coconuts hanging heavily. "
-                "Thick layer of fallen husks and dry fronds cover the ground. "
-                "Villagers in the distance are harvesting coconuts. "
-                "Dense and shaded coconut grove atmosphere."
-            ),
-            "Kebun Jagung Biasa": (
-                "The character is seated on a low weathered wooden crate in a tall corn field on a normal day. "
-                "Tall corn stalks with ripe yellow cobs visible on the plants. "
-                "Dry corn leaves rustle in the breeze. "
-                "In the far background, villagers are harvesting corn. "
-                "Tall and open corn field atmosphere."
-            ),
-            "Kebun Jagung Lebat": (
-                "The character is seated on a low weathered wooden crate in a dense corn field. "
-                "Tall corn stalks grow very closely together with many ripe yellow cobs. "
-                "Thick canopy of corn leaves blocks much of the sunlight. "
-                "Villagers in the distance are harvesting corn. "
-                "Dense and tall corn field atmosphere."
-            ),
-            "Kebun Tomat Biasa": (
-                "The character is seated on a low weathered wooden crate in a tomato garden on a normal day. "
-                "Tomato plants with clusters of ripe red tomatoes hanging from the vines. "
-                "Some fallen tomatoes and leaves on the soil. "
-                "In the far background, villagers are picking tomatoes. "
-                "Open tomato garden atmosphere."
-            ),
-            "Kebun Tomat Lebat": (
-                "The character is seated on a low weathered wooden crate in a thick tomato garden. "
-                "Tomato plants grow densely with heavy clusters of ripe red tomatoes. "
-                "Ground covered with fallen tomatoes and leaves. "
-                "Villagers in the distance are harvesting tomatoes. "
-                "Dense and productive tomato garden atmosphere."
-            ),
-            "Kebun Cabe Biasa": (
-                "The character is seated on a low weathered wooden crate in a chili garden on a normal day. "
-                "Chili plants with bright red and green chilies hanging in clusters. "
-                "Some fallen chilies scattered on the ground. "
-                "In the far background, villagers are harvesting chilies. "
-                "Spicy and open chili garden atmosphere."
-            ),
-            "Kebun Cabe Lebat": (
-                "The character is seated on a low weathered wooden crate in a dense chili garden. "
-                "Chili plants grow thickly with abundant bright red and green chilies. "
-                "Ground covered with fallen chilies. "
-                "Villagers in the distance are harvesting chilies. "
-                "Dense and spicy chili garden atmosphere."
-            ),			
-            "Kebun Sayuran Mix Biasa": (
-                "The character is seated on a low weathered wooden crate in a mixed vegetable garden on a normal day. "
-                "Various vegetables grow together in a natural, slightly messy way: eggplants, long beans, spinach, and chili plants. "
-                "Dark brown soil with some patches of grass and scattered dry leaves. "
-                "In the far background, a few villagers are tending to the plants and picking vegetables. "
-                "Peaceful and productive mixed vegetable garden atmosphere."
-            ),
-            "Kebun Sayuran Mix dengan Sungai Kecil": (
-                "The character is seated on a low weathered wooden crate beside a small shallow stream in a mixed vegetable garden. "
-                "Clear water flows slowly beside rows of eggplants, kangkung, tomatoes, and chili plants. "
-                "Wet soil near the stream and lush green vegetables growing abundantly. "
-                "A few ducks are waddling near the water. "
-                "Calm and fresh mixed vegetable garden with a small stream atmosphere."
-            ),
-            "Kebun Sayuran Mix dengan Gubuk": (
-                "The character is seated on a low weathered wooden crate right next to a small bamboo gubuk in a mixed vegetable garden. "
-                "The gubuk is surrounded by dense vegetables: cabbage, long beans, mustard greens, and chili plants. "
-                "Some harvested vegetables are piled near the gubuk entrance. "
-                "A few chickens are pecking around the garden. "
-                "Cozy and lived-in mixed vegetable garden with a small bamboo shelter atmosphere."
-            ),
-            "Sawah Biasa": (
-                "The character is seated on a low weathered wooden crate at the edge of a wide rice paddy on a normal day. "
-                "Vast green rice fields stretch out with young rice plants swaying gently. "
-                "Narrow dirt paths separate the paddies, with some water visible in the fields. "
-                "In the far distance, several farmers are working in the rice fields. "
-                "Open and expansive rice field atmosphere."
-            ),
-            "Sawah dengan Pohon Kelapa": (
-                "The character is seated on a low weathered wooden crate at the edge of a rice paddy with tall coconut trees nearby. "
-                "Lush green rice plants fill the field, with some mature golden patches ready for harvest. "
-                "Tall coconut trees stand along the edge of the paddy, their fronds moving in the breeze. "
-                "A few farmers can be seen working in the distance. "
-                "Scenic rice paddy with coconut trees atmosphere."
-            ),
+			"Kebun Buah Naga Biasa": (
+				"The character is seated on a low weathered wooden crate in a natural dragon fruit plantation. "
+				"Dark brown earth with natural uneven terrain. "
+				"Dragon fruit vines grow on wooden poles with visible ripe fruits arranged in controlled density. "
+				"In the far background, villagers are gently harvesting without drawing attention. "
+				"The environment is naturally lit with balanced brightness and controlled highlights, maintaining clear subject focus."
+			),
+			"Kebun Buah Naga dengan Gubuk": (
+				"The character is seated on a low weathered wooden crate beside a simple bamboo gubuk in the dragon fruit plantation. "
+				"Dragon fruit vines grow around the structure with visible fruits in a controlled arrangement. "
+				"The bamboo gubuk blends naturally into the scene. "
+				"The atmosphere is calm and visually balanced with subdued background brightness and clear subject dominance."
+			),
+
+			"Kebun Melon Biasa": (
+				"The character is seated on a low weathered wooden crate in a natural melon field. "
+				"Dark brown earth with natural uneven terrain. "
+				"Melons grow on trailing vines with controlled spacing and natural distribution. "
+				"In the background, villagers harvest gently without visual dominance. "
+				"The environment remains balanced with no excessive brightness, preserving color depth and texture clarity."
+			),
+			"Kebun Melon dengan Gubuk": (
+				"The character is seated beside a simple bamboo gubuk in the melon field. "
+				"Melons grow around the gubuk with natural spacing and controlled density. "
+				"The structure integrates naturally with the environment. "
+				"The lighting is soft and controlled with clear subject separation."
+			),
+
+			"Kebun Labu Biasa": (
+				"The character is seated on a low weathered wooden crate in a natural pumpkin field. "
+				"Dark brown earth with uneven terrain. "
+				"Pumpkins rest on thick vines with controlled visual density. "
+				"In the distance, villagers harvest calmly without drawing attention. "
+				"The environment is grounded and balanced, avoiding excessive brightness while maintaining texture clarity."
+			),
+			"Kebun Labu dengan Gubuk": (
+				"The character is seated beside a simple bamboo gubuk in the pumpkin field. "
+				"Pumpkins are scattered around the structure with natural spacing and controlled presence. "
+				"The bamboo gubuk stands as a subtle supporting element. "
+				"The lighting remains balanced with soft shadows and clear subject focus."
+			),
+
+			"Kebun Rambutan Biasa": (
+				"The character is seated on a low weathered wooden crate under rambutan trees in a village orchard. "
+				"Rambutan fruits hang in clusters with controlled color intensity. "
+				"Fallen fruits and leaves scatter naturally on the ground. "
+				"In the background, villagers harvest quietly without visual dominance. "
+				"The orchard is shaded and visually balanced, maintaining strong subject clarity."
+			),
+			"Kebun Rambutan dengan Gubuk": (
+				"The character is seated beside a bamboo gubuk under rambutan trees. "
+				"Clusters of rambutan fruits hang naturally with controlled visual presence. "
+				"Fallen fruits scatter near the structure. "
+				"The environment is calm, shaded, and visually controlled with clear subject priority."
+			),
+
+			"Kebun Pepaya Biasa": (
+				"The character is seated on a low weathered wooden crate in a natural papaya plantation. "
+				"Tall papaya trees carry visible fruits with balanced color presence. "
+				"Fallen leaves and fruits scatter lightly across the ground. "
+				"In the background, villagers harvest gently without drawing attention. "
+				"The scene remains visually balanced with controlled brightness and clear subject focus."
+			),
+			"Kebun Pepaya dengan Gubuk": (
+				"The character is seated beside a bamboo gubuk in the papaya plantation. "
+				"Papaya trees stand around the structure with visible fruits in controlled density. "
+				"Fallen leaves and fruits remain naturally distributed. "
+				"The atmosphere is calm and balanced with soft lighting and clear subject separation."
+			),
+
+			"Kebun Pisang Biasa": (
+				"The character is seated on a low weathered wooden crate in a banana plantation. "
+				"Banana trees carry hanging bunches with controlled color and brightness. "
+				"Fallen leaves scatter naturally on the ground. "
+				"In the distance, villagers harvest quietly without visual dominance. "
+				"The environment remains grounded and visually balanced with controlled highlights."
+			),
+			"Kebun Pisang dengan Gubuk": (
+				"The character is seated beside a bamboo gubuk in the banana plantation. "
+				"Banana trees surround the structure with visible bunches in controlled density. "
+				"Fallen leaves remain naturally distributed. "
+				"The lighting is soft and controlled, maintaining strong subject clarity."
+			),
+
+			"Kebun Jeruk Biasa": (
+				"The character is seated on a low weathered wooden crate under orange trees in a village orchard. "
+				"Trees carry visible ripe oranges with natural color density and controlled highlights. "
+				"Fallen leaves and fruits scatter lightly on the ground. "
+				"In the distance, villagers harvest without drawing attention. "
+				"The environment is balanced and slightly subdued, preserving detail and color depth."
+			),
+			"Kebun Jeruk Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense orange orchard. "
+				"Clusters of oranges hang among the leaves with controlled brightness and depth. "
+				"The canopy creates natural shading with soft light penetration. "
+				"Background activity remains subtle and non-distracting. "
+				"The scene feels rich but visually controlled with strong subject separation."
+			),
+
+			"Kebun Salak Biasa": (
+				"The character is seated on a low weathered wooden crate among salak palms. "
+				"Short palms with clustered fruits appear with controlled density and natural texture. "
+				"Dry leaves cover the ground with natural variation. "
+				"In the background, villagers harvest quietly without drawing focus. "
+				"The environment feels shaded and balanced with controlled contrast."
+			),
+			"Kebun Salak Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense salak plantation. "
+				"Clusters of salak fruits appear in a rich but controlled arrangement. "
+				"Dry leaves cover the ground with layered natural texture. "
+				"Background activity remains subtle and non-dominant. "
+				"The scene maintains strong depth with reduced highlight intensity."
+			),
+			"Kebun Anggur Biasa": (
+				"The character is seated on a low weathered wooden crate in a traditional grape vineyard. "
+				"Grape vines climb on wooden trellises with visible clusters of grapes arranged in controlled density. "
+				"Fallen leaves and a few grapes scatter naturally on the soil. "
+				"In the background, villagers harvest quietly without drawing attention. "
+				"The environment is naturally lit with balanced brightness and controlled highlights, preserving texture clarity."
+			),
+			"Kebun Anggur Lebat": (
+				"The character is seated on a low weathered wooden crate in a lush grape vineyard. "
+				"Heavy clusters of grapes hang from the trellises with controlled visual intensity. "
+				"Dense foliage creates natural shading with soft light penetration. "
+				"Background harvesting activity remains subtle and non-distracting. "
+				"The scene feels rich but visually controlled with strong subject separation."
+			),
+
+			"Kebun Nanas Biasa": (
+				"The character is seated on a low weathered wooden crate in a pineapple plantation. "
+				"Low pineapple plants grow with visible fruits arranged in controlled spacing. "
+				"Dry leaves scatter across the ground with natural variation. "
+				"In the background, villagers harvest calmly without visual dominance. "
+				"The environment is balanced with reduced glare and controlled brightness."
+			),
+			"Kebun Nanas Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense pineapple plantation. "
+				"Pineapple plants grow closely with visible fruits forming a rich but controlled environment. "
+				"The ground is layered with dry leaves in natural variation. "
+				"Background activity remains subtle and non-dominant. "
+				"The lighting maintains depth with reduced highlight intensity and stronger shadow separation."
+			),
+
+			"Kebun Strawberry Biasa": (
+				"The character is seated on a low weathered wooden crate in a strawberry field. "
+				"Low strawberry plants grow with visible ripe fruits in controlled distribution. "
+				"Soft soil and straw mulch appear with natural variation. "
+				"In the background, villagers harvest gently without drawing attention. "
+				"The environment is visually balanced with controlled brightness and preserved color depth."
+			),
+			"Kebun Strawberry Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense strawberry field. "
+				"Strawberry plants grow closely with abundant fruits in a controlled visual arrangement. "
+				"The ground is covered with straw mulch and scattered berries. "
+				"Background harvesting activity remains subtle. "
+				"The scene maintains strong color density without excessive brightness."
+			),
+
+			"Kebun Kelapa Biasa": (
+				"The character is seated on a low weathered wooden crate in a coconut grove. "
+				"Tall coconut trees rise with visible coconuts and natural spacing. "
+				"Fallen husks and dry leaves scatter on the ground. "
+				"In the distance, villagers harvest quietly without drawing focus. "
+				"The environment feels airy but visually controlled with balanced light and soft contrast."
+			),
+			"Kebun Kelapa Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense coconut grove. "
+				"Coconut trees grow closer together with visible coconuts forming a rich but controlled canopy. "
+				"Fallen husks and leaves cover the ground in natural layers. "
+				"Background activity remains subtle and non-dominant. "
+				"The lighting is softened with reduced highlight intensity and clear subject separation."
+			),
+
+			"Kebun Jagung Biasa": (
+				"The character is seated on a low weathered wooden crate in a corn field. "
+				"Tall corn stalks stand with visible cobs in controlled spacing. "
+				"Dry leaves appear naturally across the ground. "
+				"In the background, villagers harvest calmly without visual dominance. "
+				"The environment remains balanced with controlled brightness and preserved texture detail."
+			),
+			"Kebun Jagung Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense corn field. "
+				"Corn stalks grow closely with visible cobs forming a rich but controlled environment. "
+				"The canopy softens incoming light, creating natural shadow depth. "
+				"Background activity remains subtle. "
+				"The scene maintains strong contrast with reduced highlight washout."
+			),
+
+			"Kebun Tomat Biasa": (
+				"The character is seated on a low weathered wooden crate in a tomato garden. "
+				"Tomato plants carry visible fruits in controlled clusters. "
+				"Fallen tomatoes and leaves scatter naturally on the soil. "
+				"In the background, villagers harvest gently without drawing attention. "
+				"The environment is visually balanced with controlled color intensity and lighting."
+			),
+			"Kebun Tomat Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense tomato garden. "
+				"Tomato plants grow closely with clusters of fruits forming a rich but controlled scene. "
+				"Ground textures include fallen tomatoes and leaves with natural variation. "
+				"Background activity remains subtle and non-distracting. "
+				"The lighting preserves color density and avoids excessive brightness."
+			),
+
+			"Kebun Cabe Biasa": (
+				"The character is seated on a low weathered wooden crate in a chili garden. "
+				"Chili plants carry visible red and green chilies in controlled clusters. "
+				"Fallen chilies scatter lightly on the ground. "
+				"In the background, villagers harvest without drawing attention. "
+				"The environment remains balanced with controlled highlights and strong subject clarity."
+			),
+			"Kebun Cabe Lebat": (
+				"The character is seated on a low weathered wooden crate in a dense chili garden. "
+				"Chili plants grow closely with abundant fruits in a controlled arrangement. "
+				"The ground shows natural variation with scattered chilies. "
+				"Background harvesting remains subtle. "
+				"The scene maintains strong color contrast without overexposure."
+			),
+
+			"Kebun Sayuran Mix Biasa": (
+				"The character is seated on a low weathered wooden crate in a mixed vegetable garden. "
+				"Various vegetables grow together in a natural but controlled arrangement: eggplants, long beans, spinach, and chili plants. "
+				"Dark brown soil appears with patches of grass and scattered leaves. "
+				"In the background, villagers tend and harvest quietly without drawing attention. "
+				"The environment is balanced with controlled brightness and clear subject focus."
+			),
+			"Kebun Sayuran Mix dengan Sungai Kecil": (
+				"The character is seated beside a small shallow stream in a mixed vegetable garden. "
+				"Clear water flows gently beside vegetables growing in controlled natural rows. "
+				"Wet soil near the stream reflects light subtly without excessive brightness. "
+				"A few ducks move quietly near the water. "
+				"The atmosphere is calm, fresh, and visually balanced with soft lighting control."
+			),
+			"Kebun Sayuran Mix dengan Gubuk": (
+				"The character is seated beside a small bamboo gubuk in a mixed vegetable garden. "
+				"Vegetables grow densely but remain visually controlled around the structure. "
+				"Some harvested produce is placed near the entrance. "
+				"A few chickens move naturally in the background without drawing attention. "
+				"The environment feels grounded and balanced with clear subject dominance."
+			),
+
+			"Sawah Biasa": (
+				"The character is seated on a low weathered wooden crate at the edge of a rice paddy. "
+				"Rice plants stretch across the field with controlled visual density and natural spacing. "
+				"Narrow paths and water surfaces appear with subtle reflections. "
+				"In the distance, farmers work quietly without visual dominance. "
+				"The environment is expansive but visually balanced with controlled light."
+			),
+			"Sawah dengan Pohon Kelapa": (
+				"The character is seated at the edge of a rice paddy with coconut trees nearby. "
+				"Rice plants fill the field with natural variation and controlled density. "
+				"Coconut trees frame the scene with soft movement. "
+				"Background activity remains subtle. "
+				"The lighting is balanced with soft contrast and clear subject separation."
+			),
 			"Sawah dengan Gubuk di Tengah": (
-                "The character is seated on a low weathered wooden crate on a small raised platform beside a simple bamboo gubuk standing right in the middle of the rice paddy. "
-                "The gubuk is surrounded by water and young green rice plants on all sides. "
-                "Narrow dirt paths lead to the gubuk, with water reflecting the sky in the flooded fields. "
-                "Tall rice stalks sway gently around the structure, some already turning golden. "
-                "A few birds fly over the vast green sawah. "
-                "Peaceful and isolated rice field atmosphere with a lone gubuk in the middle of the paddy."
-            ),
+				"The character is seated near a bamboo gubuk standing in the middle of a rice paddy. "
+				"Rice plants surround the structure with water reflecting light in a controlled manner. "
+				"Narrow paths lead through the field. "
+				"Birds move subtly in the sky. "
+				"The environment feels peaceful with controlled brightness and strong depth."
+			),
+
 			"Kebun Bunga Biasa": (
-                "The character is seated on a low weathered wooden crate in a simple village flower garden on a normal day. "
-                "Various colorful flowers grow in a natural, slightly messy arrangement: roses, marigolds, jasmine, and hibiscus. "
-                "Dark brown earth with patches of grass and scattered fallen petals. "
-                "In the far background, a few villagers can be seen tending to the flowers. "
-                "Gentle and fragrant village flower garden atmosphere."
-            ),
-            "Taman Bunga dengan Gazebo Kecil": (
-                "The character is seated on a low weathered wooden crate beside a small traditional bamboo gazebo in a beautiful village flower garden. "
-                "Colorful flowers bloom abundantly around the gazebo: bright bougainvillea climbing the bamboo, roses, lilies, and orchids. "
-                "Stone path leads to the gazebo with fallen flower petals scattered on the ground. "
-                "The air feels fresh and fragrant with the scent of blooming flowers. "
-                "Peaceful and scenic village flower garden atmosphere with a small bamboo gazebo."
-            ),
+				"The character is seated on a low weathered wooden crate in a village flower garden. "
+				"Various flowers grow naturally with controlled color intensity and arrangement. "
+				"Fallen petals scatter lightly on the ground. "
+				"In the background, villagers tend the garden quietly. "
+				"The atmosphere is soft and balanced with controlled highlights."
+			),
+			"Taman Bunga dengan Gazebo Kecil": (
+				"The character is seated beside a small bamboo gazebo in a flower garden. "
+				"Flowers bloom around the structure with controlled color density. "
+				"A stone path leads through the garden with scattered petals. "
+				"The gazebo integrates naturally into the environment. "
+				"The lighting is soft and cinematic with clear subject focus."
+			),
+
 			"Pinggir Sungai Desa": (
-                "The character is seated on a low weathered wooden crate near a small clear village stream. "
-                "Gentle flowing water with smooth rocks and lush green grass on the banks. "
-                "Bamboo trees and wild ferns grow along the river. "
-                "A few women can be seen washing clothes downstream. "
-                "Calm and refreshing riverside atmosphere."
-            ),
-            "Pinggir Hutan Bambu": (
-                "The character is seated on a low weathered wooden crate at the edge of a dense bamboo forest. "
-                "Tall green bamboo stalks sway gently in the breeze, creating soft rustling sounds. "
-                "Soft sunlight filters through the canopy onto the forest floor covered with dry leaves. "
-                "A small dirt path leads deeper into the bamboo grove. "
-                "Cool and serene bamboo forest edge atmosphere."
-            ),
-            "Ladang Jagung Kuning": (
-                "The character is seated on a low weathered wooden crate in a tall golden corn field ready for harvest. "
-                "Tall dry corn stalks with ripe yellow cobs visible. "
-                "Dry corn leaves rustle loudly in the wind. "
-                "In the far distance, villagers are harvesting corn. "
-                "Warm and golden corn field atmosphere."
-            ),
-            "Pinggir Danau Kecil": (
-                "The character is seated on a low weathered wooden crate by the edge of a small calm village lake. "
-                "Clear water reflects the sky and surrounding trees. "
-                "Lotus plants and water lilies float on the surface. "
-                "A few ducks swim quietly near the shore. "
-                "Tranquil and serene small lake atmosphere."
-            ),
-            "Bukit Kecil Desa": (
-                "The character is seated on a low weathered wooden crate on a gentle grassy hill overlooking the village. "
-                "Rolling green hills with scattered trees and distant rice paddies visible below. "
-                "A light breeze blows through the grass. "
-                "A few goats graze peacefully on the hillside. "
-                "Peaceful and open hilltop atmosphere."
-            ),
-            "Pinggir Hutan Pinus": (
-                "The character is seated on a low weathered wooden crate at the edge of a pine forest. "
-                "Tall pine trees with fallen needles covering the ground. "
-                "Fresh pine scent fills the air as the trees sway gently. "
-                "Soft sunlight creates long shadows on the forest floor. "
-                "Cool and aromatic pine forest edge atmosphere."
-            ),
-            "Ladang Teh": (
-                "The character is seated on a low weathered wooden crate on the edge of a lush tea plantation. "
-                "Neat rows of tea bushes cover the rolling hills with fresh green leaves. "
-                "A light mist lingers in the air. "
-                "In the distance, workers are picking tea leaves. "
-                "Fresh and misty tea plantation atmosphere."
-            ),
-            "Pantai Desa Kecil": (
-                "The character is seated on a low weathered wooden crate on a quiet village beach. "
-                "Gentle waves lap against the sandy shore with coconut trees lining the coast. "
-                "Fishing boats are pulled up on the sand. "
-                "A few fishermen are mending nets in the distance. "
-                "Calm and breezy small village beach atmosphere."
-            ),
-            "Pinggir Gunung Kecil": (
-                "The character is seated on a low weathered wooden crate on a foothill with a view of the mountain. "
-                "Steep green slopes with rocky outcrops and wildflowers. "
-                "A small waterfall can be heard in the distance. "
-                "Cool mountain breeze blows through the area. "
-                "Fresh and majestic foothill atmosphere."
-            ),
-            "Lembah Kecil Desa": (
-                "The character is seated on a low weathered wooden crate in a quiet small valley surrounded by hills. "
-                "Green fields and scattered trees fill the valley floor. "
-                "A narrow river winds through the middle of the valley. "
-                "A few houses with smoke rising from the chimneys can be seen in the distance. "
-                "Quiet and peaceful small valley atmosphere."
-            ),
+				"The character is seated near a small clear village stream. "
+				"Water flows gently with soft reflections and natural movement. "
+				"Green plants and bamboo grow along the banks in controlled density. "
+				"In the background, villagers wash clothes quietly. "
+				"The atmosphere is calm with balanced brightness and natural contrast."
+			),
+
+			"Pinggir Hutan Bambu": (
+				"The character is seated at the edge of a bamboo forest. "
+				"Tall bamboo stalks rise with controlled spacing and soft movement. "
+				"Light filters through the canopy creating soft shadow patterns. "
+				"A small path leads into the forest. "
+				"The environment is cool, shaded, and visually balanced."
+			),
+
+			"Ladang Jagung Kuning": (
+				"The character is seated in a corn field ready for harvest. "
+				"Corn stalks stand tall with visible cobs in controlled density. "
+				"Dry leaves appear naturally with subtle texture. "
+				"In the background, villagers harvest quietly. "
+				"The environment maintains warm tones with controlled highlights and strong contrast."
+			),
+
+			"Pinggir Danau Kecil": (
+				"The character is seated by the edge of a small calm lake. "
+				"Water reflects the surroundings with controlled brightness. "
+				"Lotus plants float naturally with soft color presence. "
+				"Ducks move quietly near the surface. "
+				"The atmosphere is tranquil with balanced light and depth."
+			),
+
+			"Bukit Kecil Desa": (
+				"The character is seated on a gentle grassy hill overlooking the village. "
+				"Rolling terrain and scattered trees appear with controlled visual depth. "
+				"Grass moves softly in the breeze. "
+				"Animals graze quietly in the distance. "
+				"The environment is open but visually controlled with balanced brightness."
+			),
+
+			"Pinggir Hutan Pinus": (
+				"The character is seated at the edge of a pine forest. "
+				"Pine trees rise with controlled spacing and natural depth. "
+				"Fallen needles cover the ground with subtle texture. "
+				"Light creates soft shadows across the forest floor. "
+				"The atmosphere is cool, balanced, and visually grounded."
+			),
+
+			"Ladang Teh": (
+				"The character is seated at the edge of a tea plantation. "
+				"Tea bushes form gentle rows with controlled density across the terrain. "
+				"A light mist softens the background without reducing clarity. "
+				"In the distance, workers harvest quietly. "
+				"The environment feels fresh and balanced with controlled light diffusion."
+			),
+
+			"Pantai Desa Kecil": (
+				"The character is seated on a quiet village beach. "
+				"Soft waves move gently along the shore with controlled reflections. "
+				"Coconut trees line the coast with natural spacing. "
+				"Boats rest quietly in the background. "
+				"The atmosphere is calm and visually balanced with controlled brightness."
+			),
+
+			"Pinggir Gunung Kecil": (
+				"The character is seated on a low weathered wooden crate on a foothill with a mountain view. "
+				"Green slopes and rocky textures appear with controlled visual depth. "
+				"Wildflowers grow naturally with balanced color presence. "
+				"A distant waterfall is subtly visible. "
+				"The environment feels fresh and visually controlled with balanced lighting."
+			),
+
+			"Lembah Kecil Desa": (
+				"The character is seated in a quiet small valley surrounded by hills. "
+				"Green fields and scattered trees fill the space with controlled density. "
+				"A narrow river flows through the valley with soft reflections. "
+							"Distant houses appear subtly with light smoke. "
+				"The atmosphere is calm and visually balanced with natural depth."
+			),
+
 			"Teras Rumah Jati": (
-                "The character is seated on the spacious wooden terrace of a traditional Javanese house made of dark jati wood. "
-                "Smooth aged jati planks with visible grain and natural patina from years of use. "
-                "A few simple wooden chairs and a low table are placed on the terrace. "
-                "Clothes are hanging to dry on a line at the side. "
-                "Calm and dignified jati wood terrace atmosphere."
-            ),
-            "Rumah Ukiran": (
-                "The character is seated on a low weathered wooden bench on the terrace of a beautifully carved Javanese house. "
-                "Intricate traditional wood carvings adorn the pillars and door frames. "
-                "The house has a classic joglo style with detailed ornamentation. "
-                "Soft afternoon light falls on the carved wooden details. "
-                "Elegant and traditional carved house terrace atmosphere."
-            ),
-            "Rumah Bambu Hijau": (
-                "The character is seated on a low wooden bench beside a simple house made of fresh green bamboo. "
-                "The walls and structure are built from natural bamboo poles with a thatched roof. "
-                "Green vines climb gently on the bamboo walls. "
-                "A few potted plants are placed near the entrance. "
-                "Fresh and natural bamboo house atmosphere."
-            ),
-            "Halaman Depan Rumah": (
-                "The character is seated on a low weathered wooden bench in the front yard of a modest village house. "
-                "Swept earth ground with a few flowering plants and shrubs near the entrance. "
-                "An old wooden gate with climbing bougainvillea stands at the front. "
-                "Warm and welcoming front yard atmosphere."
-            ),
-            "Halaman Belakang Rumah": (
-                "The character is seated on a low weathered wooden crate in the backyard of the village house. "
-                "Small vegetable plot with chili, long beans, and spinach growing near the back wall. "
-                "A clothesline with faded sarongs and shirts sways gently in the breeze. "
-                "Practical and everyday backyard atmosphere."
-            ),
-            "Pekarangan Rumah dengan Pohon Mangga": (
-                "The character is seated on a low weathered wooden bench under a large old mango tree in the house yard. "
-                "Thick mango tree providing shade with some fruits still hanging and fallen leaves on the ground. "
-                "A few ripe mangoes lie scattered near the bench. "
-                "Shady and fruity yard atmosphere under the mango tree."
-            ),
-            "Halaman Samping Rumah": (
-                "The character is seated on a low weathered wooden crate in the narrow side yard of the village house. "
-                "A row of potted plants and herbs lines the wall of the house. "
-                "Some drying herbs hang from a simple rack. "
-                "Quiet and functional side yard atmosphere."
-            ),
-            "Teras Belakang Rumah": (
-                "The character is seated on the back wooden terrace of the village house. "
-                "Rough weathered wooden floor overlooking the backyard. "
-                "A few simple tools and baskets are placed neatly in the corner. "
-                "Calm and private back terrace atmosphere."
-            ),
-            "Halaman Rumah dengan Tempat Cuci": (
-                "The character is seated on a low weathered wooden bench in the side yard near the outdoor washing area. "
-                "A large stone basin and several buckets are placed near the house wall. "
-                "Wet clothes hang on a line nearby. "
-                "Everyday practical yard atmosphere with washing area."
-            ),
-            "Pekarangan Rumah dengan Tanaman Obat": (
-                "The character is seated on a low weathered wooden crate in the yard where medicinal plants grow. "
-                "Various herbs like turmeric, ginger, lemongrass, and sambiloto are planted in neat but natural rows. "
-                "A small wooden rack holds drying medicinal leaves. "
-                "Fragrant and healing herbal yard atmosphere."
-            ),
-            "Ruang Tamu Rumah Jati": (
-                "The character is seated on a low wooden chair in the simple living room of a traditional Javanese house made of dark jati wood. "
-                "Aged jati furniture with visible wood grain and a low coffee table in the center. "
-                "Soft natural light enters through the wooden windows. "
-                "A few family photos and an old wall clock hang on the wall. "
-                "Calm and warm traditional jati living room atmosphere."
-            ),
-            "Dapur Rumah Kayu": (
-                "The character is seated on a low wooden stool in the simple kitchen inside the village house. "
-                "A traditional firewood stove with clay pots and hanging cooking utensils. "
-                "Some fresh vegetables and spices are placed on a wooden counter. "
-                "Faint smell of cooking lingers in the air. "
-                "Warm and functional village kitchen atmosphere."
-            ),
-            "Kamar Tidur Nenek": (
-                "The character is seated on the edge of a simple wooden bed in her modest bedroom. "
-                "A thin mattress with a faded batik bedcover and a mosquito net hanging above. "
-                "An old wooden wardrobe and a small mirror on the wall. "
-                "Soft light filters through the window with lace curtains. "
-                "Quiet and personal bedroom atmosphere."
-            ),
-            "Ruang Keluarga Kecil": (
-                "The character is seated on a low bamboo mat in the small family room inside the house. "
-                "A simple wooden TV cabinet and a few floor cushions around the room. "
-                "Family photos and a calendar hang on the wall. "
-                "Natural light comes from the side windows. "
-                "Cozy and intimate family room atmosphere."
-            ),
-            "Serambi Dalam": (
-                "The character is seated on a low wooden bench in the inner serambi of the traditional house. "
-                "Polished wooden floor with visible grain and simple carved wooden pillars. "
-                "A few rolled mats are stored neatly in the corner. "
-                "Soft diffused light enters from the open side. "
-                "Traditional and serene inner serambi atmosphere."
-            ),
-            "Ruang Makan Sederhana": (
-                "The character is seated at a low wooden dining table inside the house. "
-                "Simple wooden chairs and a few plates with glasses on the table. "
-                "A ceiling fan hangs above and basic utensils are stored on a sideboard. "
-                "Warm afternoon light comes through the window. "
-                "Simple and everyday dining area atmosphere."
-            ),
-            "Sudut Doa Rumah": (
-                "The character is seated on a prayer mat in a quiet corner of the house used for prayer. "
-                "A small wooden Quran stand and a folded prayer rug are placed neatly. "
-                "Soft light from a small window illuminates the corner. "
-                "Calm and spiritual prayer corner atmosphere."
-            ),
-            "Sudut Jahit Nenek": (
-                "The character is seated on a low wooden stool in the corner where she usually sews. "
-                "An old sewing machine on a small table with colorful threads and fabric pieces. "
-                "A basket of unfinished sewing projects sits nearby. "
-                "Gentle light falls on the sewing area. "
-                "Warm and personal sewing corner atmosphere."
-            ),
-            "Ruang Depan Dekat Pintu": (
-                "The character is seated on a low wooden bench near the main entrance inside the house. "
-                "Traditional wooden door with simple carvings and a small shoe rack. "
-                "A few daily items like an umbrella and a shopping bag hang on the wall. "
-                "Natural light enters from the open doorway. "
-                "Welcoming entrance area atmosphere."
-            ),
-            "Kamar Belakang Rumah": (
-                "The character is seated on the edge of a simple bed in the back bedroom of the village house. "
-                "A thin mattress with an old batik bedcover and a small wooden side table. "
-                "A window with simple curtains overlooking the backyard. "
-                "Quiet and private back bedroom atmosphere."
-            ),
-			"Sawah Hijau Muda": (
-                "The character is seated on a low weathered wooden crate at the edge of a vast young rice paddy. "
-                "Bright green rice plants sway gently across the flooded field. "
-                "Narrow dirt bunds separate the paddies with water reflecting the sky. "
-                "In the distance, farmers are working in the rice fields. "
-                "Fresh and expansive young rice paddy atmosphere."
-            ),
-            "Sawah Siap Panen": (
-                "The character is seated on a low weathered wooden crate at the edge of a golden rice field ready for harvest. "
-                "Mature rice stalks turn golden yellow and sway in the breeze. "
-                "Some farmers can be seen cutting rice with sickles in the distance. "
-                "Warm and bountiful harvest-ready sawah atmosphere."
-            ),
-            "Sawah dengan Gubuk di Tengah": (
-                "The character is seated on a low weathered wooden crate on a small raised platform beside a simple bamboo gubuk standing right in the middle of the rice paddy. "
-                "The gubuk is surrounded by water and green rice plants on all sides. "
-                "Narrow dirt paths lead to the gubuk. "
-                "A few birds fly over the vast green sawah. "
-                "Peaceful and isolated rice field atmosphere with a lone gubuk in the middle."
-            ),
-            "Sawah dengan Pohon Kelapa": (
-                "The character is seated on a low weathered wooden crate at the edge of a rice paddy with tall coconut trees nearby. "
-                "Green rice plants fill the field, with some mature golden patches. "
-                "Tall coconut trees stand along the edge, their fronds moving in the breeze. "
-                "Scenic rice paddy with coconut trees atmosphere."
-            ),
-            "Sawah di Lereng Bukit": (
-                "The character is seated on a low weathered wooden crate on a terraced rice paddy on a gentle hillside. "
-                "Layered rice fields follow the contour of the hill with water sparkling between terraces. "
-                "In the distance, farmers are tending the upper terraces. "
-                "Scenic and layered hillside rice paddy atmosphere."
-            ),
-			"Belakang Rumah dengan Taman Bunga": (
-                "The character is seated on a low weathered wooden bench in the backyard of the village house with a small flower garden. "
-                "Colorful flowers bloom naturally: roses, jasmine, marigolds, and hibiscus around the yard. "
-                "Fallen petals scatter on the swept earth ground. "
-                "A few potted plants are placed near the house wall. "
-                "Peaceful and fragrant backyard flower garden atmosphere."
-            ),
-            "Belakang Rumah dengan Kolam Ikan Kecil": (
-                "The character is seated on a low weathered wooden bench in the backyard beside a small fish pond. "
-                "Clear water in the shallow pond with a few goldfish swimming and water lilies floating on the surface. "
-                "Stone edging around the pond with some moss. "
-                "Soft sound of water and gentle breeze. "
-                "Calm and serene backyard with small fish pond atmosphere."
-            ),
-            "Belakang Rumah dengan Pohon Buah": (
-                "The character is seated on a low weathered wooden crate under a large mango tree in the backyard. "
-                "Thick mango tree providing shade with some ripe mangoes still hanging and fallen leaves on the ground. "
-                "A few other fruit trees like guava and papaya are also planted nearby. "
-                "Shady and fruity backyard with fruit trees atmosphere."
-            ),
-            "Belakang Rumah dengan Kebun Sayur Kecil": (
-                "The character is seated on a low weathered wooden bench in the backyard with a small vegetable plot. "
-                "Chili plants, long beans, spinach, and tomatoes grow in neat but natural rows. "
-                "A simple bamboo trellis supports the climbing vegetables. "
-                "Some harvested vegetables are placed in a basket nearby. "
-                "Practical and green backyard vegetable garden atmosphere."
-            ),
-            "Belakang Rumah dengan Area Santai": (
-                "The character is seated on a low weathered wooden bench in the quiet backyard relaxation area. "
-                "A simple bamboo pergola with climbing plants provides partial shade. "
-                "A few potted flowers and a small wooden table with a teapot are placed nearby. "
-                "Soft natural light filters through the plants. "
-                "Cozy and relaxing backyard atmosphere."
-            ),
-			"Depan Warung Kelontong": (
-                "The character is seated on a low wooden bench in front of a small village kelontong warung. "
-                "The warung has colorful snack packets, soap, and daily goods displayed on wooden shelves. "
-                "A few villagers are buying things and chatting with the owner. "
-                "Warm and lively small village shop atmosphere."
-            ),
-            "Depan Warkop Sederhana": (
-                "The character is seated on a low wooden bench in front of a simple village warkop. "
-                "Plastic chairs and tables are arranged outside with glasses of sweet tea. "
-                "A few men are sitting and talking while drinking coffee. "
-                "The smell of kopi tubruk and fried snacks fills the air. "
-                "Casual and social village coffee shop atmosphere."
-            ),
-            "Depan Kios Rokok & Pulsa": (
-                "The character is seated on a low wooden stool in front of a small kiosk selling cigarettes and phone credit. "
-                "Colorful cigarette packs and pulsa signs are displayed on the front. "
-                "A few young men are standing and buying pulsa. "
-                "Busy and everyday small kiosk atmosphere."
-            ),
-            "Pinggir Jalan dengan Penjual Gorengan": (
-                "The character is seated on a low wooden bench beside a gorengan seller on the side of the village road. "
-                "The seller is frying tempe, tahu, and pisang goreng on a small cart with smoke rising. "
-                "Several people are waiting and buying snacks. "
-                "Lively roadside fried snack stall atmosphere."
-            ),
-            "Pinggir Jalan dengan Penjual Es": (
-                "The character is seated on a low wooden bench near an es seller on the village roadside. "
-                "The cart has colorful syrup bottles and shaved ice. "
-                "Children and adults are buying colorful es dawet and es campur. "
-                "Hot afternoon roadside ice drink stall atmosphere."
-            ),
-            "Depan Warung Makan Kecil": (
-                "The character is seated on a low wooden bench in front of a tiny warung makan by the roadside. "
-                "Simple menu board with nasi goreng and mie ayam written by hand. "
-                "A few customers are eating at plastic tables outside. "
-                "The smell of fried rice and spices fills the air. "
-                "Humble roadside warung makan atmosphere."
-            ),
-            "Pinggir Jalan dengan Penjual Buah": (
-                "The character is seated on a low wooden bench beside a fruit seller on the village road. "
-                "Fresh mangoes, rambutan, and bananas are arranged on a wooden cart. "
-                "The seller is weighing fruits for customers. "
-                "Several people are stopping to buy fruits. "
-                "Fresh and colorful roadside fruit stall atmosphere."
-            ),
-            "Depan Kios Koran & Kopi": (
-                "The character is seated on a low wooden bench in front of a small kiosk selling newspapers and coffee. "
-                "Morning newspapers are displayed on a rack. "
-                "A few older men are reading newspapers while drinking coffee. "
-                "Relaxed morning village kiosk atmosphere."
-            ),
-            "Pinggir Jalan dengan Penjual Sate": (
-                "The character is seated on a low wooden bench near a sate seller on the roadside. "
-                "Smoke rises from the charcoal grill as the seller fans the sate. "
-                "The aroma of grilled chicken sate fills the air. "
-                "Several people are waiting for their order. "
-                "Lively roadside sate stall atmosphere."
-            ),
-            "Pinggir Jalan Desa Sore Hari": (
-                "The character is seated on a low wooden bench by the quiet village roadside in the late afternoon. "
-                "A few small food stalls are open with people buying snacks for maghrib. "
-                "Children are playing nearby and motorcycles pass occasionally. "
-                "Warm and relaxed late afternoon village roadside atmosphere."
-            ),
-			"Tempat Barang Bekas di Pinggir Jalan": (
-                "The character is seated on a low weathered wooden crate beside a large pile of scrap items on the village roadside. "
-                "Old tires, rusty bicycle frames, broken plastic chairs, and tangled wires are stacked messily. "
-                "A few villagers are sorting through the scraps. "
-                " Dusty and cluttered roadside scrap yard atmosphere."
-            ),
-            "Halaman Belakang dengan Tumpukan Barang Bekas": (
-                "The character is seated on a low wooden bench in the backyard filled with accumulated old items. "
-                "Broken wooden furniture, old buckets, rusty farming tools, and empty jerry cans are scattered around. "
-                "Some items are covered with tarpaulin. "
-                "Cluttered and practical backyard full of old stuff atmosphere."
-            ),
-            "Depan Gudang Barang Bekas": (
-                "The character is seated on a low stool in front of a small shed used to store scrap materials. "
-                "Piles of old metal sheets, broken electronics, and plastic bottles are stacked high near the entrance. "
-                "A weighing scale and some sacks are visible. "
-                "Busy and dusty scrap storage atmosphere."
-            ),
-            "Tempat Pembuangan Barang Bekas": (
-                "The character is seated on a low wooden crate near a large open area where villagers dump old items. "
-                "Broken televisions, old mattresses, rusty stoves, and tangled fishing nets are thrown together. "
-                "Some items are partially buried in the dirt. "
-                "Chaotic and abandoned scrap dumping ground atmosphere."
-            ),
-            "Pinggir Sungai dengan Barang Bekas": (
-                "The character is seated on a low wooden bench near the riverbank where old items have accumulated. "
-                "Plastic bottles, old sandals, broken buckets, and fishing nets are washed up along the edge. "
-                "The river flows slowly beside the trash. "
-                "Messy riverside scrap accumulation atmosphere."
-            ),
-            "Halaman Rumah Penuh Barang Bekas": (
-                "The character is seated on a low wooden chair in the front yard filled with collected old things. "
-                "Stacks of empty paint cans, old doors, broken windows, and metal pipes are arranged along the wall. "
-                "The yard looks like a small recycling collection point. "
-                "Cluttered household scrap collection atmosphere."
-            ),
-            "Tempat Besi Tua dan Rongsokan": (
-                "The character is seated on a low wooden crate in an area full of scrap metal. "
-                "Rusty iron rods, old car parts, bent metal sheets, and engine pieces are piled up. "
-                "The ground is covered with metal dust and small fragments. "
-                "Heavy and industrial scrap metal yard atmosphere."
-            ),
-            "Sudut Kampung dengan Tumpukan Plastik": (
-                "The character is seated on a low wooden bench in a corner of the village where plastic waste is collected. "
-                "Huge piles of colorful plastic bottles, bags, and containers are stacked high. "
-                "The wind occasionally blows some light plastic pieces. "
-                "Colorful but messy plastic scrap collection atmosphere."
-            ),
-            "Belakang Warung dengan Barang Bekas": (
-                "The character is seated on a low wooden stool behind a small warung filled with old inventory. "
-                "Empty cardboard boxes, old glass bottles, broken shelves, and expired goods are piled up. "
-                "Some items are being sorted for recycling. "
-                "Back alley of a shop full of old stock atmosphere."
-            ),
-            "Lapangan Kecil Penuh Barang Rongsokan": (
-                "The character is seated on a low weathered wooden crate at the edge of a small open field used as a scrap yard. "
-                "Old motorcycles, broken furniture, discarded refrigerators, and tangled wires cover the area. "
-                "A few people are searching for usable items among the pile. "
-                "Chaotic and expansive village scrap field atmosphere."
-            )
+				"The character is seated on a spacious wooden terrace of a traditional Javanese house. "
+				"Dark jati wood textures appear rich with controlled highlights. "
+				"Simple furniture is placed naturally across the space. "
+				"Clothes hang lightly in the background. "
+				"The lighting is soft and controlled, emphasizing texture and warmth."
+			),
+
+			"Rumah Ukiran": (
+				"The character is seated on a carved wooden terrace of a traditional house. "
+				"Intricate carvings appear with strong texture and controlled contrast. "
+				"The structure maintains a balanced visual presence without overpowering the subject. "
+				"Soft light enhances the carved details. "
+				"The environment feels elegant and visually controlled."
+			),
+
+			"Rumah Bambu Hijau": (
+				"The character is seated beside a simple house made of fresh green bamboo. "
+				"Bamboo textures appear natural with controlled color intensity. "
+				"Green vines climb gently along the structure. "
+				"Potted plants are placed subtly near the entrance. "
+				"The lighting is balanced with soft highlights and clear subject focus."
+			),
+
+			"Halaman Depan Rumah": (
+				"The character is seated in the front yard of a modest village house. "
+				"Swept earth ground appears clean with subtle texture. "
+				"Small plants and flowers grow naturally near the entrance. "
+				"A wooden gate stands quietly in the background. "
+				"The environment is warm and visually balanced with controlled light."
+			),
+
+			"Halaman Belakang Rumah": (
+				"The character is seated in the backyard of a village house. "
+				"A small vegetable plot grows with controlled density near the wall. "
+				"Clothes hang naturally with soft movement. "
+				"The space feels practical and grounded. "
+				"The lighting remains soft and balanced with clear subject separation."
+			),
+
+			"Pekarangan Rumah dengan Pohon Mangga": (
+				"The character is seated under a large mango tree in the yard. "
+				"The tree provides natural shade with controlled light filtering through the leaves. "
+				"Fallen leaves and fruits scatter subtly on the ground. "
+				"The space feels calm and naturally balanced. "
+				"The lighting emphasizes shade and depth without over-brightness."
+			),
+
+			"Halaman Samping Rumah": (
+				"The character is seated in the side yard of the house. "
+				"Potted plants and herbs line the wall with controlled arrangement. "
+				"Drying herbs hang lightly from a rack. "
+				"The space feels quiet and functional. "
+				"The environment remains visually balanced with soft lighting."
+			),
+
+			"Teras Belakang Rumah": (
+				"The character is seated on the back wooden terrace of the house. "
+				"Weathered wood textures appear with natural detail and controlled highlights. "
+				"Simple tools and baskets are placed neatly in the corner. "
+				"The space feels calm and private. "
+				"The lighting remains soft and cinematic."
+			),
+
+			"Halaman Rumah dengan Tempat Cuci": (
+				"The character is seated near an outdoor washing area. "
+				"A stone basin and buckets appear with natural texture. "
+				"Wet clothes hang nearby with subtle movement. "
+				"The environment feels practical and grounded. "
+				"The lighting is balanced with controlled reflections."
+			),
+
+			"Pekarangan Rumah dengan Tanaman Obat": (
+				"The character is seated in a yard filled with medicinal plants. "
+				"Herbs grow in controlled rows with natural variation. "
+				"A wooden rack holds drying leaves with subtle detail. "
+				"The environment feels fragrant and calm. "
+				"The lighting maintains clarity and controlled color depth."
+			),
+
+			"Ruang Tamu Rumah Jati": (
+				"The character is seated in a traditional jati wood living room. "
+				"Wood textures appear rich with controlled contrast. "
+				"Simple furniture is arranged naturally around the space. "
+				"Soft light enters through the windows. "
+				"The environment feels warm and visually balanced."
+			),
+
+			"Dapur Rumah Kayu": (
+				"The character is seated in a simple wooden kitchen. "
+				"A traditional stove and utensils appear with natural detail. "
+				"Fresh ingredients rest on a wooden surface. "
+				"The space feels functional and grounded. "
+				"The lighting is soft with controlled highlights."
+			),
+
+			"Kamar Tidur Nenek": (
+				"The character is seated on a simple wooden bed in a modest bedroom. "
+				"Fabric textures appear soft with natural folds. "
+				"A wardrobe and mirror stand quietly in the room. "
+				"Light filters gently through the window. "
+				"The atmosphere feels quiet and intimate with balanced lighting."
+			),
+
+			"Ruang Keluarga Kecil": (
+				"The character is seated in a small family room. "
+				"Simple furniture and floor seating appear naturally arranged. "
+				"Photos and objects hang subtly on the walls. "
+				"Light enters softly from the side. "
+				"The environment is cozy and visually controlled."
+			),
+
+			"Serambi Dalam": (
+				"The character is seated in the inner serambi of the house. "
+				"Wood textures and pillars appear with controlled detail. "
+				"Rolled mats are placed neatly in the corner. "
+				"Soft diffused light enters from the side. "
+				"The atmosphere is calm and traditional with balanced lighting."
+			),
+
+			"Ruang Makan Sederhana": (
+				"The character is seated at a simple dining table. "
+				"Wooden furniture appears naturally arranged. "
+				"Utensils and plates are placed subtly. "
+				"Light enters through the window with soft contrast. "
+				"The environment feels everyday and visually balanced."
+			),
+
+			"Sudut Doa Rumah": (
+				"The character is seated in a quiet prayer corner. "
+				"A prayer mat and small wooden stand are placed neatly. "
+				"Soft light illuminates the space gently. "
+				"The environment feels calm and spiritual. "
+				"The lighting is soft with strong focus on the subject."
+			),
+
+			"Sudut Jahit Nenek": (
+				"The character is seated near a sewing area. "
+				"A sewing machine and fabric pieces appear with natural detail. "
+				"Threads and tools are placed subtly around. "
+				"Light falls gently on the workspace. "
+				"The environment feels warm and personal with balanced lighting."
+			),
+
+			"Ruang Depan Dekat Pintu": (
+				"The character is seated near the main entrance inside the house. "
+				"A wooden door and simple storage elements appear naturally. "
+				"Daily items hang subtly on the wall. "
+				"Light enters from the doorway with controlled brightness. "
+				"The space feels welcoming and visually balanced."
+			),
+
+			"Kamar Belakang Rumah": (
+				"The character is seated in a back bedroom. "
+				"A simple bed and furniture appear with natural texture. "
+				"A window provides soft incoming light. "
+				"The space feels quiet and private. "
+				"The lighting remains balanced and controlled."
+			),
+
+			"Hutan Hujan Tropis Sepi": (
+				"The character is seated on a low weathered wooden crate in a dense tropical rainforest. "
+				"Thick green foliage surrounds the scene with layered depth and controlled density. "
+				"Moist ground covered with fallen leaves and subtle natural textures. "
+				"Soft light filters through the canopy creating gentle shadow patterns. "
+				"The environment is quiet, immersive, and visually controlled with balanced lighting."
+			),
+
+			"Tepi Danau Berkabut": (
+				"The character is seated near the edge of a calm lake surrounded by light mist. "
+				"Still water reflects the muted surroundings with controlled brightness. "
+				"Low vegetation and smooth stones line the shoreline. "
+				"The mist softens distant elements without reducing clarity. "
+				"The atmosphere feels serene, isolated, and visually balanced."
+			),
+
+			"Padang Rumput Luas": (
+				"The character is seated on a grassy plain with gently rolling terrain. "
+				"Soft grass textures move subtly with natural variation. "
+				"Scattered trees appear in the far distance with controlled spacing. "
+				"The sky provides soft, even illumination without harsh brightness. "
+				"The environment is open but visually controlled with strong depth."
+			),
+
+			"Pinggir Tebing Batu": (
+				"The character is seated near the edge of a rocky cliff overlooking a vast landscape. "
+				"Rough stone textures appear detailed with natural imperfections. "
+				"Distant terrain fades softly into the background with atmospheric depth. "
+				"The lighting is directional but controlled, enhancing surface contrast. "
+				"The environment feels dramatic yet balanced with clear subject focus."
+			),
+
+			"Gurun Pasir Halus": (
+				"The character is seated on a low wooden crate in a wide desert of fine sand. "
+				"Smooth sand dunes form gentle curves with controlled highlights. "
+				"Subtle wind patterns create natural surface textures. "
+				"The lighting is warm but controlled, avoiding excessive glare. "
+				"The atmosphere is quiet, minimal, and visually clean."
+			),
+
+			"Pantai Sepi Berbatu": (
+				"The character is seated on a rocky shoreline by a quiet sea. "
+				"Waves move gently against the stones with soft reflections. "
+				"Dark rocks and wet surfaces create rich texture contrast. "
+				"The horizon remains calm with no visual distractions. "
+				"The environment is peaceful, grounded, and visually balanced."
+			),
+
+			"Hutan Pinus Berkabut": (
+				"The character is seated among tall pine trees in a misty forest. "
+				"Pine trunks rise vertically with controlled spacing and depth. "
+				"The forest floor is covered with needles and subtle texture layers. "
+				"Mist diffuses the background softly without flattening contrast. "
+				"The lighting is soft, cool, and cinematic."
+			),
+
+			"Jalan Tanah Sepi": (
+				"The character is seated on a quiet dirt path surrounded by nature. "
+				"The path stretches into the distance with soft perspective depth. "
+				"Grass and small plants grow along the edges in controlled distribution. "
+				"The lighting remains balanced with no excessive highlights. "
+				"The environment feels isolated and calm."
+			),
+
+			"Goa Batu Alami": (
+				"The character is seated inside a natural stone cave. "
+				"Rough cave walls show detailed textures with natural depth. "
+				"Light enters from the cave opening, creating controlled contrast. "
+				"Shadows remain soft and layered without losing detail. "
+				"The atmosphere is enclosed, quiet, and cinematic."
+			),
+
+			"Padang Kabut Pagi": (
+				"The character is seated in an open field covered with early morning fog. "
+				"Low vegetation appears softly through the mist with controlled visibility. "
+				"The fog diffuses light evenly without washing out details. "
+				"Distant shapes fade naturally into the background. "
+				"The environment feels calm, soft, and visually balanced."
+			),
+
+			"Interior Rumah Joglo Mewah": (
+				"The character is seated on a low wooden platform inside a grand traditional Javanese joglo house. "
+				"Massive carved wooden pillars rise symmetrically with intricate traditional patterns. "
+				"Polished dark wood floor reflects light subtly with rich texture detail. "
+				"Open interior space with layered depth and structured composition. "
+				"Soft natural light enters from the sides, creating balanced highlights and controlled shadows."
+			),
+
+			"Interior Rumah Kayu Klasik Elegan": (
+				"The character is seated in a spacious classic wooden interior with refined craftsmanship. "
+				"Dark wooden walls and beams show deep grain textures with natural imperfections. "
+				"Minimalist furniture is placed with intentional spacing for visual balance. "
+				"Subtle decorative elements enhance the atmosphere without clutter. "
+				"The lighting is soft and directional, emphasizing texture and depth."
+			),
+
+			"Interior Rumah Bambu Estetik Modern": (
+				"The character is seated inside a modern bamboo house with clean architectural design. "
+				"Smooth bamboo surfaces form walls and ceiling with precise alignment. "
+				"Natural fiber textures and woven details add subtle complexity. "
+				"The space feels open yet controlled with strong structural lines. "
+				"Soft diffused light enhances the organic materials without overexposure."
+			),
+
+			"Interior Rumah Minimalis Kayu Modern": (
+				"The character is seated in a modern minimalist wooden house interior. "
+				"Clean wooden panels with smooth matte finish create a refined look. "
+				"Furniture is minimal with clear spacing and strong composition. "
+				"Neutral tones dominate with subtle texture variations. "
+				"The lighting is controlled and balanced, maintaining sharp detail and depth."
+			),
+
+			"Interior Rumah Tradisional Ukiran Detail": (
+				"The character is seated in a traditional house interior filled with detailed wood carvings. "
+				"Intricate carved panels cover walls and pillars with high texture fidelity. "
+				"Ornamental details appear rich but controlled without visual overload. "
+				"The space feels dense yet visually structured. "
+				"Soft directional light enhances carvings with strong micro-contrast."
+			),
+
+			"Interior Ruang Tengah Rumah Mewah Desa": (
+				"The character is seated in the central room of a refined village house. "
+				"High ceiling structure creates vertical depth with visible wooden beams. "
+				"Floor surfaces show natural wear with detailed texture. "
+				"Furniture and objects are arranged with subtle balance. "
+				"The lighting is natural and controlled, keeping the subject dominant."
+			),
+
+			"Interior Rumah Batu Alam Artistik": (
+				"The character is seated inside a house built from natural stone materials. "
+				"Stone walls display rough textures with layered surface depth. "
+				"Wooden elements contrast with stone, adding warmth to the composition. "
+				"The interior feels solid and grounded with strong tactile presence. "
+				"Light enters selectively, creating controlled highlights and deep shadows."
+			),
+
+			"Interior Rumah Tua Vintage Artistik": (
+				"The character is seated inside an old vintage house with aged materials. "
+				"Worn wooden surfaces and faded textures create rich visual character. "
+				"Subtle imperfections add realism without visual noise. "
+				"The space feels nostalgic and layered with natural depth. "
+				"The lighting is soft and slightly directional, enhancing texture detail."
+			),
+
+			"Interior Rumah Jepang Tradisional": (
+				"The character is seated inside a traditional Japanese-style interior. "
+				"Sliding wooden panels and tatami flooring create clean geometric structure. "
+				"Minimalist design emphasizes balance and empty space. "
+				"Natural textures appear subtle but refined. "
+				"The lighting is soft and diffused, maintaining calm visual harmony."
+			),
+
+			"Interior Loft Kayu Industrial": (
+				"The character is seated in a wooden loft with subtle industrial elements. "
+				"Exposed beams and structured layout create strong architectural depth. "
+				"Wood surfaces mix with raw textures like metal and concrete accents. "
+				"The space feels open but controlled with intentional composition. "
+				"The lighting is directional and cinematic, enhancing contrast and material detail."
+			),
+
+						"Halaman Rumah Joglo Luas": (
+				"The character is seated on a low wooden bench in the spacious front yard of a traditional joglo house. "
+				"Wide packed earth ground with subtle texture and natural irregularities. "
+				"Large wooden structure stands behind with visible carved details and deep shadows. "
+				"A few trees provide partial shade with controlled light filtering through leaves. "
+				"The environment is open but visually balanced with strong subject focus."
+			),
+
+			"Teras Rumah dengan Taman Rapi": (
+				"The character is seated on a wooden terrace facing a neatly arranged garden. "
+				"Small plants and flowers grow in controlled composition with clean spacing. "
+				"Stone path runs through the garden with subtle texture detail. "
+				"The house structure frames the background with natural depth. "
+				"Lighting is soft and controlled, enhancing color without overexposure."
+			),
+
+			"Halaman Rumah dengan Kolam Ikan": (
+				"The character is seated beside a small fish pond in the house yard. "
+				"Still water reflects surrounding elements with controlled brightness. "
+				"Stone edges and aquatic plants add texture without visual clutter. "
+				"The house wall stands behind with natural material detail. "
+				"The environment feels calm with balanced light and soft reflections."
+			),
+
+			"Samping Rumah dengan Jalan Tanah": (
+				"The character is seated beside a narrow dirt path next to the house. "
+				"Rough ground texture shows natural wear and subtle variation. "
+				"Side wall of the house displays material detail and aging surfaces. "
+				"Small plants grow along the edge in controlled distribution. "
+				"The lighting is directional but balanced, maintaining strong depth."
+			),
+
+			"Belakang Rumah dengan Area Kayu": (
+				"The character is seated in the backyard where stacked wood and tools are arranged neatly. "
+				"Wood textures show natural grain and variation with strong detail. "
+								"The house structure provides a grounded background with subtle shadow depth. "
+				"The area feels functional but visually controlled. "
+				"Lighting is soft with clear separation between subject and environment."
+			),
+
+			"Halaman Rumah dengan Pohon Besar": (
+				"The character is seated under a large tree in the house yard. "
+				"Thick trunk and branches create strong natural structure with deep texture. "
+				"Leaves filter light softly, producing controlled shadow patterns. "
+				"The house appears partially behind the tree with balanced visibility. "
+				"The environment feels shaded, calm, and visually grounded."
+			),
+
+			"Teras Rumah Menghadap Sawah": (
+				"The character is seated on a wooden terrace overlooking open rice fields. "
+				"The house structure frames the foreground with strong composition. "
+				"Rice fields stretch outward with controlled depth and soft perspective. "
+				"No activity appears in the distance, maintaining visual calm. "
+				"The lighting is natural and balanced, preserving clarity and contrast."
+			),
+
+			"Halaman Rumah dengan Batu Alam": (
+				"The character is seated on a low stone surface in a yard designed with natural rock elements. "
+				"Large stones create layered composition with rich surface texture. "
+				"Ground transitions between soil and stone with natural variation. "
+				"The house stands behind with subtle architectural detail. "
+				"The lighting emphasizes texture while remaining controlled and soft."
+			),
+
+			"Teras Rumah dengan Pilar Kayu": (
+				"The character is seated on a terrace supported by large wooden pillars. "
+				"Pillars show deep carved detail and strong vertical presence. "
+				"The floor surface reflects light subtly with fine texture. "
+				"Open space beyond the terrace adds depth without distraction. "
+				"The environment is structured and cinematic with controlled lighting."
+			),
+
+			"Halaman Rumah dengan Jalan Batu": (
+				"The character is seated near a stone pathway leading to the house. "
+				"Irregular stones form a natural path with strong texture detail. "
+				"Surrounding ground has controlled vegetation and subtle variation. "
+				"The house appears as a solid backdrop with balanced visibility. "
+				"The lighting remains even, highlighting textures without glare."
+			),
+
+			"Ruang Kerja Kayu Ukir Tradisional": (
+				"The character is seated inside a traditional wood carving workspace within a wooden house. "
+				"Rough wooden walls and beams display deep grain texture with visible aging and natural imperfections. "
+				"Hand-carved wooden ornaments and tools are arranged on a sturdy workbench with controlled detail density. "
+				"Wood shavings scatter lightly across the floor, adding subtle texture without clutter. "
+				"Directional natural light enters from the side, creating strong micro-contrast and controlled shadows."
+			),
+
+			"Ruang Kerja Jahit Tradisional Kayu": (
+				"The character is seated in a traditional sewing workspace inside a wooden house. "
+				"Aged wooden walls and floor show rich texture and natural wear. "
+				"An old sewing machine sits on a wooden table with fabric and threads arranged in a controlled composition. "
+				"Folded cloth and small tools add layered detail without visual overload. "
+				"Soft directional light highlights textures while maintaining balanced contrast."
+			),
+
+			"Ruang Kerja Anyaman Bambu": (
+				"The character is seated inside a bamboo weaving workspace within a wooden house. "
+				"Wooden walls and bamboo materials create layered organic textures. "
+				"Half-finished woven baskets and raw bamboo strips are arranged neatly with controlled density. "
+				"The floor shows natural texture with subtle material variation. "
+				"Light filters softly through gaps, producing controlled highlights and shadow depth."
+			),
+
+			"Ruang Kerja Perkakas Kayu Tradisional": (
+				"The character is seated in a traditional woodworking space inside a rustic wooden house. "
+				"Heavy wooden beams and walls show deep texture and aged surface detail. "
+				"Hand tools such as chisels, hammers, and carving tools are placed in an organized manner. "
+				"Work surfaces show wear marks and natural imperfections. "
+				"Directional light enhances texture contrast without overexposure."
+			),
+
+			"Ruang Kerja Lukis Tradisional": (
+				"The character is seated in a traditional painting workspace inside a wooden house. "
+				"Wooden walls and floor provide a warm textured background. "
+				"Canvas, brushes, and paint containers are arranged with controlled visual balance. "
+				"Subtle paint stains add realism without cluttering the scene. "
+				"Soft natural light highlights surfaces with gentle contrast."
+			),
+
+			"Ruang Kerja Batik Tradisional": (
+				"The character is seated in a traditional batik workspace inside a wooden house. "
+				"Wooden structures display detailed grain and aged texture. "
+				"Batik cloth hangs neatly with intricate patterns visible in controlled arrangement. "
+				"Tools and wax containers are placed carefully with subtle detail layering. "
+				"Warm directional light enhances pattern detail and texture depth."
+			),
+
+			"Interior Rumah Kayu Tua Detail Tinggi": (
+				"The character is seated inside an old wooden house with high texture detail. "
+				"Walls, beams, and floor show cracked surfaces, deep grain, and natural aging. "
+				"Subtle imperfections add realism without overwhelming the composition. "
+				"The space feels grounded with strong tactile presence. "
+				"Soft directional light creates controlled highlights and deep shadow separation."
+			),
+
+			"Interior Rumah Kayu Rustic Natural": (
+				"The character is seated inside a rustic wooden house with natural construction. "
+				"Uneven wooden planks and beams show organic structure and raw texture. "
+				"Minimal objects are placed to maintain visual clarity and focus. "
+				"The environment feels raw but controlled. "
+				"Lighting remains balanced with strong texture emphasis."
+			),
+
+			"Interior Rumah Kayu dengan Meja Kerja": (
+				"The character is seated at a wooden work table inside a detailed wooden house. "
+				"The table surface shows scratches, grain, and natural wear. "
+				"Wooden walls and beams create layered depth and strong structure. "
+				"Small tools and materials are placed with controlled visual density. "
+				"Directional light enhances surface detail and maintains subject dominance."
+			),
+
+			"Interior Rumah Kayu Gelap Dramatis": (
+				"The character is seated inside a dimly lit wooden house interior. "
+				"Dark wooden textures absorb light, creating strong contrast and depth. "
+				"Limited light sources create focused highlights on key surfaces. "
+				"Shadows remain deep but detailed without losing texture. "
+				"The atmosphere is dramatic, intimate, and cinematic."
+			)
+
         }
 		
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
