@@ -316,17 +316,17 @@ def tampilkan_database_channel():
 
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### :blue[HP 1] :gray[|]")
+                    st.markdown("##### :blue[HP 1]")
 
                 with c3:
                     st.write("🕌 **KONTEN MASJID AI**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :orange[HP 2 sampai 18] :gray[|]")
+                    st.markdown("##### :orange[HP 2 sampai 18]")
 
                 with c4:
-                    st.write("🚀 **KONTEN XXX**")
-                    # Warna Violet untuk konten khusus
-                    st.markdown("##### :gray[HP XXX]")
+                    st.write("🕌 **XXXX**")
+                    # Warna Oranye sesuai permintaanmu
+                    st.markdown("##### :red[HP XXX] :gray[|]")
 
             # Filter data PROSES
             df_p = df[df['STATUS'] == 'PROSES'].copy()
