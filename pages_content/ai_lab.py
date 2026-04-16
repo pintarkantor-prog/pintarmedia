@@ -2094,72 +2094,79 @@ def tampilkan_halaman():
             else:
                 gender_lock = "Elderly Javanese grandfather."
 
-			# --- ASSEMBLY PROMPT (V.33.4 - FINAL OPTIMIZED) ---
-			GLOBAL_QUALITY_LOCK = (
-    			"EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Razor-sharp optical clarity with extreme micro-detail. "
-    			"MANDATORY: Hyper-detailed, rugged elderly skin texture with deep organic wrinkles and liver spots. "
-    			"COLOR PROFILE: Vibrant organic saturation. Warm amber skin tones with rich blood-undertones (ZERO PALE SKIN). "
-    			"HIGH CONTRAST: Visible natural film grain, authentic optical depth, and balanced highlights. "
-    			"ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no darkness."
-			)
+# --- ASSEMBLY PROMPT ---
+            GLOBAL_QUALITY_LOCK = (
+                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Razor-sharp optical clarity, hyper-detailed micro textures. "
+                "MANDATORY: Visible skin pores, deep organic wrinkles, age spots, and hand veins with realistic subsurface scattering. "
+                "Rich warm skin tones with strong healthy blood undertones (ZERO PALE SKIN). "
+                "High natural contrast, balanced highlights, visible film grain, authentic optical imperfections. "
+                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no darkness."
+            )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
                 f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-                f"- The handcrafted miniature is the absolute central subject with dead-center frame dominance.\n"
-                f"- EXTREMELY sharp 8K detail on every carving line, fiber, and surface texture.\n"
-                f"- Character face and weathered hands must be razor sharp with raw, bone-thin elderly texture.\n\n"
+                f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
+                f"- EXTREMELY sharp 8K detail on every carving line, fiber, and moist surface imperfection.\n"
+                f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
+                f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n\n"
                 
                 f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-                f"- 50mm Anamorphic Lens at f/4.0 for deep sharpness and natural optical depth.\n"
-                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal with the subject and character's face.\n"
-                f"- 0-DEGREE TILT: Perfectly straight-on documentary study. No high/low angles.\n"
-                f"- THE MINIATURE is positioned at the exact dead center of the frame.\n"
-                f"- THE ELDERLY CHARACTER is framed directly and symmetrically behind the object.\n\n"
+                f"- 50mm prime lens at f/4.0 for maximum sharpness and natural optical quality.\n"
+                f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
+                f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
+                f"- The elderly character sits directly behind the object, symmetrically framed.\n"
+                f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
+                f"- NO high angle, NO low angle, NO bird's eye view, NO darkness.\n\n"
                 
                 f"LIGHTING & ATMOSPHERE:\n"
-				f"INTENSE VIBRANT SUNSET: Direct, low-angled golden-orange sunlight that floods the scene. "
-				f"WARM SATURATED GLOW: The light must be intensely warm and reddish, saturating the character's face and the object. "
-				f"NATURAL SHADOWS: Visible shadows that add depth, but NO pitch-black darkness. "
-				f"STRICTLY PROHIBITED: White light, blue tones, grey haze, and total blackness (crushed blacks).\n\n"
+                f"INTENSE VIBRANT SUNSET: Direct, low-angled golden-orange sunlight that floods the entire scene. "
+                f"Warm light that deeply enhances skin texture and reflections while giving healthy blood undertone. "
+                f"High color saturation with realistic depth. NO white light, NO haze, NO greyish tones, NO pitch black shadows.\n\n"
                 
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
                 f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: Raw hyper-realistic elderly skin with deep, rugged wrinkles. "
-                f"Skin tone must have rich blood flow undertones (NO grey/pale tones).\n\n"
-
+                f"MANDATORY: Raw hyper-realistic elderly skin with visible pores and deep wrinkles. NO face smoothing, NO plastic skin.\n\n"
+                
                 f"ENVIRONMENT:\n"
-                f"{env_detail}\n"
-                f"- Lighting Tone: Dark, moody, and intensely warm. No white light, no grey haze.\n\n"
+                f"{env_detail}\n\n"
                 
                 f"PERFORMANCE & VOICE:\n"
                 f"{aksi_final}\n"
-                f"Mood and delivery: {mood_final}\n"
-                f"VOICE PROFILE: {logat_final}\n\n"
+                f"Mood: {mood_final}\n\n"
+                
+                f"VOICE PROFILE:\n"
+                f"{logat_final}\n"
+                f"Delivery style: {mood_final}.\n\n"
                 
                 f"SPOKEN DIALOG:\n"
                 f"\"{user_dialog}\"\n\n"
                 
-                f"AUDIO INSTRUCTION (MANDATORY FOR VEO):\n"
-				f"- PURE RAW VOCAL ONLY. NO BACKGROUND AUDIO GENERATION.\n"
-				f"- ZERO-SIGNAL BACKGROUND: The background must be 100% digital silence.\n"
-				f"- NO soundtrack, NO cinematic pads, NO ambient music, NO sound effects.\n"
-				f"- If any music is detected, it is a failure. Only output the dry human voice.\n"
-				f"- ISOLATED MONO CHANNEL: No stereo widening, no musical layers.\n\n"
+                f"DIALOG DELIVERY RULE:\n"
+                f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
+                f"- Spoken naturally and tired like a real old village elder.\n"
+                f"- Soft and fragile elderly voice with gentle trembling.\n"
+                f"- Calm and pasrah delivery with natural pauses.\n\n"
+
+                f"AUDIO INSTRUCTION (STRICT ZERO-SIGNAL FOR VEO):\n"
+                f"- THIS IS STRICTLY VOICE-ONLY. ISOLATED MONO TRACK. NO BACKGROUND MUSIC.\n"
+                f"- ZERO-SIGNAL BACKGROUND: The background must be 100% digital silence.\n"
+                f"- NO BGM, NO SOUND EFFECTS, NO AMBIENT MUSIC, NO INSTRUMENTAL.\n"
+                f"- SILENCE all background elements except the character's voice.\n\n"
                 
                 f"OBJECT DETAIL:\n"
                 f"{deskripsi_teknis}\n\n"
                 
-				f"NEGATIVE PROMPT:\n"
-				f"NIGHT TIME, darkness, pitch black shadows, silhouetting, moody blue lighting, " # <--- ANTI MALAM
-				f"background music, BGM, soundtrack, cinematic score, melodic pads, violin, piano, " # <--- ANTI MUSIK
-				f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
-				f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
-				f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-				f"blurry, soft focus, smiling, laughing, high angle, low angle, wide shot"
+                f"NEGATIVE PROMPT:\n"
+                f"NIGHT TIME, darkness, pitch black shadows, silhouetting, background music, BGM, soundtrack, "
+                f"pale skin, washed-out colors, greyish skin, ashy skin tones, white haze, "
+                f"overexposure, sun glare, lens flare, bright white light, blown-out highlights, "
+                f"haze, fog, mist, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, smiling, laughing, high angle, bird's eye view, wide shot, low angle, "
+                f"text, watermark, captions, subtitles, reverb, echo, studio sound, any music whatsoever"
             )
 
             # --- TAMPILKAN HASIL ---
