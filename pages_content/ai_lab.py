@@ -3616,8 +3616,6 @@ def tampilkan_halaman():
 				f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
 				f"- PERFECT ALIGNMENT: Camera, miniature, and character are aligned on the same horizontal eye-level axis.\n"
 				f"- CENTER LOCK: The mosque is perfectly centered with symmetrical left-right balance, no off-center framing.\n"
-				f"- COMPOSITION SHIFT: The frame is slightly lowered so the miniature appears slightly higher within the composition while maintaining eye-level perspective.\n"
-				f"- FRAMING PRIORITY: The miniature occupies the upper-center portion of the frame while remaining dominant and fully visible.\n"
 				f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
 				f"- The elderly character sits directly behind the object, symmetrically framed.\n"
 				f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
@@ -3633,7 +3631,6 @@ def tampilkan_halaman():
 				f"HIGHLIGHT CONTROL: Highlights are sharp, dense, and controlled, never soft or blown out. "
 				f"BALANCED WARMTH: Warm tone is present but restrained, avoiding orange flooding, red tint, or yellow cast. "
 				f"COLOR INTENSITY: Colors remain rich, dense, and visually impactful without fading. "
-				f"TOP LIGHT EMPHASIS: Slightly stronger light hits the upper part of the miniature (especially the dome) to enhance visual focus and depth. "
 				f"NO flat lighting, NO overexposure, NO excessive diffusion, NO washed highlights.\n\n"
         
                 f"CHARACTER IDENTITY:\n"
@@ -3652,8 +3649,7 @@ def tampilkan_halaman():
 				f"- LIGHTING CONSISTENCY: Environment lighting must follow the same directional golden hour lighting, no conflicting light sources.\n"
 				f"- COLOR BALANCE: Background colors must remain controlled and not overpower the main subject.\n"
 				f"- NO VISUAL CLUTTER: Avoid excessive objects, noise, or chaotic elements that distract from the miniature.\n"
-				f"- NO COMPETING SUBJECTS: No background elements should compete visually with the main subject.\n"
-				f"- LOWER FRAME CONTROL: Elements in the lower frame remain visually subtle and less dominant to prevent downward visual pull.\n\n"
+				f"- NO COMPETING SUBJECTS: No background elements should compete visually with the main subject.\n\n"
                 
                 f"PERFORMANCE:\n"
                 f"{aksi_final}\n"
@@ -3679,8 +3675,7 @@ def tampilkan_halaman():
 				f"- RAW AUDIO: Only raw environmental sound if any, extremely subtle and natural.\n\n"
                 
 				f"OBJECT DETAIL:\n"
-				f"{deskripsi_teknis}\n"
-				f"- VISUAL WEIGHT: The upper structure (especially the dome) draws more visual attention, guiding the viewer’s eye slightly upward.\n\n"
+				f"{deskripsi_teknis}\n\n"
                 
 				f"NEGATIVE PROMPT:\n"
 				f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
