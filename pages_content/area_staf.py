@@ -412,7 +412,7 @@ def tampilkan_area_staf():
                     st.write("") # Spacing biar gak nempel
 
                     # 2. Link Direct Download File Bypass (.bat) dari Drive
-                    url_bypass = "https://drive.google.com/file/d/1z0bGr2HsT60V-vlryPaAiQxg_W7sxAg0/view?usp=sharing"
+                    url_bypass = "https://drive.google.com/file/d/18KIsJHAq0Zy9plhZJ0XInDsNoPjeM1cS/view?usp=sharing"
                     st.link_button(
                         label="🛡️ DOWNLOAD BYPASS METADATA.bat",
                         url=url_bypass,
