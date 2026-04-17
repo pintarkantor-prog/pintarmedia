@@ -809,7 +809,7 @@ def tampilkan_halaman():
     				"The structure feels dramatic and architecturally powerful. "
     				"The table surface contains fruit debris."
 				),
-								"Labu + Kelapa: Monumental Tropical Structure": (
+				"Labu + Kelapa: Monumental Tropical Structure": (
     				"A hyper-realistic mosque constructed from pumpkin and coconut, built as a large tabletop monument approximately 1 meter in scale with strong architectural mass. "
     				"The central dome is formed from dense pumpkin flesh, smooth, thick, and rounded with visible fiber texture, acting as the dominant focal structure. "
     				"The outer structure uses coconut shell and inner flesh forming thick walls, domes, and tall minarets with strong vertical emphasis. "
