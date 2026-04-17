@@ -2381,7 +2381,690 @@ def tampilkan_halaman():
 
 		# --- 4. MASTER GRANDMA SETTING (Suasana Latar) ---
         MASTER_GRANDMA_SETTING = {
+			"Kebun Semangka Natural Asri": (
+				"The character is seated on a low weathered wooden crate in a lush and naturally grown Indonesian watermelon garden. "
+				"The ground is rich dark soil with uneven terrain, mixed with patches of fresh grass, creeping vines, and small wild plants. "
+				"Ripe watermelons grow organically across the field with irregular spacing, some partially hidden under leaves, creating a natural layered environment. "
+				"Watermelon vines spread freely with varying density, overlapping and intertwining naturally instead of appearing arranged. "
+				"Foreground includes scattered leaves, small branches, and a few fallen fruits, adding depth and realism. "
+				"In the far background, soft silhouettes of additional plants and distant rural land create depth without distraction. "
+				"A gentle natural breeze moves the leaves and vines slightly, making the environment feel alive. "
+				"The atmosphere feels calm, fresh, and deeply natural with strong depth separation and controlled visual balance."
+			),
 
+			"Kebun Semangka Asri dengan Gubuk": (
+				"The character is seated on a low weathered wooden crate beside a simple bamboo gubuk within a naturally grown watermelon garden. "
+				"The ground consists of dark soil, patches of grass, and organic debris such as fallen leaves and vine fragments. "
+				"Watermelons grow irregularly around the area, some clustered near the gubuk, others spread naturally across the field. "
+				"The vines grow freely and partially climb around the bamboo structure, blending the gubuk into the environment. "
+				"The bamboo gubuk appears aged and natural, with subtle texture and slight imperfections. "
+				"In the background, soft layers of vegetation and distant crops create natural depth. "
+				"A light breeze moves leaves and vines gently, adding life to the scene. "
+				"The environment feels grounded, peaceful, and naturally integrated with strong subject focus."
+			),
+
+			"Kebun Buah Naga Natural Asri": (
+				"The character is seated on a low weathered wooden crate in a natural dragon fruit garden with organic growth patterns. "
+				"The ground is dark soil with uneven texture, mixed with grass patches and small wild plants. "
+				"Dragon fruit plants grow on wooden poles, but with natural irregular spacing and variation, avoiding perfect alignment. "
+				"The vines extend outward unevenly, with some hanging lower and others growing more densely, creating visual depth. "
+				"Ripe dragon fruits appear in varied positions, some partially hidden among the vines. "
+				"Foreground includes subtle organic debris such as dry stems and fallen leaves. "
+				"Background fades into layers of similar plants and distant vegetation, maintaining depth without distraction. "
+				"The environment feels calm, slightly wild, and naturally alive with strong visual balance."
+			),
+
+			"Kebun Buah Naga Asri dengan Gubuk": (
+				"The character is seated on a low weathered wooden crate beside a simple bamboo gubuk inside a dragon fruit garden. "
+				"Dragon fruit plants surround the structure with organic spacing, some vines leaning or growing toward the gubuk naturally. "
+				"The wooden poles vary slightly in height and alignment, avoiding artificial symmetry. "
+				"Ripe fruits hang in natural distribution, creating visual rhythm and depth. "
+				"The ground is a mix of soil, grass, and scattered organic elements. "
+				"The bamboo gubuk blends into the environment with natural aging and texture. "
+				"Background vegetation remains soft and layered, enhancing depth. "
+				"The atmosphere feels quiet, natural, and harmoniously integrated."
+			),
+
+			"Kebun Melon Natural Asri": (
+				"The character is seated on a low weathered wooden crate in a naturally grown melon field with organic structure. "
+				"The ground is dark soil with uneven terrain, mixed with creeping vines, grass patches, and small plants. "
+				"Melons grow along trailing vines with irregular spacing, some resting on the soil while others are partially covered by leaves. "
+				"The vines spread naturally with varied density, creating layered visual depth. "
+				"Foreground includes subtle debris such as leaves and small plant fragments. "
+				"Background vegetation fades softly, maintaining strong depth separation. "
+				"The environment feels fresh, grounded, and naturally alive without appearing artificially arranged."
+			),
+
+			"Kebun Melon Asri dengan Gubuk": (
+				"The character is seated beside a simple bamboo gubuk within a natural melon field. "
+				"Melon vines grow around and partially under the structure, blending the gubuk into the environment. "
+				"The fruits appear in varied positions with natural spacing, creating a balanced but organic look. "
+				"The ground consists of soil, grass patches, and organic debris. "
+				"The bamboo structure appears weathered and integrated naturally. "
+				"Background layers of vegetation create depth without distraction. "
+				"The atmosphere feels calm, natural, and visually grounded."
+			),
+
+			"Kebun Labu Natural Asri": (
+				"The character is seated on a low weathered wooden crate in a naturally grown pumpkin field. "
+				"The ground is dark uneven soil with patches of grass and scattered leaves. "
+				"Pumpkins rest on thick vines that spread organically across the ground with irregular density. "
+				"Some pumpkins are partially hidden under leaves, creating depth and realism. "
+				"The vines overlap and twist naturally, forming layered visual texture. "
+				"Foreground includes organic debris such as leaves and stems. "
+				"Background fades into soft vegetation layers, maintaining depth and focus. "
+				"The environment feels grounded, slightly wild, and naturally balanced."
+			),
+
+			"Kebun Labu Asri dengan Gubuk": (
+				"The character is seated beside a simple bamboo gubuk within a natural pumpkin field. "
+				"Pumpkin vines spread freely around the structure, some reaching toward or around the gubuk. "
+				"Pumpkins appear in varied sizes and positions, creating natural distribution. "
+				"The ground is textured with soil, grass, and scattered plant debris. "
+				"The bamboo gubuk blends into the environment with natural wear and organic integration. "
+				"Background vegetation remains soft and layered. "
+				"The atmosphere feels calm, natural, and visually cohesive."
+			),
+
+			"Kebun Mangga Natural Asri": (
+				"The character is seated on a low handcrafted bamboo table with a tightly woven natural surface, placed in a lush and organically grown mango orchard in a rural Indonesian setting. "
+				"The ground is composed of rich dark soil with uneven terrain, mixed with patches of soft grass, dry leaves, and scattered organic debris such as small twigs and fallen mango stems. "
+				"Mango trees grow with irregular spacing, their thick trunks and dense leafy canopies forming layered overhead coverage that filters light naturally. "
+				"Some branches extend lower with visible ripe mangoes hanging in varied positions, while several fallen fruits rest on the ground, partially hidden among leaves and grass. "
+				"The foreground includes detailed elements such as curled dry leaves, small broken branches, and subtle soil texture variations, creating strong tactile realism. "
+				"The midground features overlapping tree canopies and hanging fruit clusters, forming rich natural depth and visual layering. "
+				"In the background, additional rows of mango trees gradually fade into softer silhouettes, maintaining depth without drawing focus. "
+				"The bamboo table shows natural imperfections, slight curvature, and fiber texture, reinforcing handcrafted authenticity. "
+				"A gentle natural breeze subtly moves leaves and thin branches, creating a calm, living atmosphere. "
+				"The overall environment feels shaded, cool, and deeply natural with strong spatial depth and controlled visual balance, ensuring the subject remains dominant."
+			),
+
+			"Kebun Durian Natural Asri": (
+				"The character is seated on a thick solid wood slab table with rough natural edges, placed in a dense durian grove with strong vertical tree presence. "
+				"The ground is layered with dry leaves, rough soil, and organic debris, creating a textured and slightly uneven natural surface. "
+				"Tall durian trees rise irregularly with thick trunks and heavy foliage forming a dense canopy above, creating a deeper shaded environment. "
+				"Several durian fruits lie on the ground in varied positions, some partially covered by leaves, adding natural randomness and realism. "
+				"The foreground includes sharp leaf textures, broken stems, and uneven soil details, enhancing tactile depth. "
+				"The midground shows tree trunks and layered foliage with complex overlapping shadows and natural density. "
+				"In the background, darker silhouettes of additional trees create depth and a slightly enclosed atmosphere without overpowering the subject. "
+				"The wooden slab table appears heavy, with visible grain, cracks, and natural imperfections, reinforcing material realism. "
+				"Subtle movement of leaves and small branches from natural wind adds life to the scene without distraction. "
+				"The overall environment feels dense, grounded, slightly heavy, and deeply immersive, with strong contrast between light and shadow while maintaining detail visibility."
+			),
+
+			"Kebun Anggur Natural Asri": (
+				"The character is seated on a clean yet natural bamboo table beneath a loosely structured grape vine canopy in a rural garden setting. "
+				"Grape vines grow overhead on simple wooden supports, arranged organically with slight irregularity, allowing clusters of grapes to hang at varied heights and positions. "
+				"The ground consists of compact soil mixed with grass patches, fallen leaves, and subtle organic debris. "
+				"The foreground includes hanging grape clusters, overlapping leaves, and fine stem details, creating strong depth and visual layering. "
+				"The midground features vine structures and leaf coverage forming a semi-open canopy that filters light naturally, producing soft layered shadows. "
+				"In the background, additional vine rows and vegetation fade gradually, maintaining depth without distraction. "
+				"The bamboo table shows fine texture, natural color variation, and handcrafted imperfections. "
+				"A gentle breeze causes slight movement in leaves and hanging grape clusters, adding a calm and living dynamic. "
+				"The overall environment feels airy, balanced, and naturally structured, with clear spatial separation and a peaceful atmosphere."
+			),
+			"Kebun Apel Natural Asri": (
+				"The character is seated on a rustic wooden plank table made from uneven aged boards, placed in a naturally grown apple orchard. "
+				"The ground consists of compact dark soil mixed with patches of grass, scattered dry leaves, and fallen apples in various stages of freshness. "
+				"Apple trees grow with slightly irregular spacing, their branches extending outward with visible clusters of apples hanging at different heights. "
+				"Some fruits hang low while others are partially hidden within dense foliage, creating natural depth and variation. "
+				"The foreground includes detailed elements such as leaf piles, apple stems, and small soil imperfections, enhancing tactile realism. "
+				"The midground features overlapping branches and fruit clusters forming layered visual structure and depth. "
+				"In the background, rows of apple trees fade gradually into softer silhouettes, maintaining depth without distraction. "
+				"The wooden table shows visible grain, cracks, and rough edges, reinforcing handcrafted authenticity. "
+				"A gentle natural breeze subtly moves leaves and branches, creating a calm and living atmosphere. "
+				"The environment feels fresh, slightly structured yet organic, with balanced density and strong subject separation."
+			),
+
+			"Kebun Buah Naga Natural Asri": (
+				"The character is seated on a low bamboo table with woven surface, placed in a naturally grown dragon fruit garden. "
+				"The ground is composed of dark soil with uneven texture, mixed with grass patches and scattered dry stems. "
+				"Dragon fruit plants grow on wooden poles with natural variation in height and spacing, avoiding perfect alignment. "
+				"The vines extend outward unevenly, some hanging lower while others wrap around the supports, creating organic complexity. "
+				"Ripe dragon fruits appear in varied positions, some clearly visible while others are partially hidden within the vines. "
+				"The foreground shows detailed elements such as dry stems, fallen leaves, and subtle soil texture variations. "
+				"The midground features layered poles and vines forming strong vertical and horizontal structure. "
+				"In the background, additional plants fade softly into distance, maintaining depth without distraction. "
+				"The bamboo table shows fine woven texture and slight imperfections. "
+				"A soft natural breeze moves vines and leaves gently, adding life to the scene. "
+				"The environment feels calm, slightly wild, and naturally balanced with strong visual depth."
+			),
+
+			"Kebun Melon Natural Asri": (
+				"The character is seated on a low wooden slab table with natural uneven edges, placed in a naturally grown melon field. "
+				"The ground consists of dark soil mixed with creeping vines, grass patches, and small organic debris. "
+				"Melon plants spread across the ground with irregular density, their vines overlapping and intertwining naturally. "
+				"Melons rest on the soil in varied positions, some partially covered by leaves while others are fully visible. "
+				"The foreground includes detailed vine textures, leaves, and small plant fragments, creating strong tactile realism. "
+				"The midground features layered vine growth forming natural depth and complexity. "
+				"In the background, the field continues with softened detail, maintaining strong depth separation. "
+				"The wooden slab table shows natural grain patterns and slight cracks. "
+				"A gentle breeze subtly moves leaves and vines, adding a calm dynamic to the environment. "
+				"The overall scene feels grounded, fresh, and naturally alive without appearing artificially arranged."
+			),
+
+			"Kebun Kiwi Natural Asri": (
+				"The character is seated on a simple bamboo table with smooth top surface, placed in a kiwi garden with natural growth patterns. "
+				"The ground is a mix of soil, grass patches, and scattered plant debris such as leaves and stems. "
+				"Kiwi vines spread across wooden supports with irregular spacing and organic overlap, forming a semi-dense canopy. "
+				"The leaves create layered textures with varying density, while fruits hang subtly within the foliage. "
+				"The foreground includes overlapping leaves, vine textures, and small debris, adding depth and realism. "
+				"The midground shows structural supports and vine layers creating visual complexity. "
+				"In the background, the vegetation fades softly, maintaining depth without distraction. "
+				"The bamboo table shows natural tone variation and handcrafted imperfections. "
+				"A light breeze moves leaves gently, creating a calm and enclosed atmosphere. "
+				"The environment feels slightly dense, natural, and visually cohesive."
+			),
+
+			"Kebun Pepaya Natural Asri": (
+				"The character is seated on a rough wooden table made from thick planks, placed in a papaya garden with natural spacing. "
+				"The ground consists of dark soil with patches of grass and scattered dry leaves. "
+				"Papaya trees grow tall and slender with irregular spacing, their fruits clustered along the trunks at different heights. "
+				"Some fruits appear ripe while others remain unripe, adding natural variation. "
+				"The foreground includes leaf fragments, soil texture, and small organic debris. "
+				"The midground features multiple papaya trees creating vertical rhythm and depth. "
+				"In the background, additional trees fade into softer silhouettes. "
+				"The wooden table shows rough texture and natural imperfections. "
+				"A gentle breeze subtly moves leaves and branches. "
+				"The environment feels open, warm, and naturally structured."
+			),
+
+			"Kebun Salak Natural Asri": (
+				"The character is seated on a low bamboo table with woven structure, placed in a dense salak garden. "
+				"The ground is covered with soil, dry leaves, and natural debris from the plants. "
+				"Salak plants grow close to the ground with dense, spiky foliage forming a compact and layered environment. "
+				"Clusters of salak fruit appear near the base of the plants, partially hidden within the leaves. "
+				"The foreground shows detailed textures of leaves, stems, and soil. "
+				"The midground features dense plant layering creating strong depth. "
+				"In the background, the vegetation becomes softer and darker, enhancing depth. "
+				"The bamboo table shows natural fiber texture and slight irregularities. "
+				"A subtle breeze moves the leaves slightly. "
+				"The environment feels dense, enclosed, and richly textured."
+			),
+
+			"Kebun Pisang Natural Asri": (
+				"The character is seated on a thick bamboo table with a smooth flat surface, placed in a lush banana grove. "
+				"The ground is a mix of dark soil, moist patches, fallen banana leaves, and organic debris. "
+				"Banana trees grow densely with large wide leaves forming layered overhead coverage, some leaves torn naturally with visible texture. "
+				"Banana clusters hang at varying heights, some partially hidden by leaves while others are clearly visible. "
+				"The foreground includes large leaf fragments, plant fibers, and soil texture variations, enhancing realism. "
+				"The midground shows overlapping banana trunks and leaf layers creating strong depth. "
+				"In the background, additional banana trees fade into softer silhouettes. "
+				"The bamboo table shows natural fiber detail and slight imperfections. "
+				"A gentle breeze moves large leaves slowly, creating a calm and immersive atmosphere. "
+				"The environment feels humid, dense, and naturally alive."
+			),
+
+			"Kebun Jeruk Natural Asri": (
+				"The character is seated on a rustic wooden plank table with visible grain and uneven edges, placed in a citrus orchard. "
+				"The ground consists of compact soil mixed with grass patches and scattered fallen oranges. "
+				"Orange trees grow with moderate spacing, their branches filled with dense green leaves and visible fruit clusters. "
+				"Some oranges hang low while others are partially hidden within foliage, creating natural variation. "
+				"The foreground includes fallen fruit, leaves, and subtle soil detail. "
+				"The midground shows tree rows with overlapping branches forming layered depth. "
+				"In the background, orchard rows fade gradually into softer shapes. "
+				"The wooden table appears aged with cracks and natural imperfections. "
+				"A light breeze gently moves leaves and small branches. "
+				"The environment feels fresh, open, and naturally balanced."
+			),
+
+			"Kebun Tomat Natural Asri": (
+				"The character is seated on a low wooden slab table placed in a naturally grown tomato garden. "
+				"The ground is composed of dark soil with small stones, plant debris, and patches of grass. "
+				"Tomato plants grow with irregular spacing, supported by simple wooden sticks and natural ties. "
+				"Clusters of tomatoes appear at different ripeness stages, some hanging low, others hidden among leaves. "
+				"The foreground includes stems, leaves, and soil texture details. "
+				"The midground shows layered plant rows with varied density. "
+				"In the background, additional plants fade softly. "
+				"The wooden slab table shows rough texture and natural grain. "
+				"A gentle breeze subtly moves leaves and stems. "
+				"The environment feels grounded, organic, and naturally cultivated."
+			),
+
+			"Kebun Nanas Natural Asri": (
+				"The character is seated on a sturdy bamboo table with woven top surface, placed in a natural pineapple field. "
+				"The ground is dry soil mixed with grass patches and plant debris. "
+				"Pineapple plants grow low and dense with sharp leaves forming repeating patterns across the field. "
+				"Fruits appear at the center of each plant with natural variation in size and position. "
+				"The foreground includes sharp leaf textures and soil details. "
+				"The midground shows repeating plant formations creating visual rhythm. "
+				"In the background, the field fades gradually into softer detail. "
+				"The bamboo table shows fine woven detail and natural imperfections. "
+				"A subtle breeze causes slight leaf movement. "
+				"The environment feels structured yet natural and slightly dry."
+			),
+
+			"Kebun Stroberi Natural Asri": (
+				"The character is seated on a low wooden table with smooth worn surface, placed in a strawberry garden. "
+				"The ground is a mix of soil, small plants, and organic debris. "
+				"Strawberry plants grow close to the ground with dense leaves and visible small fruits. "
+				"Some strawberries are ripe and visible, while others remain partially hidden beneath foliage. "
+				"The foreground includes fine leaf textures and small fruit details. "
+				"The midground shows dense plant coverage forming layered depth. "
+				"In the background, additional rows fade softly. "
+				"The wooden table appears smooth but aged with subtle imperfections. "
+				"A light breeze gently moves small leaves. "
+				"The environment feels soft, fresh, and naturally detailed."
+			),
+
+			"Kebun Wortel Natural Asri": (
+				"The character is seated on a rough wooden plank table placed in a carrot field. "
+				"The ground is loose soil with visible root texture and small plant debris. "
+				"Carrot plants grow with thin green tops emerging from the soil with natural spacing. "
+				"Some carrots are partially visible above the ground, adding realism. "
+				"The foreground includes soil clumps, roots, and leaf fragments. "
+				"The midground shows rows of plants with natural irregularity. "
+				"In the background, the field fades into soft vegetation. "
+				"The wooden table shows rough edges and grain detail. "
+				"A gentle breeze moves thin leaves slightly. "
+				"The environment feels open, earthy, and grounded."
+			),
+
+			"Kebun Alpukat Natural Asri": (
+				"The character is seated on a thick wooden slab table with natural edges, placed in an avocado orchard. "
+				"The ground consists of soil, grass patches, and scattered leaves. "
+				"Avocado trees grow with irregular spacing, forming dense foliage and layered canopy. "
+				"Some fruits hang within branches while others are partially hidden. "
+				"The foreground includes leaves and soil detail. "
+				"The midground shows overlapping tree structures. "
+				"In the background, trees fade softly into depth. "
+				"The wooden table shows natural grain and imperfections. "
+				"A light breeze gently moves leaves. "
+				"The environment feels shaded, calm, and naturally rich."
+			),
+
+			"Kebun Cabai Natural Asri": (
+				"The character is seated on a low bamboo table placed in a chili garden. "
+				"The ground is soil mixed with plant debris and small stones. "
+				"Chili plants grow with natural spacing, supported by simple wooden sticks. "
+				"Chili fruits appear in various stages of ripeness, creating color variation. "
+				"The foreground includes leaves, stems, and soil texture. "
+				"The midground shows plant rows forming layered depth. "
+				"In the background, additional plants fade softly. "
+				"The bamboo table shows natural texture and slight imperfections. "
+				"A gentle breeze moves leaves slightly. "
+				"The environment feels lively, natural, and slightly vibrant."
+			),
+
+			"Kebun Kelapa Natural Asri": (
+				"The character is seated on a rough wooden table placed in a coconut grove. "
+				"The ground consists of sand, soil, dry leaves, and coconut husk debris. "
+				"Tall coconut trees rise with irregular spacing, creating strong vertical composition. "
+				"Some coconuts lie on the ground while others hang high above. "
+				"The foreground includes husk fragments and soil texture. "
+				"The midground shows tree trunks and scattered coconuts. "
+				"In the background, trees fade into distance. "
+				"The wooden table shows weathered texture. "
+				"A soft breeze moves palm leaves above. "
+				"The environment feels open, airy, and tropical."
+			),
+
+			"Sawah Terasering Natural Asri": (
+				"The character is seated on a low bamboo table with woven surface, placed on the edge of a lush terraced rice field. "
+				"The foreground shows detailed soil edges, small grass patches, and water reflections along the terrace boundary. "
+				"The rice plants grow densely with natural variation in height and direction, creating a rich textured surface. "
+				"The midground reveals multiple layers of terraced fields descending gradually, each layer filled with vibrant rice plants and thin water channels. "
+				"Subtle reflections appear in the shallow water between rows, adding depth and realism. "
+				"In the background, distant terraces fade into softer shapes, maintaining strong depth separation without distraction. "
+				"The bamboo table shows fine woven detail and natural imperfections. "
+				"A gentle breeze moves the rice plants in soft waves, creating a calm and living atmosphere. "
+				"The environment feels expansive, fresh, and deeply natural with strong visual layering."
+			),
+
+			"Sawah Pinggir Irigasi Alami": (
+				"The character is seated on a rustic wooden plank table near a small flowing irrigation canal in a rice field. "
+				"The foreground includes wet soil, small stones, grass patches, and flowing water with subtle ripples and reflections. "
+				"Rice plants grow thickly along both sides of the canal with natural irregularity and density. "
+				"The midground features extended rice fields intersected by narrow water paths, creating natural patterns and depth. "
+				"The water surface reflects surrounding plants and light softly. "
+				"In the background, fields extend outward with soft fading vegetation and distant rural elements. "
+				"The wooden table shows visible grain, cracks, and aged texture. "
+				"A soft breeze moves both the rice plants and water surface gently. "
+				"The environment feels calm, grounded, and rich with natural detail."
+			),
+
+			"Sawah Tengah Hamparan Luas": (
+				"The character is seated on a low wooden slab table placed in the middle of a wide open rice field. "
+				"The foreground shows dense rice plants with visible leaf texture and subtle soil beneath. "
+				"The plants vary slightly in height and direction, avoiding uniformity and enhancing realism. "
+				"The midground expands into a wide uninterrupted field of rice, forming a continuous textured surface. "
+				"In the background, the horizon line is defined by distant vegetation and faint silhouettes of rural landscape. "
+				"The wooden slab table shows natural grain patterns and slight imperfections. "
+				"A gentle breeze creates soft wave-like movement across the rice field. "
+				"The environment feels open, airy, and immersive with strong natural continuity."
+			),
+
+			"Sawah Dekat Pohon Teduh": (
+				"The character is seated on a thick wooden table under a large tree beside a rice field. "
+				"The foreground includes shaded soil, fallen leaves, and small plant details under the tree canopy. "
+				"Rice plants grow just beyond the shaded area, creating contrast between light and shadow. "
+				"The midground shows a balanced mix of open rice field and partial tree coverage, forming layered visual depth. "
+				"In the background, additional trees and fields fade softly into distance. "
+				"The wooden table shows rough texture, visible grain, and natural wear. "
+				"The tree leaves move gently with wind, casting soft shifting shadows. "
+				"The environment feels cool, calm, and naturally sheltered."
+			),
+
+			"Sawah Jalan Setapak Alami": (
+				"The character is seated on a bamboo table placed beside a narrow natural footpath cutting through a rice field. "
+				"The foreground shows the footpath made of compact soil with grass edges and small stones, adding realistic detail. "
+				"Rice plants grow on both sides of the path with slight variation in density and height. "
+				"The midground follows the path as it curves gently into the distance, guiding visual depth naturally. "
+				"In the background, the path fades into softer vegetation and distant landscape. "
+				"The bamboo table shows natural texture and handcrafted detail. "
+				"A gentle breeze moves the rice plants softly along the path. "
+				"The environment feels intimate, grounded, and visually engaging."
+			),
+
+			"Gubuk Bambu Hijau Segar": (
+				"The character is seated on a smooth bamboo table with a woven top surface inside a freshly built gubuk made from green bamboo. "
+				"The bamboo poles appear vibrant with natural green tones, slightly glossy, and tightly tied with visible fiber bindings. "
+				"The ground consists of compact soil mixed with fresh grass patches and small organic debris. "
+				"The foreground shows bamboo textures, rope bindings, and subtle imperfections in the structure. "
+				"The gubuk stands open on all sides, allowing a clear view of surrounding greenery and soft vegetation layers. "
+				"In the midground, natural plants and crops grow with organic spacing, creating depth. "
+				"The background fades into soft rural landscape with trees and vegetation. "
+				"A gentle breeze moves surrounding leaves and slightly vibrates hanging bamboo elements. "
+				"The environment feels fresh, clean, and naturally alive with strong depth separation."
+			),
+
+			"Gubuk Bambu Kuning Kering": (
+				"The character is seated on a rustic bamboo table inside a gubuk constructed from dried yellow bamboo. "
+				"The bamboo poles show warm yellow tones with slight cracks and natural aging, creating a dry textured appearance. "
+				"The ground is a mix of dry soil, scattered leaves, and light organic debris. "
+				"The foreground includes visible bamboo fibers, rope ties, and rough structural joints. "
+				"The gubuk structure is slightly uneven, enhancing realism and handcrafted feel. "
+				"The midground shows open farmland or garden with soft plant distribution. "
+				"The background fades into distant vegetation and open land. "
+				"A light breeze moves dry leaves and creates subtle movement in the structure. "
+				"The environment feels warm, grounded, and slightly dry but natural."
+			),
+
+			"Gubuk Bambu Lapuk Tua": (
+				"The character is seated on a rough wooden table inside an old gubuk made from aged and weathered bamboo. "
+				"The bamboo structure shows faded color, cracks, darkened spots, and signs of long-term exposure. "
+				"The ground is covered with soil, dry leaves, and decaying organic material. "
+				"The foreground shows worn bamboo textures, broken edges, and rough joints. "
+				"The gubuk appears slightly tilted and imperfect, enhancing realism. "
+				"The midground contains dense vegetation and natural plant growth reclaiming parts of the structure. "
+				"The background fades into darker trees and layered foliage. "
+				"A soft breeze moves leaves and loose elements subtly. "
+				"The environment feels aged, quiet, and deeply natural."
+			),
+
+			"Gubuk Bambu Campuran Alami": (
+				"The character is seated on a bamboo table with natural woven texture inside a gubuk made from mixed bamboo materials of different ages. "
+				"Some bamboo poles appear fresh and green, while others are dry and slightly aged, creating natural variation. "
+				"The ground is a mix of soil, grass patches, and scattered plant debris. "
+				"The foreground includes detailed bamboo textures, knots, and binding elements. "
+				"The gubuk structure shows slight irregularity in shape and alignment. "
+				"The midground contains surrounding crops or plants growing organically. "
+				"The background fades into soft vegetation and rural landscape. "
+				"A gentle breeze moves leaves and surrounding plants. "
+				"The environment feels balanced, natural, and visually rich."
+			),
+
+			"Gubuk Bambu Atap Daun Rumbia": (
+				"The character is seated on a low wooden plank table inside a bamboo gubuk with a roof made from layered dried palm leaves. "
+				"The bamboo frame supports the thick layered roof, which shows natural fiber texture and slight irregular edges. "
+				"The ground is covered with soil, grass patches, and fallen leaf fragments from the roof. "
+				"The foreground shows detailed textures of bamboo, leaf fibers, and natural bindings. "
+				"The midground reveals surrounding fields or plants visible through the open sides. "
+				"The background fades into soft vegetation and distant landscape. "
+				"A gentle breeze causes slight movement in the leaf roof edges and surrounding plants. "
+				"The environment feels shaded, cool, and naturally protected."
+			),
+
+			"Gubuk Kayu Sederhana Pedesaan": (
+				"The character is seated on a thick wooden slab table inside a simple rural gubuk made from rough wooden planks. "
+				"The wood shows natural grain, cracks, and uneven edges, creating a raw handcrafted appearance. "
+				"The ground is compact soil with scattered leaves and organic debris. "
+				"The foreground includes detailed wood textures, joints, and structural imperfections. "
+				"The midground shows surrounding farmland or vegetation. "
+				"The background fades into soft rural scenery with trees and plants. "
+				"A soft breeze moves leaves and subtle elements in the environment. "
+				"The atmosphere feels grounded, simple, and naturally authentic."
+			),
+
+			"Gubuk Setengah Terbuka Pinggir Sawah": (
+				"The character is seated on a bamboo table inside a semi-open gubuk located at the edge of a rice field. "
+				"The structure is made from bamboo and wood combination with open sides allowing a clear view of the surrounding field. "
+				"The ground is a mix of soil, grass, and scattered plant debris. "
+				"The foreground shows bamboo textures, structural joints, and small natural details. "
+				"The midground reveals rice plants growing densely with visible movement. "
+				"The background fades into extended rice fields and distant vegetation. "
+				"A gentle breeze moves both rice plants and parts of the gubuk structure. "
+				"The environment feels open, airy, and strongly connected to nature."
+			),
+
+			"Hutan Tropis Lembap Lebat": (
+				"The character is seated on a thick wooden slab table with natural rough edges, placed deep within a dense tropical rainforest. "
+				"The foreground is filled with wet soil, fallen leaves, exposed roots, and small plants with high moisture detail. "
+				"Large tropical plants with broad leaves overlap and layer naturally, creating strong depth and complexity. "
+				"The midground shows dense vegetation with intertwined vines, tree trunks, and layered foliage forming a visually rich environment. "
+				"Water droplets cling to leaves and surfaces, enhancing realism and humidity. "
+				"In the background, tall trees rise and fade into darker green tones, maintaining depth without distraction. "
+				"The wooden table shows wet texture, visible grain, and natural imperfections. "
+				"Subtle movement of leaves from a soft breeze creates a calm yet alive atmosphere. "
+				"The environment feels humid, dense, immersive, and deeply natural."
+			),
+
+			"Hutan Tropis Dekat Aliran Air": (
+				"The character is seated on a smooth bamboo table beside a small natural stream within a tropical rainforest. "
+				"The foreground includes wet stones, flowing water, moss-covered surfaces, and small plants growing near the stream edges. "
+				"The water flows gently with visible ripples and reflections, adding motion and realism. "
+				"The midground features layered vegetation including ferns, vines, and tree trunks surrounding the water source. "
+				"Large leaves hang at different heights, partially covering the scene and creating depth. "
+				"In the background, dense forest vegetation fades softly into shadow. "
+				"The bamboo table shows natural texture and slight moisture. "
+				"A gentle breeze moves leaves and lightly disturbs the water surface. "
+				"The environment feels fresh, cool, and naturally dynamic."
+			),
+
+			"Hutan Tropis Cahaya Menyusup": (
+				"The character is seated on a rustic wooden plank table placed within a tropical forest where light subtly filters through the canopy. "
+				"The foreground shows detailed forest floor with soil, roots, fallen leaves, and small plants. "
+				"Beams of filtered light pass through gaps in the dense canopy, creating soft contrast and depth across the scene. "
+				"The midground contains layered foliage, tree trunks, and hanging vines forming a complex structure. "
+				"Light touches certain leaves while others remain in shadow, enhancing visual separation. "
+				"In the background, tall trees fade into softer silhouettes. "
+				"The wooden table shows natural wear, grain, and imperfections. "
+				"A gentle breeze causes slight leaf movement. "
+				"The environment feels mystical, calm, and naturally cinematic."
+			),
+
+			"Hutan Tropis Lantai Akar Besar": (
+				"The character is seated on a low bamboo table placed on a forest floor dominated by large exposed tree roots. "
+				"The foreground shows thick intertwined roots, moist soil, moss, and small plants growing between root structures. "
+				"The midground features large tree trunks rising vertically with dense foliage above. "
+				"Vines wrap around trees and roots, adding organic complexity. "
+				"Leaves and debris are scattered naturally across the uneven ground. "
+				"In the background, the forest becomes denser and darker, enhancing depth. "
+				"The bamboo table shows natural fiber texture and subtle imperfections. "
+				"A soft breeze moves leaves gently. "
+				"The environment feels grounded, ancient, and deeply natural."
+			),
+
+			"Hutan Tropis Terbuka Semi Kanopi": (
+				"The character is seated on a wooden slab table placed in a slightly more open section of a tropical rainforest. "
+				"The foreground includes soil, grass patches, and scattered leaves with less density than deeper forest areas. "
+				"The midground shows trees spaced more loosely, allowing more openness and visual breathing room. "
+				"Plants still grow abundantly but with less overlap, creating a balanced environment. "
+				"In the background, the forest gradually becomes denser again, maintaining depth. "
+				"The wooden table shows visible grain and natural wear. "
+				"A gentle breeze moves leaves and smaller plants. "
+				"The environment feels airy, fresh, and naturally balanced while still rich in detail."
+			),
+
+			"Kebun Sayuran Campuran Natural Asri": (
+				"The character is seated on a low bamboo table with woven surface in a mixed vegetable garden with organic growth patterns. "
+				"The foreground shows dark soil with uneven texture, small stones, trimmed leaves, and scattered plant debris. "
+				"Various vegetables such as leafy greens, chilies, and tomatoes grow with irregular spacing, creating a naturally layered environment. "
+				"The midground features loosely structured rows with slight variation in height and density, avoiding perfect symmetry. "
+				"In the background, additional crops and soft vegetation fade gradually into depth. "
+				"The bamboo table shows fine fiber texture and natural imperfections. "
+				"A gentle breeze moves leaves subtly, creating a calm and living atmosphere. "
+				"The environment feels fresh, productive, and naturally balanced."
+			),
+
+			"Kebun Sayuran Organik Liar": (
+				"The character is seated on a rough wooden slab table in a slightly overgrown organic vegetable garden. "
+				"The foreground includes thick soil, weeds, small wild plants, and scattered leaves. "
+				"Vegetables grow freely with uneven density, some areas denser while others more sparse, creating a natural wild look. "
+				"The midground shows overlapping plant growth and varied textures forming visual depth. "
+				"In the background, the garden fades into soft vegetation and natural land. "
+				"The wooden slab table shows cracks, grain, and rough edges. "
+				"A soft breeze gently moves leaves and stems. "
+				"The environment feels alive, slightly untamed, and deeply natural."
+			),
+
+			"Kebun Sayuran Tertata Alami": (
+				"The character is seated on a smooth wooden plank table in a well-maintained vegetable garden. "
+				"The ground consists of compact soil, light grass patches, and trimmed plant debris. "
+				"Vegetables are arranged in soft rows with slight irregularity, maintaining natural appearance without strict symmetry. "
+				"The midground shows layered plant rows with consistent spacing but natural variation. "
+				"In the background, additional crops fade into soft silhouettes. "
+				"The wooden table shows subtle wear and natural grain texture. "
+				"A gentle breeze moves leaves lightly. "
+				"The environment feels calm, productive, and harmonious."
+			),
+
+			"Kebun Sayuran Lembap Subur": (
+				"The character is seated on a bamboo table in a lush and slightly moist vegetable garden. "
+				"The foreground shows damp soil, small puddles, plant roots, and fresh leaves with visible moisture. "
+				"Vegetables grow densely with rich green tones and layered foliage. "
+				"The midground features overlapping plant growth forming strong depth and texture. "
+				"In the background, the garden continues into softer vegetation layers. "
+				"The bamboo table shows slight moisture and natural texture. "
+				"A soft breeze moves leaves gently. "
+				"The environment feels fertile, humid, and naturally vibrant."
+			),
+
+			"Kebun Sayuran Dekat Jalan Tanah": (
+				"The character is seated on a rustic wooden table beside a narrow dirt path running through a vegetable garden. "
+				"The foreground includes the path with compact soil, grass edges, and small stones. "
+				"Vegetables grow on both sides of the path with natural variation in spacing and density. "
+				"The midground follows the path as it extends into the garden, creating natural perspective. "
+				"In the background, plants fade softly into depth. "
+				"The wooden table shows aged texture and natural imperfections. "
+				"A gentle breeze moves leaves and small plants. "
+				"The environment feels grounded, natural, and visually engaging."
+			),
+
+			"Taman Bunga Warna Alami": (
+				"The character is seated on a bamboo table surrounded by a natural flower garden with soft color variation. "
+				"The foreground includes soil, small plants, petals, and fallen leaves scattered naturally. "
+				"Flowers grow in mixed clusters with irregular spacing, creating organic color layering. "
+				"The midground shows overlapping flower patches with varied height and density. "
+				"In the background, the garden fades into soft floral silhouettes. "
+				"The bamboo table shows natural woven detail. "
+				"A gentle breeze moves petals and stems softly. "
+				"The environment feels calm, colorful, and naturally balanced."
+			),
+
+			"Taman Bunga Liar Asri": (
+				"The character is seated on a wooden slab table in a slightly wild flower field. "
+				"The foreground shows grass, small plants, scattered petals, and uneven soil texture. "
+				"Flowers grow freely with mixed species and irregular density, creating a natural wild aesthetic. "
+				"The midground features layered plant growth with overlapping colors and textures. "
+				"In the background, the field fades into soft vegetation. "
+				"The wooden table shows rough grain and imperfections. "
+				"A light breeze moves flowers gently. "
+				"The environment feels free, natural, and visually rich."
+			),
+
+			"Taman Bunga Tertata Natural": (
+				"The character is seated on a smooth wooden table in a well-maintained flower garden. "
+				"The foreground includes trimmed plants, soil, and scattered petals. "
+				"Flowers are arranged in soft patterns with slight irregularity to maintain natural appearance. "
+				"The midground shows layered flower beds with balanced spacing. "
+				"In the background, the garden fades into soft floral layers. "
+				"The wooden table shows subtle wear and clean surface. "
+				"A gentle breeze moves petals and leaves. "
+				"The environment feels calm, neat, and naturally elegant."
+			),
+
+			"Taman Bunga Dekat Air": (
+				"The character is seated on a bamboo table near a small water feature within a flower garden. "
+				"The foreground includes water reflections, stones, soil, and surrounding plants. "
+				"Flowers grow around the water edge with natural variation and density. "
+				"The midground features layered plant growth with water adding depth and movement. "
+				"In the background, the garden fades softly into vegetation. "
+				"The bamboo table shows natural texture and slight imperfections. "
+				"A gentle breeze moves flowers and lightly disturbs the water surface. "
+				"The environment feels fresh, calm, and naturally dynamic."
+			),
+
+			"Taman Bunga Semi Teduh": (
+				"The character is seated on a wooden table under partial tree shade within a flower garden. "
+				"The foreground shows shaded soil, leaves, and small plants with soft light contrast. "
+				"Flowers grow in mixed clusters with some areas in light and others in shadow. "
+				"The midground shows layered plants and partial canopy coverage. "
+				"In the background, trees and flowers fade softly. "
+				"The wooden table shows natural grain and texture. "
+				"A soft breeze moves leaves and petals gently. "
+				"The environment feels cool, calm, and naturally layered."
+			),
+
+			"Kolam Ikan Alami Batu dan Lumut": (
+				"The character is seated on a thick wooden slab table placed beside a natural fish pond surrounded by stones and moss. "
+				"The foreground includes wet rocks, small puddles, patches of moss, and subtle water reflections with gentle ripples. "
+				"The pond water is slightly clear with visible fish moving beneath the surface, creating soft distortion and motion. "
+				"Plants grow naturally around the edges, including small ferns and low vegetation. "
+				"The midground shows the full pond structure with irregular stone arrangement and layered plant growth. "
+				"In the background, additional greenery and natural vegetation fade softly into depth. "
+				"The wooden slab table shows visible grain, moisture, and natural imperfections. "
+				"A gentle breeze creates subtle movement on the water surface and surrounding leaves. "
+				"The environment feels calm, cool, and naturally immersive."
+			),
+
+			"Kolam Ikan Pinggir Taman Asri": (
+				"The character is seated on a bamboo table with woven surface near a well-maintained garden fish pond. "
+				"The foreground shows water edges with grass, small plants, and reflections of surrounding greenery. "
+				"The pond water is calm with occasional ripples and visible fish beneath the surface. "
+				"The midground features balanced plant arrangement around the pond, including flowering plants and decorative greenery. "
+				"The pond shape is slightly structured but still natural in appearance. "
+				"In the background, garden elements fade softly into depth. "
+				"The bamboo table shows fine woven texture and slight imperfections. "
+				"A light breeze moves leaves and gently disturbs the water surface. "
+				"The environment feels fresh, balanced, and naturally elegant."
+			),
+
+			"Kolam Ikan Koi Air Jernih": (
+				"The character is seated on a smooth wooden plank table beside a clear koi fish pond. "
+				"The foreground includes water surface reflections, small stones, and subtle ripple patterns. "
+				"Koi fish with varied patterns swim slowly beneath the clear water, visible with gentle distortion. "
+				"The midground shows clean pond edges with natural stone lining and minimal plant coverage. "
+				"The water clarity enhances depth and visual detail. "
+				"In the background, surrounding plants and garden elements fade softly. "
+				"The wooden table shows smooth surface with subtle wear and grain texture. "
+				"A gentle breeze creates soft ripple movement across the water. "
+				"The environment feels calm, refined, and visually clean."
+			),
+
+			"Kolam Ikan Desa Tradisional": (
+				"The character is seated on a rough wooden table near a traditional village fish pond. "
+				"The foreground shows muddy soil, grass patches, and uneven ground near the pond edge. "
+				"The pond water is slightly murky with natural coloration, with fish occasionally visible near the surface. "
+				"The midground includes simple natural surroundings such as plants, wooden structures, and organic elements. "
+				"The pond edges are irregular and unrefined, enhancing realism. "
+				"In the background, rural vegetation and simple landscape fade into depth. "
+				"The wooden table shows rough texture, cracks, and aged appearance. "
+				"A soft breeze moves surrounding plants gently. "
+				"The environment feels grounded, simple, and authentically rural."
+			),
+
+			"Kolam Ikan dengan Tanaman Air": (
+				"The character is seated on a bamboo table beside a pond filled with aquatic plants. "
+				"The foreground shows water surface with floating leaves, subtle ripples, and reflections. "
+				"Aquatic plants such as lily pads and small floating vegetation cover parts of the pond surface. "
+				"Fish move beneath the plants, occasionally visible through gaps. "
+				"The midground features layered aquatic growth and natural pond edges with mixed vegetation. "
+				"In the background, surrounding greenery fades softly into depth. "
+				"The bamboo table shows natural fiber texture and slight irregularities. "
+				"A gentle breeze moves floating leaves and creates light ripple effects. "
+				"The environment feels calm, lush, and naturally dynamic."
+			),
 
 			"Pinggir Hutan Pinus": (
 				"The character is seated at the edge of a pine forest. "
