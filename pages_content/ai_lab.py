@@ -3738,17 +3738,23 @@ def tampilkan_halaman():
 				f"- NO high angle, NO low angle, NO bird's eye view.\n"
 				f"- NO pitch black shadows, but shadows must remain deep and detailed.\n\n"
                 
-        		f"LIGHTING & ATMOSPHERE:\n"
-				f"- TIME OF DAY: Late afternoon, overcast sky with hidden sun.\n"
-				f"- SUN CONDITION: Sun is fully diffused behind clouds, never directly visible.\n"
-				f"- LIGHT QUALITY: Soft diffused light with clear directional bias, not flat.\n"
-				f"- LIGHT DIRECTION: Subtle side lighting still present, maintaining depth and form.\n"
-				f"- SHADOWS: Very soft, wide shadows with smooth gradient edges, never sharp.\n"
-				f"- CONTRAST: Medium-high contrast preserved through tonal separation, not flat.\n"
-				f"- EXPOSURE: Slightly underexposed to maintain color density and avoid washout.\n"
-				f"- COLOR: Neutral-warm tone, slightly muted highlights but rich midtones and deep shadows.\n"
-				f"- ATMOSPHERE: Slight air density, soft ambient diffusion, no haze, no fog.\n"
-				f"- FORBIDDEN: No direct sunlight beams, no visible sun, no harsh lighting, no flat gray lighting.\n\n"
+				f"LIGHTING & ATMOSPHERE (DIFFUSED GOLDEN HOUR WITH WARMTH PRESERVATION):\n"
+				f"- TIME OF DAY: Late afternoon with overcast sky, sun fully diffused.\n"
+				f"- SUN CONDITION: No visible sun, light passes through clouds.\n"
+				f"- LIGHT QUALITY: Soft diffused light with subtle directional bias.\n"
+				f"- LIGHT DIRECTION: Gentle side lighting still present for depth.\n"
+				f"- SHADOWS: Soft, wide shadows with smooth gradients, no harsh edges.\n"
+
+				f"- COLOR TEMPERATURE: Warm ambient tone preserved, subtle golden warmth embedded in the light.\n"
+				f"- WARM BOUNCE LIGHT: Natural warm reflection from ground and surrounding environment, enhancing skin tone and object color.\n"
+
+				f"- MIDTONE PRIORITY: Midtones must remain rich, dense, and full-bodied, never gray or washed out.\n"
+				f"- COLOR DENSITY: Colors remain saturated and deep without increasing brightness.\n"
+				f"- EXPOSURE: Slightly underexposed to maintain color depth and avoid washout.\n"
+
+				f"- MICRO CONTRAST: Subtle micro-contrast retained to preserve texture clarity under soft light.\n"
+
+				f"- FORBIDDEN: No direct sunlight beam, no visible sun, no flat gray lighting, no color washout.\n\n"
         
                 f"CHARACTER IDENTITY:\n"
                 f"{soul_desc}\n"
