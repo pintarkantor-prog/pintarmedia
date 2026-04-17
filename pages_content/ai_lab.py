@@ -1247,7 +1247,7 @@ def tampilkan_halaman():
     				"The table surface contains minimal debris."
 				),
 
-					"Kiwi: Kabah Royal Monolithic Kiswah": (
+				"Kiwi: Kabah Royal Monolithic Kiswah": (
     				"A hyper-realistic handcrafted Ka'bah structure made entirely from kiwi, built as a large tabletop monument approximately 1 meter in scale with strong sacred presence and architectural dominance. "
     				"A perfectly proportioned cube constructed from dense kiwi sections with sharp edges, smooth surfaces, and strong geometric clarity. "
     				"The outer surface is formed using kiwi skin and flesh arranged in layered horizontal panels, creating a refined kiswah-like surface with subtle organic softness and natural seed texture embedded within. "
