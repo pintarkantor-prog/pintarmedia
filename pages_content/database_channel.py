@@ -319,14 +319,14 @@ def tampilkan_database_channel():
                     st.markdown("##### :blue[HP 1]")
 
                 with c3:
-                    st.write("🕌 **KONTEN MASJID AI**")
+                    st.write("🕌 **MASJID NENEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :orange[HP 2 sampai 18]")
+                    st.markdown("##### :orange[HP 2 sampai 15]")
 
                 with c4:
-                    st.write("🕌 **XXXX**")
+                    st.write("🕌 **MASJID KAKEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :red[HP XXX] :gray[|]")
+                    st.markdown("##### :red[HP 16 sampai 18]")
 
             # Filter data PROSES
             df_p = df[df['STATUS'] == 'PROSES'].copy()
