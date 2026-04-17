@@ -2381,8 +2381,6 @@ def tampilkan_halaman():
 
 		# --- 4. MASTER GRANDMA SETTING (Suasana Latar) ---
         MASTER_GRANDMA_SETTING = {
-        # --- 4. MASTER GRANDMA SETTING (Suasana Latar) ---
-        MASTER_GRANDMA_SETTING = {
 			"Kebun Semangka Natural Asri": (
 				"The character is seated on a low weathered wooden crate in a lush and naturally grown Indonesian watermelon garden. "
 				"The ground is rich dark soil with uneven terrain, mixed with patches of fresh grass, creeping vines, and small wild plants. "
