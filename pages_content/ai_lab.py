@@ -2503,7 +2503,7 @@ def tampilkan_halaman():
 				"A gentle breeze causes slight movement in leaves and hanging grape clusters, adding a calm and living dynamic. "
 				"The overall environment feels airy, balanced, and naturally structured, with clear spatial separation and a peaceful atmosphere."
 			),
-
+			"Kebun Apel Natural Asri":
 				"The character is seated on a rustic wooden plank table made from uneven aged boards, placed in a naturally grown apple orchard. "
 				"The ground consists of compact dark soil mixed with patches of grass, scattered dry leaves, and fallen apples in various stages of freshness. "
 				"Apple trees grow with slightly irregular spacing, their branches extending outward with visible clusters of apples hanging at different heights. "
