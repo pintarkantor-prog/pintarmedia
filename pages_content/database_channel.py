@@ -298,13 +298,6 @@ def tampilkan_database_channel():
                 (df['HP'] != 'nan')
             ].copy()
 
-            # --- DEBUG: tampilkan semua akun PROSES dari raw data (sementara) ---
-            with st.expander("🔍 DEBUG: Semua akun PROSES di database (hapus setelah fix)", expanded=False):
-                df_debug = df[df['STATUS'] == 'PROSES'][['EMAIL', 'HP', 'NAMA_CHANNEL', 'STATUS']].copy()
-                df_debug['HP_repr'] = df_debug['HP'].apply(lambda x: repr(x))  # tampilkan karakter tersembunyi
-                st.dataframe(df_debug, use_container_width=True)
-                st.write(f"Total PROSES di df: **{len(df_debug)}** | Setelah filter HP valid: **{len(df_p)}**")
-
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
