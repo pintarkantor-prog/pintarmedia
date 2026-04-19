@@ -34,12 +34,17 @@ def tampilkan_database_channel():
 
     # =====================================================================
     # FIX GLOBAL: Normalisasi STATUS & HP setelah ambil data
-    # Ini jaminan semua filter di bawah gak ada yang miss karena case/spasi
     # =====================================================================
     df['STATUS'] = df['STATUS'].astype(str).str.strip().str.upper()
     df['HP']     = df['HP'].astype(str).str.strip()
-    # Ganti "nan" (hasil konversi NaN) jadi string kosong
     df['HP']     = df['HP'].replace('nan', '')
+
+    # =====================================================================
+    # FIX KRITIS: Definisikan nowww DI SINI (scope global fungsi),
+    # bukan di dalam blok if level_aktif, agar semua tab bisa mengaksesnya
+    # =====================================================================
+    now_indo = database.ambil_waktu_sekarang()
+    nowww = now_indo
 
     # --- 4. PEMBUATAN TAB ---
     tab_st, tab_pr, tab_jd, tab_hp, tab_sd, tab_ar = st.tabs([
@@ -62,9 +67,7 @@ def tampilkan_database_channel():
             status_stok = f"AMAN (+{selisih_vital})" if selisih_vital >= 0 else f"KRITIS ({selisih_vital})"
             warna_stok = "normal" if selisih_vital >= 0 else "inverse"
         
-            now_indo = database.ambil_waktu_sekarang()
-            nowww = now_indo  # FIXED: Define nowww here to avoid UnboundLocalError
-            bln_ini = now_indo.strftime("%m/%Y") 
+            bln_ini = nowww.strftime("%m/%Y") 
         
             mask_ini = (df['STATUS'] == 'SOLD') & (df['EDITED'].astype(str).str.contains(bln_ini, na=False))
             sold_ini = len(df[mask_ini])
@@ -191,71 +194,71 @@ def tampilkan_database_channel():
                     key=f"grid_st_{len(df_st)}"
                 )
 
-            # --- 6. LOGIKA UPDATE ---
-            if not edited_st.equals(df_st[kolom_tampil]):
-                if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
-                    try:
-                        with st.spinner("Lagi nyimpen ke database, sabaar..."):
-                            tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
-                            data_batch = []
-                        
-                            for i, row in edited_st.iterrows():
-                                match_df = df[df['ID'] == row['ID']]
+                # --- 6. LOGIKA UPDATE ---
+                if not edited_st.equals(df_st[kolom_tampil]):
+                    if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
+                        try:
+                            with st.spinner("Lagi nyimpen ke database, sabaar..."):
+                                tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
+                                data_batch = []
                             
-                                if not match_df.empty:
-                                    old_val = match_df.iloc[0]
+                                for i, row in edited_st.iterrows():
+                                    match_df = df[df['ID'] == row['ID']]
                                 
-                                    is_changed = (
-                                        str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
-                                        str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                        str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
-                                        str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
-                                        str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
-                                    )
-
-                                    if is_changed:
-                                        target_hp = str(old_val.get('HP', ''))
+                                    if not match_df.empty:
+                                        old_val = match_df.iloc[0]
                                     
-                                        if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
-                                            df_p_now = df[df['STATUS'] == 'PROSES'].copy()
-                                            hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
-                                            target_hp = "1"
-                                            for h in range(1, 101):
-                                                count_sekarang = hp_counts.get(str(h), 0)
-                                                max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] else 4
-                                                if count_sekarang < max_slot:
-                                                    target_hp = str(h)
-                                                    break
-                                        elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
-                                            target_hp = ""
+                                        is_changed = (
+                                            str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
+                                            str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
+                                            str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
+                                            str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                            str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
+                                        )
 
-                                        data_batch.append({
-                                            "id": row['ID'],
-                                            "EMAIL": str(row['EMAIL']).strip().lower(),
-                                            "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
-                                            "PASSWORD": str(row['PASSWORD']).strip(),
-                                            "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
-                                            "SUBSCRIBE": str(row['SUBSCRIBE']).strip(),
-                                            "LINK_CHANNEL": row['LINK_CHANNEL'],
-                                            "STATUS": row['STATUS'],
-                                            "HP": target_hp,
-                                            "PENCATAT": row['PENCATAT'],
-                                            "EDITED": f"Up: {user_aktif} ({tgl_now})"
-                                        })
+                                        if is_changed:
+                                            target_hp = str(old_val.get('HP', ''))
+                                        
+                                            if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
+                                                df_p_now = df[df['STATUS'] == 'PROSES'].copy()
+                                                hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
+                                                target_hp = "1"
+                                                for h in range(1, 101):
+                                                    count_sekarang = hp_counts.get(str(h), 0)
+                                                    max_slot = 3 if h in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18] else 4
+                                                    if count_sekarang < max_slot:
+                                                        target_hp = str(h)
+                                                        break
+                                            elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
+                                                target_hp = ""
 
-                            if data_batch:
-                                database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
-                                st.cache_data.clear()
-                                st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
-                                time.sleep(1)
-                                st.rerun()
-                            else:
-                                st.info("Tidak ada perubahan spesifik yang terdeteksi.")
-                                
-                    except Exception as e:
-                        st.error(f"❌ Error Global: {e}")
+                                            data_batch.append({
+                                                "id": row['ID'],
+                                                "EMAIL": str(row['EMAIL']).strip().lower(),
+                                                "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
+                                                "PASSWORD": str(row['PASSWORD']).strip(),
+                                                "NAMA_CHANNEL": str(row['NAMA_CHANNEL']).strip(),
+                                                "SUBSCRIBE": str(row['SUBSCRIBE']).strip(),
+                                                "LINK_CHANNEL": row['LINK_CHANNEL'],
+                                                "STATUS": row['STATUS'],
+                                                "HP": target_hp,
+                                                "PENCATAT": row['PENCATAT'],
+                                                "EDITED": f"Up: {user_aktif} ({tgl_now})"
+                                            })
 
-                st.divider() 
+                                if data_batch:
+                                    database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
+                                    st.cache_data.clear()
+                                    st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
+                                    time.sleep(1)
+                                    st.rerun()
+                                else:
+                                    st.info("Tidak ada perubahan spesifik yang terdeteksi.")
+                                    
+                        except Exception as e:
+                            st.error(f"❌ Error Global: {e}")
+
+                    st.divider() 
 
         else:
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
@@ -284,7 +287,7 @@ def tampilkan_database_channel():
                     st.markdown("##### :red[HP 16 sampai 18]")
 
             # ================================================================
-            # FIX: Filter PROSES hanya ambil baris yang HP-nya terisi & valid
+            # Filter PROSES hanya ambil baris yang HP-nya terisi & valid
             # ================================================================
             df_p = df[
                 (df['STATUS'] == 'PROSES') &
@@ -295,19 +298,11 @@ def tampilkan_database_channel():
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
-                # ============================================================
-                # FIX SORTING: Pake pd.to_numeric langsung, bukan str.extract
-                # Lebih akurat dan gak ada false positive
-                # ============================================================
                 df_p['HP_NUM'] = pd.to_numeric(df_p['HP'], errors='coerce')
-                df_p = df_p[df_p['HP_NUM'].notna()].copy()  # buang baris HP gak valid
+                df_p = df_p[df_p['HP_NUM'].notna()].copy()
                 df_p = df_p.sort_values(by=['HP_NUM', 'ID'], ascending=[True, True])
 
                 display_list = []
-                # ============================================================
-                # FIX GROUPBY: Sort by HP_NUM (integer), bukan HP (string)
-                # Tanpa ini "10" bisa muncul sebelum "2" (string sort)
-                # ============================================================
                 for hp_num in sorted(df_p['HP_NUM'].unique()):
                     group = df_p[df_p['HP_NUM'] == hp_num]
                     hp_id = str(int(hp_num))
@@ -408,9 +403,6 @@ def tampilkan_database_channel():
     # TAB 3: JADWAL UPLOAD
     # ==============================================================================
     with tab_jd:
-        # ================================================================
-        # FIX: Sama seperti Tab PROSES — filter HP kosong duluan
-        # ================================================================
         df_j = df[
             (df['STATUS'] == 'PROSES') &
             (df['HP'] != '') &
@@ -424,9 +416,8 @@ def tampilkan_database_channel():
         if df_j_sorted.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
         else:
-            now_indo = database.ambil_waktu_sekarang()
             nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
-            tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
+            tgl_str = f"{nowww.day} {nama_bulan[nowww.month]} {nowww.year}"
             
             list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 9]
             list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 10 <= h <= 18]
@@ -441,7 +432,6 @@ def tampilkan_database_channel():
                 
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
-                        from datetime import datetime, timedelta
                         with st.status("Sedang membuat jadwal otomatis...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
@@ -653,8 +643,8 @@ def tampilkan_database_channel():
         if df_hp.empty:
             st.info("Radar unit HP masih kosong. Silakan daftarkan unit baru.")
         else:
-            now_indo = database.ambil_waktu_sekarang().date()
-            df_hp['HP_NUM'] = df_hp['NAMA_HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
+            now_indo_date = database.ambil_waktu_sekarang().date()
+            df_hp['HP_NUM'] = df_hp['NAMA_HP'].astype(str).str.extract(r'(\d+)').astype(float).fillna(999)
             df_view = df_hp[df_hp['NAMA_HP'].str.strip() != ""].sort_values('HP_NUM').copy()
             
             grid = st.columns(4) 
@@ -664,7 +654,7 @@ def tampilkan_database_channel():
                 with grid[i % 4]:
                     try:
                         t_exp = pd.to_datetime(r['MASA_AKTIF'], dayfirst=True).date()
-                        sisa = (t_exp - now_indo).days
+                        sisa = (t_exp - now_indo_date).days
                         if sisa > 5: color_code = "#2D5A47" 
                         elif 3 <= sisa <= 5: color_code = "#B8860B" 
                         else: color_code = "#962D2D" 
@@ -720,11 +710,10 @@ def tampilkan_database_channel():
     # ==============================================================================
     with tab_sd: 
         if level_aktif == "OWNER":
-            now_indo = database.ambil_waktu_sekarang()
             col_f1, col_f2 = st.columns([1, 1])
             with col_f1:
                 list_bulan = {"01": "Januari", "02": "Februari", "03": "Maret", "04": "April", "05": "Mei", "06": "Juni", "07": "Juli", "08": "Agustus", "09": "September", "10": "Oktober", "11": "November", "12": "Desember"}
-                sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=now_indo.month - 1, key="tab_sold_bln")
+                sel_bln_nama = st.selectbox("📅 Pilih Bulan Audit", list(list_bulan.values()), index=nowww.month - 1, key="tab_sold_bln")
                 sel_bln_code = [k for k, v in list_bulan.items() if v == sel_bln_nama][0]
             with col_f2:
                 sel_thn = st.selectbox("📆 Pilih Tahun", ["2024", "2025", "2026"], index=2, key="tab_sold_thn")
@@ -739,7 +728,6 @@ def tampilkan_database_channel():
             total_selected = len(df_selected)
             
             try:
-                from datetime import timedelta, datetime
                 date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
                 date_prev = (date_selected - timedelta(days=1))
                 filter_prev = date_prev.strftime("%m/%Y")
