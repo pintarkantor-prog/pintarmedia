@@ -443,26 +443,15 @@ def tampilkan_database_channel():
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
 
     # ==============================================================================
-    # TAB 3: JADWAL UPLOAD (FULL ESTAFET SULTAN v5.0 - ANTI-JOGET & STABIL)
+    # TAB 3: JADWAL UPLOAD (VERSI STABIL - URUTAN HP TETAP)
     # ==============================================================================
     with tab_jd:
-        # --- PERUBAHAN 1: KUNCI SEED (Agar baris tidak acak tiap ngetik) ---
-        if 'seed_jadwal' not in st.session_state:
-            st.session_state.seed_jadwal = 42
-
-        c_kocok, c_seed_info = st.columns([1, 2])
-        if c_kocok.button("🎲 KOCOK ULANG URUTAN", use_container_width=True):
-            import random
-            st.session_state.seed_jadwal = random.randint(1, 9999)
-            st.rerun()
-        
+        # --- AMBIL DATA PROSES ---
         df_j = df[df['STATUS'] == 'PROSES'].copy()
         
-        # --- PERUBAHAN 2: Tambahin random_state di sample ---
-        # Ini supaya pas lo ngetik jam, urutan barisnya DIEM di tempat.
-        df_j_kocok = df_j.sample(frac=1, random_state=st.session_state.seed_jadwal).reset_index(drop=True)
-        df_j_kocok['HP_N'] = pd.to_numeric(df_j_kocok['HP'], errors='coerce').fillna(999)
-        df_j_sorted = df_j_kocok.sort_values(['HP_N'], kind='mergesort').copy()
+        # --- URUTKAN BERDASARKAN NOMOR HP (MURNI TANPA KOCOK) ---
+        df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
+        df_j_sorted = df_j.sort_values(['HP_N'], kind='mergesort').copy()
 
         if df_j_sorted.empty:
             st.info("Belum ada akun di Tab Proses untuk dijadwalkan.")
@@ -471,7 +460,7 @@ def tampilkan_database_channel():
             nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
-            # --- DEFINISI KELOMPOK TIM (Logika Sultan Tetap) ---
+            # --- DEFINISI KELOMPOK TIM ---
             list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 9]
             list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 10 <= h <= 18]
             kelompok_tim = [
@@ -479,7 +468,7 @@ def tampilkan_database_channel():
                 {"nama": "HANI (HP 10-18)", "list": list_hp_tim2}
             ]
 
-            # --- A. GENERATOR JADWAL (Logika Silet Tetap) ---
+            # --- A. GENERATOR JADWAL OTOMATIS ---
             with st.container(border=True):
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai Upload", value="08:15", key="start_estafet")
@@ -505,6 +494,7 @@ def tampilkan_database_channel():
                                     df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 10].copy()
                                 
                                 if df_tim.empty: continue
+                                # Urutan tetap berdasarkan HP_N (No HP)
                                 df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
                                 df_resorted = df_tim.sort_values(['urutan_di_hp', 'HP_N'])
                                 
@@ -515,7 +505,7 @@ def tampilkan_database_channel():
                                         "PAGI": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 1 else "EMPTY",
                                         "SIANG": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 2 else "EMPTY",
                                         "SORE": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 3 else "EMPTY",
-                                        "EDITED": f"Round-Robin: {user_aktif}"
+                                        "EDITED": f"Estafet Sultan: {user_aktif}"
                                     })
 
                             if data_update:
@@ -525,12 +515,11 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- PERUBAHAN 3: EDIT MANUAL JADWAL (Logika Anti-Gagal & Anti-EMPTY) ---
+            # --- B. EDIT MANUAL JADWAL ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
                 editor_key = "editor_manual_sultan_v4" 
 
-                # 1. TAMPILAN BERSIH: Hapus tulisan EMPTY di layar
                 df_editor_view = df_j_sorted[kolom_edit].replace("EMPTY", "")
 
                 edited_df = st.data_editor(
@@ -549,15 +538,11 @@ def tampilkan_database_channel():
                 if st.button("💾 SIMPAN PERUBAHAN MANUAL", use_container_width=True, type="primary"):
                     if editor_key in st.session_state:
                         edits = st.session_state[editor_key].get("edited_rows", {})
-                        if not edits:
-                            st.warning("Belum ada data yang dirubah.")
-                        else:
+                        if edits:
                             try:
                                 data_save = []
                                 for row_idx, changes in edits.items():
                                     orig = df_j_sorted.iloc[int(row_idx)]
-                                    
-                                    # 2. LOGIKA BALIKIN KE DB: Kalau kosong, kirim "EMPTY"
                                     p_val = changes.get("PAGI", orig['PAGI'])
                                     s_val = changes.get("SIANG", orig['SIANG'])
                                     o_val = changes.get("SORE", orig['SORE'])
@@ -572,21 +557,17 @@ def tampilkan_database_channel():
 
                                 if data_save:
                                     database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
-                                    st.success(f"✅ Berhasil Simpan {len(data_save)} Baris!")
+                                    st.success("✅ Berhasil Simpan!")
                                     st.cache_data.clear()
-                                    time.sleep(1)
                                     st.rerun()
                             except Exception as e:
                                 st.error(f"Gagal: {e}")
 
             st.divider()
 
-            # --- 3. MONITORING VIEW (VERSI BERSIH ANTI-EMPTY) ---
+            # --- C. MONITORING VIEW ---
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
-            
-            # Kita bikin tampilan monitor yang bersih dari tulisan EMPTY
             df_monitor = df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]].replace("EMPTY", "")
-            
             st.dataframe(
                 df_monitor, 
                 column_config={
@@ -599,7 +580,7 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- 4. LOGIKA PRINT (GAYA ASLI DIAN - OPTIMIZED 9 HP) ---
+            # --- D. LOGIKA PRINT ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
                     df_display = df_j_sorted.copy()
@@ -609,7 +590,6 @@ def tampilkan_database_channel():
                         list_hp_unik = tim["list"]
                         if not list_hp_unik: continue
                         
-                        # Loop per 9 HP biar pas 1 halaman
                         for start_idx in range(0, len(list_hp_unik), 9):
                             hp_halaman_ini = list_hp_unik[start_idx : start_idx + 9]
                             df_page = df_display[df_display['HP'].isin(hp_halaman_ini)]
@@ -632,16 +612,12 @@ def tampilkan_database_channel():
                                     </thead>
                                     <tbody>
                             """
-                            
                             for i, r in enumerate(df_page.itertuples()):
                                 p = r.PAGI if pd.notna(r.PAGI) and str(r.PAGI).strip() not in ["", "EMPTY"] else "-"
                                 s = r.SIANG if pd.notna(r.SIANG) and str(r.SIANG).strip() not in ["", "EMPTY"] else "-"
                                 o = r.SORE if pd.notna(r.SORE) and str(r.SORE).strip() not in ["", "EMPTY"] else "-"
-                                
                                 hp_view = str(r.HP) if i == 0 or str(r.HP) != str(df_page.iloc[i-1]['HP']) else ""
                                 bg_color = "#FFFFFF" if i % 2 == 0 else "#F4F4F4"
-                                
-                                # Garis pemisah tipis antar HP (Kaya punya lo)
                                 border_top = "border-top: 1px solid #000 !important;" if hp_view and i != 0 else ""
                                 
                                 html_all_pages += f"""
