@@ -333,7 +333,7 @@ def tampilkan_database_channel():
                     st.markdown("##### :red[HP 16 sampai 18]")
 
             # Filter data PROSES
-            df_p = df[df['STATUS'] == 'PROSES'].copy()
+            df_p = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'].copy()
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
@@ -803,7 +803,7 @@ def tampilkan_database_channel():
             filter_periode = f"{sel_bln_code}/{sel_thn}"
             
             # --- 2. LOGIKA HITUNG DATA (SUPABASE DATA) ---
-            df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
+            df_sold_all = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'SOLD'].copy()
             total_ever = len(df_sold_all)
             
             # Filter berdasarkan kolom EDITED (jejak digital transaksi)
@@ -924,7 +924,7 @@ def tampilkan_database_channel():
     with tab_ar:
         if level_aktif in ["OWNER", "ADMIN"]:
             # --- 1. LOGIKA DASHBOARD ARSIP ---
-            df_a = df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])].copy()
+            df_a = df[df['STATUS'].apply(lambda x: str(x).strip().upper()).isin(['BUSUK', 'SUSPEND'])].copy()
         
             total_arsip = len(df_a)
             total_busuk = len(df_a[df_a['STATUS'] == 'BUSUK'])
