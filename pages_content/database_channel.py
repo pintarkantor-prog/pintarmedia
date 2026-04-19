@@ -475,7 +475,7 @@ def tampilkan_database_channel():
                 {"nama": "HANI (HP 10-18)", "list": list_hp_tim2}
             ]
 
-            # --- A. GENERATOR JADWAL OTOMATIS (SINKRONISASI TOTAL) ---
+            # --- A. GENERATOR JADWAL OTOMATIS ---
             with st.container(border=True):
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai Upload", value="08:15", key="start_estafet")
@@ -483,60 +483,61 @@ def tampilkan_database_channel():
                 if c_btn.button("🚀 GENERATE JADWAL OTOMATIS", use_container_width=True, type="primary"):
                     try:
                         from datetime import datetime, timedelta
-                        # Pastikan data ditarik murni tanpa spasi/case sensitif
-                        df_j_sync = df[df['STATUS'].str.strip().str.upper() == 'PROSES'].copy()
-                        
-                        with st.status("Sinkronisasi Jadwal...", expanded=False) as status:
+                        with st.status("Sedang membuat jadwal otomatis...", expanded=False) as status:
                             data_update = []
                             base_pagi = datetime.strptime(start_time, "%H:%M")
 
                             def geser_jam_silet(waktu_mulai, urutan_total):
                                 target = waktu_mulai + timedelta(minutes=(urutan_total - 1) * 15)
-                                if (target.hour * 60 + target.minute) >= (11 * 60 + 30):
+                                menit_target = target.hour * 60 + target.minute
+                                if menit_target >= (11 * 60 + 30):
                                     target = target + timedelta(minutes=60)
                                 return target
 
-                            # Proses per Tim agar urutan Jam sinkron dengan urutan HP
                             for tim_idx in [1, 2]:
-                                mask = (df_j_sorted['HP_N'] <= 9) if tim_idx == 1 else (df_j_sorted['HP_N'] >= 10)
-                                df_tim = df_j_sorted[mask].copy()
+                                if tim_idx == 1:
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] <= 9].copy()
+                                else:
+                                    df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 10].copy()
                                 
                                 if df_tim.empty: continue
+                                # Urutan tetap berdasarkan HP_N (No HP)
                                 df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
                                 df_resorted = df_tim.sort_values(['urutan_di_hp', 'HP_N'])
                                 
                                 for i, (idx_row, row) in enumerate(df_resorted.iterrows(), 1):
                                     jam_final = geser_jam_silet(base_pagi, i)
-                                    # Kunci ID harus murni (ID asli Supabase)
                                     data_update.append({
-                                        "id": row['ID'], 
+                                        "id": row['ID'],
                                         "PAGI": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 1 else "EMPTY",
                                         "SIANG": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 2 else "EMPTY",
                                         "SORE": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 3 else "EMPTY",
-                                        "EDITED": f"AutoSync: {user_aktif}"
+                                        "EDITED": f"Estafet Sultan: {user_aktif}"
                                     })
 
                             if data_update:
-                                # Gunakan ID sebagai jangkar mati
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
                                 st.cache_data.clear()
                                 st.rerun()
                     except Exception as e:
-                        st.error(f"Gagal Sinkron: {e}")
+                        st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL (ANTI-ILANG) ---
+            # --- B. EDIT MANUAL JADWAL ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
-                editor_key = "editor_v5_sync" 
+                editor_key = "editor_manual_sultan_v4" 
 
                 df_editor_view = df_j_sorted[kolom_edit].replace("EMPTY", "")
 
                 edited_df = st.data_editor(
                     df_editor_view,
                     column_config={
-                        "ID": None, # ID wajib ada tapi sembunyiin
                         "HP": st.column_config.TextColumn("📱 HP", disabled=True),
                         "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", disabled=True),
+                        "PAGI": st.column_config.TextColumn("🌅 PAGI"),
+                        "SIANG": st.column_config.TextColumn("☀️ SIANG"),
+                        "SORE": st.column_config.TextColumn("🌆 SORE"),
+                        "ID": None
                     },
                     use_container_width=True, hide_index=True, key=editor_key
                 )
@@ -548,29 +549,26 @@ def tampilkan_database_channel():
                             try:
                                 data_save = []
                                 for row_idx, changes in edits.items():
-                                    # Ambil ID berdasarkan index baris di df_j_sorted
-                                    orig_row = df_j_sorted.iloc[int(row_idx)]
-                                    
-                                    # Pastikan nilai lama tetap ada jika tidak diubah
-                                    p_val = changes.get("PAGI", orig_row['PAGI'])
-                                    s_val = changes.get("SIANG", orig_row['SIANG'])
-                                    o_val = changes.get("SORE", orig_row['SORE'])
+                                    orig = df_j_sorted.iloc[int(row_idx)]
+                                    p_val = changes.get("PAGI", orig['PAGI'])
+                                    s_val = changes.get("SIANG", orig['SIANG'])
+                                    o_val = changes.get("SORE", orig['SORE'])
 
                                     data_save.append({
-                                        "id": orig_row['ID'],
+                                        "id": orig['ID'],
                                         "PAGI": p_val if p_val and str(p_val).strip() != "" else "EMPTY",
                                         "SIANG": s_val if s_val and str(s_val).strip() != "" else "EMPTY",
                                         "SORE": o_val if o_val and str(o_val).strip() != "" else "EMPTY",
-                                        "EDITED": f"ManualSync: {user_aktif}"
+                                        "EDITED": f"Manual: {user_aktif}"
                                     })
 
                                 if data_save:
                                     database.supabase.table("Channel_Pintar").upsert(data_save, on_conflict="id").execute()
-                                    st.success(f"✅ {len(data_save)} Akun Sinkron!")
+                                    st.success("✅ Berhasil Simpan!")
                                     st.cache_data.clear()
                                     st.rerun()
                             except Exception as e:
-                                st.error(f"Error Sinkron: {e}")
+                                st.error(f"Gagal: {e}")
 
             st.divider()
 
