@@ -460,30 +460,45 @@ def tampilkan_database_channel():
                                     df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 10].copy()
                                 
                                 if df_tim.empty: continue
-                                df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
-                                df_resorted = df_tim.sort_values(['urutan_di_hp', 'HP_N'])
-                                
-                                for i, (idx_row, row) in enumerate(df_resorted.iterrows(), 1):
-                                    jam_final = geser_jam_silet(base_pagi, i)
-                                    data_update.append({
-                                        "id": row['ID'],
-                                        "PAGI": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 1 else "EMPTY",
-                                        "SIANG": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 2 else "EMPTY",
-                                        "SORE": jam_final.strftime("%H:%M") if row['urutan_di_hp'] == 3 else "EMPTY",
-                                        "EDITED": f"Estafet Sultan: {user_aktif}"
-                                    })
+
+                                # FIX: Sort by HP_N lalu ID agar urutan konsisten
+                                # groupby HP_N (numerik), bukan HP (string) agar tidak salah urut
+                                df_tim = df_tim.sort_values(['HP_N', 'ID'], ascending=[True, True])
+                                df_tim['urutan_di_hp'] = df_tim.groupby('HP_N').cumcount() + 1
+
+                                # Iterasi per HP, hitung jam per slot secara independen
+                                counter_jam = 1
+                                for hp_num in sorted(df_tim['HP_N'].unique()):
+                                    group_hp = df_tim[df_tim['HP_N'] == hp_num].sort_values('ID')
+                                    for _, row in group_hp.iterrows():
+                                        urutan = int(row['urutan_di_hp'])
+                                        jam_final = geser_jam_silet(base_pagi, counter_jam)
+                                        counter_jam += 1
+                                        data_update.append({
+                                            "id": row['ID'],
+                                            "PAGI":  jam_final.strftime("%H:%M") if urutan == 1 else "EMPTY",
+                                            "SIANG": jam_final.strftime("%H:%M") if urutan == 2 else "EMPTY",
+                                            "SORE":  jam_final.strftime("%H:%M") if urutan == 3 else "EMPTY",
+                                            "EDITED": f"Estafet: {user_aktif}"
+                                        })
 
                             if data_update:
                                 database.supabase.table("Channel_Pintar").upsert(data_update, on_conflict="id").execute()
                                 st.cache_data.clear()
                                 st.rerun()
                     except Exception as e:
-                        st.error(f"Error: {e}")
+                        st.error(f"Error generate jadwal: {e}")
 
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
-                editor_key = "editor_manual_sultan_v4" 
-                df_editor_view = df_j_sorted[kolom_edit].replace("EMPTY", "")
+                editor_key = "editor_manual_sultan_v4"
+
+                # FIX: Simpan mapping EMPTY → "" hanya untuk tampilan editor
+                # Nilai asli (EMPTY/jam) tetap disimpan di df_j_sorted untuk referensi save
+                df_editor_view = df_j_sorted[kolom_edit].copy()
+                df_editor_view['PAGI']  = df_editor_view['PAGI'].replace("EMPTY", "")
+                df_editor_view['SIANG'] = df_editor_view['SIANG'].replace("EMPTY", "")
+                df_editor_view['SORE']  = df_editor_view['SORE'].replace("EMPTY", "")
 
                 edited_df = st.data_editor(
                     df_editor_view,
@@ -506,15 +521,25 @@ def tampilkan_database_channel():
                                 data_save = []
                                 for row_idx, changes in edits.items():
                                     orig = df_j_sorted.iloc[int(row_idx)]
-                                    p_val = changes.get("PAGI", orig['PAGI'])
-                                    s_val = changes.get("SIANG", orig['SIANG'])
-                                    o_val = changes.get("SORE", orig['SORE'])
+
+                                    # FIX: Ambil nilai dari editor_view (sudah "" bukan "EMPTY")
+                                    # bukan dari orig (yang masih "EMPTY") agar tidak tertimpa
+                                    orig_display = df_editor_view.iloc[int(row_idx)]
+                                    p_val = changes.get("PAGI",  orig_display['PAGI'])
+                                    s_val = changes.get("SIANG", orig_display['SIANG'])
+                                    o_val = changes.get("SORE",  orig_display['SORE'])
+
+                                    # Konversi None/kosong → "EMPTY", sisanya simpan apa adanya
+                                    def bersihkan_jam(val):
+                                        if val is None or str(val).strip() == "" or str(val).strip() == "None":
+                                            return "EMPTY"
+                                        return str(val).strip()
 
                                     data_save.append({
                                         "id": orig['ID'],
-                                        "PAGI": p_val if p_val and str(p_val).strip() != "" else "EMPTY",
-                                        "SIANG": s_val if s_val and str(s_val).strip() != "" else "EMPTY",
-                                        "SORE": o_val if o_val and str(o_val).strip() != "" else "EMPTY",
+                                        "PAGI":  bersihkan_jam(p_val),
+                                        "SIANG": bersihkan_jam(s_val),
+                                        "SORE":  bersihkan_jam(o_val),
                                         "EDITED": f"Manual: {user_aktif}"
                                     })
 
@@ -524,14 +549,30 @@ def tampilkan_database_channel():
                                     st.cache_data.clear()
                                     st.rerun()
                             except Exception as e:
-                                st.error(f"Gagal: {e}")
+                                st.error(f"Gagal simpan manual: {e}")
 
             st.divider()
 
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
-            df_monitor = df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]].replace("EMPTY", "")
+
+            # FIX: Tampilkan semua akun PROSES (termasuk yang belum punya jadwal)
+            # Akun tanpa jadwal akan tampil dengan kolom jam kosong — jangan disembunyikan
+            df_monitor = df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]].copy()
+            df_monitor['PAGI']  = df_monitor['PAGI'].replace({"EMPTY": "", "nan": "", "None": ""}).fillna("")
+            df_monitor['SIANG'] = df_monitor['SIANG'].replace({"EMPTY": "", "nan": "", "None": ""}).fillna("")
+            df_monitor['SORE']  = df_monitor['SORE'].replace({"EMPTY": "", "nan": "", "None": ""}).fillna("")
+
+            # Tandai baris yang belum punya jadwal sama sekali
+            belum_dijadwal = df_monitor[
+                (df_monitor['PAGI'] == '') & 
+                (df_monitor['SIANG'] == '') & 
+                (df_monitor['SORE'] == '')
+            ]
+            if not belum_dijadwal.empty:
+                st.warning(f"⚠️ **{len(belum_dijadwal)} akun belum dijadwalkan** — silakan Generate Jadwal Otomatis atau Edit Manual.")
+
             st.dataframe(
-                df_monitor, 
+                df_monitor,
                 column_config={
                     "HP": st.column_config.TextColumn("📱 HP", width=50),
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=250),
