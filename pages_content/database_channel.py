@@ -328,22 +328,32 @@ def tampilkan_database_channel():
                     # Warna Oranye sesuai permintaanmu
                     st.markdown("##### :red[HP 15 sampai 18]")
 
-            # Filter data PROSES
-            df_p = df[df['STATUS'] == 'PROSES'].copy()
+            # --- 1. AMBIL & BERSIHKAN DATA (DEEP CLEAN MODE) ---
+            # Kita paksa ambil data murni tanpa spasi di STATUS
+            df_p = df[df['STATUS'].astype(str).str.strip().str.upper() == 'PROSES'].copy()
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
-                # Sorting HP biar rapi (1, 2, 3...)
-                df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
-                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
+                # --- PEMBERSIHAN TOTAL SEMUA KOLOM KRUSIAL ---
+                # Hapus spasi di Email, HP, dan Status biar sinkron sama filter
+                df_p['EMAIL'] = df_p['EMAIL'].astype(str).str.strip().str.lower()
+                df_p['HP'] = df_p['HP'].astype(str).str.strip()
+                df_p['STATUS'] = df_p['STATUS'].astype(str).str.strip().str.upper()
+                
+                # Sorting numerik buat HP
+                df_p['HP_NUM'] = pd.to_numeric(df_p['HP'], errors='coerce').fillna(999)
+                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'], ascending=[True, True])
 
                 display_list = []
+                # Grouping ulang berdasarkan HP yang sudah bersih
                 for hp_id, group in df_p.groupby('HP', sort=False):
                     for i, (idx, r) in enumerate(group.iterrows()):
+                        label_hp = f"📱 HP {hp_id}" if hp_id not in ["", "nan", "None"] else "⚠️ CEK HP"
+                        
                         display_list.append({
-                            "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
-                            "HP": f"📱 HP {hp_id}" if i == 0 else "", 
+                            "ID": r['ID'],
+                            "HP": label_hp if i == 0 else "", 
                             "EMAIL": r['EMAIL'],
                             "PASSWORD": r['PASSWORD'],
                             "NAMA_CHANNEL": r['NAMA_CHANNEL'],
