@@ -1,15 +1,15 @@
 import streamlit as st
 import pandas as pd
-from datetime import datetime, timedelta # Tambahin timedelta buat cutoff waktu kalau perlu
+from datetime import datetime, timedelta
 import pytz
 import time
 import socket
-import re        # <--- WAJIB (Buat fungsi clean_angka)
-import requests  # <--- WAJIB (Buat nembak API OTPNUM)
+import re
+import requests
 from modules import database 
 
 def tampilkan_database_channel():
-    # --- 1. PROTEKSI LEVEL AKSES (Udah Mantap!) ---
+    # --- 1. PROTEKSI LEVEL AKSES ---
     level_aktif = str(st.session_state.get("user_level", "STAFF")).upper().strip()
     user_aktif = st.session_state.get("user_aktif", "User").upper()
     
@@ -24,14 +24,22 @@ def tampilkan_database_channel():
         st.cache_resource.clear()
         st.rerun()
 
-    # --- 3. PENARIKAN DATA REAL-TIME (VERSI SENYAP - ANTI KEDIP) ---
-    # Kita hapus spinner-nya, biar narik data di balik layar aja
+    # --- 3. PENARIKAN DATA REAL-TIME ---
     df = database.ambil_data("Channel_Pintar")
     df_hp = database.ambil_data("Data_HP")
     
     if df.empty:
         st.warning("⚠️ Gagal memuat data atau tabel kosong.")
         return
+
+    # =====================================================================
+    # FIX GLOBAL: Normalisasi STATUS & HP setelah ambil data
+    # Ini jaminan semua filter di bawah gak ada yang miss karena case/spasi
+    # =====================================================================
+    df['STATUS'] = df['STATUS'].astype(str).str.strip().str.upper()
+    df['HP']     = df['HP'].astype(str).str.strip()
+    # Ganti "nan" (hasil konversi NaN) jadi string kosong
+    df['HP']     = df['HP'].replace('nan', '')
 
     # --- 4. PEMBUATAN TAB ---
     tab_st, tab_pr, tab_jd, tab_hp, tab_sd, tab_ar = st.tabs([
@@ -40,54 +48,42 @@ def tampilkan_database_channel():
     ])
 
     # ==============================================================================
-    # TAB 1: STOK STANDBY (GAYA RADAR UI v2.0 - FULL SUPABASE)
+    # TAB 1: STOK STANDBY
     # ==============================================================================
-    with tab_st: # Sesuaikan nama variabel tab di atas
+    with tab_st:
         if level_aktif in ["OWNER", "ADMIN"]:
-            # --- 1. LOGIKA HITUNG DATA (Real-time) ---
-            total_st = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'])
-            total_pr = len(df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'])
-            # Hitung HP Aktif (Cek kolom HP yang tidak kosong)
-            df_proses = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES']
-            hp_aktif = len(df_proses[df_proses['HP'].notna() & (df_proses['HP'].astype(str).str.strip() != "")]['HP'].unique())
+            # --- 1. LOGIKA HITUNG DATA ---
+            total_st = len(df[df['STATUS'] == 'STANDBY'])
+            total_pr = len(df[df['STATUS'] == 'PROSES'])
+            df_proses = df[df['STATUS'] == 'PROSES']
+            hp_aktif = len(df_proses[df_proses['HP'].notna() & (df_proses['HP'] != "")]['HP'].unique())
         
-            # --- LOGIKA STATUS VITAL ---
             selisih_vital = total_st - (total_pr + 10)
             status_stok = f"AMAN (+{selisih_vital})" if selisih_vital >= 0 else f"KRITIS ({selisih_vital})"
             warna_stok = "normal" if selisih_vital >= 0 else "inverse"
         
-            # --- LOGIKA SOLD (Bulan Ini) ---
             now_indo = database.ambil_waktu_sekarang()
             bln_ini = now_indo.strftime("%m/%Y") 
         
-            # Filter SOLD bulan ini berdasarkan kolom EDITED
             mask_ini = (df['STATUS'] == 'SOLD') & (df['EDITED'].astype(str).str.contains(bln_ini, na=False))
             sold_ini = len(df[mask_ini])
         
-            # HITUNG ARSIP (SUSPEND + BUSUK)
             total_arsip = len(df[df['STATUS'].isin(['SUSPEND', 'BUSUK'])])
 
-            # --- 2. RENDER DASHBOARD UI (BALIK KE GAYA st.write) ---
             with st.container(border=True):
                 c1, c2, c3, c4, c5 = st.columns([1, 1, 1, 1.2, 2.2])
                 c1.metric("📦 CH STANDBY", f"{total_st}", delta=status_stok, delta_color=warna_stok)
                 c2.metric("🚀 CH PROSES", f"{total_pr}", delta="ON PROCESS")
                 c3.metric("📱 UNIT HP", f"{hp_aktif}", delta="LIVE")
                 c4.metric("💰 SOLD (BLN)", f"{sold_ini}", delta="Bulan Ini")
-                
-                # INI YANG LO MAU: Pake gaya st.write di Kolom 5
                 with c5:
                     st.markdown("<div style='margin-top: 10px;'></div>", unsafe_allow_html=True)
                     st.write(f"📢 **INFO SISTEM:**")
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
-            # ==============================================================================
-            # REPORT HARIAN: EXPANDER LUAR -> CONTAINER DALAM (4 KOLOM)
-            # ==============================================================================
-            
-            # --- 1. Persiapan Data ---
+
+            # --- REPORT HARIAN ---
             nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
-            from datetime import timedelta
             kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
             df_today = df[df['TANGGAL'].astype(str).str.contains(hari_ini_filter, na=False)]
@@ -96,63 +92,39 @@ def tampilkan_database_channel():
             total_today = len(df_today)
             selisih = total_today - len(df_yesterday)
             
-            # Rekap Staff Hari Ini
             rekap_pencatat = df_today['PENCATAT'].value_counts().reset_index()
             rekap_pencatat.columns = ['NAMA', 'JUMLAH']
 
-            # --- 2. Render UI (Expander Duluan) ---
-            # Expanded=False biar pas buka web gak menuh-menuhin layar
             with st.expander(f"📊 REKAP INPUT HARIAN", expanded=False):
-                
-                # Bikin 4 Kolom di dalem expander
                 cols = st.columns(4)
-                
-                # KOLOM 1: TOTAL (Dibungkus Container)
                 with cols[0]:
                     with st.container(border=True):
-                        st.metric(
-                            label="📈 TOTAL HARI INI", 
-                            value=f"{total_today}", 
-                            delta=f"{selisih} vs Kemarin"
-                        )
-                
-                # KOLOM 2, 3, 4: STAFF (Dibungkus Container Masing-masing)
+                        st.metric(label="📈 TOTAL HARI INI", value=f"{total_today}", delta=f"{selisih} vs Kemarin")
                 for i in range(3):
                     with cols[i+1]:
                         if i < len(rekap_pencatat):
                             nama_staff = rekap_pencatat.iloc[i]['NAMA']
                             jml_staff = rekap_pencatat.iloc[i]['JUMLAH']
-                            
-                            # Bikin kotak border buat tiap staff
                             with st.container(border=True):
-                                st.metric(
-                                    label=f"👤 {nama_staff.upper()}", 
-                                    value=f"{jml_staff}",
-                                    delta="Akun Terinput"
-                                )
+                                st.metric(label=f"👤 {nama_staff.upper()}", value=f"{jml_staff}", delta="Akun Terinput")
                         else:
-                            # Biar kolom kosong tetep sejajar/gak jomplang
                             st.write("") 
 
             st.markdown("<br>", unsafe_allow_html=True)
             
-            # --- 3. HEADER DATABASE & TOMBOL TAMBAH ---
             hc1, hc2 = st.columns([3, 1])
             hc1.markdown("#### 🔐 DATABASE STOK STANDBY")
             
             if hc2.button("➕ TAMBAH AKUN", use_container_width=True, type="primary"):
                 st.session_state.form_baru = not st.session_state.get('form_baru', False)
 
-            # --- 4. FORM INPUT AKUN BARU (GAYA LAMA - NOTIF TOAST) ---
             if st.session_state.get('form_baru', False):
                 with st.container(border=True):
-                    # Gue kasih key dinamis biar gak error "Duplicate Form" lagi
                     with st.form(key=f"form_input_{len(df)}", clear_on_submit=True):
                         f1, f2, f3 = st.columns(3)
                         v_mail = f1.text_input("📧 Email Login")
                         v_pass = f2.text_input("🔑 Password")
                         v_nama = f3.text_input("📺 Nama Channel")
-                        
                         f4, f5 = st.columns([1, 2])
                         v_subs = f4.text_input("📊 Jumlah Subs")
                         v_link = f5.text_input("🔗 Link Channel")
@@ -162,7 +134,6 @@ def tampilkan_database_channel():
                                 tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                                 v_mail = v_mail.strip().lower()
                                 v_nama = v_nama.strip()
-                                
                                 try:
                                     database.supabase.table("Channel_Pintar").insert({
                                         "TANGGAL": tgl_now, 
@@ -175,12 +146,10 @@ def tampilkan_database_channel():
                                         "PENCATAT": user_aktif,
                                         "EDITED": f"New: {user_aktif} ({tgl_now})"
                                     }).execute()
-
                                     st.cache_data.clear()
                                     st.toast(f"✅ Berhasil Masuk: {v_mail}", icon="🚀")
                                     time.sleep(1)
                                     st.rerun()
-
                                 except Exception as e:
                                     if "23505" in str(e):
                                         st.warning(f"⚠️ Email **{v_mail}** sudah ada!")
@@ -190,7 +159,7 @@ def tampilkan_database_channel():
                                 st.error("⚠️ Email dan Nama Channel wajib diisi!")
                                 
             # --- 5. GRID EDITOR STANDBY ---
-            df_st = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'STANDBY'].copy()
+            df_st = df[df['STATUS'] == 'STANDBY'].copy()
             if df_st.empty:
                 st.info("Belum ada stok standby.")
             else:
@@ -199,7 +168,6 @@ def tampilkan_database_channel():
                 df_st['REAL_IDX'] = df_st.index 
                 df_st['SUBSCRIBE'] = df_st['SUBSCRIBE'].astype(str)
 
-                # Konfigurasi Kolom
                 config_st = {
                     "NO": st.column_config.TextColumn("#️⃣ NO", width=30, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200),
@@ -210,10 +178,9 @@ def tampilkan_database_channel():
                     "PENCATAT": st.column_config.TextColumn("👤 OLEH", width=50, disabled=True),
                     "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"]),
                     "REAL_IDX": None,
-                    "ID": None # SEMBUNYIKAN ID ASLI (Kunci Supabase)
+                    "ID": None
                 }
 
-                # Ambil kolom ID juga (Hasil .upper() dari database.py)
                 kolom_tampil = ["NO", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "PENCATAT", "STATUS", "REAL_IDX", "ID"]
 
                 edited_st = st.data_editor(
@@ -221,11 +188,10 @@ def tampilkan_database_channel():
                     column_config=config_st, 
                     use_container_width=True, 
                     hide_index=True, 
-                    key=f"grid_st_{len(df_st)}" # Biar gak ngebayang datanya
+                    key=f"grid_st_{len(df_st)}"
                 )
 
-            # --- 6. LOGIKA UPDATE MODERN (BATCH VERSION - ID ANCHOR) ---
-            # Cek apakah ada perubahan di data editor dibanding df_st
+            # --- 6. LOGIKA UPDATE ---
             if not edited_st.equals(df_st[kolom_tampil]):
                 if st.button("💾 KONFIRMASI PERUBAHAN", use_container_width=True, type="primary"):
                     try:
@@ -234,15 +200,13 @@ def tampilkan_database_channel():
                             data_batch = []
                         
                             for i, row in edited_st.iterrows():
-                                # Cari baris asli di master DF pake ID (Bukan REAL_IDX atau EMAIL)
                                 match_df = df[df['ID'] == row['ID']]
                             
                                 if not match_df.empty:
                                     old_val = match_df.iloc[0]
                                 
-                                    # FILTER PERUBAHAN: Cek data murni
                                     is_changed = (
-                                        str(row['STATUS']).strip() != str(old_val['STATUS']).strip() or 
+                                        str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
                                         str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
                                         str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
                                         str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
@@ -252,12 +216,9 @@ def tampilkan_database_channel():
                                     if is_changed:
                                         target_hp = str(old_val.get('HP', ''))
                                     
-                                        # Logika Auto-Slot lo tetep jalan
                                         if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
                                             df_p_now = df[df['STATUS'] == 'PROSES'].copy()
                                             hp_counts = df_p_now['HP'].astype(str).value_counts().to_dict()
-                                        
-                                            # Scan HP Kosong
                                             target_hp = "1"
                                             for h in range(1, 101):
                                                 count_sekarang = hp_counts.get(str(h), 0)
@@ -268,9 +229,8 @@ def tampilkan_database_channel():
                                         elif row['STATUS'] in ['SOLD', 'BUSUK', 'SUSPEND'] and old_val['STATUS'] == 'PROSES':
                                             target_hp = ""
 
-                                        # Masukkan ke keranjang batch
                                         data_batch.append({
-                                            "id": row['ID'], # KUNCI UTAMA (Gunakan huruf kecil 'id' sesuai Supabase)
+                                            "id": row['ID'],
                                             "EMAIL": str(row['EMAIL']).strip().lower(),
                                             "TANGGAL": row.get('TANGGAL', old_val['TANGGAL']),
                                             "PASSWORD": str(row['PASSWORD']).strip(),
@@ -284,7 +244,6 @@ def tampilkan_database_channel():
                                         })
 
                             if data_batch:
-                                # UPSERT PAKE on_conflict="id" (Anti-Duplikat!)
                                 database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
                                 st.cache_data.clear()
                                 st.success(f"✅ Mantap! {len(data_batch)} Akun Diupdate!")
@@ -299,54 +258,62 @@ def tampilkan_database_channel():
                 st.divider() 
 
         else:
-            # --- TAMPILAN SINGKAT & PADAT ---
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
+
     # ==============================================================================
-    # TAB 2: MONITORING PROSES (GAYA COMMAND CENTER)
+    # TAB 2: MONITORING PROSES
     # ==============================================================================
     with tab_pr:
         if level_aktif in ["OWNER", "ADMIN"]:
             st.markdown("#### 🚀 MONITORING PROSES")
 
-            # --- 1. DASHBOARD INFO UNIT (MODEL 4 KOLOM PROPORTIONAL) ---
             with st.container(border=True):
                 c1, c2, c3, c4 = st.columns(4)
-            
                 with c1:
                     st.write("📱 **HP 1 - 18**")
-                    # Warna Hijau untuk info unit
                     st.markdown("##### :green[3 Channel] :gray[/hp]") 
-
                 with c2:
                     st.write("🌸 **KONTEN SAKURA**")
                     st.markdown("##### :blue[HP 1]")
-
                 with c3:
                     st.write("🕌 **MASJID NENEK BUAH**")
-                    # Warna Oranye sesuai permintaanmu
                     st.markdown("##### :orange[HP 2 sampai 15]")
-
                 with c4:
                     st.write("🕌 **MASJID KAKEK BUAH**")
-                    # Warna Oranye sesuai permintaanmu
                     st.markdown("##### :red[HP 16 sampai 18]")
 
-            # Filter data PROSES
-            df_p = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'PROSES'].copy()
+            # ================================================================
+            # FIX: Filter PROSES hanya ambil baris yang HP-nya terisi & valid
+            # ================================================================
+            df_p = df[
+                (df['STATUS'] == 'PROSES') &
+                (df['HP'] != '') &
+                (df['HP'] != 'nan')
+            ].copy()
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
-                # Sorting HP biar rapi (1, 2, 3...)
-                df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
-                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
+                # ============================================================
+                # FIX SORTING: Pake pd.to_numeric langsung, bukan str.extract
+                # Lebih akurat dan gak ada false positive
+                # ============================================================
+                df_p['HP_NUM'] = pd.to_numeric(df_p['HP'], errors='coerce')
+                df_p = df_p[df_p['HP_NUM'].notna()].copy()  # buang baris HP gak valid
+                df_p = df_p.sort_values(by=['HP_NUM', 'ID'], ascending=[True, True])
 
                 display_list = []
-                for hp_id, group in df_p.groupby('HP', sort=False):
+                # ============================================================
+                # FIX GROUPBY: Sort by HP_NUM (integer), bukan HP (string)
+                # Tanpa ini "10" bisa muncul sebelum "2" (string sort)
+                # ============================================================
+                for hp_num in sorted(df_p['HP_NUM'].unique()):
+                    group = df_p[df_p['HP_NUM'] == hp_num]
+                    hp_id = str(int(hp_num))
                     for i, (idx, r) in enumerate(group.iterrows()):
                         display_list.append({
-                            "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
+                            "ID": r['ID'],
                             "HP": f"📱 HP {hp_id}" if i == 0 else "", 
                             "EMAIL": r['EMAIL'],
                             "PASSWORD": r['PASSWORD'],
@@ -358,9 +325,8 @@ def tampilkan_database_channel():
 
                 df_display = pd.DataFrame(display_list)
             
-                # --- CONFIG: SEMUA GEMBOK DIBUKA ---
                 config_p = {
-                    "ID": None, # Sembunyiin KTP asli
+                    "ID": None,
                     "HP": st.column_config.TextColumn("📱 UNIT", width=80, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
                     "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=130), 
@@ -381,40 +347,35 @@ def tampilkan_database_channel():
                     key="grid_p_pro_v2"
                 )
 
-                # --- LOGIKA SAVE (PAKE ID SEBAGAI JANGKAR) ---
                 if not edited_p.equals(df_display):
                     if st.button("💾 UPDATE DATA MONITORING", use_container_width=True, type="primary"):
                         try:
                             st.cache_data.clear() 
-
                             with st.spinner("Sinkronisasi ke Supabase..."):
                                 tgl_now = database.ambil_waktu_sekarang().strftime("%d/%m/%Y %H:%M")
                                 data_batch = []
                             
                                 for i, row in edited_p.iterrows():
-                                    # Cari data lama pake ID (Bukan Index!)
                                     match_df = df[df['ID'] == row['ID']]
                                     if not match_df.empty:
                                         old_val = match_df.iloc[0]
                                     
-                                        # Cek perubahan murni
                                         is_changed = (
-                                            str(row['STATUS']) != str(old_val['STATUS']) or 
-                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE']) or
-                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or
-                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                            str(row['LINK_CHANNEL']) != str(old_val['LINK_CHANNEL']) or
+                                            str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
+                                            str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip() or
+                                            str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or
+                                            str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                            str(row['LINK_CHANNEL']).strip() != str(old_val['LINK_CHANNEL']).strip() or
                                             str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower()
                                         )
 
                                         if is_changed:
-                                            # HP dilepas kalau status bukan PROSES
                                             target_hp = str(old_val['HP'])
                                             if row['STATUS'] != 'PROSES':
                                                 target_hp = "" 
 
                                             data_batch.append({
-                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "id": row['ID'],
                                                 "EMAIL": row['EMAIL'].strip().lower(),
                                                 "PASSWORD": row['PASSWORD'],
                                                 "NAMA_CHANNEL": row['NAMA_CHANNEL'],
@@ -426,9 +387,7 @@ def tampilkan_database_channel():
                                             })
 
                                 if data_batch:
-                                    # UPSERT PAKE on_conflict="id"
                                     database.supabase.table("Channel_Pintar").upsert(data_batch, on_conflict="id").execute()
-                                
                                     st.cache_data.clear() 
                                     st.success(f"✅ Mantap! {len(data_batch)} Akun terupdate.")
                                     time.sleep(1) 
@@ -442,19 +401,24 @@ def tampilkan_database_channel():
                     st.divider() 
 
         else:
-            # --- TAMPILAN SINGKAT & PADAT ---
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
 
     # ==============================================================================
-    # TAB 3: JADWAL UPLOAD (VERSI STABIL - URUTAN HP TETAP)
+    # TAB 3: JADWAL UPLOAD
     # ==============================================================================
     with tab_jd:
-        # --- AMBIL DATA PROSES ---
-        df_j = df[df['STATUS'] == 'PROSES'].copy()
+        # ================================================================
+        # FIX: Sama seperti Tab PROSES — filter HP kosong duluan
+        # ================================================================
+        df_j = df[
+            (df['STATUS'] == 'PROSES') &
+            (df['HP'] != '') &
+            (df['HP'] != 'nan')
+        ].copy()
         
-        # --- URUTKAN BERDASARKAN NOMOR HP (MURNI TANPA KOCOK) ---
-        df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce').fillna(999)
+        df_j['HP_N'] = pd.to_numeric(df_j['HP'], errors='coerce')
+        df_j = df_j[df_j['HP_N'].notna()].copy()
         df_j_sorted = df_j.sort_values(['HP_N'], kind='mergesort').copy()
 
         if df_j_sorted.empty:
@@ -464,7 +428,6 @@ def tampilkan_database_channel():
             nama_bulan = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
             tgl_str = f"{now_indo.day} {nama_bulan[now_indo.month]} {now_indo.year}"
             
-            # --- DEFINISI KELOMPOK TIM ---
             list_hp_tim1 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 1 <= h <= 9]
             list_hp_tim2 = [str(int(h)) for h in sorted(df_j_sorted['HP_N'].unique()) if 10 <= h <= 18]
             kelompok_tim = [
@@ -472,7 +435,6 @@ def tampilkan_database_channel():
                 {"nama": "HANI (HP 10-18)", "list": list_hp_tim2}
             ]
 
-            # --- A. GENERATOR JADWAL OTOMATIS ---
             with st.container(border=True):
                 c_start, c_btn = st.columns([1, 1])
                 start_time = c_start.text_input("🕒 Jam Mulai Upload", value="08:15", key="start_estafet")
@@ -498,7 +460,6 @@ def tampilkan_database_channel():
                                     df_tim = df_j_sorted[df_j_sorted['HP_N'] >= 10].copy()
                                 
                                 if df_tim.empty: continue
-                                # Urutan tetap berdasarkan HP_N (No HP)
                                 df_tim['urutan_di_hp'] = df_tim.groupby('HP').cumcount() + 1
                                 df_resorted = df_tim.sort_values(['urutan_di_hp', 'HP_N'])
                                 
@@ -519,11 +480,9 @@ def tampilkan_database_channel():
                     except Exception as e:
                         st.error(f"Error: {e}")
 
-            # --- B. EDIT MANUAL JADWAL ---
             with st.expander("🛠️ EDIT MANUAL JADWAL", expanded=False):
                 kolom_edit = ["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE", "ID"]
                 editor_key = "editor_manual_sultan_v4" 
-
                 df_editor_view = df_j_sorted[kolom_edit].replace("EMPTY", "")
 
                 edited_df = st.data_editor(
@@ -569,7 +528,6 @@ def tampilkan_database_channel():
 
             st.divider()
 
-            # --- C. MONITORING VIEW ---
             st.markdown("#### 📱 MONITORING JADWAL HARI INI")
             df_monitor = df_j_sorted[["HP", "NAMA_CHANNEL", "PAGI", "SIANG", "SORE"]].replace("EMPTY", "")
             st.dataframe(
@@ -584,7 +542,6 @@ def tampilkan_database_channel():
                 hide_index=True, use_container_width=True
             )
 
-            # --- D. LOGIKA PRINT ---
             if st.button("📄 PRINT JADWAL", use_container_width=True, type="primary"):
                 with st.spinner("Merakit jadwal..."):
                     df_display = df_j_sorted.copy()
@@ -635,31 +592,20 @@ def tampilkan_database_channel():
                                 """
                             html_all_pages += "</tbody></table></div>"
 
-                    # --- CSS PERSIS PUNYA LO (Hanya Padding & Margin yang Gue Press) ---
                     html_masterpiece = f"""
                     <style>
                         @media print {{
-                            /* 1. KUNCI HALAMAN: Kasih margin atas 0.8cm biar gak mepet plafon */
                             @page {{ size: A4 portrait; margin: 0.8cm 0.8cm 0.3cm 0.8cm; }} 
                             * {{ box-sizing: border-box; }}
                             body {{ font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; background: white; }}
-                            
-                            /* Kasih sedikit ruang napas di paling atas */
                             .print-container {{ width: 100%; max-width: 750px; margin: 0 auto; padding-top: 10px; }}
                             .page-break {{ page-break-after: always; }}
-
-                            /* 2. Header Box: Compact tapi elegan */
                             .header-box {{ text-align: center; border-bottom: 2px solid #333; margin-bottom: 8px; padding-bottom: 5px; }}
                             h2 {{ font-size: 20px; margin: 0; color: #000; }}
                             .sub {{ font-size: 12px; color: #666; margin: 0; }}
-                            
-                            /* 3. Tabel: Garis tipis abu-abu Excel Style */
                             table {{ width: 100%; border-collapse: collapse; border: 1px solid #CCC; table-layout: fixed; }}
                             th {{ background-color: #FFFFFF !important; color: #1E3A8A !important; padding: 10px; border: 1px solid #CCC; font-size: 13px; font-weight: bold; -webkit-print-color-adjust: exact; }}
-                            
-                            /* 4. Baris: Tinggi (Padding 8.5px) biar HP 9 pas di satu lembar */
                             td {{ border: 1px solid #CCC; padding: 8.5px 10px; font-size: 13.5px; color: #111; line-height: 1.1; }}
-                            
                             .col-hp {{ width: 10%; text-align: center; font-weight: bold; background-color: #F8F8F8 !important; font-size: 15px; }}
                             .col-ch {{ text-align: left; font-weight: 500; padding-left: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }}
                             .col-jam {{ text-align: center; font-weight: bold; color: #C00 !important; }}
@@ -669,18 +615,16 @@ def tampilkan_database_channel():
                     """
                     st.components.v1.html(html_masterpiece + "<script>window.print();</script>", height=0)
                 
-    # ======================================================================
-    # --- TAB 4: MONITOR HP (ANTI-CRASH & SUPABASE SYNC v2.0) ---
-    # ======================================================================
+    # ==============================================================================
+    # TAB 4: MONITOR HP
+    # ==============================================================================
     with tab_hp:
-        # --- 1. EXPANDER INPUT UNIT BARU ---
         with st.expander("➕ DAFTARKAN UNIT HP BARU", expanded=False):
             with st.form("form_hp_supabase", clear_on_submit=True):
                 st.markdown("### 📝 Input Data Unit")
                 c1, c2 = st.columns(2)
                 v_nama = c1.text_input("Nama Unit (Contoh: HP 01)").strip().upper()
                 v_no = c2.text_input("Nomor HP (Contoh: 0812...)").strip()
-                
                 c3, c4 = st.columns(2)
                 v_prov = c3.selectbox("Provider", ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"])
                 v_tgl = c4.date_input("Masa Aktif Kartu")
@@ -695,7 +639,6 @@ def tampilkan_database_channel():
                                 "PROVIDER": v_prov,
                                 "MASA_AKTIF": tgl_fix
                             }).execute()
-
                             st.cache_data.clear()
                             st.success(f"✅ {v_nama} Berhasil Didaftarkan!")
                             time.sleep(1)
@@ -707,27 +650,21 @@ def tampilkan_database_channel():
 
         st.divider()
 
-        # --- 2. DISPLAY RADAR CARD ---
         if df_hp.empty:
             st.info("Radar unit HP masih kosong. Silakan daftarkan unit baru.")
         else:
             now_indo = database.ambil_waktu_sekarang().date()
-            
-            # --- FIX URUTAN HP ---
             df_hp['HP_NUM'] = df_hp['NAMA_HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
             df_view = df_hp[df_hp['NAMA_HP'].str.strip() != ""].sort_values('HP_NUM').copy()
             
-            # Tampilan Grid 4 Kolom
             grid = st.columns(4) 
             for i, (idx, r) in enumerate(df_view.iterrows()):
-                # Ambil ID unik database sebagai jangkar utama
                 id_target = r.get('id') if 'id' in r else r.get('ID')
 
                 with grid[i % 4]:
                     try:
                         t_exp = pd.to_datetime(r['MASA_AKTIF'], dayfirst=True).date()
                         sisa = (t_exp - now_indo).days
-                        
                         if sisa > 5: color_code = "#2D5A47" 
                         elif 3 <= sisa <= 5: color_code = "#B8860B" 
                         else: color_code = "#962D2D" 
@@ -748,18 +685,13 @@ def tampilkan_database_channel():
                         st.divider()
                         sc1, sc2 = st.columns(2)
                         sc1.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>📅 EXPIRED</p><code style='font-size:11px;'>{r['MASA_AKTIF']}</code>", unsafe_allow_html=True)
-                        
                         sisa_color = "#ff4b4b" if isinstance(sisa, int) and sisa <= 2 else "#ffffff"
                         sc2.markdown(f"<p style='margin:0; font-size:10px; color:#888;'>⏳ SISA</p><b style='font-size:14px; color:{sisa_color};'>{sisa} Hari</b>", unsafe_allow_html=True)
 
-                        # --- FITUR EDIT (Pake id_target biar gak salah alamat) ---
                         with st.popover("✏️ Edit", use_container_width=True):
                             st.markdown(f"#### 🛠️ EDIT: {r['NAMA_HP']}")
-                            
-                            # KUNCI UTAMA: Key harus pake ID Unik Database, bukan index dataframe!
                             e_nama = st.text_input("📱 Nama Unit", value=str(r['NAMA_HP']), key=f"en_{id_target}").strip().upper()
                             e_no = st.text_input("📞 Nomor HP", value=str(r['NOMOR_HP']), key=f"eno_{id_target}").strip()
-                            
                             provider_list = ["TELKOMSEL", "XL", "AXIS", "INDOSAT", "TRI", "SMARTFREN"]
                             curr_prov = r['PROVIDER'] if r['PROVIDER'] in provider_list else "TELKOMSEL"
                             e_prov = st.selectbox("📡 Provider", provider_list, index=provider_list.index(curr_prov), key=f"ep_{id_target}")
@@ -774,7 +706,6 @@ def tampilkan_database_channel():
                                             "PROVIDER": e_prov, 
                                             "MASA_AKTIF": e_tgl
                                         }).eq("id", id_target).execute() 
-                                        
                                         st.cache_data.clear()
                                         st.success(f"✅ {e_nama} Berhasil Diupdate!")
                                         time.sleep(1)
@@ -783,14 +714,12 @@ def tampilkan_database_channel():
                                         st.error(f"❌ Gagal Update: {e}")
                                 else:
                                     st.error("⚠️ Nama & Nomor HP wajib diisi!")
+
     # ==============================================================================
-    # TAB 5: SOLD CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
+    # TAB 5: SOLD CHANNEL
     # ==============================================================================
     with tab_sd: 
-        # --- PROTEKSI AKSES OWNER ---
         if level_aktif == "OWNER":
-
-            # --- 1. SETUP FILTER PERIODE ---
             now_indo = database.ambil_waktu_sekarang()
             col_f1, col_f2 = st.columns([1, 1])
             with col_f1:
@@ -802,16 +731,13 @@ def tampilkan_database_channel():
 
             filter_periode = f"{sel_bln_code}/{sel_thn}"
             
-            # --- 2. LOGIKA HITUNG DATA (SUPABASE DATA) ---
-            df_sold_all = df[df['STATUS'].apply(lambda x: str(x).strip().upper()) == 'SOLD'].copy()
+            df_sold_all = df[df['STATUS'] == 'SOLD'].copy()
             total_ever = len(df_sold_all)
             
-            # Filter berdasarkan kolom EDITED (jejak digital transaksi)
             mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False, case=False)
             df_selected = df_sold_all[mask_periode].copy()
             total_selected = len(df_selected)
             
-            # --- LOGIKA DELTA BULAN LALU (Silet Analisis) ---
             try:
                 from datetime import timedelta, datetime
                 date_selected = datetime.strptime(f"01/{filter_periode}", "%d/%m/%Y")
@@ -822,7 +748,6 @@ def tampilkan_database_channel():
                 total_prev = 0
                 filter_prev = "N/A"
 
-            # --- 3. RENDER 3 METRIK UTAMA ---
             with st.container(border=True):
                 m1, m2, m3 = st.columns(3)
                 m1.metric("💰 TOTAL SOLD (ALL TIME)", f"{total_ever}", delta="Unit Laku")
@@ -830,13 +755,11 @@ def tampilkan_database_channel():
                 m3.metric(f"🕒 BULAN LALU ({filter_prev})", f"{total_prev}", delta=f"{total_selected - total_prev} dari bulan lalu", delta_color="normal")
 
             st.markdown("<br>", unsafe_allow_html=True)
-
-            # --- 4. DATABASE TABEL (Pake Jangkar ID) ---
             st.markdown(f"##### 📊 DAFTAR PENJUALAN PERIODE {sel_bln_nama.upper()} {sel_thn}")
+
             if df_selected.empty:
                 st.info(f"Belum ada data periode {filter_periode}")
             else:
-                # Pastikan kolom ID ditarik
                 df_selected['TGL_LAST'] = df_selected['EDITED']
                 df_selected = df_selected.sort_values('TGL_LAST', ascending=False)
                 
@@ -847,24 +770,18 @@ def tampilkan_database_channel():
                     "NAMA_CHANNEL": st.column_config.TextColumn("📺 CHANNEL", width=150),
                     "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80),
                     "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100),
-                    "STATUS": st.column_config.SelectboxColumn(
-                        "⚙️ STATUS", width=100, 
-                        options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]
-                    ),
-                    "ID": None # SEMBUNYIKAN KTP ASLI
+                    "STATUS": st.column_config.SelectboxColumn("⚙️ STATUS", width=100, options=["SOLD", "STANDBY", "PROSES", "BUSUK", "SUSPEND"]),
+                    "ID": None
                 }
 
-                # Tampilkan kolom ID di belakang layar buat jangkar update
                 edited_sold = st.data_editor(
                     df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]], 
                     use_container_width=True, 
                     hide_index=True, 
                     column_config=config_sold, 
-                    key=f"grid_sold_{filter_periode}" # Key dinamis biar refresh tiap ganti bulan
+                    key=f"grid_sold_{filter_periode}"
                 )
 
-                # --- 5. LOGIKA SAVE (ANTI-DUPLIKAT PAKE ID) ---
-                # Cek perubahan antara hasil edit dan data awal
                 if not edited_sold.equals(df_selected[["TGL_LAST", "EMAIL", "PASSWORD", "NAMA_CHANNEL", "SUBSCRIBE", "LINK_CHANNEL", "STATUS", "ID"]]):
                     if st.button("💾 KONFIRMASI PERUBAHAN SOLD", type="primary", use_container_width=True):
                         try:
@@ -873,23 +790,21 @@ def tampilkan_database_channel():
                                 data_batch = []
                                 
                                 for i, row in edited_sold.iterrows():
-                                    # Cari baris asli pake ID (Bukan Index!)
                                     match_df = df[df['ID'] == row['ID']]
                                     if not match_df.empty:
                                         old_val = match_df.iloc[0]
                                         
-                                        # Cek perubahan murni di kolom-kolom penting
                                         is_changed = (
-                                            str(row['STATUS']) != str(old_val['STATUS']) or 
+                                            str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
                                             str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or
-                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
+                                            str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or
+                                            str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                            str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
                                         )
 
                                         if is_changed:
                                             data_batch.append({
-                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "id": row['ID'],
                                                 "EMAIL": row['EMAIL'].strip().lower(),
                                                 "PASSWORD": row['PASSWORD'],
                                                 "NAMA_CHANNEL": row['NAMA_CHANNEL'],
@@ -914,23 +829,20 @@ def tampilkan_database_channel():
                     st.divider() 
 
         else:
-            # --- TAMPILAN SINGKAT & PADAT ---
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Owner.")
 
     # ==============================================================================
-    # TAB 6: ARSIP CHANNEL (SINKRON SUPABASE - FULL EDITABLE v2.0)
+    # TAB 6: ARSIP CHANNEL
     # ==============================================================================
     with tab_ar:
         if level_aktif in ["OWNER", "ADMIN"]:
-            # --- 1. LOGIKA DASHBOARD ARSIP ---
-            df_a = df[df['STATUS'].apply(lambda x: str(x).strip().upper()).isin(['BUSUK', 'SUSPEND'])].copy()
+            df_a = df[df['STATUS'].isin(['BUSUK', 'SUSPEND'])].copy()
         
             total_arsip = len(df_a)
             total_busuk = len(df_a[df_a['STATUS'] == 'BUSUK'])
             total_suspend = len(df_a[df_a['STATUS'] == 'SUSPEND'])
 
-            # --- 2. RENDER METRIK ---
             with st.container(border=True):
                 ca1, ca2, ca3 = st.columns(3)
                 ca1.metric("💀 TOTAL ARSIP", f"{total_arsip}", delta="Akun Rusak", delta_color="inverse")
@@ -938,22 +850,16 @@ def tampilkan_database_channel():
                 ca3.metric("🚫 TOTAL SUSPEND", f"{total_suspend}", delta="Banned YT", delta_color="inverse")
 
             st.markdown("<br>", unsafe_allow_html=True)
-
-            # --- 3. DATABASE ARSIP (LOGIKA SORTING ID - ANTI GAGAL) ---
             st.markdown("##### 📂 DAFTAR AKUN ARSIP")
+
             if df_a.empty:
                 st.success("✨ Arsip masih kosong!")
             else:
-                # KUNCINYA DI SINI: Urutkan berdasarkan ID secara Descending (Besar ke Kecil)
-                # Karena ID paling besar = Data yang paling baru masuk/diedit di database.
                 df_a = df_a.sort_values(by='ID', ascending=False)
-                
-                # Kolom pajangan tetap ambil dari EDITED
                 df_a['TGL_KEJADIAN'] = df_a['EDITED']
             
-                # --- CONFIG: SEMUA GEMBOK DIBUKA & PAKAI ID ---
                 config_arsip = {
-                    "ID": None, # Sembunyikan ID agar tabel bersih
+                    "ID": None,
                     "TGL_KEJADIAN": st.column_config.TextColumn("⏰ TGL KEJADIAN", width=180, disabled=True),
                     "EMAIL": st.column_config.TextColumn("📧 EMAIL", width=200), 
                     "PASSWORD": st.column_config.TextColumn("🔑 PASS", width=120), 
@@ -961,8 +867,7 @@ def tampilkan_database_channel():
                     "SUBSCRIBE": st.column_config.TextColumn("📊 SUBS", width=80), 
                     "LINK_CHANNEL": st.column_config.LinkColumn("🔗 LINK", width=100), 
                     "STATUS": st.column_config.SelectboxColumn(
-                        "⚙️ STATUS", 
-                        width=100,
+                        "⚙️ STATUS", width=100,
                         options=["STANDBY", "PROSES", "SOLD", "BUSUK", "SUSPEND"],
                         help="Ubah ke STANDBY jika ingin mendaur ulang akun ini."
                     )
@@ -975,10 +880,9 @@ def tampilkan_database_channel():
                     use_container_width=True, 
                     hide_index=True, 
                     column_config=config_arsip, 
-                    key="grid_arsip_daur_ulang_v4" # Key gue bedain biar gak tabrakan cache
+                    key="grid_arsip_daur_ulang_v4"
                 )
                 
-                # --- 4. LOGIKA SAVE (PAKE ID - ANTI DUPLIKAT) ---
                 if not edited_a.equals(df_a[kolom_tampil_a]):
                     if st.button("💾 KONFIRMASI PERUBAHAN ARSIP", type="primary", use_container_width=True):
                         try:
@@ -987,24 +891,22 @@ def tampilkan_database_channel():
                                 data_batch = []
                             
                                 for i, row in edited_a.iterrows():
-                                    # Cari baris asli di master DF pake ID
                                     match_df = df[df['ID'] == row['ID']]
                                 
                                     if not match_df.empty:
                                         old_val = match_df.iloc[0]
                                     
-                                        # Cek perubahan murni
                                         is_changed = (
-                                            str(row['STATUS']) != str(old_val['STATUS']) or 
+                                            str(row['STATUS']).strip().upper() != str(old_val['STATUS']).strip().upper() or 
                                             str(row['EMAIL']).strip().lower() != str(old_val['EMAIL']).strip().lower() or
-                                            str(row['PASSWORD']) != str(old_val['PASSWORD']) or 
-                                            str(row['NAMA_CHANNEL']) != str(old_val['NAMA_CHANNEL']) or
-                                            str(row['SUBSCRIBE']) != str(old_val['SUBSCRIBE'])
+                                            str(row['PASSWORD']).strip() != str(old_val['PASSWORD']).strip() or 
+                                            str(row['NAMA_CHANNEL']).strip() != str(old_val['NAMA_CHANNEL']).strip() or
+                                            str(row['SUBSCRIBE']).strip() != str(old_val['SUBSCRIBE']).strip()
                                         )
 
                                         if is_changed:
                                             data_batch.append({
-                                                "id": row['ID'], # <--- JANGKAR UTAMA
+                                                "id": row['ID'],
                                                 "EMAIL": row['EMAIL'].strip().lower(),
                                                 "PASSWORD": row['PASSWORD'],
                                                 "NAMA_CHANNEL": row['NAMA_CHANNEL'],
@@ -1027,6 +929,5 @@ def tampilkan_database_channel():
                     st.divider() 
 
         else:
-            # --- TAMPILAN SINGKAT & PADAT ---
             st.error(f"🛡️ **AKSES TERBATAS: {level_aktif}**")
             st.write(f"Maaf **{user_aktif}**, area ini hanya untuk Admin.")
