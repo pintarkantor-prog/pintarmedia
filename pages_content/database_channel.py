@@ -19,6 +19,10 @@ def tampilkan_database_channel():
 
     # --- 2. HEADER & SETUP ---
     st.title("📱 DATABASE CHANNEL")
+    if st.sidebar.button("🔄 REFRESH DATA", type="secondary"):
+        st.cache_data.clear()
+        st.cache_resource.clear()
+        st.rerun()
 
     # --- 3. PENARIKAN DATA REAL-TIME (VERSI SENYAP - ANTI KEDIP) ---
     # Kita hapus spinner-nya, biar narik data di balik layar aja
