@@ -321,43 +321,36 @@ def tampilkan_database_channel():
                 with c3:
                     st.write("🕌 **MASJID NENEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :orange[HP 2 sampai 14]")
+                    st.markdown("##### :orange[HP 2 sampai 15]")
 
                 with c4:
                     st.write("🕌 **MASJID KAKEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :red[HP 15 sampai 18]")
+                    st.markdown("##### :red[HP 16 sampai 18]")
 
-            # --- 1. AMBIL DATA (MODE TEMBAK LANGSUNG) ---
-            df_p = df[df['STATUS'].astype(str).str.strip().str.upper() == 'PROSES'].copy()
+            # Filter data PROSES
+            df_p = df[df['STATUS'] == 'PROSES'].copy()
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
-                # --- PEMBERSIHAN TOTAL & PAKSA TIPE DATA ---
-                df_p['EMAIL'] = df_p['EMAIL'].astype(str).str.strip().str.lower()
-                df_p['HP'] = df_p['HP'].astype(str).str.strip()
-                
-                # Bikin kolom bantu untuk sorting angka biar 16 sebelum 17
-                df_p['HP_NUM'] = pd.to_numeric(df_p['HP'], errors='coerce').fillna(999)
-                
-                # URUTKAN BERDASARKAN HP DULU, BARU EMAIL
-                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'], ascending=[True, True])
+                # Sorting HP biar rapi (1, 2, 3...)
+                df_p['HP_NUM'] = df_p['HP'].astype(str).str.extract('(\d+)').astype(float).fillna(999)
+                df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'])
 
                 display_list = []
-                for idx, r in df_p.iterrows():
-                    # KITA BUANG LOGIKA "i == 0" SEMENTARA
-                    # Biar kita lihat semua akun HP 16 ngumpul atau nggak
-                    display_list.append({
-                        "ID": r['ID'],
-                        "HP": f"📱 HP {r['HP']}" if r['HP'] not in ["", "nan", "None"] else "⚠️ KOSONG",
-                        "EMAIL": r['EMAIL'],
-                        "PASSWORD": r['PASSWORD'],
-                        "NAMA_CHANNEL": r['NAMA_CHANNEL'],
-                        "SUBSCRIBE": str(r['SUBSCRIBE']),
-                        "LINK_CHANNEL": r['LINK_CHANNEL'],
-                        "STATUS": r['STATUS']
-                    })
+                for hp_id, group in df_p.groupby('HP', sort=False):
+                    for i, (idx, r) in enumerate(group.iterrows()):
+                        display_list.append({
+                            "ID": r['ID'], # <--- AMBIL ID ASLI DATABASE
+                            "HP": f"📱 HP {hp_id}" if i == 0 else "", 
+                            "EMAIL": r['EMAIL'],
+                            "PASSWORD": r['PASSWORD'],
+                            "NAMA_CHANNEL": r['NAMA_CHANNEL'],
+                            "SUBSCRIBE": str(r['SUBSCRIBE']),
+                            "LINK_CHANNEL": r['LINK_CHANNEL'],
+                            "STATUS": r['STATUS']
+                        })
 
                 df_display = pd.DataFrame(display_list)
             
