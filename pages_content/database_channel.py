@@ -807,7 +807,7 @@ def tampilkan_database_channel():
             total_ever = len(df_sold_all)
             
             # Filter berdasarkan kolom EDITED (jejak digital transaksi)
-            mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False)
+            mask_periode = df_sold_all['EDITED'].astype(str).str.contains(filter_periode, na=False, case=False)
             df_selected = df_sold_all[mask_periode].copy()
             total_selected = len(df_selected)
             
