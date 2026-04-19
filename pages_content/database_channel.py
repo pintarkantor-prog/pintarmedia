@@ -34,10 +34,13 @@ def tampilkan_database_channel():
 
     # =====================================================================
     # FIX GLOBAL: Normalisasi STATUS & HP setelah ambil data
+    # Paksa strip SEMUA whitespace termasuk \t, \n, \r, spasi ganda
     # =====================================================================
     df['STATUS'] = df['STATUS'].astype(str).str.strip().str.upper()
     df['HP']     = df['HP'].astype(str).str.strip()
-    df['HP']     = df['HP'].replace('nan', '')
+    # Ganti semua varian "kosong": nan, None, null, whitespace only → ''
+    df['HP']     = df['HP'].replace({'nan': '', 'None': '', 'null': '', 'NULL': ''})
+    df['HP']     = df['HP'].apply(lambda x: '' if str(x).strip() == '' else str(x).strip())
 
     # =====================================================================
     # FIX KRITIS: Definisikan nowww DI SINI (scope global fungsi),
@@ -294,6 +297,13 @@ def tampilkan_database_channel():
                 (df['HP'] != '') &
                 (df['HP'] != 'nan')
             ].copy()
+
+            # --- DEBUG: tampilkan semua akun PROSES dari raw data (sementara) ---
+            with st.expander("🔍 DEBUG: Semua akun PROSES di database (hapus setelah fix)", expanded=False):
+                df_debug = df[df['STATUS'] == 'PROSES'][['EMAIL', 'HP', 'NAMA_CHANNEL', 'STATUS']].copy()
+                df_debug['HP_repr'] = df_debug['HP'].apply(lambda x: repr(x))  # tampilkan karakter tersembunyi
+                st.dataframe(df_debug, use_container_width=True)
+                st.write(f"Total PROSES di df: **{len(df_debug)}** | Setelah filter HP valid: **{len(df_p)}**")
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
