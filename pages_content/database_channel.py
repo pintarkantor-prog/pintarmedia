@@ -328,39 +328,36 @@ def tampilkan_database_channel():
                     # Warna Oranye sesuai permintaanmu
                     st.markdown("##### :red[HP 15 sampai 18]")
 
-            # --- 1. AMBIL & BERSIHKAN DATA (DEEP CLEAN MODE) ---
-            # Kita paksa ambil data murni tanpa spasi di STATUS
+            # --- 1. AMBIL DATA (MODE TEMBAK LANGSUNG) ---
             df_p = df[df['STATUS'].astype(str).str.strip().str.upper() == 'PROSES'].copy()
 
             if df_p.empty:
                 st.info("Semua unit HP kosong (Belum ada akun di Tab Proses).")
             else:
-                # --- PEMBERSIHAN TOTAL SEMUA KOLOM KRUSIAL ---
-                # Hapus spasi di Email, HP, dan Status biar sinkron sama filter
+                # --- PEMBERSIHAN TOTAL & PAKSA TIPE DATA ---
                 df_p['EMAIL'] = df_p['EMAIL'].astype(str).str.strip().str.lower()
                 df_p['HP'] = df_p['HP'].astype(str).str.strip()
-                df_p['STATUS'] = df_p['STATUS'].astype(str).str.strip().str.upper()
                 
-                # Sorting numerik buat HP
+                # Bikin kolom bantu untuk sorting angka biar 16 sebelum 17
                 df_p['HP_NUM'] = pd.to_numeric(df_p['HP'], errors='coerce').fillna(999)
+                
+                # URUTKAN BERDASARKAN HP DULU, BARU EMAIL
                 df_p = df_p.sort_values(by=['HP_NUM', 'EMAIL'], ascending=[True, True])
 
                 display_list = []
-                # Grouping ulang berdasarkan HP yang sudah bersih
-                for hp_id, group in df_p.groupby('HP', sort=False):
-                    for i, (idx, r) in enumerate(group.iterrows()):
-                        label_hp = f"📱 HP {hp_id}" if hp_id not in ["", "nan", "None"] else "⚠️ CEK HP"
-                        
-                        display_list.append({
-                            "ID": r['ID'],
-                            "HP": label_hp if i == 0 else "", 
-                            "EMAIL": r['EMAIL'],
-                            "PASSWORD": r['PASSWORD'],
-                            "NAMA_CHANNEL": r['NAMA_CHANNEL'],
-                            "SUBSCRIBE": str(r['SUBSCRIBE']),
-                            "LINK_CHANNEL": r['LINK_CHANNEL'],
-                            "STATUS": r['STATUS']
-                        })
+                for idx, r in df_p.iterrows():
+                    # KITA BUANG LOGIKA "i == 0" SEMENTARA
+                    # Biar kita lihat semua akun HP 16 ngumpul atau nggak
+                    display_list.append({
+                        "ID": r['ID'],
+                        "HP": f"📱 HP {r['HP']}" if r['HP'] not in ["", "nan", "None"] else "⚠️ KOSONG",
+                        "EMAIL": r['EMAIL'],
+                        "PASSWORD": r['PASSWORD'],
+                        "NAMA_CHANNEL": r['NAMA_CHANNEL'],
+                        "SUBSCRIBE": str(r['SUBSCRIBE']),
+                        "LINK_CHANNEL": r['LINK_CHANNEL'],
+                        "STATUS": r['STATUS']
+                    })
 
                 df_display = pd.DataFrame(display_list)
             
