@@ -63,6 +63,7 @@ def tampilkan_database_channel():
             warna_stok = "normal" if selisih_vital >= 0 else "inverse"
         
             now_indo = database.ambil_waktu_sekarang()
+            nowww = now_indo  # FIXED: Define nowww here to avoid UnboundLocalError
             bln_ini = now_indo.strftime("%m/%Y") 
         
             mask_ini = (df['STATUS'] == 'SOLD') & (df['EDITED'].astype(str).str.contains(bln_ini, na=False))
@@ -82,7 +83,6 @@ def tampilkan_database_channel():
                     st.write(f"Terdapat **{total_arsip}** akun di arsip (Suspend/Busuk).")
 
             # --- REPORT HARIAN ---
-            nowww = database.ambil_waktu_sekarang()
             hari_ini_filter = nowww.strftime("%d/%m/%Y")
             kemarin_filter = (nowww - timedelta(days=1)).strftime("%d/%m/%Y")
             
