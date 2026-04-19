@@ -321,12 +321,12 @@ def tampilkan_database_channel():
                 with c3:
                     st.write("🕌 **MASJID NENEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :orange[HP 2 sampai 15]")
+                    st.markdown("##### :orange[HP 2 sampai 14]")
 
                 with c4:
                     st.write("🕌 **MASJID KAKEK BUAH**")
                     # Warna Oranye sesuai permintaanmu
-                    st.markdown("##### :red[HP 16 sampai 18]")
+                    st.markdown("##### :red[HP 15 sampai 18]")
 
             # Filter data PROSES
             df_p = df[df['STATUS'] == 'PROSES'].copy()
