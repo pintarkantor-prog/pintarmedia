@@ -21,30 +21,32 @@ def ambil_waktu_sekarang():
 # ==============================================================================
 @st.cache_data(ttl=60)
 def ambil_data(nama_tabel):
-    """Ambil data: Paksa panggil dua kali biar tembus limit 1000 Supabase."""
     try:
-        query = supabase.table(nama_tabel).select("*")
+        # 1. Mulai dengan list kosong
+        data_final = []
+        baris_per_tarik = 1000
+        mulai = 0
         
-        if nama_tabel == "Log_Aktivitas":
-            # Truk tunggal buat Log (200 data cukup)
-            res_log = query.order("Waktu", desc=True).limit(200).execute()
-            data_final = res_log.data
-        else:
-            # --- TRUK 1 (0-1000) ---
-            res1 = query.range(0, 1000).execute()
-            data_final = res1.data if res1.data else []
+        # 2. Truk Otomatis (Narik terus sampe abis)
+        while True:
+            # WAJIB pake .order('ID') biar urutannya nggak lompat-lompat!
+            res = supabase.table(nama_tabel).select("*") \
+                  .order("id", desc=False) \
+                  .range(mulai, mulai + baris_per_tarik - 1) \
+                  .execute()
             
-            # --- TRUK 2 (1001-2000) ---
-            # Kita panggil lagi buat ambil sisanya (35 data lo ada di sini)
-            try:
-                res2 = query.range(1001, 2000).execute()
-                if res2.data:
-                    data_final.extend(res2.data)
-            except:
-                pass # Kalau data gak sampe 1000, truk 2 abaikan aja
-
-        # SEKARANG KITA PAKE data_final, BUKAN res.data LAGI
-        df = pd.DataFrame(data_final)    
+            if not res.data:
+                break
+                
+            data_final.extend(res.data)
+            
+            # Kalau data yang dapet kurang dari 1000, berarti udah abis
+            if len(res.data) < baris_per_tarik:
+                break
+                
+            mulai += baris_per_tarik
+        # 3. Proses ke DataFrame
+        df = pd.DataFrame(data_final)
         
         if not df.empty:
             df.columns = [str(c).strip().upper() for c in df.columns]
