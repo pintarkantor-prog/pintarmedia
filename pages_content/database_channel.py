@@ -280,14 +280,14 @@ def tampilkan_database_channel():
                     st.write("📱 **HP 1 - 18**")
                     st.markdown("##### :green[3 Channel] :gray[/hp]") 
                 with c2:
-                    st.write("🌸 **KONTEN SAKURA**")
-                    st.markdown("##### :blue[HP 1]")
-                with c3:
                     st.write("🕌 **MASJID NENEK BUAH**")
-                    st.markdown("##### :orange[HP 2 sampai 15]")
-                with c4:
+                    st.markdown("##### :orange[HP 1 sampai 13]")
+                with c3:
                     st.write("🕌 **MASJID KAKEK BUAH**")
-                    st.markdown("##### :red[HP 16 sampai 18]")
+                    st.markdown("##### :red[HP 14 sampai 18]")
+                with c4:
+                    st.write("🌸 **XXXX**")
+                    st.markdown("##### :blue[HP XXXX]")
 
             # ================================================================
             # Filter PROSES hanya ambil baris yang HP-nya terisi & valid
