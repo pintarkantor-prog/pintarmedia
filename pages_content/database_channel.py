@@ -220,7 +220,7 @@ def tampilkan_database_channel():
                                         )
 
                                         if is_changed:
-                                            target_hp = str(old_val.get('HP', ''))
+                                            target_hp = old_val.get('HP') or ''
                                         
                                             if row['STATUS'] == 'PROSES' and old_val['STATUS'] == 'STANDBY':
                                                 df_p_now = df[df['STATUS'] == 'PROSES'].copy()
@@ -368,7 +368,7 @@ def tampilkan_database_channel():
                                         )
 
                                         if is_changed:
-                                            target_hp = str(old_val['HP'])
+                                            target_hp = old_val.get('HP') or ''
                                             if row['STATUS'] != 'PROSES':
                                                 target_hp = "" 
 
@@ -945,6 +945,7 @@ def tampilkan_database_channel():
                                                 "SUBSCRIBE": str(row['SUBSCRIBE']),
                                                 "LINK_CHANNEL": row['LINK_CHANNEL'],
                                                 "STATUS": row['STATUS'],
+                                                "HP": None,
                                                 "EDITED": f"Recycle: {user_aktif} ({tgl_now})"
                                             })
 
