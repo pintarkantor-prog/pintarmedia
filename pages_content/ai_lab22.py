@@ -3553,22 +3553,22 @@ def tampilkan_halaman():
         ],
 
         "Mood": [
-            "Tired, resigned, and quietly sad with a hint of loneliness",
-            "Gentle sorrow mixed with sincere pasrah and soft vulnerability",
-            "Heavy sadness wrapped in sincere pasrah and weary acceptance",
-            "Fragile melancholic resignation, tired but still gently longing for kindness",
-            "Soft sadness with a hint of loneliness and quiet pleading",
-            "Weary and ikhlas, carrying years of silent endurance",
-            "Calm but emotionally drained, speaking with quiet resignation"
+            "Profoundly heartbroken, lonely, and physically exhausted with a deep sense of resignation",
+            "Fragile melancholic sorrow, carrying years of silent endurance and quiet pleading for kindness",
+            "Heavy, weary sadness wrapped in sincere 'pasrah' and a soul-piercing vulnerability",
+            "Emotionally drained and lonely, staring with intense quiet sadness and tired hope",
+            "Weary and ikhlas, carrying a heavy burden of life in every soft, shaky breath",
+            "Gently devastated, speaking with a voice that trembles with suppressed tears and exhaustion",
+            "A calm but deeply hollow resignation, as if waiting for a lost kindness to return"
         ],
 
         "Physical Action": [
-            "Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
-            "Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
-            "Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
-            "Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
-            "Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
-            "Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
+            "Weakly touching the miniature with hands trembling violently, then slowly looking up at the lens with a resigned, watery gaze",
+            "Resting bone-thin shaky hands weakly on the table, eyes staring into the camera with intense, quiet sorrow",
+            "Gently brushing the miniature with fragile fingers, head tilted as the watery eyes make direct, pleading contact with the lens",
+            "Sitting with a severely hunched posture, hands trembling near the object, eyes slowly shifting from the work to the camera with deep fatigue",
+            "Lightly touching the mosque's dome with a shaky finger, then closing eyes for a second in exhaustion before looking back at the lens",
+            "Hands resting weakly near the mosque, occasionally giving a small, frail micro-tremor as the gaze remains fixed on the viewer with sadness"
         ]
     }
 
