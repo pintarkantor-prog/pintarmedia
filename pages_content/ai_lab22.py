@@ -3648,77 +3648,62 @@ def tampilkan_halaman():
                 gender_lock = "Elderly Javanese grandfather."
 
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON KODAK VISION3 500T 35MM: Maximum organic realism with natural film grain. "
-                "NATURAL COLOR PROFILE: Authentic warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. ZERO AI SMOOTHING. "
-                "HIGH MICRO-CONTRAST: Deep tonal separation with rich, dense blacks and weathered highlights. Razor-sharp optical clarity. "
-                "NO digital haze, NO plastic texture, NO over-smooth skin. Image must maintain strong depth and tactile material density. "
-                "EVERY wrinkle, pore, fiber, and skin imperfection must be sharply defined and visually pop with depth. "
+                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
+                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
+                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
+                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
+                "Deep tonal separation with rich, dense blacks and weathered highlights. "
+                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-                f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-                f"- The handcrafted miniature mosque is the absolute main subject with dead-center dominance.\n"
-                f"- 85mm Cinema Lens at f/2.2 for extreme subject separation and cinematic compression.\n"
-                f"- Character's face, eyes, and hands must be razor sharp with RAW elderly texture. NO smoothing.\n"
-                f"- MANDATORY: Every surface detail (watermelon, wood, skin) must pop with tactile realism and micro-texture.\n"
-                f"- USED MATERIAL AUTHENTICITY: All materials must look worn, aged, scratched, or moist. NEVER clean or new.\n\n"
-                
-                f"CAMERA & COMPOSITION (CENTERED EYE-LEVEL):\n"
-                f"- STRICT EYE-LEVEL ALIGNMENT: Camera axis is horizontal and level with the character's gaze.\n"
-                f"- PERFECT SYMMETRY: The mosque is perfectly centered with symmetrical left-right balance.\n"
-                f"- The character sits directly behind the object, framing the mosque in the center.\n"
-                f"- MOVEMENT: Very slow, organic handheld micro-tremors with a subtle, gentle push-in to the character's watery eyes.\n\n"
-                
-                f"LIGHTING & ATMOSPHERE:\n"
-                f"CONTROLLED GOLDEN HOUR: Low-angle directional sunlight from one side to create strong depth and contour. "
-                f"SLIGHT UNDEREXPOSURE to preserve rich color density. NO harsh glare, NO blown highlights. "
-                f"SHADOW DETAIL PRESERVATION: Shadows remain deep but retain visible grain and detail. "
-                f"ATMOSPHERE: Calm, heavy, and melancholic with a strong sense of nostalgic loneliness.\n\n"
-        
-                f"CHARACTER IDENTITY & DNA:\n"
+                f"[ SUBJECT: THE CHARACTER DNA ]\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
-                f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: UNIQUE facial structure for this specific character. Sharp, clear natural micro-expressions. "
-                f"Raw hyper-realistic elderly skin with visible pores, deep wrinkles, age spots, and hand veins.\n\n"
+                f"WARDROBE: {baju_desc}\n"
+                f"Face: Deeply weathered with chaotic natural wrinkle patterns, high cheekbones, and heavy fatigue lines.\n"
+                f"Hands: Shaky, thin skin, prominent veins, rough textures, resting heavily on the table.\n\n"
                 
-                f"ENVIRONMENT:\n"
+                f"[ THE OBJECT: HANDCRAFTED MONUMENT ]\n"
+                f"{deskripsi_teknis}\n"
+                f"Main subject dominates the center frame. TEXTURE: Vibrant and glistening with wet organic detail. "
+                f"Architectural details: Razor-sharp edge definition, intricate arches, and minarets with visible seeds and juice residue on the rough wooden table.\n\n"
+
+                f"[ CAMERA & CINEMATOGRAPHY ]\n"
+                f"LENS: 85mm Cinema Lens at f/2.2 for extreme subject separation.\n"
+                f"ANGLE: Strict horizontal eye-level alignment with the subject's gaze.\n"
+                f"COMPOSITION: Dead-center symmetry.\n"
+                f"MOVEMENT: Very slow, organic handheld micro-tremors (mimicking a real human camera operator) with an almost imperceptible, slow push-in.\n\n"
+
+                f"[ ENVIRONMENT & ATMOSPHERE ]\n"
                 f"{env_detail}\n"
-                f"- BACKGROUND ROLE: The environment remains soft but readable, supporting the subject without distraction.\n"
-                f"- No visual clutter, no competing subjects. High cinematic depth separation.\n\n"
-                
-                f"PERFORMANCE & EMOTION:\n"
-                f"ACTION: {aksi_final}\n"
+                f"The environment remains soft but readable, supporting the subject without distraction. "
+                f"Atmosphere: Calm, heavy, and melancholic with a strong sense of nostalgic loneliness.\n\n"
+
+                f"[ PERFORMANCE & EMOTION ]\n"
                 f"MOOD: {mood_final}\n"
-                f"EYE CONTACT: The character slowly looks up and makes direct eye contact with the camera lens with a tired, resigned expression.\n\n"
-                
-                f"VOICE & AUDIO SYSTEM (STRICT ANTI-ROBOTIC):\n"
+                f"ACTION: {aksi_final}\n"
+                f"EYE CONTACT: The character stares with heart-wrenching quiet sadness, then slowly looks up at the lens with watery eyes.\n\n"
+
+                f"[ THE VOICE: ANTI-ROBOTIC PROTOCOL ]\n"
                 f"VOICE PROFILE: {logat_final}\n"
-                f"VOCAL TEXTURE: Shaky, frail, and high-pitched age-related raspiness. ABSOLUTELY NO BASS, NO DEEP VOICE. "
-                f"DELIVERY RULE: Extremely slow, non-linear, with audible heavy breathing and gasping pauses for breath.\n\n"
-                
-                f"SPOKEN DIALOG (PHONETIC CUES):\n"
-                f"\"{user_dialog.replace('...', '... (long pause for breath) ...')}\"\n\n"
-                
-                f"DIALOG DELIVERY RULE:\n"
-                f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-                f"- Spoken naturally and tired like a real old village elder with soft fragile voice.\n\n"
- 
-                f"AUDIO CONTROL - VERY IMPORTANT:\n"
-                f"- NO background music. NO BGM. NO SFX. ONLY raw spoken voice and natural shaky breathing.\n"
-                f"- Pure voice audio. Sounds like a raw documentary field recording. Zero digital processing.\n\n"
-                
-                f"OBJECT DETAIL:\n"
-                f"{deskripsi_teknis}\n\n"
-                
-                f"NEGATIVE PROMPT:\n"
-                f"BACKGROUND MUSIC, BGM, soundtrack, cinematic score, instrumental, emotional music, "
-                f"deep voice, resonant voice, bapak-bapak voice, middle-aged voice, smooth delivery, "
-                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-                f"blurry, soft focus, high angle, low angle, wide shot\n"
+                f"VOCAL TEXTURE: High vocal jitter, raspy, thin, inconsistent pitch, and 'gravelly' delivery. ABSOLUTELY NO BASS.\n"
+                f"MANDATORY AUDITORY CUES: Audible heavy breathing (inhale/exhale), (heavy sigh), slight vocal cracks, and the 'wet' clicky sounds of a dry elderly mouth.\n"
+                f"PACE: Hesitant, non-linear, with long, gasping pauses for breath between phrases. NO steady tempo.\n\n"
+
+                f"[ SPOKEN DIALOG (PHONETIC CUES) ]\n"
+                f"\"{user_dialog.replace('...', '... (long shaky sigh, pause for breath) ...')}\"\n\n"
+
+                f"[ AUDIO ENVIRONMENT ]\n"
+                f"STRICTLY NO MUSIC. NO BGM. NO AMBIENCE. Focus entirely on the character's RAW VOICE and SHAKY BREATHING. "
+                f"Pure, dry audio with zero digital processing. Sounds like a raw, unedited documentary field recording.\n\n"
+
+                f"[ NEGATIVE PROMPT ]\n"
+                f"Background music, BGM, soundtrack, cinematic score, instrumental, deep voice, resonant voice, bapak-bapak voice, "
+                f"middle-aged voice, smooth delivery, steady tempo, orange-tinted lighting, pale skin, over-smooth skin, AI-face, plastic texture, "
+                f"CGI, blur, digital fog, soft focus, high angle, professional voice actor."
             )
 
             # --- TAMPILKAN HASIL ---
