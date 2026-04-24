@@ -3537,39 +3537,40 @@ def tampilkan_halaman():
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
     		"Logat_Nenek": [
-        		"Elderly village grandmother with thick rural kampung accent, soft thin old voice, calm and weary delivery",           # Normal tua
-        		"Very old frail grandma with gentle soft Javanese accent, whispery thin voice, slow and delicate",                    # Sangat lembut
-        		"Frail 92-year-old grandmother with strong rural kampung accent, raspy weak voice, very slow and exhausted",         # Paling tua & lemah
-        		"91+ year old nenek tua with soft natural Indonesian accent, quiet tired voice, gentle and fragile",                 # Lebih halus
-        		"Elderly thin grandmother with slightly husky kampung accent, shaky fragile voice, slow and weak",                   # Kurus & gemetar
-        		"Small elderly grandma with warm soft kampung accent, breathy tired voice, calm and gentle"                          # Kecil & hangat
+        		"Elderly village grandmother, thick rural kampung accent. Voice: Thin, shaky, and soft. Pacing: Very slow with audible breathy exhales.",
+        		"92-year-old frail grandma, gentle Javanese accent. Voice: Weak, high-pitched raspiness, whispery and delicate. No digital smoothness.",
+        		"Frail elderly grandmother, strong rural accent. Voice: Struggling for breath, inconsistent pitch, shaky and exhausted delivery.",
+        		"91+ year old nenek tua, soft natural Indonesian accent. Voice: Hollow and fragile, quiet tired delivery with natural mouth clicks.",
+        		"Thin elderly grandmother, husky kampung accent. Voice: High vocal jitter, trembling, and physically weak tone.",
+        		"Small elderly grandma, warm soft kampung accent. Voice: Very breathy, tired, and slow. Sounds like a fragile field recording."
     		],
     		"Logat_Kakek": [
-        		"Elderly village grandfather with thick rural kampung accent, deep tired old man voice, slow and steady",
-        		"Very old frail kakek with gentle Javanese accent, hoarse low elderly male voice",
-        		"Frail 90-year-old grandfather with strong rural kampung accent, weak weathered old man voice",
-        		"89+ year old kakek tua with soft natural Indonesian accent, raspy tired elderly male voice",
-        		"Labor-worn old grandfather with rough deep kampung accent, slow and tired delivery",
-        		"Elderly grandfather with low trembling voice, calm but weary and sincere"
+        		"90-year-old village grandfather, thick rural kampung accent. Voice: THIN, high-pitched raspiness, NO BASS, NO RESONANCE. Extremely shaky.",
+        		"Very old frail kakek, gentle Javanese accent. Voice: Weak, quivering (gemeteran), and hollow. Pacing: Hesitant with long pauses for breath.",
+        		"Frail elderly grandfather, strong rural accent. Voice: High vocal jitter, thin and papery quality, physically exhausted and whispery.",
+        		"89+ year old kakek tua, soft natural Indonesian accent. Voice: Raspy, thin, and struggling. Pacing: Non-linear with audible sighs.",
+        		"Labor-worn old grandfather, rough kampung accent. Voice: Thin but gravelly, high-pitched trembling, slow and very tired delivery.",
+        		"Elderly grandfather, extremely weak trembling voice. Voice: Fragile, high-pitched age-rasp, quiet and deeply weary. No bapak-bapak depth."
     		],
 
 			"Mood": [
-				"Tired, resigned, and quietly sad with a hint of loneliness",
-        		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
-        		"Heavy sadness wrapped in sincere pasrah and weary acceptance",
-        		"Fragile melancholic resignation, tired but still gently longing for kindness",
-        		"Soft sadness with a hint of loneliness and quiet pleading",
-        		"Weary and ikhlas, carrying years of silent endurance",
-        		"Calm but emotionally drained, speaking with quiet resignation"
+				"Profoundly heartbroken, lonely, and physically exhausted with a deep sense of resignation",
+        		"Fragile melancholic sorrow, carrying years of silent endurance and quiet pleading for kindness",
+        		"Heavy, weary sadness wrapped in sincere 'pasrah' and a soul-piercing vulnerability",
+        		"Emotionally drained and lonely, staring with intense quiet sadness and tired hope",
+        		"Weary and ikhlas, carrying a heavy burden of life in every soft, shaky breath",
+        		"Gently devastated, speaking with a voice that trembles with suppressed tears and exhaustion",
+        		"A calm but deeply hollow resignation, as if waiting for a lost kindness to return"
     		],
 
     		"Physical Action": [
-        		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
-        		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
-        		"Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
-        		"Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
-        		"Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
-        		"Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
+				"Hands resting weakly near the mosque, occasionally giving a small, frail micro-tremor as the gaze remains fixed on the viewer with sadness"
+				"Lightly touching the mosque's dome with a shaky finger, then closing eyes for a second in exhaustion before looking back at the lens",
+				"Gently brushing the miniature with fragile fingers, head tilted as the watery eyes make direct, pleading contact with the lens",
+        		"Weakly touching the miniature with hands trembling violently, then slowly looking up at the lens with a resigned, watery gaze",
+        		"Resting bone-thin shaky hands weakly on the table, eyes staring into the camera with intense, quiet sorrow",
+        		"Gently brushing the miniature with fragile fingers, head tilted as the watery eyes make direct, pleading contact with the lens",
+        		"Sitting with a severely hunched posture, hands trembling near the object, eyes slowly shifting from the work to the camera with deep fatigue"
     		]
 		}
 
@@ -3650,100 +3651,71 @@ def tampilkan_halaman():
 
 			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
-                "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
-                "HIGH MICRO-CONTRAST CINEMATIC: Deep contrast with rich tonal separation, enhanced texture definition, and crisp highlight-to-shadow transitions. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast. "
-				"ULTRA COLOR SEPARATION: Rich color contrast with deep blacks and dense highlights, no color fading. "
-				"NO COLOR WASHOUT: Colors must remain dense, rich, and saturated without increasing brightness. "
-				"NO LOW CONTRAST: Image must maintain strong contrast and depth, never flat or dull. "
-				"TEXTURE PRIORITY BOOST: Every material surface must show tactile depth with extreme clarity and separation. "
-				"EXTREME SURFACE DETAIL: Every wrinkle, fiber, crack, dent, and imperfection must be sharply defined and clearly visible. "
+                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
+                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
+                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
+                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
+                "Deep tonal separation with rich, dense blacks and weathered highlights. "
+                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
+            )
+
+            GLOBAL_QUALITY_LOCK = (
+                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
+                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
+                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
+                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
+                "Deep tonal separation with rich, dense blacks and weathered highlights. "
+                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-				f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-				f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
-				f"- EXTREMELY sharp 8K detail with priority focus on the miniature while maintaining clear readability of all elements.\n"
-				f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
-				f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n"
-				f"- EXTREME MICRO TEXTURE: Every surface detail must pop with strong depth separation and tactile realism.\n"
-				f"- SHARP EDGE DEFINITION: Clear separation between materials, no blending, no muddy texture overlap.\n"
-				f"- USED MATERIAL AUTHENTICITY: All materials must visibly appear worn, aged, wrinkled, scratched, dented, or imperfect, never clean or new.\n\n"
-                
-				f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-				f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
-				f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
-				f"- PERFECT ALIGNMENT: Camera, miniature, and character are aligned on the same horizontal eye-level axis.\n"
-				f"- CENTER LOCK: The mosque is perfectly centered with symmetrical left-right balance, no off-center framing.\n"
-				f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
-				f"- The elderly character sits directly behind the object, symmetrically framed.\n"
-				f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
-				f"- NO high angle, NO low angle, NO bird's eye view.\n"
-				f"- NO pitch black shadows, but shadows must remain deep and detailed.\n\n"
-                
-				f"LIGHTING & ATMOSPHERE:\n"
-				f"CONTROLLED GOLDEN HOUR SUNLIGHT: Low-angle directional sunlight with controlled intensity, soft but still clearly directional, never harsh or overpowering. "
-				f"LIGHT DIRECTION PRIORITY: Light comes from one dominant side, creating strong depth, contour, and surface definition without harsh glare. "
-				f"CONTROLLED EXPOSURE: Slight underexposure to preserve color density and prevent highlight washout. "
-				f"HIGH CONTRAST LIGHTING: Strong but balanced highlight and shadow separation to enhance texture visibility and depth without crushing detail. "
-				f"SHADOW DETAIL PRESERVATION: Shadows remain deep, slightly softened at the edges, and retain visible detail, no crushed blacks. "
-				f"HIGHLIGHT CONTROL: Highlights are dense, controlled, and slightly softened, never blown out or overly sharp. "
-				f"BALANCED WARMTH: Warm golden tone is clearly present but restrained, avoiding orange flooding, red tint, or yellow cast. "
-				f"COLOR INTENSITY: Colors remain rich, dense, and visually impactful with strong midtone presence, never faded or washed out. "
-				f"MICRO CONTRAST: Fine micro-contrast preserved to maintain sharpness and texture clarity under softer light. "
-				f"NO harsh sunlight, NO overhead light, NO flat lighting, NO overexposure, NO washed highlights.\n\n"
-        
-                f"CHARACTER IDENTITY:\n"
+                f"[ SUBJECT: THE CHARACTER DNA ]\n"
                 f"{soul_desc}\n"
                 f"{gender_lock}\n"
-                f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: UNIQUE and DISTINCT facial structure. Different face shape, different eye shape, different wrinkle pattern, and different cheek/jaw structure compared to all other characters. "
-                f"Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and hand veins. "
-                f"Sharp, clear, and detailed face with natural micro-expressions. NO face smoothing, NO plastic skin, NO generic old lady face.\n\n"
+                f"WARDROBE: {baju_desc}\n"
+                f"Face: Deeply weathered with chaotic natural wrinkle patterns, high cheekbones, and heavy fatigue lines.\n"
+                f"Hands: Shaky, thin skin, prominent veins, rough textures, resting heavily on the table.\n\n"
                 
-				f"ENVIRONMENT:\n"
-				f"{env_detail}\n"
-				f"- BACKGROUND SUPPORT ROLE: The environment must support the subject without overpowering or distracting from the miniature.\n"
-				f"- DEPTH CONTROL: Background remains slightly softer than the subject without excessive blur or loss of environmental readability.\n"
-				f"- LIGHTING CONSISTENCY: Environment lighting must follow the same directional golden hour lighting, no conflicting light sources.\n"
-				f"- COLOR BALANCE: Background colors must remain controlled and not overpower the main subject.\n"
-				f"- NO VISUAL CLUTTER: Avoid excessive objects, noise, or chaotic elements that distract from the miniature.\n"
-				f"- NO COMPETING SUBJECTS: No background elements should compete visually with the main subject.\n\n"
-                
-                f"PERFORMANCE:\n"
-                f"{aksi_final}\n"
-                f"Mood: {mood_final}\n\n"
-                
-                f"VOICE PROFILE:\n"
-                f"{logat_final}\n"
-                f"Delivery style: {mood_final}.\n\n"
-                
-                f"SPOKEN DIALOG:\n"
-                f"\"{user_dialog}\"\n\n"
-                
-                f"DIALOG DELIVERY RULE:\n"
-				f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-				f"- Spoken naturally and tired like a real old village elder with soft fragile voice.\n\n"
+                f"[ THE OBJECT: HANDCRAFTED MONUMENT ]\n"
+                f"{deskripsi_teknis}\n"
+                f"Main subject dominates the center frame. TEXTURE: Vibrant and glistening with wet organic detail. "
+                f"Architectural details: Razor-sharp edge definition, intricate arches, and minarets with visible seeds and juice residue on the rough wooden table.\n\n"
 
-				f"AUDIO CONTROL - VERY IMPORTANT:\n"
-				f"- NO background music. NO BGM. NO music of any kind.\n"
-				f"- NO sound effects, NO ambient sound, NO instrumental.\n"
-				f"- ONLY the character's raw spoken voice and natural breathing.\n"
-				f"- Pure voice audio. Nothing else.\n\n"
-                
-                f"OBJECT DETAIL:\n"
-                f"{deskripsi_teknis}\n\n"
-                
-                f"NEGATIVE PROMPT:\n"
-                f"BACKGROUND MUSIC, BGM, soundtrack, cinematic score, instrumental, emotional music, "
-                f"ambient music, rhythmic melody, musical pads, violin, piano, synth, audio layers, "
-                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, excessive background blur, high angle, low angle, wide shot\n"
+                f"[ CAMERA & CINEMATOGRAPHY ]\n"
+                f"LENS: 85mm Cinema Lens at f/2.2 for extreme subject separation.\n"
+                f"ANGLE: Strict horizontal eye-level alignment with the subject's gaze.\n"
+                f"COMPOSITION: Dead-center symmetry.\n"
+                f"MOVEMENT: Very slow, organic handheld micro-tremors (mimicking a real human camera operator) with an almost imperceptible, slow push-in.\n\n"
+
+                f"[ ENVIRONMENT & ATMOSPHERE ]\n"
+                f"{env_detail}\n"
+                f"The environment remains soft but readable, supporting the subject without distraction. "
+                f"Atmosphere: Calm, heavy, and melancholic with a strong sense of nostalgic loneliness.\n\n"
+
+                f"[ PERFORMANCE & EMOTION ]\n"
+                f"MOOD: {mood_final}\n"
+                f"ACTION: {aksi_final}\n"
+                f"EYE CONTACT: The character stares with heart-wrenching quiet sadness, then slowly looks up at the lens with watery eyes.\n\n"
+
+                f"[ THE VOICE: ANTI-ROBOTIC PROTOCOL ]\n"
+                f"VOICE PROFILE: {logat_final}\n"
+                f"VOCAL TEXTURE: High vocal jitter, raspy, thin, inconsistent pitch, and 'gravelly' delivery. ABSOLUTELY NO BASS.\n"
+                f"MANDATORY AUDITORY CUES: Every '...' must be performed as a heavy, shaky struggle for breath (audible inhale/exhale). Add slight vocal cracks and dry mouth sounds.\n"
+                f"PACE: Hesitant, non-linear, with long, gasping pauses for breath between phrases. NO steady tempo.\n\n"
+
+                f"[ SPOKEN DIALOG (PHONETIC CUES) ]\n"
+                f"\"{user_dialog.replace('...', '..., ..., ...')}\"\n\n"
+
+                f"[ AUDIO ENVIRONMENT ]\n"
+                f"STRICTLY NO MUSIC. NO BGM. NO AMBIENCE. Focus entirely on the character's RAW VOICE and SHAKY BREATHING. "
+                f"Pure, dry audio with zero digital processing. Sounds like a raw, unedited documentary field recording.\n\n"
+
+                f"[ NEGATIVE PROMPT ]\n"
+                f"Background music, BGM, soundtrack, cinematic score, instrumental, deep voice, resonant voice, bapak-bapak voice, "
+                f"middle-aged voice, smooth delivery, steady tempo, orange-tinted lighting, pale skin, over-smooth skin, AI-face, plastic texture, "
+                f"CGI, blur, digital fog, soft focus, high angle, professional voice actor."
             )
 
             # --- TAMPILKAN HASIL ---
