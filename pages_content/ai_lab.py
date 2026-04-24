@@ -3606,17 +3606,15 @@ def tampilkan_halaman():
 				"Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words",
 				"Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves"
     		],
-
 			"Mood": [
-				"Tired, resigned, and quietly sad with a hint of loneliness",
-        		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
-        		"Heavy sadness wrapped in sincere pasrah and weary acceptance",
-        		"Fragile melancholic resignation, tired but still gently longing for kindness",
-        		"Soft sadness with a hint of loneliness and quiet pleading",
-        		"Weary and ikhlas, carrying years of silent endurance",
-        		"Calm but emotionally drained, speaking with quiet resignation"
+        		"Grief that has been carried so long it no longer announces itself — visible only in the slight delay before each answer, in eyes that move to the object before the camera, in the way the mouth closes after speaking as if holding something back. NOT crying. NOT on the edge of crying. The sadness is old and settled, like sediment",
+				"Quiet ache, not performance. The emotion lives in physical stillness — hands that do not fidget, a gaze that holds slightly too long before moving. Pasrah without resignation theater: the face is calm, but the calm has weight. Viewers feel it before they can name it. No wet eyes, no trembling lip, no dramatic pause",
+				"Tired longing — the specific exhaustion of wanting something that is already gone and knowing it. Visible in slow blink rate, in micro-expressions that appear and vanish quickly, in the way looking at the object produces a small inward shift before composure returns. Voice carries the same weight as the face: neither accelerates nor softens for effect",
+				"Ikhlas that is earned, not performed — the kind that comes after years of choosing acceptance. Face composed. Eyes clear, not glassy. Sadness present but not dominant: it sits underneath the calm like depth under still water. The most affecting moment is when composure almost shifts and then does not. No tears, no sob, no catch in the voice",
+				"Melancholic presence — the character seems slightly elsewhere, as if part of their attention is on something the camera cannot see. This is not confusion or absence — it is the specific interior quality of someone revisiting memory while physically present. Small behavioral tells: a slow exhale before speaking, eyes dropping to the object mid-sentence, a pause that runs slightly longer than needed",
+				"Restrained sorrow with a thread of unspoken pleading — not begging, not asking for anything openly, but the expression of someone who hopes to be seen and understood without having to say so. Makes viewers stop and feel something without knowing exactly why. No theatrical grief markers. The effect comes from what is held back, not what is released",
+				"Emotional weight carried with full composure — the sadness is structural, in the undertone of every word and gesture, never breaking through to the surface. Voice stays flat and steady. Eyes stay dry. The grief is communicated entirely through restraint: what doesn't happen — no cry, no tremor, no collapse — is what makes it felt"
     		],
-
     		"Physical Action": [
         		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
         		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
