@@ -60,43 +60,43 @@ def tampilkan_halaman():
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
+     		# === NENEK ===
+     		"Nenek Aminah": "88-year-old Javanese grandmother. FACE: long narrow face, high sharp cheekbones, severely sagging heavy jawline with deep jowls. SKIN: deep sawo matang with golden undertone, sun-damaged leathery texture, visible age spots, prominent pores. EYES: deeply sunken into sockets, heavy drooping lids, under-eye hollows, rheumy tired gaze. WRINKLES: deep vertical nasolabial folds, dense vertical lip lines, deep horizontal forehead lines, sunken temples, neck wattle. BODY: tall but severely shrunken, extremely thin bony frame, hunched posture, loose skin on arms and hands.",
 
-     		"Nenek Aminah": "88-year-old Javanese grandmother, long narrow face with high sharp cheekbones, deep vertical wrinkles, heavy sagging jawline, warm sawo matang skin with golden undertone, deeply sunken eyes with heavy drooping lids, tall but severely shrunken thin frame.",
-   
-     		"Nenek Siti": "73-year-old petite Javanese grandmother, small round plump face with full soft sagging cheeks, warm langsat skin with yellowish golden undertone, large round eyes with heavy lids, tiny delicate frame with remaining softness.",
-   
-     		"Nenek Marsi": "94-year-old Javanese grandmother, wide square face with prominent cheekbones, deep horizontal forehead wrinkles, loose skin under chin, deep warm sawo matang skin with many age spots, narrow eyes under thick heavy lids, broad but frail hunched frame.",
-   
-     		"Nenek Ponirah": "80-year-old Javanese grandmother, round full face with heavy sagging cheeks and soft jaw, warm brownish sun-kissed skin, almond-shaped eyes with noticeable lower eye bags, plump but shrunken frame with loose skin on arms.",
-   
-     		"Nenek Juminah": "91-year-old very thin Javanese grandmother, sharp angular tirus face with sunken temples and cheeks, warm tan skin stretched over bones, deep-set eyes with thin eyelids, extremely thin bony frame.",
-   
-     		"Nenek Sikem": "76-year-old Javanese grandmother, very round plump face with heavy lower cheeks and multiple soft folds, warm sawo matang skin with golden undertone, small eyes almost hidden under puffy lids, short rounded fragile frame.",
-   
-     		"Nenek Dulah": "68-year-old Sundanese grandmother, soft oval face with naturally full sagging cheeks, bright warm langsat skin with golden undertone, gentle almond eyes with soft under-eye hollows, soft fragile frame with rounded shoulders.",
-   
-     		"Nenek Sartini": "84-year-old Sundanese grandmother, wide round face with heavy sagging cheeks and deep nasolabial folds, warm brownish skin with golden undertone, wide-set eyes with heavy lids, plump but frail frame.",
-   
-     		"Nenek Tinah": "93-year-old thin Javanese grandmother, long oval tirus face with deeply sunken cheeks and sharp jawline, warm tan skin with golden undertone, deep sunken eyes with heavy lids, very thin elongated shrunken frame.",
-   
-     		"Nenek Wati": "64-year-old small Sundanese grandmother, small delicate round face with soft heavy sagging skin, warm langsat tone with golden undertone, large gentle eyes with heavy drooping lids, very small delicate frame.",
+     		"Nenek Siti": "73-year-old Javanese grandmother. FACE: small round plump face, full soft sagging cheeks, gentle wide facial structure. SKIN: warm langsat with yellowish golden undertone, soft age spots, moderate texture. EYES: large round eyes with heavy drooping lids, mild under-eye puffiness, still lively gaze. WRINKLES: soft nasolabial folds, light forehead lines, fine lines around eyes, gentle neck folds. BODY: tiny delicate frame, petite build with remaining softness, slight forward lean.",
+
+     		"Nenek Marsi": "94-year-old Javanese grandmother. FACE: wide square face, very prominent cheekbones, loose sagging skin under chin forming double wattle. SKIN: deep warm sawo matang, heavily sun-damaged with dense age spots, rough uneven texture. EYES: narrow eyes almost hidden under extremely thick heavy lids, deep eye socket hollows. WRINKLES: deep horizontal forehead furrows, prominent brow wrinkles, heavy nasolabial folds, vertical lip lines, loose neck skin with layered horizontal folds. BODY: broad but frail heavily hunched frame, very bony shoulders, thin arms with hanging loose skin.",
+
+     		"Nenek Ponirah": "80-year-old Javanese grandmother. FACE: round full face, heavy sagging cheeks pulling downward, soft undefined jawline. SKIN: warm brownish sun-kissed skin, mild age spots, slightly uneven tone. EYES: almond-shaped eyes, noticeable lower eye bags, moderate drooping upper lids, gentle expression. WRINKLES: pronounced nasolabial folds, cheek jowl lines, moderate forehead lines, fine lip lines, soft neck folds. BODY: plump but shrunken frame, rounded shoulders, loose hanging skin on upper arms.",
+
+     		"Nenek Juminah": "91-year-old very thin Javanese grandmother. FACE: sharp angular tirus face, dramatically sunken temples, deeply hollow cheeks, sharp protruding cheekbones. SKIN: warm tan skin stretched tightly over facial bones, thin papery texture, scattered age spots. EYES: deep-set eyes with thin eyelids, visible orbital bones, intense sunken gaze. WRINKLES: sharp vertical lines from cheekbone to jaw, deep hollowed nasolabial shadow, thin lip lines, prominent forehead furrows. BODY: extremely thin bony frame, visible clavicle and shoulder bones, very frail posture.",
+
+     		"Nenek Sikem": "76-year-old Javanese grandmother. FACE: very round plump face, heavy lower cheeks with multiple soft downward folds, soft undefined jaw. SKIN: warm sawo matang with golden undertone, smooth-ish but aged texture, mild age spots. EYES: small eyes nearly hidden under very puffy heavy lids, slightly squinting expression. WRINKLES: deep nasolabial folds buried in cheek flesh, soft jowl lines, moderate forehead lines, layered neck folds. BODY: short rounded fragile frame, wide soft shoulders, plump arms with loose skin.",
+
+     		"Nenek Dulah": "68-year-old Sundanese grandmother. FACE: soft oval face, naturally full sagging cheeks, gentle rounded jawline. SKIN: bright warm langsat with golden undertone, relatively smooth but aging texture, minimal age spots. EYES: gentle almond eyes, soft under-eye hollows, mild lid drooping, warm kind expression. WRINKLES: soft nasolabial folds, fine crow's feet, light forehead lines, gentle neck lines. BODY: soft fragile build, rounded slightly drooping shoulders, gentle overall frame.",
+
+     		"Nenek Sartini": "84-year-old Sundanese grandmother. FACE: wide round face, very heavy sagging cheeks pulling face downward, deep nasolabial shadow folds. SKIN: warm brownish skin with golden undertone, age spots on cheeks and forehead, rough texture. EYES: wide-set eyes with very heavy drooping upper lids, visible lower eye bags, tired gaze. WRINKLES: very deep nasolabial folds, prominent jowl lines, deep forehead furrows, multiple neck folds. BODY: plump but frail frame, heavy rounded shoulders, soft upper arms with loose skin.",
+
+     		"Nenek Tinah": "93-year-old thin Javanese grandmother. FACE: long oval tirus face, deeply sunken hollow cheeks, sharp angular jawline, prominent cheekbones. SKIN: warm tan with golden undertone, thin almost translucent skin, dense age spots, papery texture. EYES: deep sunken eyes with heavy lids, visible orbital rim, exhausted distant gaze. WRINKLES: sharp vertical cheek lines, deep nasolabial folds, hollow temple wrinkles, deep lip lines, loose hanging neck skin. BODY: very thin elongated shrunken frame, extremely hunched posture, bony protruding joints.",
+
+     		"Nenek Wati": "64-year-old Sundanese grandmother. FACE: small delicate round face, soft heavy sagging skin on lower cheeks, youthful proportions but visibly aged. SKIN: warm langsat tone with golden undertone, relatively smooth, early age spots forming. EYES: large gentle eyes with heavy drooping lids, mild puffiness, still bright expression. WRINKLES: early nasolabial folds, fine crow's feet, light forehead lines, soft neck lines just forming. BODY: very small delicate frame, petite narrow shoulders, slight stoop.",
 
      		# === KAKEK ===
-     		"Kakek Marto": "87-year-old Javanese grandfather, long rectangular face with strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone, deep-set eyes with heavy lower lids, lean bony frame with hunched shoulders.",
-   
-     		"Kakek Somo": "79-year-old Javanese grandfather, round soft face with heavy jowls and multiple soft folds, warm brownish skin with golden undertone, small tired eyes under puffy lids, short rounded fragile frame.",
-   
-     		"Kakek Joyo": "90-year-old Javanese grandfather, square face with prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin, narrow eyes with heavy lids, once sturdy but now shrunken frame.",
-   
-     		"Kakek Hardi": "95-year-old Javanese grandfather, extremely shrunken skeletal face with hollow cheeks, thin translucent warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate bony frame.",
-   
-    		 "Kakek Sableng": "83-year-old Javanese grandfather, broad face with high cheekbones and heavy fatigue lines, warm tan skin with golden undertone, tired eyes with heavy lower lids, lean frame with hunched posture.",
-   
-     		"Kakek Sinto": "94-year-old Javanese grandfather, deeply sunken skeletal face with hollow cheeks, thin warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate frame with bony hands.",
-   
-     		"Kakek Wiryo": "74-year-old Javanese grandfather, broad labor-worn face with high cheekbones, deep pores, rough warm sawo matang skin with golden undertone, tired eyes with heavy lower lids, lean weathered frame.",
-   
-     		"Kakek Usman": "86-year-old Indonesian grandfather, deeply wrinkled face with prominent fatigue lines and sunken cheeks, warm brownish skin with golden undertone, heavy-lidded weary eyes, thin frame with slow movements."
+     		"Kakek Marto": "87-year-old Javanese grandfather. FACE: long rectangular face, strong bony jawline, prominent brow ridge, lean angular structure. SKIN: rough warm sawo matang with golden undertone, deep pores, sun-damaged texture, age spots on forehead and cheeks. EYES: deep-set eyes with heavy lower lids, visible eye bags, sharp alert gaze despite age. WRINKLES: deep horizontal forehead furrows, prominent frown lines between brows, nasolabial folds, vertical jaw lines. BODY: lean bony frame, pronounced hunched shoulders, visible collarbone and neck tendons.",
+
+     		"Kakek Somo": "79-year-old Javanese grandfather. FACE: round soft face, heavy jowls, multiple soft downward folds around jaw and cheeks. SKIN: warm brownish skin with golden undertone, moderate age spots, slightly rough texture. EYES: small tired eyes under puffy heavy upper lids, mild under-eye bags, slow gentle gaze. WRINKLES: deep nasolabial folds, jowl crease lines, moderate forehead lines, horizontal neck folds. BODY: short rounded fragile frame, wide soft shoulders, slightly hunched posture.",
+
+     		"Kakek Joyo": "90-year-old Javanese grandfather. FACE: square face, very prominent brow ridge overhanging eyes, strong cheekbones, weathered masculine structure. SKIN: leathery rough warm sun-heavily-exposed skin, deep pores, dense age spots, uneven mottled tone. EYES: narrow eyes deeply set under thick furrowed heavy lids, sharp but weary gaze. WRINKLES: extremely deep horizontal forehead lines, deep brow furrows, sharp nasolabial folds, neck wattle with horizontal rings. BODY: once sturdy frame now severely shrunken, hunched bony posture, visible shoulder blade protrusion.",
+
+     		"Kakek Hardi": "95-year-old Javanese grandfather. FACE: extremely shrunken skeletal face, deeply hollow cheeks, sharp protruding cheekbones, visible facial bone structure. SKIN: thin almost translucent warm tan skin with golden undertone, dense age spots, paper-thin texture over bones. EYES: very deep sunken cloudy eyes, barely visible under heavy lids, distant unfocused gaze. WRINKLES: sharp deep facial creases following bone structure, hollow temple wrinkles, deep lip lines, hanging neck skin. BODY: very thin delicate bony frame, severely hunched, extremely fragile posture.",
+
+    		"Kakek Sableng": "83-year-old Javanese grandfather. FACE: broad face, high prominent cheekbones, heavy fatigue lines pulling face downward, strong jaw now softening. SKIN: warm tan skin with golden undertone, moderate age spots, rough labor-worn texture. EYES: tired eyes with very heavy lower lids and prominent under-eye bags, drooping expression. WRINKLES: deep fatigue lines from cheekbone to jaw, pronounced nasolabial folds, deep forehead lines, neck folds. BODY: lean frame with slight hunch, weathered posture, broad but thinning shoulders.",
+
+     		"Kakek Sinto": "94-year-old Javanese grandfather. FACE: deeply sunken skeletal face, very hollow cheeks, extremely sharp angular jawline, skull-like thinness. SKIN: thin warm tan skin stretched over facial bones, visible veins on temples, dense age spots. EYES: deep sunken cloudy eyes, thin almost disappearing eyelids, hollow orbital sockets. WRINKLES: deep vertical creases on hollow cheeks, sharp nasolabial crevices, deep lip lines, loose hanging neck skin. BODY: very thin delicate extremely frail frame, bony visible hands with prominent knuckles.",
+
+     		"Kakek Wiryo": "74-year-old Javanese grandfather. FACE: broad labor-worn face, high prominent cheekbones, wide strong jaw, masculine aged structure. SKIN: rough warm sawo matang with golden undertone, very deep pores, sun-damaged texture, scattered age spots. EYES: tired eyes with moderately heavy lower lids, slight under-eye hollows, hardworking weathered gaze. WRINKLES: deep brow furrows, prominent nasolabial folds, forehead horizontal lines, early neck folds. BODY: lean weathered frame, strong but aging posture, broad shoulders beginning to round.",
+
+     		"Kakek Usman": "86-year-old Indonesian grandfather. FACE: deeply wrinkled face, prominent fatigue and gravity lines, sunken cheeks, gaunt overall structure. SKIN: warm brownish skin with golden undertone, heavily aged texture, dense age spots and uneven pigmentation. EYES: heavy-lidded weary eyes, prominent under-eye bags, slow contemplative gaze. WRINKLES: very deep nasolabial folds, sharp fatigue lines from cheek to jaw, deep forehead furrows, prominent neck wattle. BODY: thin frame with slow careful movements, slight forward lean, frail but dignified posture.",
 		}
 		
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
@@ -3588,43 +3588,40 @@ def tampilkan_halaman():
 
         }
 		
-		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
-        MASTER_AUDIO_STYLE = {
+		MASTER_AUDIO_STYLE = {
     		"Logat_Nenek": [
-        		"Elderly village grandmother with thick rural kampung accent, soft thin old voice, calm and weary delivery",           # Normal tua
-        		"Very old frail grandma with gentle soft Javanese accent, whispery thin voice, slow and delicate",                    # Sangat lembut
-        		"Frail 92-year-old grandmother with strong rural kampung accent, raspy weak voice, very slow and exhausted",         # Paling tua & lemah
-        		"91+ year old nenek tua with soft natural Indonesian accent, quiet tired voice, gentle and fragile",                 # Lebih halus
-        		"Elderly thin grandmother with slightly husky kampung accent, shaky fragile voice, slow and weak",                   # Kurus & gemetar
-        		"Small elderly grandma with warm soft kampung accent, breathy tired voice, calm and gentle"                          # Kecil & hangat
+        		"Voice of a woman past 90 — air moves through the throat before words form, each syllable slightly compressed as if breath is rationed, not performed. Rural Javanese kampung cadence: consonants softened at the edges, vowels held a beat too long on words that matter. NOT a theatrical quaver — the tremor is in the pauses, not the tone. Voice drops near the end of every sentence as if the body is already tired of speaking.",
+				"Elderly nenek, paper-thin vocal fold resonance — the kind of thinness that comes from decades of use, not stylization. Words arrive one cluster at a time with a micro-gap between them, as if each requires a small decision. Inhalation sometimes audible before longer phrases. Kampung accent sits in the rhythm, not just pronunciation — slower syllable weight, flatter melody. No vibrato, no performed weakness.",
+				"92-year-old grandmother voice: dry, slightly adhesive quality on consonants as if the throat is never quite moist enough. Sentence rhythm breaks naturally at unexpected points — not for drama, but because aging lungs don't follow script pacing. Strong rural lilt underneath the frailty, the accent of someone who never lived in a city. Voice loses energy at the third or fourth word of a long phrase.",
+				"Voice that sounds like it belongs to someone sitting very still. Low airflow, minimal projection — the kind of voice heard best in a quiet room. Kampung grandmother cadence: unhurried, syllables slightly uneven in duration, emotional words sometimes barely voiced at all. No theatrical aging sounds. The exhaustion is structural — in the breath support, not the tone color.",
+				"Nenek tua with genuine vocal fold thinning — not hoarse, not raspy, just reduced. Like a voice that has spoken less and less over the years and has grown small from disuse. Javanese kampung rhythm intact: soft word-final consonants, gentle glottal quality on vowel starts. Pauses between phrases stretch naturally without apology. NOT breathy in a stylized way — the breath is just present because control is minimal.",
+				"Old grandmother voice where the physical cost of speaking is audible — not in groaning or effort sounds, but in the way volume fades mid-sentence and recovers slightly before the next. Each sentence feels self-contained, with a small rest between them. Rural kampung accent coloring throughout: unpolished, unlayered, the sound of someone who has never performed anything in her life."
     		],
     		"Logat_Kakek": [
-        		"Elderly village grandfather with thick rural kampung accent, deep tired old man voice, slow and steady",
-        		"Very old frail kakek with gentle Javanese accent, hoarse low elderly male voice",
-        		"Frail 90-year-old grandfather with strong rural kampung accent, weak weathered old man voice",
-        		"89+ year old kakek tua with soft natural Indonesian accent, raspy tired elderly male voice",
-        		"Labor-worn old grandfather with rough deep kampung accent, slow and tired delivery",
-        		"Elderly grandfather with low trembling voice, calm but weary and sincere"
+        		"Voice of a man in his late 80s who spent decades outdoors — deep register thinned by age, not theatrical. Consonants slightly blunted, especially at word endings. Breathing is audible not as a stylized effect but as a structural fact: inhale before long phrases, slight exhale leak during pauses. Kampung rural accent in the rhythm: words placed with weight, no hurry, no performance. Voice drops on the last word of every sentence as if energy runs out exactly there.",
+				"Elderly kakek, low fundamental frequency but reduced harmonic richness — the resonance of a chest that no longer has the same lung volume behind it. Speech rhythm is uneven in a natural way: some words slightly longer than expected, some shorter, as if the body controls the pace. Strong Javanese kampung cadence underneath. NOT a gravelly performed old man voice — the roughness is texture from use, not character work.",
+				"90-year-old grandfather: voice that carries silence in it. Long inter-phrase pauses that do not feel dramatic — they feel like the normal cost of speaking at this age. Kampung accent natural and unlayered, the kind that was never trained away. Slight vocal fold irregularity on sustained vowels — not tremor, more like mild roughness at the edges of long notes. Volume is low and does not build.",
+				"Kakek tua, labor-worn resonance — decades of outdoor work audible not as stylization but as reduced breath pressure and slightly flattened chest resonance. Words come out evenly weighted, no word emphasized more than others, the rhythm of someone who has stopped trying to be interesting. Rural kampung lilt in the cadence: slower attack, consonant clusters slightly simplified. Emotional words are NOT louder — they are quieter.",
+				"Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words.",
+				"Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves."
     		],
-
-			"Mood": [
-				"Tired, resigned, and quietly sad with a hint of loneliness",
-        		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
-        		"Heavy sadness wrapped in sincere pasrah and weary acceptance",
-        		"Fragile melancholic resignation, tired but still gently longing for kindness",
-        		"Soft sadness with a hint of loneliness and quiet pleading",
-        		"Weary and ikhlas, carrying years of silent endurance",
-        		"Calm but emotionally drained, speaking with quiet resignation"
+    		"Mood": [
+        		"Grief that has been carried so long it no longer announces itself — visible only in the slight delay before each answer, in eyes that move to the object before the camera, in the way the mouth closes after speaking as if holding something back. NOT crying. NOT on the edge of crying. The sadness is old and settled, like sediment.",
+				"Quiet ache, not performance. The emotion lives in physical stillness — hands that do not fidget, a gaze that holds slightly too long before moving. Pasrah without resignation theater: the face is calm, but the calm has weight. Viewers feel it before they can name it. No wet eyes, no trembling lip, no dramatic pause.",
+				"Tired longing — the specific exhaustion of wanting something that is already gone and knowing it. Visible in slow blink rate, in micro-expressions that appear and vanish quickly, in the way looking at the object produces a small inward shift before composure returns. Voice carries the same weight as the face: neither accelerates nor softens for effect.",
+				"Ikhlas that is earned, not performed — the kind that comes after years of choosing acceptance. Face composed. Eyes clear, not glassy. Sadness present but not dominant: it sits underneath the calm like depth under still water. The most affecting moment is when composure almost shifts and then does not. No tears, no sob, no catch in the voice.",
+				"Melancholic presence — the character seems slightly elsewhere, as if part of their attention is on something the camera cannot see. This is not confusion or absence — it is the specific interior quality of someone revisiting memory while physically present. Small behavioral tells: a slow exhale before speaking, eyes dropping to the object mid-sentence, a pause that runs slightly longer than needed.",
+				"Restrained sorrow with a thread of unspoken pleading — not begging, not asking for anything openly, but the expression of someone who hopes to be seen and understood without having to say so. Makes viewers stop and feel something without knowing exactly why. No theatrical grief markers. The effect comes from what is held back, not what is released.",
+				"Emotional weight carried with full composure — the sadness is structural, in the undertone of every word and gesture, never breaking through to the surface. Voice stays flat and steady. Eyes stay dry. The grief is communicated entirely through restraint: what doesn't happen — no cry, no tremor, no collapse — is what makes it felt."
     		],
-
     		"Physical Action": [
-        		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
-        		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
-        		"Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
-        		"Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
-        		"Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
-        		"Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
-    		]
+        		"Both hands resting near the miniature, not gripping it — fingers loose, slightly curved inward, the way hands rest when the body is at rest but the mind is occupied. Eyes move from the object to the camera and back, each shift slow and deliberate, as if each look requires a small decision. The hands do not gesture. They simply exist near the thing that matters.",
+				"One hand placed close to the miniature without touching it — proximity without contact, the way someone stands near something fragile they are not sure they are allowed to hold. The other hand rests in the lap. Gaze drops to the object between sentences and returns to the camera at the start of each new thought. The movement is unscripted-feeling, not choreographed.",
+				"Head slightly inclined toward the miniature when not speaking — a slow, barely visible lean, the kind the body makes without instruction when drawn to something. When speaking, gaze lifts toward the camera but does not fully commit: eyes move between the two as if unable to settle. No large movements. The emotional content is in the micro-scale.",
+				"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces.",
+				"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn.",
+				"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up."
+    		],
 		}
 
         # --- UI LAYOUT ---
@@ -3704,100 +3701,73 @@ def tampilkan_halaman():
 
 			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
-                "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
-                "HIGH MICRO-CONTRAST CINEMATIC: Deep contrast with rich tonal separation, enhanced texture definition, and crisp highlight-to-shadow transitions. "
-                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast. "
-				"ULTRA COLOR SEPARATION: Rich color contrast with deep blacks and dense highlights, no color fading. "
-				"NO COLOR WASHOUT: Colors must remain dense, rich, and saturated without increasing brightness. "
-				"NO LOW CONTRAST: Image must maintain strong contrast and depth, never flat or dull. "
-				"TEXTURE PRIORITY BOOST: Every material surface must show tactile depth with extreme clarity and separation. "
-				"EXTREME SURFACE DETAIL: Every wrinkle, fiber, crack, dent, and imperfection must be sharply defined and clearly visible. "
+                "8K RAW DOCUMENTARY CINEMA — shot on 35mm film. "
+    			"Maximum optical sharpness, zero digital smoothing, zero AI haze. "
+    			"Neutral-warm skin tones with visible blood undertones, rich melanin, natural pore texture. "
+    			"Strong micro-contrast: deep blacks, dense highlights, rich tonal separation. "
+    			"Colors must remain saturated and dense without brightness increase. "
+    			"Every material surface must show tactile depth: wrinkles, fiber, crack, dent — sharply defined. "
+    			"NO pale skin, NO color washout, NO flat contrast, NO CGI texture, NO plastic skin."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-				f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
-				f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
-				f"- EXTREMELY sharp 8K detail with priority focus on the miniature while maintaining clear readability of all elements.\n"
-				f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
-				f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n"
-				f"- EXTREME MICRO TEXTURE: Every surface detail must pop with strong depth separation and tactile realism.\n"
-				f"- SHARP EDGE DEFINITION: Clear separation between materials, no blending, no muddy texture overlap.\n"
-				f"- USED MATERIAL AUTHENTICITY: All materials must visibly appear worn, aged, wrinkled, scratched, dented, or imperfect, never clean or new.\n\n"
-                
-				f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
-				f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
-				f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
-				f"- PERFECT ALIGNMENT: Camera, miniature, and character are aligned on the same horizontal eye-level axis.\n"
-				f"- CENTER LOCK: The mosque is perfectly centered with symmetrical left-right balance, no off-center framing.\n"
-				f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
-				f"- The elderly character sits directly behind the object, symmetrically framed.\n"
-				f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
-				f"- NO high angle, NO low angle, NO bird's eye view.\n"
-				f"- NO pitch black shadows, but shadows must remain deep and detailed.\n\n"
-                
-				f"LIGHTING & ATMOSPHERE:\n"
-				f"CONTROLLED GOLDEN HOUR SUNLIGHT: Low-angle directional sunlight with controlled intensity, soft but still clearly directional, never harsh or overpowering. "
-				f"LIGHT DIRECTION PRIORITY: Light comes from one dominant side, creating strong depth, contour, and surface definition without harsh glare. "
-				f"CONTROLLED EXPOSURE: Slight underexposure to preserve color density and prevent highlight washout. "
-				f"HIGH CONTRAST LIGHTING: Strong but balanced highlight and shadow separation to enhance texture visibility and depth without crushing detail. "
-				f"SHADOW DETAIL PRESERVATION: Shadows remain deep, slightly softened at the edges, and retain visible detail, no crushed blacks. "
-				f"HIGHLIGHT CONTROL: Highlights are dense, controlled, and slightly softened, never blown out or overly sharp. "
-				f"BALANCED WARMTH: Warm golden tone is clearly present but restrained, avoiding orange flooding, red tint, or yellow cast. "
-				f"COLOR INTENSITY: Colors remain rich, dense, and visually impactful with strong midtone presence, never faded or washed out. "
-				f"MICRO CONTRAST: Fine micro-contrast preserved to maintain sharpness and texture clarity under softer light. "
-				f"NO harsh sunlight, NO overhead light, NO flat lighting, NO overexposure, NO washed highlights.\n\n"
-        
-                f"CHARACTER IDENTITY:\n"
-                f"{soul_desc}\n"
-                f"{gender_lock}\n"
-                f"Wardrobe: {baju_desc}\n"
-                f"MANDATORY: UNIQUE and DISTINCT facial structure. Different face shape, different eye shape, different wrinkle pattern, and different cheek/jaw structure compared to all other characters. "
-                f"Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and hand veins. "
-                f"Sharp, clear, and detailed face with natural micro-expressions. NO face smoothing, NO plastic skin, NO generic old lady face.\n\n"
-                
-				f"ENVIRONMENT:\n"
-				f"{env_detail}\n"
-				f"- BACKGROUND SUPPORT ROLE: The environment must support the subject without overpowering or distracting from the miniature.\n"
-				f"- DEPTH CONTROL: Background remains slightly softer than the subject without excessive blur or loss of environmental readability.\n"
-				f"- LIGHTING CONSISTENCY: Environment lighting must follow the same directional golden hour lighting, no conflicting light sources.\n"
-				f"- COLOR BALANCE: Background colors must remain controlled and not overpower the main subject.\n"
-				f"- NO VISUAL CLUTTER: Avoid excessive objects, noise, or chaotic elements that distract from the miniature.\n"
-				f"- NO COMPETING SUBJECTS: No background elements should compete visually with the main subject.\n\n"
-                
-                f"PERFORMANCE:\n"
-                f"{aksi_final}\n"
-                f"Mood: {mood_final}\n\n"
-                
-                f"VOICE PROFILE:\n"
-                f"{logat_final}\n"
-                f"Delivery style: {mood_final}.\n\n"
-                
-                f"SPOKEN DIALOG:\n"
-                f"\"{user_dialog}\"\n\n"
-                
-                f"DIALOG DELIVERY RULE:\n"
-				f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-				f"- Spoken naturally and tired like a real old village elder with soft fragile voice.\n\n"
+    			f"SUBJECT PRIORITY:\n"
+    			f"- The handcrafted miniature mosque is the absolute main subject — dead-center frame dominance.\n"
+    			f"- Razor-sharp 8K focus on the miniature. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
+    			f"- All materials must appear worn, aged, imperfect — never clean or new.\n"
+    			f"- Clear edge separation between surfaces. No muddy texture overlap.\n\n"
 
-				f"AUDIO CONTROL - VERY IMPORTANT:\n"
-				f"- NO background music. NO BGM. NO music of any kind.\n"
-				f"- NO sound effects, NO ambient sound, NO instrumental.\n"
-				f"- ONLY the character's raw spoken voice and natural breathing.\n"
-				f"- Pure voice audio. Nothing else.\n\n"
-                
-                f"OBJECT DETAIL:\n"
-                f"{deskripsi_teknis}\n\n"
-                
-                f"NEGATIVE PROMPT:\n"
-                f"BACKGROUND MUSIC, BGM, soundtrack, cinematic score, instrumental, emotional music, "
-                f"ambient music, rhythmic melody, musical pads, violin, piano, synth, audio layers, "
-                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
-                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
-                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
-                f"blurry, soft focus, excessive background blur, high angle, low angle, wide shot\n"
+    			f"CAMERA:\n"
+    			f"- 85mm cinema lens, f/2.8. Tight medium shot.\n"
+    			f"- Strict eye-level axis: camera, miniature, and character on the same horizontal plane.\n"
+    			f"- Miniature perfectly centered, symmetrical left-right balance.\n"
+    			f"- Elderly character sits directly behind, symmetrically framed.\n"
+    			f"- Very slow organic handheld movement with extremely gentle push-in.\n\n"
+
+    			f"LIGHTING:\n"
+    			f"- Low-angle directional daylight, warm but not amber — controlled golden quality without orange flooding.\n"
+    			f"- Light from one dominant side: strong depth and surface contour, no harsh glare.\n"
+    			f"- Slight underexposure to preserve color density. Shadows deep but retain visible detail.\n"
+    			f"- NO overhead light, NO flat lighting, NO blown highlights, NO reddish glow, NO amber tint.\n\n"
+
+    			f"CHARACTER:\n"
+    			f"{soul_desc}\n"
+    			f"{gender_lock}\n"
+    			f"Wardrobe: {baju_desc}\n"
+    			f"MANDATORY: Unique facial structure — distinct face shape, eye shape, wrinkle pattern, jaw and cheek structure. "
+    			f"Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, hand veins. "
+    			f"NO face smoothing, NO generic old face, NO plastic skin.\n\n"
+
+    			f"ENVIRONMENT:\n"
+    			f"{env_detail}\n"
+    			f"- Background supports the subject — must not compete with or overpower the miniature.\n"
+    			f"- Lighting consistent with main subject: same directional daylight, no conflicting sources.\n\n"
+
+    			f"CHARACTER PERFORMANCE & VOICE:\n"
+    			f"Action: {aksi_final}\n"
+    			f"Mood & delivery: {mood_final}\n"
+    			f"Voice profile: {logat_final}\n\n"
+
+    			f"SPOKEN DIALOG:\n"
+    			f"\"{user_dialog}\"\n\n"
+
+    			f"AUDIO RULES:\n"
+    			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
+    			f"- NO background music, NO BGM, NO ambient sound, NO sound effects, NO instrumental.\n"
+    			f"- ONLY the character's raw spoken voice and natural breath. Nothing else.\n\n"
+
+    			f"OBJECT:\n"
+    			f"{deskripsi_teknis}\n\n"
+
+    			f"NEGATIVE PROMPT:\n"
+    			f"background music, BGM, soundtrack, cinematic score, instrumental, ambient music, "
+    			f"emotional music, violin, piano, synth, "
+    			f"orange tint, amber glow, reddish light, sunset red, warm color flooding, "
+    			f"pale skin, washed-out color, grey skin, white haze, overexposure, sun glare, "
+    			f"digital smoothing, AI look, CGI texture, plastic skin, over-smooth face, "
+    			f"blurry background, excessive bokeh, high angle, low angle, wide shot, text on screen\n"
             )
 
             # --- TAMPILKAN HASIL ---
