@@ -60,43 +60,43 @@ def tampilkan_halaman():
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
-     		# === NENEK ===
-     		"Nenek Aminah": "88-year-old Javanese grandmother. FACE: long narrow face, high sharp cheekbones, severely sagging heavy jawline with deep jowls. SKIN: deep sawo matang with golden undertone, sun-damaged leathery texture, visible age spots, prominent pores. EYES: deeply sunken into sockets, heavy drooping lids, under-eye hollows, rheumy tired gaze. WRINKLES: deep vertical nasolabial folds, dense vertical lip lines, deep horizontal forehead lines, sunken temples, neck wattle. BODY: tall but severely shrunken, extremely thin bony frame, hunched posture, loose skin on arms and hands.",
 
-     		"Nenek Siti": "73-year-old Javanese grandmother. FACE: small round plump face, full soft sagging cheeks, gentle wide facial structure. SKIN: warm langsat with yellowish golden undertone, soft age spots, moderate texture. EYES: large round eyes with heavy drooping lids, mild under-eye puffiness, still lively gaze. WRINKLES: soft nasolabial folds, light forehead lines, fine lines around eyes, gentle neck folds. BODY: tiny delicate frame, petite build with remaining softness, slight forward lean.",
-
-     		"Nenek Marsi": "94-year-old Javanese grandmother. FACE: wide square face, very prominent cheekbones, loose sagging skin under chin forming double wattle. SKIN: deep warm sawo matang, heavily sun-damaged with dense age spots, rough uneven texture. EYES: narrow eyes almost hidden under extremely thick heavy lids, deep eye socket hollows. WRINKLES: deep horizontal forehead furrows, prominent brow wrinkles, heavy nasolabial folds, vertical lip lines, loose neck skin with layered horizontal folds. BODY: broad but frail heavily hunched frame, very bony shoulders, thin arms with hanging loose skin.",
-
-     		"Nenek Ponirah": "80-year-old Javanese grandmother. FACE: round full face, heavy sagging cheeks pulling downward, soft undefined jawline. SKIN: warm brownish sun-kissed skin, mild age spots, slightly uneven tone. EYES: almond-shaped eyes, noticeable lower eye bags, moderate drooping upper lids, gentle expression. WRINKLES: pronounced nasolabial folds, cheek jowl lines, moderate forehead lines, fine lip lines, soft neck folds. BODY: plump but shrunken frame, rounded shoulders, loose hanging skin on upper arms.",
-
-     		"Nenek Juminah": "91-year-old very thin Javanese grandmother. FACE: sharp angular tirus face, dramatically sunken temples, deeply hollow cheeks, sharp protruding cheekbones. SKIN: warm tan skin stretched tightly over facial bones, thin papery texture, scattered age spots. EYES: deep-set eyes with thin eyelids, visible orbital bones, intense sunken gaze. WRINKLES: sharp vertical lines from cheekbone to jaw, deep hollowed nasolabial shadow, thin lip lines, prominent forehead furrows. BODY: extremely thin bony frame, visible clavicle and shoulder bones, very frail posture.",
-
-     		"Nenek Sikem": "76-year-old Javanese grandmother. FACE: very round plump face, heavy lower cheeks with multiple soft downward folds, soft undefined jaw. SKIN: warm sawo matang with golden undertone, smooth-ish but aged texture, mild age spots. EYES: small eyes nearly hidden under very puffy heavy lids, slightly squinting expression. WRINKLES: deep nasolabial folds buried in cheek flesh, soft jowl lines, moderate forehead lines, layered neck folds. BODY: short rounded fragile frame, wide soft shoulders, plump arms with loose skin.",
-
-     		"Nenek Dulah": "68-year-old Sundanese grandmother. FACE: soft oval face, naturally full sagging cheeks, gentle rounded jawline. SKIN: bright warm langsat with golden undertone, relatively smooth but aging texture, minimal age spots. EYES: gentle almond eyes, soft under-eye hollows, mild lid drooping, warm kind expression. WRINKLES: soft nasolabial folds, fine crow's feet, light forehead lines, gentle neck lines. BODY: soft fragile build, rounded slightly drooping shoulders, gentle overall frame.",
-
-     		"Nenek Sartini": "84-year-old Sundanese grandmother. FACE: wide round face, very heavy sagging cheeks pulling face downward, deep nasolabial shadow folds. SKIN: warm brownish skin with golden undertone, age spots on cheeks and forehead, rough texture. EYES: wide-set eyes with very heavy drooping upper lids, visible lower eye bags, tired gaze. WRINKLES: very deep nasolabial folds, prominent jowl lines, deep forehead furrows, multiple neck folds. BODY: plump but frail frame, heavy rounded shoulders, soft upper arms with loose skin.",
-
-     		"Nenek Tinah": "93-year-old thin Javanese grandmother. FACE: long oval tirus face, deeply sunken hollow cheeks, sharp angular jawline, prominent cheekbones. SKIN: warm tan with golden undertone, thin almost translucent skin, dense age spots, papery texture. EYES: deep sunken eyes with heavy lids, visible orbital rim, exhausted distant gaze. WRINKLES: sharp vertical cheek lines, deep nasolabial folds, hollow temple wrinkles, deep lip lines, loose hanging neck skin. BODY: very thin elongated shrunken frame, extremely hunched posture, bony protruding joints.",
-
-     		"Nenek Wati": "64-year-old Sundanese grandmother. FACE: small delicate round face, soft heavy sagging skin on lower cheeks, youthful proportions but visibly aged. SKIN: warm langsat tone with golden undertone, relatively smooth, early age spots forming. EYES: large gentle eyes with heavy drooping lids, mild puffiness, still bright expression. WRINKLES: early nasolabial folds, fine crow's feet, light forehead lines, soft neck lines just forming. BODY: very small delicate frame, petite narrow shoulders, slight stoop.",
+     		"Nenek Aminah": "88-year-old Javanese grandmother, long narrow face with high sharp cheekbones, deep vertical wrinkles, heavy sagging jawline, warm sawo matang skin with golden undertone, deeply sunken eyes with heavy drooping lids, tall but severely shrunken thin frame.",
+   
+     		"Nenek Siti": "73-year-old petite Javanese grandmother, small round plump face with full soft sagging cheeks, warm langsat skin with yellowish golden undertone, large round eyes with heavy lids, tiny delicate frame with remaining softness.",
+   
+     		"Nenek Marsi": "94-year-old Javanese grandmother, wide square face with prominent cheekbones, deep horizontal forehead wrinkles, loose skin under chin, deep warm sawo matang skin with many age spots, narrow eyes under thick heavy lids, broad but frail hunched frame.",
+   
+     		"Nenek Ponirah": "80-year-old Javanese grandmother, round full face with heavy sagging cheeks and soft jaw, warm brownish sun-kissed skin, almond-shaped eyes with noticeable lower eye bags, plump but shrunken frame with loose skin on arms.",
+   
+     		"Nenek Juminah": "91-year-old very thin Javanese grandmother, sharp angular tirus face with sunken temples and cheeks, warm tan skin stretched over bones, deep-set eyes with thin eyelids, extremely thin bony frame.",
+   
+     		"Nenek Sikem": "76-year-old Javanese grandmother, very round plump face with heavy lower cheeks and multiple soft folds, warm sawo matang skin with golden undertone, small eyes almost hidden under puffy lids, short rounded fragile frame.",
+   
+     		"Nenek Dulah": "68-year-old Sundanese grandmother, soft oval face with naturally full sagging cheeks, bright warm langsat skin with golden undertone, gentle almond eyes with soft under-eye hollows, soft fragile frame with rounded shoulders.",
+   
+     		"Nenek Sartini": "84-year-old Sundanese grandmother, wide round face with heavy sagging cheeks and deep nasolabial folds, warm brownish skin with golden undertone, wide-set eyes with heavy lids, plump but frail frame.",
+   
+     		"Nenek Tinah": "93-year-old thin Javanese grandmother, long oval tirus face with deeply sunken cheeks and sharp jawline, warm tan skin with golden undertone, deep sunken eyes with heavy lids, very thin elongated shrunken frame.",
+   
+     		"Nenek Wati": "64-year-old small Sundanese grandmother, small delicate round face with soft heavy sagging skin, warm langsat tone with golden undertone, large gentle eyes with heavy drooping lids, very small delicate frame.",
 
      		# === KAKEK ===
-     		"Kakek Marto": "87-year-old Javanese grandfather. FACE: long rectangular face, strong bony jawline, prominent brow ridge, lean angular structure. SKIN: rough warm sawo matang with golden undertone, deep pores, sun-damaged texture, age spots on forehead and cheeks. EYES: deep-set eyes with heavy lower lids, visible eye bags, sharp alert gaze despite age. WRINKLES: deep horizontal forehead furrows, prominent frown lines between brows, nasolabial folds, vertical jaw lines. BODY: lean bony frame, pronounced hunched shoulders, visible collarbone and neck tendons.",
-
-     		"Kakek Somo": "79-year-old Javanese grandfather. FACE: round soft face, heavy jowls, multiple soft downward folds around jaw and cheeks. SKIN: warm brownish skin with golden undertone, moderate age spots, slightly rough texture. EYES: small tired eyes under puffy heavy upper lids, mild under-eye bags, slow gentle gaze. WRINKLES: deep nasolabial folds, jowl crease lines, moderate forehead lines, horizontal neck folds. BODY: short rounded fragile frame, wide soft shoulders, slightly hunched posture.",
-
-     		"Kakek Joyo": "90-year-old Javanese grandfather. FACE: square face, very prominent brow ridge overhanging eyes, strong cheekbones, weathered masculine structure. SKIN: leathery rough warm sun-heavily-exposed skin, deep pores, dense age spots, uneven mottled tone. EYES: narrow eyes deeply set under thick furrowed heavy lids, sharp but weary gaze. WRINKLES: extremely deep horizontal forehead lines, deep brow furrows, sharp nasolabial folds, neck wattle with horizontal rings. BODY: once sturdy frame now severely shrunken, hunched bony posture, visible shoulder blade protrusion.",
-
-     		"Kakek Hardi": "95-year-old Javanese grandfather. FACE: extremely shrunken skeletal face, deeply hollow cheeks, sharp protruding cheekbones, visible facial bone structure. SKIN: thin almost translucent warm tan skin with golden undertone, dense age spots, paper-thin texture over bones. EYES: very deep sunken cloudy eyes, barely visible under heavy lids, distant unfocused gaze. WRINKLES: sharp deep facial creases following bone structure, hollow temple wrinkles, deep lip lines, hanging neck skin. BODY: very thin delicate bony frame, severely hunched, extremely fragile posture.",
-
-    		"Kakek Sableng": "83-year-old Javanese grandfather. FACE: broad face, high prominent cheekbones, heavy fatigue lines pulling face downward, strong jaw now softening. SKIN: warm tan skin with golden undertone, moderate age spots, rough labor-worn texture. EYES: tired eyes with very heavy lower lids and prominent under-eye bags, drooping expression. WRINKLES: deep fatigue lines from cheekbone to jaw, pronounced nasolabial folds, deep forehead lines, neck folds. BODY: lean frame with slight hunch, weathered posture, broad but thinning shoulders.",
-
-     		"Kakek Sinto": "94-year-old Javanese grandfather. FACE: deeply sunken skeletal face, very hollow cheeks, extremely sharp angular jawline, skull-like thinness. SKIN: thin warm tan skin stretched over facial bones, visible veins on temples, dense age spots. EYES: deep sunken cloudy eyes, thin almost disappearing eyelids, hollow orbital sockets. WRINKLES: deep vertical creases on hollow cheeks, sharp nasolabial crevices, deep lip lines, loose hanging neck skin. BODY: very thin delicate extremely frail frame, bony visible hands with prominent knuckles.",
-
-     		"Kakek Wiryo": "74-year-old Javanese grandfather. FACE: broad labor-worn face, high prominent cheekbones, wide strong jaw, masculine aged structure. SKIN: rough warm sawo matang with golden undertone, very deep pores, sun-damaged texture, scattered age spots. EYES: tired eyes with moderately heavy lower lids, slight under-eye hollows, hardworking weathered gaze. WRINKLES: deep brow furrows, prominent nasolabial folds, forehead horizontal lines, early neck folds. BODY: lean weathered frame, strong but aging posture, broad shoulders beginning to round.",
-
-     		"Kakek Usman": "86-year-old Indonesian grandfather. FACE: deeply wrinkled face, prominent fatigue and gravity lines, sunken cheeks, gaunt overall structure. SKIN: warm brownish skin with golden undertone, heavily aged texture, dense age spots and uneven pigmentation. EYES: heavy-lidded weary eyes, prominent under-eye bags, slow contemplative gaze. WRINKLES: very deep nasolabial folds, sharp fatigue lines from cheek to jaw, deep forehead furrows, prominent neck wattle. BODY: thin frame with slow careful movements, slight forward lean, frail but dignified posture."
+     		"Kakek Marto": "87-year-old Javanese grandfather, long rectangular face with strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone, deep-set eyes with heavy lower lids, lean bony frame with hunched shoulders.",
+   
+     		"Kakek Somo": "79-year-old Javanese grandfather, round soft face with heavy jowls and multiple soft folds, warm brownish skin with golden undertone, small tired eyes under puffy lids, short rounded fragile frame.",
+   
+     		"Kakek Joyo": "90-year-old Javanese grandfather, square face with prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin, narrow eyes with heavy lids, once sturdy but now shrunken frame.",
+   
+     		"Kakek Hardi": "95-year-old Javanese grandfather, extremely shrunken skeletal face with hollow cheeks, thin translucent warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate bony frame.",
+   
+    		 "Kakek Sableng": "83-year-old Javanese grandfather, broad face with high cheekbones and heavy fatigue lines, warm tan skin with golden undertone, tired eyes with heavy lower lids, lean frame with hunched posture.",
+   
+     		"Kakek Sinto": "94-year-old Javanese grandfather, deeply sunken skeletal face with hollow cheeks, thin warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate frame with bony hands.",
+   
+     		"Kakek Wiryo": "74-year-old Javanese grandfather, broad labor-worn face with high cheekbones, deep pores, rough warm sawo matang skin with golden undertone, tired eyes with heavy lower lids, lean weathered frame.",
+   
+     		"Kakek Usman": "86-year-old Indonesian grandfather, deeply wrinkled face with prominent fatigue lines and sunken cheeks, warm brownish skin with golden undertone, heavy-lidded weary eyes, thin frame with slow movements."
 		}
 		
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
