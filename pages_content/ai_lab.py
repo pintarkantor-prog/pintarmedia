@@ -3520,14 +3520,14 @@ def tampilkan_halaman():
 
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
-        	"Logat_Nenek": [
-            	"95-year-old Javanese village grandmother with heavy rural Medhok accent, soft thin fragile voice, weary and slow delivery.",
-            	"Very old frail Javanese grandma with gentle soft rural accent, whispery thin voice, slow and exhausted.",
-            	"Frail 92-year-old grandmother with strong Javanese village accent, raspy weak voice, very slow and struggling.",
-            	"91+ year old Javanese nenek tua with soft natural rural accent, quiet tired voice, gentle and fragile.",
-            	"Elderly thin Javanese grandmother with slightly husky kampung accent, shaky fragile voice, slow and weary.",
-            	"Small elderly Javanese grandma with warm soft Medhok accent, breathy tired voice, calm and gentle village style."
-        	],
+    		"Logat_Nenek": [
+        		"Elderly village grandmother with thick rural kampung accent, soft thin old voice, calm and weary delivery",           # Normal tua
+        		"Very old frail grandma with gentle soft Javanese accent, whispery thin voice, slow and delicate",                    # Sangat lembut
+        		"Frail 92-year-old grandmother with strong rural kampung accent, raspy weak voice, very slow and exhausted",         # Paling tua & lemah
+        		"91+ year old nenek tua with soft natural Indonesian accent, quiet tired voice, gentle and fragile",                 # Lebih halus
+        		"Elderly thin grandmother with slightly husky kampung accent, shaky fragile voice, slow and weak",                   # Kurus & gemetar
+        		"Small elderly grandma with warm soft kampung accent, breathy tired voice, calm and gentle"                          # Kecil & hangat
+    		],
         	"Logat_Kakek": [
             	"Voice of a 92-year-old Javanese village grandfather, heavy rural 'Medhok' accent. Voice: EXTREMELY THIN RASP, high-pitched age-cracks. Voice must sound physically weak and village-authentic.",
             	"Frail elderly Javanese kakek, thick rural accent. Voice: Weak, quivering, and hollow. Pacing: Inconsistent speed with audible struggle for breath between phrases.",
