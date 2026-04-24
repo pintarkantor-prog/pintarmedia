@@ -3536,12 +3536,13 @@ def tampilkan_halaman():
             	"Elderly Javanese grandfather, dying rural breath voice. Voice: Fragile, high-pitched age-rasp, quiet and deeply weary. Pace: Very hesitant and emotionally broken."
         	],
 			"Mood": [
-        		"Stoic heartbreak: A look of weary resignation with glazed, hollow eyes that silently plead for kindness. NO TEARS, just deep exhaustion.",
-				"Tired Pasrah: A heavy, quiet sadness that feels old and settled. The expression is soft, vulnerable, and profoundly lonely.",
-				"Ikhlas earned through suffering: A calm, weary face with a faint, sad gaze that makes viewers feel a deep sense of pity.",
-				"Melancholic presence: Looking at the work with a far-off, longing expression as if remembering a lost loved one. No drama, just quiet grief.",
-				"Weary dignity: A face that has carried years of endurance. The sadness is structural, visible in the heavy drooping eyelids and soft gaze.",
-				"Fragile longing: A look of someone who hopes to be seen but expects nothing. The emotion is in the stillness and the slow blink rate."
+				"Tired, resigned, and quietly sad with a hint of loneliness",
+        		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
+        		"Heavy sadness wrapped in sincere pasrah and weary acceptance",
+        		"Fragile melancholic resignation, tired but still gently longing for kindness",
+        		"Soft sadness with a hint of loneliness and quiet pleading",
+        		"Weary and ikhlas, carrying years of silent endurance",
+        		"Calm but emotionally drained, speaking with quiet resignation"
     		],
     		"Physical Action": [
         		"Resting shaky, bone-thin hands near the mosque, then slowly looking up at the lens with heavy lids and a fragile, weary gaze.",
