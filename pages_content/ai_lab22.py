@@ -3522,18 +3522,20 @@ def tampilkan_halaman():
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
         "Logat_Nenek": [
-            "Voice of a 95-year-old Javanese village grandmother, heavy rural 'Medhok' accent. Voice: EXTREMELY FRAGILE WISPY RASP, thin and hollow. Soft consonants, NO harsh glottal stops (especially on 'ek' sounds). The voice must crack naturally. Pacing: Slow, hesitant rural cadence.",
-            "Frail 90+ Javanese grandma, struggling for breath. Voice: Thin, quivering, with a thick rural kampung accent. Soft word endings, avoid sharp 'k' sounds. Performance: Soft, weary delivery with natural gasping.",
-            "Skeletal elderly grandma, Javanese 'Kromo' village accent. Voice: High-pitched age-rasp, dry and papery. Softened glottal stops for natural speech. Intonation: Shifting from weak whispers to quiet pleading.",
-            "95-year-old rural Javanese grandmother. Voice: Broken, thin, and very medhok. Softened final consonants to prevent 'ek-ek' glitches. Mandatory: Audible mouth clicks and shaky vocal cords.",
-            "Tiny elderly Javanese grandma, dying rural voice. Voice: Very breathy, exhausted, and slow. Smooth, soft consonants throughout. Sounds like a raw, forgotten village field recording."
+            "95-year-old Javanese village grandmother with heavy rural Medhok accent, soft thin fragile voice, weary and slow delivery.",
+            "Very old frail Javanese grandma with gentle soft rural accent, whispery thin voice, slow and exhausted.",
+            "Frail 92-year-old grandmother with strong Javanese village accent, raspy weak voice, very slow and struggling.",
+            "91+ year old Javanese nenek tua with soft natural rural accent, quiet tired voice, gentle and fragile.",
+            "Elderly thin Javanese grandmother with slightly husky kampung accent, shaky fragile voice, slow and weary.",
+            "Small elderly Javanese grandma with warm soft Medhok accent, breathy tired voice, calm and gentle village style."
         ],
         "Logat_Kakek": [
-            "Voice of a 92-year-old Javanese village grandfather, heavy rural 'Medhok' accent. Voice: EXTREMELY THIN RASP, high-pitched age-cracks. Voice must sound physically weak and village-authentic.",
-            "Frail elderly Javanese kakek, thick rural accent. Voice: Weak, quivering, and hollow. Pacing: Inconsistent speed with audible struggle for breath between phrases.",
-            "90+ year old Javanese kakek tua, rural accent. Voice: High vocal jitter, thin and papery quality, physically exhausted. Performance: Intonation is tired, medhok, and resigned.",
-            "Skeletal old Javanese grandfather, rough 'Medhok' kampung accent. Voice: Thin but gravelly, high-pitched trembling, and very slow. NO bapak-bapak depth.",
-            "Elderly Javanese grandfather, dying rural breath voice. Voice: Fragile, high-pitched age-rasp, quiet and deeply weary. Pace: Very hesitant and emotionally broken."
+            "92-year-old Javanese village grandfather with heavy rural Medhok accent, deep but thin fragile voice, weary and slow delivery.",
+            "Elderly frail Javanese kakek with gentle soft rural accent, whispery raspy voice, slow and exhausted.",
+            "Frail 90-year-old grandfather with strong Javanese village accent, husky weak voice, very slow and struggling.",
+            "90+ year old Javanese kakek tua with soft natural rural accent, quiet tired voice, gentle and fragile.",
+            "Elderly thin Javanese grandfather with slightly husky kampung accent, shaky fragile voice, slow and weary.",
+            "Small elderly Javanese grandfather with warm soft Medhok accent, breathy tired voice, calm and gentle village style."
         ],
 			"Mood": [
         		"Stoic heartbreak: A look of weary resignation with glazed, hollow eyes that silently plead for kindness. NO TEARS, just deep exhaustion.",
