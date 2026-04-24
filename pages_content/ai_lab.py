@@ -82,167 +82,132 @@ def tampilkan_halaman():
 		
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
-            # --- KELOMPOK NENEK ---
-			"Nenek Aminah": {
-				"Tunik Linen Layered Rustic": "Wearing a loose layered linen tunic with visible natural wrinkles and slightly rough texture in earthy tones, paired with a long flowy skirt. Styled with a softly draped textured hijab with natural folds.",
-				"Outer Rajut + Dress Katun Tua": "Wearing a long vintage cotton dress layered with a loose hand-knit cardigan. Fabric appears aged and soft. Paired with a loosely wrapped hijab.",
-				"Setelan Longgar Kain Tebal": "Wearing a loose two-piece outfit made from thick aged cotton with uneven texture and faded tones. Oversized silhouette. Paired with a simple textured hijab.",
-				"Tunik Kusut + Rok Panjang": "Wearing a wrinkled soft cotton tunic with visible creases paired with a long skirt. Natural worn look. Styled with a loose hijab.",
-				"Layered Cloth Natural Tone": "Wearing layered soft fabrics in muted tones with visible folds and depth. Slightly mismatched but harmonious. Paired with a natural draped hijab.",
-				"Dress Rumah Tekstur Kasar": "Wearing a loose house dress made from coarse cotton with visible grain texture. Grounded tactile feel. Paired with a simple hijab."
-			},
-
-			"Nenek Siti": {
-				"Tunik Katun Tebal + Outer Tipis": "Wearing a thick cotton tunic layered with a thin outer cloth. Visible fabric depth and layering. Paired with a soft draped hijab.",
-				"Long Dress Pudar + Selendang": "Wearing a faded long dress with natural wrinkles, layered with a loose shoulder cloth. Paired with a simple hijab.",
-				"Setelan Oversized Lembut": "Wearing a soft oversized two-piece outfit with relaxed silhouette and visible folds. Paired with a neutral hijab.",
-				"Tunik Panjang Tekstur Halus": "Wearing a long tunic with subtle fabric texture and soft drape. Natural imperfections visible. Paired with a simple hijab.",
-				"Layer Kain Tradisional": "Wearing layered traditional fabrics with uneven folds and organic texture. Paired with a natural hijab.",
-				"Dress Kusut Natural": "Wearing a slightly wrinkled cotton dress with natural fold patterns. Simple and grounded. Paired with a hijab."
-			},
-
-			"Nenek Marsi": {
-				"Tunik Kasar + Rok Tebal": "Wearing a rough-textured cotton tunic paired with a thick skirt. Visible grain and fabric weight. Paired with a simple hijab.",
-				"Outer Tipis + Inner Dress": "Wearing a thin outer layer over a soft long dress, creating depth and layering. Paired with a draped hijab.",
-				"Setelan Natural Layered": "Wearing layered soft fabric outfit with visible folds and natural flow. Paired with a simple hijab.",
-				"Dress Panjang Tekstur Tebal": "Wearing a long dress made from heavier cotton with visible fabric density. Paired with a hijab.",
-				"Tunik Oversized Kusut": "Wearing a loose wrinkled tunic with visible creases and relaxed silhouette. Paired with a simple hijab.",
-				"Layered Kain Pudar": "Wearing layered faded fabrics with subtle mismatch tones. Paired with a natural hijab."
-			},
-
-			"Nenek Ponirah": {
-				"Setelan Linen Natural": "Wearing a loose linen two-piece outfit with visible wrinkles and breathable texture. Paired with a softly wrapped hijab.",
-				"Tunik Panjang + Outer Tipis": "Wearing a long tunic layered with a thin outer cloth, adding depth and softness. Paired with a simple hijab.",
-				"Dress Oversized Lembut": "Wearing a soft oversized dress with natural drape and gentle folds. Paired with a hijab.",
-				"Layered Cloth Rustic": "Wearing multiple layers of rustic fabric with visible texture and organic folds. Paired with a natural hijab.",
-				"Tunik Tebal + Rok Flow": "Wearing a thick cotton tunic paired with a flowing skirt. Balanced weight and movement. Paired with a hijab.",
-				"Setelan Rumah Kasar": "Wearing a coarse cotton home outfit with visible grain texture. Paired with a simple hijab."
-			},
-			"Nenek Juminah": {
-				"Tunik Tipis Layered Flow": "Wearing a thin layered tunic with soft flowing fabric and visible natural folds, paired with a long skirt. The material feels light and breathable. Styled with a softly draped hijab.",
-				"Dress Pudar + Outer Ringan": "Wearing a slightly faded long dress layered with a lightweight outer cloth, creating gentle layering depth. Paired with a simple hijab.",
-				"Setelan Longgar Lembut": "Wearing a loose two-piece outfit made from soft cotton with relaxed silhouette and subtle wrinkles. Paired with a natural hijab.",
-				"Tunik Panjang Kusut Halus": "Wearing a long tunic with soft creases and organic folds, paired with a skirt. The texture is smooth but imperfect. Styled with a hijab.",
-				"Layer Natural Flowing Fabric": "Wearing layered soft fabrics that flow naturally with visible depth and slight asymmetry. Paired with a loosely wrapped hijab.",
-				"Dress Rumah Tipis Natural": "Wearing a thin cotton house dress with subtle texture and light wrinkles. Simple and grounded. Paired with a hijab."
-			},
-
-			"Nenek Sikem": {
-				"Tunik Tebal Rustic + Rok": "Wearing a thick rustic cotton tunic with visible grain texture, paired with a long skirt. The outfit feels heavy and grounded. Paired with a hijab.",
-				"Outer Rajut Tipis + Inner Dress": "Wearing a soft inner dress layered with a thin knitted outer layer, adding texture variation. Paired with a natural hijab.",
-				"Setelan Oversized Tebal": "Wearing an oversized two-piece outfit made from dense cotton fabric with visible folds and weight. Paired with a simple hijab.",
-				"Tunik Kasar Panjang": "Wearing a long tunic with rough surface texture and visible imperfections. Paired with a flowing skirt and hijab.",
-				"Layered Cloth Earth Tone": "Wearing layered earthy-toned fabrics with subtle mismatched shades and natural folds. Paired with a hijab.",
-				"Dress Rumah Berat": "Wearing a heavier cotton dress with visible fabric density and tactile feel. Paired with a softly wrapped hijab."
-			},
-
-			"Nenek Dulah": {
-				"Tunik Halus + Rok Flow": "Wearing a smooth cotton tunic with soft drape paired with a flowing skirt. Subtle texture and natural folds. Paired with a hijab.",
-				"Layer Tipis + Inner Lembut": "Wearing a thin outer layer over a soft inner dress, creating gentle depth. Paired with a simple hijab.",
-				"Setelan Natural Relaxed": "Wearing a relaxed two-piece outfit with visible folds and breathable fabric. Natural and comfortable. Paired with a hijab.",
-				"Dress Panjang Lembut": "Wearing a long soft cotton dress with gentle wrinkles and natural movement. Paired with a hijab.",
-				"Layered Fabric Soft Tone": "Wearing layered fabrics in soft tones with visible depth and subtle folds. Paired with a hijab.",
-				"Tunik Panjang Natural": "Wearing a long tunic with natural fabric texture and imperfect folds. Paired with a simple hijab."
-			},
-
-			"Nenek Sartini": {
-				"Tunik Kasar + Layer Tipis": "Wearing a slightly coarse cotton tunic layered with a thin outer cloth, creating contrast in texture. Paired with a hijab.",
-				"Dress Pudar Natural": "Wearing a faded long dress with visible aging and soft wrinkles. Paired with a simple hijab.",
-				"Setelan Rumah Longgar": "Wearing a loose house outfit with relaxed silhouette and natural folds. Comfortable and grounded. Paired with a hijab.",
-				"Tunik Tebal Oversized": "Wearing a thick oversized tunic with visible creases and heavy fabric feel. Paired with a long skirt and hijab.",
-				"Layered Rustic Fabric": "Wearing layered rustic fabrics with uneven folds and natural imperfections. Paired with a hijab.",
-				"Dress Tekstur Kasar": "Wearing a cotton dress with visible grain and tactile texture, slightly wrinkled. Paired with a simple hijab."
-			},
-			"Nenek Tinah": {
-				"Tunik Linen Kusut + Rok Flow": "Wearing a wrinkled linen tunic with visible natural creases and slightly rough texture, paired with a long flowing skirt. The fabric feels breathable and worn. Styled with a softly draped hijab with natural folds.",
-				"Layer Katun Tua + Outer Tipis": "Wearing a faded cotton inner dress layered with a thin outer cloth, creating soft depth and natural layering. The fabric shows aging and subtle texture. Paired with a simple hijab.",
-				"Setelan Longgar Tekstur Tebal": "Wearing a loose two-piece outfit made from thick cotton fabric with visible grain and weight. The silhouette is oversized and modest. Paired with a natural hijab.",
-				"Tunik Panjang Pudar + Rok": "Wearing a long slightly faded tunic with soft wrinkles and organic folds, paired with a skirt. The outfit feels simple and grounded. Styled with a loosely wrapped hijab.",
-				"Layered Fabric Natural Tone": "Wearing multiple layers of soft fabric in muted earthy tones with visible folds and depth, slightly mismatched but harmonious. Paired with a softly draped hijab.",
-				"Dress Rumah Tekstur Kasar": "Wearing a loose house dress made from slightly coarse cotton with visible grain and tactile texture. The fabric shows natural wear. Paired with a simple hijab."
-			},
-
-			"Nenek Wati": {
-				"Tunik Halus + Outer Ringan": "Wearing a smooth cotton tunic layered with a lightweight outer cloth, creating gentle layering and soft depth. The fabric shows subtle wrinkles. Paired with a natural hijab.",
-				"Dress Panjang Pudar + Layer Tipis": "Wearing a faded long dress layered with a thin outer fabric, giving soft dimensional layering. The surface shows natural aging and folds. Paired with a simple hijab.",
-				"Setelan Oversized Lembut": "Wearing a soft oversized two-piece outfit with relaxed silhouette and visible fabric folds. Comfortable and grounded. Paired with a hijab.",
-				"Tunik Panjang Tekstur Halus": "Wearing a long tunic with subtle fabric texture and soft drape, paired with a flowing skirt. Natural imperfections visible. Paired with a hijab.",
-				"Layered Soft Fabric Tone": "Wearing layered fabrics in soft tones with visible depth and gentle folds, creating a calm natural look. Paired with a loosely wrapped hijab.",
-				"Dress Natural Flow Texture": "Wearing a long dress with natural flow and visible fabric movement, slightly wrinkled with organic texture. Paired with a simple hijab."
-			},
-
-            # --- KELOMPOK KAKEK ---
-			"Kakek Marto": {
-				"Koko Tebal Layered + Sarung": "Wearing a thick cotton koko layered over a thin inner shirt, creating visible depth and natural folds. The fabric shows slight rough texture and aging. Paired with a batik sarong and a black peci.",
-				"Kemeja Pudar + Layer Dalam": "Wearing a faded long-sleeve shirt layered with a soft inner garment, creating subtle layering. Natural wrinkles and wear are visible. Paired with a sarong and white peci.",
-				"Layer Rustic Cloth + Sarung": "Wearing layered rustic fabrics with uneven folds and natural texture, creating a grounded tactile look. Paired with a traditional sarong and black peci.",
-				"Koko Oversized Tekstur Kasar": "Wearing a loose oversized koko with slightly coarse texture and visible grain. The fabric hangs naturally with imperfections. Paired with a sarong and white peci.",
-				"Kemeja Flanel Layered": "Wearing a worn flannel shirt layered over a thin inner shirt, creating depth and visual layering. Paired with a sarong and black peci.",
-				"Setelan Rumah Tebal": "Wearing a thick home outfit with visible fabric weight and relaxed folds. The texture feels heavy and grounded. Paired with a sarong and black peci."
-			},
-
-			"Kakek Somo": {
-				"Koko Tipis + Inner Layer": "Wearing a thin cotton koko layered over a soft inner shirt, creating gentle depth and soft folds. Paired with a sarong and white peci.",
-				"Kemeja Tua Natural Wrinkle": "Wearing an aged long-sleeve shirt with visible natural creases and soft fading. Paired with a sarong and white peci.",
-				"Layer Soft Fabric Flow": "Wearing layered soft fabrics with relaxed silhouette and visible folds, creating natural flow. Paired with a sarong and black peci.",
-				"Koko Longgar Lembut": "Wearing a loose koko shirt with soft drape and natural wrinkles, simple but alive. Paired with a sarong and white peci.",
-				"Kemeja Tipis + Outer Ringan": "Wearing a light shirt layered with a thin outer cloth adding subtle depth. Paired with a sarong and black peci.",
-				"Setelan Santai Natural": "Wearing a relaxed home outfit with visible fabric folds and organic texture. Paired with a sarong and white peci."
-			},
-
-			"Kakek Joyo": {
-				"Koko Tebal Natural Texture": "Wearing a thick cotton koko with visible grain and fabric weight, showing natural imperfections. Paired with a sarong and black peci.",
-				"Kemeja Putih Kusut": "Wearing a slightly wrinkled white shirt with visible fold lines and natural wear. Paired with a sarong and white peci.",
-				"Layered Fabric Depth": "Wearing layered fabrics creating depth with subtle tone variation and folds. Paired with a sarong and black peci.",
-				"Koko Oversized Heavy Fold": "Wearing an oversized koko with heavy fabric folds and visible texture. Paired with a sarong and white peci.",
-				"Kemeja Flanel Natural Wear": "Wearing a flannel shirt with visible aging and soft worn texture. Paired with a sarong and black peci.",
-				"Setelan Rumah Kasar": "Wearing a coarse cotton home outfit with visible grain and rough texture. Paired with a sarong and black peci."
-			},
-
-			"Kakek Hardi": {
-				"Koko Tipis Layered": "Wearing a thin koko layered over an inner garment, creating subtle layering and softness. Paired with a sarong and white peci.",
-				"Kemeja Biru Pudar": "Wearing a faded blue shirt with natural wrinkles and soft aging. Paired with a sarong and black peci.",
-				"Layer Natural Cloth": "Wearing layered fabrics with visible folds and relaxed structure. Paired with a sarong and black peci.",
-				"Koko Longgar Flow": "Wearing a loose koko with soft drape and natural movement. Paired with a sarong and white peci.",
-				"Kemeja Kotak Layered": "Wearing a checkered shirt layered over a thin inner layer. Visible folds and texture. Paired with a sarong and black peci.",
-				"Setelan Tebal Rustic": "Wearing a thick rustic home outfit with visible weight and fabric texture. Paired with a sarong and white peci."
-			},
-
-			"Kakek Sableng": {
-				"Koko Kasar + Sarung": "Wearing a slightly rough-textured koko with visible grain and natural imperfections. Paired with a sarong and black peci.",
-				"Kemeja Putih Layered": "Wearing a white shirt layered over a thin inner garment, creating depth. Paired with a sarong and white peci.",
-				"Layer Fabric Irregular": "Wearing layered fabrics with uneven folds and organic structure. Paired with a sarong and black peci.",
-				"Koko Oversized Natural Fold": "Wearing an oversized koko with visible folds and relaxed silhouette. Paired with a sarong and white peci.",
-				"Kemeja Flanel Tebal": "Wearing a thicker flannel shirt with visible texture and natural wear. Paired with a sarong and black peci.",
-				"Setelan Rumah Natural": "Wearing a simple home outfit with natural folds and soft texture. Paired with a sarong and black peci."
-			},
-
-			"Kakek Sinto": {
-				"Koko Tipis + Layer": "Wearing a thin koko layered with a soft inner layer, creating gentle depth. Paired with a sarong and white peci.",
-				"Kemeja Biru Soft Wrinkle": "Wearing a soft blue shirt with visible wrinkles and natural aging. Paired with a sarong and black peci.",
-				"Layered Cloth Depth": "Wearing layered cloth with visible folds and tonal variation. Paired with a sarong and black peci.",
-				"Koko Longgar Lembut": "Wearing a loose koko with soft drape and relaxed folds. Paired with a sarong and white peci.",
-				"Kemeja Kotak Natural": "Wearing a checkered shirt with visible fabric texture and folds. Paired with a sarong and black peci.",
-				"Setelan Rumah Tebal": "Wearing a thicker home outfit with visible fabric weight and texture. Paired with a sarong and white peci."
-			},
-
-			"Kakek Wiryo": {
-				"Koko Tebal Layered": "Wearing a thick cotton koko layered with an inner shirt, showing strong folds and depth. Paired with a sarong and black peci.",
-				"Kemeja Putih Kusut Natural": "Wearing a slightly wrinkled white shirt with visible natural creases. Paired with a sarong and white peci.",
-				"Layer Rustic Tone": "Wearing layered fabrics in earthy tones with visible folds and natural irregularity. Paired with a sarong and black peci.",
-				"Koko Oversized Heavy Texture": "Wearing an oversized koko with heavy texture and visible fabric density. Paired with a sarong and white peci.",
-				"Kemeja Flanel Layered": "Wearing a flannel shirt layered with inner garment creating depth. Paired with a sarong and black peci.",
-				"Setelan Rumah Kasar": "Wearing a coarse-textured home outfit with visible grain and folds. Paired with a sarong and black peci."
-			},
-
-			"Kakek Usman": {
-				"Koko Tipis Natural Layer": "Wearing a thin koko layered over a soft inner garment, creating subtle depth. Paired with a sarong and white peci.",
-				"Kemeja Biru Pudar": "Wearing a faded blue shirt with visible wrinkles and aging. Paired with a sarong and black peci.",
-				"Layered Fabric Flow": "Wearing layered fabrics with relaxed flow and visible folds. Paired with a sarong and black peci.",
-				"Koko Longgar Soft Fold": "Wearing a loose koko with soft folds and natural drape. Paired with a sarong and white peci.",
-				"Kemeja Kotak Layer": "Wearing a checkered shirt layered over a thin inner cloth. Paired with a sarong and black peci.",
-				"Setelan Rumah Natural": "Wearing a relaxed home outfit with visible fabric folds and organic texture. Paired with a sarong and white peci."
-			}
+            "Nenek Aminah": {
+                "Kebaya Lurik Klasik": "A faded brown Javanese lurik kebaya with thin vertical stripes, weathered fabric texture, slightly frayed edges.",
+                "Daster Kampung Motif Bunga": "A loose, well-worn house dress (daster) with faded floral patterns, thin cotton material showing age.",
+                "Kebaya Encim Putih Lusuh": "A simple white cotton kebaya with subtle traditional embroidery, slightly yellowed by age, modest and humble.",
+                "Baju Kurung Tua": "A plain, dark green traditional baju kurung, very thin fabric, looking loose and comfortable for an elderly person.",
+                "Setelan Jarik & Kebaya Polos": "A dark navy simple kebaya paired with a brown batik jarik cloth wrapped around the waist, authentic village style."
+            },
+            "Nenek Siti": {
+                "Kebaya Kartini Muda (Faded)": "A simple pale pink kebaya with weathered texture, very thin and looking used for decades.",
+                "Daster Katun Tipis": "A dark blue house dress with tiny white dots, faded and soft from years of washing.",
+                "Kebaya Kutu Baru Polos": "A humble mustard yellow kebaya with a simple design, showing signs of wear and age.",
+                "Baju Kurung Motif Kecil": "A light green traditional baju kurung with very faded tiny floral prints, simple and rural.",
+                "Setelan Kaos & Jarik": "A simple oversized white cotton t-shirt paired with a dark brown batik jarik, casual grandma look."
+            },
+            "Nenek Marsi": {
+                "Kebaya Beludru Tua": "A dark purple velvet kebaya, the fabric looks thin and shiny from age, traditional and modest.",
+                "Daster Batik Cokelat": "A classic brown batik house dress with large patterns, faded colors, and soft texture.",
+                "Baju Kurung Hitam Polos": "A simple black traditional baju kurung, thin weathered fabric, very humble and respectful.",
+                "Kebaya Lurik Tebal (Worn)": "A thick striped lurik kebaya in dark tones, fabric looks coarse and very old.",
+                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl draped over the shoulder, authentic elderly style."
+            },
+            "Nenek Ponirah": {
+                "Kebaya Katun Bunga": "A light yellow cotton kebaya with tiny red flowers, faded and very soft texture.",
+                "Daster Merah Pudar": "A dark red house dress with traditional patterns, weathered and looking very comfortable.",
+                "Baju Kurung Hijau Pupus": "A pale green traditional baju kurung, thin fabric, simple and rural grandmother style.",
+                "Kebaya Kutu Baru Klasik": "A simple dark brown kebaya with a traditional design, showing signs of long use.",
+                "Setelan Jarik & Kebaya Biru": "A dark blue simple kebaya paired with a classic brown batik jarik, very modest village look."
+            },
+            "Nenek Juminah": {
+                "Kebaya Lurik Halus (Faded)": "A thin blue striped lurik kebaya, very weathered and soft, traditional village attire.",
+                "Daster Motif Abstrak": "A loose house dress with faded abstract patterns in earth tones, thin and aged fabric.",
+                "Baju Kurung Putih Lusuh": "A simple white traditional baju kurung, yellowed by age, looking humble and honest.",
+                "Kebaya Kartini Hitam": "A simple black cotton kebaya, very thin and weathered, traditional and respectful.",
+                "Setelan Jarik & Kebaya Kuning": "A pale yellow kebaya paired with a dark batik jarik cloth, authentic rural style."
+            },
+            "Nenek Sikem": {
+                "Kebaya Beludru Merah Tua": "A dark maroon velvet kebaya, fabric looks thin and aged, very traditional for elders.",
+                "Daster Batik Biru": "A dark blue batik house dress with large white patterns, faded and very soft texture.",
+                "Baju Kurung Cokelat Polos": "A simple brown traditional baju kurung, thin weathered fabric, modest and rural.",
+                "Kebaya Kutu Baru Hijau": "A simple dark green kebaya, showing signs of wear and age, humble village style.",
+                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl, authentic traditional grandmother look."
+            },
+            "Nenek Dulah": {
+                "Kebaya Encim Motif Bunga": "A white kebaya with faded pink flowers, weathered texture, very thin and aged.",
+                "Daster Katun Cokelat": "A dark brown house dress with tiny floral prints, faded and soft from years of washing.",
+                "Baju Kurung Biru Langit": "A pale blue traditional baju kurung, thin fabric, looking very humble and simple.",
+                "Kebaya Kutu Baru Polos": "A dark mustard kebaya with a simple design, showing signs of long use and age.",
+                "Setelan Jarik & Kebaya Hijau": "A dark green simple kebaya paired with a brown batik jarik, authentic Sundanese style."
+            },
+            "Nenek Sartini": {
+                "Kebaya Lurik Sunda": "A simple grey striped lurik kebaya, weathered and soft texture, authentic rural style.",
+                "Daster Merah Motif": "A dark red house dress with traditional patterns, faded and looking very comfortable.",
+                "Baju Kurung Kuning Pudar": "A pale yellow traditional baju kurung, thin fabric, simple and humble grandmother look.",
+                "Kebaya Kutu Baru Biru": "A dark blue simple kebaya, showing signs of wear and age, modest village style.",
+                "Setelan Jarik & Kebaya Cokelat": "A dark brown simple kebaya paired with a classic batik jarik, very modest look."
+            },
+            "Nenek Tinah": {
+                "Kebaya Katun Polos": "A simple white cotton kebaya, yellowed and weathered by age, very humble and modest.",
+                "Daster Motif Batik": "A dark brown batik house dress with large patterns, faded and soft texture.",
+                "Baju Kurung Hijau Tua": "A dark green traditional baju kurung, thin fabric, simple and rural village style.",
+                "Kebaya Kutu Baru Klasik": "A simple dark purple kebaya with a traditional design, showing signs of long use.",
+                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl, authentic traditional look."
+            },
+            "Nenek Wati": {
+                "Kebaya Encim Sederhana": "A pale pink cotton kebaya with simple embroidery, weathered and soft texture.",
+                "Daster Biru Motif": "A dark blue house dress with tiny white flowers, faded and looking very used.",
+                "Baju Kurung Putih": "A simple white traditional baju kurung, thin and weathered, humble grandmother style.",
+                "Kebaya Kutu Baru Hitam": "A simple black cotton kebaya, showing signs of wear and age, modest village look.",
+                "Setelan Jarik & Kebaya Cokelat": "A dark brown simple kebaya paired with a classic batik jarik, authentic rural look."
+            },
+            "Kakek Marto": {
+                "Kemeja Kerja Lusuh": "A faded grey cotton button-up shirt with visible wear on the collar and cuffs, thin fabric.",
+                "Kaos Oblong Putih": "A simple oversized white cotton t-shirt, slightly yellowed and thin from years of use.",
+                "Baju Koko Klasik": "A simple white traditional koko shirt, weathered texture with subtle patterns, modest and rural.",
+                "Kemeja Batik Pudar": "A dark brown batik shirt with very faded patterns, thin and soft texture from long use.",
+                "Baju Kurung Laki-laki": "A simple dark blue traditional male tunic, weathered fabric, very humble village style."
+            },
+            "Kakek Somo": {
+                "Kemeja Flanel Tua": "A dark red plaid flannel shirt, the colors are very faded and the fabric is thin and soft.",
+                "Kaos Berkerah Lusuh": "A simple dark blue polo shirt, collar looks worn and the fabric is thin and aged.",
+                "Baju Koko Hijau Pudar": "A pale green traditional koko shirt, simple design, weathered and looking used for years.",
+                "Kemeja Batik Cokelat": "A classic brown batik shirt, patterns are very faded, modest and rural grandfather look.",
+                "Setelan Sarung & Kaos": "A simple white cotton t-shirt paired with a dark green plaid sarong, authentic casual style."
+            },
+            "Kakek Joyo": {
+                "Kemeja Denim Lusuh": "A very faded blue denim shirt, fabric looks soft and weathered with visible signs of wear.",
+                "Kaos Putih Polos Tua": "A simple white cotton t-shirt, thin and yellowed, looking very humble and used.",
+                "Baju Koko Hitam": "A simple black traditional koko shirt, thin weathered fabric, modest and respectful.",
+                "Kemeja Batik Motif Besar": "A dark brown batik shirt with large patterns, faded and looking very traditional.",
+                "Setelan Sarung & Kemeja": "A simple grey button-up shirt paired with a dark brown plaid sarong, authentic rural look."
+            },
+            "Kakek Hardi": {
+                "Kemeja Putih Lusuh": "A simple white button-up shirt, yellowed and weathered, looking very humble and aged.",
+                "Kaos Oblong Abu-abu": "A thin grey cotton t-shirt, faded and soft from years of washing, very simple.",
+                "Baju Koko Biru Pudar": "A pale blue traditional koko shirt, simple design, weathered and looking very old.",
+                "Kemeja Batik Klasik": "A classic brown batik shirt, very faded patterns, modest and rural village style.",
+                "Setelan Sarung & Koko": "A simple white koko shirt paired with a dark green plaid sarong, authentic elderly look."
+            },
+            "Kakek Sableng": {
+                "Kemeja Kerja Biru": "A dark blue cotton button-up shirt, weathered and faded with visible wear on the edges.",
+                "Kaos Putih Sederhana": "A simple white cotton t-shirt, thin and aged, looking very humble and honest.",
+                "Baju Koko Cokelat": "A simple brown traditional koko shirt, thin weathered fabric, modest and rural style.",
+                "Kemeja Batik Tua": "A classic batik shirt with very faded patterns, fabric looks thin and soft from age.",
+                "Setelan Sarung & Kaos": "A simple grey t-shirt paired with a dark brown plaid sarong, authentic casual village look."
+            },
+            "Kakek Sinto": {
+                "Kemeja Putih Tua": "A simple white button-up shirt, yellowed and weathered, very humble and rural style.",
+                "Kaos Oblong Biru": "A thin dark blue cotton t-shirt, faded and soft texture, looking very comfortable.",
+                "Baju Koko Hijau Pudar": "A pale green traditional koko shirt, simple design, showing signs of long use.",
+                "Kemeja Batik Motif Kecil": "A dark brown batik shirt with tiny faded patterns, modest and respectful.",
+                "Setelan Sarung & Koko": "A simple white koko shirt paired with a dark green plaid sarong, authentic traditional look."
+            },
+            "Kakek Wiryo": {
+                "Kemeja Kerja Cokelat": "A dark brown cotton button-up shirt, weathered and faded with visible signs of wear.",
+                "Kaos Putih Lusuh": "A simple white cotton t-shirt, thin and yellowed, looking very humble and used.",
+                "Baju Koko Hitam Polos": "A simple black traditional koko shirt, thin weathered fabric, modest and rural style.",
+                "Kemeja Batik Klasik": "A dark batik shirt with very faded patterns, looking very traditional and aged.",
+                "Setelan Sarung & Kemeja": "A simple grey button-up shirt paired with a dark green plaid sarong, authentic village look."
+            },
+            "Kakek Usman": {
+                "Kemeja Kerja Putih": "A simple white button-up shirt, yellowed and weathered, humble and rural style.",
+                "Kaos Oblong Hitam": "A thin black cotton t-shirt, faded and soft from years of washing, very simple.",
+                "Baju Koko Biru Tua": "A dark blue traditional koko shirt, simple design, showing signs of long use.",
+                "Kemeja Batik Pudar": "A dark brown batik shirt with faded patterns, looking very traditional and modest.",
+                "Setelan Sarung & Kemeja": "A simple white button-up shirt paired with a dark green plaid sarong, authentic rural look."
+            }
         }
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
