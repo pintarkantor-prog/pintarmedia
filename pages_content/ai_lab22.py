@@ -3698,7 +3698,10 @@ def tampilkan_halaman():
     			f"RULE: DO NOT SPEAK ANY WORDS INSIDE PARENTHESES. Parentheses contain acting cues only.\n\n"
 
     			f"[ SPOKEN DIALOG (EMOTIONAL CUES) ]\n"
-    			f"\"{user_dialog.replace('...', '... (long pause, gasping for breath) ...')}\"\n\n"
+    			f"\"{user_dialog.replace('...', '.').replace('.', '. (long weary pause, shaky breath) ')}\"\n\n"
+
+    			f"[ OBJECT SPECIFICATIONS ]\n"
+    			f"{deskripsi_teknis}\n\n"
 
     			f"[ AUDIO RULES ]\n"
     			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
