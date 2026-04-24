@@ -60,138 +60,208 @@ def tampilkan_halaman():
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
-            "Nenek Aminah": "88-year-old Javanese grandmother. Unique facial landmark: Narrow face with high-set sharp cheekbones and a distinct mole near the left eye. Face: Paper-thin translucent skin with extreme hyper-pigmentation age spots. Deep vertical forehead wrinkles, sagging jawline. Eyes: Sunken watery eyes with heavy drooping lids. Frame: Tall, severely shrunken skeletal thin frame.",
-            "Nenek Siti": "73-year-old petite Javanese grandmother. Unique facial landmark: Small round face with very plump sagging cheeks and a soft chin. Face: Warm yellowish-golden skin with visible sun damage. Eyes: Large round eyes with heavy lids and dark under-eye hollows. Frame: Tiny delicate frame with soft, fragile hunched posture.",
-            "Nenek Marsi": "94-year-old Javanese grandmother. Unique facial landmark: Wide square jaw with prominent broad cheekbones. Face: Deep horizontal forehead furrows and loose parchment-like skin hanging under the chin. Deep warm sawo matang skin with prominent age spots. Eyes: Narrow eyes under thick heavy lids. Frame: Broad but frail heavily hunched frame.",
-            "Nenek Ponirah": "80-year-old Javanese grandmother. Unique facial landmark: Round full face with heavy sagging cheeks and soft jaw. Face: Warm brownish sun-kissed skin, leathery texture. Eyes: Almond-shaped eyes with noticeable trembling lower eye bags. Frame: Plump but shrunken frame with loose hanging skin on arms.",
-            "Nenek Juminah": "91-year-old very thin Javanese grandmother. Unique facial landmark: Sharp angular tirus face with sunken temples and hollow cheeks. Face: Warm tan skin stretched tightly over bone structure. Eyes: Deep-set eyes with thin translucent eyelids. Frame: Extremely thin bony frame, very fragile.",
-            "Nenek Sikem": "76-year-old Javanese grandmother. Unique facial landmark: Very round plump face with heavy lower cheeks and multiple soft skin folds. Face: Warm sawo matang skin with golden undertone and visible age spots. Eyes: Small eyes almost hidden under puffy drooping lids. Frame: Short rounded fragile frame.",
-            "Nenek Dulah": "68-year-old Sundanese grandmother. Unique facial landmark: Soft oval face with naturally full sagging cheeks. Face: Bright warm langsat skin with subtle sun spots. Eyes: Gentle almond eyes with soft under-eye hollows. Frame: Soft fragile frame with rounded hunched shoulders.",
-            "Nenek Sartini": "84-year-old Sundanese grandmother. Unique facial landmark: Wide round face with heavy sagging cheeks and deep nasolabial folds. Face: Warm brownish skin with leathery texture. Eyes: Wide-set eyes with heavy lids and watery gaze. Frame: Plump but frail shrunken frame.",
-            "Nenek Tinah": "93-year-old thin Javanese grandmother. Unique facial landmark: Long oval tirus face with deeply sunken cheeks and sharp jawline. Face: Warm tan skin with extreme wrinkle density. Eyes: Deep sunken eyes with heavy lids. Frame: Very thin elongated shrunken frame.",
-            "Nenek Wati": "64-year-old small Sundanese grandmother. Unique facial landmark: Small delicate round face with soft heavy sagging skin. Face: Warm langsat tone with visible age-related fatigue lines. Eyes: Large gentle eyes with heavy drooping lids. Frame: Very small delicate fragile frame.",
-            "Kakek Marto": "87-year-old Javanese grandfather. Unique facial landmark: Long rectangular face with strong jawline and deep forehead wrinkles. Face: Rough leathery sawo matang skin with prominent hand veins. Eyes: Deep-set eyes with heavy trembling lower lids. Frame: Lean bony frame with heavily hunched shoulders.",
-            "Kakek Somo": "79-year-old Javanese grandfather. Unique facial landmark: Round soft face with heavy jowls and multiple soft skin folds. Face: Warm brownish skin with visible sun damage. Eyes: Small tired eyes under puffy lids and dark circles. Frame: Short rounded fragile hunched frame.",
-            "Kakek Joyo": "90-year-old Javanese grandfather. Unique facial landmark: Square face with prominent brow ridge and deep horizontal wrinkles. Face: Leathery rough sun-exposed skin with many age spots. Eyes: Narrow eyes with thick heavy lids. Frame: Once sturdy but now severely shrunken frame.",
-            "Kakek Hardi": "95-year-old Javanese grandfather. Unique facial landmark: Extremely shrunken skeletal face with hollow cheeks and sunken temples. Face: Thin translucent warm tan skin with visible blood vessels. Eyes: Deep sunken cloudy eyes. Frame: Very thin delicate bony frame.",
-            "Kakek Sableng": "83-year-old Javanese grandfather. Unique facial landmark: Broad face with high cheekbones and heavy fatigue lines. Face: Warm tan skin with leathery texture and deep pores. Eyes: Tired eyes with heavy trembling lower lids. Frame: Lean frame with hunched posture.",
-            "Kakek Sinto": "94-year-old Javanese grandfather. Unique facial landmark: Deeply sunken skeletal face with hollow cheeks and collapsed jaw. Face: Thin warm tan skin with extreme wrinkle density. Eyes: Deep sunken cloudy eyes with watery gaze. Frame: Very thin delicate frame with bony shaky hands.",
-            "Kakek Wiryo": "74-year-old Javanese grandfather. Unique facial landmark: Broad labor-worn face with high cheekbones and deep pores. Face: Rough warm sawo matang skin with sun spots. Eyes: Tired eyes with heavy lower lids. Frame: Lean weathered frame with rough worker's hands.",
-            "Kakek Usman": "86-year-old Indonesian grandfather. Unique facial landmark: Deeply wrinkled face with prominent fatigue lines and sunken cheeks. Face: Warm brownish skin with leathery texture. Eyes: Heavy-lidded weary eyes with cloudy pupils. Frame: Thin frame with slow, fragile movements."
-        }
+
+     		"Nenek Aminah": "88-year-old Javanese grandmother, long narrow face with high sharp cheekbones, deep vertical wrinkles, heavy sagging jawline, warm sawo matang skin with golden undertone, deeply sunken eyes with heavy drooping lids, tall but severely shrunken thin frame.",
+   
+     		"Nenek Siti": "73-year-old petite Javanese grandmother, small round plump face with full soft sagging cheeks, warm langsat skin with yellowish golden undertone, large round eyes with heavy lids, tiny delicate frame with remaining softness.",
+   
+     		"Nenek Marsi": "94-year-old Javanese grandmother, wide square face with prominent cheekbones, deep horizontal forehead wrinkles, loose skin under chin, deep warm sawo matang skin with many age spots, narrow eyes under thick heavy lids, broad but frail hunched frame.",
+   
+     		"Nenek Ponirah": "80-year-old Javanese grandmother, round full face with heavy sagging cheeks and soft jaw, warm brownish sun-kissed skin, almond-shaped eyes with noticeable lower eye bags, plump but shrunken frame with loose skin on arms.",
+   
+     		"Nenek Juminah": "91-year-old very thin Javanese grandmother, sharp angular tirus face with sunken temples and cheeks, warm tan skin stretched over bones, deep-set eyes with thin eyelids, extremely thin bony frame.",
+   
+     		"Nenek Sikem": "76-year-old Javanese grandmother, very round plump face with heavy lower cheeks and multiple soft folds, warm sawo matang skin with golden undertone, small eyes almost hidden under puffy lids, short rounded fragile frame.",
+   
+     		"Nenek Dulah": "68-year-old Sundanese grandmother, soft oval face with naturally full sagging cheeks, bright warm langsat skin with golden undertone, gentle almond eyes with soft under-eye hollows, soft fragile frame with rounded shoulders.",
+   
+     		"Nenek Sartini": "84-year-old Sundanese grandmother, wide round face with heavy sagging cheeks and deep nasolabial folds, warm brownish skin with golden undertone, wide-set eyes with heavy lids, plump but frail frame.",
+   
+     		"Nenek Tinah": "93-year-old thin Javanese grandmother, long oval tirus face with deeply sunken cheeks and sharp jawline, warm tan skin with golden undertone, deep sunken eyes with heavy lids, very thin elongated shrunken frame.",
+   
+     		"Nenek Wati": "64-year-old small Sundanese grandmother, small delicate round face with soft heavy sagging skin, warm langsat tone with golden undertone, large gentle eyes with heavy drooping lids, very small delicate frame.",
+
+     		# === KAKEK ===
+     		"Kakek Marto": "87-year-old Javanese grandfather, long rectangular face with strong jawline, deep forehead wrinkles, rough warm sawo matang skin with golden undertone, deep-set eyes with heavy lower lids, lean bony frame with hunched shoulders.",
+   
+     		"Kakek Somo": "79-year-old Javanese grandfather, round soft face with heavy jowls and multiple soft folds, warm brownish skin with golden undertone, small tired eyes under puffy lids, short rounded fragile frame.",
+   
+     		"Kakek Joyo": "90-year-old Javanese grandfather, square face with prominent brow ridge, deep wrinkles, leathery rough warm sun-exposed skin, narrow eyes with heavy lids, once sturdy but now shrunken frame.",
+   
+     		"Kakek Hardi": "95-year-old Javanese grandfather, extremely shrunken skeletal face with hollow cheeks, thin translucent warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate bony frame.",
+   
+    		 "Kakek Sableng": "83-year-old Javanese grandfather, broad face with high cheekbones and heavy fatigue lines, warm tan skin with golden undertone, tired eyes with heavy lower lids, lean frame with hunched posture.",
+   
+     		"Kakek Sinto": "94-year-old Javanese grandfather, deeply sunken skeletal face with hollow cheeks, thin warm tan skin with golden undertone, deep sunken cloudy eyes, very thin delicate frame with bony hands.",
+   
+     		"Kakek Wiryo": "74-year-old Javanese grandfather, broad labor-worn face with high cheekbones, deep pores, rough warm sawo matang skin with golden undertone, tired eyes with heavy lower lids, lean weathered frame.",
+   
+     		"Kakek Usman": "86-year-old Indonesian grandfather, deeply wrinkled face with prominent fatigue lines and sunken cheeks, warm brownish skin with golden undertone, heavy-lidded weary eyes, thin frame with slow movements."
+		}
 		
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
         MASTER_FAMILY_WARDROBE = {
-            "Nenek Aminah": {
-                "Kebaya Lurik Klasik": "A faded brown Javanese lurik kebaya with thin vertical stripes, weathered fabric texture, slightly frayed edges.",
-                "Daster Kampung Motif Bunga": "A loose, well-worn house dress (daster) with faded floral patterns, thin cotton material showing age.",
-                "Kebaya Encim Putih Lusuh": "A simple white cotton kebaya with subtle traditional embroidery, slightly yellowed by age, modest and humble.",
-                "Baju Kurung Tua": "A plain, dark green traditional baju kurung, very thin fabric, looking loose and comfortable for an elderly person.",
-                "Setelan Jarik & Kebaya Polos": "A dark navy simple kebaya paired with a brown batik jarik cloth wrapped around the waist, authentic village style."
-            },
-            "Nenek Siti": {
-                "Kebaya Kartini Muda (Faded)": "A simple pale pink kebaya with weathered texture, very thin and looking used for decades.",
-                "Daster Katun Tipis": "A dark blue house dress with tiny white dots, faded and soft from years of washing.",
-                "Kebaya Kutu Baru Polos": "A humble mustard yellow kebaya with a simple design, showing signs of wear and age.",
-                "Baju Kurung Motif Kecil": "A light green traditional baju kurung with very faded tiny floral prints, simple and rural.",
-                "Setelan Kaos & Jarik": "A simple oversized white cotton t-shirt paired with a dark brown batik jarik, casual grandma look."
-            },
-            "Nenek Marsi": {
-                "Hijab Katun Pudar": "Faded brown cotton hijab with worn, paper-thin texture, wrapped loosely around the face, paired with a dark purple velvet kebaya.",
-                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair with visible scalp, wearing a dark purple velvet kebaya.",
-                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a classic brown batik house dress.",
-                "Daster Kampung Lusuh": "A dark purple house dress with traditional patterns, weathered and thin fabric."
-            },
-            "Nenek Ponirah": {
-                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a light yellow cotton kebaya.",
-                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark red house dress.",
-                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, showing some white hair at the edges.",
-                "Kebaya Jawa Klasik": "A simple dark brown kebaya with a traditional design, showing signs of long use."
-            },
-            "Nenek Juminah": {
-                "Hijab Katun Pudar": "Faded brown cotton hijab with worn texture, paired with a thin blue striped lurik kebaya.",
-                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair, wearing a loose house dress with earth tones.",
-                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a simple black cotton kebaya.",
-                "Daster Kampung Lusuh": "A pale yellow house dress with faded patterns, thin and aged fabric."
-            },
-            "Nenek Sikem": {
-                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a dark maroon velvet kebaya.",
-                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair, wearing a dark blue batik house dress.",
-                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, paired with a dark green kebaya.",
-                "Kebaya Jawa Klasik": "A simple dark green kebaya, showing signs of wear and age, humble village style."
-            },
-            "Nenek Dulah": {
-                "Hijab Katun Pudar": "Faded brown cotton hijab with worn texture, paired with a white kebaya with faded pink flowers.",
-                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair, wearing a dark brown house dress.",
-                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a dark mustard kebaya.",
-                "Daster Kampung Lusuh": "A pale blue traditional baju kurung, thin fabric, looking very humble and simple."
-            },
-            "Nenek Sartini": {
-                "Hijab Katun Pudar": "Faded brown cotton hijab with worn, paper-thin texture, wrapped loosely around the face, paired with a simple floral daster.",
-                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair with visible scalp, wearing a very old faded daster.",
-                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a faded batik kebaya.",
-                "Daster Kampung Lusuh": "A dark blue house dress with tiny white flowers, faded and looking very used."
-            },
-            "Nenek Tinah": {
-                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a simple white cotton kebaya.",
-                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark brown batik house dress.",
-                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, paired with a dark green baju kurung.",
-                "Kebaya Jawa Klasik": "A simple dark purple kebaya with a traditional design, showing signs of long use."
-            },
-            "Nenek Wati": {
-                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a simple pink cotton kebaya.",
-                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark blue house dress.",
-                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, showing some white hair at the edges.",
-                "Kebaya Jawa Klasik": "A simple black cotton kebaya, showing signs of wear and age, modest village look."
-            },
-            "Kakek Marto": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust and faded edges, paired with a faded grey cotton button-up shirt.",
-                "Peci Putih Haji (Kuning)": "An old white haji peci that has turned yellowish with age, paired with a simple white oversized t-shirt.",
-                "Baju Koko & Peci": "A simple white traditional koko shirt paired with a dusty black peci, modest and rural.",
-                "Kakek Tanpa Peci": "No head covering, showing short messy white hair, wearing a dark brown batik shirt with faded patterns."
-            },
-            "Kakek Somo": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a dark red plaid flannel shirt.",
-                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a dark blue polo shirt, fabric is thin and aged.",
-                "Baju Koko & Peci": "A pale green traditional koko shirt paired with a dusty black peci, simple and rural.",
-                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a classic brown batik shirt."
-            },
-            "Kakek Joyo": {
-                "Peci Hitam Kusam": "A dark black peci with visible wear and tear on the seams, paired with a faded blue denim shirt.",
-                "Peci Putih Tua": "A thin white haji peci, yellowed and unpolished, paired with a simple white cotton t-shirt.",
-                "Baju Koko & Sarung": "A simple black traditional koko shirt paired with a dark brown plaid sarong and a dusty black peci.",
-                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with large faded patterns."
-            },
-            "Kakek Hardi": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
-                "Peci Putih Haji": "An old white haji peci, yellowed with age, paired with a thin grey cotton t-shirt, faded and soft.",
-                "Baju Koko & Peci": "A pale blue traditional koko shirt paired with a dusty black peci, simple and rural.",
-                "Kakek Tua (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a classic brown batik shirt."
-            },
-            "Kakek Sableng": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a dark blue cotton button-up shirt.",
-                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a simple white cotton t-shirt, thin and aged.",
-                "Baju Koko & Peci": "A simple brown traditional koko shirt paired with a dusty black peci, simple and rural.",
-                "Kakek Tanpa Peci": "No head covering, showing short thin white hair, wearing a classic batik shirt."
-            },
-            "Kakek Sinto": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
-                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a thin dark blue cotton t-shirt.",
-                "Baju Koko & Peci": "A pale green traditional koko shirt paired with a dusty black peci, simple and rural.",
-                "Kakek Tanpa Peci": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with tiny faded patterns."
-            },
-            "Kakek Wiryo": {
-                "Peci Hitam Kusam": "A dark black peci with visible wear, paired with a dark brown cotton button-up shirt, weathered and faded.",
-                "Peci Putih Tua": "A thin white haji peci, yellowed and unpolished, paired with a simple white cotton t-shirt, thin and yellowed.",
-                "Baju Koko & Sarung": "A simple black traditional koko shirt paired with a dark green plaid sarong and a dusty black peci.",
-                "Kakek Tua (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark batik shirt with very faded patterns."
-            },
-            "Kakek Usman": {
-                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
-                "Peci Putih Haji": "An old white haji peci, yellowed with age, paired with a thin black cotton t-shirt, faded and soft.",
-                "Baju Koko & Peci": "A dark blue traditional koko shirt paired with a dusty black peci, showing signs of long use.",
-                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with faded patterns."
-            }
+            # --- KELOMPOK NENEK ---
+			"Nenek Aminah": {
+				"Tunik Linen Layered Rustic": "Wearing a loose layered linen tunic with visible natural wrinkles and slightly rough texture in earthy tones, paired with a long flowy skirt. Styled with a softly draped textured hijab with natural folds.",
+				"Outer Rajut + Dress Katun Tua": "Wearing a long vintage cotton dress layered with a loose hand-knit cardigan. Fabric appears aged and soft. Paired with a loosely wrapped hijab.",
+				"Setelan Longgar Kain Tebal": "Wearing a loose two-piece outfit made from thick aged cotton with uneven texture and faded tones. Oversized silhouette. Paired with a simple textured hijab.",
+				"Tunik Kusut + Rok Panjang": "Wearing a wrinkled soft cotton tunic with visible creases paired with a long skirt. Natural worn look. Styled with a loose hijab.",
+				"Layered Cloth Natural Tone": "Wearing layered soft fabrics in muted tones with visible folds and depth. Slightly mismatched but harmonious. Paired with a natural draped hijab.",
+				"Dress Rumah Tekstur Kasar": "Wearing a loose house dress made from coarse cotton with visible grain texture. Grounded tactile feel. Paired with a simple hijab."
+			},
+
+			"Nenek Siti": {
+				"Tunik Katun Tebal + Outer Tipis": "Wearing a thick cotton tunic layered with a thin outer cloth. Visible fabric depth and layering. Paired with a soft draped hijab.",
+				"Long Dress Pudar + Selendang": "Wearing a faded long dress with natural wrinkles, layered with a loose shoulder cloth. Paired with a simple hijab.",
+				"Setelan Oversized Lembut": "Wearing a soft oversized two-piece outfit with relaxed silhouette and visible folds. Paired with a neutral hijab.",
+				"Tunik Panjang Tekstur Halus": "Wearing a long tunic with subtle fabric texture and soft drape. Natural imperfections visible. Paired with a simple hijab.",
+				"Layer Kain Tradisional": "Wearing layered traditional fabrics with uneven folds and organic texture. Paired with a natural hijab.",
+				"Dress Kusut Natural": "Wearing a slightly wrinkled cotton dress with natural fold patterns. Simple and grounded. Paired with a hijab."
+			},
+
+			"Nenek Marsi": {
+				"Tunik Kasar + Rok Tebal": "Wearing a rough-textured cotton tunic paired with a thick skirt. Visible grain and fabric weight. Paired with a simple hijab.",
+				"Outer Tipis + Inner Dress": "Wearing a thin outer layer over a soft long dress, creating depth and layering. Paired with a draped hijab.",
+				"Setelan Natural Layered": "Wearing layered soft fabric outfit with visible folds and natural flow. Paired with a simple hijab.",
+				"Dress Panjang Tekstur Tebal": "Wearing a long dress made from heavier cotton with visible fabric density. Paired with a hijab.",
+				"Tunik Oversized Kusut": "Wearing a loose wrinkled tunic with visible creases and relaxed silhouette. Paired with a simple hijab.",
+				"Layered Kain Pudar": "Wearing layered faded fabrics with subtle mismatch tones. Paired with a natural hijab."
+			},
+
+			"Nenek Ponirah": {
+				"Setelan Linen Natural": "Wearing a loose linen two-piece outfit with visible wrinkles and breathable texture. Paired with a softly wrapped hijab.",
+				"Tunik Panjang + Outer Tipis": "Wearing a long tunic layered with a thin outer cloth, adding depth and softness. Paired with a simple hijab.",
+				"Dress Oversized Lembut": "Wearing a soft oversized dress with natural drape and gentle folds. Paired with a hijab.",
+				"Layered Cloth Rustic": "Wearing multiple layers of rustic fabric with visible texture and organic folds. Paired with a natural hijab.",
+				"Tunik Tebal + Rok Flow": "Wearing a thick cotton tunic paired with a flowing skirt. Balanced weight and movement. Paired with a hijab.",
+				"Setelan Rumah Kasar": "Wearing a coarse cotton home outfit with visible grain texture. Paired with a simple hijab."
+			},
+			"Nenek Juminah": {
+				"Tunik Tipis Layered Flow": "Wearing a thin layered tunic with soft flowing fabric and visible natural folds, paired with a long skirt. The material feels light and breathable. Styled with a softly draped hijab.",
+				"Dress Pudar + Outer Ringan": "Wearing a slightly faded long dress layered with a lightweight outer cloth, creating gentle layering depth. Paired with a simple hijab.",
+				"Setelan Longgar Lembut": "Wearing a loose two-piece outfit made from soft cotton with relaxed silhouette and subtle wrinkles. Paired with a natural hijab.",
+				"Tunik Panjang Kusut Halus": "Wearing a long tunic with soft creases and organic folds, paired with a skirt. The texture is smooth but imperfect. Styled with a hijab.",
+				"Layer Natural Flowing Fabric": "Wearing layered soft fabrics that flow naturally with visible depth and slight asymmetry. Paired with a loosely wrapped hijab.",
+				"Dress Rumah Tipis Natural": "Wearing a thin cotton house dress with subtle texture and light wrinkles. Simple and grounded. Paired with a hijab."
+			},
+
+			"Nenek Sikem": {
+				"Tunik Tebal Rustic + Rok": "Wearing a thick rustic cotton tunic with visible grain texture, paired with a long skirt. The outfit feels heavy and grounded. Paired with a hijab.",
+				"Outer Rajut Tipis + Inner Dress": "Wearing a soft inner dress layered with a thin knitted outer layer, adding texture variation. Paired with a natural hijab.",
+				"Setelan Oversized Tebal": "Wearing an oversized two-piece outfit made from dense cotton fabric with visible folds and weight. Paired with a simple hijab.",
+				"Tunik Kasar Panjang": "Wearing a long tunic with rough surface texture and visible imperfections. Paired with a flowing skirt and hijab.",
+				"Layered Cloth Earth Tone": "Wearing layered earthy-toned fabrics with subtle mismatched shades and natural folds. Paired with a hijab.",
+				"Dress Rumah Berat": "Wearing a heavier cotton dress with visible fabric density and tactile feel. Paired with a softly wrapped hijab."
+			},
+
+			"Nenek Dulah": {
+				"Tunik Halus + Rok Flow": "Wearing a smooth cotton tunic with soft drape paired with a flowing skirt. Subtle texture and natural folds. Paired with a hijab.",
+				"Layer Tipis + Inner Lembut": "Wearing a thin outer layer over a soft inner dress, creating gentle depth. Paired with a simple hijab.",
+				"Setelan Natural Relaxed": "Wearing a relaxed two-piece outfit with visible folds and breathable fabric. Natural and comfortable. Paired with a hijab.",
+				"Dress Panjang Lembut": "Wearing a long soft cotton dress with gentle wrinkles and natural movement. Paired with a hijab.",
+				"Layered Fabric Soft Tone": "Wearing layered fabrics in soft tones with visible depth and subtle folds. Paired with a hijab.",
+				"Tunik Panjang Natural": "Wearing a long tunic with natural fabric texture and imperfect folds. Paired with a simple hijab."
+			},
+
+			"Nenek Sartini": {
+				"Tunik Kasar + Layer Tipis": "Wearing a slightly coarse cotton tunic layered with a thin outer cloth, creating contrast in texture. Paired with a hijab.",
+				"Dress Pudar Natural": "Wearing a faded long dress with visible aging and soft wrinkles. Paired with a simple hijab.",
+				"Setelan Rumah Longgar": "Wearing a loose house outfit with relaxed silhouette and natural folds. Comfortable and grounded. Paired with a hijab.",
+				"Tunik Tebal Oversized": "Wearing a thick oversized tunic with visible creases and heavy fabric feel. Paired with a long skirt and hijab.",
+				"Layered Rustic Fabric": "Wearing layered rustic fabrics with uneven folds and natural imperfections. Paired with a hijab.",
+				"Dress Tekstur Kasar": "Wearing a cotton dress with visible grain and tactile texture, slightly wrinkled. Paired with a simple hijab."
+			},
+			"Nenek Tinah": {
+				"Tunik Linen Kusut + Rok Flow": "Wearing a wrinkled linen tunic with visible natural creases and slightly rough texture, paired with a long flowing skirt. The fabric feels breathable and worn. Styled with a softly draped hijab with natural folds.",
+				"Layer Katun Tua + Outer Tipis": "Wearing a faded cotton inner dress layered with a thin outer cloth, creating soft depth and natural layering. The fabric shows aging and subtle texture. Paired with a simple hijab.",
+				"Setelan Longgar Tekstur Tebal": "Wearing a loose two-piece outfit made from thick cotton fabric with visible grain and weight. The silhouette is oversized and modest. Paired with a natural hijab.",
+				"Tunik Panjang Pudar + Rok": "Wearing a long slightly faded tunic with soft wrinkles and organic folds, paired with a skirt. The outfit feels simple and grounded. Styled with a loosely wrapped hijab.",
+				"Layered Fabric Natural Tone": "Wearing multiple layers of soft fabric in muted earthy tones with visible folds and depth, slightly mismatched but harmonious. Paired with a softly draped hijab.",
+				"Dress Rumah Tekstur Kasar": "Wearing a loose house dress made from slightly coarse cotton with visible grain and tactile texture. The fabric shows natural wear. Paired with a simple hijab."
+			},
+
+			"Nenek Wati": {
+				"Tunik Halus + Outer Ringan": "Wearing a smooth cotton tunic layered with a lightweight outer cloth, creating gentle layering and soft depth. The fabric shows subtle wrinkles. Paired with a natural hijab.",
+				"Dress Panjang Pudar + Layer Tipis": "Wearing a faded long dress layered with a thin outer fabric, giving soft dimensional layering. The surface shows natural aging and folds. Paired with a simple hijab.",
+				"Setelan Oversized Lembut": "Wearing a soft oversized two-piece outfit with relaxed silhouette and visible fabric folds. Comfortable and grounded. Paired with a hijab.",
+				"Tunik Panjang Tekstur Halus": "Wearing a long tunic with subtle fabric texture and soft drape, paired with a flowing skirt. Natural imperfections visible. Paired with a hijab.",
+				"Layered Soft Fabric Tone": "Wearing layered fabrics in soft tones with visible depth and gentle folds, creating a calm natural look. Paired with a loosely wrapped hijab.",
+				"Dress Natural Flow Texture": "Wearing a long dress with natural flow and visible fabric movement, slightly wrinkled with organic texture. Paired with a simple hijab."
+			},
+
+            # --- KELOMPOK KAKEK ---
+			"Kakek Marto": {
+				"Koko Tebal Layered + Sarung": "Wearing a thick cotton koko layered over a thin inner shirt, creating visible depth and natural folds. The fabric shows slight rough texture and aging. Paired with a batik sarong and a black peci.",
+				"Kemeja Pudar + Layer Dalam": "Wearing a faded long-sleeve shirt layered with a soft inner garment, creating subtle layering. Natural wrinkles and wear are visible. Paired with a sarong and white peci.",
+				"Layer Rustic Cloth + Sarung": "Wearing layered rustic fabrics with uneven folds and natural texture, creating a grounded tactile look. Paired with a traditional sarong and black peci.",
+				"Koko Oversized Tekstur Kasar": "Wearing a loose oversized koko with slightly coarse texture and visible grain. The fabric hangs naturally with imperfections. Paired with a sarong and white peci.",
+				"Kemeja Flanel Layered": "Wearing a worn flannel shirt layered over a thin inner shirt, creating depth and visual layering. Paired with a sarong and black peci.",
+				"Setelan Rumah Tebal": "Wearing a thick home outfit with visible fabric weight and relaxed folds. The texture feels heavy and grounded. Paired with a sarong and black peci."
+			},
+
+			"Kakek Somo": {
+				"Koko Tipis + Inner Layer": "Wearing a thin cotton koko layered over a soft inner shirt, creating gentle depth and soft folds. Paired with a sarong and white peci.",
+				"Kemeja Tua Natural Wrinkle": "Wearing an aged long-sleeve shirt with visible natural creases and soft fading. Paired with a sarong and white peci.",
+				"Layer Soft Fabric Flow": "Wearing layered soft fabrics with relaxed silhouette and visible folds, creating natural flow. Paired with a sarong and black peci.",
+				"Koko Longgar Lembut": "Wearing a loose koko shirt with soft drape and natural wrinkles, simple but alive. Paired with a sarong and white peci.",
+				"Kemeja Tipis + Outer Ringan": "Wearing a light shirt layered with a thin outer cloth adding subtle depth. Paired with a sarong and black peci.",
+				"Setelan Santai Natural": "Wearing a relaxed home outfit with visible fabric folds and organic texture. Paired with a sarong and white peci."
+			},
+
+			"Kakek Joyo": {
+				"Koko Tebal Natural Texture": "Wearing a thick cotton koko with visible grain and fabric weight, showing natural imperfections. Paired with a sarong and black peci.",
+				"Kemeja Putih Kusut": "Wearing a slightly wrinkled white shirt with visible fold lines and natural wear. Paired with a sarong and white peci.",
+				"Layered Fabric Depth": "Wearing layered fabrics creating depth with subtle tone variation and folds. Paired with a sarong and black peci.",
+				"Koko Oversized Heavy Fold": "Wearing an oversized koko with heavy fabric folds and visible texture. Paired with a sarong and white peci.",
+				"Kemeja Flanel Natural Wear": "Wearing a flannel shirt with visible aging and soft worn texture. Paired with a sarong and black peci.",
+				"Setelan Rumah Kasar": "Wearing a coarse cotton home outfit with visible grain and rough texture. Paired with a sarong and black peci."
+			},
+
+			"Kakek Hardi": {
+				"Koko Tipis Layered": "Wearing a thin koko layered over an inner garment, creating subtle layering and softness. Paired with a sarong and white peci.",
+				"Kemeja Biru Pudar": "Wearing a faded blue shirt with natural wrinkles and soft aging. Paired with a sarong and black peci.",
+				"Layer Natural Cloth": "Wearing layered fabrics with visible folds and relaxed structure. Paired with a sarong and black peci.",
+				"Koko Longgar Flow": "Wearing a loose koko with soft drape and natural movement. Paired with a sarong and white peci.",
+				"Kemeja Kotak Layered": "Wearing a checkered shirt layered over a thin inner layer. Visible folds and texture. Paired with a sarong and black peci.",
+				"Setelan Tebal Rustic": "Wearing a thick rustic home outfit with visible weight and fabric texture. Paired with a sarong and white peci."
+			},
+
+			"Kakek Sableng": {
+				"Koko Kasar + Sarung": "Wearing a slightly rough-textured koko with visible grain and natural imperfections. Paired with a sarong and black peci.",
+				"Kemeja Putih Layered": "Wearing a white shirt layered over a thin inner garment, creating depth. Paired with a sarong and white peci.",
+				"Layer Fabric Irregular": "Wearing layered fabrics with uneven folds and organic structure. Paired with a sarong and black peci.",
+				"Koko Oversized Natural Fold": "Wearing an oversized koko with visible folds and relaxed silhouette. Paired with a sarong and white peci.",
+				"Kemeja Flanel Tebal": "Wearing a thicker flannel shirt with visible texture and natural wear. Paired with a sarong and black peci.",
+				"Setelan Rumah Natural": "Wearing a simple home outfit with natural folds and soft texture. Paired with a sarong and black peci."
+			},
+
+			"Kakek Sinto": {
+				"Koko Tipis + Layer": "Wearing a thin koko layered with a soft inner layer, creating gentle depth. Paired with a sarong and white peci.",
+				"Kemeja Biru Soft Wrinkle": "Wearing a soft blue shirt with visible wrinkles and natural aging. Paired with a sarong and black peci.",
+				"Layered Cloth Depth": "Wearing layered cloth with visible folds and tonal variation. Paired with a sarong and black peci.",
+				"Koko Longgar Lembut": "Wearing a loose koko with soft drape and relaxed folds. Paired with a sarong and white peci.",
+				"Kemeja Kotak Natural": "Wearing a checkered shirt with visible fabric texture and folds. Paired with a sarong and black peci.",
+				"Setelan Rumah Tebal": "Wearing a thicker home outfit with visible fabric weight and texture. Paired with a sarong and white peci."
+			},
+
+			"Kakek Wiryo": {
+				"Koko Tebal Layered": "Wearing a thick cotton koko layered with an inner shirt, showing strong folds and depth. Paired with a sarong and black peci.",
+				"Kemeja Putih Kusut Natural": "Wearing a slightly wrinkled white shirt with visible natural creases. Paired with a sarong and white peci.",
+				"Layer Rustic Tone": "Wearing layered fabrics in earthy tones with visible folds and natural irregularity. Paired with a sarong and black peci.",
+				"Koko Oversized Heavy Texture": "Wearing an oversized koko with heavy texture and visible fabric density. Paired with a sarong and white peci.",
+				"Kemeja Flanel Layered": "Wearing a flannel shirt layered with inner garment creating depth. Paired with a sarong and black peci.",
+				"Setelan Rumah Kasar": "Wearing a coarse-textured home outfit with visible grain and folds. Paired with a sarong and black peci."
+			},
+
+			"Kakek Usman": {
+				"Koko Tipis Natural Layer": "Wearing a thin koko layered over a soft inner garment, creating subtle depth. Paired with a sarong and white peci.",
+				"Kemeja Biru Pudar": "Wearing a faded blue shirt with visible wrinkles and aging. Paired with a sarong and black peci.",
+				"Layered Fabric Flow": "Wearing layered fabrics with relaxed flow and visible folds. Paired with a sarong and black peci.",
+				"Koko Longgar Soft Fold": "Wearing a loose koko with soft folds and natural drape. Paired with a sarong and white peci.",
+				"Kemeja Kotak Layer": "Wearing a checkered shirt layered over a thin inner cloth. Paired with a sarong and black peci.",
+				"Setelan Rumah Natural": "Wearing a relaxed home outfit with visible fabric folds and organic texture. Paired with a sarong and white peci."
+			}
         }
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
         MASTER_KONTEN_ALL = {
@@ -3517,7 +3587,7 @@ def tampilkan_halaman():
 			)
 
         }
-
+		
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
     		"Logat_Nenek": [
@@ -3528,13 +3598,15 @@ def tampilkan_halaman():
         		"Elderly thin grandmother with slightly husky kampung accent, shaky fragile voice, slow and weak",                   # Kurus & gemetar
         		"Small elderly grandma with warm soft kampung accent, breathy tired voice, calm and gentle"                          # Kecil & hangat
     		],
-        	"Logat_Kakek": [
-            	"Voice of a 92-year-old Javanese village grandfather, heavy rural 'Medhok' accent. Voice: EXTREMELY THIN RASP, high-pitched age-cracks. Voice must sound physically weak and village-authentic.",
-            	"Frail elderly Javanese kakek, thick rural accent. Voice: Weak, quivering, and hollow. Pacing: Inconsistent speed with audible struggle for breath between phrases.",
-            	"90+ year old Javanese kakek tua, rural accent. Voice: High vocal jitter, thin and papery quality, physically exhausted. Performance: Intonation is tired, medhok, and resigned.",
-            	"Skeletal old Javanese grandfather, rough 'Medhok' kampung accent. Voice: Thin but gravelly, high-pitched trembling, and very slow. NO bapak-bapak depth.",
-            	"Elderly Javanese grandfather, dying rural breath voice. Voice: Fragile, high-pitched age-rasp, quiet and deeply weary. Pace: Very hesitant and emotionally broken."
-        	],
+    		"Logat_Kakek": [
+        		"Elderly village grandfather with thick rural kampung accent, deep tired old man voice, slow and steady",
+        		"Very old frail kakek with gentle Javanese accent, hoarse low elderly male voice",
+        		"Frail 90-year-old grandfather with strong rural kampung accent, weak weathered old man voice",
+        		"89+ year old kakek tua with soft natural Indonesian accent, raspy tired elderly male voice",
+        		"Labor-worn old grandfather with rough deep kampung accent, slow and tired delivery",
+        		"Elderly grandfather with low trembling voice, calm but weary and sincere"
+    		],
+
 			"Mood": [
 				"Tired, resigned, and quietly sad with a hint of loneliness",
         		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
@@ -3544,13 +3616,14 @@ def tampilkan_halaman():
         		"Weary and ikhlas, carrying years of silent endurance",
         		"Calm but emotionally drained, speaking with quiet resignation"
     		],
+
     		"Physical Action": [
-        		"Resting shaky, bone-thin hands near the mosque, then slowly looking up at the lens with heavy lids and a fragile, weary gaze.",
-        		"Gently touching the miniature with trembling fingers, eyes shifting slowly from the work to the camera with a soft, resigned expression.",
-        		"Keeping weak hands flat on the table near the mosque, head slightly tilted, meeting the camera's gaze with a stoic but heartbreaking stare.",
-        		"One hand hovers near the central dome, trembling slightly, while the character looks at the lens with a tired, silent pleading look.",
-        		"Sitting very still, hands resting weakly near the object, then slowly rotating the head to look at the camera with hollow, sad eyes.",
-        		"Fingertips resting on the wooden table near the miniature, gaze lifting very slowly from the object to meet the camera with a resigned look."
+        		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
+        		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
+        		"Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
+        		"Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
+        		"Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
+        		"Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
     		]
 		}
 
@@ -3631,70 +3704,100 @@ def tampilkan_halaman():
 
 			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
-                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
-                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
-                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
-                "Deep tonal separation with rich, dense blacks and weathered highlights. "
-                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
+                "EXTREME 8K RAW DOCUMENTARY CINEMA - SHOT ON 35MM FILM: Maximum realism, razor-sharp optical clarity. "
+                "NATURAL COLOR PROFILE: Neutral-warm skin tones with realistic blood-undertones. ZERO PALE SKIN. "
+                "HIGH MICRO-CONTRAST CINEMATIC: Deep contrast with rich tonal separation, enhanced texture definition, and crisp highlight-to-shadow transitions. "
+                "ABSOLUTELY NO AI smoothing, no digital haze, no overexposure, no extreme orange cast. "
+				"ULTRA COLOR SEPARATION: Rich color contrast with deep blacks and dense highlights, no color fading. "
+				"NO COLOR WASHOUT: Colors must remain dense, rich, and saturated without increasing brightness. "
+				"NO LOW CONTRAST: Image must maintain strong contrast and depth, never flat or dull. "
+				"TEXTURE PRIORITY BOOST: Every material surface must show tactile depth with extreme clarity and separation. "
+				"EXTREME SURFACE DETAIL: Every wrinkle, fiber, crack, dent, and imperfection must be sharply defined and clearly visible. "
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-    			f"[ SUBJECT PRIORITY ]\n"
-    			f"- The handcrafted miniature mosque is the absolute main subject — dead-center frame dominance.\n"
-    			f"- Razor-sharp 8K focus on the miniature mosque. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
-    			f"- All materials must appear worn, aged, imperfect — never clean or new.\n"
-    			f"- Clear edge separation between surfaces. No muddy texture overlap.\n\n"
+				f"ULTRA 8K EXTREME DETAIL PRIORITY:\n"
+				f"- The handcrafted miniature is the absolute main subject with dead-center frame dominance.\n"
+				f"- EXTREMELY sharp 8K detail with priority focus on the miniature while maintaining clear readability of all elements.\n"
+				f"- Character's face, eyes, hands, skin pores, and deep wrinkles must be razor sharp with raw elderly texture.\n"
+				f"- True raw documentary film look: no CGI, no plastic, no digital smoothing.\n"
+				f"- EXTREME MICRO TEXTURE: Every surface detail must pop with strong depth separation and tactile realism.\n"
+				f"- SHARP EDGE DEFINITION: Clear separation between materials, no blending, no muddy texture overlap.\n"
+				f"- USED MATERIAL AUTHENTICITY: All materials must visibly appear worn, aged, wrinkled, scratched, dented, or imperfect, never clean or new.\n\n"
+                
+				f"CAMERA & LENS (CENTERED EYE-LEVEL):\n"
+				f"- 85mm cinema lens at f/2.8 for stronger subject separation and cinematic compression.\n"
+				f"- STRICT EYE-LEVEL COMPOSITION: Camera axis is perfectly horizontal and level with the subject.\n"
+				f"- PERFECT ALIGNMENT: Camera, miniature, and character are aligned on the same horizontal eye-level axis.\n"
+				f"- CENTER LOCK: The mosque is perfectly centered with symmetrical left-right balance, no off-center framing.\n"
+				f"- Tight medium shot, 0-degree tilt, the miniature strongly dominates the foreground and fills the center frame.\n"
+				f"- The elderly character sits directly behind the object, symmetrically framed.\n"
+				f"- Very slow, organic handheld movement with an extremely slow gentle push-in.\n"
+				f"- NO high angle, NO low angle, NO bird's eye view.\n"
+				f"- NO pitch black shadows, but shadows must remain deep and detailed.\n\n"
+                
+				f"LIGHTING & ATMOSPHERE:\n"
+				f"CONTROLLED GOLDEN HOUR SUNLIGHT: Low-angle directional sunlight with controlled intensity, soft but still clearly directional, never harsh or overpowering. "
+				f"LIGHT DIRECTION PRIORITY: Light comes from one dominant side, creating strong depth, contour, and surface definition without harsh glare. "
+				f"CONTROLLED EXPOSURE: Slight underexposure to preserve color density and prevent highlight washout. "
+				f"HIGH CONTRAST LIGHTING: Strong but balanced highlight and shadow separation to enhance texture visibility and depth without crushing detail. "
+				f"SHADOW DETAIL PRESERVATION: Shadows remain deep, slightly softened at the edges, and retain visible detail, no crushed blacks. "
+				f"HIGHLIGHT CONTROL: Highlights are dense, controlled, and slightly softened, never blown out or overly sharp. "
+				f"BALANCED WARMTH: Warm golden tone is clearly present but restrained, avoiding orange flooding, red tint, or yellow cast. "
+				f"COLOR INTENSITY: Colors remain rich, dense, and visually impactful with strong midtone presence, never faded or washed out. "
+				f"MICRO CONTRAST: Fine micro-contrast preserved to maintain sharpness and texture clarity under softer light. "
+				f"NO harsh sunlight, NO overhead light, NO flat lighting, NO overexposure, NO washed highlights.\n\n"
+        
+                f"CHARACTER IDENTITY:\n"
+                f"{soul_desc}\n"
+                f"{gender_lock}\n"
+                f"Wardrobe: {baju_desc}\n"
+                f"MANDATORY: UNIQUE and DISTINCT facial structure. Different face shape, different eye shape, different wrinkle pattern, and different cheek/jaw structure compared to all other characters. "
+                f"Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and hand veins. "
+                f"Sharp, clear, and detailed face with natural micro-expressions. NO face smoothing, NO plastic skin, NO generic old lady face.\n\n"
+                
+				f"ENVIRONMENT:\n"
+				f"{env_detail}\n"
+				f"- BACKGROUND SUPPORT ROLE: The environment must support the subject without overpowering or distracting from the miniature.\n"
+				f"- DEPTH CONTROL: Background remains slightly softer than the subject without excessive blur or loss of environmental readability.\n"
+				f"- LIGHTING CONSISTENCY: Environment lighting must follow the same directional golden hour lighting, no conflicting light sources.\n"
+				f"- COLOR BALANCE: Background colors must remain controlled and not overpower the main subject.\n"
+				f"- NO VISUAL CLUTTER: Avoid excessive objects, noise, or chaotic elements that distract from the miniature.\n"
+				f"- NO COMPETING SUBJECTS: No background elements should compete visually with the main subject.\n\n"
+                
+                f"PERFORMANCE:\n"
+                f"{aksi_final}\n"
+                f"Mood: {mood_final}\n\n"
+                
+                f"VOICE PROFILE:\n"
+                f"{logat_final}\n"
+                f"Delivery style: {mood_final}.\n\n"
+                
+                f"SPOKEN DIALOG:\n"
+                f"\"{user_dialog}\"\n\n"
+                
+                f"DIALOG DELIVERY RULE:\n"
+				f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
+				f"- Spoken naturally and tired like a real old village elder with soft fragile voice.\n\n"
 
-    			f"[ CAMERA & CINEMATOGRAPHY ]\n"
-    			f"- 85mm cinema lens, f/1.4. EXTREME CLOSE-UP.\n"
-    			f"- Strict eye-level axis: camera, the object, and character on the same horizontal plane.\n"
-    			f"- Natural handheld breathing movement: VERY SLOW organic micro-tremors with an almost imperceptible, slow push-in to the character's gaze.\n\n"
-
-    			f"[ LIGHTING & COLOR ]\n"
-    			f"- Kodak 5219 High Contrast Profile: Deep crushed shadows, weathered highlights.\n"
-    			f"- Low-angle directional daylight, warm but not amber — controlled golden quality without orange flooding.\n"
-    			f"- Light from one dominant side: strong depth and surface contour, no harsh glare.\n"
-    			f"- NO overhead light, NO flat lighting, NO reddish glow, NO amber tint.\n\n"
-
-    			f"[ CHARACTER DNA ]\n"
-    			f"{soul_desc}\n"
-    			f"{gender_lock}\n"
-    			f"Wardrobe: {baju_desc}\n"
-				f"MANDATORY: Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and shaky hand veins.\n"
-    			f"Sharp, clear, and detailed face with natural micro-expressions. NO face smoothing, NO plastic skin, NO generic old face.\n\n"
-
-    			f"[ ENVIRONMENT ]\n"
-    			f"{env_detail}\n"
-    			f"- Background supports the subject — must not compete with or overpower the miniature.\n"
-    			f"- Lighting consistent with main subject: same directional daylight, no conflicting sources.\n\n"
-
-    			f"[ PERFORMANCE & ATMOSPHERE ]\n"
-    			f"Action: {aksi_final}\n"
-    			f"Mood & delivery: {mood_final}\n\n"
-
-    			f"[ THE VOICE: ULTRA-AGED 'KEPRET' PROTOCOL ]\n"
-    			f"Voice profile: {logat_final}\n"
-
-    			f"[ SPOKEN DIALOG ]\n"
-				f"\"{user_dialog}\"\n\n"
-
-    			f"[ AUDIO RULES ]\n"
-    			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-    			f"- NO background music, NO BGM, NO ambient sound, NO sound effects.\n"
-    			f"- ONLY the character's raw spoken voice and natural breathing. Pure voice audio. Nothing else.\n\n"
-
-				f"OBJECT:\n"
-    			f"{deskripsi_teknis}\n\n"
-
-    			f"[ NEGATIVE PROMPT ]\n"
-    			f"Tears, crying, weeping, background music, BGM, soundtrack, cinematic score, instrumental, ambient music, "
-    			f"orange tint, amber glow, reddish light, sunset red, warm color flooding, "
-    			f"pale skin, washed-out color, grey skin, white haze, overexposure, sun glare, "
-    			f"digital smoothing, AI look, CGI texture, plastic skin, over-smooth face, "
-    			f"blurry background, excessive bokeh, high angle, low angle, wide shot, text on screen\n"
+				f"AUDIO CONTROL - VERY IMPORTANT:\n"
+				f"- NO background music. NO BGM. NO music of any kind.\n"
+				f"- NO sound effects, NO ambient sound, NO instrumental.\n"
+				f"- ONLY the character's raw spoken voice and natural breathing.\n"
+				f"- Pure voice audio. Nothing else.\n\n"
+                
+                f"OBJECT DETAIL:\n"
+                f"{deskripsi_teknis}\n\n"
+                
+                f"NEGATIVE PROMPT:\n"
+                f"BACKGROUND MUSIC, BGM, soundtrack, cinematic score, instrumental, emotional music, "
+                f"ambient music, rhythmic melody, musical pads, violin, piano, synth, audio layers, "
+                f"intense orange lighting, deep amber tint, reddish glow, sunset red, "
+                f"pale skin, washed-out colors, greyish skin, white haze, overexposure, sun glare, "
+                f"haze, fog, digital smoothing, AI look, CGI, plastic texture, over-smooth skin, "
+                f"blurry, soft focus, excessive background blur, high angle, low angle, wide shot\n"
             )
 
             # --- TAMPILKAN HASIL ---
