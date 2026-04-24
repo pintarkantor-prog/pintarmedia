@@ -3588,39 +3588,42 @@ def tampilkan_halaman():
 
         }
 		
-		MASTER_AUDIO_STYLE = {
+		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
+        MASTER_AUDIO_STYLE = {
     		"Logat_Nenek": [
-        		"Voice of a woman past 90 — air moves through the throat before words form, each syllable slightly compressed as if breath is rationed, not performed. Rural Javanese kampung cadence: consonants softened at the edges, vowels held a beat too long on words that matter. NOT a theatrical quaver — the tremor is in the pauses, not the tone. Voice drops near the end of every sentence as if the body is already tired of speaking.",
-				"Elderly nenek, paper-thin vocal fold resonance — the kind of thinness that comes from decades of use, not stylization. Words arrive one cluster at a time with a micro-gap between them, as if each requires a small decision. Inhalation sometimes audible before longer phrases. Kampung accent sits in the rhythm, not just pronunciation — slower syllable weight, flatter melody. No vibrato, no performed weakness.",
-				"92-year-old grandmother voice: dry, slightly adhesive quality on consonants as if the throat is never quite moist enough. Sentence rhythm breaks naturally at unexpected points — not for drama, but because aging lungs don't follow script pacing. Strong rural lilt underneath the frailty, the accent of someone who never lived in a city. Voice loses energy at the third or fourth word of a long phrase.",
-				"Voice that sounds like it belongs to someone sitting very still. Low airflow, minimal projection — the kind of voice heard best in a quiet room. Kampung grandmother cadence: unhurried, syllables slightly uneven in duration, emotional words sometimes barely voiced at all. No theatrical aging sounds. The exhaustion is structural — in the breath support, not the tone color.",
-				"Nenek tua with genuine vocal fold thinning — not hoarse, not raspy, just reduced. Like a voice that has spoken less and less over the years and has grown small from disuse. Javanese kampung rhythm intact: soft word-final consonants, gentle glottal quality on vowel starts. Pauses between phrases stretch naturally without apology. NOT breathy in a stylized way — the breath is just present because control is minimal.",
-				"Old grandmother voice where the physical cost of speaking is audible — not in groaning or effort sounds, but in the way volume fades mid-sentence and recovers slightly before the next. Each sentence feels self-contained, with a small rest between them. Rural kampung accent coloring throughout: unpolished, unlayered, the sound of someone who has never performed anything in her life."
+        		"Elderly village grandmother with thick rural kampung accent, soft thin old voice, calm and weary delivery",           # Normal tua
+        		"Very old frail grandma with gentle soft Javanese accent, whispery thin voice, slow and delicate",                    # Sangat lembut
+        		"Frail 92-year-old grandmother with strong rural kampung accent, raspy weak voice, very slow and exhausted",         # Paling tua & lemah
+        		"91+ year old nenek tua with soft natural Indonesian accent, quiet tired voice, gentle and fragile",                 # Lebih halus
+        		"Elderly thin grandmother with slightly husky kampung accent, shaky fragile voice, slow and weak",                   # Kurus & gemetar
+        		"Small elderly grandma with warm soft kampung accent, breathy tired voice, calm and gentle"                          # Kecil & hangat
     		],
     		"Logat_Kakek": [
-        		"Voice of a man in his late 80s who spent decades outdoors — deep register thinned by age, not theatrical. Consonants slightly blunted, especially at word endings. Breathing is audible not as a stylized effect but as a structural fact: inhale before long phrases, slight exhale leak during pauses. Kampung rural accent in the rhythm: words placed with weight, no hurry, no performance. Voice drops on the last word of every sentence as if energy runs out exactly there.",
-				"Elderly kakek, low fundamental frequency but reduced harmonic richness — the resonance of a chest that no longer has the same lung volume behind it. Speech rhythm is uneven in a natural way: some words slightly longer than expected, some shorter, as if the body controls the pace. Strong Javanese kampung cadence underneath. NOT a gravelly performed old man voice — the roughness is texture from use, not character work.",
-				"90-year-old grandfather: voice that carries silence in it. Long inter-phrase pauses that do not feel dramatic — they feel like the normal cost of speaking at this age. Kampung accent natural and unlayered, the kind that was never trained away. Slight vocal fold irregularity on sustained vowels — not tremor, more like mild roughness at the edges of long notes. Volume is low and does not build.",
-				"Kakek tua, labor-worn resonance — decades of outdoor work audible not as stylization but as reduced breath pressure and slightly flattened chest resonance. Words come out evenly weighted, no word emphasized more than others, the rhythm of someone who has stopped trying to be interesting. Rural kampung lilt in the cadence: slower attack, consonant clusters slightly simplified. Emotional words are NOT louder — they are quieter.",
-				"Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words.",
-				"Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves."
+        		"Elderly village grandfather with thick rural kampung accent, deep tired old man voice, slow and steady",
+        		"Very old frail kakek with gentle Javanese accent, hoarse low elderly male voice",
+        		"Frail 90-year-old grandfather with strong rural kampung accent, weak weathered old man voice",
+        		"89+ year old kakek tua with soft natural Indonesian accent, raspy tired elderly male voice",
+        		"Labor-worn old grandfather with rough deep kampung accent, slow and tired delivery",
+        		"Elderly grandfather with low trembling voice, calm but weary and sincere"
     		],
-    		"Mood": [
-        		"Grief that has been carried so long it no longer announces itself — visible only in the slight delay before each answer, in eyes that move to the object before the camera, in the way the mouth closes after speaking as if holding something back. NOT crying. NOT on the edge of crying. The sadness is old and settled, like sediment.",
-				"Quiet ache, not performance. The emotion lives in physical stillness — hands that do not fidget, a gaze that holds slightly too long before moving. Pasrah without resignation theater: the face is calm, but the calm has weight. Viewers feel it before they can name it. No wet eyes, no trembling lip, no dramatic pause.",
-				"Tired longing — the specific exhaustion of wanting something that is already gone and knowing it. Visible in slow blink rate, in micro-expressions that appear and vanish quickly, in the way looking at the object produces a small inward shift before composure returns. Voice carries the same weight as the face: neither accelerates nor softens for effect.",
-				"Ikhlas that is earned, not performed — the kind that comes after years of choosing acceptance. Face composed. Eyes clear, not glassy. Sadness present but not dominant: it sits underneath the calm like depth under still water. The most affecting moment is when composure almost shifts and then does not. No tears, no sob, no catch in the voice.",
-				"Melancholic presence — the character seems slightly elsewhere, as if part of their attention is on something the camera cannot see. This is not confusion or absence — it is the specific interior quality of someone revisiting memory while physically present. Small behavioral tells: a slow exhale before speaking, eyes dropping to the object mid-sentence, a pause that runs slightly longer than needed.",
-				"Restrained sorrow with a thread of unspoken pleading — not begging, not asking for anything openly, but the expression of someone who hopes to be seen and understood without having to say so. Makes viewers stop and feel something without knowing exactly why. No theatrical grief markers. The effect comes from what is held back, not what is released.",
-				"Emotional weight carried with full composure — the sadness is structural, in the undertone of every word and gesture, never breaking through to the surface. Voice stays flat and steady. Eyes stay dry. The grief is communicated entirely through restraint: what doesn't happen — no cry, no tremor, no collapse — is what makes it felt."
+
+			"Mood": [
+				"Tired, resigned, and quietly sad with a hint of loneliness",
+        		"Gentle sorrow mixed with sincere pasrah and soft vulnerability",
+        		"Heavy sadness wrapped in sincere pasrah and weary acceptance",
+        		"Fragile melancholic resignation, tired but still gently longing for kindness",
+        		"Soft sadness with a hint of loneliness and quiet pleading",
+        		"Weary and ikhlas, carrying years of silent endurance",
+        		"Calm but emotionally drained, speaking with quiet resignation"
     		],
+
     		"Physical Action": [
-        		"Both hands resting near the miniature, not gripping it — fingers loose, slightly curved inward, the way hands rest when the body is at rest but the mind is occupied. Eyes move from the object to the camera and back, each shift slow and deliberate, as if each look requires a small decision. The hands do not gesture. They simply exist near the thing that matters.",
-				"One hand placed close to the miniature without touching it — proximity without contact, the way someone stands near something fragile they are not sure they are allowed to hold. The other hand rests in the lap. Gaze drops to the object between sentences and returns to the camera at the start of each new thought. The movement is unscripted-feeling, not choreographed.",
-				"Head slightly inclined toward the miniature when not speaking — a slow, barely visible lean, the kind the body makes without instruction when drawn to something. When speaking, gaze lifts toward the camera but does not fully commit: eyes move between the two as if unable to settle. No large movements. The emotional content is in the micro-scale.",
-				"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces.",
-				"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn.",
-				"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up."
+        		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
+        		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
+        		"Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
+        		"Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
+        		"Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
+        		"Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
     		]
 		}
 
