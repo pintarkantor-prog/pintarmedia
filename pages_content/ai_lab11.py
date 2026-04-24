@@ -62,13 +62,9 @@ def tampilkan_halaman():
         MASTER_FAMILY_SOUL = {
             # === NENEK (DNA UNIK & BERBEDA) ===
             "Nenek Aminah": "88-year-old Javanese grandmother. Unique facial landmark: Narrow face with high-set sharp cheekbones and a distinct mole near the left eye. Deep vertical wrinkles on forehead, sagging jawline. Warm sawo matang skin with visible golden undertone. Sunken watery eyes with heavy drooping lids. Tall, severely shrunken thin frame.",
-            
             "Nenek Siti": "73-year-old petite Javanese grandmother. Unique facial landmark: Small round face with very plump sagging cheeks and a soft chin. Warm yellowish-golden skin. Large round eyes with heavy lids and dark under-eye circles. Tiny delicate frame with soft, fragile posture.",
-            
             "Nenek Marsi": "94-year-old Javanese grandmother. Unique facial landmark: Wide square jaw with prominent broad cheekbones and deep horizontal forehead furrows. Deep warm sawo matang skin with heavy age spots (lentigo). Narrow squinting eyes under thick heavy lids. Broad but frail, extremely hunched frame.",
-            
             "Nenek Ponirah": "80-year-old Javanese grandmother. Unique facial landmark: Full round face with deep nasolabial folds and a soft, wide nose structure. Warm brownish sun-kissed skin. Almond eyes with heavy, drooping lower bags. Plump but shrunken frame with visible loose skin.",
-            
             "Nenek Juminah": "91-year-old Javanese grandmother. Unique facial landmark: Extremely thin 'tirus' angular face with deeply sunken temples and sharp, bony jawline. Warm tan skin stretched tightly over bone. Deep-set eyes with thin, translucent eyelids. Skeletal frame with prominent hand veins.",
             "Nenek Sikem": "76-year-old Javanese grandmother. Unique facial landmark: Very round, wide face with heavy double-fold sagging cheeks and a soft double chin. Warm sawo matang skin. Small squinting eyes hidden under puffy lids. Short, plump but fragile frame.",
             "Nenek Dulah": "68-year-old Sundanese grandmother. Unique facial landmark: Soft oval face with prominent high cheekbones and a gentle, slightly recessed chin. Warm yellowish skin. Kind almond eyes with soft under-eye bags. Petite frame with rounded shoulders.",
