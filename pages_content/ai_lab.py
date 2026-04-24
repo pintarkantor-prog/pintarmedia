@@ -3621,7 +3621,7 @@ def tampilkan_halaman():
 				"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces.",
 				"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn.",
 				"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up."
-    		]
+    		],
 		}
 
         # --- UI LAYOUT ---
