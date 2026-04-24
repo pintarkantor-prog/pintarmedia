@@ -97,116 +97,100 @@ def tampilkan_halaman():
                 "Setelan Kaos & Jarik": "A simple oversized white cotton t-shirt paired with a dark brown batik jarik, casual grandma look."
             },
             "Nenek Marsi": {
-                "Kebaya Beludru Tua": "A dark purple velvet kebaya, the fabric looks thin and shiny from age, traditional and modest.",
-                "Daster Batik Cokelat": "A classic brown batik house dress with large patterns, faded colors, and soft texture.",
-                "Baju Kurung Hitam Polos": "A simple black traditional baju kurung, thin weathered fabric, very humble and respectful.",
-                "Kebaya Lurik Tebal (Worn)": "A thick striped lurik kebaya in dark tones, fabric looks coarse and very old.",
-                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl draped over the shoulder, authentic elderly style."
+                "Hijab Katun Pudar": "Faded brown cotton hijab with worn, paper-thin texture, wrapped loosely around the face, paired with a dark purple velvet kebaya.",
+                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair with visible scalp, wearing a dark purple velvet kebaya.",
+                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a classic brown batik house dress.",
+                "Daster Kampung Lusuh": "A dark purple house dress with traditional patterns, weathered and thin fabric."
             },
             "Nenek Ponirah": {
-                "Kebaya Katun Bunga": "A light yellow cotton kebaya with tiny red flowers, faded and very soft texture.",
-                "Daster Merah Pudar": "A dark red house dress with traditional patterns, weathered and looking very comfortable.",
-                "Baju Kurung Hijau Pupus": "A pale green traditional baju kurung, thin fabric, simple and rural grandmother style.",
-                "Kebaya Kutu Baru Klasik": "A simple dark brown kebaya with a traditional design, showing signs of long use.",
-                "Setelan Jarik & Kebaya Biru": "A dark blue simple kebaya paired with a classic brown batik jarik, very modest village look."
+                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a light yellow cotton kebaya.",
+                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark red house dress.",
+                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, showing some white hair at the edges.",
+                "Kebaya Jawa Klasik": "A simple dark brown kebaya with a traditional design, showing signs of long use."
             },
             "Nenek Juminah": {
-                "Kebaya Lurik Halus (Faded)": "A thin blue striped lurik kebaya, very weathered and soft, traditional village attire.",
-                "Daster Motif Abstrak": "A loose house dress with faded abstract patterns in earth tones, thin and aged fabric.",
-                "Baju Kurung Putih Lusuh": "A simple white traditional baju kurung, yellowed by age, looking humble and honest.",
-                "Kebaya Kartini Hitam": "A simple black cotton kebaya, very thin and weathered, traditional and respectful.",
-                "Setelan Jarik & Kebaya Kuning": "A pale yellow kebaya paired with a dark batik jarik cloth, authentic rural style."
+                "Hijab Katun Pudar": "Faded brown cotton hijab with worn texture, paired with a thin blue striped lurik kebaya.",
+                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair, wearing a loose house dress with earth tones.",
+                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a simple black cotton kebaya.",
+                "Daster Kampung Lusuh": "A pale yellow house dress with faded patterns, thin and aged fabric."
             },
             "Nenek Sikem": {
-                "Kebaya Beludru Merah Tua": "A dark maroon velvet kebaya, fabric looks thin and aged, very traditional for elders.",
-                "Daster Batik Biru": "A dark blue batik house dress with large white patterns, faded and very soft texture.",
-                "Baju Kurung Cokelat Polos": "A simple brown traditional baju kurung, thin weathered fabric, modest and rural.",
-                "Kebaya Kutu Baru Hijau": "A simple dark green kebaya, showing signs of wear and age, humble village style.",
-                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl, authentic traditional grandmother look."
+                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a dark maroon velvet kebaya.",
+                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair, wearing a dark blue batik house dress.",
+                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, paired with a dark green kebaya.",
+                "Kebaya Jawa Klasik": "A simple dark green kebaya, showing signs of wear and age, humble village style."
             },
             "Nenek Dulah": {
-                "Kebaya Encim Motif Bunga": "A white kebaya with faded pink flowers, weathered texture, very thin and aged.",
-                "Daster Katun Cokelat": "A dark brown house dress with tiny floral prints, faded and soft from years of washing.",
-                "Baju Kurung Biru Langit": "A pale blue traditional baju kurung, thin fabric, looking very humble and simple.",
-                "Kebaya Kutu Baru Polos": "A dark mustard kebaya with a simple design, showing signs of long use and age.",
-                "Setelan Jarik & Kebaya Hijau": "A dark green simple kebaya paired with a brown batik jarik, authentic Sundanese style."
+                "Hijab Katun Pudar": "Faded brown cotton hijab with worn texture, paired with a white kebaya with faded pink flowers.",
+                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair, wearing a dark brown house dress.",
+                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a dark mustard kebaya.",
+                "Daster Kampung Lusuh": "A pale blue traditional baju kurung, thin fabric, looking very humble and simple."
             },
             "Nenek Sartini": {
-                "Kebaya Lurik Sunda": "A simple grey striped lurik kebaya, weathered and soft texture, authentic rural style.",
-                "Daster Merah Motif": "A dark red house dress with traditional patterns, faded and looking very comfortable.",
-                "Baju Kurung Kuning Pudar": "A pale yellow traditional baju kurung, thin fabric, simple and humble grandmother look.",
-                "Kebaya Kutu Baru Biru": "A dark blue simple kebaya, showing signs of wear and age, modest village style.",
-                "Setelan Jarik & Kebaya Cokelat": "A dark brown simple kebaya paired with a classic batik jarik, very modest look."
+                "Hijab Katun Pudar": "Faded brown cotton hijab with worn, paper-thin texture, wrapped loosely around the face, paired with a simple floral daster.",
+                "Tanpa Hijab (Rambut Uban)": "No head covering, showing messy thin white hair with visible scalp, wearing a very old faded daster.",
+                "Kerudung Putih Tua": "A very old white cotton kerudung loosely draped over the head, paired with a faded batik kebaya.",
+                "Daster Kampung Lusuh": "A dark blue house dress with tiny white flowers, faded and looking very used."
             },
             "Nenek Tinah": {
-                "Kebaya Katun Polos": "A simple white cotton kebaya, yellowed and weathered by age, very humble and modest.",
-                "Daster Motif Batik": "A dark brown batik house dress with large patterns, faded and soft texture.",
-                "Baju Kurung Hijau Tua": "A dark green traditional baju kurung, thin fabric, simple and rural village style.",
-                "Kebaya Kutu Baru Klasik": "A simple dark purple kebaya with a traditional design, showing signs of long use.",
-                "Setelan Selendang & Kebaya": "A simple grey kebaya with a faded batik shawl, authentic traditional look."
+                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a simple white cotton kebaya.",
+                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark brown batik house dress.",
+                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, paired with a dark green baju kurung.",
+                "Kebaya Jawa Klasik": "A simple dark purple kebaya with a traditional design, showing signs of long use."
             },
             "Nenek Wati": {
-                "Kebaya Encim Sederhana": "A pale pink cotton kebaya with simple embroidery, weathered and soft texture.",
-                "Daster Biru Motif": "A dark blue house dress with tiny white flowers, faded and looking very used.",
-                "Baju Kurung Putih": "A simple white traditional baju kurung, thin and weathered, humble grandmother style.",
-                "Kebaya Kutu Baru Hitam": "A simple black cotton kebaya, showing signs of wear and age, modest village look.",
-                "Setelan Jarik & Kebaya Cokelat": "A dark brown simple kebaya paired with a classic batik jarik, authentic rural look."
+                "Hijab Tanah (Meding)": "Earthy brown cotton hijab, paper-thin and faded, paired with a simple pink cotton kebaya.",
+                "Tanpa Hijab (Rambut Tipis)": "No head covering, showing thin white hair and a weathered forehead, wearing a dark blue house dress.",
+                "Kerudung Lace Putih": "A thin white lace kerudung loosely draped over the head, showing some white hair at the edges.",
+                "Kebaya Jawa Klasik": "A simple black cotton kebaya, showing signs of wear and age, modest village look."
             },
             "Kakek Marto": {
-                "Kemeja Kerja Lusuh": "A faded grey cotton button-up shirt with visible wear on the collar and cuffs, thin fabric.",
-                "Kaos Oblong Putih": "A simple oversized white cotton t-shirt, slightly yellowed and thin from years of use.",
-                "Baju Koko Klasik": "A simple white traditional koko shirt, weathered texture with subtle patterns, modest and rural.",
-                "Kemeja Batik Pudar": "A dark brown batik shirt with very faded patterns, thin and soft texture from long use.",
-                "Baju Kurung Laki-laki": "A simple dark blue traditional male tunic, weathered fabric, very humble village style."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust and faded edges, paired with a faded grey cotton button-up shirt.",
+                "Peci Putih Haji (Kuning)": "An old white haji peci that has turned yellowish with age, paired with a simple white oversized t-shirt.",
+                "Baju Koko & Peci": "A simple white traditional koko shirt paired with a dusty black peci, modest and rural.",
+                "Kakek Tanpa Peci": "No head covering, showing short messy white hair, wearing a dark brown batik shirt with faded patterns."
             },
             "Kakek Somo": {
-                "Kemeja Flanel Tua": "A dark red plaid flannel shirt, the colors are very faded and the fabric is thin and soft.",
-                "Kaos Berkerah Lusuh": "A simple dark blue polo shirt, collar looks worn and the fabric is thin and aged.",
-                "Baju Koko Hijau Pudar": "A pale green traditional koko shirt, simple design, weathered and looking used for years.",
-                "Kemeja Batik Cokelat": "A classic brown batik shirt, patterns are very faded, modest and rural grandfather look.",
-                "Setelan Sarung & Kaos": "A simple white cotton t-shirt paired with a dark green plaid sarong, authentic casual style."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a dark red plaid flannel shirt.",
+                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a dark blue polo shirt, fabric is thin and aged.",
+                "Baju Koko & Peci": "A pale green traditional koko shirt paired with a dusty black peci, simple and rural.",
+                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a classic brown batik shirt."
             },
             "Kakek Joyo": {
-                "Kemeja Denim Lusuh": "A very faded blue denim shirt, fabric looks soft and weathered with visible signs of wear.",
-                "Kaos Putih Polos Tua": "A simple white cotton t-shirt, thin and yellowed, looking very humble and used.",
-                "Baju Koko Hitam": "A simple black traditional koko shirt, thin weathered fabric, modest and respectful.",
-                "Kemeja Batik Motif Besar": "A dark brown batik shirt with large patterns, faded and looking very traditional.",
-                "Setelan Sarung & Kemeja": "A simple grey button-up shirt paired with a dark brown plaid sarong, authentic rural look."
+                "Peci Hitam Kusam": "A dark black peci with visible wear and tear on the seams, paired with a faded blue denim shirt.",
+                "Peci Putih Tua": "A thin white haji peci, yellowed and unpolished, paired with a simple white cotton t-shirt.",
+                "Baju Koko & Sarung": "A simple black traditional koko shirt paired with a dark brown plaid sarong and a dusty black peci.",
+                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with large faded patterns."
             },
             "Kakek Hardi": {
-                "Kemeja Putih Lusuh": "A simple white button-up shirt, yellowed and weathered, looking very humble and aged.",
-                "Kaos Oblong Abu-abu": "A thin grey cotton t-shirt, faded and soft from years of washing, very simple.",
-                "Baju Koko Biru Pudar": "A pale blue traditional koko shirt, simple design, weathered and looking very old.",
-                "Kemeja Batik Klasik": "A classic brown batik shirt, very faded patterns, modest and rural village style.",
-                "Setelan Sarung & Koko": "A simple white koko shirt paired with a dark green plaid sarong, authentic elderly look."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
+                "Peci Putih Haji": "An old white haji peci, yellowed with age, paired with a thin grey cotton t-shirt, faded and soft.",
+                "Baju Koko & Peci": "A pale blue traditional koko shirt paired with a dusty black peci, simple and rural.",
+                "Kakek Tua (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a classic brown batik shirt."
             },
             "Kakek Sableng": {
-                "Kemeja Kerja Biru": "A dark blue cotton button-up shirt, weathered and faded with visible wear on the edges.",
-                "Kaos Putih Sederhana": "A simple white cotton t-shirt, thin and aged, looking very humble and honest.",
-                "Baju Koko Cokelat": "A simple brown traditional koko shirt, thin weathered fabric, modest and rural style.",
-                "Kemeja Batik Tua": "A classic batik shirt with very faded patterns, fabric looks thin and soft from age.",
-                "Setelan Sarung & Kaos": "A simple grey t-shirt paired with a dark brown plaid sarong, authentic casual village look."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a dark blue cotton button-up shirt.",
+                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a simple white cotton t-shirt, thin and aged.",
+                "Baju Koko & Peci": "A simple brown traditional koko shirt paired with a dusty black peci, simple and rural.",
+                "Kakek Tanpa Peci": "No head covering, showing short thin white hair, wearing a classic batik shirt."
             },
             "Kakek Sinto": {
-                "Kemeja Putih Tua": "A simple white button-up shirt, yellowed and weathered, very humble and rural style.",
-                "Kaos Oblong Biru": "A thin dark blue cotton t-shirt, faded and soft texture, looking very comfortable.",
-                "Baju Koko Hijau Pudar": "A pale green traditional koko shirt, simple design, showing signs of long use.",
-                "Kemeja Batik Motif Kecil": "A dark brown batik shirt with tiny faded patterns, modest and respectful.",
-                "Setelan Sarung & Koko": "A simple white koko shirt paired with a dark green plaid sarong, authentic traditional look."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
+                "Peci Putih Haji": "An old white haji peci that has turned yellowish, paired with a thin dark blue cotton t-shirt.",
+                "Baju Koko & Peci": "A pale green traditional koko shirt paired with a dusty black peci, simple and rural.",
+                "Kakek Tanpa Peci": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with tiny faded patterns."
             },
             "Kakek Wiryo": {
-                "Kemeja Kerja Cokelat": "A dark brown cotton button-up shirt, weathered and faded with visible signs of wear.",
-                "Kaos Putih Lusuh": "A simple white cotton t-shirt, thin and yellowed, looking very humble and used.",
-                "Baju Koko Hitam Polos": "A simple black traditional koko shirt, thin weathered fabric, modest and rural style.",
-                "Kemeja Batik Klasik": "A dark batik shirt with very faded patterns, looking very traditional and aged.",
-                "Setelan Sarung & Kemeja": "A simple grey button-up shirt paired with a dark green plaid sarong, authentic village look."
+                "Peci Hitam Kusam": "A dark black peci with visible wear, paired with a dark brown cotton button-up shirt, weathered and faded.",
+                "Peci Putih Tua": "A thin white haji peci, yellowed and unpolished, paired with a simple white cotton t-shirt, thin and yellowed.",
+                "Baju Koko & Sarung": "A simple black traditional koko shirt paired with a dark green plaid sarong and a dusty black peci.",
+                "Kakek Tua (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark batik shirt with very faded patterns."
             },
             "Kakek Usman": {
-                "Kemeja Kerja Putih": "A simple white button-up shirt, yellowed and weathered, humble and rural style.",
-                "Kaos Oblong Hitam": "A thin black cotton t-shirt, faded and soft from years of washing, very simple.",
-                "Baju Koko Biru Tua": "A dark blue traditional koko shirt, simple design, showing signs of long use.",
-                "Kemeja Batik Pudar": "A dark brown batik shirt with faded patterns, looking very traditional and modest.",
-                "Setelan Sarung & Kemeja": "A simple white button-up shirt paired with a dark green plaid sarong, authentic rural look."
+                "Peci Hitam Berdebu": "A worn black velvet peci with visible dust, paired with a simple white button-up shirt, yellowed and weathered.",
+                "Peci Putih Haji": "An old white haji peci, yellowed with age, paired with a thin black cotton t-shirt, faded and soft.",
+                "Baju Koko & Peci": "A dark blue traditional koko shirt paired with a dusty black peci, showing signs of long use.",
+                "Kakek Sederhana (Tanpa Peci)": "No head covering, showing short thin white hair, wearing a dark brown batik shirt with faded patterns."
             }
         }
 		# --- 3. MASTER BAHAN MINIATUR MASJID ---
@@ -3696,8 +3680,8 @@ def tampilkan_halaman():
     			f"MANDATORY: Audible weak wheezing, slight vocal cracks, and dry mouth sounds. "
     			f"RULE: DO NOT SPEAK ANY WORDS INSIDE PARENTHESES. Parentheses contain acting cues only.\n\n"
 
-    			f"[ SPOKEN DIALOG (EMOTIONAL CUES) ]\n"
-				f"\"{user_dialog.replace('...', '.').replace('.', '. (brief fragile pause, shaky breath) ')}\"\n\n"
+    			f"[ SPOKEN DIALOG ]\n"
+				f"\"{user_dialog}\"\n\n"
 
     			f"[ AUDIO RULES ]\n"
     			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
