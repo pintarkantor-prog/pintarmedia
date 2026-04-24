@@ -3616,12 +3616,12 @@ def tampilkan_halaman():
 				"Emotional weight carried with full composure — the sadness is structural, in the undertone of every word and gesture, never breaking through to the surface. Voice stays flat and steady. Eyes stay dry. The grief is communicated entirely through restraint: what doesn't happen — no cry, no tremor, no collapse — is what makes it felt"
     		],
     		"Physical Action": [
-        		"Resting frail hands on the table near the miniature, eyes slowly shifting between the object and the camera with a tired expression",
-        		"Gently touching or staying close to the miniature with shaky hands, gaze naturally alternating between the mosque and the camera",
-        		"Keeping her weak hands resting close to the miniature, head slightly tilted as her gaze alternates between the mosque and the camera",
-        		"Lightly brushing small pieces on the table around the miniature, occasionally shifting her weary eyes toward the camera",
-        		"Sitting quietly with both hands on the table, looking at the miniature for a moment before turning her tired gaze to the camera",
-        		"Softly moving her frail fingers near the miniature without lifting it, her eyes naturally shifting between the object and the viewer"
+        		"Both hands resting near the miniature, not gripping it — fingers loose, slightly curved inward, the way hands rest when the body is at rest but the mind is occupied. Eyes move from the object to the camera and back, each shift slow and deliberate, as if each look requires a small decision. The hands do not gesture. They simply exist near the thing that matters",
+        		"One hand placed close to the miniature without touching it — proximity without contact, the way someone stands near something fragile they are not sure they are allowed to hold. The other hand rests in the lap. Gaze drops to the object between sentences and returns to the camera at the start of each new thought. The movement is unscripted-feeling, not choreographed",
+        		"Head slightly inclined toward the miniature when not speaking — a slow, barely visible lean, the kind the body makes without instruction when drawn to something. When speaking, gaze lifts toward the camera but does not fully commit: eyes move between the two as if unable to settle. No large movements. The emotional content is in the micro-scale",
+        		"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces",
+        		"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn",
+        		"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up"
     		]
 		}
 
