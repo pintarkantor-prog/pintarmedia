@@ -3662,8 +3662,8 @@ def tampilkan_halaman():
     			f"{soul_desc}\n"
     			f"{gender_lock}\n"
     			f"Wardrobe: {baju_desc}\n"
-    			f"MANDATORY: Hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and shaky hand veins.\n"
-    			f"NO face smoothing, NO generic old face, NO plastic skin.\n\n"
+				f"MANDATORY: Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and shaky hand veins.\n"
+    			f"Sharp, clear, and detailed face with natural micro-expressions. NO face smoothing, NO plastic skin, NO generic old face.\n\n"
 
     			f"[ ENVIRONMENT ]\n"
     			f"{env_detail}\n"
@@ -3676,10 +3676,6 @@ def tampilkan_halaman():
 
     			f"[ THE VOICE: ULTRA-AGED 'KEPRET' PROTOCOL ]\n"
     			f"Voice profile: {logat_final}\n"
-    			f"TEXTURE: THIN, HOLLOW, and GRAVELLY. ABSOLUTELY NO BASS. "
-    			f"CHARACTERISTICS: Strained and quivering (gemeteran). High-pitched age-rasp with visible vocal jitter. "
-    			f"MANDATORY: Audible weak wheezing, slight vocal cracks, and dry mouth sounds. "
-    			f"RULE: DO NOT SPEAK ANY WORDS INSIDE PARENTHESES. Parentheses contain acting cues only.\n\n"
 
     			f"[ SPOKEN DIALOG ]\n"
 				f"\"{user_dialog}\"\n\n"
