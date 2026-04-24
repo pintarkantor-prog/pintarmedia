@@ -3683,7 +3683,7 @@ def tampilkan_halaman():
     			f"[ AUDIO RULES ]\n"
     			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
     			f"- NO background music, NO BGM, NO ambient sound, NO sound effects.\n"
-    			f"- ONLY the character's raw spoken voice and natural shaky breath. Nothing else.\n\n"
+    			f"- ONLY the character's raw spoken voice and natural breathing. Pure voice audio. Nothing else.\n\n"
 
 				f"OBJECT:\n"
     			f"{deskripsi_teknis}\n\n"
