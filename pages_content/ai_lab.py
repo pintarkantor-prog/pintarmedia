@@ -3536,22 +3536,22 @@ def tampilkan_halaman():
 
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
-    		"Logat_Nenek": [
-        		"Voice of a woman past 90 — air moves through the throat before words form, each syllable slightly compressed as if breath is rationed, not performed. Rural Javanese kampung cadence: consonants softened at the edges, vowels held a beat too long on words that matter. NOT a theatrical quaver — the tremor is in the pauses, not the tone. Voice drops near the end of every sentence as if the body is already tired of speaking",
-				"Elderly nenek, paper-thin vocal fold resonance — the kind of thinness that comes from decades of use, not stylization. Words arrive one cluster at a time with a micro-gap between them, as if each requires a small decision. Inhalation sometimes audible before longer phrases. Kampung accent sits in the rhythm, not just pronunciation — slower syllable weight, flatter melody. No vibrato, no performed weakness",
-				"92-year-old grandmother voice: dry, slightly adhesive quality on consonants as if the throat is never quite moist enough. Sentence rhythm breaks naturally at unexpected points — not for drama, but because aging lungs don't follow script pacing. Strong rural lilt underneath the frailty, the accent of someone who never lived in a city. Voice loses energy at the third or fourth word of a long phrase",
-				"Voice that sounds like it belongs to someone sitting very still. Low airflow, minimal projection — the kind of voice heard best in a quiet room. Kampung grandmother cadence: unhurried, syllables slightly uneven in duration, emotional words sometimes barely voiced at all. No theatrical aging sounds. The exhaustion is structural — in the breath support, not the tone color",
-				"Nenek tua with genuine vocal fold thinning — not hoarse, not raspy, just reduced. Like a voice that has spoken less and less over the years and has grown small from disuse. Javanese kampung rhythm intact: soft word-final consonants, gentle glottal quality on vowel starts. Pauses between phrases stretch naturally without apology. NOT breathy in a stylized way — the breath is just present because control is minimal",
-				"Old grandmother voice where the physical cost of speaking is audible — not in groaning or effort sounds, but in the way volume fades mid-sentence and recovers slightly before the next. Each sentence feels self-contained, with a small rest between them. Rural kampung accent coloring throughout: unpolished, unlayered, the sound of someone who has never performed anything in her life"
-    		],
-    		"Logat_Kakek": [
-        		"Voice of a man in his late 80s who spent decades outdoors — deep register thinned by age, not theatrical. Consonants slightly blunted, especially at word endings. Breathing is audible not as a stylized effect but as a structural fact: inhale before long phrases, slight exhale leak during pauses. Kampung rural accent in the rhythm: words placed with weight, no hurry, no performance. Voice drops on the last word of every sentence as if energy runs out exactly there",
-				"Elderly kakek, low fundamental frequency but reduced harmonic richness — the resonance of a chest that no longer has the same lung volume behind it. Speech rhythm is uneven in a natural way: some words slightly longer than expected, some shorter, as if the body controls the pace. Strong Javanese kampung cadence underneath. NOT a gravelly performed old man voice — the roughness is texture from use, not character work",
-				"90-year-old grandfather: voice that carries silence in it. Long inter-phrase pauses that do not feel dramatic — they feel like the normal cost of speaking at this age. Kampung accent natural and unlayered, the kind that was never trained away. Slight vocal fold irregularity on sustained vowels — not tremor, more like mild roughness at the edges of long notes. Volume is low and does not build",
-				"Kakek tua, labor-worn resonance — decades of outdoor work audible not as stylization but as reduced breath pressure and slightly flattened chest resonance. Words come out evenly weighted, no word emphasized more than others, the rhythm of someone who has stopped trying to be interesting. Rural kampung lilt in the cadence: slower attack, consonant clusters slightly simplified. Emotional words are NOT louder — they are quieter",
-				"Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words",
-				"Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves"
-    		],
+        	"Logat_Nenek": [
+            	"Voice of a woman past 90 — air moves through the throat before words form, each syllable slightly compressed as if breath is rationed, not performed. Rural Javanese kampung cadence: consonants softened at the edges, vowels held a beat too long on words that matter. NOT a theatrical quaver — the tremor is in the pauses, not the tone. Voice drops near the end of every sentence as if the body is already tired of speaking",
+            	"Elderly nenek, paper-thin vocal fold resonance — the kind of thinness that comes from decades of use, not stylization. Words arrive one cluster at a time with a micro-gap between them, as if each requires a small decision. Inhalation sometimes audible before longer phrases. Kampung accent sits in the rhythm, not just pronunciation — slower syllable weight, flatter melody. No vibrato, no performed weakness",
+            	"92-year-old grandmother voice: dry, slightly adhesive quality on consonants as if the throat is never quite moist enough. Sentence rhythm breaks naturally at unexpected points — not for drama, but because aging lungs don't follow script pacing. Strong rural lilt underneath the frailty, the accent of someone who never lived in a city. Voice loses energy at the third or fourth word of a long phrase",
+            	"Voice that sounds like it belongs to someone sitting very still. Low airflow, minimal projection — the kind of voice heard best in a quiet room. Kampung grandmother cadence: unhurried, syllables slightly uneven in duration, emotional words sometimes barely voiced at all. No theatrical aging sounds. The exhaustion is structural — in the breath support, not the tone color",
+            	"Nenek tua with genuine vocal fold thinning — not hoarse, not raspy, just reduced. Like a voice that has spoken less and less over the years and has grown small from disuse. Javanese kampung rhythm intact: soft word-final consonants, gentle glottal quality on vowel starts. Pauses between phrases stretch naturally without apology. NOT breathy in a stylized way — the breath is just present because control is minimal",
+            	"Old grandmother voice where the physical cost of speaking is audible — not in groaning or effort sounds, but in the way volume fades mid-sentence and recovers slightly before the next. Each sentence feels self-contained, with a small rest between them. Rural kampung accent coloring throughout: unpolished, unlayered, the sound of someone who has never performed anything in her life"
+        	],
+        		"Logat_Kakek": [
+            	"Voice of a man in his late 80s who spent decades outdoors — deep register thinned by age, not theatrical. Consonants slightly blunted, especially at word endings. Breathing is audible not as a stylized effect but as a structural fact: inhale before long phrases, slight exhale leak during pauses. Kampung rural accent in the rhythm: words placed with weight, no hurry, no performance. Voice drops on the last word of every sentence as if energy runs out exactly there",
+            	"Elderly kakek, low fundamental frequency but reduced harmonic richness — the resonance of a chest that no longer has the same lung volume behind it. Speech rhythm is uneven in a natural way: some words slightly longer than expected, some shorter, as if the body controls the pace. Strong Javanese kampung cadence underneath. NOT a gravelly performed old man voice — the roughness is texture from use, not character work",
+            	"90-year-old grandfather: voice that carries silence in it. Long inter-phrase pauses that do not feel dramatic — they feel like the normal cost of speaking at this age. Kampung accent natural and unlayered, the kind that was never trained away. Slight vocal fold irregularity on sustained vowels — not tremor, more like mild roughness at the edges of long notes. Volume is low and does not build",
+            	"Kakek tua, labor-worn resonance — decades of outdoor work audible not as stylization but as reduced breath pressure and slightly flattened chest resonance. Words come out evenly weighted, no word emphasized more than others, the rhythm of someone who has stopped trying to be interesting. Rural kampung lilt in the cadence: slower attack, consonant clusters slightly simplified. Emotional words are NOT louder — they are quieter",
+            	"Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words",
+            	"Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves"
+        	],
 			"Mood": [
         		"Grief that has been carried so long it no longer announces itself — visible only in the slight delay before each answer, in eyes that move to the object before the camera, in the way the mouth closes after speaking as if holding something back. NOT crying. NOT on the edge of crying. The sadness is old and settled, like sediment",
 				"Quiet ache, not performance. The emotion lives in physical stillness — hands that do not fidget, a gaze that holds slightly too long before moving. Pasrah without resignation theater: the face is calm, but the calm has weight. Viewers feel it before they can name it. No wet eyes, no trembling lip, no dramatic pause",
@@ -3648,69 +3648,65 @@ def tampilkan_halaman():
 
 			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "8K RAW DOCUMENTARY CINEMA — shot on 35mm film. "
-                "Maximum optical sharpness, zero digital smoothing, zero AI haze. "
-                "Neutral-warm skin tones with visible blood undertones, rich melanin, natural pore texture. "
-                "Strong micro-contrast: deep blacks, dense highlights, rich tonal separation. "
-                "Colors must remain saturated and dense without brightness increase. "
-                "Every material surface must show tactile depth: wrinkles, fiber, crack, dent — sharply defined. "
-                "NO pale skin, NO color washout, NO flat contrast, NO CGI texture, NO plastic skin."
+                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
+                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
+                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
+                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
+                "Deep tonal separation with rich, dense blacks and weathered highlights. "
+                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
             )
 
             final_ai_prompt = (
                 f"{GLOBAL_QUALITY_LOCK}\n\n"
                 
-    			f"SUBJECT PRIORITY:\n"
+    			f"[ SUBJECT PRIORITY ]\n"
     			f"- The handcrafted miniature mosque is the absolute main subject — dead-center frame dominance.\n"
-    			f"- Razor-sharp 8K focus on the miniature. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
+    			f"- Razor-sharp 8K focus on the miniature mosque. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
     			f"- All materials must appear worn, aged, imperfect — never clean or new.\n"
     			f"- Clear edge separation between surfaces. No muddy texture overlap.\n\n"
 
-    			f"CAMERA:\n"
-    			f"- 85mm cinema lens, f/2.8. Tight medium shot.\n"
-    			f"- Strict eye-level axis: camera, miniature, and character on the same horizontal plane.\n"
-    			f"- Miniature perfectly centered, symmetrical left-right balance.\n"
-    			f"- Elderly character sits directly behind, symmetrically framed.\n"
-    			f"- Very slow organic handheld movement with extremely gentle push-in.\n\n"
+    			f"[ CAMERA & CINEMATOGRAPHY ]\n"
+    			f"- 85mm cinema lens, f/1.4. EXTREME CLOSE-UP (Macro Detail).\n"
+    			f"- Strict eye-level axis: camera, the object, and character on the same horizontal plane.\n"
+    			f"- Very slow organic handheld micro-tremors with extremely gentle push-in to the character's clouded eyes.\n\n"
 
-    			f"LIGHTING:\n"
+    			f"[ LIGHTING & COLOR ]\n"
+    			f"- Kodak 5219 High Contrast Profile: Deep crushed shadows, weathered highlights.\n"
     			f"- Low-angle directional daylight, warm but not amber — controlled golden quality without orange flooding.\n"
     			f"- Light from one dominant side: strong depth and surface contour, no harsh glare.\n"
-    			f"- Slight underexposure to preserve color density. Shadows deep but retain visible detail.\n"
-    			f"- NO overhead light, NO flat lighting, NO blown highlights, NO reddish glow, NO amber tint.\n\n"
+    			f"- NO overhead light, NO flat lighting, NO reddish glow, NO amber tint.\n\n"
 
-    			f"CHARACTER:\n"
+    			f"[ CHARACTER DNA ]\n"
     			f"{soul_desc}\n"
     			f"{gender_lock}\n"
     			f"Wardrobe: {baju_desc}\n"
-    			f"MANDATORY: Unique facial structure — distinct face shape, eye shape, wrinkle pattern, jaw and cheek structure. "
-    			f"Raw hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, hand veins. "
+    			f"MANDATORY: Hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and shaky hand veins.\n"
     			f"NO face smoothing, NO generic old face, NO plastic skin.\n\n"
 
-    			f"ENVIRONMENT:\n"
-    			f"{env_detail}\n"
-    			f"- Background supports the subject — must not compete with or overpower the miniature.\n"
-    			f"- Lighting consistent with main subject: same directional daylight, no conflicting sources.\n\n"
-
-    			f"CHARACTER PERFORMANCE & VOICE:\n"
+    			f"[ PERFORMANCE & ATMOSPHERE ]\n"
     			f"Action: {aksi_final}\n"
-    			f"Mood & delivery: {mood_final}\n"
-    			f"Voice profile: {logat_final}\n\n"
+    			f"Mood & delivery: {mood_final}\n\n"
 
-    			f"SPOKEN DIALOG:\n"
-    			f"\"{user_dialog}\"\n\n"
+    			f"[ THE VOICE: ULTRA-AGED 'KEPRET' PROTOCOL ]\n"
+    			f"Voice profile: {logat_final}\n"
+    			f"TEXTURE: THIN, HOLLOW, and GRAVELLY. ABSOLUTELY NO BASS. "
+    			f"CHARACTERISTICS: Strained and quivering (gemeteran). High-pitched age-rasp with visible vocal jitter. "
+    			f"MANDATORY: Audible weak wheezing, slight vocal cracks, and dry mouth sounds. "
+    			f"RULE: DO NOT SPEAK ANY WORDS INSIDE PARENTHESES. Parentheses contain acting cues only.\n\n"
 
-    			f"AUDIO RULES:\n"
+    			f"[ SPOKEN DIALOG (EMOTIONAL CUES) ]\n"
+    			f"\"{user_dialog.replace('...', '... (long pause, gasping for breath) ...')}\"\n\n"
+
+    			f"[ AUDIO RULES ]\n"
     			f"- AUDIO ONLY. STRICTLY NO TEXT ON SCREEN.\n"
-    			f"- NO background music, NO BGM, NO ambient sound, NO sound effects, NO instrumental.\n"
-    			f"- ONLY the character's raw spoken voice and natural breath. Nothing else.\n\n"
+    			f"- NO background music, NO BGM, NO ambient sound, NO sound effects.\n"
+    			f"- ONLY the character's raw spoken voice and natural shaky breath. Nothing else.\n\n"
 
-    			f"OBJECT:\n"
+				f"OBJECT:\n"
     			f"{deskripsi_teknis}\n\n"
 
-    			f"NEGATIVE PROMPT:\n"
-    			f"background music, BGM, soundtrack, cinematic score, instrumental, ambient music, "
-    			f"emotional music, violin, piano, synth, "
+    			f"[ NEGATIVE PROMPT ]\n"
+    			f"Tears, crying, weeping, background music, BGM, soundtrack, cinematic score, instrumental, ambient music, "
     			f"orange tint, amber glow, reddish light, sunset red, warm color flooding, "
     			f"pale skin, washed-out color, grey skin, white haze, overexposure, sun glare, "
     			f"digital smoothing, AI look, CGI texture, plastic skin, over-smooth face, "
