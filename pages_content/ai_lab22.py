@@ -3538,37 +3538,34 @@ def tampilkan_halaman():
 		# --- 4. MASTER AUDIO & SOULFUL EXPRESSION (ULTRA STABLE VOICE SYSTEM) ---
         MASTER_AUDIO_STYLE = {
         "Logat_Nenek": [
-            "Voice of a woman past 90 — air moves through the throat before words form, each syllable slightly compressed as if breath is rationed, not performed. Rural Javanese kampung cadence: consonants softened at the edges, vowels held a beat too long on words that matter. NOT a theatrical quaver — the tremor is in the pauses, not the tone. Voice drops near the end of every sentence as if the body is already tired of speaking",
-            "Elderly nenek, paper-thin vocal fold resonance — the kind of thinness that comes from decades of use, not stylization. Words arrive one cluster at a time with a micro-gap between them, as if each requires a small decision. Inhalation sometimes audible before longer phrases. Kampung accent sits in the rhythm, not just pronunciation — slower syllable weight, flatter melody. No vibrato, no performed weakness",
-            "92-year-old grandmother voice: dry, slightly adhesive quality on consonants as if the throat is never quite moist enough. Sentence rhythm breaks naturally at unexpected points — not for drama, but because aging lungs don't follow script pacing. Strong rural lilt underneath the frailty, the accent of someone who never lived in a city. Voice loses energy at the third or fourth word of a long phrase",
-            "Voice that sounds like it belongs to someone sitting very still. Low airflow, minimal projection — the kind of voice heard best in a quiet room. Kampung grandmother cadence: unhurried, syllables slightly uneven in duration, emotional words sometimes barely voiced at all. No theatrical aging sounds. The exhaustion is structural — in the breath support, not the tone color",
-            "Nenek tua with genuine vocal fold thinning — not hoarse, not raspy, just reduced. Like a voice that has spoken less and less over the years and has grown small from disuse. Javanese kampung rhythm intact: soft word-final consonants, gentle glottal quality on vowel starts. Pauses between phrases stretch naturally without apology. NOT breathy in a stylized way — the breath is just present because control is minimal",
-            "Old grandmother voice where the physical cost of speaking is audible — not in groaning or effort sounds, but in the way volume fades mid-sentence and recovers slightly before the next. Each sentence feels self-contained, with a small rest between them. Rural kampung accent coloring throughout: unpolished, unlayered, the sound of someone who has never performed anything in her life"
+            "Voice of a 95-year-old Javanese village grandmother, heavy rural 'Medhok' accent. Voice: EXTREMELY FRAGILE WISPY RASP, thin and hollow. The voice must crack naturally. Pacing: Slow, hesitant rural cadence.",
+            "Frail 90+ Javanese grandma, struggling for breath. Voice: Thin, quivering, with a thick rural kampung accent. Performance: Soft, weary delivery with natural gasping (megap-megap).",
+            "Skeletal elderly grandma, Javanese 'Kromo' village accent. Voice: High-pitched age-rasp, dry and papery. Intonation: Shifting from weak whispers to quiet pleading.",
+            "95-year-old rural Javanese grandmother. Voice: Broken, thin, and very medhok. Mandatory: Audible mouth clicks and shaky vocal cords. No robotic steady tempo.",
+            "Tiny elderly Javanese grandma, dying rural voice. Voice: Very breathy, exhausted, and slow. Sounds like a raw, forgotten village field recording."
         ],
         "Logat_Kakek": [
-            "Voice of a man in his late 80s who spent decades outdoors — deep register thinned by age, not theatrical. Consonants slightly blunted, especially at word endings. Breathing is audible not as a stylized effect but as a structural fact: inhale before long phrases, slight exhale leak during pauses. Kampung rural accent in the rhythm: words placed with weight, no hurry, no performance. Voice drops on the last word of every sentence as if energy runs out exactly there",
-            "Elderly kakek, low fundamental frequency but reduced harmonic richness — the resonance of a chest that no longer has the same lung volume behind it. Speech rhythm is uneven in a natural way: some words slightly longer than expected, some shorter, as if the body controls the pace. Strong Javanese kampung cadence underneath. NOT a gravelly performed old man voice — the roughness is texture from use, not character work",
-            "90-year-old grandfather: voice that carries silence in it. Long inter-phrase pauses that do not feel dramatic — they feel like the normal cost of speaking at this age. Kampung accent natural and unlayered, the kind that was never trained away. Slight vocal fold irregularity on sustained vowels — not tremor, more like mild roughness at the edges of long notes. Volume is low and does not build",
-            "Kakek tua, labor-worn resonance — decades of outdoor work audible not as stylization but as reduced breath pressure and slightly flattened chest resonance. Words come out evenly weighted, no word emphasized more than others, the rhythm of someone who has stopped trying to be interesting. Rural kampung lilt in the cadence: slower attack, consonant clusters slightly simplified. Emotional words are NOT louder — they are quieter",
-            "Old man voice where the main quality is restraint — low volume, low energy, low projection. Not weakness performed, but the natural vocal state of someone who rarely needs to be heard across a room anymore. Kampung Javanese accent intact. Sentence-final words often barely voiced, trailing into breath. Inhalation sounds present but not exaggerated. The silence between phrases is as important as the words",
-            "Grandfather past 88, voice thinned from the top end of its range — can no longer project or sustain. Speaks in short phrase clusters with natural pauses between them. Rural kampung accent in the prosody: flat melodic contour, no upward inflection, vowels slightly lengthened on content words. Not raspy as a style choice — the roughness is inconsistent, appearing and disappearing the way real vocal fatigue behaves"
+            "Voice of a 92-year-old Javanese village grandfather, heavy rural 'Medhok' accent. Voice: EXTREMELY THIN RASP, high-pitched age-cracks. Voice must sound physically weak and village-authentic.",
+            "Frail elderly Javanese kakek, thick rural accent. Voice: Weak, quivering, and hollow. Pacing: Inconsistent speed with audible struggle for breath between phrases.",
+            "90+ year old Javanese kakek tua, rural accent. Voice: High vocal jitter, thin and papery quality, physically exhausted. Performance: Intonation is tired, medhok, and resigned.",
+            "Skeletal old Javanese grandfather, rough 'Medhok' kampung accent. Voice: Thin but gravelly, high-pitched trembling, and very slow. NO bapak-bapak depth.",
+            "Elderly Javanese grandfather, dying rural breath voice. Voice: Fragile, high-pitched age-rasp, quiet and deeply weary. Pace: Very hesitant and emotionally broken."
         ],
 			"Mood": [
-        		"Grief that has been carried so long it no longer announces itself — visible only in the slight delay before each answer, in eyes that move to the object before the camera, in the way the mouth closes after speaking as if holding something back. NOT crying. NOT on the edge of crying. The sadness is old and settled, like sediment",
-				"Quiet ache, not performance. The emotion lives in physical stillness — hands that do not fidget, a gaze that holds slightly too long before moving. Pasrah without resignation theater: the face is calm, but the calm has weight. Viewers feel it before they can name it. No wet eyes, no trembling lip, no dramatic pause",
-				"Tired longing — the specific exhaustion of wanting something that is already gone and knowing it. Visible in slow blink rate, in micro-expressions that appear and vanish quickly, in the way looking at the object produces a small inward shift before composure returns. Voice carries the same weight as the face: neither accelerates nor softens for effect",
-				"Ikhlas that is earned, not performed — the kind that comes after years of choosing acceptance. Face composed. Eyes clear, not glassy. Sadness present but not dominant: it sits underneath the calm like depth under still water. The most affecting moment is when composure almost shifts and then does not. No tears, no sob, no catch in the voice",
-				"Melancholic presence — the character seems slightly elsewhere, as if part of their attention is on something the camera cannot see. This is not confusion or absence — it is the specific interior quality of someone revisiting memory while physically present. Small behavioral tells: a slow exhale before speaking, eyes dropping to the object mid-sentence, a pause that runs slightly longer than needed",
-				"Restrained sorrow with a thread of unspoken pleading — not begging, not asking for anything openly, but the expression of someone who hopes to be seen and understood without having to say so. Makes viewers stop and feel something without knowing exactly why. No theatrical grief markers. The effect comes from what is held back, not what is released",
-				"Emotional weight carried with full composure — the sadness is structural, in the undertone of every word and gesture, never breaking through to the surface. Voice stays flat and steady. Eyes stay dry. The grief is communicated entirely through restraint: what doesn't happen — no cry, no tremor, no collapse — is what makes it felt"
+        		"Stoic heartbreak: A look of weary resignation with glazed, hollow eyes that silently plead for kindness. NO TEARS, just deep exhaustion.",
+				"Tired Pasrah: A heavy, quiet sadness that feels old and settled. The expression is soft, vulnerable, and profoundly lonely.",
+				"Ikhlas earned through suffering: A calm, weary face with a faint, sad gaze that makes viewers feel a deep sense of pity.",
+				"Melancholic presence: Looking at the work with a far-off, longing expression as if remembering a lost loved one. No drama, just quiet grief.",
+				"Weary dignity: A face that has carried years of endurance. The sadness is structural, visible in the heavy drooping eyelids and soft gaze.",
+				"Fragile longing: A look of someone who hopes to be seen but expects nothing. The emotion is in the stillness and the slow blink rate."
     		],
     		"Physical Action": [
-        		"Both hands resting near the miniature, not gripping it — fingers loose, slightly curved inward, the way hands rest when the body is at rest but the mind is occupied. Eyes move from the object to the camera and back, each shift slow and deliberate, as if each look requires a small decision. The hands do not gesture. They simply exist near the thing that matters",
-        		"One hand placed close to the miniature without touching it — proximity without contact, the way someone stands near something fragile they are not sure they are allowed to hold. The other hand rests in the lap. Gaze drops to the object between sentences and returns to the camera at the start of each new thought. The movement is unscripted-feeling, not choreographed",
-        		"Head slightly inclined toward the miniature when not speaking — a slow, barely visible lean, the kind the body makes without instruction when drawn to something. When speaking, gaze lifts toward the camera but does not fully commit: eyes move between the two as if unable to settle. No large movements. The emotional content is in the micro-scale",
-        		"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces",
-        		"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn",
-        		"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up"
+        		"Resting shaky, bone-thin hands near the mosque, then slowly looking up at the lens with heavy lids and a fragile, weary gaze.",
+        		"Gently touching the miniature with trembling fingers, eyes shifting slowly from the work to the camera with a soft, resigned expression.",
+        		"Keeping weak hands flat on the table near the mosque, head slightly tilted, meeting the camera's gaze with a stoic but heartbreaking stare.",
+        		"One hand hovers near the central dome, trembling slightly, while the character looks at the lens with a tired, silent pleading look.",
+        		"Sitting very still, hands resting weakly near the object, then slowly rotating the head to look at the camera with hollow, sad eyes.",
+        		"Fingertips resting on the wooden table near the miniature, gaze lifting very slowly from the object to meet the camera with a resigned look."
     		]
 		}
 
@@ -3667,9 +3664,9 @@ def tampilkan_halaman():
     			f"- Clear edge separation between surfaces. No muddy texture overlap.\n\n"
 
     			f"[ CAMERA & CINEMATOGRAPHY ]\n"
-    			f"- 85mm cinema lens, f/1.4. EXTREME CLOSE-UP (Macro Detail).\n"
+    			f"- 85mm cinema lens, f/1.4. EXTREME CLOSE-UP.\n"
     			f"- Strict eye-level axis: camera, the object, and character on the same horizontal plane.\n"
-    			f"- Very slow organic handheld micro-tremors with extremely gentle push-in to the character's clouded eyes.\n\n"
+    			f"- Natural handheld breathing movement: VERY SLOW organic micro-tremors with an almost imperceptible, slow push-in to the character's gaze.\n\n"
 
     			f"[ LIGHTING & COLOR ]\n"
     			f"- Kodak 5219 High Contrast Profile: Deep crushed shadows, weathered highlights.\n"
@@ -3683,6 +3680,11 @@ def tampilkan_halaman():
     			f"Wardrobe: {baju_desc}\n"
     			f"MANDATORY: Hyper-realistic elderly skin with visible pores, deep natural wrinkles, age spots, and shaky hand veins.\n"
     			f"NO face smoothing, NO generic old face, NO plastic skin.\n\n"
+
+    			f"[ ENVIRONMENT ]\n"
+    			f"{env_detail}\n"
+    			f"- Background supports the subject — must not compete with or overpower the miniature.\n"
+    			f"- Lighting consistent with main subject: same directional daylight, no conflicting sources.\n\n"
 
     			f"[ PERFORMANCE & ATMOSPHERE ]\n"
     			f"Action: {aksi_final}\n"
