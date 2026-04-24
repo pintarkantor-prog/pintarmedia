@@ -96,7 +96,7 @@ def tampilkan_halaman():
 
      		"Kakek Wiryo": "74-year-old Javanese grandfather. FACE: broad labor-worn face, high prominent cheekbones, wide strong jaw, masculine aged structure. SKIN: rough warm sawo matang with golden undertone, very deep pores, sun-damaged texture, scattered age spots. EYES: tired eyes with moderately heavy lower lids, slight under-eye hollows, hardworking weathered gaze. WRINKLES: deep brow furrows, prominent nasolabial folds, forehead horizontal lines, early neck folds. BODY: lean weathered frame, strong but aging posture, broad shoulders beginning to round.",
 
-     		"Kakek Usman": "86-year-old Indonesian grandfather. FACE: deeply wrinkled face, prominent fatigue and gravity lines, sunken cheeks, gaunt overall structure. SKIN: warm brownish skin with golden undertone, heavily aged texture, dense age spots and uneven pigmentation. EYES: heavy-lidded weary eyes, prominent under-eye bags, slow contemplative gaze. WRINKLES: very deep nasolabial folds, sharp fatigue lines from cheek to jaw, deep forehead furrows, prominent neck wattle. BODY: thin frame with slow careful movements, slight forward lean, frail but dignified posture.",
+     		"Kakek Usman": "86-year-old Indonesian grandfather. FACE: deeply wrinkled face, prominent fatigue and gravity lines, sunken cheeks, gaunt overall structure. SKIN: warm brownish skin with golden undertone, heavily aged texture, dense age spots and uneven pigmentation. EYES: heavy-lidded weary eyes, prominent under-eye bags, slow contemplative gaze. WRINKLES: very deep nasolabial folds, sharp fatigue lines from cheek to jaw, deep forehead furrows, prominent neck wattle. BODY: thin frame with slow careful movements, slight forward lean, frail but dignified posture."
 		}
 		
 		# --- 2. MASTER WARDROBE (6 VARIAN PER KARAKTER - DAILY & NEAT HIJAB) ---
@@ -3621,7 +3621,7 @@ def tampilkan_halaman():
 				"Fingertips at the edge of the miniature, contact barely registered — the touch of someone who has touched this thing many times before and no longer needs to think about it. Not reverent, not demonstrative. Natural. Eyes occasionally close briefly — one beat — before returning to the camera, the way someone closes their eyes when a memory surfaces.",
 				"Sitting very still, both hands flat on the surface near the mosque, gaze resting on the object for a sustained moment before slowly rotating to the camera. The rotation is not a look — it is a turn, involving the whole upper body slightly, as if the camera is a person being addressed directly for the first time. Expression does not change during the turn.",
 				"One frail hand moves incrementally closer to the miniature over the course of speaking — not in one motion, but in two or three barely-visible shifts, as if drawn without intention. The hand stops short of full contact. Looking up from the object to the camera: the eyes arrive before the head fully lifts, the kind of look that comes from somewhere inside before the body catches up."
-    		],
+    		]
 		}
 
         # --- UI LAYOUT ---
