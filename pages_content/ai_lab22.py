@@ -3649,13 +3649,12 @@ def tampilkan_halaman():
 
 			# --- ASSEMBLY PROMPT ---
             GLOBAL_QUALITY_LOCK = (
-                "8K RAW DOCUMENTARY CINEMA — shot on 35mm film. "
-                "Maximum optical sharpness, zero digital smoothing, zero AI haze. "
-                "Neutral-warm skin tones with visible blood undertones, rich melanin, natural pore texture. "
-                "Strong micro-contrast: deep blacks, dense highlights, rich tonal separation. "
-                "Colors must remain saturated and dense without brightness increase. "
-                "Every material surface must show tactile depth: wrinkles, fiber, crack, dent — sharply defined. "
-                "NO pale skin, NO color washout, NO flat contrast, NO CGI texture, NO plastic skin."
+                "[ VISUAL CORE: ANALOG CINEMA ] EXTREME 8K RAW DOCUMENTARY FILM - SHOT ON KODAK VISION3 500T 35MM: "
+                "Maximum organic realism, heavy film grain, razor-sharp optical texture. NATURAL COLOR PROFILE: "
+                "Warm skin tones with deep subsurface scattering and realistic blood-vessel undertones. "
+                "ZERO AI SMOOTHING, NO digital haze, NO overexposure. ULTRA-HIGH MICRO-CONTRAST: "
+                "Deep tonal separation with rich, dense blacks and weathered highlights. "
+                "SURFACE PRIORITY: Every wrinkle, skin pore, age spot, and hair fiber must be hyper-detailed and tactile."
             )
 
             final_ai_prompt = (
@@ -3663,13 +3662,13 @@ def tampilkan_halaman():
                 
     			f"[ SUBJECT PRIORITY ]\n"
     			f"- The handcrafted miniature mosque is the absolute main subject — dead-center frame dominance.\n"
-    			f"- Razor-sharp 8K focus on every grain and fiber of the {deskripsi_teknis}. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
+    			f"- Razor-sharp 8K focus on the miniature mosque. Character face, eyes, hands, deep wrinkles also fully sharp.\n"
     			f"- All materials must appear worn, aged, imperfect — never clean or new.\n"
     			f"- Clear edge separation between surfaces. No muddy texture overlap.\n\n"
 
     			f"[ CAMERA & CINEMATOGRAPHY ]\n"
     			f"- 85mm cinema lens, f/1.4. EXTREME CLOSE-UP (Macro Detail).\n"
-    			f"- Strict eye-level axis: camera, {deskripsi_teknis}, and character on the same horizontal plane.\n"
+    			f"- Strict eye-level axis: camera, the object, and character on the same horizontal plane.\n"
     			f"- Very slow organic handheld micro-tremors with extremely gentle push-in to the character's clouded eyes.\n\n"
 
     			f"[ LIGHTING & COLOR ]\n"
