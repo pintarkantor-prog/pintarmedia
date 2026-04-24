@@ -3704,6 +3704,9 @@ def tampilkan_halaman():
     			f"- NO background music, NO BGM, NO ambient sound, NO sound effects.\n"
     			f"- ONLY the character's raw spoken voice and natural shaky breath. Nothing else.\n\n"
 
+				f"OBJECT:\n"
+    			f"{deskripsi_teknis}\n\n"
+
     			f"[ NEGATIVE PROMPT ]\n"
     			f"Tears, crying, weeping, background music, BGM, soundtrack, cinematic score, instrumental, ambient music, "
     			f"orange tint, amber glow, reddish light, sunset red, warm color flooding, "
