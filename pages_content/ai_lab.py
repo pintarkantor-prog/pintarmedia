@@ -40,22 +40,6 @@ def tampilkan_halaman():
     # TAB 1: MINIATUR MASJID
     # ==========================================================================
     with t_masjid_v1:
-        with st.container(border=True):
-            
-            col_meta1, col_meta2 = st.columns(2)
-            with col_meta1:
-                st.info("**💡 SOP PENGGUNAAN GENERATOR PROMPT**")
-                st.write("- **WAJIB** Selalu acak pilihan `Karakter`, `Bahan Masjid`, `Pakaian` dan `Lokasi`.")
-                st.write("- Pada `ACTING & PERFORMANCE` juga di acak pilihan `Logat`, `Mood` dan `Gerakan Tubuh`.")
-                st.write("- Bagian `DIALOG` juga diacak, disesuaikan dengan update dialog terbaru.")
-                
-            with col_meta2:
-                st.success("**🛡️ QUALITY CONTROL ( WAJIB CEK )**")
-                st.write("- Cek hasil video, Apakah ada `Penampakan Aneh` ( *masjidnya, suaranya, tangan, jari, dll* ).")
-                st.write("- Download gambar di `GEMINI FLOW` pilih yang ukuran 2K, boleh pilih 1K *jika akun limit*.")
-                st.write("- Download hasil video di `GROK` wajib ukuran minimal `720p` ( *Tidak boleh 480p* ).")
-        
-        st.write("") # Spacing
 		
 		# --- 1. MASTER DNA MANUSIA ASLI (FULL BODY & NATURAL SKIN) ---
         MASTER_FAMILY_SOUL = {
